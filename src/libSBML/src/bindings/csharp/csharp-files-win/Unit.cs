@@ -33,7 +33,7 @@ namespace libsbml {
  * Its value must be one of the text strings listed below; this list
  * corresponds to SBML Level&nbsp;3 Version&nbsp;1 Core:
  *
- * *
+ *
  * 
 <table border='0' class='centered text-table width80 normal-font code'
        style='border: none !important'>
@@ -231,7 +231,7 @@ public class Unit : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -258,7 +258,7 @@ public class Unit : SBase {
    * Creates a new Unit using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -276,7 +276,7 @@ public class Unit : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -418,7 +418,7 @@ public class Unit : SBase {
    * 
    * @return the 'offset' value of this Unit, as a double.
    *
-   * * 
+   *
  * @warning <span class='warning'>The 'offset' attribute is only available in
  * SBML Level&nbsp;2 Version&nbsp;1.  This attribute is not present in SBML
  * Level&nbsp;2 Version&nbsp;2 or above.  When producing SBML models using
@@ -924,14 +924,12 @@ public class Unit : SBase {
    * names begin with <code>UNIT_KIND_</code> in @link libsbml libsbml@endlink.
    * @endif
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setKind(int kind) {
@@ -945,14 +943,12 @@ public class Unit : SBase {
    *
    * @param value the integer to which the attribute 'exponent' should be set
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setExponent(int value) {
@@ -966,14 +962,12 @@ public class Unit : SBase {
    *
    * @param value the double to which the attribute 'exponent' should be set
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setExponent(double value) {
     int ret = libsbmlPINVOKE.Unit_setExponent__SWIG_1(swigCPtr, value);
@@ -986,14 +980,12 @@ public class Unit : SBase {
    *
    * @param value the integer to which the attribute 'scale' should be set
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setScale(int value) {
     int ret = libsbmlPINVOKE.Unit_setScale(swigCPtr, value);
@@ -1007,14 +999,12 @@ public class Unit : SBase {
    * @param value the floating-point value to which the attribute
    * 'multiplier' should be set
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
  int setMultiplier(double value) {
@@ -1029,17 +1019,15 @@ public class Unit : SBase {
    * @param value the float-point value to which the attribute 'offset'
    * should set
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
-   * * 
+   *
  * @warning <span class='warning'>The 'offset' attribute is only available in
  * SBML Level&nbsp;2 Version&nbsp;1.  This attribute is not present in SBML
  * Level&nbsp;2 Version&nbsp;2 or above.  When producing SBML models using
@@ -1060,7 +1048,7 @@ public class Unit : SBase {
 /**
    * Returns the libSBML type code of this object instance.
    *
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -1086,7 +1074,7 @@ public class Unit : SBase {
    * @return the SBML type code for this object:
    * @link libsbml#SBML_UNIT SBML_UNIT@endlink (default).
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke
@@ -1132,7 +1120,7 @@ public class Unit : SBase {
    * @note The predefined unit identifiers @c 'length' and @c 'area' were
    * added in Level&nbsp;2 Version&nbsp;1.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -1176,7 +1164,7 @@ public class Unit : SBase {
    * and&nbsp;2 and again slightly between Level&nbsp;2 Versions&nbsp;1
    * and&nbsp;2.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -1208,7 +1196,7 @@ public class Unit : SBase {
    * @return @c true if all the attributes of unit1 are identical
    * to the attributes of unit2, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -1245,7 +1233,7 @@ public class Unit : SBase {
    * identical to the kind and exponent attributes of unit2, @c false
    * otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -1275,16 +1263,14 @@ public class Unit : SBase {
    *
    * @param unit the Unit object to manipulate.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -1324,7 +1310,7 @@ public class Unit : SBase {
    * 
    * @param unit2 the second Unit object to merge with the first
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -1356,7 +1342,7 @@ public class Unit : SBase {
    *
    * @return a UnitDefinition object containing the SI unit.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular

@@ -50,7 +50,7 @@ AC_INIT([libSBML],
 
 AC_CONFIG_AUX_DIR(config)
 
-AC_REVISION($Revision: 21538 $)
+AC_REVISION($Revision: 21797 $)
 
 AC_CONFIG_SRCDIR(src/Makefile.in)
 
@@ -581,11 +581,17 @@ if test -d dev; then
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/32-bit/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/32-bit/R_interface/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/32-bit/R_interface/binary-package/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/32-bit/R_interface/source-package/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/64-bit/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/64-bit/R_interface/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/64-bit/R_interface/binary-package/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/64-bit/R_interface/source-package/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/macos/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/macos/R_interface/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/macos/R_interface/binary-package/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/macos/R_interface/source-package/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/32-bit/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/32-bit/python/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/32-bit/R_interface/README.md])

@@ -202,7 +202,7 @@ public class StoichiometryMath : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * * 
+   *
  * @note The StoichiometryMath construct exists only in SBML Level&nbsp;2.
  * It is an optional construct available for defining the stoichiometries of
  * reactants and products in Reaction objects.  Note that a different
@@ -212,7 +212,7 @@ public class StoichiometryMath : SBase {
  * Level&nbsp;2 and&nbsp;3 with respect to stoichiometries.
  *
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -239,7 +239,7 @@ public class StoichiometryMath : SBase {
    * Creates a new StoichiometryMath object using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -257,7 +257,7 @@ public class StoichiometryMath : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * * 
+   *
  * @note The StoichiometryMath construct exists only in SBML Level&nbsp;2.
  * It is an optional construct available for defining the stoichiometries of
  * reactants and products in Reaction objects.  Note that a different
@@ -267,7 +267,7 @@ public class StoichiometryMath : SBase {
  * Level&nbsp;2 and&nbsp;3 with respect to stoichiometries.
  *
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -321,7 +321,7 @@ public class StoichiometryMath : SBase {
    * 
    * @return the math of this StoichiometryMath.
    *
-   * * 
+   *
  * @note The StoichiometryMath construct exists only in SBML Level&nbsp;2.
  * It is an optional construct available for defining the stoichiometries of
  * reactants and products in Reaction objects.  Note that a different
@@ -345,7 +345,7 @@ public class StoichiometryMath : SBase {
    * @return @c true if the formula (meaning the @c math subelement) of
    * this StoichiometryMath is set, @c false otherwise.
    *
-   * * 
+   *
  * @note The StoichiometryMath construct exists only in SBML Level&nbsp;2.
  * It is an optional construct available for defining the stoichiometries of
  * reactants and products in Reaction objects.  Note that a different
@@ -367,17 +367,15 @@ public class StoichiometryMath : SBase {
    *
    * @param math an ASTNode representing a formula tree.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
-   * * 
+   *
  * @note The StoichiometryMath construct exists only in SBML Level&nbsp;2.
  * It is an optional construct available for defining the stoichiometries of
  * reactants and products in Reaction objects.  Note that a different
@@ -468,7 +466,7 @@ public class StoichiometryMath : SBase {
 /**
    * Returns the libSBML type code of this object instance.
    *
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -494,7 +492,7 @@ public class StoichiometryMath : SBase {
    * @return the SBML type code for this object:
    * @link libsbml#SBML_STOICHIOMETRY_MATH SBML_STOICHIOMETRY_MATH@endlink (default).
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke
@@ -531,7 +529,7 @@ public class StoichiometryMath : SBase {
    * @note The required elements for a StoichiometryMath object are:
    * @li 'math'
    *
-   * @return a bool value indicating whether all the required
+   * @return a boolean value indicating whether all the required
    * elements for this object have been defined.
    */ public new
  bool hasRequiredElements() {
@@ -546,14 +544,12 @@ public class StoichiometryMath : SBase {
    *
    * Overridden from the SBase function since the parent is not a ListOf.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int removeFromParentAndDelete() {
@@ -563,11 +559,11 @@ public class StoichiometryMath : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c SIdRef type attribute value with another
  * value.
  *
- * *
+ *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -599,11 +595,11 @@ public class StoichiometryMath : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c UnitSIdRef type attribute value with
  * another value.
  *
- * *
+ *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was

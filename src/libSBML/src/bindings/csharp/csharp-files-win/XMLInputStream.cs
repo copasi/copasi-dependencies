@@ -102,7 +102,7 @@ public class XMLInputStream : IDisposable {
    *
    * @param content the source of the stream.
    *
-   * @param isFile a bool flag to indicate whether @p content is a file
+   * @param isFile a boolean flag to indicate whether @p content is a file
    * name.  If @c true, @p content is assumed to be the file from which the
    * XML content is to be read.  If @c false, @p content is taken to be a
    * string that @em is the content to be read.
@@ -122,7 +122,7 @@ public class XMLInputStream : IDisposable {
    *
    * @param content the source of the stream.
    *
-   * @param isFile a bool flag to indicate whether @p content is a file
+   * @param isFile a boolean flag to indicate whether @p content is a file
    * name.  If @c true, @p content is assumed to be the file from which the
    * XML content is to be read.  If @c false, @p content is taken to be a
    * string that @em is the content to be read.
@@ -142,7 +142,7 @@ public class XMLInputStream : IDisposable {
    *
    * @param content the source of the stream.
    *
-   * @param isFile a bool flag to indicate whether @p content is a file
+   * @param isFile a boolean flag to indicate whether @p content is a file
    * name.  If @c true, @p content is assumed to be the file from which the
    * XML content is to be read.  If @c false, @p content is taken to be a
    * string that @em is the content to be read.
@@ -162,7 +162,7 @@ public class XMLInputStream : IDisposable {
    *
    * @param content the source of the stream.
    *
-   * @param isFile a bool flag to indicate whether @p content is a file
+   * @param isFile a boolean flag to indicate whether @p content is a file
    * name.  If @c true, @p content is assumed to be the file from which the
    * XML content is to be read.  If @c false, @p content is taken to be a
    * string that @em is the content to be read.
@@ -180,7 +180,7 @@ public class XMLInputStream : IDisposable {
 /**
    * Returns the encoding of the XML stream.
    *
-   * *
+   *
  *  The @em encoding is indicated by the <code>xml</code> declaration at the
  * beginning of an XML document or data stream.  The form of this declaration
  * is
@@ -206,7 +206,7 @@ public class XMLInputStream : IDisposable {
 /**
    * Returns the version of the XML stream.
    *
-   * *
+   *
  *  The @em version is indicated by the <code>xml</code> declaration at the
  * beginning of an XML document or data stream.  The form of this declaration
  * is
@@ -334,14 +334,12 @@ public class XMLInputStream : IDisposable {
 /**
    * Sets the XMLErrorLog this stream will use to log errors.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int setErrorLog(XMLErrorLog log) {

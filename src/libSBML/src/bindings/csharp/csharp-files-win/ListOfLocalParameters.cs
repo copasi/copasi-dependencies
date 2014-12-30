@@ -16,7 +16,7 @@ namespace libsbml {
  *
 @htmlinclude pkg-marker-core.html A list of LocalParameter objects.
  * 
- * *
+ *
  * 
  * The various ListOf___ @if conly structures @else classes@endif in SBML
  * are merely containers used for organizing the main components of an SBML
@@ -162,7 +162,7 @@ public class ListOfLocalParameters : ListOfParameters {
    * Returns the libSBML type code for the objects contained in this ListOf
    * (i.e., LocalParameter objects, if the list is non-empty).
    * 
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -239,7 +239,7 @@ public class ListOfLocalParameters : ListOfParameters {
    * object and is responsible for deleting it.  If none of the items have
    * an identifier matching @p sid, then @c null is returned.
    *
-   * @see get(long n)
+   * @see get(unsigned int n)
    * @see size()
    */ public new
  Parameter get(string sid) {

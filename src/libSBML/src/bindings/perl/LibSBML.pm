@@ -1078,7 +1078,7 @@ in certain very usual circumstances where a namespace is not set.
 
 =item SBase::getSBMLDocument
 
-Returns the SBMLDocument object containing I<this> object instance.
+Returns the SBMLDocument object containing this object instance.
 C<opydetails> doc_what_is_SBMLDocument
 This method allows the caller to obtain the SBMLDocument for the
 current object.
@@ -1089,7 +1089,7 @@ current object.
 
 =item SBase::getSBMLDocument
 
-Returns the SBMLDocument object containing I<this> object instance.
+Returns the SBMLDocument object containing this object instance.
 C<opydetails> doc_what_is_SBMLDocument
 This method allows the caller to obtain the SBMLDocument for the
 current object.
@@ -1560,10 +1560,9 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+(if the parent element does not have the 'metaid' attribute set)
 @li @link OperationReturnValues_t#LIBSBML_DUPLICATE_ANNOTATION_NS LIBSBML_DUPLICATE_ANNOTATION_NS@endlink
-With 'unexpected attribute' returned if the parent element does not have 
-the 'metaid' attribute set, and 'duplicate annotation' set if the parent 
-was already annotated with the annotation in question.
+(if the parent was already annotated with the annotation in question)
 @see getAnnotationString()
 @see isSetAnnotation()
 @see setAnnotation(const XMLNode  annotation)
@@ -1599,10 +1598,9 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+(if the parent element does not have the 'metaid' attribute set)
 @li @link OperationReturnValues_t#LIBSBML_DUPLICATE_ANNOTATION_NS LIBSBML_DUPLICATE_ANNOTATION_NS@endlink
-With 'unexpected attribute' returned if the parent element does not have 
-the 'metaid' attribute set, and 'duplicate annotation' set if the parent 
-was already annotated with the annotation in question.
+(if the parent was already annotated with the annotation in question)
 @see getAnnotationString()
 @see isSetAnnotation()
 @see setAnnotation(const XMLNode  annotation)
@@ -2384,12 +2382,12 @@ values correspond to a valid SBML specification.
 The valid combinations of SBML Level, Version and Namespace as of this
 release of libSBML are the following:
 \n=over\n
-\n=item\n\nLevel&nbsp;1 Version&nbsp;2: <code style='margin-right:0; padding-right:0'>"http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level1"</code>
-\n=item\n\nLevel&nbsp;2 Version&nbsp;1: <code style='margin-right:0; padding-right:0'>"http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2"</code>
-\n=item\n\nLevel&nbsp;2 Version&nbsp;2: <code style='margin-right:0; padding-right:0'>"http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version2"</code>
-\n=item\n\nLevel&nbsp;2 Version&nbsp;3: <code style='margin-right:0; padding-right:0'>"http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version3"</code>
-\n=item\n\nLevel&nbsp;2 Version&nbsp;4: <code style='margin-right:0; padding-right:0'>"http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version4"</code>
-\n=item\n\nLevel&nbsp;3 Version&nbsp;1 Core: <code style='margin-right:0; padding-right:0'>"http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level3/version1/core"</code>
+\n=item\n\nLevel&nbsp;1 Version&nbsp;2: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level1</code>&quot;
+\n=item\n\nLevel&nbsp;2 Version&nbsp;1: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2</code>&quot;
+\n=item\n\nLevel&nbsp;2 Version&nbsp;2: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version2</code>&quot;
+\n=item\n\nLevel&nbsp;2 Version&nbsp;3: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version3</code>&quot;
+\n=item\n\nLevel&nbsp;2 Version&nbsp;4: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version4</code>&quot;
+\n=item\n\nLevel&nbsp;3 Version&nbsp;1 Core: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level3/version1/core</code>&quot;
 \n=back\n
 
 @return C<true> if the level, version and namespace values of this 
@@ -2892,7 +2890,14 @@ return the XML namespace to which this element belongs@endif.
 
 =item SBase::getPrefix
 
-Returns the namespace prefix of this element.
+Returns the XML namespace prefix of this element.
+This reports the XML namespace prefix chosen for this class of object in
+the current SBML document.  This may be an empty string if the component
+has no explicit prefix (for instance, if it is a core SBML object placed
+in the default SBML namespace of the document).  If it is not empty, then
+it corresponds to the XML namespace prefix used set the object, whatever
+that may be in a given SBML document.
+@return a text string representing the XML namespace prefix
 
 
 =item SBase::setElementText
@@ -5579,6 +5584,16 @@ C<opydoc> doc_renameunitsidref_common
 @internal
 
 
+=item Model::removeSpeciesTypes
+
+@internal
+
+
+=item Model::removeCompartmentTypes
+
+@internal
+
+
 =item Model::convertToL2Strict
 
 @internal
@@ -7359,6 +7374,21 @@ isIgnoredPackage(@if java String@endif)
 
 
 =item SBMLDocument::hasUnknownPackage
+
+@internal
+
+
+=item SBMLDocument::getNumUnknownPackages
+
+@internal
+
+
+=item SBMLDocument::getUnknownPackageURI
+
+@internal
+
+
+=item SBMLDocument::getUnknownPackagePrefix
 
 @internal
 
@@ -21293,6 +21323,15 @@ Returns C<true> if the given term identifier comes from the stated branch of SBO
 C<opydetails> doc_note_static_methods
 
 
+=item SBO::isQuantitativeSystemsDescriptionParameter
+
+Returns C<true> if the given term identifier comes from the stated branch of SBO.
+@return C<true> if C<term> is-a SBO <em>"quantiative systems description parameter"</em>, C<false>
+otherwise.
+
+C<opydetails> doc_note_static_methods
+
+
 =item SBO::isObselete
 
 Predicate for checking whether the given term is obsolete.
@@ -24254,6 +24293,16 @@ for this converter.
 
 =item SBMLStripPackageConverter::getPackageToStrip
 
+@return the package to be stripped
+
+
+=item SBMLStripPackageConverter::isStripAllUnrecognizedPackages
+
+@return whether all unrecognized packages should be removed
+
+
+=item SBMLStripPackageConverter::stripPackage
+
 @internal
 
 
@@ -24795,11 +24844,10 @@ C<opydetails> doc_add_behavior_explanation
 @param prefix a string, a prefix for the XML namespace.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink.
-This value is returned if any of the arguments are C<NULL>.  To set an
-empty C<prefix> and/or C<name> value, use an empty string rather than @c
-NULL.
-
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+&ndash; this value is returned if any of the arguments are C<NULL>.  To
+set an empty C<prefix> and/or C<name> value, use an empty string rather
+than C<NULL>.
 C<opydetails> doc_note_overwrites_existing_values
 @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 @see add(const XMLTriple& triple, const std::string& value)
@@ -24817,9 +24865,11 @@ C<opydetails> doc_add_behavior_explanation
 @param value a string, the value of the attribute.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink. 
-This value is returned if any of the arguments are C<NULL>.  To set an
-empty value for the attribute, use an empty string rather than C<NULL>.
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+&ndash; this value is returned if any of the arguments are C<NULL>.  To
+set an empty value for the attribute, use an empty string rather than @c
+NULL.
+
 C<opydetails> doc_note_overwrites_existing_values
 @see add(const std::string& name, const std::string& value, const std::string& namespaceURI, const std::string& prefix)
 @see getIndex(const std::string& name, const std::string& uri) const
@@ -29088,6 +29138,12 @@ with the given errorId.
 @param errorId the error identifier of the error to be removed.
 
 
+=item SBMLErrorLog::removeAll
+
+Removes all errors having errorId from the SBMLError list.
+@param errorId the error identifier of the error to be removed.
+
+
 =item SBMLErrorLog::contains
 
 Returns true if SBMLErrorLog contains an errorId
@@ -30249,6 +30305,46 @@ CVTerm object have been set.
 
 
 =item CVTerm::hasRequiredAttributes
+
+@internal
+
+
+=item CVTerm::getNumNestedCVTerms
+
+@internal
+
+
+=item CVTerm::getNestedCVTerm
+
+@internal
+
+
+=item CVTerm::getNestedCVTerm
+
+@internal
+
+
+=item CVTerm::getListNestedCVTerms
+
+@internal
+
+
+=item CVTerm::getListNestedCVTerms
+
+@internal
+
+
+=item CVTerm::addNestedCVTerm
+
+@internal
+
+
+=item CVTerm::removeNestedCVTerm
+
+@internal
+
+
+=item CVTerm::setHasBeenModifiedFlag
 
 @internal
 
@@ -31449,6 +31545,16 @@ C<opydetails> doc_note_static_methods
 @internal
 
 
+=item RDFAnnotationParser::createBagElement
+
+@internal
+
+
+=item RDFAnnotationParser::createQualifierElement
+
+@internal
+
+
 =item RDFAnnotationParser::deriveCVTermsFromAnnotation
 
 @internal
@@ -31542,17 +31648,12 @@ component objects.  SBasePlugin defines basic virtual methods for
 reading/writing/checking additional attributes and/or subobjects; these
 methods should be overridden by subclasses to implement the necessary
 features of an extended SBML object.
-Perhaps the easiest way to explain and motivate the role of SBasePlugin is
-through an example.  The SBML Layout package specifies the existence of an
-element, C<&lt;listOfLayouts&gt;>, contained inside an SBML
-C<&lt;model&gt;> element.  In terms of libSBML components, this
-means a new ListOfLayouts class of objects must be defined, and this
-object placed in an I<extended> class of Model (because Model in
-plain/core SBML does not allow the inclusion of a ListOfLayouts
-subobject).  This extended class of Model is LayoutModelPlugin, and it is
-derived from SBasePlugin.
+@if clike
 @section sbaseplugin-howto How to extend SBasePlugin for a package implementation
 C<opydetails> doc_extension_sbaseplugin
+@else
+C<opydetails> doc_basics_of_extensions
+@endif@~
 
 =over
 
@@ -31817,8 +31918,12 @@ designed specifically for extending SBMLDocument.  All package
 extensions must extend SBMLDocument to implement support for SBML
 Level&nbsp;3 packages; these extensions can be subclasses of this
 class or from a derived class of this class.
+@if clike
 @section sbmldocumentplugin-howto How to extend SBMLDocumentPlugin for a package implementation
 C<opydetails> doc_extension_sbmldocumentplugin
+@else
+C<opydetails> doc_basics_of_extensions
+@endif@~
 
 =over
 
@@ -31915,6 +32020,8 @@ extensions when the library code for the package is loaded. @endif@~
 @if clike
 @section sbmlextension-howto How to extend SBMLExtension for a package implementation
 C<opydetails> doc_extension_sbmlextension
+@else
+C<opydetails> doc_basics_of_extensions
 @endif@~
 
 @section sbmlextension-l2-special Special handling for SBML Level&nbsp;2
@@ -31925,7 +32032,7 @@ C<opydetails> doc_extension_layout_plugin_is_special
 
 =item SBMLExtension::SBMLExtension
 
-Constructor.
+Constructor; creates a new SBMLExtension object.
 
 
 =item SBMLExtension::SBMLExtension
@@ -32073,6 +32180,7 @@ Returns C<true> if this package is enabled.
 =item SBMLExtension::removeL2Namespaces
 
 Removes the package's Level&nbsp;2 namespace(s).
+@ifnot clike @internal @endif@~
 C<opydetails> doc_virtual_method_for_l2namespaces
 @param xmlns an XMLNamespaces object that will be used for the annotation.
 Implementations should override this method with something that removes
@@ -32090,6 +32198,7 @@ xmlns->remove(n);
 =item SBMLExtension::addL2Namespaces
 
 Adds the package's Level&nbsp;2 namespace(s).
+@ifnot clike @internal @endif@~
 C<opydetails> doc_virtual_method_for_l2namespaces
 @param xmlns an XMLNamespaces object that will be used for the annotation.
 Implementation should override this method with something that adds
@@ -32104,6 +32213,7 @@ xmlns->add(LayoutExtension::getXmlnsL2(), "layout");
 =item SBMLExtension::enableL2NamespaceForDocument
 
 Called to enable the package on the SBMLDocument object.
+@ifnot clike @internal @endif@~
 C<opydetails> doc_virtual_method_for_l2namespaces
 @param doc the SBMLDocument object for the model.
 Implementations should override this method with something that
@@ -32129,6 +32239,31 @@ used by the document.
 
 
 =item SBMLExtension::getErrorTableIndex
+
+@internal
+
+
+=item SBMLExtension::getErrorIdOffset
+
+@internal
+
+
+=item SBMLExtension::getSeverity
+
+@internal
+
+
+=item SBMLExtension::getCategory
+
+@internal
+
+
+=item SBMLExtension::getMessage
+
+@internal
+
+
+=item SBMLExtension::getShortMessage
 
 @internal
 
@@ -32166,8 +32301,12 @@ SBMLExtensionNamespaces is a template class.  It is extended from
 SBMLNamespaces and is meant to be used by package extensions to store the
 SBML Level, Version within a Level, and package version of the SBML
 Level&nbsp;3 package implemented by a libSBML package extension.
+@if clike
 @section sbmlextensionnamespaces-howto How to use SBMLExtensionNamespaces for a package implementation
 C<opydetails> doc_extension_sbmlextensionnamespaces
+@else
+C<opydetails> doc_basics_of_extensions
+@endif@~
 
 =over
 
@@ -33780,7 +33919,10 @@ Returns C<true> if this node is a user-defined variable name
 or the symbols for time or Avogadro's constant.
 SBML Levels&nbsp;2 and&nbsp;3 provides C<&lt;csymbol&gt;>
 definitions for "time" and "avogadro", which can be used to represent
-simulation time and Avogadro's constant in MathML.
+simulation time and Avogadro's constant in MathML.  Note that this
+method does I<not> return C<true> for the other C<csymbol>
+values defined by SBML, "delay", because the "delay" is a function
+and not a constant or variable.
 @return C<true> if this ASTNode is a user-defined variable name in SBML
 or the special symbols for time or Avogadro's constant. It returns @c
 false otherwise.
@@ -36663,6 +36805,8 @@ sub getListOfEvents {
 *dealWithModelUnits = *LibSBMLc::Model_dealWithModelUnits;
 *dealWithStoichiometry = *LibSBMLc::Model_dealWithStoichiometry;
 *dealWithEvents = *LibSBMLc::Model_dealWithEvents;
+*removeSpeciesTypes = *LibSBMLc::Model_removeSpeciesTypes;
+*removeCompartmentTypes = *LibSBMLc::Model_removeCompartmentTypes;
 *connectToChild = *LibSBMLc::Model_connectToChild;
 *getTypeCode = *LibSBMLc::Model_getTypeCode;
 *getElementName = *LibSBMLc::Model_getElementName;
@@ -36782,6 +36926,9 @@ sub new {
 *getValidator = *LibSBMLc::SBMLDocument_getValidator;
 *addUnknownPackageRequired = *LibSBMLc::SBMLDocument_addUnknownPackageRequired;
 *hasUnknownPackage = *LibSBMLc::SBMLDocument_hasUnknownPackage;
+*getNumUnknownPackages = *LibSBMLc::SBMLDocument_getNumUnknownPackages;
+*getUnknownPackageURI = *LibSBMLc::SBMLDocument_getUnknownPackageURI;
+*getUnknownPackagePrefix = *LibSBMLc::SBMLDocument_getUnknownPackagePrefix;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -39065,6 +39212,7 @@ use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
 *isOccurringEntityRepresentation = *LibSBMLc::SBO_isOccurringEntityRepresentation;
 *isPhysicalEntityRepresentation = *LibSBMLc::SBO_isPhysicalEntityRepresentation;
 *isSystemsDescriptionParameter = *LibSBMLc::SBO_isSystemsDescriptionParameter;
+*isQuantitativeSystemsDescriptionParameter = *LibSBMLc::SBO_isQuantitativeSystemsDescriptionParameter;
 *isObselete = *LibSBMLc::SBO_isObselete;
 *intToString = *LibSBMLc::SBO_intToString;
 *stringToInt = *LibSBMLc::SBO_stringToInt;
@@ -39894,6 +40042,8 @@ sub DESTROY {
 *matchesProperties = *LibSBMLc::SBMLStripPackageConverter_matchesProperties;
 *convert = *LibSBMLc::SBMLStripPackageConverter_convert;
 *getDefaultProperties = *LibSBMLc::SBMLStripPackageConverter_getDefaultProperties;
+*getPackageToStrip = *LibSBMLc::SBMLStripPackageConverter_getPackageToStrip;
+*isStripAllUnrecognizedPackages = *LibSBMLc::SBMLStripPackageConverter_isStripAllUnrecognizedPackages;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -40676,6 +40826,7 @@ sub DESTROY {
 *logPackageError = *LibSBMLc::SBMLErrorLog_logPackageError;
 *add = *LibSBMLc::SBMLErrorLog_add;
 *remove = *LibSBMLc::SBMLErrorLog_remove;
+*removeAll = *LibSBMLc::SBMLErrorLog_removeAll;
 *contains = *LibSBMLc::SBMLErrorLog_contains;
 sub DISOWN {
     my $self = shift;
@@ -40766,6 +40917,11 @@ sub new {
 *hasBeenModified = *LibSBMLc::CVTerm_hasBeenModified;
 *resetModifiedFlags = *LibSBMLc::CVTerm_resetModifiedFlags;
 *hasRequiredAttributes = *LibSBMLc::CVTerm_hasRequiredAttributes;
+*getNumNestedCVTerms = *LibSBMLc::CVTerm_getNumNestedCVTerms;
+*getNestedCVTerm = *LibSBMLc::CVTerm_getNestedCVTerm;
+*getListNestedCVTerms = *LibSBMLc::CVTerm_getListNestedCVTerms;
+*addNestedCVTerm = *LibSBMLc::CVTerm_addNestedCVTerm;
+*removeNestedCVTerm = *LibSBMLc::CVTerm_removeNestedCVTerm;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -41943,6 +42099,7 @@ package LibSBML;
 *InvalidNoArgsPassedToFunctionDef = *LibSBMLc::InvalidNoArgsPassedToFunctionDef;
 *DisallowedMathUnitsUse = *LibSBMLc::DisallowedMathUnitsUse;
 *InvalidUnitsValue = *LibSBMLc::InvalidUnitsValue;
+*CiCannotReference0DCompartment = *LibSBMLc::CiCannotReference0DCompartment;
 *DuplicateComponentId = *LibSBMLc::DuplicateComponentId;
 *DuplicateUnitDefinitionId = *LibSBMLc::DuplicateUnitDefinitionId;
 *DuplicateLocalParameterId = *LibSBMLc::DuplicateLocalParameterId;
@@ -42000,6 +42157,7 @@ package LibSBML;
 *InvalidSpeciesTypeSBOTerm = *LibSBMLc::InvalidSpeciesTypeSBOTerm;
 *InvalidTriggerSBOTerm = *LibSBMLc::InvalidTriggerSBOTerm;
 *InvalidDelaySBOTerm = *LibSBMLc::InvalidDelaySBOTerm;
+*InvalidLocalParameterSBOTerm = *LibSBMLc::InvalidLocalParameterSBOTerm;
 *NotesNotInXHTMLNamespace = *LibSBMLc::NotesNotInXHTMLNamespace;
 *NotesContainsXMLDecl = *LibSBMLc::NotesContainsXMLDecl;
 *NotesContainsDOCTYPE = *LibSBMLc::NotesContainsDOCTYPE;
@@ -42045,6 +42203,7 @@ package LibSBML;
 *AllowedAttributesOnListOfConstraints = *LibSBMLc::AllowedAttributesOnListOfConstraints;
 *AllowedAttributesOnListOfReactions = *LibSBMLc::AllowedAttributesOnListOfReactions;
 *AllowedAttributesOnListOfEvents = *LibSBMLc::AllowedAttributesOnListOfEvents;
+*L3V2SubstanceUnitsOnModel = *LibSBMLc::L3V2SubstanceUnitsOnModel;
 *FunctionDefMathNotLambda = *LibSBMLc::FunctionDefMathNotLambda;
 *InvalidApplyCiInLambda = *LibSBMLc::InvalidApplyCiInLambda;
 *RecursiveFunctionDefinition = *LibSBMLc::RecursiveFunctionDefinition;
@@ -42112,6 +42271,7 @@ package LibSBML;
 *InitAssignmentAndRuleForSameId = *LibSBMLc::InitAssignmentAndRuleForSameId;
 *OneMathElementPerInitialAssign = *LibSBMLc::OneMathElementPerInitialAssign;
 *AllowedAttributesOnInitialAssign = *LibSBMLc::AllowedAttributesOnInitialAssign;
+*InitAssignmentCannotRef0DComp = *LibSBMLc::InitAssignmentCannotRef0DComp;
 *InvalidAssignRuleVariable = *LibSBMLc::InvalidAssignRuleVariable;
 *InvalidRateRuleVariable = *LibSBMLc::InvalidRateRuleVariable;
 *AssignmentToConstantEntity = *LibSBMLc::AssignmentToConstantEntity;
@@ -42122,6 +42282,7 @@ package LibSBML;
 *AllowedAttributesOnAssignRule = *LibSBMLc::AllowedAttributesOnAssignRule;
 *AllowedAttributesOnRateRule = *LibSBMLc::AllowedAttributesOnRateRule;
 *AllowedAttributesOnAlgRule = *LibSBMLc::AllowedAttributesOnAlgRule;
+*RuleCannotRef0DComp = *LibSBMLc::RuleCannotRef0DComp;
 *ConstraintMathNotBoolean = *LibSBMLc::ConstraintMathNotBoolean;
 *IncorrectOrderInConstraint = *LibSBMLc::IncorrectOrderInConstraint;
 *ConstraintNotInXHTMLNamespace = *LibSBMLc::ConstraintNotInXHTMLNamespace;
@@ -42158,6 +42319,7 @@ package LibSBML;
 *AllowedAttributesOnKineticLaw = *LibSBMLc::AllowedAttributesOnKineticLaw;
 *AllowedAttributesOnListOfSpeciesRef = *LibSBMLc::AllowedAttributesOnListOfSpeciesRef;
 *AllowedAttributesOnListOfMods = *LibSBMLc::AllowedAttributesOnListOfMods;
+*L3V2FastDeprecated = *LibSBMLc::L3V2FastDeprecated;
 *AllowedAttributesOnLocalParameter = *LibSBMLc::AllowedAttributesOnLocalParameter;
 *MissingTriggerInEvent = *LibSBMLc::MissingTriggerInEvent;
 *TriggerMathNotBoolean = *LibSBMLc::TriggerMathNotBoolean;
@@ -42288,6 +42450,7 @@ package LibSBML;
 *RDFNotCompleteModelHistory = *LibSBMLc::RDFNotCompleteModelHistory;
 *RDFNotModelHistory = *LibSBMLc::RDFNotModelHistory;
 *AnnotationNotElement = *LibSBMLc::AnnotationNotElement;
+*NestedAnnotationNotAllowed = *LibSBMLc::NestedAnnotationNotAllowed;
 *InconsistentArgUnitsWarnings = *LibSBMLc::InconsistentArgUnitsWarnings;
 *InconsistentPowerUnitsWarnings = *LibSBMLc::InconsistentPowerUnitsWarnings;
 *InconsistentExponUnitsWarnings = *LibSBMLc::InconsistentExponUnitsWarnings;

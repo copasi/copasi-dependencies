@@ -134,7 +134,7 @@ public class ConversionOption : IDisposable {
    * This is the general constructor, taking arguments for all aspects of
    * an option.  Other constructors exist with different arguments.
    *
-   * *
+   *
  * 
  * The conversion @p type argument value must be one of
  * @if clike the values defined in the enumeration
@@ -161,7 +161,7 @@ public class ConversionOption : IDisposable {
    * This is the general constructor, taking arguments for all aspects of
    * an option.  Other constructors exist with different arguments.
    *
-   * *
+   *
  * 
  * The conversion @p type argument value must be one of
  * @if clike the values defined in the enumeration
@@ -188,7 +188,7 @@ public class ConversionOption : IDisposable {
    * This is the general constructor, taking arguments for all aspects of
    * an option.  Other constructors exist with different arguments.
    *
-   * *
+   *
  * 
  * The conversion @p type argument value must be one of
  * @if clike the values defined in the enumeration
@@ -215,7 +215,7 @@ public class ConversionOption : IDisposable {
    * This is the general constructor, taking arguments for all aspects of
    * an option.  Other constructors exist with different arguments.
    *
-   * *
+   *
  * 
  * The conversion @p type argument value must be one of
  * @if clike the values defined in the enumeration
@@ -455,7 +455,7 @@ public class ConversionOption : IDisposable {
 /**
    * Sets the type of this option.
    *
-   * *
+   *
  * 
  * The conversion @p type argument value must be one of
  * @if clike the values defined in the enumeration

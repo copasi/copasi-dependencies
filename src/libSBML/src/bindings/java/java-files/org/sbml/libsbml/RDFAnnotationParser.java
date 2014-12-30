@@ -218,8 +218,76 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation.
    <p>
    * @see RDFAnnotationParser#createAnnotation() 
    */ public
+ static XMLNode createRDFAnnotation(long level, long version) {
+    long cPtr = libsbmlJNI.RDFAnnotationParser_createRDFAnnotation__SWIG_0(level, version);
+    return (cPtr == 0) ? null : new XMLNode(cPtr, true);
+  }
+
+  
+/**
+   * Creates a blank RDF element suitable for use in SBML annotations.
+   <p>
+   * The annotation created by this method has namespace declarations for
+   * all the relevant XML namespaces used in RDF annotations and also has
+   * an empty RDF element.  The result is the following XML:
+<pre class='fragment'>
+&lt;rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns:dc='http://purl.org/dc/elements/1.1/'
+         xmlns:dcterms='http://purl.org/dc/terms/'
+         xmlns:vCard='http://www.w3.org/2001/vcard-rdf/3.0#'
+         xmlns:bqbiol='http://biomodels.net/biology-qualifiers/'
+         xmlns:bqmodel='http://biomodels.net/model-qualifiers/' &gt;
+
+&lt;/rdf:RDF&gt;
+</pre>
+   <p>
+   * Note that this does not create the containing SBML
+   * <code>&lt;annotation&gt;</code> element; the method
+   * {@link RDFAnnotationParser#createAnnotation()}
+   * is available for creating the container.
+   <p>
+   * @return a pointer to an {@link XMLNode}
+   <p>
+   * 
+   <p>
+   * @see RDFAnnotationParser#createAnnotation() 
+   */ public
+ static XMLNode createRDFAnnotation(long level) {
+    long cPtr = libsbmlJNI.RDFAnnotationParser_createRDFAnnotation__SWIG_1(level);
+    return (cPtr == 0) ? null : new XMLNode(cPtr, true);
+  }
+
+  
+/**
+   * Creates a blank RDF element suitable for use in SBML annotations.
+   <p>
+   * The annotation created by this method has namespace declarations for
+   * all the relevant XML namespaces used in RDF annotations and also has
+   * an empty RDF element.  The result is the following XML:
+<pre class='fragment'>
+&lt;rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns:dc='http://purl.org/dc/elements/1.1/'
+         xmlns:dcterms='http://purl.org/dc/terms/'
+         xmlns:vCard='http://www.w3.org/2001/vcard-rdf/3.0#'
+         xmlns:bqbiol='http://biomodels.net/biology-qualifiers/'
+         xmlns:bqmodel='http://biomodels.net/model-qualifiers/' &gt;
+
+&lt;/rdf:RDF&gt;
+</pre>
+   <p>
+   * Note that this does not create the containing SBML
+   * <code>&lt;annotation&gt;</code> element; the method
+   * {@link RDFAnnotationParser#createAnnotation()}
+   * is available for creating the container.
+   <p>
+   * @return a pointer to an {@link XMLNode}
+   <p>
+   * 
+   <p>
+   * @see RDFAnnotationParser#createAnnotation() 
+   */ public
  static XMLNode createRDFAnnotation() {
-    long cPtr = libsbmlJNI.RDFAnnotationParser_createRDFAnnotation();
+    long cPtr = libsbmlJNI.RDFAnnotationParser_createRDFAnnotation__SWIG_2();
     return (cPtr == 0) ? null : new XMLNode(cPtr, true);
   }
 

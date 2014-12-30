@@ -24,7 +24,7 @@ namespace libsbml {
  * package extensions and to create additional attributes and/or elements by
  * factory objects of the package extensions.
  *
- * *
+ *
  * 
  * The package extension registry is implemented as a singleton instance of
  * SBMLExtensionRegistry.  The class provides only utility functionality;
@@ -97,14 +97,12 @@ public class SBMLExtensionRegistry : IDisposable {
    *
    * @param ext the SBMLExtension object to be added.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_PKG_CONFLICT LIBSBML_PKG_CONFLICT@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public

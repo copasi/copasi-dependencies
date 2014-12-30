@@ -1422,16 +1422,14 @@ public class XMLError : IDisposable {
    * 
    * @param line a long integer, the line number to set.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
-   * @see setColumn(long column)
+   * @see setColumn(unsigned int column)
    */ public
  int setLine(long line) {
     int ret = libsbmlPINVOKE.XMLError_setLine(swigCPtr, line);
@@ -1444,16 +1442,14 @@ public class XMLError : IDisposable {
    * 
    * @param column a long integer, the column number to set.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
-   * @see setLine(long line)
+   * @see setLine(unsigned int line)
    */ public
  int setColumn(long column) {
     int ret = libsbmlPINVOKE.XMLError_setColumn(swigCPtr, column);

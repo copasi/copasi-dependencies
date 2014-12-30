@@ -18,7 +18,7 @@ namespace libsbml {
  *
  * @htmlinclude not-sbml-warning.html
  *
- * *
+ *
  * 
  * Certain situations can result in an exception being thrown by libSBML
  * package extensions.  A prominent example involves the constructor for

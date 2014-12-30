@@ -96,7 +96,7 @@ public class ModifierSpeciesReference : SimpleSpeciesReference {
    * @param version a long integer, the SBML Version to assign to this
    * ModifierSpeciesReference
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -125,7 +125,7 @@ public class ModifierSpeciesReference : SimpleSpeciesReference {
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -163,7 +163,7 @@ public class ModifierSpeciesReference : SimpleSpeciesReference {
 /**
    * Returns the libSBML type code for this %SBML object.
    * 
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -189,7 +189,7 @@ public class ModifierSpeciesReference : SimpleSpeciesReference {
    * @return the SBML type code for this object:
    * @link libsbml#SBML_MODIFIER_SPECIES_REFERENCE SBML_MODIFIER_SPECIES_REFERENCE@endlink (default).
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke

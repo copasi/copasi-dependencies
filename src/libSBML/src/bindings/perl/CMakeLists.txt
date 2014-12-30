@@ -33,9 +33,50 @@
 
 find_package(SWIG REQUIRED)
 include(${SWIG_USE_FILE})
-include(FindPerlLibs)
-include(FindPythonInterp)
+find_package(PythonInterp)
+find_package(Perl)
 
+if (APPLE AND PERL_EXECUTABLE)
+# cmake does not find the perl library on its own on OSX
+# so lets try and help it out:
+
+execute_process(
+COMMAND
+${PERL_EXECUTABLE} -e "print qq(@INC)"
+OUTPUT_VARIABLE
+PERL_INCLUDE_PATH
+RESULT_VARIABLE
+PERL_INCLUDE_PATH_RESULT_VARIABLE
+)
+
+
+if(PERL_INCLUDE_PATH)
+separate_arguments(PERL_INCLUDE_PATH)
+#message(" PERL_INCLUDE_PATH = ${PERL_INCLUDE_PATH}")
+
+SET(PERL_LIBRARY)
+foreach (dir ${PERL_INCLUDE_PATH})
+if (EXISTS "${dir}/CORE/libperl.dylib")
+ set(PERL_LIBRARY "${dir}/CORE/libperl.dylib")
+ list(INSERT PERL_INCLUDE_PATH 0 "${dir}/CORE")
+endif()
+endforeach()
+
+if(PERL_LIBRARY)
+#message(" PERL_LIBRARY = ${PERL_LIBRARY}")
+else()
+# something went wrong fall back to the original way
+find_package(PerlLibs)
+endif()
+
+else()
+# something went wrong fall back to the original way
+find_package(PerlLibs)
+endif()
+
+else()
+find_package(PerlLibs)
+endif()
 
 ####################################################################
 #
@@ -166,6 +207,13 @@ set(PERL_PACKAGE_INSTALL_BIN_DIR)
 if (UNIX OR CYGWIN) 
   execute_process(COMMAND "${PERL_EXECUTABLE}" -V:version
     OUTPUT_VARIABLE PERL_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
+  if (NOT PERL_VERSION)
+    message(FATAL_ERROR
+"
+Could not determine Perl version, please check the variable:
+  PERL_EXECUTABLE = ${PERL_EXECUTABLE}
+")
+  endif()
   string(REPLACE "'" "" PERL_VERSION ${PERL_VERSION})
   string(REPLACE ";" "" PERL_VERSION ${PERL_VERSION})
   string(REPLACE "version=" "" PERL_VERSION ${PERL_VERSION})

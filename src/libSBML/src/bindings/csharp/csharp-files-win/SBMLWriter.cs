@@ -22,7 +22,7 @@ namespace libsbml {
  * main interface for serializing SBML models into XML and writing the
  * result to an output stream or to files and text strings.  The methods 
  * for writing SBML all take an SBMLDocument object and a destination.  
- * They return a bool or integer value to indicate success or failure.
+ * They return a boolean or integer value to indicate success or failure.
  *
  * @section sbmlwriter-compression Support for writing compressed files
  *
@@ -166,14 +166,12 @@ public class SBMLWriter : IDisposable {
    * @param name the name of this program (where 'this program' refers to
    * program in which libSBML is embedded, not libSBML itself!)
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * 
    * @see setProgramVersion(string version)
    */ public
@@ -202,14 +200,12 @@ public class SBMLWriter : IDisposable {
    * @param version the version of this program (where 'this program'
    * refers to program in which libSBML is embedded, not libSBML itself!)
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setProgramName(string name)
    */ public
@@ -327,7 +323,7 @@ public class SBMLWriter : IDisposable {
    *
    * @return @c true if libSBML is linked with zlib, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -358,7 +354,7 @@ public class SBMLWriter : IDisposable {
    *
    * @return @c true if libSBML is linked with bzip2, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular

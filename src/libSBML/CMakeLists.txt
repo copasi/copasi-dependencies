@@ -666,6 +666,10 @@ if(WITH_CHECK)
     # we do use tests, that require 2.8.4
     cmake_minimum_required(VERSION 2.8.4)
 
+    # set test timeout to 3000 as the normal time limit is not sufficient
+    # for the comp tests
+    SET(DART_TESTING_TIMEOUT "3000" CACHE STRING "" FORCE)
+    
     enable_testing()
 
     find_library(LIBCHECK_LIBRARY
@@ -1127,7 +1131,6 @@ endif()
 
 if(WITH_CHECK)
     message(STATUS "     Using libcheck                  = ${LIBCHECK_LIBRARY}")
-
 endif()
 
 if(WITH_CPP_NAMESPACE)
@@ -1152,14 +1155,26 @@ if(APPLE)
     endif()
 endif()
 
-if (LIBSBML_PACKAGE_SUMMARY)
 message(STATUS "")
-message(STATUS "   Support for SBML Level 3 Packages: ")
-foreach(summary ${LIBSBML_PACKAGE_SUMMARY})
-  message(STATUS "     ${summary}")
-endforeach()
+if(WITH_EXAMPLES)
+  message(STATUS "     Build examples                  = yes")
+else()
+  message(STATUS "     Build examples                  = no")
+endif()
 
+message(STATUS "")
+if(LIBSBML_USE_LEGACY_MATH)
+  message(STATUS "     Use Legacy Math                 = yes")
+else()
+  message(STATUS "     Use Legacy Math                 = no")
+endif()
 
+if (LIBSBML_PACKAGE_SUMMARY)
+  message(STATUS "")
+  message(STATUS "   Support for SBML Level 3 Packages: ")
+  foreach(summary ${LIBSBML_PACKAGE_SUMMARY})
+    message(STATUS "     ${summary}")
+  endforeach()
 endif(LIBSBML_PACKAGE_SUMMARY)
 
 message(STATUS "

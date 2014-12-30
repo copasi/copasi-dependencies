@@ -9,9 +9,9 @@
 package org.sbml.libsbml;
 
 public interface libsbmlConstants {
-  public final static String LIBSBML_DOTTED_VERSION = "5.11.0";
-  public final static int LIBSBML_VERSION = 51100;
-  public final static String LIBSBML_VERSION_STRING = "51100";
+  public final static String LIBSBML_DOTTED_VERSION = "5.11.1";
+  public final static int LIBSBML_VERSION = 51101;
+  public final static String LIBSBML_VERSION_STRING = "51101";
   // OperationReturnValues_t 
   public final static int LIBSBML_OPERATION_SUCCESS = 0;
   public final static int LIBSBML_INDEX_EXCEEDS_SIZE = -1;
@@ -230,6 +230,7 @@ public interface libsbmlConstants {
   public final static int InvalidNoArgsPassedToFunctionDef = 10219;
   public final static int DisallowedMathUnitsUse = 10220;
   public final static int InvalidUnitsValue = 10221;
+  public final static int CiCannotReference0DCompartment = 10222;
   public final static int DuplicateComponentId = 10301;
   public final static int DuplicateUnitDefinitionId = 10302;
   public final static int DuplicateLocalParameterId = 10303;
@@ -287,6 +288,7 @@ public interface libsbmlConstants {
   public final static int InvalidSpeciesTypeSBOTerm = 10715;
   public final static int InvalidTriggerSBOTerm = 10716;
   public final static int InvalidDelaySBOTerm = 10717;
+  public final static int InvalidLocalParameterSBOTerm = 10718;
   public final static int NotesNotInXHTMLNamespace = 10801;
   public final static int NotesContainsXMLDecl = 10802;
   public final static int NotesContainsDOCTYPE = 10803;
@@ -332,6 +334,7 @@ public interface libsbmlConstants {
   public final static int AllowedAttributesOnListOfConstraints = 20230;
   public final static int AllowedAttributesOnListOfReactions = 20231;
   public final static int AllowedAttributesOnListOfEvents = 20232;
+  public final static int L3V2SubstanceUnitsOnModel = 20233;
   public final static int FunctionDefMathNotLambda = 20301;
   public final static int InvalidApplyCiInLambda = 20302;
   public final static int RecursiveFunctionDefinition = 20303;
@@ -399,6 +402,7 @@ public interface libsbmlConstants {
   public final static int InitAssignmentAndRuleForSameId = 20803;
   public final static int OneMathElementPerInitialAssign = 20804;
   public final static int AllowedAttributesOnInitialAssign = 20805;
+  public final static int InitAssignmentCannotRef0DComp = 20806;
   public final static int InvalidAssignRuleVariable = 20901;
   public final static int InvalidRateRuleVariable = 20902;
   public final static int AssignmentToConstantEntity = 20903;
@@ -409,6 +413,7 @@ public interface libsbmlConstants {
   public final static int AllowedAttributesOnAssignRule = 20908;
   public final static int AllowedAttributesOnRateRule = 20909;
   public final static int AllowedAttributesOnAlgRule = 20910;
+  public final static int RuleCannotRef0DComp = 20911;
   public final static int ConstraintMathNotBoolean = 21001;
   public final static int IncorrectOrderInConstraint = 21002;
   public final static int ConstraintNotInXHTMLNamespace = 21003;
@@ -445,6 +450,7 @@ public interface libsbmlConstants {
   public final static int AllowedAttributesOnKineticLaw = 21132;
   public final static int AllowedAttributesOnListOfSpeciesRef = 21150;
   public final static int AllowedAttributesOnListOfMods = 21151;
+  public final static int L3V2FastDeprecated = 21152;
   public final static int AllowedAttributesOnLocalParameter = 21172;
   public final static int MissingTriggerInEvent = 21201;
   public final static int TriggerMathNotBoolean = 21202;
@@ -575,6 +581,7 @@ public interface libsbmlConstants {
   public final static int RDFNotCompleteModelHistory = 99404;
   public final static int RDFNotModelHistory = 99405;
   public final static int AnnotationNotElement = 99406;
+  public final static int NestedAnnotationNotAllowed = 99407;
   public final static int InconsistentArgUnitsWarnings = 99502;
   public final static int InconsistentPowerUnitsWarnings = 99503;
   public final static int InconsistentExponUnitsWarnings = 99504;

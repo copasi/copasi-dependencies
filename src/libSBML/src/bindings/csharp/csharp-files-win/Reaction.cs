@@ -71,7 +71,7 @@ namespace libsbml {
  * modeling applications, reactions without any defined rate can be
  * perfectly acceptable.
  *
- * Reaction also has a bool attribute named 'reversible' for indicating
+ * Reaction also has a boolean attribute named 'reversible' for indicating
  * whether the reaction is reversible.  This attribute is optional in SBML
  * Level&nbsp;2, with a default of @c true; it is mandatory in SBML
  * Level&nbsp;3 (with no default value).  To say that a reaction is @em
@@ -92,7 +92,7 @@ namespace libsbml {
  * the creation of such a model would be an error on the part of the
  * software generating it.
  *
- * The Reaction object class has another bool attribute called 'fast'.
+ * The Reaction object class has another boolean attribute called 'fast'.
  * This attribute is optional in SBML Level&nbsp;2, with a default of @c
  * false; it is mandatory in SBML Level&nbsp;3 (with no default value).  It
  * is used to indicate that a reaction occurs on a vastly faster time scale
@@ -195,7 +195,7 @@ public class Reaction : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    * 
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -222,7 +222,7 @@ public class Reaction : SBase {
    * Creates a new Reaction using the given SBMLNamespaces object
    * @p  sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -240,7 +240,7 @@ public class Reaction : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -317,11 +317,11 @@ public class Reaction : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c SIdRef type attribute value with another
  * value.
  *
- * *
+ *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -365,7 +365,7 @@ public class Reaction : SBase {
    * @li Sets the 'fast' attribute to @c false
    * @li Marks the 'fast' attribute as @em not having been set
    *
-   * * 
+   *
  * @warning <span class='warning'>SBML definitions before SBML Level&nbsp;2
  * Version&nbsp;2 incorrectly indicated that software tools could ignore the
  * 'fast' attribute if they did not implement support for the corresponding
@@ -421,7 +421,7 @@ public class Reaction : SBase {
   
 /**
    * Returns the value of the 'reversible' attribute on the Reaction as a
-   * bool value.
+   * boolean value.
    * 
    * @return the reversibility status of this Reaction.
    */ public
@@ -436,7 +436,7 @@ public class Reaction : SBase {
    * 
    * @return the 'fast' status of this Reaction.
    *
-   * * 
+   *
  * @warning <span class='warning'>SBML definitions before SBML Level&nbsp;2
  * Version&nbsp;2 incorrectly indicated that software tools could ignore the
  * 'fast' attribute if they did not implement support for the corresponding
@@ -518,7 +518,7 @@ public class Reaction : SBase {
    *
    * @return @c true if the 'fast' attribute is true, @c false otherwise.
    *
-   * * 
+   *
  * @warning <span class='warning'>SBML definitions before SBML Level&nbsp;2
  * Version&nbsp;2 incorrectly indicated that software tools could ignore the
  * 'fast' attribute if they did not implement support for the corresponding
@@ -574,7 +574,7 @@ public class Reaction : SBase {
    *
    * The string @p sid is copied.
    *
-   * *
+   *
  * 
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
@@ -599,14 +599,12 @@ public class Reaction : SBase {
    *
    * @param sid the string to use as the identifier of this Reaction
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setId(string sid) {
@@ -622,14 +620,12 @@ public class Reaction : SBase {
    *
    * @param name the new name for the Reaction
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setName(string name) {
@@ -644,14 +640,12 @@ public class Reaction : SBase {
    *
    * @param kl the KineticLaw object to use.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
   */ public
@@ -666,14 +660,12 @@ public class Reaction : SBase {
    *
    * @param value the value of the 'reversible' attribute.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setReversible(bool value) {
     int ret = libsbmlPINVOKE.Reaction_setReversible(swigCPtr, value);
@@ -686,16 +678,14 @@ public class Reaction : SBase {
    *
    * @param value the value of the 'fast' attribute.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * 
-   * * 
+   *
  * @warning <span class='warning'>SBML definitions before SBML Level&nbsp;2
  * Version&nbsp;2 incorrectly indicated that software tools could ignore the
  * 'fast' attribute if they did not implement support for the corresponding
@@ -723,14 +713,12 @@ public class Reaction : SBase {
    *
    * @param sid the string to use as the compartment of this Reaction
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -747,14 +735,12 @@ public class Reaction : SBase {
 /**
    * Unsets the value of the 'name' attribute of this Reaction.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetName() {
@@ -766,14 +752,12 @@ public class Reaction : SBase {
 /**
    * Unsets the 'kineticLaw' subelement of this Reaction.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetKineticLaw() {
@@ -785,17 +769,15 @@ public class Reaction : SBase {
 /**
    * Unsets the value of the 'fast' attribute of this Reaction.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * * 
+   *
  * @warning <span class='warning'>SBML definitions before SBML Level&nbsp;2
  * Version&nbsp;2 incorrectly indicated that software tools could ignore the
  * 'fast' attribute if they did not implement support for the corresponding
@@ -819,14 +801,12 @@ public class Reaction : SBase {
 /**
    * Unsets the value of the 'compartment' attribute of this Reaction.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -848,21 +828,19 @@ public class Reaction : SBase {
    * @param sr a SpeciesReference object referring to a Species in the
    * enclosing Model
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -892,19 +870,17 @@ public class Reaction : SBase {
    * @param sr a SpeciesReference object referring to a Species in the
    * enclosing Model
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -935,21 +911,19 @@ public class Reaction : SBase {
    * @param msr a ModifierSpeciesReference object referring to a Species in
    * the enclosing Model
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -1330,7 +1304,7 @@ public class Reaction : SBase {
 /**
    * Returns the libSBML type code for this SBML object.
    * 
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -1356,7 +1330,7 @@ public class Reaction : SBase {
    * @return the SBML type code for this object:
    * @link libsbml#SBML_REACTION SBML_REACTION@endlink (default).
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke

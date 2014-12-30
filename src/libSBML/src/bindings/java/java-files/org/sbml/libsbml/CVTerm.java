@@ -1133,4 +1133,37 @@ appears in the documentation.
     libsbmlJNI.CVTerm_resetModifiedFlags(swigCPtr, this);
   }
 
+  
+/** * @internal */ public
+ long getNumNestedCVTerms() {
+    return libsbmlJNI.CVTerm_getNumNestedCVTerms(swigCPtr, this);
+  }
+
+  
+/** * @internal */ public
+ CVTerm getNestedCVTerm(long n) {
+    long cPtr = libsbmlJNI.CVTerm_getNestedCVTerm__SWIG_0(swigCPtr, this, n);
+    return (cPtr == 0) ? null : new CVTerm(cPtr, false);
+  }
+
+  
+/** * @internal */ public
+ SWIGTYPE_p_List getListNestedCVTerms() {
+    long cPtr = libsbmlJNI.CVTerm_getListNestedCVTerms__SWIG_0(swigCPtr, this);
+    return (cPtr == 0) ? null : new SWIGTYPE_p_List(cPtr, false);
+  }
+
+  
+/** * @internal */ public
+ int addNestedCVTerm(CVTerm term) {
+    return libsbmlJNI.CVTerm_addNestedCVTerm(swigCPtr, this, CVTerm.getCPtr(term), term);
+  }
+
+  
+/** * @internal */ public
+ CVTerm removeNestedCVTerm(long n) {
+    long cPtr = libsbmlJNI.CVTerm_removeNestedCVTerm(swigCPtr, this, n);
+    return (cPtr == 0) ? null : new CVTerm(cPtr, false);
+  }
+
 }

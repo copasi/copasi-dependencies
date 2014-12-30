@@ -95,7 +95,7 @@ namespace libsbml {
  * litre, etc.).  In SBML Level&nbsp;3, this list consists of the
  * following:
  * 
- * *
+ *
  * 
 <table border='0' class='centered text-table width80 normal-font code'
        style='border: none !important'>
@@ -302,7 +302,7 @@ public class UnitDefinition : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -329,7 +329,7 @@ public class UnitDefinition : SBase {
    * Creates a new UnitDefinition using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -347,7 +347,7 @@ public class UnitDefinition : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -476,7 +476,7 @@ public class UnitDefinition : SBase {
    *
    * The string @p sid is copied.
    *
-   * *
+   *
  * 
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
@@ -501,14 +501,12 @@ public class UnitDefinition : SBase {
    *
    * @param sid the string to use as the identifier of this UnitDefinition
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setId(string sid) {
@@ -524,14 +522,12 @@ public class UnitDefinition : SBase {
    *
    * @param name the new name for the UnitDefinition
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setName(string name) {
@@ -543,14 +539,12 @@ public class UnitDefinition : SBase {
 /**
    * Unsets the value of the 'name' attribute of this UnitDefinition.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetName() {
@@ -679,20 +673,18 @@ public class UnitDefinition : SBase {
    *
    * @param u the Unit instance to add to this UnitDefinition.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -805,7 +797,7 @@ public class UnitDefinition : SBase {
 /**
    * Returns the libSBML type code for this object instance.
    * 
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -831,7 +823,7 @@ public class UnitDefinition : SBase {
    * @return the SBML type code for this object:
    * @link libsbml#SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION@endlink (default).
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke
@@ -884,7 +876,7 @@ public class UnitDefinition : SBase {
    *
    * @param ud the UnitDefinition object to be simplified.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -906,7 +898,7 @@ public class UnitDefinition : SBase {
    *
    * @param ud the UnitDefinition object whose units are to be reordered.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -931,7 +923,7 @@ public class UnitDefinition : SBase {
    * @return a new UnitDefinition object representing the results of the
    * conversion.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -967,7 +959,7 @@ public class UnitDefinition : SBase {
    * @return @c true if all the Unit objects in ud1 are identical to the
    * Unit objects of ud2, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -1005,7 +997,7 @@ public class UnitDefinition : SBase {
    * @return @c true if all the Unit objects in ud1 are equivalent
    * to the Unit objects in ud2, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -1038,7 +1030,7 @@ public class UnitDefinition : SBase {
    * @return a UnitDefinition which represents the product of the 
    * units of the two argument UnitDefinitions.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -1070,7 +1062,7 @@ public class UnitDefinition : SBase {
    * @return a UnitDefinition which represents the division of the 
    * units of the two argument UnitDefinitions.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -1110,13 +1102,13 @@ public class UnitDefinition : SBase {
    * debugging software, or other situations.
    *
    * @param ud the UnitDefinition object
-   * @param compact bool indicating whether the compact form
+   * @param compact boolean indicating whether the compact form
    * should be used (defaults to false)
    *
    * @return a string expressing the unit definition defined by the given
    * UnitDefinition object @p ud.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -1155,13 +1147,13 @@ public class UnitDefinition : SBase {
    * debugging software, or other situations.
    *
    * @param ud the UnitDefinition object
-   * @param compact bool indicating whether the compact form
+   * @param compact boolean indicating whether the compact form
    * should be used (defaults to false)
    *
    * @return a string expressing the unit definition defined by the given
    * UnitDefinition object @p ud.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -1203,7 +1195,7 @@ public class UnitDefinition : SBase {
    * @note The required elements for a Constraint object are:
    * @li 'listOfUnits' (required in SBML Level&nbsp;2 only, optional in Level&nbsp;3)
    *
-   * @return a bool value indicating whether all the required
+   * @return a boolean value indicating whether all the required
    * elements for this object have been defined.
    */ public new
  bool hasRequiredElements() {

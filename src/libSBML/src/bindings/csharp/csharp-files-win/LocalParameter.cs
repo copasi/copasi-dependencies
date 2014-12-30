@@ -142,7 +142,7 @@ public class LocalParameter : Parameter {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -169,7 +169,7 @@ public class LocalParameter : Parameter {
    * Creates a new LocalParameter object with the given SBMLNamespaces
    * object @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -195,7 +195,7 @@ public class LocalParameter : Parameter {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -261,7 +261,7 @@ public class LocalParameter : Parameter {
    * Constructs and returns a UnitDefinition that corresponds to the units
    * of this LocalParameter's value.
    *
-   * *
+   *
  * 
  * LocalParameters in SBML have an attribute ('units') for declaring the
  * units of measurement intended for the parameter's value.  <b>No
@@ -302,7 +302,7 @@ public class LocalParameter : Parameter {
 /**
    * Returns the libSBML type code for this SBML object.
    * 
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -328,7 +328,7 @@ public class LocalParameter : Parameter {
    * @return the SBML type code for this object:
    * @link libsbml#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER@endlink (default).
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke

@@ -742,7 +742,7 @@ public class Date : IDisposable {
    * href='http://www.w3.org/TR/NOTE-datetime'>W3C date format with time
    * zone offset</a>, used in RDF Dublin Core annotations within SBML.
    * 
-   * *
+   *
  * 
  * The date format expresses a date and time value as a string of the form
  * YYYY-MM-DDThh:mm:ssXHH:ZZ, where
@@ -895,7 +895,7 @@ public class Date : IDisposable {
    * href='http://www.w3.org/TR/NOTE-datetime'>W3C date format with time
    * zone offset</a>, used in RDF Dublin Core annotations within SBML.
    *
-   * *
+   *
  * 
  * The date format expresses a date and time value as a string of the form
  * YYYY-MM-DDThh:mm:ssXHH:ZZ, where
@@ -951,14 +951,12 @@ public class Date : IDisposable {
    *  
    * @param year a long integer representing the year.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setYear(long year) {
@@ -973,14 +971,12 @@ public class Date : IDisposable {
    * @param month a long integer representing the month; it must be in the
    * range 1&ndash;12 or an error will be signaled.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setMonth(long month) {
@@ -995,14 +991,12 @@ public class Date : IDisposable {
    * @param day a long integer representing the day; it must be in the
    * range 0&ndash;31 or an error will be signaled.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setDay(long day) {
@@ -1017,14 +1011,12 @@ public class Date : IDisposable {
    * @param hour a long integer representing the hour to set; it must be
    * in the range 0&ndash;23 or an error will be signaled.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setHour(long hour) {
@@ -1039,14 +1031,12 @@ public class Date : IDisposable {
    * @param minute a long integer representing the minute to set; it must
    * be in the range 0&ndash;59 or an error will be signaled.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setMinute(long minute) {
@@ -1061,14 +1051,12 @@ public class Date : IDisposable {
    * @param second a long integer representing the seconds; it must
    * be in the range 0&ndash;59 or an error will be signaled.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setSecond(long second) {
@@ -1085,14 +1073,12 @@ public class Date : IDisposable {
    * @param sign a long integer representing the sign of the offset, with
    * @c 0 signifying @c + and @c 1 signifying @c -.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setSignOffset(long sign) {
@@ -1108,14 +1094,12 @@ public class Date : IDisposable {
    * offset; it must be in the range 0&ndash;23 or an error will be
    * signaled.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setHoursOffset(long hoursOffset) {
@@ -1131,14 +1115,12 @@ public class Date : IDisposable {
    * offset; it must be in the range 0&ndash;59 or an error will be
    * signaled.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setMinutesOffset(long minutesOffset) {
@@ -1155,7 +1137,7 @@ public class Date : IDisposable {
    * href='http://www.w3.org/TR/NOTE-datetime'>W3C date format with time
    * zone offset</a>, used in RDF Dublin Core annotations within SBML.
    *
-   * *
+   *
  * 
  * The date format expresses a date and time value as a string of the form
  * YYYY-MM-DDThh:mm:ssXHH:ZZ, where
@@ -1200,14 +1182,12 @@ public class Date : IDisposable {
    *
    * @param date a string representing the date.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setDateAsString(string date) {

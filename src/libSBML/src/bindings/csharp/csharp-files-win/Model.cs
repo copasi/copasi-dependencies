@@ -430,7 +430,7 @@ public class Model : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -457,7 +457,7 @@ public class Model : SBase {
    * Creates a new Model using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -475,7 +475,7 @@ public class Model : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -818,7 +818,7 @@ public class Model : SBase {
    *
    * The string @p sid is copied.
    *
-   * *
+   *
  * 
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
@@ -843,14 +843,12 @@ public class Model : SBase {
    *
    * @param sid the string to use as the identifier of this Model
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setId(string sid) {
@@ -866,14 +864,12 @@ public class Model : SBase {
    *
    * @param name the new name for the Model
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setName(string name) {
@@ -889,14 +885,12 @@ public class Model : SBase {
    *
    * @param units the new substanceUnits for the Model
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -916,14 +910,12 @@ public class Model : SBase {
    *
    * @param units the new timeUnits for the Model
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -943,14 +935,12 @@ public class Model : SBase {
    *
    * @param units the new volumeUnits for the Model
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -970,14 +960,12 @@ public class Model : SBase {
    *
    * @param units the new areaUnits for the Model
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -997,14 +985,12 @@ public class Model : SBase {
    *
    * @param units the new lengthUnits for the Model
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -1024,14 +1010,12 @@ public class Model : SBase {
    *
    * @param units the new extentUnits for the Model
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -1051,14 +1035,12 @@ public class Model : SBase {
    *
    * @param units the new conversionFactor for the Model
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -1074,14 +1056,12 @@ public class Model : SBase {
 /**
    * Unsets the value of the 'id' attribute of this Model.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetId() {
@@ -1093,14 +1073,12 @@ public class Model : SBase {
 /**
    * Unsets the value of the 'name' attribute of this Model.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetName() {
@@ -1112,14 +1090,12 @@ public class Model : SBase {
 /**
    * Unsets the value of the 'substanceUnits' attribute of this Model.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The 'substanceUnits' attribute is available in 
@@ -1134,14 +1110,12 @@ public class Model : SBase {
 /**
    * Unsets the value of the 'timeUnits' attribute of this Model.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The 'timeUnits' attribute is available in 
@@ -1156,14 +1130,12 @@ public class Model : SBase {
 /**
    * Unsets the value of the 'volumeUnits' attribute of this Model.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The 'volumeUnits' attribute is available in 
@@ -1178,14 +1150,12 @@ public class Model : SBase {
 /**
    * Unsets the value of the 'areaUnits' attribute of this Model.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -1201,14 +1171,12 @@ public class Model : SBase {
 /**
    * Unsets the value of the 'lengthUnits' attribute of this Model.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -1224,14 +1192,12 @@ public class Model : SBase {
 /**
    * Unsets the value of the 'extentUnits' attribute of this Model.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -1247,14 +1213,12 @@ public class Model : SBase {
 /**
    * Unsets the value of the 'conversionFactor' attribute of this Model.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -1272,21 +1236,19 @@ public class Model : SBase {
    *
    * @param fd the FunctionDefinition to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -1313,21 +1275,19 @@ public class Model : SBase {
    *
    * @param ud the UnitDefinition object to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -1354,21 +1314,19 @@ public class Model : SBase {
    *
    * @param ct the CompartmentType object to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -1399,21 +1357,19 @@ public class Model : SBase {
    *
    * @param st the SpeciesType object to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -1454,7 +1410,7 @@ public class Model : SBase {
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -1481,21 +1437,19 @@ public class Model : SBase {
    *
    * @param s the Species object to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -1522,21 +1476,19 @@ public class Model : SBase {
    *
    * @param p the Parameter object to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -1563,21 +1515,19 @@ public class Model : SBase {
    *
    * @param ia the InitialAssignment object to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -1604,21 +1554,19 @@ public class Model : SBase {
    *
    * @param r the Rule object to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -1647,20 +1595,18 @@ public class Model : SBase {
    *
    * @param c the Constraint object to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -1687,21 +1633,19 @@ public class Model : SBase {
    *
    * @param r the Reaction object to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -1728,21 +1672,19 @@ public class Model : SBase {
    *
    * @param e the Event object to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -2037,7 +1979,7 @@ public class Model : SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    *
-   * *
+   *
  * 
  * The mechanism by which the last Reaction object was created and added
  * to this Model is not significant.  It could have been created in a
@@ -2066,7 +2008,7 @@ public class Model : SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    *
-   * *
+   *
  * 
  * The mechanism by which the last Reaction object was created and added
  * to this Model is not significant.  It could have been created in a
@@ -2096,7 +2038,7 @@ public class Model : SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    *
-   * *
+   *
  * 
  * The mechanism by which the last Reaction object was created and added
  * to this Model is not significant.  It could have been created in a
@@ -2125,7 +2067,7 @@ public class Model : SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    *
-   * *
+   *
  * 
  * The mechanism by which the last Reaction object was created and added
  * to this Model is not significant.  It could have been created in a
@@ -2154,7 +2096,7 @@ public class Model : SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    *
-   * *
+   *
  * 
  * The last KineticLaw object in this Model could have been created in a
  * variety of ways.  For example, it could have been added using
@@ -2185,7 +2127,7 @@ public class Model : SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    *
-   * *
+   *
  * 
  * The last KineticLaw object in this Model could have been created in a
  * variety of ways.  For example, it could have been added using
@@ -2232,7 +2174,7 @@ public class Model : SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    *
-   * *
+   *
  * 
  * The mechanism by which the last Event object in this model was created
  * is not significant.  It could have been created in a variety of ways,
@@ -2257,7 +2199,7 @@ public class Model : SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    *
-   * *
+   *
  * 
  * The mechanism by which the last Event object in this model was created
  * is not significant.  It could have been created in a variety of ways,
@@ -2282,7 +2224,7 @@ public class Model : SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    *
-   * *
+   *
  * 
  * The mechanism by which the last Event object in this model was created
  * is not significant.  It could have been created in a variety of ways,
@@ -2313,14 +2255,12 @@ public class Model : SBase {
    * @param annotation an XML structure that is to be used as the content
    * of the 'annotation' subelement of this object
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see appendAnnotation(XMLNode annotation)
    */ public new
@@ -2344,14 +2284,12 @@ public class Model : SBase {
    * @param annotation an XML string that is to be used as the content
    * of the 'annotation' subelement of this object
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see appendAnnotation(string annotation)
@@ -2373,14 +2311,12 @@ public class Model : SBase {
    * @param annotation an XML structure that is to be copied and appended
    * to the content of the 'annotation' subelement of this object
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see setAnnotation(XMLNode annotation)
@@ -3159,14 +3095,12 @@ public class Model : SBase {
    * <code>setModel(null)</code> on it, indirectly deleting itself.
    * Overridden from the SBase function since the parent is not a ListOf.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int removeFromParentAndDelete() {
@@ -3190,11 +3124,11 @@ public class Model : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c SIdRef type attribute value with another
  * value.
  *
- * *
+ *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -3226,11 +3160,11 @@ public class Model : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c UnitSIdRef type attribute value with
  * another value.
  *
- * *
+ *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
@@ -3273,8 +3207,14 @@ public class Model : SBase {
 
   
 /** */ /* libsbml-internal */ public
+ void convertL2ToL3(bool strict) {
+    libsbmlPINVOKE.Model_convertL2ToL3__SWIG_0(swigCPtr, strict);
+  }
+
+  
+/** */ /* libsbml-internal */ public
  void convertL2ToL3() {
-    libsbmlPINVOKE.Model_convertL2ToL3(swigCPtr);
+    libsbmlPINVOKE.Model_convertL2ToL3__SWIG_1(swigCPtr);
   }
 
   
@@ -3291,8 +3231,14 @@ public class Model : SBase {
 
   
 /** */ /* libsbml-internal */ public
+ void convertL3ToL1(bool strict) {
+    libsbmlPINVOKE.Model_convertL3ToL1__SWIG_0(swigCPtr, strict);
+  }
+
+  
+/** */ /* libsbml-internal */ public
  void convertL3ToL1() {
-    libsbmlPINVOKE.Model_convertL3ToL1(swigCPtr);
+    libsbmlPINVOKE.Model_convertL3ToL1__SWIG_1(swigCPtr);
   }
 
   
@@ -3369,8 +3315,14 @@ public class Model : SBase {
 
   
 /** */ /* libsbml-internal */ public
+ void dealWithModelUnits(bool strict) {
+    libsbmlPINVOKE.Model_dealWithModelUnits__SWIG_0(swigCPtr, strict);
+  }
+
+  
+/** */ /* libsbml-internal */ public
  void dealWithModelUnits() {
-    libsbmlPINVOKE.Model_dealWithModelUnits(swigCPtr);
+    libsbmlPINVOKE.Model_dealWithModelUnits__SWIG_1(swigCPtr);
   }
 
   
@@ -3385,6 +3337,18 @@ public class Model : SBase {
     libsbmlPINVOKE.Model_dealWithEvents(swigCPtr, strict);
   }
 
+  
+/** */ /* libsbml-internal */ public
+ void removeSpeciesTypes() {
+    libsbmlPINVOKE.Model_removeSpeciesTypes(swigCPtr);
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ void removeCompartmentTypes() {
+    libsbmlPINVOKE.Model_removeCompartmentTypes(swigCPtr);
+  }
+
   public override void connectToChild() {
     libsbmlPINVOKE.Model_connectToChild(swigCPtr);
   }
@@ -3393,7 +3357,7 @@ public class Model : SBase {
 /**
    * Returns the libSBML type code for this %SBML object.
    *
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -3419,7 +3383,7 @@ public class Model : SBase {
    * @return the SBML type code for this object:
    * @link libsbml#SBML_MODEL SBML_MODEL@endlink (default).
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke
@@ -3531,7 +3495,7 @@ public class Model : SBase {
    * Predicate returning @c true if all the required elements for this Model
    * object have been set.
    *
-   * @return a bool value indicating whether all the required
+   * @return a boolean value indicating whether all the required
    * elements for this object have been defined.
    */ public new
  bool hasRequiredElements() {
@@ -3994,7 +3958,7 @@ public class Model : SBase {
    * This method also calls the <code>appendFrom</code> method on all libSBML
    * plug-in objects.
    *
-   * *
+   *
  * 
  * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
  * via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate

@@ -25,7 +25,7 @@ namespace libsbml {
  * @if conly C@endif@if cpp C++; @endif@if java Java@endif@if python Python@endif lists,
  * so that it can provide the methods and features associated with SBase.
  *
- * *
+ *
  * 
  * The various ListOf___ @if conly structures @else classes@endif in SBML
  * are merely containers used for organizing the main components of an SBML
@@ -134,7 +134,7 @@ public class ListOf : SBase {
    * @param version the Version within the SBML Level; if not assigned,
    * defaults to the value of SBMLDocument::getDefaultVersion().
    *
-   * *
+   *
  * @note Bare ListOf @if conly structures @else objects@endif are
  * impossible to add to SBML models.  The ListOf
  * @if conly structure type@else class@endif is simply the base
@@ -142,7 +142,7 @@ public class ListOf : SBase {
  * libSBML.  Calling programs are not intended to create bare ListOf
  * @if conly structures @else objects@endif themselves.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -176,7 +176,7 @@ public class ListOf : SBase {
    * @param version the Version within the SBML Level; if not assigned,
    * defaults to the value of SBMLDocument::getDefaultVersion().
    *
-   * *
+   *
  * @note Bare ListOf @if conly structures @else objects@endif are
  * impossible to add to SBML models.  The ListOf
  * @if conly structure type@else class@endif is simply the base
@@ -184,7 +184,7 @@ public class ListOf : SBase {
  * libSBML.  Calling programs are not intended to create bare ListOf
  * @if conly structures @else objects@endif themselves.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -218,7 +218,7 @@ public class ListOf : SBase {
    * @param version the Version within the SBML Level; if not assigned,
    * defaults to the value of SBMLDocument::getDefaultVersion().
    *
-   * *
+   *
  * @note Bare ListOf @if conly structures @else objects@endif are
  * impossible to add to SBML models.  The ListOf
  * @if conly structure type@else class@endif is simply the base
@@ -226,7 +226,7 @@ public class ListOf : SBase {
  * libSBML.  Calling programs are not intended to create bare ListOf
  * @if conly structures @else objects@endif themselves.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -257,7 +257,7 @@ public class ListOf : SBase {
    * @param sbmlns the set of SBML namespaces that this ListOf should
    * contain.
    *
-   * *
+   *
  * @note Bare ListOf @if conly structures @else objects@endif are
  * impossible to add to SBML models.  The ListOf
  * @if conly structure type@else class@endif is simply the base
@@ -265,7 +265,7 @@ public class ListOf : SBase {
  * libSBML.  Calling programs are not intended to create bare ListOf
  * @if conly structures @else objects@endif themselves.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -320,14 +320,12 @@ public class ListOf : SBase {
    *
    * @param item the item to be added to the list.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see appendAndOwn(SBase item)
@@ -349,14 +347,12 @@ public class ListOf : SBase {
    *
    * @param item the item to be added to the list.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see append(SBase item)
@@ -376,14 +372,12 @@ public class ListOf : SBase {
    *
    * @param list a list of items to be added.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see append(SBase item)
@@ -405,14 +399,12 @@ public class ListOf : SBase {
    * @param location the location in the list where to insert the item.
    * @param item the item to be inserted to the list.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see insertAndOwn(int location, SBase item)
@@ -433,14 +425,12 @@ public class ListOf : SBase {
    * @param location the location where to insert the item
    * @param item the item to be inserted to the list
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see insert(int location, SBase item)
@@ -551,14 +541,12 @@ public class ListOf : SBase {
    * @if cpp Implementations of subclasses of ListOf may need to override
    * this method if different handling of child objects is needed.@endif
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public new
  int removeFromParentAndDelete() {
     int ret = libsbmlPINVOKE.ListOf_removeFromParentAndDelete(swigCPtr);
@@ -598,7 +586,7 @@ public class ListOf : SBase {
    * Returns the libSBML type code for this object, namely,
    * @link libsbml#SBML_LIST_OF SBML_LIST_OF@endlink.
    * 
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -628,7 +616,7 @@ public class ListOf : SBase {
    * contain.  Hence, one must call getItemTypeCode() to fully determine the
    * class of this SBML object.
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke
@@ -649,7 +637,7 @@ public class ListOf : SBase {
 /**
    * Get the type code of the objects contained in this ListOf.
    *
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all

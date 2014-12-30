@@ -301,10 +301,10 @@ foo:myattribute='7'
  * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}.
-   * This value is returned if any of the arguments are <code>null.</code>  To set an
-   * empty <code>prefix</code> and/or <code>name</code> value, use an empty string rather than 
-   * <code>null.</code>
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * &ndash; this value is returned if any of the arguments are <code>null.</code>  To
+   * set an empty <code>prefix</code> and/or <code>name</code> value, use an empty string rather
+   * than <code>null.</code>
    *
    * </ul> <p>
    * <p>
@@ -452,10 +452,10 @@ foo:myattribute='7'
  * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}.
-   * This value is returned if any of the arguments are <code>null.</code>  To set an
-   * empty <code>prefix</code> and/or <code>name</code> value, use an empty string rather than 
-   * <code>null.</code>
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * &ndash; this value is returned if any of the arguments are <code>null.</code>  To
+   * set an empty <code>prefix</code> and/or <code>name</code> value, use an empty string rather
+   * than <code>null.</code>
    *
    * </ul> <p>
    * <p>
@@ -603,10 +603,10 @@ foo:myattribute='7'
  * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}.
-   * This value is returned if any of the arguments are <code>null.</code>  To set an
-   * empty <code>prefix</code> and/or <code>name</code> value, use an empty string rather than 
-   * <code>null.</code>
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * &ndash; this value is returned if any of the arguments are <code>null.</code>  To
+   * set an empty <code>prefix</code> and/or <code>name</code> value, use an empty string rather
+   * than <code>null.</code>
    *
    * </ul> <p>
    * <p>
@@ -752,9 +752,10 @@ foo:myattribute='7'
  * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}. 
-   * This value is returned if any of the arguments are <code>null.</code>  To set an
-   * empty value for the attribute, use an empty string rather than <code>null.</code>
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * &ndash; this value is returned if any of the arguments are <code>null.</code>  To
+   * set an empty value for the attribute, use an empty string rather than 
+   * <code>null.</code>
    *
    * </ul> <p>
    * <p>

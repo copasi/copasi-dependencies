@@ -43,7 +43,7 @@ namespace libsbml {
  * way.  This class only provides facilities for tracking and manipulating
  * attributes and their prefix/URI/name/value components.
  *
- * *
+ *
  * @note Note that although XMLAttributes provides operations that can
  * manipulate attributes based on a numerical index, XML attributes are in
  * fact unordered when they appear in files and data streams.  The
@@ -178,7 +178,7 @@ public class XMLAttributes : IDisposable {
 /**
    * Adds an attribute to this list of attributes.
    *
-   * *
+   *
  * 
  * Some explanations are in order about the behavior of XMLAttributes with
  * respect to namespace prefixes and namespace URIs.  XMLAttributes does @em
@@ -283,20 +283,18 @@ foo:myattribute='7'
    * @param namespaceURI a string, the namespace URI of the attribute.
    * @param prefix a string, a prefix for the XML namespace.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink.
-   * This value is returned if any of the arguments are @c null.  To set an
-   * empty @p prefix and/or @p name value, use an empty string rather than @c
-   * null.
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * &ndash; this value is returned if any of the arguments are @c null.  To
+   * set an empty @p prefix and/or @p name value, use an empty string rather
+   * than @c null.
    *
-   * *
+   *
  * @note If an attribute with the same name and XML namespace URI already
  * exists in the list of attributes held by this XMLAttributes object, then
  * the previous value of that attribute will be replaced with the new value
@@ -307,10 +305,10 @@ foo:myattribute='7'
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    *
    * @see add(XMLTriple triple, string value)
-   * @see getIndex(string name, string uri) const
-   * @see getIndex(XMLTriple triple) const
-   * @see hasAttribute(string name, string uri) const
-   * @see hasAttribute(XMLTriple triple) const
+   * @see getIndex(string name, string uri) 
+   * @see getIndex(XMLTriple triple) 
+   * @see hasAttribute(string name, string uri) 
+   * @see hasAttribute(XMLTriple triple) 
    */ public
  int add(string name, string value, string namespaceURI, string prefix) {
     int ret = libsbmlPINVOKE.XMLAttributes_add__SWIG_0(swigCPtr, name, value, namespaceURI, prefix);
@@ -321,7 +319,7 @@ foo:myattribute='7'
 /**
    * Adds an attribute to this list of attributes.
    *
-   * *
+   *
  * 
  * Some explanations are in order about the behavior of XMLAttributes with
  * respect to namespace prefixes and namespace URIs.  XMLAttributes does @em
@@ -426,20 +424,18 @@ foo:myattribute='7'
    * @param namespaceURI a string, the namespace URI of the attribute.
    * @param prefix a string, a prefix for the XML namespace.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink.
-   * This value is returned if any of the arguments are @c null.  To set an
-   * empty @p prefix and/or @p name value, use an empty string rather than @c
-   * null.
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * &ndash; this value is returned if any of the arguments are @c null.  To
+   * set an empty @p prefix and/or @p name value, use an empty string rather
+   * than @c null.
    *
-   * *
+   *
  * @note If an attribute with the same name and XML namespace URI already
  * exists in the list of attributes held by this XMLAttributes object, then
  * the previous value of that attribute will be replaced with the new value
@@ -450,10 +446,10 @@ foo:myattribute='7'
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    *
    * @see add(XMLTriple triple, string value)
-   * @see getIndex(string name, string uri) const
-   * @see getIndex(XMLTriple triple) const
-   * @see hasAttribute(string name, string uri) const
-   * @see hasAttribute(XMLTriple triple) const
+   * @see getIndex(string name, string uri) 
+   * @see getIndex(XMLTriple triple) 
+   * @see hasAttribute(string name, string uri) 
+   * @see hasAttribute(XMLTriple triple) 
    */ public
  int add(string name, string value, string namespaceURI) {
     int ret = libsbmlPINVOKE.XMLAttributes_add__SWIG_1(swigCPtr, name, value, namespaceURI);
@@ -464,7 +460,7 @@ foo:myattribute='7'
 /**
    * Adds an attribute to this list of attributes.
    *
-   * *
+   *
  * 
  * Some explanations are in order about the behavior of XMLAttributes with
  * respect to namespace prefixes and namespace URIs.  XMLAttributes does @em
@@ -569,20 +565,18 @@ foo:myattribute='7'
    * @param namespaceURI a string, the namespace URI of the attribute.
    * @param prefix a string, a prefix for the XML namespace.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink.
-   * This value is returned if any of the arguments are @c null.  To set an
-   * empty @p prefix and/or @p name value, use an empty string rather than @c
-   * null.
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * &ndash; this value is returned if any of the arguments are @c null.  To
+   * set an empty @p prefix and/or @p name value, use an empty string rather
+   * than @c null.
    *
-   * *
+   *
  * @note If an attribute with the same name and XML namespace URI already
  * exists in the list of attributes held by this XMLAttributes object, then
  * the previous value of that attribute will be replaced with the new value
@@ -593,10 +587,10 @@ foo:myattribute='7'
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    *
    * @see add(XMLTriple triple, string value)
-   * @see getIndex(string name, string uri) const
-   * @see getIndex(XMLTriple triple) const
-   * @see hasAttribute(string name, string uri) const
-   * @see hasAttribute(XMLTriple triple) const
+   * @see getIndex(string name, string uri) 
+   * @see getIndex(XMLTriple triple) 
+   * @see hasAttribute(string name, string uri) 
+   * @see hasAttribute(XMLTriple triple) 
    */ public
  int add(string name, string value) {
     int ret = libsbmlPINVOKE.XMLAttributes_add__SWIG_2(swigCPtr, name, value);
@@ -607,7 +601,7 @@ foo:myattribute='7'
 /**
    * Adds an attribute to this list of attributes.
    *
-   * *
+   *
  * 
  * Some explanations are in order about the behavior of XMLAttributes with
  * respect to namespace prefixes and namespace URIs.  XMLAttributes does @em
@@ -710,19 +704,18 @@ foo:myattribute='7'
    * @param triple an XMLTriple object describing the attribute to be added.
    * @param value a string, the value of the attribute.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink. 
-   * This value is returned if any of the arguments are @c null.  To set an
-   * empty value for the attribute, use an empty string rather than @c null.
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   * &ndash; this value is returned if any of the arguments are @c null.  To
+   * set an empty value for the attribute, use an empty string rather than @c
+   * null.
    *
-   * *
+   *
  * @note If an attribute with the same name and XML namespace URI already
  * exists in the list of attributes held by this XMLAttributes object, then
  * the previous value of that attribute will be replaced with the new value
@@ -731,10 +724,10 @@ foo:myattribute='7'
  *
    *
    * @see add(string name, string value, string namespaceURI, string prefix)
-   * @see getIndex(string name, string uri) const
-   * @see getIndex(XMLTriple triple) const
-   * @see hasAttribute(string name, string uri) const
-   * @see hasAttribute(XMLTriple triple) const
+   * @see getIndex(string name, string uri) 
+   * @see getIndex(XMLTriple triple) 
+   * @see hasAttribute(string name, string uri) 
+   * @see hasAttribute(XMLTriple triple) 
    */ public
  int add(XMLTriple triple, string value) {
     int ret = libsbmlPINVOKE.XMLAttributes_add__SWIG_3(swigCPtr, XMLTriple.getCPtr(triple), value);
@@ -755,20 +748,18 @@ foo:myattribute='7'
    *
    * @param n an integer the index of the resource to be deleted
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
    * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute at the
    * given index @p n.
    *
-   * *
+   *
  * @note Note that although XMLAttributes provides operations that can
  * manipulate attributes based on a numerical index, XML attributes are in
  * fact unordered when they appear in files and data streams.  The
@@ -799,14 +790,12 @@ foo:myattribute='7'
    *
    * @param uri a string, the namespace URI of the attribute to be removed.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
    * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute with the
@@ -829,14 +818,12 @@ foo:myattribute='7'
    *
    * @param uri a string, the namespace URI of the attribute to be removed.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
    * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute with the
@@ -856,14 +843,12 @@ foo:myattribute='7'
    *
    * @param triple an XMLTriple describing the attribute to be removed.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
    * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute matching
@@ -882,14 +867,12 @@ foo:myattribute='7'
 /**
    * Removes all attributes in this XMLAttributes object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see remove(int n)
    * @see remove(XMLTriple triple)
@@ -908,8 +891,8 @@ foo:myattribute='7'
    * multiple attributes with the same local @p name but different
    * namespaces, this method will return the first one found.  Callers should
    * use the more specific methods
-   * XMLAttributes::getIndex(string name, string uri) const
-   * or XMLAttributes::getIndex(XMLTriple triple) const
+   * XMLAttributes::getIndex(string name, string uri) 
+   * or XMLAttributes::getIndex(XMLTriple triple) 
    * to find attributes in particular namespaces.
    *
    * @param name a string, the name of the attribute whose index is begin
@@ -918,8 +901,8 @@ foo:myattribute='7'
    * @return the index of an attribute with the given local name, or
    * <code>-1</code> if no such attribute is present.
    *
-   * @see hasAttribute(string name, string uri) const
-   * @see hasAttribute(XMLTriple triple) const
+   * @see hasAttribute(string name, string uri) 
+   * @see hasAttribute(XMLTriple triple) 
    */ public
  int getIndex(string name) {
     int ret = libsbmlPINVOKE.XMLAttributes_getIndex__SWIG_0(swigCPtr, name);
@@ -937,8 +920,8 @@ foo:myattribute='7'
    * @return the index of an attribute with the given local name and
    * namespace URI, or <code>-1</code> if no such attribute is present.
    *
-   * @see hasAttribute(string name, string uri) const
-   * @see hasAttribute(XMLTriple triple) const
+   * @see hasAttribute(string name, string uri) 
+   * @see hasAttribute(XMLTriple triple) 
    */ public
  int getIndex(string name, string uri) {
     int ret = libsbmlPINVOKE.XMLAttributes_getIndex__SWIG_1(swigCPtr, name, uri);
@@ -954,8 +937,8 @@ foo:myattribute='7'
    * @return the index of an attribute described by the given XMLTriple
    * object, or <code>-1</code> if no such attribute is present.
    *
-   * @see hasAttribute(string name, string uri) const
-   * @see hasAttribute(XMLTriple triple) const
+   * @see hasAttribute(string name, string uri) 
+   * @see hasAttribute(XMLTriple triple) 
    */ public
  int getIndex(XMLTriple triple) {
     int ret = libsbmlPINVOKE.XMLAttributes_getIndex__SWIG_2(swigCPtr, XMLTriple.getCPtr(triple));
@@ -998,7 +981,7 @@ foo:myattribute='7'
    *
    * @return the local name of the <em>n</em>th attribute.
    *
-   * *
+   *
  * @note If @p index is out of range, this method will return an empty
  * string.  Callers should use XMLAttributes::getLength() to check the number
  * of attributes contained in this object or XMLAttributes::hasAttribute(int
@@ -1007,7 +990,7 @@ foo:myattribute='7'
  *
  *
    *
-   * *
+   *
  * @note Note that although XMLAttributes provides operations that can
  * manipulate attributes based on a numerical index, XML attributes are in
  * fact unordered when they appear in files and data streams.  The
@@ -1021,7 +1004,7 @@ foo:myattribute='7'
  *
    *
    * @see getLength()
-   * @see hasAttribute(int index) const
+   * @see hasAttribute(int index) 
    */ public
  string getName(int index) {
     string ret = libsbmlPINVOKE.XMLAttributes_getName(swigCPtr, index);
@@ -1038,7 +1021,7 @@ foo:myattribute='7'
    *
    * @return the XML namespace prefix of the <em>n</em>th attribute.
    *
-   * *
+   *
  * @note If @p index is out of range, this method will return an empty
  * string.  Callers should use XMLAttributes::getLength() to check the number
  * of attributes contained in this object or XMLAttributes::hasAttribute(int
@@ -1047,7 +1030,7 @@ foo:myattribute='7'
  *
  *
    *
-   * *
+   *
  * @note Note that although XMLAttributes provides operations that can
  * manipulate attributes based on a numerical index, XML attributes are in
  * fact unordered when they appear in files and data streams.  The
@@ -1061,7 +1044,7 @@ foo:myattribute='7'
  *
    *
    * @see getLength()
-   * @see hasAttribute(int index) const
+   * @see hasAttribute(int index) 
    */ public
  string getPrefix(int index) {
     string ret = libsbmlPINVOKE.XMLAttributes_getPrefix(swigCPtr, index);
@@ -1078,7 +1061,7 @@ foo:myattribute='7'
    *
    * @return the prefixed name of the <em>n</em>th attribute.
    *
-   * *
+   *
  * @note If @p index is out of range, this method will return an empty
  * string.  Callers should use XMLAttributes::getLength() to check the number
  * of attributes contained in this object or XMLAttributes::hasAttribute(int
@@ -1087,7 +1070,7 @@ foo:myattribute='7'
  *
  *
    *
-   * *
+   *
  * @note Note that although XMLAttributes provides operations that can
  * manipulate attributes based on a numerical index, XML attributes are in
  * fact unordered when they appear in files and data streams.  The
@@ -1101,7 +1084,7 @@ foo:myattribute='7'
  *
    *
    * @see getLength()
-   * @see hasAttribute(int index) const
+   * @see hasAttribute(int index) 
    */ public
  string getPrefixedName(int index) {
     string ret = libsbmlPINVOKE.XMLAttributes_getPrefixedName(swigCPtr, index);
@@ -1118,7 +1101,7 @@ foo:myattribute='7'
    *
    * @return the XML namespace URI of the <em>n</em>th attribute.
    *
-   * *
+   *
  * @note If @p index is out of range, this method will return an empty
  * string.  Callers should use XMLAttributes::getLength() to check the number
  * of attributes contained in this object or XMLAttributes::hasAttribute(int
@@ -1127,7 +1110,7 @@ foo:myattribute='7'
  *
  *
    *
-   * *
+   *
  * @note Note that although XMLAttributes provides operations that can
  * manipulate attributes based on a numerical index, XML attributes are in
  * fact unordered when they appear in files and data streams.  The
@@ -1141,7 +1124,7 @@ foo:myattribute='7'
  *
    *
    * @see getLength()
-   * @see hasAttribute(int index) const
+   * @see hasAttribute(int index) 
    */ public
  string getURI(int index) {
     string ret = libsbmlPINVOKE.XMLAttributes_getURI(swigCPtr, index);
@@ -1157,7 +1140,7 @@ foo:myattribute='7'
    *
    * @return the XML value of the <em>n</em>th attribute.
    *
-   * *
+   *
  * @note If @p index is out of range, this method will return an empty
  * string.  Callers should use XMLAttributes::getLength() to check the number
  * of attributes contained in this object or XMLAttributes::hasAttribute(int
@@ -1166,7 +1149,7 @@ foo:myattribute='7'
  *
  *
    *
-   * *
+   *
  * @note Note that although XMLAttributes provides operations that can
  * manipulate attributes based on a numerical index, XML attributes are in
  * fact unordered when they appear in files and data streams.  The
@@ -1180,7 +1163,7 @@ foo:myattribute='7'
  *
    *
    * @see getLength()
-   * @see hasAttribute(int index) const
+   * @see hasAttribute(int index) 
    */ public
  string getValue(int index) {
     string ret = libsbmlPINVOKE.XMLAttributes_getValue__SWIG_0(swigCPtr, index);
@@ -1199,18 +1182,18 @@ foo:myattribute='7'
    * @note If an attribute with the given local @p name does not exist in
    * this XMLAttributes object, this method will return an empty string.
    * Callers can use
-   * XMLAttributes::hasAttribute(string name, string uri) const
+   * XMLAttributes::hasAttribute(string name, string uri) 
    * to test for an attribute's existence.  This method also does not check
    * the XML namespace of the named attribute.  Thus, if there are multiple
    * attributes with the same local @p name but different namespaces, this
    * method will return the value of the first such attribute found.  Callers
    * should use the more specific methods
-   * XMLAttributes::getIndex(string name, string uri) const
+   * XMLAttributes::getIndex(string name, string uri) 
    * or XMLAttributes::getIndex(XMLTriple triple) to find
    * attributes in particular namespaces.
    *
-   * @see hasAttribute(string name, string uri) const
-   * @see hasAttribute(XMLTriple triple) const
+   * @see hasAttribute(string name, string uri) 
+   * @see hasAttribute(XMLTriple triple) 
    */ public
  string getValue(string name) {
     string ret = libsbmlPINVOKE.XMLAttributes_getValue__SWIG_1(swigCPtr, name);
@@ -1229,11 +1212,11 @@ foo:myattribute='7'
    * @note If an attribute with the given @p name and namespace @p uri does
    * not exist in this XMLAttributes object, this method will return an empty
    * string.  Callers can use
-   * XMLAttributes::hasAttribute(string name, string uri) const
+   * XMLAttributes::hasAttribute(string name, string uri) 
    * to test for an attribute's existence.
    *
-   * @see hasAttribute(string name, string uri) const
-   * @see hasAttribute(XMLTriple triple) const
+   * @see hasAttribute(string name, string uri) 
+   * @see hasAttribute(XMLTriple triple) 
    */ public
  string getValue(string name, string uri) {
     string ret = libsbmlPINVOKE.XMLAttributes_getValue__SWIG_2(swigCPtr, name, uri);
@@ -1252,11 +1235,11 @@ foo:myattribute='7'
    * @note If an attribute with the properties given by @p triple does not
    * exist in this XMLAttributes object, this method will return an empty
    * string.  Callers can use
-   * XMLAttributes::hasAttribute(string name, string uri) const
+   * XMLAttributes::hasAttribute(string name, string uri) 
    * to test for an attribute's existence.
    *
-   * @see hasAttribute(string name, string uri) const
-   * @see hasAttribute(XMLTriple triple) const
+   * @see hasAttribute(string name, string uri) 
+   * @see hasAttribute(XMLTriple triple) 
    */ public
  string getValue(XMLTriple triple) {
     string ret = libsbmlPINVOKE.XMLAttributes_getValue__SWIG_3(swigCPtr, XMLTriple.getCPtr(triple));
@@ -1273,7 +1256,7 @@ foo:myattribute='7'
    * @return @c true if an attribute with the given index exists in this
    * XMLAttributes object, @c false otherwise.
    *
-   * *
+   *
  * @note Note that although XMLAttributes provides operations that can
  * manipulate attributes based on a numerical index, XML attributes are in
  * fact unordered when they appear in files and data streams.  The

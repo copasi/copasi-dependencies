@@ -17,7 +17,7 @@ package org.sbml.libsbml;
  * within the model, the list must not be empty; that is, it must have
  * length one or more.  The following are the components and lists
  * permitted in different Levels and Versions of SBML in
- * version 5.11.0
+ * version 5.11.1
  * of libSBML:
  * <ul>
  * <li> In SBML Level 1, the components are: {@link UnitDefinition}, {@link Compartment},
@@ -126,7 +126,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <h2>Consistency and adherence to SBML specifications</h2>
  <p>
  * To make it easier for applications to do whatever they need,
- * libSBML version 5.11.0
+ * libSBML version 5.11.1
  * is relatively lax when it comes to enforcing correctness and
  * completeness of models <em>during</em> model construction and editing.
  * Essentially, libSBML <em>will</em> <em>not</em> in most cases check automatically
@@ -2976,8 +2976,14 @@ public class Model extends SBase {
 
   
 /** * @internal */ public
+ void convertL2ToL3(boolean strict) {
+    libsbmlJNI.Model_convertL2ToL3__SWIG_0(swigCPtr, this, strict);
+  }
+
+  
+/** * @internal */ public
  void convertL2ToL3() {
-    libsbmlJNI.Model_convertL2ToL3(swigCPtr, this);
+    libsbmlJNI.Model_convertL2ToL3__SWIG_1(swigCPtr, this);
   }
 
   
@@ -2994,8 +3000,14 @@ public class Model extends SBase {
 
   
 /** * @internal */ public
+ void convertL3ToL1(boolean strict) {
+    libsbmlJNI.Model_convertL3ToL1__SWIG_0(swigCPtr, this, strict);
+  }
+
+  
+/** * @internal */ public
  void convertL3ToL1() {
-    libsbmlJNI.Model_convertL3ToL1(swigCPtr, this);
+    libsbmlJNI.Model_convertL3ToL1__SWIG_1(swigCPtr, this);
   }
 
   
@@ -3072,8 +3084,14 @@ public class Model extends SBase {
 
   
 /** * @internal */ public
+ void dealWithModelUnits(boolean strict) {
+    libsbmlJNI.Model_dealWithModelUnits__SWIG_0(swigCPtr, this, strict);
+  }
+
+  
+/** * @internal */ public
  void dealWithModelUnits() {
-    libsbmlJNI.Model_dealWithModelUnits(swigCPtr, this);
+    libsbmlJNI.Model_dealWithModelUnits__SWIG_1(swigCPtr, this);
   }
 
   
@@ -3086,6 +3104,18 @@ public class Model extends SBase {
 /** * @internal */ public
  void dealWithEvents(boolean strict) {
     libsbmlJNI.Model_dealWithEvents(swigCPtr, this, strict);
+  }
+
+  
+/** * @internal */ public
+ void removeSpeciesTypes() {
+    libsbmlJNI.Model_removeSpeciesTypes(swigCPtr, this);
+  }
+
+  
+/** * @internal */ public
+ void removeCompartmentTypes() {
+    libsbmlJNI.Model_removeCompartmentTypes(swigCPtr, this);
   }
 
   public void connectToChild() {

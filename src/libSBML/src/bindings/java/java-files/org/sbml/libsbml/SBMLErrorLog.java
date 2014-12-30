@@ -325,6 +325,16 @@ public class SBMLErrorLog extends XMLErrorLog {
 
   
 /**
+   * Removes all errors having errorId from the {@link SBMLError} list.
+   <p>
+   * @param errorId the error identifier of the error to be removed.
+   */ public
+ void removeAll(long errorId) {
+    libsbmlJNI.SBMLErrorLog_removeAll(swigCPtr, this, errorId);
+  }
+
+  
+/**
    * Returns true if {@link SBMLErrorLog} contains an errorId
    <p>
    * @param errorId the error identifier of the error to be found.

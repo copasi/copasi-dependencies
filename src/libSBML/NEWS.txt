@@ -1,6 +1,94 @@
            libSBML NEWS -- History of user-visible changes
 
+
+====================================================================
+5.11.1 (Current SVN)
+====================================================================
+
+STABLE RELEASE
+
+* New features
+
+  - Functions have been added to allow users to determine the
+    number of SBML L3 packages within a document that the build
+    of libSBML does not support.
+
+  - The StripPackageConverter has a new option 'stripAllUnrecognized'
+    which is set to true will strip all SBML L3 packages that are
+    not supported by the build of libSBML being used.
+
+  - The XMLErrorLog::remove(unsigned int errorId) function only removes
+    the first instance of the error with the matching identifier. A new
+    function removeAll(unsigned int errorId) has been added that will 
+    remove all instances of the error with the given id.
+
+
 	
+  - 'comp' package-specific updates:
+  - 'fbc' package-specific updates:
+  - 'layout' package-specific updates:
+  - 'qual' package-specific updates:
+
+* Bug fixes
+
+  - A stack overflow could occur when libSBML was built with certain 
+    compilers on certain platforms. We have eliminated this problem
+    from the situations in which we can replicate it. The issue 
+    occurred when performing intensive validation.
+
+  - 'comp' package-specific bug fixes:
+  - 'fbc' package-specific bug fixes:
+  - 'layout' package-specific bug fixes:
+  - 'qual' package-specific bug fixes:
+
+* Configuration/build system changes
+
+
+* Miscellaneous
+
+
+EXPERIMENTAL RELEASE
+
+* New features
+
+ - Support for the SBML Level 2 Version 5 Release 1 (Release Candidate)
+   specification has been added.  Additions to libSBML include:
+     - new API for adding Nested Annotations used on 
+       the existing CVTerm object:
+         int addNestedCVTerm(const CVTerm* term)
+         CVTerm* removeNestedCVTerm(unsigned int n)
+         unsigned int getNumNestedCVTerms()
+         CVTerm* getNestedCVTerm(unsigned int n)
+         List* getListNestdCVTerms()
+     - new and changed validation rules as in the specification
+     - the ability to convert core SBML to and from L2V5
+
+
+
+  - 'arrays' package-specific updates:
+  - 'distrib' package-specific updates:
+  - 'dyn' package-specific updates:
+  - 'groups' package-specific updates:
+  - 'multi' package-specific updates:
+  - 'render' package-specific updates:
+  - 'req' package-specific updates:
+  - 'spatial' package-specific updates:
+
+    - Sourceforge libsbml Tracker #387: The C# bindings for spatial 
+      were not working as expected. These have been fixed. Thanks to 
+      Harold GÃ³mez for reporting this.
+
+ * Bug fixes
+ 
+  - 'arrays' package-specific bug fixes:
+  - 'distrib' package-specific bug fixes:
+  - 'dyn' package-specific bug fixes:
+  - 'groups' package-specific bug fixes:
+  - 'multi' package-specific bug fixes:
+  - 'render' package-specific bug fixes:
+  - 'req' package-specific bug fixes:
+  - 'spatial' package-specific bug fixes:
+		   
 ====================================================================
 5.11.0 (2014-11-27)
 ====================================================================
@@ -240,7 +328,7 @@ STABLE RELEASE
     
   - LibSBML incorrectly reported the units of 'pi' as radians. This
     has been corrected to report 'dimensionless'.  Thanks to Matthias
-    König for reporting this.
+    KÃ¶nig for reporting this.
 
   - The L3 parser did not recognize 'arcsinh' or 'asinh' as valid
     built-in functions.  This has been fixed.
@@ -1637,16 +1725,16 @@ STABLE RELEASE
     Line numbers were not being reported as accurately for L2 models 
     as for L3 models. We have overviewed all the code relating
     to line numbers and improved the accuracy and consistency
-    of line numbers reported. Thanks to Raimund Rönn for the report.  
+    of line numbers reported. Thanks to Raimund RÃ¶nn for the report.  
 
   - Tracker issue #3471902
     The documentation for the readSBMLFromString function claimed it
     prepend the xml encoding if it was not present. In fact, the 
     function did not do this. This has been corrected. Thanks to
-    Raimund Rönn for reporting it.  
+    Raimund RÃ¶nn for reporting it.  
     
   - Tracker issue #3466104
-    Fixed inaccuracies in the documentation. Thanks to Raimund Rönn
+    Fixed inaccuracies in the documentation. Thanks to Raimund RÃ¶nn
     for his careful reading and taking the time to report the errors.
     
   - Validation failed to notice that csymbol avogadro was not valid
@@ -1823,10 +1911,10 @@ STABLE RELEASE
   - Tracker issue #3461400
     Writing out an L2 model with Layout annotation caused duplicate
     annotations to be written out.  This has been fixed.  Thanks to
-    Raimund Rönn for reporting the problem.
+    Raimund RÃ¶nn for reporting the problem.
 
   - Tracker issue #3462055  
-    A couple of typos have been corrected.  Thanks to Raimund Rönn 
+    A couple of typos have been corrected.  Thanks to Raimund RÃ¶nn 
     for taking the time to report these.
        
   - The documentation for Python did not omit internal libSBML

@@ -56,7 +56,7 @@ namespace libsbml {
  * units for parameters.
  * </ul>
  *
- * The Parameter structure has another bool attribute named 'constant'
+ * The Parameter structure has another boolean attribute named 'constant'
  * that is used to indicate whether the parameter's value can vary during a
  * simulation.  (In SBML Level&nbsp;3, the attribute is mandatory and must
  * be given a value; in SBML Levels below Level&nbsp;3, the attribute is
@@ -94,7 +94,7 @@ namespace libsbml {
  * to confusion among @em some subset of users.  Perhaps it would have been
  * better to have two constructs, one called @em constants and the other
  * called @em variables.  The current approach in SBML is simply more
- * parsimonious, using a single Parameter construct with the bool flag
+ * parsimonious, using a single Parameter construct with the boolean flag
  * 'constant' indicating which flavor it is.  In any case, readers are
  * implored to look past their particular definition of a @em parameter and
  * simply view SBML's Parameter as a single mechanism for defining both
@@ -171,7 +171,7 @@ public class Parameter : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -198,7 +198,7 @@ public class Parameter : SBase {
    * Creates a new Parameter using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -224,7 +224,7 @@ public class Parameter : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -285,7 +285,7 @@ public class Parameter : SBase {
    *
    * @see getConstant()
    * @see isSetConstant()
-   * @see setConstant(@if java bool@endif)
+   * @see setConstant(@if java boolean@endif)
    */ public
  void initDefaults() {
     libsbmlPINVOKE.Parameter_initDefaults(swigCPtr);
@@ -348,7 +348,7 @@ public class Parameter : SBase {
    * @return the value of the 'units' attribute of this Parameter, as a
    * string.  An empty string indicates that no units have been assigned.
    *
-   * *
+   *
  * @note There is an important distinction to be made between <em>no units
  * assigned</em>, and assuming a value without units has any specific unit
  * such as <code>dimensionless</code>.  In SBML, default units are never
@@ -375,7 +375,7 @@ public class Parameter : SBase {
    * @return @c true if this Parameter is declared as being constant,
    * @c false otherwise.
    *
-   * *
+   *
  * @note Readers who view the documentation for LocalParameter may be
  * confused about the presence of this method.  LibSBML derives
  * LocalParameter from Parameter; however, this does not precisely match
@@ -392,7 +392,7 @@ public class Parameter : SBase {
  *
    * 
    * @see isSetConstant()
-   * @see setConstant(@if java bool@endif)
+   * @see setConstant(@if java boolean@endif)
    */ public new
  bool getConstant() {
     bool ret = libsbmlPINVOKE.Parameter_getConstant(swigCPtr);
@@ -463,7 +463,7 @@ public class Parameter : SBase {
    * @return @c true if the 'units' attribute of this Parameter is
    * set, @c false otherwise.
    *
-   * *
+   *
  * @note There is an important distinction to be made between <em>no units
  * assigned</em>, and assuming a value without units has any specific unit
  * such as <code>dimensionless</code>.  In SBML, default units are never
@@ -487,7 +487,7 @@ public class Parameter : SBase {
    * @return @c true if the 'constant' attribute of this Parameter is
    * set, @c false otherwise.
    *
-   * *
+   *
  * @note Readers who view the documentation for LocalParameter may be
  * confused about the presence of this method.  LibSBML derives
  * LocalParameter from Parameter; however, this does not precisely match
@@ -504,7 +504,7 @@ public class Parameter : SBase {
  *
    *
    * @see getConstant()
-   * @see setConstant(@if java bool@endif)
+   * @see setConstant(@if java boolean@endif)
    */ public new
  bool isSetConstant() {
     bool ret = libsbmlPINVOKE.Parameter_isSetConstant(swigCPtr);
@@ -517,7 +517,7 @@ public class Parameter : SBase {
    *
    * The string @p sid is copied.
    *
-   * *
+   *
  * 
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
@@ -542,14 +542,12 @@ public class Parameter : SBase {
    *
    * @param sid the string to use as the identifier of this Parameter
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setId(string sid) {
@@ -565,14 +563,12 @@ public class Parameter : SBase {
    *
    * @param name the new name for the Parameter
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setName(string name) {
@@ -587,14 +583,12 @@ public class Parameter : SBase {
    *
    * @param value a @c double, the value to assign
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setValue(double value) {
     int ret = libsbmlPINVOKE.Parameter_setValue(swigCPtr, value);
@@ -609,14 +603,12 @@ public class Parameter : SBase {
    * @param units a string, the identifier of the units to assign to this
    * Parameter instance
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setUnits(string units) {
@@ -626,23 +618,21 @@ public class Parameter : SBase {
 
   
 /**
-   * Sets the 'constant' attribute of this Parameter to the given bool
+   * Sets the 'constant' attribute of this Parameter to the given boolean
    * @p flag.
    *
-   * @param flag a bool, the value for the 'constant' attribute of this
+   * @param flag a boolean, the value for the 'constant' attribute of this
    * Parameter instance
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
-   * *
+   *
  * @note Readers who view the documentation for LocalParameter may be
  * confused about the presence of this method.  LibSBML derives
  * LocalParameter from Parameter; however, this does not precisely match
@@ -670,14 +660,12 @@ public class Parameter : SBase {
 /**
    * Unsets the value of the 'name' attribute of this Parameter.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetName() {
@@ -689,14 +677,12 @@ public class Parameter : SBase {
 /**
    * Unsets the 'value' attribute of this Parameter instance.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * In SBML Level&nbsp;1 Version&nbsp;1, parameters are required to have
    * values and therefore, the value of a Parameter <b>should always be
@@ -712,14 +698,12 @@ public class Parameter : SBase {
 /**
    * Unsets the 'units' attribute of this Parameter instance.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetUnits() {
@@ -770,7 +754,7 @@ public class Parameter : SBase {
 /**
    * Returns the libSBML type code for this SBML object.
    * 
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -796,7 +780,7 @@ public class Parameter : SBase {
    * @return the SBML type code for this object:
    * @link libsbml#SBML_PARAMETER SBML_PARAMETER@endlink (default).
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke
@@ -846,7 +830,7 @@ public class Parameter : SBase {
 /**
    * Renames all the @c UnitSIdRef attributes on this element.
    *
-   * *
+   *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was

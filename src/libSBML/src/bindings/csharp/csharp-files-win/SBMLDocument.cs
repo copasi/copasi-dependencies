@@ -118,10 +118,10 @@ namespace libsbml {
  * @endif@if java The checks performed by SBMLDocument::checkInternalConsistency() are
  * hardwired and cannot be changed by calling programs, but the validation
  * performed by SBMLDocument::checkConsistency() is under program control
- * using the method SBMLDocument::setConsistencyChecks(int categ, bool
+ * using the method SBMLDocument::setConsistencyChecks(int categ, boolean
  * onoff).  Applications can selectively disable specific kinds of checks
  * that they may not be interested by calling
- * SBMLDocument::setConsistencyChecks(int categ, bool onoff) with
+ * SBMLDocument::setConsistencyChecks(int categ, boolean onoff) with
  * appropriate parameters.
  * @endif
  *
@@ -136,7 +136,7 @@ namespace libsbml {
  * @li Call SBMLDocument::checkInternalConsistency(), then inquire about
  * the results by calling SBMLDocument::getNumErrors()
  *
- * @li Call @if java SBMLDocument::setConsistencyChecks(int categ, bool
+ * @li Call @if java SBMLDocument::setConsistencyChecks(int categ, boolean
  * onoff) @else SBMLDocument::setConsistencyChecks() @endif to configure
  * which checks will be performed by SBMLDocument::checkConsistency()
  *
@@ -150,7 +150,7 @@ namespace libsbml {
  * libSBML upon reading the content, so you only need to inquire about the
  * results by using SBMLDocument::getNumErrors()
  * 
- * @li Call @if java SBMLDocument::setConsistencyChecks(int categ, bool
+ * @li Call @if java SBMLDocument::setConsistencyChecks(int categ, boolean
  * onoff) @else SBMLDocument::setConsistencyChecks() @endif to configure
  * which checks are performed by SBMLDocument::checkConsistency()
  * 
@@ -165,15 +165,15 @@ namespace libsbml {
  *
  * LibSBML provides facilities for limited translation of SBML between
  * Levels and Versions of the SBML specifications.  The method for doing is
- * is @if java SBMLDocument::setLevelAndVersion(long lev, long ver, bool strict) @else setLevelAndVersion() @endif.  In 
+ * is @if java SBMLDocument::setLevelAndVersion(long lev, long ver, boolean strict) @else setLevelAndVersion() @endif.  In 
  * general, models can be converted upward without difficulty (e.g., from
  * SBML Level&nbsp;1 to Level&nbsp;2, or from an earlier Version of
  * Level&nbsp;2 to the latest Version of Level&nbsp;2).  Sometimes models
  * can be translated downward as well, if they do not use constructs
  * specific to more advanced Levels of SBML.
  *
- * Calling @if java SBMLDocument::setLevelAndVersion(long lev, long ver, bool strict) @else SBMLDocument::setLevelAndVersion() @endif will not @em necessarily lead
- * to a successful conversion.  The method will return a bool value
+ * Calling @if java SBMLDocument::setLevelAndVersion(long lev, long ver, boolean strict) @else SBMLDocument::setLevelAndVersion() @endif will not @em necessarily lead
+ * to a successful conversion.  The method will return a boolean value
  * to indicate success or failure.  Callers must check the error log (see 
  * next section) attached to the SBMLDocument object after calling
  * @if java SBMLDocument::setLevelAndVersion(long lev, long ver) @else SBMLDocument::setLevelAndVersion() @endif in order to assess whether any
@@ -283,7 +283,7 @@ public class SBMLDocument : SBase {
 /**
    * The default SBML Level of new SBMLDocument objects.
    *
-   * *
+   *
  * 
  * This 'default Level' corresponds to the most recent SBML specification
  * Level available at the time libSBML version @htmlinclude
@@ -294,7 +294,7 @@ public class SBMLDocument : SBase {
    *
    * @return an integer indicating the most recent SBML specification Level
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -313,7 +313,7 @@ public class SBMLDocument : SBase {
 /**
    * The default Version of new SBMLDocument objects.
    *
-   * *
+   *
  * 
  * This 'default Version' corresponds to the most recent Version within the
  * most recent Level of SBML available at the time libSBML version
@@ -325,7 +325,7 @@ public class SBMLDocument : SBase {
    * @return an integer indicating the most recent SBML specification
    * Version
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -353,13 +353,13 @@ public class SBMLDocument : SBase {
    * object has no associated XML attributes, including (but not limited
    * to) an XML namespace declaration.  The XML namespace declaration is
    * not added until the model is written out, <em>or</em> the method
-   * SBMLDocument::setLevelAndVersion(@if java long, long, bool@endif)
+   * SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
    * is called.  This may be important to keep in mind
    * if an application needs to add additional XML namespace declarations
    * on the <code>&lt;sbml&gt;</code> element.  Application writers should
    * either provide values for @p level and @p version on the call to this
    * constructor, or else call
-   * SBMLDocument::setLevelAndVersion(@if java long, long, bool@endif)
+   * SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
    * shortly after creating the SBMLDocument object.
    *
    * @param level an integer for the SBML Level
@@ -373,7 +373,7 @@ public class SBMLDocument : SBase {
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    *
-   * @see SBMLDocument::setLevelAndVersion(@if java long, long, bool@endif)
+   * @see SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
    * @see getDefaultLevel()
    * @see getDefaultVersion()
    */ public
@@ -394,13 +394,13 @@ public class SBMLDocument : SBase {
    * object has no associated XML attributes, including (but not limited
    * to) an XML namespace declaration.  The XML namespace declaration is
    * not added until the model is written out, <em>or</em> the method
-   * SBMLDocument::setLevelAndVersion(@if java long, long, bool@endif)
+   * SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
    * is called.  This may be important to keep in mind
    * if an application needs to add additional XML namespace declarations
    * on the <code>&lt;sbml&gt;</code> element.  Application writers should
    * either provide values for @p level and @p version on the call to this
    * constructor, or else call
-   * SBMLDocument::setLevelAndVersion(@if java long, long, bool@endif)
+   * SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
    * shortly after creating the SBMLDocument object.
    *
    * @param level an integer for the SBML Level
@@ -414,7 +414,7 @@ public class SBMLDocument : SBase {
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    *
-   * @see SBMLDocument::setLevelAndVersion(@if java long, long, bool@endif)
+   * @see SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
    * @see getDefaultLevel()
    * @see getDefaultVersion()
    */ public
@@ -435,13 +435,13 @@ public class SBMLDocument : SBase {
    * object has no associated XML attributes, including (but not limited
    * to) an XML namespace declaration.  The XML namespace declaration is
    * not added until the model is written out, <em>or</em> the method
-   * SBMLDocument::setLevelAndVersion(@if java long, long, bool@endif)
+   * SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
    * is called.  This may be important to keep in mind
    * if an application needs to add additional XML namespace declarations
    * on the <code>&lt;sbml&gt;</code> element.  Application writers should
    * either provide values for @p level and @p version on the call to this
    * constructor, or else call
-   * SBMLDocument::setLevelAndVersion(@if java long, long, bool@endif)
+   * SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
    * shortly after creating the SBMLDocument object.
    *
    * @param level an integer for the SBML Level
@@ -455,7 +455,7 @@ public class SBMLDocument : SBase {
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    *
-   * @see SBMLDocument::setLevelAndVersion(@if java long, long, bool@endif)
+   * @see SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
    * @see getDefaultLevel()
    * @see getDefaultVersion()
    */ public
@@ -468,7 +468,7 @@ public class SBMLDocument : SBase {
    * Creates a new SBMLDocument using the given SBMLNamespaces object 
    * @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -670,7 +670,7 @@ public class SBMLDocument : SBase {
    * Strict conversion applies the additional criteria that both the
    * source and the target model must be consistent SBML.  Users can
    * control the consistency checks that are applied using the
-   * SBMLDocument::setConsistencyChecksForConversion(@if java int, bool@endif) method.  If either
+   * SBMLDocument::setConsistencyChecksForConversion(@if java int, boolean@endif) method.  If either
    * the source or the potential target model have validation errors, the
    * conversion is not performed.  When a strict conversion is successful,
    * the underlying SBML object model is altered to reflect the new level
@@ -681,11 +681,11 @@ public class SBMLDocument : SBase {
    *  
    * @param version the desired Version within the SBML Level
    *
-   * @param strict bool indicating whether to check consistency
+   * @param strict boolean indicating whether to check consistency
    * of both the source and target model when performing
    * conversion (defaults to <code> true </code>)
    *
-   * @param ignorePackages bool indicating whether the presence of
+   * @param ignorePackages boolean indicating whether the presence of
    * packages should be ignored by the conversion routine 
    * (defaults to <code> false </code>)
    *
@@ -752,7 +752,7 @@ public class SBMLDocument : SBase {
    * Strict conversion applies the additional criteria that both the
    * source and the target model must be consistent SBML.  Users can
    * control the consistency checks that are applied using the
-   * SBMLDocument::setConsistencyChecksForConversion(@if java int, bool@endif) method.  If either
+   * SBMLDocument::setConsistencyChecksForConversion(@if java int, boolean@endif) method.  If either
    * the source or the potential target model have validation errors, the
    * conversion is not performed.  When a strict conversion is successful,
    * the underlying SBML object model is altered to reflect the new level
@@ -763,11 +763,11 @@ public class SBMLDocument : SBase {
    *  
    * @param version the desired Version within the SBML Level
    *
-   * @param strict bool indicating whether to check consistency
+   * @param strict boolean indicating whether to check consistency
    * of both the source and target model when performing
    * conversion (defaults to <code> true </code>)
    *
-   * @param ignorePackages bool indicating whether the presence of
+   * @param ignorePackages boolean indicating whether the presence of
    * packages should be ignored by the conversion routine 
    * (defaults to <code> false </code>)
    *
@@ -834,7 +834,7 @@ public class SBMLDocument : SBase {
    * Strict conversion applies the additional criteria that both the
    * source and the target model must be consistent SBML.  Users can
    * control the consistency checks that are applied using the
-   * SBMLDocument::setConsistencyChecksForConversion(@if java int, bool@endif) method.  If either
+   * SBMLDocument::setConsistencyChecksForConversion(@if java int, boolean@endif) method.  If either
    * the source or the potential target model have validation errors, the
    * conversion is not performed.  When a strict conversion is successful,
    * the underlying SBML object model is altered to reflect the new level
@@ -845,11 +845,11 @@ public class SBMLDocument : SBase {
    *  
    * @param version the desired Version within the SBML Level
    *
-   * @param strict bool indicating whether to check consistency
+   * @param strict boolean indicating whether to check consistency
    * of both the source and target model when performing
    * conversion (defaults to <code> true </code>)
    *
-   * @param ignorePackages bool indicating whether the presence of
+   * @param ignorePackages boolean indicating whether the presence of
    * packages should be ignored by the conversion routine 
    * (defaults to <code> false </code>)
    *
@@ -893,14 +893,12 @@ public class SBMLDocument : SBase {
    *
    * @param m the new Model to use.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    *
@@ -993,7 +991,7 @@ public class SBMLDocument : SBase {
    * order to achieve the desired combination of checks.  The first
    * argument (@p category) in a call to this method indicates the category
    * of consistency/error checks that are to be turned on or off, and the
-   * second argument (@p apply, a bool) indicates whether to turn it on
+   * second argument (@p apply, a boolean) indicates whether to turn it on
    * (value of @c true) or off (value of @c false).
    *
    * @if clike
@@ -1058,7 +1056,7 @@ public class SBMLDocument : SBase {
    * 
    * <em>By default, all validation checks are applied</em> to the model in
    * an SBMLDocument object @em unless
-   * SBMLDocument::setConsistencyChecks(@if java int categ, bool onoff@endif)
+   * SBMLDocument::setConsistencyChecks(@if java int categ, boolean onoff@endif)
    * is called to indicate that only a subset should be applied.  Further,
    * this default (i.e., performing all checks) applies separately to
    * <em>each new SBMLDocument object</em> created.  In other words, each
@@ -1068,7 +1066,7 @@ public class SBMLDocument : SBase {
    * SBMLDocument is created and for that document, a call to
    * SBMLDocument::checkConsistency() will default to applying all possible checks.
    * Calling programs must invoke
-   * SBMLDocument::setConsistencyChecks(@if java int categ, bool onoff@endif)
+   * SBMLDocument::setConsistencyChecks(@if java int categ, boolean onoff@endif)
    * for each such new model if they wish to change the consistency checks
    * applied.
    * 
@@ -1076,7 +1074,7 @@ public class SBMLDocument : SBase {
    * the set of SBML error categories@endif indicating the
    * consistency checking/validation to be turned on or off.
    *
-   * @param apply a bool indicating whether the checks indicated by
+   * @param apply a boolean indicating whether the checks indicated by
    * @p category should be applied or not.
    *
    * @see SBMLDocument::checkConsistency()
@@ -1088,7 +1086,7 @@ public class SBMLDocument : SBase {
   
 /**
    * Controls the consistency checks that are performed when
-   * SBMLDocument::setLevelAndVersion(@if java long, long, bool@endif) is called.
+   * SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif) is called.
    *
    * This method works by adding or subtracting consistency checks from the
    * set of all possible checks that may be performed to avoid conversion
@@ -1097,7 +1095,7 @@ public class SBMLDocument : SBase {
    * order to achieve the desired combination of checks.  The first
    * argument (@p category) in a call to this method indicates the category
    * of consistency/error checks that are to be turned on or off, and the
-   * second argument (@p apply, a bool) indicates whether to turn it on
+   * second argument (@p apply, a boolean) indicates whether to turn it on
    * (value of @c true) or off (value of @c false).
    *
    * @if clike
@@ -1164,7 +1162,7 @@ public class SBMLDocument : SBase {
    *
    * <em>By default, all validation checks are applied</em> to the model in
    * an SBMLDocument object @em unless
-   * SBMLDocument::setConsistencyChecks(@if java int, bool@endif)
+   * SBMLDocument::setConsistencyChecks(@if java int, boolean@endif)
    * is called to indicate that only a subset should be applied.  Further,
    * this default (i.e., performing all checks) applies separately to
    * <em>each new SBMLDocument object</em> created.  In other words, each
@@ -1174,7 +1172,7 @@ public class SBMLDocument : SBase {
    * SBMLDocument is created and for that document, a call to
    * SBMLDocument::checkConsistency() will default to applying all possible checks.
    * Calling programs must invoke
-   * SBMLDocument::setConsistencyChecks(@if java int, bool@endif)
+   * SBMLDocument::setConsistencyChecks(@if java int, boolean@endif)
    * for each such new model if they wish to change the consistency checks
    * applied.
    * 
@@ -1182,10 +1180,10 @@ public class SBMLDocument : SBase {
    * the set of SBML error categories@endif indicating the consistency
    * checking/validation to be turned on or off.
    *
-   * @param apply a bool indicating whether the checks indicated by
+   * @param apply a boolean indicating whether the checks indicated by
    * @p category should be applied or not.
    *
-   * @see SBMLDocument::setLevelAndVersion(@if java long, long, bool@endif)
+   * @see SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
    */ public
  void setConsistencyChecksForConversion(int category, bool apply) {
     libsbmlPINVOKE.SBMLDocument_setConsistencyChecksForConversion(swigCPtr, category, apply);
@@ -1376,7 +1374,7 @@ public class SBMLDocument : SBase {
    *
    * @return the number of errors or warnings encountered
    *
-   * @see SBMLDocument::getError(long n)
+   * @see SBMLDocument::getError(unsigned int n)
    */ public
  long getNumErrors() { return (long)libsbmlPINVOKE.SBMLDocument_getNumErrors__SWIG_0(swigCPtr); }
 
@@ -1390,7 +1388,7 @@ public class SBMLDocument : SBase {
    *
    * @return the number of errors or warnings encountered
    *
-   * @see SBMLDocument::getError(long n)
+   * @see SBMLDocument::getError(unsigned int n)
    */ public
  long getNumErrors(long severity) { return (long)libsbmlPINVOKE.SBMLDocument_getNumErrors__SWIG_1(swigCPtr, severity); }
 
@@ -1419,7 +1417,7 @@ public class SBMLDocument : SBase {
    *
    * @see getNumErrors()
    * @see getErrorLog()
-   * @see SBMLDocument::getError(long n)
+   * @see SBMLDocument::getError(unsigned int n)
    */ public
  void printErrors(OStream stream) {
     libsbmlPINVOKE.SBMLDocument_printErrors__SWIG_0(swigCPtr, SWIGTYPE_p_std__ostream.getCPtr(stream.get_ostream()));
@@ -1451,7 +1449,7 @@ public class SBMLDocument : SBase {
    *
    * @see getNumErrors()
    * @see getErrorLog()
-   * @see SBMLDocument::getError(long n)
+   * @see SBMLDocument::getError(unsigned int n)
    */ public
  void printErrors() {
     libsbmlPINVOKE.SBMLDocument_printErrors__SWIG_1(swigCPtr);
@@ -1478,9 +1476,9 @@ public class SBMLDocument : SBase {
     * the output should be printed.
     * @param severity of the errors sought.
     *
-    * @see getNumErrors(long severity)
+    * @see getNumErrors(unsigned int severity)
     * @see getErrorLog()
-    * @see SBMLDocument::getErrorWithSeverity(long n, long severity)
+    * @see SBMLDocument::getErrorWithSeverity(unsigned int n, unsigned int severity)
     */ public
  void printErrors(OStream stream, long severity) {
     libsbmlPINVOKE.SBMLDocument_printErrors__SWIG_2(swigCPtr, SWIGTYPE_p_std__ostream.getCPtr(stream.get_ostream()), severity);
@@ -1498,14 +1496,12 @@ public class SBMLDocument : SBase {
    * 
    * @param props the conversion properties to use
    * 
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_CONV_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_CONVERSION_NOT_AVAILABLE@endlink
    */ public new
@@ -1525,7 +1521,7 @@ public class SBMLDocument : SBase {
 /**
    * Returns the libSBML type code for this %SBML object.
    * 
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -1551,7 +1547,7 @@ public class SBMLDocument : SBase {
    * @return the SBML type code for this object:
    * @link libsbml#SBML_DOCUMENT SBML_DOCUMENT@endlink (default).
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke
@@ -1617,17 +1613,15 @@ public class SBMLDocument : SBase {
    * package extension if @c true is given as second argument.
    *
    * @param package the name or URI of the package extension.
-   * @param flag bool value to indicate whether to write a namespace
+   * @param flag boolean value to indicate whether to write a namespace
    * prefix.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
    */ public
  int enableDefaultNS(string package, bool flag) {
@@ -1646,7 +1640,7 @@ public class SBMLDocument : SBase {
    *   
    * @param package the name or URI of the package extension.
    *
-   * @return a bool 
+   * @return a boolean 
    */ public
  bool isEnabledDefaultNS(string package) {
     bool ret = libsbmlPINVOKE.SBMLDocument_isEnabledDefaultNS(swigCPtr, package);
@@ -1664,14 +1658,12 @@ public class SBMLDocument : SBase {
    * @param package the name or URI of the package extension.
    * @param flag Boolean value indicating whether the package is required.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
    */ public
  int setPackageRequired(string package, bool flag) {
@@ -1763,18 +1755,16 @@ public class SBMLDocument : SBase {
    * @param package the name or URI of the package extension.
    * @param flag a Boolean value.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_PKG_UNKNOWN_VERSION LIBSBML_PKG_UNKNOWN_VERSION@endlink
    *
    * @deprecated Replaced in libSBML 5.2.0 by
-   * setPackageRequired(@if java String, bool@endif)
+   * setPackageRequired(@if java String, boolean@endif)
    */ public
  int setPkgRequired(string package, bool flag) {
     int ret = libsbmlPINVOKE.SBMLDocument_setPkgRequired(swigCPtr, package, flag);
@@ -1832,7 +1822,7 @@ public class SBMLDocument : SBase {
    *
    * @param pkgURI the URI of the package extension.
    *
-   * @return a bool
+   * @return a boolean
    *
    * @deprecated Replaced in libSBML 5.2.0 by
    * isIgnoredPackage(@if java String@endif)
@@ -1905,6 +1895,27 @@ public class SBMLDocument : SBase {
 /** */ /* libsbml-internal */ public
  bool hasUnknownPackage(string pkgURI) {
     bool ret = libsbmlPINVOKE.SBMLDocument_hasUnknownPackage(swigCPtr, pkgURI);
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ int getNumUnknownPackages() {
+    int ret = libsbmlPINVOKE.SBMLDocument_getNumUnknownPackages(swigCPtr);
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ string getUnknownPackageURI(int index) {
+    string ret = libsbmlPINVOKE.SBMLDocument_getUnknownPackageURI(swigCPtr, index);
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ string getUnknownPackagePrefix(int index) {
+    string ret = libsbmlPINVOKE.SBMLDocument_getUnknownPackagePrefix(swigCPtr, index);
     return ret;
   }
 

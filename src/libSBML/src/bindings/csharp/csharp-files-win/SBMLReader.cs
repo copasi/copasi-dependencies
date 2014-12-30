@@ -160,7 +160,7 @@ public class SBMLReader : IDisposable {
 
   
 /**
-   * *
+   *
  * Reads an SBML document from the given file.
  *
  * If the file named @p filename does not exist or its content is not
@@ -297,7 +297,7 @@ if (doc.getNumErrors() > 0)
 @endcode
 @endif
  *
- * *
+ *
  * 
  * If the given filename ends with the suffix @c '.gz' (for example, @c
  * 'myfile.xml.gz'), the file is assumed to be compressed in @em gzip
@@ -311,7 +311,7 @@ if (doc.getNumErrors() > 0)
  *
  *
  *
- * *
+ *
  * 
  * To read a gzip/zip file, libSBML needs to be configured and linked with the
  * <a target='_blank' href='http://www.zlib.net/'>zlib</a> library at compile
@@ -333,7 +333,7 @@ if (doc.getNumErrors() > 0)
    * @return a pointer to the SBMLDocument object created from the SBML
    * content in @p filename.
    *
-   * *
+   *
  * @note LibSBML versions 2.x and later versions behave differently in
  * error handling in several respects.  One difference is how early some
  * errors are caught and whether libSBML continues processing a file in
@@ -364,7 +364,7 @@ if (doc.getNumErrors() > 0)
 
   
 /**
-   * *
+   *
  * Reads an SBML document from the given file.
  *
  * If the file named @p filename does not exist or its content is not
@@ -501,7 +501,7 @@ if (doc.getNumErrors() > 0)
 @endcode
 @endif
  *
- * *
+ *
  * 
  * If the given filename ends with the suffix @c '.gz' (for example, @c
  * 'myfile.xml.gz'), the file is assumed to be compressed in @em gzip
@@ -515,7 +515,7 @@ if (doc.getNumErrors() > 0)
  *
  *
  *
- * *
+ *
  * 
  * To read a gzip/zip file, libSBML needs to be configured and linked with the
  * <a target='_blank' href='http://www.zlib.net/'>zlib</a> library at compile
@@ -537,7 +537,7 @@ if (doc.getNumErrors() > 0)
    * @return a pointer to the SBMLDocument object created from the SBML
    * content in @p filename.
    *
-   * *
+   *
  * @note LibSBML versions 2.x and later versions behave differently in
  * error handling in several respects.  One difference is how early some
  * errors are caught and whether libSBML continues processing a file in
@@ -568,7 +568,7 @@ if (doc.getNumErrors() > 0)
 
   
 /**
-   * *
+   *
  * Reads an SBML document from a text string.
  *
  * This method is flexible with respect to the presence of an XML
@@ -592,7 +592,7 @@ if (doc.getNumErrors() > 0)
    * @return a pointer to the SBMLDocument created from the SBML content,
    * or a null pointer if @p xml is null.
    *
-   * *
+   *
  * @note When using this method to read an SBMLDocument that uses the SBML
  * Level&nbsp;3 Hierarchical %Model Composition package (comp) the document
  * location cannot be set automatically. Thus, if the model contains
@@ -617,7 +617,7 @@ if (doc.getNumErrors() > 0)
    * @return @c true if libSBML has been linked with the <i>zlib</i>
    * library, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -643,7 +643,7 @@ if (doc.getNumErrors() > 0)
    * @return @c true if libSBML is linked with the <i>bzip2</i>
    * libraries, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular

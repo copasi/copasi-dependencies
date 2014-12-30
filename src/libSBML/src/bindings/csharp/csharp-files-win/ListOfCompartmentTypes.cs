@@ -16,7 +16,7 @@ namespace libsbml {
  *
 @htmlinclude pkg-marker-core.html A list of CompartmentType objects.
  * 
- * *
+ *
  * 
  * The various ListOf___ @if conly structures @else classes@endif in SBML
  * are merely containers used for organizing the main components of an SBML
@@ -162,7 +162,7 @@ public class ListOfCompartmentTypes : ListOf {
    * Returns the libSBML type code for the objects contained in this ListOf
    * (i.e., CompartmentType objects, if the list is non-empty).
    *
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -238,7 +238,7 @@ public class ListOfCompartmentTypes : ListOf {
    * with the given @p sid or @c null if no such
    * CompartmentType object exists.
    *
-   * @see get(long n)
+   * @see get(unsigned int n)
    * @see size()
    */ public new
  CompartmentType get(string sid) {

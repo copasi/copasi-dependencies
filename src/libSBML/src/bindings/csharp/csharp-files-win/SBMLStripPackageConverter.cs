@@ -34,7 +34,7 @@ namespace libsbml {
  * @li @c 'package': the value of this option should be a text string, the
  * nickname of the SBML Level&nbsp;3 package to be stripped from the model.
  *
- * *
+ *
  * @section using-converters General information about the use of SBML converters
  *
  * The use of all the converters follows a similar approach.  First, one
@@ -308,14 +308,12 @@ public class SBMLStripPackageConverter : SBMLConverter {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_CONV_PKG_CONSIDERED_UNKNOWN LIBSBML_CONV_PKG_CONSIDERED_UNKNOWN@endlink
@@ -340,6 +338,24 @@ public class SBMLStripPackageConverter : SBMLConverter {
    */ public new
  ConversionProperties getDefaultProperties() {
     ConversionProperties ret = new ConversionProperties(libsbmlPINVOKE.SBMLStripPackageConverter_getDefaultProperties(swigCPtr), true);
+    return ret;
+  }
+
+  
+/** 
+   * @return the package to be stripped 
+   */ public
+ string getPackageToStrip() {
+    string ret = libsbmlPINVOKE.SBMLStripPackageConverter_getPackageToStrip(swigCPtr);
+    return ret;
+  }
+
+  
+/** 
+   * @return whether all unrecognized packages should be removed
+   */ public
+ bool isStripAllUnrecognizedPackages() {
+    bool ret = libsbmlPINVOKE.SBMLStripPackageConverter_isStripAllUnrecognizedPackages(swigCPtr);
     return ret;
   }
 

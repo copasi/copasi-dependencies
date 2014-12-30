@@ -74,7 +74,7 @@ public class SyntaxChecker : IDisposable {
    * Returns true @c true or @c false depending on whether the argument
    * string conforms to the syntax of SBML identifiers.
    *
-   * *
+   *
  * 
  * In SBML, identifiers that are the values of 'id' attributes on objects
  * must conform to a data type called <code>SId</code> in the SBML
@@ -97,7 +97,7 @@ public class SyntaxChecker : IDisposable {
    * @return @c true if the string conforms to type SBML data type
    * <code>SId</code>, @c false otherwise.
    *
-   * *
+   *
  * 
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
@@ -120,7 +120,7 @@ public class SyntaxChecker : IDisposable {
  *
  *
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -144,7 +144,7 @@ public class SyntaxChecker : IDisposable {
    * Returns @c true or @c false depending on whether the argument string
    * conforms to the XML data type <code>ID</code>.
    *
-   * *
+   *
  * 
  * The optional attribute named 'metaid', present on every major SBML
  * component type, is for supporting metadata annotations using RDF (<a
@@ -181,7 +181,7 @@ public class SyntaxChecker : IDisposable {
    *
    * @note @htmlinclude xmlid-syntax.html
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -226,7 +226,7 @@ public class SyntaxChecker : IDisposable {
    * href='http://www.w3.org/TR/xmlschema-2/#anyURI'>anyURI</a>, 
    * @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -267,7 +267,7 @@ public class SyntaxChecker : IDisposable {
    *
    * @note @htmlinclude unitid-syntax.html
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -291,7 +291,7 @@ public class SyntaxChecker : IDisposable {
    * Returns @c true or @c false depending on whether the given XMLNode
    * object contains valid XHTML content.
    *
-   * *
+   *
  * 
  * The optional SBML element named 'notes', present on every major SBML
  * component type (and in SBML Level&nbsp;3, the 'message' subelement of
@@ -376,7 +376,7 @@ public class SyntaxChecker : IDisposable {
    *
    * @return @c true if the XMLNode content conforms, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -399,7 +399,7 @@ public class SyntaxChecker : IDisposable {
    * Returns @c true or @c false depending on whether the given XMLNode
    * object contains valid XHTML content.
    *
-   * *
+   *
  * 
  * The optional SBML element named 'notes', present on every major SBML
  * component type (and in SBML Level&nbsp;3, the 'message' subelement of
@@ -484,7 +484,7 @@ public class SyntaxChecker : IDisposable {
    *
    * @return @c true if the XMLNode content conforms, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular

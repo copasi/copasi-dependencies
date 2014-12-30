@@ -28,7 +28,7 @@ namespace libsbml {
  *
  * @if clike
  * @section sbmlextension-howto How to extend SBMLExtension for a package implementation
- * *
+ *
  * 
  * Each package implementation must contain a class that extends
  * SBMLExtension.  For example, the class <code>GroupsExtension</code> serves
@@ -58,15 +58,15 @@ string GroupsExtension::getPackageName ()
  * <code>getDefaultPackageVersion()</code>, respectively.  The following
  * are examples drawn from the Groups package implementation:
 @code{.cpp}
-long GroupsExtension::getDefaultLevel()
+unsigned int GroupsExtension::getDefaultLevel()
 {
       return 3;
 }
-long GroupsExtension::getDefaultVersion()
+unsigned int GroupsExtension::getDefaultVersion()
 {
       return 1;
 }
-long GroupsExtension::getDefaultPackageVersion()
+unsigned int GroupsExtension::getDefaultPackageVersion()
 {
       return 1;
 }
@@ -102,20 +102,20 @@ string GroupsExtension::getXmlnsL3V1V1 ()
  * method returns the nickname of the package (e.g., 'layout',
  * 'groups').
  *
- * @li <code>virtual long getLevel(string uri) const
+ * @li <code>virtual unsigned int getLevel(string &uri) 
  * =0</code>. This method returns the SBML Level with the given URI of
  * this package.
  *
- * @li <code>virtual long getVersion(string uri)
+ * @li <code>virtual unsigned int getVersion(string &uri)
  * =0</code>. This method returns the SBML Version with the given
  * URI of this package.
  *
- * @li <code>virtual long getPackageVersion(string
+ * @li <code>virtual unsigned int getPackageVersion(string
  * &uri) =0</code>. This method returns the package version with
  * the given URI of this package.
  *
- * @li <code>virtual long getURI(long sbmlLevel,
- * long sbmlVersion, long pkgVersion) =0</code>.
+ * @li <code>virtual unsigned int getURI(unsigned int sbmlLevel,
+ * unsigned int sbmlVersion, unsigned int pkgVersion) =0</code>.
  * This method returns the URI (namespace) of the package corresponding
  * to the combination of the given SBML Level, SBML Version, and package
  * version
@@ -126,12 +126,12 @@ string GroupsExtension::getXmlnsL3V1V1 ()
  * As an example, the following are the versions of these methods for
  * the Groups package:
  * @code{.cpp}
-string GroupsExtension::getName() const
+string GroupsExtension::getName() 
 {
   return getPackageName();
 }
 
-long GroupsExtension::getLevel(string uri) const
+unsigned int GroupsExtension::getLevel(string &uri) 
 {
   if (uri == getXmlnsL3V1V1())
     return 3;
@@ -139,7 +139,7 @@ long GroupsExtension::getLevel(string uri) const
     return 0;
 }
 
-long GroupsExtension::getVersion(string uri) const
+unsigned int GroupsExtension::getVersion(string &uri) 
 {
   if (uri == getXmlnsL3V1V1())
     return 1;
@@ -147,7 +147,7 @@ long GroupsExtension::getVersion(string uri) const
     return 0;
 }
 
-long GroupsExtension::getPackageVersion(string uri) const
+unsigned int GroupsExtension::getPackageVersion(string &uri) 
 {
   if (uri == getXmlnsL3V1V1())
     return 1;
@@ -155,9 +155,9 @@ long GroupsExtension::getPackageVersion(string uri) const
     return 0;
 }
 
-string GroupsExtension::getURI(long sbmlLevel,
-                                           long sbmlVersion,
-                                           long pkgVersion) const
+string GroupsExtension::getURI(unsigned int sbmlLevel,
+                                           unsigned int sbmlVersion,
+                                           unsigned int pkgVersion) 
 {
   if (sbmlLevel == 3 && sbmlVersion == 1 && pkgVersion == 1)
     return getXmlnsL3V1V1();
@@ -166,7 +166,7 @@ string GroupsExtension::getURI(long sbmlLevel,
   return empty;
 }
 
-GroupsExtension* GroupsExtension::clone() const
+GroupsExtension* GroupsExtension::clone() 
 {
   return new GroupsExtension(*this);
 }
@@ -233,7 +233,7 @@ Group g = new Group(&gpns);        // Creates a Group object.
  * is overridden in the class <code>GroupsExtension</code> as follows:
 @code{.cpp}
 SBMLNamespaces
-GroupsExtension::getSBMLExtensionNamespaces(string uri) const
+GroupsExtension::getSBMLExtensionNamespaces(string &uri) 
 {
   GroupsPkgNamespaces* pkgns = null;
   if ( uri == getXmlnsL3V1V1())
@@ -254,8 +254,8 @@ GroupsExtension::getSBMLExtensionNamespaces(string uri) const
 @code{.cpp}
 typedef enum
 {
-   SBML_GROUPS_GROUP  = 200
- , SBML_GROUPS_MEMBER = 201
+   SBML_GROUPS_GROUP  = 500
+ , SBML_GROUPS_MEMBER = 501
 } SBMLGroupsTypeCode_t;
 @endcode
  *
@@ -348,7 +348,7 @@ void example (SBase sb)
  * which returns a string corresponding to the given type code.  Here is an
  * example, again drawn from the implementation of the Groups package:
 @code{.cpp}
-virtual string SBMLExtension::(int typeCode) const;
+virtual string SBMLExtension::(int typeCode) ;
 @endcode
  *
  * For example, the method for the Groups extension is implemented as
@@ -360,7 +360,7 @@ static string SBML_GROUPS_TYPECODE_STRINGS[] =
   , 'Member'
 };
 
-string GroupsExtension::getStringFromTypeCode(int typeCode) const
+string GroupsExtension::getStringFromTypeCode(int typeCode) 
 {
   int min = SBML_GROUPS_GROUP;
   int max = SBML_GROUPS_MEMBER;
@@ -446,7 +446,7 @@ void GroupsExtension::init()
 @endcode
  *
  *
- * @subsection ext-extensionregister 10. Instantiate a SBMLExtensionRegister variable
+ * @subsection ext-extensionregister 10. Instantiate a SBMLExtensionRegister object
  *
  * Instantiate a global SBMLExtensionRegister object using the
  * class derived from SBMLExtension (discussed above).  Here is an example for
@@ -462,10 +462,49 @@ static SBMLExtensionRegister<GroupsExtension> groupsExtensionRegister;
  * with libSBML.
  *
  *
+ * @else
+ *
+ * @section ext-basics Basic principles of SBML package extensions in libSBML
+ *
+ * 
+ * SBML Level&nbsp;3's package structure permits modular extensions to the
+ * core SBML format.  In libSBML, support for SBML Level&nbsp;3 packages is
+ * provided through optional <em>package extensions</em> that can be plugged
+ * into libSBML at the time it is built/compiled.  Users of libSBML can thus
+ * choose which extensions are enabled in their software applications.
+ *
+ * LibSBML defines a number of classes that developers of package extensions
+ * can use to implement support for an SBML Level&nbsp;3 package.  These
+ * classes make it easier to extend libSBML objects with new attributes
+ * and/or subobjects as needed by a particular Level&nbsp;3 package.
+ * Three overall categories of classes make up libSBML's facilities for
+ * implementing package extensions.  There are (1) classes that serve as base
+ * classes meant to be subclassed, (2) template classes meant to be
+ * instantiated rather than subclassed, and (3) support classes that provide
+ * utility features. A given package implementation for libSBML will take
+ * the form of code using these and other libSBML classes, placed in a
+ * subdirectory of <code>src/sbml/packages/</code>.
+ *
+ * The basic libSBML distribution includes a number of package extensions
+ * implementing support for officially-endorsed SBML Level&nbsp;3 packages;
+ * among these are <em>Flux Balance Constraints</em> ('fbc'),
+ * <em>Hierarchical %Model Composition</em> ('comp'), <em>%Layout</em>
+ * ('layout'), and <em>Qualitative Models</em> ('qual').  They can serve as
+ * working examples for developers working to implement other packages.
+ *
+ * Extensions in libSBML can currently only be implemented in C++ or C;
+ * there is no mechanism to implement them first in languages such as
+ * Java or Python.  However, once implemented in C++ or C, language
+ * interfaces can be generated semi-automatically using the framework in
+ * place in libSBML.  (The approach is based on using <a target='_blank'
+ * href='http://www.swig.org'>SWIG</a> and facilities in libSBML's build
+ * system.)
+ *
+ *
  * @endif
  *
  * @section sbmlextension-l2-special Special handling for SBML Level&nbsp;2
- * *
+ *
  * 
  * Due to the historical background of the SBML %Layout package, libSBML
  * implements special behavior for that package: it @em always creates a
@@ -490,7 +529,7 @@ static SBMLExtensionRegister<GroupsExtension> groupsExtensionRegister;
 LayoutModelPlugin* lmp = static_cast<LayoutModelPlugin*>(m->getPlugin('layout'));
 if (lmp != null)
 {
-  long numLayouts = lmp->getNumLayouts();
+  unsigned int numLayouts = lmp->getNumLayouts();
   // If numLayouts is greater than zero, then the model uses Layout.
 }
 @endcode
@@ -563,6 +602,8 @@ if (lmp != null)
  * SBMLExtension::removeL2Namespaces(), and
  * SBMLExtension::enableL2NamespaceForDocument().
  * @endif
+ *
+ *
  */
 
 public class SBMLExtension : IDisposable {
@@ -678,7 +719,7 @@ public class SBMLExtension : IDisposable {
    *
    * @return a (deep) copy of this SBMLExtension object.
    *
-   * *
+   *
  * @note
  * This is a method that package extension implementations must override.
  * See the libSBML documentation on extending libSBML to support SBML
@@ -702,7 +743,7 @@ public class SBMLExtension : IDisposable {
    *
    * @return a string, the nickname of SBML package.
    *
-   * *
+   *
  * @note
  * This is a method that package extension implementations must override.
  * See the libSBML documentation on extending libSBML to support SBML
@@ -726,7 +767,7 @@ public class SBMLExtension : IDisposable {
    * @return a string, the XML namespace URI for the package for the given
    * SBML Level, SBML Version, and package version.
    *
-   * *
+   *
  * @note
  * This is a method that package extension implementations must override.
  * See the libSBML documentation on extending libSBML to support SBML
@@ -747,7 +788,7 @@ public class SBMLExtension : IDisposable {
    *
    * @return the SBML Level associated with the given URI of this package.
    *
-   * *
+   *
  * @note
  * This is a method that package extension implementations must override.
  * See the libSBML documentation on extending libSBML to support SBML
@@ -765,7 +806,7 @@ public class SBMLExtension : IDisposable {
    *
    * @return the SBML Version associated with the given URI of this package.
    *
-   * *
+   *
  * @note
  * This is a method that package extension implementations must override.
  * See the libSBML documentation on extending libSBML to support SBML
@@ -783,7 +824,7 @@ public class SBMLExtension : IDisposable {
    *
    * @return the package version associated with the given URI of this package.
    *
-   * *
+   *
  * @note
  * This is a method that package extension implementations must override.
  * See the libSBML documentation on extending libSBML to support SBML
@@ -805,7 +846,7 @@ public class SBMLExtension : IDisposable {
    *
    * @return the string representation of @p typeCode.
    *
-   * *
+   *
  * @note
  * This is a method that package extension implementations must override.
  * See the libSBML documentation on extending libSBML to support SBML
@@ -844,7 +885,7 @@ SBMLExtensionNamespaces<LayoutExtension>
    * object, or @c null if the given @p uri is not defined in the
    * corresponding package.
    *
-   * *
+   *
  * @note
  * This is a method that package extension implementations must override.
  * See the libSBML documentation on extending libSBML to support SBML
@@ -887,7 +928,9 @@ SBMLExtensionNamespaces<LayoutExtension>
 /**
    * Removes the package's Level&nbsp;2 namespace(s).
    *
-   * *
+   * @ifnot clike @internal @endif
+   *
+   *
  * 
  * This method is related to special facilities designed to support
  * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
@@ -937,7 +980,9 @@ for (int n = 0; n < xmlns->getNumNamespaces(); n++)
 /**
    * Adds the package's Level&nbsp;2 namespace(s).
    *
-   * *
+   * @ifnot clike @internal @endif
+   *
+   *
  * 
  * This method is related to special facilities designed to support
  * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
@@ -984,7 +1029,9 @@ if (!xmlns->containsUri( LayoutExtension::getXmlnsL2()))
 /**
    * Called to enable the package on the SBMLDocument object.
    *
-   * *
+   * @ifnot clike @internal @endif
+   *
+   *
  * 
  * This method is related to special facilities designed to support
  * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
@@ -1038,7 +1085,7 @@ if (doc->getLevel() == 2)
    *
    * @param doc the SBML document to test.
    *
-   * @return a bool indicating whether the extension is actually being
+   * @return a boolean indicating whether the extension is actually being
    * used by the document.
    */ public new
  bool isInUse(SBMLDocument doc) {
@@ -1050,18 +1097,28 @@ if (doc->getLevel() == 2)
 /** */ /* libsbml-internal */ public new
  long getErrorTableIndex(long errorId) { return (long)libsbmlPINVOKE.SBMLExtension_getErrorTableIndex(swigCPtr, errorId); }
 
-  public virtual long getErrorIdOffset() { return (long)libsbmlPINVOKE.SBMLExtension_getErrorIdOffset(swigCPtr); }
+  
+/** */ /* libsbml-internal */ public new
+ long getErrorIdOffset() { return (long)libsbmlPINVOKE.SBMLExtension_getErrorIdOffset(swigCPtr); }
 
-  public long getSeverity(long index, long pkgVersion) { return (long)libsbmlPINVOKE.SBMLExtension_getSeverity(swigCPtr, index, pkgVersion); }
+  
+/** */ /* libsbml-internal */ public
+ long getSeverity(long index, long pkgVersion) { return (long)libsbmlPINVOKE.SBMLExtension_getSeverity(swigCPtr, index, pkgVersion); }
 
-  public long getCategory(long index) { return (long)libsbmlPINVOKE.SBMLExtension_getCategory(swigCPtr, index); }
+  
+/** */ /* libsbml-internal */ public
+ long getCategory(long index) { return (long)libsbmlPINVOKE.SBMLExtension_getCategory(swigCPtr, index); }
 
-  public string getMessage(long index, long pkgVersion, string details) {
+  
+/** */ /* libsbml-internal */ public
+ string getMessage(long index, long pkgVersion, string details) {
     string ret = libsbmlPINVOKE.SBMLExtension_getMessage(swigCPtr, index, pkgVersion, details);
     return ret;
   }
 
-  public string getShortMessage(long index) {
+  
+/** */ /* libsbml-internal */ public
+ string getShortMessage(long index) {
     string ret = libsbmlPINVOKE.SBMLExtension_getShortMessage(swigCPtr, index);
     return ret;
   }

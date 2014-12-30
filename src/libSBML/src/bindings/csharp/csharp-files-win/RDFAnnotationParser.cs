@@ -99,7 +99,7 @@ public class RDFAnnotationParser : IDisposable {
    * @param stream optional XMLInputStream that facilitates error logging
    * @param metaId optional metaId, if set only the RDF annotation for this metaId will be returned.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -130,7 +130,7 @@ public class RDFAnnotationParser : IDisposable {
    * @param stream optional XMLInputStream that facilitates error logging
    * @param metaId optional metaId, if set only the RDF annotation for this metaId will be returned.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -161,7 +161,7 @@ public class RDFAnnotationParser : IDisposable {
    * @param stream optional XMLInputStream that facilitates error logging
    * @param metaId optional metaId, if set only the RDF annotation for this metaId will be returned.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -241,7 +241,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    *
    * @return a pointer to an XMLNode for the annotation
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -285,7 +285,95 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    *
    * @return a pointer to an XMLNode
    *
-   * *
+   *
+ * @if python @note Because this is a static method on a class, the Python
+ * language interface for libSBML will contain two variants.  One will be the
+ * expected, normal static method on the class (i.e., a regular
+ * <em>methodName</em>), and the other will be a standalone top-level
+ * function with the name <em>ClassName_methodName()</em>. This is merely an
+ * artifact of how the language interfaces are created in libSBML.  The
+ * methods are functionally identical. @endif
+ *
+ *
+   *
+   * @see @if clike createAnnotation() @else RDFAnnotationParser::createAnnotation() @endif
+   */ public
+ static XMLNode createRDFAnnotation(long level, long version) {
+    IntPtr cPtr = libsbmlPINVOKE.RDFAnnotationParser_createRDFAnnotation__SWIG_0(level, version);
+    XMLNode ret = (cPtr == IntPtr.Zero) ? null : new XMLNode(cPtr, true);
+    return ret;
+  }
+
+  
+/**
+   * Creates a blank RDF element suitable for use in SBML annotations.
+   *
+   * The annotation created by this method has namespace declarations for
+   * all the relevant XML namespaces used in RDF annotations and also has
+   * an empty RDF element.  The result is the following XML:
+@verbatim
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns:dc='http://purl.org/dc/elements/1.1/'
+         xmlns:dcterms='http://purl.org/dc/terms/'
+         xmlns:vCard='http://www.w3.org/2001/vcard-rdf/3.0#'
+         xmlns:bqbiol='http://biomodels.net/biology-qualifiers/'
+         xmlns:bqmodel='http://biomodels.net/model-qualifiers/' >
+
+</rdf:RDF>
+@endverbatim
+   *
+   * Note that this does not create the containing SBML
+   * <code>&lt;annotation&gt;</code> element; the method
+   * @if clike createAnnotation()@else RDFAnnotationParser::createAnnotation()@endif
+   * is available for creating the container.
+   *
+   * @return a pointer to an XMLNode
+   *
+   *
+ * @if python @note Because this is a static method on a class, the Python
+ * language interface for libSBML will contain two variants.  One will be the
+ * expected, normal static method on the class (i.e., a regular
+ * <em>methodName</em>), and the other will be a standalone top-level
+ * function with the name <em>ClassName_methodName()</em>. This is merely an
+ * artifact of how the language interfaces are created in libSBML.  The
+ * methods are functionally identical. @endif
+ *
+ *
+   *
+   * @see @if clike createAnnotation() @else RDFAnnotationParser::createAnnotation() @endif
+   */ public
+ static XMLNode createRDFAnnotation(long level) {
+    IntPtr cPtr = libsbmlPINVOKE.RDFAnnotationParser_createRDFAnnotation__SWIG_1(level);
+    XMLNode ret = (cPtr == IntPtr.Zero) ? null : new XMLNode(cPtr, true);
+    return ret;
+  }
+
+  
+/**
+   * Creates a blank RDF element suitable for use in SBML annotations.
+   *
+   * The annotation created by this method has namespace declarations for
+   * all the relevant XML namespaces used in RDF annotations and also has
+   * an empty RDF element.  The result is the following XML:
+@verbatim
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns:dc='http://purl.org/dc/elements/1.1/'
+         xmlns:dcterms='http://purl.org/dc/terms/'
+         xmlns:vCard='http://www.w3.org/2001/vcard-rdf/3.0#'
+         xmlns:bqbiol='http://biomodels.net/biology-qualifiers/'
+         xmlns:bqmodel='http://biomodels.net/model-qualifiers/' >
+
+</rdf:RDF>
+@endverbatim
+   *
+   * Note that this does not create the containing SBML
+   * <code>&lt;annotation&gt;</code> element; the method
+   * @if clike createAnnotation()@else RDFAnnotationParser::createAnnotation()@endif
+   * is available for creating the container.
+   *
+   * @return a pointer to an XMLNode
+   *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -299,7 +387,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * @see @if clike createAnnotation() @else RDFAnnotationParser::createAnnotation() @endif
    */ public
  static XMLNode createRDFAnnotation() {
-    IntPtr cPtr = libsbmlPINVOKE.RDFAnnotationParser_createRDFAnnotation();
+    IntPtr cPtr = libsbmlPINVOKE.RDFAnnotationParser_createRDFAnnotation__SWIG_2();
     XMLNode ret = (cPtr == IntPtr.Zero) ? null : new XMLNode(cPtr, true);
     return ret;
   }
@@ -318,7 +406,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * @return the XMLNode tree corresponding to the Description element of
    * an RDF annotation.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -352,7 +440,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    *
    * @return the XMLNode tree corresponding to the annotation.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -383,7 +471,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * @note If the object does not have a history element stored then
    * @c null is returned even if CVTerms are present.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -410,7 +498,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * @return the XMLNode corresponding to an annotation containing 
    * MIRIAM-compliant model history information in RDF format.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -445,7 +533,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * @return the XMLNode structure that is left after RDF annotations are
    * deleted.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -480,7 +568,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * @return the XMLNode structure that is left after RDF annotations are
    * deleted.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -515,7 +603,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * @return the XMLNode structure that is left after RDF annotations are
    * deleted.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular

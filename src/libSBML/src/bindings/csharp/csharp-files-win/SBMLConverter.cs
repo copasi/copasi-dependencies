@@ -26,7 +26,7 @@ namespace libsbml {
  * another.  Applications can also create their own converters by subclassing
  * SBMLConverter and following the examples of the existing converters.
  *
- * *
+ *
  * @section using-converters General information about the use of SBML converters
  *
  * The use of all the converters follows a similar approach.  First, one

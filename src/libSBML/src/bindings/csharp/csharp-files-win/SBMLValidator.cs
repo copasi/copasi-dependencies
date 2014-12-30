@@ -40,7 +40,7 @@ namespace libsbml {
  *
  * Users of libSBML may already be familiar with the facilities encompassed
  * by the validation system, in the form of the consistency-checking methods
- * defined on SBMLDocument.  The methods SBMLDocument::setConsistencyChecks(@if java int, bool@endif),
+ * defined on SBMLDocument.  The methods SBMLDocument::setConsistencyChecks(@if java int, boolean@endif),
  * SBMLDocument::checkConsistency(), SBMLDocument::checkInternalConsistency()
  * and other method of that sort are in fact implemented via SBMLValidator,
  * specifically as methods on the class SBMLInternalValidator.
@@ -149,14 +149,12 @@ public class SBMLValidator : IDisposable {
    * 
    * @param doc the document to use for this validation
    * 
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getDocument()
    */ public virtual

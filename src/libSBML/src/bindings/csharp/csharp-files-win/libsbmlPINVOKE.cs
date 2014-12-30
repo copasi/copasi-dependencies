@@ -1471,8 +1471,11 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_Model_convertL1ToL3")]
   public static extern void Model_convertL1ToL3(HandleRef jarg1);
 
-  [DllImport("libsbmlcs", EntryPoint="CSharp_Model_convertL2ToL3")]
-  public static extern void Model_convertL2ToL3(HandleRef jarg1);
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Model_convertL2ToL3__SWIG_0")]
+  public static extern void Model_convertL2ToL3__SWIG_0(HandleRef jarg1, bool jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Model_convertL2ToL3__SWIG_1")]
+  public static extern void Model_convertL2ToL3__SWIG_1(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Model_convertL2ToL1__SWIG_0")]
   public static extern void Model_convertL2ToL1__SWIG_0(HandleRef jarg1, bool jarg2);
@@ -1480,8 +1483,11 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_Model_convertL2ToL1__SWIG_1")]
   public static extern void Model_convertL2ToL1__SWIG_1(HandleRef jarg1);
 
-  [DllImport("libsbmlcs", EntryPoint="CSharp_Model_convertL3ToL1")]
-  public static extern void Model_convertL3ToL1(HandleRef jarg1);
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Model_convertL3ToL1__SWIG_0")]
+  public static extern void Model_convertL3ToL1__SWIG_0(HandleRef jarg1, bool jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Model_convertL3ToL1__SWIG_1")]
+  public static extern void Model_convertL3ToL1__SWIG_1(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Model_convertL3ToL2__SWIG_0")]
   public static extern void Model_convertL3ToL2__SWIG_0(HandleRef jarg1, bool jarg2);
@@ -1519,14 +1525,23 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_Model_assignRequiredValues")]
   public static extern void Model_assignRequiredValues(HandleRef jarg1);
 
-  [DllImport("libsbmlcs", EntryPoint="CSharp_Model_dealWithModelUnits")]
-  public static extern void Model_dealWithModelUnits(HandleRef jarg1);
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Model_dealWithModelUnits__SWIG_0")]
+  public static extern void Model_dealWithModelUnits__SWIG_0(HandleRef jarg1, bool jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Model_dealWithModelUnits__SWIG_1")]
+  public static extern void Model_dealWithModelUnits__SWIG_1(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Model_dealWithStoichiometry")]
   public static extern void Model_dealWithStoichiometry(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Model_dealWithEvents")]
   public static extern void Model_dealWithEvents(HandleRef jarg1, bool jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Model_removeSpeciesTypes")]
+  public static extern void Model_removeSpeciesTypes(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Model_removeCompartmentTypes")]
+  public static extern void Model_removeCompartmentTypes(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Model_connectToChild")]
   public static extern void Model_connectToChild(HandleRef jarg1);
@@ -1845,6 +1860,17 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_hasUnknownPackage")]
   public static extern bool SBMLDocument_hasUnknownPackage(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_getNumUnknownPackages")]
+  public static extern int SBMLDocument_getNumUnknownPackages(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_getUnknownPackageURI")]
+  [return: MarshalAs(UnmanagedType.LPWStr)]
+  public static extern string SBMLDocument_getUnknownPackageURI(HandleRef jarg1, int jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLDocument_getUnknownPackagePrefix")]
+  [return: MarshalAs(UnmanagedType.LPWStr)]
+  public static extern string SBMLDocument_getUnknownPackagePrefix(HandleRef jarg1, int jarg2);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_new_FunctionDefinition__SWIG_0")]
   public static extern IntPtr new_FunctionDefinition__SWIG_0(long jarg1, long jarg2);
@@ -4613,6 +4639,9 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBO_isSystemsDescriptionParameter")]
   public static extern bool SBO_isSystemsDescriptionParameter(long jarg1);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBO_isQuantitativeSystemsDescriptionParameter")]
+  public static extern bool SBO_isQuantitativeSystemsDescriptionParameter(long jarg1);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBO_isObselete")]
   public static extern bool SBO_isObselete(long jarg1);
 
@@ -5395,6 +5424,13 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLStripPackageConverter_getDefaultProperties")]
   public static extern IntPtr SBMLStripPackageConverter_getDefaultProperties(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLStripPackageConverter_getPackageToStrip")]
+  [return: MarshalAs(UnmanagedType.LPWStr)]
+  public static extern string SBMLStripPackageConverter_getPackageToStrip(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLStripPackageConverter_isStripAllUnrecognizedPackages")]
+  public static extern bool SBMLStripPackageConverter_isStripAllUnrecognizedPackages(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLUnitsConverter_init")]
   public static extern void SBMLUnitsConverter_init();
@@ -6569,6 +6605,9 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLErrorLog_remove")]
   public static extern void SBMLErrorLog_remove(HandleRef jarg1, long jarg2);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLErrorLog_removeAll")]
+  public static extern void SBMLErrorLog_removeAll(HandleRef jarg1, long jarg2);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBMLErrorLog_contains")]
   public static extern bool SBMLErrorLog_contains(HandleRef jarg1, long jarg2);
 
@@ -6677,6 +6716,21 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_resetModifiedFlags")]
   public static extern void CVTerm_resetModifiedFlags(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getNumNestedCVTerms")]
+  public static extern uint CVTerm_getNumNestedCVTerms(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getNestedCVTerm__SWIG_0")]
+  public static extern IntPtr CVTerm_getNestedCVTerm__SWIG_0(HandleRef jarg1, long jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_getListNestedCVTerms__SWIG_0")]
+  public static extern IntPtr CVTerm_getListNestedCVTerms__SWIG_0(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_addNestedCVTerm")]
+  public static extern int CVTerm_addNestedCVTerm(HandleRef jarg1, HandleRef jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_CVTerm_removeNestedCVTerm")]
+  public static extern IntPtr CVTerm_removeNestedCVTerm(HandleRef jarg1, long jarg2);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_new_Date__SWIG_0")]
   public static extern IntPtr new_Date__SWIG_0(long jarg1, long jarg2, long jarg3, long jarg4, long jarg5, long jarg6, long jarg7, long jarg8, long jarg9);
@@ -6954,8 +7008,14 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_RDFAnnotationParser_createAnnotation")]
   public static extern IntPtr RDFAnnotationParser_createAnnotation();
 
-  [DllImport("libsbmlcs", EntryPoint="CSharp_RDFAnnotationParser_createRDFAnnotation")]
-  public static extern IntPtr RDFAnnotationParser_createRDFAnnotation();
+  [DllImport("libsbmlcs", EntryPoint="CSharp_RDFAnnotationParser_createRDFAnnotation__SWIG_0")]
+  public static extern IntPtr RDFAnnotationParser_createRDFAnnotation__SWIG_0(long jarg1, long jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_RDFAnnotationParser_createRDFAnnotation__SWIG_1")]
+  public static extern IntPtr RDFAnnotationParser_createRDFAnnotation__SWIG_1(long jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_RDFAnnotationParser_createRDFAnnotation__SWIG_2")]
+  public static extern IntPtr RDFAnnotationParser_createRDFAnnotation__SWIG_2();
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_RDFAnnotationParser_createCVTerms")]
   public static extern IntPtr RDFAnnotationParser_createCVTerms(HandleRef jarg1);

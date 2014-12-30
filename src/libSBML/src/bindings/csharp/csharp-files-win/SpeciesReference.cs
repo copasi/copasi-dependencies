@@ -155,7 +155,7 @@ namespace libsbml {
  * the the use of the SpeciesReference identifier to represent the value of
  * the 'stoichiometry' attribute, (2) makes the 'stoichiometry' attribute
  * optional, (3) removes StoichiometryMath, and (4) adds a new 'constant'
- * bool attribute on SpeciesReference.
+ * boolean attribute on SpeciesReference.
  *
  * As in Level&nbsp;2, the 'stoichiometry' attribute is of type
  * @c double and should contain values greater than zero (@c 0).  A
@@ -272,7 +272,7 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @param version a long integer, the SBML Version to assign to this
    * SpeciesReference
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -301,7 +301,7 @@ public class SpeciesReference : SimpleSpeciesReference {
    *
    * @param sbmlns an SBMLNamespaces object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -548,14 +548,12 @@ public class SpeciesReference : SimpleSpeciesReference {
    * attribute and the stoichiometryMath' subelement are mutually
    * exclusive.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setStoichiometry(double value) {
     int ret = libsbmlPINVOKE.SpeciesReference_setStoichiometry(swigCPtr, value);
@@ -598,14 +596,12 @@ public class SpeciesReference : SimpleSpeciesReference {
    * given math is not null because the 'stoichiometry' attribute and the
    * stoichiometryMath' subelement are mutually exclusive.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
@@ -633,14 +629,12 @@ public class SpeciesReference : SimpleSpeciesReference {
    *
    * @param value the scalar value 
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setDenominator(int value) {
     int ret = libsbmlPINVOKE.SpeciesReference_setDenominator(swigCPtr, value);
@@ -649,20 +643,18 @@ public class SpeciesReference : SimpleSpeciesReference {
 
   
 /**
-   * Sets the 'constant' attribute of this SpeciesReference to the given bool
+   * Sets the 'constant' attribute of this SpeciesReference to the given boolean
    * @p flag.
    *
-   * @param flag a bool, the value for the 'constant' attribute of this
+   * @param flag a boolean, the value for the 'constant' attribute of this
    * SpeciesReference instance
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
  int setConstant(bool flag) {
@@ -674,14 +666,12 @@ public class SpeciesReference : SimpleSpeciesReference {
 /**
    * Unsets the 'stoichiometryMath' subelement of this SpeciesReference.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
@@ -719,14 +709,12 @@ public class SpeciesReference : SimpleSpeciesReference {
 /**
    * Unsets the 'stoichiometry' attribute of this SpeciesReference.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note In SBML Level&nbsp;1, the 'stoichiometry' attribute of this
@@ -777,14 +765,12 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @param annotation an XML structure that is to be used as the content
    * of the 'annotation' subelement of this object
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see appendAnnotation(XMLNode annotation)
    * @see appendAnnotation(string annotation)
@@ -809,14 +795,12 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @param annotation an XML string that is to be used as the content
    * of the 'annotation' subelement of this object
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see appendAnnotation(XMLNode annotation)
@@ -840,14 +824,12 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @param annotation an XML structure that is to be copied and appended
    * to the content of the 'annotation' subelement of this object
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see setAnnotation(string annotation)
@@ -871,14 +853,12 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @param annotation an XML string that is to be copied and appended
    * to the content of the 'annotation' subelement of this object
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see setAnnotation(string annotation)
@@ -893,7 +873,7 @@ public class SpeciesReference : SimpleSpeciesReference {
 /**
    * Returns the libSBML type code for this %SBML object.
    * 
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all

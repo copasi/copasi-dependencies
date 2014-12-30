@@ -23,7 +23,7 @@ namespace libsbml {
  * different Level+Version combination.
  *
  * This class is also the basis for
- * SBMLDocument::setLevelAndVersion(@if java long, long, bool@endif).
+ * SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif).
  *
  * @section SBMLLevelVersionConverter-usage Configuration and use of SBMLLevelVersionConverter
  *
@@ -46,7 +46,7 @@ namespace libsbml {
  * altered semantics, the errors will be logged in the usual way (i.e., the
  * error log on the SBMLDocument object).
  *
- * *
+ *
  * @section using-converters General information about the use of SBML converters
  *
  * The use of all the converters follows a similar approach.  First, one
@@ -320,14 +320,12 @@ public class SBMLLevelVersionConverter : SBMLConverter {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_CONV_INVALID_TARGET_NAMESPACE LIBSBML_CONV_INVALID_TARGET_NAMESPACE@endlink
    * @li @link libsbml#LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE@endlink

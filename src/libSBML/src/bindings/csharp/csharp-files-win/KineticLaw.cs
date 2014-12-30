@@ -150,7 +150,7 @@ public class KineticLaw : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -177,7 +177,7 @@ public class KineticLaw : SBase {
    * Creates a new KineticLaw using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -195,7 +195,7 @@ public class KineticLaw : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -319,7 +319,7 @@ public class KineticLaw : SBase {
    *
    * @return the 'timeUnits' attribute value.
    *
-   * *
+   *
  * @note The attributes 'timeUnits' and 'substanceUnits' are present only
  * in SBML Level&nbsp;2 Version&nbsp;1.  In SBML Level&nbsp;2
  * Version&nbsp;2, the 'timeUnits' and 'substanceUnits' attributes were
@@ -339,7 +339,7 @@ public class KineticLaw : SBase {
    *
    * @return the 'substanceUnits' attribute value.
    *
-   * *
+   *
  * @note The attributes 'timeUnits' and 'substanceUnits' are present only
  * in SBML Level&nbsp;2 Version&nbsp;1.  In SBML Level&nbsp;2
  * Version&nbsp;2, the 'timeUnits' and 'substanceUnits' attributes were
@@ -403,7 +403,7 @@ public class KineticLaw : SBase {
    * @return @c true if the 'timeUnits' attribute of this KineticLaw object
    * is set, @c false otherwise.
    *
-   * *
+   *
  * @note The attributes 'timeUnits' and 'substanceUnits' are present only
  * in SBML Level&nbsp;2 Version&nbsp;1.  In SBML Level&nbsp;2
  * Version&nbsp;2, the 'timeUnits' and 'substanceUnits' attributes were
@@ -424,7 +424,7 @@ public class KineticLaw : SBase {
    * @return @c true if the 'substanceUnits' attribute of this KineticLaw
    * object is set, @c false otherwise.
    *
-   * *
+   *
  * @note The attributes 'timeUnits' and 'substanceUnits' are present only
  * in SBML Level&nbsp;2 Version&nbsp;1.  In SBML Level&nbsp;2
  * Version&nbsp;2, the 'timeUnits' and 'substanceUnits' attributes were
@@ -448,14 +448,12 @@ public class KineticLaw : SBase {
    * @param formula the mathematical expression to use, represented in
    * text-string form.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note @htmlinclude level-1-uses-text-string-math.html
@@ -480,14 +478,12 @@ public class KineticLaw : SBase {
    *
    * @param math an ASTNode representing a formula tree.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see setFormula(string formula)
@@ -504,18 +500,16 @@ public class KineticLaw : SBase {
    *
    * @param sid the identifier of the units to use.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
-   * *
+   *
  * @note The attributes 'timeUnits' and 'substanceUnits' are present only
  * in SBML Level&nbsp;2 Version&nbsp;1.  In SBML Level&nbsp;2
  * Version&nbsp;2, the 'timeUnits' and 'substanceUnits' attributes were
@@ -536,18 +530,16 @@ public class KineticLaw : SBase {
    *
    * @param sid the identifier of the units to use.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
-   * *
+   *
  * @note The attributes 'timeUnits' and 'substanceUnits' are present only
  * in SBML Level&nbsp;2 Version&nbsp;1.  In SBML Level&nbsp;2
  * Version&nbsp;2, the 'timeUnits' and 'substanceUnits' attributes were
@@ -565,18 +557,16 @@ public class KineticLaw : SBase {
    * (SBML Level&nbsp;2 Version&nbsp;1 only) Unsets the 'timeUnits'
    * attribugte of this KineticLaw object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
-   * *
+   *
  * @note The attributes 'timeUnits' and 'substanceUnits' are present only
  * in SBML Level&nbsp;2 Version&nbsp;1.  In SBML Level&nbsp;2
  * Version&nbsp;2, the 'timeUnits' and 'substanceUnits' attributes were
@@ -594,18 +584,16 @@ public class KineticLaw : SBase {
    * (SBML Level&nbsp;2 Version&nbsp;1 only) Unsets the 'substanceUnits'
    * attribute of this KineticLaw object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
-   * *
+   *
  * @note The attributes 'timeUnits' and 'substanceUnits' are present only
  * in SBML Level&nbsp;2 Version&nbsp;1.  In SBML Level&nbsp;2
  * Version&nbsp;2, the 'timeUnits' and 'substanceUnits' attributes were
@@ -625,21 +613,19 @@ public class KineticLaw : SBase {
    *
    * @param p the Parameter to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -667,21 +653,19 @@ public class KineticLaw : SBase {
    *
    * @param p the LocalParameter to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
    * @li @link libsbml#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note This method should be used with some caution.  The fact that this
  * method @em copies the object passed to it means that the caller will be
  * left holding a physically different object instance than the one contained
@@ -837,7 +821,7 @@ public class KineticLaw : SBase {
    * Calculates and returns a UnitDefinition that expresses the units of
    * measurement assumed for the 'math' expression of this KineticLaw.
    *
-   * *
+   *
  * 
  * The units are calculated based on the mathematical expression in the
  * KineticLaw and the model quantities referenced by <code>&lt;ci&gt;</code>
@@ -847,7 +831,7 @@ public class KineticLaw : SBase {
  *
  * 
    *
-   * *
+   *
  * @note The functionality that facilitates unit analysis depends on the
  * model as a whole.  Thus, in cases where the object has not been added to
  * a model or the model itself is incomplete, unit analysis is not possible
@@ -855,7 +839,7 @@ public class KineticLaw : SBase {
  *
  * 
    *
-   * *
+   *
  * @warning <span class='warning'>Note that it is possible the 'math'
  * expression in the KineticLaw contains pure numbers or parameters with
  * undeclared units.  In those cases, it is not possible to calculate the
@@ -994,7 +978,7 @@ public class KineticLaw : SBase {
 /**
    * Returns the libSBML type code for this %SBML object.
    * 
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -1020,7 +1004,7 @@ public class KineticLaw : SBase {
    * @return the SBML type code for this object:
    * @link libsbml#SBML_KINETIC_LAW SBML_KINETIC_LAW@endlink (default).
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke
@@ -1072,7 +1056,7 @@ public class KineticLaw : SBase {
    * @note The required elements for a KineticLaw object are:
    * @li 'math'
    *
-   * @return a bool value indicating whether all the required
+   * @return a boolean value indicating whether all the required
    * elements for this object have been defined.
    */ public new
  bool hasRequiredElements() {
@@ -1087,14 +1071,12 @@ public class KineticLaw : SBase {
    *
    * Overridden from the SBase function since the parent is not a ListOf.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int removeFromParentAndDelete() {
@@ -1104,11 +1086,11 @@ public class KineticLaw : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c SIdRef type attribute value with another
  * value.
  *
- * *
+ *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -1140,11 +1122,11 @@ public class KineticLaw : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c UnitSIdRef type attribute value with
  * another value.
  *
- * *
+ *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was

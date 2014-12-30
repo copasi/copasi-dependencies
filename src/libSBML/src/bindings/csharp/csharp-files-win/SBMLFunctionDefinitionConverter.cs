@@ -49,7 +49,7 @@ namespace libsbml {
  * skipped during function conversion.  Functions whose identifiers are
  * found in this list will not be converted.
  *
- * *
+ *
  * @section using-converters General information about the use of SBML converters
  *
  * The use of all the converters follows a similar approach.  First, one
@@ -323,14 +323,12 @@ public class SBMLFunctionDefinitionConverter : SBMLConverter {
    * with the configuration options set by
    * SBMLConverter::setProperties(@if java ConversionProperties@endif).
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink

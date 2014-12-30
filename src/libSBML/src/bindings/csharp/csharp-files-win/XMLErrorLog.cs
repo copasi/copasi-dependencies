@@ -30,7 +30,7 @@ namespace libsbml {
  * @if java XMLErrorLog::getNumErrors()@else getNumErrors()@endif
  * to inquire how many XMLError object instances it contains, and then to
  * iterate over the list of objects one at a time using
- * getError(long n) const.  Indexing in the list begins at 0.
+ * getError(unsigned int n) .  Indexing in the list begins at 0.
  *
  * In normal circumstances, programs using libSBML will actually obtain an
  * SBMLErrorLog rather than an XMLErrorLog.  The former is subclassed from
@@ -124,7 +124,7 @@ public class XMLErrorLog : IDisposable {
    * Returns the number of errors that have been logged.
    *
    * To retrieve individual errors from the log, callers may use
-   * @if clike getError() @else XMLErrorLog::getError(long n) @endif.
+   * @if clike getError() @else XMLErrorLog::getError(unsigned int n) @endif.
    *
    * @return the number of errors that have been logged.
    */ public
@@ -283,10 +283,10 @@ public class XMLErrorLog : IDisposable {
 
   
 /**
-   * Returns a bool indicating whether or not the severity has been
+   * Returns a boolean indicating whether or not the severity has been
    * overridden.
    *
-   * *
+   *
  * 
  * The <em>severity override</em> mechanism in XMLErrorLog is intended to help
  * applications handle error conditions in ways that may be more convenient
@@ -312,7 +312,7 @@ public class XMLErrorLog : IDisposable {
 /**
    * Usets an existing override.
    *
-   * *
+   *
  * 
  * The <em>severity override</em> mechanism in XMLErrorLog is intended to help
  * applications handle error conditions in ways that may be more convenient
@@ -334,7 +334,7 @@ public class XMLErrorLog : IDisposable {
 /**
    * Returns the current override.
    *
-   * *
+   *
  * 
  * The <em>severity override</em> mechanism in XMLErrorLog is intended to help
  * applications handle error conditions in ways that may be more convenient
@@ -365,7 +365,7 @@ public class XMLErrorLog : IDisposable {
 /**
    * Set the severity override.
    *
-   * *
+   *
  * 
  * The <em>severity override</em> mechanism in XMLErrorLog is intended to help
  * applications handle error conditions in ways that may be more convenient
@@ -402,7 +402,7 @@ public class XMLErrorLog : IDisposable {
    * encountered with that severity logged by the named @p package, the
    * severity of the error is reset to @p targetSeverity.
    *
-   * *
+   *
  * 
  * The <em>severity override</em> mechanism in XMLErrorLog is intended to help
  * applications handle error conditions in ways that may be more convenient
@@ -443,7 +443,7 @@ public class XMLErrorLog : IDisposable {
    * encountered with that severity logged by the named @p package, the
    * severity of the error is reset to @p targetSeverity.
    *
-   * *
+   *
  * 
  * The <em>severity override</em> mechanism in XMLErrorLog is intended to help
  * applications handle error conditions in ways that may be more convenient

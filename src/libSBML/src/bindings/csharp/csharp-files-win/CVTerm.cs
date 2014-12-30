@@ -297,7 +297,7 @@ public class CVTerm : IDisposable {
    * Creates an empty CVTerm, optionally with the given
    * @if clike #QualifierType_t value@else qualifier@endif @p type.
    *
-   * *
+   *
  * 
  * The SBML Level&nbsp;2 and Level&nbsp;3 specifications define a simple
  * format for annotating models when (a) referring to controlled
@@ -342,7 +342,7 @@ public class CVTerm : IDisposable {
    * Creates an empty CVTerm, optionally with the given
    * @if clike #QualifierType_t value@else qualifier@endif @p type.
    *
-   * *
+   *
  * 
  * The SBML Level&nbsp;2 and Level&nbsp;3 specifications define a simple
  * format for annotating models when (a) referring to controlled
@@ -386,7 +386,7 @@ public class CVTerm : IDisposable {
 /**
    * Creates a new CVTerm from the given XMLNode.
    *
-   * *
+   *
  * 
  * The SBML Level&nbsp;2 and Level&nbsp;3 specifications define a simple
  * format for annotating models when (a) referring to controlled
@@ -455,7 +455,7 @@ public class CVTerm : IDisposable {
 /**
    * Returns the qualifier type of this CVTerm object.
    *
-   * *
+   *
  * 
  * The RDF element used in the SBML format for referring to external entities
  * is <code>&lt;rdf:Description&gt;</code>, with a
@@ -523,7 +523,7 @@ public class CVTerm : IDisposable {
 /**
    * Returns the model qualifier type of this CVTerm object.
    * 
-   * *
+   *
  * 
  * The RDF element used in the SBML format for referring to external entities
  * is <code>&lt;rdf:Description&gt;</code>, with a
@@ -596,7 +596,7 @@ public class CVTerm : IDisposable {
 /**
    * Returns the biological qualifier type of this CVTerm object.
    * 
-   * *
+   *
  * 
  * The RDF element used in the SBML format for referring to external entities
  * is <code>&lt;rdf:Description&gt;</code>, with a
@@ -677,7 +677,7 @@ public class CVTerm : IDisposable {
 /**
    * Returns the resource references for this CVTerm object.
    *
-   * *
+   *
  * 
  * The RDF element used in the SBML format for referring to external entities
  * is <code>&lt;rdf:Description&gt;</code>, with a
@@ -721,7 +721,7 @@ public class CVTerm : IDisposable {
    *
    * @see CVTerm::getQualifierType()
    * @see CVTerm::addResource(string resource)
-   * @see CVTerm::getResourceURI(long n)
+   * @see CVTerm::getResourceURI(unsigned int n)
    */ public
  XMLAttributes getResources() {
     IntPtr cPtr = libsbmlPINVOKE.CVTerm_getResources__SWIG_0(swigCPtr);
@@ -733,7 +733,7 @@ public class CVTerm : IDisposable {
 /**
    * Returns the number of resources for this CVTerm object.
    * 
-   * *
+   *
  * 
  * The RDF element used in the SBML format for referring to external entities
  * is <code>&lt;rdf:Description&gt;</code>, with a
@@ -773,7 +773,7 @@ public class CVTerm : IDisposable {
    * of this CVTerm.
    *
    * @see CVTerm::getResources()
-   * @see CVTerm::getResourceURI(long n)
+   * @see CVTerm::getResourceURI(unsigned int n)
    */ public
  long getNumResources() { return (long)libsbmlPINVOKE.CVTerm_getNumResources__SWIG_0(swigCPtr); }
 
@@ -781,7 +781,7 @@ public class CVTerm : IDisposable {
 /**
    * Returns the value of the <em>n</em>th resource for this CVTerm object.
    *
-   * *
+   *
  * 
  * The RDF element used in the SBML format for referring to external entities
  * is <code>&lt;rdf:Description&gt;</code>, with a
@@ -840,14 +840,12 @@ public class CVTerm : IDisposable {
    *
    * @param type the @if clike #QualifierType_t value@else qualifier type@endif.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see CVTerm::getQualifierType()
    */ public
@@ -863,14 +861,12 @@ public class CVTerm : IDisposable {
    *
    * @param type the @if clike #ModelQualifierType_t value@else model qualifier type@endif
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
@@ -894,14 +890,12 @@ public class CVTerm : IDisposable {
    * @param type the @if clike #BiolQualifierType_t value@else biology
    * qualifier type@endif.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
@@ -924,14 +918,12 @@ public class CVTerm : IDisposable {
    *
    * @param qualifier the string representing a model qualifier
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
@@ -954,14 +946,12 @@ public class CVTerm : IDisposable {
    *
    * @param qualifier the string representing a biology qualifier
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note If the Qualifier Type of this object is not
@@ -981,7 +971,7 @@ public class CVTerm : IDisposable {
 /**
    * Adds a resource reference to this CVTerm object.
    *
-   * *
+   *
  * 
  * The SBML Level&nbsp;2 and Level&nbsp;3 specifications define a simple
  * format for annotating models when (a) referring to controlled
@@ -1056,14 +1046,12 @@ public class CVTerm : IDisposable {
    * item being referenced; e.g.,
    * <code>'http://www.geneontology.org/#GO:0005892'</code>.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see CVTerm::getResources()
@@ -1085,14 +1073,12 @@ public class CVTerm : IDisposable {
    * @param resource a string representing the resource URI to remove;
    * e.g., <code>'http://www.geneontology.org/#GO:0005892'</code>.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -1128,6 +1114,41 @@ public class CVTerm : IDisposable {
 /** */ /* libsbml-internal */ public
  void resetModifiedFlags() {
     libsbmlPINVOKE.CVTerm_resetModifiedFlags(swigCPtr);
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ long getNumNestedCVTerms() { return (long)libsbmlPINVOKE.CVTerm_getNumNestedCVTerms(swigCPtr); }
+
+  
+/** */ /* libsbml-internal */ public
+ CVTerm getNestedCVTerm(long n) {
+    IntPtr cPtr = libsbmlPINVOKE.CVTerm_getNestedCVTerm__SWIG_0(swigCPtr, n);
+    CVTerm ret = (cPtr == IntPtr.Zero) ? null : new CVTerm(cPtr, false);
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ SWIGTYPE_p_List getListNestedCVTerms() {
+    IntPtr cPtr = libsbmlPINVOKE.CVTerm_getListNestedCVTerms__SWIG_0(swigCPtr);
+    SWIGTYPE_p_List ret = (cPtr == IntPtr.Zero) ? null : new SWIGTYPE_p_List(cPtr, false);
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ int addNestedCVTerm(CVTerm term) {
+    int ret = libsbmlPINVOKE.CVTerm_addNestedCVTerm(swigCPtr, CVTerm.getCPtr(term));
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ CVTerm removeNestedCVTerm(long n) {
+    IntPtr cPtr = libsbmlPINVOKE.CVTerm_removeNestedCVTerm(swigCPtr, n);
+    CVTerm ret = (cPtr == IntPtr.Zero) ? null : new CVTerm(cPtr, false);
+    return ret;
   }
 
 }

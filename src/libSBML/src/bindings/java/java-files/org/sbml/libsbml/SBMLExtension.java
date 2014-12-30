@@ -23,6 +23,42 @@ defined in SBML.
  * mechanism.  It is an abstract class that is extended by each package
  * extension implementation. 
  <p>
+ * <p>
+ * <h2>Basic principles of SBML package extensions in libSBML</h2>
+ <p>
+ * SBML Level&nbsp;3's package structure permits modular extensions to the
+ * core SBML format.  In libSBML, support for SBML Level&nbsp;3 packages is
+ * provided through optional <em>package extensions</em> that can be plugged
+ * into libSBML at the time it is built/compiled.  Users of libSBML can thus
+ * choose which extensions are enabled in their software applications.
+ <p>
+ * LibSBML defines a number of classes that developers of package extensions
+ * can use to implement support for an SBML Level&nbsp;3 package.  These
+ * classes make it easier to extend libSBML objects with new attributes
+ * and/or subobjects as needed by a particular Level&nbsp;3 package.
+ * Three overall categories of classes make up libSBML's facilities for
+ * implementing package extensions.  There are (1) classes that serve as base
+ * classes meant to be subclassed, (2) template classes meant to be
+ * instantiated rather than subclassed, and (3) support classes that provide
+ * utility features. A given package implementation for libSBML will take
+ * the form of code using these and other libSBML classes, placed in a
+ * subdirectory of <code>src/sbml/packages/</code>.
+ <p>
+ * The basic libSBML distribution includes a number of package extensions
+ * implementing support for officially-endorsed SBML Level&nbsp;3 packages;
+ * among these are <em>Flux Balance Constraints</em> ('fbc'),
+ * <em>Hierarchical Model Composition</em> ('comp'), <em>Layout</em>
+ * ('layout'), and <em>Qualitative Models</em> ('qual').  They can serve as
+ * working examples for developers working to implement other packages.
+ <p>
+ * Extensions in libSBML can currently only be implemented in C++ or C;
+ * there is no mechanism to implement them first in languages such as
+ * Java or Python.  However, once implemented in C++ or C, language
+ * interfaces can be generated semi-automatically using the framework in
+ * place in libSBML.  (The approach is based on using <a target='_blank'
+ * href='http://www.swig.org'>SWIG</a> and facilities in libSBML's build
+ * system.)
+ <p>
  * <h2>Special handling for SBML Level&nbsp;2</h2>
  * <p>
  * Due to the historical background of the SBML Layout package, libSBML
@@ -123,6 +159,7 @@ public class SBMLExtension {
 
   /**
    * SBMLExtension derived classes must override this method
+   * @internal
    */
   public SBasePlugin DowncastSBasePlugin(long cPtr, boolean owner)
   {
@@ -134,6 +171,7 @@ public class SBMLExtension {
 
   /**
    * SBMLExtension derived classes must override this method
+   * @internal
    */
   public SBase DowncastSBase(long cPtr, boolean owner)
   {
@@ -379,6 +417,8 @@ public class SBMLExtension {
 /**
    * Removes the package's Level&nbsp;2 namespace(s).
    <p>
+   * @internal 
+   <p>
    * <p>
  * This method is related to special facilities designed to support
  * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
@@ -413,6 +453,8 @@ for (int n = 0; n &lt; xmlns-&gt;getNumNamespaces(); n++)
 /**
    * Adds the package's Level&nbsp;2 namespace(s).
    <p>
+   * @internal 
+   <p>
    * <p>
  * This method is related to special facilities designed to support
  * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
@@ -443,6 +485,8 @@ if (!xmlns-&gt;containsUri( {@link LayoutExtension#getXmlnsL2()}))
   
 /**
    * Called to enable the package on the {@link SBMLDocument} object.
+   <p>
+   * @internal 
    <p>
    * <p>
  * This method is related to special facilities designed to support
@@ -495,23 +539,33 @@ if (doc-&gt;getLevel() == 2)
     return libsbmlJNI.SBMLExtension_getErrorTableIndex(swigCPtr, this, errorId);
   }
 
-  public long getErrorIdOffset() {
+  
+/** * @internal */ public
+ long getErrorIdOffset() {
     return libsbmlJNI.SBMLExtension_getErrorIdOffset(swigCPtr, this);
   }
 
-  public long getSeverity(long index, long pkgVersion) {
+  
+/** * @internal */ public
+ long getSeverity(long index, long pkgVersion) {
     return libsbmlJNI.SBMLExtension_getSeverity(swigCPtr, this, index, pkgVersion);
   }
 
-  public long getCategory(long index) {
+  
+/** * @internal */ public
+ long getCategory(long index) {
     return libsbmlJNI.SBMLExtension_getCategory(swigCPtr, this, index);
   }
 
-  public String getMessage(long index, long pkgVersion, String details) {
+  
+/** * @internal */ public
+ String getMessage(long index, long pkgVersion, String details) {
     return libsbmlJNI.SBMLExtension_getMessage(swigCPtr, this, index, pkgVersion, details);
   }
 
-  public String getShortMessage(long index) {
+  
+/** * @internal */ public
+ String getShortMessage(long index) {
     return libsbmlJNI.SBMLExtension_getShortMessage(swigCPtr, this, index);
   }
 

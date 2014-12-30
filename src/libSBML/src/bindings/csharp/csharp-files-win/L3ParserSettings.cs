@@ -43,8 +43,6 @@ namespace libsbml {
  * settings is relevant; please see the documentation for
  * @sbmlfunction{formulaToL3StringWithSettings, ASTNode\,
  * L3ParserSettings} for more information about which ones).
- *
- * *
  * @li A Model object may optionally be provided to use identifiers (values
  * of type @c SId) from the model in preference to pre-defined MathML symbols
  * More precisely, the Model entities whose identifiers will shadow identical
@@ -252,11 +250,11 @@ public class L3ParserSettings : IDisposable {
    * @see getParseLog()
    * @see setParseLog(@if java int@endif)
    * @see getParseUnits()
-   * @see setParseUnits(@if java bool@endif)
+   * @see setParseUnits(@if java boolean@endif)
    * @see getParseCollapseMinus()
-   * @see setParseCollapseMinus(@if java bool@endif)
+   * @see setParseCollapseMinus(@if java boolean@endif)
    * @see getParseAvogadroCsymbol()
-   * @see setParseAvogadroCsymbol(@if java bool@endif)
+   * @see setParseAvogadroCsymbol(@if java boolean@endif)
    */ public
  L3ParserSettings(Model model, int parselog, bool collapseminus, bool parseunits, bool avocsymbol, bool caseSensitive, SBMLNamespaces sbmlns) : this(libsbmlPINVOKE.new_L3ParserSettings__SWIG_1(Model.getCPtr(model), parselog, collapseminus, parseunits, avocsymbol, caseSensitive, SBMLNamespaces.getCPtr(sbmlns)), true) {
   }
@@ -327,11 +325,11 @@ public class L3ParserSettings : IDisposable {
    * @see getParseLog()
    * @see setParseLog(@if java int@endif)
    * @see getParseUnits()
-   * @see setParseUnits(@if java bool@endif)
+   * @see setParseUnits(@if java boolean@endif)
    * @see getParseCollapseMinus()
-   * @see setParseCollapseMinus(@if java bool@endif)
+   * @see setParseCollapseMinus(@if java boolean@endif)
    * @see getParseAvogadroCsymbol()
-   * @see setParseAvogadroCsymbol(@if java bool@endif)
+   * @see setParseAvogadroCsymbol(@if java boolean@endif)
    */ public
  L3ParserSettings(Model model, int parselog, bool collapseminus, bool parseunits, bool avocsymbol, bool caseSensitive) : this(libsbmlPINVOKE.new_L3ParserSettings__SWIG_2(Model.getCPtr(model), parselog, collapseminus, parseunits, avocsymbol, caseSensitive), true) {
   }
@@ -402,11 +400,11 @@ public class L3ParserSettings : IDisposable {
    * @see getParseLog()
    * @see setParseLog(@if java int@endif)
    * @see getParseUnits()
-   * @see setParseUnits(@if java bool@endif)
+   * @see setParseUnits(@if java boolean@endif)
    * @see getParseCollapseMinus()
-   * @see setParseCollapseMinus(@if java bool@endif)
+   * @see setParseCollapseMinus(@if java boolean@endif)
    * @see getParseAvogadroCsymbol()
-   * @see setParseAvogadroCsymbol(@if java bool@endif)
+   * @see setParseAvogadroCsymbol(@if java boolean@endif)
    */ public
  L3ParserSettings(Model model, int parselog, bool collapseminus, bool parseunits, bool avocsymbol) : this(libsbmlPINVOKE.new_L3ParserSettings__SWIG_3(Model.getCPtr(model), parselog, collapseminus, parseunits, avocsymbol), true) {
   }
@@ -423,7 +421,7 @@ public class L3ParserSettings : IDisposable {
 /**
    * Sets the model reference in this L3ParserSettings object.
    *
-   * *
+   *
  * 
  * When a Model object is provided, identifiers (values of type @c SId)
  * from that model are used in preference to pre-defined MathML symbol
@@ -460,7 +458,7 @@ public class L3ParserSettings : IDisposable {
 /**
    * Returns the Model object referenced by this L3ParserSettings object.
    *
-   * *
+   *
  * 
  * When a Model object is provided, identifiers (values of type @c SId)
  * from that model are used in preference to pre-defined MathML symbol
@@ -557,7 +555,7 @@ public class L3ParserSettings : IDisposable {
    * Sets the behavior for handling unary minuses appearing in mathematical
    * formulas.
    *
-   * *
+   *
  * 
  * This setting affects two behaviors.  First, pairs of multiple unary
  * minuses in a row (e.g., &quot;<code>- -3</code>&quot;) can be collapsed
@@ -575,7 +573,7 @@ public class L3ParserSettings : IDisposable {
    * collapse minuses or always preserve them.  The two possibilities are
    * represented using the following constants:
    *
-   * *
+   *
  * <ul>
  * <li> @link libsbml#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (value = @c true): collapse
  * unary minuses where possible.
@@ -585,7 +583,7 @@ public class L3ParserSettings : IDisposable {
  * </ul>
  *
    *
-   * @param collapseminus a bool value (one of the constants
+   * @param collapseminus a boolean value (one of the constants
    * @link libsbml#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink or
    * @link libsbml#L3P_EXPAND_UNARY_MINUS L3P_EXPAND_UNARY_MINUS@endlink)
    * indicating how unary minus signs in the input should be handled.
@@ -601,7 +599,7 @@ public class L3ParserSettings : IDisposable {
    * Indicates the current behavior set for handling multiple unary minuses
    * in formulas.
    *
-   * *
+   *
  * 
  * This setting affects two behaviors.  First, pairs of multiple unary
  * minuses in a row (e.g., &quot;<code>- -3</code>&quot;) can be collapsed
@@ -615,9 +613,9 @@ public class L3ParserSettings : IDisposable {
  * @link libsbml#AST_REAL AST_REAL@endlink.
  *
    *
-   * @return A bool indicating the behavior currently set.  The possible
+   * @return A boolean indicating the behavior currently set.  The possible
    * values are as follows:
-   * *
+   *
  * <ul>
  * <li> @link libsbml#L3P_COLLAPSE_UNARY_MINUS L3P_COLLAPSE_UNARY_MINUS@endlink (value = @c true): collapse
  * unary minuses where possible.
@@ -627,7 +625,7 @@ public class L3ParserSettings : IDisposable {
  * </ul>
  *
    *
-   * @see setParseCollapseMinus(@if java bool@endif)
+   * @see setParseCollapseMinus(@if java boolean@endif)
    */ public
  bool getParseCollapseMinus() {
     bool ret = libsbmlPINVOKE.L3ParserSettings_getParseCollapseMinus(swigCPtr);
@@ -639,7 +637,7 @@ public class L3ParserSettings : IDisposable {
    * Sets the parser's behavior in handling units associated with numbers
    * in a mathematical formula.
    *
-   * *
+   *
  * 
  * In SBML Level&nbsp;2, there is no means of associating a unit of
  * measurement with a pure number in a formula, while SBML Level&nbsp;3 does
@@ -658,9 +656,9 @@ public class L3ParserSettings : IDisposable {
    *
    * This method sets the formula parser's behavior with respect to units.
    *
-   * @param units A bool indicating whether to parse units.  The
+   * @param units A boolean indicating whether to parse units.  The
    * possible values are as follows:
-   * *
+   *
  * <ul>
  * <li> @link libsbml#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink (value = @c true): parse units in the
  * text-string formula.
@@ -680,7 +678,7 @@ public class L3ParserSettings : IDisposable {
    * Indicates the current behavior set for handling units in text-string
    * mathematical formulas.
    *
-   * *
+   *
  * 
  * In SBML Level&nbsp;2, there is no means of associating a unit of
  * measurement with a pure number in a formula, while SBML Level&nbsp;3 does
@@ -702,9 +700,9 @@ public class L3ParserSettings : IDisposable {
    * (@link libsbml#L3P_NO_UNITS L3P_NO_UNITS@endlink) when parsing text-string
    * formulas intended for use in SBML Level&nbsp;2 documents.
    *
-   * @return A bool indicating whether to parse units.  The
+   * @return A boolean indicating whether to parse units.  The
    * possible values are as follows:
-   * *
+   *
  * <ul>
  * <li> @link libsbml#L3P_PARSE_UNITS L3P_PARSE_UNITS@endlink (value = @c true): parse units in the
  * text-string formula.
@@ -713,7 +711,7 @@ public class L3ParserSettings : IDisposable {
  * </ul>
  *
    *
-   * @see setParseUnits(@if java bool@endif)
+   * @see setParseUnits(@if java boolean@endif)
    */ public
  bool getParseUnits() {
     bool ret = libsbmlPINVOKE.L3ParserSettings_getParseUnits(swigCPtr);
@@ -725,7 +723,7 @@ public class L3ParserSettings : IDisposable {
    * Sets the parser's behavior in handling the symbol @c avogadro in
    * mathematical formulas.
    *
-   * *
+   *
  * 
  * SBML Level&nbsp;3 defines a symbol for representing the value of
  * Avogadro's constant, but it is not defined in SBML Level&nbsp;2.  As a
@@ -741,7 +739,7 @@ public class L3ParserSettings : IDisposable {
    * behavior in this L3ParserSettings object.  The possible values of @p
    * l2only are as follows:
    *
-   * *
+   *
  * <ul>
  * <li> @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink (value = @c true): tells the
  * parser to translate the string @c avogadro (in any capitalization) into an
@@ -757,7 +755,7 @@ public class L3ParserSettings : IDisposable {
    * @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink when parsing text-string formulas
    * intended for use in SBML Level&nbsp;2 documents.
    *
-   * @param l2only a bool value indicating how the string @c avogadro
+   * @param l2only a boolean value indicating how the string @c avogadro
    * should be treated when encountered in a formula.  This will be one of
    * the values @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink or
    * @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink.
@@ -773,7 +771,7 @@ public class L3ParserSettings : IDisposable {
    * Indicates the current behavior set for handling @c avogadro for SBML
    * Level&nbsp;3.
    *
-   * *
+   *
  * 
  * SBML Level&nbsp;3 defines a symbol for representing the value of
  * Avogadro's constant, but it is not defined in SBML Level&nbsp;2.  As a
@@ -789,7 +787,7 @@ public class L3ParserSettings : IDisposable {
    * <code>avogadro</code>-handling behavior in this L3ParserSettings object.
    * The possible values are as follows:
    *
-   * *
+   *
  * <ul>
  * <li> @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink (value = @c true): tells the
  * parser to translate the string @c avogadro (in any capitalization) into an
@@ -800,12 +798,12 @@ public class L3ParserSettings : IDisposable {
  * </ul>
  *
    *
-   * @return A bool indicating which mode is currently set; one of
+   * @return A boolean indicating which mode is currently set; one of
    * @link libsbml#L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink
    * or
    * @link libsbml#L3P_AVOGADRO_IS_NAME L3P_AVOGADRO_IS_NAME@endlink.
    *
-   * @see setParseAvogadroCsymbol(@if java bool@endif)
+   * @see setParseAvogadroCsymbol(@if java boolean@endif)
    */ public
  bool getParseAvogadroCsymbol() {
     bool ret = libsbmlPINVOKE.L3ParserSettings_getParseAvogadroCsymbol(swigCPtr);
@@ -817,7 +815,7 @@ public class L3ParserSettings : IDisposable {
    * Sets the parser's behavior with respect to case sensitivity for
    * recognizing predefined symbols.
    *
-   * *
+   *
  * 
  * By default (which is the value
  * @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink), the parser
@@ -829,7 +827,7 @@ public class L3ParserSettings : IDisposable {
  * and @c 'true' will match the built-in values, but the symbols @c 'SIN',
  * @c 'Sin', @c 'True', @c 'TRUE', and so on, will not.
    *
-   * @param strcmp a bool indicating whether to be case sensitive (if @c
+   * @param strcmp a boolean indicating whether to be case sensitive (if @c
    * true) or be case insensitive (if @c false).
    *
    * @see getComparisonCaseSensitivity()
@@ -843,7 +841,7 @@ public class L3ParserSettings : IDisposable {
    * Returns @c true if the parser is configured to match built-in symbols
    * in a case-insensitive way.
    *
-   * *
+   *
  * 
  * By default (which is the value
  * @link libsbml#L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink), the parser
@@ -859,7 +857,7 @@ public class L3ParserSettings : IDisposable {
    * @c false if the parser will recognize built-in functions and
    * constants regardless of case,.
    *
-   * @see setComparisonCaseSensitivity(@if java bool@endif)
+   * @see setComparisonCaseSensitivity(@if java boolean@endif)
    */ public
  bool getComparisonCaseSensitivity() {
     bool ret = libsbmlPINVOKE.L3ParserSettings_getComparisonCaseSensitivity(swigCPtr);

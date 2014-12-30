@@ -410,10 +410,12 @@ public class libsbmlJNI {
   public final static native void Model_renameUnitSIdRefs(long jarg1, Model jarg1_, String jarg2, String jarg3);
   public final static native void Model_convertL1ToL2(long jarg1, Model jarg1_);
   public final static native void Model_convertL1ToL3(long jarg1, Model jarg1_);
-  public final static native void Model_convertL2ToL3(long jarg1, Model jarg1_);
+  public final static native void Model_convertL2ToL3__SWIG_0(long jarg1, Model jarg1_, boolean jarg2);
+  public final static native void Model_convertL2ToL3__SWIG_1(long jarg1, Model jarg1_);
   public final static native void Model_convertL2ToL1__SWIG_0(long jarg1, Model jarg1_, boolean jarg2);
   public final static native void Model_convertL2ToL1__SWIG_1(long jarg1, Model jarg1_);
-  public final static native void Model_convertL3ToL1(long jarg1, Model jarg1_);
+  public final static native void Model_convertL3ToL1__SWIG_0(long jarg1, Model jarg1_, boolean jarg2);
+  public final static native void Model_convertL3ToL1__SWIG_1(long jarg1, Model jarg1_);
   public final static native void Model_convertL3ToL2__SWIG_0(long jarg1, Model jarg1_, boolean jarg2);
   public final static native void Model_convertL3ToL2__SWIG_1(long jarg1, Model jarg1_);
   public final static native void Model_addModifiers(long jarg1, Model jarg1_);
@@ -426,9 +428,12 @@ public class libsbmlJNI {
   public final static native void Model_removeParameterRuleUnits(long jarg1, Model jarg1_, boolean jarg2);
   public final static native void Model_convertStoichiometryMath(long jarg1, Model jarg1_);
   public final static native void Model_assignRequiredValues(long jarg1, Model jarg1_);
-  public final static native void Model_dealWithModelUnits(long jarg1, Model jarg1_);
+  public final static native void Model_dealWithModelUnits__SWIG_0(long jarg1, Model jarg1_, boolean jarg2);
+  public final static native void Model_dealWithModelUnits__SWIG_1(long jarg1, Model jarg1_);
   public final static native void Model_dealWithStoichiometry(long jarg1, Model jarg1_);
   public final static native void Model_dealWithEvents(long jarg1, Model jarg1_, boolean jarg2);
+  public final static native void Model_removeSpeciesTypes(long jarg1, Model jarg1_);
+  public final static native void Model_removeCompartmentTypes(long jarg1, Model jarg1_);
   public final static native void Model_connectToChild(long jarg1, Model jarg1_);
   public final static native int Model_getTypeCode(long jarg1, Model jarg1_);
   public final static native String Model_getElementName(long jarg1, Model jarg1_);
@@ -534,6 +539,9 @@ public class libsbmlJNI {
   public final static native long SBMLDocument_getValidator(long jarg1, SBMLDocument jarg1_, long jarg2);
   public final static native int SBMLDocument_addUnknownPackageRequired(long jarg1, SBMLDocument jarg1_, String jarg2, String jarg3, boolean jarg4);
   public final static native boolean SBMLDocument_hasUnknownPackage(long jarg1, SBMLDocument jarg1_, String jarg2);
+  public final static native int SBMLDocument_getNumUnknownPackages(long jarg1, SBMLDocument jarg1_);
+  public final static native String SBMLDocument_getUnknownPackageURI(long jarg1, SBMLDocument jarg1_, int jarg2);
+  public final static native String SBMLDocument_getUnknownPackagePrefix(long jarg1, SBMLDocument jarg1_, int jarg2);
   public final static native long new_FunctionDefinition__SWIG_0(long jarg1, long jarg2) throws org.sbml.libsbml.SBMLConstructorException;
   public final static native long new_FunctionDefinition__SWIG_1(long jarg1, SBMLNamespaces jarg1_) throws org.sbml.libsbml.SBMLConstructorException;
   public final static native void delete_FunctionDefinition(long jarg1);
@@ -1428,6 +1436,7 @@ public class libsbmlJNI {
   public final static native boolean SBO_isOccurringEntityRepresentation(long jarg1);
   public final static native boolean SBO_isPhysicalEntityRepresentation(long jarg1);
   public final static native boolean SBO_isSystemsDescriptionParameter(long jarg1);
+  public final static native boolean SBO_isQuantitativeSystemsDescriptionParameter(long jarg1);
   public final static native boolean SBO_isObselete(long jarg1);
   public final static native String SBO_intToString(int jarg1);
   public final static native int SBO_stringToInt(String jarg1);
@@ -1686,6 +1695,8 @@ public class libsbmlJNI {
   public final static native boolean SBMLStripPackageConverter_matchesProperties(long jarg1, SBMLStripPackageConverter jarg1_, long jarg2, ConversionProperties jarg2_);
   public final static native int SBMLStripPackageConverter_convert(long jarg1, SBMLStripPackageConverter jarg1_);
   public final static native long SBMLStripPackageConverter_getDefaultProperties(long jarg1, SBMLStripPackageConverter jarg1_);
+  public final static native String SBMLStripPackageConverter_getPackageToStrip(long jarg1, SBMLStripPackageConverter jarg1_);
+  public final static native boolean SBMLStripPackageConverter_isStripAllUnrecognizedPackages(long jarg1, SBMLStripPackageConverter jarg1_);
   public final static native void SBMLUnitsConverter_init();
   public final static native long new_SBMLUnitsConverter__SWIG_0();
   public final static native long new_SBMLUnitsConverter__SWIG_1(long jarg1, SBMLUnitsConverter jarg1_);
@@ -2061,6 +2072,7 @@ public class libsbmlJNI {
   public final static native void SBMLErrorLog_logPackageError__SWIG_10(long jarg1, SBMLErrorLog jarg1_);
   public final static native void SBMLErrorLog_add(long jarg1, SBMLErrorLog jarg1_, long jarg2, SBMLError jarg2_);
   public final static native void SBMLErrorLog_remove(long jarg1, SBMLErrorLog jarg1_, long jarg2);
+  public final static native void SBMLErrorLog_removeAll(long jarg1, SBMLErrorLog jarg1_, long jarg2);
   public final static native boolean SBMLErrorLog_contains(long jarg1, SBMLErrorLog jarg1_, long jarg2);
   public final static native long new_SBMLError__SWIG_0(long jarg1, long jarg2, long jarg3, String jarg4, long jarg5, long jarg6, long jarg7, long jarg8, String jarg9, long jarg10);
   public final static native long new_SBMLError__SWIG_1(long jarg1, long jarg2, long jarg3, String jarg4, long jarg5, long jarg6, long jarg7, long jarg8, String jarg9);
@@ -2097,6 +2109,11 @@ public class libsbmlJNI {
   public final static native boolean CVTerm_hasRequiredAttributes__SWIG_0(long jarg1, CVTerm jarg1_);
   public final static native boolean CVTerm_hasBeenModified(long jarg1, CVTerm jarg1_);
   public final static native void CVTerm_resetModifiedFlags(long jarg1, CVTerm jarg1_);
+  public final static native long CVTerm_getNumNestedCVTerms(long jarg1, CVTerm jarg1_);
+  public final static native long CVTerm_getNestedCVTerm__SWIG_0(long jarg1, CVTerm jarg1_, long jarg2);
+  public final static native long CVTerm_getListNestedCVTerms__SWIG_0(long jarg1, CVTerm jarg1_);
+  public final static native int CVTerm_addNestedCVTerm(long jarg1, CVTerm jarg1_, long jarg2, CVTerm jarg2_);
+  public final static native long CVTerm_removeNestedCVTerm(long jarg1, CVTerm jarg1_, long jarg2);
   public final static native long new_Date__SWIG_0(long jarg1, long jarg2, long jarg3, long jarg4, long jarg5, long jarg6, long jarg7, long jarg8, long jarg9);
   public final static native long new_Date__SWIG_1(long jarg1, long jarg2, long jarg3, long jarg4, long jarg5, long jarg6, long jarg7, long jarg8);
   public final static native long new_Date__SWIG_2(long jarg1, long jarg2, long jarg3, long jarg4, long jarg5, long jarg6, long jarg7);
@@ -2187,7 +2204,9 @@ public class libsbmlJNI {
   public final static native long RDFAnnotationParser_parseRDFAnnotation__SWIG_1(long jarg1, XMLNode jarg1_, String jarg2);
   public final static native long RDFAnnotationParser_parseRDFAnnotation__SWIG_2(long jarg1, XMLNode jarg1_);
   public final static native long RDFAnnotationParser_createAnnotation();
-  public final static native long RDFAnnotationParser_createRDFAnnotation();
+  public final static native long RDFAnnotationParser_createRDFAnnotation__SWIG_0(long jarg1, long jarg2);
+  public final static native long RDFAnnotationParser_createRDFAnnotation__SWIG_1(long jarg1);
+  public final static native long RDFAnnotationParser_createRDFAnnotation__SWIG_2();
   public final static native long RDFAnnotationParser_createCVTerms(long jarg1, SBase jarg1_);
   public final static native long RDFAnnotationParser_parseCVTerms(long jarg1, SBase jarg1_);
   public final static native long RDFAnnotationParser_parseModelHistory(long jarg1, SBase jarg1_);

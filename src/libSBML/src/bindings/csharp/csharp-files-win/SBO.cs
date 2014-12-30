@@ -213,7 +213,7 @@ public class SBO : IDisposable {
    * @return @c true if @p term is-a %SBO <em>'quantiative parameter'</em>, @c false
    * otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -235,7 +235,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'participant role'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -257,7 +257,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'modeling framework'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -279,7 +279,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'mathematical expression'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -301,7 +301,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'kinetic constant'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -323,7 +323,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'reactant'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -345,7 +345,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'product'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -367,7 +367,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'modifier'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -389,7 +389,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'rate law'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -411,7 +411,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'event'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -433,7 +433,7 @@ public class SBO : IDisposable {
     *
     * @return @c true if @p term is-a %SBO <em>'physical participant</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -455,7 +455,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'participant'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -477,7 +477,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'interaction'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -499,7 +499,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'entity'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -521,7 +521,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'functional entity'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -543,7 +543,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'material entity'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -565,7 +565,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'conservation law'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -587,7 +587,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'steady state expression'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -609,7 +609,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'functional compartment'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -631,7 +631,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'continuous framework'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -653,7 +653,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'discrete framework'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -675,7 +675,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'logical framework'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -697,7 +697,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'metadata representation'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -719,7 +719,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'occurring entity representation'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -741,7 +741,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'physical entity representation'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -763,7 +763,7 @@ public class SBO : IDisposable {
    *
    * @return @c true if @p term is-a %SBO <em>'systems description parameter'</em>, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -781,11 +781,34 @@ public class SBO : IDisposable {
 
   
 /**
+   * Returns @c true if the given term identifier comes from the stated branch of %SBO.
+   *
+   * @return @c true if @p term is-a %SBO <em>'quantiative systems description parameter'</em>, @c false
+   * otherwise.
+   *
+   *
+ * @if python @note Because this is a static method on a class, the Python
+ * language interface for libSBML will contain two variants.  One will be the
+ * expected, normal static method on the class (i.e., a regular
+ * <em>methodName</em>), and the other will be a standalone top-level
+ * function with the name <em>ClassName_methodName()</em>. This is merely an
+ * artifact of how the language interfaces are created in libSBML.  The
+ * methods are functionally identical. @endif
+ *
+ *
+   */ public
+ static bool isQuantitativeSystemsDescriptionParameter(long term) {
+    bool ret = libsbmlPINVOKE.SBO_isQuantitativeSystemsDescriptionParameter(term);
+    return ret;
+  }
+
+  
+/**
    * Predicate for checking whether the given term is obsolete.
    *
    * @return @c true if @p term is-a %SBO <em>'obsolete'</em> term, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -810,7 +833,7 @@ public class SBO : IDisposable {
    * @note If the sboTerm is not in the correct range
    * (0000000&ndash;9999999), an empty string is returned.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -834,7 +857,7 @@ public class SBO : IDisposable {
    * in the correct format (a zero-padded, seven digit string), <code>-1</code> is
    * returned.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -857,7 +880,7 @@ public class SBO : IDisposable {
    * @return @c true if sboTerm is in the correct format (a zero-padded, seven
    * digit string), @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -881,7 +904,7 @@ public class SBO : IDisposable {
    * @return @c true if sboTerm is in the range (0000000&ndash;9999999), @c false
    * otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular

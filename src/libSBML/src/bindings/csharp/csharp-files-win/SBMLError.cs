@@ -249,7 +249,7 @@ namespace libsbml {
  * <code>Comp</code>, <code>Qual</code>, etc.), then it is a code
  * from libSBML core.@endif
  *
- * *
+ *
  * 
 <table id='sbmlerror-table'
        class='text-table small-font alt-row-colors'
@@ -6316,7 +6316,7 @@ namespace libsbml {
 <td class='s-error'></td>
 </tr>
 <tr><td class='code'>@link libsbml#QualFunctionTermBool QualFunctionTermBool@endlink</td>
-<td class='meaning'>FunctionTerm should return bool</td>
+<td class='meaning'>FunctionTerm should return boolean</td>
 <td class='s-na'></td>
 <td class='s-na'></td>
 <td class='s-na'></td>
@@ -6466,7 +6466,7 @@ namespace libsbml {
 <td class='s-error'></td>
 </tr>
 <tr><td class='code'>@link libsbml#QualConstantMustBeBool QualConstantMustBeBool@endlink</td>
-<td class='meaning'>Attribute 'constant' on <code>&lt;qualitativeSpeciesgt;</code> must be bool.</td>
+<td class='meaning'>Attribute 'constant' on <code>&lt;qualitativeSpeciesgt;</code> must be boolean.</td>
 <td class='s-na'></td>
 <td class='s-na'></td>
 <td class='s-na'></td>
@@ -8715,11 +8715,11 @@ public class SBMLError : XMLError {
    * the enumeration <a class='el'
    * href='#SBMLErrorCode_t'>
    * SBMLErrorCode_t</a>.  @endif@if java These numbers are
-   * defined as longeger constants in the file
+   * defined as unsigned integer constants in the file
    * 'libsbml.libsbml.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif@if python These
-   * numbers are defined as longeger constants in the interface
+   * numbers are defined as unsigned integer constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif The argument
@@ -8827,11 +8827,11 @@ public class SBMLError : XMLError {
    * the enumeration <a class='el'
    * href='#SBMLErrorCode_t'>
    * SBMLErrorCode_t</a>.  @endif@if java These numbers are
-   * defined as longeger constants in the file
+   * defined as unsigned integer constants in the file
    * 'libsbml.libsbml.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif@if python These
-   * numbers are defined as longeger constants in the interface
+   * numbers are defined as unsigned integer constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif The argument
@@ -8939,11 +8939,11 @@ public class SBMLError : XMLError {
    * the enumeration <a class='el'
    * href='#SBMLErrorCode_t'>
    * SBMLErrorCode_t</a>.  @endif@if java These numbers are
-   * defined as longeger constants in the file
+   * defined as unsigned integer constants in the file
    * 'libsbml.libsbml.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif@if python These
-   * numbers are defined as longeger constants in the interface
+   * numbers are defined as unsigned integer constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif The argument
@@ -9051,11 +9051,11 @@ public class SBMLError : XMLError {
    * the enumeration <a class='el'
    * href='#SBMLErrorCode_t'>
    * SBMLErrorCode_t</a>.  @endif@if java These numbers are
-   * defined as longeger constants in the file
+   * defined as unsigned integer constants in the file
    * 'libsbml.libsbml.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif@if python These
-   * numbers are defined as longeger constants in the interface
+   * numbers are defined as unsigned integer constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif The argument
@@ -9163,11 +9163,11 @@ public class SBMLError : XMLError {
    * the enumeration <a class='el'
    * href='#SBMLErrorCode_t'>
    * SBMLErrorCode_t</a>.  @endif@if java These numbers are
-   * defined as longeger constants in the file
+   * defined as unsigned integer constants in the file
    * 'libsbml.libsbml.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif@if python These
-   * numbers are defined as longeger constants in the interface
+   * numbers are defined as unsigned integer constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif The argument
@@ -9275,11 +9275,11 @@ public class SBMLError : XMLError {
    * the enumeration <a class='el'
    * href='#SBMLErrorCode_t'>
    * SBMLErrorCode_t</a>.  @endif@if java These numbers are
-   * defined as longeger constants in the file
+   * defined as unsigned integer constants in the file
    * 'libsbml.libsbml.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif@if python These
-   * numbers are defined as longeger constants in the interface
+   * numbers are defined as unsigned integer constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif The argument
@@ -9387,11 +9387,11 @@ public class SBMLError : XMLError {
    * the enumeration <a class='el'
    * href='#SBMLErrorCode_t'>
    * SBMLErrorCode_t</a>.  @endif@if java These numbers are
-   * defined as longeger constants in the file
+   * defined as unsigned integer constants in the file
    * 'libsbml.libsbml.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif@if python These
-   * numbers are defined as longeger constants in the interface
+   * numbers are defined as unsigned integer constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif The argument
@@ -9499,11 +9499,11 @@ public class SBMLError : XMLError {
    * the enumeration <a class='el'
    * href='#SBMLErrorCode_t'>
    * SBMLErrorCode_t</a>.  @endif@if java These numbers are
-   * defined as longeger constants in the file
+   * defined as unsigned integer constants in the file
    * 'libsbml.libsbml.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif@if python These
-   * numbers are defined as longeger constants in the interface
+   * numbers are defined as unsigned integer constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif The argument
@@ -9611,11 +9611,11 @@ public class SBMLError : XMLError {
    * the enumeration <a class='el'
    * href='#SBMLErrorCode_t'>
    * SBMLErrorCode_t</a>.  @endif@if java These numbers are
-   * defined as longeger constants in the file
+   * defined as unsigned integer constants in the file
    * 'libsbml.libsbml.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif@if python These
-   * numbers are defined as longeger constants in the interface
+   * numbers are defined as unsigned integer constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif The argument
@@ -9723,11 +9723,11 @@ public class SBMLError : XMLError {
    * the enumeration <a class='el'
    * href='#SBMLErrorCode_t'>
    * SBMLErrorCode_t</a>.  @endif@if java These numbers are
-   * defined as longeger constants in the file
+   * defined as unsigned integer constants in the file
    * 'libsbml.libsbml.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif@if python These
-   * numbers are defined as longeger constants in the interface
+   * numbers are defined as unsigned integer constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif The argument
@@ -9835,11 +9835,11 @@ public class SBMLError : XMLError {
    * the enumeration <a class='el'
    * href='#SBMLErrorCode_t'>
    * SBMLErrorCode_t</a>.  @endif@if java These numbers are
-   * defined as longeger constants in the file
+   * defined as unsigned integer constants in the file
    * 'libsbml.libsbml.html'.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif@if python These
-   * numbers are defined as longeger constants in the interface
+   * numbers are defined as unsigned integer constants in the interface
    * class @link libsbml libsbml@endlink.  See the <a class='el'
    * href='#SBMLErrorCode_t'>top of this documentation page</a> for a table
    * listing the possible values and their meanings. @endif The argument

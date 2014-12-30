@@ -116,7 +116,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.0:
+ * provided by libSBML 5.11.1:
  <p>
  * <p>
  * <ul>
@@ -278,6 +278,22 @@ public class SBMLStripPackageConverter extends SBMLConverter {
    */ public
  ConversionProperties getDefaultProperties() {
     return new ConversionProperties(libsbmlJNI.SBMLStripPackageConverter_getDefaultProperties(swigCPtr, this), true);
+  }
+
+  
+/** 
+   * @return the package to be stripped 
+   */ public
+ String getPackageToStrip() {
+    return libsbmlJNI.SBMLStripPackageConverter_getPackageToStrip(swigCPtr, this);
+  }
+
+  
+/** 
+   * @return whether all unrecognized packages should be removed
+   */ public
+ boolean isStripAllUnrecognizedPackages() {
+    return libsbmlJNI.SBMLStripPackageConverter_isStripAllUnrecognizedPackages(swigCPtr, this);
   }
 
 }

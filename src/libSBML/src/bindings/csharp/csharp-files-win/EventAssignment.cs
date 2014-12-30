@@ -216,7 +216,7 @@ public class EventAssignment : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -243,7 +243,7 @@ public class EventAssignment : SBase {
    * Creates a new EventAssignment using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -261,7 +261,7 @@ public class EventAssignment : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -368,14 +368,12 @@ public class EventAssignment : SBase {
    * @param sid the identifier of a Compartment, Species or (global)
    * Parameter defined in this model.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setVariable(string sid) {
@@ -391,14 +389,12 @@ public class EventAssignment : SBase {
    * @param math an ASTNode that will be copied and stored as the
    * mathematical formula for this EventAssignment.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
  int setMath(ASTNode math) {
@@ -411,7 +407,7 @@ public class EventAssignment : SBase {
    * Calculates and returns a UnitDefinition that expresses the units of
    * measurement assumed for the 'math' expression of this EventAssignment.
    *
-   * *
+   *
  * 
  * The units are calculated based on the mathematical expression in the
  * EventAssignment and the model quantities referenced by
@@ -421,7 +417,7 @@ public class EventAssignment : SBase {
  *
  * 
    *
-   * *
+   *
  * @note The functionality that facilitates unit analysis depends on the
  * model as a whole.  Thus, in cases where the object has not been added to
  * a model or the model itself is incomplete, unit analysis is not possible
@@ -429,7 +425,7 @@ public class EventAssignment : SBase {
  *
  * 
    *
-   * * 
+   *
  * @warning <span class='warning'>Note that it is possible the 'math'
  * expression in the EventAssignment contains literal numbers or parameters
  * with undeclared units.  In those cases, it is not possible to calculate
@@ -462,7 +458,7 @@ public class EventAssignment : SBase {
    * EventAssignment contains literal numbers or parameters with undeclared
    * units.
    *
-   * *
+   *
  * 
  * The units are calculated based on the mathematical expression in the
  * EventAssignment and the model quantities referenced by
@@ -498,7 +494,7 @@ public class EventAssignment : SBase {
 /**
    * Returns the libSBML type code of this object instance.
    *
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -524,7 +520,7 @@ public class EventAssignment : SBase {
    * @return the SBML type code for this object:
    * @link libsbml#SBML_EVENT_ASSIGNMENT SBML_EVENT_ASSIGNMENT@endlink (default).
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke
@@ -576,7 +572,7 @@ public class EventAssignment : SBase {
    * @note The required elements for a EventAssignment object are:
    * @li 'math'
    *
-   * @return a bool value indicating whether all the required
+   * @return a boolean value indicating whether all the required
    * elements for this object have been defined.
    */ public new
  bool hasRequiredElements() {
@@ -593,11 +589,11 @@ public class EventAssignment : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c SIdRef type attribute value with another
  * value.
  *
- * *
+ *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -629,11 +625,11 @@ public class EventAssignment : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c UnitSIdRef type attribute value with
  * another value.
  *
- * *
+ *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was

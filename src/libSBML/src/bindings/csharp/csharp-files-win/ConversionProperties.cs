@@ -32,7 +32,7 @@ namespace libsbml {
  * SBML document; consequently, the packages in use are also communicated by
  * the values of the SBML namespaces set on a ConversionProperties object.
  *
- * *
+ *
  * @section using-converters General information about the use of SBML converters
  *
  * The use of all the converters follows a similar approach.  First, one
@@ -470,7 +470,7 @@ public class ConversionProperties : IDisposable {
    * Adds a new ConversionOption object with the given parameters.
    *
    * @param key the key for the new option
-   * @param value the bool value of that option
+   * @param value the boolean value of that option
    * @param description (optional) the description for the option
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
@@ -484,7 +484,7 @@ public class ConversionProperties : IDisposable {
    * Adds a new ConversionOption object with the given parameters.
    *
    * @param key the key for the new option
-   * @param value the bool value of that option
+   * @param value the boolean value of that option
    * @param description (optional) the description for the option
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
@@ -635,7 +635,7 @@ public class ConversionProperties : IDisposable {
    *
    * @param key the key for the option.
    *
-   * @return the bool value of the option with the given key.
+   * @return the boolean value of the option with the given key.
    */ public new
  bool getBoolValue(string key) {
     bool ret = libsbmlPINVOKE.ConversionProperties_getBoolValue(swigCPtr, key);

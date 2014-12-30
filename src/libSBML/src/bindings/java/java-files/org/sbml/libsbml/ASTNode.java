@@ -1333,7 +1333,10 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * SBML Levels&nbsp;2 and&nbsp;3 provides <code>&lt;csymbol&gt;</code>
    * definitions for 'time' and 'avogadro', which can be used to represent
-   * simulation time and Avogadro's constant in MathML.
+   * simulation time and Avogadro's constant in MathML.  Note that this
+   * method does <em>not</em> return <code>true</code> for the other <code>csymbol</code>
+   * values defined by SBML, 'delay', because the 'delay' is a function
+   * and not a constant or variable.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is a user-defined variable name in SBML
    * or the special symbols for time or Avogadro's constant. It returns 

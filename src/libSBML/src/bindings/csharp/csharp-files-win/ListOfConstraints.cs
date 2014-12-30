@@ -16,7 +16,7 @@ namespace libsbml {
  *
 @htmlinclude pkg-marker-core.html A list of Constraint objects.
  * 
- * *
+ *
  * 
  * The various ListOf___ @if conly structures @else classes@endif in SBML
  * are merely containers used for organizing the main components of an SBML
@@ -162,7 +162,7 @@ public class ListOfConstraints : ListOf {
    * Returns the libSBML type code for the objects contained in this ListOf
    * (i.e., Constraint objects, if the list is non-empty).
    *
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all

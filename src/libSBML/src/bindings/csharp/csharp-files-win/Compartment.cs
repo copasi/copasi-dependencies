@@ -409,7 +409,7 @@ public class Compartment : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -436,7 +436,7 @@ public class Compartment : SBase {
    * Creates a new Compartment object using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -461,7 +461,7 @@ public class Compartment : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -588,7 +588,7 @@ public class Compartment : SBase {
    * @return the value of the 'spatialDimensions' attribute of this
    * Compartment object as a long integereger
    *
-   * *
+   *
  * @note In SBML Level&nbsp;3, the data type of the 'spatialDimensions'
  * attribute is @c double, whereas in Level&nbsp;2, it is @c integer.  To
  * avoid backward compatibility issues, libSBML provides two separate methods
@@ -598,7 +598,7 @@ public class Compartment : SBase {
  *
    *
    * @see getSpatialDimensionsAsDouble()
-   * @see setSpatialDimensions(@if java long@endif)
+   * @see setSpatialDimensions(@if java unsigned int@endif)
    * @see isSetSpatialDimensions()
    * @see unsetSpatialDimensions()
    */ public
@@ -613,7 +613,7 @@ public class Compartment : SBase {
    * Compartment object as a double, or @c NaN if this model is not in SBML
    * Level&nbsp;3 format.
    *
-   * *
+   *
  * @note In SBML Level&nbsp;3, the data type of the 'spatialDimensions'
  * attribute is @c double, whereas in Level&nbsp;2, it is @c integer.  To
  * avoid backward compatibility issues, libSBML provides two separate methods
@@ -623,7 +623,7 @@ public class Compartment : SBase {
  *
    *
    * @see getSpatialDimensions()
-   * @see setSpatialDimensions(@if java long@endif)
+   * @see setSpatialDimensions(@if java unsigned int@endif)
    * @see isSetSpatialDimensions()
    * @see unsetSpatialDimensions()
    */ public
@@ -636,7 +636,7 @@ public class Compartment : SBase {
 /**
    * Get the size of this Compartment object.
    *
-   * *
+   *
  * 
  * In SBML Level&nbsp;1, compartments are always three-dimensional
  * constructs and only have volumes, whereas in SBML Level&nbsp;2 and higher,
@@ -668,7 +668,7 @@ public class Compartment : SBase {
 /**
    * Get the volume of this Compartment object.
    *
-   * *
+   *
  * 
  * In SBML Level&nbsp;1, compartments are always three-dimensional
  * constructs and only have volumes, whereas in SBML Level&nbsp;2 and higher,
@@ -683,7 +683,7 @@ public class Compartment : SBase {
    * @return the value of the 'volume' attribute ('size' in Level&nbsp;2) of
    * this Compartment object, as a floating-point number.
    *
-   * *
+   *
  * @note The attribute 'volume' only exists by that name in SBML
  * Level&nbsp;1.  In Level&nbsp;2 and above, the equivalent attribute is
  * named 'size'.  In SBML Level&nbsp;1, a compartment's volume has a default
@@ -719,7 +719,7 @@ public class Compartment : SBase {
    * as a string.  An empty string indicates that no units have been assigned
    * to the value of the size.
    *
-   * *
+   *
  * @note There is an important distinction to be made between <em>no units
  * assigned</em>, and assuming a value without units has any specific unit
  * such as <code>dimensionless</code>.  In SBML, default units are never
@@ -868,7 +868,7 @@ public class Compartment : SBase {
    * @return @c true if the 'volume' attribute ('size' in Level&nbsp;2 and
    * above) of this Compartment object is set, @c false otherwise.
    *
-   * *
+   *
  * @note The attribute 'volume' only exists by that name in SBML
  * Level&nbsp;1.  In Level&nbsp;2 and above, the equivalent attribute is
  * named 'size'.  In SBML Level&nbsp;1, a compartment's volume has a default
@@ -898,7 +898,7 @@ public class Compartment : SBase {
    * @return @c true if the 'units' attribute of this Compartment object is
    * set, @c false otherwise.
    *
-   * *
+   *
  * @note There is an important distinction to be made between <em>no units
  * assigned</em>, and assuming a value without units has any specific unit
  * such as <code>dimensionless</code>.  In SBML, default units are never
@@ -948,7 +948,7 @@ public class Compartment : SBase {
    * Compartment object is set, @c false otherwise.
    *
    * @see getSpatialDimensions()
-   * @see setSpatialDimensions(@if java long@endif)
+   * @see setSpatialDimensions(@if java unsigned int@endif)
    * @see unsetSpatialDimensions()
    */ public
  bool isSetSpatialDimensions() {
@@ -978,7 +978,7 @@ public class Compartment : SBase {
    *
    * The string @p sid is copied.
    *
-   * *
+   *
  * 
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
@@ -1005,14 +1005,12 @@ public class Compartment : SBase {
    * the string is @c null, this method will return
    * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @see getId()
@@ -1034,14 +1032,12 @@ public class Compartment : SBase {
    * null, this method will return
    * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @see getName()
@@ -1061,14 +1057,12 @@ public class Compartment : SBase {
    * in this Model. If the string is @c null, this method will return
    * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -1091,14 +1085,12 @@ public class Compartment : SBase {
    * @param value a long integereger indicating the number of dimensions
    * of this compartment.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -1118,14 +1110,12 @@ public class Compartment : SBase {
    * @param value a double indicating the number of dimensions
    * of this compartment.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -1146,14 +1136,12 @@ public class Compartment : SBase {
    * @param value a @c double representing the size of this compartment
    * instance in whatever units are in effect for the compartment.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @note This method is identical to
    * @if java Compartment::setVolume(double value)@else setVolume()@endif.
@@ -1181,16 +1169,14 @@ public class Compartment : SBase {
    * @param value a @c double representing the volume of this compartment
    * instance in whatever units are in effect for the compartment.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
-   * *
+   *
  * @note The attribute 'volume' only exists by that name in SBML
  * Level&nbsp;1.  In Level&nbsp;2 and above, the equivalent attribute is
  * named 'size'.  In SBML Level&nbsp;1, a compartment's volume has a default
@@ -1220,14 +1206,12 @@ public class Compartment : SBase {
    * null, then this method will return
    * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @see isSetUnits()
@@ -1247,14 +1231,12 @@ public class Compartment : SBase {
    * sid is @c null, then this method will return
    * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The 'outside' attribute is defined in SBML Level&nbsp;1 and
@@ -1274,18 +1256,16 @@ public class Compartment : SBase {
 /**
    * Sets the value of the 'constant' attribute of this Compartment object.
    *
-   * @param value a bool indicating whether the size/volume of this
+   * @param value a boolean indicating whether the size/volume of this
    * compartment should be considered constant (@c true) or variable
    * (@c false).
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @see isSetConstant()
@@ -1298,11 +1278,11 @@ public class Compartment : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c SIdRef type attribute value with another
  * value.
  *
- * *
+ *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -1334,11 +1314,11 @@ public class Compartment : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c UnitSIdRef type attribute value with
  * another value.
  *
- * *
+ *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
@@ -1371,14 +1351,12 @@ public class Compartment : SBase {
 /**
    * Unsets the value of the 'name' attribute of this Compartment object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see getName()
@@ -1394,14 +1372,12 @@ public class Compartment : SBase {
 /**
    * Unsets the value of the 'compartmentType' attribute of this Compartment object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -1428,14 +1404,12 @@ public class Compartment : SBase {
    * no default value, and unsetting it will result in the compartment having
    * no defined size.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note This method is identical to
@@ -1459,17 +1433,15 @@ public class Compartment : SBase {
    * @if java Compartment::unsetSize()@else unsetSize()@endif.  Please refer
    * to that method's documentation for more information about its behavior.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note The attribute 'volume' only exists by that name in SBML
  * Level&nbsp;1.  In Level&nbsp;2 and above, the equivalent attribute is
  * named 'size'.  In SBML Level&nbsp;1, a compartment's volume has a default
@@ -1495,14 +1467,12 @@ public class Compartment : SBase {
 /**
    * Unsets the value of the 'units' attribute of this Compartment object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see isSetUnits()
@@ -1518,14 +1488,12 @@ public class Compartment : SBase {
 /**
    * Unsets the value of the 'outside' attribute of this Compartment object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The 'outside' attribute is defined in SBML Level&nbsp;1 and
@@ -1551,14 +1519,12 @@ public class Compartment : SBase {
    * on a model of SBML Level 1&ndash;2 will result in a return value of
    * @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -1566,7 +1532,7 @@ public class Compartment : SBase {
    *
    * @see getSpatialDimensions()
    * @see isSetSpatialDimensions()
-   * @see setSpatialDimensions(@if java long@endif)
+   * @see setSpatialDimensions(@if java unsigned int@endif)
    */ public
  int unsetSpatialDimensions() {
     int ret = libsbmlPINVOKE.Compartment_unsetSpatialDimensions(swigCPtr);
@@ -1578,7 +1544,7 @@ public class Compartment : SBase {
    * Constructs and returns a UnitDefinition that corresponds to the units
    * of this Compartment object's designated size.
    *
-   * *
+   *
  * 
  * Compartments in SBML have an attribute ('units') for declaring the
  * units of measurement intended for the value of the compartment's size.  In
@@ -1608,7 +1574,7 @@ public class Compartment : SBase {
    * @return a UnitDefinition that expresses the units of this
    * Compartment object, or @c null if one cannot be constructed.
    *
-   * *
+   *
  * @note The libSBML system for unit analysis depends on the model as a
  * whole.  In cases where the
  * @if conly Compartment_t structure @else Compartment object@endif has not
@@ -1629,7 +1595,7 @@ public class Compartment : SBase {
 /**
    * Returns the libSBML type code for this SBML object.
    *
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -1655,7 +1621,7 @@ public class Compartment : SBase {
    * @return the SBML type code for this object:
    * @link libsbml#SBML_COMPARTMENT SBML_COMPARTMENT@endlink (default).
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke

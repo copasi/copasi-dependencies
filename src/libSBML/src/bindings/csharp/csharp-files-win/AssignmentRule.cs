@@ -110,7 +110,7 @@ namespace libsbml {
  * for that parameter.  It is only a question of which value definition takes
  * precedence.
  *
- * *
+ *
  * @section rules-general General summary of SBML rules
  *
  * In SBML Level&nbsp;3 as well as Level&nbsp;2, rules are separated into three
@@ -309,7 +309,7 @@ public class AssignmentRule : Rule {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    * 
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -336,7 +336,7 @@ public class AssignmentRule : Rule {
    * Creates a new AssignmentRule using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -354,7 +354,7 @@ public class AssignmentRule : Rule {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -409,11 +409,11 @@ public class AssignmentRule : Rule {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c SIdRef type attribute value with another
  * value.
  *
- * *
+ *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.

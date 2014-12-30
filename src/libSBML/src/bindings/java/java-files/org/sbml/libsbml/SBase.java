@@ -644,7 +644,7 @@ public class SBase {
 
   
 /**
-   * Returns the {@link SBMLDocument} object containing <em>this</em> object instance.
+   * Returns the {@link SBMLDocument} object containing this object instance.
    <p>
    * <p>
  * LibSBML uses the class {@link SBMLDocument} as a top-level container for
@@ -1283,10 +1283,9 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * (if the parent element does not have the 'metaid' attribute set)
    * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_ANNOTATION_NS LIBSBML_DUPLICATE_ANNOTATION_NS}
-   * With 'unexpected attribute' returned if the parent element does not have 
-   * the 'metaid' attribute set, and 'duplicate annotation' set if the parent 
-   * was already annotated with the annotation in question.
+   * (if the parent was already annotated with the annotation in question)
    *
    * </ul> <p>
    * @see #getAnnotationString()
@@ -1335,10 +1334,9 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * (if the parent element does not have the 'metaid' attribute set)
    * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_ANNOTATION_NS LIBSBML_DUPLICATE_ANNOTATION_NS}
-   * With 'unexpected attribute' returned if the parent element does not have 
-   * the 'metaid' attribute set, and 'duplicate annotation' set if the parent 
-   * was already annotated with the annotation in question.
+   * (if the parent was already annotated with the annotation in question)
    *
    * </ul> <p>
    * @see #getAnnotationString()
@@ -2669,12 +2667,12 @@ void example (SBase sb)
    * The valid combinations of SBML Level, Version and Namespace as of this
    * release of libSBML are the following:
    * <ul>
-   * <li> Level&nbsp;1 Version&nbsp;2: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level1'</code>
-   * <li> Level&nbsp;2 Version&nbsp;1: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2'</code>
-   * <li> Level&nbsp;2 Version&nbsp;2: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version2'</code>
-   * <li> Level&nbsp;2 Version&nbsp;3: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version3'</code>
-   * <li> Level&nbsp;2 Version&nbsp;4: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version4'</code>
-   * <li> Level&nbsp;3 Version&nbsp;1 Core: <code style='margin-right:0; padding-right:0'>'http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level3/version1/core'</code>
+   * <li> Level&nbsp;1 Version&nbsp;2: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level1</code>&quot;
+   * <li> Level&nbsp;2 Version&nbsp;1: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2</code>&quot;
+   * <li> Level&nbsp;2 Version&nbsp;2: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version2</code>&quot;
+   * <li> Level&nbsp;2 Version&nbsp;3: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version3</code>&quot;
+   * <li> Level&nbsp;2 Version&nbsp;4: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version4</code>&quot;
+   * <li> Level&nbsp;3 Version&nbsp;1 Core: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level3/version1/core</code>&quot;
    * </ul>
    <p>
    * @return <code>true</code> if the level, version and namespace values of this 
@@ -2881,7 +2879,7 @@ void example (SBase sb)
   }
 
   
-/** 
+/**
    * Deletes all information stored in disabled plugins. 
    <p>
    * @param recursive if <code>true</code>, the disabled information will be deleted
@@ -2894,7 +2892,7 @@ void example (SBase sb)
   }
 
   
-/** 
+/**
    * Deletes all information stored in disabled plugins. 
    <p>
    * @param recursive if <code>true</code>, the disabled information will be deleted
@@ -3234,7 +3232,16 @@ newModel.addSpecies(s1);
 
   
 /**
-   * Returns the namespace prefix of this element.
+   * Returns the XML namespace prefix of this element.
+   <p>
+   * This reports the XML namespace prefix chosen for this class of object in
+   * the current SBML document.  This may be an empty string if the component
+   * has no explicit prefix (for instance, if it is a core SBML object placed
+   * in the default SBML namespace of the document).  If it is not empty, then
+   * it corresponds to the XML namespace prefix used set the object, whatever
+   * that may be in a given SBML document.
+   <p>
+   * @return a text string representing the XML namespace prefix
    */ public
  String getPrefix() {
     return libsbmlJNI.SBase_getPrefix(swigCPtr, this);

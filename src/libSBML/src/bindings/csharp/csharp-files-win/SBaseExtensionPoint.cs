@@ -20,7 +20,7 @@ namespace libsbml {
  *
  * @ifnot clike @internal @endif
  *
- * *
+ *
  * 
  * This class is used as part of the mechanism that connects plugin objects
  * (implemented using SBasePlugin or SBMLDocumentPlugin) to a given package

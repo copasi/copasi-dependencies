@@ -454,7 +454,7 @@ public class XMLToken : IDisposable {
 /**
    * Sets the attributes on the XML element represented by this token.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -466,14 +466,12 @@ public class XMLToken : IDisposable {
    * XMLToken object, thereby setting the XML attributes associated with this
    * token.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -491,7 +489,7 @@ public class XMLToken : IDisposable {
 /**
    * Adds an attribute to the XML element represented by this token.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -519,18 +517,16 @@ public class XMLToken : IDisposable {
    * an optional XML namespace prefix.  Internally in libSBML, this data
    * is stored in an XMLAttributes object associated with this XMLToken.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
-   * *
+   *
  * @note If an attribute with the same name and XML namespace URI already
  * exists on this XMLToken object, then the previous value will be replaced
  * with the new value provided to this method.
@@ -548,7 +544,7 @@ public class XMLToken : IDisposable {
 /**
    * Adds an attribute to the XML element represented by this token.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -576,18 +572,16 @@ public class XMLToken : IDisposable {
    * an optional XML namespace prefix.  Internally in libSBML, this data
    * is stored in an XMLAttributes object associated with this XMLToken.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
-   * *
+   *
  * @note If an attribute with the same name and XML namespace URI already
  * exists on this XMLToken object, then the previous value will be replaced
  * with the new value provided to this method.
@@ -605,7 +599,7 @@ public class XMLToken : IDisposable {
 /**
    * Adds an attribute to the XML element represented by this token.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -633,18 +627,16 @@ public class XMLToken : IDisposable {
    * an optional XML namespace prefix.  Internally in libSBML, this data
    * is stored in an XMLAttributes object associated with this XMLToken.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
-   * *
+   *
  * @note If an attribute with the same name and XML namespace URI already
  * exists on this XMLToken object, then the previous value will be replaced
  * with the new value provided to this method.
@@ -662,7 +654,7 @@ public class XMLToken : IDisposable {
 /**
    * Adds an attribute to the XML element represented by this token.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -675,18 +667,16 @@ public class XMLToken : IDisposable {
    *
    * @param value a string, the value assigned to the attribute.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
-   * *
+   *
  * @note If an attribute with the same name and XML namespace URI already
  * exists on this XMLToken object, then the previous value will be replaced
  * with the new value provided to this method.
@@ -704,7 +694,7 @@ public class XMLToken : IDisposable {
    * Removes the <em>n</em>th attribute from the XML element represented by
    * this token.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -714,22 +704,20 @@ public class XMLToken : IDisposable {
    *
    * @param n an integer the index of the resource to be deleted
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
    * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute on this
    * element at the given index @p n.
    *
-   * @see getAttrIndex(XMLTriple triple) const
-   * @see getAttrIndex(string name, string uri) const
+   * @see getAttrIndex(XMLTriple triple) 
+   * @see getAttrIndex(string name, string uri) 
    * @see getAttributesLength()
    */ public
  int removeAttr(int n) {
@@ -741,7 +729,7 @@ public class XMLToken : IDisposable {
 /**
    * Removes an attribute from the XML element represented by this token.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -752,21 +740,19 @@ public class XMLToken : IDisposable {
    * @param name   a string, the name of the attribute to be removed.
    * @param uri    a string, the XML namespace URI of the attribute to be removed.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
    * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute on this
    * element with the given @p name (and @p uri if specified).
    *
-   * @see hasAttr(string name, string uri) const
+   * @see hasAttr(string name, string uri) 
    */ public
  int removeAttr(string name, string uri) {
     int ret = libsbmlPINVOKE.XMLToken_removeAttr__SWIG_1(swigCPtr, name, uri);
@@ -777,7 +763,7 @@ public class XMLToken : IDisposable {
 /**
    * Removes an attribute from the XML element represented by this token.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -788,21 +774,19 @@ public class XMLToken : IDisposable {
    * @param name   a string, the name of the attribute to be removed.
    * @param uri    a string, the XML namespace URI of the attribute to be removed.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
    * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute on this
    * element with the given @p name (and @p uri if specified).
    *
-   * @see hasAttr(string name, string uri) const
+   * @see hasAttr(string name, string uri) 
    */ public
  int removeAttr(string name) {
     int ret = libsbmlPINVOKE.XMLToken_removeAttr__SWIG_2(swigCPtr, name);
@@ -813,7 +797,7 @@ public class XMLToken : IDisposable {
 /**
    * Removes an attribute from the XML element represented by this token.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -823,21 +807,19 @@ public class XMLToken : IDisposable {
    *
    * @param triple an XMLTriple describing the attribute to be removed.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
    * The value @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink is returned if there is no attribute on this
    * element matching the properties of the given @p triple.
    *
-   * @see hasAttr(XMLTriple triple) const
+   * @see hasAttr(XMLTriple triple) 
    */ public
  int removeAttr(XMLTriple triple) {
     int ret = libsbmlPINVOKE.XMLToken_removeAttr__SWIG_3(swigCPtr, XMLTriple.getCPtr(triple));
@@ -849,7 +831,7 @@ public class XMLToken : IDisposable {
 /**
    * Removes all attributes of this XMLToken object.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -857,14 +839,12 @@ public class XMLToken : IDisposable {
  *
  *
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    */ public
  int clearAttributes() {
@@ -949,7 +929,7 @@ public class XMLToken : IDisposable {
    * @return the name of the attribute located at position @p n in the list
    * of attributes possessed by this XMLToken object.
    *
-   * *
+   *
  * @note If @p index is out of range, this method will return an empty
  * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
  * attribute's existence explicitly, and XMLToken::getAttributesLength() can
@@ -974,7 +954,7 @@ public class XMLToken : IDisposable {
    * @return the XML namespace prefix of the attribute located at position @p
    * n in the list of attributes possessed by this XMLToken object.
    *
-   * *
+   *
  * @note If @p index is out of range, this method will return an empty
  * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
  * attribute's existence explicitly, and XMLToken::getAttributesLength() can
@@ -1003,7 +983,7 @@ public class XMLToken : IDisposable {
    * @return the prefixed name of the attribute located at position @p
    * n in the list of attributes possessed by this XMLToken object.
    *
-   * *
+   *
  * @note If @p index is out of range, this method will return an empty
  * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
  * attribute's existence explicitly, and XMLToken::getAttributesLength() can
@@ -1025,7 +1005,7 @@ public class XMLToken : IDisposable {
    * @return the XML namespace URI of the attribute located at position @p n
    * in the list of attributes possessed by this XMLToken object.
    *
-   * *
+   *
  * @note If @p index is out of range, this method will return an empty
  * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
  * attribute's existence explicitly, and XMLToken::getAttributesLength() can
@@ -1047,7 +1027,7 @@ public class XMLToken : IDisposable {
    * @return the value of the attribute located at position @p n in the list
    * of attributes possessed by this XMLToken object.
    *
-   * *
+   *
  * @note If @p index is out of range, this method will return an empty
  * string.  XMLToken::hasAttr(@if java int@endif) can be used to test for an
  * attribute's existence explicitly, and XMLToken::getAttributesLength() can
@@ -1227,7 +1207,7 @@ public class XMLToken : IDisposable {
 /**
    * Sets the XML namespaces on this XML element.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -1237,14 +1217,12 @@ public class XMLToken : IDisposable {
    *
    * @param namespaces the XMLNamespaces object to be assigned to this XMLToken object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -1267,7 +1245,7 @@ public class XMLToken : IDisposable {
    * namespace declaration with the given @p prefix, then the existing XML
    * namespace URI will be overwritten by the new one given by @p uri.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -1279,14 +1257,12 @@ public class XMLToken : IDisposable {
    * 
    * @param prefix a string, the namespace prefix to use.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
@@ -1305,7 +1281,7 @@ public class XMLToken : IDisposable {
    * namespace declaration with the given @p prefix, then the existing XML
    * namespace URI will be overwritten by the new one given by @p uri.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -1317,14 +1293,12 @@ public class XMLToken : IDisposable {
    * 
    * @param prefix a string, the namespace prefix to use.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
@@ -1338,7 +1312,7 @@ public class XMLToken : IDisposable {
 /**
    * Removes the <em>n</em>th XML namespace declaration.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -1352,14 +1326,12 @@ public class XMLToken : IDisposable {
    * use one of the <code>getNamespace___()</code> methods to find the index
    * number of a given namespace.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
@@ -1376,7 +1348,7 @@ public class XMLToken : IDisposable {
 /**
    * Removes an XML namespace declaration having a given prefix.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -1386,14 +1358,12 @@ public class XMLToken : IDisposable {
    *
    * @param prefix a string, the prefix of the namespace to be removed.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
@@ -1412,7 +1382,7 @@ public class XMLToken : IDisposable {
 /**
    * Removes all XML namespace declarations from this token.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -1420,14 +1390,12 @@ public class XMLToken : IDisposable {
  *
  * 
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -1631,7 +1599,7 @@ public class XMLToken : IDisposable {
 /**
    * Sets the name, namespace prefix and namespace URI of this token.
    *
-   * *
+   *
  * 
  * This operation only makes sense for XML start elements.  This
  * method will return @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink if this XMLToken object is not an XML start
@@ -1643,14 +1611,12 @@ public class XMLToken : IDisposable {
    * this XMLToken already had an XMLTriple object stored within it, that
    * object will be replaced.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -1723,14 +1689,12 @@ public class XMLToken : IDisposable {
    *
    * @param chars string, characters to append to the text of this token.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see isText()
@@ -1865,14 +1829,12 @@ public class XMLToken : IDisposable {
 /**
    * Declares that this token represents an XML element end tag.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see isStart()
@@ -1887,14 +1849,12 @@ public class XMLToken : IDisposable {
 /**
    * Declares that this token is an end-of-file/input marker.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see isEOF()
@@ -1908,14 +1868,12 @@ public class XMLToken : IDisposable {
 /**
    * Declares that this token no longer represents an XML start/end element.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetEnd() {

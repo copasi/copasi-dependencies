@@ -25,7 +25,7 @@ namespace libsbml {
  * in-memory representation for all mathematical formulas regardless of their
  * original format (which might be MathML or might be text strings).
  *
- * *
+ *
  * 
  * An AST @em node in libSBML is a recursive tree structure; each node has a
  * type, a pointer to a value, and a list of children nodes.  Each ASTNode
@@ -74,7 +74,7 @@ namespace libsbml {
  * ASTNodeType_t</a></h3> @else <h3><a class='anchor'
  * name='ASTNodeType_t'>The set of possible %ASTNode types</a></h3> @endif
  *
- * *
+ *
  * 
  * Every ASTNode has an associated type code to indicate whether, for
  * example, it holds a number or stands for an arithmetic operator.
@@ -305,14 +305,12 @@ public class ASTNode : ASTBase {
    * operators, numbers, or @link libsbml#AST_UNKNOWN AST_UNKNOWN@endlink.  This
    * method has no effect on other types of nodes.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
  int freeName() {
@@ -367,17 +365,15 @@ public class ASTNode : ASTBase {
    *
    * @param child the ASTNode instance to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @warning Explicitly adding, removing or replacing children of an
  * @if conly ASTNode_t structure@else ASTNode object@endif may change the
  * structure of the mathematical formula it represents, and may even render
@@ -390,9 +386,9 @@ public class ASTNode : ASTBase {
  *
    *
    * @see prependChild(ASTNode child)
-   * @see replaceChild(long n, ASTNode child)
-   * @see insertChild(long n, ASTNode child)
-   * @see removeChild(long n)
+   * @see replaceChild(unsigned int n, ASTNode child)
+   * @see insertChild(unsigned int n, ASTNode child)
+   * @see removeChild(unsigned int n)
    * @see isWellFormedASTNode()
    */ public
  int addChild(ASTNode child) {
@@ -408,17 +404,15 @@ public class ASTNode : ASTBase {
    *
    * @param child the ASTNode instance to add
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @warning Explicitly adding, removing or replacing children of an
  * @if conly ASTNode_t structure@else ASTNode object@endif may change the
  * structure of the mathematical formula it represents, and may even render
@@ -431,9 +425,9 @@ public class ASTNode : ASTBase {
  *
    *
    * @see addChild(ASTNode child)
-   * @see replaceChild(long n, ASTNode child)
-   * @see insertChild(long n, ASTNode child)
-   * @see removeChild(long n)
+   * @see replaceChild(unsigned int n, ASTNode child)
+   * @see insertChild(unsigned int n, ASTNode child)
+   * @see removeChild(unsigned int n)
    */ public
  int prependChild(ASTNode child) {
     int ret = libsbmlPINVOKE.ASTNode_prependChild(swigCPtr, ASTNode.getCPtrAndDisown(child));
@@ -444,19 +438,17 @@ public class ASTNode : ASTBase {
 /**
    * Removes the nth child of this ASTNode object.
    *
-   * @param n long the index of the child to remove
+   * @param n unsigned int the index of the child to remove
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    *
-   * *
+   *
  * @warning Explicitly adding, removing or replacing children of an
  * @if conly ASTNode_t structure@else ASTNode object@endif may change the
  * structure of the mathematical formula it represents, and may even render
@@ -470,8 +462,8 @@ public class ASTNode : ASTBase {
    *
    * @see addChild(ASTNode child)
    * @see prependChild(ASTNode child)
-   * @see replaceChild(long n, ASTNode child)
-   * @see insertChild(long n, ASTNode child)
+   * @see replaceChild(unsigned int n, ASTNode child)
+   * @see insertChild(unsigned int n, ASTNode child)
    */ public
  int removeChild(long n) {
     int ret = libsbmlPINVOKE.ASTNode_removeChild(swigCPtr, n);
@@ -482,22 +474,20 @@ public class ASTNode : ASTBase {
 /**
    * Replaces the nth child of this ASTNode with the given ASTNode.
    *
-   * @param n long the index of the child to replace
+   * @param n unsigned int the index of the child to replace
    * @param newChild ASTNode to replace the nth child
-   * @param delreplaced bool indicating whether to delete the replaced child.
+   * @param delreplaced boolean indicating whether to delete the replaced child.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
-   * *
+   *
  * @warning Explicitly adding, removing or replacing children of an
  * @if conly ASTNode_t structure@else ASTNode object@endif may change the
  * structure of the mathematical formula it represents, and may even render
@@ -511,8 +501,8 @@ public class ASTNode : ASTBase {
    *
    * @see addChild(ASTNode child)
    * @see prependChild(ASTNode child)
-   * @see insertChild(long n, ASTNode child)
-   * @see removeChild(long n)
+   * @see insertChild(unsigned int n, ASTNode child)
+   * @see removeChild(unsigned int n)
    */ public
  int replaceChild(long n, ASTNode newChild, bool delreplaced) {
     int ret = libsbmlPINVOKE.ASTNode_replaceChild__SWIG_0(swigCPtr, n, ASTNode.getCPtrAndDisown(newChild), delreplaced);
@@ -523,22 +513,20 @@ public class ASTNode : ASTBase {
 /**
    * Replaces the nth child of this ASTNode with the given ASTNode.
    *
-   * @param n long the index of the child to replace
+   * @param n unsigned int the index of the child to replace
    * @param newChild ASTNode to replace the nth child
-   * @param delreplaced bool indicating whether to delete the replaced child.
+   * @param delreplaced boolean indicating whether to delete the replaced child.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
-   * *
+   *
  * @warning Explicitly adding, removing or replacing children of an
  * @if conly ASTNode_t structure@else ASTNode object@endif may change the
  * structure of the mathematical formula it represents, and may even render
@@ -552,8 +540,8 @@ public class ASTNode : ASTBase {
    *
    * @see addChild(ASTNode child)
    * @see prependChild(ASTNode child)
-   * @see insertChild(long n, ASTNode child)
-   * @see removeChild(long n)
+   * @see insertChild(unsigned int n, ASTNode child)
+   * @see removeChild(unsigned int n)
    */ public
  int replaceChild(long n, ASTNode newChild) {
     int ret = libsbmlPINVOKE.ASTNode_replaceChild__SWIG_1(swigCPtr, n, ASTNode.getCPtrAndDisown(newChild));
@@ -565,21 +553,19 @@ public class ASTNode : ASTBase {
    * Inserts the given ASTNode node at a given point in the current ASTNode's
    * list of children.
    *
-   * @param n long the index of the ASTNode being added
+   * @param n unsigned int the index of the ASTNode being added
    * @param newChild ASTNode to insert as the nth child
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
-   * *
+   *
  * @warning Explicitly adding, removing or replacing children of an
  * @if conly ASTNode_t structure@else ASTNode object@endif may change the
  * structure of the mathematical formula it represents, and may even render
@@ -593,8 +579,8 @@ public class ASTNode : ASTBase {
    *
    * @see addChild(ASTNode child)
    * @see prependChild(ASTNode child)
-   * @see replaceChild(long n, ASTNode child)
-   * @see removeChild(long n)
+   * @see replaceChild(unsigned int n, ASTNode child)
+   * @see removeChild(unsigned int n)
    */ public
  int insertChild(long n, ASTNode newChild) {
     int ret = libsbmlPINVOKE.ASTNode_insertChild(swigCPtr, n, ASTNode.getCPtrAndDisown(newChild));
@@ -640,11 +626,11 @@ public class ASTNode : ASTBase {
    * Returns the left child of this node.
    *
    * @return the left child of this ASTNode.  This is equivalent to calling
-   * @if clike getChild()@else ASTNode::getChild(long)@endif
+   * @if clike getChild()@else ASTNode::getChild(unsigned int)@endif
    * with an argument of @c 0.
    *
    * @see getNumChildren()
-   * @see getChild(@if java long@endif)
+   * @see getChild(@if java unsigned int@endif)
    * @see getRightChild()
    */ public
  ASTNode getLeftChild() {
@@ -667,7 +653,7 @@ getChild( getNumChildren() - 1 );
    *
    * @see getNumChildren()
    * @see getLeftChild()
-   * @see getChild(@if java long@endif)
+   * @see getChild(@if java unsigned int@endif)
    */ public
  ASTNode getRightChild() {
     IntPtr cPtr = libsbmlPINVOKE.ASTNode_getRightChild(swigCPtr);
@@ -689,7 +675,7 @@ getChild( getNumChildren() - 1 );
    * Adds the given XMLNode as a MathML <code>&lt;semantics&gt;</code>
    * element to this ASTNode.
    *
-   * *
+   *
  * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
  * that can be used to associate additional information with a MathML
  * construct.  The construct can be used to decorate a MathML expressions with
@@ -705,17 +691,15 @@ getChild( getNumChildren() - 1 );
    *
    * @param sAnnotation the annotation to add.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @note Although SBML permits the use of the MathML
  * <code>&lt;semantics&gt;</code> annotation construct, the truth is that
  * this construct has so far (at this time of this writing, which is early
@@ -727,7 +711,7 @@ getChild( getNumChildren() - 1 );
  * href='http://sbml.org/Forums'>sbml-interoperability</a>.
    *
    * @see ASTNode::getNumSemanticsAnnotations()
-   * @see ASTNode::getSemanticsAnnotation(@if java long@endif)
+   * @see ASTNode::getSemanticsAnnotation(@if java unsigned int@endif)
    */ public
  int addSemanticsAnnotation(XMLNode sAnnotation) {
     int ret = libsbmlPINVOKE.ASTNode_addSemanticsAnnotation(swigCPtr, XMLNode.getCPtrAndDisown(sAnnotation));
@@ -739,7 +723,7 @@ getChild( getNumChildren() - 1 );
    * Returns the number of MathML <code>&lt;semantics&gt;</code> element
    * elements on this node.
    *
-   * *
+   *
  * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
  * that can be used to associate additional information with a MathML
  * construct.  The construct can be used to decorate a MathML expressions with
@@ -755,7 +739,7 @@ getChild( getNumChildren() - 1 );
    *
    * @return the number of annotations of this ASTNode.
    *
-   * *
+   *
  * @note Although SBML permits the use of the MathML
  * <code>&lt;semantics&gt;</code> annotation construct, the truth is that
  * this construct has so far (at this time of this writing, which is early
@@ -767,7 +751,7 @@ getChild( getNumChildren() - 1 );
  * href='http://sbml.org/Forums'>sbml-interoperability</a>.
    *
    * @see ASTNode::addSemanticsAnnotation(@if java XMLNode@endif)
-   * @see ASTNode::getSemanticsAnnotation(@if java long@endif)
+   * @see ASTNode::getSemanticsAnnotation(@if java unsigned int@endif)
    */ public
  long getNumSemanticsAnnotations() { return (long)libsbmlPINVOKE.ASTNode_getNumSemanticsAnnotations(swigCPtr); }
 
@@ -776,7 +760,7 @@ getChild( getNumChildren() - 1 );
    * Returns the nth MathML <code>&lt;semantics&gt;</code> element on this
    * ASTNode.
    *
-   * *
+   *
  * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
  * that can be used to associate additional information with a MathML
  * construct.  The construct can be used to decorate a MathML expressions with
@@ -799,7 +783,7 @@ getChild( getNumChildren() - 1 );
    * @if clike getNumSemanticsAnnotations()@else ASTNode::getNumSemanticsAnnotations()@endif
    * <code>- 1</code>).
    *
-   * *
+   *
  * @note Although SBML permits the use of the MathML
  * <code>&lt;semantics&gt;</code> annotation construct, the truth is that
  * this construct has so far (at this time of this writing, which is early
@@ -1175,7 +1159,7 @@ getChild( getNumChildren() - 1 );
    *
    * @see isBoolean()
    *
-   * @return true if this ASTNode returns a bool, @c false otherwise.
+   * @return true if this ASTNode returns a boolean, @c false otherwise.
    */ public
  bool returnsBoolean(Model model) {
     bool ret = libsbmlPINVOKE.ASTNode_returnsBoolean__SWIG_0(swigCPtr, Model.getCPtr(model));
@@ -1200,7 +1184,7 @@ getChild( getNumChildren() - 1 );
    *
    * @see isBoolean()
    *
-   * @return true if this ASTNode returns a bool, @c false otherwise.
+   * @return true if this ASTNode returns a boolean, @c false otherwise.
    */ public
  bool returnsBoolean() {
     bool ret = libsbmlPINVOKE.ASTNode_returnsBoolean__SWIG_1(swigCPtr);
@@ -1318,7 +1302,10 @@ getChild( getNumChildren() - 1 );
    *
    * SBML Levels&nbsp;2 and&nbsp;3 provides <code>&lt;csymbol&gt;</code>
    * definitions for 'time' and 'avogadro', which can be used to represent
-   * simulation time and Avogadro's constant in MathML.
+   * simulation time and Avogadro's constant in MathML.  Note that this
+   * method does @em not return @c true for the other <code>csymbol</code>
+   * values defined by SBML, 'delay', because the 'delay' is a function
+   * and not a constant or variable.
    *
    * @return @c true if this ASTNode is a user-defined variable name in SBML
    * or the special symbols for time or Avogadro's constant. It returns @c
@@ -1664,14 +1651,12 @@ getChild( getNumChildren() - 1 );
    * @param value the character value to which the node's value should be
    * set.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setCharacter(char value) {
     int ret = libsbmlPINVOKE.ASTNode_setCharacter(swigCPtr, value);
@@ -1684,14 +1669,12 @@ getChild( getNumChildren() - 1 );
    *
    * @param id @c string representing the identifier.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see isSetId()
    * @see getId()
@@ -1708,14 +1691,12 @@ getChild( getNumChildren() - 1 );
    *
    * @param className @c string representing the MathML class for this node.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @if java
    * @note In the API interfaces for languages other than Java, this method
@@ -1739,14 +1720,12 @@ getChild( getNumChildren() - 1 );
    *
    * @param style @c string representing the identifier.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see isSetStyle()
    * @see getStyle()
@@ -1771,14 +1750,12 @@ getChild( getNumChildren() - 1 );
    * @param name the string containing the name to which this node's value
    * should be set.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setName(string name) {
     int ret = libsbmlPINVOKE.ASTNode_setName(swigCPtr, name);
@@ -1794,14 +1771,12 @@ getChild( getNumChildren() - 1 );
    *
    * @param value the integer to which this node's value should be set.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setValue(int value) {
     int ret = libsbmlPINVOKE.ASTNode_setValue__SWIG_0(swigCPtr, value);
@@ -1818,14 +1793,12 @@ getChild( getNumChildren() - 1 );
    * @param numerator the numerator value of the rational.
    * @param denominator the denominator value of the rational.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setValue(int numerator, int denominator) {
     int ret = libsbmlPINVOKE.ASTNode_setValue__SWIG_1(swigCPtr, numerator, denominator);
@@ -1847,14 +1820,12 @@ setValue(value, 0);
    * @param value the @c double format number to which this node's value
    * should be set.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setValue(double value) {
     int ret = libsbmlPINVOKE.ASTNode_setValue__SWIG_2(swigCPtr, value);
@@ -1871,14 +1842,12 @@ setValue(value, 0);
    * @param mantissa the mantissa of this node's real-numbered value.
    * @param exponent the exponent of this node's real-numbered value.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setValue(double mantissa, int exponent) {
     int ret = libsbmlPINVOKE.ASTNode_setValue__SWIG_3(swigCPtr, mantissa, exponent);
@@ -1901,14 +1870,12 @@ setValue(value, 0);
    * @param type the integer representing the type to which this node should
    * be set.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note A side-effect of doing this is that any numerical values
@@ -1936,14 +1903,12 @@ setValue(value, 0);
    *
    * @param units @c string representing the unit identifier.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
@@ -1965,14 +1930,12 @@ setValue(value, 0);
    * @param that the other node whose children should be used to replace
    * <em>this</em> node's children.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int swapChildren(ASTNode that) {
@@ -2021,14 +1984,12 @@ setValue(value, 0);
 /**
    * Unsets the units of this ASTNode.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
@@ -2041,14 +2002,12 @@ setValue(value, 0);
 /**
    * Unsets the MathML @c id attribute of this ASTNode.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetId() {
@@ -2060,14 +2019,12 @@ setValue(value, 0);
 /**
    * Unsets the MathML @c class attribute of this ASTNode.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetClass() {
@@ -2079,14 +2036,12 @@ setValue(value, 0);
 /**
    * Unsets the MathML @c style attribute of this ASTNode.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetStyle() {
@@ -2100,14 +2055,12 @@ setValue(value, 0);
    *
    * @param url the URL value for the @c definitionURL attribute.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see setDefinitionURL(string url)
@@ -2126,14 +2079,12 @@ setValue(value, 0);
    *
    * @param url the URL value for the @c definitionURL attribute.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see setDefinitionURL(XMLAttributes url)
@@ -2198,14 +2149,12 @@ setValue(value, 0);
 /**
    * Unsets the parent SBML object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @see isSetParentSBMLObject()
@@ -2251,14 +2200,12 @@ setValue(value, 0);
   * information to the node.  In case of a deep copy, this attribute will
   * passed as it is. The attribute will be never interpreted by this class.
   *
-  * *
+  *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
   *
   * @if clike

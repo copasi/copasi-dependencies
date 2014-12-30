@@ -55,7 +55,7 @@ namespace libsbml {
  * reactions lacking kinetic laws are simply undefined, and not determined by
  * the algebraic rule.)
  *
- * *
+ *
  * @section rules-general General summary of SBML rules
  *
  * In SBML Level&nbsp;3 as well as Level&nbsp;2, rules are separated into three
@@ -253,7 +253,7 @@ public class AlgebraicRule : Rule {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -280,7 +280,7 @@ public class AlgebraicRule : Rule {
    * Creates a new AlgebraicRule object using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -298,7 +298,7 @@ public class AlgebraicRule : Rule {
    * SBML object, are either invalid or mismatched with respect to the parent
    * SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the

@@ -120,7 +120,7 @@ namespace libsbml {
  * 'hasOnlySubstanceUnits' is to indicate whether the units of the species,
  * when the species identifier appears in mathematical formulas, are
  * intended to be concentration or amount.  The attribute takes on a
- * bool value.  In SBML Level&nbsp;3, the attribute has no default value
+ * boolean value.  In SBML Level&nbsp;3, the attribute has no default value
  * and must always be set in a model; in SBML Level&nbsp;2, it has a
  * default value of @c false.
  *
@@ -147,7 +147,7 @@ namespace libsbml {
  *
  * @section species-constant The 'constant' and 'boundaryCondition' attributes
  *
- * The Species object class has two bool attributes named 'constant' and
+ * The Species object class has two boolean attributes named 'constant' and
  * 'boundaryCondition', used to indicate whether and how the quantity of
  * that species can vary during a simulation.  In SBML Level&nbsp;2 they
  * are optional; in SBML Level&nbsp;3 they are mandatory.  The following
@@ -161,7 +161,7 @@ namespace libsbml {
  * determined by the set of reactions even when that species occurs as a
  * product or reactant; i.e., the species is on the <em>boundary</em> of
  * the reaction system, and its quantity is not determined by the
- * reactions.  The bool attribute 'boundaryCondition' can be used to
+ * reactions.  The boolean attribute 'boundaryCondition' can be used to
  * indicate this.  A value of @c false indicates that the species @em is
  * part of the reaction system.  In SBML Level&nbsp;2, the attribute has a
  * default value of @c false, while in SBML Level&nbsp;3, it has no
@@ -380,7 +380,7 @@ public class Species : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -407,7 +407,7 @@ public class Species : SBase {
    * Creates a new Species using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -432,7 +432,7 @@ public class Species : SBase {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -584,7 +584,7 @@ public class Species : SBase {
    * as a string.  An empty string indicates that no units have been
    * assigned.
    *
-   * *
+   *
  * @note There is an important distinction to be made between <em>no units
  * assigned</em>, and assuming a value without units has any specific unit
  * such as <code>dimensionless</code>.  In SBML, default units are never
@@ -610,7 +610,7 @@ public class Species : SBase {
    * @return the value of the 'spatialSizeUnits' attribute of this Species
    * object, as a string.
    *
-   * *
+   *
  * @warning <span class='warning'>In versions of SBML Level&nbsp;2 before
  * Version&nbsp;3, the class Species included an attribute called
  * 'spatialSizeUnits', which allowed explicitly setting the units of size for
@@ -632,7 +632,7 @@ public class Species : SBase {
    * 
    * @return the units of this Species (L1 only).
    *
-   * * 
+   *
  * @note The 'units' attribute is defined only in SBML Level&nbsp;1.  In
  * SBML Level&nbsp;2 and Level&nbsp;3, it has been replaced by a
  * combination of 'substanceUnits' and the units of the Compartment
@@ -680,7 +680,7 @@ public class Species : SBase {
    * 
    * @return the charge of this Species object.
    *
-   * * 
+   *
  * @note Beginning in SBML Level&nbsp;2 Version&nbsp;2, the 'charge'
  * attribute on Species is deprecated and in SBML Level&nbsp;3 it does
  * not exist at all.  Its use strongly discouraged.  Its presence is
@@ -839,7 +839,7 @@ public class Species : SBase {
    * @return @c true if the 'spatialSizeUnits' attribute of this Species is
    * set, @c false otherwise.
    *
-   * *
+   *
  * @warning <span class='warning'>In versions of SBML Level&nbsp;2 before
  * Version&nbsp;3, the class Species included an attribute called
  * 'spatialSizeUnits', which allowed explicitly setting the units of size for
@@ -876,7 +876,7 @@ public class Species : SBase {
    * @return @c true if the 'charge' attribute of this Species is
    * set, @c false otherwise.
    *
-   * * 
+   *
  * @note Beginning in SBML Level&nbsp;2 Version&nbsp;2, the 'charge'
  * attribute on Species is deprecated and in SBML Level&nbsp;3 it does
  * not exist at all.  Its use strongly discouraged.  Its presence is
@@ -962,7 +962,7 @@ public class Species : SBase {
    *
    * The string @p sid is copied.
    *
-   * *
+   *
  * 
  * SBML has strict requirements for the syntax of identifiers, that is, the
  * values of the 'id' attribute present on most types of SBML objects.
@@ -987,14 +987,12 @@ public class Species : SBase {
    *
    * @param sid the string to use as the identifier of this Species
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setId(string sid) {
@@ -1010,14 +1008,12 @@ public class Species : SBase {
    *
    * @param name the new name for the Species
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public new
  int setName(string name) {
@@ -1032,14 +1028,12 @@ public class Species : SBase {
    * @param sid the identifier of a SpeciesType object defined elsewhere
    * in this Model.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * 
@@ -1058,14 +1052,12 @@ public class Species : SBase {
    * @param sid the identifier of a Compartment object defined elsewhere
    * in this Model.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setCompartment(string sid) {
@@ -1083,14 +1075,12 @@ public class Species : SBase {
    * @param value the value to which the 'initialAmount' attribute should
    * be set.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setInitialAmount(double value) {
     int ret = libsbmlPINVOKE.Species_setInitialAmount(swigCPtr, value);
@@ -1107,14 +1097,12 @@ public class Species : SBase {
    * @param value the value to which the 'initialConcentration' attribute
    * should be set.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The attribute 'initialConcentration' is only available in SBML
@@ -1131,14 +1119,12 @@ public class Species : SBase {
    *
    * @param sid the identifier of the unit to use.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    */ public
  int setSubstanceUnits(string sid) {
@@ -1152,18 +1138,16 @@ public class Species : SBase {
    *
    * @param sid the identifier of the unit to use.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
-   * *
+   *
  * @warning <span class='warning'>In versions of SBML Level&nbsp;2 before
  * Version&nbsp;3, the class Species included an attribute called
  * 'spatialSizeUnits', which allowed explicitly setting the units of size for
@@ -1185,14 +1169,12 @@ public class Species : SBase {
    *
    * @param sname the identifier of the unit to use.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
   */ public
  int setUnits(string sname) {
@@ -1204,16 +1186,14 @@ public class Species : SBase {
 /**
    * Sets the 'hasOnlySubstanceUnits' attribute of this Species object.
    *
-   * @param value bool value for the 'hasOnlySubstanceUnits' attribute.
+   * @param value boolean value for the 'hasOnlySubstanceUnits' attribute.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The 'hasOnlySubstanceUnits' attribute does not exist in SBML
@@ -1228,16 +1208,14 @@ public class Species : SBase {
 /**
    * Sets the 'boundaryCondition' attribute of this Species object.
    *
-   * @param value bool value for the 'boundaryCondition' attribute.
+   * @param value boolean value for the 'boundaryCondition' attribute.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public
  int setBoundaryCondition(bool value) {
     int ret = libsbmlPINVOKE.Species_setBoundaryCondition(swigCPtr, value);
@@ -1250,7 +1228,7 @@ public class Species : SBase {
    *
    * @param value an integer to which to set the 'charge' to.
    *
-   * * 
+   *
  * @note Beginning in SBML Level&nbsp;2 Version&nbsp;2, the 'charge'
  * attribute on Species is deprecated and in SBML Level&nbsp;3 it does
  * not exist at all.  Its use strongly discouraged.  Its presence is
@@ -1263,14 +1241,12 @@ public class Species : SBase {
  * affect model mathematics directly.  LibSBML retains this method for
  * easier compatibility with SBML Level&nbsp;1. 
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
  int setCharge(int value) {
@@ -1282,16 +1258,14 @@ public class Species : SBase {
 /**
    * Sets the 'constant' attribute of this Species object.
    *
-   * @param value a bool value for the 'constant' attribute
+   * @param value a boolean value for the 'constant' attribute
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @note The attribute 'constant' is only available in SBML Levels&nbsp;2
@@ -1310,14 +1284,12 @@ public class Species : SBase {
    *
    * @param sid the new conversionFactor for the Species
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * 
@@ -1334,14 +1306,12 @@ public class Species : SBase {
 /**
    * Unsets the value of the 'name' attribute of this Species object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
  int unsetName() {
@@ -1353,14 +1323,12 @@ public class Species : SBase {
 /**
    * Unsets the 'speciesType' attribute value of this Species object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The attribute 'speciesType' is only available in SBML
@@ -1375,14 +1343,12 @@ public class Species : SBase {
 /**
    * Unsets the 'initialAmount' attribute value of this Species object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetInitialAmount() {
@@ -1394,14 +1360,12 @@ public class Species : SBase {
 /**
    * Unsets the 'initialConcentration' attribute value of this Species object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The attribute 'initialConcentration' is only available in SBML
@@ -1416,14 +1380,12 @@ public class Species : SBase {
 /**
    * Unsets the 'substanceUnits' attribute value of this Species object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetSubstanceUnits() {
@@ -1435,17 +1397,15 @@ public class Species : SBase {
 /**
    * Unsets the 'spatialSizeUnits' attribute value of this Species object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * *
+   *
  * @warning <span class='warning'>In versions of SBML Level&nbsp;2 before
  * Version&nbsp;3, the class Species included an attribute called
  * 'spatialSizeUnits', which allowed explicitly setting the units of size for
@@ -1465,14 +1425,12 @@ public class Species : SBase {
 /**
    * Unsets the 'units' attribute value of this Species object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
  int unsetUnits() {
@@ -1485,18 +1443,16 @@ public class Species : SBase {
    * Unsets the 'charge' attribute
    * value of this Species object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
-   * * 
+   *
  * @note Beginning in SBML Level&nbsp;2 Version&nbsp;2, the 'charge'
  * attribute on Species is deprecated and in SBML Level&nbsp;3 it does
  * not exist at all.  Its use strongly discouraged.  Its presence is
@@ -1518,14 +1474,12 @@ public class Species : SBase {
 /**
    * Unsets the 'conversionFactor' attribute value of this Species object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * 
@@ -1589,7 +1543,7 @@ public class Species : SBase {
 /**
    * Returns the libSBML type code for this SBML object.
    * 
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -1615,7 +1569,7 @@ public class Species : SBase {
    * @return the SBML type code for this object:
    * @link libsbml#SBML_SPECIES SBML_SPECIES@endlink (default).
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke
@@ -1667,11 +1621,11 @@ public class Species : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c SIdRef type attribute value with another
  * value.
  *
- * *
+ *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -1703,11 +1657,11 @@ public class Species : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c UnitSIdRef type attribute value with
  * another value.
  *
- * *
+ *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was

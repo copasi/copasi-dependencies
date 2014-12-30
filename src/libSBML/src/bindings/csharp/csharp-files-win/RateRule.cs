@@ -77,7 +77,7 @@ namespace libsbml {
  * one assignment rule for the same variable or both an assignment rule and
  * a rate rule for the same variable.
  * 
- * *
+ *
  * @section rules-general General summary of SBML rules
  *
  * In SBML Level&nbsp;3 as well as Level&nbsp;2, rules are separated into three
@@ -276,7 +276,7 @@ public class RateRule : Rule {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -303,7 +303,7 @@ public class RateRule : Rule {
    * Creates a new RateRule using the given SBMLNamespaces object
    * @p sbmlns.
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -321,7 +321,7 @@ public class RateRule : Rule {
    * of SBML object, are either invalid or mismatched with respect to the
    * parent SBMLDocument object.
    *
-   * *
+   *
  * @note Attempting to add an object to an SBMLDocument having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -378,11 +378,11 @@ public class RateRule : Rule {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c SIdRef type attribute value with another
  * value.
  *
- * *
+ *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.

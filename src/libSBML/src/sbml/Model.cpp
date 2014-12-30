@@ -1005,6 +1005,7 @@ Model::unsetSubstanceUnits ()
   /* only in L3 */
   if (getLevel() < 3)
   {
+    mSubstanceUnits.erase();
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
   
@@ -1030,6 +1031,7 @@ Model::unsetTimeUnits ()
   /* only in L3 */
   if (getLevel() < 3)
   {
+    mTimeUnits.erase();
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
   
@@ -1055,6 +1057,7 @@ Model::unsetVolumeUnits ()
   /* only in L3 */
   if (getLevel() < 3)
   {
+    mVolumeUnits.erase();
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
   
@@ -1080,6 +1083,7 @@ Model::unsetAreaUnits ()
   /* only in L3 */
   if (getLevel() < 3)
   {
+    mAreaUnits.erase();
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
   
@@ -1105,6 +1109,7 @@ Model::unsetLengthUnits ()
   /* only in L3 */
   if (getLevel() < 3)
   {
+    mLengthUnits.erase();
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
   
@@ -1130,6 +1135,7 @@ Model::unsetExtentUnits ()
   /* only in L3 */
   if (getLevel() < 3)
   {
+    mExtentUnits.erase();
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
   
@@ -1155,6 +1161,7 @@ Model::unsetConversionFactor ()
   /* only in L3 */
   if (getLevel() < 3)
   {
+    mConversionFactor.erase();
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
   
@@ -4653,7 +4660,16 @@ void Model::createSpeciesReferenceUnitsData(SpeciesReference* sr,
     fud->setComponentTypecode(SBML_SPECIES_REFERENCE);
     
     /* units will be dimensionless */
-    UnitDefinition * ud = new UnitDefinition(getSBMLNamespaces());
+    UnitDefinition* ud;
+    try
+    {
+      ud = new UnitDefinition(getSBMLNamespaces());
+    }
+    catch ( ... )
+    {
+      ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+        SBMLDocument::getDefaultVersion());
+    }
     Unit* u = ud->createUnit();
     u->setKind(UNIT_KIND_DIMENSIONLESS);
     u->initDefaults();
@@ -4768,7 +4784,16 @@ Model::createSubstanceUnitsData()
 UnitDefinition *
 Model::getSubstanceUD()
 {
-  UnitDefinition *ud = new UnitDefinition(getSBMLNamespaces());
+  UnitDefinition* ud;
+  try
+  {
+    ud = new UnitDefinition(getSBMLNamespaces());
+  }
+  catch ( ... )
+  {
+    ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+      SBMLDocument::getDefaultVersion());
+  }
 
   // units will be mole unless substance has been overridden
   if (getUnitDefinition("substance") != NULL)
@@ -4784,11 +4809,9 @@ Model::getSubstanceUD()
   }
   else
   {
-    Unit* u = new Unit(getSBMLNamespaces());
+    Unit* u = ud->createUnit();
     u->setKind(UNIT_KIND_MOLE);
     u->initDefaults();
-    ud->addUnit(u);
-    delete u;
   }
 
   return ud;
@@ -4802,7 +4825,16 @@ Model::getSubstanceUD()
 UnitDefinition *
 Model::getL3SubstanceUD()
 {
-  UnitDefinition *ud = new UnitDefinition(getSBMLNamespaces());
+  UnitDefinition* ud;
+  try
+  {
+    ud = new UnitDefinition(getSBMLNamespaces());
+  }
+  catch ( ... )
+  {
+    ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+      SBMLDocument::getDefaultVersion());
+  }
 
   /* in L3 the units will be possibly not declared at all !
    */
@@ -4810,11 +4842,9 @@ Model::getL3SubstanceUD()
   if (UnitKind_isValidUnitKindString(substanceUnits.c_str(), 
                                      getLevel(), getVersion()))
   {
-    Unit* u = new Unit(getSBMLNamespaces());
+    Unit* u = ud->createUnit();
     u->setKind(UnitKind_forName(substanceUnits.c_str()));
     u->initDefaults();
-    ud->addUnit(u);
-    delete u;
   }
   else if (getUnitDefinition(substanceUnits) != NULL)
   {
@@ -4871,8 +4901,17 @@ Model::createTimeUnitsData()
 UnitDefinition *
 Model::getTimeUD()
 {
-  UnitDefinition *ud = new UnitDefinition(getSBMLNamespaces());
-  
+  UnitDefinition* ud;
+  try
+  {
+    ud = new UnitDefinition(getSBMLNamespaces());
+  }
+  catch ( ... )
+  {
+    ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+      SBMLDocument::getDefaultVersion());
+  }
+
   // units are second unless time has been overridden
   if (getUnitDefinition("time") != NULL)
   {
@@ -4887,11 +4926,9 @@ Model::getTimeUD()
   }
   else
   {
-    Unit* u = new Unit(getSBMLNamespaces());
+    Unit* u = ud->createUnit();
     u->setKind(UNIT_KIND_SECOND);
     u->initDefaults();
-    ud->addUnit(u);
-    delete u;
   }
 
   return ud;
@@ -4905,7 +4942,16 @@ Model::getTimeUD()
 UnitDefinition *
 Model::getL3TimeUD()
 {
-  UnitDefinition *ud = new UnitDefinition(getSBMLNamespaces());
+  UnitDefinition* ud;
+  try
+  {
+    ud = new UnitDefinition(getSBMLNamespaces());
+  }
+  catch ( ... )
+  {
+    ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+      SBMLDocument::getDefaultVersion());
+  }
 
   /* in L3 the units will be possibly not declared at all !
    */
@@ -4913,11 +4959,9 @@ Model::getL3TimeUD()
   if (UnitKind_isValidUnitKindString(timeUnits.c_str(), 
                                      getLevel(), getVersion()))
   {
-    Unit* u = new Unit(getSBMLNamespaces());
+    Unit* u = ud->createUnit();
     u->setKind(UnitKind_forName(timeUnits.c_str()));
     u->initDefaults();
-    ud->addUnit(u);
-    delete u;
   }
   else if (getUnitDefinition(timeUnits) != NULL)
   {
@@ -4974,7 +5018,16 @@ Model::createVolumeUnitsData()
 UnitDefinition *
 Model::getVolumeUD()
 {
-  UnitDefinition *ud = new UnitDefinition(getSBMLNamespaces());
+  UnitDefinition* ud;
+  try
+  {
+    ud = new UnitDefinition(getSBMLNamespaces());
+  }
+  catch ( ... )
+  {
+    ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+      SBMLDocument::getDefaultVersion());
+  }
 
   // units will be litre unless volume has been overridden
   if (getUnitDefinition("volume") != NULL)
@@ -4990,11 +5043,9 @@ Model::getVolumeUD()
   }
   else
   {
-    Unit* u = new Unit(getSBMLNamespaces());
+    Unit* u = ud->createUnit();
     u->setKind(UNIT_KIND_LITRE);
     u->initDefaults();
-    ud->addUnit(u);
-    delete u;
   }
 
   return ud;
@@ -5008,7 +5059,16 @@ Model::getVolumeUD()
 UnitDefinition *
 Model::getL3VolumeUD()
 {
-  UnitDefinition *ud = new UnitDefinition(getSBMLNamespaces());
+  UnitDefinition* ud;
+  try
+  {
+    ud = new UnitDefinition(getSBMLNamespaces());
+  }
+  catch ( ... )
+  {
+    ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+      SBMLDocument::getDefaultVersion());
+  }
 
   /* in L3 the units will be possibly not declared at all !
    */
@@ -5016,11 +5076,9 @@ Model::getL3VolumeUD()
   if (UnitKind_isValidUnitKindString(volumeUnits.c_str(), 
                                      getLevel(), getVersion()))
   {
-    Unit* u = new Unit(getSBMLNamespaces());
+    Unit* u = ud->createUnit();
     u->setKind(UnitKind_forName(volumeUnits.c_str()));
     u->initDefaults();
-    ud->addUnit(u);
-    delete u;
   }
   else if (getUnitDefinition(volumeUnits) != NULL)
   {
@@ -5077,7 +5135,16 @@ Model::createAreaUnitsData()
 UnitDefinition *
 Model::getAreaUD()
 {
-  UnitDefinition *ud = new UnitDefinition(getSBMLNamespaces());
+  UnitDefinition* ud;
+  try
+  {
+    ud = new UnitDefinition(getSBMLNamespaces());
+  }
+  catch ( ... )
+  {
+    ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+      SBMLDocument::getDefaultVersion());
+  }
 
   // units will be metre squared unless area has been overridden
   if (getUnitDefinition("area") != NULL)
@@ -5093,12 +5160,10 @@ Model::getAreaUD()
   }
   else
   {
-    Unit* u = new Unit(getSBMLNamespaces());
+    Unit* u = ud->createUnit();
     u->setKind(UNIT_KIND_METRE);
     u->initDefaults();
     u->setExponent(2);
-    ud->addUnit(u);
-    delete u;
   }
 
   return ud;
@@ -5112,7 +5177,17 @@ Model::getAreaUD()
 UnitDefinition *
 Model::getL3AreaUD()
 {
-  UnitDefinition *ud = new UnitDefinition(getSBMLNamespaces());
+  UnitDefinition* ud;
+  try
+  {
+    ud = new UnitDefinition(getSBMLNamespaces());
+  }
+  catch ( ... )
+  {
+    ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+      SBMLDocument::getDefaultVersion());
+  }
+
 
   /* in L3 the units will be possibly not declared at all !
    */
@@ -5120,11 +5195,9 @@ Model::getL3AreaUD()
   if (UnitKind_isValidUnitKindString(areaUnits.c_str(), 
                                      getLevel(), getVersion()))
   {
-    Unit* u = new Unit(getSBMLNamespaces());
+    Unit* u = ud->createUnit();
     u->setKind(UnitKind_forName(areaUnits.c_str()));
     u->initDefaults();
-    ud->addUnit(u);
-    delete u;
   }
   else if (getUnitDefinition(areaUnits) != NULL)
   {
@@ -5181,7 +5254,16 @@ Model::createLengthUnitsData()
 UnitDefinition *
 Model::getLengthUD()
 {
-  UnitDefinition *ud = new UnitDefinition(getSBMLNamespaces());
+  UnitDefinition* ud;
+  try
+  {
+    ud = new UnitDefinition(getSBMLNamespaces());
+  }
+  catch ( ... )
+  {
+    ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+      SBMLDocument::getDefaultVersion());
+  }
 
   // units will be metre unless length has been overridden
   if (getUnitDefinition("length") != NULL)
@@ -5197,11 +5279,9 @@ Model::getLengthUD()
   }
   else
   {
-    Unit* u = new Unit(getSBMLNamespaces());
+    Unit* u = ud->createUnit();
     u->setKind(UNIT_KIND_METRE);
     u->initDefaults();
-    ud->addUnit(u);
-    delete u;
   }
 
   return ud;
@@ -5215,7 +5295,16 @@ Model::getLengthUD()
 UnitDefinition *
 Model::getL3LengthUD()
 {
-  UnitDefinition *ud = new UnitDefinition(getSBMLNamespaces());
+  UnitDefinition* ud;
+  try
+  {
+    ud = new UnitDefinition(getSBMLNamespaces());
+  }
+  catch ( ... )
+  {
+    ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+      SBMLDocument::getDefaultVersion());
+  }
 
   /* in L3 the units will be possibly not declared at all !
    */
@@ -5223,11 +5312,9 @@ Model::getL3LengthUD()
   if (UnitKind_isValidUnitKindString(lengthUnits.c_str(), 
                                      getLevel(), getVersion()))
   {
-    Unit* u = new Unit(getSBMLNamespaces());
+    Unit* u = ud->createUnit();
     u->setKind(UnitKind_forName(lengthUnits.c_str()));
     u->initDefaults();
-    ud->addUnit(u);
-    delete u;
   }
   else if (getUnitDefinition(lengthUnits) != NULL)
   {
@@ -5261,7 +5348,15 @@ Model::createExtentUnitsData()
   if (getLevel() < 3)
   {
     // create a unitDefinition with no children
-    ud = new UnitDefinition(getSBMLNamespaces());
+    try
+    {
+      ud = new UnitDefinition(getSBMLNamespaces());
+    }
+    catch ( ... )
+    {
+      ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+        SBMLDocument::getDefaultVersion());
+    }
     fud->setContainsParametersWithUndeclaredUnits(true);
     fud->setCanIgnoreUndeclaredUnits(false);
 
@@ -5288,7 +5383,16 @@ Model::createExtentUnitsData()
 UnitDefinition *
 Model::getL3ExtentUD()
 {
-  UnitDefinition *ud = new UnitDefinition(getSBMLNamespaces());
+  UnitDefinition* ud;
+  try
+  {
+    ud = new UnitDefinition(getSBMLNamespaces());
+  }
+  catch ( ... )
+  {
+    ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+      SBMLDocument::getDefaultVersion());
+  }
 
   /* in L3 the units will be possibly not declared at all !
    */
@@ -5296,11 +5400,9 @@ Model::getL3ExtentUD()
   if (UnitKind_isValidUnitKindString(extentUnits.c_str(), 
                                      getLevel(), getVersion()))
   {
-    Unit* u = new Unit(getSBMLNamespaces());
+    Unit* u = ud->createUnit();
     u->setKind(UnitKind_forName(extentUnits.c_str()));
     u->initDefaults();
-    ud->addUnit(u);
-    delete u;
   }
   else if (getUnitDefinition(extentUnits) != NULL)
   {
@@ -5311,13 +5413,11 @@ Model::getL3ExtentUD()
       Unit* uFromModel = getUnitDefinition(extentUnits)->getUnit(n);
       if (uFromModel  != NULL)
       {
-        Unit* u = new Unit(uFromModel->getSBMLNamespaces());
+        Unit* u = ud->createUnit();
         u->setKind(uFromModel->getKind());
         u->setExponent(uFromModel->getExponent());
         u->setScale(uFromModel->getScale());
         u->setMultiplier(uFromModel->getMultiplier());
-        ud->addUnit(u);
-        delete u;
       }
     }
   }
@@ -5482,7 +5582,15 @@ Model::createSpeciesUnitsData()
      */
     if (getCompartment(s->getCompartment()) == NULL)
     {
-      ud = new UnitDefinition(getSBMLNamespaces());
+      try
+      {
+        ud = new UnitDefinition(getSBMLNamespaces());
+      }
+      catch ( ... )
+      {
+        ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+          SBMLDocument::getDefaultVersion());
+      }
     }
     else
     {
@@ -5784,14 +5892,18 @@ Model::createLocalParameterUnitsData(KineticLaw * kl,
       if (UnitKind_isValidUnitKindString(units.c_str(), 
                             getLevel(), getVersion()))
       {
-        Unit * unit = new Unit(getSBMLNamespaces());
+        try
+        {
+          ud = new UnitDefinition(getSBMLNamespaces());
+        }
+        catch ( ... )
+        {
+          ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+            SBMLDocument::getDefaultVersion());
+        }
+        Unit * unit = ud->createUnit();
         unit->setKind(UnitKind_forName(units.c_str()));
         unit->initDefaults();
-        ud   = new UnitDefinition(getSBMLNamespaces());
-
-        ud->addUnit(unit);
-
-        delete unit;
       }
       else
       {
@@ -5804,7 +5916,15 @@ Model::createLocalParameterUnitsData(KineticLaw * kl,
         }
         else
         {
-          ud = new UnitDefinition(getSBMLNamespaces());
+          try
+          {
+            ud = new UnitDefinition(getSBMLNamespaces());
+          }
+          catch ( ... )
+          {
+            ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+              SBMLDocument::getDefaultVersion());
+          }
           fud->setContainsParametersWithUndeclaredUnits(true);
         }
       }
@@ -5816,7 +5936,15 @@ Model::createLocalParameterUnitsData(KineticLaw * kl,
     {
       // here we have none but for consistency return a unitDefinition
       // with no units
-      ud = new UnitDefinition(getSBMLNamespaces());
+      try
+      {
+        ud = new UnitDefinition(getSBMLNamespaces());
+      }
+      catch ( ... )
+      {
+        ud = new UnitDefinition(SBMLDocument::getDefaultLevel(),
+          SBMLDocument::getDefaultVersion());
+      }
       fud->setUnitDefinition(ud);
       fud->setContainsParametersWithUndeclaredUnits(true);
       fud->setCanIgnoreUndeclaredUnits(false);

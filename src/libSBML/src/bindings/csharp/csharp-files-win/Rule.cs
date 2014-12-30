@@ -29,7 +29,7 @@ namespace libsbml {
  * subclasses AssignmentRule, AlgebraicRule and RateRule can be
  * instantiated directly.
  *
- * *
+ *
  * @section rules-general General summary of SBML rules
  *
  * In SBML Level&nbsp;3 as well as Level&nbsp;2, rules are separated into three
@@ -288,7 +288,7 @@ public class Rule : SBase {
 /**
    * Get the value of the 'variable' attribute of this Rule object.
    *
-   * *
+   *
  * 
  * In SBML Level&nbsp;1, the different rule types each have a different
  * name for the attribute holding the reference to the object constituting
@@ -378,7 +378,7 @@ public class Rule : SBase {
 /**
    * Predicate returning @c true if this Rule's 'variable' attribute is set.
    *
-   * *
+   *
  * 
  * In SBML Level&nbsp;1, the different rule types each have a different
  * name for the attribute holding the reference to the object constituting
@@ -427,14 +427,12 @@ public class Rule : SBase {
    *
    * @param formula a mathematical formula in text-string form.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note The attribute 'formula' is specific to SBML Level&nbsp;1; in
@@ -457,14 +455,12 @@ public class Rule : SBase {
    *
    * @param math the AST structure of the mathematical formula.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @note The subelement 'math' is present in SBML Levels&nbsp;2
@@ -484,7 +480,7 @@ public class Rule : SBase {
 /**
    * Sets the 'variable' attribute value of this Rule object.
    *
-   * *
+   *
  * 
  * In SBML Level&nbsp;1, the different rule types each have a different
  * name for the attribute holding the reference to the object constituting
@@ -502,14 +498,12 @@ public class Rule : SBase {
    * @param sid the identifier of a Compartment, Species or Parameter
    * elsewhere in the enclosing Model object.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
@@ -524,14 +518,12 @@ public class Rule : SBase {
    *
    * @param sname the identifier of the units
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -547,14 +539,12 @@ public class Rule : SBase {
 /**
    * Unsets the 'units' for this Rule.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
@@ -571,7 +561,7 @@ public class Rule : SBase {
    * Calculates and returns a UnitDefinition that expresses the units of
    * measurement assumed for the 'math' expression of this Rule.
    *
-   * *
+   *
  * 
  * The units are calculated based on the mathematical expression in the
  * Rule and the model quantities referenced by <code>&lt;ci&gt;</code>
@@ -580,7 +570,7 @@ public class Rule : SBase {
  * extent that libSBML can compute them.
  * 
    *
-   * *
+   *
  * @note The functionality that facilitates unit analysis depends on the
  * model as a whole.  Thus, in cases where the object has not been added to
  * a model or the model itself is incomplete, unit analysis is not possible
@@ -588,7 +578,7 @@ public class Rule : SBase {
  *
  * 
    *
-   * * 
+   *
  * @warning <span class='warning'>Note that it is possible the 'math'
  * expression in the Rule contains pure numbers or parameters with undeclared
  * units.  In those cases, it is not possible to calculate the units of the
@@ -763,7 +753,7 @@ public class Rule : SBase {
 /**
    * Returns the libSBML type code for this %SBML object.
    * 
-   * *
+   *
  * 
  * LibSBML attaches an identifying code to every kind of SBML object.  These
  * are integer constants known as <em>SBML type codes</em>.  The names of all
@@ -792,7 +782,7 @@ public class Rule : SBase {
    * @link libsbml#SBML_ALGEBRAIC_RULE SBML_ALGEBRAIC_RULE@endlink 
    * for %SBML Core.
    *
-   * *
+   *
  * @warning <span class='warning'>The specific integer values of the possible
  * type codes may be reused by different Level&nbsp;3 package plug-ins.
  * Thus, to identifiy the correct code, <strong>it is necessary to invoke
@@ -865,14 +855,12 @@ public class Rule : SBase {
    * @link libsbml#SBML_PARAMETER_RULE SBML_PARAMETER_RULE@endlink, and
    * @link libsbml#SBML_SPECIES_CONCENTRATION_RULE SBML_SPECIES_CONCENTRATION_RULE@endlink.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * if given @p type value is not one of the above.
    */ public
@@ -888,7 +876,7 @@ public class Rule : SBase {
    *
    * The only required element for a Rule object is the 'math' subelement.
    *
-   * @return a bool value indicating whether all the required
+   * @return a boolean value indicating whether all the required
    * elements for this object have been defined.
    */ public new
  bool hasRequiredElements() {
@@ -917,11 +905,11 @@ public class Rule : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c SIdRef type attribute value with another
  * value.
  *
- * *
+ *
  * 
 
  * In SBML, object identifiers are of a data type called <code>SId</code>.
@@ -953,11 +941,11 @@ public class Rule : SBase {
 
   
 /**
-   * *
+   *
  * Replaces all uses of a given @c UnitSIdRef type attribute value with
  * another value.
  *
- * *
+ *
  * 
  * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
  * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was

@@ -736,11 +736,18 @@ readMathML (ASTNode& node, XMLInputStream& stream, std::string reqd_prefix,
   }
 
   // allow definition url on csymbol/semantics and bvar
-  // and on ci in L3
+  // and on ci in L3 and L2V5
   if ( !url.empty())
   {      
     SBMLNamespaces* ns = stream.getSBMLNamespaces();
     if (ns != NULL && ns->getLevel() > 2)
+    {
+      if (name != "csymbol" && name != "semantics" && name != "ci")
+      {
+        logError(stream, elem, DisallowedDefinitionURLUse);
+      }
+    }
+    else if (ns != NULL && ns->getLevel() == 2 && ns->getVersion() == 5)
     {
       if (name != "csymbol" && name != "semantics" && name != "ci")
       {
@@ -848,9 +855,11 @@ readMathML (ASTNode& node, XMLInputStream& stream, std::string reqd_prefix,
        * OR a function with no arguments
        */
       stream.skipText();
-      if (elem.getName() == "piecewise" 
-        && stream.peek().getName() == "piecewise") continue;
-      else if (stream.peek().isEndFor(elem)) continue;
+      
+      //if (elem.getName() == "piecewise" 
+      //  && stream.peek().getName() == "piecewise") continue;
+      
+      if (stream.peek().isEndFor(elem)) continue;
 
       ASTNodeType_t type = node.getType();
       if (type == AST_PLUS || type == AST_TIMES) reduceBinary(node);

@@ -1986,7 +1986,7 @@ appears in the documentation.
 
 %javamethodmodifiers SBase::getSBMLDocument() const "
 /**
-   * Returns the {@link SBMLDocument} object containing <em>this</em> object instance.
+   * Returns the {@link SBMLDocument} object containing this object instance.
    <p>
    * <p>
  * LibSBML uses the class {@link SBMLDocument} as a top-level container for
@@ -2011,7 +2011,7 @@ appears in the documentation.
 
 %javamethodmodifiers SBase::getSBMLDocument "
 /**
-   * Returns the {@link SBMLDocument} object containing <em>this</em> object instance.
+   * Returns the {@link SBMLDocument} object containing this object instance.
    <p>
    * <p>
  * LibSBML uses the class {@link SBMLDocument} as a top-level container for
@@ -2656,10 +2656,9 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * (if the parent element does not have the \'metaid\' attribute set)
    * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_ANNOTATION_NS LIBSBML_DUPLICATE_ANNOTATION_NS}
-   * With \'unexpected attribute\' returned if the parent element does not have 
-   * the \'metaid\' attribute set, and \'duplicate annotation\' set if the parent 
-   * was already annotated with the annotation in question.
+   * (if the parent was already annotated with the annotation in question)
    *
    * </ul> <p>
    * @see #getAnnotationString()
@@ -2707,10 +2706,9 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * (if the parent element does not have the \'metaid\' attribute set)
    * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_ANNOTATION_NS LIBSBML_DUPLICATE_ANNOTATION_NS}
-   * With \'unexpected attribute\' returned if the parent element does not have 
-   * the \'metaid\' attribute set, and \'duplicate annotation\' set if the parent 
-   * was already annotated with the annotation in question.
+   * (if the parent was already annotated with the annotation in question)
    *
    * </ul> <p>
    * @see #getAnnotationString()
@@ -3813,12 +3811,12 @@ void example (SBase sb)
    * The valid combinations of SBML Level, Version and Namespace as of this
    * release of libSBML are the following:
    * <ul>
-   * <li> Level&nbsp;1 Version&nbsp;2: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level1\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;1: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;2: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version2\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;3: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version3\'</code>
-   * <li> Level&nbsp;2 Version&nbsp;4: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version4\'</code>
-   * <li> Level&nbsp;3 Version&nbsp;1 Core: <code style=\'margin-right:0; padding-right:0\'>\'http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level3/version1/core\'</code>
+   * <li> Level&nbsp;1 Version&nbsp;2: &quot;<code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level1</code>&quot;
+   * <li> Level&nbsp;2 Version&nbsp;1: &quot;<code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2</code>&quot;
+   * <li> Level&nbsp;2 Version&nbsp;2: &quot;<code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version2</code>&quot;
+   * <li> Level&nbsp;2 Version&nbsp;3: &quot;<code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version3</code>&quot;
+   * <li> Level&nbsp;2 Version&nbsp;4: &quot;<code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version4</code>&quot;
+   * <li> Level&nbsp;3 Version&nbsp;1 Core: &quot;<code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level3/version1/core</code>&quot;
    * </ul>
    <p>
    * @return <code>true</code> if the level, version and namespace values of this 
@@ -4124,7 +4122,7 @@ void example (SBase sb)
 
 
 %javamethodmodifiers SBase::deleteDisabledPlugins(bool recursive=true) "
-/** 
+/**
    * Deletes all information stored in disabled plugins. 
    <p>
    * @param recursive if <code>true</code>, the disabled information will be deleted
@@ -4548,7 +4546,16 @@ newModel.addSpecies(s1);
 
 %javamethodmodifiers SBase::getPrefix() const "
 /**
-   * Returns the namespace prefix of this element.
+   * Returns the XML namespace prefix of this element.
+   <p>
+   * This reports the XML namespace prefix chosen for this class of object in
+   * the current SBML document.  This may be an empty string if the component
+   * has no explicit prefix (for instance, if it is a core SBML object placed
+   * in the default SBML namespace of the document).  If it is not empty, then
+   * it corresponds to the XML namespace prefix used set the object, whatever
+   * that may be in a given SBML document.
+   <p>
+   * @return a text string representing the XML namespace prefix
    */ public
 ";
 
@@ -5341,7 +5348,7 @@ appears in the documentation.
  * within the model, the list must not be empty; that is, it must have
  * length one or more.  The following are the components and lists
  * permitted in different Levels and Versions of SBML in
- * version 5.11.0
+ * version 5.11.1
  * of libSBML:
  * <ul>
  * <li> In SBML Level 1, the components are: {@link UnitDefinition}, {@link Compartment},
@@ -5450,7 +5457,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <h2>Consistency and adherence to SBML specifications</h2>
  <p>
  * To make it easier for applications to do whatever they need,
- * libSBML version 5.11.0
+ * libSBML version 5.11.1
  * is relatively lax when it comes to enforcing correctness and
  * completeness of models <em>during</em> model construction and editing.
  * Essentially, libSBML <em>will</em> <em>not</em> in most cases check automatically
@@ -8576,7 +8583,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
 ";
 
 
-%javamethodmodifiers Model::convertL2ToL3 "
+%javamethodmodifiers Model::convertL2ToL3(bool strict = false) "
 /** * @internal */ public
 ";
 
@@ -8586,7 +8593,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
 ";
 
 
-%javamethodmodifiers Model::convertL3ToL1 "
+%javamethodmodifiers Model::convertL3ToL1(bool strict = false) "
 /** * @internal */ public
 ";
 
@@ -8666,7 +8673,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
 ";
 
 
-%javamethodmodifiers Model::dealWithModelUnits "
+%javamethodmodifiers Model::dealWithModelUnits(bool strict = false) "
 /** * @internal */ public
 ";
 
@@ -8677,6 +8684,16 @@ sp.setId(&#34;BestSpeciesEver&#34;);
 
 
 %javamethodmodifiers Model::dealWithEvents(bool strict) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers Model::removeSpeciesTypes "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers Model::removeCompartmentTypes "
 /** * @internal */ public
 ";
 
@@ -9680,7 +9697,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    <p>
    * <p>
  * This \'default Level\' corresponds to the most recent SBML specification
- * Level available at the time libSBML version 5.11.0 was released.  The default Level is used by
+ * Level available at the time libSBML version 5.11.1 was released.  The default Level is used by
  * {@link SBMLDocument} if no Level is explicitly specified at the time of the
  * construction of an {@link SBMLDocument} instance.
    <p>
@@ -9700,7 +9717,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * <p>
  * This \'default Version\' corresponds to the most recent Version within the
  * most recent Level of SBML available at the time libSBML version
- * 5.11.0 was released.  The default Version is
+ * 5.11.1 was released.  The default Version is
  * used by {@link SBMLDocument} if no Version is explicitly specified at the time of
  * the construction of an {@link SBMLDocument} instance. 
    <p>
@@ -10980,6 +10997,21 @@ appears in the documentation.
 
 
 %javamethodmodifiers SBMLDocument::hasUnknownPackage(const std::string& pkgURI) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBMLDocument::getNumUnknownPackages() const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBMLDocument::getUnknownPackageURI(int index) const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBMLDocument::getUnknownPackagePrefix(int index) const "
 /** * @internal */ public
 ";
 
@@ -22807,7 +22839,7 @@ attributes.</caption>
    <p>
    * The returned value can be any of a number of different strings,
    * depending on the SBML Level in use and the kind of {@link Rule} object this
-   * is.  The rules as of libSBML version 5.11.0
+   * is.  The rules as of libSBML version 5.11.1
    * are the following:
    * <ul>
    * <li> (Level&nbsp;2 and&nbsp;3) RateRule: returns <code>\'rateRule\'</code>
@@ -33707,6 +33739,18 @@ defined in SBML.
 ";
 
 
+%javamethodmodifiers SBO::isQuantitativeSystemsDescriptionParameter(unsigned int term) "
+/**
+   * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+   <p>
+   * @return <code>true</code> if <code>term</code> is-a SBO <em>\'quantiative systems description parameter\'</em>, <code>false</code>
+   * otherwise.
+   <p>
+   * 
+   */ public
+";
+
+
 %javamethodmodifiers SBO::isObselete(unsigned int term) "
 /**
    * Predicate for checking whether the given term is obsolete.
@@ -35924,7 +35968,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.0:
+ * provided by libSBML 5.11.1:
  <p>
  * <p>
  * <ul>
@@ -36476,7 +36520,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.0:
+ * provided by libSBML 5.11.1:
  <p>
  * <p>
  * <ul>
@@ -36959,7 +37003,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.0:
+ * provided by libSBML 5.11.1:
  <p>
  * <p>
  * <ul>
@@ -37206,7 +37250,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.0:
+ * provided by libSBML 5.11.1:
  <p>
  * <p>
  * <ul>
@@ -37426,7 +37470,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.0:
+ * provided by libSBML 5.11.1:
  <p>
  * <p>
  * <ul>
@@ -37681,7 +37725,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.0:
+ * provided by libSBML 5.11.1:
  <p>
  * <p>
  * <ul>
@@ -37916,7 +37960,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.0:
+ * provided by libSBML 5.11.1:
  <p>
  * <p>
  * <ul>
@@ -38191,7 +38235,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.0:
+ * provided by libSBML 5.11.1:
  <p>
  * <p>
  * <ul>
@@ -38411,7 +38455,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.0:
+ * provided by libSBML 5.11.1:
  <p>
  * <p>
  * <ul>
@@ -38724,7 +38768,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.0:
+ * provided by libSBML 5.11.1:
  <p>
  * <p>
  * <ul>
@@ -38948,7 +38992,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.0:
+ * provided by libSBML 5.11.1:
  <p>
  * <p>
  * <ul>
@@ -39064,7 +39108,21 @@ if (config != None) {
 ";
 
 
-%javamethodmodifiers SBMLStripPackageConverter::getPackageToStrip "
+%javamethodmodifiers SBMLStripPackageConverter::getPackageToStrip() const "
+/** 
+   * @return the package to be stripped 
+   */ public
+";
+
+
+%javamethodmodifiers SBMLStripPackageConverter::isStripAllUnrecognizedPackages() const "
+/** 
+   * @return whether all unrecognized packages should be removed
+   */ public
+";
+
+
+%javamethodmodifiers SBMLStripPackageConverter::stripPackage(const std::string& packageToStrip) "
 /** * @internal */ public
 ";
 
@@ -39188,7 +39246,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.0:
+ * provided by libSBML 5.11.1:
  <p>
  * <p>
  * <ul>
@@ -39941,10 +39999,10 @@ foo:myattribute=\'7\'
  * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}.
-   * This value is returned if any of the arguments are <code>null.</code>  To set an
-   * empty <code>prefix</code> and/or <code>name</code> value, use an empty string rather than 
-   * <code>null.</code>
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * &ndash; this value is returned if any of the arguments are <code>null.</code>  To
+   * set an empty <code>prefix</code> and/or <code>name</code> value, use an empty string rather
+   * than <code>null.</code>
    *
    * </ul> <p>
    * <p>
@@ -40089,9 +40147,10 @@ foo:myattribute=\'7\'
  * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}. 
-   * This value is returned if any of the arguments are <code>null.</code>  To set an
-   * empty value for the attribute, use an empty string rather than <code>null.</code>
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * &ndash; this value is returned if any of the arguments are <code>null.</code>  To
+   * set an empty value for the attribute, use an empty string rather than 
+   * <code>null.</code>
    *
    * </ul> <p>
    * <p>
@@ -46397,6 +46456,15 @@ defined in SBML.
    <p>
    * Only the first item will be removed if there are multiple errors
    * with the given errorId.
+   <p>
+   * @param errorId the error identifier of the error to be removed.
+   */ public
+";
+
+
+%javamethodmodifiers SBMLErrorLog::removeAll(const unsigned int errorId) "
+/**
+   * Removes all errors having errorId from the {@link SBMLError} list.
    <p>
    * @param errorId the error identifier of the error to be removed.
    */ public
@@ -54888,7 +54956,7 @@ defined in SBML.
  * name=\'SBMLErrorSeverity_t\'>Severity codes associated with {@link SBMLError}
  * objects</h3>
  <p>
- * In libSBML version 5.11.0
+ * In libSBML version 5.11.1
  * there are no additional severity codes beyond those defined by {@link XMLError}.
  * They are implemented as static integer constants defined in the interface
  * class <code><a href=\'libsbmlConstants.html\'>libsbmlConstants</a></code>,
@@ -56134,6 +56202,46 @@ appears in the documentation.
 
 
 %javamethodmodifiers CVTerm::hasRequiredAttributes() const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers CVTerm::getNumNestedCVTerms() const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers CVTerm::getNestedCVTerm "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers CVTerm::getNestedCVTerm(unsigned int n) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers CVTerm::getListNestedCVTerms "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers CVTerm::getListNestedCVTerms() const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers CVTerm::addNestedCVTerm(const CVTerm* term) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers CVTerm::removeNestedCVTerm(unsigned int n) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers CVTerm::setHasBeenModifiedFlag "
 /** * @internal */ public
 ";
 
@@ -57674,7 +57782,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object\'s annotation.
 ";
 
 
-%javamethodmodifiers RDFAnnotationParser::createRDFAnnotation "
+%javamethodmodifiers RDFAnnotationParser::createRDFAnnotation(unsigned int level = 3, unsigned int version = 1) "
 /**
    * Creates a blank RDF element suitable for use in SBML annotations.
    <p>
@@ -57918,6 +58026,16 @@ success      = sbmlObject.setAnnotation(ann); // Set object\'s annotation.
 ";
 
 
+%javamethodmodifiers RDFAnnotationParser::createBagElement(const CVTerm * term, unsigned int level, unsigned int version) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers RDFAnnotationParser::createQualifierElement(const CVTerm * term, unsigned int level, unsigned int version) "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers RDFAnnotationParser::deriveCVTermsFromAnnotation(const XMLNode *annotation, List *CVTerms) "
 /** * @internal */ public
 ";
@@ -58092,161 +58210,41 @@ defined in SBML.
  * methods should be overridden by subclasses to implement the necessary
  * features of an extended SBML object.
  <p>
- * Perhaps the easiest way to explain and motivate the role of {@link SBasePlugin} is
- * through an example.  The SBML Layout package specifies the existence of an
- * element, <code>&lt;listOfLayouts&gt;</code>, contained inside an SBML
- * <code>&lt;model&gt;</code> element.  In terms of libSBML components, this
- * means a new ListOfLayouts class of objects must be defined, and this
- * object placed in an <em>extended</em> class of {@link Model} (because {@link Model} in
- * plain/core SBML does not allow the inclusion of a ListOfLayouts
- * subobject).  This extended class of {@link Model} is LayoutModelPlugin, and it is
- * derived from {@link SBasePlugin}.
- <p>
- * <h2>How to extend {@link SBasePlugin} for a package implementation</h2>
  * <p>
- * LibSBML package extensions can extend existing libSBML objects such as {@link Model}
- * using {@link SBasePlugin} as a base class, to hold attributes and/or subcomponents
- * necessary for the SBML package being implemented.  Package developers must
- * implement an {@link SBasePlugin} extended class for each element to be extended
- * (e.g., {@link Model}, {@link Reaction}, and others) where additional attributes and/or
- * top-level objects of the package extension are directly contained.  The
- * following subsections detail the basic steps necessary to use {@link SBasePlugin}
- * for the implementation of a class extension.
+ * <h2>Basic principles of SBML package extensions in libSBML</h2>
  <p>
- * <h3>1. Identify the SBML components that need to be extended</h3>
+ * SBML Level&nbsp;3\'s package structure permits modular extensions to the
+ * core SBML format.  In libSBML, support for SBML Level&nbsp;3 packages is
+ * provided through optional <em>package extensions</em> that can be plugged
+ * into libSBML at the time it is built/compiled.  Users of libSBML can thus
+ * choose which extensions are enabled in their software applications.
  <p>
- * The specification for a SBML Level&nbsp;3 package will define the
- * attributes and subojects that make up the package constructs.  Those
- * constructs that modify existing SBML components such as {@link Model},
- * {@link Reaction}, etc., will be the ones that need to be extended using {@link SBasePlugin}.
+ * LibSBML defines a number of classes that developers of package extensions
+ * can use to implement support for an SBML Level&nbsp;3 package.  These
+ * classes make it easier to extend libSBML objects with new attributes
+ * and/or subobjects as needed by a particular Level&nbsp;3 package.
+ * Three overall categories of classes make up libSBML\'s facilities for
+ * implementing package extensions.  There are (1) classes that serve as base
+ * classes meant to be subclassed, (2) template classes meant to be
+ * instantiated rather than subclassed, and (3) support classes that provide
+ * utility features. A given package implementation for libSBML will take
+ * the form of code using these and other libSBML classes, placed in a
+ * subdirectory of <code>src/sbml/packages/</code>.
  <p>
- * For example, the Layout package makes additions to {@link Model},
- * {@link SpeciesReference}, and the <code>&lt;sbml&gt;</code> element (which is
- * represented in libSBML by {@link SBMLDocument}).  This means that the Layout
- * package extension in libSBML needs to define extended versions of {@link Model},
- * {@link SpeciesReference} and {@link SBMLDocument}.  Elements <em>other</em> than the SBML
- * document need to be implemented using {@link SBasePlugin}; the document component
- * must be implemented using {@link SBMLDocumentPlugin} instead.
+ * The basic libSBML distribution includes a number of package extensions
+ * implementing support for officially-endorsed SBML Level&nbsp;3 packages;
+ * among these are <em>Flux Balance Constraints</em> (\'fbc\'),
+ * <em>Hierarchical Model Composition</em> (\'comp\'), <em>Layout</em>
+ * (\'layout\'), and <em>Qualitative Models</em> (\'qual\').  They can serve as
+ * working examples for developers working to implement other packages.
  <p>
- * <h3>2. Create a {@link SBasePlugin} subclass for each extended SBML component</h3>
- <p>
- * A new class definition that subclasses {@link SBasePlugin} needs to be created for
- * each SBML component to be extended by the package.  For instance, the
- * Layout package needs LayoutModelPlugin and LayoutSpeciesReferencePlugin.
- * (As mentioned above, the Layout class also needs LayoutSBMLDocumentPlugin,
- * but this one is implemented using {@link SBMLDocumentPlugin} instead of
- * {@link SBasePlugin}.)  Below, we describe in detail the different parts of an
- * {@link SBasePlugin} subclass definition.
- <p>
- * <h4>2.1 Define protected data members</h4>
- <p>
- * Data attributes on each extended class in an SBML package will have one of
- * the data types <code>String</code>, <code>double</code>,
- * <code>int</code>, or <code>boolean</code>.  Subelements/subobjects will normally
- * be derived from the {@link ListOf} class or from {@link SBase}.
- <p>
- * The additional data members must be properly initialized in the class
- * constructor, and must be properly copied in the copy constructor and
- * assignment operator.  For example, the following data member is defined in
- * the <code>GroupsModelPlugin</code> class (in the file
- * <code>GroupsModelPlugin.h</code>):
- * <pre class=\'fragment\'>{.cpp}
-ListOfGroups mGroups;
-</pre>
- <p>
- * <h4>2.2 Override {@link SBasePlugin} class-related methods</h4>
- <p>
- * The derived class must override the constructor, copy constructor, assignment
- * operator (<code>operator=</code>) and <code>clone()</code> methods from
- * {@link SBasePlugin}.
- <p>
- * <h4>2.3 Override {@link SBasePlugin} virtual methods for attributes</h4>
- <p>
- * If the extended component is defined by the SBML Level&nbsp;3 package to have
- * attributes, then the extended class definition needs to override the
- * following internal methods on {@link SBasePlugin} and provide appropriate
- * implementations:
- <p>
- * <ul>
- * <li> <code>addExpectedAttributes(ExpectedAttributes& attributes)</code>: This
- * method should add the attributes that are expected to be found on this kind
- * of extended component in an SBML file or data stream.
- <p>
- * <li> <code>readAttributes(XMLAttributes attributes, ExpectedAttributes&
- * expectedAttributes)</code>: This method should read the attributes
- * expected to be found on this kind of extended component in an SBML file or
- * data stream.
- <p>
- * <li> <code>hasRequiredAttributes()</code>: This method should return <code>true</code>
- * if all of the required attribute for this extended component are present on
- * instance of the object.
- <p>
- * <li> <code>writeAttributes(XMLOutputStream stream)</code>: This method should
- * write out the attributes of an extended component.  The implementation should
- * use the different kinds of <code>writeAttribute</code> methods defined by
- * {@link XMLOutputStream} to achieve this.
- *
- * </ul> <p>
- * <h4>2.4 Override {@link SBasePlugin} virtual methods for subcomponents</h4>
- <p>
- * If the extended component is defined by the Level&nbsp;3 package to have
- * subcomponents (i.e., full XML elements rather than mere attributes), then the
- * extended class definition needs to override the following internal
- * {@link SBasePlugin} methods and provide appropriate implementations:
- <p>
- * <ul>
- * <li> <code>createObject(XMLInputStream stream)</code>: Subclasses must
- * override this method to create, store, and then return an SBML object
- * corresponding to the next {@link XMLToken} in the {@link XMLInputStream}.  To do this,
- * implementations can use methods like <code>peek()</code> on {@link XMLInputStream} to
- * test if the next object in the stream is something expected for the package.
- * For example, LayoutModelPlugin uses <code>peek()</code> to examine the next
- * element in the input stream, then tests that element against the Layout
- * namespace and the element name <code>\'listOfLayouts\'</code> to see if it\'s
- * the single subcomponent (ListOfLayouts) permitted on a {@link Model} object using the
- * Layout package.  If it is, it returns the appropriate object.
- <p>
- * <li> <code>connectToParent(SBase sbase)</code>: This creates a parent-child
- * relationship between a given extended component and its subcomponent(s).
- <p>
- * <li> <code>setSBMLDocument(SBMLDocument d)</code>: This method should set the
- * parent {@link SBMLDocument} object on the subcomponent object instances, so that the
- * subcomponent instances know which {@link SBMLDocument} contains them.
- <p>
- * <li> <code>enablePackageInternal(String& pkgURI, String& pkgPrefix,
- * boolean flag)</code>: This method should enable or disable the subcomponent
- * based on whether a given XML namespace is active.
- <p>
- * <li> <code>writeElements(XMLOutputStream stream)</code>: This method must be
- * overridden to provide an implementation that will write out the expected
- * subcomponents/subelements to the XML output stream.
- <p>
- * <li> <code>readOtherXML(SBase parentObject, {@link XMLInputStream} stream)</code>:
- * This function should be overridden if elements of annotation, notes, MathML
- * content, etc., need to be directly parsed from the given {@link XMLInputStream}
- * object.
- <p>
- * <li> <code>hasRequiredElements()</code>: This method should return <code>true</code> if
- * a given object contains all the required subcomponents defined by the
- * specification for that SBML Level&nbsp;3 package.
- *
- * </ul> <p>
- * <h4>2.5 Override {@link SBasePlugin} virtual methods for XML namespaces</h4>
- <p>
- * If the package needs to add additional <code>xmlns</code> attributes to
- * declare additional XML namespace URIs, the extended class should override the
- * following method:
- <p>
- * <ul>
- * <li> <code>writeXMLNS(XMLOutputStream stream)</code>: This method should
- * write out any additional XML namespaces that might be needed by a package
- * implementation.
- *
- * </ul> <p>
- * <h4>2.6 Implement additional methods as needed</h4>
- <p>
- * Extended component implementations can add whatever additional utility
- * methods are useful for their implementation.
+ * Extensions in libSBML can currently only be implemented in C++ or C;
+ * there is no mechanism to implement them first in languages such as
+ * Java or Python.  However, once implemented in C++ or C, language
+ * interfaces can be generated semi-automatically using the framework in
+ * place in libSBML.  (The approach is based on using <a target=\'_blank\'
+ * href=\'http://www.swig.org\'>SWIG</a> and facilities in libSBML\'s build
+ * system.)
  */
 "
 
@@ -58621,172 +58619,41 @@ defined in SBML.
  * Level&nbsp;3 packages; these extensions can be subclasses of this
  * class or from a derived class of this class.
  <p>
- * <h2>How to extend {@link SBMLDocumentPlugin} for a package implementation</h2>
  * <p>
- * The following subsections detail the basic steps necessary to use
- * {@link SBMLDocumentPlugin} to extend {@link SBMLDocument} for a given package extension.
+ * <h2>Basic principles of SBML package extensions in libSBML</h2>
  <p>
- * <h3>1. Identify the changes necessary to {@link SBMLDocument}</h3>
+ * SBML Level&nbsp;3\'s package structure permits modular extensions to the
+ * core SBML format.  In libSBML, support for SBML Level&nbsp;3 packages is
+ * provided through optional <em>package extensions</em> that can be plugged
+ * into libSBML at the time it is built/compiled.  Users of libSBML can thus
+ * choose which extensions are enabled in their software applications.
  <p>
- * The specification for a SBML Level&nbsp;3 package will define the
- * changes to the SBML <code>&lt;sbml&gt;</code> element.  Packages
- * typically do not make any changes beyond adding an attribute named
- * \'required\' (discussed below), so in most cases, the extension of
- * {@link SBMLDocument} is very simple.  However, some packages do more.  For
- * instance, the Hierarchical Model Composition package adds subobjects
- * for lists of model definitions.  {@link SBMLDocumentPlugin} supports all these
- * cases.
+ * LibSBML defines a number of classes that developers of package extensions
+ * can use to implement support for an SBML Level&nbsp;3 package.  These
+ * classes make it easier to extend libSBML objects with new attributes
+ * and/or subobjects as needed by a particular Level&nbsp;3 package.
+ * Three overall categories of classes make up libSBML\'s facilities for
+ * implementing package extensions.  There are (1) classes that serve as base
+ * classes meant to be subclassed, (2) template classes meant to be
+ * instantiated rather than subclassed, and (3) support classes that provide
+ * utility features. A given package implementation for libSBML will take
+ * the form of code using these and other libSBML classes, placed in a
+ * subdirectory of <code>src/sbml/packages/</code>.
  <p>
- * <h3>2. Create the {@link SBMLDocumentPlugin} subclass</h3>
+ * The basic libSBML distribution includes a number of package extensions
+ * implementing support for officially-endorsed SBML Level&nbsp;3 packages;
+ * among these are <em>Flux Balance Constraints</em> (\'fbc\'),
+ * <em>Hierarchical Model Composition</em> (\'comp\'), <em>Layout</em>
+ * (\'layout\'), and <em>Qualitative Models</em> (\'qual\').  They can serve as
+ * working examples for developers working to implement other packages.
  <p>
- * A package extension will only define one subclass of {@link SBMLDocumentPlugin}.
- * Below, we describe in detail the different parts of a subclass
- * definition.
- <p>
- * <h4>2.1 Override {@link SBasePlugin} class-related methods</h4>
- <p>
- * The derived class must override the constructor, copy constructor, assignment
- * operator (<code>operator=</code>) and <code>clone()</code> methods from
- * {@link SBasePlugin}.
- <p>
- * <h4>2.2 Determine the necessary value of the \'required\' attribute</h4>
- <p>
- * At minimum, it is necessary for a package implementation to add the
- * \'required\' attribute to the SBML <code>&lt;sbml&gt;</code> element
- * mandated by SBML for all Level&nbsp;3 packages, and this is done using
- * this class as a base.  If the \'required\' attribute is the <em>only</em>
- * addition necessary for a particular SBML Level&nbsp;3 package, then the
- * subclass of {@link SBMLDocumentPlugin} for the package can have a very simple
- * implementation.  Some Level&nbsp;3 packages add additional attributes or
- * elements to <code>&lt;sbml&gt;</code>, and their implementations would
- * go into the subclassed {@link SBMLDocumentPlugin}.
- <p>
- * {@link SBMLDocumentPlugin} provides methods with default implementations that
- * support managing the \'required\' attribute, so package extension code
- * does not need to provide implementations&mdash;they only need to set the
- * correct value for the SBML Level&nbsp;3 package based on its
- * specification.  The following are the virtual methods for working with
- * the \'required\' attribute.  Package extensions would only need to
- * override them in special circumstances:
- <p>
- * <ul>
- * <li> <code>setRequired(boolean value)</code>: This method sets the value
- * of the flag.
- <p>
- * <li> <code>getRequired()</code>: This method gets the value of the
- * \'required\' flag.
- <p>
- * <li> <code>isSetRequired()</code>: This method tests if the value has
- * been set.
- <p>
- * <li> <code>unsetRequired()</code>: This method unsets the value of the
- * \'required\' flag.
- *
- * </ul> <p>
- * <h4>2.3 Define protected data members</h4>
- <p>
- * An extended {@link SBMLDocument} object may need more than just the \'required\'
- * attribute, depending on what is defined in the specification for the
- * package being implemented.  Data attributes on the extended
- * <code>&lt;sbml&gt;</code> object in an SBML package will have one of the
- * data types <code>String</code>, <code>double</code>,
- * <code>int</code>, or <code>boolean</code>.  Subelements/subobjects will
- * normally be derived from the {@link ListOf} class or from {@link SBase}.
- <p>
- * The additional data members must be properly initialized in the class
- * constructor, and must be properly copied in the copy constructor and
- * assignment operator.
- <p>
- * <h4>2.4 Override virtual methods for attributes</h4>
- <p>
- * If the extended component is defined by the SBML Level&nbsp;3 package to
- * have attributes, then the extended {@link SBMLDocumentPlugin} class definition
- * needs to override the following internal methods that come from
- * {@link SBasePlugin} (the base class of {@link SBMLDocumentPlugin}) and provide
- * appropriate implementations:
- <p>
- * <ul>
- * <li> <code>addExpectedAttributes(ExpectedAttributes& attributes)</code>: This
- * method should add the attributes that are expected to be found on this kind
- * of extended component in an SBML file or data stream.
- <p>
- * <li> <code>readAttributes(XMLAttributes attributes, ExpectedAttributes&
- * expectedAttributes)</code>: This method should read the attributes
- * expected to be found on this kind of extended component in an SBML file or
- * data stream.
- <p>
- * <li> <code>hasRequiredAttributes()</code>: This method should return <code>true</code>
- * if all of the required attribute for this extended component are present on
- * instance of the object.
- <p>
- * <li> <code>writeAttributes(XMLOutputStream stream)</code>: This method should
- * write out the attributes of an extended component.  The implementation should
- * use the different kinds of <code>writeAttribute</code> methods defined by
- * {@link XMLOutputStream} to achieve this.
- *
- * </ul> <p>
- * <h4>2.5 Override virtual methods for subcomponents</h4>
- <p>
- * If the extended component is defined by the Level&nbsp;3 package to have
- * subcomponents (i.e., full XML elements rather than mere attributes),
- * then the extended class definition needs to override the following
- * internal methods on {@link SBasePlugin} (the base class of {@link SBMLDocumentPlugin})
- * and provide appropriate implementations:
- <p>
- * <ul>
- * <li> <code>createObject(XMLInputStream stream)</code>: Subclasses must
- * override this method to create, store, and then return an SBML object
- * corresponding to the next {@link XMLToken} in the {@link XMLInputStream}.  To do this,
- * implementations can use methods like <code>peek()</code> on {@link XMLInputStream} to
- * test if the next object in the stream is something expected for the package.
- * For example, LayoutModelPlugin uses <code>peek()</code> to examine the next
- * element in the input stream, then tests that element against the Layout
- * namespace and the element name <code>\'listOfLayouts\'</code> to see if it\'s
- * the single subcomponent (ListOfLayouts) permitted on a {@link Model} object using the
- * Layout package.  If it is, it returns the appropriate object.
- <p>
- * <li> <code>connectToParent(SBase sbase)</code>: This creates a parent-child
- * relationship between a given extended component and its subcomponent(s).
- <p>
- * <li> <code>setSBMLDocument(SBMLDocument d)</code>: This method should set the
- * parent {@link SBMLDocument} object on the subcomponent object instances, so that the
- * subcomponent instances know which {@link SBMLDocument} contains them.
- <p>
- * <li> <code>enablePackageInternal(String& pkgURI, String& pkgPrefix,
- * boolean flag)</code>: This method should enable or disable the subcomponent
- * based on whether a given XML namespace is active.
- <p>
- * <li> <code>writeElements(XMLOutputStream stream)</code>: This method must be
- * overridden to provide an implementation that will write out the expected
- * subcomponents/subelements to the XML output stream.
- <p>
- * <li> <code>readOtherXML(SBase parentObject, {@link XMLInputStream} stream)</code>:
- * This function should be overridden if elements of annotation, notes, MathML
- * content, etc., need to be directly parsed from the given {@link XMLInputStream}
- * object.
- <p>
- * <li> <code>hasRequiredElements()</code>: This method should return <code>true</code> if
- * a given object contains all the required subcomponents defined by the
- * specification for that SBML Level&nbsp;3 package.
- *
- * </ul> <p>
- * <h4>2.6 Override virtual methods for XML namespaces</h4>
- <p>
- * If the package needs to add additional <code>xmlns</code> attributes to
- * declare additional XML namespace URIs, the extended class should
- * override the following method coming from {@link SBasePlugin} (the parent class
- * of {@link SBMLDocumentPlugin}):
- <p>
- * <ul>
- * <li> <code>writeXMLNS(XMLOutputStream stream)</code>: This method should
- * write out any additional XML namespaces that might be needed by a package
- * implementation.
- *
- * </ul> <p>
- * <h4>2.7 Implement additional methods as needed</h4>
- <p>
- * Extended {@link SBMLDocumentPlugin} implementations can add whatever additional
- * utility methods are useful for their implementation.
+ * Extensions in libSBML can currently only be implemented in C++ or C;
+ * there is no mechanism to implement them first in languages such as
+ * Java or Python.  However, once implemented in C++ or C, language
+ * interfaces can be generated semi-automatically using the framework in
+ * place in libSBML.  (The approach is based on using <a target=\'_blank\'
+ * href=\'http://www.swig.org\'>SWIG</a> and facilities in libSBML\'s build
+ * system.)
  */
 "
 
@@ -59000,6 +58867,42 @@ defined in SBML.
  * mechanism.  It is an abstract class that is extended by each package
  * extension implementation. 
  <p>
+ * <p>
+ * <h2>Basic principles of SBML package extensions in libSBML</h2>
+ <p>
+ * SBML Level&nbsp;3\'s package structure permits modular extensions to the
+ * core SBML format.  In libSBML, support for SBML Level&nbsp;3 packages is
+ * provided through optional <em>package extensions</em> that can be plugged
+ * into libSBML at the time it is built/compiled.  Users of libSBML can thus
+ * choose which extensions are enabled in their software applications.
+ <p>
+ * LibSBML defines a number of classes that developers of package extensions
+ * can use to implement support for an SBML Level&nbsp;3 package.  These
+ * classes make it easier to extend libSBML objects with new attributes
+ * and/or subobjects as needed by a particular Level&nbsp;3 package.
+ * Three overall categories of classes make up libSBML\'s facilities for
+ * implementing package extensions.  There are (1) classes that serve as base
+ * classes meant to be subclassed, (2) template classes meant to be
+ * instantiated rather than subclassed, and (3) support classes that provide
+ * utility features. A given package implementation for libSBML will take
+ * the form of code using these and other libSBML classes, placed in a
+ * subdirectory of <code>src/sbml/packages/</code>.
+ <p>
+ * The basic libSBML distribution includes a number of package extensions
+ * implementing support for officially-endorsed SBML Level&nbsp;3 packages;
+ * among these are <em>Flux Balance Constraints</em> (\'fbc\'),
+ * <em>Hierarchical Model Composition</em> (\'comp\'), <em>Layout</em>
+ * (\'layout\'), and <em>Qualitative Models</em> (\'qual\').  They can serve as
+ * working examples for developers working to implement other packages.
+ <p>
+ * Extensions in libSBML can currently only be implemented in C++ or C;
+ * there is no mechanism to implement them first in languages such as
+ * Java or Python.  However, once implemented in C++ or C, language
+ * interfaces can be generated semi-automatically using the framework in
+ * place in libSBML.  (The approach is based on using <a target=\'_blank\'
+ * href=\'http://www.swig.org\'>SWIG</a> and facilities in libSBML\'s build
+ * system.)
+ <p>
  * <h2>Special handling for SBML Level&nbsp;2</h2>
  * <p>
  * Due to the historical background of the SBML Layout package, libSBML
@@ -59060,7 +58963,7 @@ if (lmp != null)
 
 %javamethodmodifiers SBMLExtension::SBMLExtension "
 /**
-   * Constructor.
+   * Constructor; creates a new {@link SBMLExtension} object.
    */ public
 ";
 
@@ -59299,6 +59202,8 @@ if (lmp != null)
 /**
    * Removes the package\'s Level&nbsp;2 namespace(s).
    <p>
+   * @internal 
+   <p>
    * <p>
  * This method is related to special facilities designed to support
  * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
@@ -59332,6 +59237,8 @@ for (int n = 0; n &lt; xmlns-&gt;getNumNamespaces(); n++)
 /**
    * Adds the package\'s Level&nbsp;2 namespace(s).
    <p>
+   * @internal 
+   <p>
    * <p>
  * This method is related to special facilities designed to support
  * legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
@@ -59361,6 +59268,8 @@ if (!xmlns-&gt;containsUri( {@link LayoutExtension#getXmlnsL2()}))
 %javamethodmodifiers SBMLExtension::enableL2NamespaceForDocument(SBMLDocument* doc) const "
 /**
    * Called to enable the package on the {@link SBMLDocument} object.
+   <p>
+   * @internal 
    <p>
    * <p>
  * This method is related to special facilities designed to support
@@ -59406,6 +59315,31 @@ if (doc-&gt;getLevel() == 2)
 
 
 %javamethodmodifiers SBMLExtension::getErrorTableIndex "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBMLExtension::getErrorIdOffset() const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBMLExtension::getSeverity "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBMLExtension::getCategory "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBMLExtension::getMessage "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBMLExtension::getShortMessage "
 /** * @internal */ public
 ";
 
@@ -59463,73 +59397,41 @@ defined in SBML.
  * SBML Level, Version within a Level, and package version of the SBML
  * Level&nbsp;3 package implemented by a libSBML package extension.
  <p>
- * <h2>How to use {@link SBMLExtensionNamespaces} for a package implementation</h2>
  * <p>
- * Each package extension in libSBML needs to extend and instantiate the
- * template class {@link SBMLExtensionNamespaces}, as well as declare a specific
- * <code>typedef</code>.  The following sections explain these steps in detail.
+ * <h2>Basic principles of SBML package extensions in libSBML</h2>
  <p>
- * <h3>1. Define the typedef</h3>
+ * SBML Level&nbsp;3\'s package structure permits modular extensions to the
+ * core SBML format.  In libSBML, support for SBML Level&nbsp;3 packages is
+ * provided through optional <em>package extensions</em> that can be plugged
+ * into libSBML at the time it is built/compiled.  Users of libSBML can thus
+ * choose which extensions are enabled in their software applications.
  <p>
- * Each package needs to declare a package-specific version of the
- * {@link SBMLExtensionNamespaces} class using a <code>typedef</code>.  The following
- * example code demonstrates how this is done in the case of the Layout package:
+ * LibSBML defines a number of classes that developers of package extensions
+ * can use to implement support for an SBML Level&nbsp;3 package.  These
+ * classes make it easier to extend libSBML objects with new attributes
+ * and/or subobjects as needed by a particular Level&nbsp;3 package.
+ * Three overall categories of classes make up libSBML\'s facilities for
+ * implementing package extensions.  There are (1) classes that serve as base
+ * classes meant to be subclassed, (2) template classes meant to be
+ * instantiated rather than subclassed, and (3) support classes that provide
+ * utility features. A given package implementation for libSBML will take
+ * the form of code using these and other libSBML classes, placed in a
+ * subdirectory of <code>src/sbml/packages/</code>.
  <p>
- * <pre class=\'fragment\'>{.cpp}
- * typedef {@link SBMLExtensionNamespaces}&lt;LayoutExtension&gt; LayoutPkgNamespaces;</pre>
+ * The basic libSBML distribution includes a number of package extensions
+ * implementing support for officially-endorsed SBML Level&nbsp;3 packages;
+ * among these are <em>Flux Balance Constraints</em> (\'fbc\'),
+ * <em>Hierarchical Model Composition</em> (\'comp\'), <em>Layout</em>
+ * (\'layout\'), and <em>Qualitative Models</em> (\'qual\').  They can serve as
+ * working examples for developers working to implement other packages.
  <p>
- * This creates a new type called LayoutPkgNamespaces.  The code above is
- * usually placed in the same file that contains the {@link SBMLExtension}-derived
- * definition of the package extension base class.  In the case of the Layout
- * package, this is in the file
- * <code>src/packages/layout/extension/LayoutExtension.h</code> in the libSBML
- * source distribution.
- <p>
- * <h3>2. Instantiate a template instance</h3>
- <p>
- * Each package needs to instantiate a template instance of the
- * {@link SBMLExtensionNamespaces} class.  The following
- * example code demonstrates how this is done in the case of the Layout package:
- <p>
- * <pre class=\'fragment\'>{.cpp}
- * template class LIBSBML_EXTERN {@link SBMLExtensionNamespaces}&lt;LayoutExtension&gt;;</pre>
- <p>
- * In the case of the Layout package, the code above is located in the file
- * <code>src/packages/layout/extension/LayoutExtension.cpp</code> in the libSBML
- * source distribution.
- <p>
- * <h3>3. Create constructors that accept the class</h3>
- <p>
- * Each {@link SBase}-derived class in the package extension should implement a
- * constructor that accepts the {@link SBMLExtensionNamespaces}-derived class as an
- * argument.  For example, in the Layout package, the class BoundBox has a
- * constructor declared as follows
- <p>
- * <pre class=\'fragment\'>{.cpp}
- * BoundingBox(LayoutPkgNamespaces* layoutns);</pre>
- <p>
- * The implementation of this constructor must, among other things, take the
- * argument namespace object and use it to set the XML namespace URI for the
- * object.  Again, for the BoundingBox example:
- <p>
- * <pre class=\'fragment\'>{.cpp}
- * {@link BoundingBox#BoundingBox(LayoutPkgNamespaces* layoutns)}
- *  : {@link SBase}(layoutns)
- *   ,mPosition(layoutns)
- *   ,mDimensions(layoutns)
- *   ,mPositionExplicitlySet (false)
- *   ,mDimensionsExplicitlySet (false)
- * {
- *   // Standard extension actions.
- *   setElementNamespace(layoutns-&gt;getURI());
- *   connectToChild();
- * 
- *   // Package-specific actions.
- *   mPosition.setElementName(\'position\');
- * 
- *   // Load package extensions bound with this object (if any).
- *   loadPlugins(layoutns);
- * }</pre>
+ * Extensions in libSBML can currently only be implemented in C++ or C;
+ * there is no mechanism to implement them first in languages such as
+ * Java or Python.  However, once implemented in C++ or C, language
+ * interfaces can be generated semi-automatically using the framework in
+ * place in libSBML.  (The approach is based on using <a target=\'_blank\'
+ * href=\'http://www.swig.org\'>SWIG</a> and facilities in libSBML\'s build
+ * system.)
  */
 "
 
@@ -61799,7 +61701,10 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * SBML Levels&nbsp;2 and&nbsp;3 provides <code>&lt;csymbol&gt;</code>
    * definitions for \'time\' and \'avogadro\', which can be used to represent
-   * simulation time and Avogadro\'s constant in MathML.
+   * simulation time and Avogadro\'s constant in MathML.  Note that this
+   * method does <em>not</em> return <code>true</code> for the other <code>csymbol</code>
+   * values defined by SBML, \'delay\', because the \'delay\' is a function
+   * and not a constant or variable.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is a user-defined variable name in SBML
    * or the special symbols for time or Avogadro\'s constant. It returns 

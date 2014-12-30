@@ -130,7 +130,7 @@ public class SBMLNamespaces : IDisposable {
    * Creates a new SBMLNamespaces object corresponding to the given SBML
    * @p level and @p version.
    *
-   * *
+   *
  * 
  * SBMLNamespaces objects are used in libSBML to communicate SBML Level and
  * Version data between constructors and other methods.  The SBMLNamespaces
@@ -165,7 +165,7 @@ public class SBMLNamespaces : IDisposable {
    * Creates a new SBMLNamespaces object corresponding to the given SBML
    * @p level and @p version.
    *
-   * *
+   *
  * 
  * SBMLNamespaces objects are used in libSBML to communicate SBML Level and
  * Version data between constructors and other methods.  The SBMLNamespaces
@@ -200,7 +200,7 @@ public class SBMLNamespaces : IDisposable {
    * Creates a new SBMLNamespaces object corresponding to the given SBML
    * @p level and @p version.
    *
-   * *
+   *
  * 
  * SBMLNamespaces objects are used in libSBML to communicate SBML Level and
  * Version data between constructors and other methods.  The SBMLNamespaces
@@ -236,7 +236,7 @@ public class SBMLNamespaces : IDisposable {
    * the combination of (1) the given SBML @p level and @p version, and (2)
    * the given @p package with the @p package @p version.
    *
-   * *
+   *
  * 
  * SBMLNamespaces objects are used in libSBML to communicate SBML Level and
  * Version data between constructors and other methods.  The SBMLNamespaces
@@ -278,7 +278,7 @@ public class SBMLNamespaces : IDisposable {
    * the combination of (1) the given SBML @p level and @p version, and (2)
    * the given @p package with the @p package @p version.
    *
-   * *
+   *
  * 
  * SBMLNamespaces objects are used in libSBML to communicate SBML Level and
  * Version data between constructors and other methods.  The SBMLNamespaces
@@ -350,7 +350,7 @@ public class SBMLNamespaces : IDisposable {
    * @return a string representing the SBML namespace that reflects the
    * SBML Level and Version specified.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -373,7 +373,7 @@ public class SBMLNamespaces : IDisposable {
    * 
    * @return a list with supported SBML namespaces. 
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -396,7 +396,7 @@ public class SBMLNamespaces : IDisposable {
    *
    * @param supportedNS the list to be freed.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular
@@ -444,7 +444,7 @@ public class SBMLNamespaces : IDisposable {
 /**
    * Get the XML namespaces list for this SBMLNamespaces object.
    *
-   * *
+   *
  * 
  * SBMLNamespaces objects are used in libSBML to communicate SBML Level and
  * Version data between constructors and other methods.  The SBMLNamespaces
@@ -583,14 +583,12 @@ else
    *
    * @param xmlns the XML namespaces to be added.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
@@ -607,14 +605,12 @@ else
    * @param uri    the XML namespace to be added.
    * @param prefix the prefix of the namespace to be added.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
@@ -630,14 +626,12 @@ else
    * 
    * @param uri    the XML namespace to be added.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
  int removeNamespace(string uri) {
@@ -657,14 +651,12 @@ else
    * @param prefix the prefix of the package namespace to be added.
    *        The package's name will be used if the given string is empty (default).
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note An XML namespace of a non-registered package extension can't be
@@ -690,14 +682,12 @@ else
    * @param prefix the prefix of the package namespace to be added.
    *        The package's name will be used if the given string is empty (default).
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note An XML namespace of a non-registered package extension can't be
@@ -719,14 +709,12 @@ else
    * 
    * @param xmlns the XML namespaces to be added.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note XML namespaces of a non-registered package extensions are not
@@ -748,14 +736,12 @@ else
    * @param pkgName the string of package name (e.g. 'layout', 'multi')
    * @param pkgVersion the package version
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    * @li @link libsbml#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
    */ public
@@ -801,7 +787,7 @@ else
    *
    * @return @c true if the 'uri' is one of SBML namespaces, @c false otherwise.
    *
-   * *
+   *
  * @if python @note Because this is a static method on a class, the Python
  * language interface for libSBML will contain two variants.  One will be the
  * expected, normal static method on the class (i.e., a regular

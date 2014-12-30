@@ -24,8 +24,9 @@ namespace libsbml {
  * Level&nbsp;3 packages; these extensions can be subclasses of this
  * class or from a derived class of this class.
  *
+ * @if clike
  * @section sbmldocumentplugin-howto How to extend SBMLDocumentPlugin for a package implementation
- * *
+ *
  * 
  * The following subsections detail the basic steps necessary to use
  * SBMLDocumentPlugin to extend SBMLDocument for a given package extension.
@@ -194,6 +195,46 @@ namespace libsbml {
  * utility methods are useful for their implementation.
  *
  *
+ * @else
+ *
+ * @section ext-basics Basic principles of SBML package extensions in libSBML
+ *
+ * 
+ * SBML Level&nbsp;3's package structure permits modular extensions to the
+ * core SBML format.  In libSBML, support for SBML Level&nbsp;3 packages is
+ * provided through optional <em>package extensions</em> that can be plugged
+ * into libSBML at the time it is built/compiled.  Users of libSBML can thus
+ * choose which extensions are enabled in their software applications.
+ *
+ * LibSBML defines a number of classes that developers of package extensions
+ * can use to implement support for an SBML Level&nbsp;3 package.  These
+ * classes make it easier to extend libSBML objects with new attributes
+ * and/or subobjects as needed by a particular Level&nbsp;3 package.
+ * Three overall categories of classes make up libSBML's facilities for
+ * implementing package extensions.  There are (1) classes that serve as base
+ * classes meant to be subclassed, (2) template classes meant to be
+ * instantiated rather than subclassed, and (3) support classes that provide
+ * utility features. A given package implementation for libSBML will take
+ * the form of code using these and other libSBML classes, placed in a
+ * subdirectory of <code>src/sbml/packages/</code>.
+ *
+ * The basic libSBML distribution includes a number of package extensions
+ * implementing support for officially-endorsed SBML Level&nbsp;3 packages;
+ * among these are <em>Flux Balance Constraints</em> ('fbc'),
+ * <em>Hierarchical %Model Composition</em> ('comp'), <em>%Layout</em>
+ * ('layout'), and <em>Qualitative Models</em> ('qual').  They can serve as
+ * working examples for developers working to implement other packages.
+ *
+ * Extensions in libSBML can currently only be implemented in C++ or C;
+ * there is no mechanism to implement them first in languages such as
+ * Java or Python.  However, once implemented in C++ or C, language
+ * interfaces can be generated semi-automatically using the framework in
+ * place in libSBML.  (The approach is based on using <a target='_blank'
+ * href='http://www.swig.org'>SWIG</a> and facilities in libSBML's build
+ * system.)
+ *
+ *
+ * @endif
  */
 
 public class SBMLDocumentPlugin : SBasePlugin {
@@ -245,7 +286,7 @@ public class SBMLDocumentPlugin : SBasePlugin {
 /**
    * Creates a new SBMLDocumentPlugin object using the given parameters.
    *
-   * *
+   *
  * 
  * In the XML representation of an SBML document, XML namespaces are used to
  * identify the origin of each XML construct used.  XML namespaces are
@@ -261,7 +302,7 @@ public class SBMLDocumentPlugin : SBasePlugin {
  *
  *
    *
-   * *
+   *
  * 
  * The SBMLNamespaces object encapsulates SBML Level/Version/namespaces
  * information.  It is used to communicate the SBML Level, Version, and (in
@@ -310,7 +351,7 @@ public class SBMLDocumentPlugin : SBasePlugin {
 /**
    * Sets the SBML 'required' attribute value.
    *
-   * *
+   *
  * 
  * SBML Level&nbsp;3 requires that every package defines an attribute named
  * 'required' on the root <code>&lt;sbml&gt;</code> element in an SBML file
@@ -339,14 +380,12 @@ public class SBMLDocumentPlugin : SBasePlugin {
    * The 'required' attribute takes a Boolean value, either @c true or
    * @c false.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    *
    * @see getRequired()
@@ -362,7 +401,7 @@ public class SBMLDocumentPlugin : SBasePlugin {
 /**
    * Returns the value of the 'required' attribute.
    *
-   * *
+   *
  * 
  * SBML Level&nbsp;3 requires that every package defines an attribute named
  * 'required' on the root <code>&lt;sbml&gt;</code> element in an SBML file
@@ -402,7 +441,7 @@ public class SBMLDocumentPlugin : SBasePlugin {
 /**
    * Returns the value of the 'required' attribute.
    *
-   * *
+   *
  * 
  * SBML Level&nbsp;3 requires that every package defines an attribute named
  * 'required' on the root <code>&lt;sbml&gt;</code> element in an SBML file
@@ -439,14 +478,12 @@ public class SBMLDocumentPlugin : SBasePlugin {
 /**
    * Unsets the value of the 'required' attribute of this SBMLDocumentPlugin.
    *
-   * *
+   *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
- *
- *
-   * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    */ public new
  int unsetRequired() {
     int ret = libsbmlPINVOKE.SBMLDocumentPlugin_unsetRequired(swigCPtr);

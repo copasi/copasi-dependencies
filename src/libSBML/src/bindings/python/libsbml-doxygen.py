@@ -3232,7 +3232,7 @@ class SBase(_object):
         getSBMLDocument(self) -> SBMLDocument
         getSBMLDocument(self) -> SBMLDocument
 
-        Returns the SBMLDocument object containing @em this object instance.
+        Returns the SBMLDocument object containing this object instance.
 
         @par
         LibSBML uses the class SBMLDocument as a top-level container for
@@ -3872,10 +3872,9 @@ class SBase(_object):
         @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
         @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
         @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+        (if the parent element does not have the 'metaid' attribute set)
         @li @link libsbml#LIBSBML_DUPLICATE_ANNOTATION_NS LIBSBML_DUPLICATE_ANNOTATION_NS@endlink
-        With 'unexpected attribute' returned if the parent element does not have 
-        the 'metaid' attribute set, and 'duplicate annotation' set if the parent 
-        was already annotated with the annotation in question.
+        (if the parent was already annotated with the annotation in question)
 
         @see getAnnotationString()
         @see isSetAnnotation()
@@ -3922,10 +3921,9 @@ class SBase(_object):
         @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
         @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
         @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+        (if the parent element does not have the 'metaid' attribute set)
         @li @link libsbml#LIBSBML_DUPLICATE_ANNOTATION_NS LIBSBML_DUPLICATE_ANNOTATION_NS@endlink
-        With 'unexpected attribute' returned if the parent element does not have 
-        the 'metaid' attribute set, and 'duplicate annotation' set if the parent 
-        was already annotated with the annotation in question.
+        (if the parent was already annotated with the annotation in question)
 
         @see getAnnotationString()
         @see isSetAnnotation()
@@ -5949,7 +5947,16 @@ class SBase(_object):
         """
         getPrefix(self) -> string
 
-        Returns the namespace prefix of this element.
+        Returns the XML namespace prefix of this element.
+
+        This reports the XML namespace prefix chosen for this class of object in
+        the current SBML document.  This may be an empty string if the component
+        has no explicit prefix (for instance, if it is a core SBML object placed
+        in the default SBML namespace of the document).  If it is not empty, then
+        it corresponds to the XML namespace prefix used set the object, whatever
+        that may be in a given SBML document.
+
+        @return a text string representing the XML namespace prefix
 
         """
         return _libsbml.SBase_getPrefix(self)
@@ -9788,8 +9795,9 @@ class Model(SBase):
         """
         return _libsbml.Model_convertL1ToL3(self)
 
-    def convertL2ToL3(self):
+    def convertL2ToL3(self, strict = False):
         """
+        convertL2ToL3(self, bool strict = False)
         convertL2ToL3(self)
 
         @internal
@@ -9797,7 +9805,7 @@ class Model(SBase):
         @internal
 
         """
-        return _libsbml.Model_convertL2ToL3(self)
+        return _libsbml.Model_convertL2ToL3(self, strict)
 
     def convertL2ToL1(self, strict = False):
         """
@@ -9811,8 +9819,9 @@ class Model(SBase):
         """
         return _libsbml.Model_convertL2ToL1(self, strict)
 
-    def convertL3ToL1(self):
+    def convertL3ToL1(self, strict = False):
         """
+        convertL3ToL1(self, bool strict = False)
         convertL3ToL1(self)
 
         @internal
@@ -9820,7 +9829,7 @@ class Model(SBase):
         @internal
 
         """
-        return _libsbml.Model_convertL3ToL1(self)
+        return _libsbml.Model_convertL3ToL1(self, strict)
 
     def convertL3ToL2(self, strict = False):
         """
@@ -9934,8 +9943,9 @@ class Model(SBase):
         """
         return _libsbml.Model_assignRequiredValues(self)
 
-    def dealWithModelUnits(self):
+    def dealWithModelUnits(self, strict = False):
         """
+        dealWithModelUnits(self, bool strict = False)
         dealWithModelUnits(self)
 
         @internal
@@ -9943,7 +9953,7 @@ class Model(SBase):
         @internal
 
         """
-        return _libsbml.Model_dealWithModelUnits(self)
+        return _libsbml.Model_dealWithModelUnits(self, strict)
 
     def dealWithStoichiometry(self):
         """
@@ -9966,6 +9976,28 @@ class Model(SBase):
 
         """
         return _libsbml.Model_dealWithEvents(self, *args)
+
+    def removeSpeciesTypes(self):
+        """
+        removeSpeciesTypes(self)
+
+        @internal
+
+        @internal
+
+        """
+        return _libsbml.Model_removeSpeciesTypes(self)
+
+    def removeCompartmentTypes(self):
+        """
+        removeCompartmentTypes(self)
+
+        @internal
+
+        @internal
+
+        """
+        return _libsbml.Model_removeCompartmentTypes(self)
 
     def connectToChild(self):
         """connectToChild(self)"""
@@ -12348,6 +12380,39 @@ class SBMLDocument(SBase):
 
         """
         return _libsbml.SBMLDocument_hasUnknownPackage(self, *args)
+
+    def getNumUnknownPackages(self):
+        """
+        getNumUnknownPackages(self) -> int
+
+        @internal
+
+        @internal
+
+        """
+        return _libsbml.SBMLDocument_getNumUnknownPackages(self)
+
+    def getUnknownPackageURI(self, *args):
+        """
+        getUnknownPackageURI(self, int index) -> string
+
+        @internal
+
+        @internal
+
+        """
+        return _libsbml.SBMLDocument_getUnknownPackageURI(self, *args)
+
+    def getUnknownPackagePrefix(self, *args):
+        """
+        getUnknownPackagePrefix(self, int index) -> string
+
+        @internal
+
+        @internal
+
+        """
+        return _libsbml.SBMLDocument_getUnknownPackagePrefix(self, *args)
 
 SBMLDocument_swigregister = _libsbml.SBMLDocument_swigregister
 SBMLDocument_swigregister(SBMLDocument)
@@ -36068,6 +36133,28 @@ class SBO(_object):
 
     if _newclass:isSystemsDescriptionParameter = staticmethod(isSystemsDescriptionParameter)
     __swig_getmethods__["isSystemsDescriptionParameter"] = lambda x: isSystemsDescriptionParameter
+    def isQuantitativeSystemsDescriptionParameter(*args):
+        """
+        isQuantitativeSystemsDescriptionParameter(unsigned int term) -> bool
+
+        Returns @c True if the given term identifier comes from the stated branch of %SBO.
+
+        @return @c True if @p term is-a %SBO <em>'quantiative systems description parameter'</em>, @c False
+        otherwise.
+
+        @if python @note Because this is a static method on a class, the Python
+        language interface for libSBML will contain two variants.  One will be the
+        expected, normal static method on the class (i.e., a regular
+        <em>methodName</em>), and the other will be a standalone top-level
+        function with the name <em>ClassName_methodName()</em>. This is merely an
+        artifact of how the language interfaces are created in libSBML.  The
+        methods are functionally identical. @endif@~
+
+        """
+        return _libsbml.SBO_isQuantitativeSystemsDescriptionParameter(*args)
+
+    if _newclass:isQuantitativeSystemsDescriptionParameter = staticmethod(isQuantitativeSystemsDescriptionParameter)
+    __swig_getmethods__["isQuantitativeSystemsDescriptionParameter"] = lambda x: isQuantitativeSystemsDescriptionParameter
     def isObselete(*args):
         """
         isObselete(unsigned int term) -> bool
@@ -36696,6 +36783,26 @@ def SBO_isSystemsDescriptionParameter(*args):
 
     """
   return _libsbml.SBO_isSystemsDescriptionParameter(*args)
+
+def SBO_isQuantitativeSystemsDescriptionParameter(*args):
+  """
+    SBO_isQuantitativeSystemsDescriptionParameter(unsigned int term) -> bool
+
+    Returns @c True if the given term identifier comes from the stated branch of %SBO.
+
+    @return @c True if @p term is-a %SBO <em>'quantiative systems description parameter'</em>, @c False
+    otherwise.
+
+    @if python @note Because this is a static method on a class, the Python
+    language interface for libSBML will contain two variants.  One will be the
+    expected, normal static method on the class (i.e., a regular
+    <em>methodName</em>), and the other will be a standalone top-level
+    function with the name <em>ClassName_methodName()</em>. This is merely an
+    artifact of how the language interfaces are created in libSBML.  The
+    methods are functionally identical. @endif@~
+
+    """
+  return _libsbml.SBO_isQuantitativeSystemsDescriptionParameter(*args)
 
 def SBO_isObselete(*args):
   """
@@ -43751,6 +43858,24 @@ class SBMLStripPackageConverter(SBMLConverter):
         """
         return _libsbml.SBMLStripPackageConverter_getDefaultProperties(self)
 
+    def getPackageToStrip(self):
+        """
+        getPackageToStrip(self) -> string
+
+        @return the package to be stripped
+
+        """
+        return _libsbml.SBMLStripPackageConverter_getPackageToStrip(self)
+
+    def isStripAllUnrecognizedPackages(self):
+        """
+        isStripAllUnrecognizedPackages(self) -> bool
+
+        @return whether all unrecognized packages should be removed
+
+        """
+        return _libsbml.SBMLStripPackageConverter_isStripAllUnrecognizedPackages(self)
+
 SBMLStripPackageConverter_swigregister = _libsbml.SBMLStripPackageConverter_swigregister
 SBMLStripPackageConverter_swigregister(SBMLStripPackageConverter)
 
@@ -44796,9 +44921,10 @@ class XMLAttributes(_object):
         enumeration #OperationReturnValues_t. @endif@~ The possible values
         returned by this function are:
         @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-        @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink. 
-        This value is returned if any of the arguments are @c None.  To set an
-        empty value for the attribute, use an empty string rather than @c None.
+        @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+        &ndash; this value is returned if any of the arguments are @c None.  To
+        set an empty value for the attribute, use an empty string rather than @c
+        None.
 
         @note If an attribute with the same name and XML namespace URI already
         exists in the list of attributes held by this XMLAttributes object, then
@@ -44927,10 +45053,10 @@ class XMLAttributes(_object):
         enumeration #OperationReturnValues_t. @endif@~ The possible values
         returned by this function are:
         @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-        @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink.
-        This value is returned if any of the arguments are @c None.  To set an
-        empty @p prefix and/or @p name value, use an empty string rather than @c
-        None.
+        @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+        &ndash; this value is returned if any of the arguments are @c None.  To
+        set an empty @p prefix and/or @p name value, use an empty string rather
+        than @c None.
 
         @note If an attribute with the same name and XML namespace URI already
         exists in the list of attributes held by this XMLAttributes object, then
@@ -50870,6 +50996,17 @@ class SBMLErrorLog(XMLErrorLog):
         """
         return _libsbml.SBMLErrorLog_remove(self, *args)
 
+    def removeAll(self, *args):
+        """
+        removeAll(self, unsigned int errorId)
+
+        Removes all errors having errorId from the SBMLError list.
+
+        @param errorId the error identifier of the error to be removed.
+
+        """
+        return _libsbml.SBMLErrorLog_removeAll(self, *args)
+
     def contains(self, *args):
         """
         contains(self, unsigned int errorId) -> bool
@@ -50910,6 +51047,7 @@ OpsNeedCorrectNumberOfArgs = _libsbml.OpsNeedCorrectNumberOfArgs
 InvalidNoArgsPassedToFunctionDef = _libsbml.InvalidNoArgsPassedToFunctionDef
 DisallowedMathUnitsUse = _libsbml.DisallowedMathUnitsUse
 InvalidUnitsValue = _libsbml.InvalidUnitsValue
+CiCannotReference0DCompartment = _libsbml.CiCannotReference0DCompartment
 DuplicateComponentId = _libsbml.DuplicateComponentId
 DuplicateUnitDefinitionId = _libsbml.DuplicateUnitDefinitionId
 DuplicateLocalParameterId = _libsbml.DuplicateLocalParameterId
@@ -50967,6 +51105,7 @@ InvalidCompartmentTypeSBOTerm = _libsbml.InvalidCompartmentTypeSBOTerm
 InvalidSpeciesTypeSBOTerm = _libsbml.InvalidSpeciesTypeSBOTerm
 InvalidTriggerSBOTerm = _libsbml.InvalidTriggerSBOTerm
 InvalidDelaySBOTerm = _libsbml.InvalidDelaySBOTerm
+InvalidLocalParameterSBOTerm = _libsbml.InvalidLocalParameterSBOTerm
 NotesNotInXHTMLNamespace = _libsbml.NotesNotInXHTMLNamespace
 NotesContainsXMLDecl = _libsbml.NotesContainsXMLDecl
 NotesContainsDOCTYPE = _libsbml.NotesContainsDOCTYPE
@@ -51012,6 +51151,7 @@ AllowedAttributesOnListOfRules = _libsbml.AllowedAttributesOnListOfRules
 AllowedAttributesOnListOfConstraints = _libsbml.AllowedAttributesOnListOfConstraints
 AllowedAttributesOnListOfReactions = _libsbml.AllowedAttributesOnListOfReactions
 AllowedAttributesOnListOfEvents = _libsbml.AllowedAttributesOnListOfEvents
+L3V2SubstanceUnitsOnModel = _libsbml.L3V2SubstanceUnitsOnModel
 FunctionDefMathNotLambda = _libsbml.FunctionDefMathNotLambda
 InvalidApplyCiInLambda = _libsbml.InvalidApplyCiInLambda
 RecursiveFunctionDefinition = _libsbml.RecursiveFunctionDefinition
@@ -51079,6 +51219,7 @@ MultipleInitAssignments = _libsbml.MultipleInitAssignments
 InitAssignmentAndRuleForSameId = _libsbml.InitAssignmentAndRuleForSameId
 OneMathElementPerInitialAssign = _libsbml.OneMathElementPerInitialAssign
 AllowedAttributesOnInitialAssign = _libsbml.AllowedAttributesOnInitialAssign
+InitAssignmentCannotRef0DComp = _libsbml.InitAssignmentCannotRef0DComp
 InvalidAssignRuleVariable = _libsbml.InvalidAssignRuleVariable
 InvalidRateRuleVariable = _libsbml.InvalidRateRuleVariable
 AssignmentToConstantEntity = _libsbml.AssignmentToConstantEntity
@@ -51089,6 +51230,7 @@ OneMathElementPerRule = _libsbml.OneMathElementPerRule
 AllowedAttributesOnAssignRule = _libsbml.AllowedAttributesOnAssignRule
 AllowedAttributesOnRateRule = _libsbml.AllowedAttributesOnRateRule
 AllowedAttributesOnAlgRule = _libsbml.AllowedAttributesOnAlgRule
+RuleCannotRef0DComp = _libsbml.RuleCannotRef0DComp
 ConstraintMathNotBoolean = _libsbml.ConstraintMathNotBoolean
 IncorrectOrderInConstraint = _libsbml.IncorrectOrderInConstraint
 ConstraintNotInXHTMLNamespace = _libsbml.ConstraintNotInXHTMLNamespace
@@ -51125,6 +51267,7 @@ UndeclaredSpeciesInStoichMath = _libsbml.UndeclaredSpeciesInStoichMath
 AllowedAttributesOnKineticLaw = _libsbml.AllowedAttributesOnKineticLaw
 AllowedAttributesOnListOfSpeciesRef = _libsbml.AllowedAttributesOnListOfSpeciesRef
 AllowedAttributesOnListOfMods = _libsbml.AllowedAttributesOnListOfMods
+L3V2FastDeprecated = _libsbml.L3V2FastDeprecated
 AllowedAttributesOnLocalParameter = _libsbml.AllowedAttributesOnLocalParameter
 MissingTriggerInEvent = _libsbml.MissingTriggerInEvent
 TriggerMathNotBoolean = _libsbml.TriggerMathNotBoolean
@@ -51255,6 +51398,7 @@ RDFAboutTagNotMetaid = _libsbml.RDFAboutTagNotMetaid
 RDFNotCompleteModelHistory = _libsbml.RDFNotCompleteModelHistory
 RDFNotModelHistory = _libsbml.RDFNotModelHistory
 AnnotationNotElement = _libsbml.AnnotationNotElement
+NestedAnnotationNotAllowed = _libsbml.NestedAnnotationNotAllowed
 InconsistentArgUnitsWarnings = _libsbml.InconsistentArgUnitsWarnings
 InconsistentPowerUnitsWarnings = _libsbml.InconsistentPowerUnitsWarnings
 InconsistentExponUnitsWarnings = _libsbml.InconsistentExponUnitsWarnings
@@ -61171,6 +61315,63 @@ class CVTerm(_object):
         """
         return _libsbml.CVTerm_hasRequiredAttributes(self, *args)
 
+    def getNumNestedCVTerms(self):
+        """
+        getNumNestedCVTerms(self) -> unsigned int
+
+        @internal
+
+        @internal
+
+        """
+        return _libsbml.CVTerm_getNumNestedCVTerms(self)
+
+    def getNestedCVTerm(self, *args):
+        """
+        getNestedCVTerm(self, unsigned int n) -> CVTerm
+        getNestedCVTerm(self, unsigned int n) -> CVTerm
+
+        @internal
+
+        @internal
+
+        """
+        return _libsbml.CVTerm_getNestedCVTerm(self, *args)
+
+    def getListNestedCVTerms(self, *args):
+        """
+        getListNestedCVTerms(self) -> List
+        getListNestedCVTerms(self) -> List
+
+        @internal
+
+        @internal
+
+        """
+        return _libsbml.CVTerm_getListNestedCVTerms(self, *args)
+
+    def addNestedCVTerm(self, *args):
+        """
+        addNestedCVTerm(self, CVTerm term) -> int
+
+        @internal
+
+        @internal
+
+        """
+        return _libsbml.CVTerm_addNestedCVTerm(self, *args)
+
+    def removeNestedCVTerm(self, *args):
+        """
+        removeNestedCVTerm(self, unsigned int n) -> CVTerm
+
+        @internal
+
+        @internal
+
+        """
+        return _libsbml.CVTerm_removeNestedCVTerm(self, *args)
+
     def __eq__(self, rhs):
       if ((self is None) and (rhs is None)): return True
       if ((self is None) or  (rhs is None)): return False
@@ -62924,8 +63125,10 @@ class RDFAnnotationParser(_object):
 
     if _newclass:createAnnotation = staticmethod(createAnnotation)
     __swig_getmethods__["createAnnotation"] = lambda x: createAnnotation
-    def createRDFAnnotation():
+    def createRDFAnnotation(level = 3, version = 1):
         """
+        createRDFAnnotation(unsigned int level = 3, unsigned int version = 1) -> XMLNode
+        createRDFAnnotation(unsigned int level = 3) -> XMLNode
         createRDFAnnotation() -> XMLNode
 
         Creates a blank RDF element suitable for use in SBML annotations.
@@ -62962,7 +63165,7 @@ class RDFAnnotationParser(_object):
         @see @if clike createAnnotation() @else RDFAnnotationParser.createAnnotation() @endif@~
 
         """
-        return _libsbml.RDFAnnotationParser_createRDFAnnotation()
+        return _libsbml.RDFAnnotationParser_createRDFAnnotation(level, version)
 
     if _newclass:createRDFAnnotation = staticmethod(createRDFAnnotation)
     __swig_getmethods__["createRDFAnnotation"] = lambda x: createRDFAnnotation
@@ -63302,8 +63505,10 @@ def RDFAnnotationParser_createAnnotation():
     """
   return _libsbml.RDFAnnotationParser_createAnnotation()
 
-def RDFAnnotationParser_createRDFAnnotation():
+def RDFAnnotationParser_createRDFAnnotation(level = 3, version = 1):
   """
+    createRDFAnnotation(unsigned int level = 3, unsigned int version = 1) -> XMLNode
+    createRDFAnnotation(unsigned int level = 3) -> XMLNode
     RDFAnnotationParser_createRDFAnnotation() -> XMLNode
 
     Creates a blank RDF element suitable for use in SBML annotations.
@@ -63340,7 +63545,7 @@ def RDFAnnotationParser_createRDFAnnotation():
     @see @if clike createAnnotation() @else RDFAnnotationParser.createAnnotation() @endif@~
 
     """
-  return _libsbml.RDFAnnotationParser_createRDFAnnotation()
+  return _libsbml.RDFAnnotationParser_createRDFAnnotation(level, version)
 
 def RDFAnnotationParser_createCVTerms(*args):
   """
@@ -63792,16 +63997,7 @@ class SBasePlugin(_object):
     methods should be overridden by subclasses to implement the necessary
     features of an extended SBML object.
 
-    Perhaps the easiest way to explain and motivate the role of SBasePlugin is
-    through an example.  The SBML %Layout package specifies the existence of an
-    element, <code>&lt;listOfLayouts&gt;</code>, contained inside an SBML
-    <code>&lt;model&gt;</code> element.  In terms of libSBML components, this
-    means a new ListOfLayouts class of objects must be defined, and this
-    object placed in an @em extended class of Model (because Model in
-    plain/core SBML does not allow the inclusion of a ListOfLayouts
-    subobject).  This extended class of Model is LayoutModelPlugin, and it is
-    derived from SBasePlugin.
-
+    @if clike
     @section sbaseplugin-howto How to extend SBasePlugin for a package implementation
     @par
     LibSBML package extensions can extend existing libSBML objects such as Model
@@ -63946,6 +64142,43 @@ class SBasePlugin(_object):
 
     Extended component implementations can add whatever additional utility
     methods are useful for their implementation.
+    @else
+    @section ext-basics Basic principles of SBML package extensions in libSBML
+
+    @par
+    SBML Level&nbsp;3's package structure permits modular extensions to the
+    core SBML format.  In libSBML, support for SBML Level&nbsp;3 packages is
+    provided through optional <em>package extensions</em> that can be plugged
+    into libSBML at the time it is built/compiled.  Users of libSBML can thus
+    choose which extensions are enabled in their software applications.
+
+    LibSBML defines a number of classes that developers of package extensions
+    can use to implement support for an SBML Level&nbsp;3 package.  These
+    classes make it easier to extend libSBML objects with new attributes
+    and/or subobjects as needed by a particular Level&nbsp;3 package.
+    Three overall categories of classes make up libSBML's facilities for
+    implementing package extensions.  There are (1) classes that serve as base
+    classes meant to be subclassed, (2) template classes meant to be
+    instantiated rather than subclassed, and (3) support classes that provide
+    utility features. A given package implementation for libSBML will take
+    the form of code using these and other libSBML classes, placed in a
+    subdirectory of <code>src/sbml/packages/</code>.
+
+    The basic libSBML distribution includes a number of package extensions
+    implementing support for officially-endorsed SBML Level&nbsp;3 packages;
+    among these are <em>Flux Balance Constraints</em> ('fbc'),
+    <em>Hierarchical %Model Composition</em> ('comp'), <em>%Layout</em>
+    ('layout'), and <em>Qualitative Models</em> ('qual').  They can serve as
+    working examples for developers working to implement other packages.
+
+    Extensions in libSBML can currently only be implemented in C++ or C;
+    there is no mechanism to implement them first in languages such as
+    Java or Python.  However, once implemented in C++ or C, language
+    interfaces can be generated semi-automatically using the framework in
+    place in libSBML.  (The approach is based on using <a target='_blank'
+    href='http://www.swig.org'>SWIG</a> and facilities in libSBML's build
+    system.)
+    @endif@~
 
     """
     __swig_setmethods__ = {}
@@ -64384,6 +64617,7 @@ class SBMLDocumentPlugin(SBasePlugin):
     Level&nbsp;3 packages; these extensions can be subclasses of this
     class or from a derived class of this class.
 
+    @if clike
     @section sbmldocumentplugin-howto How to extend SBMLDocumentPlugin for a package implementation
     @par
     The following subsections detail the basic steps necessary to use
@@ -64551,6 +64785,43 @@ class SBMLDocumentPlugin(SBasePlugin):
 
     Extended SBMLDocumentPlugin implementations can add whatever additional
     utility methods are useful for their implementation.
+    @else
+    @section ext-basics Basic principles of SBML package extensions in libSBML
+
+    @par
+    SBML Level&nbsp;3's package structure permits modular extensions to the
+    core SBML format.  In libSBML, support for SBML Level&nbsp;3 packages is
+    provided through optional <em>package extensions</em> that can be plugged
+    into libSBML at the time it is built/compiled.  Users of libSBML can thus
+    choose which extensions are enabled in their software applications.
+
+    LibSBML defines a number of classes that developers of package extensions
+    can use to implement support for an SBML Level&nbsp;3 package.  These
+    classes make it easier to extend libSBML objects with new attributes
+    and/or subobjects as needed by a particular Level&nbsp;3 package.
+    Three overall categories of classes make up libSBML's facilities for
+    implementing package extensions.  There are (1) classes that serve as base
+    classes meant to be subclassed, (2) template classes meant to be
+    instantiated rather than subclassed, and (3) support classes that provide
+    utility features. A given package implementation for libSBML will take
+    the form of code using these and other libSBML classes, placed in a
+    subdirectory of <code>src/sbml/packages/</code>.
+
+    The basic libSBML distribution includes a number of package extensions
+    implementing support for officially-endorsed SBML Level&nbsp;3 packages;
+    among these are <em>Flux Balance Constraints</em> ('fbc'),
+    <em>Hierarchical %Model Composition</em> ('comp'), <em>%Layout</em>
+    ('layout'), and <em>Qualitative Models</em> ('qual').  They can serve as
+    working examples for developers working to implement other packages.
+
+    Extensions in libSBML can currently only be implemented in C++ or C;
+    there is no mechanism to implement them first in languages such as
+    Java or Python.  However, once implemented in C++ or C, language
+    interfaces can be generated semi-automatically using the framework in
+    place in libSBML.  (The approach is based on using <a target='_blank'
+    href='http://www.swig.org'>SWIG</a> and facilities in libSBML's build
+    system.)
+    @endif@~
 
     """
     __swig_setmethods__ = {}
@@ -65027,8 +65298,8 @@ class SBMLExtension(_object):
     @code{.cpp}
     typedef enum
     {
-       SBML_GROUPS_GROUP  = 200
-     , SBML_GROUPS_MEMBER = 201
+       SBML_GROUPS_GROUP  = 500
+     , SBML_GROUPS_MEMBER = 501
     } SBMLGroupsTypeCode_t;
     @endcode
 
@@ -65219,7 +65490,7 @@ class SBMLExtension(_object):
     @endcode
 
 
-    @subsection ext-extensionregister 10. Instantiate a SBMLExtensionRegister variable
+    @subsection ext-extensionregister 10. Instantiate a SBMLExtensionRegister object
 
     Instantiate a global SBMLExtensionRegister object using the
     class derived from SBMLExtension (discussed above).  Here is an example for
@@ -65233,6 +65504,42 @@ class SBMLExtension(_object):
     automatically invoked when the 'register' object is instantiated.  This
     results in initialization and registration of the package extension
     with libSBML.
+    @else
+    @section ext-basics Basic principles of SBML package extensions in libSBML
+
+    @par
+    SBML Level&nbsp;3's package structure permits modular extensions to the
+    core SBML format.  In libSBML, support for SBML Level&nbsp;3 packages is
+    provided through optional <em>package extensions</em> that can be plugged
+    into libSBML at the time it is built/compiled.  Users of libSBML can thus
+    choose which extensions are enabled in their software applications.
+
+    LibSBML defines a number of classes that developers of package extensions
+    can use to implement support for an SBML Level&nbsp;3 package.  These
+    classes make it easier to extend libSBML objects with new attributes
+    and/or subobjects as needed by a particular Level&nbsp;3 package.
+    Three overall categories of classes make up libSBML's facilities for
+    implementing package extensions.  There are (1) classes that serve as base
+    classes meant to be subclassed, (2) template classes meant to be
+    instantiated rather than subclassed, and (3) support classes that provide
+    utility features. A given package implementation for libSBML will take
+    the form of code using these and other libSBML classes, placed in a
+    subdirectory of <code>src/sbml/packages/</code>.
+
+    The basic libSBML distribution includes a number of package extensions
+    implementing support for officially-endorsed SBML Level&nbsp;3 packages;
+    among these are <em>Flux Balance Constraints</em> ('fbc'),
+    <em>Hierarchical %Model Composition</em> ('comp'), <em>%Layout</em>
+    ('layout'), and <em>Qualitative Models</em> ('qual').  They can serve as
+    working examples for developers working to implement other packages.
+
+    Extensions in libSBML can currently only be implemented in C++ or C;
+    there is no mechanism to implement them first in languages such as
+    Java or Python.  However, once implemented in C++ or C, language
+    interfaces can be generated semi-automatically using the framework in
+    place in libSBML.  (The approach is based on using <a target='_blank'
+    href='http://www.swig.org'>SWIG</a> and facilities in libSBML's build
+    system.)
     @endif@~
 
     @section sbmlextension-l2-special Special handling for SBML Level&nbsp;2
@@ -65595,6 +65902,8 @@ class SBMLExtension(_object):
 
         Removes the package's Level&nbsp;2 namespace(s).
 
+        @ifnot clike @internal @endif@~
+
         @par
         This method is related to special facilities designed to support
         legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
@@ -65645,6 +65954,8 @@ class SBMLExtension(_object):
 
         Adds the package's Level&nbsp;2 namespace(s).
 
+        @ifnot clike @internal @endif@~
+
         @par
         This method is related to special facilities designed to support
         legacy behaviors surrounding SBML Level&nbsp;2 models.  Due to the
@@ -65691,6 +66002,8 @@ class SBMLExtension(_object):
         enableL2NamespaceForDocument(self, SBMLDocument doc)
 
         Called to enable the package on the SBMLDocument object.
+
+        @ifnot clike @internal @endif@~
 
         @par
         This method is related to special facilities designed to support
@@ -65764,23 +66077,58 @@ class SBMLExtension(_object):
         return _libsbml.SBMLExtension_getErrorTableIndex(self, *args)
 
     def getErrorIdOffset(self):
-        """getErrorIdOffset(self) -> unsigned int"""
+        """
+        getErrorIdOffset(self) -> unsigned int
+
+        @internal
+
+        @internal
+
+        """
         return _libsbml.SBMLExtension_getErrorIdOffset(self)
 
     def getSeverity(self, *args):
-        """getSeverity(self, unsigned int index, unsigned int pkgVersion) -> unsigned int"""
+        """
+        getSeverity(self, unsigned int index, unsigned int pkgVersion) -> unsigned int
+
+        @internal
+
+        @internal
+
+        """
         return _libsbml.SBMLExtension_getSeverity(self, *args)
 
     def getCategory(self, *args):
-        """getCategory(self, unsigned int index) -> unsigned int"""
+        """
+        getCategory(self, unsigned int index) -> unsigned int
+
+        @internal
+
+        @internal
+
+        """
         return _libsbml.SBMLExtension_getCategory(self, *args)
 
     def getMessage(self, *args):
-        """getMessage(self, unsigned int index, unsigned int pkgVersion, string details) -> string"""
+        """
+        getMessage(self, unsigned int index, unsigned int pkgVersion, string details) -> string
+
+        @internal
+
+        @internal
+
+        """
         return _libsbml.SBMLExtension_getMessage(self, *args)
 
     def getShortMessage(self, *args):
-        """getShortMessage(self, unsigned int index) -> string"""
+        """
+        getShortMessage(self, unsigned int index) -> string
+
+        @internal
+
+        @internal
+
+        """
         return _libsbml.SBMLExtension_getShortMessage(self, *args)
 
     def __eq__(self, rhs):
@@ -68524,7 +68872,10 @@ class ASTNode(ASTBase):
 
         SBML Levels&nbsp;2 and&nbsp;3 provides <code>&lt;csymbol&gt;</code>
         definitions for 'time' and 'avogadro', which can be used to represent
-        simulation time and Avogadro's constant in MathML.
+        simulation time and Avogadro's constant in MathML.  Note that this
+        method does @em not return @c True for the other <code>csymbol</code>
+        values defined by SBML, 'delay', because the 'delay' is a function
+        and not a constant or variable.
 
         @return @c True if this ASTNode is a user-defined variable name in SBML
         or the special symbols for time or Avogadro's constant. It returns @c False otherwise.

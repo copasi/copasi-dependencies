@@ -233,7 +233,7 @@ public class XMLOutputStream : IDisposable {
 /**
    * Creates a new XMLOutputStream that wraps the given @p stream.
    *
-   * *
+   *
  * 
  * The functionality associated with the @p programName and @p
  * programVersion arguments concerns an optional comment that libSBML can
@@ -252,7 +252,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *
  *
    *
-   * *
+   *
  * 
  * The XML declaration has the form
  * @verbatim
@@ -290,7 +290,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * Creates a new XMLOutputStream that wraps the given @p stream.
    *
-   * *
+   *
  * 
  * The functionality associated with the @p programName and @p
  * programVersion arguments concerns an optional comment that libSBML can
@@ -309,7 +309,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *
  *
    *
-   * *
+   *
  * 
  * The XML declaration has the form
  * @verbatim
@@ -347,7 +347,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * Creates a new XMLOutputStream that wraps the given @p stream.
    *
-   * *
+   *
  * 
  * The functionality associated with the @p programName and @p
  * programVersion arguments concerns an optional comment that libSBML can
@@ -366,7 +366,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *
  *
    *
-   * *
+   *
  * 
  * The XML declaration has the form
  * @verbatim
@@ -404,7 +404,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * Creates a new XMLOutputStream that wraps the given @p stream.
    *
-   * *
+   *
  * 
  * The functionality associated with the @p programName and @p
  * programVersion arguments concerns an optional comment that libSBML can
@@ -423,7 +423,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *
  *
    *
-   * *
+   *
  * 
  * The XML declaration has the form
  * @verbatim
@@ -461,7 +461,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * Creates a new XMLOutputStream that wraps the given @p stream.
    *
-   * *
+   *
  * 
  * The functionality associated with the @p programName and @p
  * programVersion arguments concerns an optional comment that libSBML can
@@ -480,7 +480,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
  *
  *
    *
-   * *
+   *
  * 
  * The XML declaration has the form
  * @verbatim
@@ -843,7 +843,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * Writes a standard XML declaration to this output stream.
    *
-   * *
+   *
  * 
  * The XML declaration has the form
  * @verbatim
@@ -886,7 +886,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * Decreases the indentation level for this XMLOutputStream.
    *
-   * *
+   *
  * LibSBML tries to produce human-readable XML output by automatically
  * indenting the bodies of elements.  Callers can manually control
  * indentation further by using the XMLOutputStream::upIndent()
@@ -904,7 +904,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * Increases the indentation level for this XMLOutputStream.
    *
-   * *
+   *
  * LibSBML tries to produce human-readable XML output by automatically
  * indenting the bodies of elements.  Callers can manually control
  * indentation further by using the XMLOutputStream::upIndent()

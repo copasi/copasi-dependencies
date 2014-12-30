@@ -302,6 +302,9 @@ public class libsbml implements libsbmlConstants {
   
 
  
+  /**
+   * @internal
+   */
   public static ASTBase DowncastASTBase(long cPtr, boolean owner)
   {
     if (cPtr == 0) return null;
