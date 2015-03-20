@@ -279,7 +279,10 @@ endif()
 endif()
 
 if(NOT EXISTS "${LIBSBML_INCLUDE_DIR}/sbml/SBase.h")
-    message(FATAL_ERROR "The include directory specified for sbml appears to be invalid.  It should contain the file sbml/SBase.h, but it does not.")
+    message(FATAL_ERROR 
+"The include directory specified for sbml appears to be invalid.  It should contain the 
+file sbml/SBase.h, but it does not. Please specify the LIBSBML_INCLUDE_DIR variable."
+)
 endif()
 
 
@@ -461,6 +464,15 @@ if(UNIX)
         add_definitions(-DMACOSX)
         set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DMACOSX")
 
+        # Since we are encountering errors with the use of libc++ on OSX
+        # this option allows to override which stdlib to use
+        if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+          option(CLANG_USE_STDLIB "Use libstdc++ rather than libc++" OFF)
+          if (CLANG_USE_STDLIB)
+            SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++" )
+          endif()
+        endif()
+        
         # On OSX it is common to build universal binaries to support multiple
         # processor architectures. The default behavior is not to build
         # multiple architectures, as most users might not need that.
@@ -708,6 +720,10 @@ install(FILES ${DOCUMENTATION_FILES} DESTINATION ${MISC_PREFIX}.)
 # Print Summary
 #
 
+if (NOT HOSTNAME)
+ site_name(HOSTNAME)
+endif()
+
 message(STATUS "
 ----------------------------------------------------------------------
 libSEDML version ${PACKAGE_VERSION}
@@ -721,7 +737,7 @@ libSEDML version ${PACKAGE_VERSION}
 
    To contact the developers directly, email fbergman@caltech.edu
 
-   Configured on host "$ENV{COMPUTERNAME}" ${HOSTNAME}
+   Configured on host '${HOSTNAME}'
      host type                     = ${CMAKE_SYSTEM_NAME}
      host operating system         = ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_VERSION}
      host CPU architecture         = ${CMAKE_SYSTEM_PROCESSOR}
@@ -798,16 +814,16 @@ endif()
 
 if(APPLE)
     if(CMAKE_OSX_ARCHITECTURES STREQUAL "")
-        message(STATUS "  Building universal binaries               = no (using native arch)")
+        message(STATUS "  Building universal binaries                 = no (using native arch)")
     else()
         list(REMOVE_DUPLICATES CMAKE_OSX_ARCHITECTURES)
         list(REMOVE_ITEM CMAKE_OSX_ARCHITECTURES "")
         list(SORT CMAKE_OSX_ARCHITECTURES)
         list(LENGTH CMAKE_OSX_ARCHITECTURES NUM_ARCHS)
         if(NUMARCHS EQUAL 1)
-            message(STATUS "  Building universal binaries               = no (using ${CMAKE_OSX_ARCHITECTURES})")
+            message(STATUS "  Building universal binaries                 = no (using ${CMAKE_OSX_ARCHITECTURES})")
         else()
-            message(STATUS "  Building universal binaries               = yes (using ${CMAKE_OSX_ARCHITECTURES})")
+            message(STATUS "  Building universal binaries                 = yes (using ${CMAKE_OSX_ARCHITECTURES})")
         endif()
     endif()
 endif()
