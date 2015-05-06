@@ -174,7 +174,7 @@ SpeciesTypeComponentIndex::getComponent() const
 /*
  * Returns the value of the "occur" attribute of this SpeciesTypeComponentIndex.
  */
-const unsigned int
+unsigned int
 SpeciesTypeComponentIndex::getOccur() const
 {
   return mOccur;
@@ -556,6 +556,7 @@ SpeciesTypeComponentIndex::getAllElements(ElementFilter* filter)
   List* ret = new List();
   List* sublist = NULL;
 
+  ADD_FILTERED_LIST(ret, sublist, mDenotedSpeciesTypeComponentIndexes, filter);
 
   ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
 

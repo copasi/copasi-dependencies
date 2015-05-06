@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -344,13 +344,14 @@ XMLError::XMLError (  const int errorId
       if ( errorTable[i].code == errorId )
       {
         mMessage      = errorTable[i].message;
-	      mShortMessage = errorTable[i].shortMessage;
+        mShortMessage = errorTable[i].shortMessage;
 
         if ( &details != NULL && !details.empty() )
         {
           mMessage.append(" ");
           mMessage.append(details);
         }
+        mMessage += "\n";
 
         mSeverity = errorTable[i].severity;
         mCategory = errorTable[i].category;
@@ -377,12 +378,14 @@ XMLError::XMLError (  const int errorId
     // Now we log the error as an UnKnown Error and mark it as invalid
 
     mMessage      = errorTable[0].message;
+    mMessage += "\n";
     mShortMessage = errorTable[0].shortMessage;
 
     if ( &details != NULL && !details.empty() )
     {
       mMessage.append(" ");
       mMessage.append(details);
+      mMessage.append("\n");
     }
 
     mSeverity = LIBSBML_SEV_WARNING;

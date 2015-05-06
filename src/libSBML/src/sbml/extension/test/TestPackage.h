@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -90,7 +90,32 @@ typedef enum
    SBML_TEST_TEST  = 200
 } SBMLGroupsTypeCode_t;
 
+class TestLOSPlugin : public SBasePlugin
+{
+public:
+  TestLOSPlugin(const std::string &uri, const std::string &prefix,
+    TestPkgNamespaces *groupsns);
+  TestLOSPlugin(const TestLOSPlugin& orig);
+  virtual ~TestLOSPlugin();
+  TestLOSPlugin& operator=(const TestLOSPlugin& orig);
+  virtual TestLOSPlugin* clone() const;
+  virtual SBase* createObject(XMLInputStream& stream);
+  virtual void writeElements(XMLOutputStream& stream) const;
+  virtual bool hasRequiredElements() const;
 
+  virtual void setSBMLDocument(SBMLDocument* d);
+  virtual void connectToParent(SBase *sbase);
+
+  virtual void enablePackageInternal(const std::string& pkgURI,
+    const std::string& pkgPrefix, bool flag);
+  const std::string& getValue() const;
+  void setValue(const std::string& value);
+  virtual bool accept(SBMLVisitor& v) const;
+
+
+protected:
+  std::string mValue;
+};
 
 class TestModelPlugin : public SBasePlugin
 {
@@ -112,6 +137,8 @@ public:
     const std::string& pkgPrefix, bool flag);
   const std::string& getValue() const;
   void setValue(const std::string& value);
+  virtual bool accept (SBMLVisitor& v) const;
+
 
 protected:
   std::string mValue;

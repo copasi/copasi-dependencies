@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -48,8 +48,8 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 ParametricGeometry::ParametricGeometry (unsigned int level, unsigned int version, unsigned int pkgVersion)
   : GeometryDefinition(level, version)
-  , mSpatialPoints (level, version, pkgVersion)
-  , mParametricObject (NULL)
+  , mSpatialPoints (NULL)
+  , mParametricObjects (level, version, pkgVersion)
 {
   // set an SBMLNamespaces derived object of this package
   setSBMLNamespacesAndOwn(new SpatialPkgNamespaces(level, version, pkgVersion));
@@ -64,8 +64,8 @@ ParametricGeometry::ParametricGeometry (unsigned int level, unsigned int version
  */
 ParametricGeometry::ParametricGeometry (SpatialPkgNamespaces* spatialns)
   : GeometryDefinition(spatialns)
-  , mSpatialPoints (spatialns)
-  , mParametricObject (NULL)
+  , mSpatialPoints (NULL)
+  , mParametricObjects (spatialns)
 {
   // set the element namespace of this object
   setElementNamespace(spatialns->getURI());
@@ -90,15 +90,15 @@ ParametricGeometry::ParametricGeometry (const ParametricGeometry& orig)
   }
   else
   {
-    mSpatialPoints  = orig.mSpatialPoints;
-    if (orig.mParametricObject != NULL)
+    if (orig.mSpatialPoints != NULL)
     {
-      mParametricObject = orig.mParametricObject->clone();
+      mSpatialPoints = orig.mSpatialPoints->clone();
     }
     else
     {
-      mParametricObject = NULL;
+      mSpatialPoints = NULL;
     }
+    mParametricObjects  = orig.mParametricObjects;
 
     // connect to child objects
     connectToChild();
@@ -119,15 +119,15 @@ ParametricGeometry::operator=(const ParametricGeometry& rhs)
   else if (&rhs != this)
   {
     GeometryDefinition::operator=(rhs);
-    mSpatialPoints  = rhs.mSpatialPoints;
-    if (rhs.mParametricObject != NULL)
+    if (rhs.mSpatialPoints != NULL)
     {
-      mParametricObject = rhs.mParametricObject->clone();
+      mSpatialPoints = rhs.mSpatialPoints->clone();
     }
     else
     {
-      mParametricObject = NULL;
+      mSpatialPoints = NULL;
     }
+    mParametricObjects  = rhs.mParametricObjects;
 
     // connect to child objects
     connectToChild();
@@ -151,80 +151,80 @@ ParametricGeometry::clone () const
  */
 ParametricGeometry::~ParametricGeometry ()
 {
-  delete mParametricObject;
-  mParametricObject = NULL;
+  delete mSpatialPoints;
+  mSpatialPoints = NULL;
 }
 
 
 /*
- * Returns the value of the "parametricObject" attribute of this ParametricGeometry.
+ * Returns the value of the "spatialPoints" attribute of this ParametricGeometry.
  */
-const ParametricObject*
-ParametricGeometry::getParametricObject() const
+const SpatialPoints*
+ParametricGeometry::getSpatialPoints() const
 {
-  return mParametricObject;
+  return mSpatialPoints;
 }
 
 
 /*
- * Returns the value of the "parametricObject" attribute of this ParametricGeometry.
+ * Returns the value of the "spatialPoints" attribute of this ParametricGeometry.
  */
-ParametricObject*
-ParametricGeometry::getParametricObject()
+SpatialPoints*
+ParametricGeometry::getSpatialPoints()
 {
-  return mParametricObject;
+  return mSpatialPoints;
 }
 
 
 /*
- * Creates a new "parametricObject" element of this ParametricGeometry and returns it.
+ * Creates a new "spatialPoints" element of this ParametricGeometry and returns it.
  */
-ParametricObject*
-ParametricGeometry::createParametricObject()
+SpatialPoints*
+ParametricGeometry::createSpatialPoints()
 {
-  if (mParametricObject != NULL) delete mParametricObject;
+  if (mSpatialPoints != NULL) delete mSpatialPoints;
   SPATIAL_CREATE_NS(spatialns, getSBMLNamespaces());
-  mParametricObject = new ParametricObject(spatialns);
+  mSpatialPoints = new SpatialPoints(spatialns);
   delete spatialns;
   connectToChild();
-  return mParametricObject;
+  return mSpatialPoints;
 }
 
 
 /*
- * Returns true/false if parametricObject is set.
+ * Returns true/false if spatialPoints is set.
  */
 bool
-ParametricGeometry::isSetParametricObject() const
+ParametricGeometry::isSetSpatialPoints() const
 {
-  return (mParametricObject != NULL);
+  return (mSpatialPoints != NULL);
 }
 
 
 /*
- * Sets parametricObject and returns value indicating success.
+ * Sets spatialPoints and returns value indicating success.
  */
 int
-ParametricGeometry::setParametricObject(ParametricObject* parametricObject)
+ParametricGeometry::setSpatialPoints(SpatialPoints* spatialPoints)
 {
-  if (mParametricObject == parametricObject)
+  if (mSpatialPoints == spatialPoints)
   {
     return LIBSBML_OPERATION_SUCCESS;
   }
-  else if (parametricObject == NULL)
+  else if (spatialPoints == NULL)
   {
-    delete mParametricObject;
-    mParametricObject = NULL;
+    delete mSpatialPoints;
+    mSpatialPoints = NULL;
     return LIBSBML_OPERATION_SUCCESS;
   }
   else
   {
-    delete mParametricObject;
-    mParametricObject = (parametricObject != NULL) ?
-      static_cast<ParametricObject*>(parametricObject->clone()) : NULL;
-    if (mParametricObject != NULL)
+    delete mSpatialPoints;
+    mSpatialPoints = (spatialPoints != NULL) ?
+      static_cast<SpatialPoints*>(spatialPoints->clone()) : NULL;
+    if (mSpatialPoints != NULL)
     {
-      mParametricObject->connectToParent(this);
+      mSpatialPoints->connectToParent(this);
     }
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -232,101 +232,101 @@ ParametricGeometry::setParametricObject(ParametricObject* parametricObject)
 
 
 /*
- * Unsets parametricObject and returns value indicating success.
+ * Unsets spatialPoints and returns value indicating success.
  */
 int
-ParametricGeometry::unsetParametricObject()
+ParametricGeometry::unsetSpatialPoints()
 {
-  delete mParametricObject;
-  mParametricObject = NULL;
+  delete mSpatialPoints;
+  mSpatialPoints = NULL;
   return LIBSBML_OPERATION_SUCCESS;
 }
 
 
 /*
- * Returns the  "ListOfSpatialPoints" in this ParametricGeometry object.
+ * Returns the  "ListOfParametricObjects" in this ParametricGeometry object.
  */
-const ListOfSpatialPoints*
-ParametricGeometry::getListOfSpatialPoints() const
+const ListOfParametricObjects*
+ParametricGeometry::getListOfParametricObjects() const
 {
-  return &mSpatialPoints;
+  return &mParametricObjects;
 }
 
 
 /*
- * Returns the  "ListOfSpatialPoints" in this ParametricGeometry object.
+ * Returns the  "ListOfParametricObjects" in this ParametricGeometry object.
  */
-ListOfSpatialPoints*
-ParametricGeometry::getListOfSpatialPoints()
+ListOfParametricObjects*
+ParametricGeometry::getListOfParametricObjects()
 {
-  return &mSpatialPoints;
+  return &mParametricObjects;
 }
 
 
 /*
- * Removes the nth SpatialPoint from the ListOfSpatialPoints.
+ * Removes the nth ParametricObject from the ListOfParametricObjects.
  */
-SpatialPoint*
-ParametricGeometry::removeSpatialPoint(unsigned int n)
+ParametricObject*
+ParametricGeometry::removeParametricObject(unsigned int n)
 {
-	return mSpatialPoints.remove(n);
+	return mParametricObjects.remove(n);
 }
 
 
 /*
- * Removes the a SpatialPoint with given id from the ListOfSpatialPoints.
+ * Removes the a ParametricObject with given id from the ListOfParametricObjects.
  */
-SpatialPoint*
-ParametricGeometry::removeSpatialPoint(const std::string& sid)
+ParametricObject*
+ParametricGeometry::removeParametricObject(const std::string& sid)
 {
-	return mSpatialPoints.remove(sid);
+	return mParametricObjects.remove(sid);
 }
 
 
 /*
- * Return the nth SpatialPoint in the ListOfSpatialPoints within this ParametricGeometry.
+ * Return the nth ParametricObject in the ListOfParametricObjects within this ParametricGeometry.
  */
-SpatialPoint*
-ParametricGeometry::getSpatialPoint(unsigned int n)
+ParametricObject*
+ParametricGeometry::getParametricObject(unsigned int n)
 {
-	return mSpatialPoints.get(n);
+	return mParametricObjects.get(n);
 }
 
 
 /*
- * Return the nth SpatialPoint in the ListOfSpatialPoints within this ParametricGeometry.
+ * Return the nth ParametricObject in the ListOfParametricObjects within this ParametricGeometry.
  */
-const SpatialPoint*
-ParametricGeometry::getSpatialPoint(unsigned int n) const
+const ParametricObject*
+ParametricGeometry::getParametricObject(unsigned int n) const
 {
-	return mSpatialPoints.get(n);
+	return mParametricObjects.get(n);
 }
 
 
 /*
- * Return a SpatialPoint from the ListOfSpatialPoints by id.
+ * Return a ParametricObject from the ListOfParametricObjects by id.
  */
-SpatialPoint*
-ParametricGeometry::getSpatialPoint(const std::string& sid)
+ParametricObject*
+ParametricGeometry::getParametricObject(const std::string& sid)
 {
-	return mSpatialPoints.get(sid);
+	return mParametricObjects.get(sid);
 }
 
 
 /*
- * Return a SpatialPoint from the ListOfSpatialPoints by id.
+ * Return a ParametricObject from the ListOfParametricObjects by id.
  */
-const SpatialPoint*
-ParametricGeometry::getSpatialPoint(const std::string& sid) const
+const ParametricObject*
+ParametricGeometry::getParametricObject(const std::string& sid) const
 {
-	return mSpatialPoints.get(sid);
+	return mParametricObjects.get(sid);
 }
 
 
 /*
- * Adds a copy the given "SpatialPoint" to this ParametricGeometry.
+ * Adds a copy the given "ParametricObject" to this ParametricGeometry.
  *
- * @param sp; the SpatialPoint object to add
+ * @param po; the ParametricObject object to add
  *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
@@ -336,65 +336,65 @@ ParametricGeometry::getSpatialPoint(const std::string& sid) const
  * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
  */
 int
-ParametricGeometry::addSpatialPoint(const SpatialPoint* sp)
+ParametricGeometry::addParametricObject(const ParametricObject* po)
 {
-  if (sp == NULL)
+  if (po == NULL)
   {
     return LIBSBML_OPERATION_FAILED;
   }
-  else if (sp->hasRequiredAttributes() == false)
+  else if (po->hasRequiredAttributes() == false)
   {
     return LIBSBML_INVALID_OBJECT;
   }
-  else if (getLevel() != sp->getLevel())
+  else if (getLevel() != po->getLevel())
   {
     return LIBSBML_LEVEL_MISMATCH;
   }
-  else if (getVersion() != sp->getVersion())
+  else if (getVersion() != po->getVersion())
   {
     return LIBSBML_VERSION_MISMATCH;
   }
-  else if (matchesRequiredSBMLNamespacesForAddition(static_cast<const SBase *>(sp)) == false)
+  else if (matchesRequiredSBMLNamespacesForAddition(static_cast<const SBase *>(po)) == false)
   {
     return LIBSBML_NAMESPACES_MISMATCH;
   }
   else
   {
-    mSpatialPoints.append(sp);
+    mParametricObjects.append(po);
     return LIBSBML_OPERATION_SUCCESS;
   }
 }
 
 
 /*
- * Get the number of SpatialPoint objects in this ParametricGeometry.
+ * Get the number of ParametricObject objects in this ParametricGeometry.
  *
- * @return the number of SpatialPoint objects in this ParametricGeometry
+ * @return the number of ParametricObject objects in this ParametricGeometry
  */
 unsigned int
-ParametricGeometry::getNumSpatialPoints() const
+ParametricGeometry::getNumParametricObjects() const
 {
-  return mSpatialPoints.size();
+  return mParametricObjects.size();
 }
 
 
 /*
- * Creates a new SpatialPoint object, adds it to this ParametricGeometrys
- * ParametricGeometry and returns the SpatialPoint object created. 
+ * Creates a new ParametricObject object, adds it to this ParametricGeometrys
+ * ParametricGeometry and returns the ParametricObject object created. 
  *
- * @return a new SpatialPoint object instance
+ * @return a new ParametricObject object instance
  *
- * @see addSpatialPoint(const SpatialPoint* sp)
+ * @see addParametricObject(const ParametricObject* po)
  */
-SpatialPoint*
-ParametricGeometry::createSpatialPoint()
+ParametricObject*
+ParametricGeometry::createParametricObject()
 {
-  SpatialPoint* sp = NULL;
+  ParametricObject* po = NULL;
 
   try
   {
     SPATIAL_CREATE_NS(spatialns, getSBMLNamespaces());
-    sp = new SpatialPoint(spatialns);
+    po = new ParametricObject(spatialns);
     delete spatialns;
   }
   catch (...)
@@ -406,12 +406,12 @@ ParametricGeometry::createSpatialPoint()
      */
   }
 
-  if(sp != NULL)
+  if(po != NULL)
   {
-    mSpatialPoints.appendAndOwn(sp);
+    mParametricObjects.appendAndOwn(po);
   }
 
-  return sp;
+  return po;
 }
 
 
@@ -421,7 +421,8 @@ ParametricGeometry::getAllElements(ElementFilter* filter)
   List* ret = new List();
   List* sublist = NULL;
 
-  ADD_FILTERED_POINTER(ret, sublist, mParametricObject, filter);
+  ADD_FILTERED_POINTER(ret, sublist, mSpatialPoints, filter);
+  ADD_FILTERED_LIST(ret, sublist, mParametricObjects, filter);
 
   ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
 
@@ -483,15 +484,15 @@ void
 ParametricGeometry::writeElements (XMLOutputStream& stream) const
 {
   GeometryDefinition::writeElements(stream);
-  if (getNumSpatialPoints() > 0)
+  if (isSetSpatialPoints() == true)
   {
-    mSpatialPoints.write(stream);
+    mSpatialPoints->write(stream);
+  }
+  if (getNumParametricObjects() > 0)
+  {
+    mParametricObjects.write(stream);
   }
 
-  if (isSetParametricObject() == true)
-  {
-    mParametricObject->write(stream);
-  }
   SBase::writeExtensionElements(stream);
 }
 
@@ -529,9 +530,9 @@ void
 ParametricGeometry::setSBMLDocument (SBMLDocument* d)
 {
   GeometryDefinition::setSBMLDocument(d);
-  mSpatialPoints.setSBMLDocument(d);
-  if (mParametricObject != NULL)
-    mParametricObject->setSBMLDocument(d);
+  if (mSpatialPoints != NULL)
+    mSpatialPoints->setSBMLDocument(d);
+  mParametricObjects.setSBMLDocument(d);
 }
 
 
@@ -548,9 +549,9 @@ ParametricGeometry::connectToChild()
 {
   GeometryDefinition::connectToChild();
 
-  mSpatialPoints.connectToParent(this);
-  if (mParametricObject != NULL)
-    mParametricObject->connectToParent(this);
+  if (mSpatialPoints != NULL)
+    mSpatialPoints->connectToParent(this);
+  mParametricObjects.connectToParent(this);
 }
 
 
@@ -567,7 +568,7 @@ ParametricGeometry::enablePackageInternal(const std::string& pkgURI,
              const std::string& pkgPrefix, bool flag)
 {
   GeometryDefinition::enablePackageInternal(pkgURI, pkgPrefix, flag);
-  mSpatialPoints.enablePackageInternal(pkgURI, pkgPrefix, flag);
+  mParametricObjects.enablePackageInternal(pkgURI, pkgPrefix, flag);
 }
 
 
@@ -588,14 +589,14 @@ ParametricGeometry::createObject(XMLInputStream& stream)
 
   SPATIAL_CREATE_NS(spatialns, getSBMLNamespaces());
 
-  if (name == "listOfSpatialPoints")
+  if (name == "spatialPoints")
   {
-    object = &mSpatialPoints;
+    mSpatialPoints = new SpatialPoints(spatialns);
+    object = mSpatialPoints;
   }
-  else if (name == "parametricObject")
+  else if (name == "listOfParametricObjects")
   {
-    mParametricObject = new ParametricObject(spatialns);
-    object = mParametricObject;
+    object = &mParametricObjects;
   }
 
   delete spatialns;
@@ -654,7 +655,7 @@ ParametricGeometry::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -662,12 +663,10 @@ ParametricGeometry::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
     }
   }
-
-  bool assigned = false;
 
 }
 
@@ -725,97 +724,97 @@ ParametricGeometry_clone(ParametricGeometry_t * pg)
 
 
 LIBSBML_EXTERN
-ParametricObject_t*
-ParametricGeometry_getParametricObject(ParametricGeometry_t * pg)
+SpatialPoints_t*
+ParametricGeometry_getSpatialPoints(ParametricGeometry_t * pg)
 {
 	if (pg == NULL)
 		return NULL;
 
-	return (ParametricObject_t*)pg->getParametricObject();
+	return (SpatialPoints_t*)pg->getSpatialPoints();
 }
 
 
 LIBSBML_EXTERN
-ParametricObject_t*
+SpatialPoints_t*
+ParametricGeometry_createSpatialPoints(ParametricGeometry_t * pg)
+{
+	if (pg == NULL)
+		return NULL;
+
+	return (SpatialPoints_t*)pg->createSpatialPoints();
+}
+
+
+LIBSBML_EXTERN
+int
+ParametricGeometry_isSetSpatialPoints(const ParametricGeometry_t * pg)
+{
+  return (pg != NULL) ? static_cast<int>(pg->isSetSpatialPoints()) : 0;
+}
+
+
+LIBSBML_EXTERN
+int
+ParametricGeometry_setSpatialPoints(ParametricGeometry_t * pg, SpatialPoints_t* spatialPoints)
+{
+	return (pg != NULL) ? pg->setSpatialPoints(spatialPoints) : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+ParametricGeometry_addParametricObject(ParametricGeometry_t * pg, ParametricObject_t * po)
+{
+	return  (pg != NULL) ? pg->addParametricObject(po) : LIBSBML_INVALID_OBJECT;
+}
+
+LIBSBML_EXTERN
+ParametricObject_t *
 ParametricGeometry_createParametricObject(ParametricGeometry_t * pg)
 {
-	if (pg == NULL)
-		return NULL;
-
-	return (ParametricObject_t*)pg->createParametricObject();
-}
-
-
-LIBSBML_EXTERN
-int
-ParametricGeometry_isSetParametricObject(const ParametricGeometry_t * pg)
-{
-  return (pg != NULL) ? static_cast<int>(pg->isSetParametricObject()) : 0;
-}
-
-
-LIBSBML_EXTERN
-int
-ParametricGeometry_setParametricObject(ParametricGeometry_t * pg, ParametricObject_t* parametricObject)
-{
-	return (pg != NULL) ? pg->setParametricObject(parametricObject) : LIBSBML_INVALID_OBJECT;
-}
-
-
-LIBSBML_EXTERN
-int
-ParametricGeometry_addSpatialPoint(ParametricGeometry_t * pg, SpatialPoint_t * sp)
-{
-	return  (pg != NULL) ? pg->addSpatialPoint(sp) : LIBSBML_INVALID_OBJECT;
-}
-
-LIBSBML_EXTERN
-SpatialPoint_t *
-ParametricGeometry_createSpatialPoint(ParametricGeometry_t * pg)
-{
-	return  (pg != NULL) ? pg->createSpatialPoint() : NULL;
+	return  (pg != NULL) ? pg->createParametricObject() : NULL;
 }
 
 LIBSBML_EXTERN
 ListOf_t *
-ParametricGeometry_getListOfSpatialPoints(ParametricGeometry_t * pg)
+ParametricGeometry_getListOfParametricObjects(ParametricGeometry_t * pg)
 {
-	return  (pg != NULL) ? (ListOf_t *)pg->getListOfSpatialPoints() : NULL;
+	return  (pg != NULL) ? (ListOf_t *)pg->getListOfParametricObjects() : NULL;
 }
 
 LIBSBML_EXTERN
-SpatialPoint_t *
-ParametricGeometry_getSpatialPoint(ParametricGeometry_t * pg, unsigned int n)
+ParametricObject_t *
+ParametricGeometry_getParametricObject(ParametricGeometry_t * pg, unsigned int n)
 {
-	return  (pg != NULL) ? pg->getSpatialPoint(n) : NULL;
+	return  (pg != NULL) ? pg->getParametricObject(n) : NULL;
 }
 
 LIBSBML_EXTERN
-SpatialPoint_t *
-ParametricGeometry_getSpatialPointById(ParametricGeometry_t * pg, const char * sid)
+ParametricObject_t *
+ParametricGeometry_getParametricObjectById(ParametricGeometry_t * pg, const char * sid)
 {
-	return  (pg != NULL) ? pg->getSpatialPoint(sid) : NULL;
+	return  (pg != NULL) ? pg->getParametricObject(sid) : NULL;
 }
 
 LIBSBML_EXTERN
 unsigned int
-ParametricGeometry_getNumSpatialPoints(ParametricGeometry_t * pg)
+ParametricGeometry_getNumParametricObjects(ParametricGeometry_t * pg)
 {
-	return  (pg != NULL) ? pg->getNumSpatialPoints() : SBML_INT_MAX;
+	return  (pg != NULL) ? pg->getNumParametricObjects() : SBML_INT_MAX;
 }
 
 LIBSBML_EXTERN
-SpatialPoint_t *
-ParametricGeometry_removeSpatialPoint(ParametricGeometry_t * pg, unsigned int n)
+ParametricObject_t *
+ParametricGeometry_removeParametricObject(ParametricGeometry_t * pg, unsigned int n)
 {
-	return  (pg != NULL) ? pg->removeSpatialPoint(n) : NULL;
+	return  (pg != NULL) ? pg->removeParametricObject(n) : NULL;
 }
 
 LIBSBML_EXTERN
-SpatialPoint_t *
-ParametricGeometry_removeSpatialPointById(ParametricGeometry_t * pg, const char * sid)
+ParametricObject_t *
+ParametricGeometry_removeParametricObjectById(ParametricGeometry_t * pg, const char * sid)
 {
-	return  (pg != NULL) ? pg->removeSpatialPoint(sid) : NULL;
+	return  (pg != NULL) ? pg->removeParametricObject(sid) : NULL;
 }
 
 LIBSBML_EXTERN

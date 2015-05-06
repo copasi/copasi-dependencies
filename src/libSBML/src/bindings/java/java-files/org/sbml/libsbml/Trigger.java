@@ -365,6 +365,52 @@ public class Trigger extends SBase {
 
   
 /**
+   * (SBML Level&nbsp;3 only) Unsets the 'initialValue' attribute of this 
+   * {@link Trigger} instance.
+   <p>
+   * @param initialValue a boolean representing the initialValue to be set.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   *
+   * </ul> <p>
+   * @note The attribute 'initialValue' is available in SBML Level&nbsp;3
+   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   */ public
+ int unsetInitialValue() {
+    return libsbmlJNI.Trigger_unsetInitialValue(swigCPtr, this);
+  }
+
+  
+/**
+   * (SBML Level&nbsp;3 only) Unsets the 'persistent' attribute of this 
+   * {@link Trigger} instance.
+   <p>
+   * @param persistent a boolean representing the persistent value to be set.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   *
+   * </ul> <p>
+   * @note The attribute 'persistent' is available in SBML Level&nbsp;3
+   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   */ public
+ int unsetPersistent() {
+    return libsbmlJNI.Trigger_unsetPersistent(swigCPtr, this);
+  }
+
+  
+/**
    * Returns the libSBML type code of this object instance.
    <p>
    * <p>

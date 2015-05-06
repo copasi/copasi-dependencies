@@ -514,6 +514,7 @@ SpeciesTypeComponentMapInProduct::getAllElements(ElementFilter* filter)
   List* ret = new List();
   List* sublist = NULL;
 
+  ADD_FILTERED_LIST(ret, sublist, mSpeciesFeatureChanges, filter);
 
   ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
 

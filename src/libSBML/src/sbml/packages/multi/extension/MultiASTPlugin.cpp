@@ -103,9 +103,9 @@ MultiASTPlugin::createObject(XMLInputStream& stream)
 {
   MultiASTPlugin*        object = 0;
 
-  const std::string&   name   = stream.peek().getName();
-  const XMLNamespaces& xmlns  = stream.peek().getNamespaces();
-  const std::string&   prefix = stream.peek().getPrefix();
+  //const std::string&   name   = stream.peek().getName();
+  //const XMLNamespaces& xmlns  = stream.peek().getNamespaces();
+  //const std::string&   prefix = stream.peek().getPrefix();
 
   //const std::string& targetPrefix = (xmlns.hasURI(mURI)) ? xmlns.getPrefix(mURI) : mPrefix;
   //
@@ -359,7 +359,7 @@ MultiASTPlugin::getPrefix() const
 void
 MultiASTPlugin::writeXMLNS(XMLOutputStream& stream) const
 {
-  bool hasAttributes = false;
+  //bool hasAttributes = false;
 
   if (hasAttributesSet() == true)
     stream.writeAttribute(getPrefix(), "xmlns", getURI());
@@ -405,18 +405,18 @@ MultiASTPlugin::hasAttributesSet() const
   { 
     return true;
   }
-  else if (mParent != NULL)
+  else if (mParentASTNode != NULL)
   {
     unsigned int i = 0;
 
-    ASTNode* node = dynamic_cast<ASTNode*>(mParent);
+    //ASTNode* node = dynamic_cast<ASTNode*>(mParentASTNode);
 
     size_t numChildren;
-    GET_NUM_CHILDREN(numChildren,mParent);
+    GET_NUM_CHILDREN(numChildren,mParentASTNode);
     while (hasAttributes == false && i < numChildren)
     {
       ASTBase* ast = NULL;
-      GET_NTH_CHILD(ast, i, mParent);
+      GET_NTH_CHILD(ast, i, mParentASTNode);
       if (ast != NULL)
       {
         MultiASTPlugin* mp = 

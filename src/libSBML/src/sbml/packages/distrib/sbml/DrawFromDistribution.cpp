@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -152,6 +152,8 @@ DrawFromDistribution::clone () const
  */
 DrawFromDistribution::~DrawFromDistribution ()
 {
+  if (mUncertML != NULL)
+    delete mUncertML;
 }
 
 
@@ -185,23 +187,21 @@ DrawFromDistribution::setUncertML(UncertMLNode* uncertML)
   {
     return LIBSBML_OPERATION_SUCCESS;
   }
-  else if (uncertML == NULL)
-  {
-    delete mUncertML;
-    mUncertML = NULL;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else
-  {
-    delete mUncertML;
-    mUncertML = (uncertML != NULL) ?
-      static_cast<UncertMLNode*>(uncertML->clone()) : NULL;
-    //if (mUncertML != NULL)
-    //{
-    //  mUncertML->connectToParent(this);
-    //}
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+  delete mUncertML;
+  mUncertML = (uncertML != NULL) ? uncertML->clone() : NULL;
+  //if (mUncertML != NULL)
+  //{
+  //  mUncertML->connectToParent(this);
+  //}
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+UncertMLNode*
+DrawFromDistribution::createUncertML()
+{
+  delete mUncertML;
+  mUncertML = new UncertMLNode();
+  return mUncertML;
 }
 
 
@@ -633,7 +633,7 @@ DrawFromDistribution::readAttributes (const XMLAttributes& attributes,
     }
   }
 
-  bool assigned = false;
+  //bool assigned = false;
 
 }
 

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -53,14 +53,11 @@
 #include <sbml/packages/spatial/sbml/CoordinateComponent.h>
 #include <sbml/packages/spatial/sbml/SampledFieldGeometry.h>
 #include <sbml/packages/spatial/sbml/SampledField.h>
-#include <sbml/packages/spatial/sbml/ImageData.h>
 #include <sbml/packages/spatial/sbml/SampledVolume.h>
 #include <sbml/packages/spatial/sbml/AnalyticGeometry.h>
 #include <sbml/packages/spatial/sbml/AnalyticVolume.h>
 #include <sbml/packages/spatial/sbml/ParametricGeometry.h>
 #include <sbml/packages/spatial/sbml/ParametricObject.h>
-#include <sbml/packages/spatial/sbml/PolygonObject.h>
-#include <sbml/packages/spatial/sbml/SpatialPoint.h>
 #include <sbml/packages/spatial/sbml/CSGeometry.h>
 #include <sbml/packages/spatial/sbml/CSGObject.h>
 #include <sbml/packages/spatial/sbml/CSGNode.h>
@@ -79,6 +76,9 @@
 #include <sbml/packages/spatial/sbml/BoundaryCondition.h>
 #include <sbml/packages/spatial/sbml/Geometry.h>
 #include <sbml/packages/spatial/sbml/CoordinateReference.h>
+#include <sbml/packages/spatial/sbml/MixedGeometry.h>
+#include <sbml/packages/spatial/sbml/OrdinalMapping.h>
+#include <sbml/packages/spatial/sbml/SpatialPoints.h>
 
 #endif  /* SpatialExtensionTypes_H */
 

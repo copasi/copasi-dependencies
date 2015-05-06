@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -167,7 +167,7 @@ Index::getReferencedAttribute() const
 /*
  * Returns the value of the "arrayDimension" attribute of this Index.
  */
-const unsigned int
+unsigned int
 Index::getArrayDimension() const
 {
   return mArrayDimension;

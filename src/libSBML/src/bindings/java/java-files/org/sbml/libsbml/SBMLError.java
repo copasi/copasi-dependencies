@@ -8483,7 +8483,7 @@ defined in SBML.
  * name='SBMLErrorSeverity_t'>Severity codes associated with {@link SBMLError}
  * objects</h3>
  <p>
- * In libSBML version 5.11.1
+ * In libSBML version 5.11.4
  * there are no additional severity codes beyond those defined by {@link XMLError}.
  * They are implemented as static integer constants defined in the interface
  * class <code><a href='libsbmlConstants.html'>libsbmlConstants</a></code>,

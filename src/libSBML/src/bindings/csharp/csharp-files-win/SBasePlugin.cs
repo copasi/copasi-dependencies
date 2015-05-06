@@ -577,6 +577,13 @@ public class SBasePlugin : IDisposable {
     libsbmlPINVOKE.SBasePlugin_logUnknownElement(swigCPtr, element, sbmlLevel, sbmlVersion, pkgVersion);
   }
 
+  
+/** */ public new
+ bool isValidTypeForList(SBase item) {
+    bool ret = libsbmlPINVOKE.SBasePlugin_isValidTypeForList(swigCPtr, SBase.getCPtrAndDisown(item));
+    return ret;
+  }
+
   public SBaseList getListOfAllElements(ElementFilter filter) {
     IntPtr cPtr = libsbmlPINVOKE.SBasePlugin_getListOfAllElements__SWIG_0(swigCPtr, ElementFilter.getCPtr(filter));
     SBaseList ret = (cPtr == IntPtr.Zero) ? null : new SBaseList(cPtr, false);

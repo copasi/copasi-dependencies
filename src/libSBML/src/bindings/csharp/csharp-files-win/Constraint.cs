@@ -322,7 +322,57 @@ public class Constraint : SBase {
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    */ public
  int setMessage(XMLNode xhtml) {
-    int ret = libsbmlPINVOKE.Constraint_setMessage(swigCPtr, XMLNode.getCPtr(xhtml));
+    int ret = libsbmlPINVOKE.Constraint_setMessage__SWIG_0(swigCPtr, XMLNode.getCPtr(xhtml));
+    return ret;
+  }
+
+  
+/**
+   * Sets the message of this Constraint.
+   *
+   * @param message an XML string that is to be used as the content of the
+   * 'message' subelement of this object
+   *
+   * @param addXHTMLMarkup a boolean indicating whether to wrap the contents
+   * of the @p message argument with XHTML paragraph (<code>&lt;p&gt;</code>)
+   * tags.  This is appropriate when the string in @p message does not already
+   * containg the appropriate XHTML markup.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   */ public
+ int setMessage(string message, bool addXHTMLMarkup) {
+    int ret = libsbmlPINVOKE.Constraint_setMessage__SWIG_1(swigCPtr, message, addXHTMLMarkup);
+    return ret;
+  }
+
+  
+/**
+   * Sets the message of this Constraint.
+   *
+   * @param message an XML string that is to be used as the content of the
+   * 'message' subelement of this object
+   *
+   * @param addXHTMLMarkup a boolean indicating whether to wrap the contents
+   * of the @p message argument with XHTML paragraph (<code>&lt;p&gt;</code>)
+   * tags.  This is appropriate when the string in @p message does not already
+   * containg the appropriate XHTML markup.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   */ public
+ int setMessage(string message) {
+    int ret = libsbmlPINVOKE.Constraint_setMessage__SWIG_2(swigCPtr, message);
     return ret;
   }
 

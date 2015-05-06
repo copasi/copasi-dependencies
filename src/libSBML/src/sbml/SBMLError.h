@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -746,6 +746,7 @@ typedef enum
 , CompartmentShouldHaveSize             = 80501 /*!< It's best to define a size for every compartment in a model. */
 , SpeciesShouldHaveValue                = 80601 /*!< It's best to define an initial amount or initial concentration for every species in a model. */
 , ParameterShouldHaveUnits              = 80701 /*!< It's best to declare units for every parameter in a model. */
+, ParameterShouldHaveValue              = 80702 /*!< It's best to declare units for every parameter in a model. */
 , LocalParameterShadowsId               = 81121 /*!< Local parameters defined within a kinetic law shadow global object symbols. */
 , LibSBMLAdditionalCodesLowerBound      = 90000 /*!< Lower boundary of libSBML-specific diagnostic codes. */
 , CannotConvertToL1V1                   = 90001 /*!< Cannot convert to SBML Level 1 Version 1. */

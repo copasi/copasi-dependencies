@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -108,6 +108,11 @@ START_TEST (test_L3_Unit_kind)
 
   fail_unless( Unit_getKind(U) == UNIT_KIND_MOLE );
   fail_unless( Unit_isSetKind(U) );
+
+  Unit_unsetKind(U);
+
+  fail_unless( Unit_getKind(U) == UNIT_KIND_INVALID );
+  fail_unless( !Unit_isSetKind(U) );
 }
 END_TEST
 
@@ -123,6 +128,12 @@ START_TEST (test_L3_Unit_exponent)
 
   fail_unless( Unit_getExponentAsDouble(U) == exponent );
   fail_unless( Unit_isSetExponent(U) );
+
+  Unit_unsetExponent(U);
+
+  fail_unless( !Unit_isSetExponent(U));
+  fail_unless( util_isNaN(Unit_getExponentAsDouble(U)));
+
 }
 END_TEST
 
@@ -138,6 +149,11 @@ START_TEST (test_L3_Unit_multiplier)
 
   fail_unless( Unit_getMultiplier(U) == multiplier );
   fail_unless( Unit_isSetMultiplier(U) );
+
+  Unit_unsetMultiplier(U);
+
+  fail_unless( !Unit_isSetMultiplier(U));
+  fail_unless( util_isNaN(Unit_getMultiplier(U)));
 }
 END_TEST
 
@@ -153,6 +169,11 @@ START_TEST (test_L3_Unit_scale)
 
   fail_unless( Unit_getScale(U) == scale );
   fail_unless( Unit_isSetScale(U) );
+
+  Unit_unsetScale(U);
+
+  fail_unless( !Unit_isSetScale(U));
+  fail_unless( Unit_getScale (U) == SBML_INT_MAX );
 }
 END_TEST
 

@@ -331,7 +331,7 @@ public class ListOf : SBase {
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
-   * @see appendAndOwn(SBase item)
+   * @see appendAndOwn(SBase disownedItem)
    * @see appendFrom(ListOf list)
    */ public
  int append(SBase item) {
@@ -343,12 +343,12 @@ public class ListOf : SBase {
 /**
    * Adds an item to the end of this ListOf's list of items.
    *
-   * This method does not clone the @p item handed to it; instead, it assumes
+   * This method does not clone the @p disownedItem handed to it; instead, it assumes
    * ownership of it.  This means that when the ListOf is destroyed, the item
    * will be destroyed along with it.  For a method with an alternative
    * ownership behavior, see the ListOf::append(SBase item) method.
    *
-   * @param item the item to be added to the list.
+   * @param disownedItem the item to be added to the list.
    *
    *
  * @return integer value indicating success/failure of the
@@ -361,8 +361,8 @@ public class ListOf : SBase {
    * @see append(SBase item)
    * @see appendFrom(ListOf list)
    */ public
- int appendAndOwn(SBase item) {
-    int ret = libsbmlPINVOKE.ListOf_appendAndOwn(swigCPtr, SBase.getCPtrAndDisown(item));
+ int appendAndOwn(SBase disownedItem) {
+    int ret = libsbmlPINVOKE.ListOf_appendAndOwn(swigCPtr, SBase.getCPtrAndDisown(disownedItem));
     return ret;
   }
 
@@ -384,7 +384,7 @@ public class ListOf : SBase {
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see append(SBase item)
-   * @see appendAndOwn(SBase item)
+   * @see appendAndOwn(SBase disownedItem)
    */ public new
  int appendFrom(ListOf list) {
     int ret = libsbmlPINVOKE.ListOf_appendFrom(swigCPtr, ListOf.getCPtr(list));
@@ -421,12 +421,12 @@ public class ListOf : SBase {
 /**
    * Inserts an item at a given position in this ListOf's list of items.
    *
-   * This variant of the method makes a clone of the @p item handed to it.
+   * This variant of the method does not make a clone of the @p disownedItem handed to it.
    * This means that when the ListOf is destroyed, the original @p item
    * <em>will</em> be destroyed.
    *
    * @param location the location where to insert the item
-   * @param item the item to be inserted to the list
+   * @param disownedItem the item to be inserted to the list
    *
    *
  * @return integer value indicating success/failure of the
@@ -438,8 +438,8 @@ public class ListOf : SBase {
    *
    * @see insert(int location, SBase item)
    */ public
- int insertAndOwn(int location, SBase item) {
-    int ret = libsbmlPINVOKE.ListOf_insertAndOwn(swigCPtr, location, SBase.getCPtrAndDisown(item));
+ int insertAndOwn(int location, SBase disownedItem) {
+    int ret = libsbmlPINVOKE.ListOf_insertAndOwn(swigCPtr, location, SBase.getCPtrAndDisown(disownedItem));
     return ret;
   }
 

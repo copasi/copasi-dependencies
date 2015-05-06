@@ -46,8 +46,6 @@ MultiSpeciesType::MultiSpeciesType (unsigned int level, unsigned int version, un
   : SBase(level, version)
    ,mId ("")
    ,mName ("")
-   ,mIsBindingSite (false)
-   ,mIsSetIsBindingSite (false)
    ,mCompartment ("")
    ,mSpeciesFeatureTypes (level, version, pkgVersion)
    ,mSpeciesTypeInstances (level, version, pkgVersion)
@@ -69,8 +67,6 @@ MultiSpeciesType::MultiSpeciesType (MultiPkgNamespaces* multins)
   : SBase(multins)
    ,mId ("")
    ,mName ("")
-   ,mIsBindingSite (false)
-   ,mIsSetIsBindingSite (false)
    ,mCompartment ("")
    ,mSpeciesFeatureTypes (multins)
    ,mSpeciesTypeInstances (multins)
@@ -102,8 +98,6 @@ MultiSpeciesType::MultiSpeciesType (const MultiSpeciesType& orig)
   {
     mId  = orig.mId;
     mName  = orig.mName;
-    mIsBindingSite  = orig.mIsBindingSite;
-    mIsSetIsBindingSite  = orig.mIsSetIsBindingSite;
     mCompartment  = orig.mCompartment;
     mSpeciesFeatureTypes  = orig.mSpeciesFeatureTypes;
     mSpeciesTypeInstances  = orig.mSpeciesTypeInstances;
@@ -131,8 +125,6 @@ MultiSpeciesType::operator=(const MultiSpeciesType& rhs)
     SBase::operator=(rhs);
     mId  = rhs.mId;
     mName  = rhs.mName;
-    mIsBindingSite  = rhs.mIsBindingSite;
-    mIsSetIsBindingSite  = rhs.mIsSetIsBindingSite;
     mCompartment  = rhs.mCompartment;
     mSpeciesFeatureTypes  = rhs.mSpeciesFeatureTypes;
     mSpeciesTypeInstances  = rhs.mSpeciesTypeInstances;
@@ -184,14 +176,6 @@ MultiSpeciesType::getName() const
 }
 
 
-/*
- * Returns the value of the "isBindingSite" attribute of this MultiSpeciesType.
- */
-const bool
-MultiSpeciesType::getIsBindingSite() const
-{
-  return mIsBindingSite;
-}
 
 
 /*
@@ -224,14 +208,6 @@ MultiSpeciesType::isSetName() const
 }
 
 
-/*
- * Returns true/false if isBindingSite is set.
- */
-bool
-MultiSpeciesType::isSetIsBindingSite() const
-{
-  return mIsSetIsBindingSite;
-}
 
 
 /*
@@ -272,16 +248,6 @@ MultiSpeciesType::setName(const std::string& name)
 }
 
 
-/*
- * Sets isBindingSite and returns value indicating success.
- */
-int
-MultiSpeciesType::setIsBindingSite(bool isBindingSite)
-{
-  mIsBindingSite = isBindingSite;
-  mIsSetIsBindingSite = true;
-  return LIBSBML_OPERATION_SUCCESS;
-}
 
 
 /*
@@ -344,16 +310,6 @@ MultiSpeciesType::unsetName()
 }
 
 
-/*
- * Unsets isBindingSite and returns value indicating success.
- */
-int
-MultiSpeciesType::unsetIsBindingSite()
-{
-  mIsBindingSite = false;
-  mIsSetIsBindingSite = false;
-  return LIBSBML_OPERATION_SUCCESS;
-}
 
 
 /*
@@ -1023,6 +979,10 @@ MultiSpeciesType::getAllElements(ElementFilter* filter)
   List* ret = new List();
   List* sublist = NULL;
 
+  ADD_FILTERED_LIST(ret, sublist, mSpeciesFeatureTypes, filter);
+  ADD_FILTERED_LIST(ret, sublist, mSpeciesTypeInstances, filter);
+  ADD_FILTERED_LIST(ret, sublist, mSpeciesTypeComponentIndexes, filter);
+  ADD_FILTERED_LIST(ret, sublist, mInSpeciesTypeBonds, filter);
 
   ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
 
@@ -1062,8 +1022,6 @@ MultiSpeciesType::hasRequiredAttributes () const
   if (isSetId() == false)
     allPresent = false;
 
-  if (isSetIsBindingSite() == false)
-    allPresent = false;
 
   return allPresent;
 }
@@ -1246,7 +1204,6 @@ MultiSpeciesType::addExpectedAttributes(ExpectedAttributes& attributes)
 
   attributes.add("id");
   attributes.add("name");
-  attributes.add("isBindingSite");
   attributes.add("compartment");
 }
 
@@ -1368,31 +1325,6 @@ MultiSpeciesType::readAttributes (const XMLAttributes& attributes,
     }
   }
 
-  //
-  // isBindingSite bool   ( use = "required" )
-  //
-  numErrs = getErrorLog()->getNumErrors();
-  mIsSetIsBindingSite = attributes.readInto("isBindingSite", mIsBindingSite);
-
-  if (mIsSetIsBindingSite == false)
-  {
-    if (getErrorLog() != NULL)
-    {
-      if (getErrorLog()->getNumErrors() == numErrs + 1 &&
-              getErrorLog()->contains(XMLAttributeTypeMismatch))
-      {
-        getErrorLog()->remove(XMLAttributeTypeMismatch);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                     getPackageVersion(), sbmlLevel, sbmlVersion);
-      }
-      else
-      {
-        std::string message = "Multi attribute 'isBindingSite' is missing.";
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, message);
-      }
-    }
-  }
 
   //
   // compartment SIdRef   ( use = "optional" )
@@ -1436,8 +1368,6 @@ MultiSpeciesType::writeAttributes (XMLOutputStream& stream) const
   if (isSetName() == true)
     stream.writeAttribute("name", getPrefix(), mName);
 
-  if (isSetIsBindingSite() == true)
-    stream.writeAttribute("isBindingSite", getPrefix(), mIsBindingSite);
 
   if (isSetCompartment() == true)
     stream.writeAttribute("compartment", getPrefix(), mCompartment);
@@ -1638,6 +1568,18 @@ ListOfMultiSpeciesTypes::writeXMLNS(XMLOutputStream& stream) const
   stream << xmlns;
 }
 
+/*
+ * Return true only when the item is an object of MultiSpeciesType or
+ * BindingSiteSpeciesType
+ */
+bool
+ListOfMultiSpeciesTypes::isValidTypeForList(SBase * item)
+{
+  return item->getTypeCode() == SBML_MULTI_SPECIES_TYPE ||
+      item->getTypeCode() == SBML_MULTI_BINDING_SITE_SPECIES_TYPE;
+}
+
+
 
   /** @endcond doxygenLibsbmlInternal */
 
@@ -1712,15 +1654,6 @@ MultiSpeciesType_getName(MultiSpeciesType_t * mst)
 }
 
 
-/*
- *
- */
-LIBSBML_EXTERN
-int
-MultiSpeciesType_getIsBindingSite(MultiSpeciesType_t * mst)
-{
-  return (mst != NULL) ? static_cast<int>(mst->getIsBindingSite()) : 0;
-}
 
 
 /*
@@ -1759,15 +1692,6 @@ MultiSpeciesType_isSetName(MultiSpeciesType_t * mst)
 }
 
 
-/*
- *
- */
-LIBSBML_EXTERN
-int
-MultiSpeciesType_isSetIsBindingSite(MultiSpeciesType_t * mst)
-{
-  return (mst != NULL) ? static_cast<int>(mst->isSetIsBindingSite()) : 0;
-}
 
 
 /*
@@ -1803,15 +1727,6 @@ MultiSpeciesType_setName(MultiSpeciesType_t * mst, const char * name)
 }
 
 
-/*
- *
- */
-LIBSBML_EXTERN
-int
-MultiSpeciesType_setIsBindingSite(MultiSpeciesType_t * mst, int isBindingSite)
-{
-  return (mst != NULL) ? mst->setIsBindingSite(isBindingSite) : LIBSBML_INVALID_OBJECT;
-}
 
 
 /*
@@ -1847,15 +1762,6 @@ MultiSpeciesType_unsetName(MultiSpeciesType_t * mst)
 }
 
 
-/*
- *
- */
-LIBSBML_EXTERN
-int
-MultiSpeciesType_unsetIsBindingSite(MultiSpeciesType_t * mst)
-{
-  return (mst != NULL) ? mst->unsetIsBindingSite() : LIBSBML_INVALID_OBJECT;
-}
 
 
 /*

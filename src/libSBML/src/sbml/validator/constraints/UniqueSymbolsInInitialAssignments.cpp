@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -91,6 +91,19 @@ UniqueSymbolsInInitialAssignments::doCheck (const Model& m)
   size = m.getNumInitialAssignments();
   for (n = 0; n < size; ++n) checkId( *m.getInitialAssignment(n) );
 }
+
+/*
+ * @return the fieldname to use logging constraint violations.  If not
+ * overridden, "id" is returned.
+ */
+const char*
+UniqueSymbolsInInitialAssignments::getFieldname ()
+{
+  return "symbol";
+}
+
+
+
 
 LIBSBML_CPP_NAMESPACE_END
 

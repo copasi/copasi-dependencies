@@ -42,19 +42,22 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 UncertMLNode::UncertMLNode ()
   : mElementName ("")
+  , mText ("")
+  , mAttributes()
+  , mChildren()
 {
-  mChildren = new List();
 }
 
 /*
  * Creates a new UncertMLNode from XMLNode object.
  */
 UncertMLNode::UncertMLNode (XMLNode* xml)
-  : mElementName ("")
-  //, mAttributes ( NULL )
+  : mElementName ("")  
+  , mText ("")
+  , mAttributes()
+  , mChildren()
 {
-  mChildren = new List();
-  
+ 
   this->parseXMLNode(xml);
 }
 
@@ -70,10 +73,9 @@ UncertMLNode::UncertMLNode (const UncertMLNode& orig)
   }
   else
   {
-    mElementName  = orig.mElementName;
+    mElementName = orig.mElementName;
+    mText        = orig.mText;
     mAttributes  = orig.mAttributes;
-
-    mChildren = new List();
 
     for (unsigned int c = 0; c < orig.getNumChildren(); ++c)
     {
@@ -95,13 +97,17 @@ UncertMLNode::operator=(const UncertMLNode& rhs)
   }
   else if (&rhs != this)
   {
-    mElementName  = rhs.mElementName;
+    mElementName = rhs.mElementName;
+    mText        = rhs.mText;
     mAttributes  = rhs.mAttributes;
     
-    unsigned int size = mChildren->getSize();
-    while (size--) delete static_cast<UncertMLNode*>( mChildren->remove(0) );
-    delete mChildren;
-    mChildren = new List();
+    int size = (int)mChildren.size();
+    for (int i = size -1; i >=0;--i)
+    {
+      delete mChildren[i];
+    }
+
+    mChildren.clear();
 
     for (unsigned int c = 0; c < rhs.getNumChildren(); ++c)
     {
@@ -127,7 +133,14 @@ UncertMLNode::clone () const
  * Destructor for UncertMLNode.
  */
 UncertMLNode::~UncertMLNode ()
-{
+{  
+  int size = (int)mChildren.size();
+  for (int i = size -1; i >=0;--i)
+  {
+    delete mChildren[i];
+  }
+
+  mChildren.clear();
 }
 
 
@@ -138,6 +151,16 @@ const std::string&
 UncertMLNode::getElementName() const
 {
   return mElementName;
+}
+
+
+/*
+ * Returns the value of the "text" element of this UncertMLNode.
+ */
+const std::string&
+UncertMLNode::getText() const
+{
+  return mText;
 }
 
 
@@ -158,6 +181,16 @@ bool
 UncertMLNode::isSetElementName() const
 {
   return (mElementName.empty() == false);
+}
+
+
+/*
+ * Returns true/false if text is set.
+ */
+bool
+UncertMLNode::isSetText() const
+{
+  return (mText.empty() == false);
 }
 
 
@@ -184,6 +217,24 @@ UncertMLNode::setElementName(const std::string& elementName)
   else
   {
     mElementName = elementName;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
+/*
+ * Sets text and returns value indicating success.
+ */
+int
+UncertMLNode::setText(const std::string& text)
+{
+  if (&(text) == NULL)
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+  else
+  {
+    mText = text;
     return LIBSBML_OPERATION_SUCCESS;
   }
 }
@@ -227,6 +278,25 @@ UncertMLNode::unsetElementName()
 
 
 /*
+ * Unsets text and returns value indicating success.
+ */
+int
+UncertMLNode::unsetText()
+{
+  mText.erase();
+
+  if (mText.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
+/*
  * Unsets attributes and returns value indicating success.
  */
 int
@@ -240,14 +310,15 @@ UncertMLNode::unsetAttributes()
 unsigned int
 UncertMLNode::getNumChildren() const
 {
-  return mChildren->getSize();
+  return (unsigned int)mChildren.size();
 }
 
 
 UncertMLNode*
 UncertMLNode::getChild (unsigned int index) const
 {
-  return static_cast<UncertMLNode*>( mChildren->get(index) );
+  if ( index >= mChildren.size()) return NULL;
+  return static_cast<UncertMLNode*>( mChildren[index]);
 }
 
 
@@ -261,7 +332,8 @@ UncertMLNode::addChild(UncertMLNode * child)
   else
   {
     unsigned int numBefore = getNumChildren();
-    mChildren->add(child);
+    
+    mChildren.push_back(child);
 
     if (getNumChildren() == numBefore + 1)
     {
@@ -303,33 +375,46 @@ UncertMLNode::parseXMLNode(const XMLNode* xml)
 
   bool success = true;
 
-  // set the element name
-  if (setElementName(xml->getName()) != LIBSBML_OPERATION_SUCCESS)
-  {
-    success = false;
-  }
+  std::string name = xml->getName();
 
-  // set any attributes from teh element
-  if (xml->getAttributesLength() > 0 && success != false)
+  if (name.empty() == false)
   {
-    if (setAttributes(xml->getAttributes()) != LIBSBML_OPERATION_SUCCESS)
+    // set the element name
+    if (setElementName(xml->getName()) != LIBSBML_OPERATION_SUCCESS)
     {
       success = false;
     }
-  }
 
-  // loop thru the children of the XMLNode
-  // parse each and add as a child
-  for (unsigned int i = 0; success != false && i < xml->getNumChildren(); i++)
-  {
-    UncertMLNode * child = new UncertMLNode();
-    success = child->parseXMLNode(&(xml->getChild(i)));
-    if (success == true)
+    // set any attributes from teh element
+    if (xml->getAttributesLength() > 0 && success != false)
     {
-      if (addChild(child) != LIBSBML_OPERATION_SUCCESS)
+      if (setAttributes(xml->getAttributes()) != LIBSBML_OPERATION_SUCCESS)
       {
         success = false;
       }
+    }
+
+    // loop thru the children of the XMLNode
+    // parse each and add as a child
+    for (unsigned int i = 0; success != false && i < xml->getNumChildren(); i++)
+    {
+      UncertMLNode * child = new UncertMLNode();
+      success = child->parseXMLNode(&(xml->getChild(i)));
+      if (success == true)
+      {
+        if (addChild(child) != LIBSBML_OPERATION_SUCCESS)
+        {
+          success = false;
+        }
+      }
+    }
+  }
+  else
+  {
+    // here we have a text element
+    if (setText(xml->getCharacters()) != LIBSBML_OPERATION_SUCCESS)
+    {
+      success = false;
     }
   }
 
@@ -352,7 +437,9 @@ UncertMLNode::constructXMLNode() const
  
   XMLNode * xml = new XMLNode(top_triple, blank_att, xmlns);
 
-  xml->addChild(*(reconstructXML()));
+  XMLNode * child = reconstructXML();
+  xml->addChild(*(child));
+  delete child;
 
   return xml;
 }
@@ -360,16 +447,26 @@ UncertMLNode::constructXMLNode() const
 XMLNode *
 UncertMLNode::reconstructXML() const
 {
-  XMLTriple triple = XMLTriple(getElementName(),"", "");
-  XMLAttributes att = XMLAttributes(getAttributes());
-
-  XMLNode * xml = new XMLNode(triple, att);
-
-  for (unsigned int n = 0; n < getNumChildren(); n++)
+  XMLNode * xml = NULL;
+  if (isSetElementName() == true)
   {
-    XMLNode * child = getChild(n)->reconstructXML();
-    xml->addChild(*(child));
+    XMLTriple triple = XMLTriple(getElementName(),"", "");
+    XMLAttributes att = XMLAttributes(getAttributes());
+
+    xml = new XMLNode(triple, att);
+
+    for (unsigned int n = 0; n < getNumChildren(); n++)
+    {
+      XMLNode * child = getChild(n)->reconstructXML();
+      xml->addChild(*(child));
+      delete child;
+    }
   }
+  else
+  {
+    xml = new XMLNode(getText());
+  }
+
   return xml;
 }
 
@@ -484,6 +581,7 @@ UncertMLNode::createDistributionNode(std::string name,
 
   if (numArgs != numIds)
   {
+    delete node;
     return NULL;
   }
 
@@ -500,6 +598,74 @@ UncertMLNode::createDistributionNode(std::string name,
     UncertMLNode * child = new UncertMLNode();
     child->setElementName(args.at(i));
 
+    child->addChild(varChild);
+
+    node->addChild(child);
+  }
+
+
+  return node;
+}
+
+
+
+UncertMLNode * 
+UncertMLNode::createDistributionNodeWithValues(std::string name, 
+                                               std::string arguments, 
+                                               std::string argumentValues,
+                                               std::string argumentElementNames)
+{
+  UncertMLNode *node = new UncertMLNode();
+  node->setElementName(name);
+
+  XMLAttributes attr = XMLAttributes();
+  /* really the url should be specific to the distribtuion
+  * but whilst the attribue is required in uncertML it does not require
+  * it to be an exact match
+  */
+  attr.add("definition", "http://www.uncertml.org/distributions");
+  node->setAttributes(attr);
+
+  /* create an idlist from the arguments 
+   * and check we have the same number of args and ids
+   */
+  IdList args = IdList(arguments);
+  IdList argIds = IdList(argumentValues);
+  IdList argElNames = IdList(argumentElementNames);
+
+  unsigned int numArgs = args.size();
+  unsigned int numIds = argIds.size();
+
+  if (numArgs != numIds || numArgs != argElNames.size())
+  {
+    delete node;
+    return NULL;
+  }
+
+
+
+  for (unsigned int i = 0; i < numArgs; i++)
+  {
+    UncertMLNode * varChild = new UncertMLNode();
+    std::string elname = argElNames.at(i);
+
+    if (elname == "varId") {
+      varChild->setElementName("var");
+
+      XMLAttributes attributes = XMLAttributes();
+      attributes.add("varId", argIds.at(i));
+      varChild->setAttributes(attributes);
+    }
+    else {
+      varChild->setElementName(elname);
+
+      UncertMLNode * valChild = new UncertMLNode();
+      valChild->setText(argIds.at(i));
+      varChild->addChild(valChild);
+
+    }
+    UncertMLNode * child = new UncertMLNode();
+    child->setElementName(args.at(i));
     child->addChild(varChild);
 
     node->addChild(child);

@@ -285,9 +285,9 @@ typedef SBMLExtensionNamespaces<GroupsExtension> GroupsPkgNamespaces;
 
 typedef enum
 {
-    SBML_GROUPS_MEMBER  = 200
-  , SBML_GROUPS_MEMBER_CONSTRAINT  = 201
-  , SBML_GROUPS_GROUP              = 202
+    SBML_GROUPS_MEMBER             = 500
+  , SBML_GROUPS_MEMBER_CONSTRAINT  = 501
+  , SBML_GROUPS_GROUP              = 502
 } SBMLGroupsTypeCode_t;
 
 

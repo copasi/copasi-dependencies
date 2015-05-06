@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -638,7 +638,7 @@ Output::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mId) == false)
     {
-      logError(InvalidIdSyntax);
+      logError(InvalidIdSyntax, sbmlLevel, sbmlVersion, "The id '" + mId + "' does not conform to the syntax.");
     }
   }
 
@@ -659,7 +659,7 @@ Output::readAttributes (const XMLAttributes& attributes,
     {
       logError(InvalidIdSyntax, getLevel(), getVersion(), 
         "The syntax of the attribute qualitativeSpecies='" + mQualitativeSpecies 
-        + "' does not conform.");
+        + "' does not conform to the syntax.");
     }
   }
   else
@@ -688,8 +688,13 @@ Output::readAttributes (const XMLAttributes& attributes,
        mTransitionEffect = OutputTransitionEffect_fromString( effect.c_str() );
        if (OutputTransitionEffect_isValidOutputTransitionEffect(mTransitionEffect) == 0)
        {
+          std::string msg = "The transitionEffect on the <output> ";
+          if (isSetId()) {
+            msg += "with id '" + getId() + "' ";
+          }
+          msg += "is '" + effect + "', which is not a valid option.";
           getErrorLog()->logPackageError("qual", QualOutputTransEffectMustBeOutput,
-                         getPackageVersion(), sbmlLevel, sbmlVersion);
+                         getPackageVersion(), sbmlLevel, sbmlVersion, msg);
        }
     }
   }
@@ -738,8 +743,14 @@ Output::readAttributes (const XMLAttributes& attributes,
   {
     if (mOutputLevel < 0)
     {
+      std::stringstream msg;
+      msg << "The outputLevel of the <output> ";
+      if (isSetId()) {
+        msg << "with id '" << getId() << "' ";
+      }
+      msg << "is '" << mOutputLevel << "', which is negative.";
       getErrorLog()->logPackageError("qual", QualOutputLevelMustBeNonNegative,
-                   getPackageVersion(), sbmlLevel, sbmlVersion);
+                   getPackageVersion(), sbmlLevel, sbmlVersion, msg.str());
     }
   }
 

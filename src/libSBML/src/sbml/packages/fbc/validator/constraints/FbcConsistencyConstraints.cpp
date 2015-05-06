@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  * 
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -158,9 +158,11 @@ START_CONSTRAINT (FbcFluxObjectReactionMustExist, FluxObjective, fo)
 
   bool fail = false;
 
-  msg = "<fluxObjective> '";
-  msg += fo.getId() ;
-  msg += "' refers to reaction with id '";
+  msg = "The <fluxObjective> ";
+  if (fo.isSetId()) {
+    msg += "with the id '" + fo.getId() + "' ";
+  }
+  msg += "refers to a reaction with id '";
   msg += fo.getReaction();
   msg += "' that does not exist within the <model>.";
 

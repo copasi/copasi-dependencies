@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -316,47 +316,47 @@ public:
    */
   virtual bool isInUse(SBMLDocument *doc) const;
 
-	/** @cond doxygenLibsbmlInternal */
+  /** @cond doxygenLibsbmlInternal */
 
-	/**
-	 * Return the entry in the error table at this index. 
-	 *
-	 * @param index an unsigned intgere representing the index of the error in the LayoutSBMLErrorTable
-	 *
-	 * @return packageErrorTableEntry object in the LayoutSBMLErrorTable corresponding to the index given.
-	 */
-	virtual packageErrorTableEntry getErrorTable(unsigned int index) const;
-
-
-	/** @endcond */
+  /**
+   * Return the entry in the error table at this index. 
+   *
+   * @param index an unsigned intgere representing the index of the error in the LayoutSBMLErrorTable
+   *
+   * @return packageErrorTableEntry object in the LayoutSBMLErrorTable corresponding to the index given.
+   */
+  virtual packageErrorTableEntry getErrorTable(unsigned int index) const;
 
 
-	/** @cond doxygenLibsbmlInternal */
-
-	/**
-	 * Return the index in the error table with the given errorId. 
-	 *
-	 * @param errorId an unsigned intgere representing the errorId of the error in the LayoutSBMLErrorTable
-	 *
-	 * @return unsigned integer representing the index in the LayoutSBMLErrorTable corresponding to the errorId given.
-	 */
-	virtual unsigned int getErrorTableIndex(unsigned int errorId) const;
+  /** @endcond */
 
 
-	/** @endcond */
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Return the index in the error table with the given errorId. 
+   *
+   * @param errorId an unsigned intgere representing the errorId of the error in the LayoutSBMLErrorTable
+   *
+   * @return unsigned integer representing the index in the LayoutSBMLErrorTable corresponding to the errorId given.
+   */
+  virtual unsigned int getErrorTableIndex(unsigned int errorId) const;
 
 
-	/** @cond doxygenLibsbmlInternal */
-
-	/**
-	 * Return the offset for the errorId range for the layout L3 package. 
-	 *
-	 * @return unsigned intege representing the  offset for errors LayoutSBMLErrorTable.
-	 */
-	virtual unsigned int getErrorIdOffset() const;
+  /** @endcond */
 
 
-	/** @endcond */
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Return the offset for the errorId range for the layout L3 package. 
+   *
+   * @return unsigned intege representing the  offset for errors LayoutSBMLErrorTable.
+   */
+  virtual unsigned int getErrorIdOffset() const;
+
+
+  /** @endcond */
 
 };
 

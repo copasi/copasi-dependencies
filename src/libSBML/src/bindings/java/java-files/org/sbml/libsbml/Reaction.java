@@ -776,6 +776,24 @@ public class Reaction extends SBase {
 
   
 /**
+   * Unsets the value of the 'reversible' attribute of this {@link Reaction}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * </ul>
+   */ public
+ int unsetReversible() {
+    return libsbmlJNI.Reaction_unsetReversible(swigCPtr, this);
+  }
+
+  
+/**
    * Adds a given {@link SpeciesReference} object as a reactant in this {@link Reaction}.
    <p>
    * The {@link SpeciesReference} instance in <code>sr</code> is copied.

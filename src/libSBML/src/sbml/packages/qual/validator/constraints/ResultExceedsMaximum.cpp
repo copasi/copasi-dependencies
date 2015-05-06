@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -138,10 +138,10 @@ ResultExceedsMaximum::logExceedsMaximum (const Transition& tr,
                           const SBase& object)
 {
   msg =
-    "The Transition with id '";
+    "The <transition> with id '";
   msg += tr.getId();
   msg += "' includes a resultLevel";
-  msg += " that may cause the QualitativeSpecies '";
+  msg += " that may cause the <qualitativeSpecies> '";
   msg += object.getId();
   msg += "' to exceed its maximumLevel.";
   

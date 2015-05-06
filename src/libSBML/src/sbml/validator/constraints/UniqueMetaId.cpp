@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -181,13 +181,13 @@ UniqueMetaId::getMessage (const string& id, const SBase& object)
   //
   // Example message: 
   //
-  // The Compartment id 'cell' conflicts with the previously defined
-  // Parameter id 'cell' at line 10.
+  // The <compartment> id 'cell' conflicts with the previously defined
+  // <parameter> id 'cell' at line 10.
   //
 
-  msg << "  The " << getTypename(object) << " " << getFieldname()
-      << " '" << id << "' conflicts with the previously defined "
-      << getTypename(previous) << ' ' << getFieldname()
+  msg << "  The <" << object.getElementName() << "> " << getFieldname()
+      << " '" << id << "' conflicts with the previously defined <"
+      << previous.getElementName() << "> " << getFieldname()
       << " '" << id << "'";
 
   if (previous.getLine() != 0)

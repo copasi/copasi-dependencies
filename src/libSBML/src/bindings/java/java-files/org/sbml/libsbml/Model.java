@@ -17,7 +17,7 @@ package org.sbml.libsbml;
  * within the model, the list must not be empty; that is, it must have
  * length one or more.  The following are the components and lists
  * permitted in different Levels and Versions of SBML in
- * version 5.11.1
+ * version 5.11.4
  * of libSBML:
  * <ul>
  * <li> In SBML Level 1, the components are: {@link UnitDefinition}, {@link Compartment},
@@ -126,7 +126,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <h2>Consistency and adherence to SBML specifications</h2>
  <p>
  * To make it easier for applications to do whatever they need,
- * libSBML version 5.11.1
+ * libSBML version 5.11.4
  * is relatively lax when it comes to enforcing correctness and
  * completeness of models <em>during</em> model construction and editing.
  * Essentially, libSBML <em>will</em> <em>not</em> in most cases check automatically
@@ -2788,7 +2788,7 @@ public class Model extends SBase {
 
   
 /**
-   * Get the number of Specie objects in this {@link Model}.
+   * Get the number of {@link Species} objects in this {@link Model}.
    <p>
    * @return the number of {@link Species} in this {@link Model}.
    */ public
@@ -3050,6 +3050,12 @@ public class Model extends SBase {
 /** * @internal */ public
  void addDefinitionsForDefaultUnits() {
     libsbmlJNI.Model_addDefinitionsForDefaultUnits(swigCPtr, this);
+  }
+
+  
+/** * @internal */ public
+ void dealWithDefaultValues() {
+    libsbmlJNI.Model_dealWithDefaultValues(swigCPtr, this);
   }
 
   

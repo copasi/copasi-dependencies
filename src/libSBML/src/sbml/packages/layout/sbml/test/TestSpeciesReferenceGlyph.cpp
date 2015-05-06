@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -79,7 +79,7 @@ START_TEST (test_SpeciesReferenceGlyph_new )
   fail_unless( !SRG->isSetSpeciesReferenceId() );
   fail_unless( !SRG->isSetSpeciesGlyphId() );
   fail_unless( !SRG->isSetRole() );
-  fail_unless( SRG->getRole() == SPECIES_ROLE_UNDEFINED );
+  fail_unless(SRG->getRole() == SPECIES_ROLE_INVALID);
   fail_unless( SRG->getCurve() != NULL);
   fail_unless( !SRG->isSetCurve());
 }
@@ -165,12 +165,14 @@ START_TEST (test_SpeciesReferenceGlyph_setRole_by_string)
   SRG->setRole("inhibitor");
   fail_unless(SRG->getRole()==SPECIES_ROLE_INHIBITOR);
   SRG->setRole("test");
-  fail_unless(SRG->getRole()==SPECIES_ROLE_UNDEFINED);
+  fail_unless(SRG->getRole() == SPECIES_ROLE_INVALID);
 }
 END_TEST
 
 START_TEST ( test_SpeciesReferenceGlyph_getRoleString )
 {
+  SRG->setRole(SPECIES_ROLE_INVALID);
+  fail_unless(SRG->getRoleString() == "invalid");
   SRG->setRole(SPECIES_ROLE_UNDEFINED);
   fail_unless(SRG->getRoleString() == "undefined");
   SRG->setRole(SPECIES_ROLE_SUBSTRATE);

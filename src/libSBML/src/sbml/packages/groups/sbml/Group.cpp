@@ -277,7 +277,7 @@ Group::setKind(const GroupKind_t kind)
 /*
  * @return the kind of this SBML object.
  */
-const GroupKind_t
+GroupKind_t
 Group::getKind () const
 {
   return mKind;

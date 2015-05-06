@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -562,17 +562,17 @@ LayoutModelPlugin::enablePackageInternal(const std::string& pkgURI,
 bool
 LayoutModelPlugin::accept(SBMLVisitor& v) const
 {
-	const Model * model = static_cast<const Model * >(this->getParentSBMLObject());
+  const Model * model = static_cast<const Model * >(this->getParentSBMLObject());
 
-	v.visit(*model);
-	v.leave(*model);
+  v.visit(*model);
+  v.leave(*model);
 
-	for(int i = 0; i < getNumLayouts(); i++)
-	{
-		getLayout(i)->accept(v);
-	}
+  for(int i = 0; i < getNumLayouts(); i++)
+  {
+    getLayout(i)->accept(v);
+  }
 
-	return true;
+  return true;
 }
 /** @endcond */
 

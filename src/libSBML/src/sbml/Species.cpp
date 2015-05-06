@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -278,6 +278,9 @@ Species::initDefaults ()
   setConstant              (false);
   setHasOnlySubstanceUnits (false);
 
+  mExplicitlySetBoundaryCondition = false;
+  mExplicitlySetConstant          = false;
+  mExplicitlySetHasOnlySubsUnits  = false;
   if (getLevel() > 2)
   {
     setSubstanceUnits("mole");
@@ -937,6 +940,31 @@ Species::unsetName ()
 }
 
 
+int
+Species::unsetConstant ()
+{
+  if ( getLevel() < 2 )
+  {
+    mConstant = false;
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+  else if (getLevel() == 2)
+  {
+    // reset default
+    mConstant = false;
+    mIsSetConstant = true;
+    mExplicitlySetConstant = false;
+    return LIBSBML_UNEXPECTED_ATTRIBUTE; 
+  }
+  else
+  {
+    mIsSetConstant = false;
+    mExplicitlySetConstant = false;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
 /*
  * Unsets the speciesType of this Species.
  */
@@ -1085,6 +1113,67 @@ Species::unsetConversionFactor ()
   mConversionFactor.erase();
 
   if (mConversionFactor.empty()) 
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
+/*
+ * Unsets the hasOnlySubstanceUnits field of this Species to value.
+ */
+int
+Species::unsetHasOnlySubstanceUnits ()
+{
+  if (getLevel() < 2)
+  {
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+  else if (getLevel() == 2)
+  {
+    // reset defaults
+    mHasOnlySubstanceUnits = false;
+    mIsSetHasOnlySubstanceUnits = true;
+    mExplicitlySetHasOnlySubsUnits = false;
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+  else
+  {
+    mIsSetHasOnlySubstanceUnits = false;
+    mExplicitlySetHasOnlySubsUnits = false;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
+int
+Species::unsetBoundaryCondition ()
+{
+  if (getLevel() < 3)
+  {
+    // reset default
+    mBoundaryCondition = false;
+    mIsSetBoundaryCondition = true;
+    mExplicitlySetBoundaryCondition = false;
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+
+  mIsSetBoundaryCondition = false;
+  mExplicitlySetBoundaryCondition = false;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+int
+Species::unsetCompartment ()
+{
+  mCompartment.erase();
+
+  if (mCompartment.empty()) 
   {
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -1360,7 +1449,8 @@ Species::readL1Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("name", level, version, "<species>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
   //
   // compartment: SName  { use="required" }  (L1v1, L2v1)
@@ -1383,7 +1473,7 @@ Species::readL1Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mSubstanceUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The units attribute '" + mSubstanceUnits + "' does not conform to the syntax.");
   }
 
   //
@@ -1420,7 +1510,8 @@ Species::readL2Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("id", level, version, "<species>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
   //
   // compartment: SId    { use="required" }  (L2v1->)
@@ -1442,7 +1533,7 @@ Species::readL2Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mSubstanceUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The substanceUnits attribute '" + mSubstanceUnits + "' does not conform to the syntax.");
   }
 
   //
@@ -1489,7 +1580,7 @@ Species::readL2Attributes (const XMLAttributes& attributes)
     }
     if (!SyntaxChecker::isValidInternalUnitSId(mSpatialSizeUnits))
     {
-      logError(InvalidUnitIdSyntax);
+      logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The spatialSizeUnits attribute '" + mSpatialSizeUnits + "' does not conform to the syntax.");
     }
   }
 
@@ -1534,8 +1625,13 @@ Species::readL3Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("id", level, version, "<species>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
+  string spplusid = "<species>";
+  if (!mId.empty()) {
+    spplusid += " with the id '" + mId + "'";
+  }
   //
   // compartment: SId    { use="required" }  (L2v1->)
   //
@@ -1544,8 +1640,7 @@ Species::readL3Attributes (const XMLAttributes& attributes)
   if (!assigned)
   {
     logError(MissingSpeciesCompartment, level, version,
-      "The <species> with id '" + mId + 
-      "' is missing the 'compartment' attribute.");
+      "The " + spplusid + " is missing the 'compartment' attribute.");
   }
 
   //
@@ -1564,7 +1659,9 @@ Species::readL3Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mSubstanceUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, level, version, "The " + spplusid + 
+      " has a substanceUnits with a value of '" + mSubstanceUnits 
+      + "' which does not conform .");
   }
 
   //
@@ -1576,7 +1673,8 @@ Species::readL3Attributes (const XMLAttributes& attributes)
   if (!mIsSetBoundaryCondition)
   {
     logError(AllowedAttributesOnSpecies, level, version, 
-             "The required attribute 'boundaryCondition' is missing.");
+             "The required attribute 'boundaryCondition' is missing from the "
+             + spplusid + ".");
   }
 
   //
@@ -1599,7 +1697,8 @@ Species::readL3Attributes (const XMLAttributes& attributes)
   if (!mIsSetHasOnlySubstanceUnits)
   {
     logError(AllowedAttributesOnSpecies, level, version, 
-             "The required attribute 'hasOnlySubstanceUnits' is missing.");
+             "The required attribute 'hasOnlySubstanceUnits' is missing from the "
+             + spplusid + ".");
   }
 
   //
@@ -1609,7 +1708,8 @@ Species::readL3Attributes (const XMLAttributes& attributes)
   if (!mIsSetConstant)
   {
     logError(AllowedAttributesOnSpecies, level, version, 
-             "The required attribute 'constant' is missing.");
+             "The required attribute 'constant' is missing from the "
+             + spplusid + ".");
   }
 
   //
@@ -1623,8 +1723,8 @@ Species::readL3Attributes (const XMLAttributes& attributes)
   if (!SyntaxChecker::isValidInternalSId(mConversionFactor))
   {
     logError(InvalidIdSyntax, getLevel(), getVersion(), 
-      "The syntax of the attribute conversionFactor='" + mConversionFactor 
-      + "' does not conform.");
+      "The " + spplusid + " has a conversionFactor with a value of '" + mConversionFactor 
+      + "' which does not conform .");
   }
 }
 /** @endcond */
@@ -2494,6 +2594,17 @@ Species_unsetName (Species_t *s)
 }
 
 
+
+LIBSBML_EXTERN
+int
+Species_unsetConstant (Species_t *c)
+{
+  if (c != NULL)
+    return c->unsetConstant();
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
 LIBSBML_EXTERN
 int
 Species_unsetSpeciesType (Species_t *s)
@@ -2577,6 +2688,39 @@ Species_unsetConversionFactor (Species_t *s)
 {
   if (s != NULL)
     return s->unsetConversionFactor();
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+Species_unsetCompartment (Species_t *s)
+{
+  if (s != NULL)
+    return s->unsetCompartment();
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+Species_unsetHasOnlySubstanceUnits (Species_t *s)
+{
+  if (s != NULL)
+    return s->unsetHasOnlySubstanceUnits();
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+Species_unsetBoundaryCondition (Species_t *s)
+{
+  if (s != NULL)
+    return s->unsetBoundaryCondition();
   else
     return LIBSBML_INVALID_OBJECT;
 }

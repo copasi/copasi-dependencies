@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -374,6 +374,16 @@ public:
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
   int setSymbol (const std::string& sid);
+
+
+  /**
+   * Unsets the "symbol" attribute value of this InitialAssignment.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+   */
+  int unsetSymbol ();
 
 
   /**
@@ -1028,6 +1038,22 @@ InitialAssignment_isSetMath (const InitialAssignment_t *ia);
 LIBSBML_EXTERN
 int
 InitialAssignment_setSymbol (InitialAssignment_t *ia, const char *sid);
+
+
+/**
+ * Unsets the "symbol" attribute value of this InitialAssignment_t
+ *
+ * @param ia the InitialAssignment_t structure
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ *
+ * @memberof InitialAssignment_t
+ */
+LIBSBML_EXTERN
+int
+InitialAssignment_unsetSymbol (InitialAssignment_t *ia);
 
 
 /**

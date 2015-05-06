@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -116,7 +116,7 @@ START_TEST (test_XMLErrorLog_toString)
   XMLError_t* error = XMLError_create();
   XMLErrorLog_add( log, error );
 
-  const char* output = "line 1: (00000 [Fatal]) Unrecognized error encountered internally.\n\n";
+  const char* output = "line 1: (00000 [Fatal]) Unrecognized error encountered internally.\n";
   test = XMLErrorLog_toString(log);
   fail_unless( strcmp(test, output ) != 0 );
   free(test);

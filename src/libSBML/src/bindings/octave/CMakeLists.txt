@@ -7,7 +7,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2014 jointly by the following organizations:
+# Copyright (C) 2013-2015 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -87,13 +87,13 @@ macro(build_octave_file fileName)
 			-I${CMAKE_CURRENT_BINARY_DIR}/../../
 			-I${CMAKE_CURRENT_SOURCE_DIR}/../../
 			-I${LIBSBML_ROOT_SOURCE_DIR}/include
-			${CMAKE_CURRENT_SOURCE_DIR}/../matlab/${fileName}.c
+			${CMAKE_CURRENT_SOURCE_DIR}/../matlab/${fileName}.cpp
 			-l${LIBSBML_LIBRARY}
 			${OCTAVE_EXTRA_LIBS}
 			${OCTAVE_EXTRA_PATHS}
 			-L${sbml_path}
 	
-		MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/../matlab/${fileName}.c
+		MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/../matlab/${fileName}.cpp
 		COMMENT "compile and link octave mex file: ${fileName}") 
 	
 	add_custom_target(binding_octave_${fileName} ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${fileName}.mex ${LIBSBML_LIBRARY})

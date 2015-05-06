@@ -354,4 +354,10 @@ public class LocalParameter extends Parameter {
     return libsbmlJNI.LocalParameter_setConstant(swigCPtr, this, flag);
   }
 
+  
+/** * @internal */ public
+ int unsetConstant() {
+    return libsbmlJNI.LocalParameter_unsetConstant(swigCPtr, this);
+  }
+
 }

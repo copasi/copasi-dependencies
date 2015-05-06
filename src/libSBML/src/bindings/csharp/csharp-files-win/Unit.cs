@@ -910,6 +910,31 @@ public class Unit : SBase {
 
   
 /**
+   * Predicate to test whether the 'offset' attribute of this Unit 
+   * is set.
+   * 
+   * @return @c true if the 'offset' attribute of this Unit is set, 
+   * @c false otherwise.
+   *
+   *
+ * @warning <span class='warning'>The 'offset' attribute is only available in
+ * SBML Level&nbsp;2 Version&nbsp;1.  This attribute is not present in SBML
+ * Level&nbsp;2 Version&nbsp;2 or above.  When producing SBML models using
+ * these later specifications, modelers and software tools need to account
+ * for units with offsets explicitly.  The %SBML specification document
+ * offers a number of suggestions for how to achieve this.  LibSBML methods
+ * such as this one related to 'offset' are retained for compatibility with
+ * earlier versions of SBML Level&nbsp;2, but their use is strongly
+ * discouraged.</span>
+ *
+   */ public
+ bool isSetOffset() {
+    bool ret = libsbmlPINVOKE.Unit_isSetOffset(swigCPtr);
+    return ret;
+  }
+
+  
+/**
    * Sets the 'kind' attribute value of this Unit.
    *
    * @if clike
@@ -1041,6 +1066,102 @@ public class Unit : SBase {
    */ public
  int setOffset(double value) {
     int ret = libsbmlPINVOKE.Unit_setOffset(swigCPtr, value);
+    return ret;
+  }
+
+  
+/**
+   * Unsets the 'kind' attribute value of this Unit.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   */ public
+ int unsetKind() {
+    int ret = libsbmlPINVOKE.Unit_unsetKind(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Unsets the 'exponent' attribute value of this Unit.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   */ public
+ int unsetExponent() {
+    int ret = libsbmlPINVOKE.Unit_unsetExponent(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Unsets the 'scale' attribute value of this Unit.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   */ public
+ int unsetScale() {
+    int ret = libsbmlPINVOKE.Unit_unsetScale(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Unsets the 'multipler' attribute value of this Unit.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   */ public
+ int unsetMultiplier() {
+    int ret = libsbmlPINVOKE.Unit_unsetMultiplier(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Unsets the 'offset' attribute value of this Unit.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   *
+   *
+ * @warning <span class='warning'>The 'offset' attribute is only available in
+ * SBML Level&nbsp;2 Version&nbsp;1.  This attribute is not present in SBML
+ * Level&nbsp;2 Version&nbsp;2 or above.  When producing SBML models using
+ * these later specifications, modelers and software tools need to account
+ * for units with offsets explicitly.  The %SBML specification document
+ * offers a number of suggestions for how to achieve this.  LibSBML methods
+ * such as this one related to 'offset' are retained for compatibility with
+ * earlier versions of SBML Level&nbsp;2, but their use is strongly
+ * discouraged.</span>
+ *
+   */ public
+ int unsetOffset() {
+    int ret = libsbmlPINVOKE.Unit_unsetOffset(swigCPtr);
     return ret;
   }
 

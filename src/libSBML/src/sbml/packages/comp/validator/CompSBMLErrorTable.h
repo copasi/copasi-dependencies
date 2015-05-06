@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -83,7 +83,7 @@ static const packageErrorTableEntry compErrorTable[] =
     "the values of the attributes id and comp:id on every instance of the "
     "following classes of objects must be unique across the set of all id "
     "and comp:id attribute values of all such objects in a model: the "
-    "model itself, plus all contained <functionDefinition>, <compartment>,"
+    "model itself, plus all contained <functionDefinition>, <compartment>, "
     "<species>, <reaction>, <speciesReference>, <modifierSpeciesReference>, "
     "<event>, and <parameter> objects, plus the <submodel> and <deletion> "
     "objects defined by the Hierarchical Model Composition package, plus "

@@ -350,6 +350,22 @@ public class Event : SBase {
 
   
 /**
+   * Initializes the fields of this Event object to 'typical' default
+   * values.
+   *
+   * The SBML Event component has slightly different aspects and
+   * default attribute values in different SBML Levels and Versions.
+   * This method sets the values to certain common defaults, based
+   * mostly on what they are in SBML Level&nbsp;2.  Specifically:
+   *
+   * @li Sets attribute 'spatialDimensions' to @c 3
+   */ public
+ void initDefaults() {
+    libsbmlPINVOKE.Event_initDefaults(swigCPtr);
+  }
+
+  
+/**
    * Returns the first child element found that has the given @p id in the
    * model-wide SId namespace, or @c null if no such object is found.
    *
@@ -883,6 +899,64 @@ public class Event : SBase {
    */ public new
  int unsetName() {
     int ret = libsbmlPINVOKE.Event_unsetName(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Unsets the value of the 'useValuesFromTriggerTime' attribute of this Event.
+   *
+   *
+ * 
+ * The optional Delay on Event means there are two times to consider when
+ * computing the results of an event: the time at which the event is
+ * <em>triggered</em>, and the time at which assignments are
+ * <em>executed</em>.  It is also possible to distinguish between the
+ * time at which the EventAssignment's expression is calculated, and the
+ * time at which the assignment is made: the expression could be
+ * evaluated at the same time the assignments are performed, i.e., when
+ * the event is <em>executed</em>, but it could also be defined to be
+ * evaluated at the time the event is <em>triggered</em>.
+ * 
+ * In SBML Level&nbsp;2 versions prior to Version&nbsp;4, the semantics
+ * of Event time delays were defined such that the expressions in the
+ * event's assignments were always evaluated at the time the event was
+ * <em>triggered</em>.  This definition made it difficult to define an
+ * event whose assignment formulas were meant to be evaluated at the time
+ * the event was <em>executed</em> (i.e., after the time period defined
+ * by the value of the Delay element).  In SBML Level&nbsp;2
+ * Version&nbsp;4, the attribute 'useValuesFromTriggerTime' on Event
+ * allows a model to indicate the time at which the event's assignments
+ * are intended to be evaluated.  In SBML Level&nbsp;2, the attribute has
+ * a default value of @c true, which corresponds to the interpretation of
+ * event assignments prior to Version&nbsp;4: the values of the
+ * assignment formulas are computed at the moment the event is triggered,
+ * not after the delay.  If 'useValuesFromTriggerTime'=@c false, it means
+ * that the formulas in the event's assignments are to be computed after
+ * the delay, at the time the event is executed.  In SBML Level&nbsp;3,
+ * the attribute is mandatory, not optional, and all events must specify
+ * a value for it.
+ *
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   *
+   *
+ * @warning <span class='warning'>The attribute 'useValuesFromTriggerTime'
+ * was introduced in SBML Level&nbsp;2 Version&nbsp;4.  It is not valid in
+ * models defined using SBML Level&nbsp;2 versions prior to Version&nbsp;4.
+ * If a Level&nbsp;2 Version&nbsp;1&ndash;3 model sets the attribute, the
+ * consistency-checking method SBMLDocument::checkConsistency() will report
+ * an error.</span>
+ *
+   */ public
+ int unsetUseValuesFromTriggerTime() {
+    int ret = libsbmlPINVOKE.Event_unsetUseValuesFromTriggerTime(swigCPtr);
     return ret;
   }
 

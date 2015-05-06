@@ -127,7 +127,7 @@ public:
    *
    * @return the value of the "bindingStatus" attribute of this OutwardBindingSite as a FIX ME.
    */
-  virtual const BindingStatus_t getBindingStatus() const;
+  virtual BindingStatus_t getBindingStatus() const;
 
 
   /**

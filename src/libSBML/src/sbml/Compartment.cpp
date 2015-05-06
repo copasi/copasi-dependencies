@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -241,6 +241,10 @@ Compartment::initDefaults ()
   unsigned int dims = 3;
   setSpatialDimensions(dims);
   setConstant(1);
+
+  // not explicilty set
+  mExplicitlySetSpatialDimensions = false;
+  mExplicitlySetConstant = false;
 
   if (getLevel() > 2)
   {
@@ -775,6 +779,31 @@ Compartment::unsetName ()
 }
 
 
+int
+Compartment::unsetConstant ()
+{
+  if ( getLevel() == 1 )
+  {
+    mConstant = false;
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+  else if (getLevel() == 2)
+  {
+    // reset default
+    mConstant = true;
+    mIsSetConstant = true;
+    mExplicitlySetConstant = false;
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+  else
+  {
+    mIsSetConstant = false;
+    mExplicitlySetConstant = false;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
 /*
  * Unsets the compartmentType of this Compartment.
  */
@@ -1121,7 +1150,8 @@ Compartment::readL1Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("name", level, version, "<compartment>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
   //
   // volume  { use="optional" default="1" }  (L1v1, L1v2)
@@ -1138,7 +1168,7 @@ Compartment::readL1Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The units attribute '" + mUnits + "' does not conform to the syntax.");
   }
 
   //
@@ -1169,7 +1199,8 @@ Compartment::readL2Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("id", level, version, "<compartment>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
   //
   // size    { use="optional" }              (L2v1 ->)
@@ -1186,7 +1217,7 @@ Compartment::readL2Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The units attribute '" + mUnits + "' does not conform to the syntax.");
   }
 
   //
@@ -1260,8 +1291,13 @@ Compartment::readL3Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("id", level, version, "<compartment>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
+  string elplusid = "<compartment>";
+  if (!mId.empty()) {
+    elplusid += " with the id '" + mId + "'";
+  }
   //
   // size    { use="optional" }              (L2v1 ->)
   //
@@ -1277,7 +1313,9 @@ Compartment::readL3Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, level, version, "The " + elplusid + 
+      " has a substanceUnits with a value of '" + mUnits 
+      + "' which does not conform .");
   }
 
 
@@ -1306,7 +1344,8 @@ Compartment::readL3Attributes (const XMLAttributes& attributes)
   if (!mIsSetConstant)
   {
     logError(AllowedAttributesOnCompartment, level, version, 
-      "The required attribute 'constant' is missing.");
+      "The required attribute 'constant' is missing from the "
+      + elplusid + ".");
   }
 }
 /** @endcond */
@@ -1989,6 +2028,17 @@ Compartment_unsetCompartmentType (Compartment_t *c)
 {
   if (c != NULL)
     return c->unsetCompartmentType();
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+Compartment_unsetConstant (Compartment_t *c)
+{
+  if (c != NULL)
+    return c->unsetConstant();
   else
     return LIBSBML_INVALID_OBJECT;
 }

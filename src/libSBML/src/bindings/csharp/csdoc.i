@@ -5064,7 +5064,7 @@ newModel.addSpecies(s1);
 ";
 
 
-%csmethodmodifiers SBase::setSBMLNamespacesAndOwn(SBMLNamespaces * sbmlns) "
+%csmethodmodifiers SBase::setSBMLNamespacesAndOwn(SBMLNamespaces * disownedNs) "
 /** */ /* libsbml-internal */ public
 ";
 
@@ -5253,6 +5253,46 @@ newModel.addSpecies(s1);
    * @if clike
    * @see ASTNode::setUserData(void *userData)
    * @endif
+   */ public
+";
+
+
+%csmethodmodifiers SBase::isSetUserData() const "
+/**
+   * Predicate returning true or false depending on whether
+   * the user data of this element has been set.
+   *
+   *
+ * 
+ * The user data associated with an SBML object can be used by an application
+ * developer to attach custom information to that object in the model.  In case
+ * of a deep copy, this data will passed as-is.  The data attribute will never
+ * be interpreted by libSBML.
+   *
+   * @return boolean, @c true if this object\'s user data has been set,
+   * @c false otherwise.
+   */ public
+";
+
+
+%csmethodmodifiers SBase::unsetUserData "
+/**
+   * Unsets the user data of this element.
+   *
+   *
+ * 
+ * The user data associated with an SBML object can be used by an application
+ * developer to attach custom information to that object in the model.  In case
+ * of a deep copy, this data will passed as-is.  The data attribute will never
+ * be interpreted by libSBML.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -5713,22 +5753,22 @@ newModel.addSpecies(s1);
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
-   * @see appendAndOwn(SBase item)
+   * @see appendAndOwn(SBase disownedItem)
    * @see appendFrom(ListOf list)
    */ public
 ";
 
 
-%csmethodmodifiers ListOf::appendAndOwn(SBase* item) "
+%csmethodmodifiers ListOf::appendAndOwn(SBase* disownedItem) "
 /**
    * Adds an item to the end of this ListOf\'s list of items.
    *
-   * This method does not clone the @p item handed to it; instead, it assumes
+   * This method does not clone the @p disownedItem handed to it; instead, it assumes
    * ownership of it.  This means that when the ListOf is destroyed, the item
    * will be destroyed along with it.  For a method with an alternative
    * ownership behavior, see the ListOf::append(SBase item) method.
    *
-   * @param item the item to be added to the list.
+   * @param disownedItem the item to be added to the list.
    *
    *
  * @return integer value indicating success/failure of the
@@ -5762,7 +5802,7 @@ newModel.addSpecies(s1);
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see append(SBase item)
-   * @see appendAndOwn(SBase item)
+   * @see appendAndOwn(SBase disownedItem)
    */ public new
 ";
 
@@ -5791,16 +5831,16 @@ newModel.addSpecies(s1);
 ";
 
 
-%csmethodmodifiers ListOf::insertAndOwn(int location, SBase* item) "
+%csmethodmodifiers ListOf::insertAndOwn(int location, SBase* disownedItem) "
 /**
    * Inserts an item at a given position in this ListOf\'s list of items.
    *
-   * This variant of the method makes a clone of the @p item handed to it.
+   * This variant of the method does not make a clone of the @p disownedItem handed to it.
    * This means that when the ListOf is destroyed, the original @p item
    * <em>will</em> be destroyed.
    *
    * @param location the location where to insert the item
-   * @param item the item to be inserted to the list
+   * @param disownedItem the item to be inserted to the list
    *
    *
  * @return integer value indicating success/failure of the
@@ -9272,7 +9312,7 @@ sp.setId(\'MySpecies\');
 
 %csmethodmodifiers Model::getNumSpecies() const "
 /**
-   * Get the number of Specie objects in this Model.
+   * Get the number of Species objects in this Model.
    *
    * @return the number of Species in this Model.
    */ public
@@ -9494,6 +9534,11 @@ sp.setId(\'MySpecies\');
 
 
 %csmethodmodifiers Model::addDefinitionsForDefaultUnits "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers Model::dealWithDefaultValues "
 /** */ /* libsbml-internal */ public
 ";
 
@@ -13767,6 +13812,29 @@ sp.setId(\'MySpecies\');
 ";
 
 
+%csmethodmodifiers Unit::isSetOffset() const "
+/**
+   * Predicate to test whether the \'offset\' attribute of this Unit 
+   * is set.
+   * 
+   * @return @c true if the \'offset\' attribute of this Unit is set, 
+   * @c false otherwise.
+   *
+   *
+ * @warning <span class=\'warning\'>The \'offset\' attribute is only available in
+ * SBML Level&nbsp;2 Version&nbsp;1.  This attribute is not present in SBML
+ * Level&nbsp;2 Version&nbsp;2 or above.  When producing SBML models using
+ * these later specifications, modelers and software tools need to account
+ * for units with offsets explicitly.  The %SBML specification document
+ * offers a number of suggestions for how to achieve this.  LibSBML methods
+ * such as this one related to \'offset\' are retained for compatibility with
+ * earlier versions of SBML Level&nbsp;2, but their use is strongly
+ * discouraged.</span>
+ *
+   */ public
+";
+
+
 %csmethodmodifiers Unit::setKind(UnitKind_t kind) "
 /**
    * Sets the \'kind\' attribute value of this Unit.
@@ -13867,6 +13935,92 @@ sp.setId(\'MySpecies\');
    *
    * @param value the float-point value to which the attribute \'offset\'
    * should set
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   *
+   *
+ * @warning <span class=\'warning\'>The \'offset\' attribute is only available in
+ * SBML Level&nbsp;2 Version&nbsp;1.  This attribute is not present in SBML
+ * Level&nbsp;2 Version&nbsp;2 or above.  When producing SBML models using
+ * these later specifications, modelers and software tools need to account
+ * for units with offsets explicitly.  The %SBML specification document
+ * offers a number of suggestions for how to achieve this.  LibSBML methods
+ * such as this one related to \'offset\' are retained for compatibility with
+ * earlier versions of SBML Level&nbsp;2, but their use is strongly
+ * discouraged.</span>
+ *
+   */ public
+";
+
+
+%csmethodmodifiers Unit::unsetKind "
+/**
+   * Unsets the \'kind\' attribute value of this Unit.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   */ public
+";
+
+
+%csmethodmodifiers Unit::unsetExponent "
+/**
+   * Unsets the \'exponent\' attribute value of this Unit.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   */ public
+";
+
+
+%csmethodmodifiers Unit::unsetScale "
+/**
+   * Unsets the \'scale\' attribute value of this Unit.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   */ public
+";
+
+
+%csmethodmodifiers Unit::unsetMultiplier "
+/**
+   * Unsets the \'multipler\' attribute value of this Unit.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   */ public
+";
+
+
+%csmethodmodifiers Unit::unsetOffset "
+/**
+   * Unsets the \'offset\' attribute value of this Unit.
    *
    *
  * @return integer value indicating success/failure of the
@@ -18489,6 +18643,25 @@ sp.setId(\'MySpecies\');
 ";
 
 
+%csmethodmodifiers Compartment::unsetConstant "
+/**
+   * Unsets the value of the \'constant\' attribute of this Compartment object.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   *
+   * @see isSetConstant()
+   * @see setConstant(@if java String@endif)
+   * @see getConstant()
+   */ public
+";
+
+
 %csmethodmodifiers Compartment::unsetSize "
 /**
    * Unsets the value of the \'size\' attribute of this Compartment object.
@@ -20278,6 +20451,25 @@ sp.setId(\'MySpecies\');
 ";
 
 
+%csmethodmodifiers Species::unsetConstant "
+/**
+   * Unsets the value of the \'constant\' attribute of this Species object.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   *
+   * @see isSetConstant()
+   * @see setConstant(@if java String@endif)
+   * @see getConstant()
+   */ public
+";
+
+
 %csmethodmodifiers Species::unsetSpeciesType "
 /**
    * Unsets the \'speciesType\' attribute value of this Species object.
@@ -20431,6 +20623,51 @@ sp.setId(\'MySpecies\');
    * @note The \'conversionFactor\' attribute was introduced in SBML
    * Level&nbsp;3.  It does not exist on Species in SBML Levels&nbsp;1
    * and&nbsp;2.
+   */ public
+";
+
+
+%csmethodmodifiers Species::unsetCompartment "
+/**
+   * Unsets the \'compartment\' attribute value of this Species object.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public
+";
+
+
+%csmethodmodifiers Species::unsetBoundaryCondition "
+/**
+   * Unsets the \'boundaryCondition\' attribute value of this Species object.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public
+";
+
+
+%csmethodmodifiers Species::unsetHasOnlySubstanceUnits "
+/**
+   * Unsets the \'hasOnlySubstanceUnits\' attribute value of this Species object.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -21566,6 +21803,25 @@ sp.setId(\'MySpecies\');
 ";
 
 
+%csmethodmodifiers Parameter::unsetConstant "
+/**
+   * Unsets the value of the \'constant\' attribute of this Parameter object.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   *
+   * @see isSetConstant()
+   * @see setConstant(@if java String@endif)
+   * @see getConstant()
+   */ public
+";
+
+
 %csmethodmodifiers Parameter::unsetValue "
 /**
    * Unsets the \'value\' attribute of this Parameter instance.
@@ -22493,6 +22749,11 @@ sp.setId(\'MySpecies\');
 ";
 
 
+%csmethodmodifiers LocalParameter::unsetConstant "
+/** */ /* libsbml-internal */ public new
+";
+
+
 %csmethodmodifiers LocalParameter::addExpectedAttributes(ExpectedAttributes& attributes) "
 /** */ /* libsbml-internal */ public new
 ";
@@ -23101,6 +23362,21 @@ sp.setId(\'MySpecies\');
    *
    * @param sid the identifier of a Species, Compartment or Parameter
    * object defined elsewhere in this Model.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   */ public
+";
+
+
+%csmethodmodifiers InitialAssignment::unsetSymbol "
+/**
+   * Unsets the \'symbol\' attribute value of this InitialAssignment.
    *
    *
  * @return integer value indicating success/failure of the
@@ -24206,6 +24482,26 @@ sp.setId(\'MySpecies\');
    *
    * @note The attribute \'units\' exists on SBML Level&nbsp;1 ParameterRule
    * objects only.  It is not present in SBML Levels&nbsp;2 and&nbsp;3.
+   */ public
+";
+
+
+%csmethodmodifiers Rule::unsetVariable "
+/**
+   * Unsets the value of the \'variable\' attribute of this Rule object.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   *
+   * @see setVariable(string sid)
+   * @see isSetVariable()
+   * @see getVariable()
    */ public
 ";
 
@@ -26371,6 +26667,29 @@ sp.setId(\'MySpecies\');
 ";
 
 
+%csmethodmodifiers Constraint::setMessage(const std::string& message, bool addXHTMLMarkup = false) "
+/**
+   * Sets the message of this Constraint.
+   *
+   * @param message an XML string that is to be used as the content of the
+   * \'message\' subelement of this object
+   *
+   * @param addXHTMLMarkup a boolean indicating whether to wrap the contents
+   * of the @p message argument with XHTML paragraph (<code>&lt;p&gt;</code>)
+   * tags.  This is appropriate when the string in @p message does not already
+   * containg the appropriate XHTML markup.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   */ public
+";
+
+
 %csmethodmodifiers Constraint::setMath(const ASTNode* math) "
 /**
    * Sets the mathematical expression of this Constraint to a copy of the
@@ -27521,6 +27840,22 @@ sp.setId(\'MySpecies\');
    * @note The \'compartment\' attribute is available in SBML
    * Level&nbsp;3 Version&nbsp;1 Core, but is not present on Reaction in
    * lower Levels of SBML.
+   */ public
+";
+
+
+%csmethodmodifiers Reaction::unsetReversible "
+/**
+   * Unsets the value of the \'reversible\' attribute of this Reaction.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public
 ";
 
@@ -29867,6 +30202,21 @@ sp.setId(\'MySpecies\');
 ";
 
 
+%csmethodmodifiers SimpleSpeciesReference::unsetSpecies "
+/**
+   * Unsets the value of the \'species\' attribute of this SimpleSpeciesReference.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public new
+";
+
+
 %csmethodmodifiers SimpleSpeciesReference::isModifier() const "
 /**
    * Predicate returning @c true if this
@@ -30706,6 +31056,21 @@ sp.setId(\'MySpecies\');
    * isSetStoichiometry() will still return @c true).  In SBML
    * Level&nbsp;3, the \'stoichiometry\' attribute of this object will be set
    * to @c NaN and isSetStoichiometry() will return @c false.
+   */ public
+";
+
+
+%csmethodmodifiers SpeciesReference::unsetConstant "
+/**
+   * Unsets the \'constant\' attribute of this SpeciesReference.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
    */ public
 ";
 
@@ -31705,6 +32070,21 @@ sp.setId(\'MySpecies\');
 ";
 
 
+%csmethodmodifiers Event::initDefaults "
+/**
+   * Initializes the fields of this Event object to \'typical\' default
+   * values.
+   *
+   * The SBML Event component has slightly different aspects and
+   * default attribute values in different SBML Levels and Versions.
+   * This method sets the values to certain common defaults, based
+   * mostly on what they are in SBML Level&nbsp;2.  Specifically:
+   *
+   * @li Sets attribute \'spatialDimensions\' to @c 3
+   */ public
+";
+
+
 %csmethodmodifiers Event::getElementBySId(const std::string& id) "
 /**
    * Returns the first child element found that has the given @p id in the
@@ -32224,6 +32604,62 @@ sp.setId(\'MySpecies\');
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    */ public new
+";
+
+
+%csmethodmodifiers Event::unsetUseValuesFromTriggerTime "
+/**
+   * Unsets the value of the \'useValuesFromTriggerTime\' attribute of this Event.
+   *
+   *
+ * 
+ * The optional Delay on Event means there are two times to consider when
+ * computing the results of an event: the time at which the event is
+ * <em>triggered</em>, and the time at which assignments are
+ * <em>executed</em>.  It is also possible to distinguish between the
+ * time at which the EventAssignment\'s expression is calculated, and the
+ * time at which the assignment is made: the expression could be
+ * evaluated at the same time the assignments are performed, i.e., when
+ * the event is <em>executed</em>, but it could also be defined to be
+ * evaluated at the time the event is <em>triggered</em>.
+ * 
+ * In SBML Level&nbsp;2 versions prior to Version&nbsp;4, the semantics
+ * of Event time delays were defined such that the expressions in the
+ * event\'s assignments were always evaluated at the time the event was
+ * <em>triggered</em>.  This definition made it difficult to define an
+ * event whose assignment formulas were meant to be evaluated at the time
+ * the event was <em>executed</em> (i.e., after the time period defined
+ * by the value of the Delay element).  In SBML Level&nbsp;2
+ * Version&nbsp;4, the attribute \'useValuesFromTriggerTime\' on Event
+ * allows a model to indicate the time at which the event\'s assignments
+ * are intended to be evaluated.  In SBML Level&nbsp;2, the attribute has
+ * a default value of @c true, which corresponds to the interpretation of
+ * event assignments prior to Version&nbsp;4: the values of the
+ * assignment formulas are computed at the moment the event is triggered,
+ * not after the delay.  If \'useValuesFromTriggerTime\'=@c false, it means
+ * that the formulas in the event\'s assignments are to be computed after
+ * the delay, at the time the event is executed.  In SBML Level&nbsp;3,
+ * the attribute is mandatory, not optional, and all events must specify
+ * a value for it.
+ *
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   *
+   *
+ * @warning <span class=\'warning\'>The attribute \'useValuesFromTriggerTime\'
+ * was introduced in SBML Level&nbsp;2 Version&nbsp;4.  It is not valid in
+ * models defined using SBML Level&nbsp;2 versions prior to Version&nbsp;4.
+ * If a Level&nbsp;2 Version&nbsp;1&ndash;3 model sets the attribute, the
+ * consistency-checking method SBMLDocument::checkConsistency() will report
+ * an error.</span>
+ *
+   */ public
 ";
 
 
@@ -33214,6 +33650,21 @@ sp.setId(\'MySpecies\');
 ";
 
 
+%csmethodmodifiers EventAssignment::unsetVariable "
+/**
+   * Unsets the attribute \'variable\' of this EventAssignment.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   */ public
+";
+
+
 %csmethodmodifiers EventAssignment::setMath(const ASTNode* math) "
 /**
    * Sets the \'math\' subelement of this EventAssignment to a copy of the
@@ -34111,6 +34562,48 @@ sp.setId(\'MySpecies\');
 %csmethodmodifiers Trigger::setPersistent(bool persistent) "
 /**
    * (SBML Level&nbsp;3 only) Sets the \'persistent\' attribute of this Trigger instance.
+   *
+   * @param persistent a boolean representing the persistent value to be set.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * 
+   * @note The attribute \'persistent\' is available in SBML Level&nbsp;3
+   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   */ public
+";
+
+
+%csmethodmodifiers Trigger::unsetInitialValue "
+/**
+   * (SBML Level&nbsp;3 only) Unsets the \'initialValue\' attribute of this 
+   * Trigger instance.
+   *
+   * @param initialValue a boolean representing the initialValue to be set.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * 
+   * @note The attribute \'initialValue\' is available in SBML Level&nbsp;3
+   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   */ public
+";
+
+
+%csmethodmodifiers Trigger::unsetPersistent "
+/**
+   * (SBML Level&nbsp;3 only) Unsets the \'persistent\' attribute of this 
+   * Trigger instance.
    *
    * @param persistent a boolean representing the persistent value to be set.
    *
@@ -41015,6 +41508,11 @@ if (config != None) {
 
 
 %csmethodmodifiers SBMLLevelVersionConverter::performConversion(bool strict, bool strictUnits, bool duplicateAnn) "
+/** */ /* libsbml-internal */ public
+";
+
+
+%csmethodmodifiers SBMLLevelVersionConverter::validateConvertedDocument "
 /** */ /* libsbml-internal */ public
 ";
 
@@ -49400,7 +49898,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 ";
 
 
-%csmethodmodifiers SBMLErrorLog::contains(const unsigned int errorId) "
+%csmethodmodifiers SBMLErrorLog::contains "
 /**
    * Returns true if SBMLErrorLog contains an errorId
    *
@@ -61370,6 +61868,41 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 ";
 
 
+%csmethodmodifiers SBaseExtensionPoint::SBaseExtensionPoint(const std::string& pkgName, int typeCode, const std::string& elementName, bool elementOnly = false) "
+/**
+  * Constructor for SBaseExtensionPoint.
+  *
+  * The use of SBaseExtensionPoint is relatively straightforward.  The
+  * class needs to be used for each extended SBML object implemented
+  * using SBMLDocumentPlugin or SBasePlugin.  Doing so requires knowing
+  * just two things:
+  *
+  * @li The short-form name of the @em parent package being extended.
+  * The parent package is often simply core SBML, identified in libSBML
+  * by the nickname <code>\'core\'</code>, but a SBML Level&nbsp;3
+  * package could conceivably extend another Level&nbsp;3 package and
+  * the mechanism supports this.
+  *
+  * @li The libSBML type code assigned to the object being extended.
+  * For example, if an extension of Model is implemented, the relevant
+  * type code is SBML_MODEL, found in #SBMLTypeCode_t.
+  *
+  * @param pkgName the short-form name of the parent package where
+  * that this package extension is extending.
+  *
+  * @param typeCode the type code of the object being extended.
+  * 
+  * @param elementName element name for the target element, in case 
+  * multiple elements match the same type code (as will be the case
+  * for ListOf classes)
+  *
+  * @param elementOnly flag to be used during the registration 
+  * of the package, when set then the plugin is only applied to 
+  * elements whose elementName match.
+  */ public
+";
+
+
 %csmethodmodifiers SBaseExtensionPoint::SBaseExtensionPoint(const SBaseExtensionPoint& rhs) "
 /**
    * Copy constructor.
@@ -61401,6 +61934,20 @@ success = sbmlObject.setAnnotation(annot)           # Set object\'s annotation.
 /**
    * Returns the libSBML type code of this extension point.
    */ public new
+";
+
+
+%csmethodmodifiers SBaseExtensionPoint::getElementName() const "
+/**
+   * the target element name
+   */ public
+";
+
+
+%csmethodmodifiers SBaseExtensionPoint::isElementOnly() const "
+/**
+   * 
+   */ public
 ";
 
 
@@ -61955,6 +62502,16 @@ ListOfGroups mGroups;
 ";
 
 
+%csmethodmodifiers SBasePlugin::isValidTypeForList(SBase* item) const "
+/** */ public new
+";
+
+
+%csmethodmodifiers SBasePlugin::accept(SBMLVisitor& v) const "
+/** */ /* libsbml-internal */ public new
+";
+
+
 %csmethodmodifiers SBasePlugin::SBasePlugin(const std::string &uri, const std::string &prefix, SBMLNamespaces *sbmlns) "
 /** */ /* libsbml-internal */ public
 ";
@@ -62414,6 +62971,11 @@ ListOfGroups mGroups;
 
 
 %csmethodmodifiers SBMLDocumentPlugin::checkConsistency "
+/** */ /* libsbml-internal */ public new
+";
+
+
+%csmethodmodifiers SBMLDocumentPlugin::accept(SBMLVisitor& v) const "
 /** */ /* libsbml-internal */ public new
 ";
 
@@ -64510,22 +65072,22 @@ if (doc->getLevel() == 2)
 
 
 %csmethodmodifiers ASTBase::getPlugin(const std::string& package) "
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBase::getPlugin(const std::string& package) const "
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBase::getPlugin(unsigned int n) "
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
 ";
 
 
 %csmethodmodifiers ASTBase::getPlugin "
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
 ";
 
 
@@ -64624,6 +65186,11 @@ if (doc->getLevel() == 2)
 ";
 
 
+%csmethodmodifiers ASTBase::getValue() const "
+/** */ /* libsbml-internal */ public new
+";
+
+
 %csmethodmodifiers ASTBase::resetPackageName "
 /** */ /* libsbml-internal */ public
 ";
@@ -64690,11 +65257,6 @@ if (doc->getLevel() == 2)
 
 
 %csmethodmodifiers ASTBase::getNumChildren() const "
-/** */ /* libsbml-internal */ public new
-";
-
-
-%csmethodmodifiers ASTBase::getValue() const "
 /** */ /* libsbml-internal */ public new
 ";
 
@@ -64997,13 +65559,13 @@ if (doc->getLevel() == 2)
 ";
 
 
-%csmethodmodifiers ASTNode::addChild(ASTNode* child) "
+%csmethodmodifiers ASTNode::addChild(ASTNode* disownedChild) "
 /**
    * Adds the given node as a child of this ASTNode.
    *
    * Child nodes are added in-order, from left to right.
    *
-   * @param child the ASTNode instance to add
+   * @param disownedChild the ASTNode instance to add
    *
    *
  * @return integer value indicating success/failure of the
@@ -65025,22 +65587,22 @@ if (doc->getLevel() == 2)
  *
  *
    *
-   * @see prependChild(ASTNode child)
-   * @see replaceChild(unsigned int n, ASTNode child)
-   * @see insertChild(unsigned int n, ASTNode child)
+   * @see prependChild(ASTNode disownedChild)
+   * @see replaceChild(unsigned int n, ASTNode disownedChild)
+   * @see insertChild(unsigned int n, ASTNode disownedChild)
    * @see removeChild(unsigned int n)
    * @see isWellFormedASTNode()
    */ public
 ";
 
 
-%csmethodmodifiers ASTNode::prependChild(ASTNode* child) "
+%csmethodmodifiers ASTNode::prependChild(ASTNode* disownedChild) "
 /**
    * Adds the given node as a child of this ASTNode.
    *
    * This method adds child nodes from right to left.
    *
-   * @param child the ASTNode instance to add
+   * @param disownedChild the ASTNode instance to add
    *
    *
  * @return integer value indicating success/failure of the
@@ -65062,9 +65624,9 @@ if (doc->getLevel() == 2)
  *
  *
    *
-   * @see addChild(ASTNode child)
-   * @see replaceChild(unsigned int n, ASTNode child)
-   * @see insertChild(unsigned int n, ASTNode child)
+   * @see addChild(ASTNode disownedChild)
+   * @see replaceChild(unsigned int n, ASTNode disownedChild)
+   * @see insertChild(unsigned int n, ASTNode disownedChild)
    * @see removeChild(unsigned int n)
    */ public
 ";
@@ -65096,20 +65658,20 @@ if (doc->getLevel() == 2)
  *
  *
    *
-   * @see addChild(ASTNode child)
-   * @see prependChild(ASTNode child)
-   * @see replaceChild(unsigned int n, ASTNode child)
-   * @see insertChild(unsigned int n, ASTNode child)
+   * @see addChild(ASTNode disownedChild)
+   * @see prependChild(ASTNode disownedChild)
+   * @see replaceChild(unsigned int n, ASTNode disownedChild)
+   * @see insertChild(unsigned int n, ASTNode disownedChild)
    */ public
 ";
 
 
-%csmethodmodifiers ASTNode::replaceChild(unsigned int n, ASTNode *newChild, bool delreplaced=false) "
+%csmethodmodifiers ASTNode::replaceChild(unsigned int n, ASTNode *disownedChild, bool delreplaced=false) "
 /**
    * Replaces the nth child of this ASTNode with the given ASTNode.
    *
    * @param n unsigned int the index of the child to replace
-   * @param newChild ASTNode to replace the nth child
+   * @param disownedChild ASTNode to replace the nth child
    * @param delreplaced boolean indicating whether to delete the replaced child.
    *
    *
@@ -65133,21 +65695,21 @@ if (doc->getLevel() == 2)
  *
  *
    *
-   * @see addChild(ASTNode child)
-   * @see prependChild(ASTNode child)
-   * @see insertChild(unsigned int n, ASTNode child)
+   * @see addChild(ASTNode disownedChild)
+   * @see prependChild(ASTNode disownedChild)
+   * @see insertChild(unsigned int n, ASTNode disownedChild)
    * @see removeChild(unsigned int n)
    */ public
 ";
 
 
-%csmethodmodifiers ASTNode::insertChild(unsigned int n, ASTNode *newChild) "
+%csmethodmodifiers ASTNode::insertChild(unsigned int n, ASTNode *disownedChild) "
 /**
    * Inserts the given ASTNode node at a given point in the current ASTNode\'s
    * list of children.
    *
    * @param n unsigned int the index of the ASTNode being added
-   * @param newChild ASTNode to insert as the nth child
+   * @param disownedChild ASTNode to insert as the nth child
    *
    *
  * @return integer value indicating success/failure of the
@@ -65170,9 +65732,9 @@ if (doc->getLevel() == 2)
  *
  *
    *
-   * @see addChild(ASTNode child)
-   * @see prependChild(ASTNode child)
-   * @see replaceChild(unsigned int n, ASTNode child)
+   * @see addChild(ASTNode disownedChild)
+   * @see prependChild(ASTNode disownedChild)
+   * @see replaceChild(unsigned int n, ASTNode disownedChild)
    * @see removeChild(unsigned int n)
    */ public
 ";
@@ -65250,7 +65812,7 @@ getChild( getNumChildren() - 1 );
 ";
 
 
-%csmethodmodifiers ASTNode::addSemanticsAnnotation(XMLNode* sAnnotation) "
+%csmethodmodifiers ASTNode::addSemanticsAnnotation(XMLNode* disownedAnnotation) "
 /**
    * Adds the given XMLNode as a MathML <code>&lt;semantics&gt;</code>
    * element to this ASTNode.
@@ -65269,7 +65831,7 @@ getChild( getNumChildren() - 1 );
  *
  *
    *
-   * @param sAnnotation the annotation to add.
+   * @param disownedAnnotation the annotation to add.
    *
    *
  * @return integer value indicating success/failure of the
@@ -65631,6 +66193,29 @@ int (*ASTNodePredicate) (ASTNode_t *node);
    * It will return @c 0 if the node type is another type, but since @c 0 may
    * be a valid value, it is important to be sure that the node type is the
    * correct type in order to correctly interpret the returned value.
+   */ public
+";
+
+
+%csmethodmodifiers ASTNode::getValue() const "
+/**
+   * Returns the numerical value of this ASTNode.
+   *
+   * @return the numerical value of this ASTNode, or @c NaN if this
+   * is not a type of node that has a numerical value.
+   *
+   * @note This function will return a numerical value (as a double) for 
+   * any ASTNode_t that represents a number, a constant such as 
+   * @link libsbml#AST_CONSTANT_PI AST_CONSTANT_PI@endlink, 
+   * @link libsbml#AST_CONSTANT_E AST_CONSTANT_E@endlink, or 
+   * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink, or 
+   * @c 1 for nodes of type 
+   * @link libsbml#AST_CONSTANT_TRUE AST_CONSTANT_TRUE@endlink and @c 0 for nodes of type
+   * @link libsbml#AST_CONSTANT_FALSE AST_CONSTANT_FALSE@endlink. It does not evaluate
+   * the node in any way so, for example, it will not return the value of 
+   * a named ASTNode_t or attempt to evaluate a function. 
+   * This includes a node representing @c time i.e. nodes
+   * of type @link libsbml#AST_NAME_TIME AST_NAME_TIME@endlink.
    */ public
 ";
 
@@ -66882,6 +67467,26 @@ setValue(value, 0);
 
 
 %csmethodmodifiers ASTNode::getPackageName() const "
+/** */ /* libsbml-internal */ public new
+";
+
+
+%csmethodmodifiers ASTNode::getPlugin(const std::string& package) "
+/** */ /* libsbml-internal */ public new
+";
+
+
+%csmethodmodifiers ASTNode::getPlugin(const std::string& package) const "
+/** */ /* libsbml-internal */ public new
+";
+
+
+%csmethodmodifiers ASTNode::getPlugin(unsigned int n) "
+/** */ /* libsbml-internal */ public new
+";
+
+
+%csmethodmodifiers ASTNode::getPlugin "
 /** */ /* libsbml-internal */ public new
 ";
 

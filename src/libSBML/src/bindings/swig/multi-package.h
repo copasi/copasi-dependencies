@@ -4,7 +4,6 @@
 #include <sbml/packages/multi/extension/MultiModelPlugin.h>
 #include <sbml/packages/multi/extension/MultiCompartmentPlugin.h>
 #include <sbml/packages/multi/extension/MultiSpeciesPlugin.h>
-#include <sbml/packages/multi/extension/MultiReactionPlugin.h>
 #include <sbml/packages/multi/extension/MultiSimpleSpeciesReferencePlugin.h>
 #include <sbml/packages/multi/extension/MultiSpeciesReferencePlugin.h>
 #include <sbml/packages/multi/common/MultiExtensionTypes.h>
@@ -21,6 +20,8 @@
 #include <sbml/packages/multi/sbml/SpeciesFeature.h>
 #include <sbml/packages/multi/sbml/SpeciesTypeComponentMapInProduct.h>
 #include <sbml/packages/multi/sbml/MultiSpeciesType.h>
+#include <sbml/packages/multi/sbml/BindingSiteSpeciesType.h>
+#include <sbml/packages/multi/sbml/IntraSpeciesReaction.h>
 
 #endif // USE_MULTI 
 

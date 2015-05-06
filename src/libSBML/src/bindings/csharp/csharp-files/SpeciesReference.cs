@@ -739,6 +739,23 @@ public class SpeciesReference : SimpleSpeciesReference {
 
   
 /**
+   * Unsets the 'constant' attribute of this SpeciesReference.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   */ public
+ int unsetConstant() {
+    int ret = libsbmlPINVOKE.SpeciesReference_unsetConstant(swigCPtr);
+    return ret;
+  }
+
+  
+/**
    * Creates a new, empty StoichiometryMath object, adds it to this
    * SpeciesReference, and returns it.
    *

@@ -2869,6 +2869,24 @@ C<opydetails> doc_what_is_user_data
 @endif@~
 
 
+=item SBase::isSetUserData
+
+Predicate returning true or false depending on whether
+the user data of this element has been set.
+C<opydetails> doc_what_is_user_data
+@return boolean, C<true> if this object's user data has been set,
+C<false> otherwise.
+
+
+=item SBase::unsetUserData
+
+Unsets the user data of this element.
+C<opydetails> doc_what_is_user_data
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+
+
 =item SBase::getURI
 
 Gets the namespace URI to which this element belongs to.
@@ -3187,18 +3205,18 @@ ListOf::appendAndOwn(@if java SBase@endif) method.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-@see appendAndOwn(SBase  item)
+@see appendAndOwn(SBase  disownedItem)
 @see appendFrom(const ListOf  list)
 
 
 =item ListOf::appendAndOwn
 
 Adds an item to the end of this ListOf's list of items.
-This method does not clone the C<item> handed to it; instead, it assumes
+This method does not clone the C<disownedItem> handed to it; instead, it assumes
 ownership of it.  This means that when the ListOf is destroyed, the item
 will be destroyed along with it.  For a method with an alternative
 ownership behavior, see the ListOf::append(SBase  item) method.
-@param item the item to be added to the list.
+@param disownedItem the item to be added to the list.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -3216,7 +3234,7 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 @see append(const SBase  item)
-@see appendAndOwn(SBase  item)
+@see appendAndOwn(SBase  disownedItem)
 
 
 =item ListOf::insert
@@ -3236,11 +3254,11 @@ C<opydetails> doc_returns_success_code
 =item ListOf::insertAndOwn
 
 Inserts an item at a given position in this ListOf's list of items.
-This variant of the method makes a clone of the C<item> handed to it.
+This variant of the method does not make a clone of the C<disownedItem> handed to it.
 This means that when the ListOf is destroyed, the original C<item>
 <em>will</em> be destroyed.
 @param location the location where to insert the item
-@param item the item to be inserted to the list
+@param disownedItem the item to be inserted to the list
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
@@ -5384,7 +5402,7 @@ Get the number of Compartment objects in this Model.
 
 =item Model::getNumSpecies
 
-Get the number of Specie objects in this Model.
+Get the number of Species objects in this Model.
 @return the number of Species in this Model.
 
 
@@ -5515,6 +5533,11 @@ C<opydoc> doc_renameunitsidref_common
 
 
 =item Model::addDefinitionsForDefaultUnits
+
+@internal
+
+
+=item Model::dealWithDefaultValues
 
 @internal
 
@@ -8524,6 +8547,15 @@ is set.
 C<false> otherwise.
 
 
+=item Unit::isSetOffset
+
+Predicate to test whether the "offset" attribute of this Unit 
+is set.
+@return C<true> if the "offset" attribute of this Unit is set, 
+C<false> otherwise.
+C<opydetails> doc_warning_unit_offset_only_l2v1
+
+
 =item Unit::setKind
 
 Sets the "kind" attribute value of this Unit.
@@ -8584,6 +8616,46 @@ C<opydetails> doc_returns_success_code
 Sets the "offset" attribute value of this Unit.
 @param value the float-point value to which the attribute "offset"
 should set
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+C<opydetails> doc_warning_unit_offset_only_l2v1
+
+
+=item Unit::unsetKind
+
+Unsets the "kind" attribute value of this Unit.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+
+
+=item Unit::unsetExponent
+
+Unsets the "exponent" attribute value of this Unit.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+
+
+=item Unit::unsetScale
+
+Unsets the "scale" attribute value of this Unit.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+
+
+=item Unit::unsetMultiplier
+
+Unsets the "multipler" attribute value of this Unit.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+
+
+=item Unit::unsetOffset
+
+Unsets the "offset" attribute value of this Unit.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -11332,6 +11404,17 @@ Level&nbsp;2 Versions&nbsp;2&ndash;4.
 @see getCompartmentType()
 
 
+=item Compartment::unsetConstant
+
+Unsets the value of the "constant" attribute of this Compartment object.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@see isSetConstant()
+@see setConstant(@if java String@endif)
+@see getConstant()
+
+
 =item Compartment::unsetSize
 
 Unsets the value of the "size" attribute of this Compartment object.
@@ -12392,6 +12475,17 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
+=item Species::unsetConstant
+
+Unsets the value of the "constant" attribute of this Species object.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@see isSetConstant()
+@see setConstant(@if java String@endif)
+@see getConstant()
+
+
 =item Species::unsetSpeciesType
 
 Unsets the "speciesType" attribute value of this Species object.
@@ -12466,6 +12560,30 @@ C<opydetails> doc_returns_success_code
 @note The "conversionFactor" attribute was introduced in SBML
 Level&nbsp;3.  It does not exist on Species in SBML Levels&nbsp;1
 and&nbsp;2.
+
+
+=item Species::unsetCompartment
+
+Unsets the "compartment" attribute value of this Species object.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+
+
+=item Species::unsetBoundaryCondition
+
+Unsets the "boundaryCondition" attribute value of this Species object.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+
+
+=item Species::unsetHasOnlySubstanceUnits
+
+Unsets the "hasOnlySubstanceUnits" attribute value of this Species object.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Species::getDerivedUnitDefinition
@@ -13106,6 +13224,17 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
+=item Parameter::unsetConstant
+
+Unsets the value of the "constant" attribute of this Parameter object.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@see isSetConstant()
+@see setConstant(@if java String@endif)
+@see getConstant()
+
+
 =item Parameter::unsetValue
 
 Unsets the "value" attribute of this Parameter instance.
@@ -13657,6 +13786,11 @@ otherwise.
 @internal
 
 
+=item LocalParameter::unsetConstant
+
+@internal
+
+
 =item LocalParameter::addExpectedAttributes
 
 @internal
@@ -14043,6 +14177,14 @@ C<false> otherwise.
 Sets the "symbol" attribute value of this InitialAssignment.
 @param sid the identifier of a Species, Compartment or Parameter
 object defined elsewhere in this Model.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+
+
+=item InitialAssignment::unsetSymbol
+
+Unsets the "symbol" attribute value of this InitialAssignment.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -14560,6 +14702,18 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 @note The attribute "units" exists on SBML Level&nbsp;1 ParameterRule
 objects only.  It is not present in SBML Levels&nbsp;2 and&nbsp;3.
+
+
+=item Rule::unsetVariable
+
+Unsets the value of the "variable" attribute of this Rule object.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@see setVariable(const std::string& sid)
+@see isSetVariable()
+@see getVariable()
 
 
 =item Rule::unsetUnits
@@ -15593,6 +15747,20 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
+=item Constraint::setMessage
+
+Sets the message of this Constraint.
+@param message an XML string that is to be used as the content of the
+"message" subelement of this object
+@param addXHTMLMarkup a boolean indicating whether to wrap the contents
+of the C<message> argument with XHTML paragraph (C<&lt;p&gt;>)
+tags.  This is appropriate when the string in C<message> does not already
+containg the appropriate XHTML markup.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+
+
 =item Constraint::setMath
 
 Sets the mathematical expression of this Constraint to a copy of the
@@ -16190,6 +16358,15 @@ C<opydetails> doc_returns_success_code
 @note The "compartment" attribute is available in SBML
 Level&nbsp;3 Version&nbsp;1 Core, but is not present on Reaction in
 lower Levels of SBML.
+
+
+=item Reaction::unsetReversible
+
+Unsets the value of the "reversible" attribute of this Reaction.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
 =item Reaction::addReactant
@@ -17598,6 +17775,14 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 
 
+=item SimpleSpeciesReference::unsetSpecies
+
+Unsets the value of the "species" attribute of this SimpleSpeciesReference.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+
+
 =item SimpleSpeciesReference::isModifier
 
 Predicate returning C<true> if this
@@ -18200,6 +18385,14 @@ will be just reset to the default value (C<1>.0) (and
 isSetStoichiometry() will still return C<true>).  In SBML
 Level&nbsp;3, the "stoichiometry" attribute of this object will be set
 to C<NaN> and isSetStoichiometry() will return C<false>.
+
+
+=item SpeciesReference::unsetConstant
+
+Unsets the "constant" attribute of this SpeciesReference.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 
 
 =item SpeciesReference::createStoichiometryMath
@@ -18823,6 +19016,18 @@ Creates and returns a deep copy of this Event object.
 @return the (deep) copy of this Event object.
 
 
+=item Event::initDefaults
+
+Initializes the fields of this Event object to "typical" default
+values.
+
+The SBML Event component has slightly different aspects and
+default attribute values in different SBML Levels and Versions.
+This method sets the values to certain common defaults, based
+mostly on what they are in SBML Level&nbsp;2.  Specifically:
+@li Sets attribute "spatialDimensions" to C<3>
+
+
 =item Event::getElementBySId
 
 Returns the first child element found that has the given C<id> in the
@@ -19073,6 +19278,16 @@ Unsets the value of the "name" attribute of this Event.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+
+
+=item Event::unsetUseValuesFromTriggerTime
+
+Unsets the value of the "useValuesFromTriggerTime" attribute of this Event.
+C<opydetails> doc_event_using_useValuesFromTriggerTime
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+C<opydetails> doc_warning_useValuesFromTriggerTime
 
 
 =item Event::unsetDelay
@@ -19683,6 +19898,14 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
 
+=item EventAssignment::unsetVariable
+
+Unsets the attribute "variable" of this EventAssignment.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+
+
 =item EventAssignment::setMath
 
 Sets the "math" subelement of this EventAssignment to a copy of the
@@ -20218,6 +20441,30 @@ Version&nbsp;1 Core, but is not present in lower Levels of SBML.
 =item Trigger::setPersistent
 
 (SBML Level&nbsp;3 only) Sets the "persistent" attribute of this Trigger instance.
+@param persistent a boolean representing the persistent value to be set.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@note The attribute "persistent" is available in SBML Level&nbsp;3
+Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+
+
+=item Trigger::unsetInitialValue
+
+(SBML Level&nbsp;3 only) Unsets the "initialValue" attribute of this 
+Trigger instance.
+@param initialValue a boolean representing the initialValue to be set.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@note The attribute "initialValue" is available in SBML Level&nbsp;3
+Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+
+
+=item Trigger::unsetPersistent
+
+(SBML Level&nbsp;3 only) Unsets the "persistent" attribute of this 
+Trigger instance.
 @param persistent a boolean representing the persistent value to be set.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
@@ -23834,6 +24081,11 @@ otherwise.
 
 
 =item SBMLLevelVersionConverter::performConversion
+
+@internal
+
+
+=item SBMLLevelVersionConverter::validateConvertedDocument
 
 @internal
 
@@ -31614,6 +31866,32 @@ that this package extension is extending.
 
 =item SBaseExtensionPoint::SBaseExtensionPoint
 
+Constructor for SBaseExtensionPoint.
+The use of SBaseExtensionPoint is relatively straightforward.  The
+class needs to be used for each extended SBML object implemented
+using SBMLDocumentPlugin or SBasePlugin.  Doing so requires knowing
+just two things:
+@li The short-form name of the I<parent> package being extended.
+The parent package is often simply core SBML, identified in libSBML
+by the nickname C<"core">, but a SBML Level&nbsp;3
+package could conceivably extend another Level&nbsp;3 package and
+the mechanism supports this.
+@li The libSBML type code assigned to the object being extended.
+For example, if an extension of Model is implemented, the relevant
+type code is SBML_MODEL, found in #SBMLTypeCode_t.
+@param pkgName the short-form name of the parent package where
+that this package extension is extending.
+@param typeCode the type code of the object being extended.
+@param elementName element name for the target element, in case 
+multiple elements match the same type code (as will be the case
+for ListOf classes)
+@param elementOnly flag to be used during the registration 
+of the package, when set then the plugin is only applied to 
+elements whose elementName match.
+
+
+=item SBaseExtensionPoint::SBaseExtensionPoint
+
 Copy constructor.
 This creates a copy of an SBaseExtensionPoint instance.
 @param rhs the object to copy.
@@ -31633,6 +31911,16 @@ Returns the package name of this extension point.
 =item SBaseExtensionPoint::getTypeCode
 
 Returns the libSBML type code of this extension point.
+
+
+=item SBaseExtensionPoint::getElementName
+
+the target element name
+
+
+=item SBaseExtensionPoint::isElementOnly
+
+
 
 
 =back
@@ -31880,6 +32168,16 @@ object.
 @internal
 
 
+=item SBasePlugin::isValidTypeForList
+
+
+
+
+=item SBasePlugin::accept
+
+@internal
+
+
 =item SBasePlugin::SBasePlugin
 
 @internal
@@ -31998,6 +32296,11 @@ C<opydetails> doc_returns_success_code
 
 
 =item SBMLDocumentPlugin::checkConsistency
+
+@internal
+
+
+=item SBMLDocumentPlugin::accept
 
 @internal
 
@@ -33164,6 +33467,11 @@ this stream buffer.
 @internal
 
 
+=item ASTBase::getValue
+
+@internal
+
+
 =item ASTBase::resetPackageName
 
 @internal
@@ -33230,11 +33538,6 @@ this stream buffer.
 
 
 =item ASTBase::getNumChildren
-
-@internal
-
-
-=item ASTBase::getValue
 
 @internal
 
@@ -33387,14 +33690,14 @@ canonical form, C<false> otherwise.
 
 Adds the given node as a child of this ASTNode.
 Child nodes are added in-order, from left to right.
-@param child the ASTNode instance to add
+@param disownedChild the ASTNode instance to add
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_warning_modifying_structure
-@see prependChild(ASTNode  child)
-@see replaceChild(unsigned int n, ASTNode  child)
-@see insertChild(unsigned int n, ASTNode  child)
+@see prependChild(ASTNode  disownedChild)
+@see replaceChild(unsigned int n, ASTNode  disownedChild)
+@see insertChild(unsigned int n, ASTNode  disownedChild)
 @see removeChild(unsigned int n)
 @see isWellFormedASTNode()
 
@@ -33403,14 +33706,14 @@ C<opydetails> doc_warning_modifying_structure
 
 Adds the given node as a child of this ASTNode.
 This method adds child nodes from right to left.
-@param child the ASTNode instance to add
+@param disownedChild the ASTNode instance to add
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_warning_modifying_structure
-@see addChild(ASTNode  child)
-@see replaceChild(unsigned int n, ASTNode  child)
-@see insertChild(unsigned int n, ASTNode  child)
+@see addChild(ASTNode  disownedChild)
+@see replaceChild(unsigned int n, ASTNode  disownedChild)
+@see insertChild(unsigned int n, ASTNode  disownedChild)
 @see removeChild(unsigned int n)
 
 
@@ -33422,26 +33725,26 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 C<opydetails> doc_warning_modifying_structure
-@see addChild(ASTNode  child)
-@see prependChild(ASTNode  child)
-@see replaceChild(unsigned int n, ASTNode  child)
-@see insertChild(unsigned int n, ASTNode  child)
+@see addChild(ASTNode  disownedChild)
+@see prependChild(ASTNode  disownedChild)
+@see replaceChild(unsigned int n, ASTNode  disownedChild)
+@see insertChild(unsigned int n, ASTNode  disownedChild)
 
 
 =item ASTNode::replaceChild
 
 Replaces the nth child of this ASTNode with the given ASTNode.
 @param n unsigned int the index of the child to replace
-@param newChild ASTNode to replace the nth child
+@param disownedChild ASTNode to replace the nth child
 @param delreplaced boolean indicating whether to delete the replaced child.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 C<opydetails> doc_warning_modifying_structure
-@see addChild(ASTNode  child)
-@see prependChild(ASTNode  child)
-@see insertChild(unsigned int n, ASTNode  child)
+@see addChild(ASTNode  disownedChild)
+@see prependChild(ASTNode  disownedChild)
+@see insertChild(unsigned int n, ASTNode  disownedChild)
 @see removeChild(unsigned int n)
 
 
@@ -33450,15 +33753,15 @@ C<opydetails> doc_warning_modifying_structure
 Inserts the given ASTNode node at a given point in the current ASTNode's
 list of children.
 @param n unsigned int the index of the ASTNode being added
-@param newChild ASTNode to insert as the nth child
+@param disownedChild ASTNode to insert as the nth child
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 C<opydetails> doc_warning_modifying_structure
-@see addChild(ASTNode  child)
-@see prependChild(ASTNode  child)
-@see replaceChild(unsigned int n, ASTNode  child)
+@see addChild(ASTNode  disownedChild)
+@see prependChild(ASTNode  disownedChild)
+@see replaceChild(unsigned int n, ASTNode  disownedChild)
 @see removeChild(unsigned int n)
 
 
@@ -33520,7 +33823,7 @@ no children.
 Adds the given XMLNode as a MathML C<&lt;semantics&gt;>
 element to this ASTNode.
 C<opydetails> doc_about_mathml_semantic_annotations
-@param sAnnotation the annotation to add.
+@param disownedAnnotation the annotation to add.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
@@ -33749,6 +34052,25 @@ returns @link ASTNodeType_t#AST_REAL_E AST_REAL_E@endlink.
 It will return C<0> if the node type is another type, but since C<0> may
 be a valid value, it is important to be sure that the node type is the
 correct type in order to correctly interpret the returned value.
+
+
+=item ASTNode::getValue
+
+Returns the numerical value of this ASTNode.
+@return the numerical value of this ASTNode, or C<NaN> if this
+is not a type of node that has a numerical value.
+@note This function will return a numerical value (as a double) for 
+any ASTNode_t that represents a number, a constant such as 
+@link ASTNodeType_t#AST_CONSTANT_PI AST_CONSTANT_PI@endlink, 
+@link ASTNodeType_t#AST_CONSTANT_E AST_CONSTANT_E@endlink, or 
+@link ASTNodeType_t#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink, or 
+C<1> for nodes of type 
+@link ASTNodeType_t#AST_CONSTANT_TRUE AST_CONSTANT_TRUE@endlink and C<0> for nodes of type
+@link ASTNodeType_t#AST_CONSTANT_FALSE AST_CONSTANT_FALSE@endlink. It does not evaluate
+the node in any way so, for example, it will not return the value of 
+a named ASTNode_t or attempt to evaluate a function. 
+This includes a node representing C<time> i.e. nodes
+of type @link ASTNodeType_t#AST_NAME_TIME AST_NAME_TIME@endlink.
 
 
 =item ASTNode::getPrecedence
@@ -34607,6 +34929,26 @@ Returns the MathML C<definitionURL> attribute value as a string.
 
 
 =item ASTNode::getPackageName
+
+@internal
+
+
+=item ASTNode::getPlugin
+
+@internal
+
+
+=item ASTNode::getPlugin
+
+@internal
+
+
+=item ASTNode::getPlugin
+
+@internal
+
+
+=item ASTNode::getPlugin
 
 @internal
 
@@ -36465,6 +36807,8 @@ sub DESTROY {
 *removeFromParentAndDelete = *LibSBMLc::SBase_removeFromParentAndDelete;
 *matchesSBMLNamespaces = *LibSBMLc::SBase_matchesSBMLNamespaces;
 *matchesRequiredSBMLNamespacesForAddition = *LibSBMLc::SBase_matchesRequiredSBMLNamespacesForAddition;
+*isSetUserData = *LibSBMLc::SBase_isSetUserData;
+*unsetUserData = *LibSBMLc::SBase_unsetUserData;
 *getURI = *LibSBMLc::SBase_getURI;
 *getPrefix = *LibSBMLc::SBase_getPrefix;
 *getListOfAllElements = *LibSBMLc::SBase_getListOfAllElements;
@@ -36508,11 +36852,7 @@ sub new {
 
 *clone = *LibSBMLc::ListOf_clone;
 *append = *LibSBMLc::ListOf_append;
-sub appendAndOwn {
-  $_[1]->DISOWN() if defined $_[1];
-  return LibSBMLc::ListOf_appendAndOwn(@_);
-}
-
+*appendAndOwn = *LibSBMLc::ListOf_appendAndOwn;
 *appendFrom = *LibSBMLc::ListOf_appendFrom;
 *insert = *LibSBMLc::ListOf_insert;
 *insertAndOwn = *LibSBMLc::ListOf_insertAndOwn;
@@ -36797,6 +37137,7 @@ sub getListOfEvents {
 *addConstantAttribute = *LibSBMLc::Model_addConstantAttribute;
 *setSpatialDimensions = *LibSBMLc::Model_setSpatialDimensions;
 *addDefinitionsForDefaultUnits = *LibSBMLc::Model_addDefinitionsForDefaultUnits;
+*dealWithDefaultValues = *LibSBMLc::Model_dealWithDefaultValues;
 *convertParametersToLocals = *LibSBMLc::Model_convertParametersToLocals;
 *setSpeciesReferenceConstantValueAndStoichiometry = *LibSBMLc::Model_setSpeciesReferenceConstantValueAndStoichiometry;
 *removeParameterRuleUnits = *LibSBMLc::Model_removeParameterRuleUnits;
@@ -37111,11 +37452,17 @@ sub new {
 *isSetExponent = *LibSBMLc::Unit_isSetExponent;
 *isSetScale = *LibSBMLc::Unit_isSetScale;
 *isSetMultiplier = *LibSBMLc::Unit_isSetMultiplier;
+*isSetOffset = *LibSBMLc::Unit_isSetOffset;
 *setKind = *LibSBMLc::Unit_setKind;
 *setExponent = *LibSBMLc::Unit_setExponent;
 *setScale = *LibSBMLc::Unit_setScale;
 *setMultiplier = *LibSBMLc::Unit_setMultiplier;
 *setOffset = *LibSBMLc::Unit_setOffset;
+*unsetKind = *LibSBMLc::Unit_unsetKind;
+*unsetExponent = *LibSBMLc::Unit_unsetExponent;
+*unsetScale = *LibSBMLc::Unit_unsetScale;
+*unsetMultiplier = *LibSBMLc::Unit_unsetMultiplier;
+*unsetOffset = *LibSBMLc::Unit_unsetOffset;
 *getTypeCode = *LibSBMLc::Unit_getTypeCode;
 *getElementName = *LibSBMLc::Unit_getElementName;
 *isBuiltIn = *LibSBMLc::Unit_isBuiltIn;
@@ -37545,6 +37892,7 @@ sub new {
 *renameUnitSIdRefs = *LibSBMLc::Compartment_renameUnitSIdRefs;
 *unsetName = *LibSBMLc::Compartment_unsetName;
 *unsetCompartmentType = *LibSBMLc::Compartment_unsetCompartmentType;
+*unsetConstant = *LibSBMLc::Compartment_unsetConstant;
 *unsetSize = *LibSBMLc::Compartment_unsetSize;
 *unsetVolume = *LibSBMLc::Compartment_unsetVolume;
 *unsetUnits = *LibSBMLc::Compartment_unsetUnits;
@@ -37678,6 +38026,7 @@ sub new {
 *setConstant = *LibSBMLc::Species_setConstant;
 *setConversionFactor = *LibSBMLc::Species_setConversionFactor;
 *unsetName = *LibSBMLc::Species_unsetName;
+*unsetConstant = *LibSBMLc::Species_unsetConstant;
 *unsetSpeciesType = *LibSBMLc::Species_unsetSpeciesType;
 *unsetInitialAmount = *LibSBMLc::Species_unsetInitialAmount;
 *unsetInitialConcentration = *LibSBMLc::Species_unsetInitialConcentration;
@@ -37686,6 +38035,9 @@ sub new {
 *unsetUnits = *LibSBMLc::Species_unsetUnits;
 *unsetCharge = *LibSBMLc::Species_unsetCharge;
 *unsetConversionFactor = *LibSBMLc::Species_unsetConversionFactor;
+*unsetCompartment = *LibSBMLc::Species_unsetCompartment;
+*unsetBoundaryCondition = *LibSBMLc::Species_unsetBoundaryCondition;
+*unsetHasOnlySubstanceUnits = *LibSBMLc::Species_unsetHasOnlySubstanceUnits;
 *getDerivedUnitDefinition = *LibSBMLc::Species_getDerivedUnitDefinition;
 *getTypeCode = *LibSBMLc::Species_getTypeCode;
 *getElementName = *LibSBMLc::Species_getElementName;
@@ -37789,6 +38141,7 @@ sub new {
 *setUnits = *LibSBMLc::Parameter_setUnits;
 *setConstant = *LibSBMLc::Parameter_setConstant;
 *unsetName = *LibSBMLc::Parameter_unsetName;
+*unsetConstant = *LibSBMLc::Parameter_unsetConstant;
 *unsetValue = *LibSBMLc::Parameter_unsetValue;
 *unsetUnits = *LibSBMLc::Parameter_unsetUnits;
 *getDerivedUnitDefinition = *LibSBMLc::Parameter_getDerivedUnitDefinition;
@@ -37884,6 +38237,7 @@ sub new {
 *getConstant = *LibSBMLc::LocalParameter_getConstant;
 *isSetConstant = *LibSBMLc::LocalParameter_isSetConstant;
 *setConstant = *LibSBMLc::LocalParameter_setConstant;
+*unsetConstant = *LibSBMLc::LocalParameter_unsetConstant;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -37970,6 +38324,7 @@ sub new {
 *isSetSymbol = *LibSBMLc::InitialAssignment_isSetSymbol;
 *isSetMath = *LibSBMLc::InitialAssignment_isSetMath;
 *setSymbol = *LibSBMLc::InitialAssignment_setSymbol;
+*unsetSymbol = *LibSBMLc::InitialAssignment_unsetSymbol;
 *setMath = *LibSBMLc::InitialAssignment_setMath;
 *getDerivedUnitDefinition = *LibSBMLc::InitialAssignment_getDerivedUnitDefinition;
 *containsUndeclaredUnits = *LibSBMLc::InitialAssignment_containsUndeclaredUnits;
@@ -38076,6 +38431,7 @@ sub new {
 *setMath = *LibSBMLc::Rule_setMath;
 *setVariable = *LibSBMLc::Rule_setVariable;
 *setUnits = *LibSBMLc::Rule_setUnits;
+*unsetVariable = *LibSBMLc::Rule_unsetVariable;
 *unsetUnits = *LibSBMLc::Rule_unsetUnits;
 *getDerivedUnitDefinition = *LibSBMLc::Rule_getDerivedUnitDefinition;
 *containsUndeclaredUnits = *LibSBMLc::Rule_containsUndeclaredUnits;
@@ -38419,6 +38775,7 @@ sub new {
 *unsetKineticLaw = *LibSBMLc::Reaction_unsetKineticLaw;
 *unsetFast = *LibSBMLc::Reaction_unsetFast;
 *unsetCompartment = *LibSBMLc::Reaction_unsetCompartment;
+*unsetReversible = *LibSBMLc::Reaction_unsetReversible;
 *addReactant = *LibSBMLc::Reaction_addReactant;
 *addProduct = *LibSBMLc::Reaction_addProduct;
 *addModifier = *LibSBMLc::Reaction_addModifier;
@@ -38639,6 +38996,7 @@ sub DESTROY {
 *setName = *LibSBMLc::SimpleSpeciesReference_setName;
 *unsetId = *LibSBMLc::SimpleSpeciesReference_unsetId;
 *unsetName = *LibSBMLc::SimpleSpeciesReference_unsetName;
+*unsetSpecies = *LibSBMLc::SimpleSpeciesReference_unsetSpecies;
 *isModifier = *LibSBMLc::SimpleSpeciesReference_isModifier;
 *renameSIdRefs = *LibSBMLc::SimpleSpeciesReference_renameSIdRefs;
 sub DISOWN {
@@ -38693,6 +39051,7 @@ sub new {
 *setConstant = *LibSBMLc::SpeciesReference_setConstant;
 *unsetStoichiometryMath = *LibSBMLc::SpeciesReference_unsetStoichiometryMath;
 *unsetStoichiometry = *LibSBMLc::SpeciesReference_unsetStoichiometry;
+*unsetConstant = *LibSBMLc::SpeciesReference_unsetConstant;
 *createStoichiometryMath = *LibSBMLc::SpeciesReference_createStoichiometryMath;
 *setAnnotation = *LibSBMLc::SpeciesReference_setAnnotation;
 *appendAnnotation = *LibSBMLc::SpeciesReference_appendAnnotation;
@@ -38820,6 +39179,7 @@ sub new {
 }
 
 *clone = *LibSBMLc::Event_clone;
+*initDefaults = *LibSBMLc::Event_initDefaults;
 *getElementBySId = *LibSBMLc::Event_getElementBySId;
 *getElementByMetaId = *LibSBMLc::Event_getElementByMetaId;
 *getId = *LibSBMLc::Event_getId;
@@ -38845,6 +39205,7 @@ sub new {
 *setUseValuesFromTriggerTime = *LibSBMLc::Event_setUseValuesFromTriggerTime;
 *unsetId = *LibSBMLc::Event_unsetId;
 *unsetName = *LibSBMLc::Event_unsetName;
+*unsetUseValuesFromTriggerTime = *LibSBMLc::Event_unsetUseValuesFromTriggerTime;
 *unsetDelay = *LibSBMLc::Event_unsetDelay;
 *unsetPriority = *LibSBMLc::Event_unsetPriority;
 *unsetTrigger = *LibSBMLc::Event_unsetTrigger;
@@ -38957,6 +39318,7 @@ sub new {
 *isSetVariable = *LibSBMLc::EventAssignment_isSetVariable;
 *isSetMath = *LibSBMLc::EventAssignment_isSetMath;
 *setVariable = *LibSBMLc::EventAssignment_setVariable;
+*unsetVariable = *LibSBMLc::EventAssignment_unsetVariable;
 *setMath = *LibSBMLc::EventAssignment_setMath;
 *getDerivedUnitDefinition = *LibSBMLc::EventAssignment_getDerivedUnitDefinition;
 *containsUndeclaredUnits = *LibSBMLc::EventAssignment_containsUndeclaredUnits;
@@ -39060,6 +39422,8 @@ sub new {
 *setMath = *LibSBMLc::Trigger_setMath;
 *setInitialValue = *LibSBMLc::Trigger_setInitialValue;
 *setPersistent = *LibSBMLc::Trigger_setPersistent;
+*unsetInitialValue = *LibSBMLc::Trigger_unsetInitialValue;
+*unsetPersistent = *LibSBMLc::Trigger_unsetPersistent;
 *getTypeCode = *LibSBMLc::Trigger_getTypeCode;
 *getElementName = *LibSBMLc::Trigger_getElementName;
 *renameSIdRefs = *LibSBMLc::Trigger_renameSIdRefs;
@@ -41236,6 +41600,8 @@ sub new {
 *clone = *LibSBMLc::SBaseExtensionPoint_clone;
 *getPackageName = *LibSBMLc::SBaseExtensionPoint_getPackageName;
 *getTypeCode = *LibSBMLc::SBaseExtensionPoint_getTypeCode;
+*getElementName = *LibSBMLc::SBaseExtensionPoint_getElementName;
+*isElementOnly = *LibSBMLc::SBaseExtensionPoint_isElementOnly;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -41293,6 +41659,7 @@ sub DESTROY {
 *getColumn = *LibSBMLc::SBasePlugin_getColumn;
 *getSBMLNamespaces = *LibSBMLc::SBasePlugin_getSBMLNamespaces;
 *logUnknownElement = *LibSBMLc::SBasePlugin_logUnknownElement;
+*isValidTypeForList = *LibSBMLc::SBasePlugin_isValidTypeForList;
 *getListOfAllElements = *LibSBMLc::SBasePlugin_getListOfAllElements;
 sub DISOWN {
     my $self = shift;
@@ -41577,6 +41944,7 @@ sub DESTROY {
 *hasPackageOnlyInfixSyntax = *LibSBMLc::ASTBase_hasPackageOnlyInfixSyntax;
 *getL3PackageInfixPrecedence = *LibSBMLc::ASTBase_getL3PackageInfixPrecedence;
 *hasUnambiguousPackageInfixGrammar = *LibSBMLc::ASTBase_hasUnambiguousPackageInfixGrammar;
+*getValue = *LibSBMLc::ASTBase_getValue;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -41616,37 +41984,17 @@ sub DESTROY {
 
 *freeName = *LibSBMLc::ASTNode_freeName;
 *canonicalize = *LibSBMLc::ASTNode_canonicalize;
-sub addChild {
-  $_[1]->DISOWN() if defined $_[1];
-  return LibSBMLc::ASTNode_addChild(@_);
-}
-
-sub prependChild {
-  $_[1]->DISOWN() if defined $_[1];
-  return LibSBMLc::ASTNode_prependChild(@_);
-}
-
+*addChild = *LibSBMLc::ASTNode_addChild;
+*prependChild = *LibSBMLc::ASTNode_prependChild;
 *removeChild = *LibSBMLc::ASTNode_removeChild;
-sub replaceChild {
-  $_[2]->DISOWN() if defined $_[2];
-  return LibSBMLc::ASTNode_replaceChild(@_);
-}
-
-sub insertChild {
-  $_[2]->DISOWN() if defined $_[2];
-  return LibSBMLc::ASTNode_insertChild(@_);
-}
-
+*replaceChild = *LibSBMLc::ASTNode_replaceChild;
+*insertChild = *LibSBMLc::ASTNode_insertChild;
 *deepCopy = *LibSBMLc::ASTNode_deepCopy;
 *getChild = *LibSBMLc::ASTNode_getChild;
 *getLeftChild = *LibSBMLc::ASTNode_getLeftChild;
 *getRightChild = *LibSBMLc::ASTNode_getRightChild;
 *getNumChildren = *LibSBMLc::ASTNode_getNumChildren;
-sub addSemanticsAnnotation {
-  $_[1]->DISOWN() if defined $_[1];
-  return LibSBMLc::ASTNode_addSemanticsAnnotation(@_);
-}
-
+*addSemanticsAnnotation = *LibSBMLc::ASTNode_addSemanticsAnnotation;
 *getNumSemanticsAnnotations = *LibSBMLc::ASTNode_getNumSemanticsAnnotations;
 *getSemanticsAnnotation = *LibSBMLc::ASTNode_getSemanticsAnnotation;
 *getCharacter = *LibSBMLc::ASTNode_getCharacter;
@@ -41661,6 +42009,7 @@ sub addSemanticsAnnotation {
 *getReal = *LibSBMLc::ASTNode_getReal;
 *getMantissa = *LibSBMLc::ASTNode_getMantissa;
 *getExponent = *LibSBMLc::ASTNode_getExponent;
+*getValue = *LibSBMLc::ASTNode_getValue;
 *getPrecedence = *LibSBMLc::ASTNode_getPrecedence;
 *getType = *LibSBMLc::ASTNode_getType;
 *getExtendedType = *LibSBMLc::ASTNode_getExtendedType;
@@ -41732,6 +42081,7 @@ sub addSemanticsAnnotation {
 *getNumBvars = *LibSBMLc::ASTNode_getNumBvars;
 *getTypeCode = *LibSBMLc::ASTNode_getTypeCode;
 *getPackageName = *LibSBMLc::ASTNode_getPackageName;
+*getPlugin = *LibSBMLc::ASTNode_getPlugin;
 sub getListOfNodes {
   my $lox = LibSBMLc::ASTNode_getListOfNodes(@_);
   my @lox = ();
@@ -41914,6 +42264,7 @@ package LibSBML;
 *LIBSBML_DUPLICATE_ANNOTATION_NS = *LibSBMLc::LIBSBML_DUPLICATE_ANNOTATION_NS;
 *LIBSBML_ANNOTATION_NAME_NOT_FOUND = *LibSBMLc::LIBSBML_ANNOTATION_NAME_NOT_FOUND;
 *LIBSBML_ANNOTATION_NS_NOT_FOUND = *LibSBMLc::LIBSBML_ANNOTATION_NS_NOT_FOUND;
+*LIBSBML_MISSING_METAID = *LibSBMLc::LIBSBML_MISSING_METAID;
 *LIBSBML_PKG_VERSION_MISMATCH = *LibSBMLc::LIBSBML_PKG_VERSION_MISMATCH;
 *LIBSBML_PKG_UNKNOWN = *LibSBMLc::LIBSBML_PKG_UNKNOWN;
 *LIBSBML_PKG_UNKNOWN_VERSION = *LibSBMLc::LIBSBML_PKG_UNKNOWN_VERSION;
@@ -42350,6 +42701,7 @@ package LibSBML;
 *CompartmentShouldHaveSize = *LibSBMLc::CompartmentShouldHaveSize;
 *SpeciesShouldHaveValue = *LibSBMLc::SpeciesShouldHaveValue;
 *ParameterShouldHaveUnits = *LibSBMLc::ParameterShouldHaveUnits;
+*ParameterShouldHaveValue = *LibSBMLc::ParameterShouldHaveValue;
 *LocalParameterShadowsId = *LibSBMLc::LocalParameterShadowsId;
 *LibSBMLAdditionalCodesLowerBound = *LibSBMLc::LibSBMLAdditionalCodesLowerBound;
 *CannotConvertToL1V1 = *LibSBMLc::CannotConvertToL1V1;

@@ -274,6 +274,23 @@ public class SimpleSpeciesReference extends SBase {
 
   
 /**
+   * Unsets the value of the 'species' attribute of this {@link SimpleSpeciesReference}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * </ul>
+   */ public
+ int unsetSpecies() {
+    return libsbmlJNI.SimpleSpeciesReference_unsetSpecies(swigCPtr, this);
+  }
+
+  
+/**
    * Predicate returning <code>true</code> if this
    * is a {@link ModifierSpeciesReference}.
    <p>

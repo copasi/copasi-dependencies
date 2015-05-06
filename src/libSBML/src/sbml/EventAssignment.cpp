@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -228,6 +228,22 @@ EventAssignment::setVariable (const std::string& sid)
   {
     mVariable = sid;
     return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
+int
+EventAssignment::unsetVariable ()
+{
+  mVariable.erase();
+
+  if (mVariable.empty())
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
   }
 }
 
@@ -687,7 +703,7 @@ EventAssignment::readL2Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalSId(mVariable)) 
     logError(InvalidIdSyntax, getLevel(), getVersion(), 
-    "The syntax of the attribute variable='" + mVariable + "' does not conform.");
+    "The syntax of the attribute variable='" + mVariable + "' does not conform to the syntax.");
 
 
   //
@@ -725,7 +741,8 @@ EventAssignment::readL3Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("variable", level, version, "<eventAssignment>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mVariable)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mVariable)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mVariable + "' does not conform to the syntax.");
 }
 /** @endcond */
 
@@ -1075,6 +1092,17 @@ EventAssignment_setVariable (EventAssignment_t *ea, const char *sid)
 {
   if (ea != NULL)  
     return ea->setVariable((sid != NULL) ? sid : "");
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+EventAssignment_unsetVariable (EventAssignment_t *ea)
+{
+  if (ea != NULL)  
+    return ea->unsetVariable();
   else
     return LIBSBML_INVALID_OBJECT;
 }

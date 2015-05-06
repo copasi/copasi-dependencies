@@ -512,6 +512,28 @@ public class Rule extends SBase {
 
   
 /**
+   * Unsets the value of the 'variable' attribute of this {@link Rule} object.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   *
+   * </ul> <p>
+   * @see #setVariable(String sid)
+   * @see #isSetVariable()
+   * @see #getVariable()
+   */ public
+ int unsetVariable() {
+    return libsbmlJNI.Rule_unsetVariable(swigCPtr, this);
+  }
+
+  
+/**
    * Unsets the 'units' for this {@link Rule}.
    <p>
    * <p>
@@ -769,7 +791,7 @@ public class Rule extends SBase {
    <p>
    * The returned value can be any of a number of different strings,
    * depending on the SBML Level in use and the kind of {@link Rule} object this
-   * is.  The rules as of libSBML version 5.11.1
+   * is.  The rules as of libSBML version 5.11.4
    * are the following:
    * <ul>
    * <li> (Level&nbsp;2 and&nbsp;3) RateRule: returns <code>'rateRule'</code>

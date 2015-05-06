@@ -8,7 +8,7 @@
 ## This file is part of libSBML.  Please visit http://sbml.org for more
 ## information about SBML, and the latest version of libSBML.
 ##
-## Copyright (C) 2013-2014 jointly by the following organizations:
+## Copyright (C) 2013-2015 jointly by the following organizations:
 ##     1. California Institute of Technology, Pasadena, CA, USA
 ##     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 ##     3. University of Heidelberg, Heidelberg, Germany
@@ -49,7 +49,7 @@ include @top_srcdir@/config/makefile-common-vars.mk
 srcdir  = @srcdir@
 thisdir = src/bindings/matlab
 
-sources = TranslateSBML.c OutputSBML.c
+sources = TranslateSBML.cpp OutputSBML.cpp
 
 subdirs = test
 
@@ -65,16 +65,16 @@ distfiles =                      \
         ConvertFormulaToMathML.m \
         FindMatlab.cmake         \
         Makefile.in              \
-        OutputSBML.c             \
+        OutputSBML.cpp           \
         OutputSBML.m             \
         README.txt               \
-        TranslateSBML.c          \
+        TranslateSBML.cpp        \
         TranslateSBML.m          \
         buildSBML.m              \
         isSBML_Model.m           \
         installSBML.m            \
         isoctave.m               \
-		isFbcEnabled.m           \
+        isFbcEnabled.m           \
         matlab-tags-regexp.txt   \
         mexopts-R2007.sh         \
         mexopts-R2008.sh         \
@@ -162,7 +162,7 @@ endef
 
 here = $(shell /bin/pwd)
 
-$(addprefix %.,$(possible_mexext)): %.c
+$(addprefix %.,$(possible_mexext)): %.cpp
 	$(call matlabrun,$(MATLAB) $(matlab_args) -r "cd ('$(here)'); buildSBML; quit")
 
 
@@ -170,7 +170,7 @@ $(addprefix %.,$(possible_mexext)): %.c
 # Tags.
 # -----------------------------------------------------------------------------
 
-matlab-tags-extra-flags = *.c --lang=none --regex=@matlab-tags-regexp.txt *.m
+matlab-tags-extra-flags = *.cpp --lang=none --regex=@matlab-tags-regexp.txt *.m
 
 etags-command := $(ETAGS) $(ETAGSFLAGS) $(matlab-tags-extra-flags)
 ctags-command := $(CTAGS) $(CTAGSFLAGS) $(matlab-tags-extra-flags)

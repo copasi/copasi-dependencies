@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -351,6 +351,25 @@ START_TEST (test_conversion_inlineFD_bug)
 }
 END_TEST
 
+START_TEST (test_conversion_inlineIA_bug)
+{
+  std::string filename = "/ia-ternary-lt.xml";
+  filename = TestDataDirectory + filename;
+  SBMLDocument* doc = readSBMLFromFile(filename.c_str());
+
+  ConversionProperties props;
+  props.addOption("expandInitialAssignments", "true");
+
+  fail_unless(doc->getModel() != NULL);
+  fail_unless(doc->convert(props) == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(doc->getModel()->getNumInitialAssignments() == 0);
+  fail_unless(doc->getModel()->getParameter("x")->isSetValue());
+  fail_unless(doc->getModel()->getParameter("x")->getValue() == 3);
+
+  delete doc;
+}
+END_TEST
+
 
 Suite *
 create_suite_TestSBMLRuleConverter (void)
@@ -364,6 +383,7 @@ create_suite_TestSBMLRuleConverter (void)
   tcase_add_test(tcase, test_conversion_ruleconverter_sortIA);
   tcase_add_test(tcase, test_conversion_ruleconverter_dontSortIA);
   tcase_add_test(tcase, test_conversion_inlineFD_bug);
+  tcase_add_test(tcase, test_conversion_inlineIA_bug);
       
 
   suite_add_tcase(suite, tcase);

@@ -358,6 +358,23 @@ public class InitialAssignment extends SBase {
 
   
 /**
+   * Unsets the 'symbol' attribute value of this {@link InitialAssignment}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * </ul>
+   */ public
+ int unsetSymbol() {
+    return libsbmlJNI.InitialAssignment_unsetSymbol(swigCPtr, this);
+  }
+
+  
+/**
    * Sets the 'math' subelement of this {@link InitialAssignment}.
    <p>
    * The AST passed in <code>math</code> is copied.

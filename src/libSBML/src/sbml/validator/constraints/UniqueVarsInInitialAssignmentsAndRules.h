@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -74,6 +74,39 @@ protected:
    * Reactions, and Events.
    */
   virtual void doCheck (const Model& m);
+
+  /**
+   * Returns the error message to use when logging constraint violations.
+   * This method is called by logFailure.
+   *
+   * Returns a message that the given @p id and its corresponding object are
+   * in conflict with an object previously defined.
+   */
+  virtual const std::string
+  getMessage (const std::string& id, const SBase& object);
+
+
+  /**
+   * Returns the fieldname to use when logging constraint violations
+   * ("variable or symbol")
+   *
+   * Should not actually be called, as this constraint has two different 
+   * attributes that could be used.
+   *
+   * @return the fieldname ("variable or symbol") to use when logging constraint
+   * violations.
+   */
+  virtual const char* getFieldname ();
+
+  /**
+   * Returns the fieldname to use when logging constraint violations
+   * ("variable" or "symbol", depending on the type)
+   *
+   * @return the fieldname ("variable" or "symbol") to use when logging constraint
+   * violations, depending on the typecode passed in.  If an unknown code 
+   * is passed in, "variable or symbol" is returned.
+   */
+  virtual const char* getFieldname (int typecode);
 };
 
 LIBSBML_CPP_NAMESPACE_END

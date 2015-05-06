@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1150,6 +1150,20 @@ public:
    * @see getCompartmentType()
    */
   int unsetCompartmentType ();
+
+
+  /**
+   * Unsets the value of the "constant" attribute of this Compartment object.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   *
+   * @see isSetConstant()
+   * @see setConstant(@if java String@endif)
+   * @see getConstant()
+   */
+  int unsetConstant ();
 
 
   /**
@@ -2377,6 +2391,24 @@ Compartment_unsetName (Compartment_t *c);
 LIBSBML_EXTERN
 int
 Compartment_unsetCompartmentType (Compartment_t *c);
+
+
+/**
+ * Unsets the value of the "constant" attribute of the given Compartment_t
+ * structure.
+ *
+ * @param c the Compartment_t structure.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof Compartment_t
+ */
+LIBSBML_EXTERN
+int
+Compartment_unsetConstant (Compartment_t *c);
 
 
 /**

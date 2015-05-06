@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -157,6 +157,8 @@ SBMLFileResolver::resolveUri(const std::string &sUri, const std::string& sBaseUr
   if (uri.getScheme() != "file" && baseUri.getScheme() != "file")
     return NULL;
 
+  // if we want a relative URI its path ought not to be empty
+  if (uri.getPath().empty()) return NULL;
 
   // also moved this as Lucian suggests that if there is a local file
   // it is not necessarily the one referenced
@@ -248,7 +250,7 @@ SBMLFileResolver::fileExists(const std::string& fileName)
   if (!file)
     return false;
   file.close();
-  // on linux we know that ther fileName exists, however 
+  // on linux we know that the fileName exists, however 
   // it could be a directory (windows does not allow 
   // a directory be opened)
   #if !defined(WIN32) || defined(CYGWIN)

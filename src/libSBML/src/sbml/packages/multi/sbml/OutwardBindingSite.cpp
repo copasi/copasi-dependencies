@@ -125,7 +125,7 @@ OutwardBindingSite::~OutwardBindingSite ()
 /*
  * Returns the value of the "bindingStatus" attribute of this OutwardBindingSite.
  */
-const BindingStatus_t
+BindingStatus_t
 OutwardBindingSite::getBindingStatus() const
 {
   return mBindingStatus;

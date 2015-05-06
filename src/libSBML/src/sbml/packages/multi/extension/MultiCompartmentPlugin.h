@@ -195,7 +195,7 @@ public:
    *
    * @return the value of the "isType" attribute of this CompPlugin as a boolean.
    */
-  virtual const bool getIsType() const;
+  virtual bool getIsType() const;
 
 
   /**

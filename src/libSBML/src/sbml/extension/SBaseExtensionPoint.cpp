@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -44,9 +44,31 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 SBaseExtensionPoint::SBaseExtensionPoint(const std::string& pkgName, int typeCode) 
  : mPackageName(pkgName)
-  ,mTypeCode(typeCode) 
+ , mTypeCode(typeCode) 
+ , mElementName()
+ , mElementOnly(false)
 {
 }
+
+SBaseExtensionPoint::SBaseExtensionPoint(const std::string& pkgName, 
+  int typeCode, const std::string& elmentName, bool elementOnly)
+  : mPackageName(pkgName)
+  , mTypeCode(typeCode)
+  , mElementName(elmentName)
+  , mElementOnly(elementOnly)
+{
+}
+
+const std::string& SBaseExtensionPoint::getElementName() const
+{
+  return mElementName;
+}
+
+bool SBaseExtensionPoint::isElementOnly() const
+{
+  return mElementOnly;
+}
+
 
 SBaseExtensionPoint::~SBaseExtensionPoint()
 {
@@ -59,7 +81,9 @@ SBaseExtensionPoint::~SBaseExtensionPoint()
  */
 SBaseExtensionPoint::SBaseExtensionPoint(const SBaseExtensionPoint& orig) 
  : mPackageName(orig.mPackageName)
-  ,mTypeCode(orig.mTypeCode) 
+ , mTypeCode(orig.mTypeCode) 
+ , mElementName(orig.mElementName)
+ , mElementOnly(orig.mElementOnly)
 {
 }
 
@@ -95,6 +119,10 @@ bool operator==(const SBaseExtensionPoint& lhs, const SBaseExtensionPoint& rhs)
       && (lhs.getPackageName() == rhs.getPackageName()) 
      )
   {
+    // compare element names if necessary
+    if (lhs.isElementOnly() || rhs.isElementOnly())
+      return lhs.getElementName() == rhs.getElementName();
+
     return true;
   }
 

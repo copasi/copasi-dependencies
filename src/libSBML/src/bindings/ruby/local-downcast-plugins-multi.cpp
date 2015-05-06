@@ -13,10 +13,6 @@ if (pkgName == "multi")
   {
     return SWIGTYPE_p_MultiSpeciesPlugin;
   }
-  else if (sb->getTypeCode() == SBML_REACTION)
-  {
-    return SWIGTYPE_p_MultiReactionPlugin;
-  }
   else if (sb->getTypeCode() == SBML_MODIFIER_SPECIES_REFERENCE)
   {
     return SWIGTYPE_p_MultiSimpleSpeciesReferencePlugin;

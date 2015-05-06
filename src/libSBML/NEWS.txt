@@ -1,9 +1,170 @@
            libSBML NEWS -- History of user-visible changes
 
+====================================================================
+5.11.4 (2015-04-09)
+====================================================================
 
+STABLE RELEASE
+
+* New features
+
+  - The ASTNode class has a new function double getValue() that
+    returns the numerical value of the ASTNode as a double.  This
+    includes returning values for constants such as AST_CONSTANT_PI,
+    AST_CONSTANT_E, and AST_NAME_AVOGADRO, or '1' for an ASTNode of type
+    AST_CONSTANT_TRUE and '0' for AST_CONSTANT_FALSE.  Note, it does
+    not attempt to evaluate the node and thus will return NaN for a
+    function or node representing a named variable, and AST_NAME_TIME.
+
+  - There has been a complete review of validation messages.  These
+    have been unified in terms of spacing and line returns.  In
+    addition many have been enhanced with additional model specific
+    information designed to assist in locating and fixing the issues.
+
+  - There is now an interface to PHP.  This has been tested on all
+    platforms.
+
+  - Historically libSBML did not provide unsetFoo functions where
+    the attribute was a required attribute with a default value.
+    At user request we have changed this so every attribute has a 
+    corresponding unset function.  Note that where the attribute 
+    has a default value it is still considered 'set' but not 
+    considered to have been explicitly set and will therefore not
+    appear in the written output. 
+
+  - The L3Parser will now correctly parse a unary plus.
+
+  - The L3Parser will now parse chains of relational operators.
+    Identical operators become ASTNodes with relational type and
+    each argument as a direct child.  Thus 'x < y < z' becomes
+    an ASTNode of type AST_RELATIONAL_LT with three children
+    representing x, y and z.  Non identical operators use a logical
+    'and' function to combine the arguments. Thus 'x < y > z' 
+    becomes an ASTNode of type AST_LOGICAL_AND with two children
+    each representing the relational operator; that is 
+    and(lt(x,y), gt(y,z)) 
+
+  - The ability to index lists in the python bindings has been improved.
+
+  - A new value 'LIBSBML_MISSING_METAID' has been added to the 
+    OperationReturnValues_t enumeration.  This value will be returned
+    when a user attempts to set an annotation on an object that has
+    no metaid attribute set.  Note this is a change in behaviour as
+    previously the value returned would have been 
+    'LIBSBML_UNEXPECTED_ATTRIBUTE'.  We hope this change makes the 
+    issue clearer to users.
+
+  - The package extension mechanism has been expanded to allow the 
+    extension of individual ListOfFoo classes.
+
+* Bug fixes
+
+  - Conversion from SBML Level 3 to Level 2 was losing some 
+    LocalParameters. This has been sorted.  Thanks to Matthias 
+    König for spotting and reporting the problem.
+
+  - Fixed a bug where using the expat parser failed to correctly
+    report the presence of invalid XML namespaces.
+
+  - Sourceforge libSBML Tracker #393: LibSBML was failing when
+    built on an ARM processor running Fedora.  This has been
+    sorted out.  Thanks to Zbigniew Jedrzejewski-Szmek for 
+    reporting the issue and testing solutions.
+
+  - The formulaParser was incorrectly parsing particular syntax
+    involving exponential, plus/minus signs and no spacing i.e.
+    '2e3-3' was failing to parse.  This has been corrected. 
+    Thanks to Kieran Smallbone for reporting this and apologies
+    for the length of time it took to fix.
+
+  - Sourceforge libSBML Tracker #402: The functions that deal with
+    user data on both ASTNode and SBase objects have been made
+    to work with const versions of objects where appropriate.
+    Thanks to Takeshi Abe for the request and the patch.
+
+  - 'comp' package-specific bug fixes:
+
+    - The code for determining whether an external file is available
+      has been further tightened up. 
+
+  - 'fbc' package-specific bug fixes:
+
+    - A bug in the code that reads GeneAssociations as an annotation
+      meant information was being lost.  This has been corrected.
+      Thanks to Matthias König for reporting the problem.
+
+
+  - 'layout' package-specific bug fixes:
+
+    - The names of some functions meant they were failing to 
+      correctly port to the Python bindings.  The binding mechanism
+      has been fixed to correct this.  Thanks to Kieran Smallbone
+      for reporting this.
+
+    - The SpeciesReferenceGlyph attribute 'role' can take the value
+      'undefined' but this was not written out. This has been 
+      changed.
+
+* Configuration/build system changes
+
+  - This release includes pre-built binaries for the MATLAB 
+    bindings that should work for many Linux and MacOSX
+    platforms.  Please advise us it you find a combination
+    of platform and MATLAB version for which these fail. 
+
+* Miscellaneous
+
+  - The names of some arguments to functions have 
+    been modified to convey the fact that the object
+    is not owned by the collection object to which it
+    has been added.
+
+EXPERIMENTAL RELEASE
+
+* New features
+
+  - 'distrib' package-specific updates:
+
+    - There are new example programs that will create the
+      examples given in the current specification. 
+
+  - 'multi' package-specific updates:
+
+    - The multi code has been updated in line with the specification
+      Release 1.0.2 dated November 2014. This code has been contributed
+      by Fengkai Zhang. Many thanks, Fengkai.
+
+  - 'spatial' package-specific updates:
+
+    - The spatial code has been updated in line with the specification
+      Release 0.90 dated March 2015.
+
+* Bug fixes
+
+  - 'multi' package-specific bug fixes:
+
+    - The multi attributes that can be added to a math <ci> element
+      where being lost when written out.  This has been fixed.
+    
 ====================================================================
-5.11.1 (Current SVN)
+5.11.2-experimental (2015-01-15)
 ====================================================================
+
+********************************************************************
+
+***                 Experimental only release                    ***
+
+This is an experimental only release, that is, a release of those
+files provided in the experimental folder of a full release. 
+
+This includes updates to all the SBML L3 packages that are not yet
+accepted and undergoing development.
+
+NOTE: An experimental release is not as rigorously tested as a 
+full release.  Any changes/fixes listed as either referring to
+stable or experimental code may change before the next full release.
+
+********************************************************************
 
 STABLE RELEASE
 
@@ -13,21 +174,16 @@ STABLE RELEASE
     number of SBML L3 packages within a document that the build
     of libSBML does not support.
 
-  - The StripPackageConverter has a new option 'stripAllUnrecognized'
-    which is set to true will strip all SBML L3 packages that are
-    not supported by the build of libSBML being used.
+  - The StripPackageConverter has a new option 
+    'stripAllUnrecognized' which if set to true will strip all SBML 
+    L3 packages that are not supported by the build of libSBML 
+    being used.
 
-  - The XMLErrorLog::remove(unsigned int errorId) function only removes
-    the first instance of the error with the matching identifier. A new
-    function removeAll(unsigned int errorId) has been added that will 
-    remove all instances of the error with the given id.
-
-
-	
-  - 'comp' package-specific updates:
-  - 'fbc' package-specific updates:
-  - 'layout' package-specific updates:
-  - 'qual' package-specific updates:
+  - The XMLErrorLog::remove(unsigned int errorId) function only 
+    removes the first instance of the error with the matching 
+    identifier. A new function removeAll(unsigned int errorId) 
+    has been added that will remove all instances of the error 
+    with the given id.
 
 * Bug fixes
 
@@ -36,23 +192,39 @@ STABLE RELEASE
     from the situations in which we can replicate it. The issue 
     occurred when performing intensive validation.
 
-  - 'comp' package-specific bug fixes:
-  - 'fbc' package-specific bug fixes:
+  - The math-legacy code was being caught in an endless loop when 
+    trying to read a nested piecewise function.  
+    This has been fixed.
+    
+  - Validation was failing to recognize some cases when the 
+    conditional part of a piecewise function returned a boolean and 
+    incorrectly indicated that such a model was incorrect.  We have 
+    fixed this as robustly as possible but encourage reports of 
+    situations where we have missed something.
+
   - 'layout' package-specific bug fixes:
-  - 'qual' package-specific bug fixes:
+
+    - Validation of layout was not correctly reporting line
+      and column numbers. This has been corrected.
 
 * Configuration/build system changes
 
+  - The CMake configuration has been improved to clearly
+    report failure to find files necessary to work with
+    particular language bindings.
 
-* Miscellaneous
-
+  - Sourceforge libSBML Tracker #394: The '\n' symbol
+    was not being correctly expanded on some systems. This
+    has been made more robust.  Thanks to Antonio Trande 
+    for reporting this.
 
 EXPERIMENTAL RELEASE
 
 * New features
 
- - Support for the SBML Level 2 Version 5 Release 1 (Release Candidate)
-   specification has been added.  Additions to libSBML include:
+ - Support for the SBML Level 2 Version 5 Release 1 
+   (Release Candidate) specification has been added.  
+   Additions to libSBML include:
      - new API for adding Nested Annotations used on 
        the existing CVTerm object:
          int addNestedCVTerm(const CVTerm* term)
@@ -63,31 +235,25 @@ EXPERIMENTAL RELEASE
      - new and changed validation rules as in the specification
      - the ability to convert core SBML to and from L2V5
 
-
-
-  - 'arrays' package-specific updates:
-  - 'distrib' package-specific updates:
-  - 'dyn' package-specific updates:
-  - 'groups' package-specific updates:
   - 'multi' package-specific updates:
-  - 'render' package-specific updates:
-  - 'req' package-specific updates:
+
+    - The multi code has been updated in line with the specification
+      Release 1.02 dated November 2014.
+
+    
   - 'spatial' package-specific updates:
 
-    - Sourceforge libsbml Tracker #387: The C# bindings for spatial 
-      were not working as expected. These have been fixed. Thanks to 
-      Harold GÃ³mez for reporting this.
+    - The spatial code has been updated in line with the specification
+      Release 0.89 dated November 2014.
 
  * Bug fixes
  
-  - 'arrays' package-specific bug fixes:
-  - 'distrib' package-specific bug fixes:
-  - 'dyn' package-specific bug fixes:
-  - 'groups' package-specific bug fixes:
-  - 'multi' package-specific bug fixes:
-  - 'render' package-specific bug fixes:
-  - 'req' package-specific bug fixes:
   - 'spatial' package-specific bug fixes:
+
+    - Sourceforge libsbml Tracker #387: The C# bindings for spatial 
+      were not working as expected. These have been fixed. Thanks to 
+      Harold Gómez for reporting this.
+
 		   
 ====================================================================
 5.11.0 (2014-11-27)
@@ -328,7 +494,7 @@ STABLE RELEASE
     
   - LibSBML incorrectly reported the units of 'pi' as radians. This
     has been corrected to report 'dimensionless'.  Thanks to Matthias
-    KÃ¶nig for reporting this.
+    König for reporting this.
 
   - The L3 parser did not recognize 'arcsinh' or 'asinh' as valid
     built-in functions.  This has been fixed.
@@ -1725,16 +1891,16 @@ STABLE RELEASE
     Line numbers were not being reported as accurately for L2 models 
     as for L3 models. We have overviewed all the code relating
     to line numbers and improved the accuracy and consistency
-    of line numbers reported. Thanks to Raimund RÃ¶nn for the report.  
+    of line numbers reported. Thanks to Raimund Rönn for the report.  
 
   - Tracker issue #3471902
     The documentation for the readSBMLFromString function claimed it
     prepend the xml encoding if it was not present. In fact, the 
     function did not do this. This has been corrected. Thanks to
-    Raimund RÃ¶nn for reporting it.  
+    Raimund Rönn for reporting it.  
     
   - Tracker issue #3466104
-    Fixed inaccuracies in the documentation. Thanks to Raimund RÃ¶nn
+    Fixed inaccuracies in the documentation. Thanks to Raimund Rönn
     for his careful reading and taking the time to report the errors.
     
   - Validation failed to notice that csymbol avogadro was not valid
@@ -1911,10 +2077,10 @@ STABLE RELEASE
   - Tracker issue #3461400
     Writing out an L2 model with Layout annotation caused duplicate
     annotations to be written out.  This has been fixed.  Thanks to
-    Raimund RÃ¶nn for reporting the problem.
+    Raimund Rönn for reporting the problem.
 
   - Tracker issue #3462055  
-    A couple of typos have been corrected.  Thanks to Raimund RÃ¶nn 
+    A couple of typos have been corrected.  Thanks to Raimund Rönn 
     for taking the time to report these.
        
   - The documentation for Python did not omit internal libSBML

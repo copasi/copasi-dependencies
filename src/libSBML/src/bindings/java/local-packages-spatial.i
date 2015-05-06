@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -32,21 +32,22 @@
  */
 #ifdef USE_SPATIAL
 
- /** For ImageData::setSamples() **/
+
+ /** For SampledField::setSamples() **/
 %include "arrays_java.i"
 %apply int[] {int *};
 
-/** For ImageData::getSamples() **/
+/** For SampledField::getSamples() **/
 %include "typemaps.i"
-void ImageData::getSamples(int *outputSamples);
-void ImageData::getUncompressed(int *outputSamples);
+void SampledField::getSamples(int *outputSamples);
+void SampledField::getUncompressed(int *outputSamples);
 
 /** For PolygonObject::setPointIndices() **/
 %include "arrays_java.i"
 %apply int[] {int *};
 %apply double[] {double *};
 
-%ignore ImageData::getUncompressedData;
+%ignore SampledField::getUncompressedData;
 
 
 /** For PolygonObject::getPointIndices() **/
@@ -61,6 +62,8 @@ void PolygonObject::getPointIndices(int* outputPointIndices);
 %include "typemaps.i"
 void TransformationComponents::getComponents(double* outputComponents);
 /*** END handling arrays ***/
+
+
 /**
  * Adds DownCastBase(long cPtr, boolean owner) method for the spatial package extension
  */
@@ -128,6 +131,10 @@ void TransformationComponents::getComponents(double* outputComponents);
         {
           return new ListOfCoordinateComponents(cPtr, owner);
         }
+        else if (name == "listOfSampledFields")
+        {
+          return new ListOfSampledFields(cPtr, owner);
+        }
         else if (name == "listOfSampledVolumes")
         {
           return new ListOfSampledVolumes(cPtr, owner);
@@ -136,9 +143,9 @@ void TransformationComponents::getComponents(double* outputComponents);
         {
           return new ListOfAnalyticVolumes(cPtr, owner);
         }
-        else if (name == "listOfSpatialPoints")
+        else if (name == "listOfParametricObjects")
         {
-          return new ListOfSpatialPoints(cPtr, owner);
+          return new ListOfParametricObjects(cPtr, owner);
         }
         else if (name == "listOfCSGObjects")
         {
@@ -151,6 +158,10 @@ void TransformationComponents::getComponents(double* outputComponents);
         else if (name == "listOfCoordinateReferences")
         {
           return new ListOfCoordinateReferences(cPtr, owner);
+        }
+        else if (name == "listOfOrdinalMappings")
+        {
+          return new ListOfOrdinalMappings(cPtr, owner);
         }
 
         return new ListOf(cPtr, owner);
@@ -185,9 +196,6 @@ void TransformationComponents::getComponents(double* outputComponents);
       case (int) libsbml.SBML_SPATIAL_SAMPLEDFIELD:
         return new SampledField(cPtr, owner);
 
-      case (int) libsbml.SBML_SPATIAL_IMAGEDATA:
-        return new ImageData(cPtr, owner);
-
       case (int) libsbml.SBML_SPATIAL_SAMPLEDVOLUME:
         return new SampledVolume(cPtr, owner);
 
@@ -202,12 +210,6 @@ void TransformationComponents::getComponents(double* outputComponents);
 
       case (int) libsbml.SBML_SPATIAL_PARAMETRICOBJECT:
         return new ParametricObject(cPtr, owner);
-
-      case (int) libsbml.SBML_SPATIAL_POLYGONOBJECT:
-        return new PolygonObject(cPtr, owner);
-
-      case (int) libsbml.SBML_SPATIAL_SPATIALPOINT:
-        return new SpatialPoint(cPtr, owner);
 
       case (int) libsbml.SBML_SPATIAL_CSGEOMETRY:
         return new CSGeometry(cPtr, owner);
@@ -263,37 +265,21 @@ void TransformationComponents::getComponents(double* outputComponents);
       case (int) libsbml.SBML_SPATIAL_COORDINATEREFERENCE:
         return new CoordinateReference(cPtr, owner);
 
+      case (int) libsbml.SBML_SPATIAL_MIXEDGEOMETRY:
+        return new MixedGeometry(cPtr, owner);
+
+      case (int) libsbml.SBML_SPATIAL_ORDINALMAPPING:
+        return new OrdinalMapping(cPtr, owner);
+
+      case (int) libsbml.SBML_SPATIAL_SPATIALPOINTS:
+        return new SpatialPoints(cPtr, owner);
+
       default:
         return new SBase(cPtr, owner);
     }
   }
 
 %}
-
-
-//
-// Convert objects into the most specific object possible.
-//
-%typemap("javaout") GeometryDefinition*
-{
-  return (GeometryDefinition)libsbml.DowncastSBase($jnicall, $owner);
-}
-
-//
-// Convert objects into the most specific object possible.
-//
-%typemap("javaout") CSGNode*
-{
-  return (CSGNode)libsbml.DowncastSBase($jnicall, $owner);
-}
-
-//
-// Convert objects into the most specific object possible.
-//
-%typemap("javaout") CSGTransformation*
-{
-  return (CSGTransformation)libsbml.DowncastSBase($jnicall, $owner);
-}
 
 COVARIANT_RTYPE_CLONE(SpatialExtension)
 COVARIANT_RTYPE_CLONE(DomainType)
@@ -306,14 +292,11 @@ COVARIANT_RTYPE_CLONE(CompartmentMapping)
 COVARIANT_RTYPE_CLONE(CoordinateComponent)
 COVARIANT_RTYPE_CLONE(SampledFieldGeometry)
 COVARIANT_RTYPE_CLONE(SampledField)
-COVARIANT_RTYPE_CLONE(ImageData)
 COVARIANT_RTYPE_CLONE(SampledVolume)
 COVARIANT_RTYPE_CLONE(AnalyticGeometry)
 COVARIANT_RTYPE_CLONE(AnalyticVolume)
 COVARIANT_RTYPE_CLONE(ParametricGeometry)
 COVARIANT_RTYPE_CLONE(ParametricObject)
-COVARIANT_RTYPE_CLONE(PolygonObject)
-COVARIANT_RTYPE_CLONE(SpatialPoint)
 COVARIANT_RTYPE_CLONE(CSGeometry)
 COVARIANT_RTYPE_CLONE(CSGObject)
 COVARIANT_RTYPE_CLONE(CSGNode)
@@ -332,18 +315,23 @@ COVARIANT_RTYPE_CLONE(AdvectionCoefficient)
 COVARIANT_RTYPE_CLONE(BoundaryCondition)
 COVARIANT_RTYPE_CLONE(Geometry)
 COVARIANT_RTYPE_CLONE(CoordinateReference)
+COVARIANT_RTYPE_CLONE(MixedGeometry)
+COVARIANT_RTYPE_CLONE(OrdinalMapping)
+COVARIANT_RTYPE_CLONE(SpatialPoints)
 COVARIANT_RTYPE_CLONE(ListOfDomainTypes)
 COVARIANT_RTYPE_CLONE(ListOfDomains)
 COVARIANT_RTYPE_CLONE(ListOfInteriorPoints)
 COVARIANT_RTYPE_CLONE(ListOfAdjacentDomains)
 COVARIANT_RTYPE_CLONE(ListOfGeometryDefinitions)
 COVARIANT_RTYPE_CLONE(ListOfCoordinateComponents)
+COVARIANT_RTYPE_CLONE(ListOfSampledFields)
 COVARIANT_RTYPE_CLONE(ListOfSampledVolumes)
 COVARIANT_RTYPE_CLONE(ListOfAnalyticVolumes)
-COVARIANT_RTYPE_CLONE(ListOfSpatialPoints)
+COVARIANT_RTYPE_CLONE(ListOfParametricObjects)
 COVARIANT_RTYPE_CLONE(ListOfCSGObjects)
 COVARIANT_RTYPE_CLONE(ListOfCSGNodes)
 COVARIANT_RTYPE_CLONE(ListOfCoordinateReferences)
+COVARIANT_RTYPE_CLONE(ListOfOrdinalMappings)
 
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(DomainType)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(Domain)
@@ -351,12 +339,14 @@ COVARIANT_RTYPE_LISTOF_GET_REMOVE(InteriorPoint)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(AdjacentDomains)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(GeometryDefinition)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(CoordinateComponent)
+COVARIANT_RTYPE_LISTOF_GET_REMOVE(SampledField)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SampledVolume)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(AnalyticVolume)
-COVARIANT_RTYPE_LISTOF_GET_REMOVE(SpatialPoint)
+COVARIANT_RTYPE_LISTOF_GET_REMOVE(ParametricObject)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(CSGObject)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(CSGNode)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(CoordinateReference)
+COVARIANT_RTYPE_LISTOF_GET_REMOVE(OrdinalMapping)
 
 SBMLCONSTRUCTOR_EXCEPTION(SpatialPkgNamespaces)
 SBMLCONSTRUCTOR_EXCEPTION(DomainType)
@@ -369,14 +359,11 @@ SBMLCONSTRUCTOR_EXCEPTION(CompartmentMapping)
 SBMLCONSTRUCTOR_EXCEPTION(CoordinateComponent)
 SBMLCONSTRUCTOR_EXCEPTION(SampledFieldGeometry)
 SBMLCONSTRUCTOR_EXCEPTION(SampledField)
-SBMLCONSTRUCTOR_EXCEPTION(ImageData)
 SBMLCONSTRUCTOR_EXCEPTION(SampledVolume)
 SBMLCONSTRUCTOR_EXCEPTION(AnalyticGeometry)
 SBMLCONSTRUCTOR_EXCEPTION(AnalyticVolume)
 SBMLCONSTRUCTOR_EXCEPTION(ParametricGeometry)
 SBMLCONSTRUCTOR_EXCEPTION(ParametricObject)
-SBMLCONSTRUCTOR_EXCEPTION(PolygonObject)
-SBMLCONSTRUCTOR_EXCEPTION(SpatialPoint)
 SBMLCONSTRUCTOR_EXCEPTION(CSGeometry)
 SBMLCONSTRUCTOR_EXCEPTION(CSGObject)
 SBMLCONSTRUCTOR_EXCEPTION(CSGNode)
@@ -395,18 +382,48 @@ SBMLCONSTRUCTOR_EXCEPTION(AdvectionCoefficient)
 SBMLCONSTRUCTOR_EXCEPTION(BoundaryCondition)
 SBMLCONSTRUCTOR_EXCEPTION(Geometry)
 SBMLCONSTRUCTOR_EXCEPTION(CoordinateReference)
+SBMLCONSTRUCTOR_EXCEPTION(MixedGeometry)
+SBMLCONSTRUCTOR_EXCEPTION(OrdinalMapping)
+SBMLCONSTRUCTOR_EXCEPTION(SpatialPoints)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfDomainTypes)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfDomains)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfInteriorPoints)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfAdjacentDomains)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfGeometryDefinitions)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfCoordinateComponents)
+SBMLCONSTRUCTOR_EXCEPTION(ListOfSampledFields)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfSampledVolumes)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfAnalyticVolumes)
-SBMLCONSTRUCTOR_EXCEPTION(ListOfSpatialPoints)
+SBMLCONSTRUCTOR_EXCEPTION(ListOfParametricObjects)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfCSGObjects)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfCSGNodes)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfCoordinateReferences)
+SBMLCONSTRUCTOR_EXCEPTION(ListOfOrdinalMappings)
+
+//
+// Convert GeometryDefinition objects into the most specific object possible.
+//
+%typemap("javaout") GeometryDefinition*
+{
+	return (GeometryDefinition) libsbml.DowncastSBase($jnicall, $owner);
+}
+
+//
+// Convert CSGNode objects into the most specific object possible.
+//
+%typemap("javaout") CSGNode*
+{
+	return (CSGNode) libsbml.DowncastSBase($jnicall, $owner);
+}
+
+//
+// Convert CSGTransformation objects into the most specific object possible.
+//
+%typemap("javaout") CSGTransformation*
+{
+	return (CSGTransformation) libsbml.DowncastSBase($jnicall, $owner);
+}
+
 
 #endif /* USE_SPATIAL */
 

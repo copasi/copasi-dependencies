@@ -537,6 +537,28 @@ public class Rule : SBase {
 
   
 /**
+   * Unsets the value of the 'variable' attribute of this Rule object.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   *
+   * @see setVariable(string sid)
+   * @see isSetVariable()
+   * @see getVariable()
+   */ public
+ int unsetVariable() {
+    int ret = libsbmlPINVOKE.Rule_unsetVariable(swigCPtr);
+    return ret;
+  }
+
+  
+/**
    * Unsets the 'units' for this Rule.
    *
    *

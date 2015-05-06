@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -887,7 +887,7 @@ InteriorPoint_setCoord3(InteriorPoint_t * ip, double coord3);
 
 /**
  * Unsets the value of the "coord1" attribute of the given 
- *InteriorPoint_t structure.
+ * InteriorPoint_t structure.
  *
  * @param ip the InteriorPoint_t structure.
  *
@@ -908,7 +908,7 @@ InteriorPoint_unsetCoord1(InteriorPoint_t * ip);
 
 /**
  * Unsets the value of the "coord2" attribute of the given 
- *InteriorPoint_t structure.
+ * InteriorPoint_t structure.
  *
  * @param ip the InteriorPoint_t structure.
  *
@@ -929,7 +929,7 @@ InteriorPoint_unsetCoord2(InteriorPoint_t * ip);
 
 /**
  * Unsets the value of the "coord3" attribute of the given 
- *InteriorPoint_t structure.
+ * InteriorPoint_t structure.
  *
  * @param ip the InteriorPoint_t structure.
  *

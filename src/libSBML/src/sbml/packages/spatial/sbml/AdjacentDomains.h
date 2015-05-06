@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -919,7 +919,7 @@ AdjacentDomains_setDomain2(AdjacentDomains_t * ad, const char * domain2);
 
 /**
  * Unsets the value of the "id" attribute of the given 
- *AdjacentDomains_t structure.
+ * AdjacentDomains_t structure.
  *
  * @param ad the AdjacentDomains_t structure.
  *
@@ -940,7 +940,7 @@ AdjacentDomains_unsetId(AdjacentDomains_t * ad);
 
 /**
  * Unsets the value of the "domain1" attribute of the given 
- *AdjacentDomains_t structure.
+ * AdjacentDomains_t structure.
  *
  * @param ad the AdjacentDomains_t structure.
  *
@@ -961,7 +961,7 @@ AdjacentDomains_unsetDomain1(AdjacentDomains_t * ad);
 
 /**
  * Unsets the value of the "domain2" attribute of the given 
- *AdjacentDomains_t structure.
+ * AdjacentDomains_t structure.
  *
  * @param ad the AdjacentDomains_t structure.
  *

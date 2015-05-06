@@ -422,7 +422,7 @@ public class ASTNode extends ASTBase {
    <p>
    * Child nodes are added in-order, from left to right.
    <p>
-   * @param child the {@link ASTNode} instance to add
+   * @param disownedChild the {@link ASTNode} instance to add
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -443,14 +443,14 @@ public class ASTNode extends ASTBase {
  * {@link ASTNode#isWellFormedASTNode()}
  * may also be useful for checking the results of node modifications.
    <p>
-   * @see #prependChild(ASTNode child)
-   * @see #replaceChild(long n, ASTNode child)
-   * @see #insertChild(long n, ASTNode child)
+   * @see #prependChild(ASTNode disownedChild)
+   * @see #replaceChild(long n, ASTNode disownedChild)
+   * @see #insertChild(long n, ASTNode disownedChild)
    * @see #removeChild(long n)
    * @see #isWellFormedASTNode()
    */ public
- int addChild(ASTNode child) {
-    return libsbmlJNI.ASTNode_addChild(swigCPtr, this, ASTNode.getCPtrAndDisown(child), child);
+ int addChild(ASTNode disownedChild) {
+    return libsbmlJNI.ASTNode_addChild(swigCPtr, this, ASTNode.getCPtrAndDisown(disownedChild), disownedChild);
   }
 
   
@@ -459,7 +459,7 @@ public class ASTNode extends ASTBase {
    <p>
    * This method adds child nodes from right to left.
    <p>
-   * @param child the {@link ASTNode} instance to add
+   * @param disownedChild the {@link ASTNode} instance to add
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -480,13 +480,13 @@ public class ASTNode extends ASTBase {
  * {@link ASTNode#isWellFormedASTNode()}
  * may also be useful for checking the results of node modifications.
    <p>
-   * @see #addChild(ASTNode child)
-   * @see #replaceChild(long n, ASTNode child)
-   * @see #insertChild(long n, ASTNode child)
+   * @see #addChild(ASTNode disownedChild)
+   * @see #replaceChild(long n, ASTNode disownedChild)
+   * @see #insertChild(long n, ASTNode disownedChild)
    * @see #removeChild(long n)
    */ public
- int prependChild(ASTNode child) {
-    return libsbmlJNI.ASTNode_prependChild(swigCPtr, this, ASTNode.getCPtrAndDisown(child), child);
+ int prependChild(ASTNode disownedChild) {
+    return libsbmlJNI.ASTNode_prependChild(swigCPtr, this, ASTNode.getCPtrAndDisown(disownedChild), disownedChild);
   }
 
   
@@ -514,10 +514,10 @@ public class ASTNode extends ASTBase {
  * {@link ASTNode#isWellFormedASTNode()}
  * may also be useful for checking the results of node modifications.
    <p>
-   * @see #addChild(ASTNode child)
-   * @see #prependChild(ASTNode child)
-   * @see #replaceChild(long n, ASTNode child)
-   * @see #insertChild(long n, ASTNode child)
+   * @see #addChild(ASTNode disownedChild)
+   * @see #prependChild(ASTNode disownedChild)
+   * @see #replaceChild(long n, ASTNode disownedChild)
+   * @see #insertChild(long n, ASTNode disownedChild)
    */ public
  int removeChild(long n) {
     return libsbmlJNI.ASTNode_removeChild(swigCPtr, this, n);
@@ -528,7 +528,7 @@ public class ASTNode extends ASTBase {
    * Replaces the nth child of this {@link ASTNode} with the given {@link ASTNode}.
    <p>
    * @param n long the index of the child to replace
-   * @param newChild {@link ASTNode} to replace the nth child
+   * @param disownedChild {@link ASTNode} to replace the nth child
    * @param delreplaced boolean indicating whether to delete the replaced child.
    <p>
    * <p>
@@ -551,13 +551,13 @@ public class ASTNode extends ASTBase {
  * {@link ASTNode#isWellFormedASTNode()}
  * may also be useful for checking the results of node modifications.
    <p>
-   * @see #addChild(ASTNode child)
-   * @see #prependChild(ASTNode child)
-   * @see #insertChild(long n, ASTNode child)
+   * @see #addChild(ASTNode disownedChild)
+   * @see #prependChild(ASTNode disownedChild)
+   * @see #insertChild(long n, ASTNode disownedChild)
    * @see #removeChild(long n)
    */ public
- int replaceChild(long n, ASTNode newChild, boolean delreplaced) {
-    return libsbmlJNI.ASTNode_replaceChild__SWIG_0(swigCPtr, this, n, ASTNode.getCPtrAndDisown(newChild), newChild, delreplaced);
+ int replaceChild(long n, ASTNode disownedChild, boolean delreplaced) {
+    return libsbmlJNI.ASTNode_replaceChild__SWIG_0(swigCPtr, this, n, ASTNode.getCPtrAndDisown(disownedChild), disownedChild, delreplaced);
   }
 
   
@@ -565,7 +565,7 @@ public class ASTNode extends ASTBase {
    * Replaces the nth child of this {@link ASTNode} with the given {@link ASTNode}.
    <p>
    * @param n long the index of the child to replace
-   * @param newChild {@link ASTNode} to replace the nth child
+   * @param disownedChild {@link ASTNode} to replace the nth child
    * @param delreplaced boolean indicating whether to delete the replaced child.
    <p>
    * <p>
@@ -588,13 +588,13 @@ public class ASTNode extends ASTBase {
  * {@link ASTNode#isWellFormedASTNode()}
  * may also be useful for checking the results of node modifications.
    <p>
-   * @see #addChild(ASTNode child)
-   * @see #prependChild(ASTNode child)
-   * @see #insertChild(long n, ASTNode child)
+   * @see #addChild(ASTNode disownedChild)
+   * @see #prependChild(ASTNode disownedChild)
+   * @see #insertChild(long n, ASTNode disownedChild)
    * @see #removeChild(long n)
    */ public
- int replaceChild(long n, ASTNode newChild) {
-    return libsbmlJNI.ASTNode_replaceChild__SWIG_1(swigCPtr, this, n, ASTNode.getCPtrAndDisown(newChild), newChild);
+ int replaceChild(long n, ASTNode disownedChild) {
+    return libsbmlJNI.ASTNode_replaceChild__SWIG_1(swigCPtr, this, n, ASTNode.getCPtrAndDisown(disownedChild), disownedChild);
   }
 
   
@@ -603,7 +603,7 @@ public class ASTNode extends ASTBase {
    * list of children.
    <p>
    * @param n long the index of the {@link ASTNode} being added
-   * @param newChild {@link ASTNode} to insert as the nth child
+   * @param disownedChild {@link ASTNode} to insert as the nth child
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -625,13 +625,13 @@ public class ASTNode extends ASTBase {
  * {@link ASTNode#isWellFormedASTNode()}
  * may also be useful for checking the results of node modifications.
    <p>
-   * @see #addChild(ASTNode child)
-   * @see #prependChild(ASTNode child)
-   * @see #replaceChild(long n, ASTNode child)
+   * @see #addChild(ASTNode disownedChild)
+   * @see #prependChild(ASTNode disownedChild)
+   * @see #replaceChild(long n, ASTNode disownedChild)
    * @see #removeChild(long n)
    */ public
- int insertChild(long n, ASTNode newChild) {
-    return libsbmlJNI.ASTNode_insertChild(swigCPtr, this, n, ASTNode.getCPtrAndDisown(newChild), newChild);
+ int insertChild(long n, ASTNode disownedChild) {
+    return libsbmlJNI.ASTNode_insertChild(swigCPtr, this, n, ASTNode.getCPtrAndDisown(disownedChild), disownedChild);
   }
 
   
@@ -732,7 +732,7 @@ getChild( getNumChildren() - 1 );
  * href='http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations'>Section
  * 5.2, Semantic Annotations</a> for more information about these constructs.
    <p>
-   * @param sAnnotation the annotation to add.
+   * @param disownedAnnotation the annotation to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -757,8 +757,8 @@ getChild( getNumChildren() - 1 );
    * @see ASTNode#getNumSemanticsAnnotations()
    * @see ASTNode#getSemanticsAnnotation(long)
    */ public
- int addSemanticsAnnotation(XMLNode sAnnotation) {
-    return libsbmlJNI.ASTNode_addSemanticsAnnotation(swigCPtr, this, XMLNode.getCPtrAndDisown(sAnnotation), sAnnotation);
+ int addSemanticsAnnotation(XMLNode disownedAnnotation) {
+    return libsbmlJNI.ASTNode_addSemanticsAnnotation(swigCPtr, this, XMLNode.getCPtrAndDisown(disownedAnnotation), disownedAnnotation);
   }
 
   
@@ -1049,6 +1049,30 @@ getChild( getNumChildren() - 1 );
    */ public
  int getExponent() {
     return libsbmlJNI.ASTNode_getExponent(swigCPtr, this);
+  }
+
+  
+/**
+   * Returns the numerical value of this {@link ASTNode}.
+   <p>
+   * @return the numerical value of this {@link ASTNode}, or <code>NaN</code> if this
+   * is not a type of node that has a numerical value.
+   <p>
+   * @note This function will return a numerical value (as a double) for 
+   * any ASTNode_t that represents a number, a constant such as 
+   * {@link libsbmlConstants#AST_CONSTANT_PI AST_CONSTANT_PI}, 
+   * {@link libsbmlConstants#AST_CONSTANT_E AST_CONSTANT_E}, or 
+   * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO}, or 
+   * <code>1</code> for nodes of type 
+   * {@link libsbmlConstants#AST_CONSTANT_TRUE AST_CONSTANT_TRUE} and <code>0</code> for nodes of type
+   * {@link libsbmlConstants#AST_CONSTANT_FALSE AST_CONSTANT_FALSE}. It does not evaluate
+   * the node in any way so, for example, it will not return the value of 
+   * a named ASTNode_t or attempt to evaluate a function. 
+   * This includes a node representing <code>time</code> i.e. nodes
+   * of type {@link libsbmlConstants#AST_NAME_TIME AST_NAME_TIME}.
+   */ public
+ double getValue() {
+    return libsbmlJNI.ASTNode_getValue(swigCPtr, this);
   }
 
   
@@ -2373,6 +2397,20 @@ used to define a number with value <code>10</code> and unit of measurement
 /** * @internal */ public
  String getPackageName() {
     return libsbmlJNI.ASTNode_getPackageName(swigCPtr, this);
+  }
+
+  
+/** * @internal */ public
+ ASTBasePlugin getPlugin(String arg0) {
+    long cPtr = libsbmlJNI.ASTNode_getPlugin__SWIG_0(swigCPtr, this, arg0);
+    return (cPtr == 0) ? null : new ASTBasePlugin(cPtr, false);
+  }
+
+  
+/** * @internal */ public
+ ASTBasePlugin getPlugin(long n) {
+    long cPtr = libsbmlJNI.ASTNode_getPlugin__SWIG_2(swigCPtr, this, n);
+    return (cPtr == 0) ? null : new ASTBasePlugin(cPtr, false);
   }
 
   

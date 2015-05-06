@@ -675,6 +675,27 @@ public class Parameter : SBase {
 
   
 /**
+   * Unsets the value of the 'constant' attribute of this Parameter object.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   *
+   * @see isSetConstant()
+   * @see setConstant(@if java String@endif)
+   * @see getConstant()
+   */ public
+ int unsetConstant() {
+    int ret = libsbmlPINVOKE.Parameter_unsetConstant(swigCPtr);
+    return ret;
+  }
+
+  
+/**
    * Unsets the 'value' attribute of this Parameter instance.
    *
    *

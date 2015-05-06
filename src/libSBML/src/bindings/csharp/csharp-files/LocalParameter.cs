@@ -397,6 +397,13 @@ public class LocalParameter : Parameter {
     return ret;
   }
 
+  
+/** */ /* libsbml-internal */ public new
+ int unsetConstant() {
+    int ret = libsbmlPINVOKE.LocalParameter_unsetConstant(swigCPtr);
+    return ret;
+  }
+
 }
 
 }

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -123,6 +123,27 @@ START_TEST (test_RateRule_setVariable)
 END_TEST
 
 
+START_TEST (test_RateRule_unsetVariable)
+{
+  const char *variable = "x";
+
+
+  RateRule_setVariable(RR, variable);
+
+  fail_unless( !strcmp(RateRule_getVariable(RR), variable) );
+  fail_unless( RateRule_isSetVariable(RR) );
+
+  RateRule_unsetVariable(RR);
+  fail_unless( !RateRule_isSetVariable(RR) );
+
+  if (RateRule_getVariable(RR) != NULL)
+  {
+    fail("RateRule_unsetVariable(RR) did not clear string.");
+  }
+}
+END_TEST
+
+
 //START_TEST (test_RateRule_createWithFormula)
 //{
 //  const ASTNode_t *math;
@@ -211,6 +232,7 @@ create_suite_RateRule (void)
   tcase_add_test( tcase, test_RateRule_create      );
   tcase_add_test( tcase, test_RateRule_free_NULL   );
   tcase_add_test( tcase, test_RateRule_setVariable );
+  tcase_add_test( tcase, test_RateRule_unsetVariable   );
   //tcase_add_test( tcase, test_RateRule_createWithFormula   );
   //tcase_add_test( tcase, test_RateRule_createWithMath   );
   tcase_add_test( tcase, test_RateRule_createWithNS         );

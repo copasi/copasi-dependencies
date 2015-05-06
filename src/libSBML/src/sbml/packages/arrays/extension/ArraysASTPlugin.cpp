@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -152,15 +152,13 @@ ArraysASTPlugin::ArraysASTPlugin(const ArraysASTPlugin& orig)
 {
   if ( orig.mVector  != NULL)
   {
-    mVector = static_cast<ASTArraysVectorFunctionNode*>
-                                 ( orig.mVector->deepCopy() );
+    mVector = orig.mVector->deepCopy();
   }
   
 #if (0)
   if ( orig.mMatrix  != NULL)
   {
-    mMatrix = static_cast<ASTArraysMatrixFunctionNode*>
-                                 ( orig.mMatrix->deepCopy() );
+    mMatrix = orig.mMatrix->deepCopy();
   }
 #endif
 }
@@ -171,6 +169,7 @@ ArraysASTPlugin::ArraysASTPlugin(const ArraysASTPlugin& orig)
  */
 ArraysASTPlugin::~ArraysASTPlugin () 
 {
+  delete mVector;
 }
 
 /*
@@ -272,7 +271,7 @@ ArraysASTPlugin::readVector(XMLInputStream& stream, const std::string& reqd_pref
   
   stream.skipText();
   const XMLToken nextElement = stream.peek();
-  const string&  nextName = nextElement.getName();
+  //const string&  nextName = nextElement.getName();
   
   unsigned int numChildren = determineNumChildren(stream, "vector");
     
@@ -572,16 +571,16 @@ ArraysASTPlugin::removeChild(unsigned int n)
 
 
 int 
-ArraysASTPlugin::replaceChild(unsigned int n, ASTBase* newChild)
+ArraysASTPlugin::replaceChild(unsigned int n, ASTBase* newChild, bool delreplaced)
 { 
   if (mVector != NULL)
   {
-    return mVector->replaceChild(n, newChild);
+    return mVector->replaceChild(n, newChild, delreplaced);
   }
 #if (0)
   else if (mMatrix != NULL)
   {
-    return mMatrix->replaceChild(n, newChild);
+    return mMatrix->replaceChild(n, newChild, delreplaced);
   }
 #endif
   else
@@ -906,7 +905,6 @@ ArraysASTPlugin::getTypeFromName(const std::string& name) const
 const char * 
 ArraysASTPlugin::getNameFromType(int type) const
 {
-  std::string name = "";
 
   static const int size = sizeof(ARRAYS_MATHML_ELEMENTS) / sizeof(ARRAYS_MATHML_ELEMENTS[0]);
   if (type >= AST_QUALIFIER_CONDITION && type < AST_ARRAYS_UNKNOWN)
@@ -920,11 +918,11 @@ ArraysASTPlugin::getNameFromType(int type) const
     }
     if (found == true)
     {
-      name = ARRAYS_MATHML_ELEMENTS[i-1];
+      return ARRAYS_MATHML_ELEMENTS[i-1];
     }
   }
 
-  return safe_strdup(name.c_str());
+  return "";
 }
 
 
@@ -969,11 +967,25 @@ ArraysASTPlugin::getASTType() const
   }
 }
 
+#define GET_NUM_CHILDREN(result,node) \
+{\
+  ASTFunctionBase* tmp = dynamic_cast<ASTFunctionBase*>(node);\
+  if (tmp != NULL) result= tmp->getNumChildren(); \
+  else\
+  {\
+    ASTNode* tmp2 = dynamic_cast<ASTNode*>(node);\
+    if (tmp2 != NULL)\
+      result= tmp2->getNumChildren(); \
+    else result = 0;\
+  }\
+}
+
 
 bool
 ArraysASTPlugin::hasCorrectNumberArguments(int type) const
 {
   bool correctNumArgs = true;
+  unsigned int numChildren;
 
   ASTBase* function = const_cast<ASTBase*>(getMath());
 
@@ -988,21 +1000,11 @@ ArraysASTPlugin::hasCorrectNumberArguments(int type) const
     }
   }
 
-      // cast the function to an ASTNode
-  ASTNode * newAST = dynamic_cast<ASTNode*>(function);
-
-  // double check we are working with the right thing
-  if (newAST == NULL)
-  {
+  if (function->getExtendedType() != type)
     return false;
-  }
-  else if (newAST->getExtendedType() != type)
-  {
-    return false;
-  }
 
-  unsigned int numChildren = newAST->getNumChildren();
-  
+  GET_NUM_CHILDREN(numChildren, function);
+
   switch (type)
   {
   case AST_LINEAR_ALGEBRA_SELECTOR:
@@ -1077,8 +1079,8 @@ ArraysASTPlugin::isPackageInfixFunction() const
     return false;
   }
 
-  unsigned int numChildren = newAST->getNumChildren();
-  unsigned int child = 0;
+  //unsigned int numChildren = newAST->getNumChildren();
+  //unsigned int child = 0;
   const ArraysASTPlugin* aap = static_cast<const ArraysASTPlugin*>(newAST->getPlugin("arrays"));
   switch(aap->getASTType()) {
   case AST_LINEAR_ALGEBRA_SELECTOR:
@@ -1309,8 +1311,8 @@ int ArraysASTPlugin::checkNumArguments(const ASTNode* function, std::stringstrea
   if (function->getPackageName() != "arrays") return 0;
   const ArraysASTPlugin* aap = static_cast<const ArraysASTPlugin*>(function->getPlugin("arrays"));
   string product = "";
-  unsigned int c=0;
-  unsigned int firstrow=0;
+  //unsigned int c=0;
+  //unsigned int firstrow=0;
 
   switch(aap->getASTType()) {
   case AST_LINEAR_ALGEBRA_SELECTOR:

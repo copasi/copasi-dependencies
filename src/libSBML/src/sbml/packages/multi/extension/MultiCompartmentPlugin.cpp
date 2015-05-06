@@ -327,7 +327,7 @@ MultiCompartmentPlugin::getCompartmentType() const
 /*
  * Returns the value of the "isType" attribute of this MultiCompartmentPlugin.
  */
-const bool
+bool
 MultiCompartmentPlugin::getIsType() const
 {
   return mIsType;

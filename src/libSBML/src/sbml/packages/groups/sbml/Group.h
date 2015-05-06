@@ -231,7 +231,7 @@ public:
    * 
    * @return the kind of this Group.
    */
-  const GroupKind_t getKind () const;
+  GroupKind_t getKind () const;
 
 
   /**

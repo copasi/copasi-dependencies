@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -211,10 +211,22 @@ START_TEST (test_L3_Compartment_constant)
   fail_unless(Compartment_getConstant(C) == 1);
   fail_unless(Compartment_isSetConstant(C) == 1);
 
+  int ret = Compartment_unsetConstant(C);
+
+  fail_unless(ret == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(Compartment_getConstant(C) == 1);
+  fail_unless(Compartment_isSetConstant(C) == 0);
+
   Compartment_setConstant(C, 0);
 
   fail_unless(Compartment_getConstant(C) == 0);
   fail_unless(Compartment_isSetConstant(C) == 1);
+
+  ret = Compartment_unsetConstant(C);
+
+  fail_unless(ret == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(Compartment_getConstant(C) == 0);
+  fail_unless(Compartment_isSetConstant(C) == 0);
 
 }
 END_TEST

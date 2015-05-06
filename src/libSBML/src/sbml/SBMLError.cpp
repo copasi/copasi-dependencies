@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -297,8 +297,10 @@ SBMLError::SBMLError (  const unsigned int errorId
 
     // Finish updating the (full) error message.
 
-    newMsg << errorTable[index].message;
-    
+    if (!((string)errorTable[index].message).empty()) {
+      newMsg << errorTable[index].message << endl;
+    }
+
     // look for individual references
     // if the code for this error does not yet exist skip
 
@@ -340,14 +342,16 @@ SBMLError::SBMLError (  const unsigned int errorId
 
       if (!ref.empty())
       {
-        newMsg << "\nReference: " << ref << endl;
+        newMsg << "Reference: " << ref << endl;
       }
     }
     if (!details.empty())
     {
       newMsg << " " << details;
+      if (details[details.size()-1] != '\n') {
+        newMsg << endl;
+      }
     }      
-    newMsg << endl;
     mMessage  = newMsg.str();
 
     // We mucked around with the severity code and (maybe) category code

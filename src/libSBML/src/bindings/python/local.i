@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -365,51 +365,6 @@ SWIGPYTHON__CMP__(XMLError)
 SWIGPYTHON__CMP__(XMLErrorLog)
 SWIGPYTHON__CMP__(XMLOutputStream)
 
-/**
- * The features directives below override the default SWIG generated
- * code for certain methods.  The idea is to tell SWIG to disown the
- * passed-in object.  The containing object will takeover ownership
- * and delete the object as appropriate.  This avoids a deadly
- * double-delete which can result in a segmentation fault.  For
- * example, each SBase that is appended to a ListOf is subsequently
- * owned by that ListOf.
- */
-
-%define TAKEOVER_OWNERSHIP(METHOD_NAME,ARG_INDEX)
-%feature("pythonprepend")
-METHOD_NAME
-%{
-        if args[ARG_INDEX] is not None: args[ARG_INDEX].thisown = 0
-%}
-%enddef
-
-// ----------------------------------------------------------------------
-// ListOf
-// ----------------------------------------------------------------------
-
-#if SWIG_VERSION > 0x010336
-TAKEOVER_OWNERSHIP(ListOf::appendAndOwn(SBase*),0)
-#else
-TAKEOVER_OWNERSHIP(ListOf::appendAndOwn(SBase*),1)
-#endif
-
-// ----------------------------------------------------------------------
-// ASTNode
-// ----------------------------------------------------------------------
-
-#if SWIG_VERSION > 0x010336
-TAKEOVER_OWNERSHIP(ASTNode::addChild(ASTNode*),0)
-TAKEOVER_OWNERSHIP(ASTNode::prependChild(ASTNode*),0)
-TAKEOVER_OWNERSHIP(ASTNode::insertChild(unsigned int, ASTNode*),1)
-TAKEOVER_OWNERSHIP(ASTNode::replaceChild(unsigned int, ASTNode*),1)
-TAKEOVER_OWNERSHIP(ASTNode::addSemanticsAnnotation(XMLNode*),0)
-#else
-TAKEOVER_OWNERSHIP(ASTNode::addChild(ASTNode*),1)
-TAKEOVER_OWNERSHIP(ASTNode::prependChild(ASTNode*),1)
-TAKEOVER_OWNERSHIP(ASTNode::insertChild(unsigned int, ASTNode*),2)
-TAKEOVER_OWNERSHIP(ASTNode::replaceChild(unsigned int, ASTNode*),2)
-TAKEOVER_OWNERSHIP(ASTNode::addSemanticsAnnotation(XMLNode*),1)
-#endif
 
 /**
  *
@@ -830,6 +785,80 @@ def readSBML(*args):
 %}
 
 
+
+
+/**
+ * Allows ListOf objects:
+ *
+ *   - To be indexed and sliced, e.g. lst[0].
+ */
+ 
+%define WRAP_LISTWRAPPER(CLASS)
+
+%template ( ListWrapper ## CLASS ) ListWrapper<CLASS>;
+
+%extend ListWrapper<CLASS>
+{
+  int __len__()
+  {
+    return self->getSize();
+  }
+
+  %pythoncode
+  {
+    def __getitem__(self, key):
+
+      try:
+         keyIsSlice = isinstance(key, slice)
+      except:
+         keyIsSlice = 0
+
+      if keyIsSlice:
+        start = key.start
+        if start is None:
+          start = 0
+        stop = key.stop
+        if stop is None:
+          stop = self.getSize()
+        return [self[i] for i in range(
+          self._fixNegativeIndex(start), self._fixNegativeIndex(stop)
+        )]
+
+      key = self._fixNegativeIndex(key)
+      if key < 0 or key >= self.getSize():
+        raise IndexError(key)
+      return self.get(key)
+
+
+    def _fixNegativeIndex(self, index):
+      if index < 0:
+        return index + self.getSize()
+      else:
+        return index
+
+
+    def __iter__(self):
+      for i in range(self.getSize()):
+        yield self[i]
+
+
+    def __repr__(self):
+      return "[" + ", ".join([repr(self[i]) for i in range(len(self))]) + "]"
+
+
+    def __str__(self):
+      return repr(self)
+  }
+}
+
+%enddef
+
+WRAP_LISTWRAPPER(SBMLNamespaces)
+WRAP_LISTWRAPPER(CVTerm)
+WRAP_LISTWRAPPER(Date)
+WRAP_LISTWRAPPER(ModelCreator)
+
+
 /**
  *  Wraps the following functions by using the corresponding 
  *  ListWrapper<TYPENAME> class.
@@ -849,6 +878,8 @@ def readSBML(*args):
  *
  */
 
+ 
+ 
 %feature("shadow")
 SBMLNamespaces::getSupportedNamespaces
 %{
@@ -935,7 +966,7 @@ ModelHistory::getListModifiedDates
 #endif
                                SWIG_POINTER_OWN |  0 );
 }
-
+ 
 %feature("shadow")
 SBase::getCVTerms
 %{

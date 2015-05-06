@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -36,6 +36,7 @@
 #include <sbml/math/ASTCSymbolAvogadroNode.h>
 #include <sbml/SBMLError.h>
 #include <sbml/SBMLErrorLog.h>
+#include <sbml/extension/ASTBasePlugin.h>
 
 /* open doxygen comment */
 
@@ -73,6 +74,10 @@ ASTCSymbolAvogadroNode::ASTCSymbolAvogadroNode (int type) :
   ASTConstantNumberNode::setValue(6.02214179e23);
   setEncoding("text");
   setDefinitionURL("http://www.sbml.org/sbml/symbols/avogadro");
+  for (unsigned int i = 0; i < getNumPlugins(); i++)
+  {
+    ASTBase::getPlugin(i)->connectToParent(this);
+  }
 }
   
 

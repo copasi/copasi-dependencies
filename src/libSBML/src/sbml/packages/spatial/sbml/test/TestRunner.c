@@ -10,7 +10,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -48,7 +48,7 @@ BEGIN_C_DECLS
 
 Suite *create_suite_PolygonObject (void);
 Suite *create_suite_ParametricObject (void);
-Suite *create_suite_ImageData (void);
+Suite *create_suite_SampledField(void);
 Suite *create_suite_TransformationComponents (void);
 Suite *create_suite_CopyAndClone (void);
 
@@ -90,9 +90,9 @@ main (int argc, char* argv[])
 
   setTestDataDirectory();
 
-  SRunner *runner = srunner_create(create_suite_PolygonObject());
+  SRunner *runner = srunner_create(create_suite_ParametricObject());
   srunner_add_suite(runner, create_suite_ParametricObject());
-  srunner_add_suite(runner, create_suite_ImageData());
+  srunner_add_suite(runner, create_suite_SampledField());
   srunner_add_suite(runner, create_suite_TransformationComponents());
   srunner_add_suite(runner, create_suite_CopyAndClone());
 
@@ -105,6 +105,7 @@ main (int argc, char* argv[])
   num_failed = srunner_ntests_failed(runner);
 
   srunner_free(runner);
+  safe_free(TestDataDirectory);
 
   return num_failed;
 }

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -64,8 +64,12 @@ SpatialCompartmentPlugin::SpatialCompartmentPlugin(const std::string& uri,
  */
 SpatialCompartmentPlugin::SpatialCompartmentPlugin(const SpatialCompartmentPlugin& orig) :
     SBasePlugin(orig)
-  , mCompartmentMapping ( orig.mCompartmentMapping )
+  , mCompartmentMapping ( NULL )
 {
+  if (orig.mCompartmentMapping != NULL)
+  {
+    mCompartmentMapping = orig.mCompartmentMapping->clone();
+  }
 }
 
 
@@ -78,7 +82,10 @@ SpatialCompartmentPlugin::operator=(const SpatialCompartmentPlugin& rhs)
   if (&rhs != this)
   {
     this->SBasePlugin::operator=(rhs);
-    mCompartmentMapping = rhs.mCompartmentMapping;
+    delete mCompartmentMapping;
+    mCompartmentMapping = NULL;
+    if (rhs.mCompartmentMapping != NULL)
+      mCompartmentMapping = rhs.mCompartmentMapping->clone();
   }
 
   return *this;
@@ -100,6 +107,8 @@ SpatialCompartmentPlugin::clone () const
  */
 SpatialCompartmentPlugin::~SpatialCompartmentPlugin()
 {
+  delete mCompartmentMapping;
+  mCompartmentMapping = NULL;
 }
 
 
@@ -212,7 +221,7 @@ SpatialCompartmentPlugin::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -220,12 +229,10 @@ SpatialCompartmentPlugin::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
     }
   }
-
-  bool assigned = false;
 
 }
 
@@ -338,6 +345,7 @@ SpatialCompartmentPlugin::setCompartmentMapping(const CompartmentMapping* compar
 CompartmentMapping*
 SpatialCompartmentPlugin::createCompartmentMapping()
 {
+  delete mCompartmentMapping;
   SPATIAL_CREATE_NS(spatialns, getSBMLNamespaces());
   mCompartmentMapping = new CompartmentMapping(spatialns);
 

@@ -9,12 +9,12 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -79,8 +79,9 @@ struct CloneASTPluginEntityNoParent : public unary_function<ASTBasePlugin*, ASTB
 {
   ASTBasePlugin* operator() (ASTBasePlugin* ast) { 
     if (!ast) return 0;
-    ast->connectToParent(NULL);
-    return ast->clone(); 
+    ASTBasePlugin * cl = ast->clone();
+    cl->connectToParent(NULL);
+    return cl; 
   }
 };
 
@@ -157,7 +158,7 @@ ASTBase::ASTBase (const ASTBase& orig):
              mPlugins.begin(), CloneASTPluginEntity() );
   for (size_t i=0; i < mPlugins.size(); i++)
   {
-    mPlugins[i]->connectToParent(this);
+    getPlugin(i)->connectToParent(this);
   }
 }
 
@@ -471,7 +472,7 @@ ASTBase::isPackageInfixFunction() const
   if (getType() != AST_ORIGINATES_IN_PACKAGE) return false;
   for (size_t i=0; i < mPlugins.size(); i++)
   {
-    if (mPlugins[i]->isPackageInfixFunction()) return true;
+    if (getPlugin(i)->isPackageInfixFunction()) return true;
   }
   return false;
 }
@@ -482,7 +483,7 @@ ASTBase::hasPackageOnlyInfixSyntax() const
   if (getType() != AST_ORIGINATES_IN_PACKAGE) return false;
   for (size_t i=0; i < mPlugins.size(); i++)
   {
-    if (mPlugins[i]->hasPackageOnlyInfixSyntax()) return true;
+    if (getPlugin(i)->hasPackageOnlyInfixSyntax()) return true;
   }
   return false;
 }
@@ -493,7 +494,7 @@ ASTBase::getL3PackageInfixPrecedence() const
   if (getType() != AST_ORIGINATES_IN_PACKAGE) return 8;
   for (size_t i=0; i < mPlugins.size(); i++)
   {
-    int ret = mPlugins[i]->getL3PackageInfixPrecedence();
+    int ret = getPlugin(i)->getL3PackageInfixPrecedence();
     if (ret != -1) return ret;
   }
   return 8;
@@ -505,7 +506,7 @@ ASTBase::hasUnambiguousPackageInfixGrammar(const ASTNode *child) const
   if (getType() != AST_ORIGINATES_IN_PACKAGE) return false;
   for (size_t i=0; i < mPlugins.size(); i++)
   {
-    if (mPlugins[i]->hasUnambiguousPackageInfixGrammar(child)) return true;
+    if (getPlugin(i)->hasUnambiguousPackageInfixGrammar(child)) return true;
   }
   return false;
 }
@@ -1942,7 +1943,7 @@ ASTBase::getFunction() const
 double 
 ASTBase::getValue() const 
 { 
-  return 0;
+  return util_NaN();
 }
 
 

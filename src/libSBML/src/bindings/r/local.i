@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -205,53 +205,8 @@ namespace std
 }
 
 
-// ----------------------------------------------------------------------
-// takeover ownership
-// ----------------------------------------------------------------------
-
-/**
- * - void ListOf::appendAndOwn(SBase* item)
- */
-%apply SWIGTYPE *DISOWN {SBase* item};
-%apply SWIGTYPE * {const SBase* item};
-
-/**
- * - void ASTNode::addChild (ASTNode* child)
- * - void ASTNode::prependChild (ASTNode* child)
- */
-%apply SWIGTYPE *DISOWN {ASTNode* child};
-%apply SWIGTYPE * {const ASTNode* child};
-
-/**
- * - void ASTNode::insertChild  (unsigned int n, ASTNode* newChild)
- * - void ASTNode::replaceChild (unsigned int n, ASTNode* newChild)
- */
-%apply SWIGTYPE *DISOWN {ASTNode* newChild};
-%apply SWIGTYPE * {const ASTNode* newChild};
-
-/**
- * - void ASTNode::addSemanticsAnnotation (XMLNode* sAnnotation);
- */
-%apply SWIGTYPE *DISOWN {XMLNode* sAnnotation};
-%apply SWIGTYPE * {const XMLNode* sAnnotation};
-
-
 /**
  * Wraps the SBMLConstructorException
- *
- * The SBMLConstructorException (C++ class) is wrapped as the 
- * SBMLConsturctorException (Ruby class) which is derived from
- * the built-in ArgumentError class (Ruby class).
- *
- * For example, the exception can be catched in Ruby code as follows:
- *
- * -------------------------------------------------
- *  begin
- *    s = LibSBML::Compartment.new(level,version)
- *  rescue SBMLConstructorException
- *    errmsg = $! 
- *  end
- * -------------------------------------------------
  */
 
 %exceptionclass SBMLConstructorException;

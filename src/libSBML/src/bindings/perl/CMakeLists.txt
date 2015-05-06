@@ -7,7 +7,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2014 jointly by the following organizations:
+# Copyright (C) 2013-2015 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -193,10 +193,10 @@ ADD_CUSTOM_COMMAND(
 			${CMAKE_CURRENT_SOURCE_DIR}/LibSBML.i
     MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/LibSBML.i
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
-	        ${SWIG_DEPENDENCIES}
+	        ${SWIG_DEPENDENCIES} ${LIBSBML_HEADER_FILES}
     COMMENT "Swig Perl bindings source") 
 
-add_custom_target(binding_perl_swig ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/LibSBML_wrap.cpp ${CMAKE_CURRENT_BINARY_DIR}/LibSBML.pod)
+add_custom_target(binding_perl_swig DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/LibSBML_wrap.cpp ${CMAKE_CURRENT_BINARY_DIR}/LibSBML.pod )
 
 
 # 

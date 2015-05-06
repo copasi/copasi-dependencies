@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -186,11 +186,22 @@ START_TEST (test_L3_Parameter_constant)
   fail_unless(Parameter_getConstant(P) == 1);
   fail_unless(Parameter_isSetConstant(P) == 1);
 
+  int ret = Parameter_unsetConstant(P);
+
+  fail_unless(ret == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(Parameter_getConstant(P) == 1);
+  fail_unless(Parameter_isSetConstant(P) == 0);
+
   Parameter_setConstant(P, 0);
 
   fail_unless(Parameter_getConstant(P) == 0);
   fail_unless(Parameter_isSetConstant(P) == 1);
 
+  ret = Parameter_unsetConstant(P);
+
+  fail_unless(ret == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(Parameter_getConstant(P) == 0);
+  fail_unless(Parameter_isSetConstant(P) == 0);
 }
 END_TEST
 

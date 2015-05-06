@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -607,6 +607,17 @@ public:
    * lower Levels of SBML.
    */
   int unsetCompartment ();
+
+
+  /**
+   * Unsets the value of the "reversible" attribute of this Reaction.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  int unsetReversible ();
 
 
   /**
@@ -1795,6 +1806,21 @@ Reaction_unsetKineticLaw (Reaction_t *r);
 LIBSBML_EXTERN
 int
 Reaction_unsetFast (Reaction_t *r);
+
+
+/**
+ * Unsets the reversible status of this Reaction_t.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ *
+ * @memberof Reaction_t
+ */
+LIBSBML_EXTERN
+int
+Reaction_unsetReversible (Reaction_t *r);
 
 
 /**

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -775,7 +775,7 @@ BoundaryCondition_setBoundaryDomainType(BoundaryCondition_t * bc, const char * b
 
 /**
  * Unsets the value of the "variable" attribute of the given 
- *BoundaryCondition_t structure.
+ * BoundaryCondition_t structure.
  *
  * @param bc the BoundaryCondition_t structure.
  *
@@ -796,7 +796,7 @@ BoundaryCondition_unsetVariable(BoundaryCondition_t * bc);
 
 /**
  * Unsets the value of the "type" attribute of the given 
- *BoundaryCondition_t structure.
+ * BoundaryCondition_t structure.
  *
  * @param bc the BoundaryCondition_t structure.
  *
@@ -817,7 +817,7 @@ BoundaryCondition_unsetType(BoundaryCondition_t * bc);
 
 /**
  * Unsets the value of the "coordinateBoundary" attribute of the given 
- *BoundaryCondition_t structure.
+ * BoundaryCondition_t structure.
  *
  * @param bc the BoundaryCondition_t structure.
  *
@@ -838,7 +838,7 @@ BoundaryCondition_unsetCoordinateBoundary(BoundaryCondition_t * bc);
 
 /**
  * Unsets the value of the "boundaryDomainType" attribute of the given 
- *BoundaryCondition_t structure.
+ * BoundaryCondition_t structure.
  *
  * @param bc the BoundaryCondition_t structure.
  *

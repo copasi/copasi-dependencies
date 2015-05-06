@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -55,6 +55,7 @@ ReqSBasePlugin::ReqSBasePlugin(const std::string& uri,
     SBasePlugin(uri, prefix, reqns)
   , mChangedMaths (reqns)
 {
+  connectToChild();
 }
 
 
@@ -65,6 +66,7 @@ ReqSBasePlugin::ReqSBasePlugin(const ReqSBasePlugin& orig) :
     SBasePlugin(orig)
   , mChangedMaths ( orig.mChangedMaths)
 {
+  connectToChild();
 }
 
 
@@ -78,6 +80,7 @@ ReqSBasePlugin::operator=(const ReqSBasePlugin& rhs)
   {
     this->SBasePlugin::operator=(rhs);
     mChangedMaths = rhs.mChangedMaths;
+    connectToChild();
   }
 
   return *this;
@@ -366,12 +369,17 @@ ReqSBasePlugin::connectToParent(SBase* sbase)
 {
   SBasePlugin::connectToParent(sbase);
 
-  if (getNumChangedMaths() > 0)
-  {
-    mChangedMaths.connectToParent(sbase);
-  }
+  mChangedMaths.connectToParent(sbase);
 }
 
+/** @cond doxygenLibsbmlInternal */
+void
+ReqSBasePlugin::connectToChild()
+{
+//  SBasePlugin::connectToChild();
+  connectToParent(this->getParentSBMLObject());
+}
+/** @endcond */
 
 /*
  * Enables the given package.

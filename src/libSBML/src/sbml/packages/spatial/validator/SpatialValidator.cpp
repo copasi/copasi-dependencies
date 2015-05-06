@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -148,14 +148,11 @@ struct SpatialValidatorConstraints
   ConstraintSet<CoordinateComponent>      mCoordinateComponent;
   ConstraintSet<SampledFieldGeometry>      mSampledFieldGeometry;
   ConstraintSet<SampledField>      mSampledField;
-  ConstraintSet<ImageData>      mImageData;
   ConstraintSet<SampledVolume>      mSampledVolume;
   ConstraintSet<AnalyticGeometry>      mAnalyticGeometry;
   ConstraintSet<AnalyticVolume>      mAnalyticVolume;
   ConstraintSet<ParametricGeometry>      mParametricGeometry;
   ConstraintSet<ParametricObject>      mParametricObject;
-  ConstraintSet<PolygonObject>      mPolygonObject;
-  ConstraintSet<SpatialPoint>      mSpatialPoint;
   ConstraintSet<CSGeometry>      mCSGeometry;
   ConstraintSet<CSGObject>      mCSGObject;
   ConstraintSet<CSGNode>      mCSGNode;
@@ -174,6 +171,9 @@ struct SpatialValidatorConstraints
   ConstraintSet<BoundaryCondition>      mBoundaryCondition;
   ConstraintSet<Geometry>      mGeometry;
   ConstraintSet<CoordinateReference>      mCoordinateReference;
+  ConstraintSet<MixedGeometry>      mMixedGeometry;
+  ConstraintSet<OrdinalMapping>      mOrdinalMapping;
+  ConstraintSet<SpatialPoints>      mSpatialPoints;
   map<VConstraint*,bool> ptrMap;
 
   ~SpatialValidatorConstraints ();
@@ -283,12 +283,6 @@ SpatialValidatorConstraints::add (VConstraint* c)
     return;
   }
 
-  if (dynamic_cast< TConstraint<ImageData>* >(c) != NULL)
-  {
-    mImageData.add( static_cast< TConstraint<ImageData>* >(c) );
-    return;
-  }
-
   if (dynamic_cast< TConstraint<SampledVolume>* >(c) != NULL)
   {
     mSampledVolume.add( static_cast< TConstraint<SampledVolume>* >(c) );
@@ -316,18 +310,6 @@ SpatialValidatorConstraints::add (VConstraint* c)
   if (dynamic_cast< TConstraint<ParametricObject>* >(c) != NULL)
   {
     mParametricObject.add( static_cast< TConstraint<ParametricObject>* >(c) );
-    return;
-  }
-
-  if (dynamic_cast< TConstraint<PolygonObject>* >(c) != NULL)
-  {
-    mPolygonObject.add( static_cast< TConstraint<PolygonObject>* >(c) );
-    return;
-  }
-
-  if (dynamic_cast< TConstraint<SpatialPoint>* >(c) != NULL)
-  {
-    mSpatialPoint.add( static_cast< TConstraint<SpatialPoint>* >(c) );
     return;
   }
 
@@ -439,6 +421,24 @@ SpatialValidatorConstraints::add (VConstraint* c)
     return;
   }
 
+  if (dynamic_cast< TConstraint<MixedGeometry>* >(c) != NULL)
+  {
+    mMixedGeometry.add( static_cast< TConstraint<MixedGeometry>* >(c) );
+    return;
+  }
+
+  if (dynamic_cast< TConstraint<OrdinalMapping>* >(c) != NULL)
+  {
+    mOrdinalMapping.add( static_cast< TConstraint<OrdinalMapping>* >(c) );
+    return;
+  }
+
+  if (dynamic_cast< TConstraint<SpatialPoints>* >(c) != NULL)
+  {
+    mSpatialPoints.add( static_cast< TConstraint<SpatialPoints>* >(c) );
+    return;
+  }
+
 }
 
 // ----------------------------------------------------------------------
@@ -463,6 +463,9 @@ class SpatialValidatingVisitor: public SBMLVisitor
 public:
 
   SpatialValidatingVisitor (SpatialValidator& v, const Model& m) : v(v), m(m) { }
+
+  using SBMLVisitor::visit;
+
   bool visit (const DomainType &x)
   {
     v.mSpatialConstraints->mDomainType.applyTo(m, x);
@@ -523,12 +526,6 @@ public:
     return !v.mSpatialConstraints->mSampledField.empty();
   }
 
-  bool visit (const ImageData &x)
-  {
-    v.mSpatialConstraints->mImageData.applyTo(m, x);
-    return !v.mSpatialConstraints->mImageData.empty();
-  }
-
   bool visit (const SampledVolume &x)
   {
     v.mSpatialConstraints->mSampledVolume.applyTo(m, x);
@@ -557,18 +554,6 @@ public:
   {
     v.mSpatialConstraints->mParametricObject.applyTo(m, x);
     return !v.mSpatialConstraints->mParametricObject.empty();
-  }
-
-  bool visit (const PolygonObject &x)
-  {
-    v.mSpatialConstraints->mPolygonObject.applyTo(m, x);
-    return !v.mSpatialConstraints->mPolygonObject.empty();
-  }
-
-  bool visit (const SpatialPoint &x)
-  {
-    v.mSpatialConstraints->mSpatialPoint.applyTo(m, x);
-    return !v.mSpatialConstraints->mSpatialPoint.empty();
   }
 
   bool visit (const CSGeometry &x)
@@ -679,6 +664,24 @@ public:
     return !v.mSpatialConstraints->mCoordinateReference.empty();
   }
 
+  bool visit (const MixedGeometry &x)
+  {
+    v.mSpatialConstraints->mMixedGeometry.applyTo(m, x);
+    return !v.mSpatialConstraints->mMixedGeometry.empty();
+  }
+
+  bool visit (const OrdinalMapping &x)
+  {
+    v.mSpatialConstraints->mOrdinalMapping.applyTo(m, x);
+    return !v.mSpatialConstraints->mOrdinalMapping.empty();
+  }
+
+  bool visit (const SpatialPoints &x)
+  {
+    v.mSpatialConstraints->mSpatialPoints.applyTo(m, x);
+    return !v.mSpatialConstraints->mSpatialPoints.empty();
+  }
+
   virtual bool visit(const SBase &x)
   {
     if (&x == NULL || x.getPackageName() != "spatial")
@@ -736,10 +739,6 @@ public:
       {
         return visit((const SampledField&)x);
       }
-      else if (code == SBML_SPATIAL_IMAGEDATA)
-      {
-        return visit((const ImageData&)x);
-      }
       else if (code == SBML_SPATIAL_SAMPLEDVOLUME)
       {
         return visit((const SampledVolume&)x);
@@ -759,14 +758,6 @@ public:
       else if (code == SBML_SPATIAL_PARAMETRICOBJECT)
       {
         return visit((const ParametricObject&)x);
-      }
-      else if (code == SBML_SPATIAL_POLYGONOBJECT)
-      {
-        return visit((const PolygonObject&)x);
-      }
-      else if (code == SBML_SPATIAL_SPATIALPOINT)
-      {
-        return visit((const SpatialPoint&)x);
       }
       else if (code == SBML_SPATIAL_CSGEOMETRY)
       {
@@ -839,6 +830,18 @@ public:
       else if (code == SBML_SPATIAL_COORDINATEREFERENCE)
       {
         return visit((const CoordinateReference&)x);
+      }
+      else if (code == SBML_SPATIAL_MIXEDGEOMETRY)
+      {
+        return visit((const MixedGeometry&)x);
+      }
+      else if (code == SBML_SPATIAL_ORDINALMAPPING)
+      {
+        return visit((const OrdinalMapping&)x);
+      }
+      else if (code == SBML_SPATIAL_SPATIALPOINTS)
+      {
+        return visit((const SpatialPoints&)x);
       }
       else 
       {
@@ -931,15 +934,17 @@ SpatialValidator::validate (const std::string& filename)
   if (&filename == NULL) return 0;
 
   SBMLReader    reader;
-  SBMLDocument& d = *reader.readSBML(filename);
+  SBMLDocument* d = reader.readSBML(filename);
 
 
-  for (unsigned int n = 0; n < d.getNumErrors(); ++n)
+  for (unsigned int n = 0; n < d->getNumErrors(); ++n)
   {
-    logFailure( *d.getError(n) );
+    logFailure( *d->getError(n) );
   }
 
-  return validate(d);
+  unsigned int ret = validate(*d);
+  delete d;
+  return ret;
 }
 
 

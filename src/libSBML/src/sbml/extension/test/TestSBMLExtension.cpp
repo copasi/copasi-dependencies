@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -90,8 +90,8 @@ START_TEST (test_SBMLExtension)
 	status = ext->addSBasePluginCreator(modelPluginCreator);
 	fail_unless(status == LIBSBML_OPERATION_SUCCESS );
 
-	// this number is three as the static initializer already adds 2, plus the one created above
-	fail_unless(ext->getNumOfSBasePlugins() == 3 ); 
+	// this number is three as the static initializer already adds 3, plus the one created above
+	fail_unless(ext->getNumOfSBasePlugins() == 4 ); 
 	fail_unless(ext->getNumOfSupportedPackageURI() == 1 );
 
 	// now try to get it back
@@ -176,6 +176,55 @@ START_TEST(test_SBMLExtension_reenable)
 }
 END_TEST
 
+START_TEST (test_SBMLExtension_copy)
+{
+	string uri = TestExtension::getXmlnsL3V1V1();
+	TestExtension* ext = (TestExtension*)SBMLExtensionRegistry::getInstance().getExtension(uri);
+	fail_unless(ext != NULL );
+	fail_unless(ext->getURI(3, 1, 1) == uri);
+	fail_unless(ext->getURI(300, 100, 100) == "");
+
+  // test that we get the creators back that we expect
+
+  SBaseExtensionPoint losExtPoint("core", SBML_LIST_OF, "listOfSpecies");
+  SBaseExtensionPoint lorExtPoint("core", SBML_LIST_OF, "listOfReactions");
+  
+  // test plugin only extends the list of species 
+  fail_unless(ext->getSBasePluginCreator(losExtPoint) != NULL);
+  // but not the list of reactions
+  fail_unless(ext->getSBasePluginCreator(lorExtPoint) == NULL);
+
+
+	// test copy
+  TestExtension *copy = new TestExtension(*ext);
+	fail_unless(copy != NULL );
+	fail_unless(copy->getURI(3, 1, 1) == uri);
+
+  // test assignment
+  TestExtension *assign = new TestExtension();
+  (*assign) = *ext;
+	fail_unless(assign != NULL );
+	fail_unless(assign->getURI(3, 1, 1) == uri);
+
+  // test NULL copy
+  TestExtension *ext1 = NULL;
+  TestExtension *copy1 = new TestExtension(*ext1);
+	fail_unless(copy1->getNumOfSupportedPackageURI() == 0 );
+
+  // test NULL assign
+  TestExtension *assign1 = new TestExtension();
+  (*assign1) = *ext1;
+	fail_unless(assign1->getNumOfSupportedPackageURI() == 0 );
+
+	delete ext;
+  delete copy;
+  delete assign;
+  delete copy1;
+  delete assign1;
+}
+END_TEST
+
+
 Suite *
 create_suite_SBMLExtension (void)
 {
@@ -185,6 +234,7 @@ create_suite_SBMLExtension (void)
   tcase_add_test( tcase, test_SBMLExtension );
   tcase_add_test( tcase, test_SBMLExtension_c_api );
   tcase_add_test( tcase, test_SBMLExtension_reenable );
+  tcase_add_test( tcase, test_SBMLExtension_copy );
   
   suite_add_tcase(suite, tcase);
 

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -141,6 +141,32 @@ START_TEST (test_InitialAssignment_setSymbol)
 END_TEST
 
 
+START_TEST (test_InitialAssignment_unsetSymbol)
+{
+  const char *Symbol = "k2";
+
+
+  InitialAssignment_setSymbol(IA, Symbol);
+
+  fail_unless( !strcmp(InitialAssignment_getSymbol(IA), Symbol) );
+  fail_unless( InitialAssignment_isSetSymbol(IA) );
+
+  if (InitialAssignment_getSymbol(IA) == Symbol)
+  {
+    fail("InitialAssignment_setSymbol(...) did not make a copy of string.");
+  }
+
+  InitialAssignment_unsetSymbol(IA);
+  fail_unless( !InitialAssignment_isSetSymbol(IA) );
+
+  if (InitialAssignment_getSymbol(IA) != NULL)
+  {
+    fail("InitialAssignment_unsetSymbol(IA, NULL) did not clear string.");
+  }
+}
+END_TEST
+
+
 START_TEST (test_InitialAssignment_setMath)
 {
   ASTNode_t *math = SBML_parseFormula("2 * k");
@@ -229,6 +255,7 @@ create_suite_InitialAssignment (void)
   //tcase_add_test( tcase, test_InitialAssignment_createWith  );
   tcase_add_test( tcase, test_InitialAssignment_free_NULL   );
   tcase_add_test( tcase, test_InitialAssignment_setSymbol );
+  tcase_add_test( tcase, test_InitialAssignment_unsetSymbol );
   tcase_add_test( tcase, test_InitialAssignment_setMath     );
   tcase_add_test( tcase, test_InitialAssignment_createWithNS         );
 

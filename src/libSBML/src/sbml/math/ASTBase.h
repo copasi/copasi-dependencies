@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -256,7 +256,7 @@ public:
    * @return the plug-in object (the libSBML extension interface) of
    * a package extension with the given package name or URI.
    */
-  ASTBasePlugin* getPlugin(const std::string& package);
+  virtual ASTBasePlugin* getPlugin(const std::string& package);
 
 
   /**
@@ -268,7 +268,7 @@ public:
    * @return the plug-in object (the libSBML extension interface) of a
    * package extension with the given package name or URI.
    */
-  const ASTBasePlugin* getPlugin(const std::string& package) const;
+  virtual const ASTBasePlugin* getPlugin(const std::string& package) const;
 
 
   /**
@@ -280,7 +280,7 @@ public:
    * @return the plug-in object (the libSBML extension interface) of
    * a package extension with the given package name or URI.
    */
-  ASTBasePlugin* getPlugin(unsigned int n);
+  virtual ASTBasePlugin* getPlugin(unsigned int n);
 
 
   /**
@@ -292,7 +292,7 @@ public:
    * @return the plug-in object (the libSBML extension interface) of a
    * package extension with the given package name or URI.
    */
-  const ASTBasePlugin* getPlugin(unsigned int n) const;
+  virtual const ASTBasePlugin* getPlugin(unsigned int n) const;
 
 
   /**
@@ -355,6 +355,7 @@ public:
    */
   virtual bool hasUnambiguousPackageInfixGrammar(const ASTNode *child) const;
 
+  virtual double getValue() const;
 
 
 protected:
@@ -425,7 +426,7 @@ protected:
 
   virtual unsigned int getNumChildren() const;
 
-  virtual double getValue() const;
+  //virtual double getValue() const;
 
   friend class ASTNumber;
   friend class ASTFunction;

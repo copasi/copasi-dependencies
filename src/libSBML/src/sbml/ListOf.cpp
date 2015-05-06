@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -38,6 +38,7 @@
 #include <sbml/SBO.h>
 #include <sbml/common/common.h>
 #include <sbml/util/ElementFilter.h>
+#include <sbml/extension/SBasePlugin.h>
 
 /** @cond doxygenIgnored */
 
@@ -612,6 +613,23 @@ ListOf::writeAttributes (XMLOutputStream& stream) const
   // (EXTENSION)
   //
   SBase::writeExtensionAttributes(stream);
+}
+
+bool
+ListOf::isValidTypeForList(SBase * item)
+{
+  bool match = false;
+
+  match = (item->getTypeCode() == getItemTypeCode());
+
+  unsigned int n = 0;
+  while (match == false && n < getNumPlugins())
+  {
+      match = getPlugin(n)->isValidTypeForList(item);
+      n++;
+  }
+
+  return match;
 }
 
 /** @endcond */

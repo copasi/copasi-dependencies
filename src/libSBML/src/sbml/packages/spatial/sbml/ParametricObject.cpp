@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -49,9 +49,13 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 ParametricObject::ParametricObject (unsigned int level, unsigned int version, unsigned int pkgVersion)
   : SBase(level, version)
   , mId ("")
-  , mPolygonType ("")
-  , mDomain ("")
-  , mPolygonObject (NULL)
+  , mPolygonType (POLYGONKIND_UNKNOWN)
+  , mDomainType ("")
+  , mPointIndex (NULL)
+  , mPointIndexLength (SBML_INT_MAX)
+  , mIsSetPointIndexLength (false)
+  , mCompression (COMPRESSIONKIND_UNKNOWN)
+  , mDataType (DATAKIND_UNKNOWN)
 {
   // set an SBMLNamespaces derived object of this package
   setSBMLNamespacesAndOwn(new SpatialPkgNamespaces(level, version, pkgVersion));
@@ -67,9 +71,13 @@ ParametricObject::ParametricObject (unsigned int level, unsigned int version, un
 ParametricObject::ParametricObject (SpatialPkgNamespaces* spatialns)
   : SBase(spatialns)
   , mId ("")
-  , mPolygonType ("")
-  , mDomain ("")
-  , mPolygonObject (NULL)
+  , mPolygonType (POLYGONKIND_UNKNOWN)
+  , mDomainType ("")
+  , mPointIndex (NULL)
+  , mPointIndexLength (SBML_INT_MAX)
+  , mIsSetPointIndexLength (false)
+  , mCompression (COMPRESSIONKIND_UNKNOWN)
+  , mDataType (DATAKIND_UNKNOWN)
 {
   // set the element namespace of this object
   setElementNamespace(spatialns->getURI());
@@ -96,15 +104,13 @@ ParametricObject::ParametricObject (const ParametricObject& orig)
   {
     mId  = orig.mId;
     mPolygonType  = orig.mPolygonType;
-    mDomain  = orig.mDomain;
-    if (orig.mPolygonObject != NULL)
-    {
-      mPolygonObject = orig.mPolygonObject->clone();
-    }
-    else
-    {
-      mPolygonObject = NULL;
-    }
+    mDomainType  = orig.mDomainType;
+    mPointIndex  = NULL;
+    setPointIndex(orig.mPointIndex, orig.mPointIndexLength);
+    mPointIndexLength  = orig.mPointIndexLength;
+    mIsSetPointIndexLength  = orig.mIsSetPointIndexLength;
+    mCompression  = orig.mCompression;
+    mDataType  = orig.mDataType;
 
     // connect to child objects
     connectToChild();
@@ -127,15 +133,13 @@ ParametricObject::operator=(const ParametricObject& rhs)
     SBase::operator=(rhs);
     mId  = rhs.mId;
     mPolygonType  = rhs.mPolygonType;
-    mDomain  = rhs.mDomain;
-    if (rhs.mPolygonObject != NULL)
-    {
-      mPolygonObject = rhs.mPolygonObject->clone();
-    }
-    else
-    {
-      mPolygonObject = NULL;
-    }
+    mDomainType  = rhs.mDomainType;
+    mPointIndex  = NULL;
+    setPointIndex(rhs.mPointIndex, rhs.mPointIndexLength);
+    mPointIndexLength  = rhs.mPointIndexLength;
+    mIsSetPointIndexLength  = rhs.mIsSetPointIndexLength;
+    mCompression  = rhs.mCompression;
+    mDataType  = rhs.mDataType;
 
     // connect to child objects
     connectToChild();
@@ -159,8 +163,9 @@ ParametricObject::clone () const
  */
 ParametricObject::~ParametricObject ()
 {
-  delete mPolygonObject;
-  mPolygonObject = NULL;
+  if (mPointIndex != NULL)
+    delete[] mPointIndex;
+  mPointIndex = NULL;
 }
 
 
@@ -177,7 +182,7 @@ ParametricObject::getId() const
 /*
  * Returns the value of the "polygonType" attribute of this ParametricObject.
  */
-const std::string&
+PolygonKind_t
 ParametricObject::getPolygonType() const
 {
   return mPolygonType;
@@ -185,47 +190,59 @@ ParametricObject::getPolygonType() const
 
 
 /*
- * Returns the value of the "domain" attribute of this ParametricObject.
+ * Returns the value of the "domainType" attribute of this ParametricObject.
  */
 const std::string&
-ParametricObject::getDomain() const
+ParametricObject::getDomainType() const
 {
-  return mDomain;
+  return mDomainType;
 }
 
 
 /*
- * Returns the value of the "polygonObject" attribute of this ParametricObject.
+ * The "pointIndex" attribute of this ParametricObject is returned in an int* array (pointer)
+ * that is passed as argument to the method (this is needed while using SWIG to
+ * convert int[] from C++ to Java). The method itself has a return type void.
+ *
+ * NOTE: you have to pre-allocate the array with the correct length! *
+ * @return void.
  */
-const PolygonObject*
-ParametricObject::getPolygonObject() const
+void
+ParametricObject::getPointIndex(int* outArray) const
 {
-  return mPolygonObject;
+   if (outArray == NULL || mPointIndex == NULL) return;
+
+   memcpy(outArray , mPointIndex, sizeof(int)*mPointIndexLength);
 }
 
 
 /*
- * Returns the value of the "polygonObject" attribute of this ParametricObject.
+ * Returns the value of the "pointIndexLength" attribute of this ParametricObject.
  */
-PolygonObject*
-ParametricObject::getPolygonObject()
+int
+ParametricObject::getPointIndexLength() const
 {
-  return mPolygonObject;
+  return mPointIndexLength;
 }
 
 
 /*
- * Creates a new "polygonObject" element of this ParametricObject and returns it.
+ * Returns the value of the "compression" attribute of this ParametricObject.
  */
-PolygonObject*
-ParametricObject::createPolygonObject()
+CompressionKind_t
+ParametricObject::getCompression() const
 {
-  if (mPolygonObject != NULL) delete mPolygonObject;
-  SPATIAL_CREATE_NS(spatialns, getSBMLNamespaces());
-  mPolygonObject = new PolygonObject(spatialns);
-  delete spatialns;
-  connectToChild();
-  return mPolygonObject;
+  return mCompression;
+}
+
+
+/*
+ * Returns the value of the "dataType" attribute of this ParametricObject.
+ */
+DataKind_t
+ParametricObject::getDataType() const
+{
+  return mDataType;
 }
 
 
@@ -245,27 +262,57 @@ ParametricObject::isSetId() const
 bool
 ParametricObject::isSetPolygonType() const
 {
-  return (mPolygonType.empty() == false);
+  return mPolygonType != POLYGONKIND_UNKNOWN;
 }
 
 
 /*
- * Returns true/false if domain is set.
+ * Returns true/false if domainType is set.
  */
 bool
-ParametricObject::isSetDomain() const
+ParametricObject::isSetDomainType() const
 {
-  return (mDomain.empty() == false);
+  return (mDomainType.empty() == false);
 }
 
 
 /*
- * Returns true/false if polygonObject is set.
+ * Returns true/false if pointIndex is set.
  */
 bool
-ParametricObject::isSetPolygonObject() const
+ParametricObject::isSetPointIndex() const
 {
-  return (mPolygonObject != NULL);
+  return (mPointIndex != NULL);
+}
+
+
+/*
+ * Returns true/false if pointIndexLength is set.
+ */
+bool
+ParametricObject::isSetPointIndexLength() const
+{
+  return mIsSetPointIndexLength;
+}
+
+
+/*
+ * Returns true/false if compression is set.
+ */
+bool
+ParametricObject::isSetCompression() const
+{
+  return mCompression != COMPRESSIONKIND_UNKNOWN;
+}
+
+
+/*
+ * Returns true/false if dataType is set.
+ */
+bool
+ParametricObject::isSetDataType() const
+{
+  return mDataType != DATAKIND_UNKNOWN;
 }
 
 
@@ -283,69 +330,131 @@ ParametricObject::setId(const std::string& id)
  * Sets polygonType and returns value indicating success.
  */
 int
+ParametricObject::setPolygonType(PolygonKind_t polygonType)
+{
+  mPolygonType = polygonType;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+ * Sets polygonType and returns value indicating success.
+ */
+int
 ParametricObject::setPolygonType(const std::string& polygonType)
 {
-  if (&(polygonType) == NULL)
+  PolygonKind_t parsed = PolygonKind_parse(polygonType.c_str());
+  if (parsed == POLYGONKIND_UNKNOWN) return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  mPolygonType = parsed;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+ * Sets domainType and returns value indicating success.
+ */
+int
+ParametricObject::setDomainType(const std::string& domainType)
+{
+  if (&(domainType) == NULL)
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+  else if (!(SyntaxChecker::isValidInternalSId(domainType)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
   else
   {
-    mPolygonType = polygonType;
+    mDomainType = domainType;
     return LIBSBML_OPERATION_SUCCESS;
   }
 }
 
 
 /*
- * Sets domain and returns value indicating success.
+ * Sets the "pointIndex" element of this ParametricObject.
+ *
+ * @param inArray; int* array to be set (it will be copied).
+ * @param arrayLength; the length of the array.
+ *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li LIBSBML_OPERATION_SUCCESS
+ * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
  */
 int
-ParametricObject::setDomain(const std::string& domain)
+ParametricObject::setPointIndex(int* inArray, int arrayLength)
 {
-  if (&(domain) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(domain)))
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
-  {
-    mDomain = domain;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+  if (inArray == NULL) return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+
+  if (mPointIndex != NULL) delete[] mPointIndex;
+  mPointIndex = new int[arrayLength];
+  memcpy(mPointIndex, inArray, sizeof(int)*arrayLength);
+  mIsSetPointIndexLength = true;
+  mPointIndexLength = arrayLength;
+
+  return LIBSBML_OPERATION_SUCCESS;
+}
+/*
+ * Sets pointIndexLength and returns value indicating success.
+ */
+int
+ParametricObject::setPointIndexLength(int pointIndexLength)
+{
+  mPointIndexLength = pointIndexLength;
+  mIsSetPointIndexLength = true;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
 /*
- * Sets polygonObject and returns value indicating success.
+ * Sets compression and returns value indicating success.
  */
 int
-ParametricObject::setPolygonObject(PolygonObject* polygonObject)
+ParametricObject::setCompression(CompressionKind_t compression)
 {
-  if (mPolygonObject == polygonObject)
-  {
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (polygonObject == NULL)
-  {
-    delete mPolygonObject;
-    mPolygonObject = NULL;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else
-  {
-    delete mPolygonObject;
-    mPolygonObject = (polygonObject != NULL) ?
-      static_cast<PolygonObject*>(polygonObject->clone()) : NULL;
-    if (mPolygonObject != NULL)
-    {
-      mPolygonObject->connectToParent(this);
-    }
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+  mCompression = compression;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+ * Sets compression and returns value indicating success.
+ */
+int
+ParametricObject::setCompression(const std::string& compression)
+{
+  CompressionKind_t parsed = CompressionKind_parse(compression.c_str());
+  if (parsed == COMPRESSIONKIND_UNKNOWN) return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  mCompression = parsed;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+ * Sets dataType and returns value indicating success.
+ */
+int
+ParametricObject::setDataType(DataKind_t dataType)
+{
+  mDataType = dataType;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+ * Sets dataType and returns value indicating success.
+ */
+int
+ParametricObject::setDataType(const std::string& dataType)
+{
+  DataKind_t parsed = DataKind_parse(dataType.c_str());
+  if (parsed == DATAKIND_UNKNOWN) return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  mDataType = parsed;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -374,9 +483,20 @@ ParametricObject::unsetId()
 int
 ParametricObject::unsetPolygonType()
 {
-  mPolygonType.erase();
+  mPolygonType = POLYGONKIND_UNKNOWN;
+  return LIBSBML_OPERATION_SUCCESS;
+}
 
-  if (mPolygonType.empty() == true)
+
+/*
+ * Unsets domainType and returns value indicating success.
+ */
+int
+ParametricObject::unsetDomainType()
+{
+  mDomainType.erase();
+
+  if (mDomainType.empty() == true)
   {
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -388,14 +508,28 @@ ParametricObject::unsetPolygonType()
 
 
 /*
- * Unsets domain and returns value indicating success.
+ * Unsets pointIndex and returns value indicating success.
  */
 int
-ParametricObject::unsetDomain()
+ParametricObject::unsetPointIndex()
 {
-  mDomain.erase();
+  if (mPointIndex != NULL)
+   delete[] mPointIndex;
+  mPointIndex = NULL;
+  return unsetPointIndexLength();
+}
 
-  if (mDomain.empty() == true)
+
+/*
+ * Unsets pointIndexLength and returns value indicating success.
+ */
+int
+ParametricObject::unsetPointIndexLength()
+{
+  mPointIndexLength = SBML_INT_MAX;
+  mIsSetPointIndexLength = false;
+
+  if (isSetPointIndexLength() == false)
   {
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -407,13 +541,23 @@ ParametricObject::unsetDomain()
 
 
 /*
- * Unsets polygonObject and returns value indicating success.
+ * Unsets compression and returns value indicating success.
  */
 int
-ParametricObject::unsetPolygonObject()
+ParametricObject::unsetCompression()
 {
-  delete mPolygonObject;
-  mPolygonObject = NULL;
+  mCompression = COMPRESSIONKIND_UNKNOWN;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+ * Unsets dataType and returns value indicating success.
+ */
+int
+ParametricObject::unsetDataType()
+{
+  mDataType = DATAKIND_UNKNOWN;
   return LIBSBML_OPERATION_SUCCESS;
 }
 
@@ -424,9 +568,9 @@ ParametricObject::unsetPolygonObject()
 void
 ParametricObject::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
-  if (isSetDomain() == true && mDomain == oldid)
+  if (isSetDomainType() == true && mDomainType == oldid)
   {
-    setDomain(newid);
+    setDomainType(newid);
   }
 
 }
@@ -436,12 +580,6 @@ List*
 ParametricObject::getAllElements(ElementFilter* filter)
 {
   List* ret = new List();
-  List* sublist = NULL;
-
-  ADD_FILTERED_POINTER(ret, sublist, mPolygonObject, filter);
-
-  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
-
   return ret;
 }
 
@@ -481,7 +619,16 @@ ParametricObject::hasRequiredAttributes () const
   if (isSetPolygonType() == false)
     allPresent = false;
 
-  if (isSetDomain() == false)
+  if (isSetDomainType() == false)
+    allPresent = false;
+
+  if (isSetPointIndex() == false)
+    allPresent = false;
+
+  if (isSetPointIndexLength() == false)
+    allPresent = false;
+
+  if (isSetCompression() == false)
     allPresent = false;
 
   return allPresent;
@@ -496,9 +643,6 @@ ParametricObject::hasRequiredElements () const
 {
   bool allPresent = true;
 
-  if (isSetPolygonObject() == false)
-    allPresent = false;
-
   return allPresent;
 }
 
@@ -512,10 +656,6 @@ void
 ParametricObject::writeElements (XMLOutputStream& stream) const
 {
   SBase::writeElements(stream);
-  if (isSetPolygonObject() == true)
-  {
-    mPolygonObject->write(stream);
-  }
   SBase::writeExtensionElements(stream);
 }
 
@@ -553,8 +693,6 @@ void
 ParametricObject::setSBMLDocument (SBMLDocument* d)
 {
   SBase::setSBMLDocument(d);
-  if ( mPolygonObject != NULL)
-    mPolygonObject->setSBMLDocument(d);
 }
 
 
@@ -571,8 +709,6 @@ ParametricObject::connectToChild()
 {
   SBase::connectToChild();
 
-  if (mPolygonObject != NULL)
-    mPolygonObject->connectToParent(this);
 }
 
 
@@ -607,16 +743,6 @@ ParametricObject::createObject(XMLInputStream& stream)
 
   const string& name = stream.peek().getName();
 
-  SPATIAL_CREATE_NS(spatialns, getSBMLNamespaces());
-
-  if (name == "polygonObject")
-  {
-    mPolygonObject = new PolygonObject(spatialns);
-    object = mPolygonObject;
-  }
-
-  delete spatialns;
-
   connectToChild();
 
 
@@ -639,7 +765,10 @@ ParametricObject::addExpectedAttributes(ExpectedAttributes& attributes)
 
   attributes.add("id");
   attributes.add("polygonType");
-  attributes.add("domain");
+  attributes.add("domainType");
+  attributes.add("pointIndexLength");
+  attributes.add("compression");
+  attributes.add("dataType");
 }
 
 
@@ -660,6 +789,36 @@ ParametricObject::readAttributes (const XMLAttributes& attributes,
 
   unsigned int numErrs;
 
+  /* look to see whether an unknown attribute error was logged
+   * during the read of the listOfParametricObjects - which will have
+   * happened immediately prior to this read
+  */
+
+  if (getErrorLog() != NULL &&
+      static_cast<ListOfParametricObjects*>(getParentSBMLObject())->size() < 2)
+  {
+    numErrs = getErrorLog()->getNumErrors();
+    for (int n = numErrs-1; n >= 0; n--)
+    {
+      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details =
+              getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownPackageAttribute);
+        getErrorLog()->logPackageError("spatial", SpatialUnknownError,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
+      }
+      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details =
+                   getErrorLog()->getError(n)->getMessage();
+        getErrorLog()->remove(UnknownCoreAttribute);
+        getErrorLog()->logPackageError("spatial", SpatialUnknownError,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
+      }
+    }
+  }
+
   SBase::readAttributes(attributes, expectedAttributes);
 
   // look to see whether an unknown attribute error was logged
@@ -674,7 +833,7 @@ ParametricObject::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -682,7 +841,7 @@ ParametricObject::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
     }
   }
@@ -705,63 +864,145 @@ ParametricObject::readAttributes (const XMLAttributes& attributes,
     else if (SyntaxChecker::isValidSBMLSId(mId) == false && getErrorLog() != NULL)
     {
       getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute id='" + mId + "' does not conform.");
+        "The syntax of the attribute id='" + mId + "' does not conform.", getLine(), getColumn());
     }
   }
   else
   {
-    std::string message = "Spatial attribute 'id' is missing.";
+    std::string message = "Spatial attribute 'id' is missing from 'parametricObject' object.";
     getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
   }
 
   //
-  // polygonType string   ( use = "required" )
+  // polygonType enum  ( use = "required" )
   //
-  assigned = attributes.readInto("polygonType", mPolygonType);
-
-  if (assigned == true)
+  mPolygonType = POLYGONKIND_UNKNOWN;
   {
-    // check string is not empty
+    std::string stringValue;
+    assigned = attributes.readInto("polygonType", stringValue);
 
-    if (mPolygonType.empty() == true)
+    if (assigned == true)
     {
-      logEmptyString(mPolygonType, getLevel(), getVersion(), "<ParametricObject>");
+      // parse enum
+
+      mPolygonType = PolygonKind_parse(stringValue.c_str());
+      if(mPolygonType == POLYGONKIND_UNKNOWN)
+      {
+        std::string message = "Unknown value for Spatial attribute 'polygonType' in 'parametricObject' object: " + stringValue;
+        getErrorLog()->logPackageError("spatial", SpatialUnknownError,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
+      }
     }
   }
-  else
+  if(mPolygonType == POLYGONKIND_UNKNOWN)
   {
-    std::string message = "Spatial attribute 'polygonType' is missing.";
+    std::string message = "Spatial attribute 'polygonType' is missing from 'parametricObject' object.";
     getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
   }
 
   //
-  // domain SIdRef   ( use = "required" )
+  // domainType SIdRef   ( use = "required" )
   //
-  assigned = attributes.readInto("domain", mDomain);
+  assigned = attributes.readInto("domainType", mDomainType);
 
   if (assigned == true)
   {
     // check string is not empty and correct syntax
 
-    if (mDomain.empty() == true)
+    if (mDomainType.empty() == true)
     {
-      logEmptyString(mDomain, getLevel(), getVersion(), "<ParametricObject>");
+      logEmptyString(mDomainType, getLevel(), getVersion(), "<ParametricObject>");
     }
-    else if (SyntaxChecker::isValidSBMLSId(mDomain) == false && getErrorLog() != NULL)
+    else if (SyntaxChecker::isValidSBMLSId(mDomainType) == false && getErrorLog() != NULL)
     {
       getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute domain='" + mDomain + "' does not conform.");
+        "The syntax of the attribute domainType='" + mDomainType + "' does not conform.");
     }
   }
   else
   {
-    std::string message = "Spatial attribute 'domain' is missing.";
+    std::string message = "Spatial attribute 'domainType' is missing from 'parametricObject' object.";
     getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
   }
 
+  //
+  // pointIndexLength int   ( use = "required" )
+  //
+  numErrs = getErrorLog()->getNumErrors();
+  mIsSetPointIndexLength = attributes.readInto("pointIndexLength", mPointIndexLength);
+
+  if (mIsSetPointIndexLength == false)
+  {
+    if (getErrorLog() != NULL)
+    {
+      if (getErrorLog()->getNumErrors() == numErrs + 1 &&
+              getErrorLog()->contains(XMLAttributeTypeMismatch))
+      {
+        getErrorLog()->remove(XMLAttributeTypeMismatch);
+        getErrorLog()->logPackageError("spatial", SpatialUnknownError,
+                     getPackageVersion(), sbmlLevel, sbmlVersion, "", getLine(), getColumn());
+      }
+      else
+      {
+        std::string message = "Spatial attribute 'pointIndexLength' is missing from 'parametricObject' object.";
+        getErrorLog()->logPackageError("spatial", SpatialUnknownError,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, message);
+      }
+    }
+  }
+
+  //
+  // compression enum  ( use = "required" )
+  //
+  mCompression = COMPRESSIONKIND_UNKNOWN;
+  {
+    std::string stringValue;
+    assigned = attributes.readInto("compression", stringValue);
+
+    if (assigned == true)
+    {
+      // parse enum
+
+      mCompression = CompressionKind_parse(stringValue.c_str());
+      if(mCompression == COMPRESSIONKIND_UNKNOWN)
+      {
+        std::string message = "Unknown value for Spatial attribute 'compression' in 'parametricObject' object: " + stringValue;
+        getErrorLog()->logPackageError("spatial", SpatialUnknownError,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
+      }
+    }
+  }
+  if(mCompression == COMPRESSIONKIND_UNKNOWN)
+  {
+    std::string message = "Spatial attribute 'compression' is missing from 'parametricObject' object.";
+    getErrorLog()->logPackageError("spatial", SpatialUnknownError,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
+  }
+
+  //
+  // dataType enum  ( use = "optional" )
+  //
+  mDataType = DATAKIND_UNKNOWN;
+  {
+    std::string stringValue;
+    assigned = attributes.readInto("dataType", stringValue);
+
+    if (assigned == true)
+    {
+      // parse enum
+
+      mDataType = DataKind_parse(stringValue.c_str());
+      if(mDataType == DATAKIND_UNKNOWN)
+      {
+        std::string message = "Unknown value for Spatial attribute 'dataType' in 'parametricObject' object: " + stringValue;
+        getErrorLog()->logPackageError("spatial", SpatialUnknownError,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
+      }
+    }
+  }
 }
 
 
@@ -782,11 +1023,344 @@ ParametricObject::writeAttributes (XMLOutputStream& stream) const
     stream.writeAttribute("id", getPrefix(), mId);
 
   if (isSetPolygonType() == true)
-    stream.writeAttribute("polygonType", getPrefix(), mPolygonType);
+    stream.writeAttribute("polygonType", getPrefix(), PolygonKind_toString(mPolygonType));
 
-  if (isSetDomain() == true)
-    stream.writeAttribute("domain", getPrefix(), mDomain);
+  if (isSetDomainType() == true)
+    stream.writeAttribute("domainType", getPrefix(), mDomainType);
 
+  if (isSetPointIndexLength() == true)
+    stream.writeAttribute("pointIndexLength", getPrefix(), mPointIndexLength);
+
+  if (isSetCompression() == true)
+    stream.writeAttribute("compression", getPrefix(), CompressionKind_toString(mCompression));
+
+  if (isSetDataType() == true)
+    stream.writeAttribute("dataType", getPrefix(), DataKind_toString(mDataType));
+
+}
+
+
+  /** @endcond doxygenLibsbmlInternal */
+
+
+void
+ParametricObject::write(XMLOutputStream& stream) const
+{
+  stream.startElement(getElementName(), getPrefix());
+  writeAttributes(stream);
+  if(isSetPointIndex())
+  {
+    for (int i = 0; i < mPointIndexLength; ++i)
+    {
+      stream << (long)mPointIndex[i] << " ";
+    }
+  }
+  stream.endElement(getElementName(), getPrefix());
+}
+
+
+void
+ParametricObject::setElementText(const std::string &text)
+{
+  stringstream strStream(text); // Insert the string into a stream
+  int val;
+  vector<int> valuesVector;
+  while (strStream >> val)
+  {
+    valuesVector.push_back(val);
+  }
+
+  // convert the vector to an array
+  unsigned int length = (unsigned int)valuesVector.size();
+  if (length > 0)
+  {
+
+    int* data = new int[length];
+    for (unsigned int i = 0; i < length; ++i)
+    {
+      data[i] = valuesVector.at(i);
+    }
+
+    setPointIndex(data, length);
+    delete[] data;
+  }
+}
+/*
+ * Constructor 
+ */
+ListOfParametricObjects::ListOfParametricObjects(unsigned int level, 
+                          unsigned int version, 
+                          unsigned int pkgVersion)
+ : ListOf(level, version)
+{
+  setSBMLNamespacesAndOwn(new SpatialPkgNamespaces(level, version, pkgVersion)); 
+}
+
+
+/*
+ * Constructor 
+ */
+ListOfParametricObjects::ListOfParametricObjects(SpatialPkgNamespaces* spatialns)
+  : ListOf(spatialns)
+{
+  setElementNamespace(spatialns->getURI());
+}
+
+
+/*
+ * Returns a deep copy of this ListOfParametricObjects 
+ */
+ListOfParametricObjects* 
+ListOfParametricObjects::clone () const
+ {
+  return new ListOfParametricObjects(*this);
+}
+
+
+/*
+ * Get a ParametricObject from the ListOfParametricObjects by index.
+*/
+ParametricObject*
+ListOfParametricObjects::get(unsigned int n)
+{
+  return static_cast<ParametricObject*>(ListOf::get(n));
+}
+
+
+/*
+ * Get a ParametricObject from the ListOfParametricObjects by index.
+ */
+const ParametricObject*
+ListOfParametricObjects::get(unsigned int n) const
+{
+  return static_cast<const ParametricObject*>(ListOf::get(n));
+}
+
+
+/*
+ * Get a ParametricObject from the ListOfParametricObjects by id.
+ */
+ParametricObject*
+ListOfParametricObjects::get(const std::string& sid)
+{
+	return const_cast<ParametricObject*>(
+    static_cast<const ListOfParametricObjects&>(*this).get(sid));
+}
+
+
+/*
+ * Get a ParametricObject from the ListOfParametricObjects by id.
+ */
+const ParametricObject*
+ListOfParametricObjects::get(const std::string& sid) const
+{
+  vector<SBase*>::const_iterator result;
+
+  result = find_if( mItems.begin(), mItems.end(), IdEq<ParametricObject>(sid) );
+  return (result == mItems.end()) ? 0 : static_cast <ParametricObject*> (*result);
+}
+
+
+/**
+ * Adds a copy the given "ParametricObject" to this ListOfParametricObjects.
+ *
+ * @param po; the ParametricObject object to add
+ *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li LIBSBML_OPERATION_SUCCESS
+ * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+ */
+int
+ListOfParametricObjects::addParametricObject(const ParametricObject* po)
+{
+  if (po == NULL)
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+  else if (po->hasRequiredAttributes() == false)
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+  else if (getLevel() != po->getLevel())
+  {
+    return LIBSBML_LEVEL_MISMATCH;
+  }
+  else if (getVersion() != po->getVersion())
+  {
+    return LIBSBML_VERSION_MISMATCH;
+  }
+  else if (matchesRequiredSBMLNamespacesForAddition(static_cast<const SBase *>(po)) == false)
+  {
+    return LIBSBML_NAMESPACES_MISMATCH;
+  }
+  else
+  {
+	append(po);
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
+/**
+ * Get the number of ParametricObject objects in this ListOfParametricObjects.
+ *
+ * @return the number of ParametricObject objects in this ListOfParametricObjects
+ */
+unsigned int 
+ListOfParametricObjects::getNumParametricObjects() const
+{
+	return size();
+}
+
+/**
+ * Creates a new ParametricObject object, adds it to this ListOfParametricObjects
+ * ParametricObject and returns the ParametricObject object created. 
+ *
+ * @return a new ParametricObject object instance
+ *
+ * @see addParametricObject(const ParametricObject* po)
+ */
+ParametricObject* 
+ListOfParametricObjects::createParametricObject()
+{
+  ParametricObject* po = NULL;
+
+  try
+  {
+    SPATIAL_CREATE_NS(spatialns, getSBMLNamespaces());
+    po = new ParametricObject(spatialns);
+    delete spatialns;
+  }
+  catch (...)
+  {
+    /* here we do not create a default object as the level/version must
+     * match the parent object
+     *
+     * do nothing
+     */
+  }
+
+  if(po != NULL)
+  {
+    appendAndOwn(po);
+  }
+
+  return po;
+}
+
+/*
+ * Removes the nth ParametricObject from this ListOfParametricObjects
+ */
+ParametricObject*
+ListOfParametricObjects::remove(unsigned int n)
+{
+  return static_cast<ParametricObject*>(ListOf::remove(n));
+}
+
+
+/*
+ * Removes the ParametricObject from this ListOfParametricObjects with the given identifier
+ */
+ParametricObject*
+ListOfParametricObjects::remove(const std::string& sid)
+{
+  SBase* item = NULL;
+  vector<SBase*>::iterator result;
+
+  result = find_if( mItems.begin(), mItems.end(), IdEq<ParametricObject>(sid) );
+
+  if (result != mItems.end())
+  {
+    item = *result;
+    mItems.erase(result);
+  }
+
+	return static_cast <ParametricObject*> (item);
+}
+
+
+/*
+ * Returns the XML element name of this object
+ */
+const std::string&
+ListOfParametricObjects::getElementName () const
+{
+  static const string name = "listOfParametricObjects";
+  return name;
+}
+
+
+/*
+ * Returns the libSBML type code for this SBML object.
+ */
+int
+ListOfParametricObjects::getTypeCode () const
+{
+  return SBML_LIST_OF;
+}
+
+
+/*
+ * Returns the libSBML type code for the objects in this LIST_OF.
+ */
+int
+ListOfParametricObjects::getItemTypeCode () const
+{
+  return SBML_SPATIAL_PARAMETRICOBJECT;
+}
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+/*
+ * Creates a new ParametricObject in this ListOfParametricObjects
+ */
+SBase*
+ListOfParametricObjects::createObject(XMLInputStream& stream)
+{
+  const std::string& name   = stream.peek().getName();
+  SBase* object = NULL;
+
+  if (name == "parametricObject")
+  {
+    SPATIAL_CREATE_NS(spatialns, getSBMLNamespaces());
+    object = new ParametricObject(spatialns);
+    appendAndOwn(object);
+    delete spatialns;
+  }
+
+  return object;
+}
+
+
+  /** @endcond doxygenLibsbmlInternal */
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+/*
+ * Write the namespace for the Spatial package.
+ */
+void
+ListOfParametricObjects::writeXMLNS(XMLOutputStream& stream) const
+{
+  XMLNamespaces xmlns;
+
+  std::string prefix = getPrefix();
+
+  if (prefix.empty())
+  {
+    XMLNamespaces* thisxmlns = getNamespaces();
+    if (thisxmlns && thisxmlns->hasURI(SpatialExtension::getXmlnsL3V1V1()))
+    {
+      xmlns.add(SpatialExtension::getXmlnsL3V1V1(),prefix);
+    }
+  }
+
+  stream << xmlns;
 }
 
 
@@ -835,40 +1409,42 @@ ParametricObject_getId(const ParametricObject_t * po)
 
 
 LIBSBML_EXTERN
-const char *
+PolygonKind_t
 ParametricObject_getPolygonType(const ParametricObject_t * po)
 {
-	return (po != NULL && po->isSetPolygonType()) ? po->getPolygonType().c_str() : NULL;
+	return (po != NULL) ? po->getPolygonType() : POLYGONKIND_UNKNOWN;
 }
 
 
 LIBSBML_EXTERN
 const char *
-ParametricObject_getDomain(const ParametricObject_t * po)
+ParametricObject_getDomainType(const ParametricObject_t * po)
 {
-	return (po != NULL && po->isSetDomain()) ? po->getDomain().c_str() : NULL;
+	return (po != NULL && po->isSetDomainType()) ? po->getDomainType().c_str() : NULL;
 }
 
 
 LIBSBML_EXTERN
-PolygonObject_t*
-ParametricObject_getPolygonObject(ParametricObject_t * po)
+int
+ParametricObject_getPointIndexLength(const ParametricObject_t * po)
 {
-	if (po == NULL)
-		return NULL;
-
-	return (PolygonObject_t*)po->getPolygonObject();
+	return (po != NULL) ? po->getPointIndexLength() : SBML_INT_MAX;
 }
 
 
 LIBSBML_EXTERN
-PolygonObject_t*
-ParametricObject_createPolygonObject(ParametricObject_t * po)
+CompressionKind_t
+ParametricObject_getCompression(const ParametricObject_t * po)
 {
-	if (po == NULL)
-		return NULL;
+	return (po != NULL) ? po->getCompression() : COMPRESSIONKIND_UNKNOWN;
+}
 
-	return (PolygonObject_t*)po->createPolygonObject();
+
+LIBSBML_EXTERN
+DataKind_t
+ParametricObject_getDataType(const ParametricObject_t * po)
+{
+	return (po != NULL) ? po->getDataType() : DATAKIND_UNKNOWN;
 }
 
 
@@ -890,17 +1466,41 @@ ParametricObject_isSetPolygonType(const ParametricObject_t * po)
 
 LIBSBML_EXTERN
 int
-ParametricObject_isSetDomain(const ParametricObject_t * po)
+ParametricObject_isSetDomainType(const ParametricObject_t * po)
 {
-  return (po != NULL) ? static_cast<int>(po->isSetDomain()) : 0;
+  return (po != NULL) ? static_cast<int>(po->isSetDomainType()) : 0;
 }
 
 
 LIBSBML_EXTERN
 int
-ParametricObject_isSetPolygonObject(const ParametricObject_t * po)
+ParametricObject_isSetPointIndex(const ParametricObject_t * po)
 {
-  return (po != NULL) ? static_cast<int>(po->isSetPolygonObject()) : 0;
+  return (po != NULL) ? static_cast<int>(po->isSetPointIndex()) : 0;
+}
+
+
+LIBSBML_EXTERN
+int
+ParametricObject_isSetPointIndexLength(const ParametricObject_t * po)
+{
+  return (po != NULL) ? static_cast<int>(po->isSetPointIndexLength()) : 0;
+}
+
+
+LIBSBML_EXTERN
+int
+ParametricObject_isSetCompression(const ParametricObject_t * po)
+{
+  return (po != NULL) ? static_cast<int>(po->isSetCompression()) : 0;
+}
+
+
+LIBSBML_EXTERN
+int
+ParametricObject_isSetDataType(const ParametricObject_t * po)
+{
+  return (po != NULL) ? static_cast<int>(po->isSetDataType()) : 0;
 }
 
 
@@ -917,10 +1517,10 @@ ParametricObject_setId(ParametricObject_t * po, const char * id)
 
 LIBSBML_EXTERN
 int
-ParametricObject_setPolygonType(ParametricObject_t * po, const char * polygonType)
+ParametricObject_setPolygonType(ParametricObject_t * po, PolygonKind_t polygonType)
 {
   if (po != NULL)
-    return (polygonType == NULL) ? po->setPolygonType("") : po->setPolygonType(polygonType);
+    return po->setPolygonType(polygonType);
   else
     return LIBSBML_INVALID_OBJECT;
 }
@@ -928,10 +1528,10 @@ ParametricObject_setPolygonType(ParametricObject_t * po, const char * polygonTyp
 
 LIBSBML_EXTERN
 int
-ParametricObject_setDomain(ParametricObject_t * po, const char * domain)
+ParametricObject_setDomainType(ParametricObject_t * po, const char * domainType)
 {
   if (po != NULL)
-    return (domain == NULL) ? po->setDomain("") : po->setDomain(domain);
+    return (domainType == NULL) ? po->setDomainType("") : po->setDomainType(domainType);
   else
     return LIBSBML_INVALID_OBJECT;
 }
@@ -939,9 +1539,34 @@ ParametricObject_setDomain(ParametricObject_t * po, const char * domain)
 
 LIBSBML_EXTERN
 int
-ParametricObject_setPolygonObject(ParametricObject_t * po, PolygonObject_t* polygonObject)
+ParametricObject_setPointIndexLength(ParametricObject_t * po, int pointIndexLength)
 {
-	return (po != NULL) ? po->setPolygonObject(polygonObject) : LIBSBML_INVALID_OBJECT;
+  if (po != NULL)
+    return po->setPointIndexLength(pointIndexLength);
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+ParametricObject_setCompression(ParametricObject_t * po, CompressionKind_t compression)
+{
+  if (po != NULL)
+    return po->setCompression(compression);
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+ParametricObject_setDataType(ParametricObject_t * po, DataKind_t dataType)
+{
+  if (po != NULL)
+    return po->setDataType(dataType);
+  else
+    return LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -963,9 +1588,41 @@ ParametricObject_unsetPolygonType(ParametricObject_t * po)
 
 LIBSBML_EXTERN
 int
-ParametricObject_unsetDomain(ParametricObject_t * po)
+ParametricObject_unsetDomainType(ParametricObject_t * po)
 {
-  return (po != NULL) ? po->unsetDomain() : LIBSBML_INVALID_OBJECT;
+  return (po != NULL) ? po->unsetDomainType() : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+ParametricObject_unsetPointIndex(ParametricObject_t * po)
+{
+  return (po != NULL) ? po->unsetPointIndex() : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+ParametricObject_unsetPointIndexLength(ParametricObject_t * po)
+{
+  return (po != NULL) ? po->unsetPointIndexLength() : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+ParametricObject_unsetCompression(ParametricObject_t * po)
+{
+  return (po != NULL) ? po->unsetCompression() : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+ParametricObject_unsetDataType(ParametricObject_t * po)
+{
+  return (po != NULL) ? po->unsetDataType() : LIBSBML_INVALID_OBJECT;
 }
 
 
@@ -982,6 +1639,34 @@ int
 ParametricObject_hasRequiredElements(const ParametricObject_t * po)
 {
 	return (po != NULL) ? static_cast<int>(po->hasRequiredElements()) : 0;
+}
+
+
+/*
+ *
+ */
+LIBSBML_EXTERN
+ParametricObject_t *
+ListOfParametricObjects_getById(ListOf_t * lo, const char * sid)
+{
+  if (lo == NULL)
+    return NULL;
+
+  return (sid != NULL) ? static_cast <ListOfParametricObjects *>(lo)->get(sid) : NULL;
+}
+
+
+/*
+ *
+ */
+LIBSBML_EXTERN
+ParametricObject_t *
+ListOfParametricObjects_removeById(ListOf_t * lo, const char * sid)
+{
+  if (lo == NULL)
+    return NULL;
+
+  return (sid != NULL) ? static_cast <ListOfParametricObjects *>(lo)->remove(sid) : NULL;
 }
 
 

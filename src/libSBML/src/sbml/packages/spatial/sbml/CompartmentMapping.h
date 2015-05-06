@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -655,7 +655,7 @@ CompartmentMapping_setUnitSize(CompartmentMapping_t * cm, double unitSize);
 
 /**
  * Unsets the value of the "id" attribute of the given 
- *CompartmentMapping_t structure.
+ * CompartmentMapping_t structure.
  *
  * @param cm the CompartmentMapping_t structure.
  *
@@ -676,7 +676,7 @@ CompartmentMapping_unsetId(CompartmentMapping_t * cm);
 
 /**
  * Unsets the value of the "domainType" attribute of the given 
- *CompartmentMapping_t structure.
+ * CompartmentMapping_t structure.
  *
  * @param cm the CompartmentMapping_t structure.
  *
@@ -697,7 +697,7 @@ CompartmentMapping_unsetDomainType(CompartmentMapping_t * cm);
 
 /**
  * Unsets the value of the "unitSize" attribute of the given 
- *CompartmentMapping_t structure.
+ * CompartmentMapping_t structure.
  *
  * @param cm the CompartmentMapping_t structure.
  *

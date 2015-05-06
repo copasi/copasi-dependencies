@@ -298,6 +298,23 @@ public class SimpleSpeciesReference : SBase {
 
   
 /**
+   * Unsets the value of the 'species' attribute of this SimpleSpeciesReference.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public new
+ int unsetSpecies() {
+    int ret = libsbmlPINVOKE.SimpleSpeciesReference_unsetSpecies(swigCPtr);
+    return ret;
+  }
+
+  
+/**
    * Predicate returning @c true if this
    * is a ModifierSpeciesReference.
    * 

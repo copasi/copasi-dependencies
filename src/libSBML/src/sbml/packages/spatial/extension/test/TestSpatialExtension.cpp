@@ -103,6 +103,7 @@ END_TEST
   fail_unless(spatialns->getVersion()        == 1);
   fail_unless(spatialns->getPackageVersion() == 1);
 
+  delete spatialns;
   spatialns = static_cast<SpatialPkgNamespaces*>(S->getSBMLExtensionNamespaces(""));
 
   fail_unless(spatialns == NULL);
@@ -220,6 +221,8 @@ END_TEST
   fail_unless(sbext->getPackageVersion(SPATIAL_XMLNS_L3V1V1) == 1);
   fail_unless(sbext->getPackageVersion(CORE_XMLNS_L2V4)             == 0);
   fail_unless(sbext->getPackageVersion("")                          == 0);
+
+  delete sbext;
 }
 END_TEST
 
@@ -239,11 +242,10 @@ END_TEST
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_GEOMETRYDEFINITION)     , "GeometryDefinition") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_SAMPLEDFIELDGEOMETRY)   , "SampledFieldGeometry") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_SAMPLEDFIELD)           , "SampledField") == 0);
-  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_IMAGEDATA)              , "ImageData") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_SAMPLEDVOLUME)          , "SampledVolume") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_ANALYTICGEOMETRY)       , "AnalyticGeometry") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_ANALYTICVOLUME)         , "AnalyticVolume") == 0);
-  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_SPATIALPOINT)           , "SpatialPoint") == 0);
+  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_SPATIALPOINTS)           , "SpatialPoints") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_SPATIALSYMBOLREFERENCE) , "SpatialSymbolReference") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_DIFFUSIONCOEFFICIENT)   , "DiffusionCoefficient") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_ADVECTIONCOEFFICIENT)   , "AdvectionCoefficient") == 0);
@@ -251,7 +253,7 @@ END_TEST
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_GEOMETRY)               , "Geometry") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_COORDINATEREFERENCE), "CoordinateReference") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_DOMAINTYPE-1)           , "(Unknown SBML Spatial Type)") == 0);
-  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_COORDINATEREFERENCE + 1), "(Unknown SBML Spatial Type)") == 0);
+  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_SPATIAL_SPATIALPOINTS + 1), "(Unknown SBML Spatial Type)") == 0);
 
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_DOMAINTYPE,   "spatial")            , "DomainType") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_DOMAIN,  "spatial")                 , "Domain") == 0);
@@ -263,11 +265,10 @@ END_TEST
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_GEOMETRYDEFINITION,  "spatial")     , "GeometryDefinition") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SAMPLEDFIELDGEOMETRY,   "spatial")  , "SampledFieldGeometry") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SAMPLEDFIELD,  "spatial")           , "SampledField") == 0);
-  fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_IMAGEDATA,   "spatial")             , "ImageData") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SAMPLEDVOLUME,  "spatial")          , "SampledVolume") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_ANALYTICGEOMETRY,   "spatial")      , "AnalyticGeometry") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_ANALYTICVOLUME,  "spatial")         , "AnalyticVolume") == 0);
-  fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SPATIALPOINT,   "spatial")          , "SpatialPoint") == 0);
+  fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SPATIALPOINTS,   "spatial")          , "SpatialPoints") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SPATIALSYMBOLREFERENCE,  "spatial") , "SpatialSymbolReference") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_DIFFUSIONCOEFFICIENT,   "spatial")  , "DiffusionCoefficient") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_ADVECTIONCOEFFICIENT,  "spatial")   , "AdvectionCoefficient") == 0);
@@ -275,7 +276,9 @@ END_TEST
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_GEOMETRY,  "spatial")               , "Geometry") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_COORDINATEREFERENCE, "spatial"), "CoordinateReference") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_DOMAINTYPE-1, "spatial")            , "(Unknown SBML Spatial Type)") == 0);
-  fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_COORDINATEREFERENCE + 1, "spatial"), "(Unknown SBML Spatial Type)") == 0);
+  fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SPATIALPOINTS + 1, "spatial"), "(Unknown SBML Spatial Type)") == 0);
+
+  delete sbext;
 }
 END_TEST
 
@@ -291,11 +294,10 @@ END_TEST
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_GEOMETRYDEFINITION     ,"spatial"), "GeometryDefinition")          == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SAMPLEDFIELDGEOMETRY   ,"spatial"), "SampledFieldGeometry")        == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SAMPLEDFIELD           ,"spatial"), "SampledField")                == 0);
-  fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_IMAGEDATA              ,"spatial"), "ImageData")                   == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SAMPLEDVOLUME          ,"spatial"), "SampledVolume")               == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_ANALYTICGEOMETRY       ,"spatial"), "AnalyticGeometry")            == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_ANALYTICVOLUME         ,"spatial"), "AnalyticVolume")              == 0);
-  fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SPATIALPOINT           ,"spatial"), "SpatialPoint")                == 0);
+  fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SPATIALPOINTS           ,"spatial"), "SpatialPoints")                == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SPATIALSYMBOLREFERENCE ,"spatial"), "SpatialSymbolReference")      == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_DIFFUSIONCOEFFICIENT   ,"spatial"), "DiffusionCoefficient")        == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_ADVECTIONCOEFFICIENT   ,"spatial"), "AdvectionCoefficient")        == 0);
@@ -303,7 +305,7 @@ END_TEST
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_GEOMETRY               ,"spatial"), "Geometry")                    == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_COORDINATEREFERENCE, "spatial"), "CoordinateReference") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_DOMAINTYPE - 1         ,"spatial"), "(Unknown SBML Spatial Type)") == 0);
-  fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_COORDINATEREFERENCE + 1, "spatial"), "(Unknown SBML Spatial Type)") == 0);
+  fail_unless(strcmp(SBMLTypeCode_toString(SBML_SPATIAL_SPATIALPOINTS + 1, "spatial"), "(Unknown SBML Spatial Type)") == 0);
 
 }
 END_TEST

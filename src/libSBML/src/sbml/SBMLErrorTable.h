@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1212,7 +1212,8 @@ static const sbmlErrorTableEntry errorTable[] =
     "\"http://www.sbml.org/sbml/level2/version2\", or "
     "\"http://www.sbml.org/sbml/level2/version3\", or "
     "\"http://www.sbml.org/sbml/level2/version4\", or "
-    "\"http://www.sbml.org/sbml/level2/version5\", or implicitly (by failing "
+    "\"http://www.sbml.org/sbml/level2/version5\" or "
+    "\"http://www.sbml.org/sbml/level3/version1/core\"), or implicitly (by failing "
     "to declare any namespace).",
     {"",
      "",
@@ -4993,8 +4994,8 @@ static const sbmlErrorTableEntry errorTable[] =
      "L2V3 Section 4.8.5",
      "L2V4 Section 4.8.5",
      "L2V5 Section 4.8.5",
-     "L3V1 Section 4.6.5",
-     "L3V2 Section 4.6.5"}
+     "L3V1 Section 4.6.4",
+     "L3V2 Section 4.6.4"}
   },
 
   //20609
@@ -5536,9 +5537,9 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_NOT_APPLICABLE,
-    "The identifier given as the value of a 'symbol'attribute "
-    "in any <InitialAssignment> definition cannot be the identifier "
-    "of a <Compartment> with a 'spatialDimensions' value of 0.",
+    "The identifier given as the value of a 'symbol' attribute "
+    "in any <initialAssignment> definition cannot be the identifier "
+    "of a <compartment> with a 'spatialDimensions' value of 0.",
     {"",
      "",
      "",
@@ -5831,8 +5832,8 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_NOT_APPLICABLE,
-    "The value of a <RateRule> or <AssignmentRule>'s 'variable' attribute "
-    "must not be the identifier of a <Compartment> with a "
+    "The value of a <rateRule> or <assignmentRule>'s 'variable' attribute "
+    "must not be the identifier of a <compartment> with a "
     "'spatialDimensions' value of 0.",
     {"",
      "",
@@ -5964,7 +5965,7 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
-    "The contents of the message element must not contain an XML DOCTYPE "
+    "The contents of the <message> element must not contain an XML DOCTYPE "
     "declaration (i.e., a string beginning with the characters \"<!DOCTYPE\". ",
     {"",
      "",
@@ -5990,7 +5991,7 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_NOT_APPLICABLE,
-    "The XHTML content inside a <constraint>s message element can only take one "
+    "The XHTML content inside a <constraint>'s <message> element can only take one "
     "of the following general forms: (1) a complete XHTML document beginning "
     "with the element <html> and ending with </html>; (2) the \"body\" portion "
     "of a document beginning with the element <body> and ending with </body>; "
@@ -6020,7 +6021,7 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
-    "A Constraint object must contain exactly one MathML math element.  "
+    "A <constraint> object must contain exactly one MathML <math> element.  "
     "The <math> element is optional in L3V2 and beyond.",
     {"",
      "",
@@ -6035,7 +6036,7 @@ static const sbmlErrorTableEntry errorTable[] =
   //21008
   {
     OneMessageElementPerConstraint,
-    "A Constraint object must contain one Message subobject",
+    "A Constraint object can only have one Message subobject",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_NOT_APPLICABLE,
@@ -6046,7 +6047,7 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
-    "A Constraint object may contain at most one Message subobject.",
+    "A <constraint> object may contain at most one <message> subobject.",
     {"",
      "",
      "",
@@ -6071,7 +6072,7 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
-    "A Constraint object "
+    "A <constraint> object "
     "may have the optional attributes 'metaid' and 'sboTerm'. No other attributes "
     "from the SBML Level 3 Core namespace are permitted on a "
     "Constraint object.",
@@ -6234,7 +6235,7 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
-    "A Reaction object may contain at most one of each of the following "
+    "A <reaction> object may contain at most one of each of the following "
     "elements: <listOfReactants>, <listOfProducts>, <listOfModifiers>, and "
     "<kineticLaw>.",
     {"",
@@ -6261,7 +6262,7 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
-    "The value of the attribute 'compartment' in a Reaction object is "
+    "The value of the attribute 'compartment' in a <reaction> object is "
     "optional, but if present, must be the identifier of an existing "
     "Compartment object defined in the model.",
     {"",
@@ -6288,7 +6289,7 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
-    "A Reaction object must have the required attributes 'id', 'reversible' "
+    "A <reaction> object must have the required attributes 'id', 'reversible' "
     "and 'fast', and may have the optional attributes 'metaid', 'sboTerm', 'name' "
     "and 'compartment'. No other attributes from the SBML Level 3 Core "
     "namespace are permitted on a Reaction object.",
@@ -6385,10 +6386,10 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
-    "A SpeciesReference object must have the required attributes 'species' "
+    "A <speciesReference> object must have the required attributes 'species' "
     "and 'constant', and may have the optional attributes 'metaid', 'sboTerm', 'name' "
     "'id' and 'stoichiometry'. No other attributes from the SBML Level 3 Core "
-    "namespace are permitted on a SpeciesReference object.",
+    "namespace are permitted on a <speciesReference> object.",
     {"",
      "",
      "",
@@ -6413,10 +6414,10 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
-    "A ModifierSpeciesReference object must have the required attribute 'species' "
+    "A <modifierSpeciesReference> object must have the required attribute 'species' "
     "and may have the optional attributes 'metaid', 'sboTerm', 'id' "
     "and 'name'. No other attributes from the SBML Level 3 Core "
-    "namespace are permitted on a ModifierSpeciesReference object.",
+    "namespace are permitted on a <modifierSpeciesReference> object.",
     {"",
      "",
      "",
@@ -7597,7 +7598,7 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_WARNING,
     LIBSBML_SEV_WARNING,
     "As a principle of best modeling practice, the <species> "
-    "should set an initial value(amount or concentration) rather than be left undefined. Doing so "
+    "should set an initial value (amount or concentration) rather than be left undefined. Doing so "
     "improves the portability of models between different simulation and "
     "analysis systems, and helps make it easier to detect potential errors "
     "in models."
@@ -7622,6 +7623,28 @@ static const sbmlErrorTableEntry errorTable[] =
     "should be declared rather than be left undefined. Doing so "
     "improves the ability of software to check the consistency of units "
     "and helps make it easier to detect potential errors in models."
+  },
+
+
+  // 80702
+  {
+    ParameterShouldHaveValue,
+    "It's best to declare values for every parameter in a model",
+    LIBSBML_CAT_MODELING_PRACTICE,
+    LIBSBML_SEV_WARNING,
+    LIBSBML_SEV_WARNING,
+    LIBSBML_SEV_WARNING,
+    LIBSBML_SEV_WARNING,
+    LIBSBML_SEV_WARNING,
+    LIBSBML_SEV_WARNING,
+    LIBSBML_SEV_WARNING,
+    LIBSBML_SEV_WARNING,
+    LIBSBML_SEV_WARNING,
+    "As a principle of best modeling practice, the <parameter> "
+    "should set an initial value rather than be left undefined. Doing so "
+    "improves the portability of models between different simulation and "
+    "analysis systems, and helps make it easier to detect potential errors "
+    "in models."
   },
 
 
@@ -9406,7 +9429,9 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_ERROR,
     "The level and version specified for the document must be "
     "consistent with a valid published SBML specification.  These are "
-    "Level 1, Versions 1 and 2 and Level 2, Versions 1, 2, 3 and 4."
+    "Level 1, Versions 1 and 2; Level 2, Versions 1, 2, 3 and 4; "
+    "and Level 3, Version 1.  If newer levels or versions of SBML "
+    "now exist, you must update your version of libSBML."
   },
 
   //99104
@@ -10745,7 +10770,7 @@ that is logging the error.
 For example, instead of getting a general error, you would get a specific
 error such as
 
-    "A <layout> object may have the optional SBML Level~3 Core "
+    "A <layout> object may have the optional SBML Level 3 Core "
     "attributes 'metaid' and 'sboTerm'. No other attributes from "
     "the SBML Level 3 Core namespace are permitted on a <layout> object. ",
 

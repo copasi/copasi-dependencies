@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -326,13 +326,55 @@ START_TEST (test_Event_setUseValuesFromTriggerTime)
   Event_t *object = 
     Event_create(2, 4);
 
+  // by default
+  fail_unless( Event_getUseValuesFromTriggerTime(object) == 1 );
+  fail_unless( Event_isSetUseValuesFromTriggerTime(object) == 1);
+
   Event_setUseValuesFromTriggerTime(object, 0);
 
   fail_unless( Event_getUseValuesFromTriggerTime(object) == 0 );
+  fail_unless( Event_isSetUseValuesFromTriggerTime(object) == 1);
 
   Event_setUseValuesFromTriggerTime(object, 1);
 
   fail_unless( Event_getUseValuesFromTriggerTime(object) == 1 );
+  fail_unless( Event_isSetUseValuesFromTriggerTime(object) == 1);
+
+  Event_free(object);
+}
+END_TEST
+
+
+START_TEST (test_Event_unsetUseValuesFromTriggerTime)
+{
+  Event_t *object = 
+    Event_create(2, 4);
+
+  // by default
+  fail_unless( Event_getUseValuesFromTriggerTime(object) == 1 );
+  fail_unless( Event_isSetUseValuesFromTriggerTime(object) == 1);
+
+  Event_setUseValuesFromTriggerTime(object, 1);
+
+  fail_unless( Event_getUseValuesFromTriggerTime(object) == 1 );
+  fail_unless( Event_isSetUseValuesFromTriggerTime(object) == 1);
+
+  int ret = Event_unsetUseValuesFromTriggerTime(object);
+
+  fail_unless(ret == LIBSBML_UNEXPECTED_ATTRIBUTE);
+  fail_unless( Event_getUseValuesFromTriggerTime(object) == 1 );
+  fail_unless( Event_isSetUseValuesFromTriggerTime(object) == 1);
+
+  Event_setUseValuesFromTriggerTime(object, 0);
+
+  fail_unless( Event_getUseValuesFromTriggerTime(object) == 0 );
+  fail_unless( Event_isSetUseValuesFromTriggerTime(object) == 1);
+
+  ret = Event_unsetUseValuesFromTriggerTime(object);
+
+  fail_unless(ret == LIBSBML_UNEXPECTED_ATTRIBUTE);
+  fail_unless( Event_getUseValuesFromTriggerTime(object) == 1 );
+  fail_unless( Event_isSetUseValuesFromTriggerTime(object) == 1);
 
   Event_free(object);
 }
@@ -412,6 +454,7 @@ create_suite_Event (void)
   tcase_add_test( tcase, test_Event_setTimeUnits );
   tcase_add_test( tcase, test_Event_full         );
   tcase_add_test( tcase, test_Event_setUseValuesFromTriggerTime );
+  tcase_add_test( tcase, test_Event_unsetUseValuesFromTriggerTime );
   tcase_add_test( tcase, test_Event_createWithNS         );
   tcase_add_test( tcase, test_Event_removeEventAssignment  );
 

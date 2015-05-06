@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -39,6 +39,20 @@
 %ignore IdentifierTransformer::transform(const SBase* element);
 
 #pragma SWIG nowarn=473,401,844
+
+#if (!defined (SWIGJAVA) && !defined(SWIGCSHARP))
+// apply typemaps for items we manage manually
+%include "typemaps.i"
+
+%apply SWIGTYPE *DISOWN { SBase* disownedItem };
+%apply SWIGTYPE *DISOWN { SBase_t* disownedItem };
+%apply SWIGTYPE *DISOWN { XMLNode* disownedAnnotation };
+%apply SWIGTYPE *DISOWN { XMLNode_t* disownedAnnotation };
+%apply SWIGTYPE *DISOWN { ASTNode* disownedChild };
+%apply SWIGTYPE *DISOWN { ASTNode_t* disownedChild };
+%apply SWIGTYPE *DISOWN { SBMLNamespaces* disownedNs };
+
+#endif 
 
 %pragma(java) moduleclassmodifiers="
 /**

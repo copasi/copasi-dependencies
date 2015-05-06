@@ -6,7 +6,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2014 jointly by the following organizations:
+# Copyright (C) 2013-2015 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -246,6 +246,7 @@ macro(ADD_FUNCTION directory)
 
     file(GLOB temp
             ${prefix}${directory}/*.cpp
+            ${prefix}${directory}/*.cxx
             ${prefix}${directory}/*.c
             ${prefix}${directory}/*.h)
 
@@ -253,17 +254,23 @@ macro(ADD_FUNCTION directory)
     # since they don't contain symbols but rather are included directly.  Could
     # remove them, but that keeps their content from being found in searches, etc.
     # in IDEs such as VisualStudio.
-    if ("${directory}" STREQUAL "validator/constraints")
-      foreach(tempFile ${temp})
-        if ("${tempFile}" MATCHES ".*Constraints.cpp")
+    foreach(tempFile ${temp})
+        if ("${directory}" STREQUAL "validator/constraints")
+            if ("${tempFile}" MATCHES ".*Constraints.cpp")
+              set_source_files_properties(
+                  ${tempFile}
+                  PROPERTIES HEADER_FILE_ONLY true
+                  )
+#              list(REMOVE_ITEM temp "${tempFile}")
+            endif()
+        endif()
+        if ("${tempFile}" MATCHES ".*.cxx")
           set_source_files_properties(
               ${tempFile}
               PROPERTIES HEADER_FILE_ONLY true
               )
-#          list(REMOVE_ITEM temp "${tempFile}")
         endif()
-      endforeach()
-    endif()
+    endforeach()
 
     # create source group for IDEs
     source_group(${directory} FILES ${temp})
@@ -544,6 +551,21 @@ INSTALL(TARGETS ${LIBSBML_LIBRARY}-static
 #
 add_subdirectory(sbml)
 
+##############################################################################
+#
+# construct list of all header files to create dependency list for 
+# language bindings
+#
+
+file(GLOB LIBSBML_HEADER_FILES "${CMAKE_CURRENT_BINARY_DIR}/sbml/common/*.h")    
+foreach(file ${LIBSBML_SOURCES})
+   
+   if ("${file}" MATCHES "h$" )
+     get_filename_component(full_path ${file} ABSOLUTE)
+     list(APPEND LIBSBML_HEADER_FILES ${full_path})     
+   endif()
+
+endforeach()
 
 ##############################################################################
 #

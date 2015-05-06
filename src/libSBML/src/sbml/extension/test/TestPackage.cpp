@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -207,11 +207,22 @@ void
 	SBaseExtensionPoint sbmldocExtPoint("core",SBML_DOCUMENT);
 	SBaseExtensionPoint modelExtPoint("core",SBML_MODEL);
 
+  // next extend only the list of species, but no other list 
+  SBaseExtensionPoint listOfSpeciesExtPoint(
+    "core",            // extend core 
+    SBML_LIST_OF,      // extend list of class
+    "listOfSpecies",   // only extend the list of species
+    true               // VITAL: when considering this extensionpoint
+                       // require that the elementNames match
+    );
+
 	SBasePluginCreator<SBMLDocumentPlugin, TestExtension> sbmldocPluginCreator(sbmldocExtPoint,packageURIs);
 	SBasePluginCreator<TestModelPlugin,   TestExtension> modelPluginCreator(modelExtPoint,packageURIs);
+  SBasePluginCreator<TestLOSPlugin, TestExtension> losPluginCreator(listOfSpeciesExtPoint, packageURIs);
 
 	testExtension.addSBasePluginCreator(&sbmldocPluginCreator);
 	testExtension.addSBasePluginCreator(&modelPluginCreator);
+  testExtension.addSBasePluginCreator(&losPluginCreator);
 
 	int result = SBMLExtensionRegistry::getInstance().addExtension(&testExtension);
 
@@ -318,6 +329,119 @@ TestModelPlugin::enablePackageInternal(const std::string& pkgURI,
                                         const std::string& pkgPrefix, bool flag)
 {
  
+}
+
+bool
+TestModelPlugin::accept (SBMLVisitor& v) const
+{
+  return true;
+}
+
+
+
+
+TestLOSPlugin::TestLOSPlugin(const std::string &uri,
+  const std::string &prefix,
+  TestPkgNamespaces *groupsns)
+  : SBasePlugin(uri, prefix, groupsns)
+  , mValue()
+{
+}
+
+TestLOSPlugin::TestLOSPlugin(const TestLOSPlugin& orig)
+  : SBasePlugin(orig)
+  , mValue(orig.mValue)
+{
+}
+
+TestLOSPlugin::~TestLOSPlugin() {}
+
+TestLOSPlugin&
+TestLOSPlugin::operator=(const TestLOSPlugin& orig)
+{
+  if (&orig != this)
+  {
+    this->mValue = orig.mValue;
+    this->SBasePlugin::operator =(orig);
+  }
+  return *this;
+}
+
+TestLOSPlugin*
+TestLOSPlugin::clone() const
+{
+  return new TestLOSPlugin(*this);
+}
+
+const std::string&
+TestLOSPlugin::getValue() const
+{
+  return mValue;
+}
+void
+TestLOSPlugin::setValue(const std::string& value)
+{
+  mValue = value;
+}
+
+
+SBase*
+TestLOSPlugin::createObject(XMLInputStream& stream)
+{
+  SBase*        object = NULL;
+
+  const std::string&   name = stream.peek().getName();
+  const XMLNamespaces& xmlns = stream.peek().getNamespaces();
+  const std::string&   prefix = stream.peek().getPrefix();
+
+  const std::string& targetPrefix = (xmlns.hasURI(mURI)) ? xmlns.getPrefix(mURI) : mPrefix;
+
+  if (prefix == targetPrefix)
+  {
+    if (name == "Test")
+    {
+      // adding object later on
+    }
+  }
+  return object;
+}
+
+void
+TestLOSPlugin::writeElements(XMLOutputStream& stream) const
+{
+}
+
+bool
+TestLOSPlugin::hasRequiredElements() const
+{
+  bool allPresent = true;
+  return allPresent;
+}
+
+
+void
+TestLOSPlugin::setSBMLDocument(SBMLDocument* d)
+{
+  SBasePlugin::setSBMLDocument(d);
+}
+
+void
+TestLOSPlugin::connectToParent(SBase* sbase)
+{
+  SBasePlugin::connectToParent(sbase);
+}
+
+void
+TestLOSPlugin::enablePackageInternal(const std::string& pkgURI,
+const std::string& pkgPrefix, bool flag)
+{
+
+}
+
+bool
+TestLOSPlugin::accept(SBMLVisitor& v) const
+{
+  return true;
 }
 
 

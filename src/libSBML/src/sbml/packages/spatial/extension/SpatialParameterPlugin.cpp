@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -67,11 +67,27 @@ SpatialParameterPlugin::SpatialParameterPlugin(const std::string& uri,
  */
 SpatialParameterPlugin::SpatialParameterPlugin(const SpatialParameterPlugin& orig) :
     SBasePlugin(orig)
-  , mSpatialSymbolReference ( orig.mSpatialSymbolReference )
-  , mAdvectionCoefficient ( orig.mAdvectionCoefficient )
-  , mBoundaryCondition ( orig.mBoundaryCondition )
-  , mDiffusionCoefficient ( orig.mDiffusionCoefficient )
+  , mSpatialSymbolReference ( NULL )
+  , mAdvectionCoefficient ( NULL )
+  , mBoundaryCondition ( NULL )
+  , mDiffusionCoefficient ( NULL )
 {
+  if (orig.mSpatialSymbolReference != NULL)
+  {
+    mSpatialSymbolReference = orig.mSpatialSymbolReference->clone();
+  }
+  if (orig.mAdvectionCoefficient != NULL)
+  {
+    mAdvectionCoefficient = orig.mAdvectionCoefficient->clone();
+  }
+  if (orig.mBoundaryCondition != NULL)
+  {
+    mBoundaryCondition = orig.mBoundaryCondition->clone();
+  }
+  if (orig.mDiffusionCoefficient != NULL)
+  {
+    mDiffusionCoefficient = orig.mDiffusionCoefficient->clone();
+  }
 }
 
 
@@ -84,10 +100,22 @@ SpatialParameterPlugin::operator=(const SpatialParameterPlugin& rhs)
   if (&rhs != this)
   {
     this->SBasePlugin::operator=(rhs);
-    mSpatialSymbolReference = rhs.mSpatialSymbolReference;
-    mAdvectionCoefficient = rhs.mAdvectionCoefficient;
-    mBoundaryCondition = rhs.mBoundaryCondition;
-    mDiffusionCoefficient = rhs.mDiffusionCoefficient;
+    delete mSpatialSymbolReference;
+    mSpatialSymbolReference = NULL;
+    if (rhs.mSpatialSymbolReference != NULL)
+      mSpatialSymbolReference = rhs.mSpatialSymbolReference->clone();
+    delete mAdvectionCoefficient;
+    mAdvectionCoefficient = NULL;
+    if (rhs.mAdvectionCoefficient != NULL)
+      mAdvectionCoefficient = rhs.mAdvectionCoefficient->clone();
+    delete mBoundaryCondition;
+    mBoundaryCondition = NULL;
+    if (rhs.mBoundaryCondition != NULL)
+      mBoundaryCondition = rhs.mBoundaryCondition->clone();
+    delete mDiffusionCoefficient;
+    mDiffusionCoefficient = NULL;
+    if (rhs.mDiffusionCoefficient != NULL)
+      mDiffusionCoefficient = rhs.mDiffusionCoefficient->clone();
   }
 
   return *this;
@@ -109,6 +137,14 @@ SpatialParameterPlugin::clone () const
  */
 SpatialParameterPlugin::~SpatialParameterPlugin()
 {
+  delete mSpatialSymbolReference;
+  mSpatialSymbolReference = NULL;
+  delete mAdvectionCoefficient;
+  mAdvectionCoefficient = NULL;
+  delete mBoundaryCondition;
+  mBoundaryCondition = NULL;
+  delete mDiffusionCoefficient;
+  mDiffusionCoefficient = NULL;
 }
 
 
@@ -254,7 +290,7 @@ SpatialParameterPlugin::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -262,12 +298,10 @@ SpatialParameterPlugin::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
     }
   }
-
-  bool assigned = false;
 
 }
 
@@ -383,6 +417,7 @@ SpatialParameterPlugin::setSpatialSymbolReference(const SpatialSymbolReference* 
 SpatialSymbolReference*
 SpatialParameterPlugin::createSpatialSymbolReference()
 {
+  delete mSpatialSymbolReference;
   SPATIAL_CREATE_NS(spatialns, getSBMLNamespaces());
   mSpatialSymbolReference = new SpatialSymbolReference(spatialns);
 
@@ -465,6 +500,7 @@ SpatialParameterPlugin::setAdvectionCoefficient(const AdvectionCoefficient* adve
 AdvectionCoefficient*
 SpatialParameterPlugin::createAdvectionCoefficient()
 {
+  delete mAdvectionCoefficient;
   SPATIAL_CREATE_NS(spatialns, getSBMLNamespaces());
   mAdvectionCoefficient = new AdvectionCoefficient(spatialns);
 
@@ -547,6 +583,7 @@ SpatialParameterPlugin::setBoundaryCondition(const BoundaryCondition* boundaryCo
 BoundaryCondition*
 SpatialParameterPlugin::createBoundaryCondition()
 {
+  delete mBoundaryCondition;
   SPATIAL_CREATE_NS(spatialns, getSBMLNamespaces());
   mBoundaryCondition = new BoundaryCondition(spatialns);
 
@@ -629,6 +666,7 @@ SpatialParameterPlugin::setDiffusionCoefficient(const DiffusionCoefficient* diff
 DiffusionCoefficient*
 SpatialParameterPlugin::createDiffusionCoefficient()
 {
+  delete mDiffusionCoefficient;
   SPATIAL_CREATE_NS(spatialns, getSBMLNamespaces());
   mDiffusionCoefficient = new DiffusionCoefficient(spatialns);
 

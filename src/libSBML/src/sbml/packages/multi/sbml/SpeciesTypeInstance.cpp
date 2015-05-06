@@ -181,7 +181,7 @@ SpeciesTypeInstance::getCompartmentReference() const
 /*
  * Returns the value of the "occur" attribute of this SpeciesTypeInstance.
  */
-const unsigned int
+unsigned int
 SpeciesTypeInstance::getOccur() const
 {
   return mOccur;

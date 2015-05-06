@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -62,7 +62,7 @@ class LIBSBML_EXTERN CSGPrimitive : public CSGNode
 
 protected:
 
-  std::string   mPrimitiveType;
+  PrimitiveKind_t   mPrimitiveType;
 
 
 public:
@@ -123,9 +123,9 @@ public:
    /**
    * Returns the value of the "primitiveType" attribute of this CSGPrimitive.
    *
-   * @return the value of the "primitiveType" attribute of this CSGPrimitive as a string.
+   * @return the value of the "primitiveType" attribute of this CSGPrimitive as a PrimitiveKind_t.
    */
-  virtual const std::string& getPrimitiveType() const;
+  virtual PrimitiveKind_t getPrimitiveType() const;
 
 
   /**
@@ -141,7 +141,22 @@ public:
   /**
    * Sets the value of the "primitiveType" attribute of this CSGPrimitive.
    *
-   * @param primitiveType; const std::string& value of the "primitiveType" attribute to be set
+   * @param primitiveType; PrimitiveKind_t value of the "primitiveType" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setPrimitiveType(PrimitiveKind_t primitiveType);
+
+
+  /**
+   * Sets the value of the "primitiveType" attribute of this CSGPrimitive.
+   *
+   * @param primitiveType; string value of the "primitiveType" attribute to be set
    *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
@@ -390,7 +405,7 @@ CSGPrimitive_clone(CSGPrimitive_t * csgp);
  * @member of CSGPrimitive_t
  */
 LIBSBML_EXTERN
-const char *
+PrimitiveKind_t
 CSGPrimitive_getPrimitiveType(const CSGPrimitive_t * csgp);
 
 
@@ -413,9 +428,6 @@ CSGPrimitive_isSetPrimitiveType(const CSGPrimitive_t * csgp);
 /**
  * Sets the "primitiveType" attribute of the given CSGPrimitive_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs CSGPrimitive_unsetPrimitiveType() instead.
- *
  * @param csgp the CSGPrimitive_t structure.
  *
  * @param primitiveType the string to which the structures "primitiveType" attribute should be
@@ -429,19 +441,16 @@ CSGPrimitive_isSetPrimitiveType(const CSGPrimitive_t * csgp);
  * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
  * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
- * 
  * @member of CSGPrimitive_t
  */
 LIBSBML_EXTERN
 int
-CSGPrimitive_setPrimitiveType(CSGPrimitive_t * csgp, const char * primitiveType);
+CSGPrimitive_setPrimitiveType(CSGPrimitive_t * csgp, PrimitiveKind_t primitiveType);
 
 
 /**
  * Unsets the value of the "primitiveType" attribute of the given 
- *CSGPrimitive_t structure.
+ * CSGPrimitive_t structure.
  *
  * @param csgp the CSGPrimitive_t structure.
  *

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -255,6 +255,14 @@ Event::clone () const
   return new Event(*this);
 }
 
+
+void
+Event::initDefaults()
+{
+  setUseValuesFromTriggerTime(true);
+  // not explicitly set
+  mExplicitlySetUVFTT = false;
+}
 
 SBase*
 Event::getElementBySId(const std::string& id)
@@ -786,6 +794,30 @@ Event::unsetName ()
   else
   {
     return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
+int 
+Event::unsetUseValuesFromTriggerTime ()
+{
+  if (getLevel() == 2 && getVersion() < 4)
+  {
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+  else if (getLevel() == 2)
+  {
+    // reset defaults
+    mUseValuesFromTriggerTime = true;
+    mIsSetUseValuesFromTriggerTime = true;
+    mExplicitlySetUVFTT = false;
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+  else
+  {
+    mIsSetUseValuesFromTriggerTime = false;
+    mExplicitlySetUVFTT = false;
+    return LIBSBML_OPERATION_SUCCESS;
   }
 }
 
@@ -1461,7 +1493,8 @@ Event::readL2Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("id", level, version, "<event>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
   //
   // name: string  { use="optional" }  (L2v1 ->)
@@ -1481,7 +1514,7 @@ Event::readL2Attributes (const XMLAttributes& attributes)
     }
     if (!SyntaxChecker::isValidInternalUnitSId(mTimeUnits))
     {
-      logError(InvalidUnitIdSyntax);
+      logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The timeUnits attribute '" + mTimeUnits + "' does not conform to the syntax.");
     }
   }
 
@@ -1526,7 +1559,8 @@ Event::readL3Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("id", level, version, "<event>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
   //
   // name: string  { use="optional" }  (L2v1 ->)
@@ -2118,6 +2152,17 @@ Event_unsetName (Event_t *e)
 {
   if (e != NULL)
     return e->unsetName();
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+Event_unsetUseValuesFromTriggerTime (Event_t *e)
+{
+  if (e != NULL)
+    return e->unsetUseValuesFromTriggerTime();
   else
     return LIBSBML_INVALID_OBJECT;
 }

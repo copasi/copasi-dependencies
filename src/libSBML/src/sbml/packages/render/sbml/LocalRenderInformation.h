@@ -2,34 +2,35 @@
  * @file    LocalRenderInformation.h
  * @brief   class for representing local render information
  * @author  Ralph Gauges
+ * @author  Frank T. Bergmann
  *
- */
-/* Copyright 2010 Ralph Gauges
+ * <!--------------------------------------------------------------------------
+ * This file is part of libSBML.  Please visit http://sbml.org for more
+ * information about SBML, and the latest version of libSBML.
  *
- * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation.  A copy of the license agreement is
- * provided in the file named "LICENSE.txt" included with this software
- * distribution.  It is also available online at
- * http://sbml.org/software/libsbml/license.html
+ * Copyright (C) 2013-2015 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ *     3. University of Heidelberg, Heidelberg, Germany
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
- *
- * The original code contained here was initially developed by:
- *
- *     Ralph Gauges
+ * Copyright (C) 2011-2013 jointly by the following organizations: 
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ *  
+ * Copyright 2010 Ralph Gauges
  *     Group for the modeling of biological processes 
  *     University of Heidelberg
  *     Im Neuenheimer Feld 267
  *     69120 Heidelberg
  *     Germany
  *
- *     mailto:ralph.gauges@bioquant.uni-heidelberg.de
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation.  A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as http://sbml.org/software/libsbml/license.html
+ * ------------------------------------------------------------------------ -->
  *
- * Contributor(s):
- * 
  * @class LocalRenderInformation
  * @brief LocalRenderInformation is the render information stored in Layouts.
  *  LocalRenderInformation can be applied to all layouts.

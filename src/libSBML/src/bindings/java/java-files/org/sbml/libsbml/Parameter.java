@@ -636,6 +636,27 @@ public class Parameter extends SBase {
 
   
 /**
+   * Unsets the value of the 'constant' attribute of this {@link Parameter} object.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   *
+   * </ul> <p>
+   * @see #isSetConstant()
+   * @see #setConstant(String)
+   * @see #getConstant()
+   */ public
+ int unsetConstant() {
+    return libsbmlJNI.Parameter_unsetConstant(swigCPtr, this);
+  }
+
+  
+/**
    * Unsets the 'value' attribute of this {@link Parameter} instance.
    <p>
    * <p>

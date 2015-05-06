@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -2742,7 +2742,7 @@ public:
 
 
   /**
-   * Get the number of Specie objects in this Model.
+   * Get the number of Species objects in this Model.
    *
    * @return the number of Species in this Model.
    */
@@ -2967,6 +2967,11 @@ public:
    * it needs a unitDefinition to define it
    */
   void addDefinitionsForDefaultUnits ();
+
+  /* In L2 there are default values which need to be 
+   * set if changing from L3 where there are no defaults
+   */
+  void dealWithDefaultValues();
 
 
   void convertParametersToLocals(unsigned int level, unsigned int version);

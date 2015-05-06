@@ -3481,8 +3481,8 @@ newModel.addSpecies(s1);
 
   
 /** */ /* libsbml-internal */ public
- void setSBMLNamespacesAndOwn(SBMLNamespaces sbmlns) {
-    libsbmlPINVOKE.SBase_setSBMLNamespacesAndOwn(swigCPtr, SBMLNamespaces.getCPtr(sbmlns));
+ void setSBMLNamespacesAndOwn(SBMLNamespaces disownedNs) {
+    libsbmlPINVOKE.SBase_setSBMLNamespacesAndOwn(swigCPtr, SBMLNamespaces.getCPtrAndDisown(disownedNs));
   }
 
   
@@ -3590,6 +3590,50 @@ newModel.addSpecies(s1);
    */ public
  bool matchesRequiredSBMLNamespacesForAddition(SBase sb) {
     bool ret = libsbmlPINVOKE.SBase_matchesRequiredSBMLNamespacesForAddition__SWIG_0(swigCPtr, SBase.getCPtr(sb));
+    return ret;
+  }
+
+  
+/**
+   * Predicate returning true or false depending on whether
+   * the user data of this element has been set.
+   *
+   *
+ * 
+ * The user data associated with an SBML object can be used by an application
+ * developer to attach custom information to that object in the model.  In case
+ * of a deep copy, this data will passed as-is.  The data attribute will never
+ * be interpreted by libSBML.
+   *
+   * @return boolean, @c true if this object's user data has been set,
+   * @c false otherwise.
+   */ public
+ bool isSetUserData() {
+    bool ret = libsbmlPINVOKE.SBase_isSetUserData(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Unsets the user data of this element.
+   *
+   *
+ * 
+ * The user data associated with an SBML object can be used by an application
+ * developer to attach custom information to that object in the model.  In case
+ * of a deep copy, this data will passed as-is.  The data attribute will never
+ * be interpreted by libSBML.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public
+ int unsetUserData() {
+    int ret = libsbmlPINVOKE.SBase_unsetUserData(swigCPtr);
     return ret;
   }
 

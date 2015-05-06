@@ -405,6 +405,12 @@ public class SBasePlugin {
   }
 
   
+/** */ public
+ boolean isValidTypeForList(SBase item) {
+    return libsbmlJNI.SBasePlugin_isValidTypeForList(swigCPtr, this, SBase.getCPtrAndDisown(item), item);
+  }
+
+  
   /**
    * Returns an {@link SBaseList} of all child {@link SBase} objects,
    * including those nested to an arbitrary depth.

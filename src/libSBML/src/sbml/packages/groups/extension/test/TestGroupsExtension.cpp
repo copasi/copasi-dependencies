@@ -123,6 +123,8 @@ START_TEST (test_GroupsExtension_getSBMLExtensionNamespaces)
   fail_unless(groupsns->getVersion()        == 1);
   fail_unless(groupsns->getPackageVersion() == 1);
 
+  delete groupsns;
+
   groupsns = static_cast<GroupsPkgNamespaces*>(G->getSBMLExtensionNamespaces(""));
 
   fail_unless(groupsns == NULL);
@@ -240,6 +242,8 @@ START_TEST(test_GroupsExtension_registry)
   fail_unless(sbext->getPackageVersion(GROUPS_XMLNS_L3V1V1) == 1);
   fail_unless(sbext->getPackageVersion(CORE_XMLNS_L2V4)     == 0);
   fail_unless(sbext->getPackageVersion("")                  == 0);
+
+  delete sbext;
 }
 END_TEST
 
@@ -260,6 +264,8 @@ START_TEST(test_GroupsExtension_typecode)
                                         "(Unknown SBML Groups Type)") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_GROUPS_MEMBER-1), 
                                         "(Unknown SBML Groups Type)") == 0);
+
+  delete sbext;
 }
 END_TEST
 

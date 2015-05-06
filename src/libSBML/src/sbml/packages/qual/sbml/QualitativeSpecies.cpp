@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -699,7 +699,7 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mId) == false)
     {
-      logError(InvalidIdSyntax);
+      logError(InvalidIdSyntax, sbmlLevel, sbmlVersion, "The id '" + mId + "' does not conform to the syntax.");
     }
   }
   else
@@ -725,7 +725,7 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
     else if (SyntaxChecker::isValidSBMLSId(mCompartment) == false)
     {
       logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute compartment='" + mCompartment + "' does not conform.");
+        "The syntax of the attribute compartment='" + mCompartment + "' does not conform to the syntax.");
     }
   }
   else
@@ -800,8 +800,14 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
   {
     if (mInitialLevel < 0)
     {
+      std::stringstream msg;
+      msg << "The initialLevel of the <qualitativeSpecies> ";
+      if (isSetId()) {
+        msg << "with id '" << getId() << "' ";
+      }
+      msg << "is '" << mInitialLevel << "', which is negative.";
       getErrorLog()->logPackageError("qual", QualInitalLevelNotNegative,
-                   getPackageVersion(), sbmlLevel, sbmlVersion);
+                   getPackageVersion(), sbmlLevel, sbmlVersion, msg.str());
     }
   }
 
@@ -828,8 +834,14 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
   {
     if (mMaxLevel < 0)
     {
+      std::stringstream msg;
+      msg << "The maxLevel of the <qualitativeSpecies> ";
+      if (isSetId()) {
+        msg << "with id '" << getId() << "' ";
+      }
+      msg << "is '" << mMaxLevel << "', which is negative.";
       getErrorLog()->logPackageError("qual", QualMaxLevelNotNegative,
-                   getPackageVersion(), sbmlLevel, sbmlVersion);
+                   getPackageVersion(), sbmlLevel, sbmlVersion, msg.str());
     }
   }
 }

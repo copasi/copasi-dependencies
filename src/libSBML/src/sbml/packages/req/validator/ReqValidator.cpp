@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -220,6 +220,9 @@ class ReqValidatingVisitor: public SBMLVisitor
 public:
 
   ReqValidatingVisitor (ReqValidator& v, const Model& m) : v(v), m(m) { }
+
+  using SBMLVisitor::visit;
+
   bool visit (const ChangedMath &x)
   {
     v.mReqConstraints->mChangedMath.applyTo(m, x);
@@ -338,15 +341,17 @@ ReqValidator::validate (const std::string& filename)
   if (&filename == NULL) return 0;
 
   SBMLReader    reader;
-  SBMLDocument& d = *reader.readSBML(filename);
+  SBMLDocument* d = reader.readSBML(filename);
 
 
-  for (unsigned int n = 0; n < d.getNumErrors(); ++n)
+  for (unsigned int n = 0; n < d->getNumErrors(); ++n)
   {
-    logFailure( *d.getError(n) );
+    logFailure( *d->getError(n) );
   }
 
-  return validate(d);
+  unsigned int ret = validate(*d);
+  delete d;
+  return ret;
 }
 
 

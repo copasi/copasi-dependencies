@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -182,7 +182,7 @@ START_CONSTRAINT (QualInputQSMustBeExistingQS, Input, input)
   bool fail = false;
 
   msg =
-    "QualitativeSpecies '" + input.getQualitativeSpecies() + "' is undefined. ";
+    "<qualitativeSpecies> '" + input.getQualitativeSpecies() + "' is undefined. ";
 
   QualModelPlugin *plug1 = (QualModelPlugin*)(m.getPlugin("qual"));
 
@@ -205,9 +205,13 @@ START_CONSTRAINT (QualInputConstantCannotBeConsumed, Input, input)
   bool fail = false;
 
   msg =
-    "The QualitativeSpecies '" + input.getQualitativeSpecies() + "'";
-  msg += "referred to by this Input has constant set to true";
-  msg += "and the transitionEffect set to consumption.";
+    "The <qualitativeSpecies> '" + input.getQualitativeSpecies() + "' ";
+  msg += "referred to by the <input> ";
+  if (input.isSetId()) {
+    msg += "with the id '" + input.getId() + "' ";
+  }
+  msg += "has constant set to true, ";
+  msg += "but the transitionEffect of the <input> is set to consumption.";
 
   QualModelPlugin *plug1 = (QualModelPlugin*)(m.getPlugin("qual"));
 
@@ -231,18 +235,18 @@ END_CONSTRAINT
 // 20601 - 20606 caught at read
 
 // 20607
-START_CONSTRAINT (QualOutputQSMustBeExistingQS, Output, input)
+START_CONSTRAINT (QualOutputQSMustBeExistingQS, Output, output)
 {
-  pre( input.isSetQualitativeSpecies() );
+  pre( output.isSetQualitativeSpecies() );
 
   bool fail = false;
 
   msg =
-    "QualitativeSpecies '" + input.getQualitativeSpecies() + "' is undefined. ";
+    "<qualitativeSpecies> '" + output.getQualitativeSpecies() + "' is undefined. ";
 
   QualModelPlugin *plug1 = (QualModelPlugin*)(m.getPlugin("qual"));
 
-  if (plug1->getQualitativeSpecies(input.getQualitativeSpecies()) == NULL )
+  if (plug1->getQualitativeSpecies(output.getQualitativeSpecies()) == NULL )
   {
     fail = true;
   }
@@ -252,20 +256,24 @@ START_CONSTRAINT (QualOutputQSMustBeExistingQS, Output, input)
 END_CONSTRAINT
 
 // 20608
-START_CONSTRAINT (QualOutputConstantMustBeFalse, Output, input)
+START_CONSTRAINT (QualOutputConstantMustBeFalse, Output, output)
 {
-  pre( input.isSetQualitativeSpecies() );
+  pre( output.isSetQualitativeSpecies() );
 
   bool fail = false;
 
   msg =
-    "The QualitativeSpecies '" + input.getQualitativeSpecies() + "'";
-  msg += "referred to by this Output has constant set to true.";
+    "The <qualitativeSpecies> '" + output.getQualitativeSpecies() + "' ";
+  msg += "referred to by the <output> ";
+  if (output.isSetId()) {
+    msg += "with the id '" + output.getId() + "' ";
+  }
+  msg += "has constant set to true.";
 
   QualModelPlugin *plug1 = (QualModelPlugin*)(m.getPlugin("qual"));
 
   QualitativeSpecies *qs = plug1->getQualitativeSpecies
-                                  (input.getQualitativeSpecies());
+                                  (output.getQualitativeSpecies());
   pre (qs != NULL);
   
   if (qs->isSetConstant() && qs->getConstant() == true)
@@ -278,17 +286,17 @@ START_CONSTRAINT (QualOutputConstantMustBeFalse, Output, input)
 END_CONSTRAINT
 
 // 20609
-START_CONSTRAINT (QualOutputProductionMustHaveLevel, Output, input)
+START_CONSTRAINT (QualOutputProductionMustHaveLevel, Output, output)
 {
-  pre (input.isSetTransitionEffect());
+  pre (output.isSetTransitionEffect());
 
   bool fail = false;
 
-  OutputTransitionEffect_t transition = input.getTransitionEffect();
+  OutputTransitionEffect_t transition = output.getTransitionEffect();
   
   if (transition == OUTPUT_TRANSITION_EFFECT_PRODUCTION)
   {
-    if (input.isSetOutputLevel() == false)
+    if (output.isSetOutputLevel() == false)
     {
       fail = true;
     }

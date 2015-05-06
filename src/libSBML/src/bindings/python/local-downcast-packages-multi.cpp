@@ -99,6 +99,12 @@ else if (pkgName == "multi")
     case SBML_MULTI_SPECIES_TYPE:
       return SWIGTYPE_p_MultiSpeciesType;
 
+    case SBML_MULTI_BINDING_SITE_SPECIES_TYPE:
+      return SWIGTYPE_p_BindingSiteSpeciesType;
+
+    case SBML_MULTI_INTRA_SPECIES_REACTION:
+      return SWIGTYPE_p_IntraSpeciesReaction;
+
     default:
       return SWIGTYPE_p_SBase;
   }

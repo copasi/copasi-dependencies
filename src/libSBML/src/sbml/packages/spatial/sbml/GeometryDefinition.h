@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -58,6 +58,7 @@ class AnalyticGeometry;
 class SampledFieldGeometry;
 class CSGeometry;
 class ParametricGeometry;
+class MixedGeometry;
 
 
 
@@ -67,6 +68,8 @@ class LIBSBML_EXTERN GeometryDefinition : public SBase
 protected:
 
   std::string   mId;
+  bool          mIsActive;
+  bool          mIsSetIsActive;
 
 
 public:
@@ -133,6 +136,14 @@ public:
 
 
   /**
+   * Returns the value of the "isActive" attribute of this GeometryDefinition.
+   *
+   * @return the value of the "isActive" attribute of this GeometryDefinition as a boolean.
+   */
+  virtual bool getIsActive() const;
+
+
+  /**
    * Predicate returning @c true or @c false depending on whether this
    * GeometryDefinition's "id" attribute has been set.
    *
@@ -140,6 +151,16 @@ public:
    * otherwise @c false is returned.
    */
   virtual bool isSetId() const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * GeometryDefinition's "isActive" attribute has been set.
+   *
+   * @return @c true if this GeometryDefinition's "isActive" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetIsActive() const;
 
 
   /**
@@ -158,6 +179,21 @@ public:
 
 
   /**
+   * Sets the value of the "isActive" attribute of this GeometryDefinition.
+   *
+   * @param isActive; bool value of the "isActive" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  virtual int setIsActive(bool isActive);
+
+
+  /**
    * Unsets the value of the "id" attribute of this GeometryDefinition.
    *
    * @return integer value indicating success/failure of the
@@ -168,6 +204,19 @@ public:
    * @li LIBSBML_OPERATION_FAILED
    */
   virtual int unsetId();
+
+
+  /**
+   * Unsets the value of the "isActive" attribute of this GeometryDefinition.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  virtual int unsetIsActive();
 
 
   /**
@@ -204,6 +253,15 @@ public:
    *
    */
   virtual bool isParametricGeometry() const;
+
+
+  /**
+   * Returns @c true, if this abstract "GeometryDefinition" is of type MixedGeometry.
+   *
+   * @return @c true, if this abstract "GeometryDefinition" is of type MixedGeometry.
+   *
+   */
+  virtual bool isMixedGeometry() const;
 
 
   /**
@@ -254,6 +312,7 @@ public:
    *
    * @note The required attributes for a GeometryDefinition object are:
    * @li "id"
+   * @li "isActive"
    *
    * @return a boolean value indicating whether all the required
    * attributes for this object have been defined.
@@ -507,6 +566,17 @@ public:
 	ParametricGeometry* createParametricGeometry();
 
 
+	/**
+	 * Creates a new GeometryDefinition object, adds it to the
+	 * ListOfGeometryDefinitions and returns the GeometryDefinition object created. 
+	 *
+	 * @return a new GeometryDefinition object instance
+	 *
+	 * @see addGeometryDefinition(const GeometryDefinition* gd)
+	 */
+	MixedGeometry* createMixedGeometry();
+
+
   /**
    * Removes the nth GeometryDefinition from this ListOfGeometryDefinitions
    * and returns a pointer to it.
@@ -638,7 +708,7 @@ protected:
 
 	virtual bool isValidTypeForList(SBase * item) {
 		int code = item->getTypeCode();
-		return code == getItemTypeCode() || code == SBML_SPATIAL_ANALYTICGEOMETRY || code == SBML_SPATIAL_SAMPLEDFIELDGEOMETRY || code == SBML_SPATIAL_CSGEOMETRY || code == SBML_SPATIAL_PARAMETRICGEOMETRY ;
+		return code == getItemTypeCode() || code == SBML_SPATIAL_ANALYTICGEOMETRY || code == SBML_SPATIAL_SAMPLEDFIELDGEOMETRY || code == SBML_SPATIAL_CSGEOMETRY || code == SBML_SPATIAL_PARAMETRICGEOMETRY || code == SBML_SPATIAL_MIXEDGEOMETRY ;
 	}
 
 
@@ -722,6 +792,21 @@ GeometryDefinition_getId(const GeometryDefinition_t * gd);
 
 
 /**
+ * Returns the value of the "isActive" attribute of the given GeometryDefinition_t
+ * structure.
+ *
+ * @param gd the GeometryDefinition_t structure.
+ *
+ * @return the isActive of this structure.
+ *
+ * @member of GeometryDefinition_t
+ */
+LIBSBML_EXTERN
+int
+GeometryDefinition_getIsActive(const GeometryDefinition_t * gd);
+
+
+/**
  * Predicate returning @c 1 if the given GeometryDefinition_t structure's "id"
  * is set.
  *
@@ -735,6 +820,22 @@ GeometryDefinition_getId(const GeometryDefinition_t * gd);
 LIBSBML_EXTERN
 int
 GeometryDefinition_isSetId(const GeometryDefinition_t * gd);
+
+
+/**
+ * Predicate returning @c 1 if the given GeometryDefinition_t structure's "isActive"
+ * is set.
+ *
+ * @param gd the GeometryDefinition_t structure.
+ *
+ * @return @c 1 if the "isActive" of this GeometryDefinition_t structure is
+ * set, @c 0 otherwise.
+ *
+ * @member of GeometryDefinition_t
+ */
+LIBSBML_EXTERN
+int
+GeometryDefinition_isSetIsActive(const GeometryDefinition_t * gd);
 
 
 /**
@@ -767,8 +868,31 @@ GeometryDefinition_setId(GeometryDefinition_t * gd, const char * id);
 
 
 /**
+ * Sets the "isActive" attribute of the given GeometryDefinition_t structure.
+ *
+ * @param gd the GeometryDefinition_t structure.
+ *
+ * @param isActive the string to which the structures "isActive" attribute should be
+ * set.
+ *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif@~ The possible values
+ * returned by this function are:
+ * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+ * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+ *
+ * @member of GeometryDefinition_t
+ */
+LIBSBML_EXTERN
+int
+GeometryDefinition_setIsActive(GeometryDefinition_t * gd, int isActive);
+
+
+/**
  * Unsets the value of the "id" attribute of the given 
- *GeometryDefinition_t structure.
+ * GeometryDefinition_t structure.
  *
  * @param gd the GeometryDefinition_t structure.
  *
@@ -785,6 +909,27 @@ GeometryDefinition_setId(GeometryDefinition_t * gd, const char * id);
 LIBSBML_EXTERN
 int
 GeometryDefinition_unsetId(GeometryDefinition_t * gd);
+
+
+/**
+ * Unsets the value of the "isActive" attribute of the given 
+ * GeometryDefinition_t structure.
+ *
+ * @param gd the GeometryDefinition_t structure.
+ *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif@~ The possible values
+ * returned by this function are:
+ * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+ * @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+ * @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+ *
+ * @member of GeometryDefinition_t
+ */
+LIBSBML_EXTERN
+int
+GeometryDefinition_unsetIsActive(GeometryDefinition_t * gd);
 
 
 /**

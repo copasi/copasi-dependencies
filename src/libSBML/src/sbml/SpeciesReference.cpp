@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -223,12 +223,12 @@ SpeciesReference::clone () const
 void
 SpeciesReference::initDefaults ()
 {
-  //// level 3 has no defaults
-  //if (getLevel() < 3)
-  //{
-    mStoichiometry = 1.0;
-    mDenominator   = 1;
-  //}
+  setStoichiometry(1.0);
+  setDenominator(1);
+
+  // mark as not explicitly set
+  mExplicitlySetStoichiometry = false;
+  mExplicitlySetDenominator   = false;
 }
 
 
@@ -497,6 +497,27 @@ SpeciesReference::unsetStoichiometry ()
   }
 
   return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+ * Sets the constant field of this SpeciesReference to value.
+ */
+int
+SpeciesReference::unsetConstant ()
+{
+  if ( getLevel() < 3 )
+  {
+    mConstant = false;
+    mIsSetConstant = false;
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+  else
+  {
+    // no default
+    mIsSetConstant = false;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
 }
 
 
@@ -835,7 +856,12 @@ SpeciesReference::readOtherXML (XMLInputStream& stream)
       }
       else
       {
-        logError(MultipleAnnotations, getLevel(), getVersion());
+        string msg = "An SBML <speciesReference> element ";
+        if (isSetId()) {
+          msg += "with the id '" + getId() + "' ";
+        }
+        msg += "has multiple <annotation> children.";
+        logError(MultipleAnnotations, getLevel(), getVersion(), msg);
       }
     }
     delete mAnnotation;
@@ -1010,6 +1036,15 @@ SpeciesReference::readL3Attributes (const XMLAttributes& attributes)
   //
   mIsSetStoichiometry = attributes.readInto("stoichiometry", mStoichiometry, getErrorLog(), false, getLine(), getColumn());
 
+  string elplusid = "<" + getElementName() + ">";
+  if (!mId.empty()) {
+    elplusid += " with the id '" + mId + "'";
+  }
+  SBase* rxn = getAncestorOfType(SBML_REACTION);
+  if (rxn && rxn->isSetId()) 
+  {
+    elplusid += " from the <reaction> with the id '" + rxn->getId() + "'";
+  }
   //
   // constant: bool { use="required" } (L3v1 -> )
   //
@@ -1017,7 +1052,8 @@ SpeciesReference::readL3Attributes (const XMLAttributes& attributes)
   if (!mIsSetConstant && !isModifier())
   {
     logError(AllowedAttributesOnSpeciesReference, level, version, 
-             "The required attribute 'constant' is missing.");
+             "The required attribute 'constant' is missing from the "
+             + elplusid + ".");
   }
 
 }
@@ -1810,6 +1846,24 @@ SpeciesReference_unsetName (SpeciesReference_t *sr)
 {
   return (sr != NULL) ? sr->unsetName() : LIBSBML_INVALID_OBJECT;
 }
+
+
+LIBSBML_EXTERN
+int
+SpeciesReference_unsetSpecies (SpeciesReference_t *sr)
+{
+  return (sr != NULL) ? sr->unsetSpecies() : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+SpeciesReference_unsetConstant (SpeciesReference_t *sr)
+{
+  return (sr != NULL) ? static_cast<SpeciesReference*>(sr)->unsetConstant() 
+                      : LIBSBML_INVALID_OBJECT;
+}
+
 
 LIBSBML_EXTERN
 int

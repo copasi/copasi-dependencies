@@ -25,6 +25,8 @@
 
 #ifdef USE_RENDER
 
+COVARIANT_RTYPE_FUNCTION(GradientBase, getAllElements)
+
 /**
  * Adds DownCastBase(long cPtr, boolean owner) method for the fbc package extension
  */

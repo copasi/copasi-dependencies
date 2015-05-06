@@ -3288,6 +3288,37 @@ set.
 ";
 
 
+%feature("docstring") SBase::isSetUserData "
+Predicate returning true or false depending on whether the user data
+of this element has been set.
+
+The user data associated with an SBML object can be used by an
+application developer to attach custom information to that object in
+the model.  In case of a deep copy, this data will passed as-is.  The
+data attribute will never be interpreted by libSBML.
+
+Returns boolean, True if this object's user data has been set, False
+otherwise.
+";
+
+
+%feature("docstring") SBase::unsetUserData "
+Unsets the user data of this element.
+
+The user data associated with an SBML object can be used by an
+application developer to attach custom information to that object in
+the model.  In case of a deep copy, this data will passed as-is.  The
+data attribute will never be interpreted by libSBML.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_OPERATION_FAILED
+";
+
+
 %feature("docstring") SBase::getURI "
 Gets the namespace URI to which this element belongs to.
 
@@ -3726,13 +3757,13 @@ See also appendAndOwn(), appendFrom().
 %feature("docstring") ListOf::appendAndOwn "
 Adds an item to the end of this ListOf's list of items.
 
-This method does not clone the 'item' handed to it; instead, it
-assumes ownership of it.  This means that when the ListOf is
+This method does not clone the 'disownedItem' handed to it; instead,
+it assumes ownership of it.  This means that when the ListOf is
 destroyed, the item will be destroyed along with it.  For a method
 with an alternative ownership behavior, see the ListOf.append()
 method.
 
-Parameter 'item' is the item to be added to the list.
+Parameter 'disownedItem' is the item to be added to the list.
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
@@ -3788,12 +3819,12 @@ See also insertAndOwn().
 %feature("docstring") ListOf::insertAndOwn "
 Inserts an item at a given position in this ListOf's list of items.
 
-This variant of the method makes a clone of the 'item' handed to it.
-This means that when the ListOf is destroyed, the original 'item' will
-be destroyed.
+This variant of the method does not make a clone of the 'disownedItem'
+handed to it. This means that when the ListOf is destroyed, the
+original 'item' will be destroyed.
 
 Parameter 'location' is the location where to insert the item
-Parameter 'item' is the item to be inserted to the list
+Parameter 'disownedItem' is the item to be inserted to the list
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
@@ -4019,7 +4050,7 @@ the overall container for the lists of the various model components.
 All of the lists are optional, but if a given list container is
 present within the model, the list must not be empty; that is, it must
 have length one or more.  The following are the components and lists
-permitted in different Levels and Versions of SBML in version 5.11.1
+permitted in different Levels and Versions of SBML in version 5.11.4
 of libSBML:
 
 * In SBML Level 1, the components are: UnitDefinition, Compartment,
@@ -4138,7 +4169,7 @@ Consistency and adherence to SBML specifications
 ======================================================================
 
 To make it easier for applications to do whatever they need, libSBML
-version 5.11.1 is relatively lax when it comes to enforcing
+version 5.11.4 is relatively lax when it comes to enforcing
 correctness and completeness of models during model construction and
 editing. Essentially, libSBML will not in most cases check
 automatically that a model's components have valid attribute values,
@@ -6475,7 +6506,7 @@ Returns the number of Compartments in this Model.
 
 
 %feature("docstring") Model::getNumSpecies "
-Get the number of Specie objects in this Model.
+Get the number of Species objects in this Model.
 
 Returns the number of Species in this Model.
 ";
@@ -6659,6 +6690,11 @@ Internal implementation method.
 
 
 %feature("docstring") Model::addDefinitionsForDefaultUnits "
+Internal implementation method.
+";
+
+
+%feature("docstring") Model::dealWithDefaultValues "
 Internal implementation method.
 ";
 
@@ -7782,7 +7818,7 @@ or using the methods on the SBMLErrorLog object.
 The default SBML Level of new SBMLDocument objects.
 
 This 'default Level' corresponds to the most recent SBML
-specification Level available at the time libSBML version 5.11.1 was
+specification Level available at the time libSBML version 5.11.4 was
 released.  The default Level is used by SBMLDocument if no Level is
 explicitly specified at the time of the construction of an
 SBMLDocument instance.
@@ -7808,7 +7844,7 @@ The default Version of new SBMLDocument objects.
 
 This 'default Version' corresponds to the most recent Version within
 the most recent Level of SBML available at the time libSBML version
-5.11.1 was released.  The default Version is used by SBMLDocument if
+5.11.4 was released.  The default Version is used by SBMLDocument if
 no Version is explicitly specified at the time of the construction of
 an SBMLDocument instance.
 
@@ -10386,6 +10422,25 @@ otherwise.
 ";
 
 
+%feature("docstring") Unit::isSetOffset "
+Predicate to test whether the 'offset' attribute of this Unit  is set.
+
+Returns True if the 'offset' attribute of this Unit is set,  False
+otherwise.
+
+WARNING:
+
+The 'offset' attribute is only available in SBML Level 2 Version 1.
+This attribute is not present in SBML Level 2 Version 2 or above.
+When producing SBML models using these later specifications, modelers
+and software tools need to account for units with offsets explicitly.
+The SBML specification document offers a number of suggestions for how
+to achieve this.  LibSBML methods such as this one related to 'offset'
+are retained for compatibility with earlier versions of SBML Level 2,
+but their use is strongly discouraged.
+";
+
+
 %feature("docstring") Unit::setKind "
 Sets the 'kind' attribute value of this Unit.
 
@@ -10472,6 +10527,75 @@ Sets the 'offset' attribute value of this Unit.
 
 Parameter 'value' is the float-point value to which the attribute
 'offset' should set
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_UNEXPECTED_ATTRIBUTE
+
+WARNING:
+
+The 'offset' attribute is only available in SBML Level 2 Version 1.
+This attribute is not present in SBML Level 2 Version 2 or above.
+When producing SBML models using these later specifications, modelers
+and software tools need to account for units with offsets explicitly.
+The SBML specification document offers a number of suggestions for how
+to achieve this.  LibSBML methods such as this one related to 'offset'
+are retained for compatibility with earlier versions of SBML Level 2,
+but their use is strongly discouraged.
+";
+
+
+%feature("docstring") Unit::unsetKind "
+Unsets the 'kind' attribute value of this Unit.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_INVALID_ATTRIBUTE_VALUE
+";
+
+
+%feature("docstring") Unit::unsetExponent "
+Unsets the 'exponent' attribute value of this Unit.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_INVALID_ATTRIBUTE_VALUE
+";
+
+
+%feature("docstring") Unit::unsetScale "
+Unsets the 'scale' attribute value of this Unit.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+";
+
+
+%feature("docstring") Unit::unsetMultiplier "
+Unsets the 'multipler' attribute value of this Unit.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_UNEXPECTED_ATTRIBUTE
+";
+
+
+%feature("docstring") Unit::unsetOffset "
+Unsets the 'offset' attribute value of this Unit.
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
@@ -14305,6 +14429,21 @@ getCompartmentType().
 ";
 
 
+%feature("docstring") Compartment::unsetConstant "
+Unsets the value of the 'constant' attribute of this Compartment
+object.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_OPERATION_FAILED
+
+See also isSetConstant(), setConstant(), getConstant().
+";
+
+
 %feature("docstring") Compartment::unsetSize "
 Unsets the value of the 'size' attribute of this Compartment object.
 
@@ -15858,6 +15997,20 @@ The possible values returned by this function are:
 ";
 
 
+%feature("docstring") Species::unsetConstant "
+Unsets the value of the 'constant' attribute of this Species object.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_OPERATION_FAILED
+
+See also isSetConstant(), setConstant(), getConstant().
+";
+
+
 %feature("docstring") Species::unsetSpeciesType "
 Unsets the 'speciesType' attribute value of this Species object.
 
@@ -15995,6 +16148,43 @@ Note:
 
 The 'conversionFactor' attribute was introduced in SBML Level 3.  It
 does not exist on Species in SBML Levels 1 and 2.
+";
+
+
+%feature("docstring") Species::unsetCompartment "
+Unsets the 'compartment' attribute value of this Species object.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_OPERATION_FAILED
+";
+
+
+%feature("docstring") Species::unsetBoundaryCondition "
+Unsets the 'boundaryCondition' attribute value of this Species object.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_OPERATION_FAILED
+";
+
+
+%feature("docstring") Species::unsetHasOnlySubstanceUnits "
+Unsets the 'hasOnlySubstanceUnits' attribute value of this Species
+object.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_OPERATION_FAILED
 ";
 
 
@@ -16925,6 +17115,20 @@ The possible values returned by this function are:
 ";
 
 
+%feature("docstring") Parameter::unsetConstant "
+Unsets the value of the 'constant' attribute of this Parameter object.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_OPERATION_FAILED
+
+See also isSetConstant(), setConstant(), getConstant().
+";
+
+
 %feature("docstring") Parameter::unsetValue "
 Unsets the 'value' attribute of this Parameter instance.
 
@@ -17646,6 +17850,11 @@ Internal implementation method.
 ";
 
 
+%feature("docstring") LocalParameter::unsetConstant "
+Internal implementation method.
+";
+
+
 %feature("docstring") LocalParameter::addExpectedAttributes "
 Internal implementation method.
 ";
@@ -18181,6 +18390,18 @@ Sets the 'symbol' attribute value of this InitialAssignment.
 
 Parameter 'sid' is the identifier of a Species, Compartment or
 Parameter object defined elsewhere in this Model.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_INVALID_ATTRIBUTE_VALUE
+";
+
+
+%feature("docstring") InitialAssignment::unsetSymbol "
+Unsets the 'symbol' attribute value of this InitialAssignment.
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
@@ -19077,6 +19298,22 @@ only.  It is not present in SBML Levels 2 and 3.
 ";
 
 
+%feature("docstring") Rule::unsetVariable "
+Unsets the value of the 'variable' attribute of this Rule object.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_OPERATION_FAILED
+
+* LIBSBML_UNEXPECTED_ATTRIBUTE
+
+See also setVariable(), isSetVariable(), getVariable().
+";
+
+
 %feature("docstring") Rule::unsetUnits "
 Unsets the 'units' for this Rule.
 
@@ -19290,7 +19527,7 @@ Returns the XML element name of this object.
 
 The returned value can be any of a number of different strings,
 depending on the SBML Level in use and the kind of Rule object this
-is.  The rules as of libSBML version 5.11.1 are the following:
+is.  The rules as of libSBML version 5.11.4 are the following:
 
 * (Level 2 and 3) RateRule: returns 'rateRule'
 
@@ -20928,6 +21165,36 @@ False otherwise.
 
 
 %feature("docstring") Constraint::setMessage "
+This method has multiple variants; they differ in the arguments  they
+accept.  Each variant is described separately below.
+
+______________________________________________________________________
+Method variant with the following signature:
+
+setMessage(string message, bool addXHTMLMarkup = false)
+
+Sets the message of this Constraint.
+
+Parameter 'message' is an XML string that is to be used as the content
+of the 'message' subelement of this object
+
+Parameter 'addXHTMLMarkup' is a boolean indicating whether to wrap the
+contents of the 'message' argument with XHTML paragraph ( ) tags.
+This is appropriate when the string in 'message' does not already
+containg the appropriate XHTML markup.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_INVALID_OBJECT
+
+______________________________________________________________________
+Method variant with the following signature:
+
+setMessage(XMLNode xhtml)
+
 Sets the message of this Constraint.
 
 The XMLNode tree passed in 'xhtml' is copied.
@@ -21921,6 +22188,20 @@ Note:
 
 The 'compartment' attribute is available in SBML Level 3 Version 1
 Core, but is not present on Reaction in lower Levels of SBML.
+";
+
+
+%feature("docstring") Reaction::unsetReversible "
+Unsets the value of the 'reversible' attribute of this Reaction.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_UNEXPECTED_ATTRIBUTE
+
+* LIBSBML_OPERATION_FAILED
 ";
 
 
@@ -23870,6 +24151,19 @@ The possible values returned by this function are:
 ";
 
 
+%feature("docstring") SimpleSpeciesReference::unsetSpecies "
+Unsets the value of the 'species' attribute of this
+SimpleSpeciesReference.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_OPERATION_FAILED
+";
+
+
 %feature("docstring") SimpleSpeciesReference::isModifier "
 Predicate returning True if this is a ModifierSpeciesReference.
 
@@ -24614,6 +24908,18 @@ subelement is set, otherwise the attribute will be just reset to the
 default value (1.0) (and isSetStoichiometry() will still return True).
 In SBML Level 3, the 'stoichiometry' attribute of this object will be
 set to NaN and isSetStoichiometry() will return False.
+";
+
+
+%feature("docstring") SpeciesReference::unsetConstant "
+Unsets the 'constant' attribute of this SpeciesReference.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_UNEXPECTED_ATTRIBUTE
 ";
 
 
@@ -25445,6 +25751,19 @@ Returns the (deep) copy of this Event object.
 ";
 
 
+%feature("docstring") Event::initDefaults "
+Initializes the fields of this Event object to 'typical' default
+values.
+
+The SBML Event component has slightly different aspects and default
+attribute values in different SBML Levels and Versions. This method
+sets the values to certain common defaults, based mostly on what they
+are in SBML Level 2.  Specifically:
+
+* Sets attribute 'spatialDimensions' to 3
+";
+
+
 %feature("docstring") Event::getElementBySId "
 Returns the first child element found that has the given 'id' in the
 model-wide SId namespace, or None if no such object is found.
@@ -25863,6 +26182,55 @@ The possible values returned by this function are:
 * LIBSBML_OPERATION_SUCCESS
 
 * LIBSBML_OPERATION_FAILED
+";
+
+
+%feature("docstring") Event::unsetUseValuesFromTriggerTime "
+Unsets the value of the 'useValuesFromTriggerTime' attribute of this
+Event.
+
+The optional Delay on Event means there are two times to consider
+when computing the results of an event: the time at which the event is
+triggered, and the time at which assignments are executed.  It is also
+possible to distinguish between the time at which the
+EventAssignment's expression is calculated, and the time at which the
+assignment is made: the expression could be evaluated at the same time
+the assignments are performed, i.e., when the event is executed, but
+it could also be defined to be evaluated at the time the event is
+triggered.
+
+In SBML Level 2 versions prior to Version 4, the semantics of Event
+time delays were defined such that the expressions in the event's
+assignments were always evaluated at the time the event was triggered.
+This definition made it difficult to define an event whose assignment
+formulas were meant to be evaluated at the time the event was executed
+(i.e., after the time period defined by the value of the Delay
+element).  In SBML Level 2 Version 4, the attribute
+'useValuesFromTriggerTime' on Event allows a model to indicate the
+time at which the event's assignments are intended to be evaluated.
+In SBML Level 2, the attribute has a default value of True, which
+corresponds to the interpretation of event assignments prior to
+Version 4: the values of the assignment formulas are computed at the
+moment the event is triggered, not after the delay.  If
+'useValuesFromTriggerTime'=False, it means that the formulas in the
+event's assignments are to be computed after the delay, at the time
+the event is executed.  In SBML Level 3, the attribute is mandatory,
+not optional, and all events must specify a value for it.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_OPERATION_FAILED
+
+WARNING:
+
+The attribute 'useValuesFromTriggerTime' was introduced in SBML Level
+2 Version 4.  It is not valid in models defined using SBML Level 2
+versions prior to Version 4. If a Level 2 Version 1-3 model sets the
+attribute, the consistency-checking method
+SBMLDocument.checkConsistency() will report an error.
 ";
 
 
@@ -26716,6 +27084,18 @@ The possible values returned by this function are:
 ";
 
 
+%feature("docstring") EventAssignment::unsetVariable "
+Unsets the attribute 'variable' of this EventAssignment.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_INVALID_ATTRIBUTE_VALUE
+";
+
+
 %feature("docstring") EventAssignment::setMath "
 Sets the 'math' subelement of this EventAssignment to a copy of the
 given ASTNode.
@@ -27402,6 +27782,48 @@ Core, but is not present in lower Levels of SBML.
 
 %feature("docstring") Trigger::setPersistent "
 (SBML Level 3 only) Sets the 'persistent' attribute of this Trigger
+instance.
+
+Parameter 'persistent' is a boolean representing the persistent value
+to be set.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_UNEXPECTED_ATTRIBUTE
+
+Note:
+
+The attribute 'persistent' is available in SBML Level 3 Version 1
+Core, but is not present in lower Levels of SBML.
+";
+
+
+%feature("docstring") Trigger::unsetInitialValue "
+(SBML Level 3 only) Unsets the 'initialValue' attribute of this
+Trigger instance.
+
+Parameter 'initialValue' is a boolean representing the initialValue to
+be set.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_UNEXPECTED_ATTRIBUTE
+
+Note:
+
+The attribute 'initialValue' is available in SBML Level 3 Version 1
+Core, but is not present in lower Levels of SBML.
+";
+
+
+%feature("docstring") Trigger::unsetPersistent "
+(SBML Level 3 only) Unsets the 'persistent' attribute of this  Trigger
 instance.
 
 Parameter 'persistent' is a boolean representing the persistent value
@@ -31165,7 +31587,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.1:
+provided by libSBML 5.11.4:
 
 * CobraToFbcConverter
 
@@ -31668,7 +32090,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.1:
+provided by libSBML 5.11.4:
 
 * CobraToFbcConverter
 
@@ -32097,7 +32519,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.1:
+provided by libSBML 5.11.4:
 
 * CobraToFbcConverter
 
@@ -32333,7 +32755,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.1:
+provided by libSBML 5.11.4:
 
 * CobraToFbcConverter
 
@@ -32541,7 +32963,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.1:
+provided by libSBML 5.11.4:
 
 * CobraToFbcConverter
 
@@ -32769,7 +33191,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.1:
+provided by libSBML 5.11.4:
 
 * CobraToFbcConverter
 
@@ -32988,7 +33410,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.1:
+provided by libSBML 5.11.4:
 
 * CobraToFbcConverter
 
@@ -33150,6 +33572,11 @@ Internal implementation method.
 ";
 
 
+%feature("docstring") SBMLLevelVersionConverter::validateConvertedDocument "
+Internal implementation method.
+";
+
+
 %feature("docstring") SBMLLocalParameterConverter "
 Converter to turn local parameters into global ones.
 
@@ -33248,7 +33675,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.1:
+provided by libSBML 5.11.4:
 
 * CobraToFbcConverter
 
@@ -33456,7 +33883,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.1:
+provided by libSBML 5.11.4:
 
 * CobraToFbcConverter
 
@@ -33753,7 +34180,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.1:
+provided by libSBML 5.11.4:
 
 * CobraToFbcConverter
 
@@ -33962,7 +34389,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.1:
+provided by libSBML 5.11.4:
 
 * CobraToFbcConverter
 
@@ -34197,7 +34624,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.1:
+provided by libSBML 5.11.4:
 
 * CobraToFbcConverter
 
@@ -41057,7 +41484,7 @@ of its meaning.
 with SBMLError objects
 ......................................................................
 
-In libSBML version 5.11.1 there are no additional severity codes
+In libSBML version 5.11.4 there are no additional severity codes
 beyond those defined by XMLError. They are implemented as static
 integer constants defined in the interface class libsbml, and have
 names beginning with LIBSBML_SEV_.
@@ -43697,6 +44124,41 @@ accept.  Each variant is described separately below.
 ______________________________________________________________________
 Method variant with the following signature:
 
+SBaseExtensionPoint(string pkgName, int typeCode, string
+elementName, bool elementOnly = false)
+
+Constructor for SBaseExtensionPoint.
+
+The use of SBaseExtensionPoint is relatively straightforward.  The
+class needs to be used for each extended SBML object implemented using
+SBMLDocumentPlugin or SBasePlugin.  Doing so requires knowing just two
+things:
+
+* The short-form name of the parent package being extended. The
+parent package is often simply core SBML, identified in libSBML by the
+nickname 'core', but a SBML Level 3 package could conceivably extend
+another Level 3 package and the mechanism supports this.
+
+* The libSBML type code assigned to the object being extended. For
+example, if an extension of Model is implemented, the relevant type
+code is SBML_MODEL, found in #SBMLTypeCode_t.
+
+Parameter 'pkgName' is the short-form name of the parent package where
+that this package extension is extending.
+
+Parameter 'typeCode' is the type code of the object being extended.
+
+Parameter 'elementName' is element name for the target element, in
+case  multiple elements match the same type code (as will be the case
+for ListOf classes)
+
+Parameter 'elementOnly' is flag to be used during the registration  of
+the package, when set then the plugin is only applied to  elements
+whose elementName match.
+
+______________________________________________________________________
+Method variant with the following signature:
+
 SBaseExtensionPoint(SBaseExtensionPoint rhs)
 
 Copy constructor.
@@ -43747,6 +44209,16 @@ Returns the package name of this extension point.
 
 %feature("docstring") SBaseExtensionPoint::getTypeCode "
 Returns the libSBML type code of this extension point.
+";
+
+
+%feature("docstring") SBaseExtensionPoint::getElementName "
+the target element name
+";
+
+
+%feature("docstring") SBaseExtensionPoint::isElementOnly "
+
 ";
 
 
@@ -44063,6 +44535,16 @@ Internal implementation method.
 ";
 
 
+%feature("docstring") SBasePlugin::isValidTypeForList "
+
+";
+
+
+%feature("docstring") SBasePlugin::accept "
+Internal implementation method.
+";
+
+
 %feature("docstring") SBasePlugin::getErrorLog "
 Internal implementation method.
 ";
@@ -44308,6 +44790,11 @@ Internal implementation method.
 
 
 %feature("docstring") SBMLDocumentPlugin::checkConsistency "
+Internal implementation method.
+";
+
+
+%feature("docstring") SBMLDocumentPlugin::accept "
 Internal implementation method.
 ";
 
@@ -45466,6 +45953,11 @@ Internal implementation method.
 ";
 
 
+%feature("docstring") ASTBase::getValue "
+Internal implementation method.
+";
+
+
 %feature("docstring") ASTBase::resetPackageName "
 Internal implementation method.
 ";
@@ -45522,11 +46014,6 @@ Internal implementation method.
 
 
 %feature("docstring") ASTBase::getNumChildren "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::getValue "
 Internal implementation method.
 ";
 
@@ -45804,7 +46291,7 @@ Adds the given node as a child of this ASTNode.
 
 Child nodes are added in-order, from left to right.
 
-Parameter 'child' is the ASTNode instance to add
+Parameter 'disownedChild' is the ASTNode instance to add
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
@@ -45833,7 +46320,7 @@ Adds the given node as a child of this ASTNode.
 
 This method adds child nodes from right to left.
 
-Parameter 'child' is the ASTNode instance to add
+Parameter 'disownedChild' is the ASTNode instance to add
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
@@ -45886,8 +46373,9 @@ See also addChild(), prependChild(), replaceChild(), insertChild().
 Replaces the nth child of this ASTNode with the given ASTNode.
 
 Parameter 'n' is long the index of the child to replace Parameter
-'newChild' is ASTNode to replace the nth child Parameter 'delreplaced'
-is boolean indicating whether to delete the replaced child.
+'disownedChild' is ASTNode to replace the nth child Parameter
+'delreplaced' is boolean indicating whether to delete the replaced
+child.
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
@@ -45917,7 +46405,7 @@ Inserts the given ASTNode node at a given point in the current
 ASTNode's list of children.
 
 Parameter 'n' is long the index of the ASTNode being added Parameter
-'newChild' is ASTNode to insert as the nth child
+'disownedChild' is ASTNode to insert as the nth child
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
@@ -46007,7 +46495,7 @@ attribute or key.  Please refer to the MathML 2.0 documentation,
 particularly the Section 5.2, Semantic Annotations for more
 information about these constructs.
 
-Parameter 'sAnnotation' is the annotation to add.
+Parameter 'disownedAnnotation' is the annotation to add.
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
@@ -46301,6 +46789,25 @@ AST_REAL_E. It will return 0 if the node type is another type, but
 since 0 may be a valid value, it is important to be sure that the node
 type is the correct type in order to correctly interpret the returned
 value.
+";
+
+
+%feature("docstring") ASTNode::getValue "
+Returns the numerical value of this ASTNode.
+
+Returns the numerical value of this ASTNode, or NaN if this is not a
+type of node that has a numerical value.
+
+Note:
+
+This function will return a numerical value (as a double) for  any
+ASTNode_t that represents a number, a constant such as
+AST_CONSTANT_PI,  AST_CONSTANT_E, or  AST_NAME_AVOGADRO, or  1 for
+nodes of type  AST_CONSTANT_TRUE and 0 for nodes of type
+AST_CONSTANT_FALSE. It does not evaluate the node in any way so, for
+example, it will not return the value of  a named ASTNode_t or attempt
+to evaluate a function.  This includes a node representing time i.e.
+nodes of type AST_NAME_TIME.
 ";
 
 

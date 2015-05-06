@@ -871,6 +871,345 @@ def readSBML(*args):
   reader = SBMLReader()
   return reader.readSBML(args[0])
 
+class ListWrapperSBMLNamespaces(_object):
+    """Proxy of C++ ListWrapper<(SBMLNamespaces)> class"""
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ListWrapperSBMLNamespaces, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, ListWrapperSBMLNamespaces, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        """__init__(self) -> ListWrapperSBMLNamespaces"""
+        this = _libsbml.new_ListWrapperSBMLNamespaces()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _libsbml.delete_ListWrapperSBMLNamespaces
+    __del__ = lambda self : None;
+    def add(self, *args):
+        """add(self, SBMLNamespaces item)"""
+        return _libsbml.ListWrapperSBMLNamespaces_add(self, *args)
+
+    def get(self, *args):
+        """get(self, unsigned int n) -> SBMLNamespaces"""
+        return _libsbml.ListWrapperSBMLNamespaces_get(self, *args)
+
+    def prepend(self, *args):
+        """prepend(self, SBMLNamespaces item)"""
+        return _libsbml.ListWrapperSBMLNamespaces_prepend(self, *args)
+
+    def remove(self, *args):
+        """remove(self, unsigned int n) -> SBMLNamespaces"""
+        return _libsbml.ListWrapperSBMLNamespaces_remove(self, *args)
+
+    def getSize(self):
+        """getSize(self) -> unsigned int"""
+        return _libsbml.ListWrapperSBMLNamespaces_getSize(self)
+
+    def __len__(self):
+        """__len__(self) -> int"""
+        return _libsbml.ListWrapperSBMLNamespaces___len__(self)
+
+    def __getitem__(self, key):
+
+      try:
+         keyIsSlice = isinstance(key, slice)
+      except:
+         keyIsSlice = 0
+
+      if keyIsSlice:
+        start = key.start
+        if start is None:
+          start = 0
+        stop = key.stop
+        if stop is None:
+          stop = self.getSize()
+        return [self[i] for i in range(
+          self._fixNegativeIndex(start), self._fixNegativeIndex(stop)
+        )]
+
+      key = self._fixNegativeIndex(key)
+      if key < 0 or key >= self.getSize():
+        raise IndexError(key)
+      return self.get(key)
+
+
+    def _fixNegativeIndex(self, index):
+      if index < 0:
+        return index + self.getSize()
+      else:
+        return index
+
+
+    def __iter__(self):
+      for i in range(self.getSize()):
+        yield self[i]
+
+
+    def __repr__(self):
+      return "[" + ", ".join([repr(self[i]) for i in range(len(self))]) + "]"
+
+
+    def __str__(self):
+      return repr(self)
+
+ListWrapperSBMLNamespaces_swigregister = _libsbml.ListWrapperSBMLNamespaces_swigregister
+ListWrapperSBMLNamespaces_swigregister(ListWrapperSBMLNamespaces)
+cout = cvar.cout
+cerr = cvar.cerr
+clog = cvar.clog
+
+class ListWrapperCVTerm(_object):
+    """Proxy of C++ ListWrapper<(CVTerm)> class"""
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ListWrapperCVTerm, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, ListWrapperCVTerm, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        """__init__(self) -> ListWrapperCVTerm"""
+        this = _libsbml.new_ListWrapperCVTerm()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _libsbml.delete_ListWrapperCVTerm
+    __del__ = lambda self : None;
+    def add(self, *args):
+        """add(self, CVTerm item)"""
+        return _libsbml.ListWrapperCVTerm_add(self, *args)
+
+    def get(self, *args):
+        """get(self, unsigned int n) -> CVTerm"""
+        return _libsbml.ListWrapperCVTerm_get(self, *args)
+
+    def prepend(self, *args):
+        """prepend(self, CVTerm item)"""
+        return _libsbml.ListWrapperCVTerm_prepend(self, *args)
+
+    def remove(self, *args):
+        """remove(self, unsigned int n) -> CVTerm"""
+        return _libsbml.ListWrapperCVTerm_remove(self, *args)
+
+    def getSize(self):
+        """getSize(self) -> unsigned int"""
+        return _libsbml.ListWrapperCVTerm_getSize(self)
+
+    def __len__(self):
+        """__len__(self) -> int"""
+        return _libsbml.ListWrapperCVTerm___len__(self)
+
+    def __getitem__(self, key):
+
+      try:
+         keyIsSlice = isinstance(key, slice)
+      except:
+         keyIsSlice = 0
+
+      if keyIsSlice:
+        start = key.start
+        if start is None:
+          start = 0
+        stop = key.stop
+        if stop is None:
+          stop = self.getSize()
+        return [self[i] for i in range(
+          self._fixNegativeIndex(start), self._fixNegativeIndex(stop)
+        )]
+
+      key = self._fixNegativeIndex(key)
+      if key < 0 or key >= self.getSize():
+        raise IndexError(key)
+      return self.get(key)
+
+
+    def _fixNegativeIndex(self, index):
+      if index < 0:
+        return index + self.getSize()
+      else:
+        return index
+
+
+    def __iter__(self):
+      for i in range(self.getSize()):
+        yield self[i]
+
+
+    def __repr__(self):
+      return "[" + ", ".join([repr(self[i]) for i in range(len(self))]) + "]"
+
+
+    def __str__(self):
+      return repr(self)
+
+ListWrapperCVTerm_swigregister = _libsbml.ListWrapperCVTerm_swigregister
+ListWrapperCVTerm_swigregister(ListWrapperCVTerm)
+
+class ListWrapperDate(_object):
+    """Proxy of C++ ListWrapper<(Date)> class"""
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ListWrapperDate, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, ListWrapperDate, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        """__init__(self) -> ListWrapperDate"""
+        this = _libsbml.new_ListWrapperDate()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _libsbml.delete_ListWrapperDate
+    __del__ = lambda self : None;
+    def add(self, *args):
+        """add(self, Date item)"""
+        return _libsbml.ListWrapperDate_add(self, *args)
+
+    def get(self, *args):
+        """get(self, unsigned int n) -> Date"""
+        return _libsbml.ListWrapperDate_get(self, *args)
+
+    def prepend(self, *args):
+        """prepend(self, Date item)"""
+        return _libsbml.ListWrapperDate_prepend(self, *args)
+
+    def remove(self, *args):
+        """remove(self, unsigned int n) -> Date"""
+        return _libsbml.ListWrapperDate_remove(self, *args)
+
+    def getSize(self):
+        """getSize(self) -> unsigned int"""
+        return _libsbml.ListWrapperDate_getSize(self)
+
+    def __len__(self):
+        """__len__(self) -> int"""
+        return _libsbml.ListWrapperDate___len__(self)
+
+    def __getitem__(self, key):
+
+      try:
+         keyIsSlice = isinstance(key, slice)
+      except:
+         keyIsSlice = 0
+
+      if keyIsSlice:
+        start = key.start
+        if start is None:
+          start = 0
+        stop = key.stop
+        if stop is None:
+          stop = self.getSize()
+        return [self[i] for i in range(
+          self._fixNegativeIndex(start), self._fixNegativeIndex(stop)
+        )]
+
+      key = self._fixNegativeIndex(key)
+      if key < 0 or key >= self.getSize():
+        raise IndexError(key)
+      return self.get(key)
+
+
+    def _fixNegativeIndex(self, index):
+      if index < 0:
+        return index + self.getSize()
+      else:
+        return index
+
+
+    def __iter__(self):
+      for i in range(self.getSize()):
+        yield self[i]
+
+
+    def __repr__(self):
+      return "[" + ", ".join([repr(self[i]) for i in range(len(self))]) + "]"
+
+
+    def __str__(self):
+      return repr(self)
+
+ListWrapperDate_swigregister = _libsbml.ListWrapperDate_swigregister
+ListWrapperDate_swigregister(ListWrapperDate)
+
+class ListWrapperModelCreator(_object):
+    """Proxy of C++ ListWrapper<(ModelCreator)> class"""
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ListWrapperModelCreator, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, ListWrapperModelCreator, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        """__init__(self) -> ListWrapperModelCreator"""
+        this = _libsbml.new_ListWrapperModelCreator()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _libsbml.delete_ListWrapperModelCreator
+    __del__ = lambda self : None;
+    def add(self, *args):
+        """add(self, ModelCreator item)"""
+        return _libsbml.ListWrapperModelCreator_add(self, *args)
+
+    def get(self, *args):
+        """get(self, unsigned int n) -> ModelCreator"""
+        return _libsbml.ListWrapperModelCreator_get(self, *args)
+
+    def prepend(self, *args):
+        """prepend(self, ModelCreator item)"""
+        return _libsbml.ListWrapperModelCreator_prepend(self, *args)
+
+    def remove(self, *args):
+        """remove(self, unsigned int n) -> ModelCreator"""
+        return _libsbml.ListWrapperModelCreator_remove(self, *args)
+
+    def getSize(self):
+        """getSize(self) -> unsigned int"""
+        return _libsbml.ListWrapperModelCreator_getSize(self)
+
+    def __len__(self):
+        """__len__(self) -> int"""
+        return _libsbml.ListWrapperModelCreator___len__(self)
+
+    def __getitem__(self, key):
+
+      try:
+         keyIsSlice = isinstance(key, slice)
+      except:
+         keyIsSlice = 0
+
+      if keyIsSlice:
+        start = key.start
+        if start is None:
+          start = 0
+        stop = key.stop
+        if stop is None:
+          stop = self.getSize()
+        return [self[i] for i in range(
+          self._fixNegativeIndex(start), self._fixNegativeIndex(stop)
+        )]
+
+      key = self._fixNegativeIndex(key)
+      if key < 0 or key >= self.getSize():
+        raise IndexError(key)
+      return self.get(key)
+
+
+    def _fixNegativeIndex(self, index):
+      if index < 0:
+        return index + self.getSize()
+      else:
+        return index
+
+
+    def __iter__(self):
+      for i in range(self.getSize()):
+        yield self[i]
+
+
+    def __repr__(self):
+      return "[" + ", ".join([repr(self[i]) for i in range(len(self))]) + "]"
+
+
+    def __str__(self):
+      return repr(self)
+
+ListWrapperModelCreator_swigregister = _libsbml.ListWrapperModelCreator_swigregister
+ListWrapperModelCreator_swigregister(ListWrapperModelCreator)
+
 LIBSBML_DOTTED_VERSION = _libsbml.LIBSBML_DOTTED_VERSION
 LIBSBML_VERSION = _libsbml.LIBSBML_VERSION
 LIBSBML_VERSION_STRING = _libsbml.LIBSBML_VERSION_STRING
@@ -966,6 +1305,7 @@ LIBSBML_NAMESPACES_MISMATCH = _libsbml.LIBSBML_NAMESPACES_MISMATCH
 LIBSBML_DUPLICATE_ANNOTATION_NS = _libsbml.LIBSBML_DUPLICATE_ANNOTATION_NS
 LIBSBML_ANNOTATION_NAME_NOT_FOUND = _libsbml.LIBSBML_ANNOTATION_NAME_NOT_FOUND
 LIBSBML_ANNOTATION_NS_NOT_FOUND = _libsbml.LIBSBML_ANNOTATION_NS_NOT_FOUND
+LIBSBML_MISSING_METAID = _libsbml.LIBSBML_MISSING_METAID
 LIBSBML_PKG_VERSION_MISMATCH = _libsbml.LIBSBML_PKG_VERSION_MISMATCH
 LIBSBML_PKG_UNKNOWN = _libsbml.LIBSBML_PKG_UNKNOWN
 LIBSBML_PKG_UNKNOWN_VERSION = _libsbml.LIBSBML_PKG_UNKNOWN_VERSION
@@ -1066,9 +1406,6 @@ class IdList(_object):
     __del__ = lambda self : None;
 IdList_swigregister = _libsbml.IdList_swigregister
 IdList_swigregister(IdList)
-cout = cvar.cout
-cerr = cvar.cerr
-clog = cvar.clog
 
 class IdentifierTransformer(_object):
     """
@@ -4705,7 +5042,7 @@ class SBase(_object):
 
     def setSBMLNamespacesAndOwn(self, *args):
         """
-        setSBMLNamespacesAndOwn(self, SBMLNamespaces sbmlns)
+        setSBMLNamespacesAndOwn(self, SBMLNamespaces disownedNs)
 
         Internal implementation method.
 
@@ -4819,6 +5156,45 @@ class SBase(_object):
 
         """
         return _libsbml.SBase_matchesRequiredSBMLNamespacesForAddition(self, *args)
+
+    def isSetUserData(self):
+        """
+        isSetUserData(self) -> bool
+
+        Predicate returning true or false depending on whether the user data
+        of this element has been set.
+
+        The user data associated with an SBML object can be used by an
+        application developer to attach custom information to that object in
+        the model.  In case of a deep copy, this data will passed as-is.  The
+        data attribute will never be interpreted by libSBML.
+
+        Returns boolean, True if this object's user data has been set, False
+        otherwise.
+
+        """
+        return _libsbml.SBase_isSetUserData(self)
+
+    def unsetUserData(self):
+        """
+        unsetUserData(self) -> int
+
+        Unsets the user data of this element.
+
+        The user data associated with an SBML object can be used by an
+        application developer to attach custom information to that object in
+        the model.  In case of a deep copy, this data will passed as-is.  The
+        data attribute will never be interpreted by libSBML.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
+
+        """
+        return _libsbml.SBase_unsetUserData(self)
 
     def getURI(self):
         """
@@ -5149,17 +5525,17 @@ class ListOf(SBase):
 
     def appendAndOwn(self, *args):
         """
-        appendAndOwn(self, SBase item) -> int
+        appendAndOwn(self, SBase disownedItem) -> int
 
         Adds an item to the end of this ListOf's list of items.
 
-        This method does not clone the 'item' handed to it; instead, it
-        assumes ownership of it.  This means that when the ListOf is
+        This method does not clone the 'disownedItem' handed to it; instead,
+        it assumes ownership of it.  This means that when the ListOf is
         destroyed, the item will be destroyed along with it.  For a method
         with an alternative ownership behavior, see the ListOf.append()
         method.
 
-        Parameter 'item' is the item to be added to the list.
+        Parameter 'disownedItem' is the item to be added to the list.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -5171,9 +5547,6 @@ class ListOf(SBase):
         See also append(), appendFrom().
 
         """
-        if args[0] is not None: args[0].thisown = 0
-
-
         return _libsbml.ListOf_appendAndOwn(self, *args)
 
     def appendFrom(self, *args):
@@ -5226,16 +5599,16 @@ class ListOf(SBase):
 
     def insertAndOwn(self, *args):
         """
-        insertAndOwn(self, int location, SBase item) -> int
+        insertAndOwn(self, int location, SBase disownedItem) -> int
 
         Inserts an item at a given position in this ListOf's list of items.
 
-        This variant of the method makes a clone of the 'item' handed to it.
-        This means that when the ListOf is destroyed, the original 'item' will
-        be destroyed.
+        This variant of the method does not make a clone of the 'disownedItem'
+        handed to it. This means that when the ListOf is destroyed, the
+        original 'item' will be destroyed.
 
         Parameter 'location' is the location where to insert the item
-        Parameter 'item' is the item to be inserted to the list
+        Parameter 'disownedItem' is the item to be inserted to the list
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -5523,7 +5896,7 @@ class Model(SBase):
     All of the lists are optional, but if a given list container is
     present within the model, the list must not be empty; that is, it must
     have length one or more.  The following are the components and lists
-    permitted in different Levels and Versions of SBML in version 5.11.1
+    permitted in different Levels and Versions of SBML in version 5.11.4
     of libSBML:
 
     * In SBML Level 1, the components are: UnitDefinition, Compartment,
@@ -5642,7 +6015,7 @@ class Model(SBase):
     ======================================================================
 
     To make it easier for applications to do whatever they need, libSBML
-    version 5.11.1 is relatively lax when it comes to enforcing
+    version 5.11.4 is relatively lax when it comes to enforcing
     correctness and completeness of models during model construction and
     editing. Essentially, libSBML will not in most cases check
     automatically that a model's components have valid attribute values,
@@ -8486,7 +8859,7 @@ class Model(SBase):
         """
         getNumSpecies(self) -> unsigned int
 
-        Get the number of Specie objects in this Model.
+        Get the number of Species objects in this Model.
 
         Returns the number of Species in this Model.
 
@@ -8754,6 +9127,15 @@ class Model(SBase):
 
         """
         return _libsbml.Model_addDefinitionsForDefaultUnits(self)
+
+    def dealWithDefaultValues(self):
+        """
+        dealWithDefaultValues(self)
+
+        Internal implementation method.
+
+        """
+        return _libsbml.Model_dealWithDefaultValues(self)
 
     def convertParametersToLocals(self, *args):
         """
@@ -9765,7 +10147,7 @@ class SBMLDocument(SBase):
         The default SBML Level of new SBMLDocument objects.
 
         This 'default Level' corresponds to the most recent SBML
-        specification Level available at the time libSBML version 5.11.1 was
+        specification Level available at the time libSBML version 5.11.4 was
         released.  The default Level is used by SBMLDocument if no Level is
         explicitly specified at the time of the construction of an
         SBMLDocument instance.
@@ -9797,7 +10179,7 @@ class SBMLDocument(SBase):
 
         This 'default Version' corresponds to the most recent Version within
         the most recent Level of SBML available at the time libSBML version
-        5.11.1 was released.  The default Version is used by SBMLDocument if
+        5.11.4 was released.  The default Version is used by SBMLDocument if
         no Version is explicitly specified at the time of the construction of
         an SBMLDocument instance.
 
@@ -11126,7 +11508,7 @@ def SBMLDocument_getDefaultLevel():
     The default SBML Level of new SBMLDocument objects.
 
     This 'default Level' corresponds to the most recent SBML
-    specification Level available at the time libSBML version 5.11.1 was
+    specification Level available at the time libSBML version 5.11.4 was
     released.  The default Level is used by SBMLDocument if no Level is
     explicitly specified at the time of the construction of an
     SBMLDocument instance.
@@ -11156,7 +11538,7 @@ def SBMLDocument_getDefaultVersion():
 
     This 'default Version' corresponds to the most recent Version within
     the most recent Level of SBML available at the time libSBML version
-    5.11.1 was released.  The default Version is used by SBMLDocument if
+    5.11.4 was released.  The default Version is used by SBMLDocument if
     no Version is explicitly specified at the time of the construction of
     an SBMLDocument instance.
 
@@ -12898,6 +13280,29 @@ class Unit(SBase):
         """
         return _libsbml.Unit_isSetMultiplier(self)
 
+    def isSetOffset(self):
+        """
+        isSetOffset(self) -> bool
+
+        Predicate to test whether the 'offset' attribute of this Unit  is set.
+
+        Returns True if the 'offset' attribute of this Unit is set,  False
+        otherwise.
+
+        WARNING:
+
+        The 'offset' attribute is only available in SBML Level 2 Version 1.
+        This attribute is not present in SBML Level 2 Version 2 or above.
+        When producing SBML models using these later specifications, modelers
+        and software tools need to account for units with offsets explicitly.
+        The SBML specification document offers a number of suggestions for how
+        to achieve this.  LibSBML methods such as this one related to 'offset'
+        are retained for compatibility with earlier versions of SBML Level 2,
+        but their use is strongly discouraged.
+
+        """
+        return _libsbml.Unit_isSetOffset(self)
+
     def setKind(self, *args):
         """
         setKind(self, UnitKind_t kind) -> int
@@ -13025,6 +13430,95 @@ class Unit(SBase):
 
         """
         return _libsbml.Unit_setOffset(self, *args)
+
+    def unsetKind(self):
+        """
+        unsetKind(self) -> int
+
+        Unsets the 'kind' attribute value of this Unit.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_INVALID_ATTRIBUTE_VALUE
+
+        """
+        return _libsbml.Unit_unsetKind(self)
+
+    def unsetExponent(self):
+        """
+        unsetExponent(self) -> int
+
+        Unsets the 'exponent' attribute value of this Unit.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_INVALID_ATTRIBUTE_VALUE
+
+        """
+        return _libsbml.Unit_unsetExponent(self)
+
+    def unsetScale(self):
+        """
+        unsetScale(self) -> int
+
+        Unsets the 'scale' attribute value of this Unit.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        """
+        return _libsbml.Unit_unsetScale(self)
+
+    def unsetMultiplier(self):
+        """
+        unsetMultiplier(self) -> int
+
+        Unsets the 'multipler' attribute value of this Unit.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_UNEXPECTED_ATTRIBUTE
+
+        """
+        return _libsbml.Unit_unsetMultiplier(self)
+
+    def unsetOffset(self):
+        """
+        unsetOffset(self) -> int
+
+        Unsets the 'offset' attribute value of this Unit.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_UNEXPECTED_ATTRIBUTE
+
+        WARNING:
+
+        The 'offset' attribute is only available in SBML Level 2 Version 1.
+        This attribute is not present in SBML Level 2 Version 2 or above.
+        When producing SBML models using these later specifications, modelers
+        and software tools need to account for units with offsets explicitly.
+        The SBML specification document offers a number of suggestions for how
+        to achieve this.  LibSBML methods such as this one related to 'offset'
+        are retained for compatibility with earlier versions of SBML Level 2,
+        but their use is strongly discouraged.
+
+        """
+        return _libsbml.Unit_unsetOffset(self)
 
     def getTypeCode(self):
         """
@@ -17754,6 +18248,25 @@ class Compartment(SBase):
         """
         return _libsbml.Compartment_unsetCompartmentType(self)
 
+    def unsetConstant(self):
+        """
+        unsetConstant(self) -> int
+
+        Unsets the value of the 'constant' attribute of this Compartment
+        object.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
+
+        See also isSetConstant(), setConstant(), getConstant().
+
+        """
+        return _libsbml.Compartment_unsetConstant(self)
+
     def unsetSize(self):
         """
         unsetSize(self) -> int
@@ -19521,6 +20034,24 @@ class Species(SBase):
         """
         return _libsbml.Species_unsetName(self)
 
+    def unsetConstant(self):
+        """
+        unsetConstant(self) -> int
+
+        Unsets the value of the 'constant' attribute of this Species object.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
+
+        See also isSetConstant(), setConstant(), getConstant().
+
+        """
+        return _libsbml.Species_unsetConstant(self)
+
     def unsetSpeciesType(self):
         """
         unsetSpeciesType(self) -> int
@@ -19692,6 +20223,55 @@ class Species(SBase):
 
         """
         return _libsbml.Species_unsetConversionFactor(self)
+
+    def unsetCompartment(self):
+        """
+        unsetCompartment(self) -> int
+
+        Unsets the 'compartment' attribute value of this Species object.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
+
+        """
+        return _libsbml.Species_unsetCompartment(self)
+
+    def unsetBoundaryCondition(self):
+        """
+        unsetBoundaryCondition(self) -> int
+
+        Unsets the 'boundaryCondition' attribute value of this Species object.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
+
+        """
+        return _libsbml.Species_unsetBoundaryCondition(self)
+
+    def unsetHasOnlySubstanceUnits(self):
+        """
+        unsetHasOnlySubstanceUnits(self) -> int
+
+        Unsets the 'hasOnlySubstanceUnits' attribute value of this Species
+        object.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
+
+        """
+        return _libsbml.Species_unsetHasOnlySubstanceUnits(self)
 
     def getDerivedUnitDefinition(self, *args):
         """
@@ -20707,6 +21287,24 @@ class Parameter(SBase):
         """
         return _libsbml.Parameter_unsetName(self)
 
+    def unsetConstant(self):
+        """
+        unsetConstant(self) -> int
+
+        Unsets the value of the 'constant' attribute of this Parameter object.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
+
+        See also isSetConstant(), setConstant(), getConstant().
+
+        """
+        return _libsbml.Parameter_unsetConstant(self)
+
     def unsetValue(self):
         """
         unsetValue(self) -> int
@@ -21453,6 +22051,15 @@ class LocalParameter(Parameter):
         """
         return _libsbml.LocalParameter_setConstant(self, *args)
 
+    def unsetConstant(self):
+        """
+        unsetConstant(self) -> int
+
+        Internal implementation method.
+
+        """
+        return _libsbml.LocalParameter_unsetConstant(self)
+
 LocalParameter_swigregister = _libsbml.LocalParameter_swigregister
 LocalParameter_swigregister(LocalParameter)
 
@@ -22045,6 +22652,22 @@ class InitialAssignment(SBase):
 
         """
         return _libsbml.InitialAssignment_setSymbol(self, *args)
+
+    def unsetSymbol(self):
+        """
+        unsetSymbol(self) -> int
+
+        Unsets the 'symbol' attribute value of this InitialAssignment.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_INVALID_ATTRIBUTE_VALUE
+
+        """
+        return _libsbml.InitialAssignment_unsetSymbol(self)
 
     def setMath(self, *args):
         """
@@ -23053,6 +23676,26 @@ class Rule(SBase):
         """
         return _libsbml.Rule_setUnits(self, *args)
 
+    def unsetVariable(self):
+        """
+        unsetVariable(self) -> int
+
+        Unsets the value of the 'variable' attribute of this Rule object.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
+
+        * LIBSBML_UNEXPECTED_ATTRIBUTE
+
+        See also setVariable(), isSetVariable(), getVariable().
+
+        """
+        return _libsbml.Rule_unsetVariable(self)
+
     def unsetUnits(self):
         """
         unsetUnits(self) -> int
@@ -23323,7 +23966,7 @@ class Rule(SBase):
 
         The returned value can be any of a number of different strings,
         depending on the SBML Level in use and the kind of Rule object this
-        is.  The rules as of libSBML version 5.11.1 are the following:
+        is.  The rules as of libSBML version 5.11.4 are the following:
 
         * (Level 2 and 3) RateRule: returns 'rateRule'
 
@@ -25055,6 +25698,38 @@ class Constraint(SBase):
     def setMessage(self, *args):
         """
         setMessage(self, XMLNode xhtml) -> int
+        setMessage(self, string message, bool addXHTMLMarkup = False) -> int
+        setMessage(self, string message) -> int
+
+        This method has multiple variants; they differ in the arguments  they
+        accept.  Each variant is described separately below.
+
+        ______________________________________________________________________
+        Method variant with the following signature:
+
+        setMessage(string message, bool addXHTMLMarkup = false)
+
+        Sets the message of this Constraint.
+
+        Parameter 'message' is an XML string that is to be used as the content
+        of the 'message' subelement of this object
+
+        Parameter 'addXHTMLMarkup' is a boolean indicating whether to wrap the
+        contents of the 'message' argument with XHTML paragraph ( ) tags.
+        This is appropriate when the string in 'message' does not already
+        containg the appropriate XHTML markup.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_INVALID_OBJECT
+
+        ______________________________________________________________________
+        Method variant with the following signature:
+
+        setMessage(XMLNode xhtml)
 
         Sets the message of this Constraint.
 
@@ -26189,6 +26864,24 @@ class Reaction(SBase):
 
         """
         return _libsbml.Reaction_unsetCompartment(self)
+
+    def unsetReversible(self):
+        """
+        unsetReversible(self) -> int
+
+        Unsets the value of the 'reversible' attribute of this Reaction.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_UNEXPECTED_ATTRIBUTE
+
+        * LIBSBML_OPERATION_FAILED
+
+        """
+        return _libsbml.Reaction_unsetReversible(self)
 
     def addReactant(self, *args):
         """
@@ -28425,6 +29118,23 @@ class SimpleSpeciesReference(SBase):
         """
         return _libsbml.SimpleSpeciesReference_unsetName(self)
 
+    def unsetSpecies(self):
+        """
+        unsetSpecies(self) -> int
+
+        Unsets the value of the 'species' attribute of this
+        SimpleSpeciesReference.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
+
+        """
+        return _libsbml.SimpleSpeciesReference_unsetSpecies(self)
+
     def isModifier(self):
         """
         isModifier(self) -> bool
@@ -29147,6 +29857,22 @@ class SpeciesReference(SimpleSpeciesReference):
 
         """
         return _libsbml.SpeciesReference_unsetStoichiometry(self)
+
+    def unsetConstant(self):
+        """
+        unsetConstant(self) -> int
+
+        Unsets the 'constant' attribute of this SpeciesReference.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_UNEXPECTED_ATTRIBUTE
+
+        """
+        return _libsbml.SpeciesReference_unsetConstant(self)
 
     def createStoichiometryMath(self):
         """
@@ -30001,6 +30727,23 @@ class Event(SBase):
         """
         return _libsbml.Event_clone(self)
 
+    def initDefaults(self):
+        """
+        initDefaults(self)
+
+        Initializes the fields of this Event object to 'typical' default
+        values.
+
+        The SBML Event component has slightly different aspects and default
+        attribute values in different SBML Levels and Versions. This method
+        sets the values to certain common defaults, based mostly on what they
+        are in SBML Level 2.  Specifically:
+
+        * Sets attribute 'spatialDimensions' to 3
+
+        """
+        return _libsbml.Event_initDefaults(self)
+
     def getElementBySId(self, *args):
         """
         getElementBySId(self, string id) -> SBase
@@ -30516,6 +31259,59 @@ class Event(SBase):
 
         """
         return _libsbml.Event_unsetName(self)
+
+    def unsetUseValuesFromTriggerTime(self):
+        """
+        unsetUseValuesFromTriggerTime(self) -> int
+
+        Unsets the value of the 'useValuesFromTriggerTime' attribute of this
+        Event.
+
+        The optional Delay on Event means there are two times to consider
+        when computing the results of an event: the time at which the event is
+        triggered, and the time at which assignments are executed.  It is also
+        possible to distinguish between the time at which the
+        EventAssignment's expression is calculated, and the time at which the
+        assignment is made: the expression could be evaluated at the same time
+        the assignments are performed, i.e., when the event is executed, but
+        it could also be defined to be evaluated at the time the event is
+        triggered.
+
+        In SBML Level 2 versions prior to Version 4, the semantics of Event
+        time delays were defined such that the expressions in the event's
+        assignments were always evaluated at the time the event was triggered.
+        This definition made it difficult to define an event whose assignment
+        formulas were meant to be evaluated at the time the event was executed
+        (i.e., after the time period defined by the value of the Delay
+        element).  In SBML Level 2 Version 4, the attribute
+        'useValuesFromTriggerTime' on Event allows a model to indicate the
+        time at which the event's assignments are intended to be evaluated.
+        In SBML Level 2, the attribute has a default value of True, which
+        corresponds to the interpretation of event assignments prior to
+        Version 4: the values of the assignment formulas are computed at the
+        moment the event is triggered, not after the delay.  If
+        'useValuesFromTriggerTime'=False, it means that the formulas in the
+        event's assignments are to be computed after the delay, at the time
+        the event is executed.  In SBML Level 3, the attribute is mandatory,
+        not optional, and all events must specify a value for it.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
+
+        WARNING:
+
+        The attribute 'useValuesFromTriggerTime' was introduced in SBML Level
+        2 Version 4.  It is not valid in models defined using SBML Level 2
+        versions prior to Version 4. If a Level 2 Version 1-3 model sets the
+        attribute, the consistency-checking method
+        SBMLDocument.checkConsistency() will report an error.
+
+        """
+        return _libsbml.Event_unsetUseValuesFromTriggerTime(self)
 
     def unsetDelay(self):
         """
@@ -31461,6 +32257,22 @@ class EventAssignment(SBase):
         """
         return _libsbml.EventAssignment_setVariable(self, *args)
 
+    def unsetVariable(self):
+        """
+        unsetVariable(self) -> int
+
+        Unsets the attribute 'variable' of this EventAssignment.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_INVALID_ATTRIBUTE_VALUE
+
+        """
+        return _libsbml.EventAssignment_unsetVariable(self)
+
     def setMath(self, *args):
         """
         setMath(self, ASTNode math) -> int
@@ -32338,6 +33150,56 @@ class Trigger(SBase):
 
         """
         return _libsbml.Trigger_setPersistent(self, *args)
+
+    def unsetInitialValue(self):
+        """
+        unsetInitialValue(self) -> int
+
+        (SBML Level 3 only) Unsets the 'initialValue' attribute of this
+        Trigger instance.
+
+        Parameter 'initialValue' is a boolean representing the initialValue to
+        be set.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_UNEXPECTED_ATTRIBUTE
+
+        Note:
+
+        The attribute 'initialValue' is available in SBML Level 3 Version 1
+        Core, but is not present in lower Levels of SBML.
+
+        """
+        return _libsbml.Trigger_unsetInitialValue(self)
+
+    def unsetPersistent(self):
+        """
+        unsetPersistent(self) -> int
+
+        (SBML Level 3 only) Unsets the 'persistent' attribute of this  Trigger
+        instance.
+
+        Parameter 'persistent' is a boolean representing the persistent value
+        to be set.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_UNEXPECTED_ATTRIBUTE
+
+        Note:
+
+        The attribute 'persistent' is available in SBML Level 3 Version 1
+        Core, but is not present in lower Levels of SBML.
+
+        """
+        return _libsbml.Trigger_unsetPersistent(self)
 
     def getTypeCode(self):
         """
@@ -37030,6 +37892,8 @@ class SBMLNamespaces(_object):
         """
         return _libsbml.SBMLNamespaces_getPackageName(self)
 
+    __metaclass__ = AutoProperty
+
     def __eq__(self, rhs):
       if ((self is None) and (rhs is None)): return True
       if ((self is None) or  (rhs is None)): return False
@@ -37791,7 +38655,7 @@ class ConversionProperties(_object):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.11.1:
+    provided by libSBML 5.11.4:
 
     * CobraToFbcConverter
 
@@ -38411,7 +39275,7 @@ class SBMLConverter(_object):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.11.1:
+    provided by libSBML 5.11.4:
 
     * CobraToFbcConverter
 
@@ -38948,7 +39812,7 @@ class SBMLFunctionDefinitionConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.11.1:
+    provided by libSBML 5.11.4:
 
     * CobraToFbcConverter
 
@@ -39228,7 +40092,7 @@ class SBMLIdConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.11.1:
+    provided by libSBML 5.11.4:
 
     * CobraToFbcConverter
 
@@ -39485,7 +40349,7 @@ class SBMLInferUnitsConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.11.1:
+    provided by libSBML 5.11.4:
 
     * CobraToFbcConverter
 
@@ -39757,7 +40621,7 @@ class SBMLInitialAssignmentConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.11.1:
+    provided by libSBML 5.11.4:
 
     * CobraToFbcConverter
 
@@ -40025,7 +40889,7 @@ class SBMLLevelVersionConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.11.1:
+    provided by libSBML 5.11.4:
 
     * CobraToFbcConverter
 
@@ -40326,7 +41190,7 @@ class SBMLLocalParameterConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.11.1:
+    provided by libSBML 5.11.4:
 
     * CobraToFbcConverter
 
@@ -40583,7 +41447,7 @@ class SBMLReactionConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.11.1:
+    provided by libSBML 5.11.4:
 
     * CobraToFbcConverter
 
@@ -40908,7 +41772,7 @@ class SBMLRuleConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.11.1:
+    provided by libSBML 5.11.4:
 
     * CobraToFbcConverter
 
@@ -41166,7 +42030,7 @@ class SBMLStripPackageConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.11.1:
+    provided by libSBML 5.11.4:
 
     * CobraToFbcConverter
 
@@ -41453,7 +42317,7 @@ class SBMLUnitsConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.11.1:
+    provided by libSBML 5.11.4:
 
     * CobraToFbcConverter
 
@@ -48027,6 +48891,7 @@ GeneralWarningNotSpecified = _libsbml.GeneralWarningNotSpecified
 CompartmentShouldHaveSize = _libsbml.CompartmentShouldHaveSize
 SpeciesShouldHaveValue = _libsbml.SpeciesShouldHaveValue
 ParameterShouldHaveUnits = _libsbml.ParameterShouldHaveUnits
+ParameterShouldHaveValue = _libsbml.ParameterShouldHaveValue
 LocalParameterShadowsId = _libsbml.LocalParameterShadowsId
 LibSBMLAdditionalCodesLowerBound = _libsbml.LibSBMLAdditionalCodesLowerBound
 CannotConvertToL1V1 = _libsbml.CannotConvertToL1V1
@@ -49181,7 +50046,7 @@ class SBMLError(XMLError):
     with SBMLError objects
     ......................................................................
 
-    In libSBML version 5.11.1 there are no additional severity codes
+    In libSBML version 5.11.4 there are no additional severity codes
     beyond those defined by XMLError. They are implemented as static
     integer constants defined in the interface class libsbml, and have
     names beginning with LIBSBML_SEV_.
@@ -50316,6 +51181,8 @@ class CVTerm(_object):
         """
         return _libsbml.CVTerm_removeNestedCVTerm(self, *args)
 
+    __metaclass__ = AutoProperty
+
     def __eq__(self, rhs):
       if ((self is None) and (rhs is None)): return True
       if ((self is None) or  (rhs is None)): return False
@@ -51033,6 +51900,8 @@ class Date(_object):
         """
         return _libsbml.Date_resetModifiedFlags(self)
 
+    __metaclass__ = AutoProperty
+
     def __eq__(self, rhs):
       if ((self is None) and (rhs is None)): return True
       if ((self is None) or  (rhs is None)): return False
@@ -51511,6 +52380,8 @@ class ModelCreator(_object):
         """
         return _libsbml.ModelCreator_resetModifiedFlags(self)
 
+    __metaclass__ = AutoProperty
+
     def __eq__(self, rhs):
       if ((self is None) and (rhs is None)): return True
       if ((self is None) or  (rhs is None)): return False
@@ -51915,6 +52786,8 @@ class ModelHistory(_object):
 
         """
         return _libsbml.ModelHistory_resetModifiedFlags(self)
+
+    __metaclass__ = AutoProperty
 
     def __eq__(self, rhs):
       if ((self is None) and (rhs is None)): return True
@@ -52726,10 +53599,47 @@ class SBaseExtensionPoint(_object):
     def __init__(self, *args): 
         """
         __init__(self, string pkgName, int typeCode) -> SBaseExtensionPoint
+        __init__(self, string pkgName, int typeCode, string elementName, bool elementOnly = False) -> SBaseExtensionPoint
+        __init__(self, string pkgName, int typeCode, string elementName) -> SBaseExtensionPoint
         __init__(self, SBaseExtensionPoint rhs) -> SBaseExtensionPoint
 
         This method has multiple variants; they differ in the arguments  they
         accept.  Each variant is described separately below.
+
+        ______________________________________________________________________
+        Method variant with the following signature:
+
+        SBaseExtensionPoint(string pkgName, int typeCode, string
+        elementName, bool elementOnly = false)
+
+        Constructor for SBaseExtensionPoint.
+
+        The use of SBaseExtensionPoint is relatively straightforward.  The
+        class needs to be used for each extended SBML object implemented using
+        SBMLDocumentPlugin or SBasePlugin.  Doing so requires knowing just two
+        things:
+
+        * The short-form name of the parent package being extended. The
+        parent package is often simply core SBML, identified in libSBML by the
+        nickname 'core', but a SBML Level 3 package could conceivably extend
+        another Level 3 package and the mechanism supports this.
+
+        * The libSBML type code assigned to the object being extended. For
+        example, if an extension of Model is implemented, the relevant type
+        code is SBML_MODEL, found in #SBMLTypeCode_t.
+
+        Parameter 'pkgName' is the short-form name of the parent package where
+        that this package extension is extending.
+
+        Parameter 'typeCode' is the type code of the object being extended.
+
+        Parameter 'elementName' is element name for the target element, in
+        case  multiple elements match the same type code (as will be the case
+        for ListOf classes)
+
+        Parameter 'elementOnly' is flag to be used during the registration  of
+        the package, when set then the plugin is only applied to  elements
+        whose elementName match.
 
         ______________________________________________________________________
         Method variant with the following signature:
@@ -52801,6 +53711,22 @@ class SBaseExtensionPoint(_object):
         """
         return _libsbml.SBaseExtensionPoint_getTypeCode(self)
 
+    def getElementName(self):
+        """
+        getElementName(self) -> string
+
+        the target element name
+
+        """
+        return _libsbml.SBaseExtensionPoint_getElementName(self)
+
+    def isElementOnly(self):
+        """
+        isElementOnly(self) -> bool
+
+        """
+        return _libsbml.SBaseExtensionPoint_isElementOnly(self)
+
 SBaseExtensionPoint_swigregister = _libsbml.SBaseExtensionPoint_swigregister
 SBaseExtensionPoint_swigregister(SBaseExtensionPoint)
 
@@ -52859,7 +53785,7 @@ class SBasePlugin(_object):
     __setattr__ = lambda self, name, value: _swig_setattr(self, SBasePlugin, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, SBasePlugin, name)
-    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
     __swig_destroy__ = _libsbml.delete_SBasePlugin
     __del__ = lambda self : None;
@@ -53212,6 +54138,13 @@ class SBasePlugin(_object):
 
         """
         return _libsbml.SBasePlugin_logUnknownElement(self, *args)
+
+    def isValidTypeForList(self, *args):
+        """
+        isValidTypeForList(self, SBase item) -> bool
+
+        """
+        return _libsbml.SBasePlugin_isValidTypeForList(self, *args)
 
     __metaclass__ = AutoProperty
 
@@ -55322,6 +56255,15 @@ class ASTBase(_object):
         """
         return _libsbml.ASTBase_hasUnambiguousPackageInfixGrammar(self, *args)
 
+    def getValue(self):
+        """
+        getValue(self) -> double
+
+        Internal implementation method.
+
+        """
+        return _libsbml.ASTBase_getValue(self)
+
 ASTBase_swigregister = _libsbml.ASTBase_swigregister
 ASTBase_swigregister(ASTBase)
 
@@ -55666,13 +56608,13 @@ class ASTNode(ASTBase):
 
     def addChild(self, *args):
         """
-        addChild(self, ASTNode child) -> int
+        addChild(self, ASTNode disownedChild) -> int
 
         Adds the given node as a child of this ASTNode.
 
         Child nodes are added in-order, from left to right.
 
-        Parameter 'child' is the ASTNode instance to add
+        Parameter 'disownedChild' is the ASTNode instance to add
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -55695,20 +56637,17 @@ class ASTNode(ASTBase):
         isWellFormedASTNode().
 
         """
-        if args[0] is not None: args[0].thisown = 0
-
-
         return _libsbml.ASTNode_addChild(self, *args)
 
     def prependChild(self, *args):
         """
-        prependChild(self, ASTNode child) -> int
+        prependChild(self, ASTNode disownedChild) -> int
 
         Adds the given node as a child of this ASTNode.
 
         This method adds child nodes from right to left.
 
-        Parameter 'child' is the ASTNode instance to add
+        Parameter 'disownedChild' is the ASTNode instance to add
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -55730,9 +56669,6 @@ class ASTNode(ASTBase):
         See also addChild(), replaceChild(), insertChild(), removeChild().
 
         """
-        if args[0] is not None: args[0].thisown = 0
-
-
         return _libsbml.ASTNode_prependChild(self, *args)
 
     def removeChild(self, *args):
@@ -55767,14 +56703,15 @@ class ASTNode(ASTBase):
 
     def replaceChild(self, *args):
         """
-        replaceChild(self, unsigned int n, ASTNode newChild, bool delreplaced = False) -> int
-        replaceChild(self, unsigned int n, ASTNode newChild) -> int
+        replaceChild(self, unsigned int n, ASTNode disownedChild, bool delreplaced = False) -> int
+        replaceChild(self, unsigned int n, ASTNode disownedChild) -> int
 
         Replaces the nth child of this ASTNode with the given ASTNode.
 
         Parameter 'n' is long the index of the child to replace Parameter
-        'newChild' is ASTNode to replace the nth child Parameter 'delreplaced'
-        is boolean indicating whether to delete the replaced child.
+        'disownedChild' is ASTNode to replace the nth child Parameter
+        'delreplaced' is boolean indicating whether to delete the replaced
+        child.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -55798,20 +56735,17 @@ class ASTNode(ASTBase):
         See also addChild(), prependChild(), insertChild(), removeChild().
 
         """
-        if args[1] is not None: args[1].thisown = 0
-
-
         return _libsbml.ASTNode_replaceChild(self, *args)
 
     def insertChild(self, *args):
         """
-        insertChild(self, unsigned int n, ASTNode newChild) -> int
+        insertChild(self, unsigned int n, ASTNode disownedChild) -> int
 
         Inserts the given ASTNode node at a given point in the current
         ASTNode's list of children.
 
         Parameter 'n' is long the index of the ASTNode being added Parameter
-        'newChild' is ASTNode to insert as the nth child
+        'disownedChild' is ASTNode to insert as the nth child
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -55835,9 +56769,6 @@ class ASTNode(ASTBase):
         See also addChild(), prependChild(), replaceChild(), removeChild().
 
         """
-        if args[1] is not None: args[1].thisown = 0
-
-
         return _libsbml.ASTNode_insertChild(self, *args)
 
     def deepCopy(self):
@@ -55913,7 +56844,7 @@ class ASTNode(ASTBase):
 
     def addSemanticsAnnotation(self, *args):
         """
-        addSemanticsAnnotation(self, XMLNode sAnnotation) -> int
+        addSemanticsAnnotation(self, XMLNode disownedAnnotation) -> int
 
         Adds the given XMLNode as a MathML <semantics> element to this
         ASTNode.
@@ -55928,7 +56859,7 @@ class ASTNode(ASTBase):
         particularly the Section 5.2, Semantic Annotations for more
         information about these constructs.
 
-        Parameter 'sAnnotation' is the annotation to add.
+        Parameter 'disownedAnnotation' is the annotation to add.
 
         Returns integer value indicating success/failure of the function.
         The possible values returned by this function are:
@@ -55951,9 +56882,6 @@ class ASTNode(ASTBase):
         ASTNode.getSemanticsAnnotation().
 
         """
-        if args[0] is not None: args[0].thisown = 0
-
-
         return _libsbml.ASTNode_addSemanticsAnnotation(self, *args)
 
     def getNumSemanticsAnnotations(self):
@@ -56236,6 +57164,29 @@ class ASTNode(ASTBase):
 
         """
         return _libsbml.ASTNode_getExponent(self)
+
+    def getValue(self):
+        """
+        getValue(self) -> double
+
+        Returns the numerical value of this ASTNode.
+
+        Returns the numerical value of this ASTNode, or NaN if this is not a
+        type of node that has a numerical value.
+
+        Note:
+
+        This function will return a numerical value (as a double) for  any
+        ASTNode_t that represents a number, a constant such as
+        AST_CONSTANT_PI,  AST_CONSTANT_E, or  AST_NAME_AVOGADRO, or  1 for
+        nodes of type  AST_CONSTANT_TRUE and 0 for nodes of type
+        AST_CONSTANT_FALSE. It does not evaluate the node in any way so, for
+        example, it will not return the value of  a named ASTNode_t or attempt
+        to evaluate a function.  This includes a node representing time i.e.
+        nodes of type AST_NAME_TIME.
+
+        """
+        return _libsbml.ASTNode_getValue(self)
 
     def getPrecedence(self):
         """
@@ -57535,6 +58486,15 @@ class ASTNode(ASTBase):
 
         """
         return _libsbml.ASTNode_getPackageName(self)
+
+    def getPlugin(self, *args):
+        """
+        getPlugin(self, string package) -> ASTBasePlugin
+        getPlugin(self, string package) -> ASTBasePlugin
+        getPlugin(self, unsigned int n) -> ASTBasePlugin
+        getPlugin(self, unsigned int n) -> ASTBasePlugin
+        """
+        return _libsbml.ASTNode_getPlugin(self, *args)
 
     def __eq__(self, rhs):
       if ((self is None) and (rhs is None)): return True

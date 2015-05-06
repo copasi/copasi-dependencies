@@ -39,6 +39,7 @@
 
 #include <sbml/extension/SBasePlugin.h>
 #include <sbml/packages/multi/sbml/MultiSpeciesType.h>
+#include <sbml/packages/multi/sbml/BindingSiteSpeciesType.h>
 
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -239,6 +240,14 @@ public:
 
 
   /**
+   * Creates a new BindingSiteSpeciesType object and adds it to the ListOfMultiSpeciesTypes in this plugin object.
+   *
+   * @return the newly created BindingSiteSpeciesType object.
+   */
+  BindingSiteSpeciesType* createBindingSiteSpeciesType ();
+
+
+  /**
    * Removes the nth MultiSpeciesType object from this plugin object
    * and returns a pointer to it.
    *
@@ -274,6 +283,13 @@ public:
    * @return the number of MultiSpeciesType objects in this plugin object.
    */
   unsigned int getNumMultiSpeciesTypes () const;
+
+  /**
+   * Creates a new IntraSpeciesReaction object and adds it to the ListOfReactions.
+   *
+   * @return the newly created IntraSpeciesReaction object.
+   */
+  IntraSpeciesReaction* createIntraSpeciesReaction ();
 
 
   /** @cond doxygenLibsbmlInternal */

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -49,8 +49,8 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 DomainType::DomainType (unsigned int level, unsigned int version, unsigned int pkgVersion)
   : SBase(level, version)
   , mId ("")
-  , mSpatialDimension (SBML_INT_MAX)
-  , mIsSetSpatialDimension (false)
+  , mSpatialDimensions (SBML_INT_MAX)
+  , mIsSetSpatialDimensions (false)
 {
   // set an SBMLNamespaces derived object of this package
   setSBMLNamespacesAndOwn(new SpatialPkgNamespaces(level, version, pkgVersion));
@@ -63,8 +63,8 @@ DomainType::DomainType (unsigned int level, unsigned int version, unsigned int p
 DomainType::DomainType (SpatialPkgNamespaces* spatialns)
   : SBase(spatialns)
   , mId ("")
-  , mSpatialDimension (SBML_INT_MAX)
-  , mIsSetSpatialDimension (false)
+  , mSpatialDimensions (SBML_INT_MAX)
+  , mIsSetSpatialDimensions (false)
 {
   // set the element namespace of this object
   setElementNamespace(spatialns->getURI());
@@ -87,8 +87,8 @@ DomainType::DomainType (const DomainType& orig)
   else
   {
     mId  = orig.mId;
-    mSpatialDimension  = orig.mSpatialDimension;
-    mIsSetSpatialDimension  = orig.mIsSetSpatialDimension;
+    mSpatialDimensions  = orig.mSpatialDimensions;
+    mIsSetSpatialDimensions  = orig.mIsSetSpatialDimensions;
   }
 }
 
@@ -107,8 +107,8 @@ DomainType::operator=(const DomainType& rhs)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
-    mSpatialDimension  = rhs.mSpatialDimension;
-    mIsSetSpatialDimension  = rhs.mIsSetSpatialDimension;
+    mSpatialDimensions  = rhs.mSpatialDimensions;
+    mIsSetSpatialDimensions  = rhs.mIsSetSpatialDimensions;
   }
   return *this;
 }
@@ -143,12 +143,12 @@ DomainType::getId() const
 
 
 /*
- * Returns the value of the "spatialDimension" attribute of this DomainType.
+ * Returns the value of the "spatialDimensions" attribute of this DomainType.
  */
 int
-DomainType::getSpatialDimension() const
+DomainType::getSpatialDimensions() const
 {
-  return mSpatialDimension;
+  return mSpatialDimensions;
 }
 
 
@@ -163,12 +163,12 @@ DomainType::isSetId() const
 
 
 /*
- * Returns true/false if spatialDimension is set.
+ * Returns true/false if spatialDimensions is set.
  */
 bool
-DomainType::isSetSpatialDimension() const
+DomainType::isSetSpatialDimensions() const
 {
-  return mIsSetSpatialDimension;
+  return mIsSetSpatialDimensions;
 }
 
 
@@ -183,13 +183,13 @@ DomainType::setId(const std::string& id)
 
 
 /*
- * Sets spatialDimension and returns value indicating success.
+ * Sets spatialDimensions and returns value indicating success.
  */
 int
-DomainType::setSpatialDimension(int spatialDimension)
+DomainType::setSpatialDimensions(int spatialDimensions)
 {
-  mSpatialDimension = spatialDimension;
-  mIsSetSpatialDimension = true;
+  mSpatialDimensions = spatialDimensions;
+  mIsSetSpatialDimensions = true;
   return LIBSBML_OPERATION_SUCCESS;
 }
 
@@ -214,15 +214,15 @@ DomainType::unsetId()
 
 
 /*
- * Unsets spatialDimension and returns value indicating success.
+ * Unsets spatialDimensions and returns value indicating success.
  */
 int
-DomainType::unsetSpatialDimension()
+DomainType::unsetSpatialDimensions()
 {
-  mSpatialDimension = SBML_INT_MAX;
-  mIsSetSpatialDimension = false;
+  mSpatialDimensions = SBML_INT_MAX;
+  mIsSetSpatialDimensions = false;
 
-  if (isSetSpatialDimension() == false)
+  if (isSetSpatialDimensions() == false)
   {
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -265,7 +265,7 @@ DomainType::hasRequiredAttributes () const
   if (isSetId() == false)
     allPresent = false;
 
-  if (isSetSpatialDimension() == false)
+  if (isSetSpatialDimensions() == false)
     allPresent = false;
 
   return allPresent;
@@ -345,7 +345,7 @@ DomainType::addExpectedAttributes(ExpectedAttributes& attributes)
   SBase::addExpectedAttributes(attributes);
 
   attributes.add("id");
-  attributes.add("spatialDimension");
+  attributes.add("spatialDimensions");
 }
 
 
@@ -383,7 +383,7 @@ DomainType::readAttributes (const XMLAttributes& attributes,
               getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -391,7 +391,7 @@ DomainType::readAttributes (const XMLAttributes& attributes,
                    getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
     }
   }
@@ -410,7 +410,7 @@ DomainType::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -418,7 +418,7 @@ DomainType::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
     }
   }
@@ -441,23 +441,23 @@ DomainType::readAttributes (const XMLAttributes& attributes,
     else if (SyntaxChecker::isValidSBMLSId(mId) == false && getErrorLog() != NULL)
     {
       getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute id='" + mId + "' does not conform.");
+        "The syntax of the attribute id='" + mId + "' does not conform.", getLine(), getColumn());
     }
   }
   else
   {
-    std::string message = "Spatial attribute 'id' is missing.";
+    std::string message = "Spatial attribute 'id' is missing from 'domainType' object.";
     getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
   }
 
   //
-  // spatialDimension int   ( use = "required" )
+  // spatialDimensions int   ( use = "required" )
   //
   numErrs = getErrorLog()->getNumErrors();
-  mIsSetSpatialDimension = attributes.readInto("spatialDimension", mSpatialDimension);
+  mIsSetSpatialDimensions = attributes.readInto("spatialDimensions", mSpatialDimensions);
 
-  if (mIsSetSpatialDimension == false)
+  if (mIsSetSpatialDimensions == false)
   {
     if (getErrorLog() != NULL)
     {
@@ -466,11 +466,11 @@ DomainType::readAttributes (const XMLAttributes& attributes,
       {
         getErrorLog()->remove(XMLAttributeTypeMismatch);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                     getPackageVersion(), sbmlLevel, sbmlVersion);
+                     getPackageVersion(), sbmlLevel, sbmlVersion, "", getLine(), getColumn());
       }
       else
       {
-        std::string message = "Spatial attribute 'spatialDimension' is missing.";
+        std::string message = "Spatial attribute 'spatialDimensions' is missing from 'domainType' object.";
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
                        getPackageVersion(), sbmlLevel, sbmlVersion, message);
       }
@@ -496,8 +496,8 @@ DomainType::writeAttributes (XMLOutputStream& stream) const
   if (isSetId() == true)
     stream.writeAttribute("id", getPrefix(), mId);
 
-  if (isSetSpatialDimension() == true)
-    stream.writeAttribute("spatialDimension", getPrefix(), mSpatialDimension);
+  if (isSetSpatialDimensions() == true)
+    stream.writeAttribute("spatialDimensions", getPrefix(), mSpatialDimensions);
 
 }
 
@@ -830,9 +830,9 @@ DomainType_getId(const DomainType_t * dt)
 
 LIBSBML_EXTERN
 int
-DomainType_getSpatialDimension(const DomainType_t * dt)
+DomainType_getSpatialDimensions(const DomainType_t * dt)
 {
-	return (dt != NULL) ? dt->getSpatialDimension() : SBML_INT_MAX;
+	return (dt != NULL) ? dt->getSpatialDimensions() : SBML_INT_MAX;
 }
 
 
@@ -846,9 +846,9 @@ DomainType_isSetId(const DomainType_t * dt)
 
 LIBSBML_EXTERN
 int
-DomainType_isSetSpatialDimension(const DomainType_t * dt)
+DomainType_isSetSpatialDimensions(const DomainType_t * dt)
 {
-  return (dt != NULL) ? static_cast<int>(dt->isSetSpatialDimension()) : 0;
+  return (dt != NULL) ? static_cast<int>(dt->isSetSpatialDimensions()) : 0;
 }
 
 
@@ -865,10 +865,10 @@ DomainType_setId(DomainType_t * dt, const char * id)
 
 LIBSBML_EXTERN
 int
-DomainType_setSpatialDimension(DomainType_t * dt, int spatialDimension)
+DomainType_setSpatialDimensions(DomainType_t * dt, int spatialDimensions)
 {
   if (dt != NULL)
-    return dt->setSpatialDimension(spatialDimension);
+    return dt->setSpatialDimensions(spatialDimensions);
   else
     return LIBSBML_INVALID_OBJECT;
 }
@@ -884,9 +884,9 @@ DomainType_unsetId(DomainType_t * dt)
 
 LIBSBML_EXTERN
 int
-DomainType_unsetSpatialDimension(DomainType_t * dt)
+DomainType_unsetSpatialDimensions(DomainType_t * dt)
 {
-  return (dt != NULL) ? dt->unsetSpatialDimension() : LIBSBML_INVALID_OBJECT;
+  return (dt != NULL) ? dt->unsetSpatialDimensions() : LIBSBML_INVALID_OBJECT;
 }
 
 

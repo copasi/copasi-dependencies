@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1243,6 +1243,43 @@ ASTNode::getExponent () const
   return mExponent;
 }
 
+
+LIBSBML_EXTERN
+double
+ASTNode::getValue () const
+{
+  double value = util_NaN();
+
+  switch(mType)
+  {
+  case AST_CONSTANT_E:
+    value = 2.71828182;
+    break;
+  case AST_CONSTANT_FALSE:
+    value = 0;
+    break;
+  case AST_CONSTANT_PI:
+    value = 3.14159292;
+    break;
+  case AST_CONSTANT_TRUE:
+    value = 1;
+    break;
+  case AST_INTEGER:
+    value = (double)(getInteger());
+    break;
+  case AST_NAME_AVOGADRO:
+  case AST_RATIONAL:
+  case AST_REAL:
+  case AST_REAL_E:
+    value = getReal();
+    break;
+  default:
+    break;
+  }
+
+  return value;
+
+}
 
 /*
  * @return the precedence of this ASTNode (as defined in the SBML L1
@@ -3079,6 +3116,15 @@ ASTNode_getExponent (const ASTNode_t *node)
 
 
 LIBSBML_EXTERN
+double
+ASTNode_getValue (const ASTNode_t *node)
+{
+  if (node == NULL) return util_NaN();
+  return static_cast<const ASTNode*>(node)->getValue();
+}
+
+
+LIBSBML_EXTERN
 int
 ASTNode_getPrecedence (const ASTNode_t *node)
 {
@@ -3669,7 +3715,8 @@ ASTNode_setUserData(ASTNode_t* node, void *userData)
 
 
 LIBSBML_EXTERN
-void *ASTNode_getUserData(ASTNode_t* node)
+void *
+ASTNode_getUserData(const ASTNode_t* node)
 {
   if (node == NULL) return NULL;
   return node->getUserData();
@@ -3687,7 +3734,7 @@ ASTNode_unsetUserData(ASTNode_t* node)
 
 LIBSBML_EXTERN
 int
-ASTNode_isSetUserData(ASTNode_t* node)
+ASTNode_isSetUserData(const ASTNode_t* node)
 {
   if (node == NULL) return (int) false;
   return static_cast<int>(node->isSetUserData());

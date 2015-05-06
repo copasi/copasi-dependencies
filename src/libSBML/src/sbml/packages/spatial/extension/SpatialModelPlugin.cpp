@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -64,8 +64,12 @@ SpatialModelPlugin::SpatialModelPlugin(const std::string& uri,
  */
 SpatialModelPlugin::SpatialModelPlugin(const SpatialModelPlugin& orig) :
     SBasePlugin(orig)
-  , mGeometry ( orig.mGeometry )
+  , mGeometry ( NULL )
 {
+  if (orig.mGeometry != NULL)
+  {
+    mGeometry = orig.mGeometry->clone();
+  }
 }
 
 
@@ -78,7 +82,10 @@ SpatialModelPlugin::operator=(const SpatialModelPlugin& rhs)
   if (&rhs != this)
   {
     this->SBasePlugin::operator=(rhs);
-    mGeometry = rhs.mGeometry;
+    delete mGeometry;
+    mGeometry = NULL;
+    if (rhs.mGeometry != NULL)
+      mGeometry = rhs.mGeometry->clone();
   }
 
   return *this;
@@ -100,6 +107,8 @@ SpatialModelPlugin::clone () const
  */
 SpatialModelPlugin::~SpatialModelPlugin()
 {
+  delete mGeometry;
+  mGeometry = NULL;
 }
 
 
@@ -212,7 +221,7 @@ SpatialModelPlugin::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -220,12 +229,10 @@ SpatialModelPlugin::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("spatial", SpatialUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
     }
   }
-
-  bool assigned = false;
 
 }
 
@@ -338,6 +345,7 @@ SpatialModelPlugin::setGeometry(const Geometry* geometry)
 Geometry*
 SpatialModelPlugin::createGeometry()
 {
+  delete mGeometry;
   SPATIAL_CREATE_NS(spatialns, getSBMLNamespaces());
   mGeometry = new Geometry(spatialns);
 

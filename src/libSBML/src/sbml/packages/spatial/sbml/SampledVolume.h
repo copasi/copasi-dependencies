@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1118,7 +1118,7 @@ SampledVolume_setMaxValue(SampledVolume_t * sv, double maxValue);
 
 /**
  * Unsets the value of the "id" attribute of the given 
- *SampledVolume_t structure.
+ * SampledVolume_t structure.
  *
  * @param sv the SampledVolume_t structure.
  *
@@ -1139,7 +1139,7 @@ SampledVolume_unsetId(SampledVolume_t * sv);
 
 /**
  * Unsets the value of the "domainType" attribute of the given 
- *SampledVolume_t structure.
+ * SampledVolume_t structure.
  *
  * @param sv the SampledVolume_t structure.
  *
@@ -1160,7 +1160,7 @@ SampledVolume_unsetDomainType(SampledVolume_t * sv);
 
 /**
  * Unsets the value of the "sampledValue" attribute of the given 
- *SampledVolume_t structure.
+ * SampledVolume_t structure.
  *
  * @param sv the SampledVolume_t structure.
  *
@@ -1181,7 +1181,7 @@ SampledVolume_unsetSampledValue(SampledVolume_t * sv);
 
 /**
  * Unsets the value of the "minValue" attribute of the given 
- *SampledVolume_t structure.
+ * SampledVolume_t structure.
  *
  * @param sv the SampledVolume_t structure.
  *
@@ -1202,7 +1202,7 @@ SampledVolume_unsetMinValue(SampledVolume_t * sv);
 
 /**
  * Unsets the value of the "maxValue" attribute of the given 
- *SampledVolume_t structure.
+ * SampledVolume_t structure.
  *
  * @param sv the SampledVolume_t structure.
  *

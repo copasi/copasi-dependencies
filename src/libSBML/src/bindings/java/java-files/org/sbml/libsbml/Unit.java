@@ -851,6 +851,29 @@ public class Unit extends SBase {
 
   
 /**
+   * Predicate to test whether the 'offset' attribute of this {@link Unit} 
+   * is set.
+   <p>
+   * @return <code>true</code> if the 'offset' attribute of this {@link Unit} is set, 
+   * <code>false</code> otherwise.
+   <p>
+   * <p>
+ * @warning <span class='warning'>The 'offset' attribute is only available in
+ * SBML Level&nbsp;2 Version&nbsp;1.  This attribute is not present in SBML
+ * Level&nbsp;2 Version&nbsp;2 or above.  When producing SBML models using
+ * these later specifications, modelers and software tools need to account
+ * for units with offsets explicitly.  The SBML specification document
+ * offers a number of suggestions for how to achieve this.  LibSBML methods
+ * such as this one related to 'offset' are retained for compatibility with
+ * earlier versions of SBML Level&nbsp;2, but their use is strongly
+ * discouraged.</span>
+   */ public
+ boolean isSetOffset() {
+    return libsbmlJNI.Unit_isSetOffset(swigCPtr, this);
+  }
+
+  
+/**
    * Sets the 'kind' attribute value of this {@link Unit}.
    <p>
    * @param kind a unit identifier chosen from the set of constants whose
@@ -974,6 +997,101 @@ public class Unit extends SBase {
    */ public
  int setOffset(double value) {
     return libsbmlJNI.Unit_setOffset(swigCPtr, this, value);
+  }
+
+  
+/**
+   * Unsets the 'kind' attribute value of this {@link Unit}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * </ul>
+   */ public
+ int unsetKind() {
+    return libsbmlJNI.Unit_unsetKind(swigCPtr, this);
+  }
+
+  
+/**
+   * Unsets the 'exponent' attribute value of this {@link Unit}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * </ul>
+   */ public
+ int unsetExponent() {
+    return libsbmlJNI.Unit_unsetExponent(swigCPtr, this);
+  }
+
+  
+/**
+   * Unsets the 'scale' attribute value of this {@link Unit}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * </ul>
+   */ public
+ int unsetScale() {
+    return libsbmlJNI.Unit_unsetScale(swigCPtr, this);
+  }
+
+  
+/**
+   * Unsets the 'multipler' attribute value of this {@link Unit}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * </ul>
+   */ public
+ int unsetMultiplier() {
+    return libsbmlJNI.Unit_unsetMultiplier(swigCPtr, this);
+  }
+
+  
+/**
+   * Unsets the 'offset' attribute value of this {@link Unit}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   *
+   * </ul> <p>
+   * <p>
+ * @warning <span class='warning'>The 'offset' attribute is only available in
+ * SBML Level&nbsp;2 Version&nbsp;1.  This attribute is not present in SBML
+ * Level&nbsp;2 Version&nbsp;2 or above.  When producing SBML models using
+ * these later specifications, modelers and software tools need to account
+ * for units with offsets explicitly.  The SBML specification document
+ * offers a number of suggestions for how to achieve this.  LibSBML methods
+ * such as this one related to 'offset' are retained for compatibility with
+ * earlier versions of SBML Level&nbsp;2, but their use is strongly
+ * discouraged.</span>
+   */ public
+ int unsetOffset() {
+    return libsbmlJNI.Unit_unsetOffset(swigCPtr, this);
   }
 
   

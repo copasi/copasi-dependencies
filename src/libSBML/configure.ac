@@ -7,7 +7,7 @@ dnl <!-------------------------------------------------------------------------
 dnl This file is part of libSBML.  Please visit http://sbml.org for more
 dnl information about SBML, and the latest version of libSBML.
 dnl
-dnl Copyright (C) 2013-2014 jointly by the following organizations:
+dnl Copyright (C) 2013-2015 jointly by the following organizations:
 dnl     1. California Institute of Technology, Pasadena, CA, USA
 dnl     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 dnl     3. University of Heidelberg, Heidelberg, Germany
@@ -50,7 +50,7 @@ AC_INIT([libSBML],
 
 AC_CONFIG_AUX_DIR(config)
 
-AC_REVISION($Revision: 21797 $)
+AC_REVISION($Revision: 22003 $)
 
 AC_CONFIG_SRCDIR(src/Makefile.in)
 
@@ -599,6 +599,17 @@ if test -d dev; then
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/64-bit/python/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/64-bit/R_interface/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/source/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/source/accepted-packages/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/source/beta-packages/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/source/R_interface/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/binaries/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/binaries/linux/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/binaries/mac_osx/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/binaries/windows/R_interface/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/binaries/windows/python/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/binaries/windows/README.md])
 fi
 
 dnl ---------------------------------------------------------------------------

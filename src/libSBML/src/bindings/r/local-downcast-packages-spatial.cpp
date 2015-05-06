@@ -29,6 +29,10 @@ else if (pkgName == "spatial")
       {
         return SWIGTYPE_p_ListOfCoordinateComponents;
       }
+      else if (name == "listOfSampledFields")
+      {
+        return SWIGTYPE_p_ListOfSampledFields;
+      }
       else if (name == "listOfSampledVolumes")
       {
         return SWIGTYPE_p_ListOfSampledVolumes;
@@ -37,9 +41,9 @@ else if (pkgName == "spatial")
       {
         return SWIGTYPE_p_ListOfAnalyticVolumes;
       }
-      else if (name == "listOfSpatialPoints")
+      else if (name == "listOfParametricObjects")
       {
-        return SWIGTYPE_p_ListOfSpatialPoints;
+        return SWIGTYPE_p_ListOfParametricObjects;
       }
       else if (name == "listOfCSGObjects")
       {
@@ -52,6 +56,10 @@ else if (pkgName == "spatial")
       else if (name == "listOfCoordinateReferences")
       {
         return SWIGTYPE_p_ListOfCoordinateReferences;
+      }
+      else if (name == "listOfOrdinalMappings")
+      {
+        return SWIGTYPE_p_ListOfOrdinalMappings;
       }
 
       return SWIGTYPE_p_ListOf;
@@ -86,9 +94,6 @@ else if (pkgName == "spatial")
     case SBML_SPATIAL_SAMPLEDFIELD:
       return SWIGTYPE_p_SampledField;
 
-    case SBML_SPATIAL_IMAGEDATA:
-      return SWIGTYPE_p_ImageData;
-
     case SBML_SPATIAL_SAMPLEDVOLUME:
       return SWIGTYPE_p_SampledVolume;
 
@@ -103,12 +108,6 @@ else if (pkgName == "spatial")
 
     case SBML_SPATIAL_PARAMETRICOBJECT:
       return SWIGTYPE_p_ParametricObject;
-
-    case SBML_SPATIAL_POLYGONOBJECT:
-      return SWIGTYPE_p_PolygonObject;
-
-    case SBML_SPATIAL_SPATIALPOINT:
-      return SWIGTYPE_p_SpatialPoint;
 
     case SBML_SPATIAL_CSGEOMETRY:
       return SWIGTYPE_p_CSGeometry;
@@ -163,6 +162,15 @@ else if (pkgName == "spatial")
 
     case SBML_SPATIAL_COORDINATEREFERENCE:
       return SWIGTYPE_p_CoordinateReference;
+
+    case SBML_SPATIAL_MIXEDGEOMETRY:
+      return SWIGTYPE_p_MixedGeometry;
+
+    case SBML_SPATIAL_ORDINALMAPPING:
+      return SWIGTYPE_p_OrdinalMapping;
+
+    case SBML_SPATIAL_SPATIALPOINTS:
+      return SWIGTYPE_p_SpatialPoints;
 
     default:
       return SWIGTYPE_p_SBase;

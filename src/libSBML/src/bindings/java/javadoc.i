@@ -4345,7 +4345,7 @@ newModel.addSpecies(s1);
 ";
 
 
-%javamethodmodifiers SBase::setSBMLNamespacesAndOwn(SBMLNamespaces * sbmlns) "
+%javamethodmodifiers SBase::setSBMLNamespacesAndOwn(SBMLNamespaces * disownedNs) "
 /** * @internal */ public
 ";
 
@@ -4518,6 +4518,45 @@ newModel.addSpecies(s1);
  * be interpreted by libSBML.
    <p>
    * @return the user data of this node, or <code>null</code> if no user data has been set.
+   */ public
+";
+
+
+%javamethodmodifiers SBase::isSetUserData() const "
+/**
+   * Predicate returning true or false depending on whether
+   * the user data of this element has been set.
+   <p>
+   * <p>
+ * The user data associated with an SBML object can be used by an application
+ * developer to attach custom information to that object in the model.  In case
+ * of a deep copy, this data will passed as-is.  The data attribute will never
+ * be interpreted by libSBML.
+   <p>
+   * @return boolean, <code>true</code> if this object\'s user data has been set,
+   * <code>false</code> otherwise.
+   */ public
+";
+
+
+%javamethodmodifiers SBase::unsetUserData "
+/**
+   * Unsets the user data of this element.
+   <p>
+   * <p>
+ * The user data associated with an SBML object can be used by an application
+ * developer to attach custom information to that object in the model.  In case
+ * of a deep copy, this data will passed as-is.  The data attribute will never
+ * be interpreted by libSBML.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * </ul>
    */ public
 ";
 
@@ -4978,22 +5017,22 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
-   * @see #appendAndOwn(SBase item)
+   * @see #appendAndOwn(SBase disownedItem)
    * @see #appendFrom(ListOf list)
    */ public
 ";
 
 
-%javamethodmodifiers ListOf::appendAndOwn(SBase* item) "
+%javamethodmodifiers ListOf::appendAndOwn(SBase* disownedItem) "
 /**
    * Adds an item to the end of this {@link ListOf}\'s list of items.
    <p>
-   * This method does not clone the <code>item</code> handed to it; instead, it assumes
+   * This method does not clone the <code>disownedItem</code> handed to it; instead, it assumes
    * ownership of it.  This means that when the {@link ListOf} is destroyed, the item
    * will be destroyed along with it.  For a method with an alternative
    * ownership behavior, see the {@link ListOf#append(SBase item)} method.
    <p>
-   * @param item the item to be added to the list.
+   * @param disownedItem the item to be added to the list.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -5029,7 +5068,7 @@ appears in the documentation.
    *
    * </ul> <p>
    * @see #append(SBase item)
-   * @see #appendAndOwn(SBase item)
+   * @see #appendAndOwn(SBase disownedItem)
    */ public
 ";
 
@@ -5059,16 +5098,16 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ListOf::insertAndOwn(int location, SBase* item) "
+%javamethodmodifiers ListOf::insertAndOwn(int location, SBase* disownedItem) "
 /**
    * Inserts an item at a given position in this {@link ListOf}\'s list of items.
    <p>
-   * This variant of the method makes a clone of the <code>item</code> handed to it.
+   * This variant of the method does not make a clone of the <code>disownedItem</code> handed to it.
    * This means that when the {@link ListOf} is destroyed, the original <code>item</code>
    * <em>will</em> be destroyed.
    <p>
    * @param location the location where to insert the item
-   * @param item the item to be inserted to the list
+   * @param disownedItem the item to be inserted to the list
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -5348,7 +5387,7 @@ appears in the documentation.
  * within the model, the list must not be empty; that is, it must have
  * length one or more.  The following are the components and lists
  * permitted in different Levels and Versions of SBML in
- * version 5.11.1
+ * version 5.11.4
  * of libSBML:
  * <ul>
  * <li> In SBML Level 1, the components are: {@link UnitDefinition}, {@link Compartment},
@@ -5457,7 +5496,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <h2>Consistency and adherence to SBML specifications</h2>
  <p>
  * To make it easier for applications to do whatever they need,
- * libSBML version 5.11.1
+ * libSBML version 5.11.4
  * is relatively lax when it comes to enforcing correctness and
  * completeness of models <em>during</em> model construction and editing.
  * Essentially, libSBML <em>will</em> <em>not</em> in most cases check automatically
@@ -8407,7 +8446,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
 
 %javamethodmodifiers Model::getNumSpecies() const "
 /**
-   * Get the number of Specie objects in this {@link Model}.
+   * Get the number of {@link Species} objects in this {@link Model}.
    <p>
    * @return the number of {@link Species} in this {@link Model}.
    */ public
@@ -8619,6 +8658,11 @@ sp.setId(&#34;BestSpeciesEver&#34;);
 
 
 %javamethodmodifiers Model::addDefinitionsForDefaultUnits "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers Model::dealWithDefaultValues "
 /** * @internal */ public
 ";
 
@@ -9697,7 +9741,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    <p>
    * <p>
  * This \'default Level\' corresponds to the most recent SBML specification
- * Level available at the time libSBML version 5.11.1 was released.  The default Level is used by
+ * Level available at the time libSBML version 5.11.4 was released.  The default Level is used by
  * {@link SBMLDocument} if no Level is explicitly specified at the time of the
  * construction of an {@link SBMLDocument} instance.
    <p>
@@ -9717,7 +9761,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * <p>
  * This \'default Version\' corresponds to the most recent Version within the
  * most recent Level of SBML available at the time libSBML version
- * 5.11.1 was released.  The default Version is
+ * 5.11.4 was released.  The default Version is
  * used by {@link SBMLDocument} if no Version is explicitly specified at the time of
  * the construction of an {@link SBMLDocument} instance. 
    <p>
@@ -12710,6 +12754,28 @@ to indicate an invalid or unset unit.</td></tr>
 ";
 
 
+%javamethodmodifiers Unit::isSetOffset() const "
+/**
+   * Predicate to test whether the \'offset\' attribute of this {@link Unit} 
+   * is set.
+   <p>
+   * @return <code>true</code> if the \'offset\' attribute of this {@link Unit} is set, 
+   * <code>false</code> otherwise.
+   <p>
+   * <p>
+ * @warning <span class=\'warning\'>The \'offset\' attribute is only available in
+ * SBML Level&nbsp;2 Version&nbsp;1.  This attribute is not present in SBML
+ * Level&nbsp;2 Version&nbsp;2 or above.  When producing SBML models using
+ * these later specifications, modelers and software tools need to account
+ * for units with offsets explicitly.  The SBML specification document
+ * offers a number of suggestions for how to achieve this.  LibSBML methods
+ * such as this one related to \'offset\' are retained for compatibility with
+ * earlier versions of SBML Level&nbsp;2, but their use is strongly
+ * discouraged.</span>
+   */ public
+";
+
+
 %javamethodmodifiers Unit::setKind(UnitKind_t kind) "
 /**
    * Sets the \'kind\' attribute value of this {@link Unit}.
@@ -12807,6 +12873,96 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * @param value the float-point value to which the attribute \'offset\'
    * should set
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   *
+   * </ul> <p>
+   * <p>
+ * @warning <span class=\'warning\'>The \'offset\' attribute is only available in
+ * SBML Level&nbsp;2 Version&nbsp;1.  This attribute is not present in SBML
+ * Level&nbsp;2 Version&nbsp;2 or above.  When producing SBML models using
+ * these later specifications, modelers and software tools need to account
+ * for units with offsets explicitly.  The SBML specification document
+ * offers a number of suggestions for how to achieve this.  LibSBML methods
+ * such as this one related to \'offset\' are retained for compatibility with
+ * earlier versions of SBML Level&nbsp;2, but their use is strongly
+ * discouraged.</span>
+   */ public
+";
+
+
+%javamethodmodifiers Unit::unsetKind "
+/**
+   * Unsets the \'kind\' attribute value of this {@link Unit}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * </ul>
+   */ public
+";
+
+
+%javamethodmodifiers Unit::unsetExponent "
+/**
+   * Unsets the \'exponent\' attribute value of this {@link Unit}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * </ul>
+   */ public
+";
+
+
+%javamethodmodifiers Unit::unsetScale "
+/**
+   * Unsets the \'scale\' attribute value of this {@link Unit}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * </ul>
+   */ public
+";
+
+
+%javamethodmodifiers Unit::unsetMultiplier "
+/**
+   * Unsets the \'multipler\' attribute value of this {@link Unit}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * </ul>
+   */ public
+";
+
+
+%javamethodmodifiers Unit::unsetOffset "
+/**
+   * Unsets the \'offset\' attribute value of this {@link Unit}.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -17064,6 +17220,26 @@ to indicate an invalid or unset unit.</td></tr>
 ";
 
 
+%javamethodmodifiers Compartment::unsetConstant "
+/**
+   * Unsets the value of the \'constant\' attribute of this {@link Compartment} object.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   *
+   * </ul> <p>
+   * @see #isSetConstant()
+   * @see #setConstant(String)
+   * @see #getConstant()
+   */ public
+";
+
+
 %javamethodmodifiers Compartment::unsetSize "
 /**
    * Unsets the value of the \'size\' attribute of this {@link Compartment} object.
@@ -18847,6 +19023,26 @@ attributes.</caption>
 ";
 
 
+%javamethodmodifiers Species::unsetConstant "
+/**
+   * Unsets the value of the \'constant\' attribute of this {@link Species} object.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   *
+   * </ul> <p>
+   * @see #isSetConstant()
+   * @see #setConstant(String)
+   * @see #getConstant()
+   */ public
+";
+
+
 %javamethodmodifiers Species::unsetSpeciesType "
 /**
    * Unsets the \'speciesType\' attribute value of this {@link Species} object.
@@ -19007,6 +19203,54 @@ attributes.</caption>
    * @note The \'conversionFactor\' attribute was introduced in SBML
    * Level&nbsp;3.  It does not exist on {@link Species} in SBML Levels&nbsp;1
    * and&nbsp;2.
+   */ public
+";
+
+
+%javamethodmodifiers Species::unsetCompartment "
+/**
+   * Unsets the \'compartment\' attribute value of this {@link Species} object.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * </ul>
+   */ public
+";
+
+
+%javamethodmodifiers Species::unsetBoundaryCondition "
+/**
+   * Unsets the \'boundaryCondition\' attribute value of this {@link Species} object.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * </ul>
+   */ public
+";
+
+
+%javamethodmodifiers Species::unsetHasOnlySubstanceUnits "
+/**
+   * Unsets the \'hasOnlySubstanceUnits\' attribute value of this {@link Species} object.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * </ul>
    */ public
 ";
 
@@ -20073,6 +20317,26 @@ attributes.</caption>
 ";
 
 
+%javamethodmodifiers Parameter::unsetConstant "
+/**
+   * Unsets the value of the \'constant\' attribute of this {@link Parameter} object.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   *
+   * </ul> <p>
+   * @see #isSetConstant()
+   * @see #setConstant(String)
+   * @see #getConstant()
+   */ public
+";
+
+
 %javamethodmodifiers Parameter::unsetValue "
 /**
    * Unsets the \'value\' attribute of this {@link Parameter} instance.
@@ -20929,6 +21193,11 @@ attributes.</caption>
 ";
 
 
+%javamethodmodifiers LocalParameter::unsetConstant "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers LocalParameter::addExpectedAttributes(ExpectedAttributes& attributes) "
 /** * @internal */ public
 ";
@@ -21495,6 +21764,22 @@ attributes.</caption>
    <p>
    * @param sid the identifier of a {@link Species}, {@link Compartment} or {@link Parameter}
    * object defined elsewhere in this {@link Model}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * </ul>
+   */ public
+";
+
+
+%javamethodmodifiers InitialAssignment::unsetSymbol "
+/**
+   * Unsets the \'symbol\' attribute value of this {@link InitialAssignment}.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -22537,6 +22822,27 @@ attributes.</caption>
 ";
 
 
+%javamethodmodifiers Rule::unsetVariable "
+/**
+   * Unsets the value of the \'variable\' attribute of this {@link Rule} object.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   *
+   * </ul> <p>
+   * @see #setVariable(String sid)
+   * @see #isSetVariable()
+   * @see #getVariable()
+   */ public
+";
+
+
 %javamethodmodifiers Rule::unsetUnits "
 /**
    * Unsets the \'units\' for this {@link Rule}.
@@ -22839,7 +23145,7 @@ attributes.</caption>
    <p>
    * The returned value can be any of a number of different strings,
    * depending on the SBML Level in use and the kind of {@link Rule} object this
-   * is.  The rules as of libSBML version 5.11.1
+   * is.  The rules as of libSBML version 5.11.4
    * are the following:
    * <ul>
    * <li> (Level&nbsp;2 and&nbsp;3) RateRule: returns <code>\'rateRule\'</code>
@@ -24580,6 +24886,30 @@ attributes.</caption>
 ";
 
 
+%javamethodmodifiers Constraint::setMessage(const std::string& message, bool addXHTMLMarkup = false) "
+/**
+   * Sets the message of this {@link Constraint}.
+   <p>
+   * @param message an XML string that is to be used as the content of the
+   * \'message\' subelement of this object
+   <p>
+   * @param addXHTMLMarkup a boolean indicating whether to wrap the contents
+   * of the <code>message</code> argument with XHTML paragraph (<code>&lt;p&gt;</code>)
+   * tags.  This is appropriate when the string in <code>message</code> does not already
+   * containg the appropriate XHTML markup.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * </ul>
+   */ public
+";
+
+
 %javamethodmodifiers Constraint::setMath(const ASTNode* math) "
 /**
    * Sets the mathematical expression of this {@link Constraint} to a copy of the
@@ -25665,6 +25995,23 @@ attributes.</caption>
    * @note The \'compartment\' attribute is available in SBML
    * Level&nbsp;3 Version&nbsp;1 Core, but is not present on {@link Reaction} in
    * lower Levels of SBML.
+   */ public
+";
+
+
+%javamethodmodifiers Reaction::unsetReversible "
+/**
+   * Unsets the value of the \'reversible\' attribute of this {@link Reaction}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * </ul>
    */ public
 ";
 
@@ -27955,6 +28302,22 @@ AST mechanisms.
 ";
 
 
+%javamethodmodifiers SimpleSpeciesReference::unsetSpecies "
+/**
+   * Unsets the value of the \'species\' attribute of this {@link SimpleSpeciesReference}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * </ul>
+   */ public
+";
+
+
 %javamethodmodifiers SimpleSpeciesReference::isModifier() const "
 /**
    * Predicate returning <code>true</code> if this
@@ -28767,6 +29130,22 @@ AST mechanisms.
    * isSetStoichiometry() will still return <code>true</code>).  In SBML
    * Level&nbsp;3, the \'stoichiometry\' attribute of this object will be set
    * to <code>NaN</code> and isSetStoichiometry() will return <code>false.</code>
+   */ public
+";
+
+
+%javamethodmodifiers SpeciesReference::unsetConstant "
+/**
+   * Unsets the \'constant\' attribute of this {@link SpeciesReference}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * </ul>
    */ public
 ";
 
@@ -29694,6 +30073,23 @@ AST mechanisms.
 ";
 
 
+%javamethodmodifiers Event::initDefaults "
+/**
+   * Initializes the fields of this {@link Event} object to \'typical\' default
+   * values.
+   <p>
+   * The SBML {@link Event} component has slightly different aspects and
+   * default attribute values in different SBML Levels and Versions.
+   * This method sets the values to certain common defaults, based
+   * mostly on what they are in SBML Level&nbsp;2.  Specifically:
+   <p>
+   * <ul>
+   * <li> Sets attribute \'spatialDimensions\' to <code>3</code>
+   * </ul>
+   */ public
+";
+
+
 %javamethodmodifiers Event::getElementBySId(const std::string& id) "
 /**
    * Returns the first child element found that has the given <code>id</code> in the
@@ -30208,6 +30604,60 @@ AST mechanisms.
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
+   */ public
+";
+
+
+%javamethodmodifiers Event::unsetUseValuesFromTriggerTime "
+/**
+   * Unsets the value of the \'useValuesFromTriggerTime\' attribute of this {@link Event}.
+   <p>
+   * <p>
+ * The optional {@link Delay} on {@link Event} means there are two times to consider when
+ * computing the results of an event: the time at which the event is
+ * <em>triggered</em>, and the time at which assignments are
+ * <em>executed</em>.  It is also possible to distinguish between the
+ * time at which the {@link EventAssignment}\'s expression is calculated, and the
+ * time at which the assignment is made: the expression could be
+ * evaluated at the same time the assignments are performed, i.e., when
+ * the event is <em>executed</em>, but it could also be defined to be
+ * evaluated at the time the event is <em>triggered</em>.
+ <p>
+ * In SBML Level&nbsp;2 versions prior to Version&nbsp;4, the semantics
+ * of {@link Event} time delays were defined such that the expressions in the
+ * event\'s assignments were always evaluated at the time the event was
+ * <em>triggered</em>.  This definition made it difficult to define an
+ * event whose assignment formulas were meant to be evaluated at the time
+ * the event was <em>executed</em> (i.e., after the time period defined
+ * by the value of the {@link Delay} element).  In SBML Level&nbsp;2
+ * Version&nbsp;4, the attribute \'useValuesFromTriggerTime\' on {@link Event}
+ * allows a model to indicate the time at which the event\'s assignments
+ * are intended to be evaluated.  In SBML Level&nbsp;2, the attribute has
+ * a default value of <code>true</code>, which corresponds to the interpretation of
+ * event assignments prior to Version&nbsp;4: the values of the
+ * assignment formulas are computed at the moment the event is triggered,
+ * not after the delay.  If \'useValuesFromTriggerTime\'=<code>false</code>, it means
+ * that the formulas in the event\'s assignments are to be computed after
+ * the delay, at the time the event is executed.  In SBML Level&nbsp;3,
+ * the attribute is mandatory, not optional, and all events must specify
+ * a value for it.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   *
+   * </ul> <p>
+   * <p>
+ * @warning <span class=\'warning\'>The attribute \'useValuesFromTriggerTime\'
+ * was introduced in SBML Level&nbsp;2 Version&nbsp;4.  It is not valid in
+ * models defined using SBML Level&nbsp;2 versions prior to Version&nbsp;4.
+ * If a Level&nbsp;2 Version&nbsp;1&ndash;3 model sets the attribute, the
+ * consistency-checking method {@link SBMLDocument#checkConsistency()} will report
+ * an error.</span>
    */ public
 ";
 
@@ -31149,6 +31599,22 @@ AST mechanisms.
 ";
 
 
+%javamethodmodifiers EventAssignment::unsetVariable "
+/**
+   * Unsets the attribute \'variable\' of this {@link EventAssignment}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * </ul>
+   */ public
+";
+
+
 %javamethodmodifiers EventAssignment::setMath(const ASTNode* math) "
 /**
    * Sets the \'math\' subelement of this {@link EventAssignment} to a copy of the
@@ -31989,6 +32455,50 @@ AST mechanisms.
 %javamethodmodifiers Trigger::setPersistent(bool persistent) "
 /**
    * (SBML Level&nbsp;3 only) Sets the \'persistent\' attribute of this {@link Trigger} instance.
+   <p>
+   * @param persistent a boolean representing the persistent value to be set.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   *
+   * </ul> <p>
+   * @note The attribute \'persistent\' is available in SBML Level&nbsp;3
+   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   */ public
+";
+
+
+%javamethodmodifiers Trigger::unsetInitialValue "
+/**
+   * (SBML Level&nbsp;3 only) Unsets the \'initialValue\' attribute of this 
+   * {@link Trigger} instance.
+   <p>
+   * @param initialValue a boolean representing the initialValue to be set.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   *
+   * </ul> <p>
+   * @note The attribute \'initialValue\' is available in SBML Level&nbsp;3
+   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   */ public
+";
+
+
+%javamethodmodifiers Trigger::unsetPersistent "
+/**
+   * (SBML Level&nbsp;3 only) Unsets the \'persistent\' attribute of this 
+   * {@link Trigger} instance.
    <p>
    * @param persistent a boolean representing the persistent value to be set.
    <p>
@@ -35968,7 +36478,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.1:
+ * provided by libSBML 5.11.4:
  <p>
  * <p>
  * <ul>
@@ -36520,7 +37030,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.1:
+ * provided by libSBML 5.11.4:
  <p>
  * <p>
  * <ul>
@@ -37003,7 +37513,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.1:
+ * provided by libSBML 5.11.4:
  <p>
  * <p>
  * <ul>
@@ -37250,7 +37760,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.1:
+ * provided by libSBML 5.11.4:
  <p>
  * <p>
  * <ul>
@@ -37470,7 +37980,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.1:
+ * provided by libSBML 5.11.4:
  <p>
  * <p>
  * <ul>
@@ -37725,7 +38235,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.1:
+ * provided by libSBML 5.11.4:
  <p>
  * <p>
  * <ul>
@@ -37960,7 +38470,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.1:
+ * provided by libSBML 5.11.4:
  <p>
  * <p>
  * <ul>
@@ -38125,6 +38635,11 @@ if (config != None) {
 ";
 
 
+%javamethodmodifiers SBMLLevelVersionConverter::validateConvertedDocument "
+/** * @internal */ public
+";
+
+
 %typemap(javaimports) SBMLLocalParameterConverter "
 /** 
  *  Converter to turn local parameters into global ones.
@@ -38235,7 +38750,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.1:
+ * provided by libSBML 5.11.4:
  <p>
  * <p>
  * <ul>
@@ -38455,7 +38970,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.1:
+ * provided by libSBML 5.11.4:
  <p>
  * <p>
  * <ul>
@@ -38768,7 +39283,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.1:
+ * provided by libSBML 5.11.4:
  <p>
  * <p>
  * <ul>
@@ -38992,7 +39507,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.1:
+ * provided by libSBML 5.11.4:
  <p>
  * <p>
  * <ul>
@@ -39246,7 +39761,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.1:
+ * provided by libSBML 5.11.4:
  <p>
  * <p>
  * <ul>
@@ -46471,7 +46986,7 @@ defined in SBML.
 ";
 
 
-%javamethodmodifiers SBMLErrorLog::contains(const unsigned int errorId) "
+%javamethodmodifiers SBMLErrorLog::contains "
 /**
    * Returns true if {@link SBMLErrorLog} contains an errorId
    <p>
@@ -54956,7 +55471,7 @@ defined in SBML.
  * name=\'SBMLErrorSeverity_t\'>Severity codes associated with {@link SBMLError}
  * objects</h3>
  <p>
- * In libSBML version 5.11.1
+ * In libSBML version 5.11.4
  * there are no additional severity codes beyond those defined by {@link XMLError}.
  * They are implemented as static integer constants defined in the interface
  * class <code><a href=\'libsbmlConstants.html\'>libsbmlConstants</a></code>,
@@ -58158,6 +58673,43 @@ defined in SBML.
 ";
 
 
+%javamethodmodifiers SBaseExtensionPoint::SBaseExtensionPoint(const std::string& pkgName, int typeCode, const std::string& elementName, bool elementOnly = false) "
+/**
+  * Constructor for {@link SBaseExtensionPoint}.
+  <p>
+  * The use of {@link SBaseExtensionPoint} is relatively straightforward.  The
+  * class needs to be used for each extended SBML object implemented
+  * using {@link SBMLDocumentPlugin} or {@link SBasePlugin}.  Doing so requires knowing
+  * just two things:
+  <p>
+  * <ul>
+  * <li> The short-form name of the <em>parent</em> package being extended.
+  * The parent package is often simply core SBML, identified in libSBML
+  * by the nickname <code>\'core\'</code>, but a SBML Level&nbsp;3
+  * package could conceivably extend another Level&nbsp;3 package and
+  * the mechanism supports this.
+  <p>
+  * <li> The libSBML type code assigned to the object being extended.
+  * For example, if an extension of {@link Model} is implemented, the relevant
+  * type code is SBML_MODEL, found in #SBMLTypeCode_t.
+  *
+  * </ul> <p>
+  * @param pkgName the short-form name of the parent package where
+  * that this package extension is extending.
+  <p>
+  * @param typeCode the type code of the object being extended.
+  <p>
+  * @param elementName element name for the target element, in case 
+  * multiple elements match the same type code (as will be the case
+  * for {@link ListOf} classes)
+  <p>
+  * @param elementOnly flag to be used during the registration 
+  * of the package, when set then the plugin is only applied to 
+  * elements whose elementName match.
+  */ public
+";
+
+
 %javamethodmodifiers SBaseExtensionPoint::SBaseExtensionPoint(const SBaseExtensionPoint& rhs) "
 /**
    * Copy constructor.
@@ -58188,6 +58740,19 @@ defined in SBML.
 %javamethodmodifiers SBaseExtensionPoint::getTypeCode() const "
 /**
    * Returns the libSBML type code of this extension point.
+   */ public
+";
+
+
+%javamethodmodifiers SBaseExtensionPoint::getElementName() const "
+/**
+   * the target element name
+   */ public
+";
+
+
+%javamethodmodifiers SBaseExtensionPoint::isElementOnly() const "
+/**
    */ public
 ";
 
@@ -58576,6 +59141,16 @@ defined in SBML.
 ";
 
 
+%javamethodmodifiers SBasePlugin::isValidTypeForList(SBase* item) const "
+/** */ public
+";
+
+
+%javamethodmodifiers SBasePlugin::accept(SBMLVisitor& v) const "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers SBasePlugin::SBasePlugin(const std::string &uri, const std::string &prefix, SBMLNamespaces *sbmlns) "
 /** * @internal */ public
 ";
@@ -58847,6 +59422,11 @@ defined in SBML.
 
 
 %javamethodmodifiers SBMLDocumentPlugin::checkConsistency "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBMLDocumentPlugin::accept(SBMLVisitor& v) const "
 /** * @internal */ public
 ";
 
@@ -60406,6 +60986,11 @@ appears in the documentation.
 ";
 
 
+%javamethodmodifiers ASTBase::getValue() const "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers ASTBase::resetPackageName "
 /** * @internal */ public
 ";
@@ -60472,11 +61057,6 @@ appears in the documentation.
 
 
 %javamethodmodifiers ASTBase::getNumChildren() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getValue() const "
 /** * @internal */ public
 ";
 
@@ -60836,13 +61416,13 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ASTNode::addChild(ASTNode* child) "
+%javamethodmodifiers ASTNode::addChild(ASTNode* disownedChild) "
 /**
    * Adds the given node as a child of this {@link ASTNode}.
    <p>
    * Child nodes are added in-order, from left to right.
    <p>
-   * @param child the {@link ASTNode} instance to add
+   * @param disownedChild the {@link ASTNode} instance to add
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -60863,22 +61443,22 @@ appears in the documentation.
  * {@link ASTNode#isWellFormedASTNode()}
  * may also be useful for checking the results of node modifications.
    <p>
-   * @see #prependChild(ASTNode child)
-   * @see #replaceChild(long n, ASTNode child)
-   * @see #insertChild(long n, ASTNode child)
+   * @see #prependChild(ASTNode disownedChild)
+   * @see #replaceChild(long n, ASTNode disownedChild)
+   * @see #insertChild(long n, ASTNode disownedChild)
    * @see #removeChild(long n)
    * @see #isWellFormedASTNode()
    */ public
 ";
 
 
-%javamethodmodifiers ASTNode::prependChild(ASTNode* child) "
+%javamethodmodifiers ASTNode::prependChild(ASTNode* disownedChild) "
 /**
    * Adds the given node as a child of this {@link ASTNode}.
    <p>
    * This method adds child nodes from right to left.
    <p>
-   * @param child the {@link ASTNode} instance to add
+   * @param disownedChild the {@link ASTNode} instance to add
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -60899,9 +61479,9 @@ appears in the documentation.
  * {@link ASTNode#isWellFormedASTNode()}
  * may also be useful for checking the results of node modifications.
    <p>
-   * @see #addChild(ASTNode child)
-   * @see #replaceChild(long n, ASTNode child)
-   * @see #insertChild(long n, ASTNode child)
+   * @see #addChild(ASTNode disownedChild)
+   * @see #replaceChild(long n, ASTNode disownedChild)
+   * @see #insertChild(long n, ASTNode disownedChild)
    * @see #removeChild(long n)
    */ public
 ";
@@ -60932,20 +61512,20 @@ appears in the documentation.
  * {@link ASTNode#isWellFormedASTNode()}
  * may also be useful for checking the results of node modifications.
    <p>
-   * @see #addChild(ASTNode child)
-   * @see #prependChild(ASTNode child)
-   * @see #replaceChild(long n, ASTNode child)
-   * @see #insertChild(long n, ASTNode child)
+   * @see #addChild(ASTNode disownedChild)
+   * @see #prependChild(ASTNode disownedChild)
+   * @see #replaceChild(long n, ASTNode disownedChild)
+   * @see #insertChild(long n, ASTNode disownedChild)
    */ public
 ";
 
 
-%javamethodmodifiers ASTNode::replaceChild(unsigned int n, ASTNode *newChild, bool delreplaced=false) "
+%javamethodmodifiers ASTNode::replaceChild(unsigned int n, ASTNode *disownedChild, bool delreplaced=false) "
 /**
    * Replaces the nth child of this {@link ASTNode} with the given {@link ASTNode}.
    <p>
    * @param n long the index of the child to replace
-   * @param newChild {@link ASTNode} to replace the nth child
+   * @param disownedChild {@link ASTNode} to replace the nth child
    * @param delreplaced boolean indicating whether to delete the replaced child.
    <p>
    * <p>
@@ -60968,21 +61548,21 @@ appears in the documentation.
  * {@link ASTNode#isWellFormedASTNode()}
  * may also be useful for checking the results of node modifications.
    <p>
-   * @see #addChild(ASTNode child)
-   * @see #prependChild(ASTNode child)
-   * @see #insertChild(long n, ASTNode child)
+   * @see #addChild(ASTNode disownedChild)
+   * @see #prependChild(ASTNode disownedChild)
+   * @see #insertChild(long n, ASTNode disownedChild)
    * @see #removeChild(long n)
    */ public
 ";
 
 
-%javamethodmodifiers ASTNode::insertChild(unsigned int n, ASTNode *newChild) "
+%javamethodmodifiers ASTNode::insertChild(unsigned int n, ASTNode *disownedChild) "
 /**
    * Inserts the given {@link ASTNode} node at a given point in the current {@link ASTNode}\'s
    * list of children.
    <p>
    * @param n long the index of the {@link ASTNode} being added
-   * @param newChild {@link ASTNode} to insert as the nth child
+   * @param disownedChild {@link ASTNode} to insert as the nth child
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -61004,9 +61584,9 @@ appears in the documentation.
  * {@link ASTNode#isWellFormedASTNode()}
  * may also be useful for checking the results of node modifications.
    <p>
-   * @see #addChild(ASTNode child)
-   * @see #prependChild(ASTNode child)
-   * @see #replaceChild(long n, ASTNode child)
+   * @see #addChild(ASTNode disownedChild)
+   * @see #prependChild(ASTNode disownedChild)
+   * @see #replaceChild(long n, ASTNode disownedChild)
    * @see #removeChild(long n)
    */ public
 ";
@@ -61084,7 +61664,7 @@ getChild( getNumChildren() - 1 );
 ";
 
 
-%javamethodmodifiers ASTNode::addSemanticsAnnotation(XMLNode* sAnnotation) "
+%javamethodmodifiers ASTNode::addSemanticsAnnotation(XMLNode* disownedAnnotation) "
 /**
    * Adds the given {@link XMLNode} as a MathML <code>&lt;semantics&gt;</code>
    * element to this {@link ASTNode}.
@@ -61101,7 +61681,7 @@ getChild( getNumChildren() - 1 );
  * href=\'http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations\'>Section
  * 5.2, Semantic Annotations</a> for more information about these constructs.
    <p>
-   * @param sAnnotation the annotation to add.
+   * @param disownedAnnotation the annotation to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -61454,6 +62034,29 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
    * It will return <code>0</code> if the node type is another type, but since <code>0</code> may
    * be a valid value, it is important to be sure that the node type is the
    * correct type in order to correctly interpret the returned value.
+   */ public
+";
+
+
+%javamethodmodifiers ASTNode::getValue() const "
+/**
+   * Returns the numerical value of this {@link ASTNode}.
+   <p>
+   * @return the numerical value of this {@link ASTNode}, or <code>NaN</code> if this
+   * is not a type of node that has a numerical value.
+   <p>
+   * @note This function will return a numerical value (as a double) for 
+   * any ASTNode_t that represents a number, a constant such as 
+   * {@link libsbmlConstants#AST_CONSTANT_PI AST_CONSTANT_PI}, 
+   * {@link libsbmlConstants#AST_CONSTANT_E AST_CONSTANT_E}, or 
+   * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO}, or 
+   * <code>1</code> for nodes of type 
+   * {@link libsbmlConstants#AST_CONSTANT_TRUE AST_CONSTANT_TRUE} and <code>0</code> for nodes of type
+   * {@link libsbmlConstants#AST_CONSTANT_FALSE AST_CONSTANT_FALSE}. It does not evaluate
+   * the node in any way so, for example, it will not return the value of 
+   * a named ASTNode_t or attempt to evaluate a function. 
+   * This includes a node representing <code>time</code> i.e. nodes
+   * of type {@link libsbmlConstants#AST_NAME_TIME AST_NAME_TIME}.
    */ public
 ";
 
@@ -62762,6 +63365,26 @@ used to define a number with value <code>10</code> and unit of measurement
 
 
 %javamethodmodifiers ASTNode::getPackageName() const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTNode::getPlugin(const std::string& package) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTNode::getPlugin(const std::string& package) const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTNode::getPlugin(unsigned int n) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTNode::getPlugin "
 /** * @internal */ public
 ";
 

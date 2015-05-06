@@ -11,7 +11,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -97,7 +97,10 @@ static XMLErrorCode_t expatErrorTable[] = {
   XMLUnknownError,          // ERROR_NOT_SUSPENDED
   XMLUnknownError,          // ERROR_ABORTED
   XMLUnknownError,          // ERROR_FINISHED
-  XMLUnknownError           // ERROR_SUSPEND_PE
+  XMLUnknownError,          // ERROR_SUSPEND_PE
+  BadXMLPrefixValue,        // XML_ERROR_RESERVED_PREFIX_XML
+  BadXMLPrefixValue,        // XML_ERROR_RESERVED_PREFIX_XMLNS
+  BadXMLPrefixValue         // XML_ERROR_RESERVED_NAMESPACE_URI
 };
 
 

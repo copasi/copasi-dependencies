@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -172,7 +172,7 @@ DistribInput::getName() const
 /*
  * Returns the value of the "index" attribute of this DistribInput.
  */
-const unsigned int
+unsigned int
 DistribInput::getIndex() const
 {
   return mIndex;
@@ -462,7 +462,7 @@ DistribInput::enablePackageInternal(const std::string& pkgURI,
 SBase*
 DistribInput::createObject(XMLInputStream& stream)
 {
-  const string& name = stream.peek().getName();
+  //const string& name = stream.peek().getName();
   SBase* object = NULL;
 
   DISTRIB_CREATE_NS(distribns, getSBMLNamespaces());
@@ -734,6 +734,41 @@ ListOfDistribInputs::get(const std::string& sid) const
   vector<SBase*>::const_iterator result;
 
   result = find_if( mItems.begin(), mItems.end(), IdEq<DistribInput>(sid) );
+  return (result == mItems.end()) ? 0 : static_cast <DistribInput*> (*result);
+}
+
+
+/*
+ * Get a DistribInput from the ListOfDistribInputs by id.
+ */
+DistribInput*
+ListOfDistribInputs::getByIndex(unsigned int n)
+{
+  return const_cast<DistribInput*>(
+    static_cast<const ListOfDistribInputs&>(*this).getByIndex(n));
+}
+
+
+#ifndef SWIG
+template<class CNAME>
+struct IndexEq : public std::unary_function<SBase*, bool>
+{
+  unsigned int n;
+
+  IndexEq (unsigned int n) : n(n) { }
+  bool operator() (SBase* sb) 
+       { return static_cast <CNAME*> (sb)->getIndex() == n; }
+};
+#endif /* SWIG */
+/*
+ * Get a DistribInput from the ListOfDistribInputs by id.
+ */
+const DistribInput*
+ListOfDistribInputs::getByIndex(unsigned int n) const
+{
+  vector<SBase*>::const_iterator result;
+
+  result = find_if( mItems.begin(), mItems.end(), IndexEq<DistribInput>(n) );
   return (result == mItems.end()) ? 0 : static_cast <DistribInput*> (*result);
 }
 

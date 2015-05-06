@@ -215,7 +215,7 @@ public:
    *
    * @return the value of the "occur" attribute of this SpeciesFeatureType as a unsigned integer.
    */
-  virtual const unsigned int getOccur() const;
+  virtual unsigned int getOccur() const;
 
 
   /**

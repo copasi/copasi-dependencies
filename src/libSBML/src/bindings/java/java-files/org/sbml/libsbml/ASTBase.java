@@ -561,4 +561,10 @@ public class ASTBase {
     return libsbmlJNI.ASTBase_hasUnambiguousPackageInfixGrammar(swigCPtr, this, ASTNode.getCPtr(child), child);
   }
 
+  
+/** * @internal */ public
+ double getValue() {
+    return libsbmlJNI.ASTBase_getValue(swigCPtr, this);
+  }
+
 }

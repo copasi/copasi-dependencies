@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -76,6 +76,11 @@ ASTCSymbol::ASTCSymbol (int type) :
       break;
     default:
       break;
+  }
+
+  for (unsigned int i = 0; i < getNumPlugins(); i++)
+  {
+    ASTBase::getPlugin(i)->connectToParent(this);
   }
 }
   
@@ -845,7 +850,7 @@ ASTCSymbol::getValue() const
   }
   else
   {
-    return 0;//util_NaN();
+    return ASTBase::getValue();
   }
 
 }
@@ -1117,6 +1122,64 @@ ASTCSymbol::unsetEncoding()
 }
 
 
+ASTBasePlugin*
+ASTCSymbol::getPlugin(const std::string& package)
+{
+  if (mTime != NULL)
+  {
+    return mTime->getPlugin(package);
+  }
+  else if (mDelay != NULL)
+  {
+    return mDelay->getPlugin(package);
+  }
+  else if (mAvogadro != NULL)
+  {
+    return mAvogadro->getPlugin(package);
+  }
+  else
+  {
+    return getPlugin(package);
+  }
+}
+
+
+const ASTBasePlugin*
+ASTCSymbol::getPlugin(const std::string& package) const
+{
+  return const_cast<ASTCSymbol*>(this)->getPlugin(package);
+}
+
+
+ASTBasePlugin*
+ASTCSymbol::getPlugin(unsigned int n)
+{
+  if (mTime != NULL)
+  {
+    return mTime->getPlugin(n);
+  }
+  else if (mDelay != NULL)
+  {
+    return mDelay->getPlugin(n);
+  }
+  else if (mAvogadro != NULL)
+  {
+    return mAvogadro->getPlugin(n);
+  }
+  else
+  {
+    return getPlugin(n);
+  }
+}
+
+
+const ASTBasePlugin*
+ASTCSymbol::getPlugin(unsigned int n) const
+{
+  return const_cast<ASTCSymbol*>(this)->getPlugin(n);
+}
+
+
 bool 
 ASTCSymbol::isWellFormedNode() const
 {
@@ -1159,6 +1222,29 @@ ASTCSymbol::hasCorrectNumberArguments() const
     return ASTBase::hasCorrectNumberArguments();
   }
 }
+
+
+ASTBase*
+ASTCSymbol::getMember() const
+{
+  if (mTime != NULL)
+  {
+    return mTime;
+  }
+  else if (mDelay != NULL)
+  {
+    return mDelay;
+  }
+  else if (mAvogadro != NULL)
+  {
+    return mAvogadro;
+  }
+  else
+  {
+    return NULL;
+  }
+}
+
 
 bool
 ASTCSymbol::hasCnUnits() const
@@ -1284,7 +1370,8 @@ ASTCSymbol::read(XMLInputStream& stream, const std::string& reqd_prefix)
             this->ASTBase::syncMembersAndResetParentsFrom(mDelay);
           }
         }
-        logError(stream, element, BadCsymbolDefinitionURLValue);      
+        logError(stream, element, BadCsymbolDefinitionURLValue, "The <csymbol> definitionURL '" 
+          + url +"' is not allowed for this level and version of SBML.");
       }
     }
     else if (url == URL_TIME)
@@ -1328,7 +1415,8 @@ ASTCSymbol::read(XMLInputStream& stream, const std::string& reqd_prefix)
           this->ASTBase::syncMembersAndResetParentsFrom(mDelay);
         }
       }
-      logError(stream, element, BadCsymbolDefinitionURLValue);      
+      logError(stream, element, BadCsymbolDefinitionURLValue, "The <csymbol> definitionURL '" 
+          + url +"' is not allowed for this level and version of SBML.");      
     }
   }
 
@@ -1378,7 +1466,7 @@ ASTCSymbol::syncMembersAndTypeFrom(ASTNumber* rhs, int type)
   // by appropriate class
   if (mTime != NULL)
   {
-    mTime->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mTime->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mTime->setType(type);
     if (rhs->isSetName() == true)
     {
@@ -1388,7 +1476,7 @@ ASTCSymbol::syncMembersAndTypeFrom(ASTNumber* rhs, int type)
   }
   else if (mDelay != NULL)
   {
-    mDelay->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mDelay->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mDelay->setType(type);
     if (rhs->isSetName() == true)
     {
@@ -1398,7 +1486,7 @@ ASTCSymbol::syncMembersAndTypeFrom(ASTNumber* rhs, int type)
   }
   else if (mAvogadro != NULL)
   {
-    mAvogadro->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mAvogadro->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mAvogadro->setType(type);
     if (rhs->isSetName() == true)
     {
@@ -1420,7 +1508,7 @@ ASTCSymbol::syncMembersAndTypeFrom(ASTFunction* rhs, int type)
   // by appropriate class
   if (mTime != NULL)
   {
-    mTime->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mTime->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mTime->setType(type);
     if (rhs->isSetName() == true)
     {
@@ -1430,7 +1518,7 @@ ASTCSymbol::syncMembersAndTypeFrom(ASTFunction* rhs, int type)
   }
   else if (mDelay != NULL)
   {
-    mDelay->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mDelay->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mDelay->setType(type);
     if (rhs->isSetName() == true)
     {
@@ -1440,7 +1528,7 @@ ASTCSymbol::syncMembersAndTypeFrom(ASTFunction* rhs, int type)
   }
   else if (mAvogadro != NULL)
   {
-    mAvogadro->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mAvogadro->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mAvogadro->setType(type);
     if (rhs->isSetName() == true)
     {

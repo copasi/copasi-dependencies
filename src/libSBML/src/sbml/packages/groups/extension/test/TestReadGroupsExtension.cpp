@@ -88,7 +88,8 @@ START_TEST (test_GroupsExtension_read_L3V1V1)
   fail_unless(member->getIdRef()      == "ATPm");
   fail_unless(member->getPackageName() == "groups");
 
-  delete document;  
+  delete document; 
+  safe_free(filename);
 }
 END_TEST
 
@@ -135,6 +136,7 @@ START_TEST (test_GroupsExtension_read_L3V1V1_defaultNS)
   fail_unless(member->getPackageName() == "groups");
 
   delete document;  
+  safe_free(filename);
 }
 END_TEST
 
@@ -241,6 +243,7 @@ START_TEST (test_GroupsExtension_read_memberConstraints)
 
 
   delete document;  
+  safe_free(filename);
 }
 END_TEST
 

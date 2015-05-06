@@ -61,8 +61,6 @@ protected:
 
   std::string   mId;
   std::string   mName;
-  bool          mIsBindingSite;
-  bool          mIsSetIsBindingSite;
   std::string   mCompartment;
   ListOfSpeciesFeatureTypes   mSpeciesFeatureTypes;
   ListOfSpeciesTypeInstances   mSpeciesTypeInstances;
@@ -217,50 +215,6 @@ public:
   virtual int unsetName();
 
 
-  /**
-   * Returns the value of the "isBindingSite" attribute of this MultiSpeciesType.
-   *
-   * @return the value of the "isBindingSite" attribute of this MultiSpeciesType as a boolean.
-   */
-  virtual const bool getIsBindingSite() const;
-
-
-  /**
-   * Predicate returning @c true or @c false depending on whether this
-   * MultiSpeciesType's "isBindingSite" attribute has been set.
-   *
-   * @return @c true if this MultiSpeciesType's "isBindingSite" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetIsBindingSite() const;
-
-
-  /**
-   * Sets the value of the "isBindingSite" attribute of this MultiSpeciesType.
-   *
-   * @param isBindingSite; bool value of the "isBindingSite" attribute to be set
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-   */
-  virtual int setIsBindingSite(bool isBindingSite);
-
-
-  /**
-   * Unsets the value of the "isBindingSite" attribute of this MultiSpeciesType.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
-   */
-  virtual int unsetIsBindingSite();
 
 
   /**
@@ -937,7 +891,6 @@ public:
    *
    * @note The required attributes for a MultiSpeciesType object are:
    * @li "id"
-   * @li "isBindingSite"
    *
    * @return a boolean value indicating whether all the required
    * attributes for this object have been defined.
@@ -1287,6 +1240,12 @@ protected:
   /** @endcond doxygenLibsbmlInternal */
 
 
+  /**
+   * Override the virtual function in the parent ListOf class. Returns true
+   * if the item is an object of MultiSpeciesType or BindingSiteSpeciesType.
+   */
+  virtual bool isValidTypeForList(SBase * item);
+
 
 };
 
@@ -1328,11 +1287,6 @@ MultiSpeciesType_getName(MultiSpeciesType_t * mst);
 
 
 LIBSBML_EXTERN
-int
-MultiSpeciesType_getIsBindingSite(MultiSpeciesType_t * mst);
-
-
-LIBSBML_EXTERN
 char *
 MultiSpeciesType_getCompartment(MultiSpeciesType_t * mst);
 
@@ -1347,9 +1301,6 @@ int
 MultiSpeciesType_isSetName(MultiSpeciesType_t * mst);
 
 
-LIBSBML_EXTERN
-int
-MultiSpeciesType_isSetIsBindingSite(MultiSpeciesType_t * mst);
 
 
 LIBSBML_EXTERN
@@ -1367,9 +1318,6 @@ int
 MultiSpeciesType_setName(MultiSpeciesType_t * mst, const char * name);
 
 
-LIBSBML_EXTERN
-int
-MultiSpeciesType_setIsBindingSite(MultiSpeciesType_t * mst, int isBindingSite);
 
 
 LIBSBML_EXTERN
@@ -1387,9 +1335,6 @@ int
 MultiSpeciesType_unsetName(MultiSpeciesType_t * mst);
 
 
-LIBSBML_EXTERN
-int
-MultiSpeciesType_unsetIsBindingSite(MultiSpeciesType_t * mst);
 
 
 LIBSBML_EXTERN

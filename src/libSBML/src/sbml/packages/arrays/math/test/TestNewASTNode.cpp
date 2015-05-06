@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -181,6 +181,7 @@ START_TEST (test_ASTNode_setNewTypes_1)
   fail_unless( node->getParentSBMLObject() == m);
 
   delete node;
+  delete m;
 }
 END_TEST
 
@@ -246,6 +247,8 @@ START_TEST (test_ASTNode_removeChild)
   fail_unless( node->getNumChildren() == 0); 
 
   delete node;
+  delete c1;
+  delete c2;
 }
 END_TEST
 
@@ -290,6 +293,7 @@ START_TEST (test_ASTNode_replaceChild)
   fail_unless( !strcmp(node->getChild(1)->getName(), "a"));
 
   delete node;
+  delete c2;
 }
 END_TEST
 

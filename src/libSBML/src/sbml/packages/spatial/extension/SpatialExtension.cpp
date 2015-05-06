@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -139,14 +139,11 @@ const char * SBML_SPATIAL_TYPECODE_STRINGS[] =
   , "CoordinateComponent"
   , "SampledFieldGeometry"
   , "SampledField"
-  , "ImageData"
   , "SampledVolume"
   , "AnalyticGeometry"
   , "AnalyticVolume"
   , "ParametricGeometry"
   , "ParametricObject"
-  , "PolygonObject"
-  , "SpatialPoint"
   , "CSGeometry"
   , "CSGObject"
   , "CSGNode"
@@ -165,6 +162,9 @@ const char * SBML_SPATIAL_TYPECODE_STRINGS[] =
   , "BoundaryCondition"
   , "Geometry"
   , "CoordinateReference"
+  , "MixedGeometry"
+  , "OrdinalMapping"
+  , "SpatialPoints"
 };
 
 
@@ -329,7 +329,7 @@ const char*
 SpatialExtension::getStringFromTypeCode(int typeCode) const
 {
   int min = SBML_SPATIAL_DOMAINTYPE;
-  int max = SBML_SPATIAL_COORDINATEREFERENCE;
+  int max = SBML_SPATIAL_SPATIALPOINTS;
 
   if ( typeCode < min || typeCode > max)
   {
@@ -584,7 +584,7 @@ const char * SBML_SETOPERATION_STRINGS[] =
    "Unknown SetOperation"
  , "union"
  , "intersection"
- , "difference"
+ , "relativeComplement"
 };
 
 
@@ -596,7 +596,7 @@ const char *
 SetOperation_toString(SetOperation_t typeCode)
 {
   int min = SETOPERATION_UNKNOWN;
-  int max = SPATIAL_SETOPERATION_DIFFERENCE;
+  int max = SPATIAL_SETOPERATION_RELATIVECOMPLEMENT;
 
   if ( typeCode < min || typeCode > max)
   {
@@ -623,6 +623,249 @@ SetOperation_parse(const char* code)
       return (SetOperation_t)i;
   }
   return SETOPERATION_UNKNOWN;
+}
+
+
+static
+const char * SBML_INTERPOLATIONKIND_STRINGS[] = 
+{
+   "Unknown InterpolationKind"
+ , "nearestNeighbor"
+ , "linear"
+};
+
+
+/*
+ * This method takes a type code from the InterpolationKind enum and returns a string representing 
+ */
+LIBSBML_EXTERN
+const char *
+InterpolationKind_toString(InterpolationKind_t typeCode)
+{
+  int min = INTERPOLATIONKIND_UNKNOWN;
+  int max = SPATIAL_INTERPOLATIONKIND_LINEAR;
+
+  if ( typeCode < min || typeCode > max)
+  {
+    return "(Unknown InterpolationKind value)";
+  }
+
+  return SBML_INTERPOLATIONKIND_STRINGS[typeCode - min];
+}
+
+
+/*
+ * This method takes a string and tries to find a InterpolationKind code to match it
+ */
+LIBSBML_EXTERN
+InterpolationKind_t
+InterpolationKind_parse(const char* code)
+{
+  static const int size = sizeof(SBML_INTERPOLATIONKIND_STRINGS) / sizeof(SBML_INTERPOLATIONKIND_STRINGS[0]);
+  unsigned int i;
+  std::string type(code);
+  for (i = 0; i < size; ++i)
+  {
+    if (type == SBML_INTERPOLATIONKIND_STRINGS[i])
+      return (InterpolationKind_t)i;
+  }
+  return INTERPOLATIONKIND_UNKNOWN;
+}
+
+
+static
+const char * SBML_POLYGONKIND_STRINGS[] = 
+{
+   "Unknown PolygonKind"
+ , "triangle"
+ , "quadrilateral"
+};
+
+
+/*
+ * This method takes a type code from the PolygonKind enum and returns a string representing 
+ */
+LIBSBML_EXTERN
+const char *
+PolygonKind_toString(PolygonKind_t typeCode)
+{
+  int min = POLYGONKIND_UNKNOWN;
+  int max = SPATIAL_POLYGONKIND_QUADRILATERAL;
+
+  if ( typeCode < min || typeCode > max)
+  {
+    return "(Unknown PolygonKind value)";
+  }
+
+  return SBML_POLYGONKIND_STRINGS[typeCode - min];
+}
+
+
+/*
+ * This method takes a string and tries to find a PolygonKind code to match it
+ */
+LIBSBML_EXTERN
+PolygonKind_t
+PolygonKind_parse(const char* code)
+{
+  static const int size = sizeof(SBML_POLYGONKIND_STRINGS) / sizeof(SBML_POLYGONKIND_STRINGS[0]);
+  unsigned int i;
+  std::string type(code);
+  for (i = 0; i < size; ++i)
+  {
+    if (type == SBML_POLYGONKIND_STRINGS[i])
+      return (PolygonKind_t)i;
+  }
+  return POLYGONKIND_UNKNOWN;
+}
+
+
+static
+const char * SBML_PRIMITIVEKIND_STRINGS[] = 
+{
+   "Unknown PrimitiveKind"
+ , "sphere"
+ , "cube"
+ , "cylinder"
+ , "cone"
+ , "circle"
+ , "square"
+ , "rightTriangle"
+};
+
+
+/*
+ * This method takes a type code from the PrimitiveKind enum and returns a string representing 
+ */
+LIBSBML_EXTERN
+const char *
+PrimitiveKind_toString(PrimitiveKind_t typeCode)
+{
+  int min = PRIMITIVEKIND_UNKNOWN;
+  int max = SPATIAL_PRIMITIVEKIND_RIGHTTRIANGLE;
+
+  if ( typeCode < min || typeCode > max)
+  {
+    return "(Unknown PrimitiveKind value)";
+  }
+
+  return SBML_PRIMITIVEKIND_STRINGS[typeCode - min];
+}
+
+
+/*
+ * This method takes a string and tries to find a PrimitiveKind code to match it
+ */
+LIBSBML_EXTERN
+PrimitiveKind_t
+PrimitiveKind_parse(const char* code)
+{
+  static const int size = sizeof(SBML_PRIMITIVEKIND_STRINGS) / sizeof(SBML_PRIMITIVEKIND_STRINGS[0]);
+  unsigned int i;
+  std::string type(code);
+  for (i = 0; i < size; ++i)
+  {
+    if (type == SBML_PRIMITIVEKIND_STRINGS[i])
+      return (PrimitiveKind_t)i;
+  }
+  return PRIMITIVEKIND_UNKNOWN;
+}
+
+
+static
+const char * SBML_DATAKIND_STRINGS[] = 
+{
+   "Unknown DataKind"
+ , "double"
+ , "float"
+ , "uint8"
+ , "uint16"
+ , "uint32"
+};
+
+
+/*
+ * This method takes a type code from the DataKind enum and returns a string representing 
+ */
+LIBSBML_EXTERN
+const char *
+DataKind_toString(DataKind_t typeCode)
+{
+  int min = DATAKIND_UNKNOWN;
+  int max = SPATIAL_DATAKIND_UINT32;
+
+  if ( typeCode < min || typeCode > max)
+  {
+    return "(Unknown DataKind value)";
+  }
+
+  return SBML_DATAKIND_STRINGS[typeCode - min];
+}
+
+
+/*
+ * This method takes a string and tries to find a DataKind code to match it
+ */
+LIBSBML_EXTERN
+DataKind_t
+DataKind_parse(const char* code)
+{
+  static const int size = sizeof(SBML_DATAKIND_STRINGS) / sizeof(SBML_DATAKIND_STRINGS[0]);
+  unsigned int i;
+  std::string type(code);
+  for (i = 0; i < size; ++i)
+  {
+    if (type == SBML_DATAKIND_STRINGS[i])
+      return (DataKind_t)i;
+  }
+  return DATAKIND_UNKNOWN;
+}
+
+
+static
+const char * SBML_COMPRESSIONKIND_STRINGS[] = 
+{
+   "Unknown CompressionKind"
+ , "uncompressed"
+ , "deflated"
+};
+
+
+/*
+ * This method takes a type code from the CompressionKind enum and returns a string representing 
+ */
+LIBSBML_EXTERN
+const char *
+CompressionKind_toString(CompressionKind_t typeCode)
+{
+  int min = COMPRESSIONKIND_UNKNOWN;
+  int max = SPATIAL_COMPRESSIONKIND_DEFLATED;
+
+  if ( typeCode < min || typeCode > max)
+  {
+    return "(Unknown CompressionKind value)";
+  }
+
+  return SBML_COMPRESSIONKIND_STRINGS[typeCode - min];
+}
+
+
+/*
+ * This method takes a string and tries to find a CompressionKind code to match it
+ */
+LIBSBML_EXTERN
+CompressionKind_t
+CompressionKind_parse(const char* code)
+{
+  static const int size = sizeof(SBML_COMPRESSIONKIND_STRINGS) / sizeof(SBML_COMPRESSIONKIND_STRINGS[0]);
+  unsigned int i;
+  std::string type(code);
+  for (i = 0; i < size; ++i)
+  {
+    if (type == SBML_COMPRESSIONKIND_STRINGS[i])
+      return (CompressionKind_t)i;
+  }
+  return COMPRESSIONKIND_UNKNOWN;
 }
 
 

@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -72,6 +72,15 @@ protected:
    * Checks that all ids on UnitDefinitions are unique.
    */
   virtual void doCheck (const Model& m);
+
+  /**
+   * Returns the fieldname to use when logging constraint violations.  Subclasses
+   * are supposed to override this method if "id" is not appropriate.
+   *
+   * @return the string "symbol".
+   */
+  virtual const char* getFieldname ();
+
 };
 
 LIBSBML_CPP_NAMESPACE_END

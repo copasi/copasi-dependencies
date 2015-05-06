@@ -106,15 +106,15 @@ START_TEST (test_GroupsExtension_create_and_write_L3V1V1)
 
   // create the document
 
-  SBMLDocument *document = new SBMLDocument(sbmlns);
+  SBMLDocument document(sbmlns);
 
   // mark groups as not required
 
-  document->setPackageRequired("groups", false);
+  document.setPackageRequired("groups", false);
 
   // create the Model
 
-  Model* model=document->createModel();
+  Model* model=document.createModel();
 
   // create the Compartment
 
@@ -163,30 +163,24 @@ START_TEST (test_GroupsExtension_create_and_write_L3V1V1)
   member = group->createMember();
   fail_unless(member->setIdRef("ATPm") == LIBSBML_OPERATION_SUCCESS);
 
-  char *s2 = writeSBMLToString(document);
+  std::string s2 = writeSBMLToStdString(&document);
 
-  fail_unless(strcmp(s1,s2) == 0); 
-  free(s2);
+  fail_unless(s1 == s2); 
 
   // check clone()
 
-  SBMLDocument* document2 = document->clone();
-  s2 = writeSBMLToString(document2);
-  fail_unless(strcmp(s1,s2) == 0); 
-  free(s2);
+  SBMLDocument document2 = document;
+  s2 = writeSBMLToStdString(&document2);
+  fail_unless(s1==s2);
 
   // check operator=
 
-  Model *m = new Model(document->getSBMLNamespaces()); 
-  m = document->getModel();
-  document2->setModel(m);
-  s2 = writeSBMLToString(document2);
-
-  fail_unless(strcmp(s1,s2) == 0); 
-  free(s2);
-  delete document2;
+  Model m = *(document.getModel());
+  document2.setModel(&m);
+  s2 = writeSBMLToStdString(&document2);
+  fail_unless(s1==s2);
  
-  delete document;  
+  delete sbmlns;
 }
 END_TEST
 
@@ -221,79 +215,79 @@ START_TEST (test_GroupsExtension_create_add_and_write_L3V1V1)
 
   // create the document
 
-  SBMLDocument *document = new SBMLDocument(sbmlns);
+  SBMLDocument document = SBMLDocument(sbmlns);
 
   // mark groups as not required
 
-  document->setPackageRequired("groups", false);
+  document.setPackageRequired("groups", false);
   
   // create the Model
 
-  Model *model = new Model(sbmlns);
+  Model model = Model(sbmlns);
 
   // create the Compartment
 
-  Compartment *compartment1 = new Compartment(sbmlns);
-  compartment1->setId("cytosol");
-  compartment1->setConstant(true);
-  model->addCompartment(compartment1);
+  Compartment compartment1 = Compartment(sbmlns);
+  compartment1.setId("cytosol");
+  compartment1.setConstant(true);
+  model.addCompartment(&compartment1);
 
-  Compartment *compartment2 = new Compartment(sbmlns);
-  compartment2->setId("mitochon");
-  compartment2->setConstant(true);
-  model->addCompartment(compartment2);
+  Compartment compartment2 = Compartment(sbmlns);
+  compartment2.setId("mitochon");
+  compartment2.setConstant(true);
+  model.addCompartment(&compartment2);
 
   // create the Species
 
-  Species *species1 = new Species(sbmlns);
-  species1->setId("ATPc");
-  species1->setCompartment("cytosol");
-  species1->setInitialConcentration(1);
-  species1->setConstant(false);
-  species1->setBoundaryCondition(false);
-  species1->setHasOnlySubstanceUnits(false);
-  model->addSpecies(species1);
+  Species species1 = Species(sbmlns);
+  species1.setId("ATPc");
+  species1.setCompartment("cytosol");
+  species1.setInitialConcentration(1);
+  species1.setConstant(false);
+  species1.setBoundaryCondition(false);
+  species1.setHasOnlySubstanceUnits(false);
+  model.addSpecies(&species1);
 
-  Species *species2 = new Species(sbmlns);
-  species2->setId("ATPm");
-  species2->setCompartment("mitochon");
-  species2->setInitialConcentration(2);
-  species2->setConstant(false);
-  species2->setBoundaryCondition(false);
-  species2->setHasOnlySubstanceUnits(false);
-  model->addSpecies(species2);
+  Species species2 = Species(sbmlns);
+  species2.setId("ATPm");
+  species2.setCompartment("mitochon");
+  species2.setInitialConcentration(2);
+  species2.setConstant(false);
+  species2.setBoundaryCondition(false);
+  species2.setHasOnlySubstanceUnits(false);
+  model.addSpecies(&species2);
 
   // create the Group
 
-  GroupsModelPlugin* mplugin = static_cast<GroupsModelPlugin*>(model->getPlugin("groups"));
+  GroupsModelPlugin *mplugin = static_cast<GroupsModelPlugin*>(model.getPlugin("groups"));
 
   fail_unless(mplugin != NULL);
 
-  Group *group = new Group(sbmlns);
-  fail_unless(group->setId("ATP")              == LIBSBML_OPERATION_SUCCESS);
-  fail_unless(group->setSBOTerm("SBO:0000252") == LIBSBML_OPERATION_SUCCESS);
-  fail_unless(group->setKind(GROUP_KIND_COLLECTION)
+  Group group = Group(sbmlns);
+  fail_unless(group.setId("ATP")              == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(group.setSBOTerm("SBO:0000252") == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(group.setKind(GROUP_KIND_COLLECTION)
                                                == LIBSBML_OPERATION_SUCCESS);
 
-  Member *member1 = new Member(sbmlns);
-  fail_unless(member1->setIdRef("ATPc") == LIBSBML_OPERATION_SUCCESS);
-  fail_unless(group->addMember(member1) == LIBSBML_OPERATION_SUCCESS);
+  Member member1 = Member(sbmlns);
+  fail_unless(member1.setIdRef("ATPc") == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(group.addMember(&member1) == LIBSBML_OPERATION_SUCCESS);
 
-  Member *member2 = new Member(sbmlns);
-  fail_unless(member2->setIdRef("ATPm") == LIBSBML_OPERATION_SUCCESS);
-  fail_unless(group->addMember(member2) == LIBSBML_OPERATION_SUCCESS);
-  fail_unless(mplugin->addGroup(group) == LIBSBML_OPERATION_SUCCESS);
+  Member member2 = Member(sbmlns);
+  fail_unless(member2.setIdRef("ATPm") == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(group.addMember(&member2) == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(mplugin->addGroup(&group) == LIBSBML_OPERATION_SUCCESS);
   fail_unless(mplugin->getGroup(0) != NULL);
 
   // set the model to the document
 
-  document->setModel(model);  
+  document.setModel(&model);  
 
-  char *s2 = writeSBMLToString(document);
+  std::string s2 = writeSBMLToStdString(&document);
 
-  fail_unless(strcmp(s1,s2) == 0); 
+  fail_unless(s1 == s2); 
   
-  free(s2);
+  delete sbmlns;
 }
 END_TEST
 
@@ -379,11 +373,10 @@ START_TEST (test_GroupsExtension_read_enable_via_model_and_write_L3V1V1)
   member = group->createMember();
   fail_unless(member->setIdRef("ATPm") == LIBSBML_OPERATION_SUCCESS);
 
-  char *s2 = writeSBMLToString(document);
+  std::string s2 = writeSBMLToStdString(document);
 
-  fail_unless(strcmp(s1a,s2) == 0); 
+  fail_unless(s1a == s2); 
   
-  free(s2);
   delete document;  
 }
 END_TEST

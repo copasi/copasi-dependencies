@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -56,6 +56,7 @@ typedef enum
   , SPECIES_ROLE_MODIFIER /*!< 'modifier':  The referenced Species influences the reaction in some way, but is not produced or consumed by it. */
   , SPECIES_ROLE_ACTIVATOR /*!< The referenced Species acts as an activator of the reaction. */
   , SPECIES_ROLE_INHIBITOR /*!< The referenced Species acts as an inhibitor of the reaction. */
+  , SPECIES_ROLE_INVALID /*!< Used by libSBML to note that the role is not set, or an invalid and will not be written out. */
 } SpeciesReferenceRole_t;
 
 

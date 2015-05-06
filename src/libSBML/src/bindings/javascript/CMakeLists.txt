@@ -7,7 +7,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2014 jointly by the following organizations:
+# Copyright (C) 2013-2015 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -44,6 +44,17 @@ if (NOT NODE_GYP_EXECUTABLE)
   "
   )
 endif()
+
+if (NOT NODEJS_EXECUTABLE)
+  message(FATAL_ERROR 
+  "
+       nodejs is required to build the libSBML JS bindings. 
+	   Please set the NODEJS_EXECUTABLE variable to the 
+	   full location of the nodejs interpreter.
+  "
+  )
+endif()
+
 
 ####################################################################
 #
@@ -165,8 +176,8 @@ configure_file(
 
 #
 # Remove SWIG wrappers if requested
-#
-if (LIBSBML_REMOVE_WRAPPERS)
+# 
+if (LIBSBML_REMOVE_WRAPPERS) 
   foreach(file 
     ${CMAKE_CURRENT_BINARY_DIR}/libsbml_wrap.cpp
   )
@@ -176,26 +187,46 @@ if (LIBSBML_REMOVE_WRAPPERS)
   endforeach()
 endif(LIBSBML_REMOVE_WRAPPERS)
 
-ADD_CUSTOM_COMMAND(	
+
+# determine V8 version used by nodejs 
+execute_process(
+  COMMAND "${NODEJS_EXECUTABLE}" -e "console.log(process.versions.v8)"
+  OUTPUT_VARIABLE NODEJS_V8_STRING_VERSION
+)
+
+if (NOT NODEJS_V8_STRING_VERSION)
+  message(FATAL_ERROR "Could not determine Nodejs V8 version. Please verify that the NODEJS_EXECUTABLE has been set.")
+endif()
+
+string(REPLACE "." ";" NODEJS_V8_STRING_VERSION "${NODEJS_V8_STRING_VERSION}" )
+string(REPLACE "-" ";" NODEJS_V8_STRING_VERSION "${NODEJS_V8_STRING_VERSION}" )
+list(LENGTH NODEJS_V8_STRING_VERSION versionLength)
+list(GET NODEJS_V8_STRING_VERSION 0 V8_VERSION_MAJOR )
+list(GET NODEJS_V8_STRING_VERSION 1 V8_VERSION_MINOR )
+list(GET NODEJS_V8_STRING_VERSION 2 V8_VERSION_PATCH )
+
+MATH(EXPR V8_VERSION_NUMERIC "${V8_VERSION_MAJOR} * 10000 + ${V8_VERSION_MINOR} * 100 + ${V8_VERSION_PATCH}" )
+
+add_custom_command(	
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libsbml_wrap.cpp
     COMMAND "${SWIG_EXECUTABLE}"
     ARGS	-I${CMAKE_CURRENT_SOURCE_DIR}/../swig/
-			-I${CMAKE_CURRENT_SOURCE_DIR} 
-			-I${LIBSBML_ROOT_BINARY_DIR}/src
-			-I${LIBSBML_ROOT_SOURCE_DIR}/src
-			-I${LIBSBML_ROOT_SOURCE_DIR}/include
-			-c++
-			-javascript -node
-			-module sbml
-			${SWIG_EXTRA_ARGS}		 
-			-o ${CMAKE_CURRENT_BINARY_DIR}/libsbml_wrap.cpp 
-			-xmlout ${CMAKE_CURRENT_BINARY_DIR}/tree.xml
-			${CMAKE_CURRENT_SOURCE_DIR}/libsbml.i
-    MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/libsbml.i
-	DEPENDS ${SWIG_DEPENDENCIES}
-    COMMENT "Swig JS source")
+			    -I${CMAKE_CURRENT_SOURCE_DIR} 
+			    -I${LIBSBML_ROOT_BINARY_DIR}/src
+			    -I${LIBSBML_ROOT_SOURCE_DIR}/src
+			    -I${LIBSBML_ROOT_SOURCE_DIR}/include
+			    -c++
+			    -javascript -node -DV8_VERSION=0x0${V8_VERSION_NUMERIC}
+			    -module sbml
+			    ${SWIG_EXTRA_ARGS}		 
+			    -o ${CMAKE_CURRENT_BINARY_DIR}/libsbml_wrap.cpp 
+			    -xmlout ${CMAKE_CURRENT_BINARY_DIR}/tree.xml
+			    ${CMAKE_CURRENT_SOURCE_DIR}/libsbml.i
+  MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/libsbml.i
+	DEPENDS ${SWIG_DEPENDENCIES} ${LIBSBML_HEADER_FILES}
+  COMMENT "Swig JS source")
 
-add_custom_target(binding_js_swig ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libsbml_wrap.cpp)
+add_custom_target(binding_js_swig ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libsbml_wrap.cpp )
 
 set(NODE_GYP_ARGS)
 
@@ -205,20 +236,20 @@ set (NODE_GYP_ARGS "--arch=ia32")
 endif()
 
 ADD_CUSTOM_COMMAND(	
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/build/Release/sbml.node
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/build/Release/sbml.node
 	COMMAND "${CMAKE_COMMAND}"
 	ARGS -DNODE_GYP_EXECUTABLE=\"${NODE_GYP_EXECUTABLE}\"
 	     -DNODEJS_EXECUTABLE=\"${NODEJS_EXECUTABLE}\"
-		 -DPYTHON_EXECUTABLE=\"${PYTHON_EXECUTABLE}\"
-		 -DNODE_GYP_ARGS=\"${NODE_GYP_ARGS}\"
-		 -DBIN_DIRECTORY=\"${CMAKE_CURRENT_BINARY_DIR}\"
-		 -DSRC_DIRECTORY=\"${CMAKE_CURRENT_SOURCE_DIR}\"
-		 -DLIBSBML_LIBRARY=\"$<TARGET_FILE:${LIBSBML_LIBRARY}-static>\"
-		 -P "${CMAKE_CURRENT_SOURCE_DIR}/compile-native-files.cmake"
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/libsbml_wrap.cpp 
+		   -DPYTHON_EXECUTABLE=\"${PYTHON_EXECUTABLE}\"
+		   -DNODE_GYP_ARGS=\"${NODE_GYP_ARGS}\"
+		   -DBIN_DIRECTORY=\"${CMAKE_CURRENT_BINARY_DIR}\"
+		   -DSRC_DIRECTORY=\"${CMAKE_CURRENT_SOURCE_DIR}\"
+		   -DLIBSBML_LIBRARY=\"$<TARGET_FILE:${LIBSBML_LIBRARY}-static>\"
+		   -P "${CMAKE_CURRENT_SOURCE_DIR}/compile-native-files.cmake"
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/libsbml_wrap.cpp 
 	DEPENDS ${SWIG_DEPENDENCIES}
-    COMMENT "Build sbml.node")
+  COMMENT "Build sbml.node")
 
 add_custom_target(binding_js_node ALL DEPENDS 
   ${CMAKE_CURRENT_BINARY_DIR}/build/Release/sbml.node

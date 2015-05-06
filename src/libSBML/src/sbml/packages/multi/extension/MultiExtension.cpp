@@ -37,12 +37,12 @@
 #include <sbml/packages/multi/extension/MultiModelPlugin.h>
 #include <sbml/packages/multi/extension/MultiCompartmentPlugin.h>
 #include <sbml/packages/multi/extension/MultiSpeciesPlugin.h>
-#include <sbml/packages/multi/extension/MultiReactionPlugin.h>
 #include <sbml/packages/multi/extension/MultiSimpleSpeciesReferencePlugin.h>
 #include <sbml/packages/multi/extension/MultiSpeciesReferencePlugin.h>
 #include <sbml/packages/multi/extension/MultiSBMLDocumentPlugin.h>
 #include <sbml/packages/multi/validator/MultiSBMLErrorTable.h>
 #include <sbml/packages/multi/extension/MultiASTPlugin.h>
+#include <sbml/packages/multi/extension/MultiListOfReactionsPlugin.h>
 
 
 #ifdef __cplusplus
@@ -139,6 +139,8 @@ const char * SBML_MULTI_TYPECODE_STRINGS[] =
   , "SpeciesFeature"
   , "SpeciesTypeComponentMapInProduct"
   , "MultiSpeciesType"
+  , "BindingSiteSpeciesType"
+  , "IntraSpeciesReaction"
 };
 
 
@@ -303,7 +305,7 @@ const char*
 MultiExtension::getStringFromTypeCode(int typeCode) const
 {
   int min = SBML_MULTI_POSSIBLE_SPECIES_FEATURE_VALUE;
-  int max = SBML_MULTI_SPECIES_TYPE;
+  int max = SBML_MULTI_INTRA_SPECIES_REACTION;
 
   if ( typeCode < min || typeCode > max)
   {
@@ -354,17 +356,17 @@ MultiExtension::init()
   SBaseExtensionPoint modelExtPoint("core", SBML_MODEL);
   SBaseExtensionPoint compartmentExtPoint("core", SBML_COMPARTMENT);
   SBaseExtensionPoint speciesExtPoint("core", SBML_SPECIES);
-  SBaseExtensionPoint reactionExtPoint("core", SBML_REACTION);
   SBaseExtensionPoint simplespeciesreferenceExtPoint("core", SBML_MODIFIER_SPECIES_REFERENCE);
   SBaseExtensionPoint speciesreferenceExtPoint("core", SBML_SPECIES_REFERENCE);
+  SBaseExtensionPoint listOfReactionsExtPoint("core", SBML_LIST_OF, "listOfReactions", true);
 
   SBasePluginCreator<MultiSBMLDocumentPlugin, MultiExtension> sbmldocPluginCreator(sbmldocExtPoint, packageURIs);
   SBasePluginCreator<MultiModelPlugin, MultiExtension> modelPluginCreator(modelExtPoint, packageURIs);
   SBasePluginCreator<MultiCompartmentPlugin, MultiExtension> compartmentPluginCreator(compartmentExtPoint, packageURIs);
   SBasePluginCreator<MultiSpeciesPlugin, MultiExtension> speciesPluginCreator(speciesExtPoint, packageURIs);
-  SBasePluginCreator<MultiReactionPlugin, MultiExtension> reactionPluginCreator(reactionExtPoint, packageURIs);
   SBasePluginCreator<MultiSimpleSpeciesReferencePlugin, MultiExtension> simplespeciesreferencePluginCreator(simplespeciesreferenceExtPoint, packageURIs);
   SBasePluginCreator<MultiSpeciesReferencePlugin, MultiExtension> speciesreferencePluginCreator(speciesreferenceExtPoint, packageURIs);
+  SBasePluginCreator<MultiListOfReactionsPlugin, MultiExtension> listOfReactionsPluginCreator(listOfReactionsExtPoint, packageURIs);
 
   //----------------------------------------------------------------
   //
@@ -376,10 +378,11 @@ MultiExtension::init()
   multiExtension.addSBasePluginCreator(&modelPluginCreator);
   multiExtension.addSBasePluginCreator(&compartmentPluginCreator);
   multiExtension.addSBasePluginCreator(&speciesPluginCreator);
-  multiExtension.addSBasePluginCreator(&reactionPluginCreator);
   multiExtension.addSBasePluginCreator(&simplespeciesreferencePluginCreator);
   multiExtension.addSBasePluginCreator(&speciesreferencePluginCreator);
-  multiExtension.setASTBasePlugin(new MultiASTPlugin(getXmlnsL3V1V1()));
+  multiExtension.addSBasePluginCreator(&listOfReactionsPluginCreator);
+  MultiASTPlugin multi(getXmlnsL3V1V1());
+  multiExtension.setASTBasePlugin(&multi);
 
   //----------------------------------------------------------------
   //

@@ -300,6 +300,9 @@ class MultiValidatingVisitor: public SBMLVisitor
 public:
 
   MultiValidatingVisitor (MultiValidator& v, const Model& m) : v(v), m(m) { }
+
+  using SBMLVisitor::visit;
+
   bool visit (const PossibleSpeciesFeatureValue &x)
   {
     v.mMultiConstraints->mPossibleSpeciesFeatureValue.applyTo(m, x);

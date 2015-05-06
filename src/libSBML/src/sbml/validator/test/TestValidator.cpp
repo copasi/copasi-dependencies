@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -152,7 +152,7 @@ TestValidator::test (const TestFile& file)
       unsigned int match = 0;
       for (unsigned int i = 0; i < ids.size(); i++)
       {
-        if (ids.at(i) == others)
+        if (others != 0 && ids.at(i) == others)
         {
           match = 1;
         }

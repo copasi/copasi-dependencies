@@ -360,6 +360,23 @@ public class EventAssignment extends SBase {
 
   
 /**
+   * Unsets the attribute 'variable' of this {@link EventAssignment}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * </ul>
+   */ public
+ int unsetVariable() {
+    return libsbmlJNI.EventAssignment_unsetVariable(swigCPtr, this);
+  }
+
+  
+/**
    * Sets the 'math' subelement of this {@link EventAssignment} to a copy of the
    * given {@link ASTNode}.
    <p>

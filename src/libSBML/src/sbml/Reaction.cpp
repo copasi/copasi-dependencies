@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -363,10 +363,9 @@ Reaction::renameSIdRefs(const std::string& oldid, const std::string& newid)
 void
 Reaction::initDefaults ()
 {
-  //// level 3 has no defaults
-  //if (getLevel() < 3)
-  //{
-    setReversible(true);
+  setReversible(true);
+  // not explicilty set
+  mExplicitlySetReversible = false;
 
   //
   // Set fast explicitly and make sure mIsSetFast is false.  This preserves
@@ -380,13 +379,14 @@ Reaction::initDefaults ()
   //   r.isSetFast() == N/A             r.isSetFast() == false
   //
   // but for L3 acknowledge that fast has been set
-    mFast      = false;
-    mIsSetFast = false;
-    if (getLevel() == 3)
-    {
-      setFast(false);
-    }
-  //}
+  mFast      = false;
+  mIsSetFast = false;
+  if (getLevel() == 3)
+  {
+    setFast(false);
+  }
+
+  mExplicitlySetFast = false;
 }
 
 
@@ -777,6 +777,29 @@ Reaction::unsetCompartment ()
   else
   {
     return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
+/*
+ * Unsets the reversible status of this Reaction.
+ */
+int
+Reaction::unsetReversible ()
+{
+  if (getLevel() < 3)
+  {
+    // reset default
+    mReversible = true;
+    mIsSetReversible = true;
+    mExplicitlySetReversible = false;
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+  else
+  {
+    mIsSetReversible = false;
+    mExplicitlySetReversible = false;
+    return LIBSBML_OPERATION_SUCCESS;
   }
 }
 
@@ -1564,7 +1587,8 @@ Reaction::readL1Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("name", level, version, "<reaction>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
   //
   // reversible: boolean  { use="optional"  default="true" }
@@ -1602,7 +1626,8 @@ Reaction::readL2Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("id", level, version, "<reaction>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
   //
   // reversible: boolean  { use="optional"  default="true" }
@@ -1658,8 +1683,13 @@ Reaction::readL3Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("id", level, version, "<reaction>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
+  string elplusid = "<reaction>";
+  if (!mId.empty()) {
+    elplusid += " with the id '" + mId + "'";
+  }
   //
   // reversible: boolean  { use="required"} (L3v1->)
   //
@@ -1668,7 +1698,8 @@ Reaction::readL3Attributes (const XMLAttributes& attributes)
   if (!mIsSetReversible)
   {
     logError(AllowedAttributesOnReaction, level, version, 
-                "The required attribute 'reversible' is missing.");
+                "The required attribute 'reversible' is missing from the "
+                + elplusid + ".");
   }
 
   //
@@ -1679,7 +1710,8 @@ Reaction::readL3Attributes (const XMLAttributes& attributes)
   if (!mIsSetFast)
   {
     logError(AllowedAttributesOnReaction, level, version, 
-      "The required attribute 'fast' is missing.");
+      "The required attribute 'fast' is missing from the "
+                + elplusid + ".");
   }
 
   //
@@ -1697,7 +1729,8 @@ Reaction::readL3Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalSId(mCompartment)) 
     logError(InvalidIdSyntax, getLevel(), getVersion(), 
-    "The syntax of the attribute compartment='" + mCompartment + "' does not conform.");
+      "The " + elplusid + " has a 'compartment' with a value of '" + mCompartment 
+      + "' which does not conform .");
 }
 /** @endcond */
 
@@ -2259,6 +2292,17 @@ Reaction_unsetFast (Reaction_t *r)
 {
   if (r != NULL)
     return r->unsetFast();
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+Reaction_unsetReversible (Reaction_t *r)
+{
+  if (r != NULL)
+    return r->unsetReversible();
   else
     return LIBSBML_INVALID_OBJECT;
 }

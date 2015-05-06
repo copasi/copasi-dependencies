@@ -6,7 +6,7 @@
 ## This file is part of libSBML.  Please visit http://sbml.org for more
 ## information about SBML, and the latest version of libSBML.
 ##
-## Copyright (C) 2013-2014 jointly by the following organizations:
+## Copyright (C) 2013-2015 jointly by the following organizations:
 ##     1. California Institute of Technology, Pasadena, CA, USA
 ##     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 ##     3. University of Heidelberg, Heidelberg, Germany
@@ -50,3 +50,4 @@ target_link_libraries(test_sbml_objects_package_spatial ${LIBSBML_LIBRARY}-stati
 add_test(test_sbml_objects_package_spatial ${CMAKE_CURRENT_BINARY_DIR}/test_sbml_objects_package_spatial )
 set_tests_properties(test_sbml_objects_package_spatial  PROPERTIES ENVIRONMENT 
 	"srcdir=${CMAKE_CURRENT_SOURCE_DIR}")
+

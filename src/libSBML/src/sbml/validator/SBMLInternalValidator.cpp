@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -344,6 +344,23 @@ SBMLInternalValidator::checkConsistency (bool writeDocument)
 
   /* calls each specified validator in turn 
    * - stopping when errors are encountered */
+
+  /* look to see if we have serious errors from the read
+   * these may cause other validators to crash
+   * although hopefully not it is probably best to guard
+   * against trying
+   */
+  bool seriousErrors = doc->getNumErrors(LIBSBML_SEV_FATAL) > 0
+    || doc->getNumErrors(LIBSBML_SEV_ERROR) > 0;
+
+
+  // do not try and go further but do not report the errors as these
+  // will have been recorded elsewhere and do not come from the validators
+  if (seriousErrors == true)
+  {
+    return 0;
+  }
+
 
   if (id)
   {

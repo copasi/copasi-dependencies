@@ -7,7 +7,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2014 jointly by the following organizations:
+# Copyright (C) 2013-2015 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -82,11 +82,13 @@ MATH(EXPR LIBSBML_VERSION_NUMERIC "${LIBSBML_VERSION_MAJOR} * 10000 + ${LIBSBML_
 set(PACKAGE_VERSION "${LIBSBML_VERSION_MAJOR}.${LIBSBML_VERSION_MINOR}.${LIBSBML_VERSION_PATCH}${LIBSBML_VERSION_RELEASE}")
 set(PACKAGE_NAME "libSBML")
 
-# configure the version for documentation / bindings
-configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/docs/src/common-text/libsbml-version.html.in
-    ${CMAKE_CURRENT_SOURCE_DIR}/docs/src/common-text/libsbml-version.html
-)
+if (WITH_DOXYGEN OR WITH_PYTHON)
+  # configure the version for documentation / bindings
+  configure_file(
+      ${CMAKE_CURRENT_SOURCE_DIR}/docs/src/common-text/libsbml-version.html.in
+      ${CMAKE_CURRENT_SOURCE_DIR}/docs/src/common-text/libsbml-version.html
+  )
+endif()
 
 # add make dist and make check target as they are already familiar for
 # everyone using the gnumake build
@@ -150,11 +152,12 @@ mark_as_advanced(LIBSBML_USE_LEGACY_MATH)
 # Whether to compile examples
 option(WITH_EXAMPLES "Compile the libSBML example programs."  OFF)
 
-# Which language bindings should be built
+# Which language bindings should be built 
 option(WITH_CSHARP   "Generate the C# language interface for libSBML."     OFF)
 option(WITH_JAVA     "Generate the Java language interface for libSBML."   OFF)
 option(WITH_PYTHON   "Generate the Python language interface for libSBML." OFF)
 option(WITH_PERL     "Generate the Perl language interface for libSBML."   OFF)
+option(WITH_PHP      "Generate the PHP language interface for libSBML."    OFF)
 option(WITH_RUBY     "Generate the Ruby language interface for libSBML"    OFF)
 option(WITH_R        "Generate the R language interface for libSBML"       OFF)
 option(WITH_OCTAVE   "Generate the Octave language interface for libSBML." OFF)
@@ -163,25 +166,26 @@ option(WITH_JAVASCRIPT   "Generate the experimental Node.js language interface f
 
 if (WITH_JAVASCRIPT)
 
+  set(_PF86 "ProgramFiles(x86)")
   find_program(NODE_GYP_EXECUTABLE
         NAMES node-gyp node-gyp.cmd
         PATHS
               /usr/local/bin
               /opt/local/bin
               /usr/bin
-			  "$ENV{ProgramFiles}/nodejs/"
-			  "$ENV{ProgramFiles(x86)}/nodejs/"
+              "$ENV{ProgramFilesProgramFiles}/nodejs/"
+              "$ENV{ProgramW6432}/nodejs/"
         DOC "The file name of the node-gyp executable."
         )
-		
+
   find_program(NODEJS_EXECUTABLE
         NAMES node nodeexe
         PATHS
               /usr/local/bin
               /opt/local/bin
               /usr/bin
-			  "$ENV{ProgramFiles}/nodejs/"
-			  "$ENV{ProgramFiles(x86)}/nodejs/"
+              "$ENV{ProgramFiles}/nodejs/"
+              "$ENV{ProgramW6432}/nodejs/"
         DOC "The file name of the nodejs executable."
         )
   # check that we found node-gyp
@@ -308,6 +312,9 @@ if(WITH_SWIG)
     find_program(SWIG_EXECUTABLE
         NAMES swig
         PATHS
+              c:/swigwin-3.0.5
+              c:/swigwin-3.0.4
+              c:/swigwin-3.0.3
               c:/swigwin-3.0.2
               c:/swigwin-3.0.1
               c:/swigwin-2.0.11
@@ -350,6 +357,7 @@ set(LIBSBML_XML_LIBRARY_INCLUDE)
 set(LIBSBML_XML_LIBRARY_LIBS)
 
 if(WITH_EXPAT)
+  if (NOT LIBEXPAT_LIBRARY)  
     find_library(LIBEXPAT_LIBRARY
         NAMES libexpat.lib expat
         PATHS ${LIBSBML_DEPENDENCY_DIR}/lib
@@ -358,6 +366,9 @@ if(WITH_EXPAT)
         DOC "The file name of the Expat library."
                 )
 
+  endif()
+  
+  if (NOT LIBEXPAT_INCLUDE_DIR)
     find_path(LIBEXPAT_INCLUDE_DIR
         NAMES expat.h
         PATHS ${LIBSBML_DEPENDENCY_DIR}/include
@@ -365,7 +376,8 @@ if(WITH_EXPAT)
               ${CMAKE_OSX_SYSROOT}/usr/include              
         DOC "The directory containing the Expat include files."
               )
-
+  endif()
+  
     add_definitions( -DUSE_EXPAT )
     list(APPEND SWIG_EXTRA_ARGS -DUSE_EXPAT)	
 
@@ -387,13 +399,16 @@ endif(WITH_EXPAT)
 #
 set(USE_LIBXML OFF)
 if(WITH_LIBXML)
+  if (NOT LIBXML_LIBRARY)
     find_library(LIBXML_LIBRARY
         NAMES libxml2.lib xml2
         PATHS /usr/lib /usr/local/lib
               ${LIBSBML_DEPENDENCY_DIR}/lib
         DOC "The file name of the libxml2 library."
                 )
-
+  endif()
+  
+  if (NOT LIBXML_INCLUDE_DIR)
     find_path(LIBXML_INCLUDE_DIR
         NAMES libxml/parser.h
         PATHS ${LIBSBML_DEPENDENCY_DIR}/include
@@ -404,20 +419,21 @@ if(WITH_LIBXML)
 
         DOC "The directory containing the libxml2 include files."
               )
+  endif()
+    
+  add_definitions( -DUSE_LIBXML )
+  list(APPEND SWIG_EXTRA_ARGS -DUSE_LIBXML)	
+  set(USE_LIBXML ON)
 
-    add_definitions( -DUSE_LIBXML )
-	list(APPEND SWIG_EXTRA_ARGS -DUSE_LIBXML)	
-	set(USE_LIBXML ON)
+  set(LIBSBML_XML_LIBRARY "libxml2")
+  set(LIBSBML_XML_LIBRARY_INCLUDE ${LIBXML_INCLUDE_DIR})
+  set(LIBSBML_XML_LIBRARY_LIBS ${LIBXML_LIBRARY})
 
-    set(LIBSBML_XML_LIBRARY "libxml2")
-    set(LIBSBML_XML_LIBRARY_INCLUDE ${LIBXML_INCLUDE_DIR})
-    set(LIBSBML_XML_LIBRARY_LIBS ${LIBXML_LIBRARY})
-
-    if(NOT EXISTS "${LIBXML_INCLUDE_DIR}/libxml/parser.h")
+  if(NOT EXISTS "${LIBXML_INCLUDE_DIR}/libxml/parser.h")
         message(FATAL_ERROR
 "The include directory specified for libxml appears to be invalid.
 It should contain the file libxml/parser.h, but it does not.")
-    endif()
+  endif()
 endif(WITH_LIBXML)
 
 
@@ -467,6 +483,7 @@ endif(WITH_XERCES)
 #
 
 set(BZIP_INITIAL_VALUE)
+if (NOT LIBBZ_LIBRARY)
 find_library(LIBBZ_LIBRARY
     NAMES bzip2.lib bz2 libbz2.lib
     PATHS /usr/lib /usr/local/lib
@@ -474,6 +491,7 @@ find_library(LIBBZ_LIBRARY
           ${LIBSBML_DEPENDENCY_DIR}/lib
     DOC "The file name of the bzip2 library."
 )
+endif()
 
 if(EXISTS ${LIBBZ_LIBRARY})
     set(BZIP_INITIAL_VALUE ON)
@@ -485,6 +503,7 @@ option(WITH_BZIP2    "Enable the use of bzip2 compression."  ${BZIP_INITIAL_VALU
 set(USE_BZ2 OFF)
 if(WITH_BZIP2)
 
+  if (NOT LIBBZ_INCLUDE_DIR)
     find_path(LIBBZ_INCLUDE_DIR
         NAMES bzlib.h bzip2/bzlib.h
         PATHS ${CMAKE_OSX_SYSROOT}/usr/include
@@ -492,8 +511,10 @@ if(WITH_BZIP2)
               ${LIBSBML_DEPENDENCY_DIR}/include
               NO_DEFAULT_PATH
         DOC "The directory containing the bzip2 include files."
-              )
-    if (NOT LIBBZ_INCLUDE_DIR)
+        )
+  endif()
+
+  if (NOT LIBBZ_INCLUDE_DIR)
       find_path(LIBBZ_INCLUDE_DIR
         NAMES bzlib.h bzip2/bzlib.h
         PATHS ${CMAKE_OSX_SYSROOT}/usr/include
@@ -501,7 +522,7 @@ if(WITH_BZIP2)
               ${LIBSBML_DEPENDENCY_DIR}/include
         DOC "The directory containing the bzip2 include files."
               )
-    endif()
+  endif()
 
     set(USE_BZ2 ON)
     add_definitions( -DUSE_BZ2 )
@@ -551,6 +572,7 @@ Separate multiple directories using semicolons." )
 #
 
 set(ZLIB_INITIAL_VALUE)
+if (NOT LIBZ_LIBRARY)
 find_library(LIBZ_LIBRARY
     NAMES zdll.lib z zlib.lib
     PATHS /usr/lib /usr/local/lib
@@ -558,6 +580,7 @@ find_library(LIBZ_LIBRARY
           ${LIBSBML_DEPENDENCY_DIR}/lib
     DOC "The file name of the zip compression library."
     )
+endif()
 
 if(EXISTS ${LIBZ_LIBRARY})
     set(ZLIB_INITIAL_VALUE ON)
@@ -569,6 +592,7 @@ option(WITH_ZLIB     "Enable the use of zip compression."    ${ZLIB_INITIAL_VALU
 set(USE_ZLIB OFF)
 if(WITH_ZLIB)
 
+  if (NOT LIBZ_INCLUDE_DIR)
     find_path(LIBZ_INCLUDE_DIR
         NAMES zlib.h zlib/zlib.h
         PATHS ${CMAKE_OSX_SYSROOT}/usr/include
@@ -577,6 +601,7 @@ if(WITH_ZLIB)
               NO_DEFAULT_PATH
         DOC "The directory containing the zlib include files."
               )
+  endif()
     if (NOT LIBZ_INCLUDE_DIR)
         find_path(LIBZ_INCLUDE_DIR
         NAMES zlib.h zlib/zlib.h
@@ -1035,11 +1060,65 @@ set(DOCUMENTATION_FILES
 
 install(FILES ${DOCUMENTATION_FILES} DESTINATION ${MISC_PREFIX}.)
 
+###############################################################################
+#
+# Write libsbml.pc
+#
+
+set (PRIVATE_LIBS "-lstdc++ -lm")
+if (WITH_ZLIB)
+set (PRIVATE_LIBS "${LIBZ_LIBRARY} ${PRIVATE_LIBS}")
+endif()
+if (WITH_BZIP2)
+set (PRIVATE_LIBS "${LIBBZ_LIBRARY} ${PRIVATE_LIBS}")
+endif()
+if (WITH_LIBXML)
+set (PRIVATE_LIBS "${LIBXML_LIBRARY} ${PRIVATE_LIBS}")
+endif()
+if (WITH_EXPAT)
+set (PRIVATE_LIBS "${LIBEXPAT_LIBRARY} ${PRIVATE_LIBS}")
+endif()
+if (WITH_XERCES)
+set (PRIVATE_LIBS "${XERCES_LIBRARY} ${PRIVATE_LIBS}")
+endif()
+
+SET (PC_LIBDIR ${CMAKE_INSTALL_LIBDIR})
+if (${CMAKE_INSTALL_LIBDIR} STREQUAL "lib")
+SET (PC_LIBDIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
+endif()
+
+file(WRITE  "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "Name: ${PACKAGE_NAME}\n")
+file(APPEND "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "Description: A library for reading/writing/manipulating SBML\n")
+file(APPEND "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "URL: http://sbml.org/Software/libSBML\n")
+file(APPEND "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "Version: ${PACKAGE_VERSION}\n")
+file(APPEND "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "\n")
+file(APPEND "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "prefix=${CMAKE_INSTALL_PREFIX}\n")
+file(APPEND "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "libdir=${PC_LIBDIR}\n")
+file(APPEND "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "includedir=${CMAKE_INSTALL_PREFIX}/include\n")
+file(APPEND "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "\n")
+file(APPEND "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "Libs: -L\${libdir} -lsbml\n")
+file(APPEND "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "Libs.private:        ${PRIVATE_LIBS}\n")
+file(APPEND "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "Cflags: -I\${includedir}\n")
+if (WITH_XERCES)
+file(APPEND "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "Conflicts: xerces-c = 2.6.0\n")
+endif()
+
+if (WITH_LIBXML)
+file(APPEND "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" "Requires.private: libxml-2.0 >= 2.6.22\n")
+endif()
+
+if (UNIX)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc" 
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+endif()
 
 ###############################################################################
 #
 # Print Summary
 #
+if (NOT HOSTNAME)
+ site_name(HOSTNAME)
+endif()
 
 message(STATUS "
 ----------------------------------------------------------------------
@@ -1054,7 +1133,7 @@ libSBML version ${PACKAGE_VERSION}
 
    To contact the developers directly, email libsbml-team@caltech.edu
 
-   Configured on host '$ENV{COMPUTERNAME}' ${HOSTNAME}
+   Configured on host '${HOSTNAME}'
      host type                       = ${CMAKE_SYSTEM_NAME}
      host operating system           = ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_VERSION}
      host CPU architecture           = ${CMAKE_SYSTEM_PROCESSOR}
@@ -1127,6 +1206,10 @@ endif()
 
 if(WITH_R)
     message(STATUS "     Using R                         = ${R_INTERPRETER}")
+endif()
+
+if(WITH_PHP)
+    message(STATUS "     Using PHP                       = yes")
 endif()
 
 if(WITH_CHECK)

@@ -175,7 +175,7 @@ SpeciesFeature::getSpeciesFeatureType() const
 /*
  * Returns the value of the "occur" attribute of this SpeciesFeature.
  */
-const unsigned int
+unsigned int
 SpeciesFeature::getOccur() const
 {
   return mOccur;
@@ -557,6 +557,7 @@ SpeciesFeature::getAllElements(ElementFilter* filter)
   List* ret = new List();
   List* sublist = NULL;
 
+  ADD_FILTERED_LIST(ret, sublist, mSpeciesFeatureValues, filter);
 
   ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
 

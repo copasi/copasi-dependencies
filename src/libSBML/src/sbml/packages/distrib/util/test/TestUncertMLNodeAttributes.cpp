@@ -92,6 +92,8 @@ START_TEST (test_uncertml_attributes)
 
   int i = node->setAttributes(*(attr));
 
+  delete attr;
+
   fail_unless ( i == LIBSBML_OPERATION_SUCCESS );
   fail_unless ( node->getNumAttributes() == 1 );
 
@@ -128,9 +130,7 @@ START_TEST (test_uncertml_children)
   const UncertMLNode * retrieved = node->getChild(0);
 
   fail_unless ( retrieved != NULL );
-  fail_unless ( retrieved->getElementName() == "child" );
-
-  delete child;
+  fail_unless ( retrieved->getElementName() == "child" );  
 }
 END_TEST
 

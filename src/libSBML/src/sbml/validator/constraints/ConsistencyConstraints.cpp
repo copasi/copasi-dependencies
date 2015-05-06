@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -296,7 +296,7 @@ START_CONSTRAINT (20305, FunctionDefinition, fd)
   pre( fd.isSetBody() == true      );
 
   msg = "The <functionDefinition> with id '" + fd.getId() + "' returns "
-    " a value that is neither boolean nor numeric.";
+    "a value that is neither boolean nor numeric.";
 
   /*
    * need to look at the special case where the body of the lambda function
@@ -431,7 +431,8 @@ START_CONSTRAINT (20401, UnitDefinition, ud)
       "'siemens' 'weber' 'candela' 'henry' 'kilogram' 'newton' 'sievert' "
       "'coulomb' 'hertz' 'litre' 'liter' 'ohm' 'steradian' 'dimensionless' "
       "'item' "
-      "'lumen' 'pascal' 'tesla' 'farad' 'joule' 'lux' 'radian' 'volt'. ";
+      "'lumen' 'pascal' 'tesla' 'farad' 'joule' 'lux' 'radian' 'volt'.  "
+      "A <unitDefinition> with the id '" + ud.getId() + "' is not allowed.";
   }
   else
   {
@@ -444,7 +445,8 @@ START_CONSTRAINT (20401, UnitDefinition, ud)
         "'katal' 'metre' 'second' 'watt' 'becquerel' 'gray' 'kelvin' 'mole' "
         "'siemens' 'weber' 'candela' 'henry' 'kilogram' 'newton' 'sievert' "
         "'coulomb' 'hertz' 'litre' 'ohm' 'steradian' 'dimensionless' 'item' "
-        "'lumen' 'pascal' 'tesla' 'farad' 'joule' 'lux' 'radian' 'volt'. ";
+        "'lumen' 'pascal' 'tesla' 'farad' 'joule' 'lux' 'radian' 'volt'. "
+        "A <unitDefinition> with the id '" + ud.getId() + "' is not allowed.";
     }
     else if (ud.getLevel() == 3)
     {
@@ -455,7 +457,8 @@ START_CONSTRAINT (20401, UnitDefinition, ud)
         "'katal' 'metre' 'second' 'watt' 'becquerel' 'gray' 'kelvin' 'mole' "
         "'siemens' 'weber' 'candela' 'henry' 'kilogram' 'newton' 'sievert' "
         "'coulomb' 'hertz' 'litre' 'ohm' 'steradian' 'dimensionless' 'item' "
-        "'lumen' 'pascal' 'tesla' 'farad' 'joule' 'lux' 'radian' 'volt'. ";
+        "'lumen' 'pascal' 'tesla' 'farad' 'joule' 'lux' 'radian' 'volt'. "
+        "A <unitDefinition> with the id '" + ud.getId() + "' is not allowed.";
     }
     else
     {
@@ -465,7 +468,8 @@ START_CONSTRAINT (20401, UnitDefinition, ud)
         "'katal' 'metre' 'second' 'watt' 'becquerel' 'gray' 'kelvin' 'mole' "
         "'siemens' 'weber' 'candela' 'henry' 'kilogram' 'newton' 'sievert' "
         "'coulomb' 'hertz' 'litre' 'ohm' 'steradian' 'dimensionless' 'item' "
-        "'lumen' 'pascal' 'tesla' 'farad' 'joule' 'lux' 'radian' 'volt'. ";
+        "'lumen' 'pascal' 'tesla' 'farad' 'joule' 'lux' 'radian' 'volt'. "
+        "A <unitDefinition> with the id '" + ud.getId() + "' is not allowed.";
     }
   }
    
@@ -802,12 +806,8 @@ END_CONSTRAINT
 
 START_CONSTRAINT (20410, UnitDefinition, ud)
 {
-  //msg =
-  //  "The value of the 'kind' attribute of a <unit> can only be one of the "
-  //  "predefined units enumerated by 'UnitKind'; that is, the SBML unit "
-  //  "system is not hierarchical and user-defined units cannot be defined "
-  //  "using other user-defined units. (References: L2V2 Section 4.4.2; L2V3 "
-  //  "Section 4.4.2.)";
+  msg = "A <unit> in the <unitDefinition> with the id '"
+    + ud.getId() + "' has a 'kind' attribute not on the list of base units.";
 
   for (unsigned int n = 0; n < ud.getNumUnits(); ++n)
   {
@@ -895,7 +895,7 @@ START_CONSTRAINT (20501, Compartment, c)
   
   msg = "The <compartment> with id '" + c.getId() + "' should not have a "
     "'size' attribute OR should have a 'spatialDimensions' attribute "
-    " that is not set to '0'.";
+    "that is not set to '0'.";
 
   inv( c.isSetSize() == false );
 }
@@ -916,7 +916,7 @@ START_CONSTRAINT (20502, Compartment, c)
 
   msg = "The <compartment> with id '" + c.getId() + "' should not have a "
     "'units' attribute OR should have a 'spatialDimensions' attribute "
-    " that is not set to '0'.";
+    "that is not set to '0'.";
   
   inv( c.isSetUnits() == false       );
 }
@@ -1442,9 +1442,9 @@ START_CONSTRAINT (20705, Species, s)
   const Parameter* p  = m.getParameter(factor);
   pre(p != NULL);
 
-  msg = "The <parameter> with id '" + p->getId() + "' should have"
-    " the 'constant' attribute set to 'true' as it is referred to as "
-    " a 'conversionFactor by <species> with id '" + s.getId() + ".";
+  msg = "The <parameter> with id '" + p->getId() + "' should have "
+    "the 'constant' attribute set to 'true' as it is referred to as "
+    "a 'conversionFactor by <species> with id '" + s.getId() + ".";
 
   inv( p->getConstant() == true );
 }
@@ -1525,6 +1525,9 @@ START_CONSTRAINT (20806, InitialAssignment, ia)
   const Compartment* c = m.getCompartment(sym);
 
   pre (c != NULL);
+
+  msg = "The <initialAssignment> with symbol '" + ia.getSymbol() +
+    "' references a compartment which has spatialDimensions of 0.";
 
   inv( c->getSpatialDimensions() != 0  );
 
@@ -1799,6 +1802,9 @@ START_CONSTRAINT (20911, AssignmentRule, r)
 
   pre (c != NULL);
 
+  msg = "The <assignmentRule> with variable '" + r.getVariable() +
+    "' references a compartment which has spatialDimensions of 0.";
+
   inv( c->getSpatialDimensions() != 0  );
 
 }
@@ -1819,6 +1825,9 @@ START_CONSTRAINT (20911, RateRule, r)
 
   pre (c != NULL);
 
+  msg = "The <rateRule> with variable '" + r.getVariable() +
+    "' references a compartment which has spatialDimensions of 0.";
+
   inv( c->getSpatialDimensions() != 0  );
 
 }
@@ -1837,7 +1846,11 @@ START_CONSTRAINT (21001, Constraint, c)
   }
   pre( c.isSetMath() );
 
-  msg = "The <constraint> returns a value that is not boolean.";
+  char* formula = SBML_formulaToString(c.getMath());
+  msg = "The <constraint> with the formula '";
+  msg += formula;
+  msg += "' returns a value that is not boolean.";
+  safe_free(formula);
 
   inv( m.isBoolean( c.getMath() ) );
 }
@@ -1901,8 +1914,15 @@ END_CONSTRAINT
 
 START_CONSTRAINT (21111, SpeciesReference, sr)
 {
-  msg =
-    "Species '" + sr.getSpecies() + "' is undefined. ";
+  const SBase* rxn = sr.getAncestorOfType(SBML_REACTION);
+  msg = "The <" + sr.getElementName() + "> ";
+  if (sr.isSetId()) {
+    msg += "with id '" + sr.getId() + "' ";
+  }
+  if (rxn && rxn->isSetId()) {
+    msg += "in the <reaction> with id '" + rxn->getId() + "' ";
+  }
+  msg += "references species '" + sr.getSpecies() + "', which is undefined. ";
 
   inv( m.getSpecies( sr.getSpecies() ) != NULL );
 }
@@ -2031,10 +2051,15 @@ START_CONSTRAINT (99127, KineticLaw, kl)
   const string&         units = kl.getSubstanceUnits();
   const UnitDefinition* defn  = m.getUnitDefinition(units);
 
-    inv_or( units == "substance" );
-    inv_or( units == "item"      );
-    inv_or( units == "mole"      );
-    inv_or( defn  != NULL && defn->isVariantOfSubstance() );
+  std::string rnId = (kl.getAncestorOfType(SBML_REACTION) != NULL) ?
+    kl.getAncestorOfType(SBML_REACTION)->getId() : std::string("");
+  msg = "The substanceUnits of the <kineticLaw> in the <reaction> '" + rnId;
+  msg += "' are '" + units + "', which are not a variant of 'item' or 'mole'.";
+
+  inv_or( units == "substance" );
+  inv_or( units == "item"      );
+  inv_or( units == "mole"      );
+  inv_or( defn  != NULL && defn->isVariantOfSubstance() );
 }
 END_CONSTRAINT
 
@@ -2053,6 +2078,11 @@ START_CONSTRAINT (99128, KineticLaw, kl)
   const string&         units = kl.getTimeUnits();
   const UnitDefinition* defn  = m.getUnitDefinition(units);
 
+  std::string rnId = (kl.getAncestorOfType(SBML_REACTION) != NULL) ?
+    kl.getAncestorOfType(SBML_REACTION)->getId() : std::string("");
+  msg = "The timeUnits of the <kineticLaw> in the <reaction> '" + rnId;
+  msg += "' are '" + units + "', which are not a variant of 'second'.";
+
   inv_or( units == "time"   );
   inv_or( units == "second" );
   inv_or( defn  != NULL && defn->isVariantOfTime() );
@@ -2067,6 +2097,9 @@ START_CONSTRAINT (99129, KineticLaw, kl)
   FormulaTokenizer_t * ft = 
                  FormulaTokenizer_createFromFormula (kl.getFormula().c_str());
   Token_t * t = FormulaTokenizer_nextToken (ft);
+
+  msg = "The <kineticLaw> with the formula '" + kl.getFormula();
+  msg += "' uses one or more undefined functions.";
 
   const Compartment * c;
   const Species * s;
@@ -2550,7 +2583,7 @@ START_CONSTRAINT (21211, EventAssignment, ea)
 
   msg = "In the <event> with id '" + eId + "' the <eventAssignment> "
     "with variable '" + id + "' does not refer "
-      " to an existing <compartment>, <species> or <parameter>.";
+    "to an existing <compartment>, <species> or <parameter>.";
   
   if (ea.getLevel() == 2)
   {

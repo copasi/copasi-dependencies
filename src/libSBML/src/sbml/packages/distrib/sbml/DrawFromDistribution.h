@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -152,6 +152,18 @@ public:
    * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
    */
   virtual int setUncertML(UncertMLNode* uncertML);
+
+
+  /**
+   * Create a new "UncertML" element object, sets it to be the child of this 
+   * DrawFromDistribution and returns the UncertMLNode created.  Removes
+   * and deletes any old UncertML node that may have existed previously.
+   *
+   * @return a new UncertMLNode object instance
+   *
+   * @see setUncertML(const DistribInput* di)
+   */
+  virtual UncertMLNode* createUncertML();
 
 
   /**

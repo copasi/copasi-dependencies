@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2013-2015 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ *     3. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -35,7 +40,6 @@
 #include <sbml/packages/multi/extension/MultiModelPlugin.h>
 #include <sbml/packages/multi/extension/MultiCompartmentPlugin.h>
 #include <sbml/packages/multi/extension/MultiSpeciesPlugin.h>
-#include <sbml/packages/multi/extension/MultiReactionPlugin.h>
 #include <sbml/packages/multi/extension/MultiSimpleSpeciesReferencePlugin.h>
 #include <sbml/packages/multi/extension/MultiSpeciesReferencePlugin.h>
 #include <sbml/packages/multi/extension/MultiASTPlugin.h>
@@ -53,6 +57,8 @@
 #include <sbml/packages/multi/sbml/SpeciesFeature.h>
 #include <sbml/packages/multi/sbml/SpeciesTypeComponentMapInProduct.h>
 #include <sbml/packages/multi/sbml/MultiSpeciesType.h>
+#include <sbml/packages/multi/sbml/BindingSiteSpeciesType.h>
+#include <sbml/packages/multi/sbml/IntraSpeciesReaction.h>
 
 #endif  /* MultiExtensionTypes_H */
 

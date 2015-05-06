@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -283,6 +283,24 @@ public:
    * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    */
   int setMessage (const XMLNode* xhtml);
+
+
+  /**
+   * Sets the message of this Constraint.
+   *
+   * @param message an XML string that is to be used as the content of the
+   * "message" subelement of this object
+   *
+   * @param addXHTMLMarkup a boolean indicating whether to wrap the contents
+   * of the @p message argument with XHTML paragraph (<code>&lt;p&gt;</code>)
+   * tags.  This is appropriate when the string in @p message does not already
+   * containg the appropriate XHTML markup.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+   */
+  int setMessage (const std::string& message, bool addXHTMLMarkup = false);
 
 
   /**

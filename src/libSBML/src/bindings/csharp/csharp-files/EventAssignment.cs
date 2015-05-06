@@ -387,6 +387,23 @@ public class EventAssignment : SBase {
 
   
 /**
+   * Unsets the attribute 'variable' of this EventAssignment.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   */ public
+ int unsetVariable() {
+    int ret = libsbmlPINVOKE.EventAssignment_unsetVariable(swigCPtr);
+    return ret;
+  }
+
+  
+/**
    * Sets the 'math' subelement of this EventAssignment to a copy of the
    * given ASTNode.
    *

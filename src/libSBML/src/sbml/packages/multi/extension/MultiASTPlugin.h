@@ -174,10 +174,16 @@ public:
   int unsetRepresentationType();
 
   //virtual void write(XMLOutputStream& stream) const;
-    virtual bool read(XMLInputStream& stream, const std::string& reqd_prefix="");
+
+  using ASTBasePlugin::read;
+
+  virtual bool read(XMLInputStream& stream, const std::string& reqd_prefix="");
 
   virtual void addExpectedAttributes(ExpectedAttributes& attributes, 
                                      XMLInputStream& stream, int type);
+
+
+  using ASTBasePlugin::readAttributes;
 
   virtual bool readAttributes (const XMLAttributes& attributes,
                                const ExpectedAttributes& expectedAttributes,

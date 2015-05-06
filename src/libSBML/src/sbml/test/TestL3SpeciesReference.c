@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -162,6 +162,10 @@ START_TEST (test_L3_SpeciesReference_species)
     fail("SpeciesReference_setSpecies(...) did not make a copy of string.");
   }
 
+  SpeciesReference_unsetSpecies(SR);
+
+  fail_unless( !SpeciesReference_isSetSpecies(SR) );
+
 }
 END_TEST
 
@@ -195,10 +199,20 @@ START_TEST (test_L3_SpeciesReference_constant)
   fail_unless(SpeciesReference_getConstant(SR) == 1);
   fail_unless(SpeciesReference_isSetConstant(SR) == 1);
 
+  SpeciesReference_unsetConstant(SR);
+
+  fail_unless(SpeciesReference_getConstant(SR) == 1);
+  fail_unless(SpeciesReference_isSetConstant(SR) == 0);
+
   SpeciesReference_setConstant(SR, 0);
 
   fail_unless(SpeciesReference_getConstant(SR) == 0);
   fail_unless(SpeciesReference_isSetConstant(SR) == 1);
+
+  SpeciesReference_unsetConstant(SR);
+
+  fail_unless(SpeciesReference_getConstant(SR) == 0);
+  fail_unless(SpeciesReference_isSetConstant(SR) == 0);
 
 }
 END_TEST

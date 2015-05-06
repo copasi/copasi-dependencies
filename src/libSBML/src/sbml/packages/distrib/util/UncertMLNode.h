@@ -40,7 +40,7 @@
 
 
 #include <string>
-
+#include <vector>
 
 #include <sbml/packages/distrib/extension/DistribExtension.h>
 #include <sbml/packages/distrib/sbml/DistribInput.h>
@@ -55,8 +55,9 @@ class LIBSBML_EXTERN UncertMLNode
 protected:
 
   std::string   mElementName;
+  std::string   mText;
   XMLAttributes mAttributes;
-  List * mChildren;
+  std::vector<UncertMLNode*> mChildren;
 
 
 public:
@@ -103,7 +104,7 @@ public:
   /**
    * Destructor for UncertMLNode.
    */
-  ~UncertMLNode();
+  virtual ~UncertMLNode();
 
 
   /**
@@ -152,6 +153,54 @@ public:
    * @li LIBSBML_OPERATION_FAILED
    */
   int unsetElementName();
+
+
+  /**
+   * Returns the value of the "text" element of this UncertMLNode.
+   *
+   * @return the value of the "text" element of this 
+   * UncertMLNode as a string.
+   */
+  const std::string& getText() const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * UncertMLNode's "text" element has been set.
+   *
+   * @return @c true if this UncertMLNode's "text" 
+   * element has been set, otherwise @c false is returned.
+   */
+  bool isSetText() const;
+
+
+  /**
+   * Sets the value of the "text" element of this UncertMLNode.
+   *
+   * @param text; const std::string& value of the "text" 
+   * element to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+   */
+  int setText(const std::string& text);
+
+
+  /**
+   * Unsets the value of the "text" element of this UncertMLNode.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   * @li LIBSBML_OPERATION_FAILED
+   */
+  int unsetText();
 
 
   /**
@@ -320,6 +369,36 @@ public:
    */
   static UncertMLNode * createDistributionNode(std::string name, 
     std::string arguments, std::string argumentIds); 
+
+  /**
+   * Creates an UncertMLNode representing the distribution with arguments
+   * listed.
+   *
+   * @param name - name of the distribtuion to create
+   * @param arguments - a comma seperated list of the argument names
+   * @param argumentsIds - a comma seperated list of the values to apply
+   * @param argumentElementNames - a comma seperated list of the elements to use, or 'varId' for the attribute
+   * 
+   * Example usage would be
+   *     createDistributionNodeWithValues("NormalDistribtuion", 
+   *                  "mean,variance", "4, 0.9", "rVal, prVal")
+   * which would produce a node representing the xml:
+   *
+   * <UncertML xmlns=\"http://www.uncertml.org/3.0\">
+   *  <NormalDistribution definition=\"http://www.uncertml.org/distributions\">
+   *    <mean>
+   *      <var> <rVal> 4 </rVal> </var>
+   *    </mean>
+   *    <variance>
+   *      <var> <prVal> 0.9 </prVal> </var>
+   *    </variance>
+   *  </NormalDistribution>
+   * </UncertML>;
+   *
+   * @returns an UncertMLNode representing the distribution
+   */
+  static UncertMLNode * createDistributionNodeWithValues(std::string name, 
+    std::string arguments, std::string argumentValues, std::string argumentElementNames); 
 
 protected:
 

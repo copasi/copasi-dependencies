@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -214,6 +214,38 @@ START_TEST (test_Parameter_setUnits)
 END_TEST
 
 
+START_TEST (test_Parameter_getsetConstant)
+{
+  //test defaults
+  fail_unless( Parameter_getConstant(P) == 1);
+  fail_unless( Parameter_isSetConstant(P) == 1);
+
+  Parameter_setConstant(P, 1);
+
+  fail_unless( Parameter_getConstant(P) == 1);
+  fail_unless( Parameter_isSetConstant(P) == 1);
+
+  int ret = Parameter_unsetConstant(P);
+
+  fail_unless(ret == LIBSBML_UNEXPECTED_ATTRIBUTE);
+  fail_unless( Parameter_getConstant(P) == 1);
+  fail_unless( Parameter_isSetConstant(P) == 1);
+
+  Parameter_setConstant(P, 0);
+
+  fail_unless( Parameter_getConstant(P) == 0);
+  fail_unless( Parameter_isSetConstant(P) == 1);
+
+  ret = Parameter_unsetConstant(P);
+
+  fail_unless(ret == LIBSBML_UNEXPECTED_ATTRIBUTE);
+  fail_unless( Parameter_getConstant(P) == 1);
+  fail_unless( Parameter_isSetConstant(P) == 1);
+
+}
+END_TEST
+
+
 START_TEST (test_Parameter_createWithNS )
 {
   XMLNamespaces_t *xmlns = XMLNamespaces_create();
@@ -261,6 +293,7 @@ create_suite_Parameter (void)
   tcase_add_test( tcase, test_Parameter_setId      );
   tcase_add_test( tcase, test_Parameter_setName    );
   tcase_add_test( tcase, test_Parameter_setUnits   );
+  tcase_add_test( tcase, test_Parameter_getsetConstant      );
   tcase_add_test( tcase, test_Parameter_createWithNS         );
 
   suite_add_tcase(suite, tcase);

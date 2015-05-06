@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1091,82 +1091,104 @@ START_TEST (test_ASTNode_getName)
 
   ASTNode_setName(n, NULL);
   fail_unless( ASTNode_getName(n) == NULL );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
 
   /** AST_CONSTANTs **/
   ASTNode_setType(n, AST_CONSTANT_E);
   fail_unless( !strcmp(ASTNode_getName(n), "exponentiale") );
+  fail_unless( util_isEqual(ASTNode_getValue(n), 2.71828182));
 
   ASTNode_setType(n, AST_CONSTANT_FALSE);
   fail_unless( !strcmp(ASTNode_getName(n), "false") );
+  fail_unless( util_isEqual(ASTNode_getValue(n), 0));
 
   ASTNode_setType(n, AST_CONSTANT_PI);
   fail_unless( !strcmp(ASTNode_getName(n), "pi") );
+  fail_unless( util_isEqual(ASTNode_getValue(n), 3.14159292));
 
   ASTNode_setType(n, AST_CONSTANT_TRUE);
   fail_unless( !strcmp(ASTNode_getName(n), "true") );
+  fail_unless( util_isEqual(ASTNode_getValue(n), 1));
 
 
   /** AST_LAMBDA **/
   ASTNode_setType(n, AST_LAMBDA);
   fail_unless( !strcmp(ASTNode_getName(n), "lambda") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
 
   /** AST_FUNCTION (user-defined) **/
   ASTNode_setType(n, AST_FUNCTION);
   ASTNode_setName(n, "f");
   fail_unless( !strcmp(ASTNode_getName(n), "f") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
   ASTNode_setType(n, AST_FUNCTION_DELAY);
   fail_unless( !strcmp(ASTNode_getName(n), "f") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
   ASTNode_setName(n, NULL);
   fail_unless( !strcmp(ASTNode_getName(n), "delay") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
   ASTNode_setType(n, AST_FUNCTION);
   fail_unless( ASTNode_getName(n) == NULL );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
 
   /** AST_FUNCTIONs (builtin)  **/
   ASTNode_setType(n, AST_FUNCTION_ABS);
   fail_unless( !strcmp(ASTNode_getName(n), "abs") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
   ASTNode_setType(n, AST_FUNCTION_ARCCOS);
   fail_unless( !strcmp(ASTNode_getName(n), "arccos") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
   ASTNode_setType(n, AST_FUNCTION_TAN);
   fail_unless( !strcmp(ASTNode_getName(n), "tan") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
   ASTNode_setType(n, AST_FUNCTION_TANH);
   fail_unless( !strcmp(ASTNode_getName(n), "tanh") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
 
   /** AST_LOGICALs **/
   ASTNode_setType(n, AST_LOGICAL_AND);
   fail_unless( !strcmp(ASTNode_getName(n), "and") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
   ASTNode_setType(n, AST_LOGICAL_NOT);
   fail_unless( !strcmp(ASTNode_getName(n), "not") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
   ASTNode_setType(n, AST_LOGICAL_OR);
   fail_unless( !strcmp(ASTNode_getName(n), "or")  );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
   ASTNode_setType(n, AST_LOGICAL_XOR);
   fail_unless( !strcmp(ASTNode_getName(n), "xor") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
 
   /** AST_RELATIONALs **/
   ASTNode_setType(n, AST_RELATIONAL_EQ);
   fail_unless( !strcmp(ASTNode_getName(n), "eq") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
   ASTNode_setType(n, AST_RELATIONAL_GEQ);
   fail_unless( !strcmp(ASTNode_getName(n), "geq") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
   ASTNode_setType(n, AST_RELATIONAL_LT);
   fail_unless( !strcmp(ASTNode_getName(n), "lt") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
   ASTNode_setType(n, AST_RELATIONAL_NEQ);
   fail_unless( !strcmp(ASTNode_getName(n), "neq") );
+  fail_unless( util_isNaN(ASTNode_getValue(n)));
 
   ASTNode_free(n);
 }
@@ -5136,17 +5158,20 @@ START_TEST (test_ASTNode_userData_1)
   Model_t * m = Model_create(3,1);
   
   fail_unless(ASTNode_getUserData(n) == NULL);
+  fail_unless(ASTNode_isSetUserData(n) == 0);
 
   int i = ASTNode_setUserData(n, (void*)(m));
 
   fail_unless(i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(ASTNode_getUserData(n) != NULL);
   fail_unless(ASTNode_getUserData(n) == m);
+  fail_unless(ASTNode_isSetUserData(n) == 1);
   
   i = ASTNode_setUserData(n, NULL);
 
   fail_unless(i == LIBSBML_OPERATION_SUCCESS);
   fail_unless(ASTNode_getUserData(n) == NULL);
+  fail_unless(ASTNode_isSetUserData(n) == 0);
 
   ASTNode_free(n);
   Model_free(m);

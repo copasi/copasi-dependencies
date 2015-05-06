@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -99,6 +99,11 @@ ASTNumber::ASTNumber (int type) :
 
     default:
       break;
+  }
+
+  for (unsigned int i = 0; i < getNumPlugins(); i++)
+  {
+    ASTBase::getPlugin(i)->connectToParent(this);
   }
 }
   
@@ -1826,7 +1831,7 @@ ASTNumber::getValue() const
   }
   else
   {
-    return 0;//util_NaN();
+    return ASTBase::getValue();
   }
 
 }
@@ -2451,6 +2456,95 @@ ASTNumber::hasCorrectNumberArguments() const
   }
 }
 
+ASTBasePlugin* 
+ASTNumber::getPlugin(const std::string& package)
+{
+  if (mExponential != NULL)
+  {
+    return mExponential->getPlugin(package);
+  }
+  else if (mInteger != NULL)
+  {
+    return mInteger->getPlugin(package);
+  }
+  else if (mRational != NULL)
+  {
+    return mRational->getPlugin(package);
+  }
+  else if (mReal != NULL)
+  {
+    return mReal->getPlugin(package);
+  }
+  else if (mCiNumber != NULL)
+  {
+    return mCiNumber->getPlugin(package);
+  }
+  else if (mConstant != NULL)
+  {
+    return mConstant->getPlugin(package);
+  }
+  else if (mCSymbol != NULL)
+  {
+    return mCSymbol->getPlugin(package);
+  }
+  else
+  {
+    return ASTBase::getPlugin(package);
+  }
+}
+
+
+const ASTBasePlugin* 
+ASTNumber::getPlugin(const std::string& package) const
+{
+  return const_cast<ASTNumber*>(this)->getPlugin(package);
+}
+
+
+ASTBasePlugin* 
+ASTNumber::getPlugin(unsigned int n)
+{
+  if (mExponential != NULL)
+  {
+    return mExponential->getPlugin(n);
+  }
+  else if (mInteger != NULL)
+  {
+    return mInteger->getPlugin(n);
+  }
+  else if (mRational != NULL)
+  {
+    return mRational->getPlugin(n);
+  }
+  else if (mReal != NULL)
+  {
+    return mReal->getPlugin(n);
+  }
+  else if (mCiNumber != NULL)
+  {
+    return mCiNumber->getPlugin(n);
+  }
+  else if (mConstant != NULL)
+  {
+    return mConstant->getPlugin(n);
+  }
+  else if (mCSymbol != NULL)
+  {
+    return mCSymbol->getPlugin(n);
+  }
+  else
+  {
+    return ASTBase::getPlugin(n);
+  }
+}
+
+
+const ASTBasePlugin* 
+ASTNumber::getPlugin(unsigned int n) const
+{
+  return const_cast<ASTNumber*>(this)->getPlugin(n);
+}
+
 
 void 
 ASTNumber::write(XMLOutputStream& stream) const
@@ -2548,7 +2642,8 @@ ASTNumber::read(XMLInputStream& stream, const std::string& reqd_prefix)
     }
     else
     {
-      logError(stream, element, DisallowedMathTypeAttributeValue);      
+      logError(stream, element, DisallowedMathTypeAttributeValue, "The <cn> type '" 
+          + type +"' is not allowed for this level and version of SBML."); 
       //for (unsigned int i = 0; i < getNumPlugins(); i++)
       //{
       //  read = getPlugin(i)->read(stream, reqd_prefix);
@@ -2574,7 +2669,16 @@ ASTNumber::read(XMLInputStream& stream, const std::string& reqd_prefix)
     || name == "pi" || name == "exponentiale"
     || name == "notanumber" || name == "infinity")
   {
-    mConstant = new ASTConstantNumberNode();
+    if (name == "true")  
+      mConstant = new ASTConstantNumberNode(AST_CONSTANT_TRUE);
+    else if (name == "false")  
+      mConstant = new ASTConstantNumberNode(AST_CONSTANT_FALSE);
+    else if (name == "pi")  
+      mConstant = new ASTConstantNumberNode(AST_CONSTANT_PI);
+    else if (name == "exponentiale")  
+      mConstant = new ASTConstantNumberNode(AST_CONSTANT_E);
+    else  
+      mConstant = new ASTConstantNumberNode();
     read = mConstant->read(stream, reqd_prefix);
     if (read == true && mConstant != NULL)
     {
@@ -2595,12 +2699,57 @@ ASTNumber::read(XMLInputStream& stream, const std::string& reqd_prefix)
   return read;
 }
 
+
+ASTBase*
+ASTNumber::getMember() const
+{
+  if (mInteger != NULL)
+  {
+    return mInteger;
+  }
+  else if (mRational != NULL)
+  {
+    return mRational;
+  }
+  else if (mReal != NULL)
+  {
+    return mReal;
+  }
+  else if (mExponential != NULL)
+  {
+    return mExponential;
+  }
+  else if (mCiNumber != NULL)
+  {
+    return mCiNumber;
+  }
+  else if (mConstant != NULL)
+  {
+    return mConstant;
+  }
+  else if (mCSymbol != NULL)
+  {
+    return mCSymbol;
+  }
+  else if (mIsOther == true)
+  {
+    return NULL;
+    // FIX ME
+    //getPlugin("qual")->getMath()->write(stream);
+  }
+  else
+  {
+    return NULL;
+  }
+}
+
+
 void
 ASTNumber::syncMembersAndTypeFrom(ASTNumber* rhs, int type)
 {
   if (mInteger != NULL)
   {
-    mInteger->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mInteger->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mInteger->setType(type);
     if (rhs->isSetUnits() == true)
     {
@@ -2615,7 +2764,7 @@ ASTNumber::syncMembersAndTypeFrom(ASTNumber* rhs, int type)
   }
   else if (mRational != NULL)
   {
-    mRational->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mRational->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mRational->setType(type);
     if (rhs->isSetUnits() == true)
     {
@@ -2634,7 +2783,7 @@ ASTNumber::syncMembersAndTypeFrom(ASTNumber* rhs, int type)
   }
   else if (mReal != NULL)
   {
-    mReal->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mReal->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mReal->setType(type);
     if (rhs->isSetUnits() == true)
     {
@@ -2655,7 +2804,7 @@ ASTNumber::syncMembersAndTypeFrom(ASTNumber* rhs, int type)
   }
   else if (mExponential != NULL)
   {
-    mExponential->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mExponential->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mExponential->setType(type);
     if (rhs->isSetUnits() == true)
     {
@@ -2674,7 +2823,7 @@ ASTNumber::syncMembersAndTypeFrom(ASTNumber* rhs, int type)
   }
   else if (mCiNumber != NULL)
   {
-    mCiNumber->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mCiNumber->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mCiNumber->setType(type);
     if (rhs->isSetName() == true)
     {
@@ -2688,17 +2837,9 @@ ASTNumber::syncMembersAndTypeFrom(ASTNumber* rhs, int type)
   }
   else if (mConstant != NULL)
   {
-    mConstant->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mConstant->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mConstant->setType(type);
-    if (rhs->isSetConstantValue() == true)
-    {
-      mConstant->setValue(rhs->getValue());
-    }
-    if (rhs->isSetUnits() == true && mExponential != NULL)
-    {
-      mExponential->setUnits(rhs->getUnits());
-      mExponential->setUnitsPrefix(rhs->getUnitsPrefix());
-    }
+    //}
     this->ASTBase::syncMembersFrom(mConstant);
   }
   else if (mCSymbol != NULL)
@@ -2718,31 +2859,31 @@ ASTNumber::syncMembersAndTypeFrom(ASTFunction* rhs, int type)
 {
   if (mInteger != NULL)
   {
-    mInteger->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mInteger->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mInteger->setType(type);
     this->ASTBase::syncMembersFrom(mInteger);
   }
   else if (mRational != NULL)
   {
-    mRational->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mRational->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mRational->setType(type);
     this->ASTBase::syncMembersFrom(mRational);
   }
   else if (mReal != NULL)
   {
-    mReal->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mReal->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mReal->setType(type);
     this->ASTBase::syncMembersFrom(mReal);
   }
   else if (mExponential != NULL)
   {
-    mExponential->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mExponential->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mExponential->setType(type);
     this->ASTBase::syncMembersFrom(mExponential);
   }
   else if (mCiNumber != NULL)
   {
-    mCiNumber->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mCiNumber->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mCiNumber->setType(type);
     if (rhs->isSetDefinitionURL() == true)
     {
@@ -2752,7 +2893,7 @@ ASTNumber::syncMembersAndTypeFrom(ASTFunction* rhs, int type)
   }
   else if (mConstant != NULL)
   {
-    mConstant->ASTBase::syncMembersAndResetParentsFrom(rhs);
+    mConstant->ASTBase::syncMembersAndResetParentsFrom(rhs->getMember());
     mConstant->setType(type);
     this->ASTBase::syncMembersFrom(mConstant);
   }

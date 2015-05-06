@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -311,7 +311,7 @@ SubmodelReferenceCycles::logCycle (const Model& m, std::string id,
 {
   msg = "Model with id '";
   msg += id;
-  msg += "' is referenced by with the model with id '"; 
+  msg += "' is referenced by the model with id '"; 
   msg += id1;
   msg += "'.";
 

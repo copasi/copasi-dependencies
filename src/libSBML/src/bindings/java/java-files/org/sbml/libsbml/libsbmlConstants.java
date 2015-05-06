@@ -9,9 +9,9 @@
 package org.sbml.libsbml;
 
 public interface libsbmlConstants {
-  public final static String LIBSBML_DOTTED_VERSION = "5.11.1";
-  public final static int LIBSBML_VERSION = 51101;
-  public final static String LIBSBML_VERSION_STRING = "51101";
+  public final static String LIBSBML_DOTTED_VERSION = "5.11.4";
+  public final static int LIBSBML_VERSION = 51104;
+  public final static String LIBSBML_VERSION_STRING = "51104";
   // OperationReturnValues_t 
   public final static int LIBSBML_OPERATION_SUCCESS = 0;
   public final static int LIBSBML_INDEX_EXCEEDS_SIZE = -1;
@@ -27,6 +27,7 @@ public interface libsbmlConstants {
   public final static int LIBSBML_DUPLICATE_ANNOTATION_NS = -11;
   public final static int LIBSBML_ANNOTATION_NAME_NOT_FOUND = -12;
   public final static int LIBSBML_ANNOTATION_NS_NOT_FOUND = -13;
+  public final static int LIBSBML_MISSING_METAID = -14;
   public final static int LIBSBML_PKG_VERSION_MISMATCH = -20;
   public final static int LIBSBML_PKG_UNKNOWN = -21;
   public final static int LIBSBML_PKG_UNKNOWN_VERSION = -22;
@@ -481,6 +482,7 @@ public interface libsbmlConstants {
   public final static int CompartmentShouldHaveSize = 80501;
   public final static int SpeciesShouldHaveValue = 80601;
   public final static int ParameterShouldHaveUnits = 80701;
+  public final static int ParameterShouldHaveValue = 80702;
   public final static int LocalParameterShadowsId = 81121;
   public final static int LibSBMLAdditionalCodesLowerBound = 90000;
   public final static int CannotConvertToL1V1 = 90001;

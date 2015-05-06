@@ -299,7 +299,57 @@ public class Constraint extends SBase {
    * </ul>
    */ public
  int setMessage(XMLNode xhtml) {
-    return libsbmlJNI.Constraint_setMessage(swigCPtr, this, XMLNode.getCPtr(xhtml), xhtml);
+    return libsbmlJNI.Constraint_setMessage__SWIG_0(swigCPtr, this, XMLNode.getCPtr(xhtml), xhtml);
+  }
+
+  
+/**
+   * Sets the message of this {@link Constraint}.
+   <p>
+   * @param message an XML string that is to be used as the content of the
+   * 'message' subelement of this object
+   <p>
+   * @param addXHTMLMarkup a boolean indicating whether to wrap the contents
+   * of the <code>message</code> argument with XHTML paragraph (<code>&lt;p&gt;</code>)
+   * tags.  This is appropriate when the string in <code>message</code> does not already
+   * containg the appropriate XHTML markup.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * </ul>
+   */ public
+ int setMessage(String message, boolean addXHTMLMarkup) {
+    return libsbmlJNI.Constraint_setMessage__SWIG_1(swigCPtr, this, message, addXHTMLMarkup);
+  }
+
+  
+/**
+   * Sets the message of this {@link Constraint}.
+   <p>
+   * @param message an XML string that is to be used as the content of the
+   * 'message' subelement of this object
+   <p>
+   * @param addXHTMLMarkup a boolean indicating whether to wrap the contents
+   * of the <code>message</code> argument with XHTML paragraph (<code>&lt;p&gt;</code>)
+   * tags.  This is appropriate when the string in <code>message</code> does not already
+   * containg the appropriate XHTML markup.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * </ul>
+   */ public
+ int setMessage(String message) {
+    return libsbmlJNI.Constraint_setMessage__SWIG_2(swigCPtr, this, message);
   }
 
   

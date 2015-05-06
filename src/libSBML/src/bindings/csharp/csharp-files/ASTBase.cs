@@ -520,7 +520,7 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  ASTBasePlugin getPlugin(string package) {
     IntPtr cPtr = libsbmlPINVOKE.ASTBase_getPlugin__SWIG_0(swigCPtr, package);
     ASTBasePlugin ret = (cPtr == IntPtr.Zero) ? null : new ASTBasePlugin(cPtr, false);
@@ -529,7 +529,7 @@ public class ASTBase : IDisposable {
   }
 
   
-/** */ /* libsbml-internal */ public
+/** */ /* libsbml-internal */ public new
  ASTBasePlugin getPlugin(long n) {
     IntPtr cPtr = libsbmlPINVOKE.ASTBase_getPlugin__SWIG_2(swigCPtr, n);
     ASTBasePlugin ret = (cPtr == IntPtr.Zero) ? null : new ASTBasePlugin(cPtr, false);
@@ -658,6 +658,13 @@ public class ASTBase : IDisposable {
 /** */ /* libsbml-internal */ public new
  bool hasUnambiguousPackageInfixGrammar(ASTNode child) {
     bool ret = libsbmlPINVOKE.ASTBase_hasUnambiguousPackageInfixGrammar(swigCPtr, ASTNode.getCPtr(child));
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public new
+ double getValue() {
+    double ret = libsbmlPINVOKE.ASTBase_getValue(swigCPtr);
     return ret;
   }
 

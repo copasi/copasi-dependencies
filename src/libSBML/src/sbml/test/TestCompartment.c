@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -326,9 +326,32 @@ END_TEST
 
 START_TEST (test_Compartment_getsetConstant)
 {
+  // by default
+  fail_unless( Compartment_getConstant(C) == 1);
+  fail_unless( Compartment_isSetConstant(C) == 1);
+
   Compartment_setConstant(C, 1);
 
   fail_unless( Compartment_getConstant(C) == 1);
+  fail_unless( Compartment_isSetConstant(C) == 1);
+
+  int ret = Compartment_unsetConstant(C);
+
+  /* in L2 returns unexpected but is still set by default */
+  fail_unless(ret == LIBSBML_UNEXPECTED_ATTRIBUTE);
+  fail_unless( Compartment_getConstant(C) == 1);
+  fail_unless( Compartment_isSetConstant(C) == 1);
+
+  Compartment_setConstant(C, 0);
+
+  fail_unless( Compartment_getConstant(C) == 0);
+  fail_unless( Compartment_isSetConstant(C) == 1);
+
+  ret = Compartment_unsetConstant(C);
+
+  fail_unless(ret == LIBSBML_UNEXPECTED_ATTRIBUTE);
+  fail_unless( Compartment_getConstant(C) == 1);
+  fail_unless( Compartment_isSetConstant(C) == 1);
 
 }
 END_TEST
@@ -336,10 +359,16 @@ END_TEST
 
 START_TEST (test_Compartment_getSpatialDimensions)
 {
+  fail_unless( Compartment_isSetSpatialDimensions(C) );
+  fail_unless( Compartment_getSpatialDimensions(C) == 3);
   Compartment_setSpatialDimensions(C, 1);
 
   fail_unless( Compartment_getSpatialDimensions(C) == 1);
+  fail_unless( Compartment_isSetSpatialDimensions(C) );
 
+  fail_unless( Compartment_unsetSpatialDimensions(C) == LIBSBML_UNEXPECTED_ATTRIBUTE);
+  fail_unless( Compartment_getSpatialDimensions(C) == 3);
+  fail_unless( Compartment_isSetSpatialDimensions(C) );
 }
 END_TEST
 

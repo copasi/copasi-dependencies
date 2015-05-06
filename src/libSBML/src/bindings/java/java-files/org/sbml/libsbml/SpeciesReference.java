@@ -713,6 +713,23 @@ public class SpeciesReference extends SimpleSpeciesReference {
 
   
 /**
+   * Unsets the 'constant' attribute of this {@link SpeciesReference}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   * </ul>
+   */ public
+ int unsetConstant() {
+    return libsbmlJNI.SpeciesReference_unsetConstant(swigCPtr, this);
+  }
+
+  
+/**
    * Creates a new, empty {@link StoichiometryMath} object, adds it to this
    * {@link SpeciesReference}, and returns it.
    <p>

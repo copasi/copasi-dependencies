@@ -328,6 +328,24 @@ public class Event extends SBase {
 
   
 /**
+   * Initializes the fields of this {@link Event} object to 'typical' default
+   * values.
+   <p>
+   * The SBML {@link Event} component has slightly different aspects and
+   * default attribute values in different SBML Levels and Versions.
+   * This method sets the values to certain common defaults, based
+   * mostly on what they are in SBML Level&nbsp;2.  Specifically:
+   <p>
+   * <ul>
+   * <li> Sets attribute 'spatialDimensions' to <code>3</code>
+   * </ul>
+   */ public
+ void initDefaults() {
+    libsbmlJNI.Event_initDefaults(swigCPtr, this);
+  }
+
+  
+/**
    * Returns the first child element found that has the given <code>id</code> in the
    * model-wide SId namespace, or <code>null</code> if no such object is found.
    <p>
@@ -828,6 +846,61 @@ public class Event extends SBase {
    */ public
  int unsetName() {
     return libsbmlJNI.Event_unsetName(swigCPtr, this);
+  }
+
+  
+/**
+   * Unsets the value of the 'useValuesFromTriggerTime' attribute of this {@link Event}.
+   <p>
+   * <p>
+ * The optional {@link Delay} on {@link Event} means there are two times to consider when
+ * computing the results of an event: the time at which the event is
+ * <em>triggered</em>, and the time at which assignments are
+ * <em>executed</em>.  It is also possible to distinguish between the
+ * time at which the {@link EventAssignment}'s expression is calculated, and the
+ * time at which the assignment is made: the expression could be
+ * evaluated at the same time the assignments are performed, i.e., when
+ * the event is <em>executed</em>, but it could also be defined to be
+ * evaluated at the time the event is <em>triggered</em>.
+ <p>
+ * In SBML Level&nbsp;2 versions prior to Version&nbsp;4, the semantics
+ * of {@link Event} time delays were defined such that the expressions in the
+ * event's assignments were always evaluated at the time the event was
+ * <em>triggered</em>.  This definition made it difficult to define an
+ * event whose assignment formulas were meant to be evaluated at the time
+ * the event was <em>executed</em> (i.e., after the time period defined
+ * by the value of the {@link Delay} element).  In SBML Level&nbsp;2
+ * Version&nbsp;4, the attribute 'useValuesFromTriggerTime' on {@link Event}
+ * allows a model to indicate the time at which the event's assignments
+ * are intended to be evaluated.  In SBML Level&nbsp;2, the attribute has
+ * a default value of <code>true</code>, which corresponds to the interpretation of
+ * event assignments prior to Version&nbsp;4: the values of the
+ * assignment formulas are computed at the moment the event is triggered,
+ * not after the delay.  If 'useValuesFromTriggerTime'=<code>false</code>, it means
+ * that the formulas in the event's assignments are to be computed after
+ * the delay, at the time the event is executed.  In SBML Level&nbsp;3,
+ * the attribute is mandatory, not optional, and all events must specify
+ * a value for it.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   *
+   * </ul> <p>
+   * <p>
+ * @warning <span class='warning'>The attribute 'useValuesFromTriggerTime'
+ * was introduced in SBML Level&nbsp;2 Version&nbsp;4.  It is not valid in
+ * models defined using SBML Level&nbsp;2 versions prior to Version&nbsp;4.
+ * If a Level&nbsp;2 Version&nbsp;1&ndash;3 model sets the attribute, the
+ * consistency-checking method {@link SBMLDocument#checkConsistency()} will report
+ * an error.</span>
+   */ public
+ int unsetUseValuesFromTriggerTime() {
+    return libsbmlJNI.Event_unsetUseValuesFromTriggerTime(swigCPtr, this);
   }
 
   

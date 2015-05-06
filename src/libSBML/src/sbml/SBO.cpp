@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -681,7 +681,7 @@ SBO::isObselete  (unsigned int sboTerm)
 void
 SBO::populateSBOTree()
 {
-  // generated from SBO on October 31st 2014
+  // generated from SBO on March 31st 2015
   mParent.insert( pair<const int, int>(  1,  64) );
   mParent.insert( pair<const int, int>(  2, 545) );
   mParent.insert( pair<const int, int>(  3,   0) );
@@ -1343,7 +1343,19 @@ SBO::populateSBOTree()
   mParent.insert( pair<const int, int>(609, 607) );
   mParent.insert( pair<const int, int>(610,   2) );
   mParent.insert( pair<const int, int>(611,   9) );
-
+  mParent.insert( pair<const int, int>(612, 613) );
+  mParent.insert( pair<const int, int>(613,   2) );
+  mParent.insert( pair<const int, int>(614, 612) );
+  mParent.insert( pair<const int, int>(615, 612) );
+  mParent.insert( pair<const int, int>(616, 613) );
+  mParent.insert( pair<const int, int>(617, 581) );
+  mParent.insert( pair<const int, int>(618, 581) );
+  mParent.insert( pair<const int, int>(619, 580) );
+  mParent.insert( pair<const int, int>(620, 619) );
+  mParent.insert( pair<const int, int>(621, 619) );
+  mParent.insert( pair<const int, int>(622, 619) );
+  mParent.insert( pair<const int, int>(623,   2) );
+  mParent.insert( pair<const int, int>(624,   4) );
 
 
 }

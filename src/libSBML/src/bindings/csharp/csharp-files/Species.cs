@@ -1332,6 +1332,27 @@ public class Species : SBase {
 
   
 /**
+   * Unsets the value of the 'constant' attribute of this Species object.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   *
+   * @see isSetConstant()
+   * @see setConstant(@if java String@endif)
+   * @see getConstant()
+   */ public
+ int unsetConstant() {
+    int ret = libsbmlPINVOKE.Species_unsetConstant(swigCPtr);
+    return ret;
+  }
+
+  
+/**
    * Unsets the 'speciesType' attribute value of this Species object.
    *
    *
@@ -1500,6 +1521,57 @@ public class Species : SBase {
    */ public
  int unsetConversionFactor() {
     int ret = libsbmlPINVOKE.Species_unsetConversionFactor(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Unsets the 'compartment' attribute value of this Species object.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public
+ int unsetCompartment() {
+    int ret = libsbmlPINVOKE.Species_unsetCompartment(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Unsets the 'boundaryCondition' attribute value of this Species object.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public
+ int unsetBoundaryCondition() {
+    int ret = libsbmlPINVOKE.Species_unsetBoundaryCondition(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Unsets the 'hasOnlySubstanceUnits' attribute value of this Species object.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public
+ int unsetHasOnlySubstanceUnits() {
+    int ret = libsbmlPINVOKE.Species_unsetHasOnlySubstanceUnits(swigCPtr);
     return ret;
   }
 

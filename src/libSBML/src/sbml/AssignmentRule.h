@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -503,6 +503,25 @@ AssignmentRule_setMath(AssignmentRule_t * ar, const ASTNode_t* math);
 LIBSBML_EXTERN
 int
 AssignmentRule_setFormula (AssignmentRule_t *r, const char *formula);
+
+
+/**
+ * Unsets the value of the "variable" attribute of the given 
+ * AssignmentRule_t structure.
+ *
+ * @param ar the AssignmentRule_t structure.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ *
+ * @memberof AssignmentRule_t
+ */
+LIBSBML_EXTERN
+int
+AssignmentRule_unsetVariable(AssignmentRule_t * ar);
 
 
 /**

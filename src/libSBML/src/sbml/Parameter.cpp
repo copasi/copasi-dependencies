@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -230,11 +230,9 @@ Parameter::clone () const
 void
 Parameter::initDefaults ()
 {
-  //// level 3 has no defaults
-  //if (getLevel() < 3)
-  //{
-    setConstant(true);
-  //}
+  setConstant(true);
+  // not explicitly set
+  mExplicitlySetConstant = false;
 }
 
 
@@ -493,6 +491,31 @@ Parameter::unsetName ()
   else
   {
     return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
+int
+Parameter::unsetConstant ()
+{
+  if ( getLevel() < 2 )
+  {
+    mConstant = false;
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+  else if (getLevel() == 2)
+  {
+    // reset default
+    mConstant = true;
+    mExplicitlySetConstant = false;
+    mIsSetConstant = true;
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+  else
+  {
+    mIsSetConstant = false;
+    mExplicitlySetConstant = false;
+    return LIBSBML_OPERATION_SUCCESS;
   }
 }
 
@@ -809,7 +832,8 @@ Parameter::readL1Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("name", level, version, "<parameter>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
   //
   // value: double  { use="required" }  (L1v2)
@@ -834,7 +858,7 @@ Parameter::readL1Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The units attribute '" + mUnits + "' does not conform to the syntax.");
   }
 }
 /** @endcond */
@@ -861,7 +885,8 @@ Parameter::readL2Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("id", level, version, "<parameter>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
   //
   // value: double  { use="optional" }  (L1v2->)
@@ -878,7 +903,7 @@ Parameter::readL2Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The units attribute '" + mUnits + "' does not conform to the syntax.");
   }
 
   //
@@ -936,8 +961,13 @@ Parameter::readL3Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("id", level, version, "<parameter>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
+  string elplusid = "<" + getElementName() + ">";
+  if (!mId.empty()) {
+    elplusid += " with the id '" + mId + "'";
+  }
   //
   // value: double  { use="optional" }  (L1v2->)
   //
@@ -953,7 +983,9 @@ Parameter::readL3Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, level, version, "The " + elplusid + 
+      " has a substanceUnits with a value of '" + mUnits 
+      + "' which does not conform .");
   }
 
   //
@@ -968,7 +1000,8 @@ Parameter::readL3Attributes (const XMLAttributes& attributes)
     if (!mIsSetConstant)
     {
       logError(AllowedAttributesOnParameter, level, version, 
-        "The required attribute 'constant' is missing.");
+        "The required attribute 'constant' is missing from the "
+             + elplusid + ".");
     }
   }
 }
@@ -1848,6 +1881,17 @@ Parameter_unsetName (Parameter_t *p)
 {
   if (p != NULL)
     return p->unsetName();
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+Parameter_unsetConstant (Parameter_t *c)
+{
+  if (c != NULL)
+    return c->unsetConstant();
   else
     return LIBSBML_INVALID_OBJECT;
 }

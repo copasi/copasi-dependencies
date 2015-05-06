@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -36,6 +36,7 @@
 #include <sbml/math/ASTConstantNumberNode.h>
 #include <sbml/SBMLError.h>
 #include <sbml/SBMLErrorLog.h>
+#include <sbml/extension/ASTBasePlugin.h>
 
 /* open doxygen comment */
 
@@ -52,6 +53,31 @@ ASTConstantNumberNode::ASTConstantNumberNode (int type) :
     , mValue       ( 0 )
     , mIsSetValue (false)
 {
+  switch (type)
+  {
+  case AST_CONSTANT_E:
+    mValue = 2.71828182;
+    mIsSetValue = true;
+    break;
+  case AST_CONSTANT_FALSE:
+    mValue = 0;
+    mIsSetValue = true;
+    break;
+  case AST_CONSTANT_PI:
+    mValue = 3.14159292;
+    mIsSetValue = true;
+    break;
+  case AST_CONSTANT_TRUE:
+    mValue = 1;
+    mIsSetValue = true;
+    break;
+  default:
+    break;
+  }
+  for (unsigned int i = 0; i < getNumPlugins(); i++)
+  {
+    ASTBase::getPlugin(i)->connectToParent(this);
+  }
 }
   
 

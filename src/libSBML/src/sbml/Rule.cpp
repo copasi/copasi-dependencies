@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -444,6 +444,30 @@ Rule::setUnits (const std::string& sname)
   {
     mUnits = sname;
     return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
+/*
+ * Unsets the variable for this Rule.
+ */
+int
+Rule::unsetVariable ()
+{
+  if (isAlgebraic())
+  {
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+
+  mVariable.erase();
+
+  if (mVariable.empty()) 
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
   }
 }
 
@@ -1197,7 +1221,7 @@ Rule::readL2Attributes (const XMLAttributes& attributes)
       logEmptyString("variable", level, version, "<rule>");
     }
     if (!SyntaxChecker::isValidInternalSId(mVariable)) 
-      logError(InvalidIdSyntax);
+      logError(InvalidIdSyntax, level, version, "The id '" + mVariable + "' does not conform to the syntax.");
   }
 
   //
@@ -1243,7 +1267,7 @@ Rule::readL3Attributes (const XMLAttributes& attributes)
       logEmptyString("variable", level, version, "<rule>");
     }
     if (!SyntaxChecker::isValidInternalSId(mVariable)) 
-      logError(InvalidIdSyntax);
+      logError(InvalidIdSyntax, level, version, "The id '" + mVariable + "' does not conform to the syntax.");
   }
 }
 /** @endcond */

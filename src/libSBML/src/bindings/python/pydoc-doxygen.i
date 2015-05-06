@@ -4417,6 +4417,39 @@ be interpreted by libSBML.
 ";
 
 
+%feature("docstring") SBase::isSetUserData "
+Predicate returning true or false depending on whether
+the user data of this element has been set.
+
+@par
+The user data associated with an SBML object can be used by an application
+developer to attach custom information to that object in the model.  In case
+of a deep copy, this data will passed as-is.  The data attribute will never
+be interpreted by libSBML.
+
+@return boolean, @c True if this object\'s user data has been set,
+@c False otherwise.
+";
+
+
+%feature("docstring") SBase::unsetUserData "
+Unsets the user data of this element.
+
+@par
+The user data associated with an SBML object can be used by an application
+developer to attach custom information to that object in the model.  In case
+of a deep copy, this data will passed as-is.  The data attribute will never
+be interpreted by libSBML.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+";
+
+
 %feature("docstring") SBase::getURI "
 Gets the namespace URI to which this element belongs to.
 
@@ -4911,12 +4944,12 @@ returned by this function are:
 %feature("docstring") ListOf::appendAndOwn "
 Adds an item to the end of this ListOf\'s list of items.
 
-This method does not clone the @p item handed to it; instead, it assumes
+This method does not clone the @p disownedItem handed to it; instead, it assumes
 ownership of it.  This means that when the ListOf is destroyed, the item
 will be destroyed along with it.  For a method with an alternative
 ownership behavior, see the ListOf.append() method.
 
-@param item the item to be added to the list.
+@param disownedItem the item to be added to the list.
 
 @return integer value indicating success/failure of the
 function.  @if clike The value is drawn from the
@@ -4974,12 +5007,12 @@ returned by this function are:
 %feature("docstring") ListOf::insertAndOwn "
 Inserts an item at a given position in this ListOf\'s list of items.
 
-This variant of the method makes a clone of the @p item handed to it.
+This variant of the method does not make a clone of the @p disownedItem handed to it.
 This means that when the ListOf is destroyed, the original @p item
 <em>will</em> be destroyed.
 
 @param location the location where to insert the item
-@param item the item to be inserted to the list
+@param disownedItem the item to be inserted to the list
 
 @return integer value indicating success/failure of the
 function.  @if clike The value is drawn from the
@@ -7707,7 +7740,7 @@ Get the number of Compartment objects in this Model.
 
 
 %feature("docstring") Model::getNumSpecies "
-Get the number of Specie objects in this Model.
+Get the number of Species objects in this Model.
 
 @return the number of Species in this Model.
 ";
@@ -7918,6 +7951,13 @@ does @em not descend into child elements.
 
 
 %feature("docstring") Model::addDefinitionsForDefaultUnits "
+@internal
+
+@internal
+";
+
+
+%feature("docstring") Model::dealWithDefaultValues "
 @internal
 
 @internal
@@ -12050,6 +12090,25 @@ is set.
 ";
 
 
+%feature("docstring") Unit::isSetOffset "
+Predicate to test whether the \'offset\' attribute of this Unit 
+is set.
+
+@return @c True if the \'offset\' attribute of this Unit is set, 
+@c False otherwise.
+
+@warning <span class=\'warning\'>The \'offset\' attribute is only available in
+SBML Level&nbsp;2 Version&nbsp;1.  This attribute is not present in SBML
+Level&nbsp;2 Version&nbsp;2 or above.  When producing SBML models using
+these later specifications, modelers and software tools need to account
+for units with offsets explicitly.  The %SBML specification document
+offers a number of suggestions for how to achieve this.  LibSBML methods
+such as this one related to \'offset\' are retained for compatibility with
+earlier versions of SBML Level&nbsp;2, but their use is strongly
+discouraged.</span>
+";
+
+
 %feature("docstring") Unit::setKind "
 Sets the \'kind\' attribute value of this Unit.
 
@@ -12145,6 +12204,75 @@ Sets the \'offset\' attribute value of this Unit.
 
 @param value the float-point value to which the attribute \'offset\'
 should set
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+
+@warning <span class=\'warning\'>The \'offset\' attribute is only available in
+SBML Level&nbsp;2 Version&nbsp;1.  This attribute is not present in SBML
+Level&nbsp;2 Version&nbsp;2 or above.  When producing SBML models using
+these later specifications, modelers and software tools need to account
+for units with offsets explicitly.  The %SBML specification document
+offers a number of suggestions for how to achieve this.  LibSBML methods
+such as this one related to \'offset\' are retained for compatibility with
+earlier versions of SBML Level&nbsp;2, but their use is strongly
+discouraged.</span>
+";
+
+
+%feature("docstring") Unit::unsetKind "
+Unsets the \'kind\' attribute value of this Unit.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+";
+
+
+%feature("docstring") Unit::unsetExponent "
+Unsets the \'exponent\' attribute value of this Unit.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+";
+
+
+%feature("docstring") Unit::unsetScale "
+Unsets the \'scale\' attribute value of this Unit.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+";
+
+
+%feature("docstring") Unit::unsetMultiplier "
+Unsets the \'multipler\' attribute value of this Unit.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+";
+
+
+%feature("docstring") Unit::unsetOffset "
+Unsets the \'offset\' attribute value of this Unit.
 
 @return integer value indicating success/failure of the
 function.  @if clike The value is drawn from the
@@ -16327,6 +16455,22 @@ Level&nbsp;2 Versions&nbsp;2&ndash;4.
 ";
 
 
+%feature("docstring") Compartment::unsetConstant "
+Unsets the value of the \'constant\' attribute of this Compartment object.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+
+@see isSetConstant()
+@see setConstant()
+@see getConstant()
+";
+
+
 %feature("docstring") Compartment::unsetSize "
 Unsets the value of the \'size\' attribute of this Compartment object.
 
@@ -17891,6 +18035,22 @@ returned by this function are:
 ";
 
 
+%feature("docstring") Species::unsetConstant "
+Unsets the value of the \'constant\' attribute of this Species object.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+
+@see isSetConstant()
+@see setConstant()
+@see getConstant()
+";
+
+
 %feature("docstring") Species::unsetSpeciesType "
 Unsets the \'speciesType\' attribute value of this Species object.
 
@@ -18018,6 +18178,42 @@ returned by this function are:
 @note The \'conversionFactor\' attribute was introduced in SBML
 Level&nbsp;3.  It does not exist on Species in SBML Levels&nbsp;1
 and&nbsp;2.
+";
+
+
+%feature("docstring") Species::unsetCompartment "
+Unsets the \'compartment\' attribute value of this Species object.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+";
+
+
+%feature("docstring") Species::unsetBoundaryCondition "
+Unsets the \'boundaryCondition\' attribute value of this Species object.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+";
+
+
+%feature("docstring") Species::unsetHasOnlySubstanceUnits "
+Unsets the \'hasOnlySubstanceUnits\' attribute value of this Species object.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 ";
 
 
@@ -19006,6 +19202,22 @@ returned by this function are:
 ";
 
 
+%feature("docstring") Parameter::unsetConstant "
+Unsets the value of the \'constant\' attribute of this Parameter object.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+
+@see isSetConstant()
+@see setConstant()
+@see getConstant()
+";
+
+
 %feature("docstring") Parameter::unsetValue "
 Unsets the \'value\' attribute of this Parameter instance.
 
@@ -19816,6 +20028,13 @@ otherwise.
 ";
 
 
+%feature("docstring") LocalParameter::unsetConstant "
+@internal
+
+@internal
+";
+
+
 %feature("docstring") LocalParameter::addExpectedAttributes "
 @internal
 
@@ -20383,6 +20602,18 @@ Sets the \'symbol\' attribute value of this InitialAssignment.
 
 @param sid the identifier of a Species, Compartment or Parameter
 object defined elsewhere in this Model.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+";
+
+
+%feature("docstring") InitialAssignment::unsetSymbol "
+Unsets the \'symbol\' attribute value of this InitialAssignment.
 
 @return integer value indicating success/failure of the
 function.  @if clike The value is drawn from the
@@ -21310,6 +21541,23 @@ returned by this function are:
 
 @note The attribute \'units\' exists on SBML Level&nbsp;1 ParameterRule
 objects only.  It is not present in SBML Levels&nbsp;2 and&nbsp;3.
+";
+
+
+%feature("docstring") Rule::unsetVariable "
+Unsets the value of the \'variable\' attribute of this Rule object.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+
+@see setVariable()
+@see isSetVariable()
+@see getVariable()
 ";
 
 
@@ -23238,6 +23486,37 @@ set, @c False otherwise.
 
 
 %feature("docstring") Constraint::setMessage "
+This method has multiple variants; they differ in the arguments
+ they accept.  Each variant is described separately below.
+
+@par
+<hr>
+<span class='variant-sig-heading'>Method variant with the following signature</span>:
+ <pre class='signature'>setMessage(string message, bool addXHTMLMarkup = false)</pre>
+
+Sets the message of this Constraint.
+
+@param message an XML string that is to be used as the content of the
+\'message\' subelement of this object
+
+@param addXHTMLMarkup a boolean indicating whether to wrap the contents
+of the @p message argument with XHTML paragraph (<code>&lt;p&gt;</code>)
+tags.  This is appropriate when the string in @p message does not already
+containg the appropriate XHTML markup.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+   
+
+@par
+<hr>
+<span class='variant-sig-heading'>Method variant with the following signature</span>:
+ <pre class='signature'>setMessage(XMLNode xhtml)</pre>
+
 Sets the message of this Constraint.
 
 The XMLNode tree passed in @p xhtml is copied.
@@ -24255,6 +24534,19 @@ returned by this function are:
 @note The \'compartment\' attribute is available in SBML
 Level&nbsp;3 Version&nbsp;1 Core, but is not present on Reaction in
 lower Levels of SBML.
+";
+
+
+%feature("docstring") Reaction::unsetReversible "
+Unsets the value of the \'reversible\' attribute of this Reaction.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+@li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 ";
 
 
@@ -26244,6 +26536,18 @@ returned by this function are:
 ";
 
 
+%feature("docstring") SimpleSpeciesReference::unsetSpecies "
+Unsets the value of the \'species\' attribute of this SimpleSpeciesReference.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+";
+
+
 %feature("docstring") SimpleSpeciesReference::isModifier "
 Predicate returning @c True if this
 is a ModifierSpeciesReference.
@@ -27000,6 +27304,18 @@ will be just reset to the default value (@c 1.0) (and
 isSetStoichiometry() will still return @c True).  In SBML
 Level&nbsp;3, the \'stoichiometry\' attribute of this object will be set
 to @c NaN and isSetStoichiometry() will return @c False.
+";
+
+
+%feature("docstring") SpeciesReference::unsetConstant "
+Unsets the \'constant\' attribute of this SpeciesReference.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
 ";
 
 
@@ -27966,6 +28282,19 @@ Creates and returns a deep copy of this Event object.
 ";
 
 
+%feature("docstring") Event::initDefaults "
+Initializes the fields of this Event object to \'typical\' default
+values.
+
+The SBML Event component has slightly different aspects and
+default attribute values in different SBML Levels and Versions.
+This method sets the values to certain common defaults, based
+mostly on what they are in SBML Level&nbsp;2.  Specifically:
+
+@li Sets attribute \'spatialDimensions\' to @c 3
+";
+
+
 %feature("docstring") Event::getElementBySId "
 Returns the first child element found that has the given @p id in the
 model-wide SId namespace, or @c None if no such object is found.
@@ -28374,6 +28703,55 @@ enumeration #OperationReturnValues_t. @endif@~ The possible values
 returned by this function are:
 @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+";
+
+
+%feature("docstring") Event::unsetUseValuesFromTriggerTime "
+Unsets the value of the \'useValuesFromTriggerTime\' attribute of this Event.
+
+@par
+The optional Delay on Event means there are two times to consider when
+computing the results of an event: the time at which the event is
+<em>triggered</em>, and the time at which assignments are
+<em>executed</em>.  It is also possible to distinguish between the
+time at which the EventAssignment\'s expression is calculated, and the
+time at which the assignment is made: the expression could be
+evaluated at the same time the assignments are performed, i.e., when
+the event is <em>executed</em>, but it could also be defined to be
+evaluated at the time the event is <em>triggered</em>.
+
+In SBML Level&nbsp;2 versions prior to Version&nbsp;4, the semantics
+of Event time delays were defined such that the expressions in the
+event\'s assignments were always evaluated at the time the event was
+<em>triggered</em>.  This definition made it difficult to define an
+event whose assignment formulas were meant to be evaluated at the time
+the event was <em>executed</em> (i.e., after the time period defined
+by the value of the Delay element).  In SBML Level&nbsp;2
+Version&nbsp;4, the attribute \'useValuesFromTriggerTime\' on Event
+allows a model to indicate the time at which the event\'s assignments
+are intended to be evaluated.  In SBML Level&nbsp;2, the attribute has
+a default value of @c True, which corresponds to the interpretation of
+event assignments prior to Version&nbsp;4: the values of the
+assignment formulas are computed at the moment the event is triggered,
+not after the delay.  If \'useValuesFromTriggerTime\'=@c False, it means
+that the formulas in the event\'s assignments are to be computed after
+the delay, at the time the event is executed.  In SBML Level&nbsp;3,
+the attribute is mandatory, not optional, and all events must specify
+a value for it.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+
+@warning <span class=\'warning\'>The attribute \'useValuesFromTriggerTime\'
+was introduced in SBML Level&nbsp;2 Version&nbsp;4.  It is not valid in
+models defined using SBML Level&nbsp;2 versions prior to Version&nbsp;4.
+If a Level&nbsp;2 Version&nbsp;1&ndash;3 model sets the attribute, the
+consistency-checking method SBMLDocument.checkConsistency() will report
+an error.</span>
 ";
 
 
@@ -29273,6 +29651,18 @@ returned by this function are:
 ";
 
 
+%feature("docstring") EventAssignment::unsetVariable "
+Unsets the attribute \'variable\' of this EventAssignment.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+";
+
+
 %feature("docstring") EventAssignment::setMath "
 Sets the \'math\' subelement of this EventAssignment to a copy of the
 given ASTNode.
@@ -30018,6 +30408,42 @@ Version&nbsp;1 Core, but is not present in lower Levels of SBML.
 
 %feature("docstring") Trigger::setPersistent "
 (SBML Level&nbsp;3 only) Sets the \'persistent\' attribute of this Trigger instance.
+
+@param persistent a boolean representing the persistent value to be set.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+
+@note The attribute \'persistent\' is available in SBML Level&nbsp;3
+Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+";
+
+
+%feature("docstring") Trigger::unsetInitialValue "
+(SBML Level&nbsp;3 only) Unsets the \'initialValue\' attribute of this 
+Trigger instance.
+
+@param initialValue a boolean representing the initialValue to be set.
+
+@return integer value indicating success/failure of the
+function.  @if clike The value is drawn from the
+enumeration #OperationReturnValues_t. @endif@~ The possible values
+returned by this function are:
+@li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+
+@note The attribute \'initialValue\' is available in SBML Level&nbsp;3
+Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+";
+
+
+%feature("docstring") Trigger::unsetPersistent "
+(SBML Level&nbsp;3 only) Unsets the \'persistent\' attribute of this 
+Trigger instance.
 
 @param persistent a boolean representing the persistent value to be set.
 
@@ -36313,6 +36739,13 @@ otherwise.
 
 
 %feature("docstring") SBMLLevelVersionConverter::performConversion "
+@internal
+
+@internal
+";
+
+
+%feature("docstring") SBMLLevelVersionConverter::validateConvertedDocument "
 @internal
 
 @internal
@@ -55779,6 +56212,42 @@ This method has multiple variants; they differ in the arguments
 @par
 <hr>
 <span class='variant-sig-heading'>Method variant with the following signature</span>:
+ <pre class='signature'>SBaseExtensionPoint(string pkgName, int typeCode, string elementName, bool elementOnly = false)</pre>
+
+Constructor for SBaseExtensionPoint.
+
+The use of SBaseExtensionPoint is relatively straightforward.  The
+class needs to be used for each extended SBML object implemented
+using SBMLDocumentPlugin or SBasePlugin.  Doing so requires knowing
+just two things:
+
+@li The short-form name of the @em parent package being extended.
+The parent package is often simply core SBML, identified in libSBML
+by the nickname <code>\'core\'</code>, but a SBML Level&nbsp;3
+package could conceivably extend another Level&nbsp;3 package and
+the mechanism supports this.
+
+@li The libSBML type code assigned to the object being extended.
+For example, if an extension of Model is implemented, the relevant
+type code is SBML_MODEL, found in #SBMLTypeCode_t.
+
+@param pkgName the short-form name of the parent package where
+that this package extension is extending.
+
+@param typeCode the type code of the object being extended.
+
+@param elementName element name for the target element, in case 
+multiple elements match the same type code (as will be the case
+for ListOf classes)
+
+@param elementOnly flag to be used during the registration 
+of the package, when set then the plugin is only applied to 
+elements whose elementName match.
+  
+
+@par
+<hr>
+<span class='variant-sig-heading'>Method variant with the following signature</span>:
  <pre class='signature'>SBaseExtensionPoint(SBaseExtensionPoint rhs)</pre>
 
 Copy constructor.
@@ -55831,6 +56300,16 @@ Returns the package name of this extension point.
 
 %feature("docstring") SBaseExtensionPoint::getTypeCode "
 Returns the libSBML type code of this extension point.
+";
+
+
+%feature("docstring") SBaseExtensionPoint::getElementName "
+the target element name
+";
+
+
+%feature("docstring") SBaseExtensionPoint::isElementOnly "
+
 ";
 
 
@@ -56328,6 +56807,18 @@ object.
 ";
 
 
+%feature("docstring") SBasePlugin::isValidTypeForList "
+
+";
+
+
+%feature("docstring") SBasePlugin::accept "
+@internal
+
+@internal
+";
+
+
 %feature("docstring") SBasePlugin::getErrorLog "
 @internal
 
@@ -56751,6 +57242,13 @@ returned by this function are:
 
 
 %feature("docstring") SBMLDocumentPlugin::checkConsistency "
+@internal
+
+@internal
+";
+
+
+%feature("docstring") SBMLDocumentPlugin::accept "
 @internal
 
 @internal
@@ -58805,6 +59303,13 @@ such exists.
 ";
 
 
+%feature("docstring") ASTBase::getValue "
+@internal
+
+@internal
+";
+
+
 %feature("docstring") ASTBase::resetPackageName "
 @internal
 
@@ -58883,13 +59388,6 @@ such exists.
 
 
 %feature("docstring") ASTBase::getNumChildren "
-@internal
-
-@internal
-";
-
-
-%feature("docstring") ASTBase::getValue "
 @internal
 
 @internal
@@ -59176,7 +59674,7 @@ Adds the given node as a child of this ASTNode.
 
 Child nodes are added in-order, from left to right.
 
-@param child the ASTNode instance to add
+@param disownedChild the ASTNode instance to add
 
 @return integer value indicating success/failure of the
 function.  @if clike The value is drawn from the
@@ -59207,7 +59705,7 @@ Adds the given node as a child of this ASTNode.
 
 This method adds child nodes from right to left.
 
-@param child the ASTNode instance to add
+@param disownedChild the ASTNode instance to add
 
 @return integer value indicating success/failure of the
 function.  @if clike The value is drawn from the
@@ -59264,7 +59762,7 @@ may also be useful for checking the results of node modifications.
 Replaces the nth child of this ASTNode with the given ASTNode.
 
 @param n long the index of the child to replace
-@param newChild ASTNode to replace the nth child
+@param disownedChild ASTNode to replace the nth child
 @param delreplaced boolean indicating whether to delete the replaced child.
 
 @return integer value indicating success/failure of the
@@ -59296,7 +59794,7 @@ Inserts the given ASTNode node at a given point in the current ASTNode\'s
 list of children.
 
 @param n long the index of the ASTNode being added
-@param newChild ASTNode to insert as the nth child
+@param disownedChild ASTNode to insert as the nth child
 
 @return integer value indicating success/failure of the
 function.  @if clike The value is drawn from the
@@ -59399,7 +59897,7 @@ to the MathML&nbsp;2.0 documentation, particularly the <a target=\'_blank\'
 href=\'http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations\'>Section
 5.2, Semantic Annotations</a> for more information about these constructs.
 
-@param sAnnotation the annotation to add.
+@param disownedAnnotation the annotation to add.
 
 @return integer value indicating success/failure of the
 function.  @if clike The value is drawn from the
@@ -59719,6 +60217,27 @@ returns @link libsbml#AST_REAL_E AST_REAL_E@endlink.
 It will return @c 0 if the node type is another type, but since @c 0 may
 be a valid value, it is important to be sure that the node type is the
 correct type in order to correctly interpret the returned value.
+";
+
+
+%feature("docstring") ASTNode::getValue "
+Returns the numerical value of this ASTNode.
+
+@return the numerical value of this ASTNode, or @c NaN if this
+is not a type of node that has a numerical value.
+
+@note This function will return a numerical value (as a double) for 
+any ASTNode_t that represents a number, a constant such as 
+@link libsbml#AST_CONSTANT_PI AST_CONSTANT_PI@endlink, 
+@link libsbml#AST_CONSTANT_E AST_CONSTANT_E@endlink, or 
+@link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink, or 
+@c 1 for nodes of type 
+@link libsbml#AST_CONSTANT_TRUE AST_CONSTANT_TRUE@endlink and @c 0 for nodes of type
+@link libsbml#AST_CONSTANT_FALSE AST_CONSTANT_FALSE@endlink. It does not evaluate
+the node in any way so, for example, it will not return the value of 
+a named ASTNode_t or attempt to evaluate a function. 
+This includes a node representing @c time i.e. nodes
+of type @link libsbml#AST_NAME_TIME AST_NAME_TIME@endlink.
 ";
 
 

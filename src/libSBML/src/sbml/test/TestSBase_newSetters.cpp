@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1843,7 +1843,7 @@ START_TEST(test_SBase_addCVTerms)
   
   int i = SBase_addCVTerm(S, cv);
 
-  fail_unless ( i == LIBSBML_UNEXPECTED_ATTRIBUTE);
+  fail_unless ( i == LIBSBML_MISSING_METAID);
   fail_unless(SBase_getNumCVTerms(S) == 0);
 
   SBase_setMetaId(S, "_id");

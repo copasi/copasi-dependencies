@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -62,6 +62,11 @@ START_CONSTRAINT (80501, Compartment, c)
   {
     fail = false;
   }
+  else if (c.isSetSpatialDimensions() && c.getSpatialDimensions()==0) {
+    //Compartments with spatialDimensions of 0 should 
+    //(and, for some levels/versions, *must*) not have a 'size'.
+    fail = false;
+  }
   else
   {
     pre (c.isSetId() == true);
@@ -73,6 +78,28 @@ START_CONSTRAINT (80501, Compartment, c)
     else if (m.getAssignmentRuleByVariable(c.getId()) != NULL)
     {
       fail = false;
+    }
+    // Need something like the following to check if the initial value is 
+    // set by an algebraic rule.  However, there is no 'hasVariable' 
+    // function for an ASTNode yet.
+    /*
+    else if (!c.getConstant())
+    {
+      for (unsigned int alg=0; alg<m.getNumRules(); alg++)
+      {
+        const Rule* rule = m.getRule(alg);
+        if (rule->isAlgebraic() && rule->getMath()->hasVariable(c.getId()))
+        {
+          fail = false;
+        }
+      }
+    }
+    */
+    else 
+    {
+      msg = "The <compartment> with the id '" + c.getId();
+      msg += "' does not have a 'size' attribute, nor is its initial value ";
+      msg += "set by an <initialAssignment> or <assignmentRule>.";
     }
   }
 
@@ -101,6 +128,29 @@ START_CONSTRAINT (80601, Species, s)
     {
       fail = false;
     }
+    // Need something like the following to check if the initial value is 
+    // set by an algebraic rule.  However, there is no 'hasVariable' function 
+    // for an ASTNode yet.
+    /*
+    else if (!s.getConstant())
+    {
+      for (unsigned int alg=0; alg<m.getNumRules(); alg++)
+      {
+        const Rule* rule = m.getRule(alg);
+        if (rule->isAlgebraic() && rule->getMath()->hasVariable(s.getId()))
+        {
+          fail = false;
+        }
+      }
+    }
+    */
+    else 
+    {
+      msg = "The <species> with the id '" + s.getId();
+      msg += "' does not have an 'initialConcentration' or 'initialAmount' ";
+      msg += "attribute, nor is its initial value set by an <initialAssignment> ";
+      msg += "or <assignmentRule>.";
+    }
   }
 
   inv (fail == false);
@@ -114,7 +164,61 @@ EXTERN_CONSTRAINT( 81121, LocalParameterShadowsIdInModel             )
 
 START_CONSTRAINT (80701, Parameter, p)
 {
+  if(p.isSetId())
+  {
+    msg = "The <parameter> with the id '" + p.getId() + "' does not have a 'units' attribute.";
+  }
   inv(p.isSetUnits() == true);
+}
+END_CONSTRAINT
+
+
+START_CONSTRAINT (80702, Parameter, p)
+{
+  bool fail = true;
+
+  if (p.isSetValue() == true)
+  {
+    fail = false;
+  }
+  else
+  {
+    pre (p.isSetId() == true);
+    // is there an initial assignment/assignment rule that would set the value
+    if (m.getInitialAssignmentBySymbol(p.getId()) != NULL)
+    {
+      fail = false;
+    }
+    else if (m.getAssignmentRuleByVariable(p.getId()) != NULL)
+    {
+      fail = false;
+    }
+    // Need something like the following to check if the initial value is 
+    // set by an algebraic rule.  However, there is no 'hasVariable' function 
+    // for an ASTNode yet.
+    /*
+    else if (!p.getConstant())
+    {
+      for (unsigned int alg=0; alg<m.getNumRules(); alg++)
+      {
+        const Rule* rule = m.getRule(alg);
+        if (rule->isAlgebraic() && rule->getMath()->hasVariable(p.getId()))
+        {
+          fail = false;
+        }
+      }
+    }
+    */
+    else 
+    {
+      msg = "The <parameter> with the id '" + p.getId();
+      msg += "' does not have 'value' ";
+      msg += "attribute, nor is its initial value set by an <initialAssignment> ";
+      msg += "or <assignmentRule>.";
+    }
+  }
+
+  inv (fail == false);
 }
 END_CONSTRAINT
 

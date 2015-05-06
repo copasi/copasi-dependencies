@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -241,6 +241,22 @@ InitialAssignment::setSymbol (const std::string& sid)
   {
     mSymbol = sid;
     return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
+int
+InitialAssignment::unsetSymbol ()
+{
+  mSymbol.erase();
+
+  if (mSymbol.empty())
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
   }
 }
 
@@ -690,7 +706,7 @@ InitialAssignment::readL2Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalSId(mSymbol)) 
         logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute symbol='" + mSymbol + "' does not conform.");
+        "The syntax of the attribute symbol='" + mSymbol + "' does not conform to the syntax.");
 
   //
   // sboTerm: SBOTerm { use="optional" }  (L2v2 ->)
@@ -729,7 +745,7 @@ InitialAssignment::readL3Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalSId(mSymbol)) 
     logError(InvalidIdSyntax, getLevel(), getVersion(), 
-    "The syntax of the attribute symbol='" + mSymbol + "' does not conform.");
+    "The syntax of the attribute symbol='" + mSymbol + "' does not conform to the syntax.");
 
 }
 /** @endcond */
@@ -1074,6 +1090,17 @@ InitialAssignment_setSymbol (InitialAssignment_t *ia, const char *sid)
 {
   if (ia != NULL)
     return ia->setSymbol((sid != NULL) ? sid : "");
+  return
+    LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+InitialAssignment_unsetSymbol (InitialAssignment_t *ia)
+{
+  if (ia != NULL)
+    return ia->unsetSymbol();
   return
     LIBSBML_INVALID_OBJECT;
 }

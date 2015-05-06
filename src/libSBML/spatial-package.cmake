@@ -5,7 +5,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2014 jointly by the following organizations:
+# Copyright (C) 2013-2015 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -36,9 +36,6 @@ option(ENABLE_SPATIAL     "Enable libSBML support for the SBML Level 3 Spatial P
 list(APPEND LIBSBML_PACKAGE_SUMMARY "SBML 'spatial' package = ${ENABLE_SPATIAL}")
 
 if(ENABLE_SPATIAL)
-	if (NOT ENABLE_REQUIREDELEMENTS)
-		message(FATAL "The spatial package requires the 'required elements package'")
-	endif()
 	add_definitions(-DUSE_SPATIAL)
 	set(LIBSBML_PACKAGE_INCLUDES ${LIBSBML_PACKAGE_INCLUDES} "LIBSBML_HAS_PACKAGE_SPATIAL")
 	list(APPEND SWIG_EXTRA_ARGS -DUSE_SPATIAL)	

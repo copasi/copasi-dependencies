@@ -928,6 +928,12 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBase_matchesRequiredSBMLNamespacesForAddition__SWIG_0")]
   public static extern bool SBase_matchesRequiredSBMLNamespacesForAddition__SWIG_0(HandleRef jarg1, HandleRef jarg2);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBase_isSetUserData")]
+  public static extern bool SBase_isSetUserData(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBase_unsetUserData")]
+  public static extern int SBase_unsetUserData(HandleRef jarg1);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBase_getURI")]
   [return: MarshalAs(UnmanagedType.LPWStr)]
   public static extern string SBase_getURI(HandleRef jarg1);
@@ -1509,6 +1515,9 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Model_addDefinitionsForDefaultUnits")]
   public static extern void Model_addDefinitionsForDefaultUnits(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Model_dealWithDefaultValues")]
+  public static extern void Model_dealWithDefaultValues(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Model_convertParametersToLocals")]
   public static extern void Model_convertParametersToLocals(HandleRef jarg1, long jarg2, long jarg3);
@@ -2144,6 +2153,9 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_Unit_isSetMultiplier")]
   public static extern bool Unit_isSetMultiplier(HandleRef jarg1);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Unit_isSetOffset")]
+  public static extern bool Unit_isSetOffset(HandleRef jarg1);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_Unit_setKind")]
   public static extern int Unit_setKind(HandleRef jarg1, int jarg2);
 
@@ -2161,6 +2173,21 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Unit_setOffset")]
   public static extern int Unit_setOffset(HandleRef jarg1, double jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Unit_unsetKind")]
+  public static extern int Unit_unsetKind(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Unit_unsetExponent")]
+  public static extern int Unit_unsetExponent(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Unit_unsetScale")]
+  public static extern int Unit_unsetScale(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Unit_unsetMultiplier")]
+  public static extern int Unit_unsetMultiplier(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Unit_unsetOffset")]
+  public static extern int Unit_unsetOffset(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Unit_getTypeCode")]
   public static extern int Unit_getTypeCode(HandleRef jarg1);
@@ -2666,6 +2693,9 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_Compartment_unsetCompartmentType")]
   public static extern int Compartment_unsetCompartmentType(HandleRef jarg1);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Compartment_unsetConstant")]
+  public static extern int Compartment_unsetConstant(HandleRef jarg1);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_Compartment_unsetSize")]
   public static extern int Compartment_unsetSize(HandleRef jarg1);
 
@@ -2880,6 +2910,9 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_Species_unsetName")]
   public static extern int Species_unsetName(HandleRef jarg1);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Species_unsetConstant")]
+  public static extern int Species_unsetConstant(HandleRef jarg1);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_Species_unsetSpeciesType")]
   public static extern int Species_unsetSpeciesType(HandleRef jarg1);
 
@@ -2903,6 +2936,15 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Species_unsetConversionFactor")]
   public static extern int Species_unsetConversionFactor(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Species_unsetCompartment")]
+  public static extern int Species_unsetCompartment(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Species_unsetBoundaryCondition")]
+  public static extern int Species_unsetBoundaryCondition(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Species_unsetHasOnlySubstanceUnits")]
+  public static extern int Species_unsetHasOnlySubstanceUnits(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Species_getDerivedUnitDefinition__SWIG_0")]
   public static extern IntPtr Species_getDerivedUnitDefinition__SWIG_0(HandleRef jarg1);
@@ -3023,6 +3065,9 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_Parameter_unsetName")]
   public static extern int Parameter_unsetName(HandleRef jarg1);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Parameter_unsetConstant")]
+  public static extern int Parameter_unsetConstant(HandleRef jarg1);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_Parameter_unsetValue")]
   public static extern int Parameter_unsetValue(HandleRef jarg1);
 
@@ -3119,6 +3164,9 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_LocalParameter_setConstant")]
   public static extern int LocalParameter_setConstant(HandleRef jarg1, bool jarg2);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_LocalParameter_unsetConstant")]
+  public static extern int LocalParameter_unsetConstant(HandleRef jarg1);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_new_ListOfLocalParameters__SWIG_0")]
   public static extern IntPtr new_ListOfLocalParameters__SWIG_0(long jarg1, long jarg2);
 
@@ -3183,6 +3231,9 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_InitialAssignment_setSymbol")]
   public static extern int InitialAssignment_setSymbol(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_InitialAssignment_unsetSymbol")]
+  public static extern int InitialAssignment_unsetSymbol(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_InitialAssignment_setMath")]
   public static extern int InitialAssignment_setMath(HandleRef jarg1, HandleRef jarg2);
@@ -3306,6 +3357,9 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Rule_setUnits")]
   public static extern int Rule_setUnits(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Rule_unsetVariable")]
+  public static extern int Rule_unsetVariable(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Rule_unsetUnits")]
   public static extern int Rule_unsetUnits(HandleRef jarg1);
@@ -3494,8 +3548,14 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_Constraint_isSetMath")]
   public static extern bool Constraint_isSetMath(HandleRef jarg1);
 
-  [DllImport("libsbmlcs", EntryPoint="CSharp_Constraint_setMessage")]
-  public static extern int Constraint_setMessage(HandleRef jarg1, HandleRef jarg2);
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Constraint_setMessage__SWIG_0")]
+  public static extern int Constraint_setMessage__SWIG_0(HandleRef jarg1, HandleRef jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Constraint_setMessage__SWIG_1")]
+  public static extern int Constraint_setMessage__SWIG_1(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2, bool jarg3);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Constraint_setMessage__SWIG_2")]
+  public static extern int Constraint_setMessage__SWIG_2(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Constraint_setMath")]
   public static extern int Constraint_setMath(HandleRef jarg1, HandleRef jarg2);
@@ -3642,6 +3702,9 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Reaction_unsetCompartment")]
   public static extern int Reaction_unsetCompartment(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Reaction_unsetReversible")]
+  public static extern int Reaction_unsetReversible(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Reaction_addReactant")]
   public static extern int Reaction_addReactant(HandleRef jarg1, HandleRef jarg2);
@@ -3961,6 +4024,9 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_SimpleSpeciesReference_unsetName")]
   public static extern int SimpleSpeciesReference_unsetName(HandleRef jarg1);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SimpleSpeciesReference_unsetSpecies")]
+  public static extern int SimpleSpeciesReference_unsetSpecies(HandleRef jarg1);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_SimpleSpeciesReference_isModifier")]
   public static extern bool SimpleSpeciesReference_isModifier(HandleRef jarg1);
 
@@ -4023,6 +4089,9 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SpeciesReference_unsetStoichiometry")]
   public static extern int SpeciesReference_unsetStoichiometry(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SpeciesReference_unsetConstant")]
+  public static extern int SpeciesReference_unsetConstant(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SpeciesReference_createStoichiometryMath")]
   public static extern IntPtr SpeciesReference_createStoichiometryMath(HandleRef jarg1);
@@ -4117,6 +4186,9 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_Event_clone")]
   public static extern IntPtr Event_clone(HandleRef jarg1);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Event_initDefaults")]
+  public static extern void Event_initDefaults(HandleRef jarg1);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_Event_getElementBySId")]
   public static extern IntPtr Event_getElementBySId(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2);
 
@@ -4194,6 +4266,9 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Event_unsetName")]
   public static extern int Event_unsetName(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Event_unsetUseValuesFromTriggerTime")]
+  public static extern int Event_unsetUseValuesFromTriggerTime(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Event_unsetDelay")]
   public static extern int Event_unsetDelay(HandleRef jarg1);
@@ -4321,6 +4396,9 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_EventAssignment_setVariable")]
   public static extern int EventAssignment_setVariable(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_EventAssignment_unsetVariable")]
+  public static extern int EventAssignment_unsetVariable(HandleRef jarg1);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_EventAssignment_setMath")]
   public static extern int EventAssignment_setMath(HandleRef jarg1, HandleRef jarg2);
 
@@ -4437,6 +4515,12 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Trigger_setPersistent")]
   public static extern int Trigger_setPersistent(HandleRef jarg1, bool jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Trigger_unsetInitialValue")]
+  public static extern int Trigger_unsetInitialValue(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_Trigger_unsetPersistent")]
+  public static extern int Trigger_unsetPersistent(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_Trigger_getTypeCode")]
   public static extern int Trigger_getTypeCode(HandleRef jarg1);
@@ -7073,11 +7157,17 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_new_SBaseExtensionPoint__SWIG_0")]
   public static extern IntPtr new_SBaseExtensionPoint__SWIG_0([MarshalAs(UnmanagedType.LPWStr)]string jarg1, int jarg2);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_SBaseExtensionPoint__SWIG_1")]
+  public static extern IntPtr new_SBaseExtensionPoint__SWIG_1([MarshalAs(UnmanagedType.LPWStr)]string jarg1, int jarg2, [MarshalAs(UnmanagedType.LPWStr)]string jarg3, bool jarg4);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_SBaseExtensionPoint__SWIG_2")]
+  public static extern IntPtr new_SBaseExtensionPoint__SWIG_2([MarshalAs(UnmanagedType.LPWStr)]string jarg1, int jarg2, [MarshalAs(UnmanagedType.LPWStr)]string jarg3);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_delete_SBaseExtensionPoint")]
   public static extern void delete_SBaseExtensionPoint(HandleRef jarg1);
 
-  [DllImport("libsbmlcs", EntryPoint="CSharp_new_SBaseExtensionPoint__SWIG_1")]
-  public static extern IntPtr new_SBaseExtensionPoint__SWIG_1(HandleRef jarg1);
+  [DllImport("libsbmlcs", EntryPoint="CSharp_new_SBaseExtensionPoint__SWIG_3")]
+  public static extern IntPtr new_SBaseExtensionPoint__SWIG_3(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBaseExtensionPoint_clone")]
   public static extern IntPtr SBaseExtensionPoint_clone(HandleRef jarg1);
@@ -7088,6 +7178,13 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBaseExtensionPoint_getTypeCode")]
   public static extern int SBaseExtensionPoint_getTypeCode(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBaseExtensionPoint_getElementName")]
+  [return: MarshalAs(UnmanagedType.LPWStr)]
+  public static extern string SBaseExtensionPoint_getElementName(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBaseExtensionPoint_isElementOnly")]
+  public static extern bool SBaseExtensionPoint_isElementOnly(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_delete_SBasePlugin")]
   public static extern void delete_SBasePlugin(HandleRef jarg1);
@@ -7173,6 +7270,9 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBasePlugin_logUnknownElement")]
   public static extern void SBasePlugin_logUnknownElement(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2, long jarg3, long jarg4, long jarg5);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_SBasePlugin_isValidTypeForList")]
+  public static extern bool SBasePlugin_isValidTypeForList(HandleRef jarg1, HandleRef jarg2);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_SBasePlugin_getListOfAllElements__SWIG_0")]
   public static extern IntPtr SBasePlugin_getListOfAllElements__SWIG_0(HandleRef jarg1, HandleRef jarg2);
@@ -7659,6 +7759,9 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_ASTBase_hasUnambiguousPackageInfixGrammar")]
   public static extern bool ASTBase_hasUnambiguousPackageInfixGrammar(HandleRef jarg1, HandleRef jarg2);
 
+  [DllImport("libsbmlcs", EntryPoint="CSharp_ASTBase_getValue")]
+  public static extern double ASTBase_getValue(HandleRef jarg1);
+
   [DllImport("libsbmlcs", EntryPoint="CSharp_new_ASTNode__SWIG_0")]
   public static extern IntPtr new_ASTNode__SWIG_0(int jarg1);
 
@@ -7765,6 +7868,9 @@ class libsbmlPINVOKE {
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_ASTNode_getExponent")]
   public static extern int ASTNode_getExponent(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_ASTNode_getValue")]
+  public static extern double ASTNode_getValue(HandleRef jarg1);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_ASTNode_getPrecedence")]
   public static extern int ASTNode_getPrecedence(HandleRef jarg1);
@@ -8002,6 +8108,12 @@ class libsbmlPINVOKE {
   [DllImport("libsbmlcs", EntryPoint="CSharp_ASTNode_getPackageName")]
   [return: MarshalAs(UnmanagedType.LPWStr)]
   public static extern string ASTNode_getPackageName(HandleRef jarg1);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_ASTNode_getPlugin__SWIG_0")]
+  public static extern IntPtr ASTNode_getPlugin__SWIG_0(HandleRef jarg1, [MarshalAs(UnmanagedType.LPWStr)]string jarg2);
+
+  [DllImport("libsbmlcs", EntryPoint="CSharp_ASTNode_getPlugin__SWIG_2")]
+  public static extern IntPtr ASTNode_getPlugin__SWIG_2(HandleRef jarg1, long jarg2);
 
   [DllImport("libsbmlcs", EntryPoint="CSharp_ASTNode_getListOfNodes")]
   public static extern IntPtr ASTNode_getListOfNodes(HandleRef jarg1);

@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -86,11 +86,11 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_CAT_IDENTIFIER_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "(Extends validation rule #10301 in the SBML Level 3 Version 1 Core "
-    "specification.) Within a <model> object"
+    "specification.) Within a <model> object "
     "the values of the attributes id and layout:id on every instance of the "
     "following classes of objects must be unique across the set of all id "
     "and layout:id attribute values of all such objects in a model: the "
-    "model itself, plus all contained <functionDefinition>, <compartment>,"
+    "model itself, plus all contained <functionDefinition>, <compartment>, "
     "<species>, <reaction>, <speciesReference>, <modifierSpeciesReference>, "
     "<event>, and <parameter> objects, plus the <boundingBox>, "
     "<compartmentGlyph>, <generalGlyph>, <graphicalObject>, <layout>, "
@@ -143,7 +143,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "In all SBML documents using the Layout "
     "package, the SBML object must include a value for the attribute "
-    "'layout:required.",
+    "'layout:required'.",
     { "L3V1 Core Section 4.1.2"
     }
   },
@@ -211,7 +211,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "A <listOfLayouts> object may have the optional attributes 'metaid' "
-    "and 'sboTerm' defined by SBML Level~3 Core. No other attributes from "
+    "and 'sboTerm' defined by SBML Level 3 Core. No other attributes from "
     "the SBML Level 3 Core namespace or the Layout "
     "namespace are permitted on a <listOfLayouts> object. ",
     { "L3V1 Layout V1 Section 3.5"
@@ -235,7 +235,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
     "Allowed core attributes on Layout",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
-    "A <layout> object may have the optional SBML Level~3 Core "
+    "A <layout> object may have the optional SBML Level 3 Core "
     "attributes 'metaid' and 'sboTerm'. No other attributes from "
     "the SBML Level 3 Core namespace are permitted on a <layout> object. ",
     { "L3V1 Core Section 3.2"
@@ -264,8 +264,8 @@ static const packageErrorTableEntry layoutErrorTable[] =
     "optional, but if present, these container object must not be "
     "empty.  Specifically, if any of the following classes of objects "
     "are present on the <layout>, it must not be empty: "
-    "<listOfCompartmentGlyphs>, <listOfSpeciesGlyphs>, <listOfReactionGlyphs>,"
-    " <listOfTextGlyphs>, <listOfAdditionalGraphicalObjects>.",
+    "<listOfCompartmentGlyphs>, <listOfSpeciesGlyphs>, <listOfReactionGlyphs>, "
+    "<listOfTextGlyphs>, <listOfAdditionalGraphicalObjects>.",
     { "L3V1 Layout V1 Section 3.6"
     }
   },
@@ -277,7 +277,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <layout> object must have the required attribute 'layout:id' and may "
     "have the optional attribute 'layout:name'. No other attributes from the "
-    "SBML Level~3 Layout namespace are permitted on a <layout> object.",
+    "SBML Level 3 Layout namespace are permitted on a <layout> object.",
     { "L3V1 Layout V1 Section 3.6"
     }
   },
@@ -300,8 +300,8 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <listOfCompartmentGlyphs> object may have the optional "
     "attributes 'metaid' "
-    "and 'sboTerm' defined by SBML Level~3 Core.  No other attributes "
-    "from the SBML Level~3 Core namespace or the Layout namespace are "
+    "and 'sboTerm' defined by SBML Level 3 Core.  No other attributes "
+    "from the SBML Level 3 Core namespace or the Layout namespace are "
     "permitted on a <listOfCompartmentGlyphs> object. ",
     { "L3V1 Layout V1 Section 3.6"
     }
@@ -326,8 +326,8 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <listOfSpeciesGlyphs> object may have the optional "
     "attributes 'metaid' "
-    "and 'sboTerm' defined by SBML Level~3 Core.  No other attributes "
-    "from the SBML Level~3 Core namespace or the Layout namespace are "
+    "and 'sboTerm' defined by SBML Level 3 Core.  No other attributes "
+    "from the SBML Level 3 Core namespace or the Layout namespace are "
     "permitted on a <listOfSpeciesGlyphs> object. ",
     { "L3V1 Layout V1 Section 3.6"
     }
@@ -352,8 +352,8 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <listOfReactionGlyphs> object may have the optional "
     "attributes 'metaid' "
-    "and 'sboTerm' defined by SBML Level~3 Core.  No other attributes "
-    "from the SBML Level~3 Core namespace or the Layout namespace are "
+    "and 'sboTerm' defined by SBML Level 3 Core.  No other attributes "
+    "from the SBML Level 3 Core namespace or the Layout namespace are "
     "permitted on a <listOfReactionGlyphs> object. ",
     { "L3V1 Layout V1 Section 3.6"
     }
@@ -378,8 +378,8 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <listOfAdditionalGraphicalObjectGlyphs> object may have the "
     "optional attributes 'metaid' "
-    "and 'sboTerm' defined by SBML Level~3 Core.  No other attributes "
-    "from the SBML Level~3 Core namespace or the Layout namespace are "
+    "and 'sboTerm' defined by SBML Level 3 Core.  No other attributes "
+    "from the SBML Level 3 Core namespace or the Layout namespace are "
     "permitted on a <listOfAdditionalGraphicalObjectGlyphs> object. ",
     { "L3V1 Layout V1 Section 3.6"
     }
@@ -414,8 +414,8 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <listOfTextGlyphs> object may have the optional "
     "attributes 'metaid' "
-    "and 'sboTerm' defined by SBML Level~3 Core.  No other attributes "
-    "from the SBML Level~3 Core namespace or the Layout namespace are "
+    "and 'sboTerm' defined by SBML Level 3 Core.  No other attributes "
+    "from the SBML Level 3 Core namespace or the Layout namespace are "
     "permitted on a <listOfTextGlyphs> object. ",
     { "L3V1 Layout V1 Section 3.6"
     }
@@ -484,7 +484,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6020405
   { LayoutGOMetaIdRefMustBeIDREF, 
-    "Layout 'metIdRef' must be IDREF.",
+    "Layout 'metaidRef' must be IDREF.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The attribute 'layout:metaidRef' of a <graphicalObject> "
@@ -495,7 +495,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6020406
   { LayoutGOMetaIdRefMustReferenceObject, 
-    "Layout 'metIdRef' must reference existing object.",
+    "Layout 'metaidRef' must reference existing object.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The value of a 'layout:metaidRef' attribute of a <graphicalObject> "
@@ -567,7 +567,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6020505
   { LayoutCGMetaIdRefMustBeIDREF, 
-    "Layout 'metIdRef' must be IDREF.",
+    "Layout 'metaidRef' must be IDREF.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The attribute 'layout:metaidRef' of a <compartmentGlyph> "
@@ -578,7 +578,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6020506
   { LayoutCGMetaIdRefMustReferenceObject, 
-    "Layout 'metIdRef' must reference existing object.",
+    "Layout 'metaidRef' must reference existing object.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The value of a 'layout:metaidRef' attribute of a <compartmentGlyph> "
@@ -684,7 +684,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6020605
   { LayoutSGMetaIdRefMustBeIDREF, 
-    "Layout 'metIdRef' must be IDREF.",
+    "Layout 'metaidRef' must be IDREF.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The attribute 'layout:metaidRef' of a <speciesGlyph> "
@@ -695,7 +695,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6020606
   { LayoutSGMetaIdRefMustReferenceObject, 
-    "Layout 'metIdRef' must reference existing object.",
+    "Layout 'metaidRef' must reference existing object.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The value of a 'layout:metaidRef' attribute of a <speciesGlyph> "
@@ -792,7 +792,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6020705
   { LayoutRGMetaIdRefMustBeIDREF, 
-    "Layout 'metIdRef' must be IDREF.",
+    "Layout 'metaidRef' must be IDREF.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The attribute 'layout:metaidRef' of a <reactionGlyph> "
@@ -803,7 +803,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6020706
   { LayoutRGMetaIdRefMustReferenceObject, 
-    "Layout 'metIdRef' must reference existing object.",
+    "Layout 'metaidRef' must reference existing object.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The value of a 'layout:metaidRef' attribute of a <reactionGlyph> "
@@ -865,7 +865,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <listOfSpeciesReferenceGlyphs> object may have the optional "
     "attributes 'metaid' "
-    "and 'sboTerm' defined by SBML Level~3 Core. No other attributes from "
+    "and 'sboTerm' defined by SBML Level 3 Core. No other attributes from "
     "the SBML Level 3 Core namespace or the Layout "
     "namespace are permitted on a <listOfSpeciesReferenceGlyphs> object. ",
     { "L3V1 Layout V1 Section 3.10"
@@ -936,7 +936,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6020805
   { LayoutGGMetaIdRefMustBeIDREF, 
-    "Layout 'metIdRef' must be IDREF.",
+    "Layout 'metaidRef' must be IDREF.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The attribute 'layout:metaidRef' of a <generalGlyph> "
@@ -947,7 +947,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6020806
   { LayoutGGMetaIdRefMustReferenceObject, 
-    "Layout 'metIdRef' must reference existing object.",
+    "Layout 'metaidRef' must reference existing object.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The value of a 'layout:metaidRef' attribute of a <generalGlyph> "
@@ -1009,7 +1009,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <listOfReferenceGlyphs> object may have the optional "
     "attributes 'metaid' "
-    "and 'sboTerm' defined by SBML Level~3 Core. No other attributes from "
+    "and 'sboTerm' defined by SBML Level 3 Core. No other attributes from "
     "the SBML Level 3 Core namespace or the Layout "
     "namespace are permitted on a <listOfReferenceGlyphs> object. ",
     { "L3V1 Layout V1 Section 3.11"
@@ -1036,7 +1036,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "A <listOfSubGlyphs> object may have the optional attributes 'metaid' "
-    "and 'sboTerm' defined by SBML Level~3 Core. No other attributes from "
+    "and 'sboTerm' defined by SBML Level 3 Core. No other attributes from "
     "the SBML Level 3 Core namespace or the Layout "
     "namespace are permitted on a <listOfSubGlyphs> object. ",
     { "L3V1 Layout V1 Section 3.11"
@@ -1095,7 +1095,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6020905
   { LayoutTGMetaIdRefMustBeIDREF, 
-    "Layout 'metIdRef' must be IDREF.",
+    "Layout 'metaidRef' must be IDREF.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The attribute 'layout:metaidRef' of a <textGlyph> "
@@ -1106,7 +1106,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6020906
   { LayoutTGMetaIdRefMustReferenceObject, 
-    "Layout 'metIdRef' must reference existing object.",
+    "Layout 'metaidRef' must reference existing object.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The value of a 'layout:metaidRef' attribute of a <textGlyph> "
@@ -1236,7 +1236,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6021005
   { LayoutSRGMetaIdRefMustBeIDREF, 
-    "Layout 'metIdRef' must be IDREF.",
+    "Layout 'metaidRef' must be IDREF.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The attribute 'layout:metaidRef' of a <speciesReferenceGlyph> "
@@ -1247,7 +1247,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6021006
   { LayoutSRGMetaIdRefMustReferenceObject, 
-    "Layout 'metIdRef' must reference existing object.",
+    "Layout 'metaidRef' must reference existing object.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The value of a 'layout:metaidRef' attribute of a <speciesReferenceGlyph> "
@@ -1382,7 +1382,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6021105
   { LayoutREFGMetaIdRefMustBeIDREF, 
-    "Layout 'metIdRef' must be IDREF.",
+    "Layout 'metaidRef' must be IDREF.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The attribute 'layout:metaidRef' of a <referenceGlyph> "
@@ -1393,7 +1393,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
 
   // 6021106
   { LayoutREFGMetaIdRefMustReferenceObject, 
-    "Layout 'metIdRef' must reference existing object.",
+    "Layout 'metaidRef' must reference existing object.",
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The value of a 'layout:metaidRef' attribute of a <referenceGlyph> "
@@ -1479,7 +1479,9 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <point> object may have the optional SBML Level 3 Core "
     "subobjects for notes and annotations. No other elements from the SBML "
-    "Level 3 Core namespace are permitted on a <point>. ",
+    "Level 3 Core namespace are permitted on a <point>. It should be noted "
+    "that the 'point' object may occur as a <position>, <basePoint1>, "
+    "<basePoint2>, <start> or <end> element.",
     { "L3V1 Core Section 3.2"
     }
   },
@@ -1491,7 +1493,9 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <point> object may have the optional SBML Level 3 Core "
     "attributes 'metaid' and 'sboTerm'. No other attributes from the SBML "
-    "Level 3 Core namespace are permitted on a <point>. ",
+    "Level 3 Core namespace are permitted on a <point>.  It should be noted "
+    "that the 'point' object may occur as a <position>, <basePoint1>, "
+    "<basePoint2>, <start> or <end> element.",
     { "L3V1 Core Section 3.2"
     }
   },
@@ -1505,7 +1509,9 @@ static const packageErrorTableEntry layoutErrorTable[] =
     "'layout:y' and may have the optional attributes 'layout:id', "
     "and 'layout:z'.  "
     "No other attributes from the Layout namespace "
-    "are permitted on a <point>. ",
+    "are permitted on a <point>.   It should be noted "
+    "that the 'point' object may occur as a <position>, <basePoint1>, "
+    "<basePoint2>, <start> or <end> element.",
     { "L3V1 Layout V1 Section 3.4.1"
     }
   },
@@ -1516,7 +1522,9 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "The attributes 'layout:x', 'layout:y' and 'layout:z' of a <point> "
-    "element must be of the data type 'double'.",
+    "element must be of the data type 'double'. It should be noted "
+    "that the 'point' object may occur as a <position>, <basePoint1>, "
+    "<basePoint2>, <start> or <end> element.",
     { "L3V1 Layout V1 Section 3.4.1"
     }
   },
@@ -1553,7 +1561,8 @@ static const packageErrorTableEntry layoutErrorTable[] =
     "There must be exactly one instance of a <point> and a <dimensions> "
     "object on a <boundingBox>. "
     "No other elements from "
-    "the Layout namespace are permitted on a <boundingBox>. ",
+    "the Layout namespace are permitted on a <boundingBox>. It should be noted "
+    "that the 'point' object will occur as a <position> element.",
     { "L3V1 Layout V1 Section 3.4.3"
     }
   },
@@ -1576,7 +1585,9 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "If the 'layout:z' attribute on a <point> element of a <boundingBox> "
-    "is not specified, the attribute 'layout:depth' must not be specified.",
+    "is not specified, the attribute 'layout:depth' must not be specified. "
+    "It should be noted "
+    "that the 'point' object will occur as a <position> element.",
     { "L3V1 Layout V1 Section 3.7"
     }
   },
@@ -1636,7 +1647,7 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <listOfCurveSegments> object may have the optional "
     "attributes 'metaid' "
-    "and 'sboTerm' defined by SBML Level~3 Core. No other attributes from "
+    "and 'sboTerm' defined by SBML Level 3 Core. No other attributes from "
     "the SBML Level 3 Core namespace or the Layout "
     "namespace are permitted on a <listOfCurveSegments> object. ",
     { "L3V1 Layout V1 Section 3.4.4"
@@ -1672,7 +1683,9 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <lineSegment> object may have the optional SBML Level 3 Core "
     "subobjects for notes and annotations. No other elements from the SBML "
-    "Level 3 Core namespace are permitted on a <lineSegment>. ",
+    "Level 3 Core namespace are permitted on a <lineSegment>.  It should "
+    "be noted that a 'lineSegment' occurs as a <curveSegment> element with "
+    "type 'LineSegment' or 'CubicBezier'.",
     { "L3V1 Core Section 3.2"
     }
   },
@@ -1684,7 +1697,9 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <lineSegment> object may have the optional SBML Level 3 Core "
     "attributes 'metaid' and 'sboTerm'. No other attributes from the SBML "
-    "Level 3 Core namespace are permitted on a <lineSegment>. ",
+    "Level 3 Core namespace are permitted on a <lineSegment>. It should "
+    "be noted that a 'lineSegment' occurs as a <curveSegment> element with "
+    "type 'LineSegment' or 'CubicBezier'.",
     { "L3V1 Core Section 3.2"
     }
   },
@@ -1697,7 +1712,9 @@ static const packageErrorTableEntry layoutErrorTable[] =
     "A <lineSegment> must specify two <point> elements 'start' "
     "and 'end'. "
     "No other elements from "
-    "the Layout namespace are permitted on a <lineSegment>. ",
+    "the Layout namespace are permitted on a <lineSegment>.  It should "
+    "be noted that a 'lineSegment' occurs as a <curveSegment> element with "
+    "type 'LineSegment' or 'CubicBezier'.",
     { "L3V1 Layout V1 Section 3.4.5"
     }
   },
@@ -1708,7 +1725,9 @@ static const packageErrorTableEntry layoutErrorTable[] =
     LIBSBML_CAT_GENERAL_CONSISTENCY, 
     LIBSBML_SEV_ERROR,
     "No attributes from the Layout namespace "
-    "are permitted on a <lineSegment>. ",
+    "are permitted on a <lineSegment>.  It should "
+    "be noted that a 'lineSegment' occurs as a <curveSegment> element with "
+    "type 'LineSegment' or 'CubicBezier'.",
     { "L3V1 Layout V1 Section 3.4.5"
     }
   },

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -201,6 +201,13 @@ LocalParameter::setConstant (bool flag)
 /** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
+int
+LocalParameter::unsetConstant ()
+{
+  return LIBSBML_UNEXPECTED_ATTRIBUTE;
+}
+/** @endcond */
 /*
   * Constructs and returns a UnitDefinition that expresses the units of this 
   * LocalParameter.
@@ -738,6 +745,17 @@ LocalParameter_unsetUnits (LocalParameter_t *p)
 {
   if (p != NULL)
     return p->unsetUnits();
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+LocalParameter_unsetConstant (LocalParameter_t *p)
+{
+  if (p != NULL)
+    return p->unsetConstant();
   else
     return LIBSBML_INVALID_OBJECT;
 }

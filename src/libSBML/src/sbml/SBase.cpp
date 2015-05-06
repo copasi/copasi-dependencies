@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -861,7 +861,38 @@ int
 SBase::setUserData(void *userData)
 {
   this->mUserData = userData;
+  if (userData == NULL && mUserData == NULL)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (mUserData != NULL)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+bool
+SBase::isSetUserData() const
+{
   if (mUserData != NULL)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+int
+SBase::unsetUserData()
+{
+  this->mUserData = NULL;
+  if (mUserData == NULL)
   {
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -1249,7 +1280,7 @@ SBase::setAnnotation (const XMLNode* annotation)
       && isSetMetaId() == false)
     {
       mAnnotation = NULL;
-      return LIBSBML_UNEXPECTED_ATTRIBUTE;
+      return LIBSBML_MISSING_METAID;
     }
     else
     {
@@ -1417,7 +1448,7 @@ SBase::appendAnnotation (const XMLNode* annotation)
       || RDFAnnotationParser::hasHistoryRDFAnnotation(annotation) == true)
     && isSetMetaId() == false)
   {
-    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+    return LIBSBML_MISSING_METAID;
   }
 
   XMLNode* new_annotation = NULL;
@@ -2210,7 +2241,7 @@ SBase::setModelHistory(ModelHistory * history)
   // shouldnt add a history to an object with no metaid
   if (!isSetMetaId())
   {
-    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+    return LIBSBML_MISSING_METAID;
   }
 
   if (mHistory == history)
@@ -2614,7 +2645,7 @@ SBase::addCVTerm(CVTerm * term, bool newBag)
   // shouldnt add a CVTerm to an object with no metaid
   if (!isSetMetaId())
   {
-    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+    return LIBSBML_MISSING_METAID;
   }
 
   if (term == NULL)
@@ -3240,7 +3271,7 @@ SBase::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPr
 
       if (sbmlext)
       {
-        SBaseExtensionPoint extPoint(getPackageName(), getTypeCode());
+        SBaseExtensionPoint extPoint(getPackageName(), getTypeCode(), getElementName());
         const SBasePluginCreatorBase* sbPluginCreator = sbmlext->getSBasePluginCreator(extPoint);
         if (sbPluginCreator)
         {
@@ -4317,15 +4348,30 @@ SBase::readAnnotation (XMLInputStream& stream)
 
     if (mAnnotation != NULL)
     {
+      string msg = "An SBML <" + getElementName() + "> element ";
+      switch(getTypeCode()) {
+      case SBML_INITIAL_ASSIGNMENT:
+      case SBML_EVENT_ASSIGNMENT:
+      case SBML_ASSIGNMENT_RULE:
+      case SBML_RATE_RULE:
+        //LS DEBUG:  could use other attribute values, or 'isSetActualId'.
+        break;
+      default:
+        if (isSetId()) {
+          msg += "with id '" + getId() + "' ";
+        }
+        break;
+      }
+      msg += "has multiple <annotation> children.";
       if (getLevel() < 3)
       {
         logError(NotSchemaConformant, getLevel(), getVersion(),
 	        "Only one <annotation> element is permitted inside a "
-	        "particular containing element.");
+	        "particular containing element.  " + msg);
       }
       else
       {
-        logError(MultipleAnnotations, getLevel(), getVersion());
+        logError(MultipleAnnotations, getLevel(), getVersion(), msg);
       }
     }
 
@@ -4524,8 +4570,8 @@ SBase::logUnknownAttribute( const string& attribute,
       msg << "Attribute '" << attribute << "' is not part of the "
           << "definition of an SBML Level " << level
           << " Version " << version << " Package "
-          << getPackageName() << " Version " << getPackageVersion() << " "
-          << element << " element.";
+          << getPackageName() << " Version " << getPackageVersion() << " <"
+          << element << "> element.";
       if (mSBML != NULL)
       {
         getErrorLog()->logError(UnknownPackageAttribute,
@@ -4536,8 +4582,9 @@ SBase::logUnknownAttribute( const string& attribute,
     {
       msg << "Attribute '" << attribute << "' is not part of the "
           << "definition of an SBML Level " << level
-          << " Version " << version << " "
-          << element << " element.";
+          << " Version " << version << " Package "
+          << getPackageName() << " Version " << getPackageVersion() << " <"
+          << element << "> element.";
       if (mSBML != NULL)
       {
         getErrorLog()->logError(UnknownCoreAttribute,
@@ -4550,7 +4597,7 @@ SBase::logUnknownAttribute( const string& attribute,
   {
     msg << "Attribute '" << attribute << "' is not part of the "
         << "definition of an SBML Level " << level
-        << " Version " << version << " " << element << " element.";
+        << " Version " << version << " <" << element << "> element.";
   }
   /* Akiya made this note - so it needs checking BUT if it can crash due to no
    * SBMLDocument object then it can crash whatever level - so I put the catch outside
@@ -4801,8 +4848,8 @@ SBase::logUnknownElement( const string& element,
   if (level > 2 && getTypeCode() == SBML_LIST_OF)
   {
     int tc = static_cast<ListOf*>(this)->getItemTypeCode();
-    msg << "Element '" << element << "' is not part of the definition of "
-      << this->getElementName() << ".";
+    msg << "Element '" << element << "' is not part of the definition of <"
+      << this->getElementName() << ">.";
     switch (tc)
     {
     case SBML_UNIT:
@@ -5083,7 +5130,7 @@ SBase::readAttributes (const XMLAttributes& attributes,
     {
       if (!SyntaxChecker::isValidXMLID(mMetaId))
       {
-        logError(InvalidMetaidSyntax, getLevel(), getVersion());
+        logError(InvalidMetaidSyntax, getLevel(), getVersion(), "The metaid '" + mMetaId + "' does not conform to the syntax.");
       }
     }
   }
@@ -6049,7 +6096,7 @@ SBase::checkMathMLNamespace(const XMLToken elem)
   }
   if (match == 0)
   {
-    logError(InvalidMathElement);
+    logError(InvalidMathElement, getLevel(), getVersion(), "The MathML namespace 'http://www.w3.org/1998/Math/MathML' was not found.");
   }
 
   return prefix;
@@ -6194,7 +6241,22 @@ SBase::checkAnnotation()
       if (find(uri_list.begin(), uri_list.end(), uri)
                                                != uri_list.end())
       {
-        logError(DuplicateAnnotationNamespaces);
+        string msg = "An SBML <" + getElementName() + "> element ";
+        switch(getTypeCode()) {
+        case SBML_INITIAL_ASSIGNMENT:
+        case SBML_EVENT_ASSIGNMENT:
+        case SBML_ASSIGNMENT_RULE:
+        case SBML_RATE_RULE:
+          //LS DEBUG:  could use other attribute values, or 'isSetActualId'.
+          break;
+        default:
+          if (isSetId()) {
+            msg += "with id '" + getId() + "' ";
+          }
+          break;
+        }
+        msg += "has an <annotation> child with multiple children with the same namespace.";
+        logError(DuplicateAnnotationNamespaces, getLevel(), getVersion(), msg);
       }
       uri_list.push_back(uri);
     }
@@ -6246,9 +6308,24 @@ SBase::checkAnnotation()
                                 "http://www.sbml.org/sbml/level3/version1/core");
       n++;
     }
+    string msg = "An SBML <" + getElementName() + "> element ";
+    switch(getTypeCode()) {
+    case SBML_INITIAL_ASSIGNMENT:
+    case SBML_EVENT_ASSIGNMENT:
+    case SBML_ASSIGNMENT_RULE:
+    case SBML_RATE_RULE:
+      //LS DEBUG:  could use other attribute values, or 'isSetActualId'.
+      break;
+    default:
+      if (isSetId()) {
+        msg += "with id '" + getId() + "' ";
+      }
+      break;
+    }
     if (match > 0)
     {
-      logError(SBMLNamespaceInAnnotation);
+      msg += "uses a restricted namespace on an element in its child <annotation>.";
+      logError(SBMLNamespaceInAnnotation, getLevel(), getVersion(), msg);
       break;
     }
 
@@ -6259,9 +6336,11 @@ SBase::checkAnnotation()
        */
       if (getLevel() < 3)
       {
-        logError(MissingAnnotationNamespace);
+        logError(MissingAnnotationNamespace, getLevel(), getVersion(), 
+          msg + "lacks a namespace declaration on an element in its child <annotation>.");
       }
-      logError(SBMLNamespaceInAnnotation);
+      msg += "uses a restricted namespace on an element in its child <annotation>.";
+      logError(SBMLNamespaceInAnnotation, getLevel(), getVersion(), msg);
     }
     nNodes++;
   }
@@ -7169,10 +7248,27 @@ SBase_setUserData(SBase_t* sb, void *userData)
 
 
 LIBSBML_EXTERN
-void *SBase_getUserData(SBase_t* sb)
+void *
+SBase_getUserData(const SBase_t* sb)
 {
   if (sb == NULL) return NULL;
   return sb->getUserData();
+}
+
+LIBSBML_EXTERN
+int
+SBase_isSetUserData(const SBase_t* sb)
+{
+  if (sb == NULL) return 0;
+  return static_cast <int>(sb->isSetUserData());
+}
+
+LIBSBML_EXTERN
+int
+SBase_unsetUserData(SBase_t* sb)
+{
+  if (sb == NULL) return LIBSBML_INVALID_OBJECT;
+  return sb->unsetUserData();
 }
 
 LIBSBML_EXTERN

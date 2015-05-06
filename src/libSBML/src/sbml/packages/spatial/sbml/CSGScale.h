@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -640,7 +640,7 @@ CSGScale_setScaleZ(CSGScale_t * csgs, double scaleZ);
 
 /**
  * Unsets the value of the "scaleX" attribute of the given 
- *CSGScale_t structure.
+ * CSGScale_t structure.
  *
  * @param csgs the CSGScale_t structure.
  *
@@ -661,7 +661,7 @@ CSGScale_unsetScaleX(CSGScale_t * csgs);
 
 /**
  * Unsets the value of the "scaleY" attribute of the given 
- *CSGScale_t structure.
+ * CSGScale_t structure.
  *
  * @param csgs the CSGScale_t structure.
  *
@@ -682,7 +682,7 @@ CSGScale_unsetScaleY(CSGScale_t * csgs);
 
 /**
  * Unsets the value of the "scaleZ" attribute of the given 
- *CSGScale_t structure.
+ * CSGScale_t structure.
  *
  * @param csgs the CSGScale_t structure.
  *

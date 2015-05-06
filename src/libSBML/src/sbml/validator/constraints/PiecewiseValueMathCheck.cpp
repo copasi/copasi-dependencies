@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -173,10 +173,24 @@ PiecewiseValueMathCheck::getMessage (const ASTNode& node, const SBase& object)
   //msg << getPreamble();
 
   char * left = SBML_formulaToString(node.getLeftChild());
-  msg << "\nThe piecewise formula ";
-  msg << "in the " << getFieldname() << " element of the " << getTypename(object);
-  msg << " returns arguments" ;
-  msg << " which have different value types from the first element '";
+  msg << "The piecewise formula ";
+  msg << "in the " << getFieldname() << " element of the <" << object.getElementName();
+  msg << "> ";
+  switch(object.getTypeCode()) {
+  case SBML_INITIAL_ASSIGNMENT:
+  case SBML_EVENT_ASSIGNMENT:
+  case SBML_ASSIGNMENT_RULE:
+  case SBML_RATE_RULE:
+    //LS DEBUG:  could use other attribute values, or 'isSetActualId'.
+    break;
+  default:
+    if (object.isSetId()) {
+      msg << "with id '" << object.getId() << "' ";
+    }
+    break;
+  }
+  msg << "returns arguments " ;
+  msg << "which have different value types from the first element '";
   msg << left << "'."; 
   safe_free(left);
 

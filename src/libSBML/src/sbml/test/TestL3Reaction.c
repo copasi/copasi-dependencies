@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -191,6 +191,11 @@ START_TEST (test_L3_Reaction_fast)
   fail_unless(Reaction_getFast(R) == 0);
   fail_unless(Reaction_isSetFast(R) == 1);
 
+  Reaction_unsetFast(R);
+
+  fail_unless(Reaction_getFast(R) == 0);
+  fail_unless(Reaction_isSetFast(R) == 0);
+
 }
 END_TEST
 
@@ -204,10 +209,22 @@ START_TEST (test_L3_Reaction_reversible)
   fail_unless(Reaction_getReversible(R) == 1);
   fail_unless(Reaction_isSetReversible(R) == 1);
 
+  int ret = Reaction_unsetReversible(R);
+
+  fail_unless(ret == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(Reaction_getReversible(R) == 1);
+  fail_unless(Reaction_isSetReversible(R) == 0);
+
   Reaction_setReversible(R, 0);
 
   fail_unless(Reaction_getReversible(R) == 0);
   fail_unless(Reaction_isSetReversible(R) == 1);
+
+  ret = Reaction_unsetReversible(R);
+
+  fail_unless(ret == LIBSBML_OPERATION_SUCCESS);
+  fail_unless(Reaction_getReversible(R) == 0);
+  fail_unless(Reaction_isSetReversible(R) == 0);
 
 }
 END_TEST

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -475,7 +475,6 @@ public:
    * @note The required attributes for a CoordinateComponent object are:
    * @li "id"
    * @li "type"
-   * @li "unit"
    * @li "boundaryMin"
    * @li "boundaryMax"
    *
@@ -1165,7 +1164,7 @@ CoordinateComponent_setBoundaryMax(CoordinateComponent_t * cc, Boundary_t* bound
 
 /**
  * Unsets the value of the "id" attribute of the given 
- *CoordinateComponent_t structure.
+ * CoordinateComponent_t structure.
  *
  * @param cc the CoordinateComponent_t structure.
  *
@@ -1186,7 +1185,7 @@ CoordinateComponent_unsetId(CoordinateComponent_t * cc);
 
 /**
  * Unsets the value of the "type" attribute of the given 
- *CoordinateComponent_t structure.
+ * CoordinateComponent_t structure.
  *
  * @param cc the CoordinateComponent_t structure.
  *
@@ -1207,7 +1206,7 @@ CoordinateComponent_unsetType(CoordinateComponent_t * cc);
 
 /**
  * Unsets the value of the "unit" attribute of the given 
- *CoordinateComponent_t structure.
+ * CoordinateComponent_t structure.
  *
  * @param cc the CoordinateComponent_t structure.
  *

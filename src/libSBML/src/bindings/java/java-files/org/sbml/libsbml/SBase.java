@@ -3109,8 +3109,8 @@ newModel.addSpecies(s1);
 
   
 /** * @internal */ public
- void setSBMLNamespacesAndOwn(SBMLNamespaces sbmlns) {
-    libsbmlJNI.SBase_setSBMLNamespacesAndOwn(swigCPtr, this, SBMLNamespaces.getCPtr(sbmlns), sbmlns);
+ void setSBMLNamespacesAndOwn(SBMLNamespaces disownedNs) {
+    libsbmlJNI.SBase_setSBMLNamespacesAndOwn(swigCPtr, this, SBMLNamespaces.getCPtrAndDisown(disownedNs), disownedNs);
   }
 
   
@@ -3205,6 +3205,47 @@ newModel.addSpecies(s1);
    */ public
  boolean matchesRequiredSBMLNamespacesForAddition(SBase sb) {
     return libsbmlJNI.SBase_matchesRequiredSBMLNamespacesForAddition__SWIG_0(swigCPtr, this, SBase.getCPtr(sb), sb);
+  }
+
+  
+/**
+   * Predicate returning true or false depending on whether
+   * the user data of this element has been set.
+   <p>
+   * <p>
+ * The user data associated with an SBML object can be used by an application
+ * developer to attach custom information to that object in the model.  In case
+ * of a deep copy, this data will passed as-is.  The data attribute will never
+ * be interpreted by libSBML.
+   <p>
+   * @return boolean, <code>true</code> if this object's user data has been set,
+   * <code>false</code> otherwise.
+   */ public
+ boolean isSetUserData() {
+    return libsbmlJNI.SBase_isSetUserData(swigCPtr, this);
+  }
+
+  
+/**
+   * Unsets the user data of this element.
+   <p>
+   * <p>
+ * The user data associated with an SBML object can be used by an application
+ * developer to attach custom information to that object in the model.  In case
+ * of a deep copy, this data will passed as-is.  The data attribute will never
+ * be interpreted by libSBML.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * </ul>
+   */ public
+ int unsetUserData() {
+    return libsbmlJNI.SBase_unsetUserData(swigCPtr, this);
   }
 
   

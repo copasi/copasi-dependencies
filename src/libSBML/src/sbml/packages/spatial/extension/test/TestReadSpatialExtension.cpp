@@ -49,7 +49,7 @@ START_TEST (test_SpatialExtension_read_L3V1V1)
   file += "/read_l3v1v1.xml";
 
   SBMLDocument *document = readSBMLFromFile(file.c_str());
-  char *sbmlDoc = writeSBMLToString(document);
+  string sbmlDoc = writeSBMLToStdString(document);
   fail_unless(document->getPackageName() == "core");
 
   Model *model = document->getModel();
@@ -114,9 +114,8 @@ START_TEST (test_SpatialExtension_read_L3V1V1)
   fail_unless(diffCoeff != NULL);
 
   fail_unless(diffCoeff->getVariable()		== "ATPc");
-  fail_unless(diffCoeff->getNumCoordinateReferences() > 0);
-  if (diffCoeff->getNumCoordinateReferences() > 0)
-  fail_unless(diffCoeff->getCoordinateReference(0)->getCoordinate() == SPATIAL_COORDINATEKIND_CARTESIAN_X);
+  fail_unless(diffCoeff->isSetCoordinateReference1());
+  fail_unless(diffCoeff->getCoordinateReference1() == SPATIAL_COORDINATEKIND_CARTESIAN_X);
 
   // parameter 1 : advectionCoefficient
   param = model->getParameter(1);
@@ -193,7 +192,7 @@ START_TEST (test_SpatialExtension_read_L3V1V1)
 
   DomainType *domainType = geometry->getDomainType(0);
   fail_unless(domainType->getId()         == "dtype1");
-  fail_unless(domainType->getSpatialDimension() == 3);
+  fail_unless(domainType->getSpatialDimensions() == 3);
   fail_unless(domainType->getPackageName()		  == "spatial");
 
   // geometry domains
@@ -282,31 +281,30 @@ START_TEST (test_SpatialExtension_read_L3V1V1)
   fail_unless(sv->getPackageName()  == "spatial");
 
   // sampledFieldGeometry : SampledField
-  SampledField* sf = sfGeom->getSampledField();
+  SampledField* sf = geometry->getSampledField(sfGeom->getSampledField());
+  fail_unless(sf != NULL);
   fail_unless(sf->getId()		  == "sampledField1");
-  fail_unless(sf->getDataType()		  == "double");
-  fail_unless(sf->getInterpolationType() == "linear");
-  fail_unless(sf->getEncoding()          == "encoding1");
+  fail_unless(sf->getDataType()		  == SPATIAL_DATAKIND_UINT8);
+  fail_unless(sf->getInterpolationType() == SPATIAL_INTERPOLATIONKIND_LINEAR);
+  fail_unless(sf->getCompression()          == SPATIAL_COMPRESSIONKIND_UNCOMPRESSED);
   fail_unless(sf->getNumSamples1()       == 4);
   fail_unless(sf->getNumSamples2()       == 4);
   fail_unless(sf->getNumSamples3()       == 2);
   fail_unless(sf->getPackageName()		  == "spatial");
 
   // sampledField : ImageData
-  const ImageData* id = sf->getImageData();
-  fail_unless(id->getSamplesLength()  == 32);
-  int* samples = new int[id->getSamplesLength()];
-  id->getSamples(samples);
+  fail_unless(sf->getSamplesLength() == 32);
+  int* samples = new int[sf->getSamplesLength()];
+  sf->getSamples(samples);
   fail_unless(samples[0] == 0);
 
 
-  char* s2 = writeSBMLToString(document);
+  string s2 = writeSBMLToStdString(document);
 
-  fail_unless(strcmp(sbmlDoc,s2) == 0);
+  fail_unless(sbmlDoc==s2);
 
-  free(sbmlDoc);
-  free(s2);
-  delete document;  
+  delete document;
+  delete[] samples;
 }
 END_TEST
 
@@ -317,7 +315,7 @@ END_TEST
   file += "/read_L3V1V1_defaultNS.xml";
 
   SBMLDocument *document = readSBMLFromFile(file.c_str());
-  char* sbmlDoc = writeSBMLToString(document);
+  string sbmlDoc = writeSBMLToStdString(document);
   Model *model = document->getModel();
 
   //document->printErrors();
@@ -357,7 +355,7 @@ END_TEST
   fail_unless(srplugin->getIsSpatial() == true);
 
   // model : parameters (species diffusion, advection coeffs, species boundary conditions, coordinate components from Geometry
-  fail_unless(model->getNumParameters() == 4);
+  fail_unless(model->getNumParameters() == 5);
 
 
 
@@ -369,9 +367,8 @@ END_TEST
   fail_unless(pplugin->getType() == SBML_SPATIAL_DIFFUSIONCOEFFICIENT);
   DiffusionCoefficient *diffCoeff = pplugin->getDiffusionCoefficient();
   fail_unless(diffCoeff->getVariable()		== "ATPc");
-  fail_unless(diffCoeff->getNumCoordinateReferences() > 0);
-  if (diffCoeff->getNumCoordinateReferences() > 0)
-  fail_unless(diffCoeff->getCoordinateReference(0)->getCoordinate() == SPATIAL_COORDINATEKIND_CARTESIAN_X);
+  fail_unless(diffCoeff->isSetCoordinateReference1());
+  fail_unless(diffCoeff->getCoordinateReference1() == SPATIAL_COORDINATEKIND_CARTESIAN_X);
 
   // parameter 1 : advectionCoefficient
   param = model->getParameter(1);
@@ -445,7 +442,7 @@ END_TEST
 
   DomainType *domainType = geometry->getDomainType(0);
   fail_unless(domainType->getId()         == "dtype1");
-  fail_unless(domainType->getSpatialDimension() == 3);
+  fail_unless(domainType->getSpatialDimensions() == 3);
   fail_unless(domainType->getPackageName()		  == "spatial");
 
   // geometry domains
@@ -533,29 +530,28 @@ END_TEST
   fail_unless(sv->getPackageName()  == "spatial");
 
   // sampledFieldGeometry : SampledField
-  SampledField* sf = sfGeom->getSampledField();
+  SampledField* sf = geometry->getSampledField( sfGeom->getSampledField() );
   fail_unless(sf->getId()		  == "sampledField1");
-  fail_unless(sf->getDataType()		  == "double");
-  fail_unless(sf->getInterpolationType() == "linear");
-  fail_unless(sf->getEncoding()          == "encoding1");
+  fail_unless(sf->getDataType()		  == SPATIAL_DATAKIND_UINT8);
+  fail_unless(sf->getInterpolationType() == SPATIAL_INTERPOLATIONKIND_LINEAR);
+  fail_unless(sf->getCompression()          == SPATIAL_COMPRESSIONKIND_UNCOMPRESSED);
   fail_unless(sf->getNumSamples1()       == 4);
   fail_unless(sf->getNumSamples2()       == 4);
   fail_unless(sf->getNumSamples3()       == 2);
   fail_unless(sf->getPackageName()		  == "spatial");
 
   // sampledField : ImageData
-  const ImageData* id = sf->getImageData();
-  fail_unless(id->getSamplesLength()  == 32);
-  int* samples = new int[id->getSamplesLength()];
-  id->getSamples(samples);
+  fail_unless(sf->getSamplesLength()  == 32);
+  int* samples = new int[sf->getSamplesLength()];
+  sf->getSamples(samples);
   fail_unless(samples[0] == 0);
 
-  char* s2 = writeSBMLToString(document);
+  string s2 = writeSBMLToStdString(document);
 
-  fail_unless(strcmp(sbmlDoc,s2) == 0);
+  fail_unless(sbmlDoc==s2);
 
-  free(s2);
   delete document;  
+  delete[] samples;
 }
 END_TEST
 
@@ -658,23 +654,21 @@ END_TEST
   fail_unless(plugin->getGeometry()->getListOfGeometryDefinitions()->size() == 1);
   SampledFieldGeometry* geometry = (SampledFieldGeometry*)plugin->getGeometry()->getListOfGeometryDefinitions()->get(0);
   fail_unless(geometry != NULL);
-  SampledField* field = geometry->getSampledField();
+  SampledField* field = plugin->getGeometry()->getSampledField( geometry->getSampledField() );
   fail_unless(field->getNumSamples1() == 57);
   fail_unless(field->getNumSamples2() == 63);
-  ImageData *data = field->getImageData();
-  fail_unless(data != NULL);
-  fail_unless(data->getDataType() == "compressed");
+  fail_unless(field->getDataType() == SPATIAL_DATAKIND_UINT8);
   
   // test new API 
-  int length1 = data->getUncompressedLength();
+  int length1 = field->getUncompressedLength();
   int* array1 = new int[length1]; 
   fail_unless(length1 == 3591);
-  data->getUncompressed(array1);
+  field->getUncompressed(array1);
   string test1 = dataToString(array1, field->getNumSamples1(), length1);
   fail_unless(test1 == expected);
 
   int* result; int resultLength;
-  data->getUncompressedData(result, resultLength);
+  field->getUncompressedData(result, resultLength);
 
   fail_unless(resultLength == length1);
 
@@ -684,13 +678,17 @@ END_TEST
   fail_unless(resultString == expected);
 
   // test new API
-  int uncompressed = data->getUncompressedLength();
+  int uncompressed = field->getUncompressedLength();
   fail_unless(resultLength == uncompressed);
   int* more = new int[uncompressed]; 
-  data->getUncompressed(more);
+  field->getUncompressed(more);
   resultString = dataToString(more, field->getNumSamples1(), resultLength);
   fail_unless(resultString == expected);
 
+  delete doc;
+  delete[] array1;
+  free(result);
+  delete[] more;
 }
 END_TEST
 #endif
@@ -773,23 +771,22 @@ END_TEST
   fail_unless(plugin->getGeometry()->getListOfGeometryDefinitions()->size() == 1);
   SampledFieldGeometry* geometry = (SampledFieldGeometry*)plugin->getGeometry()->getListOfGeometryDefinitions()->get(0);
   fail_unless(geometry != NULL);
-  SampledField* field = geometry->getSampledField();
+  SampledField* field = plugin->getGeometry()->getSampledField( geometry->getSampledField() );
+  fail_unless(field != NULL);
   fail_unless(field->getNumSamples1() == 57);
   fail_unless(field->getNumSamples2() == 63);
-  ImageData *data = field->getImageData();
-  fail_unless(data != NULL);
-  fail_unless(data->getDataType() == "uint8");
+  fail_unless(field->getDataType() == SPATIAL_DATAKIND_UINT8);
   
   // test new API 
-  int length1 = data->getUncompressedLength();
+  int length1 = field->getUncompressedLength();
   int* array1 = new int[length1]; 
   fail_unless(length1 == 3591);
-  data->getUncompressed(array1);
+  field->getUncompressed(array1);
   string test1 = dataToString(array1, field->getNumSamples1(), length1);
   fail_unless(test1 == expected);
 
   int* result; int resultLength;
-  data->getUncompressedData(result, resultLength);
+  field->getUncompressedData(result, resultLength);
 
   fail_unless(resultLength == length1);
 
@@ -799,22 +796,108 @@ END_TEST
   fail_unless(resultString == expected);
 
   // test new API
-  int uncompressed = data->getUncompressedLength();
+  int uncompressed = field->getUncompressedLength();
   fail_unless(resultLength == uncompressed);
   int* more = new int[uncompressed]; 
-  data->getUncompressed(more);
+  field->getUncompressed(more);
   resultString = dataToString(more, field->getNumSamples1(), resultLength);
   fail_unless(resultString == expected);
 
+  delete doc;
+  delete[] array1;
+  free(result);
+  delete[] more;
 }
 END_TEST
 
 
-  Suite *
+START_TEST (test_SpatialExtension_readwrite_meshonly)
+{
+
+  string file = TestDataDirectory;
+  file += "/MeshOnly.xml";
+
+  SBMLDocument *document = readSBMLFromFile(file.c_str());
+  SBMLErrorLog* errors = document->getErrorLog();
+  if (errors->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) != 0) {
+    fail_unless(false);
+    for (unsigned long e=0; e<errors->getNumErrors(); e++) {
+      const SBMLError* error = errors->getError(e);
+      if (error->getSeverity() == LIBSBML_SEV_ERROR) {
+        cout << error->getMessage() << endl;
+      }
+    }
+  }
+  file = TestDataDirectory;
+  file += "/MeshOnly_rt.xml";
+  writeSBMLToFile(document, file.c_str());
+
+  delete document;
+}
+END_TEST
+
+
+START_TEST (test_SpatialExtension_readwrite_mixedonly)
+{
+
+  string file = TestDataDirectory;
+  file += "/MixedOnly.xml";
+
+  SBMLDocument *document = readSBMLFromFile(file.c_str());
+  SBMLErrorLog* errors = document->getErrorLog();
+  if (errors->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) != 0) {
+    fail_unless(false);
+    for (unsigned long e=0; e<errors->getNumErrors(); e++) {
+      const SBMLError* error = errors->getError(e);
+      if (error->getSeverity() == LIBSBML_SEV_ERROR) {
+        cout << error->getMessage() << endl;
+      }
+    }
+  }
+  file = TestDataDirectory;
+  file += "/MixedOnly_rt.xml";
+  writeSBMLToFile(document, file.c_str());
+
+  delete document;
+}
+END_TEST
+
+
+START_TEST (test_SpatialExtension_readwrite_csgonly)
+{
+
+  string file = TestDataDirectory;
+  file += "/CSGOnly.xml";
+
+  SBMLDocument *document = readSBMLFromFile(file.c_str());
+  SBMLErrorLog* errors = document->getErrorLog();
+  if (errors->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) != 0) {
+    fail_unless(false);
+    for (unsigned long e=0; e<errors->getNumErrors(); e++) {
+      const SBMLError* error = errors->getError(e);
+      if (error->getSeverity() == LIBSBML_SEV_ERROR) {
+        cout << error->getMessage() << endl;
+      }
+    }
+  }
+  file = TestDataDirectory;
+  file += "/CSGOnly_rt.xml";
+  writeSBMLToFile(document, file.c_str());
+
+  delete document;
+}
+END_TEST
+
+
+Suite *
   create_suite_ReadSpatialExtension (void)
 {
   Suite *suite = suite_create("ReadSpatialExtension");
   TCase *tcase = tcase_create("ReadSpatialExtension");
+
+  //tcase_add_test( tcase, test_SpatialExtension_readwrite_meshonly);
+  //tcase_add_test( tcase, test_SpatialExtension_readwrite_csgonly);
+  //tcase_add_test( tcase, test_SpatialExtension_readwrite_mixedonly);
 
   tcase_add_test( tcase, test_SpatialExtension_read_L3V1V1);
   tcase_add_test( tcase, test_SpatialExtension_read_L3V1V1_defaultNS);

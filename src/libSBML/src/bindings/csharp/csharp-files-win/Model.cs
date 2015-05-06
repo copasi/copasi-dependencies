@@ -3022,7 +3022,7 @@ public class Model : SBase {
 
   
 /**
-   * Get the number of Specie objects in this Model.
+   * Get the number of Species objects in this Model.
    *
    * @return the number of Species in this Model.
    */ public
@@ -3281,6 +3281,12 @@ public class Model : SBase {
 /** */ /* libsbml-internal */ public
  void addDefinitionsForDefaultUnits() {
     libsbmlPINVOKE.Model_addDefinitionsForDefaultUnits(swigCPtr);
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ void dealWithDefaultValues() {
+    libsbmlPINVOKE.Model_dealWithDefaultValues(swigCPtr);
   }
 
   

@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -486,21 +486,42 @@ AssignmentCycles::logCycle (const Model& m, std::string id,
 
 void
 AssignmentCycles::logCycle ( const SBase* object,
-                                       const SBase* conflict )
+                             const SBase* conflict )
 {
-  msg = "The ";
-  msg += SBMLTypeCode_toString( object->getTypeCode(), object->getPackageName().c_str());
-  msg += " with id '";
+  msg = "The <";
+  msg += object->getElementName();
+  msg += "> with ";
+  msg += getFieldname(object->getTypeCode());
+  msg += " '";
   msg += object->getId();
-  msg += "' creates a cycle with the ";
-  msg += SBMLTypeCode_toString( conflict->getTypeCode(), object->getPackageName().c_str());
-  msg += " with id '";
+  msg += "' creates a cycle with the <";
+  msg += conflict->getElementName();
+  msg += "> with ";
+  msg += getFieldname(conflict->getTypeCode());
+  msg += " '";
   msg += conflict->getId();
   msg += "'.";
 
   
   logFailure(*object);
 }
+
+const char*
+AssignmentCycles::getFieldname (int typecode)
+{
+  switch(typecode) {
+  case SBML_INITIAL_ASSIGNMENT:
+    return "symbol";
+  case SBML_ASSIGNMENT_RULE:
+  case SBML_RATE_RULE:
+  case SBML_EVENT_ASSIGNMENT:
+    return "variable";
+  default:
+    return "id";
+  }
+}
+
+
 
 void
 AssignmentCycles::logMathRefersToSelf (const Model& m, std::string id)

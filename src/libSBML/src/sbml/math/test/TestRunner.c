@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -72,6 +72,7 @@ Suite *create_suite_TestValidASTNode      (void);
 
 Suite *create_suite_NewASTNode            (void);
 Suite *create_suite_TestChildFunctions    (void);
+Suite *create_suite_TestGetValue          (void);
 
 /**
  * Global.
@@ -118,17 +119,17 @@ main (void)
 
   SRunner *runner = srunner_create( create_suite_ASTNode() );
 
-  srunner_add_suite( runner, create_suite_FormulaFormatter () );
-  srunner_add_suite( runner, create_suite_FormulaParser    () );
-  srunner_add_suite( runner, create_suite_L3FormulaFormatter () );
-  srunner_add_suite( runner, create_suite_L3FormulaParser  () );
-  srunner_add_suite( runner, create_suite_L3FormulaParserC () );
-  srunner_add_suite( runner, create_suite_FormulaTokenizer () );
-  srunner_add_suite( runner, create_suite_ReadMathML       () );
-  srunner_add_suite( runner, create_suite_NewReadMathML       () );
-  srunner_add_suite( runner, create_suite_WriteMathML      () );
-  srunner_add_suite( runner, create_suite_WriteMathMLFromAST      () );
-  srunner_add_suite( runner, create_suite_NewWriteMathMLFromAST      () );
+  srunner_add_suite( runner, create_suite_FormulaFormatter     () );
+  srunner_add_suite( runner, create_suite_FormulaParser        () );
+  srunner_add_suite( runner, create_suite_L3FormulaFormatter   () );
+  srunner_add_suite( runner, create_suite_L3FormulaParser      () );
+  srunner_add_suite( runner, create_suite_L3FormulaParserC     () );
+  srunner_add_suite( runner, create_suite_FormulaTokenizer     () );
+  srunner_add_suite( runner, create_suite_ReadMathML           () );
+  srunner_add_suite( runner, create_suite_NewReadMathML        () );
+  srunner_add_suite( runner, create_suite_WriteMathML          () );
+  srunner_add_suite( runner, create_suite_WriteMathMLFromAST   () );
+  srunner_add_suite( runner, create_suite_NewWriteMathMLFromAST() );
 
   srunner_add_suite( runner, create_suite_TestReadFromFile1() );
   srunner_add_suite( runner, create_suite_TestReadFromFile2() );
@@ -137,6 +138,7 @@ main (void)
 
   srunner_add_suite( runner, create_suite_NewASTNode() );
   srunner_add_suite( runner, create_suite_TestChildFunctions() );
+  srunner_add_suite( runner, create_suite_TestGetValue() );
 
 
   /* srunner_set_fork_status(runner, CK_NOFORK); */

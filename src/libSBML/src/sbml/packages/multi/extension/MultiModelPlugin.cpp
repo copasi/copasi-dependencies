@@ -31,6 +31,7 @@
 
 #include <sbml/util/ElementFilter.h>
 #include <sbml/Model.h>
+#include <sbml/packages/multi/sbml/IntraSpeciesReaction.h>
 
 
 
@@ -307,6 +308,33 @@ MultiModelPlugin::createMultiSpeciesType ()
 
 
 /*
+ * Creates a new BindingSiteSpeciesType object and adds it to the ListOfMultiSpeciesTypes in this plugin object.
+ */
+BindingSiteSpeciesType*
+MultiModelPlugin::createBindingSiteSpeciesType ()
+{
+   BindingSiteSpeciesType* bst = NULL;
+
+  try
+  {
+    MULTI_CREATE_NS(multins, getSBMLNamespaces());
+    bst = new BindingSiteSpeciesType(multins);
+    delete multins;
+  }
+  catch(...)
+  {
+  }
+
+  if (bst != NULL)
+  {
+    mMultiSpeciesTypes.appendAndOwn(bst);
+  }
+
+  return bst;
+}
+
+
+/*
  * Removes the nth MultiSpeciesType object from this plugin object
  */
 MultiSpeciesType* 
@@ -333,6 +361,33 @@ unsigned int
 MultiModelPlugin::getNumMultiSpeciesTypes () const
 {
   return mMultiSpeciesTypes.size();
+}
+
+/*
+ * Creates a new IntraSpeciesReaction object and adds it to the ListOfReactions object of the parent model of this plugin object.
+ */
+IntraSpeciesReaction*
+MultiModelPlugin::createIntraSpeciesReaction ()
+{
+  IntraSpeciesReaction* intraSpeciesR = NULL;
+
+ try
+ {
+   MULTI_CREATE_NS(multins, getSBMLNamespaces());
+   intraSpeciesR = new IntraSpeciesReaction(multins);
+   delete multins;
+ }
+ catch(...)
+ {
+ }
+
+ if (intraSpeciesR != NULL)
+ {
+   Model * model = static_cast<Model*>(this->getParentSBMLObject());
+   model->getListOfReactions()->appendAndOwn(intraSpeciesR);
+ }
+
+ return intraSpeciesR;
 }
 
 

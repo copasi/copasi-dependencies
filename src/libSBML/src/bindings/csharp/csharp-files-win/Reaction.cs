@@ -821,6 +821,24 @@ public class Reaction : SBase {
 
   
 /**
+   * Unsets the value of the 'reversible' attribute of this Reaction.
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public
+ int unsetReversible() {
+    int ret = libsbmlPINVOKE.Reaction_unsetReversible(swigCPtr);
+    return ret;
+  }
+
+  
+/**
    * Adds a given SpeciesReference object as a reactant in this Reaction.
    *
    * The SpeciesReference instance in @p sr is copied.

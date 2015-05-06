@@ -11,14 +11,11 @@ SBMLCONSTRUCTOR_EXCEPTION(CompartmentMapping)
 SBMLCONSTRUCTOR_EXCEPTION(CoordinateComponent)
 SBMLCONSTRUCTOR_EXCEPTION(SampledFieldGeometry)
 SBMLCONSTRUCTOR_EXCEPTION(SampledField)
-SBMLCONSTRUCTOR_EXCEPTION(ImageData)
 SBMLCONSTRUCTOR_EXCEPTION(SampledVolume)
 SBMLCONSTRUCTOR_EXCEPTION(AnalyticGeometry)
 SBMLCONSTRUCTOR_EXCEPTION(AnalyticVolume)
 SBMLCONSTRUCTOR_EXCEPTION(ParametricGeometry)
 SBMLCONSTRUCTOR_EXCEPTION(ParametricObject)
-SBMLCONSTRUCTOR_EXCEPTION(PolygonObject)
-SBMLCONSTRUCTOR_EXCEPTION(SpatialPoint)
 SBMLCONSTRUCTOR_EXCEPTION(CSGeometry)
 SBMLCONSTRUCTOR_EXCEPTION(CSGObject)
 SBMLCONSTRUCTOR_EXCEPTION(CSGNode)
@@ -37,18 +34,48 @@ SBMLCONSTRUCTOR_EXCEPTION(AdvectionCoefficient)
 SBMLCONSTRUCTOR_EXCEPTION(BoundaryCondition)
 SBMLCONSTRUCTOR_EXCEPTION(Geometry)
 SBMLCONSTRUCTOR_EXCEPTION(CoordinateReference)
+SBMLCONSTRUCTOR_EXCEPTION(MixedGeometry)
+SBMLCONSTRUCTOR_EXCEPTION(OrdinalMapping)
+SBMLCONSTRUCTOR_EXCEPTION(SpatialPoints)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfDomainTypes)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfDomains)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfInteriorPoints)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfAdjacentDomains)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfGeometryDefinitions)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfCoordinateComponents)
+SBMLCONSTRUCTOR_EXCEPTION(ListOfSampledFields)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfSampledVolumes)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfAnalyticVolumes)
-SBMLCONSTRUCTOR_EXCEPTION(ListOfSpatialPoints)
+SBMLCONSTRUCTOR_EXCEPTION(ListOfParametricObjects)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfCSGObjects)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfCSGNodes)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfCoordinateReferences)
+SBMLCONSTRUCTOR_EXCEPTION(ListOfOrdinalMappings)
+
+/**
+ * Convert GeometryDefinition objects into the most specific object possible.
+ */
+%typemap(out) GeometryDefinition*
+{
+	$result = SWIG_NewPointerObj($1, GetDowncastSwigTypeForPackage($1, "spatial"), $owner | %newpointer_flags);
+}
+
+/**
+ * Convert CSGNode objects into the most specific object possible.
+ */
+%typemap(out) CSGNode*
+{
+	$result = SWIG_NewPointerObj($1, GetDowncastSwigTypeForPackage($1, "spatial"), $owner | %newpointer_flags);
+}
+
+/**
+ * Convert CSGTransformation objects into the most specific object possible.
+ */
+%typemap(out) CSGTransformation*
+{
+	$result = SWIG_NewPointerObj($1, GetDowncastSwigTypeForPackage($1, "spatial"), $owner | %newpointer_flags);
+}
+
 
 #endif // USE_SPATIAL 
 

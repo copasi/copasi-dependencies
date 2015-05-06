@@ -2495,9 +2495,9 @@ if (doc.getNumErrors() > 0)
     libsbmlPINVOKE.SBML_deleteL3Parser();
   }
 
-  public const string LIBSBML_DOTTED_VERSION = "5.11.1";
-  public const int LIBSBML_VERSION = 51101;
-  public const string LIBSBML_VERSION_STRING = "51101";
+  public const string LIBSBML_DOTTED_VERSION = "5.11.4";
+  public const int LIBSBML_VERSION = 51104;
+  public const string LIBSBML_VERSION_STRING = "51104";
   // OperationReturnValues_t 
   public const int LIBSBML_OPERATION_SUCCESS = 0;
   public const int LIBSBML_INDEX_EXCEEDS_SIZE = -1;
@@ -2513,6 +2513,7 @@ if (doc.getNumErrors() > 0)
   public const int LIBSBML_DUPLICATE_ANNOTATION_NS = -11;
   public const int LIBSBML_ANNOTATION_NAME_NOT_FOUND = -12;
   public const int LIBSBML_ANNOTATION_NS_NOT_FOUND = -13;
+  public const int LIBSBML_MISSING_METAID = -14;
   public const int LIBSBML_PKG_VERSION_MISMATCH = -20;
   public const int LIBSBML_PKG_UNKNOWN = -21;
   public const int LIBSBML_PKG_UNKNOWN_VERSION = -22;
@@ -2967,6 +2968,7 @@ if (doc.getNumErrors() > 0)
   public const int CompartmentShouldHaveSize = 80501;
   public const int SpeciesShouldHaveValue = 80601;
   public const int ParameterShouldHaveUnits = 80701;
+  public const int ParameterShouldHaveValue = 80702;
   public const int LocalParameterShadowsId = 81121;
   public const int LibSBMLAdditionalCodesLowerBound = 90000;
   public const int CannotConvertToL1V1 = 90001;

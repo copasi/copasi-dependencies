@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -60,14 +60,11 @@ typedef CLASS_OR_STRUCT CompartmentMapping    CompartmentMapping_t;
 typedef CLASS_OR_STRUCT CoordinateComponent    CoordinateComponent_t;
 typedef CLASS_OR_STRUCT SampledFieldGeometry    SampledFieldGeometry_t;
 typedef CLASS_OR_STRUCT SampledField    SampledField_t;
-typedef CLASS_OR_STRUCT ImageData    ImageData_t;
 typedef CLASS_OR_STRUCT SampledVolume    SampledVolume_t;
 typedef CLASS_OR_STRUCT AnalyticGeometry    AnalyticGeometry_t;
 typedef CLASS_OR_STRUCT AnalyticVolume    AnalyticVolume_t;
 typedef CLASS_OR_STRUCT ParametricGeometry    ParametricGeometry_t;
 typedef CLASS_OR_STRUCT ParametricObject    ParametricObject_t;
-typedef CLASS_OR_STRUCT PolygonObject    PolygonObject_t;
-typedef CLASS_OR_STRUCT SpatialPoint    SpatialPoint_t;
 typedef CLASS_OR_STRUCT CSGeometry    CSGeometry_t;
 typedef CLASS_OR_STRUCT CSGObject    CSGObject_t;
 typedef CLASS_OR_STRUCT CSGNode    CSGNode_t;
@@ -86,6 +83,9 @@ typedef CLASS_OR_STRUCT AdvectionCoefficient    AdvectionCoefficient_t;
 typedef CLASS_OR_STRUCT BoundaryCondition    BoundaryCondition_t;
 typedef CLASS_OR_STRUCT Geometry    Geometry_t;
 typedef CLASS_OR_STRUCT CoordinateReference    CoordinateReference_t;
+typedef CLASS_OR_STRUCT MixedGeometry    MixedGeometry_t;
+typedef CLASS_OR_STRUCT OrdinalMapping    OrdinalMapping_t;
+typedef CLASS_OR_STRUCT SpatialPoints    SpatialPoints_t;
 
 LIBSBML_CPP_NAMESPACE_END
 

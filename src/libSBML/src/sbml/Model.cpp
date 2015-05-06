@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -3903,7 +3903,8 @@ Model::readOtherXML (XMLInputStream& stream)
       }
       else
       {
-        logError(MultipleAnnotations, getLevel(), getVersion());
+        logError(MultipleAnnotations, getLevel(), getVersion(), 
+          "The SBML <model> element has multiple <annotation> children.");
       }
     }
 
@@ -4293,7 +4294,8 @@ Model::readL1Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("name", level, version, "<model>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
 }
 /** @endcond */
@@ -4319,7 +4321,8 @@ Model::readL2Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("id", level, version, "<model>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
   //
   // name: string  { use="optional" }  (L2v1 ->)
@@ -4357,7 +4360,8 @@ Model::readL3Attributes (const XMLAttributes& attributes)
   {
     logEmptyString("id", level, version, "<model>");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) logError(InvalidIdSyntax);
+  if (!SyntaxChecker::isValidInternalSId(mId)) 
+    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
 
   //
@@ -4375,7 +4379,7 @@ Model::readL3Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mSubstanceUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The substanceUnits attribute '" + mSubstanceUnits + "' does not conform to the syntax.");
   }
 
   //
@@ -4388,7 +4392,7 @@ Model::readL3Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mTimeUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The timeUnits attribute '" + mTimeUnits + "' does not conform to the syntax.");
   }
 
   //
@@ -4401,7 +4405,7 @@ Model::readL3Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mVolumeUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The volumeUnits attribute '" + mVolumeUnits + "' does not conform to the syntax.");
   }
 
   //
@@ -4414,7 +4418,7 @@ Model::readL3Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mAreaUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The areaUnits attribute '" + mAreaUnits + "' does not conform to the syntax.");
   }
 
   //
@@ -4427,7 +4431,7 @@ Model::readL3Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mLengthUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The lengthUnits attribute '" + mLengthUnits + "' does not conform to the syntax.");
   }
 
   //
@@ -4440,7 +4444,7 @@ Model::readL3Attributes (const XMLAttributes& attributes)
   }
   if (!SyntaxChecker::isValidInternalUnitSId(mExtentUnits))
   {
-    logError(InvalidUnitIdSyntax);
+    logError(InvalidUnitIdSyntax, getLevel(), getVersion(), "The extentUnits attribute '" + mExtentUnits + "' does not conform to the syntax.");
   }
 
   //

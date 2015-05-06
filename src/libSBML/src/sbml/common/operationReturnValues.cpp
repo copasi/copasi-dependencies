@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -51,6 +51,7 @@ static OperationReturnValues_t SBML_OPERATION_RETURN_VALUES_INDICES[] =
   , LIBSBML_DUPLICATE_ANNOTATION_NS
   , LIBSBML_ANNOTATION_NAME_NOT_FOUND
   , LIBSBML_ANNOTATION_NS_NOT_FOUND
+  , LIBSBML_MISSING_METAID
   , LIBSBML_PKG_VERSION_MISMATCH
   , LIBSBML_PKG_UNKNOWN
   , LIBSBML_PKG_UNKNOWN_VERSION
@@ -144,7 +145,7 @@ static const char* SBML_OPERATION_RETURN_VALUES_STRINGS[] =
 
   , /*LIBSBML_DUPLICATE_ANNOTATION_NS = -11*/
    "There already exists a top level annotation with the same namespace as "
-   "annoation being appended. This error is "
+   "annotation being appended. This error is "
    "typically returned in situations where the appendAnnotation function "
    "is being used to add an annotation that has a namespace that is already "
    "present in the existing annotation. "
@@ -169,6 +170,10 @@ static const char* SBML_OPERATION_RETURN_VALUES_STRINGS[] =
    "not match the namespace of any top-level element that is already "
    "present in the existing annotation. "
 
+  , /* LIBSBML_MISSING_METAID   = -14*/
+    "The requested action cannot be performed as the target object does not have "
+    "the metaid attribute set. "
+   
   , /*LIBSBML_PKG_VERSION_MISMATCH = -20*/
    "The Version of package extension within the SBML Level and version "
    "associated with the object does not match the Version of the parent "

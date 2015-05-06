@@ -347,7 +347,7 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
-   * @see #appendAndOwn(SBase item)
+   * @see #appendAndOwn(SBase disownedItem)
    * @see #appendFrom(ListOf list)
    */ public
  int append(SBase item) {
@@ -358,12 +358,12 @@ appears in the documentation.
 /**
    * Adds an item to the end of this {@link ListOf}'s list of items.
    <p>
-   * This method does not clone the <code>item</code> handed to it; instead, it assumes
+   * This method does not clone the <code>disownedItem</code> handed to it; instead, it assumes
    * ownership of it.  This means that when the {@link ListOf} is destroyed, the item
    * will be destroyed along with it.  For a method with an alternative
    * ownership behavior, see the {@link ListOf#append(SBase item)} method.
    <p>
-   * @param item the item to be added to the list.
+   * @param disownedItem the item to be added to the list.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -377,8 +377,8 @@ appears in the documentation.
    * @see #append(SBase item)
    * @see #appendFrom(ListOf list)
    */ public
- int appendAndOwn(SBase item) {
-    return libsbmlJNI.ListOf_appendAndOwn(swigCPtr, this, SBase.getCPtrAndDisown(item), item);
+ int appendAndOwn(SBase disownedItem) {
+    return libsbmlJNI.ListOf_appendAndOwn(swigCPtr, this, SBase.getCPtrAndDisown(disownedItem), disownedItem);
   }
 
   
@@ -400,7 +400,7 @@ appears in the documentation.
    *
    * </ul> <p>
    * @see #append(SBase item)
-   * @see #appendAndOwn(SBase item)
+   * @see #appendAndOwn(SBase disownedItem)
    */ public
  int appendFrom(ListOf list) {
     return libsbmlJNI.ListOf_appendFrom(swigCPtr, this, ListOf.getCPtr(list), list);
@@ -436,12 +436,12 @@ appears in the documentation.
 /**
    * Inserts an item at a given position in this {@link ListOf}'s list of items.
    <p>
-   * This variant of the method makes a clone of the <code>item</code> handed to it.
+   * This variant of the method does not make a clone of the <code>disownedItem</code> handed to it.
    * This means that when the {@link ListOf} is destroyed, the original <code>item</code>
    * <em>will</em> be destroyed.
    <p>
    * @param location the location where to insert the item
-   * @param item the item to be inserted to the list
+   * @param disownedItem the item to be inserted to the list
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -454,8 +454,8 @@ appears in the documentation.
    * </ul> <p>
    * @see #insert(int location, SBase item)
    */ public
- int insertAndOwn(int location, SBase item) {
-    return libsbmlJNI.ListOf_insertAndOwn(swigCPtr, this, location, SBase.getCPtrAndDisown(item), item);
+ int insertAndOwn(int location, SBase disownedItem) {
+    return libsbmlJNI.ListOf_insertAndOwn(swigCPtr, this, location, SBase.getCPtrAndDisown(disownedItem), disownedItem);
   }
 
   

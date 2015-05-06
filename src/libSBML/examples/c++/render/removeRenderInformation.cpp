@@ -39,7 +39,7 @@ void deleteRenderInformationFromLayout(LayoutModelPlugin *lPlugin)
     if (rPlugins == NULL) continue;
 
     rPlugins->getListOfLocalRenderInformation()->clear();
-  }  
+  }
 }
 
 int main(int argc,char** argv){

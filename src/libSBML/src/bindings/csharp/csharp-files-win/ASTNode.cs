@@ -363,7 +363,7 @@ public class ASTNode : ASTBase {
    *
    * Child nodes are added in-order, from left to right.
    *
-   * @param child the ASTNode instance to add
+   * @param disownedChild the ASTNode instance to add
    *
    *
  * @return integer value indicating success/failure of the
@@ -385,14 +385,14 @@ public class ASTNode : ASTBase {
  *
  *
    *
-   * @see prependChild(ASTNode child)
-   * @see replaceChild(unsigned int n, ASTNode child)
-   * @see insertChild(unsigned int n, ASTNode child)
+   * @see prependChild(ASTNode disownedChild)
+   * @see replaceChild(unsigned int n, ASTNode disownedChild)
+   * @see insertChild(unsigned int n, ASTNode disownedChild)
    * @see removeChild(unsigned int n)
    * @see isWellFormedASTNode()
    */ public
- int addChild(ASTNode child) {
-    int ret = libsbmlPINVOKE.ASTNode_addChild(swigCPtr, ASTNode.getCPtrAndDisown(child));
+ int addChild(ASTNode disownedChild) {
+    int ret = libsbmlPINVOKE.ASTNode_addChild(swigCPtr, ASTNode.getCPtrAndDisown(disownedChild));
     return ret;
   }
 
@@ -402,7 +402,7 @@ public class ASTNode : ASTBase {
    *
    * This method adds child nodes from right to left.
    *
-   * @param child the ASTNode instance to add
+   * @param disownedChild the ASTNode instance to add
    *
    *
  * @return integer value indicating success/failure of the
@@ -424,13 +424,13 @@ public class ASTNode : ASTBase {
  *
  *
    *
-   * @see addChild(ASTNode child)
-   * @see replaceChild(unsigned int n, ASTNode child)
-   * @see insertChild(unsigned int n, ASTNode child)
+   * @see addChild(ASTNode disownedChild)
+   * @see replaceChild(unsigned int n, ASTNode disownedChild)
+   * @see insertChild(unsigned int n, ASTNode disownedChild)
    * @see removeChild(unsigned int n)
    */ public
- int prependChild(ASTNode child) {
-    int ret = libsbmlPINVOKE.ASTNode_prependChild(swigCPtr, ASTNode.getCPtrAndDisown(child));
+ int prependChild(ASTNode disownedChild) {
+    int ret = libsbmlPINVOKE.ASTNode_prependChild(swigCPtr, ASTNode.getCPtrAndDisown(disownedChild));
     return ret;
   }
 
@@ -460,10 +460,10 @@ public class ASTNode : ASTBase {
  *
  *
    *
-   * @see addChild(ASTNode child)
-   * @see prependChild(ASTNode child)
-   * @see replaceChild(unsigned int n, ASTNode child)
-   * @see insertChild(unsigned int n, ASTNode child)
+   * @see addChild(ASTNode disownedChild)
+   * @see prependChild(ASTNode disownedChild)
+   * @see replaceChild(unsigned int n, ASTNode disownedChild)
+   * @see insertChild(unsigned int n, ASTNode disownedChild)
    */ public
  int removeChild(long n) {
     int ret = libsbmlPINVOKE.ASTNode_removeChild(swigCPtr, n);
@@ -475,7 +475,7 @@ public class ASTNode : ASTBase {
    * Replaces the nth child of this ASTNode with the given ASTNode.
    *
    * @param n unsigned int the index of the child to replace
-   * @param newChild ASTNode to replace the nth child
+   * @param disownedChild ASTNode to replace the nth child
    * @param delreplaced boolean indicating whether to delete the replaced child.
    *
    *
@@ -499,13 +499,13 @@ public class ASTNode : ASTBase {
  *
  *
    *
-   * @see addChild(ASTNode child)
-   * @see prependChild(ASTNode child)
-   * @see insertChild(unsigned int n, ASTNode child)
+   * @see addChild(ASTNode disownedChild)
+   * @see prependChild(ASTNode disownedChild)
+   * @see insertChild(unsigned int n, ASTNode disownedChild)
    * @see removeChild(unsigned int n)
    */ public
- int replaceChild(long n, ASTNode newChild, bool delreplaced) {
-    int ret = libsbmlPINVOKE.ASTNode_replaceChild__SWIG_0(swigCPtr, n, ASTNode.getCPtrAndDisown(newChild), delreplaced);
+ int replaceChild(long n, ASTNode disownedChild, bool delreplaced) {
+    int ret = libsbmlPINVOKE.ASTNode_replaceChild__SWIG_0(swigCPtr, n, ASTNode.getCPtrAndDisown(disownedChild), delreplaced);
     return ret;
   }
 
@@ -514,7 +514,7 @@ public class ASTNode : ASTBase {
    * Replaces the nth child of this ASTNode with the given ASTNode.
    *
    * @param n unsigned int the index of the child to replace
-   * @param newChild ASTNode to replace the nth child
+   * @param disownedChild ASTNode to replace the nth child
    * @param delreplaced boolean indicating whether to delete the replaced child.
    *
    *
@@ -538,13 +538,13 @@ public class ASTNode : ASTBase {
  *
  *
    *
-   * @see addChild(ASTNode child)
-   * @see prependChild(ASTNode child)
-   * @see insertChild(unsigned int n, ASTNode child)
+   * @see addChild(ASTNode disownedChild)
+   * @see prependChild(ASTNode disownedChild)
+   * @see insertChild(unsigned int n, ASTNode disownedChild)
    * @see removeChild(unsigned int n)
    */ public
- int replaceChild(long n, ASTNode newChild) {
-    int ret = libsbmlPINVOKE.ASTNode_replaceChild__SWIG_1(swigCPtr, n, ASTNode.getCPtrAndDisown(newChild));
+ int replaceChild(long n, ASTNode disownedChild) {
+    int ret = libsbmlPINVOKE.ASTNode_replaceChild__SWIG_1(swigCPtr, n, ASTNode.getCPtrAndDisown(disownedChild));
     return ret;
   }
 
@@ -554,7 +554,7 @@ public class ASTNode : ASTBase {
    * list of children.
    *
    * @param n unsigned int the index of the ASTNode being added
-   * @param newChild ASTNode to insert as the nth child
+   * @param disownedChild ASTNode to insert as the nth child
    *
    *
  * @return integer value indicating success/failure of the
@@ -577,13 +577,13 @@ public class ASTNode : ASTBase {
  *
  *
    *
-   * @see addChild(ASTNode child)
-   * @see prependChild(ASTNode child)
-   * @see replaceChild(unsigned int n, ASTNode child)
+   * @see addChild(ASTNode disownedChild)
+   * @see prependChild(ASTNode disownedChild)
+   * @see replaceChild(unsigned int n, ASTNode disownedChild)
    * @see removeChild(unsigned int n)
    */ public
- int insertChild(long n, ASTNode newChild) {
-    int ret = libsbmlPINVOKE.ASTNode_insertChild(swigCPtr, n, ASTNode.getCPtrAndDisown(newChild));
+ int insertChild(long n, ASTNode disownedChild) {
+    int ret = libsbmlPINVOKE.ASTNode_insertChild(swigCPtr, n, ASTNode.getCPtrAndDisown(disownedChild));
     return ret;
   }
 
@@ -689,7 +689,7 @@ getChild( getNumChildren() - 1 );
  *
  *
    *
-   * @param sAnnotation the annotation to add.
+   * @param disownedAnnotation the annotation to add.
    *
    *
  * @return integer value indicating success/failure of the
@@ -713,8 +713,8 @@ getChild( getNumChildren() - 1 );
    * @see ASTNode::getNumSemanticsAnnotations()
    * @see ASTNode::getSemanticsAnnotation(@if java unsigned int@endif)
    */ public
- int addSemanticsAnnotation(XMLNode sAnnotation) {
-    int ret = libsbmlPINVOKE.ASTNode_addSemanticsAnnotation(swigCPtr, XMLNode.getCPtrAndDisown(sAnnotation));
+ int addSemanticsAnnotation(XMLNode disownedAnnotation) {
+    int ret = libsbmlPINVOKE.ASTNode_addSemanticsAnnotation(swigCPtr, XMLNode.getCPtrAndDisown(disownedAnnotation));
     return ret;
   }
 
@@ -1020,6 +1020,31 @@ getChild( getNumChildren() - 1 );
    */ public
  int getExponent() {
     int ret = libsbmlPINVOKE.ASTNode_getExponent(swigCPtr);
+    return ret;
+  }
+
+  
+/**
+   * Returns the numerical value of this ASTNode.
+   *
+   * @return the numerical value of this ASTNode, or @c NaN if this
+   * is not a type of node that has a numerical value.
+   *
+   * @note This function will return a numerical value (as a double) for 
+   * any ASTNode_t that represents a number, a constant such as 
+   * @link libsbml#AST_CONSTANT_PI AST_CONSTANT_PI@endlink, 
+   * @link libsbml#AST_CONSTANT_E AST_CONSTANT_E@endlink, or 
+   * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink, or 
+   * @c 1 for nodes of type 
+   * @link libsbml#AST_CONSTANT_TRUE AST_CONSTANT_TRUE@endlink and @c 0 for nodes of type
+   * @link libsbml#AST_CONSTANT_FALSE AST_CONSTANT_FALSE@endlink. It does not evaluate
+   * the node in any way so, for example, it will not return the value of 
+   * a named ASTNode_t or attempt to evaluate a function. 
+   * This includes a node representing @c time i.e. nodes
+   * of type @link libsbml#AST_NAME_TIME AST_NAME_TIME@endlink.
+   */ public
+ double getValue() {
+    double ret = libsbmlPINVOKE.ASTNode_getValue(swigCPtr);
     return ret;
   }
 
@@ -2350,6 +2375,22 @@ setValue(value, 0);
 /** */ /* libsbml-internal */ public new
  string getPackageName() {
     string ret = libsbmlPINVOKE.ASTNode_getPackageName(swigCPtr);
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public new
+ ASTBasePlugin getPlugin(string package) {
+    IntPtr cPtr = libsbmlPINVOKE.ASTNode_getPlugin__SWIG_0(swigCPtr, package);
+    ASTBasePlugin ret = (cPtr == IntPtr.Zero) ? null : new ASTBasePlugin(cPtr, false);
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public new
+ ASTBasePlugin getPlugin(long n) {
+    IntPtr cPtr = libsbmlPINVOKE.ASTNode_getPlugin__SWIG_2(swigCPtr, n);
+    ASTBasePlugin ret = (cPtr == IntPtr.Zero) ? null : new ASTBasePlugin(cPtr, false);
     return ret;
   }
 

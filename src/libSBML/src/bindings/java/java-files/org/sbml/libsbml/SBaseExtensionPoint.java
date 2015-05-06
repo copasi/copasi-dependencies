@@ -146,6 +146,82 @@ public class SBaseExtensionPoint {
 
   
 /**
+  * Constructor for {@link SBaseExtensionPoint}.
+  <p>
+  * The use of {@link SBaseExtensionPoint} is relatively straightforward.  The
+  * class needs to be used for each extended SBML object implemented
+  * using {@link SBMLDocumentPlugin} or {@link SBasePlugin}.  Doing so requires knowing
+  * just two things:
+  <p>
+  * <ul>
+  * <li> The short-form name of the <em>parent</em> package being extended.
+  * The parent package is often simply core SBML, identified in libSBML
+  * by the nickname <code>'core'</code>, but a SBML Level&nbsp;3
+  * package could conceivably extend another Level&nbsp;3 package and
+  * the mechanism supports this.
+  <p>
+  * <li> The libSBML type code assigned to the object being extended.
+  * For example, if an extension of {@link Model} is implemented, the relevant
+  * type code is SBML_MODEL, found in #SBMLTypeCode_t.
+  *
+  * </ul> <p>
+  * @param pkgName the short-form name of the parent package where
+  * that this package extension is extending.
+  <p>
+  * @param typeCode the type code of the object being extended.
+  <p>
+  * @param elementName element name for the target element, in case 
+  * multiple elements match the same type code (as will be the case
+  * for {@link ListOf} classes)
+  <p>
+  * @param elementOnly flag to be used during the registration 
+  * of the package, when set then the plugin is only applied to 
+  * elements whose elementName match.
+  */ public
+ SBaseExtensionPoint(String pkgName, int typeCode, String elementName, boolean elementOnly) {
+    this(libsbmlJNI.new_SBaseExtensionPoint__SWIG_1(pkgName, typeCode, elementName, elementOnly), true);
+  }
+
+  
+/**
+  * Constructor for {@link SBaseExtensionPoint}.
+  <p>
+  * The use of {@link SBaseExtensionPoint} is relatively straightforward.  The
+  * class needs to be used for each extended SBML object implemented
+  * using {@link SBMLDocumentPlugin} or {@link SBasePlugin}.  Doing so requires knowing
+  * just two things:
+  <p>
+  * <ul>
+  * <li> The short-form name of the <em>parent</em> package being extended.
+  * The parent package is often simply core SBML, identified in libSBML
+  * by the nickname <code>'core'</code>, but a SBML Level&nbsp;3
+  * package could conceivably extend another Level&nbsp;3 package and
+  * the mechanism supports this.
+  <p>
+  * <li> The libSBML type code assigned to the object being extended.
+  * For example, if an extension of {@link Model} is implemented, the relevant
+  * type code is SBML_MODEL, found in #SBMLTypeCode_t.
+  *
+  * </ul> <p>
+  * @param pkgName the short-form name of the parent package where
+  * that this package extension is extending.
+  <p>
+  * @param typeCode the type code of the object being extended.
+  <p>
+  * @param elementName element name for the target element, in case 
+  * multiple elements match the same type code (as will be the case
+  * for {@link ListOf} classes)
+  <p>
+  * @param elementOnly flag to be used during the registration 
+  * of the package, when set then the plugin is only applied to 
+  * elements whose elementName match.
+  */ public
+ SBaseExtensionPoint(String pkgName, int typeCode, String elementName) {
+    this(libsbmlJNI.new_SBaseExtensionPoint__SWIG_2(pkgName, typeCode, elementName), true);
+  }
+
+  
+/**
    * Copy constructor.
    <p>
    * This creates a copy of an {@link SBaseExtensionPoint} instance.
@@ -153,7 +229,7 @@ public class SBaseExtensionPoint {
    * @param rhs the object to copy.
    */ public
  SBaseExtensionPoint(SBaseExtensionPoint rhs) {
-    this(libsbmlJNI.new_SBaseExtensionPoint__SWIG_1(SBaseExtensionPoint.getCPtr(rhs), rhs), true);
+    this(libsbmlJNI.new_SBaseExtensionPoint__SWIG_3(SBaseExtensionPoint.getCPtr(rhs), rhs), true);
   }
 
   
@@ -181,6 +257,21 @@ public class SBaseExtensionPoint {
    */ public
  int getTypeCode() {
     return libsbmlJNI.SBaseExtensionPoint_getTypeCode(swigCPtr, this);
+  }
+
+  
+/**
+   * the target element name
+   */ public
+ String getElementName() {
+    return libsbmlJNI.SBaseExtensionPoint_getElementName(swigCPtr, this);
+  }
+
+  
+/**
+   */ public
+ boolean isElementOnly() {
+    return libsbmlJNI.SBaseExtensionPoint_isElementOnly(swigCPtr, this);
   }
 
 }

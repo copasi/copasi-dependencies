@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -995,7 +995,7 @@ Domain_setDomainType(Domain_t * d, const char * domainType);
 
 /**
  * Unsets the value of the "id" attribute of the given 
- *Domain_t structure.
+ * Domain_t structure.
  *
  * @param d the Domain_t structure.
  *
@@ -1016,7 +1016,7 @@ Domain_unsetId(Domain_t * d);
 
 /**
  * Unsets the value of the "domainType" attribute of the given 
- *Domain_t structure.
+ * Domain_t structure.
  *
  * @param d the Domain_t structure.
  *

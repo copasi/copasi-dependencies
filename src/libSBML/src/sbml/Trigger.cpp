@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -301,6 +301,36 @@ Trigger::setPersistent (bool persistent)
   {
     mPersistent = persistent;
     mIsSetPersistent = true;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
+int
+Trigger::unsetInitialValue ()
+{
+  if (getLevel() < 3)
+  {
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+  else
+  {
+    mIsSetInitialValue = false;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
+int
+Trigger::unsetPersistent ()
+{
+  if (getLevel() < 3)
+  {
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
+  else
+  {
+    mIsSetPersistent = false;
     return LIBSBML_OPERATION_SUCCESS;
   }
 }
@@ -785,6 +815,22 @@ Trigger_setPersistent (Trigger_t *t, int persistent)
 {
   return (t != NULL) ? t->setPersistent( static_cast<bool>(persistent) )
     : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+Trigger_unsetInitialValue (Trigger_t *t)
+{
+  return (t != NULL) ? t->unsetInitialValue() : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+Trigger_unsetPersistent (Trigger_t *t)
+{
+  return (t != NULL) ? t->unsetPersistent() : LIBSBML_INVALID_OBJECT;
 }
 
 
