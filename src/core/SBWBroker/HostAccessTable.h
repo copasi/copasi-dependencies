@@ -73,15 +73,9 @@ namespace SystemsBiologyWorkbench
 			/**
 			* \return the (single) instance of this class.
 			**/
-			static HostAccessTable *getTable()
-			{
-				if (HostAccessTable::singleton == NULL)
-				{
-					HostAccessTable::singleton = new HostAccessTable;
-					HostAccessTable::singleton->init();
-				}
-				return HostAccessTable::singleton;
-			}
+			static HostAccessTable *getTable();
+
+      static void deleteTable();
 
 			/**
 			* This code is based on similar code in <code>WebServer.java</code>

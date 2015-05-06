@@ -1,58 +1,64 @@
 /**
  * @file stdafx.h
  * @brief precompiled header file for VC++
- * @author SBW Development Group <sysbio-team@caltech.edu>
+ * 
+ * This file is part of SBW.  Please visit http://sbw.sf.org for more
+ * information about SBW, and the latest version of libSBW.
  *
- * Organization: Caltech ERATO Kitano Systems Biology Project
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the New BSD license.
  *
- * Created: @date 18th June 2001
- * $Id: stdafx.h,v 1.2 2008/07/25 00:01:42 fbergmann Exp $
- * $Source: /cvsroot/sbw/core/include/SBW/stdafx.h,v $
+ * Copyright (c) 2010-2014, Frank T. Bergmann and 
+ *                          University of Washington
+ * Copyright (c) 2008-2010, University of Washington and 
+ *                          Keck Graduate Institute.
+ * Copyright (c) 2005-2008, Keck Graduate Institute.
+ * Copyright (c) 2001-2004, California Institute of Technology and
+ *               Japan Science and Technology Corporation.
+ * 
+ * All rights reserved. 
+ * 
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions are 
+ * met: 
+ * 
+ * 1. Redistributions of source code must retain the above 
+ *    copyright notice, this list of conditions and the following disclaimer. 
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright 
+ *    notice, this list of conditions and the following disclaimer in the 
+ *    documentation and/or other materials provided with the distribution. 
+ * 
+ * 3. Neither the name of the copyright holder nor the names of its 
+ *    contributors may be used to endorse or promote products derived from 
+ *    this software without specific prior written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *
+ * The original code contained here was initially developed by:
+ *
+ *     Andrew Finney, Herbert Sauro, Michael Hucka, Hamid Bolouri
+ *     The Systems Biology Workbench Development Group
+ *     ERATO Kitano Systems Biology Project
+ *     Control and Dynamical Systems, MC 107-81
+ *     California Institute of Technology
+ *     Pasadena, CA, 91125, USA
+ *
+ *
+ * Contributor(s):
+ *
  */
 
-/*
-** Copyright 2001 California Institute of Technology and
-** Japan Science and Technology Corporation.
-** 
-** This library is free software; you can redistribute it and/or modify it
-** under the terms of the GNU Lesser General Public License as published
-** by the Free Software Foundation; either version 2.1 of the License, or
-** any later version.
-** 
-** This library is distributed in the hope that it will be useful, but
-** WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
-** MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  The software and
-** documentation provided hereunder is on an "as is" basis, and the
-** California Institute of Technology and Japan Science and Technology
-** Corporation have no obligations to provide maintenance, support,
-** updates, enhancements or modifications.  In no event shall the
-** California Institute of Technology or the Japan Science and Technology
-** Corporation be liable to any party for direct, indirect, special,
-** incidental or consequential damages, including lost profits, arising
-** out of the use of this software and its documentation, even if the
-** California Institute of Technology and/or Japan Science and Technology
-** Corporation have been advised of the possibility of such damage.  See
-** the GNU Lesser General Public License for more details.
-** 
-** You should have received a copy of the GNU Lesser General Public License
-** along with this library; if not, write to the Free Software Foundation,
-** Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-**
-** The original code contained here was initially developed by:
-**
-**     Andrew Finney, Herbert Sauro, Michael Hucka, Hamid Bolouri
-**     The Systems Biology Workbench Development Group
-**     ERATO Kitano Systems Biology Project
-**     Control and Dynamical Systems, MC 107-81
-**     California Institute of Technology
-**     Pasadena, CA, 91125, USA
-**
-**     http://www.cds.caltech.edu/erato
-**     mailto:sysbio-team@caltech.edu
-**
-** Contributor(s):
-**
-*/
 
 // stdafx.h : include file for standard system include files,
 //  or project specific include files that are used frequently, but
@@ -68,20 +74,15 @@
 #pragma warning (disable: 4996)
 #endif // _MSC_VER > 1000
 
-#include "sbwdefs.h"
+#include <SBW/sbwdefs.h>
 
 // Insert your headers here
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
 #ifdef LINUX
 #else
-#include "winsock2.h"
+#include <winsock2.h>
 #include <windows.h>
 #endif
-
-// TODO: reference additional headers your program requires here
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_STDAFX_H__ED562058_FDAD_4065_9A71_5635CA6D8553__INCLUDED_)

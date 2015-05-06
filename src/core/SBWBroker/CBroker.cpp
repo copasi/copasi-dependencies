@@ -28,17 +28,23 @@ using namespace SystemsBiologyWorkbench::Broker;
 
 #include <SBW/SBW.h>
 #include <vector> 
+
 using namespace SystemsBiologyWorkbench;
 using namespace std;
 int main(int argc, char* argv[])
 {
 	try
 	{       
-		BrokerApplication *broker = new BrokerApplication();
-		broker->run(argc,argv);
+		BrokerApplication broker;
+		broker.run(argc,argv);
+
 	}
   catch(SBWException* ex){
+#ifdef _DEBUG
     TRACE("Exception: " << ex->getMessage() << "\n" << ex->getDetailedMessage());
+#else
+    SBW_UNREFERENCED_PARAMETER(ex);
+#endif
   }
 	catch (...)
 	{		

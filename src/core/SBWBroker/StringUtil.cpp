@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 
-#include "SBW/SBW.h"
+#include <SBW/SBW.h>
 
-#ifndef WIN32
+#ifndef byte
 typedef char byte; 
 #endif
 

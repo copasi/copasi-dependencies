@@ -6,23 +6,14 @@
 
 #include <string>
 #include <vector>
-#ifndef WIN32
-// don't forget to add a std::string compare function to stl_hash_fun.h
-#include "BrokerDefines.h"
-#include <ext/hash_map>
-using namespace std;
-using namespace __gnu_cxx;
-#else
-#include <hash_map>
-#if  _MSC_VER >= 1400
-using namespace stdext;
-#endif
+#include <map>
+
 #if    _MSC_VER > 1000
 #pragma once
 #pragma warning (disable: 4996)
 #endif
+
 using namespace std;
-#endif
 
 namespace SystemsBiologyWorkbench
 {
@@ -136,8 +127,8 @@ namespace SystemsBiologyWorkbench
 			ModuleRegistry *readResolve();
  
 			typedef pair< string , ModuleDescriptor *> StringMD; ///< type definition for the hash table
-			hash_map< string , ModuleDescriptor *> table;		 ///< the hash table
-			hash_map< string , ModuleDescriptor *> m_oTempTable; ///< the secondary hash table(not persisted)
+			map< string , ModuleDescriptor *> table;		 ///< the hash table
+			map< string , ModuleDescriptor *> m_oTempTable; ///< the secondary hash table(not persisted)
 			static ModuleRegistryFile *registryFile;			 ///< pointer to the registry file
 			static ModuleRegistry *instance;					 ///< the one and only registry instance
 		};

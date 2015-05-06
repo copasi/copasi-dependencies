@@ -2,25 +2,22 @@
 #include "BrokerInterface.h"
 #include "ProxyLocalBrokerInstance.h"
 #include "ProxyModuleInstance.h"
-#include "SBW.h"
 #include "Broker.h"
 
 #include "SBWBrokerRPC.h"
 #include "BrokerInstance.h"
 #include "StringUtil.h"
-#include "SBW/SBWOSSocket.h"
-#include "SBW/SBW.h"
-#include "SBW/SBWApplicationException.h"
-#include "SBW/SBWModuleStartException.h"
-#include "SBW/SBWLowLevel.h"
-#include "SBW/RuntimeProperties.h"
 
-#ifndef WIN32
-#include <ext/hash_set>
-#include <string>
-using namespace __gnu_cxx;
-#else
-#include <hash_set>
+#include <SBW/SBW.h>
+#include <SBW/SBWOSSocket.h>
+#include <SBW/SBWApplicationException.h>
+#include <SBW/SBWModuleStartException.h>
+#include <SBW/SBWLowLevel.h>
+#include <SBW/RuntimeProperties.h>
+
+#include <set>
+
+#ifdef WIN32
 #pragma warning (disable:4389)
 #endif
 
@@ -37,10 +34,12 @@ CBroker::CBroker() : brokerMutex("cBrokerMutex")
 	addBrokerRegistryEntry();
 	addBrokerInstance();
 }
+
 void CBroker::addBrokerInstance()
 {
 	instanceTable->addInstance(new ProxyLocalBrokerInstance());
 }
+
 void CBroker::addBrokerRegistryEntry()
 {
 	DataBlockWriter *oWriter = new DataBlockWriter();
@@ -53,6 +52,7 @@ void CBroker::addBrokerRegistryEntry()
 	moduleRegistry->addModuleDescriptor(BROKER_NAME, md, false);
 	delete oWriter;
 }
+
 int CBroker::getModuleInstance(string name)
 {
 	TRACE("Received request for instance of '" << name << "'");
@@ -82,6 +82,7 @@ int CBroker::getModuleInstance(string name)
 		return getModuleInstanceRemote(moduleName, host);
 	}
 }
+
 int CBroker::getModuleInstanceLocal(string moduleName)
 {
 	Instance *instance = instanceTable->getInstance(rpc->getHost(), moduleName);
@@ -127,6 +128,7 @@ int CBroker::getModuleInstanceLocal(string moduleName)
 		}
 	}
 }
+
 int CBroker::getModuleInstanceRemote(string moduleName, Host *host)
 {
 	// Part A: If the module is unique & there is an instance running,
@@ -235,6 +237,7 @@ DataBlockWriter CBroker::getModuleDescriptorLocal(string moduleName, bool includ
 	throw new SBWModuleNotFoundException( "Unknown/unregistered module '" + moduleName + "'", 
 		"An attempt was made to obtain an instance of a module named '" + moduleName + "', but no such module is known to the SBW registry.");
 }
+
 DataBlockWriter CBroker::getModuleDescriptorRemote(string moduleName, Host *host,
 												   bool includeRunning)
 {
@@ -244,6 +247,7 @@ DataBlockWriter CBroker::getModuleDescriptorRemote(string moduleName, Host *host
 	DataBlockWriter result = broker->getModuleDescriptor(moduleName, includeRunning);
 	return mungeModuleDescriptor(result, moduleName, host);
 }
+
 DataBlockWriter CBroker::getModuleDescriptor(int moduleId)
 {
 	if (moduleId == BROKER_MODULE)
@@ -258,6 +262,7 @@ DataBlockWriter CBroker::getModuleDescriptor(int moduleId)
 	else
 		return getModuleDescriptorRemote(moduleId, inst);
 }
+
 DataBlockWriter CBroker::getModuleDescriptorLocal(int moduleId, Instance *moduleInst)
 {	
 	string moduleName = moduleInst->getName();
@@ -291,6 +296,7 @@ DataBlockWriter CBroker::getModuleDescriptorLocal(int moduleId, Instance *module
 		}
 	}
 }
+
 void CBroker::checkBrokerId(int brokerId)
 {
 	BrokerInstance *bInst = dynamic_cast<BrokerInstance *>( instanceTable->getInstance(brokerId));
@@ -318,6 +324,7 @@ void CBroker::checkBrokerId(int brokerId)
 		throw new SBWApplicationException(("error broker: " + Properties::toString(brokerId) + " is no longer reachable").c_str());
 	}
 }
+
 DataBlockWriter CBroker::getModuleDescriptorRemote(int /*moduleId*/, Instance *moduleInst)
 {
 	// This must be a remote instance, so cast it to access getRemoteId().
@@ -354,6 +361,7 @@ DataBlockWriter CBroker::getModuleDescriptorRemote(int /*moduleId*/, Instance *m
 	}
 	throw new SBWApplicationException("instance was no remote instance");
 }
+
 vector< DataBlockWriter > CBroker::getModuleDescriptors(bool localOnly, bool includeRunning)
 {
 	vector< DataBlockWriter > records;
@@ -415,6 +423,7 @@ vector< DataBlockWriter > CBroker::getModuleDescriptors(bool localOnly, bool inc
 
 	return records;
 }
+
 DataBlockWriter CBroker::getServiceDescriptor(int moduleId, int serviceId)
 {
 	vector< string > serviceNames = SBW::getServiceNamesFromModule(moduleId);
@@ -429,6 +438,7 @@ DataBlockWriter CBroker::getServiceDescriptor(int moduleId, int serviceId)
 			+ " service identifiers recognized by module " + Properties::toString(moduleId));
 	}
 }
+
 DataBlockWriter CBroker::getServiceDescriptor(int moduleId, string servName)
 {
 
@@ -445,6 +455,7 @@ DataBlockWriter CBroker::getServiceDescriptor(int moduleId, string servName)
 	else
 		return getServiceDescriptorRemote(moduleId, servName, inst);
 }
+
 DataBlockWriter CBroker::getServiceDescriptorLocal(int moduleId, string servName,
 												   Instance *moduleInst)
 {
@@ -497,6 +508,7 @@ DataBlockWriter CBroker::getServiceDescriptorLocal(int moduleId, string servName
 		+ "' has been requested from " + moduleName
 		+ " but the module does not define a service by that name.");
 }
+
 DataBlockWriter CBroker::getServiceDescriptorRemote(int /*moduleId*/, string servName,
 													Instance *moduleInst)
 {
@@ -525,6 +537,7 @@ DataBlockWriter CBroker::getServiceDescriptorRemote(int /*moduleId*/, string ser
 
 	return DataBlockWriter();
 }
+
 vector<DataBlockWriter> CBroker::getServiceDescriptors(int moduleId)
 {
 	checkModuleId(moduleId);
@@ -554,6 +567,7 @@ vector<DataBlockWriter> CBroker::getServiceDescriptors(int moduleId)
 		}
 	}
 }
+
 vector<DataBlockWriter> CBroker::getServiceDescriptors(string name)
 {
 	string moduleName = getModuleNamePart(name);
@@ -574,6 +588,7 @@ vector<DataBlockWriter> CBroker::getServiceDescriptors(string name)
 		return getServiceDescriptorsRemote(moduleName, host);
 	}
 }
+
 vector<DataBlockWriter> CBroker::getServiceDescriptorsLocal(string moduleName, Instance *oInstance)
 {
 	vector<DataBlockWriter> oResult;
@@ -680,6 +695,7 @@ vector<DataBlockWriter> CBroker::getServiceDescriptorsLocal(string moduleName, I
 		return oResult;
 	}
 }
+
 vector<DataBlockWriter> CBroker::getServiceDescriptorsRemote(string moduleName, Host *host)
 {
 	BrokerInterface *broker = getBrokerInterface(host);
@@ -715,7 +731,7 @@ vector<string> CBroker::getServiceCategories(string parentCategory)
 	// The number is not founded in any empirical data whatsoever :-).
 
 	vector<ModuleDescriptor *> mds = getDescriptors();	
-	hash_set< string > categories;
+	set< string > categories;
 
 	for (unsigned int i = 0; i < mds.size(); i++)
 	{
@@ -732,8 +748,8 @@ vector<string> CBroker::getServiceCategories(string parentCategory)
 	// Now we have a list of unique category names.
 	// Do a substring match to find subcategories of the given parent.
 
-	hash_set< string > subcategories;
-	hash_set <string> ::iterator oIterator;
+	set< string > subcategories;
+	set <string> ::iterator oIterator;
 	for ( oIterator = categories.begin(); oIterator != categories.end(); oIterator++ )
 	{
 		string thisCat = SBW::normalizeCategoryName( *oIterator );
@@ -759,7 +775,7 @@ vector<string> CBroker::getServiceCategories(string parentCategory)
 	else
 	{
 		vector<string> oResult;
-		hash_set< string >::iterator oSubIterator;
+		set< string >::iterator oSubIterator;
 		for (oSubIterator = subcategories.begin(); oSubIterator != subcategories.end(); oSubIterator++)
 			oResult.push_back( *oSubIterator );
 		return oResult;
@@ -1100,14 +1116,102 @@ string CBroker::getVersion()
 	sResult += " running on port: " + StringUtil::toString(RuntimeProperties::getSBWBrokerPort()) + ")";
 	return sResult;
 }
+
+#ifndef WIN32
+#include <dirent.h>
+#endif
+
+std::string findCellDesigner(std::string& commandLine)
+{
+#ifdef WIN32
+  size_t pos = commandLine.find("jre"); 
+  if (pos == std::string::npos)
+    return commandLine;
+	
+  std::string path = commandLine.substr (0, pos);
+	
+   WIN32_FIND_DATA FindFileData;
+   HANDLE hFind;
+   std::string test = path + "CellDesigner*.exe";
+   hFind = FindFirstFile(test.c_str(), &FindFileData);
+   if (hFind != INVALID_HANDLE_VALUE) 
+   {
+      std::string result = "cmd /c start \"\" /b /d \"" +  path + "\" " + FindFileData.cFileName;
+      FindClose(hFind);
+	  return result;
+   }
+   return commandLine;
+#elif DARWIN
+  std::string path;
+  size_t pos = commandLine.find("-classpath \"");
+  if (pos != std::string::npos)
+  { 
+    path = commandLine.substr(pos + 12);
+    size_t end = path.find("exec");
+    path = path.substr(0, end);    
+  }
+  else 
+   return commandLine;   
+    
+   DIR *dirp = opendir(path.c_str());
+   struct dirent *dp = NULL;
+   while ((dp = readdir(dirp)) != NULL)
+   {
+     string current (dp->d_name);
+     if (current.find("CellDesigner") == 0 && current.find(".app") != std::string::npos)
+     {
+       (void)closedir(dirp);
+       return "open -n " + path + current;
+     }
+   }
+   (void)closedir(dirp);
+
+#else
+
+  std::string path;
+  size_t pos = commandLine.find("-classpath \"");
+  if (pos != std::string::npos)
+  { 
+    path = commandLine.substr(pos + 12);
+    size_t end = path.find("exec");
+    path = path.substr(0, end);    
+  }
+  else 
+   return commandLine;   
+    
+   DIR *dirp = opendir(path.c_str());
+   struct dirent *dp = NULL;
+   while ((dp = readdir(dirp)) != NULL)
+   {
+     string current (dp->d_name);
+     if (current.find("CellDesigner") == 0 && current.find(".sh") != std::string::npos)
+     {
+       (void)closedir(dirp);
+       return path + current;
+     }
+   }
+   (void)closedir(dirp);
+#endif	
+   return commandLine;
+}
+
 int CBroker::startNewLocalModuleInstance(ModuleDescriptor *md)
 {
 	string moduleName = md->getName();
+	string commandLine = md->getCommandLine();
+	
+	// add workaround for celldesigner
+	if (moduleName == "celldesigner")
+	{
+		commandLine = findCellDesigner(commandLine);
+	}
+
+	
 	TRACE("Attempting to start an instance of '" << moduleName << "'");
 	rpc->addStartupWatcher(moduleName);
 	try
 	{
-		SBWOS::startProcess((char*)(md->getCommandLine().c_str()));
+		SBWOS::startProcess((char*)(commandLine.c_str()));
 		for (int i = 0; i < STARTUP_WAIT; i++) {
 			try {SBWThread::sleep(200); } catch (...) { }
 			int nModuleId = rpc->getStartupStat(moduleName);
@@ -1129,7 +1233,7 @@ int CBroker::startNewLocalModuleInstance(ModuleDescriptor *md)
 	}
 	catch(SBWException *e)
 	{
-		TRACE ("exception during startup: " << e->getMessage() << " - " << e->getDetailedMessage() << " \ntried to start: '"  << md->getCommandLine() << "'");
+		TRACE ("exception during startup: " << e->getMessage() << " - " << e->getDetailedMessage() << " \ntried to start: '"  << commandLine << "'");
 		delete e;
 	}
 	TRACE("Module '" << moduleName << "' couldn't be started in time.");	

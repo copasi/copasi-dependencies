@@ -5,7 +5,9 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <map>
 
+#include "SBW/SBW.h"
 #include "SBW/SBWConfig.h"
 #include "SBW/SBWApplicationException.h"
 
@@ -22,16 +24,28 @@ using namespace SystemsBiologyWorkbench::Broker;
 
 Properties* Properties::oInstance = NULL;
 
+void Properties::deleteInstance()
+{
+  if (oInstance == NULL) 
+    return;
+
+  delete oInstance;
+  oInstance = NULL;
+}
+
 Properties* Properties::getInstance() 
 {
 	if (oInstance == NULL)
+  {
 		oInstance = new Properties();
+    std::atexit(&deleteInstance);
+  }
 	return oInstance;
 }
 bool Properties::hasProperty(std::string sName)
 {	
 	Properties *oProp = getInstance();
-	hash_map< string, string > ::iterator oIterator;
+	map< string, string > ::iterator oIterator;
 	oIterator = oProp->m_oProperties.find( sName );
 	if (oIterator != oProp->m_oProperties.end())
 		return true;
@@ -40,7 +54,7 @@ bool Properties::hasProperty(std::string sName)
 void Properties::changeProperty(std::string sName, std::string sValue)
 {
 	Properties *oProp = getInstance();
-	hash_map< string, string > ::iterator oIterator;
+	map< string, string > ::iterator oIterator;
 	oIterator = oProp->m_oProperties.find( sName );
 	if (oIterator != oProp->m_oProperties.end())
 	{
@@ -51,7 +65,7 @@ void Properties::changeProperty(std::string sName, std::string sValue)
 void Properties::setProperty(std::string sName, std::string sValue)
 {
 	Properties *oProp = getInstance();
-	hash_map< string, string > ::iterator oIterator;
+	map< string, string > ::iterator oIterator;
 	oIterator = oProp->m_oProperties.find( sName );
 	if (oIterator != oProp->m_oProperties.end())
 	{
@@ -69,7 +83,7 @@ void Properties::setProperty(std::string sName, std::string sValue, std::string 
 std::string Properties::getProperty(std::string sName)
 {
 	Properties *oProp = getInstance();
-	hash_map< string, string > ::iterator oIterator;
+	map< string, string > ::iterator oIterator;
 	oIterator = oProp->m_oProperties.find( sName );
 	if (oIterator != oProp->m_oProperties.end())
 	{
@@ -98,7 +112,7 @@ double Properties::getPropertyAsDouble(std::string sName)
 void Properties::removeProperty(std::string sName)
 {
 	Properties *oProp = getInstance();
-	hash_map< string, string > ::iterator oIterator;
+	map< string, string > ::iterator oIterator;
 	oIterator = oProp->m_oProperties.find( sName );
 	if (oIterator != oProp->m_oProperties.end())
 	{
@@ -131,12 +145,14 @@ double Properties::toDouble (std::string sValue)
 	sTemp >> dResult;
 	return dResult;
 }
+
 bool Properties::assertRuntimeProperty(std::string sPropertyName, std::string sExpression)
 {
 	if(sExpression == getProperty(sPropertyName))
 		return true;
 	return false;	
 }
+
 void Properties::save ()
 {
 
@@ -145,7 +161,7 @@ void Properties::save ()
 	if (oFile.is_open()) 
 	{
 		Properties *oProp = getInstance();
-		hash_map< string, string >::iterator oIterator;
+		map< string, string >::iterator oIterator;
 
 		for ( oIterator = oProp->m_oProperties.begin(); oIterator != oProp->m_oProperties.end(); oIterator++) 
 		{
@@ -162,7 +178,7 @@ void Properties::save ()
 		{
 
 			Properties *oProp = getInstance();
-			hash_map< string, string >::iterator oIterator;
+			map< string, string >::iterator oIterator;
 
 			for ( oIterator = oProp->m_oProperties.begin(); oIterator != oProp->m_oProperties.end(); oIterator++) 
 			{
@@ -178,3 +194,4 @@ void Properties::save ()
 		}
 	}
 }
+

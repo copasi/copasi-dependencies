@@ -1,7 +1,7 @@
 #ifndef SBW_BROKER_DEFINES_H
 #define SBW_BROKER_DEFINES_H
 
-#define VERSION "2.7.8"
+#define VERSION "2.11.1"
 
 #include <iostream>
 
@@ -12,24 +12,6 @@
 #define MKDIR(file) (_mkdir(file))
 #else
 #define MKDIR(file) (mkdir(file))
-#endif
-#endif
-
-#ifdef LINUX
-
-#ifndef STRING_HASH
-#define STRING_HASH
-#include <string>
-#include <ext/hash_map>
-namespace __gnu_cxx
-{
-
- template<> struct hash<std::string>
- {
-   size_t operator()(std::string __s) const
-   { return hash< const char* >()(__s.c_str()); }
-  };
-}
 #endif
 #endif
 
@@ -103,11 +85,11 @@ namespace __gnu_cxx
 
 #endif
 
-#if !(defined UNREFERENCED_PARAMETER)
+#if !(defined SBW_UNREFERENCED_PARAMETER)
 /* \def UNREFERENCED_PARAMETER unreferenced parameter should cause errors */
 #ifdef LINUX
-#define UNREFERENCED_PARAMETER(x) ((void)(x))
+#define SBW_UNREFERENCED_PARAMETER(x) ((void)(x))
 #else
-#define UNREFERENCED_PARAMETER(x) ((x))
+#define SBW_UNREFERENCED_PARAMETER(x) ((x))
 #endif
 #endif

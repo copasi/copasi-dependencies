@@ -1,58 +1,63 @@
 /**
  * @file SBWHandle.h
  * @brief smart pointer - based on MS ATL - base class for immediate API classes
- * @author SBW Development Group <sysbio-team@caltech.edu>
+ * 
+ * This file is part of SBW.  Please visit http://sbw.sf.org for more
+ * information about SBW, and the latest version of libSBW.
  *
- * Organization: Caltech ERATO Kitano Systems Biology Project
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the New BSD license.
  *
- * Created: @date 18th June 2001
- * $Id: SBWHandle.h,v 1.2 2007/02/22 22:24:53 fbergmann Exp $
- * $Source: /cvsroot/sbw/core/include/SBW/SBWHandle.h,v $
+ * Copyright (c) 2010-2014, Frank T. Bergmann and 
+ *                          University of Washington
+ * Copyright (c) 2008-2010, University of Washington and 
+ *                          Keck Graduate Institute.
+ * Copyright (c) 2005-2008, Keck Graduate Institute.
+ * Copyright (c) 2001-2004, California Institute of Technology and
+ *               Japan Science and Technology Corporation.
+ * 
+ * All rights reserved. 
+ * 
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions are 
+ * met: 
+ * 
+ * 1. Redistributions of source code must retain the above 
+ *    copyright notice, this list of conditions and the following disclaimer. 
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright 
+ *    notice, this list of conditions and the following disclaimer in the 
+ *    documentation and/or other materials provided with the distribution. 
+ * 
+ * 3. Neither the name of the copyright holder nor the names of its 
+ *    contributors may be used to endorse or promote products derived from 
+ *    this software without specific prior written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *
+ * The original code contained here was initially developed by:
+ *
+ *     Andrew Finney, Herbert Sauro, Michael Hucka, Hamid Bolouri
+ *     The Systems Biology Workbench Development Group
+ *     ERATO Kitano Systems Biology Project
+ *     Control and Dynamical Systems, MC 107-81
+ *     California Institute of Technology
+ *     Pasadena, CA, 91125, USA
+ *
+ *
+ * Contributor(s):
+ *
  */
-
-/*
-** Copyright 2001 California Institute of Technology and
-** Japan Science and Technology Corporation.
-** 
-** This library is free software; you can redistribute it and/or modify it
-** under the terms of the GNU Lesser General Public License as published
-** by the Free Software Foundation; either version 2.1 of the License, or
-** any later version.
-** 
-** This library is distributed in the hope that it will be useful, but
-** WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
-** MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  The software and
-** documentation provided hereunder is on an "as is" basis, and the
-** California Institute of Technology and Japan Science and Technology
-** Corporation have no obligations to provide maintenance, support,
-** updates, enhancements or modifications.  In no event shall the
-** California Institute of Technology or the Japan Science and Technology
-** Corporation be liable to any party for direct, indirect, special,
-** incidental or consequential damages, including lost profits, arising
-** out of the use of this software and its documentation, even if the
-** California Institute of Technology and/or Japan Science and Technology
-** Corporation have been advised of the possibility of such damage.  See
-** the GNU Lesser General Public License for more details.
-** 
-** You should have received a copy of the GNU Lesser General Public License
-** along with this library; if not, write to the Free Software Foundation,
-** Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-**
-** The original code contained here was initially developed by:
-**
-**     Andrew Finney, Herbert Sauro, Michael Hucka, Hamid Bolouri
-**     The Systems Biology Workbench Development Group
-**     ERATO Kitano Systems Biology Project
-**     Control and Dynamical Systems, MC 107-81
-**     California Institute of Technology
-**     Pasadena, CA, 91125, USA
-**
-**     http://www.cds.caltech.edu/erato
-**     mailto:sysbio-team@caltech.edu
-**
-** Contributor(s):
-**
-*/
 // SBWHandle.h: interface for the SBWHandle class.
 //
 //////////////////////////////////////////////////////////////////////
@@ -67,106 +72,109 @@
 #endif // _MSC_VER > 1000
 
 #include <assert.h>
-#include "portableOS.h"
+#include <SBW/sbwdefs.h>
+#ifndef SBW_STRICT_INCLUDES
+#include <SBW/portableOS.h>
+#endif
 
 namespace SystemsBiologyWorkbench
 {
 
-/// smart pointer for use with classes derived from SBWObject
-template <class T>
-class SBW_API SBWHandle
-{
-public:
-	typedef T _PtrClass;
+  /// smart pointer for use with classes derived from SBWObject
+  template <class T>
+  class SBW_API SBWHandle
+  {
+  public:
+    typedef T _PtrClass;
 
-	/// create pointer with null reference
-	SBWHandle() {p=NULL;}
-
-	/**
-	 * create a smart pointer from a pointer.
-     * Increment the reference count of the referenced object.
-	 * @param lp pointer to SBWObject
-	 */
-	SBWHandle(T* lp)
-	{
-        assert(lp!=(LPVOID) 0xdddddddd);
-		if ((p = lp) != NULL)
-			p->AddReference();
-	}
-
-	/**
-	 * create a smart pointer from another smart pointer
-	 * Increment the reference count of the referenced object.
-	 * @param lp smart pointer to SBWObject
-	 */
-	SBWHandle(const SBWHandle<T>& lp)
-	{
-        assert(lp.p!=(LPVOID) 0xdddddddd);
-		if ((p = lp.p) != NULL)
-			p->AddReference();
-	}
-
-	/**
-	 * decrement the reference count of the referenced object.
-	 */
-	~SBWHandle() {if (p) p->Release();}
-
-	/**
-	 * decrement the reference count of the referenced object.
-	 */
-	void Release() {if (p) p->Release(); p=NULL;}
-
-	/**
-	 * conversion operator from smart pointer to ordinary pointer.
-	 * @return equivalent ordinary pointer.
-	 */
-	operator T*() const {return (T*)p;}
+    /// create pointer with null reference
+    SBWHandle() {p=NULL;}
 
     /**
-	 * dereference or * operator.
-	 * @returns a reference to the referenced object.
-	 */
-	T& operator*() {assert(p!=NULL); return *p; }
-
-	/**
-	 * dereference field operator or -> operator.
-	 * @returns pointer to the referenced object.
-	 */
-	T* operator->() { assert(p!=NULL); return p; }
-
-	// T* operator=(T* lp){return (T*)AtlComPtrAssign((IUnknown**)&p, lp);}
+    * create a smart pointer from a pointer.
+    * Increment the reference count of the referenced object.
+    * @param lp pointer to SBWObject
+    */
+    SBWHandle(T* lp)
+    {
+      assert(lp!=(LPVOID) 0xdddddddd);
+      if ((p = lp) != NULL)
+        p->AddReference();
+    }
 
     /**
-	 * assignment operator.
-	 * Decrements reference count of previously referenced object.
-	 * Increments reference count of object of newly assigned reference. 
-	 * @param lp smart pointer val;ue assigned tom this smart pointer.
-	 * @returns new value in ordinary pointer form. 
-	 */
-	T* operator=(const SBWHandle<T>& lp)
-	{
-		assert(lp.p!=(LPVOID) 0xdddddddd);
-        // in ATL it's
-		//return (T*)AtlComPtrAssign((IUnknown**)&p, lp.p);
+    * create a smart pointer from another smart pointer
+    * Increment the reference count of the referenced object.
+    * @param lp smart pointer to SBWObject
+    */
+    SBWHandle(const SBWHandle<T>& lp)
+    {
+      assert(lp.p!=(LPVOID) 0xdddddddd);
+      if ((p = lp.p) != NULL)
+        p->AddReference();
+    }
 
-		if (lp.p)
-			lp.p->AddReference();
+    /**
+    * decrement the reference count of the referenced object.
+    */
+    ~SBWHandle() {if (p) p->Release();}
 
-		if (p)
-			p->Release();
+    /**
+    * decrement the reference count of the referenced object.
+    */
+    void Release() {if (p) p->Release(); p=NULL;}
 
-		p = lp.p ;
+    /**
+    * conversion operator from smart pointer to ordinary pointer.
+    * @return equivalent ordinary pointer.
+    */
+    operator T*() const {return (T*)p;}
 
-		return (T *)p ;
-	}
+    /**
+    * dereference or * operator.
+    * @returns a reference to the referenced object.
+    */
+    T& operator*() {assert(p!=NULL); return *p; }
+
+    /**
+    * dereference field operator or -> operator.
+    * @returns pointer to the referenced object.
+    */
+    T* operator->() { assert(p!=NULL); return p; }
+
+    // T* operator=(T* lp){return (T*)AtlComPtrAssign((IUnknown**)&p, lp);}
+
+    /**
+    * assignment operator.
+    * Decrements reference count of previously referenced object.
+    * Increments reference count of object of newly assigned reference. 
+    * @param lp smart pointer val;ue assigned tom this smart pointer.
+    * @returns new value in ordinary pointer form. 
+    */
+    T* operator=(const SBWHandle<T>& lp)
+    {
+      assert(lp.p!=(LPVOID) 0xdddddddd);
+      // in ATL it's
+      //return (T*)AtlComPtrAssign((IUnknown**)&p, lp.p);
+
+      if (lp.p)
+        lp.p->AddReference();
+
+      if (p)
+        p->Release();
+
+      p = lp.p ;
+
+      return (T *)p ;
+    }
 #if _MSC_VER>1020 || defined(LINUX)
-	bool operator!(){return (p == NULL);}
+    bool operator!(){return (p == NULL);}
 #else
-	BOOL operator!(){return (p == NULL) ? TRUE : FALSE;}
+    BOOL operator!(){return (p == NULL) ? TRUE : FALSE;}
 #endif
-protected:
-	/// underlying smart pointer.
-	T* p;
-};
+  protected:
+    /// underlying smart pointer.
+    T* p;
+  };
 } // SystemsBiologyWorkbench
 #endif // !defined(AFX_SBWHANDLE_H__3540512C_45D8_448B_9111_619845A580CA__INCLUDED_)

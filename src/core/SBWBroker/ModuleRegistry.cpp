@@ -116,7 +116,7 @@ void ModuleRegistry::addModuleDescriptor(string moduleName, string moduleDisplay
 }
 void ModuleRegistry::removeModuleDescriptor(string moduleName)
 {
-	hash_map< string , ModuleDescriptor *> ::iterator oIterator;
+	map< string , ModuleDescriptor *> ::iterator oIterator;
 	oIterator = table.find(moduleName);
 	if (oIterator != table.end())
 	{
@@ -131,7 +131,7 @@ ModuleDescriptor *ModuleRegistry::getTempModuleDescriptor(string moduleName)
 		return NULL;
 	else
 	{
-		hash_map< string , ModuleDescriptor *> ::iterator oIterator;
+		map< string , ModuleDescriptor *> ::iterator oIterator;
 		oIterator = m_oTempTable.find(moduleName);
 		if (oIterator == m_oTempTable.end())
 		{
@@ -150,7 +150,7 @@ ModuleDescriptor *ModuleRegistry::getModuleDescriptor(string moduleName)
 		return NULL;
 	else
 	{
-		hash_map< string , ModuleDescriptor *> ::iterator oIterator;
+		map< string , ModuleDescriptor *> ::iterator oIterator;
 		oIterator = table.find(moduleName);
 		if (oIterator == table.end())
 		{
@@ -165,7 +165,7 @@ ModuleDescriptor *ModuleRegistry::getModuleDescriptor(string moduleName)
 vector<ModuleDescriptor *> ModuleRegistry::getModuleDescriptors()
 {
 	vector<ModuleDescriptor *> oTemp;
-	hash_map< string , ModuleDescriptor *> ::iterator oIterator;
+	map< string , ModuleDescriptor *> ::iterator oIterator;
 	for (oIterator = table.begin(); oIterator != table.end(); oIterator++)
 		oTemp.push_back(oIterator->second);	
 	return oTemp;

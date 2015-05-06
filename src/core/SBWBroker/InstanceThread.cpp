@@ -292,8 +292,8 @@ void InstanceThread::shutdown()
 	}
 	catch (SBWException *e)
 	{
-		std::string msg = "Unable to send shutdown to module " + myId;
-		TRACE (msg <<  e->getMessage());
+		std::string msg = "Unable to send shutdown to module ";
+		TRACE (msg << myId << " " <<  e->getMessage());
 		delete e;
 	}
 }

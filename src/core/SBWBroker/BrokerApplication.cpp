@@ -437,7 +437,11 @@ string BrokerApplication::statusToString(int statusCode)
 	case STATUS_CANNOT_SHUTDOWN:
 		return "Unable to shut down running Broker";
 	default:
-		return "Unknown status code: " + statusCode;
+    {
+      std::stringstream str;
+      str << "Unknown status code: " << statusCode;
+		  return str.str();
+    }
 	}
 }
 void BrokerApplication::printInfo()

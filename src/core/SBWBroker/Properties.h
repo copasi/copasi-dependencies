@@ -3,20 +3,11 @@
 
 #include <string>
 #include <vector>
-#ifndef WIN32
-#include "BrokerDefines.h"
-#include <ext/hash_map>
-using namespace __gnu_cxx;
+#include <map>
 
-#else
-#include <hash_map>
-#if  _MSC_VER >= 1400
-using namespace stdext;
-#endif
 #if    _MSC_VER > 1000
 #pragma once
 #pragma warning (disable: 4996)
-#endif
 #endif
 
 using namespace std;
@@ -46,6 +37,12 @@ namespace SystemsBiologyWorkbench
 			 * \return the one and only Properties object
 			 */
 			static Properties* getInstance();
+
+      /**
+       * delete static instance (will be called atexit)
+       */
+      static void deleteInstance();
+
 			/**
 			 * sets the value of a property
 			 * \param sName  the name of the property to set
@@ -143,7 +140,7 @@ namespace SystemsBiologyWorkbench
 		private:
 			static Properties* oInstance;			///< the one and only Property instance
 			typedef std::pair<std::string, std::string> StringString; ///< type definition for the hashmap			
-			hash_map < std::string, std::string > m_oProperties;	  ///< hashmap storing all properties
+			std::map < std::string, std::string > m_oProperties;	  ///< hashmap storing all properties
 			
 		};
 	}

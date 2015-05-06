@@ -7,23 +7,9 @@
 
 #include <string>
 #include <vector>
-#ifndef WIN32
-// don't forget to add a std::string to stl_has_fun.h
-#include "BrokerDefines.h"
-#include <ext/hash_map>
+#include <map>
+
 using namespace std;
-using namespace __gnu_cxx;
-#else
-#include <hash_map>
-#if  _MSC_VER >= 1400
-using namespace stdext;
-#endif
-#if    _MSC_VER > 1000
-#pragma once
-#pragma warning (disable: 4996)
-#endif
-using namespace std;
-#endif
 
 namespace SystemsBiologyWorkbench
 {
@@ -70,7 +56,7 @@ namespace SystemsBiologyWorkbench
 			IntegerHashtable<Instance *> idHash;
 			/** The hash table mapping module names to instances. **/
 			typedef pair< string , Instance *> StringInstance;
-			hash_map< string , Instance *> nameHash;			
+			map< string , Instance *> nameHash;			
 			/** The internal counter of identifers used by #getNextId(). **/
 			int nextId;
 			/**
@@ -89,6 +75,9 @@ namespace SystemsBiologyWorkbench
 			* \return the (single) instance of this class.
 			**/
 			static InstanceTable *getTable();
+
+      static void deleteTable();
+
 			/**
 			* Add an instance to the table of instances.
 			* <p>

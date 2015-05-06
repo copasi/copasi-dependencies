@@ -35,6 +35,24 @@ void HostAccessTable::init(void)
 		denyAddress(denyPattern);
 
 }
+
+HostAccessTable *HostAccessTable::getTable()
+{
+  if (HostAccessTable::singleton == NULL)
+  {
+    HostAccessTable::singleton = new HostAccessTable;
+    HostAccessTable::singleton->init();
+    std::atexit(&deleteTable);
+  }
+  return HostAccessTable::singleton;
+}
+
+void HostAccessTable::deleteTable()
+{
+  delete HostAccessTable::singleton;
+  HostAccessTable::singleton = NULL;
+}
+
 bool HostAccessTable::checkAddress(std::string address) 
 {
 	// accept everything in accept list

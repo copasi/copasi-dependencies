@@ -2,14 +2,12 @@
 #define SBW_INTEGER_HASHTABLE
 
 #include <vector>
+#include <map>
 
 #include "SBW/SBWApplicationException.h"
 
 using namespace std;
 
-#ifndef WIN32
-using namespace __gnu_cxx;
-#endif
 
 /* \def DEFAULT_CAPACITY 
 *
@@ -160,7 +158,7 @@ namespace SystemsBiologyWorkbench
 			T get(int key)
 			{
 				Entry<T> *e = find(key);
-				return (e == NULL ? NULL : e->getValue());				
+				return (e == NULL ? (T)0 : e->getValue());				
 			}
 			/**
 			* Returns all values in the hash table as a linked list.

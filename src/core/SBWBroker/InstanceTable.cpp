@@ -14,9 +14,19 @@ InstanceTable *InstanceTable::table = NULL;
 InstanceTable *InstanceTable::getTable()
 {
 	if (table == NULL) 
+  {
 		table = new InstanceTable();
+    std::atexit(&deleteTable);
+  }
 	return table;
 }
+
+void InstanceTable::deleteTable()
+{
+  delete table;
+  table = NULL;
+}
+
 void InstanceTable::addInstance(Instance *inst)
 {
 	SBWOSMutexLock ml(instanceMutex);
@@ -24,6 +34,7 @@ void InstanceTable::addInstance(Instance *inst)
 	idHash.put(inst->getId(), inst);
 	nameHash.insert( StringInstance(inst->getInternalName().c_str(), inst));
 }
+
 void InstanceTable::removeInstance(Instance *inst)
 {
 	if (inst == NULL) return;
@@ -32,29 +43,32 @@ void InstanceTable::removeInstance(Instance *inst)
 	TRACE("Removing instance " << inst->getId() << " from list of running modules");
 
 	idHash.remove(inst->getId());
-	hash_map< string , Instance *> ::iterator oIterator;
+	map< string , Instance *> ::iterator oIterator;
 	string sName = inst->getInternalName();
 	oIterator = nameHash.find(sName);
 	if (oIterator != nameHash.end())
 		nameHash.erase(oIterator);
 }
+
 void InstanceTable::removeInstance(int moduleId)
 {
 	SBWOSMutexLock ml(instanceMutex);
 	removeInstance(getInstance(moduleId));
 	idHash.remove(moduleId);
 }
+
 Instance *InstanceTable::getInstance(int moduleId)
 {
 	return (Instance*) idHash.get(moduleId);
 }
+
 Instance *InstanceTable::getInstance(Host *host, string moduleName)
 {
 	if (StringUtil::empty(moduleName) || host == NULL)
 		return NULL;
 	else {
 		string sTemp = host->getAddress() + ":" + moduleName;
-		hash_map< string , Instance *> ::iterator oTemp;
+		map< string , Instance *> ::iterator oTemp;
 		oTemp = nameHash.find(sTemp);
 		if (oTemp == nameHash.end())
 		{
@@ -63,6 +77,7 @@ Instance *InstanceTable::getInstance(Host *host, string moduleName)
 		else return oTemp ->second;
 	}
 }
+
 vector<Instance *> InstanceTable::getInstances(int brokerId)
 {        
 	vector<Instance *> oTemp = idHash.getAll();
@@ -74,18 +89,22 @@ vector<Instance *> InstanceTable::getInstances(int brokerId)
 
 	return oResult;
 }
+
 vector<Instance *> InstanceTable::getInstances()
 {	
 	return idHash.getAll();
 }
+
 bool InstanceTable::exists(int moduleId)
 {
 	return idHash.exists(moduleId);
 }
+
 int InstanceTable::getNextId()
 {
 	return nextId++;
 }
+
 InstanceTable *InstanceTable::readResolve()
 {
 	return table;

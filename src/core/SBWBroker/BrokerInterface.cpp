@@ -139,7 +139,7 @@ void BrokerInterface::changeModuleName(int moduleId, string newModuleName)
 	DataBlockWriter oWriter; oWriter << moduleId << newModuleName;
 	m_oRPC->call(m_nId,0,ChangeModuleName,oWriter);
 #else
-	UNREFERENCED_PARAMETER(moduleId);
+	SBW_UNREFERENCED_PARAMETER(moduleId);
 	throw new SBWApplicationException("insecure execution denied", "changing the remote registry is not allowed");
 #endif
 }
@@ -211,7 +211,7 @@ void BrokerInterface::registerModule(string moduleName, string moduleDisplayName
 		<< commandLine << helpString;
 	m_oRPC->call(m_nId,0,RegisterModule,oWriter);
 #else
-	UNREFERENCED_PARAMETER(moduleType);
+	SBW_UNREFERENCED_PARAMETER(moduleType);
 	throw new SBWApplicationException("insecure execution denied", "changing the remote registry is not allowed");
 #endif
 }
