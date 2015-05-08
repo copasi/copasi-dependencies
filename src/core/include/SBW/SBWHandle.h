@@ -97,7 +97,7 @@ namespace SystemsBiologyWorkbench
     */
     SBWHandle(T* lp)
     {
-      assert(lp!=(LPVOID) 0xdddddddd);
+      assert(lp!=(void *) 0xdddddddd);
       if ((p = lp) != NULL)
         p->AddReference();
     }
@@ -109,7 +109,7 @@ namespace SystemsBiologyWorkbench
     */
     SBWHandle(const SBWHandle<T>& lp)
     {
-      assert(lp.p!=(LPVOID) 0xdddddddd);
+      assert(lp.p!=(void *) 0xdddddddd);
       if ((p = lp.p) != NULL)
         p->AddReference();
     }
@@ -153,7 +153,7 @@ namespace SystemsBiologyWorkbench
     */
     T* operator=(const SBWHandle<T>& lp)
     {
-      assert(lp.p!=(LPVOID) 0xdddddddd);
+      assert(lp.p!=(void *) 0xdddddddd);
       // in ATL it's
       //return (T*)AtlComPtrAssign((IUnknown**)&p, lp.p);
 

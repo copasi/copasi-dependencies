@@ -101,7 +101,7 @@ const std::string SBWLowLevel::version = "2.4.1"; //////////////// <<<< modify t
 SBWRPC* SBWLowLevel::initializeRPC()
 {
    rpc = new SBWModuleRPC(&listenerConsolidator);
-   std::atexit(&deleteRPC);
+   atexit(&deleteRPC);
    return rpc;
 }
 
@@ -406,7 +406,7 @@ void SBWLowLevel::initialiseListenerForC()
 	{
 		listenerForC = new SBWListenerForC();
 		listenerConsolidator.addListener(listenerForC);
-    std::atexit(&deleteListenerForC);
+                atexit(&deleteListenerForC);
 	}
 }
 
