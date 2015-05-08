@@ -2495,9 +2495,9 @@ if (doc.getNumErrors() > 0)
     libsbmlPINVOKE.SBML_deleteL3Parser();
   }
 
-  public const string LIBSBML_DOTTED_VERSION = "5.11.4";
-  public const int LIBSBML_VERSION = 51104;
-  public const string LIBSBML_VERSION_STRING = "51104";
+  public const string LIBSBML_DOTTED_VERSION = "5.11.5";
+  public const int LIBSBML_VERSION = 51105;
+  public const string LIBSBML_VERSION_STRING = "51105";
   // OperationReturnValues_t 
   public const int LIBSBML_OPERATION_SUCCESS = 0;
   public const int LIBSBML_INDEX_EXCEEDS_SIZE = -1;

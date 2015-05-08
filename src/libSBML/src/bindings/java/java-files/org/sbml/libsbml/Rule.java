@@ -791,7 +791,7 @@ public class Rule extends SBase {
    <p>
    * The returned value can be any of a number of different strings,
    * depending on the SBML Level in use and the kind of {@link Rule} object this
-   * is.  The rules as of libSBML version 5.11.4
+   * is.  The rules as of libSBML version 5.11.5
    * are the following:
    * <ul>
    * <li> (Level&nbsp;2 and&nbsp;3) RateRule: returns <code>'rateRule'</code>

@@ -5387,7 +5387,7 @@ appears in the documentation.
  * within the model, the list must not be empty; that is, it must have
  * length one or more.  The following are the components and lists
  * permitted in different Levels and Versions of SBML in
- * version 5.11.4
+ * version 5.11.5
  * of libSBML:
  * <ul>
  * <li> In SBML Level 1, the components are: {@link UnitDefinition}, {@link Compartment},
@@ -5496,7 +5496,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <h2>Consistency and adherence to SBML specifications</h2>
  <p>
  * To make it easier for applications to do whatever they need,
- * libSBML version 5.11.4
+ * libSBML version 5.11.5
  * is relatively lax when it comes to enforcing correctness and
  * completeness of models <em>during</em> model construction and editing.
  * Essentially, libSBML <em>will</em> <em>not</em> in most cases check automatically
@@ -9741,7 +9741,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    <p>
    * <p>
  * This \'default Level\' corresponds to the most recent SBML specification
- * Level available at the time libSBML version 5.11.4 was released.  The default Level is used by
+ * Level available at the time libSBML version 5.11.5 was released.  The default Level is used by
  * {@link SBMLDocument} if no Level is explicitly specified at the time of the
  * construction of an {@link SBMLDocument} instance.
    <p>
@@ -9761,7 +9761,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * <p>
  * This \'default Version\' corresponds to the most recent Version within the
  * most recent Level of SBML available at the time libSBML version
- * 5.11.4 was released.  The default Version is
+ * 5.11.5 was released.  The default Version is
  * used by {@link SBMLDocument} if no Version is explicitly specified at the time of
  * the construction of an {@link SBMLDocument} instance. 
    <p>
@@ -23145,7 +23145,7 @@ attributes.</caption>
    <p>
    * The returned value can be any of a number of different strings,
    * depending on the SBML Level in use and the kind of {@link Rule} object this
-   * is.  The rules as of libSBML version 5.11.4
+   * is.  The rules as of libSBML version 5.11.5
    * are the following:
    * <ul>
    * <li> (Level&nbsp;2 and&nbsp;3) RateRule: returns <code>\'rateRule\'</code>
@@ -36478,7 +36478,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.4:
+ * provided by libSBML 5.11.5:
  <p>
  * <p>
  * <ul>
@@ -37030,7 +37030,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.4:
+ * provided by libSBML 5.11.5:
  <p>
  * <p>
  * <ul>
@@ -37513,7 +37513,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.4:
+ * provided by libSBML 5.11.5:
  <p>
  * <p>
  * <ul>
@@ -37760,7 +37760,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.4:
+ * provided by libSBML 5.11.5:
  <p>
  * <p>
  * <ul>
@@ -37980,7 +37980,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.4:
+ * provided by libSBML 5.11.5:
  <p>
  * <p>
  * <ul>
@@ -38235,7 +38235,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.4:
+ * provided by libSBML 5.11.5:
  <p>
  * <p>
  * <ul>
@@ -38470,7 +38470,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.4:
+ * provided by libSBML 5.11.5:
  <p>
  * <p>
  * <ul>
@@ -38750,7 +38750,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.4:
+ * provided by libSBML 5.11.5:
  <p>
  * <p>
  * <ul>
@@ -38970,7 +38970,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.4:
+ * provided by libSBML 5.11.5:
  <p>
  * <p>
  * <ul>
@@ -39283,7 +39283,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.4:
+ * provided by libSBML 5.11.5:
  <p>
  * <p>
  * <ul>
@@ -39507,7 +39507,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.4:
+ * provided by libSBML 5.11.5:
  <p>
  * <p>
  * <ul>
@@ -39761,7 +39761,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.4:
+ * provided by libSBML 5.11.5:
  <p>
  * <p>
  * <ul>
@@ -55471,7 +55471,7 @@ defined in SBML.
  * name=\'SBMLErrorSeverity_t\'>Severity codes associated with {@link SBMLError}
  * objects</h3>
  <p>
- * In libSBML version 5.11.4
+ * In libSBML version 5.11.5
  * there are no additional severity codes beyond those defined by {@link XMLError}.
  * They are implemented as static integer constants defined in the interface
  * class <code><a href=\'libsbmlConstants.html\'>libsbmlConstants</a></code>,

@@ -17,7 +17,7 @@ package org.sbml.libsbml;
  * within the model, the list must not be empty; that is, it must have
  * length one or more.  The following are the components and lists
  * permitted in different Levels and Versions of SBML in
- * version 5.11.4
+ * version 5.11.5
  * of libSBML:
  * <ul>
  * <li> In SBML Level 1, the components are: {@link UnitDefinition}, {@link Compartment},
@@ -126,7 +126,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <h2>Consistency and adherence to SBML specifications</h2>
  <p>
  * To make it easier for applications to do whatever they need,
- * libSBML version 5.11.4
+ * libSBML version 5.11.5
  * is relatively lax when it comes to enforcing correctness and
  * completeness of models <em>during</em> model construction and editing.
  * Essentially, libSBML <em>will</em> <em>not</em> in most cases check automatically

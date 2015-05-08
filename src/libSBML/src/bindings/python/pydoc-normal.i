@@ -4050,7 +4050,7 @@ the overall container for the lists of the various model components.
 All of the lists are optional, but if a given list container is
 present within the model, the list must not be empty; that is, it must
 have length one or more.  The following are the components and lists
-permitted in different Levels and Versions of SBML in version 5.11.4
+permitted in different Levels and Versions of SBML in version 5.11.5
 of libSBML:
 
 * In SBML Level 1, the components are: UnitDefinition, Compartment,
@@ -4169,7 +4169,7 @@ Consistency and adherence to SBML specifications
 ======================================================================
 
 To make it easier for applications to do whatever they need, libSBML
-version 5.11.4 is relatively lax when it comes to enforcing
+version 5.11.5 is relatively lax when it comes to enforcing
 correctness and completeness of models during model construction and
 editing. Essentially, libSBML will not in most cases check
 automatically that a model's components have valid attribute values,
@@ -7818,7 +7818,7 @@ or using the methods on the SBMLErrorLog object.
 The default SBML Level of new SBMLDocument objects.
 
 This 'default Level' corresponds to the most recent SBML
-specification Level available at the time libSBML version 5.11.4 was
+specification Level available at the time libSBML version 5.11.5 was
 released.  The default Level is used by SBMLDocument if no Level is
 explicitly specified at the time of the construction of an
 SBMLDocument instance.
@@ -7844,7 +7844,7 @@ The default Version of new SBMLDocument objects.
 
 This 'default Version' corresponds to the most recent Version within
 the most recent Level of SBML available at the time libSBML version
-5.11.4 was released.  The default Version is used by SBMLDocument if
+5.11.5 was released.  The default Version is used by SBMLDocument if
 no Version is explicitly specified at the time of the construction of
 an SBMLDocument instance.
 
@@ -19527,7 +19527,7 @@ Returns the XML element name of this object.
 
 The returned value can be any of a number of different strings,
 depending on the SBML Level in use and the kind of Rule object this
-is.  The rules as of libSBML version 5.11.4 are the following:
+is.  The rules as of libSBML version 5.11.5 are the following:
 
 * (Level 2 and 3) RateRule: returns 'rateRule'
 
@@ -31587,7 +31587,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.4:
+provided by libSBML 5.11.5:
 
 * CobraToFbcConverter
 
@@ -32090,7 +32090,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.4:
+provided by libSBML 5.11.5:
 
 * CobraToFbcConverter
 
@@ -32519,7 +32519,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.4:
+provided by libSBML 5.11.5:
 
 * CobraToFbcConverter
 
@@ -32755,7 +32755,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.4:
+provided by libSBML 5.11.5:
 
 * CobraToFbcConverter
 
@@ -32963,7 +32963,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.4:
+provided by libSBML 5.11.5:
 
 * CobraToFbcConverter
 
@@ -33191,7 +33191,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.4:
+provided by libSBML 5.11.5:
 
 * CobraToFbcConverter
 
@@ -33410,7 +33410,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.4:
+provided by libSBML 5.11.5:
 
 * CobraToFbcConverter
 
@@ -33675,7 +33675,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.4:
+provided by libSBML 5.11.5:
 
 * CobraToFbcConverter
 
@@ -33883,7 +33883,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.4:
+provided by libSBML 5.11.5:
 
 * CobraToFbcConverter
 
@@ -34180,7 +34180,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.4:
+provided by libSBML 5.11.5:
 
 * CobraToFbcConverter
 
@@ -34389,7 +34389,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.4:
+provided by libSBML 5.11.5:
 
 * CobraToFbcConverter
 
@@ -34624,7 +34624,7 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.4:
+provided by libSBML 5.11.5:
 
 * CobraToFbcConverter
 
@@ -41484,7 +41484,7 @@ of its meaning.
 with SBMLError objects
 ......................................................................
 
-In libSBML version 5.11.4 there are no additional severity codes
+In libSBML version 5.11.5 there are no additional severity codes
 beyond those defined by XMLError. They are implemented as static
 integer constants defined in the interface class libsbml, and have
 names beginning with LIBSBML_SEV_.
