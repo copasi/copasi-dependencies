@@ -535,3 +535,6 @@ src/raptor/win32/Makefile
 src/qwt/designer/plugins
 src/qwt/designer/plugins/designer/*.dylib
 src/qwt/designer/plugins/designer/*.lib
+/src/libSBML/src/sbml/common/libsbml-config-common.h
+/src/libSBML/src/sbml/common/libsbml-namespace.h
+/src/libSBML/src/sbml/common/libsbml-package.h
