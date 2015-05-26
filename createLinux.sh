@@ -159,3 +159,17 @@ $CMAKE ${COPASI_CMAKE_OPTIONS} \
 $MAKE -j 4
 $MAKE install
 [ -e $DIRECTORY/bin/lib/libsedml*.so ] && rm $DIRECTORY/bin/lib/libsedml*.so
+
+cd $DIRECTORY/bin
+
+case "$(uname -m)" in
+  'x86_64')
+    SUFFIX="-64"
+    ;;
+
+  'i686')
+    SUFFIX="-32"
+    ;;
+esac
+
+tar -czvf dependencies${SUFFIX}.tar.gz *
