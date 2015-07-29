@@ -71,26 +71,6 @@ configure_file(${CLAPACK_SOURCE_DIR}/clapack-config-version.cmake.in
 configure_file(${CLAPACK_SOURCE_DIR}/clapack-config.cmake.in
   ${CLAPACK_BINARY_DIR}/clapack-config.cmake @ONLY)
 
-#  
-# FTB: added the following lines to install cleanly into 
-#      the target directory
 file(GLOB header_files "${CMAKE_CURRENT_SOURCE_DIR}/INCLUDE/*.h")
 install(FILES ${header_files} DESTINATION include)
-
-install(TARGETS f2c
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-  )
-
-install(TARGETS blas
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-  )
-
-install(TARGETS lapack
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-  )
+  

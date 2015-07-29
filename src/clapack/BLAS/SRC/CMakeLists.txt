@@ -141,3 +141,9 @@ if(UNIX)
   target_link_libraries(blas m)
 endif()
 target_link_libraries(blas f2c)
+
+INSTALL(TARGETS blas
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib
+  )

@@ -378,3 +378,8 @@ endif()
 add_library(lapack ${ALLOBJ} ${ALLXOBJ})
 target_link_libraries(lapack blas)
 
+INSTALL(TARGETS lapack
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib
+  )

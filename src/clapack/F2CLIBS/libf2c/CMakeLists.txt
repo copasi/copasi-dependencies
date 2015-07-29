@@ -28,6 +28,8 @@ set(I77 backspac.c close.c dfe.c dolio.c due.c endfile.c err.c
 set(QINT pow_qq.c qbitbits.c qbitshft.c ftell64_.c)
 set(TIME dtime_.c etime_.c)
 
+
+
 # If you get an error compiling dtime_.c or etime_.c, try adding
 # -DUSE_CLOCK to the CFLAGS assignment above; if that does not work,
 # omit ${TIME} from OFILES  assignment below.
@@ -60,3 +62,8 @@ include_directories(${CLAPACK_SOURCE_DIR}/F2CLIBS/libf2c)
 include_directories(${CLAPACK_BINARY_DIR}/F2CLIBS/libf2c)
 add_library(f2c ${OFILES} ${CMAKE_CURRENT_BINARY_DIR}/arith.h)
 set_property(TARGET f2c PROPERTY PREFIX lib)
+INSTALL(TARGETS f2c
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib
+  )
