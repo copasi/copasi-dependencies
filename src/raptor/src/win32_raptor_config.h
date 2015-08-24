@@ -70,7 +70,10 @@ extern "C" {
 
 /* MS names for these functions */
 //#define vsnprintf _vsnprintf
+#if _MSC_VER < 1900
 #define snprintf _snprintf
+#endif
+
 #define access _access
 #define stricmp _stricmp
 #define strnicmp _strnicmp
