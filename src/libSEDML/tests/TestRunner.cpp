@@ -1,26 +1,27 @@
 /**
- * @file    libsedml-version.cpp
- * @brief   Define libSEDML version numbers for access from client software.
- *
+ * \file    TestRunner.c
+ * \brief   Runs all unit tests
+ * \author  Frank Bergmann
+ * 
  * <!--------------------------------------------------------------------------
- *
+ * 
  * This file is part of libSEDML.  Please visit http://sed-ml.org for more
- * information about SED-ML. The latest version of libSEDML can be found on
+ * information about SED-ML. The latest version of libSEDML can be found on 
  * github: https://github.com/fbergmann/libSEDML/
- *
- *
- * Copyright (c) 2013-2014, Frank T. Bergmann
+ * 
+ * 
+ * Copyright (c) 2013-2014, Frank T. Bergmann  
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
+ * modification, are permitted provided that the following conditions are met: 
+ * 
  * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
+ *    list of conditions and the following disclaimer. 
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
+ *    and/or other materials provided with the distribution. 
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -31,52 +32,43 @@
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
+ * 
  * ---------------------------------------------------------------------- -->
  */
+ 
+#include <string.h>
+#include <check.h>
 
-#include "sedml/common/libsedml-version.h"
+#ifdef LIBSBML_USE_VLD
+  #include <vld.h>
+#endif
 
-LIBSEDML_CPP_NAMESPACE_BEGIN
+#if defined(__cplusplus)
+CK_CPPSTART
+#endif
 
-/**
- * Returns the libSEDML version as an integer: version 1.2.3 becomes 10203.
- *
- * @return the libSEDML version as an integer: version 1.2.3 becomes 10203.
- */
-LIBSEDML_EXTERN
+Suite *create_suite_SedMLIssues (void);
+
+
 int
-getLibSEDMLVersion()
-{
-  return LIBSEDML_VERSION;
+main (int argc, char* argv[]) 
+{ 
+  int num_failed = 0;
+  SRunner *runner = srunner_create(create_suite_SedMLIssues());
+  
+  if (argc > 1 && !strcmp(argv[1], "-nofork"))
+  {
+    srunner_set_fork_status( runner, CK_NOFORK );
+  }
+
+  srunner_run_all(runner, CK_NORMAL);
+  num_failed = srunner_ntests_failed(runner);
+
+  srunner_free(runner);
+
+  return num_failed;
 }
 
-
-/**
- * Returns the libSEDML version as a string of the form "1.2.3".
- *
- * @return the libSEDML version as a string of the form "1.2.3".
- */
-LIBSEDML_EXTERN
-const char*
-getLibSEDMLDottedVersion()
-{
-  return LIBSEDML_DOTTED_VERSION;
-}
-
-
-/**
- * Returns the libSEDML version as a string: version 1.2.3 becomes "10203".
- *
- * @return the libSEDML version as a string: version 1.2.3 becomes "10203".
- */
-LIBSEDML_EXTERN
-const char*
-getLibSEDMLVersionString()
-{
-  return LIBSEDML_VERSION_STRING;
-}
-
-LIBSEDML_CPP_NAMESPACE_END
-
-
+#if defined(__cplusplus)
+CK_CPPEND
+#endif

@@ -127,29 +127,18 @@ def writeConstructors(element, package, output, attrs, hasChildren=False, hasMat
   output.write('{0}::{0} (const {0}& orig)\n'.format(element, package, package.lower()))
   output.write('\t: {0}(orig)\n'.format(baseClass))
   output.write('{\n')
-  output.write('\tif (&orig == NULL)\n')
-  output.write('\t{\n')
-  output.write('\t\tthrow SedConstructorException("Null argument to copy constructor");\n')
-  output.write('\t}\n')
-  output.write('\telse\n')
-  output.write('\t{\n')
   if element == 'SedDocument':
-    output.write('\t\tsetSedDocument(this);\n\n');
-  writeCopyAttributes(attrs, output, '\t\t', 'orig')
+    output.write('\tsetSedDocument(this);\n\n');
+  writeCopyAttributes(attrs, output, '\t', 'orig')
   if hasChildren == True:
-    output.write('\n\t\t// connect to child objects\n')
-    output.write('\t\tconnectToChild();\n')
-  output.write('\t}\n')
+    output.write('\n\t// connect to child objects\n')
+    output.write('\tconnectToChild();\n')
   output.write('}\n\n\n')
   output.write('/*\n' )
   output.write(' * Assignment for {0}.\n */\n'.format(element))
   output.write('{0}&\n{0}::operator=(const {0}& rhs)\n'.format(element))
   output.write('{\n')
-  output.write('\tif (&rhs == NULL)\n')
-  output.write('\t{\n')
-  output.write('\t\tthrow SedConstructorException("Null argument to assignment");\n')
-  output.write('\t}\n')
-  output.write('\telse if (&rhs != this)\n')
+  output.write('\tif (&rhs != this)\n')
   output.write('\t{\n')
   output.write('\t\t{0}::operator=(rhs);\n'.format(baseClass))
   if element == 'SedDocument':
@@ -338,12 +327,11 @@ def writeSetCode(attrib, output, element):
       if attName == 'id':
         output.write('\treturn SyntaxChecker::checkAndSetSId({0}, m{1});\n'.format(attName, capAttName ))
       else:
-        output.write('\tif (&({0}) == NULL)\n'.format(attName))
-        output.write('\t{\n\t\treturn LIBSEDML_INVALID_ATTRIBUTE_VALUE;\n\t}\n')
         if attrib['type'] == 'SIdRef':
-          output.write('\telse if (!(SyntaxChecker::isValidInternalSId({0})))\n'.format(attName))
+          output.write('\tif (!(SyntaxChecker::isValidInternalSId({0})))\n'.format(attName))
           output.write('\t{\n\t\treturn LIBSEDML_INVALID_ATTRIBUTE_VALUE;\n\t}\n')
-        output.write('\telse\n\t{\n')
+          output.write('\telse\n')
+        output.write('\t{\n')
         output.write('\t\tm{0} = {1};\n'.format(capAttName, attName))
         output.write('\t\treturn LIBSEDML_OPERATION_SUCCESS;\n\t}\n')
     elif num == True:
