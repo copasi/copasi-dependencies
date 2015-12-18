@@ -49,9 +49,7 @@
 #include "ValidCnUnitsValue.h"
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -96,11 +94,6 @@ ValidCnUnitsValue::getPreamble ()
 void
 ValidCnUnitsValue::checkMath (const Model& m, const ASTNode& node, const SBase & sb)
 {
-  /* should not be here but why not catch it rather than crash*/
-  if (&(node) == NULL)
-  {
-    return;
-  }
 
   if (node.isNumber())
   {
@@ -180,7 +173,7 @@ ValidCnUnitsValue::checkValidUnits (const Model& m, const ASTNode& node,
  * in  conflict with an object previously defined.
  */
 const string
-ValidCnUnitsValue::getMessage (const ASTNode& node, const SBase& object)
+ValidCnUnitsValue::getMessage (const ASTNode& , const SBase& )
 {
 
   ostringstream msg;
@@ -190,6 +183,5 @@ ValidCnUnitsValue::getMessage (const ASTNode& node, const SBase& object)
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */
 

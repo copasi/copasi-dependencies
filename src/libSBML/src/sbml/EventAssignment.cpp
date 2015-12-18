@@ -49,9 +49,7 @@
 #include <signal.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -94,23 +92,16 @@ EventAssignment::~EventAssignment ()
  * Copy constructor. Creates a copy of this EventAssignment.
  */
 EventAssignment::EventAssignment (const EventAssignment& orig) :
-   SBase   ( orig )
-  , mMath  ( NULL    )
+   SBase      ( orig )
+  , mVariable ( orig.mVariable )
+  , mMath     ( NULL    )
 {
-  if (&orig == NULL)
+  if (orig.mMath != NULL) 
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
+    mMath = orig.mMath->deepCopy();
+    mMath->setParentSBMLObject(this);
   }
-  else
-  {
-    mVariable  = orig.mVariable;
-
-    if (orig.mMath != NULL) 
-    {
-      mMath = orig.mMath->deepCopy();
-      mMath->setParentSBMLObject(this);
-    }
-  }
+  
 }
 
 
@@ -119,11 +110,7 @@ EventAssignment::EventAssignment (const EventAssignment& orig) :
  */
 EventAssignment& EventAssignment::operator=(const EventAssignment& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     this->mVariable = rhs.mVariable;
@@ -144,18 +131,13 @@ EventAssignment& EventAssignment::operator=(const EventAssignment& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the Event's next
- * EventAssignment (if available).
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 EventAssignment::accept (SBMLVisitor& v) const
 {
   return v.visit(*this);
 }
+/** @endcond */
 
 
 /*
@@ -216,11 +198,7 @@ EventAssignment::isSetMath () const
 int
 EventAssignment::setVariable (const std::string& sid)
 {
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(sid)))
+  if (!(SyntaxChecker::isValidInternalSId(sid)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -346,6 +324,7 @@ EventAssignment::getDerivedUnitDefinition() const
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true if 
  * the math expression of this EventAssignment contains
@@ -403,13 +382,16 @@ EventAssignment::containsUndeclaredUnits()
     return false;
   }
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 bool 
 EventAssignment::containsUndeclaredUnits() const
 {
   return const_cast<EventAssignment *> (this)->containsUndeclaredUnits();
 }
+/** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
@@ -483,6 +465,7 @@ EventAssignment::hasRequiredElements() const
 void
 EventAssignment::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (mVariable == oldid) {
     setVariable(newid);
   }
@@ -494,6 +477,7 @@ EventAssignment::renameSIdRefs(const std::string& oldid, const std::string& newi
 void 
 EventAssignment::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameUnitSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameUnitSIdRefs(oldid, newid);
   }
@@ -862,11 +846,11 @@ ListOfEventAssignments::get(unsigned int n) const
  */
 struct IdEqEA : public unary_function<SBase*, bool>
 {
-  const string& id;
+  const string& mId;
 
-  IdEqEA (const string& id) : id(id) { }
+  IdEqEA (const string& id) : mId(id) { }
   bool operator() (SBase* sb) 
-       { return static_cast <EventAssignment *> (sb)->getVariable() == id; }
+       { return static_cast <EventAssignment *> (sb)->getVariable() == mId; }
 };
 
 
@@ -885,16 +869,9 @@ ListOfEventAssignments::get (const std::string& sid) const
 {
   vector<SBase*>::const_iterator result;
 
-  if (&(sid) == NULL)
-  {
-    return NULL;
-  }
-  else
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEqEA(sid) );
-    return (result == mItems.end()) ? NULL : 
-                      static_cast <EventAssignment*> (*result);
-  }
+  result = find_if( mItems.begin(), mItems.end(), IdEqEA(sid) );
+  return (result == mItems.end()) ? NULL : 
+                    static_cast <EventAssignment*> (*result);
 }
 
 
@@ -913,15 +890,12 @@ ListOfEventAssignments::remove (const std::string& sid)
   SBase* item = NULL;
   vector<SBase*>::iterator result;
 
-  if (&(sid) != NULL)
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEqEA(sid) );
+  result = find_if( mItems.begin(), mItems.end(), IdEqEA(sid) );
 
-    if (result != mItems.end())
-    {
-      item = *result;
-      mItems.erase(result);
-    }
+  if (result != mItems.end())
+  {
+    item = *result;
+    mItems.erase(result);
   }
 
   return static_cast <EventAssignment*> (item);
@@ -995,8 +969,6 @@ ListOfEventAssignments::createObject (XMLInputStream& stream)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 EventAssignment_t *
 EventAssignment_create (unsigned int level, unsigned int version)
@@ -1156,7 +1128,6 @@ ListOfEventAssignments_removeById (ListOf_t *lo, const char *sid)
   else
     return NULL;
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

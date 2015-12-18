@@ -245,20 +245,20 @@ ReplacedElement::readAttributes (const XMLAttributes& attributes,
     static_cast<ListOfReplacedElements*>(getParentSBMLObject())->size() < 2)
   {
     unsigned int numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs-1; n >= 0; n--)      
+    for (int n = (int)numErrs-1; n >= 0; --n)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownPackageAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("comp", CompLOReplacedElementsAllowedAttribs,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
       } 
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("comp", CompLOReplacedElementsAllowedAttribs,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
@@ -479,7 +479,6 @@ ReplacedElement::getReferencedElementFrom(Model* model)
 }
 
 /** @cond doxygenLibsbmlInternal */
-
 bool
 ReplacedElement::accept (SBMLVisitor& v) const
 {
@@ -492,13 +491,11 @@ ReplacedElement::accept (SBMLVisitor& v) const
 
   return true;
 }
-
 /** @endcond */
 
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 ReplacedElement_t *
 ReplacedElement_create(unsigned int level, unsigned int version,
@@ -643,8 +640,6 @@ ReplacedElement_hasRequiredAttributes(ReplacedElement_t * re)
 {
   return (re != NULL) ? static_cast<int>(re->hasRequiredAttributes()) : 0;
 }
-
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END
 

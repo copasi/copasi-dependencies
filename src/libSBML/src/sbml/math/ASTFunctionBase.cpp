@@ -328,11 +328,12 @@ ASTFunctionBase::swapChildren(ASTFunctionBase* that)
 
 
 void 
-ASTFunctionBase::write(XMLOutputStream& stream) const
+ASTFunctionBase::write(XMLOutputStream& ) const
 {
 }
+
 bool
-ASTFunctionBase::read(XMLInputStream& stream, const std::string& reqd_prefix)
+ASTFunctionBase::read(XMLInputStream& , const std::string& )
 {
   return false;
 }
@@ -348,7 +349,6 @@ ASTFunctionBase::hasChildren() const
 void
 ASTFunctionBase::writeArgumentsOfType(XMLOutputStream& stream, int type) const
 {
-  if (&stream == NULL) return;
 
   int thisType = getExtendedType();
 
@@ -467,7 +467,5 @@ ASTFunctionBase::getUnitsPrefix() const
 
 
 LIBSBML_CPP_NAMESPACE_END
-
-
 /** @endcond */
 

@@ -639,10 +639,10 @@ SBaseRef::createObject (XMLInputStream& stream)
   SBase*        object = NULL;
 
   const std::string&   name   = stream.peek().getName();
-  const XMLNamespaces& xmlns  = stream.peek().getNamespaces();
+  const XMLNamespaces& xmlns1  = stream.peek().getNamespaces();
   const std::string&   prefix = stream.peek().getPrefix();
 
-  const std::string& targetPrefix = (xmlns.hasURI(mURI)) ? xmlns.getPrefix(mURI) : getPrefix();
+  const std::string& targetPrefix = (xmlns1.hasURI(mURI)) ? xmlns1.getPrefix(mURI) : getPrefix();
   
   if (prefix == targetPrefix)
   {
@@ -719,9 +719,7 @@ SBaseRef::getTypeCode () const
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 SBaseRef::accept (SBMLVisitor& v) const
 {
@@ -731,6 +729,7 @@ SBaseRef::accept (SBMLVisitor& v) const
   }
   return v.visit(*this);
 }
+/** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
@@ -775,7 +774,7 @@ SBaseRef::getReferencedElementFrom(Model* model)
         error += "with ID '" + getId() + "' ";
       }
       error += "as it does not have the required attributes.";
-      int en = CompSBaseRefMustReferenceObject;
+      unsigned int en = CompSBaseRefMustReferenceObject;
       switch(getTypeCode()) {
       case SBML_COMP_REPLACEDBY:
         en = CompReplacedByAllowedAttributes;
@@ -1051,7 +1050,6 @@ SBase* SBaseRef::getDirectReference()
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 SBaseRef_t *
 SBaseRef_create(unsigned int level, unsigned int version,
@@ -1266,7 +1264,5 @@ SBaseRef_hasRequiredAttributes(SBaseRef_t * sbr)
 {
   return (sbr != NULL) ? static_cast<int>(sbr->hasRequiredAttributes()) : 0;
 }
-
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END

@@ -25,28 +25,20 @@
  *
  * @class FbcValidator
  * @sbmlbrief{fbc} Entry point for package validation.
- * 
+ *
  * @htmlinclude not-sbml-warning.html
  *
- * LibSBML implements facilities for verifying that a given SBML document
- * is valid according to the SBML specifications; it also exposes the
- * validation interface so that user programs and SBML Level&nbsp;3 package
- * authors may use the facilities to implement new validators.  There are
- * two main interfaces to libSBML's validation facilities, based on the
- * classes CompValidator and SBMLCompValidator.
+ * @copydetails doc_common_intro_package_validators
  *
- * The CompValidator class is the basis of the system for validating an SBML
- * document against the validation rules defined in the SBML
- * specifications.  The scheme used by CompValidator relies is compact and uses
- * the @em visitor programming pattern, but it relies on C/C++ features and
- * is not directly accessible from language bindings.  SBMLCompValidator offers
- * a framework for straightforward class-based extensibility, so that user
- * code can subclass SBMLCompValidator to implement new validation systems,
- * different validators can be introduced or turned off at run-time, and
- * interfaces can be provided in the libSBML language bindings.
- * SBMLCompValidator can call CompValidator functionality internally (as is the
- * case in the current implementation of SBMLInternalCompValidator) or use
- * entirely different implementation approaches, as necessary.
+ * The FbcValidator class extends the Validator class from core libSBML to
+ * apply validation to the constructs introduced by the SBML Level&nbsp;3
+ * @ref fbc (&ldquo;fbc&rdquo;) package.  This class then acts as a base
+ * class for any validators that apply rules to the &ldquo;fbc&rdquo; package
+ * specification constructs or to entire models that use the
+ * &ldquo;fbc&rdquo; package, and may therefore be subject to other global
+ * restrictions introduced.
+ *
+ * @copydetails doc_section_package_validators_general_info
  */
 
 #ifndef FbcValidator_h
@@ -57,10 +49,8 @@
 
 
 /** @cond doxygenLibsbmlInternal */
-
 #include <list>
 #include <string>
-
 /** @endcond */
 
 
@@ -142,7 +132,6 @@ public:
 
 protected:
   /** @cond doxygenLibsbmlInternal */
-
   FbcValidatorConstraints* mFbcConstraints;
 
   friend class FbcValidatingVisitor;

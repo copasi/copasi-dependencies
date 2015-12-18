@@ -106,7 +106,6 @@ SBMLDocumentPlugin::clone () const
 
 
 /** @cond doxygenLibsbmlInternal */
-
 /*
  * Subclasses should override this method to get the list of
  * expected attributes.
@@ -116,7 +115,6 @@ SBMLDocumentPlugin::clone () const
 void
 SBMLDocumentPlugin::addExpectedAttributes(ExpectedAttributes& attributes)
 {
-  if (&attributes == NULL) return;
   //
   // required attribute is not defined for SBML Level 2 .
   //
@@ -132,8 +130,6 @@ void
 SBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
                                     const ExpectedAttributes& expectedAttributes)
 {
-  if (&attributes == NULL || &expectedAttributes == NULL ) return;
-
   SBasePlugin::readAttributes(attributes, expectedAttributes);
 
   if ( getLevel() > 2)
@@ -166,7 +162,6 @@ SBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
 void
 SBMLDocumentPlugin::writeAttributes (XMLOutputStream& stream) const
 {
-  if (&stream == NULL) return;
   //
   // required attribute is not defined for SBML Level 2 .
   //
@@ -190,13 +185,11 @@ SBMLDocumentPlugin::isCompFlatteningImplemented() const
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 bool
-SBMLDocumentPlugin::accept (SBMLVisitor& v) const
+SBMLDocumentPlugin::accept (SBMLVisitor&) const
 {
   return true;
 }
-
 /** @endcond */
 
 
@@ -208,7 +201,6 @@ SBMLDocumentPlugin::checkConsistency()
 {
   return 0;
 }
-
 /** @endcond */
 
 
@@ -258,7 +250,6 @@ SBMLDocumentPlugin::unsetRequired()
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 SBMLDocumentPlugin_t*
 SBMLDocumentPlugin_create(const char* uri, const char* prefix,
@@ -352,7 +343,5 @@ SBMLDocumentPlugin_unsetRequired(SBMLDocumentPlugin_t* plugin)
   if (plugin == NULL) return LIBSBML_INVALID_OBJECT;
   return plugin->unsetRequired();
 }
-
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END

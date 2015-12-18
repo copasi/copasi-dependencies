@@ -41,9 +41,7 @@
 #include <sbml/util/IdList.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -72,7 +70,7 @@ FunctionReferredToExists::~FunctionReferredToExists ()
  * event assignments and assignment rules.
  */
 void
-FunctionReferredToExists::check_ (const Model& m, const Model& object)
+FunctionReferredToExists::check_ (const Model& m, const Model&)
 {
   // does not apply in l2v4 and beyond
   if (m.getLevel() == 2 && m.getVersion() < 4)
@@ -155,5 +153,4 @@ FunctionReferredToExists::logUndefined ( const FunctionDefinition& fd,
 #endif /* __cplusplus */
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

@@ -375,7 +375,6 @@ ASTBinaryFunctionNode::isSqrt() const
 void
 ASTBinaryFunctionNode::write(XMLOutputStream& stream) const
 {
-  if (&stream == NULL) return;
 
   int type  = getType();
 
@@ -561,7 +560,5 @@ ASTBinaryFunctionNode::hasCorrectNumberArguments() const
 
 
 LIBSBML_CPP_NAMESPACE_END
-
-
 /** @endcond */
 

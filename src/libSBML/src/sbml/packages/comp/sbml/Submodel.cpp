@@ -285,7 +285,7 @@ Submodel::unsetModelRef ()
 
 
 int
-Submodel::setSubstanceConversionFactor (const std::string& substanceConversionFactor)
+Submodel::setSubstanceConversionFactor (const std::string&)
 {
   return LIBSBML_INVALID_ATTRIBUTE_VALUE;
 }
@@ -546,20 +546,20 @@ Submodel::readAttributes (const XMLAttributes& attributes,
     static_cast<ListOfSubmodels*>(getParentSBMLObject())->size() < 2)
   {
     unsigned int numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs-1; n >= 0; n--)      
+    for (int n = (int)numErrs-1; n >= 0; n--)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownPackageAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("comp", CompLOSubmodelsAllowedAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
       } 
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("comp", CompLOSubmodelsAllowedAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
@@ -574,20 +574,20 @@ Submodel::readAttributes (const XMLAttributes& attributes,
   if (getErrorLog() != NULL)
   {
     unsigned int numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs-1; n >= 0; n--)      
+    for (int n = (int)numErrs-1; n >= 0; n--)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownPackageAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("comp", CompSubmodelAllowedAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
       } 
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("comp", CompSubmodelAllowedCoreAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
@@ -739,7 +739,6 @@ Submodel::getTypeCode () const
 }
 
 /** @cond doxygenLibsbmlInternal */
-
 bool
 Submodel::accept (SBMLVisitor& v) const
 {
@@ -754,7 +753,6 @@ Submodel::accept (SBMLVisitor& v) const
 
   return true;
 }
-
 /** @endcond */
 
 
@@ -1401,7 +1399,7 @@ Submodel::removeProcessingCallback(int index)
 {
   if (index < 0 || index >= getNumProcessingCallbacks()) return;
 
-  ModelProcessingCallbackData* cbdata = mProcessingCBs[index];
+  ModelProcessingCallbackData* cbdata = mProcessingCBs[(size_t)index];
   mProcessingCBs.erase(mProcessingCBs.begin() + index, mProcessingCBs.begin() + 1 + index);
   delete cbdata;
 }
@@ -1413,7 +1411,7 @@ Submodel::removeProcessingCallback(ModelProcessingCallback cb)
 {
   for(int i = getNumProcessingCallbacks() -1; i >= 0; --i)
   {
-    ModelProcessingCallbackData* cbdata = mProcessingCBs[i];
+    ModelProcessingCallbackData* cbdata = mProcessingCBs[(size_t)i];
     if (cbdata->cb == cb)
     {
       removeProcessingCallback(i);
@@ -1425,7 +1423,6 @@ Submodel::removeProcessingCallback(ModelProcessingCallback cb)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 Submodel_t *
 Submodel_create(unsigned int level, unsigned int version,
@@ -1494,7 +1491,7 @@ Submodel_getModelRef(Submodel_t * s)
 
 LIBSBML_EXTERN
 char *
-Submodel_getSubstanceConversionFactor(Submodel_t * s)
+Submodel_getSubstanceConversionFactor(Submodel_t * )
 {
   return NULL;
 }
@@ -1548,7 +1545,7 @@ Submodel_isSetModelRef(Submodel_t * s)
 
 LIBSBML_EXTERN
 int
-Submodel_isSetSubstanceConversionFactor(Submodel_t * s)
+Submodel_isSetSubstanceConversionFactor(Submodel_t * )
 {
   return 0;
 }
@@ -1596,7 +1593,7 @@ Submodel_setModelRef(Submodel_t * s, const char * modelRef)
 
 LIBSBML_EXTERN
 int
-Submodel_setSubstanceConversionFactor(Submodel_t * s, const char * substanceConversionFactor)
+Submodel_setSubstanceConversionFactor(Submodel_t * , const char * )
 {
   return LIBSBML_INVALID_ATTRIBUTE_VALUE;
 }
@@ -1644,7 +1641,7 @@ Submodel_unsetModelRef(Submodel_t * s)
 
 LIBSBML_EXTERN
 int
-Submodel_unsetSubstanceConversionFactor(Submodel_t * s)
+Submodel_unsetSubstanceConversionFactor(Submodel_t * )
 {
   return LIBSBML_OPERATION_FAILED;
 }
@@ -1758,9 +1755,6 @@ ListOfSubmodels_removeById(ListOf_t * lo, const char * sid)
 
   return (sid != NULL) ? static_cast <ListOfSubmodels *>(lo)->remove(sid) : NULL;
 }
-
-
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END
 

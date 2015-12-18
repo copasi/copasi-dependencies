@@ -41,9 +41,7 @@
 #include <sbml/extension/SBasePlugin.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -127,9 +125,7 @@ ListOf& ListOf::operator=(const ListOf& rhs)
   return *this;
 }
 
-/*
- * Accepts the given SBMLVisitor.
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 ListOf::accept (SBMLVisitor& v) const
 {
@@ -139,6 +135,7 @@ ListOf::accept (SBMLVisitor& v) const
 
   return true;
 }
+/** @endcond */
 
 
 /*
@@ -458,10 +455,10 @@ ListOf::enablePackageInternal(const std::string& pkgURI, const std::string& pkgP
  */
 struct SetSBMLDocument : public unary_function<SBase*, void>
 {
-  SBMLDocument* d;
+  SBMLDocument* mD;
 
-  SetSBMLDocument (SBMLDocument* d) : d(d) { }
-  void operator() (SBase* sbase) { sbase->setSBMLDocument(d); }
+  SetSBMLDocument (SBMLDocument* d) : mD(d) { }
+  void operator() (SBase* sbase) { sbase->setSBMLDocument(mD); }
 };
 
 
@@ -470,14 +467,13 @@ struct SetSBMLDocument : public unary_function<SBase*, void>
  */
 struct SetParentSBMLObject : public unary_function<SBase*, void>
 {
-  SBase* sb;
+  SBase* mSb;
 
-  SetParentSBMLObject (SBase *sb) : sb(sb) { }
-  void operator() (SBase* sbase) { sbase->connectToParent(sb); }
+  SetParentSBMLObject (SBase *sb) : mSb(sb) { }
+  void operator() (SBase* sbase) { sbase->connectToParent(mSb); }
 };
 
 /** @cond doxygenLibsbmlInternal */
-
 /*
  * Sets the parent SBMLDocument of this SBML object.
  */
@@ -499,7 +495,6 @@ ListOf::connectToChild()
   SBase::connectToChild();
   for_each( mItems.begin(), mItems.end(), SetParentSBMLObject(this) );
 }
-
 /** @endcond */
 
 
@@ -631,15 +626,12 @@ ListOf::isValidTypeForList(SBase * item)
 
   return match;
 }
-
 /** @endcond */
 
 
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 ListOf_t *
 ListOf_create (unsigned int level, unsigned int version)
@@ -775,7 +767,6 @@ ListOf_getItemTypeCode (const ListOf_t *lo)
 {
   return (lo != NULL) ? lo->getItemTypeCode() : SBML_UNKNOWN;
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

@@ -7,13 +7,13 @@
  *<!---------------------------------------------------------------------------
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
- * 
+ *
  * Copyright (C) 2013-2015 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
- * 
- * Copyright (C) 2009-2013 jointly by the following organizations: 
+ *
+ * Copyright (C) 2009-2013 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *
@@ -27,11 +27,49 @@
  * @class FbcSpeciesPlugin
  * @sbmlbrief{fbc} Extension of Species.
  *
- * The Flux Balance Constraints package extends the SBML Level 3 Version 1 Core Species class with the addition of two attributes: 'charge' and 'chemicalFormula'.
+ * The FbcSpeciesPlugin class codifies an extension of the core SBML Species
+ * class defined in the SBML Level&nbsp;3 @ref fbc (&ldquo;fbc&rdquo;)
+ * package.  The &ldquo;fbc&rdquo; package adds two attributes named "charge"
+ * and "chemicalFormula" to Species.
+ *
+ * The optional attribute "charge" can contain a signed integer that refers
+ * to the Species object's electrical charge (in terms of electrons, not the
+ * SI unit of coulombs).  Note that this attribute is therefore defined as it
+ * is in the SBML Level&nbsp;2 Version&nbsp;1 specification.  (The charge
+ * attribute was removed in higher Versions and Levels of SBML, and is not an
+ * attribute of SBML Species in core SBML Level&nbsp;3.  However, it is
+ * useful for flux balance constraints models, and thus, the Level&nbsp;3
+ * &ldquo;fbc&rdquo; package adds it.)
+ *
+ * The optional attribute "chemicalFormula" can contain a text string that
+ * represents the elemental composition of the substance represented by the
+ * Species object.  The purpose of the "chemicalFormula" attribute is to
+ * allow balancing and validating reactions.  This is particularly important
+ * in constraint-based models.  The format of "chemicalFormula" must consist
+ * only of atomic names (as given in the Periodic Table of elements) or
+ * user-defined compounds, either of which take the form of a single capital
+ * letter followed by zero or more lowercase letters.  Where there is more
+ * than a single atom present, this is indicated with an integer.  With
+ * regards to order (and to enhance interoperability of models), users are
+ * advised to employ the <a href="https://en.wikipedia.org/wiki/Hill_system">Hill system order</a>.
+ * Using this notation, the number of carbon atoms in a molecule is indicated
+ * first, followed by the number of hydrogen atoms, and then the number of
+ * all other chemical elements in alphabetical order.  When the formula
+ * contains no carbon, all elements including hydrogen are listed
+ * alphabetically.
+ *
+ * Here is an example of the XML form of an extended Species definition with
+ * these attributes:
+ * @verbatim
+<species metaid="meta_M_atp_c" id="M_atp_c" name="ATP" compartment="Cytosol"
+boundaryCondition="false" initialConcentration="0" hasOnlySubstanceUnits="false"
+fbc:charge="-4" fbc:chemicalFormula="C10H12N5O13P3"/>
+@endverbatim
  */
 
-#ifndef FbcSpeciesPlugin_h
-#define FbcSpeciesPlugin_h
+
+#ifndef FbcSpeciesPlugin_H__
+#define FbcSpeciesPlugin_H__
 
 
 #include <sbml/common/extern.h>
@@ -51,231 +89,292 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
+
 class LIBSBML_EXTERN FbcSpeciesPlugin : public SBasePlugin
 {
 public:
 
   /**
-   * Constructor
+   * Creates a new FbcSpeciesPlugin
    */
-  FbcSpeciesPlugin  (const std::string &uri, const std::string &prefix,
-                    FbcPkgNamespaces *fbcns);
+  FbcSpeciesPlugin(const std::string& uri, const std::string& prefix, 
+                                 FbcPkgNamespaces* fbcns);
 
 
   /**
-   * Copy constructor. Creates a copy of this FbcSpeciesPlugin object.
-   */
-  FbcSpeciesPlugin (const FbcSpeciesPlugin & orig);
-
-
-  /**
-   * Destroy this object.
-   */
-  virtual ~FbcSpeciesPlugin  ();
-
-
-  /**
-   * Assignment operator for FbcSpeciesPlugin .
-   */
-  FbcSpeciesPlugin & operator=(const FbcSpeciesPlugin & orig);
-
-
-  /**
-   * Creates and returns a deep copy of this FbcSpeciesPlugin  object.
-   * 
-   * @return a (deep) copy of this FbcSpeciesPlugin object
-   */
-  virtual FbcSpeciesPlugin * clone () const;
-
-  /**
-   * Predicate returning @c true or @c false depending on whether this
-   * FbcSpeciesPlugin "charge" attribute has been set.
+   * Copy constructor for FbcSpeciesPlugin.
    *
-   * @return @c true if this FbcSpeciesPlugin "charge" attribute has been set,
-   * otherwise @c false is returned.
+   * @param orig; the FbcSpeciesPlugin instance to copy.
    */
-  virtual bool isSetCharge() const;
+  FbcSpeciesPlugin(const FbcSpeciesPlugin& orig);
+
+
+   /**
+   * Assignment operator for FbcSpeciesPlugin.
+   *
+   * @param rhs; the object whose values are used as the basis
+   * of the assignment
+   */
+  FbcSpeciesPlugin& operator=(const FbcSpeciesPlugin& rhs);
+
+
+   /**
+   * Creates and returns a deep copy of this FbcSpeciesPlugin object.
+   *
+   * @return a (deep) copy of this FbcSpeciesPlugin object.
+   */
+  virtual FbcSpeciesPlugin* clone () const;
+
+
+   /**
+   * Destructor for FbcSpeciesPlugin.
+   */
+  virtual ~FbcSpeciesPlugin();
+
+
+   //---------------------------------------------------------------
+  //
+  // overridden virtual functions for read/write/check
+  //
+  //---------------------------------------------------------------
+
+  /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Sets the value of the "charge" attribute of this FbcSpeciesPlugin.
+   * Subclasses must override this method to create, store, and then
+   * return an SBML object corresponding to the next XMLToken in the
+   * XMLInputStream if they have their specific elements.
    *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @return the SBML object corresponding to next XMLToken in the
+   * XMLInputStream or NULL if the token was not recognized.
    */
-  virtual int setCharge(int charge);
+  virtual SBase* createObject (XMLInputStream& stream);
+
+
+  /** @endcond doxygenLibsbmlInternal */
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Subclasses must override this method to write out their contained
+   * SBML objects as XML elements if they have their specific elements.
+   */
+  virtual void writeElements (XMLOutputStream& stream) const;
+
+
+  /** @endcond doxygenLibsbmlInternal */
+
+
+  /**
+   * Checks if this plugin object has all the required elements.
+   *
+   * Subclasses must override this method 
+   * if they have their specific elements.
+   *
+   * @return true if this plugin object has all the required elements
+   * otherwise false will be returned.
+   */
+  virtual bool hasRequiredElements () const;
+
+
+  //---------------------------------------------------------------
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Get the list of expected attributes for this element.
+   */
+  virtual void addExpectedAttributes(ExpectedAttributes& attributes);
+
+
+  /** @endcond doxygenLibsbmlInternal */
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Read values from the given XMLAttributes set into their specific fields.
+   */
+  virtual void readAttributes (const XMLAttributes& attributes,
+                               const ExpectedAttributes& expectedAttributes);
+
+
+  /** @endcond doxygenLibsbmlInternal */
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Write values of XMLAttributes to the output stream.
+   */
+  virtual void writeAttributes (XMLOutputStream& stream) const;
+
+
+  /** @endcond doxygenLibsbmlInternal */
+
+
+  //---------------------------------------------------------------
+  //
+  // Functions for interacting with the members of the plugin
+  //
+  //---------------------------------------------------------------
+
+  /**
+   * Returns a List of all child SBase objects, including those nested to an
+   * arbitrary depth.
+   *
+   * @return a List* of pointers to all child objects.
+   */
+   virtual List* getAllElements(ElementFilter * filter = NULL);
+
 
   /**
    * Returns the value of the "charge" attribute of this FbcSpeciesPlugin.
    *
-   * @return the value of the "charge" attribute of this FbcSpeciesPlugin.
+   * @return the value of the "charge" attribute of this FbcSpeciesPlugin as a integer.
    */
   virtual int getCharge() const;
 
-  /**
-   * Unsets the value of the "charge" attribute of this FbcSpeciesPlugin.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   */
-  virtual int unsetCharge();
-
-  /**
-   * Predicate returning @c true or @c false depending on whether this
-   * FbcSpeciesPlugin "chemicalFormula" attribute has been set.
-   *
-   * @return @c true if this FbcSpeciesPlugin "chemicalFormula" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetChemicalFormula() const;
-
-  /**
-   * Sets the value of the "chemicalFormula" attribute of this FbcSpeciesPlugin.
-   * The format of chemicalFormula must consist only of atomic names (as in the Periodic Table) or user defined compounds either of which take the form of a single capital letter followed by zero or more lowercase letters. Where there is more than a single atom present, this is indicated with an integer. With regards to order (and enhance inter-operability) it is recommended to use the Hill system order.  (However, no error-checking is performed by this routine.)
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   */
-  virtual int setChemicalFormula(const std::string& chemicalFormula);
 
   /**
    * Returns the value of the "chemicalFormula" attribute of this FbcSpeciesPlugin.
    *
-   * @return the value of the "chemicalFormula" attribute of this FbcSpeciesPlugin.
+   * @return the value of the "chemicalFormula" attribute of this FbcSpeciesPlugin as a string.
    */
   virtual const std::string& getChemicalFormula() const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * FbcSpeciesPlugin's "charge" attribute has been set.
+   *
+   * @return @c true if this FbcSpeciesPlugin's "charge" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetCharge() const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * FbcSpeciesPlugin's "chemicalFormula" attribute has been set.
+   *
+   * @return @c true if this FbcSpeciesPlugin's "chemicalFormula" attribute has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetChemicalFormula() const;
+
+
+  /**
+   * Sets the value of the "charge" attribute of this FbcSpeciesPlugin.
+   *
+   * @param charge; int value of the "charge" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+   */
+  virtual int setCharge(int charge);
+
+
+  /**
+   * Sets the value of the "chemicalFormula" attribute of this FbcSpeciesPlugin.
+   *
+   * @param chemicalFormula; const std::string& value of the "chemicalFormula" attribute to be set
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+   */
+  virtual int setChemicalFormula(const std::string& chemicalFormula);
+
+
+  /**
+   * Unsets the value of the "charge" attribute of this FbcSpeciesPlugin.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int unsetCharge();
+
 
   /**
    * Unsets the value of the "chemicalFormula" attribute of this FbcSpeciesPlugin.
    *
-   * @copydetails doc_returns_success_code
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   virtual int unsetChemicalFormula();
-  
 
-  // ---------------------------------------------------------
-  //
-  // virtual functions (internal implementation) which should
-  // be overridden by subclasses.
-  //
-  // ---------------------------------------------------------
 
   /** @cond doxygenLibsbmlInternal */
+
   /**
-   * Sets the parent SBMLDocument of this plugin object.
-   *
-   * Subclasses which contain one or more SBase derived elements must
-   * override this function.
-   *
-   * @param d the SBMLDocument object to use
-   *
-   * @see connectToParent
-   * @see enablePackageInternal
+   * Sets the parent SBMLDocument.
    */
   virtual void setSBMLDocument (SBMLDocument* d);
-  /** @endcond */
+
+
+  /** @endcond doxygenLibsbmlInternal */
 
 
   /** @cond doxygenLibsbmlInternal */
-  /**
-   * Sets the parent SBML object of this plugin object to
-   * this object and child elements (if any).
-   * (Creates a child-parent relationship by this plugin object)
-   *
-   * This function is called when this object is created by
-   * the parent element.
-   * Subclasses must override this this function if they have one
-   * or more child elements.Also, SBasePlugin::connectToParent()
-   * must be called in the overridden function.
-   *
-   * @param sbase the SBase object to use
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
-   */
-  virtual void connectToParent (SBase *sbase);
-  /** @endcond */
+
+  virtual void connectToParent (SBase* sbase);
+
+
+  /** @endcond doxygenLibsbmlInternal */
 
 
   /** @cond doxygenLibsbmlInternal */
-  /**
-   * Enables/Disables the given package with child elements in this plugin
-   * object (if any).
-   * (This is an internal implementation invoked from
-   *  SBase::enablePakcageInternal() function)
-   *
-   * @note Subclasses in which one or more SBase derived elements are
-   * defined must override this function.
-   *
-   * @see setSBMLDocument
-   * @see connectToParent
-   */
+
   virtual void enablePackageInternal(const std::string& pkgURI,
                                      const std::string& pkgPrefix, bool flag);
-  /** @endcond */
+
+
+  /** @endcond doxygenLibsbmlInternal */
+
 
   /** @cond doxygenLibsbmlInternal */
 
-  /**
-   * Accepts the given SBMLVisitor.
-   *
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether or not the Visitor would like to visit the SBML object's next
-   * sibling object (if available).
-   */
   virtual bool accept (SBMLVisitor& v) const;
 
-  /** @endcond */
+  /** @endcond doxygenLibsbmlInternal */
 
 
 protected:
 
-  // --------------------------------------------------------
-  //
-  // overridden virtual functions for reading/writing/checking 
-  // elements
-  //
-  // --------------------------------------------------------
-
-  
   /** @cond doxygenLibsbmlInternal */
-  /**
-   * Subclasses should override this method to get the list of
-   * expected attributes.
-   * This function is invoked from corresponding readAttributes()
-   * function.
-   */
-  virtual void addExpectedAttributes(ExpectedAttributes& attributes);
-  /** @endcond */
+
+  int           mCharge;
+  bool          mIsSetCharge;
+  std::string   mChemicalFormula;
+
+  /** @endcond doxygenLibsbmlInternal */
 
 
-  /** @cond doxygenLibsbmlInternal */
-  /**
-   * Reads the attributes of corresponding package in SBMLDocument element.
-   */
-  virtual void readAttributes (const XMLAttributes& attributes,
-                               const ExpectedAttributes& expectedAttributes);
-  /** @endcond */
-
-
-  /** @cond doxygenLibsbmlInternal */
-  /**
-   * Writes the attributes of corresponding package in SBMLDocument element.
-   */
-  virtual void writeAttributes (XMLOutputStream& stream) const;
-  /** @endcond */
-
-
-  /*-- data members --*/
-
-  /** @cond doxygenLibsbmlInternal */
-  int mCharge;
-  bool mIsSetCharge;
-  std::string mChemicalFormula;
-  /** @endcond */
 };
 
+
+
+
 LIBSBML_CPP_NAMESPACE_END
+
 
 #endif  /* __cplusplus */
 #ifndef SWIG
@@ -417,4 +516,6 @@ END_C_DECLS
 LIBSBML_CPP_NAMESPACE_END
 
 #endif  /* !SWIG */
-#endif  /* FbcSpeciesPlugin_h */
+#endif /* FbcSpeciesPlugin_H__ */
+
+

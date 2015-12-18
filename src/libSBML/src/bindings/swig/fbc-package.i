@@ -33,8 +33,12 @@
 #ifdef USE_FBC
 
 %newobject removeAssociation;
+%newobject removeFbcAssociation;
+%newobject removeFluxObjective;
+%newobject removeObjective;
+%newobject removeGeneProduct;
 
-%template(FbcPkgNamespaces) SBMLExtensionNamespaces<FbcExtension>;
+%template (FbcPkgNamespaces) SBMLExtensionNamespaces<FbcExtension>;
 
 %include <sbml/packages/fbc/extension/FbcExtension.h>
 %include <sbml/packages/fbc/extension/FbcModelPlugin.h>
@@ -42,6 +46,8 @@
 
 %include <sbml/packages/fbc/util/CobraToFbcConverter.h>
 %include <sbml/packages/fbc/util/FbcToCobraConverter.h>
+%include <sbml/packages/fbc/util/FbcV1ToV2Converter.h>
+%include <sbml/packages/fbc/util/FbcV2ToV1Converter.h>
 
 %include <sbml/packages/fbc/sbml/Association.h>
 %include <sbml/packages/fbc/sbml/FluxBound.h>
@@ -51,4 +57,14 @@
 
 %include <sbml/packages/fbc/validator/FbcSBMLError.h>
 
+%include <sbml/packages/fbc/extension/FbcReactionPlugin.h>
+%include <sbml/packages/fbc/sbml/FbcAssociation.h>
+%include <sbml/packages/fbc/sbml/FluxObjective.h>
+%include <sbml/packages/fbc/sbml/GeneProductAssociation.h>
+%include <sbml/packages/fbc/sbml/GeneProduct.h>
+%include <sbml/packages/fbc/sbml/GeneProductRef.h>
+%include <sbml/packages/fbc/sbml/FbcAnd.h>
+%include <sbml/packages/fbc/sbml/FbcOr.h>
+
 #endif /* USE_FBC */
+

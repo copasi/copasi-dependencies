@@ -46,9 +46,7 @@
 #include <sbml/Parameter.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -115,7 +113,7 @@ Parameter::Parameter (SBMLNamespaces * sbmlns) :
 
 
 /** @cond doxygenLibsbmlInternal */
-Parameter::Parameter (SBMLNamespaces * sbmlns, bool isLocal) :
+Parameter::Parameter (SBMLNamespaces * sbmlns, bool) :
    SBase      ( sbmlns   )
  , mId        ( ""       )
  , mName      ( ""       )
@@ -149,25 +147,19 @@ Parameter::~Parameter ()
 /*
  * Copy constructor. Creates a copy of this Parameter.
  */
-Parameter::Parameter(const Parameter& orig) :
-    SBase      ( orig             )
+Parameter::Parameter(const Parameter& orig)
+  :  SBase      ( orig             )
+  ,  mId        (orig.mId)
+  ,  mName      (orig.mName)
+  ,  mValue     (orig.mValue)
+  ,  mUnits     (orig.mUnits)
+  ,  mConstant  (orig.mConstant)
+  ,  mIsSetValue (orig.mIsSetValue)
+  ,  mIsSetConstant (orig.mIsSetConstant)
+  ,  mExplicitlySetConstant (orig.mExplicitlySetConstant)
+  ,  mCalculatingUnits (false) // only set by units converter
+  
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mValue         = orig.mValue    ;
-    mUnits         = orig.mUnits    ;
-    mConstant      = orig.mConstant ;
-    mIsSetValue    = orig.mIsSetValue;
-    mId            = orig.mId;
-    mName          = orig.mName;
-    mIsSetConstant = orig.mIsSetConstant;
-    mExplicitlySetConstant = orig.mExplicitlySetConstant;
-    mCalculatingUnits = false; // only set by units converter
-  }
 }
 
 
@@ -176,11 +168,7 @@ Parameter::Parameter(const Parameter& orig) :
  */
 Parameter& Parameter::operator=(const Parameter& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     mValue      = rhs.mValue    ;
@@ -198,18 +186,13 @@ Parameter& Parameter::operator=(const Parameter& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the parent Model's or
- * KineticLaw's next Parameter (if available).
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 Parameter::accept (SBMLVisitor& v) const
 {
   return v.visit(*this);
 }
+/** @endcond */
 
 
 /*
@@ -361,11 +344,7 @@ Parameter::setId (const std::string& sid)
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
 */
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(sid)))
+  if (!(SyntaxChecker::isValidInternalSId(sid)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -386,11 +365,7 @@ Parameter::setName (const std::string& name)
   /* if this is setting an L2 name the type is string
    * whereas if it is setting an L1 name its type is SId
    */
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() == 1)
+  if (getLevel() == 1)
   {
     if (!(SyntaxChecker::isValidInternalSId(name)))
     {
@@ -428,11 +403,7 @@ Parameter::setValue (double value)
 int
 Parameter::setUnits (const std::string& units)
 {
-  if (&(units) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else  if (!(SyntaxChecker::isValidInternalUnitSId(units)))
+  if (!(SyntaxChecker::isValidInternalUnitSId(units)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -728,6 +699,7 @@ Parameter::hasRequiredAttributes() const
 void 
 Parameter::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameUnitSIdRefs(oldid, newid);
   if (mUnits == oldid) mUnits= newid;
 }
 
@@ -1113,27 +1085,22 @@ Parameter::writeAttributes (XMLOutputStream& stream) const
 
 /* private functions used for inferring units */
 /** @cond doxygenLibsbmlInternal */
-
 void
 Parameter::setCalculatingUnits(bool calculatingUnits)
 {
   mCalculatingUnits = calculatingUnits;
 }
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 bool
 Parameter::getCalculatingUnits() const
 {
   return mCalculatingUnits;
 }
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Parameter::inferUnits(Model* m, bool globalParameter)
 {
@@ -1173,12 +1140,9 @@ Parameter::inferUnits(Model* m, bool globalParameter)
   delete uff;
   return derivedUD;
 }
-
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Parameter::inferUnitsFromRules(UnitFormulaFormatter *uff, Model *m)
 {
@@ -1239,12 +1203,9 @@ Parameter::inferUnitsFromRules(UnitFormulaFormatter *uff, Model *m)
 
   return derivedUD;
 }
-
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Parameter::inferUnitsFromAssignments(UnitFormulaFormatter *uff, Model *m)
 {
@@ -1295,12 +1256,9 @@ Parameter::inferUnitsFromAssignments(UnitFormulaFormatter *uff, Model *m)
 
   return derivedUD;
 }
-
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Parameter::inferUnitsFromReactions(UnitFormulaFormatter *uff, Model *m)
 {
@@ -1322,11 +1280,9 @@ Parameter::inferUnitsFromReactions(UnitFormulaFormatter *uff, Model *m)
 
   return derivedUD;
 }
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Parameter::inferUnitsFromEvents(UnitFormulaFormatter *uff, Model *m)
 {
@@ -1345,11 +1301,9 @@ Parameter::inferUnitsFromEvents(UnitFormulaFormatter *uff, Model *m)
 
   return derivedUD;
 }
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Parameter::inferUnitsFromEvent(Event * e, UnitFormulaFormatter *uff, Model *m)
 {
@@ -1431,11 +1385,9 @@ Parameter::inferUnitsFromEvent(Event * e, UnitFormulaFormatter *uff, Model *m)
 
   return derivedUD;
 }
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Parameter::inferUnitsFromKineticLaw(KineticLaw* kl, 
                                     UnitFormulaFormatter *uff, Model *m)
@@ -1460,7 +1412,7 @@ Parameter::inferUnitsFromKineticLaw(KineticLaw* kl,
     {
       if (rnId == m->getReaction(i)->getId())
       {
-        index = i;
+        index = (int)i;
         break;
       }
     }
@@ -1482,7 +1434,6 @@ Parameter::inferUnitsFromKineticLaw(KineticLaw* kl,
 
   return derivedUD;
 }
-
 /** @endcond */
 
 /*
@@ -1557,11 +1508,11 @@ ListOfParameters::get(unsigned int n) const
  */
 struct IdEqP : public unary_function<SBase*, bool>
 {
-  const string& id;
+  const string& mId;
 
-  IdEqP (const string& id) : id(id) { }
+  IdEqP (const string& id) : mId(id) { }
   bool operator() (SBase* sb) 
-       { return static_cast <Parameter *> (sb)->getId() == id; }
+       { return static_cast <Parameter *> (sb)->getId() == mId; }
 };
 /* return item by id */
 Parameter*
@@ -1578,15 +1529,8 @@ ListOfParameters::get (const std::string& sid) const
 {
   vector<SBase*>::const_iterator result;
 
-  if (&(sid) == NULL)
-  {
-    return NULL;
-  }
-  else
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEqP(sid) );
-    return (result == mItems.end()) ? NULL : static_cast <Parameter*> (*result);
-  }
+  result = find_if( mItems.begin(), mItems.end(), IdEqP(sid) );
+  return (result == mItems.end()) ? NULL : static_cast <Parameter*> (*result);
 }
 
 
@@ -1605,15 +1549,12 @@ ListOfParameters::remove (const std::string& sid)
   SBase* item = NULL;
   vector<SBase*>::iterator result;
 
-  if (&(sid) != NULL)
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEqP(sid) );
+  result = find_if( mItems.begin(), mItems.end(), IdEqP(sid) );
 
-    if (result != mItems.end())
-    {
-      item = *result;
-      mItems.erase(result);
-    }
+  if (result != mItems.end())
+  {
+    item = *result;
+    mItems.erase(result);
   }
 
   return static_cast <Parameter*> (item);
@@ -1674,8 +1615,6 @@ ListOfParameters::createObject (XMLInputStream& stream)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 Parameter_t *
 Parameter_create (unsigned int level, unsigned int version)
@@ -1957,6 +1896,5 @@ ListOfParameters_removeById (ListOf_t *lo, const char *sid)
   else
     return NULL;
 }
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END

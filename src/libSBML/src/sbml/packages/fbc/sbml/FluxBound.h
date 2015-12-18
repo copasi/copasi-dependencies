@@ -26,8 +26,57 @@
  * @class FluxBound
  * @sbmlbrief{fbc} Max or min value for a reaction flux.
  *
- * The FluxBound object holds a single (in)equality that provides the maximum
- * or minimum value that a reaction flux can obtain at steady state.
+ * The FluxBound class of objects is used in Version&nbsp;1 of the SBML
+ * Level&nbsp;3 @ref fbc (&ldquo;fbc&rdquo;) package to express a single
+ * (in)equality that provides the maximum or minimum value that a reaction
+ * flux can obtain at steady state.  (This same information is encoded
+ * differently in Version&nbsp;2 of &ldquo;fbc&rdquo;; see the
+ * "upperFluxBound" and "lowerFluxBound" attributes on FbcReactionPlugin.)
+ *
+ * @section fluxbound-attributes Attributes on FluxBound
+ *
+ * In addition to the common optional attributes "id" and "name", FluxBound
+ * takes three required attributes: "reaction", "operation" and "value".
+ * These three attributes define the meaning of the FluxBound, and are
+ * interpreted using the following expression:
+ * <center>
+ * <em>reaction</em>&nbsp;&nbsp;&nbsp;<em>operator</em>&nbsp;&nbsp;&nbsp;<em>value</em>
+ * </center>
+ *
+ * The "reaction" attribute takes a value of <code>SIdRef</code>.  The value
+ * must be the identifier of a Reaction object defined within the enclosing
+ * model.
+ *
+ * The "operation" attribute takes a value from an enumeration
+ * (#FluxBoundOperation_t) of Boolean operations that represent mathemetical
+ * inequalities.  Possible values for "operation" include
+ * <code>"greaterEqual"</code>, <code>"equal"</code>, and others.
+ *
+ * The "value" attribute takes a numerical value of type <code>double</code>,
+ * and represents the value of the flux bound.  The permitted values include
+ * positive infinity (<code>"INF"</code>) and negative infinity
+ * (<code>"-INF"</code>).
+ *
+ * The following is an example of a set of flux bounds encoded in this form; it
+ * also demonstrates the use of ListOfFluxBounds.
+ *
+ * @verbatim
+<fbc:listOfFluxBounds>
+    <fbc:fluxBound fbc:id="R1b" fbc:reaction="R1" fbc:operation="greaterEqual" fbc:value="1.2"/>
+    <fbc:fluxBound fbc:id="R2b" fbc:reaction="R2" fbc:operation="lessEqual" fbc:value="-1.2"/>
+    <fbc:fluxBound fbc:id="R3b" fbc:reaction="R3" fbc:operation="greaterEqual" fbc:value="-INF"/>
+    <fbc:fluxBound fbc:id="R4b" fbc:reaction="R4" fbc:operation="lessEqual" fbc:value="INF"/>
+    <fbc:fluxBound fbc:id="R5b" fbc:reaction="R5" fbc:operation="equal" fbc:value="1"/>
+</fbc:listOfFluxBounds>
+@endverbatim
+ *
+ * @note This class is only defined for Version&nbsp;1 of the
+ * &ldquo;fbc&rdquo; package specification.  It was replaced in
+ * Version&nbsp;2 by a Parameter referenced by the "upperFluxBound" or
+ * "lowerFluxBound" attributes on an FbcReactionPlugin.  FluxBound is
+ * therefore not used for Version&nbsp;2 &ldquo;fbc&rdquo; models.
+ *
+ * @see ListOfFluxBounds
  */
 
 #ifndef FluxBound_H__
@@ -89,11 +138,21 @@ protected:
 public:
 
   /**
-   * Creates a new FluxBound with the given level, version, and package version.
+   * Creates a new FbcAssociation with the given SBML Level, Version, and
+   * &ldquo;fbc&rdquo;package version.
+   *
+   * @param level an unsigned int, the SBML Level to assign to this
+   * FluxObjective
+   *
+   * @param version an unsigned int, the SBML Version to assign to this
+   * FluxObjective
+   *
+   * @param pkgVersion an unsigned int, the SBML Fbc Version to assign to
+   * this FluxObjective
    */
-   FluxBound(unsigned int level      = FbcExtension::getDefaultLevel(),
-         unsigned int version    = FbcExtension::getDefaultVersion(),
-         unsigned int pkgVersion = FbcExtension::getDefaultPackageVersion());
+  FluxBound(unsigned int level      = FbcExtension::getDefaultLevel(),
+            unsigned int version    = FbcExtension::getDefaultVersion(),
+            unsigned int pkgVersion = FbcExtension::getDefaultPackageVersion());
 
 
   /**
@@ -106,6 +165,7 @@ public:
    * Copy constructor.
    */
    FluxBound(const FluxBound& source);
+
 
   /**
    * Assignment operator.
@@ -128,8 +188,7 @@ public:
 
 
   /**
-   * Predicate returning @c true or @c false depending on whether this
-   * FluxBound's "id" attribute has been set.
+   * Predicate returning @c true if this FluxBound's "id" attribute is set.
    *
    * @return @c true if this FluxBound object's "id" attribute has been set,
    * otherwise @c false is returned.
@@ -166,8 +225,7 @@ public:
 
 
   /**
-   * Predicate returning @c true or @c false depending on whether this
-   * FluxBound's "name" attribute has been set.
+   * Predicate returning @c true if this FluxBound's "name" attribute is set.
    *
    * @return @c true if this FluxBound object's "id" attribute has been set,
    * otherwise @c false is returned.
@@ -194,6 +252,7 @@ public:
    */
   virtual int unsetName ();
 
+
   /**
    * Returns the value of the "reaction" attribute of this FluxBound object.
    *
@@ -203,11 +262,11 @@ public:
 
 
   /**
-   * Predicate returning @c true or @c false depending on whether this
-   * FluxBound's "reaction" attribute has been set.
+   * Predicate returning @c true if this FluxBound's "reaction" attribute is
+   * set.
    *
-   * @return @c true if this FluxBound object's "reaction" attribute has been set,
-   * otherwise @c false is returned.
+   * @return @c true if this FluxBound object's "reaction" attribute has been
+   * set, otherwise @c false is returned.
    */
   virtual bool isSetReaction () const;
 
@@ -249,8 +308,8 @@ public:
 
 
   /**
-   * Predicate returning @c true or @c false depending on whether this
-   * FluxBound's "operation" attribute has been set.
+   * Predicate returning @c true if this FluxBound's "operation" attribute is
+   * set.
    *
    * @return @c true if this FluxBound object's "operation" attribute has been set,
    * otherwise @c false is returned.
@@ -296,8 +355,8 @@ public:
 
 
   /**
-   * Predicate returning @c true or @c false depending on whether this
-   * FluxBound's "value" attribute has been set.
+   * Predicate returning @c true if this FluxBound's "value" attribute is
+   * set.
    *
    * @return @c true if this FluxBound object's "value" attribute has been set,
    * otherwise @c false is returned.
@@ -332,10 +391,11 @@ public:
 
 
   /**
-   * Returns the XML element name of
-   * this SBML object.
+   * Returns the XML element name of this object.
    *
-   * @return the name of this element, as a text string.
+   * For FluxBound, the XML element name is always @c "fluxBound".
+   *
+   * @return the name of this element, i.e. @c "fluxBound".
    */
   virtual const std::string& getElementName () const ;
 
@@ -379,6 +439,7 @@ public:
   /** @endcond */
 
 
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Accepts the given SBMLVisitor.
    *
@@ -387,6 +448,7 @@ public:
    * sibling object (if available).
    */
   virtual bool accept (SBMLVisitor& v) const;
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -478,8 +540,19 @@ protected:
  * @sbmlbrief{fbc} A list of FluxBound objects.
  *
  * The ListOfFluxBounds is a container for the FluxBound elements of a Model.
+ * It is only defined for Version&nbsp;1 of the &ldquo;fbc&rdquo;
+ * specification, and was replaced in Version&nbsp;2 by Parameter elements
+ * referenced by the "upperFluxBound" or "lowerFluxBound" attributes on an
+ * FbcReactionPlugin.  FluxBound and ListOfFluxBounds are not used for
+ * Version&nbsp;2 &ldquo;fbc&rdquo; models.
  *
  * @copydetails doc_what_is_listof
+ *
+ * @see FluxBound
+ *
+ * @note This class and FluxBound are only defined for Version&nbsp;1 of the
+ * &ldquo;fbc&rdquo; package specification.  These classes are not used in
+ * Version&nbsp;2 of &ldquo;fbc&rdquo;.
  */
 class LIBSBML_EXTERN ListOfFluxBounds : public ListOf
 {
@@ -496,9 +569,9 @@ public:
   /**
    * Creates a new ListOfFluxBounds with the given level, version, and package version.
    */
-   ListOfFluxBounds(unsigned int level      = FbcExtension::getDefaultLevel(),
-                unsigned int version    = FbcExtension::getDefaultVersion(),
-                unsigned int pkgVersion = FbcExtension::getDefaultPackageVersion());
+  ListOfFluxBounds(unsigned int level      = FbcExtension::getDefaultLevel(),
+                   unsigned int version    = FbcExtension::getDefaultVersion(),
+                   unsigned int pkgVersion = FbcExtension::getDefaultPackageVersion());
 
 
   /**
@@ -607,11 +680,13 @@ public:
    */
   virtual int getItemTypeCode () const;
 
+
   /**
-   * Returns the XML element name of
-   * this SBML object.
+   * Returns the XML element name of this object.
    *
-   * @return the name of this element, as a text string.
+   * For ListOfFluxBounds, the XML element name is always @c "listOfFluxBounds".
+   *
+   * @return the name of this element, i.e. @c "listOfFluxBounds".
    */
   virtual const std::string& getElementName () const;
 

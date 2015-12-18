@@ -50,9 +50,7 @@
 #include "LocalParameterMathCheck.h"
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -100,11 +98,6 @@ LocalParameterMathCheck::getPreamble ()
 void
 LocalParameterMathCheck::checkMath (const Model& m, const ASTNode& node, const SBase & sb)
 {
-  /* should not be here but why not catch it rather than crash*/
-  if (&(node) == NULL)
-  {
-    return;
-  }
 
   ASTNodeType_t type = node.getType();
     
@@ -207,6 +200,5 @@ LocalParameterMathCheck::getMessage (const ASTNode& node, const SBase& object)
 #endif /* __cplusplus */
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */
 

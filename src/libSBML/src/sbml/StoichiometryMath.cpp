@@ -49,9 +49,7 @@
 #include <sbml/StoichiometryMath.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -93,21 +91,14 @@ StoichiometryMath::~StoichiometryMath ()
  */
 StoichiometryMath::StoichiometryMath (const StoichiometryMath& orig) :
    SBase          ( orig )
- , mMath          ( NULL    )
+ , mMath          ( NULL )
+ , mInternalId    ( orig.mInternalId )
+
 {
-  if (&orig == NULL)
+  if (orig.mMath != NULL) 
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mInternalId = orig.mInternalId;
- 
-    if (orig.mMath != NULL) 
-    {
-      mMath = orig.mMath->deepCopy();
-      mMath->setParentSBMLObject(this);
-    }
+    mMath = orig.mMath->deepCopy();
+    mMath->setParentSBMLObject(this);
   }
 }
 
@@ -117,11 +108,7 @@ StoichiometryMath::StoichiometryMath (const StoichiometryMath& orig) :
  */
 StoichiometryMath& StoichiometryMath::operator=(const StoichiometryMath& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     this->mInternalId = rhs.mInternalId;
@@ -142,14 +129,13 @@ StoichiometryMath& StoichiometryMath::operator=(const StoichiometryMath& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 StoichiometryMath::accept (SBMLVisitor& v) const
 {
   return v.visit(*this);
 }
+/** @endcond */
 
 
 /*
@@ -277,6 +263,7 @@ int StoichiometryMath::removeFromParentAndDelete()
 void
 StoichiometryMath::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameSIdRefs(oldid, newid);
   }
@@ -285,6 +272,7 @@ StoichiometryMath::renameSIdRefs(const std::string& oldid, const std::string& ne
 void 
 StoichiometryMath::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameUnitSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameUnitSIdRefs(oldid, newid);
   }
@@ -526,6 +514,7 @@ StoichiometryMath::getDerivedUnitDefinition() const
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true if 
  * the math expression of this StoichiometryMath contains
@@ -582,13 +571,16 @@ StoichiometryMath::containsUndeclaredUnits()
     return false;
   }
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 bool 
 StoichiometryMath::containsUndeclaredUnits() const
 {
   return const_cast<StoichiometryMath *> (this)->containsUndeclaredUnits();
 }
+/** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
@@ -613,8 +605,6 @@ StoichiometryMath::writeElements (XMLOutputStream& stream) const
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 StoichiometryMath_t *
 StoichiometryMath_create (unsigned int level, unsigned int version)
@@ -715,8 +705,6 @@ StoichiometryMath_containsUndeclaredUnits(StoichiometryMath_t *stoichMath)
     static_cast<int>(static_cast<StoichiometryMath*>(stoichMath)
                                 ->containsUndeclaredUnits()) : 0;
 }
-
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

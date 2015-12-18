@@ -370,7 +370,7 @@ bool GraphicalObject::isSetId() const
   */
 int GraphicalObject::setId(const std::string& id)
 {
-  if (&id != NULL && id.empty())
+  if (id.empty())
     return unsetId();
   return SyntaxChecker::checkAndSetSId(id, mId);
 }
@@ -416,7 +416,7 @@ bool GraphicalObject::isSetMetaIdRef() const
   */
 int GraphicalObject::setMetaIdRef(const std::string& metaid)
 {
-  if (&metaid != NULL && metaid.empty())
+  if (metaid.empty())
     return unsetMetaIdRef();
   return SyntaxChecker::checkAndSetSId(metaid, mMetaIdRef);
 }
@@ -606,21 +606,21 @@ void GraphicalObject::readAttributes(const XMLAttributes& attributes,
     static_cast<ListOfGraphicalObjects*>(getParentSBMLObject())->size() < 2)
   {
     numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs - 1; n >= 0; n--)
+    for (int n = (int)numErrs - 1; n >= 0; n--)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownPackageAttribute)
       {
         const std::string details =
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("layout",
           LayoutLOSubGlyphAllowedAttribs,
           getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("layout",
           LayoutLOSubGlyphAllowedAttribs,
@@ -636,12 +636,12 @@ void GraphicalObject::readAttributes(const XMLAttributes& attributes,
   if (getErrorLog() != NULL)
   {
     numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs - 1; n >= 0; n--)
+    for (int n = (int)numErrs - 1; n >= 0; n--)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownPackageAttribute)
       {
         const std::string details =
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
 
         int tc = this->getTypeCode();
@@ -682,10 +682,10 @@ void GraphicalObject::readAttributes(const XMLAttributes& attributes,
           break;
         }
       }
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         int tc = this->getTypeCode();
 
@@ -905,7 +905,6 @@ void GraphicalObject::writeAttributes(XMLOutputStream& stream) const
 
 
 /** @cond doxygenLibsbmlInternal */
-
 #if LIBSBML_HAS_PACKAGE_RENDER
 
 bool isL3RenderNamespaceDeclared(const SBMLDocument* doc, const RenderGraphicalObjectPlugin* plugin)
@@ -968,9 +967,7 @@ GraphicalObject::getTypeCode() const
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 GraphicalObject::accept(SBMLVisitor& v) const
 {
@@ -985,6 +982,7 @@ GraphicalObject::accept(SBMLVisitor& v) const
 
   return true;
 }
+/** @endcond */
 
 /*
  * Creates an XMLNode object from this.
@@ -1250,7 +1248,6 @@ XMLNode ListOfGraphicalObjects::toXML() const
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 GraphicalObject_t *
 GraphicalObject_create(void)
@@ -1336,7 +1333,6 @@ GraphicalObject_unsetId(GraphicalObject_t *go)
   if (go == NULL) return;
   go->unsetId();
 }
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END
 

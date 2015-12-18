@@ -39,9 +39,7 @@
 #include "CompartmentOutsideCycles.h"
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -71,7 +69,7 @@ CompartmentOutsideCycles::~CompartmentOutsideCycles ()
  * Sets mHolds to true if no cycles are found, false otherwise.
  */
 void
-CompartmentOutsideCycles::check_ (const Model& m, const Model& object)
+CompartmentOutsideCycles::check_ (const Model& m, const Model&)
 {
   for (unsigned int n = 0; n < m.getNumCompartments(); n++)
   {
@@ -171,6 +169,5 @@ CompartmentOutsideCycles::logCycle (const Compartment* c, const IdList& cycle)
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */
 

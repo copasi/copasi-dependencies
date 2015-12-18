@@ -49,9 +49,7 @@
 #include <sbml/Delay.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -93,24 +91,18 @@ Delay::~Delay ()
 /*
  * Copy constructor. Creates a copy of this Delay.
  */
-Delay::Delay (const Delay& orig) :
-   SBase          ( orig )
- , mMath          ( NULL    )
+Delay::Delay (const Delay& orig)
+ : SBase          ( orig )
+ , mMath          ( NULL )
+ , mInternalId    ( orig.mInternalId )
 {
-  if (&orig == NULL)
+   
+  if (orig.mMath != NULL) 
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
+    mMath = orig.mMath->deepCopy();
+    mMath->setParentSBMLObject(this);
   }
-  else
-  {
-    mInternalId = orig.mInternalId;
- 
-    if (orig.mMath != NULL) 
-    {
-      mMath = orig.mMath->deepCopy();
-      mMath->setParentSBMLObject(this);
-    }
-  }
+  
 }
 
 
@@ -119,11 +111,7 @@ Delay::Delay (const Delay& orig) :
  */
 Delay& Delay::operator=(const Delay& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     this->mInternalId = rhs.mInternalId;
@@ -144,14 +132,13 @@ Delay& Delay::operator=(const Delay& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 Delay::accept (SBMLVisitor& v) const
 {
   return v.visit(*this);
 }
+/** @endcond */
 
 
 /*
@@ -283,6 +270,7 @@ Delay::getDerivedUnitDefinition() const
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true or @c false depending on whether 
  * the math expression of this InitialAssignment contains
@@ -338,8 +326,10 @@ Delay::containsUndeclaredUnits()
     return false;
   }
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true if 
  * the math expression of this InitialAssignment contains
@@ -350,6 +340,7 @@ Delay::containsUndeclaredUnits() const
 {
   return const_cast<Delay *> (this)->containsUndeclaredUnits();
 }
+/** @endcond */
 
 
 /*
@@ -415,6 +406,7 @@ int Delay::removeFromParentAndDelete()
 void
 Delay::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameSIdRefs(oldid, newid);
   }
@@ -423,6 +415,7 @@ Delay::renameSIdRefs(const std::string& oldid, const std::string& newid)
 void 
 Delay::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameUnitSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameUnitSIdRefs(oldid, newid);
   }
@@ -560,7 +553,7 @@ Delay::readAttributes (const XMLAttributes& attributes,
  * parents implementation of this method as well.
  */
 void
-Delay::readL2Attributes (const XMLAttributes& attributes)
+Delay::readL2Attributes (const XMLAttributes&)
 {
 }
 /** @endcond */
@@ -573,7 +566,7 @@ Delay::readL2Attributes (const XMLAttributes& attributes)
  * parents implementation of this method as well.
  */
 void
-Delay::readL3Attributes (const XMLAttributes& attributes)
+Delay::readL3Attributes (const XMLAttributes&)
 {
 }
 /** @endcond */
@@ -634,8 +627,6 @@ Delay::writeElements (XMLOutputStream& stream) const
 
 #endif /* __cplusplus */  
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 Delay_t *
 Delay_create (unsigned int level, unsigned int version)
@@ -733,7 +724,6 @@ Delay_containsUndeclaredUnits(Delay_t *d)
 {
   return (d != NULL) ? static_cast<int>(d->containsUndeclaredUnits()) : 0;
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

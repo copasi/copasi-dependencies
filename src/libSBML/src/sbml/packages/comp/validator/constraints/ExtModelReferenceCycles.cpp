@@ -36,9 +36,7 @@
 #include <sbml/util/IdList.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -66,7 +64,7 @@ ExtModelReferenceCycles::~ExtModelReferenceCycles ()
  * event assignments and assignment rules.
  */
 void
-ExtModelReferenceCycles::check_ (const Model& m, const Model& object)
+ExtModelReferenceCycles::check_ (const Model& m, const Model&)
 {
   mIdMap.clear();
 
@@ -140,7 +138,7 @@ ExtModelReferenceCycles::addAllReferences(const SBMLDocument* doc,
 void 
 ExtModelReferenceCycles::addModelReferences(const std::string &location, 
                           const CompSBMLDocumentPlugin* docPlug,
-                          const CompModelPlugin* modelPlug)
+                          const CompModelPlugin*)
 {
   for (unsigned int i = 0; i < docPlug->getNumExternalModelDefinitions(); i++)
   {
@@ -229,7 +227,7 @@ ExtModelReferenceCycles::determineCycles(const Model& m)
    
   for (unsigned int n = 0; n < variables.size(); n++)
   {
-    id = variables.at(n);
+    id = variables.at((int)n);
     range = mIdMap.equal_range(id);
     for (it = range.first; it != range.second; it++)
     {
@@ -307,6 +305,5 @@ ExtModelReferenceCycles::logCycle ( const SBase* object,
 #endif  /* __cplusplus */
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */
 

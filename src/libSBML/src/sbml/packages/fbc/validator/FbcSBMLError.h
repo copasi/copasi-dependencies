@@ -65,6 +65,10 @@ typedef enum
 , FbcLOObjectivesAllowedAttributes     = 2020206 /*!< Allowed attributes on ListOfObjectives */
 , FbcActiveObjectiveSyntax             = 2020207 /*!< Type of activeObjective attribute */
 , FbcActiveObjectiveRefersObjective    = 2020208 /*!< ActiveObjective must reference Objective */
+, FbcModelMustHaveStrict               = 2020209 /*!< 'Strict' attribute required on <code>&lt;model&gt;</code> */
+, FbcModelStrictMustBeBoolean          = 2020210 /*!< 'Strict' attribute must be boolean */
+, FbcLOGeneProductsAllowedElements     = 2020211 /*!< Allowed elements on ListOfGeneProducts */
+, FbcLOGeneProductsAllowedAttributes   = 2020212 /*!< Allowed attributes on ListOfGeneProducts */
 
 , FbcSpeciesAllowedL3Attributes        = 2020301 /*!< Species allowed attributes */
 , FbcSpeciesChargeMustBeInteger        = 2020302 /*!< Charge must be integer */
@@ -97,6 +101,53 @@ typedef enum
 , FbcFluxObjectReactionMustBeSIdRef    = 2020605 /*!< Datatype for 'fbc:reaction' must be SIdRef */
 , FbcFluxObjectReactionMustExist       = 2020606 /*!< 'fbc:reaction' must refer to valid reaction */
 , FbcFluxObjectCoefficientMustBeDouble = 2020607 /*!< The attribute 'fbc:coefficient' must be of the data type double */
+, FbcFluxObjectCoefficientWhenStrict   = 2020608 /*!< The 'fbc:coefficient' must be declared when strict */
+
+, FbcReactionOnlyOneGeneProdAss         = 2020701 /*!< One GeneProductAssociation in a Reaction */
+, FbcReactionAllowedAttributes          = 2020702 /*!< Fbc attributes on a Reaction */
+, FbcReactionLwrBoundSIdRef             = 2020703 /*!< LowerBound must be SIdRef */
+, FbcReactionUpBoundSIdRef              = 2020704 /*!< UpperBound must be SIdRef */
+, FbcReactionLwrBoundRefExists          = 2020705 /*!< LowerBound must point to Parameter */
+, FbcReactionUpBoundRefExists           = 2020706 /*!< UpperBound must point to Parameter */
+, FbcReactionMustHaveBoundsStrict       = 2020707 /*!< Reaction must have bounds when strict */
+, FbcReactionConstantBoundsStrict       = 2020708 /*!< Reaction bounds constant when strict */
+, FbcReactionBoundsMustHaveValuesStrict = 2020709 /*!< Reaction bounds must have values when strict */
+, FbcReactionBoundsNotAssignedStrict    = 2020710 /*!< Reaction bounds not assigned when strict */
+, FbcReactionLwrBoundNotInfStrict       = 2020711 /*!< LowerBound cannot be INF when strict */
+, FbcReactionUpBoundNotNegInfStrict     = 2020712 /*!< UpperBound cannot be -INF when strict */
+, FbcReactionLwrLessThanUpStrict        = 2020713 /*!< LowerBound less than upperBound when strict */
+, FbcSpeciesReferenceConstantStrict     = 2020714 /*!< SpeciesReferences must be constant when strict */
+, FbcSpeciesRefsStoichMustBeRealStrict  = 2020715 /*!< Stoichiometry of SpeciesReferences must be real valued when strict */
+, FbcSpeciesRefNotAssignedStrict        = 2020716 /*!< SpeciesReference not target of InitialAssignment when strict" */
+
+, FbcGeneProdAssocAllowedCoreAttribs    = 2020801 /*!< Allowed core attributes on <code>&lt;GeneProductAssociation&gt;</code> */
+, FbcGeneProdAssocAllowedCoreElements   = 2020802 /*!< Allowed core elements on <code>&lt;GeneProductAssociation&gt;</code> */
+, FbcGeneProdAssocAllowedAttribs        = 2020803 /*!< Allowed fbc attributes on <code>&lt;GeneProductAssociation&gt;</code> */
+, FbcGeneProdAssocIdSyntax              = 2020804 /*!< 'fbc:id' must have SId syntax */
+, FbcGeneProdAssocContainsOneElement    = 2020805 /*!< <code>&lt;GeneProductAssociation&gt;</code> must contain one concrete object */
+, FbcGeneProdAssocNameMustBeString      = 2020806 /*!< 'fbc:name' must be string */
+
+, FbcGeneProdRefAllowedCoreAttribs      = 2020901 /*!< Allowed core attributes on <code>&lt;GeneProductRef&gt;</code> */
+, FbcGeneProdRefAllowedCoreElements     = 2020902 /*!< Allowed core elements on <code>&lt;GeneProductRef&gt;</code> */
+, FbcGeneProdRefAllowedAttribs          = 2020903 /*!< Allowed fbc attributes on <code>&lt;GeneProductRef&gt;</code> */
+, FbcGeneProdRefGeneProductSIdRef       = 2020904 /*!< 'fbc:geneProduct' must be SIdRef */
+, FbcGeneProdRefGeneProductExists       = 2020908 /*!< 'fbc:geneProduct' must point to existing <code>&lt;GeneProduct&gt;</code> */
+
+, FbcAndAllowedCoreAttributes           = 2021001 /*!< Allowed core attributes on <code>&lt;And&gt;</code> */
+, FbcAndAllowedCoreElements             = 2021002 /*!< Allowed core elements on <code>&lt;And&gt;</code> */
+, FbcAndTwoChildren                     = 2021003 /*!< <code>&lt;And&gt;</code> must have at least two child elements */
+
+, FbcOrAllowedCoreAttributes            = 2021101 /*!< Allowed core attributes on <code>&lt;Or&gt;</code> */
+, FbcOrAllowedCoreElements              = 2021102 /*!< Allowed core elements on <code>&lt;Or&gt;</code> */
+, FbcOrTwoChildren                      = 2021103 /*!< <code>&lt;Or&gt;</code> must have at least two child elements */
+
+, FbcGeneProductAllowedCoreAttributes   = 2021201 /*!< Allowed core attributes on <code>&lt;GeneProduct&gt;</code> */
+, FbcGeneProductAllowedCoreElements     = 2021202 /*!< Allowed core elements on <code>&lt;GeneProduct&gt;</code> */
+, FbcGeneProductAllowedAttributes       = 2021203 /*!< Allowed fbc attributes on <code>&lt;GeneProduct&gt;</code> */
+, FbcGeneProductLabelMustBeString       = 2021204 /*!< 'fbc:label' must be string */
+, FbcGeneProductLabelMustBeUnique       = 2021205 /*!< 'fbc:label' must be unique */
+, FbcGeneProductNameMustBeString        = 2021206 /*!< 'fbc:name' must be string */
+, FbcGeneProductAssocSpeciesMustExist   = 2021207 /*!< 'fbc:associatedSpecies' must point to existing <code>&lt;species&gt;</code> */
 
 } FbcSBMLErrorCode_t;
 

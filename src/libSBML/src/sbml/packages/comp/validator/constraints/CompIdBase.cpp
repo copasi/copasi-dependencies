@@ -33,9 +33,7 @@
 #include <sbml/RateRule.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -86,7 +84,7 @@ CompIdBase::getPreamble ()
  * Constraint.  Override the doCheck() method to define your own subset.
  */
 void
-CompIdBase::check_ (const Model& m, const Model& object)
+CompIdBase::check_ (const Model& m, const Model&)
 {
   doCheck(m);
 }
@@ -293,6 +291,5 @@ CompIdBase::logIdConflict (const std::string& id, const SBase& object)
 #endif  /* __cplusplus */
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */
 

@@ -50,7 +50,7 @@ ElementFilter::~ElementFilter()
 }
 
 bool 
-ElementFilter::filter(const SBase* element)
+ElementFilter::filter(const SBase*)
 {
   return false;
 }
@@ -68,5 +68,4 @@ ElementFilter::setUserData(void* userData)
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

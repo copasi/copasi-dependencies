@@ -137,7 +137,7 @@ Model::convertL1ToL2 ()
 
 /* convert from L1 to L3 */
 void 
-Model::convertL1ToL3 ()
+Model::convertL1ToL3 (bool addDefaultUnits /*= true*/)
 {
   addModifiers();
 
@@ -145,7 +145,8 @@ Model::convertL1ToL3 ()
 
   setSpatialDimensions();
 
-  addDefinitionsForDefaultUnits();
+  if (addDefaultUnits)
+    addDefinitionsForDefaultUnits();
 
   assignRequiredValues();
 
@@ -155,9 +156,10 @@ Model::convertL1ToL3 ()
 
 /* convert from L2 to L3 */
 void 
-Model::convertL2ToL3 (bool strict)
+Model::convertL2ToL3 (bool strict, bool addDefaultUnits /*= true*/)
 {
-  addDefinitionsForDefaultUnits();
+  if (addDefaultUnits)
+    addDefinitionsForDefaultUnits();
 
   setSpeciesReferenceConstantValueAndStoichiometry();
 
@@ -315,7 +317,7 @@ Model::dealWithDefaultValues()
       double exp = u->getExponentAsDouble();
       bool replaceExp = (u->isSetExponent() == true &&
         util_isEqual(exp, 1.0) == false);
-      unsigned int scale = u->getScale();
+      int scale = u->getScale();
       bool replaceScale = (u->isSetScale() == true && scale != 0);
       double mult = u->getMultiplier();
       bool replaceMult = (u->isSetMultiplier() == true &&
@@ -1975,7 +1977,6 @@ void dealWithAssigningL1Stoichiometry(Model & m, bool l2)
     }
   }
 }
-
 /** @endcond **/
 
 LIBSBML_CPP_NAMESPACE_END

@@ -38,6 +38,8 @@
 
 #include <sbml/packages/fbc/util/CobraToFbcConverter.h>
 #include <sbml/packages/fbc/util/FbcToCobraConverter.h>
+#include <sbml/packages/fbc/util/FbcV1ToV2Converter.h>
+#include <sbml/packages/fbc/util/FbcV2ToV1Converter.h>
 
 #include <sbml/packages/fbc/sbml/Association.h>
 #include <sbml/packages/fbc/sbml/FluxBound.h>
@@ -47,4 +49,14 @@
 
 #include <sbml/packages/fbc/validator/FbcSBMLError.h>
 
-#endif
+#include <sbml/packages/fbc/extension/FbcReactionPlugin.h>
+#include <sbml/packages/fbc/common/FbcExtensionTypes.h>
+#include <sbml/packages/fbc/sbml/FbcAssociation.h>
+#include <sbml/packages/fbc/sbml/GeneProductAssociation.h>
+#include <sbml/packages/fbc/sbml/GeneProduct.h>
+#include <sbml/packages/fbc/sbml/GeneProductRef.h>
+#include <sbml/packages/fbc/sbml/FbcAnd.h>
+#include <sbml/packages/fbc/sbml/FbcOr.h>
+
+#endif // USE_FBC 
+

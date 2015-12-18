@@ -49,9 +49,7 @@
 #include <sbml/SBMLReader.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -130,7 +128,9 @@ public:
 
 protected:
 
+  /** @cond doxygenLibsbmlInternal */
   std::list< TConstraint<T>* > constraints;
+  /** @endcond */
 };
 
 
@@ -416,7 +416,7 @@ class ValidatingVisitor: public SBMLVisitor
 {
 public:
 
-  ValidatingVisitor (Validator& v, const Model& m) : v(v), m(m) { }
+  ValidatingVisitor (Validator& validator, const Model& model) : v(validator), m(model) { }
 
 
   void visit (const SBMLDocument& x)
@@ -628,8 +628,10 @@ public:
 
 protected:
 
+  /** @cond doxygenLibsbmlInternal */
   Validator&   v;
   const Model& m;
+  /** @endcond */
 };
 
 
@@ -706,7 +708,6 @@ Validator::getFailures () const
 void
 Validator::logFailure (const SBMLError& msg)
 {
-  if (&msg == NULL) return;
   mFailures.push_back(msg);
 }
 
@@ -717,29 +718,29 @@ Validator::logFailure (const SBMLError& msg)
 class MatchId
 {
 public:
-  MatchId(unsigned int id) : id(id) {};
+  MatchId(unsigned int id) : mId(id) {};
 
   bool operator() (XMLError e) const
   {
-    return e.getErrorId() == id;
+    return e.getErrorId() == mId;
   };
 
 private:
-  unsigned int id;
+  unsigned int mId;
 };
 
 class DontMatchId
 {
 public:
-  DontMatchId(unsigned int id) : id(id) {};
+  DontMatchId(unsigned int id) : mId(id) {};
 
   bool operator() (XMLError e) const
   {
-    return e.getErrorId() != id;
+    return e.getErrorId() != mId;
   };
 
 private:
-  unsigned int id;
+  unsigned int mId;
 };
 
 /*
@@ -751,8 +752,6 @@ private:
 unsigned int
 Validator::validate (const SBMLDocument& d)
 {
-  if (&d == NULL) return 0;
-
   Model* m = const_cast<SBMLDocument&>(d).getModel();
 
   if (m != NULL)
@@ -812,8 +811,6 @@ Validator::validate (const SBMLDocument& d)
 unsigned int
 Validator::validate (const std::string& filename)
 {
-  if (&filename == NULL) return 0;
-
   SBMLReader    reader;
   SBMLDocument* d = reader.readSBML(filename);
 
@@ -832,7 +829,6 @@ Validator::validate (const std::string& filename)
 
 
 /** @cond doxygenIgnored */
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END
 

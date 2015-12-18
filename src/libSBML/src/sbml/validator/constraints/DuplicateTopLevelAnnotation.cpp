@@ -41,9 +41,7 @@
 #include "DuplicateTopLevelAnnotation.h"
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -70,7 +68,7 @@ DuplicateTopLevelAnnotation::~DuplicateTopLevelAnnotation ()
  * Checks whether all annotations have duplicate top level namespaces
  */
 void
-DuplicateTopLevelAnnotation::check_ (const Model& m, const Model& object)
+DuplicateTopLevelAnnotation::check_ (const Model&, const Model& object)
 {
   /* check the annotations on each object */
 
@@ -309,5 +307,4 @@ DuplicateTopLevelAnnotation::logDuplicate (std::string name, const SBase& object
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

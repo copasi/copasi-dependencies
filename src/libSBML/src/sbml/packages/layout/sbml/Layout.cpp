@@ -450,15 +450,8 @@ int Layout::setName (const std::string& name)
   /* if this is setting an L2 name the type is string
    * whereas if it is setting an L1 name its type is SId
    */
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
-  {
-    mName = name;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 /*
@@ -1362,7 +1355,7 @@ Layout::createAdditionalGraphicalObject ()
 SpeciesReferenceGlyph* 
 Layout::createSpeciesReferenceGlyph ()
 {
-  int size = this->mReactionGlyphs.size();
+  unsigned int size = this->mReactionGlyphs.size();
   if (size == 0) return NULL;
 
   ReactionGlyph* r =dynamic_cast<ReactionGlyph*> (this->getReactionGlyph(size - 1));
@@ -1379,7 +1372,7 @@ Layout::createSpeciesReferenceGlyph ()
 LineSegment* 
 Layout::createLineSegment()
 {
-  int size = this->mReactionGlyphs.size();
+  unsigned int size = this->mReactionGlyphs.size();
   if (size == 0) return NULL;
 
   LineSegment*   ls = NULL;
@@ -1409,7 +1402,7 @@ Layout::createLineSegment()
 CubicBezier* 
 Layout::createCubicBezier ()
 {
-  int size = this->mReactionGlyphs.size();
+  unsigned int size = this->mReactionGlyphs.size();
   if (size == 0) return NULL;
 
   CubicBezier*   cb = NULL;
@@ -1545,21 +1538,21 @@ Layout::readAttributes (const XMLAttributes& attributes,
     static_cast<ListOfLayouts*>(getParentSBMLObject())->size() < 2)
   {
     numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs-1; n >= 0; n--)
+    for (int n = (int)numErrs-1; n >= 0; n--)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownPackageAttribute)
       {
         const std::string details =
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("layout", 
           LayoutLOLayoutsAllowedAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("layout", 
           LayoutLOLayoutsAllowedAttributes,
@@ -1574,20 +1567,20 @@ Layout::readAttributes (const XMLAttributes& attributes,
   if (getErrorLog() != NULL)
   {
     numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs-1; n >= 0; n--)
+    for (int n = (int)numErrs-1; n >= 0; n--)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownPackageAttribute)
       {
         const std::string details =
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("layout", LayoutLayoutAllowedAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("layout", LayoutLayoutAllowedCoreAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
@@ -1641,7 +1634,7 @@ Layout::writeAttributes (XMLOutputStream& stream) const
 
   if (isSetName())
   {
-    stream.writeAttribute("name", getPrefix(), mId);
+    stream.writeAttribute("name", getPrefix(), mName);
   }
 
   //
@@ -1701,6 +1694,7 @@ Layout::clone() const
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 bool
 Layout::accept (SBMLVisitor& v) const
 {
@@ -1718,6 +1712,7 @@ Layout::accept (SBMLVisitor& v) const
   
   return true;
 }
+/** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
@@ -2571,7 +2566,6 @@ XMLNode ListOfTextGlyphs::toXML() const
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 Layout_t *
 Layout_create (void)
@@ -3021,7 +3015,6 @@ Layout_unsetId (Layout_t *l)
   if (l == NULL) return;
   l->unsetId();
 }
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END
 

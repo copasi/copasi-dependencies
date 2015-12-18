@@ -194,7 +194,6 @@ ASTUnaryFunctionNode::isSqrt() const
 void
 ASTUnaryFunctionNode::write(XMLOutputStream& stream) const
 {
-  if (&stream == NULL) return;
 
   stream.startElement("apply");
     
@@ -318,7 +317,5 @@ ASTUnaryFunctionNode::hasCorrectNumberArguments() const
 
 
 LIBSBML_CPP_NAMESPACE_END
-
-
 /** @endcond */
 

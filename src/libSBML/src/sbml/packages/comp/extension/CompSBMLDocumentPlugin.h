@@ -29,14 +29,13 @@
  *
  * The CompSBMLDocumentPlugin class inherits from the SBMLDocumentPlugin
  * class, and codifies the extentions to the SBMLDocument class defined in
- * the SBML Level&nbsp;3 @ref comp
- * @if java "Hierarchical %Model Composition"@endif@~ 
- * package (&ldquo;comp&rdquo;).  This extention allows multiple Model
- * objects to be defined in a single SBMLDocument, stored in an optional
- * child ListOfModelDefinitions object, as well as define references to Model
- * objects in other files, stored in the optional child
- * ListOfExternalModelDefinitions object.  These model definitions, if
- * present, allow Submodel objects to reference other Models to instantiate.
+ * the SBML Level&nbsp;3 @ref comp (&ldquo;comp&rdquo;) package.  This
+ * extention allows multiple Model objects to be defined in a single
+ * SBMLDocument, stored in an optional child ListOfModelDefinitions object,
+ * as well as define references to Model objects in other files, stored in
+ * the optional child ListOfExternalModelDefinitions object.  These model
+ * definitions, if present, allow Submodel objects to reference other Models
+ * to instantiate.
  *
  * The presence of ModelDefinitions and ExternalModelDefinitions in an
  * SBMLDocument does not change the default Model in the file.  If a
@@ -222,9 +221,7 @@ public:
 
 
   /** @cond doxygenLibsbmlInternal */
-
   virtual bool accept(SBMLVisitor& v) const;
-
   /** @endcond */
 
 
@@ -603,7 +600,6 @@ public:
   friend class ExternalModelDefinition; //So that it can call 'getSBMLDocumentFromURI' but nothing else can.
 
   /** @cond doxygenLibsbmlInternal */
-
   /* retrieve the override flattening flag */
   bool getOverrideCompFlattening() const;
 
@@ -611,7 +607,6 @@ public:
 
 
   /** @cond doxygenLibsbmlInternal */
-
   /* retrieve the override flattening flag */
   void setOverrideCompFlattening(bool overrideCompFlattening);
 

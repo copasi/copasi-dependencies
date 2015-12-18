@@ -185,7 +185,6 @@ XMLTokenizer::XML (const string& version, const string& encoding)
 void
 XMLTokenizer::startElement (const XMLToken& element)
 {
-  if (&element == NULL) return; 
 
   if (mInChars || mInStart)
   {
@@ -231,7 +230,7 @@ XMLTokenizer::endElement (const XMLToken& element)
     mCurrent.setEnd();
     mTokens.push_back( mCurrent );
   }
-  else if (&element != NULL) 
+  else
   {
     mTokens.push_back(element);
   }
@@ -244,7 +243,6 @@ XMLTokenizer::endElement (const XMLToken& element)
 void
 XMLTokenizer::characters (const XMLToken& data)
 {
-  if (&data == NULL) return; 
 
   if (mInStart)
   {
@@ -448,22 +446,17 @@ XMLTokenizer::determineNumSpecificChildren(bool & valid,
   unsigned int depth = 0;
   unsigned int index = 0;
   std::string name;
+  std::string prevName = "";
+  std::string rogueTag = "";
   
   XMLToken next = mTokens.at(index);
   name = next.getName();
-  if (next.isStart() == true && next.isEnd() == true && index < size)
+  if (next.isStart() == true && next.isEnd() == true && 
+    name == qualifier && index < size)
   {
-    //if (qualifier.empty() == false && name == qualifier)
-    //{
-      numQualifiers++;
-      index++;
-      next = mTokens.at(index);
-    //}
-    //else
-    //{
-    //  index++;
-    //  next = mTokens.at(index);
-    //}
+    numQualifiers++;
+    index++;
+    next = mTokens.at(index);
   }
   bool cleanBreak = false;
 
@@ -476,10 +469,19 @@ XMLTokenizer::determineNumSpecificChildren(bool & valid,
       next = mTokens.at(index);
     }
 
-    if (next.isEnd() == true && next.getName() == container)
+    if (next.isEnd() == true)
     {
-      valid = true;
-      break;
+      if (next.getName() == container)
+      {
+        valid = true;
+        break;
+      }
+      //else if (!rogueTag.empty() && next.getName() == rogueTag)
+      //{
+      //  index++;
+      //  next = mTokens.at(index);
+      //  break;
+      //}
     }
     // iterate to first start element
     while (next.isStart() == false && index < size-1)
@@ -514,6 +516,22 @@ XMLTokenizer::determineNumSpecificChildren(bool & valid,
 
     // record the name of the start element
     name = next.getName();
+
+    // need to deal with the weird situation where someone has used a tag
+    // after the piece but before the next correct element
+    //if (container == "piecewise")
+    //{
+    //  if (prevName == "piece")
+    //  {
+    //    if (name != "piece" && name != "otherwise")
+    //    {
+    //      rogueTag = name;
+    //      index++;
+    //      next = mTokens.at(index);
+    //      continue;
+    //    }
+    //  }
+    //}
     if (qualifier.empty() == true || name == qualifier)
     {
       numQualifiers++;
@@ -562,6 +580,7 @@ XMLTokenizer::determineNumSpecificChildren(bool & valid,
       }
     }
 
+    prevName = name;
     index++;
     if (index < size)
     {
@@ -572,18 +591,68 @@ XMLTokenizer::determineNumSpecificChildren(bool & valid,
   // we might have hit the end of the loop and the end of the correct tag
   if (valid == false && cleanBreak == true)
   {
-  if (index >= size-2 && next.isEnd() == true && next.getName() == container)
-  {
-      valid = true;
+    if (index >= size-2 && next.isEnd() == true && next.getName() == container)
+    {
+        valid = true;
+    }
   }
-  }
-  //if (index >= size-2 && next.isEnd() == true && next.getName() == container)
-  //{
-  //    valid = true;
-  //}
 
   return numQualifiers;
 }
+
+bool
+XMLTokenizer::containsChild(bool & valid, 
+                            const std::string& qualifier, 
+                            const std::string& container)
+{
+  valid = false;
+  //unsigned int numQualifiers = 0;
+  
+
+  size_t size = mTokens.size();
+  if (size < 2)
+  {
+    return false;
+  }
+
+  unsigned int index = 0;
+  //unsigned int depth = 0;
+  std::string name;
+  
+  XMLToken next = mTokens.at(index);
+  name = next.getName();
+
+  while (index < size-2)
+  {
+    // skip any text elements
+    while(next.isText() == true && index < size-1)
+    {
+      index++;
+      next = mTokens.at(index);
+    }
+
+    if (next.getName() == qualifier)
+    {
+      valid = true;
+      return true;
+    }
+
+    index++;
+    if (index < size)
+    {
+      next = mTokens.at(index);
+    }
+  }  
+
+  // we might have hit the end of the loop and the end of the correct tag
+  if (valid == false && index >= size-2)
+  {
+    valid = true;
+  }
+
+  return false;
+}
+
 
 
 LIBSBML_CPP_NAMESPACE_END

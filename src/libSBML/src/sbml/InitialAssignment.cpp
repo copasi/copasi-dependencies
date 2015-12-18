@@ -46,9 +46,7 @@
 #include <sbml/InitialAssignment.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -92,22 +90,15 @@ InitialAssignment::~InitialAssignment ()
  */
 InitialAssignment::InitialAssignment (const InitialAssignment& orig) :
    SBase   ( orig )
+ , mSymbol ( orig.mSymbol)
  , mMath   ( NULL    )
 {
-  if (&orig == NULL)
+  if (orig.mMath != NULL) 
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
+    mMath = orig.mMath->deepCopy();
+    mMath->setParentSBMLObject(this);
   }
-  else
-  {
-    mSymbol  = orig.mSymbol;
-
-    if (orig.mMath != NULL) 
-    {
-      mMath = orig.mMath->deepCopy();
-      mMath->setParentSBMLObject(this);
-    }
-  }
+ 
 }
 
 
@@ -116,15 +107,10 @@ InitialAssignment::InitialAssignment (const InitialAssignment& orig) :
  */
 InitialAssignment& InitialAssignment::operator=(const InitialAssignment& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     this->mSymbol = rhs.mSymbol;
-
     delete mMath;
     if (rhs.mMath != NULL) 
     {
@@ -141,18 +127,13 @@ InitialAssignment& InitialAssignment::operator=(const InitialAssignment& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the Model's next
- * InitialAssignment (if available).
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 InitialAssignment::accept (SBMLVisitor& v) const
 {
   return v.visit(*this);
 }
+/** @endcond */
 
 
 /*
@@ -229,11 +210,7 @@ InitialAssignment::isSetMath () const
 int
 InitialAssignment::setSymbol (const std::string& sid)
 {
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(sid)))
+  if (!(SyntaxChecker::isValidInternalSId(sid)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -359,6 +336,7 @@ InitialAssignment::getDerivedUnitDefinition() const
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true if 
  * the math expression of this InitialAssignment contains
@@ -415,13 +393,16 @@ InitialAssignment::containsUndeclaredUnits()
     return false;
   }
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 bool 
 InitialAssignment::containsUndeclaredUnits() const
 {
   return const_cast<InitialAssignment *> (this)->containsUndeclaredUnits();
 }
+/** @endcond */
 
 
 /*
@@ -479,6 +460,7 @@ InitialAssignment::hasRequiredElements() const
 void
 InitialAssignment::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (mSymbol == oldid) {
     setSymbol(newid);
   }
@@ -490,6 +472,7 @@ InitialAssignment::renameSIdRefs(const std::string& oldid, const std::string& ne
 void 
 InitialAssignment::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameUnitSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameUnitSIdRefs(oldid, newid);
   }
@@ -860,11 +843,11 @@ ListOfInitialAssignments::get(unsigned int n) const
  */
 struct IdEqIA : public unary_function<SBase*, bool>
 {
-  const string& id;
+  const string& mId;
 
-  IdEqIA (const string& id) : id(id) { }
+  IdEqIA (const string& id) : mId(id) { }
   bool operator() (SBase* sb) 
-       { return static_cast <InitialAssignment *> (sb)->getId() == id; }
+       { return static_cast <InitialAssignment *> (sb)->getId() == mId; }
 };
 
 
@@ -883,16 +866,10 @@ ListOfInitialAssignments::get (const std::string& sid) const
 {
   vector<SBase*>::const_iterator result;
 
-  if (&(sid) == NULL)
-  {
-    return NULL;
-  }
-  else
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEqIA(sid) );
-    return (result == mItems.end()) ? NULL : 
-                                static_cast <InitialAssignment*> (*result);
-  }
+  result = find_if( mItems.begin(), mItems.end(), IdEqIA(sid) );
+  return (result == mItems.end()) ? NULL : 
+                              static_cast <InitialAssignment*> (*result);
+  
 }
 
 
@@ -911,15 +888,12 @@ ListOfInitialAssignments::remove (const std::string& sid)
   SBase* item = NULL;
   vector<SBase*>::iterator result;
 
-  if (&(sid) != NULL)
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEqIA(sid) );
+  result = find_if( mItems.begin(), mItems.end(), IdEqIA(sid) );
 
-    if (result != mItems.end())
-    {
-      item = *result;
-      mItems.erase(result);
-    }
+  if (result != mItems.end())
+  {
+    item = *result;
+    mItems.erase(result);
   }
 
   return static_cast <InitialAssignment*> (item);
@@ -993,8 +967,6 @@ ListOfInitialAssignments::createObject (XMLInputStream& stream)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 InitialAssignment_t *
 InitialAssignment_create (unsigned int level, unsigned int version)
@@ -1154,7 +1126,6 @@ ListOfInitialAssignments_removeById (ListOf_t *lo, const char *sid)
   else
     return NULL;
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

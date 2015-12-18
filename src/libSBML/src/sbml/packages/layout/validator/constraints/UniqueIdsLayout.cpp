@@ -38,9 +38,7 @@
 #include <sbml/packages/layout/sbml/GeneralGlyph.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -69,7 +67,7 @@ UniqueIdsLayout::~UniqueIdsLayout ()
  * Constraint.  Override the doCheck() method to define your own subset.
  */
 void
-UniqueIdsLayout::check_ (const Model& m, const Model& object)
+UniqueIdsLayout::check_ (const Model& m, const Model& )
 {
   doCheck(m);
 }
@@ -202,7 +200,7 @@ UniqueIdsLayout::doCheck (const Model& m)
   const LayoutModelPlugin * modelPlug = 
     static_cast<const LayoutModelPlugin*>(m.getPlugin("layout"));
 
-  size = modelPlug->getNumLayouts();
+  size = (unsigned int)modelPlug->getNumLayouts();
   for (n = 0; n < size; ++n) 
   {
 
@@ -356,5 +354,4 @@ UniqueIdsLayout::createExistingMap (const Model& m)
 
 #endif /* __cplusplus */
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

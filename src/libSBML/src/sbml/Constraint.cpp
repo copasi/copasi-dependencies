@@ -48,9 +48,7 @@
 #include <sbml/util/util.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -98,19 +96,13 @@ Constraint::Constraint (const Constraint& orig) :
  , mMath   ( NULL   )
  , mMessage( NULL   )
 {
-  if (&orig == NULL)
+  if (orig.mMath != NULL)    
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
+    mMath    = orig.mMath->deepCopy();
+    mMath->setParentSBMLObject(this);
   }
-  else
-  {
-    if (orig.mMath != NULL)    
-    {
-      mMath    = orig.mMath->deepCopy();
-      mMath->setParentSBMLObject(this);
-    }
-    if (orig.mMessage != NULL) mMessage = new XMLNode(*orig.mMessage);
-  }
+  if (orig.mMessage != NULL) mMessage = new XMLNode(*orig.mMessage);
+  
 }
 
 
@@ -119,11 +111,7 @@ Constraint::Constraint (const Constraint& orig) :
  */
 Constraint& Constraint::operator=(const Constraint& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
 
@@ -149,18 +137,13 @@ Constraint& Constraint::operator=(const Constraint& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the Model's next
- * Constraint (if available).
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 Constraint::accept (SBMLVisitor& v) const
 {
   return v.visit(*this);
 }
+/** @endcond */
 
 
 /*
@@ -297,11 +280,7 @@ Constraint::setMessage (const std::string& message,
                         bool addXHTMLMarkup)
 {
   int success = LIBSBML_OPERATION_FAILED;
-  if (&(message) == NULL)
-  {
-    success = LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (message.empty())
+  if (message.empty())
   {
     success = unsetMessage();
   }
@@ -413,6 +392,7 @@ Constraint::unsetMessage ()
 void
 Constraint::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameSIdRefs(oldid, newid);
   }
@@ -421,6 +401,7 @@ Constraint::renameSIdRefs(const std::string& oldid, const std::string& newid)
 void 
 Constraint::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameUnitSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameUnitSIdRefs(oldid, newid);
   }
@@ -669,7 +650,7 @@ Constraint::readL2Attributes (const XMLAttributes& attributes)
  * parents implementation of this method as well.
  */
 void
-Constraint::readL3Attributes (const XMLAttributes& attributes)
+Constraint::readL3Attributes (const XMLAttributes&)
 {
 }
 /** @endcond */
@@ -864,8 +845,6 @@ ListOfConstraints::createObject (XMLInputStream& stream)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 Constraint_t *
 Constraint_create (unsigned int level, unsigned int version)
@@ -1020,7 +999,6 @@ Constraint_unsetMessage (Constraint_t *c)
     return LIBSBML_INVALID_OBJECT;
   }
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

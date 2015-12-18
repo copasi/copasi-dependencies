@@ -299,12 +299,12 @@ UnitFormulaFormatter::getUnitDefinition(const ASTNode * node,
     /** 
       * Clears two map objects because all recursive call has finished.
       */ 
-    std::map<const ASTNode*, UnitDefinition*>::iterator it = 
+    std::map<const ASTNode*, UnitDefinition*>::iterator it1 =
                                                 unitDefinitionMap.begin();
-    while( it != unitDefinitionMap.end() )
+    while( it1 != unitDefinitionMap.end() )
     {
-      delete it->second;
-      ++it;
+      delete it1->second;
+      ++it1;
     }
     unitDefinitionMap.clear();
     undeclaredUnitsMap.clear();
@@ -412,8 +412,8 @@ UnitFormulaFormatter::getUnitDefinitionFromTimes(const ASTNode * node,
 { 
   UnitDefinition * ud;
   UnitDefinition * tempUD;
-  int numChildren = node->getNumChildren();
-  int n = 0;
+  unsigned int numChildren = node->getNumChildren();
+  unsigned int n = 0;
   unsigned int i;
   unsigned int currentIgnore = mCanIgnoreUndeclaredUnits;
 
@@ -493,8 +493,9 @@ UnitFormulaFormatter::getUnitDefinitionFromDivide(const ASTNode * node,
   {
     unit = tempUD->getUnit(i);
     /* dont change the exponent on a dimensionless unit */
-    if (unit->getKind() != UNIT_KIND_DIMENSIONLESS)
-      unit->setExponentUnitChecking(-1 * unit->getExponentUnitChecking());
+    /* actually do as there may be a multiplier */
+  //  if (unit->getKind() != UNIT_KIND_DIMENSIONLESS)
+    unit->setExponentUnitChecking(-1 * unit->getExponentUnitChecking());
     ud->addUnit(unit);
   }
   delete tempUD;
@@ -756,7 +757,7 @@ UnitFormulaFormatter::getUnitDefinitionFromDelay(const ASTNode * node,
   */
 UnitDefinition * 
 UnitFormulaFormatter::getUnitDefinitionFromDimensionlessReturnFunction(
-                                const ASTNode *node, bool inKL, int reactNo)
+                                const ASTNode *, bool , int )
 { 
   UnitDefinition * ud;
   Unit *unit;
@@ -988,9 +989,9 @@ UnitFormulaFormatter::getUnitDefinitionFromOther(const ASTNode * node,
       //n = 0;
       if (inKL)
       {
-        if (model->getReaction(reactNo)->isSetKineticLaw())
+        if (model->getReaction((unsigned int)reactNo)->isSetKineticLaw())
         {
-          kl = model->getReaction(reactNo)->getKineticLaw();
+          kl = model->getReaction((unsigned int)reactNo)->getKineticLaw();
           ud = getUnitDefinitionFromParameter(
                                            kl->getParameter(node->getName()));
           if (ud != NULL)
@@ -1129,13 +1130,13 @@ UnitFormulaFormatter::getUnitDefinitionFromOther(const ASTNode * node,
             }
             else if (model->getUnitDefinition(extentUnits) != NULL)
             {
-              for (unsigned int n = 0; 
-                n < model->getUnitDefinition(extentUnits)->getNumUnits(); n++)
+              for (unsigned int n1 = 0;
+                n1 < model->getUnitDefinition(extentUnits)->getNumUnits(); n1++)
               {
                 // need to prevent level/version mismatches
                 // ud will have default level and veersion
                 const Unit* uFromModel = 
-                          model->getUnitDefinition(extentUnits)->getUnit(n);
+                          model->getUnitDefinition(extentUnits)->getUnit(n1);
                 if (uFromModel  != NULL)
                 {
                   Unit* u = ud->createUnit();
@@ -1164,13 +1165,13 @@ UnitFormulaFormatter::getUnitDefinitionFromOther(const ASTNode * node,
             }
             else if (model->getUnitDefinition(timeUnits) != NULL)
             {
-              for (unsigned int n = 0; 
-                n < model->getUnitDefinition(timeUnits)->getNumUnits(); n++)
+              for (unsigned int n1 = 0; 
+                n1 < model->getUnitDefinition(timeUnits)->getNumUnits(); n1++)
               {
                 // need to prevent level/version mismatches
                 // ud will have default level and veersion
                 const Unit* uFromModel = 
-                            model->getUnitDefinition(timeUnits)->getUnit(n);
+                            model->getUnitDefinition(timeUnits)->getUnit(n1);
                 if (uFromModel  != NULL)
                 {
                   Unit* u = ud->createUnit();
@@ -2550,7 +2551,6 @@ UnitFormulaFormatter::possibleToUseUnitsData(FormulaUnitsData * fud)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 /* NOT YET NECESSARY 
 LIBSBML_EXTERN
 UnitFormulaFormatter_t* 
@@ -2628,7 +2628,6 @@ UnitFormulaFormatter_resetFlags(UnitFormulaFormatter_t * uff)
 
 
 */
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

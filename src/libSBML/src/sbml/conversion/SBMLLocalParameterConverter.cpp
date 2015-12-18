@@ -113,7 +113,7 @@ SBMLLocalParameterConverter::getDefaultProperties() const
 bool 
 SBMLLocalParameterConverter::matchesProperties(const ConversionProperties &props) const
 {
-  if (&props == NULL || !props.hasOption("promoteLocalParameters"))
+  if (!props.hasOption("promoteLocalParameters"))
     return false;
   return true;
 }
@@ -193,8 +193,6 @@ SBMLLocalParameterConverter::convert()
 }
 
 /** @cond doxygenIgnored */
-
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

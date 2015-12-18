@@ -45,16 +45,9 @@ SBMLResolver::SBMLResolver ()
 /*
  * Copy constructor.
  */
-SBMLResolver::SBMLResolver(const SBMLResolver& orig)
+SBMLResolver::SBMLResolver(const SBMLResolver& )
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    //
-  }
+  //  
 }
 
 
@@ -73,11 +66,7 @@ SBMLResolver::~SBMLResolver ()
 SBMLResolver&
 SBMLResolver::operator=(const SBMLResolver& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     //
   }
@@ -94,20 +83,18 @@ SBMLResolver::clone () const
 
 
 SBMLDocument*
-SBMLResolver::resolve(const std::string &uri, const std::string& baseUri/*=""*/) const
+SBMLResolver::resolve(const std::string &, const std::string& /*=""*/) const
 {
   return NULL;
 }
 
 SBMLUri* 
-SBMLResolver::resolveUri(const std::string &uri, const std::string& baseUri/*=""*/) const
+SBMLResolver::resolveUri(const std::string &, const std::string& /*=""*/) const
 {
   return NULL;
 }
 
 /** @cond doxygenIgnored */
-
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

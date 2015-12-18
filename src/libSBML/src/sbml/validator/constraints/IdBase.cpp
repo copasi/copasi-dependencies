@@ -39,9 +39,7 @@
 #include <sbml/ModifierSpeciesReference.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -91,7 +89,7 @@ IdBase::getPreamble ()
  * Constraint.  Override the doCheck() method to define your own subset.
  */
 void
-IdBase::check_ (const Model& m, const Model& object)
+IdBase::check_ (const Model& m, const Model&)
 {
   doCheck(m);
 }
@@ -246,6 +244,5 @@ IdBase::logIdConflict (const std::string& id, const SBase& object)
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */
 

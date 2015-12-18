@@ -36,9 +36,7 @@
 #include <sbml/packages/qual/extension/QualModelPlugin.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -65,7 +63,7 @@ QualUniqueModelWideIds::~QualUniqueModelWideIds ()
  * Constraint.  Override the doCheck() method to define your own subset.
  */
 void
-QualUniqueModelWideIds::check_ (const Model& m, const Model& object)
+QualUniqueModelWideIds::check_ (const Model& m, const Model& )
 {
   doCheck(m);
 }
@@ -283,5 +281,4 @@ QualUniqueModelWideIds::createExistingMap (const Model& m)
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

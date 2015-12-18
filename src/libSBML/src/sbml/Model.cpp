@@ -59,10 +59,10 @@
 #include <sbml/extension/SBMLExtensionRegistry.h>
 #include <sbml/extension/SBasePlugin.h>
 
+
+
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -157,53 +157,44 @@ Model::~Model ()
 /*
  * Copy constructor.
  */
-Model::Model(const Model& orig) :
-       SBase                (orig                    )
-     , mFunctionDefinitions (orig.mFunctionDefinitions)
-     , mUnitDefinitions     (orig.mUnitDefinitions)
-     , mCompartmentTypes    (orig.mCompartmentTypes)
-     , mSpeciesTypes        (orig.mSpeciesTypes)
-     , mCompartments        (orig.mCompartments)
-     , mSpecies             (orig.mSpecies)
-     , mParameters          (orig.mParameters)
-     , mInitialAssignments  (orig.mInitialAssignments)
-     , mRules               (orig.mRules)
-     , mConstraints         (orig.mConstraints)
-     , mReactions           (orig.mReactions)
-     , mEvents              (orig.mEvents)
+Model::Model(const Model& orig)
+  : SBase                (orig)
+  , mId                  (orig.mId)
+  , mName                (orig.mName)
+  , mSubstanceUnits      (orig.mSubstanceUnits)
+  , mTimeUnits           (orig.mTimeUnits)
+  , mVolumeUnits         (orig.mVolumeUnits)
+  , mAreaUnits           (orig.mAreaUnits)
+  , mLengthUnits         (orig.mLengthUnits)
+  , mExtentUnits         (orig.mExtentUnits)
+  , mConversionFactor    (orig.mConversionFactor)
+  , mFunctionDefinitions (orig.mFunctionDefinitions)
+  , mUnitDefinitions     (orig.mUnitDefinitions)
+  , mCompartmentTypes    (orig.mCompartmentTypes)
+  , mSpeciesTypes        (orig.mSpeciesTypes)
+  , mCompartments        (orig.mCompartments)
+  , mSpecies             (orig.mSpecies)
+  , mParameters          (orig.mParameters)
+  , mInitialAssignments  (orig.mInitialAssignments)
+  , mRules               (orig.mRules)
+  , mConstraints         (orig.mConstraints)
+  , mReactions           (orig.mReactions)
+  , mEvents              (orig.mEvents)
+  , mFormulaUnitsData    (NULL)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId                   = orig.mId;
-    mName                 = orig.mName;
-    mSubstanceUnits       = orig.mSubstanceUnits ;
-    mTimeUnits            = orig.mTimeUnits ;
-    mVolumeUnits          = orig.mVolumeUnits ;
-    mAreaUnits            = orig.mAreaUnits ;
-    mLengthUnits          = orig.mLengthUnits ;
-    mExtentUnits          = orig.mExtentUnits ;
-    mConversionFactor     = orig.mConversionFactor ;
 
-    if(orig.mFormulaUnitsData != NULL)
+  if(orig.mFormulaUnitsData != NULL)
+  {
+    this->mFormulaUnitsData  = new List();
+    unsigned int i,iMax = orig.mFormulaUnitsData->getSize();
+    for(i = 0; i < iMax; ++i)
     {
-      this->mFormulaUnitsData  = new List();
-      unsigned int i,iMax = orig.mFormulaUnitsData->getSize();
-      for(i = 0; i < iMax; ++i)
-      {
-        this->mFormulaUnitsData
-          ->add(static_cast<FormulaUnitsData*>
-                                  (orig.mFormulaUnitsData->get(i))->clone());
-      }
-    }
-    else
-    {
-      this->mFormulaUnitsData = NULL;
+      this->mFormulaUnitsData
+        ->add(static_cast<FormulaUnitsData*>
+                                (orig.mFormulaUnitsData->get(i))->clone());
     }
   }
+  
   connectToChild();
 }
 
@@ -213,11 +204,7 @@ Model::Model(const Model& orig) :
  */
 Model& Model::operator=(const Model& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator = (rhs);
     mId = rhs.mId;
@@ -275,9 +262,7 @@ Model& Model::operator=(const Model& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 Model::accept (SBMLVisitor& v) const
 {
@@ -300,6 +285,7 @@ Model::accept (SBMLVisitor& v) const
 
   return true;
 }
+/** @endcond */
 
 
 /*
@@ -715,11 +701,7 @@ Model::setId (const std::string& sid)
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
 */
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(sid)))
+  if (!(SyntaxChecker::isValidInternalSId(sid)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -740,11 +722,7 @@ Model::setName (const std::string& name)
   /* if this is setting an L2 name the type is string
    * whereas if it is setting an L1 name its type is SId
    */
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() == 1)
+  if (getLevel() == 1)
   {
     if (!(SyntaxChecker::isValidInternalSId(name)))
     {
@@ -770,11 +748,7 @@ Model::setName (const std::string& name)
 int
 Model::setSubstanceUnits (const std::string& units)
 {
-  if (&(units) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() < 3)
+  if (getLevel() < 3)
   {
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
@@ -796,11 +770,7 @@ Model::setSubstanceUnits (const std::string& units)
 int
 Model::setTimeUnits (const std::string& units)
 {
-  if (&(units) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() < 3)
+  if (getLevel() < 3)
   {
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
@@ -822,11 +792,7 @@ Model::setTimeUnits (const std::string& units)
 int
 Model::setVolumeUnits (const std::string& units)
 {
-  if (&(units) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() < 3)
+  if (getLevel() < 3)
   {
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
@@ -848,11 +814,7 @@ Model::setVolumeUnits (const std::string& units)
 int
 Model::setAreaUnits (const std::string& units)
 {
-  if (&(units) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() < 3)
+  if (getLevel() < 3)
   {
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
@@ -874,11 +836,7 @@ Model::setAreaUnits (const std::string& units)
 int
 Model::setLengthUnits (const std::string& units)
 {
-  if (&(units) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() < 3)
+  if (getLevel() < 3)
   {
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
@@ -900,11 +858,7 @@ Model::setLengthUnits (const std::string& units)
 int
 Model::setExtentUnits (const std::string& units)
 {
-  if (&(units) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() < 3)
+  if (getLevel() < 3)
   {
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
@@ -926,11 +880,7 @@ Model::setExtentUnits (const std::string& units)
 int
 Model::setConversionFactor (const std::string& id)
 {
-  if (&(id) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else  if (getLevel() < 3)
+  if (getLevel() < 3)
   {
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
@@ -3427,7 +3377,6 @@ Model::isBoolean (const ASTNode* node) const
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 /*
  * Sets the parent SBMLDocument of this SBML object.
  */
@@ -3498,7 +3447,6 @@ Model::enablePackageInternal(const std::string& pkgURI,
   mReactions          .enablePackageInternal(pkgURI,pkgPrefix,flag);
   mEvents             .enablePackageInternal(pkgURI,pkgPrefix,flag);
 }
-
 /** @endcond */
 
 
@@ -3854,6 +3802,7 @@ Model::appendFrom(const Model* model)
 void
 Model::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetConversionFactor()) {
     if (getConversionFactor()==oldid) {
       setConversionFactor(newid);
@@ -3864,6 +3813,7 @@ Model::renameSIdRefs(const std::string& oldid, const std::string& newid)
 void 
 Model::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameUnitSIdRefs(oldid, newid);
   if (mSubstanceUnits == oldid) mSubstanceUnits = newid;
   if (mTimeUnits == oldid)      mTimeUnits = newid;
   if (mVolumeUnits == oldid)    mVolumeUnits = newid;
@@ -4688,7 +4638,6 @@ void Model::createSpeciesReferenceUnitsData(SpeciesReference* sr,
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 /**
   * Populates the ListFormulaDataUnits with the units of each 
   * set of math encountered in the model
@@ -4734,7 +4683,6 @@ Model::populateListFormulaUnitsData()
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::removeListFormulaUnitsData()
 {
@@ -4747,12 +4695,10 @@ Model::removeListFormulaUnitsData()
     mFormulaUnitsData = NULL;
   }
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createSubstanceUnitsData()
 {
@@ -4779,12 +4725,10 @@ Model::createSubstanceUnitsData()
 
   fud->setUnitDefinition(ud);
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Model::getSubstanceUD()
 {
@@ -4820,12 +4764,10 @@ Model::getSubstanceUD()
 
   return ud;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Model::getL3SubstanceUD()
 {
@@ -4864,12 +4806,10 @@ Model::getL3SubstanceUD()
 
   return ud;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createTimeUnitsData()
 {
@@ -4896,12 +4836,10 @@ Model::createTimeUnitsData()
 
   fud->setUnitDefinition(ud);
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Model::getTimeUD()
 {
@@ -4937,12 +4875,10 @@ Model::getTimeUD()
 
   return ud;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Model::getL3TimeUD()
 {
@@ -4981,12 +4917,10 @@ Model::getL3TimeUD()
 
   return ud;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createVolumeUnitsData()
 {
@@ -5013,12 +4947,10 @@ Model::createVolumeUnitsData()
   
   fud->setUnitDefinition(ud);
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Model::getVolumeUD()
 {
@@ -5054,12 +4986,10 @@ Model::getVolumeUD()
 
   return ud;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Model::getL3VolumeUD()
 {
@@ -5098,12 +5028,10 @@ Model::getL3VolumeUD()
 
   return ud;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createAreaUnitsData()
 {
@@ -5130,12 +5058,10 @@ Model::createAreaUnitsData()
 
   fud->setUnitDefinition(ud);
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Model::getAreaUD()
 {
@@ -5172,12 +5098,10 @@ Model::getAreaUD()
 
   return ud;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Model::getL3AreaUD()
 {
@@ -5217,12 +5141,10 @@ Model::getL3AreaUD()
 
   return ud;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createLengthUnitsData()
 {
@@ -5249,12 +5171,10 @@ Model::createLengthUnitsData()
 
   fud->setUnitDefinition(ud);
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Model::getLengthUD()
 {
@@ -5290,12 +5210,10 @@ Model::getLengthUD()
 
   return ud;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Model::getL3LengthUD()
 {
@@ -5334,12 +5252,10 @@ Model::getL3LengthUD()
 
   return ud;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createExtentUnitsData()
 {
@@ -5378,12 +5294,10 @@ Model::createExtentUnitsData()
 
   fud->setUnitDefinition(ud);
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Model::getL3ExtentUD()
 {
@@ -5428,11 +5342,9 @@ Model::getL3ExtentUD()
 
   return ud;
 }
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createSubstancePerTimeUnitsData()
 {
@@ -5462,12 +5374,10 @@ Model::createSubstancePerTimeUnitsData()
 
   fud->setUnitDefinition(ud);
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Model::getSubstancePerTimeUD()
 {
@@ -5487,12 +5397,10 @@ Model::getSubstancePerTimeUD()
 
   return ud;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 UnitDefinition *
 Model::getL3SubstancePerTimeUD(FormulaUnitsData * fud)
 {
@@ -5529,11 +5437,9 @@ Model::getL3SubstancePerTimeUD(FormulaUnitsData * fud)
 
   return ud;
 }
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createCompartmentUnitsData()
 {
@@ -5561,12 +5467,10 @@ Model::createCompartmentUnitsData()
     populatePerTimeUnitDefinition(fud);
   }
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createSpeciesUnitsData()
 {
@@ -5611,12 +5515,10 @@ Model::createSpeciesUnitsData()
     populatePerTimeUnitDefinition(fud);
   }
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createL3SpeciesUnitsData()
 {
@@ -5677,12 +5579,10 @@ Model::createL3SpeciesUnitsData()
     fud->setSpeciesExtentUnitDefinition(ud);
   }
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createParameterUnitsData()
 {
@@ -5712,12 +5612,10 @@ Model::createParameterUnitsData()
     populatePerTimeUnitDefinition(fud);
   }
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createUnitsDataFromMath(UnitFormulaFormatter * unitFormatter,
                                FormulaUnitsData *fud, const ASTNode * math)
@@ -5737,12 +5635,10 @@ Model::createUnitsDataFromMath(UnitFormulaFormatter * unitFormatter,
 
   fud->setUnitDefinition(ud);
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createInitialAssignmentUnitsData(UnitFormulaFormatter * unitFormatter)
 {
@@ -5759,12 +5655,10 @@ Model::createInitialAssignmentUnitsData(UnitFormulaFormatter * unitFormatter)
     createUnitsDataFromMath(unitFormatter, fud, ia->getMath());
   }
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createRuleUnitsData(UnitFormulaFormatter * unitFormatter)
 {
@@ -5798,12 +5692,10 @@ Model::createRuleUnitsData(UnitFormulaFormatter * unitFormatter)
     createUnitsDataFromMath(unitFormatter, fud, r->getMath());
   }
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createReactionUnitsData(UnitFormulaFormatter * unitFormatter)
 {
@@ -5836,7 +5728,7 @@ Model::createReactionUnitsData(UnitFormulaFormatter * unitFormatter)
       if(react->getKineticLaw()->isSetMath())
       {
         ud = unitFormatter->getUnitDefinition
-                                  (react->getKineticLaw()->getMath(), true, n);
+                                  (react->getKineticLaw()->getMath(), true, (int)n);
         fud->setContainsParametersWithUndeclaredUnits
                                  (unitFormatter->getContainsUndeclaredUnits());
         fud->setCanIgnoreUndeclaredUnits
@@ -5863,15 +5755,13 @@ Model::createReactionUnitsData(UnitFormulaFormatter * unitFormatter)
   }
 
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createLocalParameterUnitsData(KineticLaw * kl,
-                                     UnitFormulaFormatter * unitFormatter)
+                                     UnitFormulaFormatter*)
 {
   UnitDefinition *ud = NULL;
   FormulaUnitsData *fud = NULL;
@@ -5955,12 +5845,10 @@ Model::createLocalParameterUnitsData(KineticLaw * kl,
     }
   }
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 void
 Model::createEventUnitsData(UnitFormulaFormatter * unitFormatter)
 {
@@ -6014,11 +5902,9 @@ Model::createEventUnitsData(UnitFormulaFormatter * unitFormatter)
     }
   }
 }
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 void 
 Model::createDelayUnitsData(UnitFormulaFormatter* unitFormatter, Event * e, 
                             const std::string& eventId)
@@ -6045,11 +5931,9 @@ Model::createDelayUnitsData(UnitFormulaFormatter* unitFormatter, Event * e,
   }
   fud->setEventTimeUnitDefinition(ud);
 }
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 void 
 Model::createPriorityUnitsData(UnitFormulaFormatter* unitFormatter, 
                                Priority * p, const std::string& eventId)
@@ -6063,11 +5947,9 @@ Model::createPriorityUnitsData(UnitFormulaFormatter* unitFormatter,
 
   createUnitsDataFromMath(unitFormatter, fud, p->getMath());
 }
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 void 
 Model::createEventAssignmentUnitsData(UnitFormulaFormatter* unitFormatter, 
                             EventAssignment * ea, const std::string& eventId)
@@ -6081,7 +5963,6 @@ Model::createEventAssignmentUnitsData(UnitFormulaFormatter* unitFormatter,
 
   createUnitsDataFromMath(unitFormatter, fud, ea->getMath());
 }
-
 /** @endcond */
 
 
@@ -6303,8 +6184,6 @@ Model::isPopulatedListFormulaUnitsData()
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 Model_t *
 Model_create (unsigned int level, unsigned int version)
@@ -7748,6 +7627,5 @@ Model_getListFormulaUnitsData (Model_t *m)
 }
 
 */
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END

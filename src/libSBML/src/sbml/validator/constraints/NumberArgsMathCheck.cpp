@@ -49,9 +49,7 @@
 #include "NumberArgsMathCheck.h"
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -96,11 +94,6 @@ NumberArgsMathCheck::getPreamble ()
 void
 NumberArgsMathCheck::checkMath (const Model& m, const ASTNode& node, const SBase & sb)
 {
-  /* should not be here but why not catch it rather than crash*/
-  if (&(node) == NULL)
-  {
-    return;
-  }
 
   ASTNodeType_t type = node.getType();
 
@@ -282,7 +275,7 @@ void NumberArgsMathCheck::checkAtLeast2Args(const Model& m,
 }
 
   
-void NumberArgsMathCheck::checkPiecewise(const Model& m, 
+void NumberArgsMathCheck::checkPiecewise(const Model&, 
                                     const ASTNode& node, const SBase & sb)
 {
   if (node.getNumChildren() == 0)
@@ -330,6 +323,5 @@ NumberArgsMathCheck::getMessage (const ASTNode& node, const SBase& object)
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */
 

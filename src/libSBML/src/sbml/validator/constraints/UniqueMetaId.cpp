@@ -37,9 +37,7 @@
 #include <sbml/ModifierSpeciesReference.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -94,7 +92,7 @@ UniqueMetaId::getPreamble ()
  * Constraint.  Override the doCheck() method to define your own subset.
  */
 void
-UniqueMetaId::check_ (const Model& m, const Model& object)
+UniqueMetaId::check_ (const Model& m, const Model&)
 {
   doCheck(m);
 }
@@ -333,5 +331,4 @@ UniqueMetaId::doCheck (const Model& m)
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

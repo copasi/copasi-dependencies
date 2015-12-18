@@ -49,9 +49,7 @@
 #include <sbml/Trigger.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -100,25 +98,18 @@ Trigger::~Trigger ()
  * Copy constructor. Creates a copy of this Trigger.
  */
 Trigger::Trigger (const Trigger& orig) :
-   SBase          ( orig )
- , mMath          ( NULL    )
-{
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mInitialValue      = orig.mInitialValue;
-    mPersistent        = orig.mPersistent;
-    mIsSetInitialValue = orig.mIsSetInitialValue;
-    mIsSetPersistent   = orig.mIsSetPersistent;
+   SBase              ( orig )
+ , mMath              ( NULL )
+ , mInitialValue      ( orig.mInitialValue)
+ , mPersistent        ( orig.mPersistent)
+ , mIsSetInitialValue ( orig.mIsSetInitialValue)
+ , mIsSetPersistent   ( orig.mIsSetPersistent)
 
-    if (orig.mMath != NULL) 
-    {
-      mMath = orig.mMath->deepCopy();
-      mMath->setParentSBMLObject(this);
-    }
+{
+  if (orig.mMath != NULL) 
+  {
+    mMath = orig.mMath->deepCopy();
+    mMath->setParentSBMLObject(this);
   }
 }
 
@@ -128,11 +119,7 @@ Trigger::Trigger (const Trigger& orig) :
  */
 Trigger& Trigger::operator=(const Trigger& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     this->mInitialValue      = rhs.mInitialValue;
@@ -156,14 +143,13 @@ Trigger& Trigger::operator=(const Trigger& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 Trigger::accept (SBMLVisitor& v) const
 {
   return v.visit(*this);
 }
+/** @endcond */
 
 
 /*
@@ -420,6 +406,7 @@ int Trigger::removeFromParentAndDelete()
 void
 Trigger::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameSIdRefs(oldid, newid);
   }
@@ -428,6 +415,7 @@ Trigger::renameSIdRefs(const std::string& oldid, const std::string& newid)
 void 
 Trigger::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameUnitSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameUnitSIdRefs(oldid, newid);
   }
@@ -577,7 +565,7 @@ Trigger::readAttributes (const XMLAttributes& attributes,
  * parents implementation of this method as well.
  */
 void
-Trigger::readL2Attributes (const XMLAttributes& attributes)
+Trigger::readL2Attributes (const XMLAttributes&)
 {
 }
 /** @endcond */
@@ -687,7 +675,6 @@ Trigger::writeElements (XMLOutputStream& stream) const
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 Trigger_t *
 Trigger_create (unsigned int level, unsigned int version)
@@ -849,10 +836,6 @@ Trigger_hasRequiredElements (Trigger_t *t)
 {
   return (t != NULL) ? static_cast <int> (t->hasRequiredElements() ) : 0;
 }
-
-
-
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

@@ -40,9 +40,7 @@
 #include "QSAssignedOnce.h"
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -69,7 +67,7 @@ QSAssignedOnce::~QSAssignedOnce ()
  * event assignments and assignment rules.
  */
 void
-QSAssignedOnce::check_ (const Model& m, const Model& object)
+QSAssignedOnce::check_ (const Model& m, const Model&)
 {
   const QualModelPlugin * plug = 
                  static_cast<const QualModelPlugin*>(m.getPlugin("qual"));
@@ -128,5 +126,4 @@ QSAssignedOnce::logMultipleAssignment (const Transition& tr,
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

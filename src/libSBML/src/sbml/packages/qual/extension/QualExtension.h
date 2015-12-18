@@ -131,7 +131,7 @@ public:
 
 
   /**
-   * Constructor
+   * Creates a new QualExtension instance.
    */
   QualExtension ();
 
@@ -189,35 +189,35 @@ public:
   /**
    * Returns the SBML Level for the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of the
-   * &ldquo;qual&rdquo; package
+   * @param uri a URI that represents a version of this package.
    *
-   * @return the SBML Level with the given URI of this package, or @c 0 if
-   * the given URI is invalid.
+   * @return the SBML Level for the given URI of this package, or @c 0 if the
+   * given URI is invalid.
    */
   virtual unsigned int getLevel(const std::string &uri) const;
 
 
   /**
-   * Returns the SBML Version for the given URI of this package.
+   * Returns the Version within the SBML Level for the given URI of this
+   * package.
    *
-   * @param uri the string of URI that represents one of versions of the
-   * &ldquo;qual&rdquo; package
+   * @param uri a URI that represents a version of this package.
    *
-   * @return the SBML version with the given URI of this package, or @c 0 if
-   * the given URI is invalid.
+   * @return the SBML Version within the SBML Level for the given URI of this
+   * package, or @c 0 if the given URI is invalid.
    */
   virtual unsigned int getVersion(const std::string &uri) const;
 
 
   /**
-   * Returns the package version for the given URI of this package.
+   * Returns the SBML Level&nbsp;3 package version for the given URI of this
+   * package.
    *
-   * @param uri the string of URI that represents one of versions of the
-   * &ldquo;qual&rdquo; package
+   * @param uri a URI that represents one of the valid versions of this
+   * package.
    *
-   * @return the package version with the given URI of this package, or @c 0
-   * if the given URI is invalid.
+   * @return the version of the SBML Level&nbsp;3 package with the given URI,
+   * or @c 0 if the given URI is invalid.
    */
   virtual unsigned int getPackageVersion(const std::string &uri) const;
 
@@ -225,11 +225,11 @@ public:
   /**
    * Returns an QualPkgNamespaces object.
    *
-   * @param uri the string of URI that represents one of versions of the
+   * @param uri a URI that represents one of the valid versions of the
    * &ldquo;qual&rdquo; package
    *
    * @return an QualPkgNamespace object corresponding to the given @p uri, or
-   * @c NULL if the URI is not defined in the Hierarchical %Model Qualosition
+   * @c NULL if the URI is not defined in the Qual
    * package.
    */
   virtual SBMLNamespaces* getSBMLExtensionNamespaces(const std::string &uri) const;
@@ -238,6 +238,14 @@ public:
   /**
    * Takes a type code of the &ldquo;qual&rdquo; package and returns a string
    * describing the code.
+   *
+   * @param typeCode a libSBML type code defined by the libSBML extension
+   * implementing support for the SBML Level&nbsp;3 &ldquo;qual&rdquo; package.
+   *
+   * @return a text string representing the type code given by @p typeCode.
+   * If the type code is unrecognized for this implementation of the libSBML
+   * &ldquo;qual&rdquo; package, the string returned will be
+   * <code>"(Unknown SBML Qual Type)"</code>.
    */
   virtual const char* getStringFromTypeCode(int typeCode) const;
 
@@ -262,7 +270,6 @@ public:
   
   
   /** @cond doxygenLibsbmlInternal */
-
   /**
    * Return the entry in the error table at this index. 
    *
@@ -277,7 +284,6 @@ public:
 
 
   /** @cond doxygenLibsbmlInternal */
-
   /**
    * Return the index in the error table with the given errorId. 
    *
@@ -292,7 +298,6 @@ public:
 
 
   /** @cond doxygenLibsbmlInternal */
-
   /**
    * Return the offset for the errorId range for the qual L3 package. 
    *
@@ -328,7 +333,8 @@ typedef SBMLExtensionNamespaces<QualExtension> QualPkgNamespaces;
 
 /**
  * @enum  SBMLQualTypeCode_t
- * @brief SBMLQualTypeCode_t is the enumeration of possible types from the 'qual' package.
+ * @brief SBMLFbcTypeCode_t Enumeration of possible types in the libSBML
+ * &ldquo;qual&rdquo; package implementation.
  *
  * @copydetails doc_what_are_typecodes
  *

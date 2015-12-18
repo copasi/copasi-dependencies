@@ -31,9 +31,7 @@
 
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -129,7 +127,7 @@ UnitReplacementCheck::~UnitReplacementCheck ()
  * Reactions, and Events.
  */
 void
-UnitReplacementCheck::check_ (const Model& m, const Model& object)
+UnitReplacementCheck::check_ (const Model& m, const Model&)
 {
   unsigned int n, size;
   const CompSBasePlugin * plug;
@@ -466,5 +464,4 @@ UnitReplacementCheck::logMismatchSpatialDimensions (ReplacedBy& repBy,
 #endif /* __cplusplus */
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

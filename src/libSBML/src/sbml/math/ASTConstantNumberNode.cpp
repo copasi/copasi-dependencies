@@ -202,7 +202,6 @@ ASTConstantNumberNode::isNegInfinity() const
 void
 ASTConstantNumberNode::write(XMLOutputStream& stream) const
 {
-  if (&stream == NULL) return;
 
   std::string name;
 
@@ -279,7 +278,5 @@ ASTConstantNumberNode::read(XMLInputStream& stream, const std::string& reqd_pref
 
 
 LIBSBML_CPP_NAMESPACE_END
-
-
 /** @endcond */
 

@@ -40,9 +40,7 @@
 #include <sbml/xml/XMLConstructorException.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -309,7 +307,6 @@ const char * xmlCategoryStringTable[] =
 , "Operating system"                    // LIBSBML_CAT_SYSTEM
 , "XML content"                         // LIBSBML_CAT_XML
 };
-
 /** @endcond **/
 
 
@@ -324,7 +321,7 @@ XMLError::XMLError (  const int errorId
                     , const unsigned int column
                     , const unsigned int severity
                     , const unsigned int category ) :
-    mErrorId( errorId )
+    mErrorId( (unsigned int)errorId )
   , mLine   ( line    )
   , mColumn ( column  )
   , mValidError ( true )
@@ -346,7 +343,7 @@ XMLError::XMLError (  const int errorId
         mMessage      = errorTable[i].message;
         mShortMessage = errorTable[i].shortMessage;
 
-        if ( &details != NULL && !details.empty() )
+        if ( !details.empty() )
         {
           mMessage.append(" ");
           mMessage.append(details);
@@ -381,7 +378,7 @@ XMLError::XMLError (  const int errorId
     mMessage += "\n";
     mShortMessage = errorTable[0].shortMessage;
 
-    if ( &details != NULL && !details.empty() )
+    if ( !details.empty() )
     {
       mMessage.append(" ");
       mMessage.append(details);
@@ -403,9 +400,6 @@ XMLError::XMLError (  const int errorId
   // filled in all the relevant additional data.  (If they didn't, the
   // following ends up merely assigning the defaults.)
 
-  if (&details == NULL)
-    mMessage  = "";
-  else
   mMessage  = details;
 
   // The following is just a default that seems more sensible than setting
@@ -427,25 +421,19 @@ XMLError::XMLError (  const int errorId
  * Copy Constructor
  */
 XMLError::XMLError(const XMLError& orig)
+  : mErrorId        ( orig.mErrorId )
+  , mMessage        ( orig.mMessage )
+  , mShortMessage   ( orig.mShortMessage )
+  , mSeverity       ( orig.mSeverity )
+  , mCategory       ( orig.mCategory )
+  , mLine           ( orig.mLine )
+  , mColumn         ( orig.mColumn )
+  , mSeverityString ( orig.mSeverityString )
+  , mCategoryString ( orig.mCategoryString )
+  , mValidError     ( orig.mValidError )
+  , mPackage        ( orig.mPackage )
+  , mErrorIdOffset  ( orig.mErrorIdOffset )
 {
-  if (&orig == NULL)
-  {
-    throw XMLConstructorException("Null argument to copy constructor");
-  }
-  else  
-  {
-    mErrorId        = orig.mErrorId;
-    mMessage        = orig.mMessage;
-    mShortMessage   = orig.mShortMessage;
-    mSeverity       = orig.mSeverity;
-    mCategory       = orig.mCategory;
-    mLine           = orig.mLine;
-    mColumn         = orig.mColumn;
-    mSeverityString = orig.mSeverityString;
-    mCategoryString = orig.mCategoryString;
-    mPackage        = orig.mPackage;
-    mErrorIdOffset  = orig.mErrorIdOffset;
-  }
 }
 
 
@@ -455,11 +443,7 @@ XMLError::XMLError(const XMLError& orig)
 XMLError& 
 XMLError::operator=(const XMLError& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw XMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     mErrorId        = rhs.mErrorId;
     mMessage        = rhs.mMessage;
@@ -820,8 +804,6 @@ ostream& operator<< (ostream& s, const XMLError& error)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBLAX_EXTERN
 XMLError_t*
 XMLError_create (void)
@@ -835,7 +817,7 @@ XMLError_t*
 XMLError_createWithIdAndMessage (unsigned int errorId, const char * message)
 {
   if (message == NULL) return NULL;
-  return new(nothrow) XMLError(errorId, message);
+  return new(nothrow) XMLError((int)errorId, message);
 }
 
 //LIBLAX_EXTERN
@@ -1007,6 +989,5 @@ XMLError_print (const XMLError_t *error, FILE *stream)
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */
 

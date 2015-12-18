@@ -74,7 +74,7 @@ SBMLResolverRegistry::removeResolver(int index)
   if (index < 0 || index >= getNumResolvers())
      return LIBSBML_INVALID_OBJECT;
   
-  SBMLResolver *current = const_cast<SBMLResolver *>(mResolvers.at(index));
+  SBMLResolver *current = const_cast<SBMLResolver *>(mResolvers.at((size_t)index));
   if (current != NULL)
     delete current;
   
@@ -95,12 +95,11 @@ SBMLResolverRegistry::getResolverByIndex(int index) const
 {
   if (index < 0 || index >= getNumResolvers())
     return NULL;
-  return mResolvers.at(index)->clone();
+  return mResolvers.at((size_t)index)->clone();
 }
 
 
 /** @cond doxygenLibsbmlInternal */
-
 SBMLResolverRegistry::SBMLResolverRegistry()
 {
   // for now ensure that we always have a file resolver in there
@@ -162,8 +161,6 @@ SBMLResolverRegistry::resolveUri(const std::string &uri, const std::string& base
   }
   return result;
 }
-
-
 /** @endcond */
 
 

@@ -49,7 +49,6 @@
 #include <sbml/validator/ConstraintMacros.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
 LIBSBML_CPP_NAMESPACE_USE
 /** @endcond */
@@ -57,7 +56,7 @@ LIBSBML_CPP_NAMESPACE_USE
 class ReferencedModel
 {
 public:
-  ReferencedModel(const Model & m, const Port & p)
+  ReferencedModel(const Model &, const Port & p)
   {
     mReferencedDocument = NULL;
     mReferencedModel = 
@@ -69,7 +68,7 @@ public:
     }
   }
 
-  ReferencedModel(const Model & m, const Deletion & d)
+  ReferencedModel(const Model &, const Deletion & d)
   {
     mReferencedDocument = NULL;
     mReferencedModel = NULL;
@@ -249,6 +248,9 @@ public:
             const SBMLResolverRegistry& registry = 
                                  SBMLResolverRegistry::getInstance();
             mReferencedDocument = registry.resolve(uri, locationURI);
+
+            pre(mReferencedDocument != NULL);
+
             if (mReferencedDocument != NULL)
             {
               if (emd->isSetModelRef() == false)
@@ -470,24 +472,24 @@ public:
               metaIdRef = mReferences.at(numRefs -1 ).first;
               idRef = "";
             }
-            CompModelPlugin *plug1 = 
+            CompModelPlugin *plug2 =
                         (CompModelPlugin*)(mReferencedModel->getPlugin("comp"));
             
-            if (docPlug != NULL && plug1 != NULL)
+            if (docPlug != NULL && plug2 != NULL)
             {
               if (idRef.empty() == false)
               {
-                pre (plug1->getSubmodel(idRef) != NULL);
+                pre (plug2->getSubmodel(idRef) != NULL);
 
-                modelId = (plug1->getSubmodel(idRef))->getModelRef();
+                modelId = (plug2->getSubmodel(idRef))->getModelRef();
               }
               else
               {
-                for (unsigned int i = 0; i < plug1->getNumSubmodels(); i++)
+                for (unsigned int i = 0; i < plug2->getNumSubmodels(); i++)
                 {
-                  if (plug1->getSubmodel(i)->getMetaId() == metaIdRef)
+                  if (plug2->getSubmodel(i)->getMetaId() == metaIdRef)
                   {
-                    modelId = plug1->getSubmodel(i)->getModelRef();
+                    modelId = plug2->getSubmodel(i)->getModelRef();
                     break;
                   }
                 }
@@ -2266,12 +2268,12 @@ START_CONSTRAINT (CompParentOfSBRefChildMustBeSubmodel, Port, port)
     else
     {
       // must be a metaidref
-      std::string ref = port.getMetaIdRef();
+      std::string ref1 = port.getMetaIdRef();
       bool found = false;
       unsigned int i = 0;
       while (found == false &&  i < plug->getNumSubmodels())
       {
-        if (ref == plug->getSubmodel(i)->getMetaId())
+        if (ref1 == plug->getSubmodel(i)->getMetaId())
         {
           found = true;
         }
@@ -2389,12 +2391,12 @@ START_CONSTRAINT (CompParentOfSBRefChildMustBeSubmodel, Deletion, del)
     else
     {
       // must be a metaidref
-      std::string ref = del.getMetaIdRef();
+      std::string ref1 = del.getMetaIdRef();
       bool found = false;
       unsigned int i = 0;
       while (found == false &&  i < plug1->getNumSubmodels())
       {
-        if (ref == plug1->getSubmodel(i)->getMetaId())
+        if (ref1 == plug1->getSubmodel(i)->getMetaId())
         {
           found = true;
         }
@@ -4396,8 +4398,5 @@ START_CONSTRAINT (CompMetaIdRefMayReferenceUnknownPkg, SBaseRef, sbRef)
   inv(mIds.contains(sbRef.getMetaIdRef()))
 }
 END_CONSTRAINT
-
-
-
 /** @endcond */
 

@@ -27,10 +27,9 @@
  * @sbmlbrief{comp} Convenience class.
  *
  * The Replacing class does not exist officialy in the the @ref comp
- * @if java "Hierarchical %Model Composition"@endif@~ package
- * (&ldquo;comp&rdquo;), but is implemented here as a convenience subclass of
- * the ReplacedElement and ReplacedBy classes, since both of those classes
- * define a 'submodelRef' attribute.
+ * (&ldquo;comp&rdquo;) package, but is implemented here as a convenience
+ * subclass of the ReplacedElement and ReplacedBy classes, since both of
+ * those classes define a 'submodelRef' attribute.
  *
  * The required attribute "submodelRef" takes a value of type
  * SIdRef, which must be the identifier of a Submodel object in
@@ -207,6 +206,7 @@ public:
   /** @endcond */
 
 
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Accepts the given SBMLVisitor.
    *
@@ -215,6 +215,7 @@ public:
    * sibling object (if available).
    */
   virtual bool accept (SBMLVisitor& v) const;
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */

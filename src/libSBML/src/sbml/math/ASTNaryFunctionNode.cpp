@@ -448,8 +448,6 @@ ASTNaryFunctionNode::isSqrt() const
 void
 ASTNaryFunctionNode::write(XMLOutputStream& stream) const
 {
-  if (&stream == NULL) return;
-
   int type  = getType();
   unsigned int numChildren = getNumChildren();
 
@@ -761,7 +759,5 @@ ASTNaryFunctionNode::getReducedToBinary() const
   return mReducedToBinary;
 }
 LIBSBML_CPP_NAMESPACE_END
-
-
 /** @endcond */
 

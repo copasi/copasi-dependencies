@@ -37,6 +37,7 @@
 #include <sbml/SBMLWriter.h>
 #include <sbml/SBMLReader.h>
 #include <sbml/SBMLDocument.h>
+#include <sbml/math/FormulaParser.h>
 #include <sbml/Model.h>
 
 #ifdef __cplusplus
@@ -48,7 +49,7 @@ using namespace std;
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 
-  /** @cond doxygenLibsbmlInternal */
+/** @cond doxygenLibsbmlInternal */
 void SBMLLevel1Version1Converter::init()
 {
   SBMLLevel1Version1Converter converter;
@@ -86,11 +87,7 @@ SBMLLevel1Version1Converter::~SBMLLevel1Version1Converter ()
 SBMLLevel1Version1Converter& 
 SBMLLevel1Version1Converter::operator=(const SBMLLevel1Version1Converter& rhs)
 {  
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBMLConverter::operator =(rhs);
   }
@@ -139,12 +136,13 @@ SBMLLevel1Version1Converter::getDefaultProperties() const
 bool 
 SBMLLevel1Version1Converter::matchesProperties(const ConversionProperties &props) const
 {
-  if (&props == NULL || !props.hasOption("convertToL1V1"))
+  if (!props.hasOption("convertToL1V1"))
     return false;
   return true;
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 bool 
 SBMLLevel1Version1Converter::inlineCompartmentSizes()
 {
@@ -262,6 +260,7 @@ convertPow(SBMLDocument* doc,
     delete ast_Node;
   }
 }
+/** @endcond */
 
 
 int

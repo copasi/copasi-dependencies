@@ -1,6 +1,6 @@
 /**
- * @file:   QualSBMLDocumentPlugin.h
- * @brief:  Implementation of the QualSBMLDocumentPlugin class
+ * @file   QualSBMLDocumentPlugin.h
+ * @brief  Implementation of the QualSBMLDocumentPlugin class
  * @author  Sarah Keating
  *
  * <!--------------------------------------------------------------------------
@@ -35,7 +35,7 @@
  *
  * The QualSBMLDocumentPlugin class inherits from the SBMLDocumentPlugin
  * class, and codifies the extentions to the SBMLDocument class defined in
- * the SBML Level&nbsp;3 @ref qual "Qualitative Models" package ('qual').
+ * the SBML Level&nbsp;3 @ref qual (&ldquo;qual&rdquo;) package.
  *
  * The QualSBMLDocumentPlugin defines a
  * required flag named <code>required</code>, which indicates whether the
@@ -107,7 +107,6 @@ public:
  #ifndef SWIG
 
   /** @cond doxygenLibsbmlInternal */
-
   /**
    * Reads the attributes of corresponding package in SBMLDocument element
    */
@@ -121,7 +120,6 @@ public:
 #endif // SWIG
 
   /** @cond doxygenLibsbmlInternal */
-
   /**
    * Returns boolean based on whether flattening of a comp model has been implemented.
    *
@@ -133,7 +131,6 @@ public:
 
 
   /** @cond doxygenLibsbmlInternal */
-
   /**
    * Check consistency function.
    */
@@ -144,20 +141,16 @@ public:
 
 
   /** @cond doxygenLibsbmlInternal */
-
   /**
    * Accepts the SBMLVisitor.
    */
   virtual bool accept(SBMLVisitor& v) const;
-
-
   /** @endcond */
 
 
 protected:
 
   /** @cond doxygenLibsbmlInternal */
-
   /** @endcond */
 
 

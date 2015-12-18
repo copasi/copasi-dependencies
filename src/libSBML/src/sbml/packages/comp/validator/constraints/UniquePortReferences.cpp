@@ -29,9 +29,7 @@
 #include "UniquePortReferences.h"
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -60,7 +58,7 @@ UniquePortReferences::~UniquePortReferences ()
  * Reactions, and Events.
  */
 void
-UniquePortReferences::check_ (const Model& m, const Model& object)
+UniquePortReferences::check_ (const Model& m, const Model&)
 {
   unsigned int n, size;
 
@@ -149,9 +147,7 @@ UniquePortReferences::logReferenceExists (Port& p)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

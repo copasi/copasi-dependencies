@@ -39,9 +39,7 @@
 #include <sbml/units/FormulaUnitsData.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -70,63 +68,44 @@ FormulaUnitsData::FormulaUnitsData()
 }
 
 FormulaUnitsData::FormulaUnitsData(const FormulaUnitsData& orig)
+  : mUnitReferenceId ( orig.mUnitReferenceId )
+  , mContainsUndeclaredUnits ( orig.mContainsUndeclaredUnits )
+  , mCanIgnoreUndeclaredUnits ( orig.mCanIgnoreUndeclaredUnits )
+  , mTypeOfElement ( orig.mTypeOfElement )
+  , mUnitDefinition ( NULL )
+  , mPerTimeUnitDefinition ( NULL )
+  , mEventTimeUnitDefinition ( NULL )
+  , mSpeciesExtentUnitDefinition ( NULL )
+  , mSpeciesSubstanceUnitDefinition ( NULL )
 {
-  if (&orig == NULL)
+  if (orig.mUnitDefinition) 
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
+    mUnitDefinition = static_cast <UnitDefinition*> 
+                                      (orig.mUnitDefinition->clone());
   }
-  else
+
+  if (orig.mPerTimeUnitDefinition)
   {
-    mUnitReferenceId = orig.mUnitReferenceId;
-    mContainsUndeclaredUnits = 
-                            orig.mContainsUndeclaredUnits;
-    mCanIgnoreUndeclaredUnits = orig.mCanIgnoreUndeclaredUnits;
-    mTypeOfElement = orig.mTypeOfElement;
-    if (orig.mUnitDefinition) 
-    {
-      mUnitDefinition = static_cast <UnitDefinition*> 
-                                        (orig.mUnitDefinition->clone());
-    }
-    else
-    {
-      mUnitDefinition = NULL;
-    }
-    if (orig.mPerTimeUnitDefinition)
-    {
-      mPerTimeUnitDefinition = static_cast <UnitDefinition*> 
-                                  (orig.mPerTimeUnitDefinition->clone());
-    }
-    else
-    {
-      mPerTimeUnitDefinition = NULL;
-    }
-    if (orig.mEventTimeUnitDefinition)
-    {
-      mEventTimeUnitDefinition = static_cast <UnitDefinition*> 
-                                (orig.mEventTimeUnitDefinition->clone());
-    }
-    else
-    {
-      mEventTimeUnitDefinition = NULL;
-    }
-    if (orig.mSpeciesExtentUnitDefinition)
-    {
-      mSpeciesExtentUnitDefinition = static_cast <UnitDefinition*> 
-                                (orig.mSpeciesExtentUnitDefinition->clone());
-    }
-    else
-    {
-      mSpeciesExtentUnitDefinition = NULL;
-    }
-    if (orig.mSpeciesSubstanceUnitDefinition)
-    {
-      mSpeciesSubstanceUnitDefinition = static_cast <UnitDefinition*> 
-                                (orig.mSpeciesSubstanceUnitDefinition->clone());
-    }
-    else
-    {
-      mSpeciesSubstanceUnitDefinition = NULL;
-    }
+    mPerTimeUnitDefinition = static_cast <UnitDefinition*> 
+                                (orig.mPerTimeUnitDefinition->clone());
+  }
+
+  if (orig.mEventTimeUnitDefinition)
+  {
+    mEventTimeUnitDefinition = static_cast <UnitDefinition*> 
+                              (orig.mEventTimeUnitDefinition->clone());
+  }
+
+  if (orig.mSpeciesExtentUnitDefinition)
+  {
+    mSpeciesExtentUnitDefinition = static_cast <UnitDefinition*> 
+                              (orig.mSpeciesExtentUnitDefinition->clone());
+  }
+
+  if (orig.mSpeciesSubstanceUnitDefinition)
+  {
+    mSpeciesSubstanceUnitDefinition = static_cast <UnitDefinition*> 
+                              (orig.mSpeciesSubstanceUnitDefinition->clone());
   }
 }
 
@@ -135,11 +114,7 @@ FormulaUnitsData::FormulaUnitsData(const FormulaUnitsData& orig)
  */
 FormulaUnitsData& FormulaUnitsData::operator=(const FormulaUnitsData& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     mUnitReferenceId = rhs.mUnitReferenceId;
     mContainsUndeclaredUnits = 
@@ -657,7 +632,6 @@ FormulaUnitsData_setEventTimeUnitDefinition(FormulaUnitsData_t* fud,
 }
 
 */
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

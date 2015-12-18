@@ -38,9 +38,7 @@
 #include <cstdio>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -75,7 +73,7 @@ ModelCreator::ModelCreator(const XMLNode creator):
     int ORGpos = -1;
     for (n = 0; n < numChildren; n++)
     {
-      const string& name = creator.getChild(n).getName();
+      const string& name = creator.getChild((unsigned int)n).getName();
       if (name == "N" && Npos < 0)
         Npos = n;
       else if (name == "EMAIL" && EMAILpos < 0 && n > Npos)
@@ -87,20 +85,20 @@ ModelCreator::ModelCreator(const XMLNode creator):
     //get Names
     if (Npos >= 0)
     {
-      setFamilyName(creator.getChild(Npos).getChild("Family").getChild(0).getCharacters());
-      setGivenName(creator.getChild(Npos).getChild("Given").getChild(0).getCharacters());
+      setFamilyName(creator.getChild((unsigned int)Npos).getChild("Family").getChild(0).getCharacters());
+      setGivenName(creator.getChild((unsigned int)Npos).getChild("Given").getChild(0).getCharacters());
     }
 
     // get EMAIL
     if (EMAILpos >= 0)
     {
-      setEmail(creator.getChild(EMAILpos).getChild(0).getCharacters());
+      setEmail(creator.getChild((unsigned int)EMAILpos).getChild(0).getCharacters());
     }
 
     // get ORG
     if (ORGpos >= 0)
     {
-      setOrganization(creator.getChild(ORGpos).getChild("Orgname")
+      setOrganization(creator.getChild((unsigned int)ORGpos).getChild("Orgname")
                              .getChild(0).getCharacters());
     }
     // loop thru and save any other elements
@@ -113,7 +111,7 @@ ModelCreator::ModelCreator(const XMLNode creator):
         {
           mAdditionalRDF = new XMLNode();
         }
-        mAdditionalRDF->addChild(creator.getChild(n));
+        mAdditionalRDF->addChild(creator.getChild((unsigned int)n));
       }
     }
   }
@@ -134,11 +132,6 @@ ModelCreator::~ModelCreator()
  */
 ModelCreator::ModelCreator(const ModelCreator& orig)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
   {
     mFamilyName   = orig.mFamilyName;
     mGivenName    = orig.mGivenName;
@@ -161,11 +154,7 @@ ModelCreator::ModelCreator(const ModelCreator& orig)
  */
 ModelCreator& ModelCreator::operator=(const ModelCreator& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     mFamilyName   = rhs.mFamilyName;
     mGivenName    = rhs.mGivenName;
@@ -235,11 +224,6 @@ ModelCreator::isSetOrganisation()
 int 
 ModelCreator::setFamilyName(const std::string& name)
 {
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
   {
     mFamilyName = name;
     mHasBeenModified = true;
@@ -254,11 +238,6 @@ ModelCreator::setFamilyName(const std::string& name)
 int 
 ModelCreator::setGivenName(const std::string& name)
 {
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
   {
     mGivenName = name;
     mHasBeenModified = true;
@@ -273,11 +252,6 @@ ModelCreator::setGivenName(const std::string& name)
 int 
 ModelCreator::setEmail(const std::string& email)
 {
-  if (&(email) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
   {
     mEmail = email;
     mHasBeenModified = true;
@@ -289,11 +263,6 @@ ModelCreator::setEmail(const std::string& email)
 int 
 ModelCreator::setOrganization(const std::string& organization)
 {
-  if (&(organization) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
   {
     mOrganization = organization;
     mHasBeenModified = true;
@@ -432,7 +401,6 @@ ModelCreator::resetModifiedFlags()
 
 
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 ModelCreator_t *
 ModelCreator_create()
@@ -650,7 +618,6 @@ ModelCreator_hasRequiredAttributes(ModelCreator_t *mc)
   if (mc == NULL) return (int)false;
   return static_cast<int> (mc->hasRequiredAttributes());
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

@@ -31,9 +31,7 @@
 
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -129,7 +127,7 @@ ClassReplacements::~ClassReplacements ()
  * Reactions, and Events.
  */
 void
-ClassReplacements::check_ (const Model& m, const Model& object)
+ClassReplacements::check_ (const Model& m, const Model&)
 {
   unsigned int n, size;
   const CompSBasePlugin * plug;
@@ -323,5 +321,4 @@ ClassReplacements::logBadClassReplacement (ReplacedElement& repE,
 #endif  /* __cplusplus */
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

@@ -52,7 +52,6 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 static const string
 trim (const string& s)
 {
-  if (&s == NULL) return s;
 
   static const string whitespace(" \t\r\n");
 
@@ -292,7 +291,5 @@ ASTCiNumberNode::read(XMLInputStream& stream, const std::string& reqd_prefix)
 
 
 LIBSBML_CPP_NAMESPACE_END
-
-
 /** @endcond */
 

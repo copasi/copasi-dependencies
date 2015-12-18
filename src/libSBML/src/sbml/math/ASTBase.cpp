@@ -90,8 +90,8 @@ struct CloneASTPluginEntityNoParent : public unary_function<ASTBasePlugin*, ASTB
 
 
 ASTBase::ASTBase (int type) :
-   mIsChildFlag     ( false )
-   , mPackageName      ( "core" )
+//   mIsChildFlag     ( false )
+     mPackageName      ( "core" )
    , mId ("")
    , mClass ("")
    , mStyle ("")
@@ -116,8 +116,8 @@ ASTBase::ASTBase (int type) :
   
 
 ASTBase::ASTBase (SBMLNamespaces* sbmlns, int type) :
-   mIsChildFlag     ( false )
-   , mPackageName      ( "core" )
+//   mIsChildFlag     ( false )
+     mPackageName      ( "core" )
    , mId ("")
    , mClass ("")
    , mStyle ("")
@@ -141,8 +141,8 @@ ASTBase::ASTBase (SBMLNamespaces* sbmlns, int type) :
  * Copy constructor
  */
 ASTBase::ASTBase (const ASTBase& orig):
-   mIsChildFlag          ( orig.mIsChildFlag )  
-  , mType                ( orig.mType )
+//   mIsChildFlag          ( orig.mIsChildFlag )  
+    mType                ( orig.mType )
   , mTypeFromPackage     ( orig.mTypeFromPackage)
   , mPackageName         ( orig.mPackageName )
   , mId                  (orig.mId)
@@ -158,7 +158,7 @@ ASTBase::ASTBase (const ASTBase& orig):
              mPlugins.begin(), CloneASTPluginEntity() );
   for (size_t i=0; i < mPlugins.size(); i++)
   {
-    getPlugin(i)->connectToParent(this);
+    getPlugin((unsigned int)i)->connectToParent(this);
   }
 }
 
@@ -171,7 +171,7 @@ ASTBase::operator=(const ASTBase& rhs)
 {
   if(&rhs!=this)
   {
-    mIsChildFlag          = rhs.mIsChildFlag;
+//    mIsChildFlag          = rhs.mIsChildFlag;
     mType                 = rhs.mType;
     mTypeFromPackage      = rhs.mTypeFromPackage;
     mPackageName          = rhs.mPackageName;
@@ -472,7 +472,7 @@ ASTBase::isPackageInfixFunction() const
   if (getType() != AST_ORIGINATES_IN_PACKAGE) return false;
   for (size_t i=0; i < mPlugins.size(); i++)
   {
-    if (getPlugin(i)->isPackageInfixFunction()) return true;
+    if (getPlugin((unsigned int)i)->isPackageInfixFunction()) return true;
   }
   return false;
 }
@@ -483,7 +483,7 @@ ASTBase::hasPackageOnlyInfixSyntax() const
   if (getType() != AST_ORIGINATES_IN_PACKAGE) return false;
   for (size_t i=0; i < mPlugins.size(); i++)
   {
-    if (getPlugin(i)->hasPackageOnlyInfixSyntax()) return true;
+    if (getPlugin((unsigned int)i)->hasPackageOnlyInfixSyntax()) return true;
   }
   return false;
 }
@@ -494,7 +494,7 @@ ASTBase::getL3PackageInfixPrecedence() const
   if (getType() != AST_ORIGINATES_IN_PACKAGE) return 8;
   for (size_t i=0; i < mPlugins.size(); i++)
   {
-    int ret = getPlugin(i)->getL3PackageInfixPrecedence();
+    int ret = getPlugin((unsigned int)i)->getL3PackageInfixPrecedence();
     if (ret != -1) return ret;
   }
   return 8;
@@ -506,7 +506,7 @@ ASTBase::hasUnambiguousPackageInfixGrammar(const ASTNode *child) const
   if (getType() != AST_ORIGINATES_IN_PACKAGE) return false;
   for (size_t i=0; i < mPlugins.size(); i++)
   {
-    if (getPlugin(i)->hasUnambiguousPackageInfixGrammar(child)) return true;
+    if (getPlugin((unsigned int)i)->hasUnambiguousPackageInfixGrammar(child)) return true;
   }
   return false;
 }
@@ -1274,12 +1274,12 @@ ASTBase::setIsBvar(bool isbvar)
 
 
 void 
-ASTBase::write(XMLOutputStream& stream) const
+ASTBase::write(XMLOutputStream& ) const
 {
 }
 
 bool 
-ASTBase::read(XMLInputStream& stream, const std::string& reqd_prefix)
+ASTBase::read(XMLInputStream& stream, const std::string& )
 {
   ExpectedAttributes expectedAttributes;
   addExpectedAttributes(expectedAttributes, stream);
@@ -1417,18 +1417,22 @@ ASTBase::readAttributes(const XMLAttributes& attributes,
   return read;
 }
 
-
+#if (0)
+/*
+ * removed as caused issues when manipulating ASTs
+ */
 bool 
 ASTBase::isChild() const
 {
   return mIsChildFlag;
 }
-
+#endif
 
 void 
-ASTBase::setIsChildFlag(bool flag)
+ASTBase::setIsChildFlag(bool )
 {
-  mIsChildFlag = flag;
+  // no op
+  // left for backwards compatibility reasons
 }
 
 //
@@ -1527,7 +1531,7 @@ ASTBase::getPlugin(unsigned int n) const
 unsigned int 
 ASTBase::getNumPlugins() const
 {
-  return (int)mPlugins.size();
+  return (unsigned int)mPlugins.size();
 }
 
 
@@ -1536,7 +1540,6 @@ ASTBase::writeENotation (  double    mantissa
                 , long             exponent
                 , XMLOutputStream& stream ) const
 {
-  if (&stream == NULL) return;
 
   ostringstream output;
 
@@ -1564,10 +1567,9 @@ ASTBase::writeENotation (  double    mantissa
 
 void
 ASTBase::writeENotation (  const std::string&    mantissa
-                               , const std::string&    exponent
-                , XMLOutputStream& stream ) const
+                         , const std::string&    exponent
+                         , XMLOutputStream& stream ) const
 {
-  if (&mantissa == NULL || &exponent == NULL || &stream == NULL) return;
 
   static const string enotation = "e-notation";
   stream.writeAttribute("type", enotation);
@@ -1580,7 +1582,6 @@ ASTBase::writeENotation (  const std::string&    mantissa
 void 
 ASTBase::writeNegInfinity(XMLOutputStream& stream) const
 {
-  if (&stream == NULL) return;
 
   stream.startElement("apply");
   stream.startEndElement("minus");
@@ -1591,7 +1592,6 @@ ASTBase::writeNegInfinity(XMLOutputStream& stream) const
 void 
 ASTBase::writeConstant(XMLOutputStream& stream, const std::string & name) const
 {
-  if (&stream == NULL) return;
 
 	stream.startElement(name);
   writeAttributes(stream);
@@ -1601,7 +1601,6 @@ ASTBase::writeConstant(XMLOutputStream& stream, const std::string & name) const
 void 
 ASTBase::writeStartEndElement (XMLOutputStream& stream) const
 {
-  if (&stream == NULL) return;
 
   const char * name = getNameFromType(getExtendedType());
 	stream.startElement(name);
@@ -1639,8 +1638,8 @@ ASTBase::writeAttributes (XMLOutputStream& stream) const
 
 
 void 
-ASTBase::writeNodeOfType(XMLOutputStream& stream, int type, 
-    bool inChildNode) const
+ASTBase::writeNodeOfType(XMLOutputStream& , int ,
+    bool ) const
 {
 }
 
@@ -1696,7 +1695,7 @@ ASTBase::loadASTPlugins(const SBMLNamespaces * sbmlns)
   if (sbmlns == NULL)
   {
     const std::vector<std::string>& names = SBMLExtensionRegistry::getAllRegisteredPackageNames();
-    unsigned int numPkgs = names.size();
+    unsigned int numPkgs = (unsigned int)names.size();
     
     for (unsigned int i=0; i < numPkgs; i++)
     {
@@ -1710,10 +1709,11 @@ ASTBase::loadASTPlugins(const SBMLNamespaces * sbmlns)
         const ASTBasePlugin* astPlugin = sbmlext->getASTBasePlugin();
         if (astPlugin != NULL)
         {
-          //// need to give the plugin infomrtaion about itself
-          //astPlugin->setSBMLExtension(sbmlext);
-          //astPlugin->connectToParent(this);
-          mPlugins.push_back(astPlugin->clone());
+            ASTBasePlugin* myastPlugin = astPlugin->clone();
+            myastPlugin->setSBMLExtension(sbmlext);
+//            myastPlugin->setPrefix(xmlns->getPrefix(i));
+            myastPlugin->connectToParent(this);
+            mPlugins.push_back(myastPlugin);
         }
 
       }
@@ -1757,7 +1757,7 @@ ASTBase::syncMembersFrom(ASTBase* rhs)
     return;
   }
 
-  mIsChildFlag          = rhs->mIsChildFlag;
+//  mIsChildFlag          = rhs->mIsChildFlag;
   mType                 = rhs->mType;
   mTypeFromPackage      = rhs->mTypeFromPackage;
   mPackageName          = rhs->mPackageName;
@@ -1784,7 +1784,7 @@ ASTBase::syncPluginsFrom(ASTBase* rhs)
     return;
   }
 
-  mIsChildFlag          = rhs->mIsChildFlag;
+//  mIsChildFlag          = rhs->mIsChildFlag;
   mType                 = rhs->mType;
   mTypeFromPackage      = rhs->mTypeFromPackage;
   mPackageName          = rhs->mPackageName;
@@ -1812,7 +1812,7 @@ ASTBase::syncMembersAndResetParentsFrom(ASTBase* rhs)
     return;
   }
 
-  mIsChildFlag          = rhs->mIsChildFlag;
+//  mIsChildFlag          = rhs->mIsChildFlag;
   mType                 = rhs->mType;
   mTypeFromPackage      = rhs->mTypeFromPackage;
   mPackageName          = rhs->mPackageName;
@@ -1846,7 +1846,7 @@ ASTBase::syncMembersOnlyFrom(ASTBase* rhs)
     return;
   }
 
-  mIsChildFlag          = rhs->mIsChildFlag;
+//  mIsChildFlag          = rhs->mIsChildFlag;
   mId                   = rhs->mId;
   mClass                = rhs->mClass;
   mStyle                = rhs->mStyle;
@@ -1887,8 +1887,6 @@ void
 ASTBase::logError (XMLInputStream& stream, const XMLToken& element, SBMLErrorCode_t code,
           const std::string& msg)
 {
-  if (&element == NULL || &stream == NULL) return;
-
   SBMLNamespaces* ns = stream.getSBMLNamespaces();
   if (ns != NULL)
   {
@@ -1956,7 +1954,5 @@ ASTBase::getNumChildren() const
 
 
 LIBSBML_CPP_NAMESPACE_END
-
-
 /** @endcond */
 

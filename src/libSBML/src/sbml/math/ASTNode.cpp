@@ -44,9 +44,7 @@
 #include <limits.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -881,10 +879,8 @@ ASTNode::getReal () const
     case AST_CONSTANT_TRUE:
     case AST_CONSTANT_FALSE:
       return 0;
-      break;
     default:
       return mNumber->getValue();
-      break;
     }
   }
   else
@@ -1314,7 +1310,7 @@ ASTNode::setType (int type)
     {
       if (found == false)
       {
-        const char * name = ASTBase::getPlugin(i)->getNameFromType(type);
+        const char * name1 = ASTBase::getPlugin(i)->getNameFromType(type);
         if (representsFunction(type, ASTBase::getPlugin(i)) == true)
         {
           mFunction = new ASTFunction (type);
@@ -1331,7 +1327,7 @@ ASTNode::setType (int type)
           found = true;
         }
         else if (ASTBase::getPlugin(i)
-                          ->isTopLevelMathMLFunctionNodeTag(name) == true)
+                          ->isTopLevelMathMLFunctionNodeTag(name1) == true)
         {
           mFunction = new ASTFunction (type);
           if (copyNumber != NULL)
@@ -2694,6 +2690,11 @@ ASTNode::swapChildren(ASTNode* that)
 void 
 ASTNode::write(XMLOutputStream& stream) const
 {
+  /* writing the opening math and ns has moved to the MathML writing code
+   * as trying to keep track of a child node could cause issues
+   * when manipulating or using child ASTs
+   */
+#if (0)
   if (ASTBase::isChild() == false)
   {
     static const string uri = "http://www.w3.org/1998/Math/MathML";
@@ -2718,11 +2719,8 @@ ASTNode::write(XMLOutputStream& stream) const
       ASTBase::getPlugin(i)->writeXMLNS(stream);
     }
   }
+#endif
 
-  //if (getSemanticsFlag() == true)
-  //{
-  //  stream.startElement("semantics");
-  //}
   if (mNumber != NULL)
   {
     mNumber->write(stream);
@@ -2733,20 +2731,16 @@ ASTNode::write(XMLOutputStream& stream) const
     mFunction->write(stream);
   }
 
-  //if (getSemanticsFlag() == true)
-  //{
-  //  for (unsigned int n = 0; n < getNumSemanticsAnnotations(); n++)
-  //  {
-  //    stream << *(getSemanticsAnnotation(n));
-  //  }
-  //  stream.endElement("semantics");
-  //}
-
+  /* writing the closing math has moved to the MathML writing code
+   * as trying to keep track of a child node could cause issues
+   * when manipulating or using child ASTs
+   */
+#if (0)
   if (ASTBase::isChild() == false)
   {
     stream.endElement("math");
   }
-
+#endif
 }
 /** @endcond */
 
@@ -3011,6 +3005,10 @@ ASTNode::renameSIdRefs(const std::string& oldid, const std::string& newid)
   {
     getChild(child)->renameSIdRefs(oldid, newid);
   }
+
+  for (unsigned int p=0; p<getNumPlugins(); p++) {
+    getPlugin(p)->renameSIdRefs(oldid, newid);
+  }
 }
 
 
@@ -3028,6 +3026,10 @@ ASTNode::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
   for (unsigned int child=0; child<getNumChildren(); child++) 
   {
     getChild(child)->renameUnitSIdRefs(oldid, newid);
+  }
+
+  for (unsigned int p=0; p<getNumPlugins(); p++) {
+    getPlugin(p)->renameUnitSIdRefs(oldid, newid);
   }
 }
 
@@ -3048,6 +3050,10 @@ ASTNode::replaceIDWithFunction(const std::string& id, const ASTNode* function)
     {
       child->replaceIDWithFunction(id, function);
     }
+  }
+
+  for (unsigned int p=0; p<getNumPlugins(); p++) {
+    getPlugin(p)->replaceIDWithFunction(id, function);
   }
 }
 /** @endcond */
@@ -3220,7 +3226,7 @@ ASTNode::getNumVariablesWithUndeclaredUnits(Model * m) const
     // loop thru the list and check the unit status of each variable
     for (unsigned int v = 0; v < variables->size(); v++)
     {
-      string id = variables->at(v);
+      string id = variables->at((int)v);
       
 
       if (m->getParameter(id) != NULL)
@@ -3363,7 +3369,6 @@ ASTNode::unsetUserData()
 }
   
 /** @cond doxygenLibsbmlInternal */
-
 ASTBasePlugin* 
 ASTNode::getPlugin(const std::string& package)
 {
@@ -3411,7 +3416,6 @@ const ASTBasePlugin*
 {
   return const_cast<ASTNode*>(this)->getPlugin(n);
 }
-
 /** @endcond */
 
 bool
@@ -3715,7 +3719,6 @@ ASTNode::connectPlugins()
 
 
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 ASTNode_t *
 ASTNode_create (void)
@@ -4637,7 +4640,7 @@ ASTNode_setDefinitionURLString(ASTNode_t* node, const char * defnURL)
  */
 LIBSBML_EXTERN
 int
-ASTNode_true(const ASTNode *node)
+ASTNode_true(const ASTNode *)
 {
   return 1;
 }
@@ -4686,8 +4689,6 @@ ASTNode_hasUnambiguousPackageInfixGrammar(const ASTNode *node, const ASTNode *ch
   return (int)node->hasUnambiguousPackageInfixGrammar(child);
 }
 /** @endcond */
-
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

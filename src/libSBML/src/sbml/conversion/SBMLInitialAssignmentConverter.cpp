@@ -106,7 +106,7 @@ SBMLInitialAssignmentConverter::getDefaultProperties() const
 bool 
 SBMLInitialAssignmentConverter::matchesProperties(const ConversionProperties &props) const
 {
-  if (&props == NULL || !props.hasOption("expandInitialAssignments"))
+  if (!props.hasOption("expandInitialAssignments"))
     return false;
   return true;
 }
@@ -153,8 +153,6 @@ SBMLInitialAssignmentConverter::convert()
 }
 
 /** @cond doxygenIgnored */
-
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

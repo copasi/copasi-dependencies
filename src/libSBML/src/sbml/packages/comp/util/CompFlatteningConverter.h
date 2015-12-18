@@ -496,7 +496,6 @@ class LIBSBML_EXTERN CompFlatteningConverter : public SBMLConverter
 public:
 
   /** @cond doxygenLibsbmlInternal */
-
   /**
    * Register with the ConversionRegistry.
    */
@@ -517,9 +516,6 @@ public:
    * This creates a copy of a CompFlatteningConverter object.
    *
    * @param orig the CompFlatteningConverter instance to copy.
-   *
-   * @throws SBMLConstructorException
-   * Thrown if the argument @p orig is @c NULL.
    */
   CompFlatteningConverter(const CompFlatteningConverter& orig);
 
@@ -615,7 +611,6 @@ public:
 private:
 
   /** @cond doxygenLibsbmlInternal */
-
   int validateOriginalDocument();
 
   int validateFlatDocument(Model* flatmodel, unsigned int pkgVersion,

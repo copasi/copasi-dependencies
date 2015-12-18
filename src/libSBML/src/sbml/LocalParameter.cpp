@@ -46,9 +46,7 @@
 #include <sbml/LocalParameter.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -100,10 +98,6 @@ LocalParameter::~LocalParameter ()
 LocalParameter::LocalParameter(const LocalParameter& orig) :
     Parameter      ( orig             )
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
 }
 
 
@@ -112,22 +106,14 @@ LocalParameter::LocalParameter(const LocalParameter& orig) :
  */
 LocalParameter::LocalParameter(const Parameter& orig) :
     Parameter      ( orig             )
-{
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
+{  
 }
 /*
  * Assignment operator.
  */
 LocalParameter& LocalParameter::operator=(const LocalParameter& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->Parameter::operator =(rhs);
   }
@@ -136,18 +122,13 @@ LocalParameter& LocalParameter::operator=(const LocalParameter& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the parent Model's or
- * KineticLaw's next LocalParameter (if available).
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 LocalParameter::accept (SBMLVisitor& v) const
 {
   return v.visit(*this);
 }
+/** @endcond */
 
 
 /*
@@ -194,7 +175,7 @@ LocalParameter::isSetConstant () const
  * Sets the constant field of this Parameter to value.
  */
 int
-LocalParameter::setConstant (bool flag)
+LocalParameter::setConstant (bool)
 {
   return LIBSBML_UNEXPECTED_ATTRIBUTE;
 }
@@ -392,11 +373,11 @@ ListOfLocalParameters::get(unsigned int n) const
  */
 struct IdEqP : public unary_function<SBase*, bool>
 {
-  const string& id;
+  const string& mId;
 
-  IdEqP (const string& id) : id(id) { }
+  IdEqP (const string& id) : mId(id) { }
   bool operator() (SBase* sb) 
-       { return static_cast <LocalParameter *> (sb)->getId() == id; }
+       { return static_cast <LocalParameter *> (sb)->getId() == mId; }
 };
 
 
@@ -415,16 +396,10 @@ ListOfLocalParameters::get (const std::string& sid) const
 {
   vector<SBase*>::const_iterator result;
 
-  if (&(sid) == NULL)
-  {
-    return NULL;
-  }
-  else
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEqP(sid) );
-    return (result == mItems.end()) ? NULL : 
-                             static_cast <LocalParameter*> (*result);
-  }
+  result = find_if( mItems.begin(), mItems.end(), IdEqP(sid) );
+  return (result == mItems.end()) ? NULL : 
+                           static_cast <LocalParameter*> (*result);
+  
 }
 
 
@@ -457,15 +432,12 @@ ListOfLocalParameters::remove (const std::string& sid)
   SBase* item = NULL;
   vector<SBase*>::iterator result;
 
-  if (&(sid) != NULL)
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEqP(sid) );
+  result = find_if( mItems.begin(), mItems.end(), IdEqP(sid) );
 
-    if (result != mItems.end())
-    {
-      item = *result;
-      mItems.erase(result);
-    }
+  if (result != mItems.end())
+  {
+    item = *result;
+    mItems.erase(result);
   }
 
   return static_cast <LocalParameter*> (item);
@@ -526,8 +498,6 @@ ListOfLocalParameters::createObject (XMLInputStream& stream)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 LocalParameter_t *
 LocalParameter_create (unsigned int level, unsigned int version)
@@ -579,7 +549,7 @@ LocalParameter_clone (const LocalParameter_t *p)
 
 LIBSBML_EXTERN
 void
-LocalParameter_initDefaults (LocalParameter_t *p)
+LocalParameter_initDefaults (LocalParameter_t *)
 {
   return;
 }
@@ -799,6 +769,5 @@ ListOfLocalParameters_removeById (ListOf_t *lo, const char *sid)
   else
     return NULL;
 }
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END

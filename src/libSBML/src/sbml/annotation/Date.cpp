@@ -38,9 +38,7 @@
 #include <cstdio>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -77,10 +75,7 @@ Date::Date(unsigned int year, unsigned int month,
 Date::Date (const std::string& date) :
   mHasBeenModified (false)
 { 
-  if (&(date) == NULL)
-    mDate = "";
-  else
-    mDate = date; 
+  mDate = date; 
 
   parseDateStringToNumbers();
   parseDateNumbersToString();
@@ -94,11 +89,6 @@ Date::~Date() {}
  */
 Date::Date(const Date& orig)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
   {
     mYear   = orig.mYear;
     mMonth  = orig.mMonth;
@@ -122,11 +112,7 @@ Date::Date(const Date& orig)
  */
 Date& Date::operator=(const Date& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     mYear   = rhs.mYear;
     mMonth  = rhs.mMonth;
@@ -392,16 +378,7 @@ Date::setDateAsString (const std::string& date)
    * the date completely
    */
  
-  if (&(date) == NULL)
-  {
-    mDate = "";
-    // revert to default numbers
-    // rewrite date string to reflect the defaults
-    parseDateStringToNumbers();
-    parseDateNumbersToString();
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (date.empty())
+  if (date.empty())
   {
     mDate = "";
     // revert to default numbers
@@ -535,54 +512,54 @@ Date::parseDateStringToNumbers()
     year[2] = (length > 2) ? cdate[2] : 0;
     year[3] = (length > 3) ? cdate[3] : 0;
 
-    mYear = (int)strtol(year, NULL, 10);
+    mYear = (unsigned int)strtol(year, NULL, 10);
     
     block[0] = (length > 5) ? cdate[5] : 0;
     block[1] = (length > 6) ? cdate[6] : 0;
     
-    mMonth = (int)strtol(block, NULL, 10);
+    mMonth = (unsigned int)strtol(block, NULL, 10);
 
     block[0] = (length > 8) ? cdate[8] : 0;
     block[1] = (length > 9) ? cdate[9] : 0;
     
-    mDay = (int)strtol(block, NULL, 10);
+    mDay = (unsigned int)strtol(block, NULL, 10);
 
     block[0] = (length > 11) ? cdate[11] : 0;
     block[1] = (length > 12) ? cdate[12] : 0;
     
-    mHour = (int)strtol(block, NULL, 10);
+    mHour = (unsigned int)strtol(block, NULL, 10);
 
     block[0] = (length > 14) ? cdate[14] : 0;
     block[1] = (length > 15) ? cdate[15] : 0;
     
-    mMinute = (int)strtol(block, NULL, 10);
+    mMinute = (unsigned int)strtol(block, NULL, 10);
 
     block[0] = (length > 17) ? cdate[17] : 0;
     block[1] = (length > 18) ? cdate[18] : 0;
     
-    mSecond = (int)strtol(block, NULL, 10);
+    mSecond = (unsigned int)strtol(block, NULL, 10);
 
     if (length > 19 && cdate[19] == '+')
     {
       mSignOffset = 1;
       block[0] = (length > 20) ? cdate[20] : 0;
       block[1] = (length > 21) ? cdate[21] : 0;
-      mHoursOffset = (int)strtol(block, NULL, 10);
+      mHoursOffset = (unsigned int)strtol(block, NULL, 10);
 
       block[0] = (length > 23) ? cdate[23] : 0;
       block[1] = (length > 24) ? cdate[24] : 0;
-      mMinutesOffset = (int)strtol(block, NULL, 10);
+      mMinutesOffset = (unsigned int)strtol(block, NULL, 10);
     }
     else if (length > 19 && cdate[19] == '-')
     {
       mSignOffset = 0;
       block[0] = (length > 20) ? cdate[20] : 0;
       block[1] = (length > 21) ? cdate[21] : 0;
-      mHoursOffset = (int)strtol(block, NULL, 10);
+      mHoursOffset = (unsigned int)strtol(block, NULL, 10);
 
       block[0] = (length > 23) ? cdate[23] : 0;
       block[1] = (length > 24) ? cdate[24] : 0;
-      mMinutesOffset = (int)strtol(block, NULL, 10);
+      mMinutesOffset = (unsigned int)strtol(block, NULL, 10);
     }
     else
     {
@@ -684,7 +661,6 @@ Date::resetModifiedFlags()
 
 
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 Date_t *
 Date_createFromValues(unsigned int year, unsigned int month, 
@@ -911,7 +887,6 @@ Date_representsValidDate(Date_t *date)
   if (date == NULL) return (int)false;
   return static_cast<int> (date->representsValidDate());
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

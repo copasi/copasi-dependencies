@@ -45,9 +45,7 @@
 #include <sbml/compress/InputDecompressor.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -136,8 +134,6 @@ SBMLReader::readSBMLFromFile (const std::string& filename)
 SBMLDocument*
 SBMLReader::readSBMLFromString (const std::string& xml)
 {
-  if (&xml == NULL) return NULL;
-
   const static string dummy_xml ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");  
   
   if (!strncmp(xml.c_str(), dummy_xml.c_str(), 14))
@@ -259,10 +255,10 @@ SBMLReader::readInternal (const char* content, bool isFile)
           // If we find even one critical error, all other errors are
           // suspect and may be bogus.  Remove them.
 
-          for (int n = d->getNumErrors()-1; n >= 0; n--)      
-            if (!isCriticalError(d->getError(n)->getErrorId()))
+          for (int n = (int)d->getNumErrors()-1; n >= 0; --n)
+            if (!isCriticalError(d->getError((unsigned int)n)->getErrorId()))
             {
-              d->getErrorLog()->remove(d->getError(n)->getErrorId());
+              d->getErrorLog()->remove(d->getError((unsigned int)n)->getErrorId());
             }
 
           break;
@@ -334,8 +330,6 @@ SBMLReader::readInternal (const char* content, bool isFile)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 SBMLReader_t *
 SBMLReader_create ()
@@ -429,6 +423,5 @@ readSBMLFromString (const char *xml)
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */
 

@@ -53,9 +53,7 @@
 #include <sbml/extension/SBasePlugin.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -122,29 +120,21 @@ SpeciesReference::~SpeciesReference ()
 /*
  * Copy constructor. Creates a copy of this SpeciesReference.
  */
-SpeciesReference::SpeciesReference (const SpeciesReference& orig) :
-   SimpleSpeciesReference( orig                )
- , mStoichiometryMath    ( NULL                   )
+SpeciesReference::SpeciesReference (const SpeciesReference& orig)
+ : SimpleSpeciesReference( orig                )
+ , mStoichiometry        ( orig.mStoichiometry )
+ , mDenominator          ( orig.mDenominator   )
+ , mStoichiometryMath    ( NULL                )
+ , mConstant             ( orig.mConstant)
+ , mIsSetConstant        ( orig.mIsSetConstant)
+ , mIsSetStoichiometry   ( orig.mIsSetStoichiometry)
+ , mExplicitlySetStoichiometry ( orig.mExplicitlySetStoichiometry)
+ , mExplicitlySetDenominator   ( orig.mExplicitlySetDenominator)
 {
-  if (&orig == NULL)
+  if (orig.mStoichiometryMath != NULL)
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mStoichiometry = orig.mStoichiometry ;
-    mDenominator = orig.mDenominator   ;
-    mConstant = orig.mConstant;
-    mIsSetConstant = orig.mIsSetConstant;
-    mIsSetStoichiometry = orig.mIsSetStoichiometry;
-    mExplicitlySetStoichiometry = orig.mExplicitlySetStoichiometry;
-    mExplicitlySetDenominator = orig.mExplicitlySetDenominator;
-
-    if (orig.mStoichiometryMath != NULL)
-    {
-      mStoichiometryMath = new StoichiometryMath(*orig.getStoichiometryMath());
+    mStoichiometryMath = new StoichiometryMath(*orig.getStoichiometryMath());
     mStoichiometryMath->connectToParent(this);
-    }
   }
 }
 
@@ -154,11 +144,7 @@ SpeciesReference::SpeciesReference (const SpeciesReference& orig) :
  */
 SpeciesReference& SpeciesReference::operator=(const SpeciesReference& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     this->SimpleSpeciesReference::operator = ( rhs );
@@ -186,13 +172,7 @@ SpeciesReference& SpeciesReference::operator=(const SpeciesReference& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the Reaction's next
- * SpeciesReference (if available).
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 SpeciesReference::accept (SBMLVisitor& v) const
 {
@@ -202,6 +182,7 @@ SpeciesReference::accept (SBMLVisitor& v) const
   
   return result;
 }
+/** @endcond */
 
 
 /*
@@ -448,7 +429,7 @@ SpeciesReference::unsetStoichiometryMath ()
 int
 SpeciesReference::unsetStoichiometry ()
 {
-  const int level = getLevel();
+  const unsigned int level = getLevel();
 
   if ( level > 2 )
   {
@@ -1244,12 +1225,12 @@ ListOfSpeciesReferences::getElementName () const
  */
 struct IdEqSSR : public unary_function<SBase*, bool>
 {
-  const string& id;
+  const string& mId;
 
-  IdEqSSR (const string& id) : id(id) { }
+  IdEqSSR (const string& id) : mId(id) { }
   bool operator() (SBase* sb)
-       { return (static_cast <SimpleSpeciesReference *> (sb)->getId()  == id) 
-         || (static_cast <SimpleSpeciesReference *> (sb)->getSpecies() == id); } 
+       { return (static_cast <SimpleSpeciesReference *> (sb)->getId()  == mId)
+         || (static_cast <SimpleSpeciesReference *> (sb)->getSpecies() == mId); } 
 };
 
 
@@ -1284,16 +1265,9 @@ ListOfSpeciesReferences::get (const std::string& sid) const
 {
   vector<SBase*>::const_iterator result;
 
-  if (&(sid) == NULL)
-  {
-    return NULL;
-  }
-  else
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEqSSR(sid) );
-    return (result == mItems.end()) ? NULL : 
-                             static_cast <SimpleSpeciesReference*> (*result);
-  }
+  result = find_if( mItems.begin(), mItems.end(), IdEqSSR(sid) );
+  return (result == mItems.end()) ? NULL : 
+                           static_cast <SimpleSpeciesReference*> (*result);
 }
 
 
@@ -1312,15 +1286,12 @@ ListOfSpeciesReferences::remove (const std::string& sid)
   SBase* item = NULL;
   vector<SBase*>::iterator result;
 
-  if (&(sid) != NULL)
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEqSSR(sid) );
+  result = find_if( mItems.begin(), mItems.end(), IdEqSSR(sid) );
 
-    if (result != mItems.end())
-    {
-      item = *result;
-      mItems.erase(result);
-    }
+  if (result != mItems.end())
+  {
+    item = *result;
+    mItems.erase(result);
   }
 
   return static_cast <SimpleSpeciesReference*> (item);
@@ -1471,7 +1442,6 @@ ListOfSpeciesReferences::createObject (XMLInputStream& stream)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 SpeciesReference_t *
 SpeciesReference_create (unsigned int level, unsigned int version)
@@ -1924,8 +1894,6 @@ ListOfSpeciesReferences_removeById (ListOf_t *lo, const char *sid)
   else
     return NULL;
 }
-
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

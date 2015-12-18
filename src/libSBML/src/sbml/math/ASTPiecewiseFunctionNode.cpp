@@ -581,7 +581,7 @@ ASTPiecewiseFunctionNode::insertChild(unsigned int n, ASTBase* newChild)
       removeChild(i-1);
     }
 
-    unsigned int success = addChild(newChild);
+    int success = addChild(newChild);
 
     i = 0;
     while (success == LIBSBML_OPERATION_SUCCESS && i < copyChildren.size())
@@ -599,7 +599,7 @@ ASTPiecewiseFunctionNode::insertChild(unsigned int n, ASTBase* newChild)
 
 
 int 
-ASTPiecewiseFunctionNode::replaceChild(unsigned int n, ASTBase* newChild, bool delreplaced)
+ASTPiecewiseFunctionNode::replaceChild(unsigned int n, ASTBase* newChild, bool)
 {
   int replaced = LIBSBML_INDEX_EXCEEDS_SIZE;
   
@@ -802,7 +802,6 @@ ASTPiecewiseFunctionNode::setHasOtherwise(bool otherwise)
 void
 ASTPiecewiseFunctionNode::write(XMLOutputStream& stream) const
 {
-  if (&stream == NULL) return;
 
   ASTBase::writeStartElement(stream);
 
@@ -930,7 +929,5 @@ ASTPiecewiseFunctionNode::hasCorrectNumberArguments() const
 
 
 LIBSBML_CPP_NAMESPACE_END
-
-
 /** @endcond */
 

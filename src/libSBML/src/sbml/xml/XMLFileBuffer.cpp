@@ -54,8 +54,6 @@ XMLFileBuffer::XMLFileBuffer (const string& filename)
 {
   mStream = NULL;
 
-  if (&filename == NULL) return;
-
   mFilename = filename;
 
   try
@@ -148,5 +146,4 @@ XMLFileBuffer::error ()
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

@@ -49,9 +49,7 @@
 #include <sbml/Priority.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -94,22 +92,14 @@ Priority::~Priority ()
  * Copy constructor. Creates a copy of this Priority.
  */
 Priority::Priority (const Priority& orig) :
-   SBase          ( orig                 )
- , mMath          ( NULL                   )
+   SBase          ( orig             )
+ , mMath          ( NULL             )
+ , mInternalId    ( orig.mInternalId )
 {
-  if (&orig == NULL)
+  if (orig.mMath != NULL) 
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mInternalId = orig.mInternalId;
-
-    if (orig.mMath != NULL) 
-    {
-      mMath = orig.mMath->deepCopy();
-      mMath->setParentSBMLObject(this);
-    }
+    mMath = orig.mMath->deepCopy();
+    mMath->setParentSBMLObject(this);
   }
 }
 
@@ -119,11 +109,7 @@ Priority::Priority (const Priority& orig) :
  */
 Priority& Priority::operator=(const Priority& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     this->mInternalId = rhs.mInternalId;
@@ -144,9 +130,7 @@ Priority& Priority::operator=(const Priority& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 Priority::accept (SBMLVisitor& v) const
 {
@@ -154,6 +138,7 @@ Priority::accept (SBMLVisitor& v) const
   v.leave(*this);
   return true;
 }
+/** @endcond */
 
 
 /*
@@ -280,6 +265,7 @@ int Priority::removeFromParentAndDelete()
 void
 Priority::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameSIdRefs(oldid, newid);
   }
@@ -288,6 +274,7 @@ Priority::renameSIdRefs(const std::string& oldid, const std::string& newid)
 void 
 Priority::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameUnitSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameUnitSIdRefs(oldid, newid);
   }
@@ -405,12 +392,10 @@ Priority::readAttributes (const XMLAttributes& attributes,
     logError(NotSchemaConformant, getLevel(), getVersion(),
 	      "Priority is not a valid component for this level/version.");
     return;
-    break;
   case 2:
     logError(NotSchemaConformant, getLevel(), getVersion(),
 	      "Priority is not a valid component for this level/version.");
     return;
-    break;
   case 3:
   default:
     readL3Attributes(attributes);
@@ -427,7 +412,7 @@ Priority::readAttributes (const XMLAttributes& attributes,
  * parents implementation of this method as well.
  */
 void
-Priority::readL3Attributes (const XMLAttributes& attributes)
+Priority::readL3Attributes (const XMLAttributes&)
 {
 }
 /** @endcond */
@@ -489,8 +474,6 @@ Priority::writeElements (XMLOutputStream& stream) const
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 Priority_t *
 Priority_create (unsigned int level, unsigned int version)
@@ -572,7 +555,6 @@ Priority_setMath (Priority_t *p, const ASTNode_t *math)
   else
     return LIBSBML_INVALID_OBJECT;
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

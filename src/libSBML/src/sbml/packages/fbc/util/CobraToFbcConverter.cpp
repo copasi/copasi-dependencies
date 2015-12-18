@@ -107,7 +107,7 @@ CobraToFbcConverter::checkCompatibility() const
 bool 
 CobraToFbcConverter::matchesProperties(const ConversionProperties &props) const
 {
-  if (&props == NULL || !props.hasOption("convert cobra"))
+  if (!props.hasOption("convert cobra"))
     return false;
   return true;
 }
@@ -138,6 +138,7 @@ CobraToFbcConverter::convert()
   }
 
   std::map<const string, int> chargeMap;
+  std::map<const string, bool> haveChargeMap;
   std::map<const string, string> formulaMap;
   Model* model = mDocument->getModel();
 
@@ -145,9 +146,11 @@ CobraToFbcConverter::convert()
   {
     Species* current = model->getSpecies(i);
     bool haveCharge = current->isSetCharge();
+    haveChargeMap[current->getId()] = false;
     if (haveCharge)
     {
       chargeMap[current->getId()] = current->getCharge();
+      haveChargeMap[current->getId()] = true;
       // need to unset the charge here, as it the call will 
       // not work once this is an L3 model
       current->unsetCharge();
@@ -166,8 +169,8 @@ CobraToFbcConverter::convert()
           string formula = originalNotes.substr(pos + 9, end - (pos + 9));
           if (formula[0] != '<' &&  formula[0] != '/')
           {
-            size_t pos = formula.find_first_not_of(" \n\t\r");
-            if (pos != std::string::npos)
+            size_t pos1 = formula.find_first_not_of(" \n\t\r");
+            if (pos1 != std::string::npos)
               formulaMap[current->getId()] = formula;
           }
         }
@@ -182,15 +185,18 @@ CobraToFbcConverter::convert()
           string formula = originalNotes.substr(pos + 8, end - (pos + 8));
           if (formula[0] != '<' &&  formula[0] != '/')
           {
-            size_t pos = formula.find_first_not_of(" \n\t\r");
-            if (pos != std::string::npos)
+            size_t pos1 = formula.find_first_not_of(" \n\t\r");
+            if (pos1 != std::string::npos)
             {
               int charge;
               stringstream str;
               str << formula;
               str >> charge;
-              if (charge != 0)
+              if (charge != 0 || formula.find("0") != std::string::npos)
+              {
                 chargeMap[current->getId()] = charge;
+                haveChargeMap[current->getId()] = true;
+              }
             }
           }
         }
@@ -330,7 +336,7 @@ CobraToFbcConverter::convert()
     if (removeUnits) current->unsetUnits();
     FbcSpeciesPlugin* splugin = static_cast<FbcSpeciesPlugin*>(current->getPlugin("fbc"));
     int charge = chargeMap[current->getId()];
-    if (charge != 0)
+    if (haveChargeMap[current->getId()])
       splugin->setCharge(charge);
     splugin->setChemicalFormula(formulaMap[current->getId()]);
 
@@ -341,8 +347,6 @@ CobraToFbcConverter::convert()
 
 
 /** @cond doxygenIgnored */
-
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

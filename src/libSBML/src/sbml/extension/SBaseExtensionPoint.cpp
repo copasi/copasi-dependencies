@@ -113,8 +113,6 @@ SBaseExtensionPoint::getTypeCode() const
 
 bool operator==(const SBaseExtensionPoint& lhs, const SBaseExtensionPoint& rhs) 
 {
-  if (&lhs == NULL || &rhs == NULL) return false;
-
   if (   (lhs.getTypeCode()    == rhs.getTypeCode()) 
       && (lhs.getPackageName() == rhs.getPackageName()) 
      )
@@ -139,8 +137,6 @@ bool operator==(const SBaseExtensionPoint& lhs, const SBaseExtensionPoint& rhs)
 
 bool operator<(const SBaseExtensionPoint& lhs, const SBaseExtensionPoint& rhs) 
 {
-  if (&lhs == NULL || &rhs == NULL) return false;
-
   if ( lhs.getPackageName() == rhs.getPackageName() )
   {
     if (lhs.getTypeCode()  < rhs.getTypeCode())
@@ -163,7 +159,6 @@ bool operator<(const SBaseExtensionPoint& lhs, const SBaseExtensionPoint& rhs)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN 
 SBaseExtensionPoint_t *
 SBaseExtensionPoint_create(const char* pkgName, int typeCode)
@@ -205,7 +200,6 @@ SBaseExtensionPoint_getTypeCode(const SBaseExtensionPoint_t *extPoint)
   if (extPoint == NULL) return LIBSBML_INVALID_OBJECT;
   return extPoint->getTypeCode();
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

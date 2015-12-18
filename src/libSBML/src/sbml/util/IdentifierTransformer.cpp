@@ -58,7 +58,7 @@ IdentifierTransformer::transform(const SBase* element)
 
 
 int 
-IdentifierTransformer::transform(SBase* element)
+IdentifierTransformer::transform(SBase*)
 {
   return LIBSBML_OPERATION_SUCCESS;
 }
@@ -76,5 +76,4 @@ IdentifierTransformer::setUserData(void* userData)
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

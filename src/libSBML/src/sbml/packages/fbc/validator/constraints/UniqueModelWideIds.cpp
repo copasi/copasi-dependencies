@@ -29,9 +29,7 @@
 #include <sbml/packages/fbc/extension/FbcModelPlugin.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -59,7 +57,7 @@ UniqueModelWideIds::~UniqueModelWideIds ()
  * Constraint.  Override the doCheck() method to define your own subset.
  */
 void
-UniqueModelWideIds::check_ (const Model& m, const Model& object)
+UniqueModelWideIds::check_ (const Model& m, const Model& )
 {
   doCheck(m);
 }
@@ -273,5 +271,4 @@ UniqueModelWideIds::createExistingMap (const Model& m)
 
 #endif /* __cplusplus */
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

@@ -115,7 +115,7 @@ SBMLReactionConverter::getDefaultProperties() const
 bool 
 SBMLReactionConverter::matchesProperties(const ConversionProperties &props) const
 {
-  if (&props == NULL || !props.hasOption("replaceReactions"))
+  if (!props.hasOption("replaceReactions"))
     return false;
   return true;
 }
@@ -229,9 +229,9 @@ SBMLReactionConverter::convert()
       }
     }
 
-    for (unsigned int react = 0; react < rn->getNumReactants(); react++)
+    for (unsigned int reactant = 0; reactant < rn->getNumReactants(); reactant++)
     {
-      const std::string speciesId = rn->getReactant(react)->getSpecies();
+      const std::string speciesId = rn->getReactant(reactant)->getSpecies();
       ASTNode * math = createRateRuleMathForSpecies(speciesId, rn, true);
       if (math != NULL)
       {
@@ -262,9 +262,9 @@ SBMLReactionConverter::convert()
   }
   else
   {
-    Model * model = mDocument->getModel();
+    Model * model1 = mDocument->getModel();
     // failed - restore original model
-    *model = *(mOriginalModel->clone());
+    *model1 = *(mOriginalModel->clone());
     return LIBSBML_OPERATION_FAILED;
   }
 }
@@ -467,7 +467,7 @@ SBMLReactionConverter::replaceReactions()
   // remove the reactions
   for (unsigned int i = 0; i < mReactionsToRemove.size(); i++)
   {
-    delete model->removeReaction(mReactionsToRemove.at(i));
+    delete model->removeReaction(mReactionsToRemove.at((int)i));
   }
 
   // check we have succeeded
@@ -503,8 +503,6 @@ SBMLReactionConverter::isDocumentValid()
 }
 
 /** @cond doxygenCOnly */
-
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

@@ -27,8 +27,7 @@
  * @sbmlbrief{comp} A reference to an externally-defined model.
  *
  * The ExternalModelDefinition class was introduced by the SBML Level&nbsp;3
- * @ref comp @if java "Hierarchical %Model Composition"@endif@~ 
- * package (&ldquo;comp&rdquo;) to define references to Model
+ * @ref comp (&ldquo;comp&rdquo;) package to define references to Model
  * objects defined in other files.
  * 
  * ExternalModelDefinition objects are model definitions---in and of
@@ -442,7 +441,6 @@ public:
 
 
   /** @cond doxygenLibsbmlInternal */
-
   /**
    * Accepts the given SBMLVisitor.
    *
@@ -451,7 +449,6 @@ public:
    * sibling object (if available).
    */
   virtual bool accept (SBMLVisitor& v) const;
-
   /** @endcond */
 
   /**

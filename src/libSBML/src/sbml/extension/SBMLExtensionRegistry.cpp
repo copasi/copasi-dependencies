@@ -69,8 +69,6 @@ SBMLExtensionRegistry::deleteRegistry()
 }
 
 /** @cond doxygenLibsbmlInternal */
-
-
 /*
  *
  */
@@ -99,12 +97,9 @@ SBMLExtensionRegistry::SBMLExtensionRegistry()
 
 
 SBMLExtensionRegistry::SBMLExtensionRegistry(const SBMLExtensionRegistry& orig)
+ : mSBMLExtensionMap(orig.mSBMLExtensionMap)
+ , mSBasePluginMap(orig.mSBasePluginMap)
 {
-  if (&orig != NULL)
-  {
-    mSBMLExtensionMap =   orig.mSBMLExtensionMap;
-    mSBasePluginMap   =   orig.mSBasePluginMap;
-  }
 }
 
 SBMLExtensionRegistry& SBMLExtensionRegistry::operator= (const SBMLExtensionRegistry&rhs)
@@ -195,7 +190,7 @@ SBMLExtensionRegistry::addExtension (const SBMLExtension* sbmlExt)
   //
   // Register (SBMLTypeCode_t, SBasePluginCreatorBase) pair
   //
-  for (int i=0; i < sbmlExtClone->getNumOfSBasePlugins(); i++)
+  for (unsigned int i=0; i < (unsigned int)sbmlExtClone->getNumOfSBasePlugins(); i++)
   {
     const SBasePluginCreatorBase *sbPluginCreator = sbmlExtClone->getSBasePluginCreator(i);
 #if 0
@@ -218,8 +213,6 @@ SBMLExtensionRegistry::getExtension(const std::string& uri)
 const SBMLExtension*
 SBMLExtensionRegistry::getExtensionInternal(const std::string& uri)
 {
-  if(&uri == NULL) return NULL;
-  
   SBMLExtensionMapIter it = mSBMLExtensionMap.find(uri);
 
 #if 0
@@ -242,18 +235,15 @@ SBMLExtensionRegistry::getSBasePluginCreators(const SBaseExtensionPoint& extPoin
 {
   std::list<const SBasePluginCreatorBase*> sbaseExtList;
 
-  if (&extPoint != NULL)
-  {
-    SBasePluginMapIter it = mSBasePluginMap.find(extPoint);
-    if (it != mSBasePluginMap.end())
-    {    
-      do 
-      {
-        sbaseExtList.push_back((*it).second);
-        ++it;
-      } while ( it != mSBasePluginMap.upper_bound(extPoint));
-    }
-  }  
+  SBasePluginMapIter it = mSBasePluginMap.find(extPoint);
+  if (it != mSBasePluginMap.end())
+  {    
+    do 
+    {
+      sbaseExtList.push_back((*it).second);
+      ++it;
+    } while ( it != mSBasePluginMap.upper_bound(extPoint));
+  }
 
   return sbaseExtList;
 }
@@ -269,8 +259,6 @@ SBMLExtensionRegistry::getSBasePluginCreators(const std::string& uri)
 {
   std::list<const SBasePluginCreatorBase*> sbasePCList;
 
-  if (&uri != NULL)
-  {
   SBasePluginMapIter it = mSBasePluginMap.begin();
   if (it != mSBasePluginMap.end())
   {    
@@ -296,7 +284,7 @@ SBMLExtensionRegistry::getSBasePluginCreators(const std::string& uri)
       std::cout << "[DEBUG] SBMLExtensionRegistry::getPluginCreators() " 
                 << uri << " is NOT found." << std::endl;
 #endif
-  }
+
 
   return sbasePCList;  
 }
@@ -310,7 +298,6 @@ SBMLExtensionRegistry::getSBasePluginCreators(const std::string& uri)
 const SBasePluginCreatorBase* 
 SBMLExtensionRegistry::getSBasePluginCreator(const SBaseExtensionPoint& extPoint, const std::string &uri)
 {
-  if(&extPoint == NULL || &uri == NULL) return NULL;
   SBasePluginMapIter it = mSBasePluginMap.find(extPoint);
   if (it != mSBasePluginMap.end())
   {
@@ -344,7 +331,6 @@ unsigned int
 SBMLExtensionRegistry::getNumExtension(const SBaseExtensionPoint& extPoint)
 {
   unsigned int numOfExtension = 0;
-  if (&extPoint == NULL) return 0;
   SBasePluginMapIter it = mSBasePluginMap.find(extPoint);
   if (it != mSBasePluginMap.end())
   {    
@@ -592,8 +578,6 @@ SBMLExtensionRegistry::enablePackages(const std::vector<std::string>& packages)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 int 
 SBMLExtensionRegistry_addExtension(const SBMLExtension_t* extension)
@@ -630,7 +614,7 @@ SBMLExtensionRegistry_getSBasePluginCreators(const SBaseExtensionPoint_t* extPoi
     SBMLExtensionRegistry::getInstance().getSBasePluginCreators(*extPoint);
 
   *length = (int)list.size();
-  SBasePluginCreatorBase_t** result = (SBasePluginCreatorBase_t**)malloc(sizeof(SBasePluginCreatorBase_t*)*(*length));
+  SBasePluginCreatorBase_t** result = (SBasePluginCreatorBase_t**)malloc(sizeof(SBasePluginCreatorBase_t*)*((unsigned long)*length));
   
   std::list<const SBasePluginCreatorBase*>::iterator it;
   int count = 0;
@@ -652,7 +636,7 @@ SBMLExtensionRegistry_getSBasePluginCreatorsByURI(const char* uri, int* length)
      SBMLExtensionRegistry::getInstance().getSBasePluginCreators(sUri);
  
    *length = (int)list.size();
-   SBasePluginCreatorBase_t** result = (SBasePluginCreatorBase_t**)malloc(sizeof(SBasePluginCreatorBase_t*)*(*length));
+   SBasePluginCreatorBase_t** result = (SBasePluginCreatorBase_t**)malloc(sizeof(SBasePluginCreatorBase_t*)*((unsigned long)*length));
    
    std::list<const SBasePluginCreatorBase*>::iterator it;
    int count = 0;
@@ -697,7 +681,7 @@ int
 SBMLExtensionRegistry_getNumExtensions(const SBaseExtensionPoint_t* extPoint)
 {
   if (extPoint == NULL) return 0;
-  return SBMLExtensionRegistry::getInstance().getNumExtension(*extPoint);
+  return (int)SBMLExtensionRegistry::getInstance().getNumExtension(*extPoint);
 }
 
 
@@ -733,9 +717,8 @@ LIBSBML_EXTERN
 char*
 SBMLExtensionRegistry_getRegisteredPackageName(int index)
 {
-  return safe_strdup(SBMLExtensionRegistry::getRegisteredPackageName(index).c_str());
+  return safe_strdup(SBMLExtensionRegistry::getRegisteredPackageName((unsigned int)index).c_str());
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

@@ -56,6 +56,23 @@ static const packageErrorTableEntry defaultErrorTable[] =
   }
 };
 
+
+static const packageErrorTableEntryV2 defaultErrorTableV2[] =
+{
+  // 10304
+  { 0, 
+    "",
+    0, 
+    LIBSBML_SEV_ERROR,
+    LIBSBML_SEV_ERROR,
+    "",
+    { "",
+      ""
+    }
+  }
+};
+
+
 SBMLExtension::SBMLExtension ()
  : mIsEnabled(true)
 #ifndef LIBSBML_USE_LEGACY_MATH
@@ -70,23 +87,21 @@ SBMLExtension::SBMLExtension ()
  */
 SBMLExtension::SBMLExtension(const SBMLExtension& orig)
 {
-  #ifndef LIBSBML_USE_LEGACY_MATH
+#ifndef LIBSBML_USE_LEGACY_MATH
     mASTBasePlugin = NULL;
-  #endif
-  if (&orig != NULL)
-  {
-    mIsEnabled = orig.mIsEnabled;
-    mSupportedPackageURI = orig.mSupportedPackageURI;
+#endif
 
-  #ifndef LIBSBML_USE_LEGACY_MATH
-    if (orig.mASTBasePlugin != NULL) 
-    {
-      mASTBasePlugin = orig.mASTBasePlugin->clone();
-    }
-  #endif
-    for (size_t i=0; i < orig.mSBasePluginCreators.size(); i++)
-      mSBasePluginCreators.push_back(orig.mSBasePluginCreators[i]->clone());
+  mIsEnabled = orig.mIsEnabled;
+  mSupportedPackageURI = orig.mSupportedPackageURI;
+
+#ifndef LIBSBML_USE_LEGACY_MATH
+  if (orig.mASTBasePlugin != NULL) 
+  {
+    mASTBasePlugin = orig.mASTBasePlugin->clone();
   }
+#endif
+  for (size_t i=0; i < orig.mSBasePluginCreators.size(); i++)
+    mSBasePluginCreators.push_back(orig.mSBasePluginCreators[i]->clone());
 }
 
 
@@ -110,7 +125,7 @@ SBMLExtension::~SBMLExtension ()
 SBMLExtension& 
 SBMLExtension::operator=(const SBMLExtension& orig)
 {  
-  if (&orig != NULL && &orig != this)
+  if (&orig != this)
   {
     mIsEnabled = orig.mIsEnabled; 
     mSupportedPackageURI = orig.mSupportedPackageURI; 
@@ -191,7 +206,6 @@ SBMLExtension::addSBasePluginCreator(const SBasePluginCreatorBase* sbaseExt)
 
 #ifndef LIBSBML_USE_LEGACY_MATH
 /** @cond doxygenLibsbmlInternal */
-
 int 
 SBMLExtension::setASTBasePlugin(const ASTBasePlugin* astPlugin)
 {
@@ -209,40 +223,33 @@ SBMLExtension::setASTBasePlugin(const ASTBasePlugin* astPlugin)
 
   return LIBSBML_OPERATION_SUCCESS;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 bool
 SBMLExtension::isSetASTBasePlugin() const
 {
   return (mASTBasePlugin != NULL);
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 ASTBasePlugin*
 SBMLExtension::getASTBasePlugin()
 {
   return mASTBasePlugin;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 const ASTBasePlugin*
 SBMLExtension::getASTBasePlugin() const
 {
   return const_cast<SBMLExtension*>(this)->getASTBasePlugin();
 }
-
 /** @endcond */
 
 #endif /* LIBSBML_USE_LEGACY_MATH */
@@ -251,7 +258,6 @@ SBMLExtension::getASTBasePlugin() const
 SBasePluginCreatorBase*
 SBMLExtension::getSBasePluginCreator(const SBaseExtensionPoint& extPoint)
 {
-  if (&extPoint == NULL) return NULL;
   std::vector<SBasePluginCreatorBase*>::iterator it = mSBasePluginCreators.begin();
   while(it != mSBasePluginCreators.end())
   {
@@ -322,7 +328,6 @@ SBMLExtension::getNumOfSupportedPackageURI() const
 bool
 SBMLExtension::isSupported(const std::string& uri) const
 {
-  if(&uri == NULL) return false;
   return ( mSupportedPackageURI.end() 
             != 
            find(mSupportedPackageURI.begin(),mSupportedPackageURI.end(), uri) );
@@ -363,7 +368,7 @@ SBMLExtension::isEnabled() const
  * This method should be overridden by all extensions that want to serialize
  * to an L2 annotation.
  */
-void SBMLExtension::removeL2Namespaces(XMLNamespaces* xmlns)  const
+void SBMLExtension::removeL2Namespaces(XMLNamespaces*)  const
 {
 
 }
@@ -374,7 +379,7 @@ void SBMLExtension::removeL2Namespaces(XMLNamespaces* xmlns)  const
  * This method should be overridden by all extensions that want to serialize
  * to an L2 annotation.
  */
-void SBMLExtension::addL2Namespaces(XMLNamespaces* xmlns)  const
+void SBMLExtension::addL2Namespaces(XMLNamespaces*)  const
 {
 
 }
@@ -385,33 +390,54 @@ void SBMLExtension::addL2Namespaces(XMLNamespaces* xmlns)  const
  * If the extension supports serialization to SBML L2 Annotations, this 
  * method should be overrridden, so it will be activated.
  */
-void SBMLExtension::enableL2NamespaceForDocument(SBMLDocument* doc)  const
+void SBMLExtension::enableL2NamespaceForDocument(SBMLDocument*)  const
 {
 
 }
 
 
 bool 
-SBMLExtension::isInUse(SBMLDocument *doc) const
+SBMLExtension::isInUse(SBMLDocument *) const
 {
   return true;
 }
 
 /** @cond doxygenLibsbmlInternal */
 packageErrorTableEntry 
-SBMLExtension::getErrorTable(unsigned int index) const
+SBMLExtension::getErrorTable(unsigned int) const
 {
   return defaultErrorTable[0];
 }
 /** @endcond */
 
+
+/** @cond doxygenLibsbmlInternal */
+
+packageErrorTableEntryV2 
+SBMLExtension::getErrorTableV2(unsigned int) const
+{
+  return defaultErrorTableV2[0];
+}
+
+/** @endcond */
+
 /** @cond doxygenLibsbmlInternal */
 unsigned int 
-SBMLExtension::getErrorTableIndex(unsigned int errorId) const
+SBMLExtension::getErrorTableIndex(unsigned int) const
 {
   return 0;
 }
 /** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+bool
+SBMLExtension::hasMultipleVersions() const
+{
+  return false;
+}
+/** @endcond */
+
+
 
 /** @cond doxygenLibsbmlInternal */
 unsigned int
@@ -425,13 +451,29 @@ SBMLExtension::getErrorIdOffset() const
 unsigned int 
 SBMLExtension::getSeverity(unsigned int index, unsigned int pkgVersion) const
 {
-  packageErrorTableEntry pkgErr = getErrorTable(index);
-  switch (pkgVersion)
+  // I know this is messy but I need to think through multiple versions of 
+  // packages
+  if (hasMultipleVersions() == false)
   {
-    case 1:
-    default:
-      return pkgErr.l3v1_severity;
-      break;
+    packageErrorTableEntry pkgErr = getErrorTable(index);
+    switch (pkgVersion)
+    {
+      case 1:
+      default:
+        return pkgErr.l3v1v1_severity;
+    }
+  }
+  else
+  {
+    packageErrorTableEntryV2 pkgErr = getErrorTableV2(index);
+    switch (pkgVersion)
+    {
+      case 1:
+        return pkgErr.l3v1v1_severity;
+      case 2:
+      default:
+        return pkgErr.l3v1v2_severity;
+    }
   }
 }
 /** @endcond */
@@ -440,8 +482,17 @@ SBMLExtension::getSeverity(unsigned int index, unsigned int pkgVersion) const
 unsigned int 
 SBMLExtension::getCategory(unsigned int index) const
 {
-  packageErrorTableEntry pkgErr = getErrorTable(index);
-  return pkgErr.category;
+  // I know this is messy but I need to think through multiple versions of 
+  // packages
+  if (hasMultipleVersions() == false)
+  {
+    packageErrorTableEntry pkgErr = getErrorTable(index);
+    return pkgErr.category;
+  }
+  {
+    packageErrorTableEntryV2 pkgErr = getErrorTableV2(index);
+    return pkgErr.category;
+  }
 }
 /** @endcond */
 
@@ -451,19 +502,41 @@ SBMLExtension::getMessage(unsigned int index,
                           unsigned int pkgVersion, 
                           const std::string& details) const
 {
-  packageErrorTableEntry pkgErr = getErrorTable(index);
-      
   ostringstream newMsg;
   std::string ref;
 
-  newMsg << pkgErr.message << endl;
-
-  switch (pkgVersion)
+  // I know this is messy but I need to think through multiple versions of 
+  // packages
+  if (hasMultipleVersions() == false)
   {
-    case 1:
-    default:
-      ref = pkgErr.reference.ref_l3v1;
-      break;
+    packageErrorTableEntry pkgErr = getErrorTable(index);
+
+    newMsg << pkgErr.message << endl;
+
+    switch (pkgVersion)
+    {
+      case 1:
+      default:
+        ref = pkgErr.reference.ref_l3v1v1;
+        break;
+    }
+  }
+  else
+  {
+    packageErrorTableEntryV2 pkgErr = getErrorTableV2(index);
+      
+    newMsg << pkgErr.message << endl;
+
+    switch (pkgVersion)
+    {
+      case 1:
+        ref = pkgErr.reference.ref_l3v1v1;
+        break;
+      case 2:
+      default:
+        ref = pkgErr.reference.ref_l3v1v2;
+        break;
+    }
   }
 
   if (!ref.empty())
@@ -478,7 +551,7 @@ SBMLExtension::getMessage(unsigned int index,
       newMsg << endl;
     }
   }
-
+  
   return newMsg.str();
 }
 /** @endcond */
@@ -487,15 +560,24 @@ SBMLExtension::getMessage(unsigned int index,
 std::string 
 SBMLExtension::getShortMessage(unsigned int index) const
 {
-  packageErrorTableEntry pkgErr = getErrorTable(index);
-  return pkgErr.shortMessage;
+  // I know this is messy but I need to think through multiple versions of 
+  // packages
+  if (hasMultipleVersions() == false)
+  {
+    packageErrorTableEntry pkgErr = getErrorTable(index);
+    return pkgErr.shortMessage;
+  }
+  else
+  {
+    packageErrorTableEntryV2 pkgErr = getErrorTableV2(index);
+    return pkgErr.shortMessage;
+  }
 }
 /** @endcond */
 
 #endif /* __cplusplus */
 
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 SBMLExtension_t*
 SBMLExtension_clone(SBMLExtension_t* ext)
@@ -554,7 +636,7 @@ int
 SBMLExtension_getNumOfSupportedPackageURI(SBMLExtension_t* ext)
 {
   if (ext == NULL) return LIBSBML_INVALID_OBJECT;
-  return ext->getNumOfSupportedPackageURI();
+  return (int)ext->getNumOfSupportedPackageURI();
 }
 
 LIBSBML_EXTERN
@@ -563,7 +645,7 @@ SBMLExtension_isSupported(SBMLExtension_t* ext, const char* uri)
 {
   if (ext == NULL || uri == NULL) return (int)false;
   string sUri(uri);
-  return ext->isSupported(sUri);
+  return (int)ext->isSupported(sUri);
 }
 
 LIBSBML_EXTERN
@@ -654,7 +736,6 @@ SBMLExtension_isEnabled(SBMLExtension_t* ext)
   if (ext == NULL) return LIBSBML_INVALID_OBJECT;
   return ext->isEnabled();
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

@@ -167,7 +167,7 @@ Port::unsetName ()
 
 
 int 
-Port::setPortRef (const std::string& id)
+Port::setPortRef (const std::string&)
 {
   return LIBSBML_OPERATION_FAILED;
 }
@@ -212,20 +212,20 @@ Port::readAttributes (const XMLAttributes& attributes,
     static_cast<ListOfPorts*>(getParentSBMLObject())->size() < 2)
   {
     unsigned int numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs-1; n >= 0; n--)      
+    for (int n = (int)numErrs-1; n >= 0; n--)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownPackageAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("comp", CompLOPortsAllowedAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
       } 
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("comp", CompLOPortsAllowedAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
@@ -368,7 +368,6 @@ Port::renameMetaIdRefs(const std::string& oldid, const std::string& newid)
 
 
 /** @cond doxygenLibsbmlInternal */
-
 bool
 Port::accept (SBMLVisitor& v) const
 {
@@ -381,13 +380,11 @@ Port::accept (SBMLVisitor& v) const
 
   return true;
 }
-
 /** @endcond */
 
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 Port_t *
 Port_create(unsigned int level, unsigned int version,
@@ -519,8 +516,6 @@ ListOfPorts_removeById(ListOf_t * lo, const char * sid)
 
   return (sid != NULL) ? static_cast <ListOfPorts *>(lo)->remove(sid) : NULL;
 }
-
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END
 

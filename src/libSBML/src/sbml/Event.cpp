@@ -50,9 +50,7 @@
 #include <sbml/util/ElementFilter.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -125,39 +123,35 @@ Event::~Event ()
  * Copy constructor. Creates a copy of this Event.
  */
 Event::Event (const Event& orig) :
-   SBase                     ( orig )
- , mTrigger                  ( NULL    )
- , mDelay                    ( NULL    )
- , mPriority                 ( NULL    )
- , mEventAssignments         ( orig.mEventAssignments         )
+   SBase                     ( orig            )
+ , mId                       ( orig.mId        )
+ , mName                     ( orig.mName      )
+ , mTrigger                  ( NULL            )
+ , mDelay                    ( NULL            )
+ , mPriority                 ( NULL            )
+ , mTimeUnits                ( orig.mTimeUnits )
+ , mUseValuesFromTriggerTime ( orig.mUseValuesFromTriggerTime )
+ , mIsSetUseValuesFromTriggerTime ( orig.mIsSetUseValuesFromTriggerTime )
+ , mInternalIdOnly           ( orig.mInternalIdOnly     )
+ , mExplicitlySetUVFTT       ( orig.mExplicitlySetUVFTT )
+ , mEventAssignments         ( orig.mEventAssignments   )
 {
-  if (&orig == NULL)
+  
+  if (orig.mTrigger != NULL) 
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
+    mTrigger = new Trigger(*orig.getTrigger());
   }
-  else
+  
+  if (orig.mDelay != NULL) 
   {
-    mId                            = orig.mId;  
-    mName                          = orig.mName;
-    mTimeUnits                     = orig.mTimeUnits;
-    mUseValuesFromTriggerTime      = orig.mUseValuesFromTriggerTime ;
-    mIsSetUseValuesFromTriggerTime = orig.mIsSetUseValuesFromTriggerTime ;
-    mExplicitlySetUVFTT            = orig.mExplicitlySetUVFTT;
-    mInternalIdOnly                = orig.mInternalIdOnly;
- 
-    if (orig.mTrigger != NULL) 
-    {
-      mTrigger = new Trigger(*orig.getTrigger());
-    }
-    if (orig.mDelay != NULL) 
-    {
-      mDelay = new Delay(*orig.getDelay());
-    }
-    if (orig.mPriority != NULL) 
-    {
-      mPriority = new Priority(*orig.getPriority());
-    }
+    mDelay = new Delay(*orig.getDelay());
   }
+  
+  if (orig.mPriority != NULL) 
+  {
+    mPriority = new Priority(*orig.getPriority());
+  }
+  
   
   connectToChild();
 }
@@ -168,11 +162,7 @@ Event::Event (const Event& orig) :
  */
 Event& Event::operator=(const Event& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
    
@@ -222,13 +212,7 @@ Event& Event::operator=(const Event& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the Model's next Event
- * (if available).
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 Event::accept (SBMLVisitor& v) const
 {
@@ -244,6 +228,7 @@ Event::accept (SBMLVisitor& v) const
 
   return result;
 }
+/** @endcond */
 
 
 /*
@@ -535,11 +520,7 @@ Event::setId (const std::string& sid)
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
 */
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(sid)))
+  if (!(SyntaxChecker::isValidInternalSId(sid)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -561,11 +542,7 @@ Event::setName (const std::string& name)
   /* if this is setting an L2 name the type is string
    * whereas if it is setting an L1 name its type is SId
    */
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() == 1)
+  if (getLevel() == 1)
   {
     if (!(SyntaxChecker::isValidInternalSId(name)))
     {
@@ -709,11 +686,7 @@ Event::setPriority (const Priority* priority)
 int
 Event::setTimeUnits (const std::string& sid)
 {
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() == 2 && getVersion() > 2)
+  if (getLevel() == 2 && getVersion() > 2)
   {
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
@@ -1108,8 +1081,7 @@ Event::getEventAssignment (unsigned int n)
 const EventAssignment*
 Event::getEventAssignment (const std::string& variable) const
 {
-  return (&variable != NULL ) ? 
-  static_cast<const EventAssignment*>( mEventAssignments.get(variable) ) : NULL;
+  return static_cast<const EventAssignment*>( mEventAssignments.get(variable) );
 }
 
 
@@ -1120,8 +1092,7 @@ Event::getEventAssignment (const std::string& variable) const
 EventAssignment*
 Event::getEventAssignment (const std::string& variable)
 {
-  return (&variable != NULL ) ? 
-    static_cast<EventAssignment*>( mEventAssignments.get(variable) ) : NULL;
+  return static_cast<EventAssignment*>( mEventAssignments.get(variable) );
 }
 
 
@@ -1153,12 +1124,11 @@ Event::removeEventAssignment (unsigned int n)
 EventAssignment* 
 Event::removeEventAssignment (const std::string& variable)
 {
-  return (&variable != NULL) ? mEventAssignments.remove(variable) : NULL;  
+  return mEventAssignments.remove(variable);
 }
 
 
 /** @cond doxygenLibsbmlInternal */
-
 /*
  * Sets the parent SBMLDocument of this SBML object.
  */
@@ -1203,8 +1173,6 @@ Event::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPr
   if (mDelay)   mDelay->enablePackageInternal(pkgURI,pkgPrefix,flag);
   if (mPriority)   mPriority->enablePackageInternal(pkgURI,pkgPrefix,flag);
 }
-
-
 /** @endcond */
 
 
@@ -1268,7 +1236,6 @@ Event::hasRequiredElements() const
 
 
 /** @cond doxygenLibsbmlInternal */
-
 /*
  * sets the mInternalIdOnly flag
  */
@@ -1398,7 +1365,6 @@ Event::createObject (XMLInputStream& stream)
 
 
 /** @cond doxygenLibsbmlInternal */
-
 /**
  * Subclasses should override this method to get the list of
  * expected attributes.
@@ -1474,7 +1440,6 @@ Event::readAttributes (const XMLAttributes& attributes,
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
@@ -1535,7 +1500,6 @@ Event::readL2Attributes (const XMLAttributes& attributes)
                                                 mUseValuesFromTriggerTime, getErrorLog(), false, getLine(), getColumn());
   }
 }
-
 /** @endcond */
 
 
@@ -1582,7 +1546,6 @@ Event::readL3Attributes (const XMLAttributes& attributes)
   }
 
 }
-
 /** @endcond */
 
 
@@ -1774,11 +1737,11 @@ ListOfEvents::get(unsigned int n) const
  */
 struct IdEqE : public unary_function<SBase*, bool>
 {
-  const string& id;
+  const string& mId;
 
-  IdEqE (const string& id) : id(id) { }
+  IdEqE (const string& id) : mId(id) { }
   bool operator() (SBase* sb) 
-       { return static_cast <Event *> (sb)->getId() == id; }
+       { return static_cast <Event *> (sb)->getId() == mId; }
 };
 
 
@@ -1786,8 +1749,8 @@ struct IdEqE : public unary_function<SBase*, bool>
 Event*
 ListOfEvents::get (const std::string& sid)
 {
-  return (&sid != NULL) ? const_cast<Event*>( 
-    static_cast<const ListOfEvents&>(*this).get(sid) ) : NULL;
+  return const_cast<Event*>( 
+    static_cast<const ListOfEvents&>(*this).get(sid) );
 }
 
 
@@ -1795,7 +1758,6 @@ ListOfEvents::get (const std::string& sid)
 const Event*
 ListOfEvents::get (const std::string& sid) const
 {
-  if (&sid == NULL) return NULL;
   vector<SBase*>::const_iterator result;
 
   result = find_if( mItems.begin(), mItems.end(), IdEqE(sid) );
@@ -1818,15 +1780,12 @@ ListOfEvents::remove (const std::string& sid)
   SBase* item = NULL;
   vector<SBase*>::iterator result;
 
-  if (&(sid) != NULL)
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEqE(sid) );
+  result = find_if( mItems.begin(), mItems.end(), IdEqE(sid) );
 
-    if (result != mItems.end())
-    {
-      item = *result;
-      mItems.erase(result);
-    }
+  if (result != mItems.end())
+  {
+    item = *result;
+    mItems.erase(result);
   }
 
   return static_cast <Event*> (item);
@@ -1886,8 +1845,6 @@ ListOfEvents::createObject (XMLInputStream& stream)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 Event_t *
 Event_create (unsigned int level, unsigned int version)
@@ -2336,7 +2293,6 @@ ListOfEvents_removeById (ListOf_t *lo, const char *sid)
   else
     return NULL;
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

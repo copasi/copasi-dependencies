@@ -103,7 +103,7 @@ ASTQualifierNode::deepCopy () const
 
   
 int
-ASTQualifierNode::addChild(ASTBase* child, bool inRead)
+ASTQualifierNode::addChild(ASTBase* child, bool )
 {
   return ASTFunctionBase::addChild(child);
 }
@@ -159,7 +159,6 @@ ASTQualifierNode::swapChildren(ASTFunction* that)
 void
 ASTQualifierNode::write(XMLOutputStream& stream) const
 {
-  if (&stream == NULL) return;
 
   const char * name = ASTBase::getNameFromType(getExtendedType());
   
@@ -291,7 +290,5 @@ ASTQualifierNode::hasCorrectNumberArguments() const
 
 
 LIBSBML_CPP_NAMESPACE_END
-
-
 /** @endcond */
 

@@ -145,14 +145,12 @@ ModelDefinition::removeFromParentAndDelete()
 
 
 /** @cond doxygenLibsbmlInternal */
-
 bool
 ModelDefinition::accept (SBMLVisitor& v) const
 {
   v.visit(*this);
   return true;
 }
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
@@ -178,20 +176,20 @@ ModelDefinition::readAttributes (const XMLAttributes& attributes,
     static_cast<ListOfModelDefinitions*>(getParentSBMLObject())->size() < 2)
   {
     unsigned int numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs-1; n >= 0; n--)      
+    for (int n = (int)numErrs-1; n >= 0; --n)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownPackageAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("comp", CompLOModelDefsAllowedAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
       } 
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("comp", CompLOModelDefsAllowedAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
@@ -206,7 +204,6 @@ ModelDefinition::readAttributes (const XMLAttributes& attributes,
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 ModelDefinition_t *
 ModelDefinition_create(unsigned int level, unsigned int version,
@@ -237,8 +234,6 @@ ModelDefinition_clone(ModelDefinition_t * md)
     return NULL;
   }
 }
-
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END
 

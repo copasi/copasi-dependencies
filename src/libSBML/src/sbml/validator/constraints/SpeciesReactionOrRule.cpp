@@ -43,9 +43,7 @@
 #include <sbml/util/IdList.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 
@@ -73,7 +71,7 @@ SpeciesReactionOrRule::~SpeciesReactionOrRule ()
   * is not set by reaction and rules
   */
 void
-SpeciesReactionOrRule::check_ (const Model& m, const Model& object)
+SpeciesReactionOrRule::check_ (const Model& m, const Model&)
 {
   unsigned int n, nr, nsr;
   const Species * s;
@@ -164,5 +162,4 @@ SpeciesReactionOrRule::logConflict (const Species& s, const Reaction& r)
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

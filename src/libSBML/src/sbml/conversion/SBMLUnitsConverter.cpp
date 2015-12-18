@@ -88,11 +88,7 @@ SBMLUnitsConverter::~SBMLUnitsConverter ()
 SBMLUnitsConverter& 
 SBMLUnitsConverter::operator=(const SBMLUnitsConverter& rhs)
 {  
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBMLConverter::operator =(rhs);
   }
@@ -133,7 +129,7 @@ SBMLUnitsConverter::getDefaultProperties() const
 bool 
 SBMLUnitsConverter::matchesProperties(const ConversionProperties &props) const
 {
-  if (&props == NULL || !props.hasOption("units"))
+  if (!props.hasOption("units"))
     return false;
   return true;
 }
@@ -1461,12 +1457,12 @@ void
 SBMLUnitsConverter::removeUnusedUnitDefinitions(Model& m)
 {
   unsigned int num = m.getNumUnitDefinitions()-1;
-  for (int i = num; i >= 0; i--)
+  for (int i = (int)num; i >= 0; i--)
   {
-    if (Unit::isBuiltIn(m.getUnitDefinition(i)->getId(), m.getLevel()) == false
-      && (isUsed(m, m.getUnitDefinition(i)->getId()) == false))
+    if (Unit::isBuiltIn(m.getUnitDefinition((unsigned int)i)->getId(), m.getLevel()) == false
+      && (isUsed(m, m.getUnitDefinition((unsigned int)i)->getId()) == false))
     {
-      delete m.removeUnitDefinition(i);
+      delete m.removeUnitDefinition((unsigned int)i);
     }
   }
 
@@ -1867,8 +1863,6 @@ SBMLUnitsConverter::mathMatchesCnUnits(const ASTNode * ast, std::string & units)
 
 
 /** @cond doxygenIgnored */
-
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

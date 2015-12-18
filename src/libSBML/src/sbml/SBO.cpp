@@ -44,9 +44,7 @@
 #include <sbml/SBO.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -93,7 +91,6 @@ SBO::checkTerm (int sboTerm)
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 /*
  * Reads (and checks) sboTerm from the given XMLAttributes set.
  *
@@ -205,7 +202,7 @@ SBO::isChildOf(unsigned int term, unsigned int parent)
   {
     populateSBOTree();
   }
-  ParentRange range  = mParent.equal_range(term);
+  ParentRange range  = mParent.equal_range((int)term);
   deque<unsigned int>  nodes;
 
 
@@ -226,7 +223,7 @@ SBO::isChildOf(unsigned int term, unsigned int parent)
     }
 
     // Copy parents of p to nodes and continue search.
-    range = mParent.equal_range(p);
+    range = mParent.equal_range((int)p);
     transform(range.first, range.second, back_inserter(nodes), GetSecond());
   }
 
@@ -681,7 +678,7 @@ SBO::isObselete  (unsigned int sboTerm)
 void
 SBO::populateSBOTree()
 {
-  // generated from SBO on March 31st 2015
+  // generated from SBO on July 7th 2015
   mParent.insert( pair<const int, int>(  1,  64) );
   mParent.insert( pair<const int, int>(  2, 545) );
   mParent.insert( pair<const int, int>(  3,   0) );
@@ -880,8 +877,6 @@ SBO::populateSBOTree()
   mParent.insert( pair<const int, int>(164, 1000) );
   mParent.insert( pair<const int, int>(165, 1000) );
   mParent.insert( pair<const int, int>(166,  41) );
-  mParent.insert( pair<const int, int>(231,   0) );
-  mParent.insert( pair<const int, int>(232, 1000) );
   mParent.insert( pair<const int, int>(167, 375) );
   mParent.insert( pair<const int, int>(168, 374) );
   mParent.insert( pair<const int, int>(169, 168) );
@@ -948,6 +943,8 @@ SBO::populateSBOTree()
   mParent.insert( pair<const int, int>(228, 227) );
   mParent.insert( pair<const int, int>(229, 227) );
   mParent.insert( pair<const int, int>(230, 227) );
+  mParent.insert( pair<const int, int>(231,   0) );
+  mParent.insert( pair<const int, int>(232, 1000) );
   mParent.insert( pair<const int, int>(233, 210) );
   mParent.insert( pair<const int, int>(234,   4) );
   mParent.insert( pair<const int, int>(235, 1000) );
@@ -1356,6 +1353,12 @@ SBO::populateSBOTree()
   mParent.insert( pair<const int, int>(622, 619) );
   mParent.insert( pair<const int, int>(623,   2) );
   mParent.insert( pair<const int, int>(624,   4) );
+  mParent.insert( pair<const int, int>(625, 613) );
+  mParent.insert( pair<const int, int>(626, 625) );
+  mParent.insert( pair<const int, int>(627, 375) );
+  mParent.insert( pair<const int, int>(628, 375) );
+  mParent.insert( pair<const int, int>(629, 395) );
+  mParent.insert( pair<const int, int>(630, 395) );
 
 
 }
@@ -1363,7 +1366,6 @@ SBO::populateSBOTree()
 
 #endif /* __cplusplus */  
 /** @cond doxygenIgnored */
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

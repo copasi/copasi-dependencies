@@ -310,8 +310,8 @@ GeneAssociation::unsetReaction ()
 
 
 /*
-  * Returns the value of the "association" attribute of this GeneAssociation.
-  */
+ * Returns the value of the "association" attribute of this GeneAssociation.
+ */
 const Association* 
 GeneAssociation::getAssociation () const
 {
@@ -319,8 +319,8 @@ GeneAssociation::getAssociation () const
 }
 
 /*
-  * Returns the value of the "association" attribute of this GeneAssociation.
-  */
+ * Returns the value of the "association" attribute of this GeneAssociation.
+ */
 Association* 
 GeneAssociation::getAssociation ()
 {
@@ -343,7 +343,7 @@ Association* GeneAssociation::createAssociation()
   Association* result = NULL;
   try 
   {
-    FBC_CREATE_NS(fbcns, getSBMLNamespaces());
+    FBC_CREATE_NS_WITH_VERSION(fbcns, getSBMLNamespaces(), getPackageVersion());
     result = new Association(fbcns);
     unsetAssociation();
     mAssociation = result;
@@ -549,14 +549,16 @@ GeneAssociation::clone() const
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 GeneAssociation::accept (SBMLVisitor& v) const
 {
-  return false;
+  v.visit(*this);
+  v.leave(*this);
+
+  return true;
 }
+/** @endcond */
 
 
 /*
@@ -690,7 +692,7 @@ ListOfGeneAssociations::createObject (XMLInputStream& stream)
   {
     try
     {
-      FBC_CREATE_NS(fbcns, getSBMLNamespaces());
+      FBC_CREATE_NS_WITH_VERSION(fbcns, getSBMLNamespaces(), getPackageVersion());
       object = new GeneAssociation(fbcns);
       appendAndOwn(object);
       delete fbcns;

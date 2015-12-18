@@ -24,11 +24,23 @@
  *------------------------------------------------------------------------- -->
  *
  * @class GeneAssociation
- * @sbmlbrief{fbc} Proposed annotation for gene associations.
+ * @sbmlbrief{fbc} Annotation helper class for &ldquo;fbc&rdquo; Version&nbsp;1.
  *
- * Gene associations are not part of the core FBC specification, but rather
- * are a proposed annotation.
- */ 
+ * @htmlinclude not-sbml-warning.html
+ *
+ * GeneAssociation is a helper class for creating annotations to store gene
+ * association information.  It is part of a proposed approach to annotating
+ * models in Version&nbsp;1 of the SBML Level&nbsp;3 @ref fbc
+ * (&ldquo;fbc&rdquo;) package.  It is not part of the official
+ * &ldquo;fbc&rdquo; specification, and not defined in Version&nbsp;2 of the
+ * &ldquo;fbc&rdquo; package specification.  In &ldquo;fbc&rdquo;
+ * Version&nbsp;2, the equivalent capability is handled by the
+ * GeneProductAssociation class and this class (GeneAssociation) is not used.
+ *
+ * @see ListOfGeneAssociations
+ * @see GeneProductAssociation
+ * @see ListOfGeneProducts
+ */
 
 #ifndef GeneAssociation_H__
 #define GeneAssociation_H__
@@ -73,6 +85,7 @@ public:
    */
   GeneAssociation(const XMLNode& node, FbcPkgNamespaces* fbcns);
 
+
   /**
    * Creates a new GeneAssociation with the given FbcPkgNamespaces object.
    */
@@ -106,8 +119,8 @@ public:
 
 
   /**
-   * Predicate returning @c true or @c false depending on whether this
-   * GeneAssociation's "id" attribute has been set.
+   * Predicate returning @c true if this GeneAssociation's "id" attribute is
+   * set.
    *
    * @return @c true if this GeneAssociation's "id" attribute has been set, 
    * otherwise @c false is returned.
@@ -146,8 +159,8 @@ public:
 
 
   /**
-   * Predicate returning @c true or @c false depending on whether this
-   * GeneAssociation's "reaction" attribute has been set.
+   * Predicate returning @c true if this GeneAssociation's "reaction"
+   * attribute is set.
    *
    * @return @c true if this GeneAssociation's "reaction" attribute has been set, 
    * otherwise @c false is returned.
@@ -198,8 +211,8 @@ public:
 
 
   /**
-   * Predicate returning @c true or @c false depending on whether this
-   * GeneAssociation's "association" element has been set.
+   * Predicate returning @c true if this GeneAssociation's "association"
+   * element is set.
    *
    * @return @c true if this GeneAssociation's "association" element has been set, 
    * otherwise @c false is returned.
@@ -230,10 +243,11 @@ public:
 
 
   /**
-   * Returns the XML element name of
-   * this SBML object.
+   * Returns the XML element name of this object.
    *
-   * @return the name of this element, as a text string.
+   * For GeneAssociation, the XML element name is always @c "geneAssociation".
+   *
+   * @return the name of this element, i.e. @c "geneAssociation".
    */
   virtual const std::string& getElementName () const ;
 
@@ -277,6 +291,7 @@ public:
   /** @endcond */
 
 
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Accepts the given SBMLVisitor.
    *
@@ -285,6 +300,7 @@ public:
    * sibling object (if available).
    */
   virtual bool accept (SBMLVisitor& v) const;
+  /** @endcond */
   
   
   /**
@@ -348,9 +364,16 @@ protected:
 /**
  * @class ListOfGeneAssociations
  * @sbmlbrief{fbc} A list of GeneAssociation objects.
- * 
- * The ListOfGeneAssociations is a container for the GeneAssociation elements of the proposed Model annotation, and is not part of the official FBC specification.
- * 
+ *
+ * @htmlinclude not-sbml-warning.html
+ *
+ * The ListOfGeneAssociations is a container for GeneAssociation elements;
+ * both constructs are part of a proposed approach to annotating models in
+ * Version&nbsp;1 of the SBML Level&nbsp;3 @ref fbc (&ldquo;fbc&rdquo;)
+ * package.  They are not part of the official &ldquo;fbc&rdquo;
+ * specification, and are not defined in Version&nbsp;2 of the
+ * &ldquo;fbc&rdquo; package specification.
+ *
  * @copydetails doc_what_is_listof
  *
  * @see GeneAssociation
@@ -482,11 +505,13 @@ public:
    */
   virtual int getItemTypeCode () const;
 
+
   /**
-   * Returns the XML element name of
-   * this SBML object.
+   * Returns the XML element name of this object.
    *
-   * @return the name of this element, as a text string.
+   * For ListOfGeneAssociations, the XML element name is always @c "listOfGeneAssociations".
+   *
+   * @return the name of this element, i.e. @c "listOfGeneAssociations".
    */
   virtual const std::string& getElementName () const;
 
@@ -513,11 +538,11 @@ protected:
 template<>
 struct IdEq<GeneAssociation> : public std::unary_function<SBase*, bool>
 {
-  const std::string& id;
+  const std::string& mId;
 
-  IdEq (const std::string& id) : id(id) { }
+  IdEq (const std::string& id) : mId(id) { }
   bool operator() (SBase* sb) 
-       { return static_cast <GeneAssociation*> (sb)->getId() == id; }
+       { return static_cast <GeneAssociation*> (sb)->getId() == mId; }
 };
 #endif
 /** @endcond */

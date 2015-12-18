@@ -49,9 +49,7 @@
 
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -162,11 +160,6 @@ CVTerm::~CVTerm()
  */
 CVTerm::CVTerm(const CVTerm& orig)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
   {
     mQualifier      = orig.mQualifier;
     mModelQualifier = orig.mModelQualifier;
@@ -197,11 +190,7 @@ CVTerm::CVTerm(const CVTerm& orig)
 CVTerm& 
 CVTerm::operator=(const CVTerm& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     mQualifier       = rhs.mQualifier;
     mModelQualifier  = rhs.mModelQualifier;
@@ -324,11 +313,7 @@ CVTerm::setBiologicalQualifierType(BiolQualifierType_t type)
 int 
 CVTerm::setModelQualifierType(const std::string& qualifier)
 {
-  ModelQualifierType_t type;
-  if (&qualifier == NULL)
-    type = BQM_UNKNOWN;
-  else
-    type = ModelQualifierType_fromString(qualifier.c_str());
+  ModelQualifierType_t type = ModelQualifierType_fromString(qualifier.c_str());
   
   return setModelQualifierType(type);  
 }
@@ -341,11 +326,7 @@ CVTerm::setModelQualifierType(const std::string& qualifier)
 int 
 CVTerm::setBiologicalQualifierType(const std::string& qualifier)
 {
-  BiolQualifierType_t type;
-  if (&qualifier == NULL)
-    type = BQB_UNKNOWN;
-  else
-    type = BiolQualifierType_fromString(qualifier.c_str());
+  BiolQualifierType_t type = BiolQualifierType_fromString(qualifier.c_str());
   return setBiologicalQualifierType(type);
 }
 
@@ -425,14 +406,14 @@ CVTerm::getResources() const
 unsigned int 
 CVTerm::getNumResources()
 {
-  return mResources->getLength();
+  return (unsigned int)mResources->getLength();
 }
 
   
 unsigned int 
 CVTerm::getNumResources() const
 {
-  return mResources->getLength();
+  return (unsigned int)mResources->getLength();
 }
 
   
@@ -442,7 +423,7 @@ CVTerm::getNumResources() const
 std::string
 CVTerm::getResourceURI(unsigned int n)
 {
-  return mResources->getValue(n);
+  return mResources->getValue((int)n);
 }
 
   
@@ -452,7 +433,7 @@ CVTerm::getResourceURI(unsigned int n)
 std::string
 CVTerm::getResourceURI(unsigned int n) const
 {
-  return mResources->getValue(n);
+  return mResources->getValue((int)n);
 }
 
   
@@ -462,7 +443,7 @@ CVTerm::getResourceURI(unsigned int n) const
 int 
 CVTerm::addResource(const std::string& resource)
 {
-  if (&resource == NULL || resource.empty())
+  if (resource.empty())
   {
     return LIBSBML_OPERATION_FAILED;
   }
@@ -686,14 +667,11 @@ CVTerm::removeNestedCVTerm(unsigned int n)
 
   return removed;
 }
-
 /** @endcond */
 #endif /* __cplusplus */
 
 
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 CVTerm_t*
 CVTerm_createWithQualifierType(QualifierType_t type)
@@ -987,10 +965,6 @@ BiolQualifierType_fromString(const char* s)
   }
   return BQB_UNKNOWN;
 }
-
-
-
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

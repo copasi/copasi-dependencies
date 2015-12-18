@@ -41,9 +41,7 @@
 #include <sbml/util/IdList.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -71,7 +69,7 @@ FunctionDefinitionRecursion::~FunctionDefinitionRecursion ()
  * Checks that a function does not refer to itself.
  */
 void
-FunctionDefinitionRecursion::check_ (const Model& m, const Model& object)
+FunctionDefinitionRecursion::check_ (const Model& m, const Model&)
 {
   mIdMap.clear();
 
@@ -210,7 +208,7 @@ FunctionDefinitionRecursion::determineCycles(const Model& m)
    
   for (unsigned int n = 0; n < variables.size(); n++)
   {
-    id = variables.at(n);
+    id = variables.at((int)n);
     range = mIdMap.equal_range(id);
     for (it = range.first; it != range.second; it++)
     {
@@ -272,5 +270,4 @@ FunctionDefinitionRecursion::logCycle ( const FunctionDefinition* object,
 #endif /* __cplusplus */
 
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

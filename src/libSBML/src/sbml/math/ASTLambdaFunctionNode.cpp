@@ -338,7 +338,7 @@ ASTLambdaFunctionNode::insertChild(unsigned int n, ASTBase* newChild)
       removeChild(i-1);
     }
 
-    unsigned int success = addChild(newChild);
+    int success = addChild(newChild);
 
     i = 0;
     while (success == LIBSBML_OPERATION_SUCCESS && i < copyChildren.size())
@@ -358,7 +358,6 @@ ASTLambdaFunctionNode::insertChild(unsigned int n, ASTBase* newChild)
 void
 ASTLambdaFunctionNode::write(XMLOutputStream& stream) const
 {
-  if (&stream == NULL) return;
 
   ASTBase::writeStartElement(stream);
 
@@ -477,7 +476,5 @@ ASTLambdaFunctionNode::hasCorrectNumberArguments() const
 
 
 LIBSBML_CPP_NAMESPACE_END
-
-
 /** @endcond */
 

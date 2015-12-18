@@ -47,9 +47,7 @@
 #include <sstream>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -144,30 +142,23 @@ Unit::~Unit ()
 /*
  * Copy constructor. Creates a copy of this Unit.
  */
-Unit::Unit(const Unit& orig) :
-    SBase      ( orig             )
+Unit::Unit(const Unit& orig)
+  : SBase             ( orig )
+  , mKind             ( orig.mKind )
+  , mExponent         ( orig.mExponent )
+  , mExponentDouble   ( orig.mExponentDouble )
+  , mScale            ( orig.mScale )
+  , mMultiplier       ( orig.mMultiplier )
+  , mOffset           ( orig.mOffset )
+  , mIsSetExponent    ( orig.mIsSetExponent )
+  , mIsSetScale       ( orig.mIsSetScale )
+  , mIsSetMultiplier  ( orig.mIsSetMultiplier )
+  , mExplicitlySetExponent    ( orig.mExplicitlySetExponent )
+  , mExplicitlySetMultiplier  ( orig.mExplicitlySetMultiplier )
+  , mExplicitlySetScale       ( orig.mExplicitlySetScale )
+  , mExplicitlySetOffset      ( orig.mExplicitlySetOffset )
+  , mInternalUnitCheckingFlag ( orig.mInternalUnitCheckingFlag )
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mKind             = orig.mKind;
-    mExponent         = orig.mExponent;
-    mExponentDouble   = orig.mExponentDouble;
-    mScale            = orig.mScale;
-    mMultiplier       = orig.mMultiplier;
-    mOffset           = orig.mOffset;
-    mIsSetExponent    = orig.mIsSetExponent;
-    mIsSetScale       = orig.mIsSetScale;
-    mIsSetMultiplier  = orig.mIsSetMultiplier;
-    mExplicitlySetExponent    = orig.mExplicitlySetExponent;
-    mExplicitlySetScale       = orig.mExplicitlySetScale;
-    mExplicitlySetMultiplier  = orig.mExplicitlySetMultiplier;
-    mExplicitlySetOffset      = orig.mExplicitlySetOffset;
-    mInternalUnitCheckingFlag = orig.mInternalUnitCheckingFlag;
-  }
 }
 
 
@@ -176,11 +167,7 @@ Unit::Unit(const Unit& orig) :
  */
 Unit& Unit::operator=(const Unit& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     mKind       = rhs.mKind       ;
@@ -203,18 +190,13 @@ Unit& Unit::operator=(const Unit& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the UnitDefinition's next
- * Unit (if available).
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 Unit::accept (SBMLVisitor& v) const
 {
   return v.visit(*this);
 }
+/** @endcond */
 
 
 /*
@@ -1725,7 +1707,6 @@ Unit::convertToSI(const Unit * unit)
 
   return ud;
 }
-
 /** @endcond */
 
 
@@ -2201,7 +2182,6 @@ Unit::isUnitChecking() const
 {
   return mInternalUnitCheckingFlag;
 }
-
 /** @endcond */
 
 
@@ -2332,7 +2312,6 @@ ListOfUnits::createObject (XMLInputStream& stream)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 Unit_t *
 Unit_create (unsigned int level, unsigned int version)
@@ -2900,7 +2879,6 @@ Unit_convertToSI(Unit_t * unit)
   return (unit != NULL) ? static_cast<UnitDefinition_t*>(Unit::convertToSI(
     static_cast<Unit*>(unit))) : NULL;
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

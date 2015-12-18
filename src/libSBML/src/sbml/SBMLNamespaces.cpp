@@ -39,9 +39,7 @@
 #include <iostream>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 
@@ -174,22 +172,13 @@ SBMLNamespaces::~SBMLNamespaces()
  * Copy constructor; creates a copy of a SBMLNamespaces.
  */
 SBMLNamespaces::SBMLNamespaces(const SBMLNamespaces& orig)
+ : mLevel(orig.mLevel)
+ , mVersion(orig.mVersion)
+ , mNamespaces(NULL)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mLevel   = orig.mLevel;
-    mVersion = orig.mVersion;
- 
-    if(orig.mNamespaces != NULL)
-      this->mNamespaces = 
-            new XMLNamespaces(*const_cast<SBMLNamespaces&>(orig).mNamespaces);
-    else
-      this->mNamespaces = NULL;
-  }
+  if(orig.mNamespaces != NULL)
+    this->mNamespaces = 
+          new XMLNamespaces(*const_cast<SBMLNamespaces&>(orig).mNamespaces);
 }
 
 
@@ -226,11 +215,7 @@ SBMLNamespaces::freeSBMLNamespaces(List * supportedNS)
 SBMLNamespaces&
 SBMLNamespaces::operator=(const SBMLNamespaces& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     mLevel   = rhs.mLevel;
     mVersion = rhs.mVersion;
@@ -796,7 +781,6 @@ SBMLNamespaces::setNamespaces(XMLNamespaces * xmlns)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 SBMLNamespaces_t *
 SBMLNamespaces_create(unsigned int level, unsigned int version)
@@ -865,16 +849,15 @@ SBMLNamespaces_getSupportedNamespaces(int *length)
    const List* supported = SBMLNamespaces::getSupportedNamespaces();
   
    *length = (int) supported->getSize();
-  SBMLNamespaces_t ** result = (SBMLNamespaces_t**)malloc(sizeof(SBMLNamespaces_t*)*(*length));
-  memset(result, 0, sizeof(SBMLNamespaces_t*)*(*length));
+  SBMLNamespaces_t ** result = (SBMLNamespaces_t**)malloc(sizeof(SBMLNamespaces_t*)*((unsigned long)*length));
+  memset(result, 0, sizeof(SBMLNamespaces_t*)*((unsigned long)*length));
   for (int i = 0; i < *length; i++)
   {
-    result[i] = ((SBMLNamespaces*)supported->get(i))->clone();
+    result[i] = ((SBMLNamespaces*)supported->get((unsigned int)i))->clone();
   }
   SBMLNamespaces::freeSBMLNamespaces(const_cast<List*>(supported));
   return result;
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

@@ -1,6 +1,166 @@
            libSBML NEWS -- History of user-visible changes
 
 ====================================================================
+5.12.0 (2015-11-12)
+====================================================================
+
+STABLE RELEASE
+
+* New features
+
+  - In SBML Level 2, some units were defined by default and did not 
+    need to be explicitly included in a model. The 
+    SBMLLevelVersionConverter adds these units explicitly when 
+    converting to SBML Level 3. We have an added an option to
+    disable this functionality and return Level 3 models without
+    the units implied by Level 2.
+
+  - Sourceforge libSBML Tracker #242: 'addProduct etc using a species'
+    We have added functions addProduct/addReactant/addModifier that 
+    take a Species as argument, along with a number of other optional 
+    values to completely specify the SpeciesReference object being 
+    created. This is a slight divergence from the direction libSBML
+    usually takes and we would be grateful for any feedback
+    on these functions. 
+	
+  - Validation speed has been dramatically improved for models that
+    make use of FunctionDefinitions and in particular nested 
+    FunctionDefinitions.	
+	
+  - 'comp' package-specific updates:
+  
+    - The 'flattening' routines have been expanded to correctly deal
+	  with FBC V2.
+	
+  - 'fbc' package-specific updates:
+
+    - The FBC Version 2 package has been accepted by the SBML Editors.
+      The code supporting this is now available as part of the stable
+      release.
+
+
+* Bug fixes
+
+  - There was a very subtle bug in unit checking that incorrectly
+    applied a multiplication factor. Thanks to Mike Cooling for 
+    the detailed example and anaylysis that revealed this. It 
+    has now been fixed.
+
+  - In the new math code using the children of an ASTNode could result
+    in the math namespace declaration being unecessarily written out
+    in many places. This has been sorted out.
+
+  - Sourceforge libSBML Tracker #414: "A missing break statement" was
+    added.
+
+
+* Configuration/build system changes
+
+  - The CMake files have added an option to dynamically link to a
+    python version on Mac OSX systems rather than automatically link.
+    Thanks to Kyle Medley for supplying the initial patch for this.
+
+  - The test code has been tweaked to build and run with MSVC 2015.
+    Fortunately the main code base worked with no issues.
+
+
+* Miscellaneous
+
+  - Further documentation improvements have been added, especially for
+    the FBC package.
+
+
+EXPERIMENTAL RELEASE
+
+* New features
+
+  - 'multi' package-specific updates:
+
+    - Full validation has been added to the multi package code.  
+      Thanks to Fengkai Zhang for his continued efforts on this.
+
+
+====================================================================
+5.11.6-experimental (2015-07-16)
+====================================================================
+
+***                 Experimental only release                    ***
+
+This is an experimental only release, that is, a release of those
+files provided in the experimental folder of a full release. 
+
+This includes updates to all the SBML L3 packages that are not yet
+accepted and undergoing development.
+
+NOTE: An experimental release is not as rigorously tested as a 
+full release.  Any changes/fixes listed as either referring to
+stable or experimental code may change before the next full release.
+
+STABLE RELEASE
+
+* New features
+
+  - There is a new function on SBMLDocument, checkConsistencyWithStrictUnits(),
+    which applies the same validation as the checkConsistency() function with
+	one difference being that it will always apply unit validation using 
+	exact identity comparison between units and it logs all unit
+	violations as Error regardless of the SBML Level and Version.
+
+  - There is a new converter that will convert to SBML L1V1. The 'regular'
+    SBMLLevelVersionConverter does not support this level and version
+    as we generally discourage the use of it. However users have requested
+    the facility and thus we have included a separate converter to meet
+    that need.
+	
+  - 'const' versions of the getElementBySId() and getElementByMetaId()
+    functions have been added.
+  
+  - 'fbc' package-specific updates:
+  
+    -  Code has been updated to use support the FBC V2 format that is currently
+	   available as a Release Candidate document. Full validation for this
+	   format has been included.
+	   
+* Bug fixes
+
+  - The static function UnitDefinition::reorder failed to correctly deal
+    with situations where the same unit kind appeared multiple times. This
+    has been fixed. Thanks to Matthias König for reporting the problem.
+	
+  - There were some discrepancies between math and math-legacy code reporting
+    the incorrect use of the MathML <apply> tag. This has been standardized 
+	and more rigorously tested.
+
+* Miscellaneous
+
+  - Several functions in libSBML checked for a NULL reference; something
+    that it is considered a well-formed program should not be able to 
+    create. As more and more compilers are complaining about this code,
+    on the grounds it should not be possible to create the NULL reference,
+    we made the decision to remove this code. Please let us know if this
+    is an issue for you.
+
+EXPERIMENTAL RELEASE
+
+* New features
+
+  - L2V5 specific updates:
+  
+    - A new validation rule was identified during the review of the SBML
+	  Level 2 Version 5 specification. Support for this has been added.
+
+  - 'arrays' package-specific updates:
+  
+    - The MathML elements included in the 'arrays' package has been 
+	  reduced. The code now reflects this.
+	  
+  - 'multi' package-specific updates:
+  
+    - The code has been updated to reflect v 1.0.4 of the specification.
+	  This includes full validation. Thanks to Fengkai Zhang for 
+	  contributing the code.
+	  
+====================================================================
 5.11.4 (2015-04-09)
 ====================================================================
 

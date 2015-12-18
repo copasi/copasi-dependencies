@@ -36,9 +36,7 @@
 #include <sbml/SBMLReader.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -115,7 +113,9 @@ public:
 
 protected:
 
+  /** @cond doxygenLibsbmlInternal */
   std::list< TConstraint<T>* > constraints;
+  /** @endcond */
 };
 
 
@@ -143,6 +143,12 @@ struct FbcValidatorConstraints
   ConstraintSet<Objective>                mObjective;
   ConstraintSet<Species>                  mSpecies;
   ConstraintSet<ListOfObjectives>         mListOfObjectives;
+  ConstraintSet<Reaction>                 mReaction;
+  ConstraintSet<SpeciesReference>         mSpeciesReference;
+  ConstraintSet<GeneProductRef>           mGeneProductRef;
+  ConstraintSet<GeneProduct>              mGeneProduct;
+  ConstraintSet<FbcAnd>                   mFbcAnd;
+  ConstraintSet<FbcOr>                    mFbcOr;
 
   map<VConstraint*,bool> ptrMap;
 
@@ -223,6 +229,47 @@ FbcValidatorConstraints::add (VConstraint* c)
     return;
   }
 
+  if (dynamic_cast< TConstraint<Reaction>* >(c) != NULL)
+  {
+    mReaction.add( static_cast< TConstraint<Reaction>* >(c) );
+    return;
+  }
+
+  if (dynamic_cast< TConstraint<SpeciesReference>* >(c) != NULL)
+  {
+    mSpeciesReference.add( 
+      static_cast< TConstraint<SpeciesReference>* >(c) );
+    return;
+  }
+
+  if (dynamic_cast< TConstraint<GeneProductRef>* >(c) != NULL)
+  {
+    mGeneProductRef.add( 
+      static_cast< TConstraint<GeneProductRef>* >(c) );
+    return;
+  }
+
+  if (dynamic_cast< TConstraint<GeneProduct>* >(c) != NULL)
+  {
+    mGeneProduct.add( 
+      static_cast< TConstraint<GeneProduct>* >(c) );
+    return;
+  }
+
+  if (dynamic_cast< TConstraint<FbcAnd>* >(c) != NULL)
+  {
+    mFbcAnd.add( 
+      static_cast< TConstraint<FbcAnd>* >(c) );
+    return;
+  }
+
+  if (dynamic_cast< TConstraint<FbcOr>* >(c) != NULL)
+  {
+    mFbcOr.add( 
+      static_cast< TConstraint<FbcOr>* >(c) );
+    return;
+  }
+
 }
 
 // ----------------------------------------------------------------------
@@ -248,7 +295,7 @@ public:
 
   using SBMLVisitor::visit;
   
-  FbcValidatingVisitor (FbcValidator& v, const Model& m) : v(v), m(m) { }
+  FbcValidatingVisitor (FbcValidator& validator, const Model& model) : v(validator), m(model) { }
 
   bool visit (const FluxBound &x)
   {
@@ -285,9 +332,45 @@ public:
     v.mFbcConstraints->mModel.applyTo(m, x);
   }
 
+  virtual bool visit (const Reaction &x)
+  {
+    v.mFbcConstraints->mReaction.applyTo(m, x);
+    return !v.mFbcConstraints->mReaction.empty();
+  }
+
+  virtual bool visit (const SpeciesReference &x)
+  {
+    v.mFbcConstraints->mSpeciesReference.applyTo(m, x);
+    return !v.mFbcConstraints->mSpeciesReference.empty();
+  }
+
+  virtual bool visit (const GeneProductRef &x)
+  {
+    v.mFbcConstraints->mGeneProductRef.applyTo(m, x);
+    return !v.mFbcConstraints->mGeneProductRef.empty();
+  }
+
+  virtual bool visit (const GeneProduct &x)
+  {
+    v.mFbcConstraints->mGeneProduct.applyTo(m, x);
+    return !v.mFbcConstraints->mGeneProduct.empty();
+  }
+
+  virtual bool visit (const FbcAnd &x)
+  {
+    v.mFbcConstraints->mFbcAnd.applyTo(m, x);
+    return !v.mFbcConstraints->mFbcAnd.empty();
+  }
+
+  virtual bool visit (const FbcOr &x)
+  {
+    v.mFbcConstraints->mFbcOr.applyTo(m, x);
+    return !v.mFbcConstraints->mFbcOr.empty();
+  }
+
   virtual bool visit (const SBase &x)
   {
-    if (&x == NULL || x.getPackageName() != "fbc")
+    if (x.getPackageName() != "fbc")
     {
       return SBMLVisitor::visit(x);      
     }
@@ -324,6 +407,22 @@ public:
       {
         return visit((const FluxObjective&)x);
       } 
+      else if (code == SBML_FBC_GENEPRODUCTREF)
+      {
+        return visit((const GeneProductRef&)x);
+      } 
+      else if (code == SBML_FBC_GENEPRODUCT)
+      {
+        return visit((const GeneProduct&)x);
+      } 
+      else if (code == SBML_FBC_AND)
+      {
+        return visit((const FbcAnd&)x);
+      } 
+      else if (code == SBML_FBC_OR)
+      {
+        return visit((const FbcOr&)x);
+      } 
       else 
       {
         return SBMLVisitor::visit(x);
@@ -333,8 +432,10 @@ public:
 
 protected:
 
+  /** @cond doxygenLibsbmlInternal */
   FbcValidator&   v;
   const Model& m;
+  /** @endcond */
 };
 
 
@@ -380,8 +481,6 @@ FbcValidator::addConstraint (VConstraint* c)
 unsigned int
 FbcValidator::validate (const SBMLDocument& d)
 {
-  if (&d == NULL) return 0;
-
   const Model* m = d.getModel();
 
   if (m != NULL)
@@ -394,6 +493,18 @@ FbcValidator::validate (const SBMLDocument& d)
     if (plugin != NULL)
     {
       plugin->accept(vv);
+    }
+
+    for (unsigned int i = 0; i < m->getNumReactions(); i++)
+    {
+      const FbcReactionPlugin* plugin1 = static_cast<const FbcReactionPlugin*>
+        (m->getReaction(i)->getPlugin("fbc"));
+
+      if (plugin1 != NULL)
+      {
+        plugin1->accept(vv);
+      }
+
     }
   }
 
@@ -410,8 +521,6 @@ FbcValidator::validate (const SBMLDocument& d)
 unsigned int
 FbcValidator::validate (const std::string& filename)
 {
-  if (&filename == NULL) return 0;
-
   SBMLReader    reader;
   SBMLDocument* d = reader.readSBML(filename);
 

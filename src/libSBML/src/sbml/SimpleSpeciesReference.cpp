@@ -50,9 +50,7 @@
 #include <sbml/extension/SBasePlugin.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -92,19 +90,12 @@ SimpleSpeciesReference::~SimpleSpeciesReference ()
 /*
  * Copy constructor. Creates a copy of this SimpleSpeciesReference.
  */
-SimpleSpeciesReference::SimpleSpeciesReference(const SimpleSpeciesReference& orig) :
-   SBase     ( orig                    )
+SimpleSpeciesReference::SimpleSpeciesReference(const SimpleSpeciesReference& orig)
+ : SBase     ( orig                    )
+ , mId       ( orig.mId )
+ , mName     ( orig.mName )
+ , mSpecies  ( orig.mSpecies)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId      = orig.mId;
-    mName    = orig.mName;
-    mSpecies = orig.mSpecies;
-  }
 }
 
 
@@ -113,11 +104,7 @@ SimpleSpeciesReference::SimpleSpeciesReference(const SimpleSpeciesReference& ori
  */
 SimpleSpeciesReference& SimpleSpeciesReference::operator=(const SimpleSpeciesReference& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     mId = rhs.mId;
@@ -129,18 +116,13 @@ SimpleSpeciesReference& SimpleSpeciesReference::operator=(const SimpleSpeciesRef
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the Reaction's next
- * SimpleSpeciesReference (if available).
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 SimpleSpeciesReference::accept (SBMLVisitor& v) const
 {
   return v.visit(*this);
 }
+/** @endcond */
 
 
 /*
@@ -213,11 +195,7 @@ SimpleSpeciesReference::isSetSpecies () const
 int
 SimpleSpeciesReference::setSpecies (const std::string& sid)
 {
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(sid)))
+  if (!(SyntaxChecker::isValidInternalSId(sid)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -235,11 +213,7 @@ SimpleSpeciesReference::setSpecies (const std::string& sid)
 int
 SimpleSpeciesReference::setId (const std::string& sid)
 {
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() == 1 ||
+  if (getLevel() == 1 ||
     (getLevel() == 2 && getVersion() == 1))
   {
     //
@@ -299,11 +273,7 @@ SimpleSpeciesReference::setId (const std::string& sid)
 int
 SimpleSpeciesReference::setName (const std::string& name)
 {
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() == 1 ||
+  if (getLevel() == 1 ||
     (getLevel() == 2 && getVersion() == 1))
   {
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
@@ -400,6 +370,7 @@ SimpleSpeciesReference::isModifier () const
 void
 SimpleSpeciesReference::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetSpecies()) {
     if (mSpecies==oldid) setSpecies(newid);
   }
@@ -642,7 +613,6 @@ SimpleSpeciesReference::writeAttributes (XMLOutputStream& stream) const
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

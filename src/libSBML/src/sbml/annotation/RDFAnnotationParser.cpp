@@ -49,9 +49,7 @@
 #include <sbml/annotation/RDFAnnotation.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -69,7 +67,7 @@ static void
 logError (XMLInputStream* stream, const XMLToken& element, SBMLErrorCode_t code,
           const std::string& msg = "")
 {
-  if (&element == NULL || stream == NULL) return;
+  if (stream == NULL) return;
 
   SBMLNamespaces* ns = stream->getSBMLNamespaces();
   if (ns != NULL)
@@ -169,8 +167,6 @@ RDFAnnotationParser::parseRDFAnnotation(
 }
 
 /** @cond doxygenLibsbmlInternal */
-
-
 /*
  * internal sub function that derives the cvterms from the annotation
  */
@@ -236,7 +232,6 @@ RDFAnnotationParser::deriveCVTermsFromAnnotation(
   }
   
 }
-
 /** @endcond */
 
 /*
@@ -318,8 +313,6 @@ RDFAnnotationParser::parseRDFAnnotation(
 
 
 /** @cond doxygenLibsbmlInternal */
-
-
 /*
  * internal sub function that derives the hiostory from the annotation
  */
@@ -411,8 +404,6 @@ RDFAnnotationParser::deriveHistoryFromAnnotation(
 
   return history;
 }
-
-
 /** @endcond */
 
 
@@ -462,7 +453,6 @@ RDFAnnotationParser::createRDFDescription(const SBase *object)
 
 
 /** @cond doxygenLibsbmlInternal */
-
 XMLNode * 
 RDFAnnotationParser::createRDFDescription(const std::string & metaid)
 {
@@ -480,7 +470,6 @@ RDFAnnotationParser::createRDFDescription(const std::string & metaid)
 
   return new XMLNode(descrip_token);
 }
-
 /** @endcond */
 
 /*
@@ -530,7 +519,6 @@ RDFAnnotationParser::parseCVTerms(const SBase * object)
 
 
 /** @cond doxygenLibsbmlInternal */
-
 XMLNode * 
 RDFAnnotationParser::createRDFDescriptionWithCVTerms(const SBase * object)
 {
@@ -572,13 +560,11 @@ RDFAnnotationParser::createRDFDescriptionWithCVTerms(const SBase * object)
 
   return description;
 }
-
 /** @endcond */
 
 
 
 /** @cond doxygenLibsbmlInternal */
-
 XMLNode * 
 RDFAnnotationParser::createBagElement(const CVTerm * term,
                                       unsigned int level, unsigned int version)
@@ -634,12 +620,10 @@ RDFAnnotationParser::createBagElement(const CVTerm * term,
 
   return bag;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 XMLNode * 
 RDFAnnotationParser::createQualifierElement(const CVTerm * term, 
                                       unsigned int level, unsigned int version)
@@ -694,7 +678,6 @@ RDFAnnotationParser::createQualifierElement(const CVTerm * term,
 
   return type;
 }
-
 /** @endcond */
 
 
@@ -773,7 +756,6 @@ RDFAnnotationParser::parseOnlyModelHistory(const SBase *object)
 }
 
 /** @cond doxygenLibsbmlInternal */
-
 XMLNode * 
 RDFAnnotationParser::createRDFDescriptionWithHistory(const SBase * object)
 {
@@ -1013,11 +995,11 @@ RDFAnnotationParser::createRDFDescriptionWithHistory(const SBase * object)
 
     for (unsigned int n = 1; n < history->getNumModifiedDates(); n++)
     {
-      XMLNode empty(empty_token);
+      XMLNode empty1(empty_token);
       W3CDTF2.removeChildren();
       modified.removeChildren();
-      empty.append(history->getModifiedDate(n)->getDateAsString());
-      W3CDTF2.addChild(empty);
+      empty1.append(history->getModifiedDate(n)->getDateAsString());
+      W3CDTF2.addChild(empty1);
       modified.addChild(W3CDTF2);
       description->addChild(modified);
     }
@@ -1025,7 +1007,6 @@ RDFAnnotationParser::createRDFDescriptionWithHistory(const SBase * object)
 
   return description;
 }
-
 /** @endcond */
 
 
@@ -1113,7 +1094,7 @@ RDFAnnotationParser::deleteRDFHistoryAnnotation(const XMLNode * annotation)
     // remove and keep the first description element
     // assume that the annotation is proper sbml-miriam
     XMLNode* descr = rdfAnnotation.removeChild(
-                      rdfAnnotation.getIndex("Description"));
+                      (unsigned int)rdfAnnotation.getIndex("Description"));
     if (hasCVTermRDF == false)
     {
       //we have a history, no cvterms and possibly other rdf
@@ -1227,7 +1208,7 @@ RDFAnnotationParser::deleteRDFCVTermAnnotation(const XMLNode * annotation)
     // remove the first description element keeping a copy
     // assume that the annotation is proper sbml-miriam
     XMLNode* descr = rdfAnnotation.removeChild(
-                      rdfAnnotation.getIndex("Description"));
+                      (unsigned int)rdfAnnotation.getIndex("Description"));
     if (hasHistoryRDF == false)
     {
       //we have cvterms no history and possibly other rdf
@@ -1280,7 +1261,6 @@ RDFAnnotationParser::deleteRDFCVTermAnnotation(const XMLNode * annotation)
 
 
 /** @cond doxygenLibsbmlInternal */
-
   
 bool 
 RDFAnnotationParser::hasRDFAnnotation(const XMLNode *annotation)
@@ -1444,13 +1424,10 @@ RDFAnnotationParser::hasHistoryRDFAnnotation(const XMLNode *annotation)
 
   return hasHistoryRDF;
 }
-
-
-  /** @endcond */
+/** @endcond */
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 void
 RDFAnnotationParser_parseRDFAnnotation(const XMLNode_t * annotation, 
                                        List_t *CVTerms)
@@ -1517,7 +1494,6 @@ RDFAnnotationParser_parseModelHistory(const SBase_t * object)
   if (object == NULL) return NULL;
   return RDFAnnotationParser::parseModelHistory(object);
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

@@ -35,9 +35,7 @@
 #include <sbml/packages/comp/common/CompExtensionTypes.h>
 #include <sbml/SBMLTypes.h>
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -115,7 +113,9 @@ public:
 
 protected:
 
+  /** @cond doxygenLibsbmlInternal */
   std::list< TConstraint<T>* > constraints;
+  /** @endcond */
 };
 
 
@@ -267,7 +267,7 @@ class CompValidatingVisitor: public SBMLVisitor
 public:
 
   using SBMLVisitor::visit;
-  CompValidatingVisitor (CompValidator& v, const Model& m) : v(v), m(m) { }
+  CompValidatingVisitor (CompValidator& validator, const Model& model) : v(validator), m(model) { }
 
   virtual bool visit (const Port &x)
   {
@@ -324,7 +324,7 @@ public:
 
   virtual bool visit (const SBase &x)
   {
-    if (&x == NULL || x.getPackageName() != "comp")
+    if (x.getPackageName() != "comp")
     {
       return SBMLVisitor::visit(x);      
     }
@@ -381,8 +381,10 @@ public:
 
 protected:
 
+  /** @cond doxygenLibsbmlInternal */
   CompValidator&   v;
   const Model& m;
+  /** @endcond */
 };
 
 
@@ -465,7 +467,6 @@ CompValidator::addConstraint (VConstraint* c)
 //void
 //CompValidator::logFailure (const SBMLError& msg)
 //{
-//  if (&msg == NULL) return;
 //  mFailures.push_back(msg);
 //}
 
@@ -478,8 +479,6 @@ CompValidator::addConstraint (VConstraint* c)
 unsigned int
 CompValidator::validate (const SBMLDocument& d)
 {
-  if (&d == NULL) return 0;
-
   Model* m = const_cast<SBMLDocument&>(d).getModel();
 
   if (m != NULL)
@@ -607,8 +606,6 @@ CompValidator::validate (const SBMLDocument& d)
 unsigned int
 CompValidator::validate (const std::string& filename)
 {
-  if (&filename == NULL) return 0;
-
   SBMLReader    reader;
   SBMLDocument* d = reader.readSBML(filename);
 

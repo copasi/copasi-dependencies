@@ -1,5 +1,5 @@
 /**
- * @file    Association.h
+ * @file    Association.cpp
  * @brief   Implementation of Association, the contents of a GeneAssociation.
  * @author  Frank T. Bergmann
  *
@@ -34,9 +34,12 @@
 #include <sbml/xml/XMLInputStream.h>
 #include <sbml/xml/XMLOutputStream.h>
 
+#include <sbml/util/util.h>
+
 #include <sbml/packages/fbc/sbml/Association.h>
 #include <sbml/packages/fbc/extension/FbcExtension.h>
 #include <sbml/math/FormulaParser.h>
+#include <sbml/util/util.h>
 
 using namespace std;
 
@@ -242,16 +245,6 @@ Association::unsetReference ()
     return LIBSBML_OPERATION_SUCCESS;
   return LIBSBML_OPERATION_FAILED;
 
-}
-
-void replaceAllSubStrings(std::string& str, const std::string& from, const std::string& to) {
-  if(from.empty())
-    return;
-  size_t start_pos = 0;
-  while((start_pos = str.find(from, start_pos)) != std::string::npos) {
-    str.replace(start_pos, from.length(), to);
-    start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
-  }
 }
 
 Association* toAssociation(const ASTNode* node);
@@ -642,15 +635,13 @@ Association::clone() const
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- */
+/** @cond doxygenLibsbmlInternal */
 bool
-Association::accept (SBMLVisitor& v) const
+Association::accept (SBMLVisitor&) const
 {
   return false;
 }
+/** @endcond */
 
 #endif /* __cplusplus */
 LIBSBML_CPP_NAMESPACE_END
-

@@ -416,6 +416,7 @@ FluxBound::unsetValue ()
 void
 FluxBound::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetReaction() == true && mReaction == oldid)
   {
     setReaction(newid);
@@ -438,7 +439,7 @@ FluxBound::getElementName () const
 
 /** @cond doxygenLibsbmlInternal */
 SBase*
-FluxBound::createObject (XMLInputStream& stream)
+FluxBound::createObject (XMLInputStream&)
 {
   return NULL;
 }
@@ -474,20 +475,20 @@ FluxBound::readAttributes (const XMLAttributes& attributes,
     static_cast<ListOfFluxBounds*>(getParentSBMLObject())->size() < 2)
   {
     unsigned int numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs-1; n >= 0; n--)      
+    for (int n = (int)numErrs-1; n >= 0; n--)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownPackageAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("fbc", FbcLOFluxBoundsAllowedAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
       } 
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("fbc", FbcLOFluxBoundsAllowedAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
@@ -501,20 +502,20 @@ FluxBound::readAttributes (const XMLAttributes& attributes,
   if (getErrorLog() != NULL)
   {
     unsigned int numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs-1; n >= 0; n--)      
+    for (int n = (int)numErrs-1; n >= 0; n--)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownPackageAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("fbc", FbcFluxBoundRequiredAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
       } 
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details = 
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("fbc", FbcFluxBoundAllowedL3Attributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details);
@@ -690,9 +691,7 @@ FluxBound::clone() const
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 FluxBound::accept (SBMLVisitor& v) const
 {
@@ -700,6 +699,7 @@ FluxBound::accept (SBMLVisitor& v) const
   visited = v.visit(*this);
   return  visited;
 }
+/** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
@@ -874,7 +874,7 @@ ListOfFluxBounds::createObject (XMLInputStream& stream)
   {
     try
     {
-      FBC_CREATE_NS(fbcns, getSBMLNamespaces());
+      FBC_CREATE_NS_WITH_VERSION(fbcns, getSBMLNamespaces(), getPackageVersion());
       object = new FluxBound(fbcns);
       appendAndOwn(object);
       delete fbcns;
@@ -921,7 +921,6 @@ ListOfFluxBounds::writeXMLNS (XMLOutputStream& stream) const
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 FluxBound_t *
 FluxBound_create(unsigned int level, unsigned int version, unsigned int pkgversion)
@@ -1184,10 +1183,6 @@ FluxBoundOperation_isValidFluxBoundOperationString(const char* s)
   return FluxBoundOperation_isValidFluxBoundOperation
                                          (FluxBoundOperation_fromString(s));
 }
-
-
-
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END
 

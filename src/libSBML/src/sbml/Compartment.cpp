@@ -44,9 +44,7 @@
 #include <sbml/Compartment.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -125,8 +123,6 @@ Compartment::Compartment(SBMLNamespaces * sbmlns) :
 }
 
 /** @cond doxygenLibsbmlInternal */
-
-
 /** @endcond */
                           
 /*
@@ -143,11 +139,6 @@ Compartment::~Compartment ()
 Compartment::Compartment(const Compartment& orig) :
    SBase             ( orig                    )
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
   {
     mSpatialDimensions       = orig.mSpatialDimensions;
     mSpatialDimensionsDouble = orig.mSpatialDimensionsDouble;
@@ -172,11 +163,7 @@ Compartment::Compartment(const Compartment& orig) :
  */
 Compartment& Compartment::operator=(const Compartment& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     mSpatialDimensions= rhs.mSpatialDimensions  ;
@@ -200,18 +187,13 @@ Compartment& Compartment::operator=(const Compartment& rhs)
 
 
 
-/*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the Model's next
- * Compartment (if available).
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 Compartment::accept (SBMLVisitor& v) const
 {
   return v.visit(*this);
 }
+/** @endcond */
 
 
 /*
@@ -497,11 +479,7 @@ Compartment::setId (const std::string& sid)
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
 */
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(sid)))
+  if (!(SyntaxChecker::isValidInternalSId(sid)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -522,11 +500,7 @@ Compartment::setName (const std::string& name)
   /* if this is setting an L2 name the type is string
    * whereas if it is setting an L1 name its type is SId
    */
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() == 1)
+  if (getLevel() == 1)
   {
     if (!(SyntaxChecker::isValidInternalSId(name)))
     {
@@ -552,11 +526,7 @@ Compartment::setName (const std::string& name)
 int
 Compartment::setCompartmentType (const std::string& sid)
 {
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if ( (getLevel() < 2)
+  if ( (getLevel() < 2)
     || (getLevel() == 2 && getVersion() == 1))
   {
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
@@ -602,7 +572,6 @@ Compartment::setSpatialDimensions (double value)
     /* level 1 spatialDimensions was not an attribute */
     mSpatialDimensions = 3;
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
-    break;
   case 2:
     if (!representsInteger || value < 0 || value > 3)
     {
@@ -610,20 +579,18 @@ Compartment::setSpatialDimensions (double value)
     }
     else
     {
-      mSpatialDimensions = (int) value;
+      mSpatialDimensions = (unsigned int) value;
       mSpatialDimensionsDouble = value;
       mIsSetSpatialDimensions  = true;
       mExplicitlySetSpatialDimensions = true;
       return LIBSBML_OPERATION_SUCCESS;
     }
-    break;
   case 3:
   default:
-      mSpatialDimensions = (int) value;
+      mSpatialDimensions = (unsigned int) value;
       mSpatialDimensionsDouble = value;
       mIsSetSpatialDimensions  = true;
       return LIBSBML_OPERATION_SUCCESS;
-    break;
   }
 }
 
@@ -674,11 +641,7 @@ Compartment::setVolume (double value)
 int
 Compartment::setUnits (const std::string& sid)
 {
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalUnitSId(sid)))
+  if (!(SyntaxChecker::isValidInternalUnitSId(sid)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -696,11 +659,7 @@ Compartment::setUnits (const std::string& sid)
 int
 Compartment::setOutside (const std::string& sid)
 {
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(sid)))
+  if (!(SyntaxChecker::isValidInternalSId(sid)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -739,6 +698,7 @@ Compartment::setConstant (bool value)
 void
 Compartment::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (mCompartmentType==oldid) mCompartmentType = newid;
   if (mOutside==oldid) mOutside= newid; //You know, just in case.
 }
@@ -746,6 +706,7 @@ Compartment::renameSIdRefs(const std::string& oldid, const std::string& newid)
 void 
 Compartment::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameUnitSIdRefs(oldid, newid);
   if (mUnits==oldid) mUnits = newid;
 }
 
@@ -1333,7 +1294,7 @@ Compartment::readL3Attributes (const XMLAttributes& attributes)
   // keep integer value as record if spatial dimensions is 0, 1, 2, 3 
   if (mIsSetSpatialDimensions == true)
   {
-    mSpatialDimensions = (int) (mSpatialDimensionsDouble);
+    mSpatialDimensions = (unsigned int) (mSpatialDimensionsDouble);
   }
     
   //
@@ -1570,11 +1531,6 @@ ListOfCompartments::get (const std::string& sid) const
 {
   vector<SBase*>::const_iterator result;
 
-  if (&(sid) == NULL)
-  {
-    return NULL;
-  }
-  else
   {
     result = find_if( mItems.begin(), mItems.end(), IdEq<Compartment>(sid) );
     return (result == mItems.end()) ? NULL : 
@@ -1598,15 +1554,12 @@ ListOfCompartments::remove (const std::string& sid)
   SBase* item = NULL;
   vector<SBase*>::iterator result;
 
-  if (&(sid) != NULL)
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEq<Compartment>(sid) );
+  result = find_if( mItems.begin(), mItems.end(), IdEq<Compartment>(sid) );
 
-    if (result != mItems.end())
-    {
-      item = *result;
-      mItems.erase(result);
-    }
+  if (result != mItems.end())
+  {
+    item = *result;
+    mItems.erase(result);
   }
 
   return static_cast <Compartment*> (item);
@@ -1665,8 +1618,6 @@ ListOfCompartments::createObject (XMLInputStream& stream)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 Compartment_t *
 Compartment_create (unsigned int level, unsigned int version)
@@ -2140,7 +2091,6 @@ ListOfCompartments_removeById (ListOf_t *lo, const char *sid)
   else
     return NULL;
 }
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END

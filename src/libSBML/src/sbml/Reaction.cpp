@@ -49,9 +49,7 @@
 #include <sbml/util/ElementFilter.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -175,33 +173,25 @@ Reaction::~Reaction ()
 /*
  * Copy constructor. Creates a copy of this Reaction.
  */
-Reaction::Reaction (const Reaction& orig) :
-    SBase      ( orig )
+Reaction::Reaction (const Reaction& orig)
+  : SBase      ( orig )
+  , mId        ( orig.mId )
+  , mName      ( orig.mName )
   , mReactants ( orig.mReactants  )
   , mProducts  ( orig.mProducts   )
   , mModifiers ( orig.mModifiers  )
   , mKineticLaw( NULL    )
-{
-  if (&orig == NULL)
+  , mReversible( orig.mReversible )
+  , mFast      ( orig.mFast       )
+  , mIsSetFast ( orig.mIsSetFast  )
+  , mCompartment ( orig.mCompartment )
+  , mIsSetReversible ( orig.mIsSetReversible )
+  , mExplicitlySetReversible ( orig.mExplicitlySetReversible )
+  , mExplicitlySetFast       ( orig.mExplicitlySetFast )
+{  
+  if (orig.mKineticLaw != NULL)
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mReversible      = orig.mReversible ;
-    mFast            = orig.mFast       ;
-    mIsSetFast       = orig.mIsSetFast  ;
-    mId              = orig.mId;
-    mName            = orig.mName;
-    mCompartment     = orig.mCompartment;
-    mIsSetReversible = orig.mIsSetReversible;
-    mExplicitlySetReversible = orig.mExplicitlySetReversible;
-    mExplicitlySetFast       = orig.mExplicitlySetFast;
-
-    if (orig.mKineticLaw != NULL)
-    {
-      mKineticLaw = static_cast<KineticLaw*>( orig.mKineticLaw->clone() );
-    }
+    mKineticLaw = static_cast<KineticLaw*>( orig.mKineticLaw->clone() );
   }
   connectToChild();
 }
@@ -212,11 +202,7 @@ Reaction::Reaction (const Reaction& orig) :
  */
 Reaction& Reaction::operator=(const Reaction& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     mReversible = rhs.mReversible ;
@@ -249,13 +235,7 @@ Reaction& Reaction::operator=(const Reaction& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the Model's next
- * Reaction (if available).
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 Reaction::accept (SBMLVisitor& v) const
 {
@@ -271,6 +251,7 @@ Reaction::accept (SBMLVisitor& v) const
 
   return result;
 }
+/** @endcond */
 
 
 /*
@@ -349,6 +330,7 @@ Reaction::getAllElements(ElementFilter *filter)
 void
 Reaction::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (mCompartment == oldid) {
     setCompartment(newid);
   }
@@ -546,11 +528,7 @@ Reaction::setId (const std::string& sid)
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
 */
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(sid)))
+  if (!(SyntaxChecker::isValidInternalSId(sid)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -571,11 +549,7 @@ Reaction::setName (const std::string& name)
   /* if this is setting an L2 name the type is string
    * whereas if it is setting an L1 name its type is SId
    */
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() == 1)
+  if (getLevel() == 1)
   {
     if (!(SyntaxChecker::isValidInternalSId(name)))
     {
@@ -662,11 +636,7 @@ Reaction::setFast (bool value)
 int
 Reaction::setCompartment (const std::string& sid)
 {
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() < 3)
+  if (getLevel() < 3)
   {
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
@@ -829,6 +799,37 @@ Reaction::addReactant (const SpeciesReference* sr)
   }
 }
 
+int Reaction::addReactant(
+    const Species *species,
+    double stoichiometry,
+    const std::string &id,
+    bool constant)
+{
+  if (species == NULL)
+    return LIBSBML_INVALID_OBJECT;
+
+  if (!species->isSetId())
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+
+  if (!id.empty() && getListOfReactants()->get(id) != NULL)
+    {
+      // an object with this id already exists
+      return LIBSBML_DUPLICATE_OBJECT_ID;
+    }
+
+  SpeciesReference* ref = createReactant();
+  if (!id.empty())
+    ref->setId(id);
+
+  if (stoichiometry == stoichiometry)
+    ref->setStoichiometry(stoichiometry);
+
+  ref->setSpecies(species->getId());
+  ref->setConstant(constant);
+
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
 
 /*
  * Adds a copy of the given product (SpeciesReference) to this Reaction.
@@ -853,6 +854,38 @@ Reaction::addProduct (const SpeciesReference* sr)
 
     return LIBSBML_OPERATION_SUCCESS;
   }
+}
+
+int
+Reaction::addProduct(
+    const Species *species,
+    double stoichiometry,
+    const std::string &id,
+    bool constant)
+{
+  if (species == NULL)
+    return LIBSBML_INVALID_OBJECT;
+
+  if (!species->isSetId())
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+
+  if (!id.empty() && getListOfProducts()->get(id) != NULL)
+    {
+      // an object with this id already exists
+      return LIBSBML_DUPLICATE_OBJECT_ID;
+    }
+
+  SpeciesReference* ref = createProduct();
+  if (!id.empty())
+    ref->setId(id);
+
+  if (stoichiometry == stoichiometry)
+    ref->setStoichiometry(stoichiometry);
+
+  ref->setSpecies(species->getId());
+  ref->setConstant(constant);
+
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -880,6 +913,32 @@ Reaction::addModifier (const ModifierSpeciesReference* msr)
 
     return LIBSBML_OPERATION_SUCCESS;
   }
+}
+
+int
+Reaction::addModifier(
+    const Species *species,
+    const std::string &id)
+{
+  if (species == NULL)
+    return LIBSBML_INVALID_OBJECT;
+
+  if (!species->isSetId())
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+
+  if (!id.empty() && getListOfModifiers()->get(id) != NULL)
+  {
+    // an object with this id already exists
+    return LIBSBML_DUPLICATE_OBJECT_ID;
+  }
+
+  ModifierSpeciesReference* ref = createModifier();
+  if (!id.empty())
+    ref->setId(id);
+
+  ref->setSpecies(species->getId());
+
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -1315,7 +1374,6 @@ Reaction::removeModifier (const std::string& species)
 
 
 /** @cond doxygenLibsbmlInternal */
-
 /*
  * Sets the parent SBMLDocument of this SBML object.
  */
@@ -1365,8 +1423,6 @@ Reaction::enablePackageInternal(const std::string& pkgURI,
 
   if (mKineticLaw) mKineticLaw->enablePackageInternal(pkgURI,pkgPrefix,flag);
 }
-
-
 /** @endcond */
 
 
@@ -1652,7 +1708,7 @@ Reaction::readL2Attributes (const XMLAttributes& attributes)
   //
   if (version == 2) 
     mSBOTerm = SBO::readTerm(attributes, this->getErrorLog(), level, version,
-				getLine(), getColumn());
+        getLine(), getColumn());
 
 }
 /** @endcond */
@@ -1930,15 +1986,8 @@ ListOfReactions::get (const std::string& sid) const
 {
   vector<SBase*>::const_iterator result;
 
-  if (&(sid) == NULL)
-  {
-    return NULL;
-  }
-  else
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEq<Reaction>(sid) );
-    return (result == mItems.end()) ? NULL : static_cast <Reaction*> (*result);
-  }
+  result = find_if( mItems.begin(), mItems.end(), IdEq<Reaction>(sid) );
+  return (result == mItems.end()) ? NULL : static_cast <Reaction*> (*result);
 }
 
 
@@ -1957,16 +2006,14 @@ ListOfReactions::remove (const std::string& sid)
   SBase* item = NULL;
   vector<SBase*>::iterator result;
 
-  if (&(sid) != NULL)
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEq<Reaction>(sid) );
+  result = find_if( mItems.begin(), mItems.end(), IdEq<Reaction>(sid) );
 
-    if (result != mItems.end())
-    {
-      item = *result;
-      mItems.erase(result);
-    }
+  if (result != mItems.end())
+  {
+    item = *result;
+    mItems.erase(result);
   }
+
 
   return static_cast <Reaction*> (item);
 }
@@ -2024,8 +2071,6 @@ ListOfReactions::createObject (XMLInputStream& stream)
 
 
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 Reaction_t *
 Reaction_create (unsigned int level, unsigned int version)
@@ -2329,10 +2374,38 @@ Reaction_addReactant (Reaction_t *r, const SpeciesReference_t *sr)
 
 LIBSBML_EXTERN
 int
+Reaction_addReactantBySpecies (Reaction_t *r, const Species_t *s, 
+                               double stoichiometry, const char *id,
+                               int constant)
+{
+  if (r != NULL)
+    return r->addReactant( static_cast<const Species*>(s), stoichiometry, id, 
+                            constant);
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
 Reaction_addProduct (Reaction_t *r, const SpeciesReference_t *sr)
 {
   if (r != NULL)
     return r->addProduct( static_cast<const SpeciesReference*>(sr) );
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+Reaction_addProductBySpecies (Reaction_t *r, const Species_t *s, 
+                               double stoichiometry, const char *id,
+                               int constant)
+{
+  if (r != NULL)
+    return r->addProduct( static_cast<const Species*>(s), stoichiometry, id, 
+                            constant);
   else
     return LIBSBML_INVALID_OBJECT;
 }
@@ -2353,6 +2426,18 @@ Reaction_addModifier (Reaction_t *r, const SpeciesReference_t *msr)
       return LIBSBML_INVALID_ATTRIBUTE_VALUE;
     }
   }
+  else
+    return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+Reaction_addModifierBySpecies (Reaction_t *r, const Species_t *s, 
+                               const char *id)
+{
+  if (r != NULL)
+    return r->addModifier( static_cast<const Species*>(s), id);
   else
     return LIBSBML_INVALID_OBJECT;
 }
@@ -2564,6 +2649,5 @@ ListOfReactions_removeById (ListOf_t *lo, const char *sid)
   else
     return NULL;
 }
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END

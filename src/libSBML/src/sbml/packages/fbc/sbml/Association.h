@@ -24,14 +24,18 @@
  *------------------------------------------------------------------------- -->
  *
  * @class Association
- * @sbmlbrief{fbc} Proposed representation of gene associations.
+ * @sbmlbrief{fbc} Annotation helper class for &ldquo;fbc&rdquo; Version&nbsp;1.
  *
- * The Association class is currently not part of the official SBML
- * Level&nbsp;3 Flux Balance Constraints package specification; it is instead
- * a proposed future development of the package.  If adopted, the Association
- * class would be a child of a GeneAssociation that would describe a single
- * @em and or @em or relationship between two or more genes or other
- * associations.
+ * @htmlinclude not-sbml-warning.html
+ *
+ * The Association class is a helper class for creating annotations to store
+ * gene association information in Version&nbsp;1 of the SBML Level&nbsp;3
+ * @ref fbc (&ldquo;fbc&rdquo;) package.  In &ldquo;fbc&rdquo;
+ * Version&nbsp;2, the equivalent capability is handled by the FbcAssociation
+ * class and this class (Association) is not used.
+ *
+ * @see FbcAssociation
+ * @see ListOfFbcAssociations
  */
 
 #ifndef Association_H__
@@ -59,8 +63,12 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  * @brief Enumeration of possible association children of the proposed
  * GeneAssociation class.
  *
- * This class is not part of Version&nbsp;1 of the Flux Balance Constraints
- * specification.
+ * These type codes are not part of the SBML Level&nbsp;3 @ref fbc
+ * (&ldquo;fbc&rdquo;) package specification, but are used exclusively as
+ * helpers for custom annotations of Version&nbsp;1 of the specification.  In
+ * Version&nbsp;2, this information is handled bthough the use of the
+ * FbcAssociation abstract class, with its FbcAnd, FbcOr, and
+ * GeneProductAssociation derived classes.
  */
 typedef enum
 {
@@ -84,7 +92,7 @@ public:
 
   /**
    * Creates a new Association objet with the given SBML Level, Version, and
-   * FBC package version.
+   * &ldquo;fbc&rdquo; package version.
    */
    Association(unsigned int level      = FbcExtension::getDefaultLevel(),
                unsigned int version    = FbcExtension::getDefaultVersion(),
@@ -126,8 +134,8 @@ public:
 
 
   /**
-   * Predicate returning @c true or @c false depending on whether this
-   * Association's "type" attribute has been set.
+   * Predicate returning @c true if this Association's "type" attribute is
+   * set.
    *
    * @return @c true if this Association object's "type" attribute has been set,
    * otherwise @c false is returned.
@@ -343,6 +351,7 @@ public:
   /** @endcond */
 
 
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Accepts the given SBMLVisitor.
    *
@@ -353,6 +362,7 @@ public:
    * sibling object (if available).
    */
   virtual bool accept (SBMLVisitor& v) const;
+  /** @endcond */
 
 
   /**

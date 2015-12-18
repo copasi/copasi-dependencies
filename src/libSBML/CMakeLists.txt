@@ -332,6 +332,8 @@ if(WITH_SWIG)
               /usr/local/bin
               /opt/local/bin
               /usr/bin
+              "C:/Program Files (x86)/Swig"
+              "C:/Program Files/Swig"
         DOC "The file name of the SWIG executable."
         )
     find_package(SWIG)
@@ -647,7 +649,7 @@ endif(WITH_ZLIB)
 if(WITH_CSHARP)
     FILE(TO_CMAKE_PATH "$ENV{WINDIR}" windir)	
     find_program(CSHARP_COMPILER
-        NAMES gmcs csc
+        NAMES gmcs csc mcs
         PATHS 
             ${windir}/Microsoft.NET/Framework/v2.0.50727/ 
             ${windir}/Microsoft.NET/Framework/v3.0/ 
@@ -656,7 +658,7 @@ if(WITH_CSHARP)
         DOC "The file name of the C# compiler for the libsbmlcs assembly."
         )
     find_program(CSHARP_EXAMPLE_COMPILER
-        NAMES gmcs csc
+        NAMES gmcs csc mcs
         PATHS 
             ${windir}/Microsoft.NET/Framework/v4.0.30319/ 
             ${windir}/Microsoft.NET/Framework/v3.5/ 

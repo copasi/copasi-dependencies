@@ -50,7 +50,7 @@ AC_INIT([libSBML],
 
 AC_CONFIG_AUX_DIR(config)
 
-AC_REVISION($Revision: 22003 $)
+AC_REVISION($Revision: 22630 $)
 
 AC_CONFIG_SRCDIR(src/Makefile.in)
 
@@ -306,7 +306,7 @@ CONFIG_PROG_SWIG(2.0.0)
 dnl Make sure to test doxygen *after* java, because there's a dependency
 dnl in CONFIG_PROG_DOXYGEN on whether --with-java was also given.
 
-CONFIG_PROG_DOXYGEN(1.7.0,1.8.8)
+CONFIG_PROG_DOXYGEN(1.7.0,1.8.10)
 
 dnl Do this one last, because some earlier config options may end up changing
 dnl things like CFLAGS, which in turn affects the libtool script that the
@@ -578,27 +578,35 @@ if test -d dev; then
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/experimental/binaries/windows/python/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/experimental/binaries/windows/R_interface/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/experimental/source/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/experimental/source/R_interface/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/32-bit/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/32-bit/R_interface/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/32-bit/R_interface/binary-package/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/32-bit/R_interface/source-package/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/32-bit/MATLAB_interface/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/64-bit/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/64-bit/R_interface/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/64-bit/R_interface/binary-package/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/64-bit/R_interface/source-package/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/64-bit/MATLAB_interface/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/linux/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/macos/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/macos/R_interface/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/macos/R_interface/binary-package/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/macos/R_interface/source-package/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/macos/MATLAB_interface/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/32-bit/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/32-bit/python/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/32-bit/R_interface/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/32-bit/MATLAB_interface/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/64-bit/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/64-bit/python/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/64-bit/R_interface/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/windows/64-bit/MATLAB_interface/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/MATLAB_interface/README.md])
+  AC_CONFIG_FILES([dev/misc-files/readmes-for-downloads-new-dir-struct/stable/R_interface/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/source/README.md])
   AC_CONFIG_FILES([dev/misc-files/readmes-for-experimental-release-downloads/source/accepted-packages/README.md])

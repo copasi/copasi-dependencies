@@ -113,11 +113,7 @@ ASTCnBase::isSetUnits() const
 int 
 ASTCnBase::setUnits(const std::string& units)
 {
-  if (&(units) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalUnitSId(units)))
+  if (!(SyntaxChecker::isValidInternalUnitSId(units)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -250,7 +246,7 @@ ASTCnBase::readAttributes(const XMLAttributes& attributes,
 
 
 bool 
-ASTCnBase::read(XMLInputStream& stream, const std::string& reqd_prefix)
+ASTCnBase::read(XMLInputStream& stream, const std::string& )
 {
   bool read = false;
 
@@ -295,7 +291,5 @@ ASTCnBase::syncMembersAndResetParentsFrom(ASTCnBase* rhs)
 }
 
 LIBSBML_CPP_NAMESPACE_END
-
-
 /** @endcond */
 

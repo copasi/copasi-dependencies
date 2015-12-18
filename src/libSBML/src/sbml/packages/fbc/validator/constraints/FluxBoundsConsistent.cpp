@@ -32,9 +32,7 @@
 #include "FluxBoundsConsistent.h"
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -62,7 +60,7 @@ FluxBoundsConsistent::~FluxBoundsConsistent ()
  * Checks whether all annotations have duplicate top level namespaces
  */
 void
-FluxBoundsConsistent::check_ (const Model& m, const Model& object)
+FluxBoundsConsistent::check_ (const Model& m, const Model&)
 {
   for (unsigned int n = 0; n < m.getNumReactions(); n++)
   {
@@ -153,5 +151,4 @@ FluxBoundsConsistent::logInconsistency (std::string name, const FluxBound& objec
 
 #endif /* __cplusplus */
 LIBSBML_CPP_NAMESPACE_END
-
 /** @endcond */

@@ -466,20 +466,20 @@ void Point::readAttributes (const XMLAttributes& attributes,
   if (getErrorLog() != NULL)
   {
     numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs-1; n >= 0; n--)
+    for (int n = (int)numErrs-1; n >= 0; n--)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
+      if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownPackageAttribute)
       {
         const std::string details =
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("layout", LayoutPointAllowedAttributes,
           getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
+      else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
-          getErrorLog()->getError(n)->getMessage();
+          getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("layout", 
           LayoutPointAllowedCoreAttributes,
@@ -618,7 +618,7 @@ void Point::writeAttributes (XMLOutputStream& stream) const
 }
 /** @endcond */
 
-XMLNode Point::toXML(const std::string& name) const
+XMLNode Point::toXML(const std::string&) const
 {
   return getXmlNodeForSBase(this);
 }
@@ -634,24 +634,18 @@ Point::getTypeCode () const
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the SBML object's next
- * sibling object (if available).
- */
+/** @cond doxygenLibsbmlInternal */
 bool Point::accept (SBMLVisitor& v) const
 {
     return v.visit(*this);
 }
+/** @endcond */
 
 
 
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
 LIBSBML_EXTERN
 Point_t *
 Point_create (void)
@@ -809,7 +803,6 @@ Point_clone (const Point_t *m)
   if (m == NULL) return NULL;
   return static_cast<Point*>( m->clone() );
 }
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END
 

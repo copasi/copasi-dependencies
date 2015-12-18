@@ -218,7 +218,6 @@ ASTCiFunctionNode::unsetDefinitionURL()
 void
 ASTCiFunctionNode::write(XMLOutputStream& stream) const
 {
-  if (&stream == NULL) return;
 
   stream.startElement("apply");
   
@@ -303,7 +302,5 @@ ASTCiFunctionNode::read(XMLInputStream& stream, const std::string& reqd_prefix)
 
 
 LIBSBML_CPP_NAMESPACE_END
-
-
 /** @endcond */
 

@@ -42,6 +42,7 @@
 #include <sbml/xml/XMLError.h>
 
 #include <sbml/validator/SBMLInternalValidator.h>
+#include <sbml/validator/StrictUnitConsistencyValidator.h>
 
 #include <sbml/Model.h>
 #include <sbml/SBMLErrorLog.h>
@@ -62,9 +63,7 @@
 #include <sbml/util/ElementFilter.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -204,8 +203,6 @@ SBMLDocument::SBMLDocument (SBMLNamespaces* sbmlns) :
 }
 
 /** @cond doxygenLibsbmlInternal */
-
-
   unsigned int SBMLDocument::getNumValidators() const
   {
     return (unsigned int)mValidators.size();
@@ -232,7 +229,6 @@ SBMLDocument::SBMLDocument (SBMLNamespaces* sbmlns) :
     }
     return NULL;
   }
-
 /** @endcond */
 
 
@@ -251,37 +247,33 @@ SBMLDocument::~SBMLDocument ()
 /*
  * Creates a copy of this SBMLDocument.
  */
-SBMLDocument::SBMLDocument (const SBMLDocument& orig) :
-   SBase  ( orig          )
+SBMLDocument::SBMLDocument (const SBMLDocument& orig)
+ : SBase  ( orig          )
+ , mLevel ( orig.mLevel   )
+ , mVersion ( orig.mVersion )
  , mModel ( NULL          )
  , mLocationURI (orig.mLocationURI )
+ , mErrorLog()
+ , mValidators ()
+ , mInternalValidator(new SBMLInternalValidator())
+ , mRequiredAttrOfUnknownPkg(orig.mRequiredAttrOfUnknownPkg)
+ , mRequiredAttrOfUnknownDisabledPkg(orig.mRequiredAttrOfUnknownDisabledPkg)
+ , mPkgUseDefaultNSMap()
 {
-  if (&orig == NULL)
+  
+  
+  setSBMLDocument(this);
+  
+  mInternalValidator->setDocument(this);
+  mInternalValidator->setApplicableValidators(orig.getApplicableValidators());
+  mInternalValidator->setConversionValidators(orig.getConversionValidators());
+  
+  if (orig.mModel != NULL) 
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
+    mModel = static_cast<Model*>( orig.mModel->clone() );
+    mModel->setSBMLDocument(this);
   }
-  else
-  {
-    mLevel                             = orig.mLevel;
-    mVersion                           = orig.mVersion;
-
-    setSBMLDocument(this);
-
-    mInternalValidator = new SBMLInternalValidator();
-    mInternalValidator->setDocument(this);
-    mInternalValidator->setApplicableValidators(orig.getApplicableValidators());
-    mInternalValidator->setConversionValidators(orig.getConversionValidators());
-    mRequiredAttrOfUnknownPkg = orig.mRequiredAttrOfUnknownPkg;
-    mRequiredAttrOfUnknownDisabledPkg = orig.mRequiredAttrOfUnknownDisabledPkg;
-
-    if (orig.mModel != NULL) 
-    {
-      mModel = static_cast<Model*>( orig.mModel->clone() );
-      mModel->setSBMLDocument(this);
-    }
-    
-  }
-
+  
   connectToChild();
   //if(orig.mNamespaces)
   //  this->mNamespaces = 
@@ -297,11 +289,7 @@ SBMLDocument::SBMLDocument (const SBMLDocument& orig) :
  */
 SBMLDocument& SBMLDocument::operator=(const SBMLDocument& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     setSBMLDocument(this);
@@ -327,9 +315,7 @@ SBMLDocument& SBMLDocument::operator=(const SBMLDocument& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 SBMLDocument::accept (SBMLVisitor& v) const
 {
@@ -339,6 +325,7 @@ SBMLDocument::accept (SBMLVisitor& v) const
 
   return true;
 }
+/** @endcond */
 
 
 /*
@@ -517,7 +504,7 @@ SBMLDocument::setLevelAndVersion (unsigned int level, unsigned int version,
 
 /** @cond doxygenLibsbmlInternal */
 void 
-SBMLDocument::updateSBMLNamespace(const std::string& package, unsigned int level, 
+SBMLDocument::updateSBMLNamespace(const std::string&, unsigned int level,
                             unsigned int version)
 {
   // is there a prefix on the sbml namespace
@@ -756,6 +743,79 @@ SBMLDocument::checkConsistency ()
   return numErrors;
 }
 
+
+/*
+ * Performs a set of semantic consistency checks on the document.  Query
+ * the results by calling getNumErrors() and getError().
+ *
+ * @return the number of failed checks (errors) encountered.
+ */
+unsigned int
+SBMLDocument::checkConsistencyWithStrictUnits ()
+{
+  //  XMLLogOverride(getErrorLog(), LIBSBML_OVERRIDE_DISABLED);
+  // keep a copy of the override status
+  // and then override any change
+  XMLErrorSeverityOverride_t overrideStatus = 
+                                  getErrorLog()->getSeverityOverride();
+  getErrorLog()->setSeverityOverride(LIBSBML_OVERRIDE_DISABLED);
+
+  // turn off the original units validator
+  setConsistencyChecks(LIBSBML_CAT_UNITS_CONSISTENCY, false);
+
+  unsigned int numErrors = mInternalValidator->checkConsistency();
+
+  for (unsigned int i = 0; i < getNumPlugins(); i++)
+  {
+    numErrors += static_cast<SBMLDocumentPlugin*>
+                      (getPlugin(i))->checkConsistency();
+  }
+
+  list<SBMLValidator*>::iterator it;
+  for (it = mValidators.begin(); it != mValidators.end(); it++)
+  {
+    long newErrors = (*it)->validate(*this);
+    if (newErrors > 0)
+    {
+      mErrorLog.add((*it)->getFailures());
+      numErrors += newErrors;
+    }
+  }
+
+  // check we have no serious errors 
+  bool seriousErrors = getNumErrors(LIBSBML_SEV_FATAL) > 0
+    || getNumErrors(LIBSBML_SEV_ERROR) > 0;
+
+  if (seriousErrors)
+  {
+    // restore value of override
+    getErrorLog()->setSeverityOverride(overrideStatus);
+
+    return numErrors;
+  }
+  else
+  {
+    // log as errors
+    getErrorLog()->setSeverityOverride(LIBSBML_OVERRIDE_ERROR);
+    StrictUnitConsistencyValidator unit_validator;
+    unit_validator.init();
+    unsigned int nerrors = unit_validator.validate(*this);
+    numErrors += nerrors;
+    if (nerrors > 0) 
+    {
+      getErrorLog()->add( unit_validator.getFailures() );
+    }
+  }
+    
+
+
+  // restore value of override
+  getErrorLog()->setSeverityOverride(overrideStatus);
+
+  return numErrors;
+}
+
+
 /*
  * Performs consistency checking and validation on this SBML document.
  *
@@ -970,7 +1030,6 @@ SBMLDocument::printErrors(std::ostream& stream, unsigned int severity) const
 
 
 /** @cond doxygenLibsbmlInternal */
-
 /*
  * Sets the parent SBMLDocument of this SBML object.
  */
@@ -1009,7 +1068,6 @@ int SBMLDocument::convert(const ConversionProperties& props)
 
   return result;
 }
-
 /** @endcond */
 
 
@@ -1379,14 +1437,12 @@ std::string
 SBMLDocument::getUnknownPackageURI(int index) const
 {
   std::string result;
-  int count = 0;
   for (int i = 0; i < mRequiredAttrOfUnknownPkg.getLength(); ++i)
   {
     if (mRequiredAttrOfUnknownPkg.getName(i) != "required")
       continue;
-    if (i == count)
+    if (i == index)
       return mRequiredAttrOfUnknownPkg.getURI(i);
-    ++count;
   }
   return result;
 }
@@ -1395,18 +1451,15 @@ std::string
 SBMLDocument::getUnknownPackagePrefix(int index) const
 {
   std::string result;
-  int count = 0;
   for (int i = 0; i < mRequiredAttrOfUnknownPkg.getLength(); ++i)
   {
     if (mRequiredAttrOfUnknownPkg.getName(i) != "required")
       continue;
-    if (i == count)
+    if (index == i)
       return mRequiredAttrOfUnknownPkg.getPrefix(i);
-    ++count;
   }
   return result;
 }
-
 /** @endcond */
 
 
@@ -1417,7 +1470,6 @@ SBMLDocument::isIgnoredPkg(const std::string& pkgURI)
 }
 
 /** @cond doxygenLibsbmlInternal */
-
 /*
  * Subclasses should override this method to get the list of
  * expected attributes.
@@ -1880,8 +1932,6 @@ SBMLDocument::writeXMLNS (XMLOutputStream& stream) const
     delete xmlns;
   }
 }
-
-
 /** @endcond */
 
 
@@ -1970,16 +2020,12 @@ SBMLDocument::enablePackageInternal(const std::string& pkgURI, const std::string
   if (mModel)
     mModel->enablePackageInternal(pkgURI,pkgPrefix,flag);
 }
-
 /** @endcond */
 
 
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
-
 LIBSBML_EXTERN
 SBMLDocument_t *
 SBMLDocument_create ()
@@ -2146,9 +2192,9 @@ SBMLDocument_createModel (SBMLDocument_t *d)
 
 LIBSBML_EXTERN
 void 
-SBMLDocument_setLocationURI (SBMLDocument_t *d, const std::string& location)
+SBMLDocument_setLocationURI (SBMLDocument_t *d, const char* location)
 {
-  if (d != NULL) d->setLocationURI(location);
+  if (d != NULL && location != NULL) d->setLocationURI(location);
 }
 
 LIBSBML_EXTERN
@@ -2373,7 +2419,5 @@ SBMLDocument_convert(SBMLDocument_t *d, const ConversionProperties_t* props)
   if (d == NULL || props == NULL) return LIBSBML_INVALID_OBJECT;
   return d->convert(*props);
 }
-
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END

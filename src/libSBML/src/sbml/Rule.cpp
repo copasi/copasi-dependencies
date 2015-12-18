@@ -54,9 +54,7 @@
 #include <sbml/RateRule.h>
 
 /** @cond doxygenIgnored */
-
 using namespace std;
-
 /** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -103,28 +101,20 @@ Rule::~Rule ()
 /*
  * Copy constructor. Creates a copy of this Rule.
  */
-Rule::Rule (const Rule& orig) :
-   SBase   ( orig          )
- , mMath   ( NULL            )
+Rule::Rule (const Rule& orig) 
+ : SBase       ( orig             )
+ , mVariable   ( orig.mVariable   )
+ , mFormula    ( orig.mFormula    )
+ , mMath       ( NULL             )
+ , mUnits      ( orig.mUnits      )
+ , mType       ( orig.mType       )
+ , mL1Type     ( orig.mL1Type     )
+ , mInternalId ( orig.mInternalId )
 {
-  if (&orig == NULL)
+  if (orig.mMath != NULL) 
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mVariable   = orig.mVariable;
-    mFormula    = orig.mFormula ;
-    mUnits      = orig.mUnits   ;
-    mType       = orig.mType    ;
-    mL1Type     = orig.mL1Type  ;
-    mInternalId = orig.mInternalId;
-
-    if (orig.mMath != NULL) 
-    {
-      mMath = orig.mMath->deepCopy();
-      mMath->setParentSBMLObject(this);
-    }
+    mMath = orig.mMath->deepCopy();
+    mMath->setParentSBMLObject(this);
   }
 }
 
@@ -134,11 +124,7 @@ Rule::Rule (const Rule& orig) :
  */
 Rule& Rule::operator=(const Rule& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment operator");
-  }
-  else if(&rhs!=this)
+  if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
     mVariable = rhs.mVariable;
@@ -165,18 +151,13 @@ Rule& Rule::operator=(const Rule& rhs)
 }
 
 
-/*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the Model's next Rule
- * (if available).
- */
+/** @cond doxygenLibsbmlInternal */
 bool
 Rule::accept (SBMLVisitor& v) const
 {
   return v.visit(*this);
 }
+/** @endcond */
 
 
 /*
@@ -323,38 +304,34 @@ Rule::isSetUnits () const
 int
 Rule::setFormula (const std::string& formula)
 {
-  if (&(formula) == NULL)
+  
+  
+  if (formula == "")
   {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+    mFormula.erase();
+    delete mMath;
+    mMath = NULL;
+    return LIBSBML_OPERATION_SUCCESS;
   }
-  else 
+  ASTNode * math = SBML_parseFormula(formula.c_str());
+  if (math == NULL || !(math->isWellFormedASTNode()))
   {
-    if (formula == "")
+    delete math;
+    return LIBSBML_INVALID_OBJECT;
+  }
+  else
+  {
+    delete math;
+    mFormula = formula;
+  
+    if (mMath != NULL)
     {
-      mFormula.erase();
       delete mMath;
       mMath = NULL;
-      return LIBSBML_OPERATION_SUCCESS;
     }
-    ASTNode * math = SBML_parseFormula(formula.c_str());
-    if (math == NULL || !(math->isWellFormedASTNode()))
-    {
-      delete math;
-      return LIBSBML_INVALID_OBJECT;
-    }
-    else
-    {
-      delete math;
-      mFormula = formula;
-
-      if (mMath != NULL)
-      {
-        delete mMath;
-        mMath = NULL;
-      }
-      return LIBSBML_OPERATION_SUCCESS;
-    }
+    return LIBSBML_OPERATION_SUCCESS;
   }
+  
 }
 
 
@@ -396,11 +373,7 @@ Rule::setMath (const ASTNode* math)
 int
 Rule::setVariable (const std::string& sid)
 {
-  if (&(sid) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (isAlgebraic())
+  if (isAlgebraic())
   {
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
@@ -424,11 +397,7 @@ int
 Rule::setUnits (const std::string& sname)
 {
   /* only in L1 ParameterRule */
-  if (&(sname) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (getLevel() > 1)
+  if (getLevel() > 1)
   {
     return LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
@@ -584,6 +553,7 @@ Rule::getDerivedUnitDefinition() const
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Predicate returning @c true if 
  * the math expression of this Rule contains
@@ -655,14 +625,16 @@ Rule::containsUndeclaredUnits()
     return false;
   }
 }
+/** @endcond */
 
 
-
+/** @cond doxygenLibsbmlInternal */
 bool 
 Rule::containsUndeclaredUnits() const
 {
   return const_cast<Rule *> (this)->containsUndeclaredUnits();
 }
+/** @endcond */
 
 
 /*
@@ -867,6 +839,7 @@ Rule::hasRequiredElements() const
 void
 Rule::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameSIdRefs(oldid, newid);
   }
@@ -884,6 +857,7 @@ Rule::renameSIdRefs(const std::string& oldid, const std::string& newid)
 void 
 Rule::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameUnitSIdRefs(oldid, newid);
   if (isSetMath()) {
     mMath->renameUnitSIdRefs(oldid, newid);
   }
@@ -1081,7 +1055,10 @@ Rule::addExpectedAttributes(ExpectedAttributes& attributes)
   }
   else
   {
-    attributes.add("variable");
+    if (isAssignment() || isRate())
+    {
+      attributes.add("variable");
+    }
     if (level == 2 && version == 2)
     {
       attributes.add("sboTerm");
@@ -1455,11 +1432,11 @@ ListOfRules::get(unsigned int n) const
  */
 struct IdEqRule : public unary_function<SBase*, bool>
 {
-  const string& id;
+  const string& mId;
 
-  IdEqRule (const string& id) : id(id) { }
+  IdEqRule (const string& id) : mId(id) { }
   bool operator() (SBase* sb) 
-       { return static_cast <Rule *> (sb)->getVariable() == id; }
+       { return static_cast <Rule *> (sb)->getVariable() == mId; }
 };
 
 
@@ -1478,15 +1455,8 @@ ListOfRules::get (const std::string& sid) const
 {
   vector<SBase*>::const_iterator result;
 
-  if (&(sid) == NULL)
-  {
-    return NULL;
-  }
-  else
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEqRule(sid) );
-    return (result == mItems.end()) ? NULL : static_cast <Rule*> (*result);
-  }
+  result = find_if( mItems.begin(), mItems.end(), IdEqRule(sid) );
+  return (result == mItems.end()) ? NULL : static_cast <Rule*> (*result);
 }
 
 
@@ -1519,15 +1489,12 @@ ListOfRules::remove (const std::string& sid)
   SBase* item = NULL;
   vector<SBase*>::iterator result;
 
-  if (&(sid) != NULL)
-  {
-    result = find_if( mItems.begin(), mItems.end(), IdEqRule(sid) );
+  result = find_if( mItems.begin(), mItems.end(), IdEqRule(sid) );
 
-    if (result != mItems.end())
-    {
-      item = *result;
-      mItems.erase(result);
-    }
+  if (result != mItems.end())
+  {
+    item = *result;
+    mItems.erase(result);
   }
 
   return static_cast <Rule*> (item);
@@ -1547,7 +1514,6 @@ ListOfRules::getElementPosition () const
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-
 bool 
 ListOfRules::isValidTypeForList(SBase * item)
 {
@@ -1559,7 +1525,6 @@ ListOfRules::isValidTypeForList(SBase * item)
     ||    (tc == SBML_COMPARTMENT_VOLUME_RULE )
     ||    (tc == SBML_PARAMETER_RULE));
 }
-
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
@@ -1697,8 +1662,6 @@ ListOfRules::createObject (XMLInputStream& stream)
 
 #endif /* __cplusplus */
 /** @cond doxygenIgnored */
-
-
 LIBSBML_EXTERN
 Rule_t *
 Rule_createAlgebraic (unsigned int level, unsigned int version)
@@ -2062,6 +2025,5 @@ ListOfRules_removeById (ListOf_t *lo, const char *sid)
   else
     return NULL;
 }
-
 /** @endcond */
 LIBSBML_CPP_NAMESPACE_END
