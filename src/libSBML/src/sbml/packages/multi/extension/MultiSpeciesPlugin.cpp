@@ -54,6 +54,7 @@ MultiSpeciesPlugin::MultiSpeciesPlugin(const std::string& uri,
   , mSpeciesFeatures (multins)
    ,mSpeciesType ("")
 {
+  connectToChild();
 }
 
 
@@ -64,11 +65,8 @@ MultiSpeciesPlugin::MultiSpeciesPlugin(const MultiSpeciesPlugin& orig) :
     SBasePlugin(orig)
   , mOutwardBindingSites ( orig.mOutwardBindingSites)
   , mSpeciesFeatures ( orig.mSpeciesFeatures)
+  , mSpeciesType  ( orig.mSpeciesType)
 {
-  if (&orig == NULL)
-  {
-    mSpeciesType  = orig.mSpeciesType;
-  }
 }
 
 
@@ -166,7 +164,7 @@ MultiSpeciesPlugin::writeElements (XMLOutputStream& stream) const
   { 
     mOutwardBindingSites.write(stream);
   } 
-  if (getNumSpeciesFeatures() > 0) 
+  if (getNumSpeciesFeatures() > 0 || getNumSubListOfSpeciesFeatures() > 0)
   { 
     mSpeciesFeatures.write(stream);
   } 
@@ -226,8 +224,9 @@ MultiSpeciesPlugin::readAttributes (const XMLAttributes& attributes,
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiExSpe_AllowedMultiAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -235,7 +234,8 @@ MultiSpeciesPlugin::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
     }
   }
@@ -258,8 +258,10 @@ MultiSpeciesPlugin::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mSpeciesType) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute speciesType='" + mSpeciesType + "' does not conform.");
+        std::string details = "The syntax of the attribute speciesType='" + mSpeciesType + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
 
@@ -319,11 +321,7 @@ MultiSpeciesPlugin::isSetSpeciesType() const
 int
 MultiSpeciesPlugin::setSpeciesType(const std::string& speciesType)
 {
-  if (&(speciesType) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(speciesType)))
+  if (!(SyntaxChecker::isValidInternalSId(speciesType)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -643,19 +641,94 @@ MultiSpeciesPlugin::createSpeciesFeature ()
   return sf;
 }
 
+/*
+ * Returns the SubListOfSpeciesFeatures object that belongs to the given index.
+ */
+const SubListOfSpeciesFeatures*
+MultiSpeciesPlugin::getSubListOfSpeciesFeatures(unsigned int n) const
+{
+  return static_cast<const SubListOfSpeciesFeatures*>(mSpeciesFeatures.getSubListOfSpeciesFeatures(n));
+}
+
+
+/*
+ * Returns the SubListOfSpeciesFeatures object that belongs to the given index.
+ */
+SubListOfSpeciesFeatures*
+MultiSpeciesPlugin::getSubListOfSpeciesFeatures(unsigned int n)
+{
+  return static_cast<SubListOfSpeciesFeatures*>(mSpeciesFeatures.getSubListOfSpeciesFeatures(n));
+}
+
+
+/*
+ * Returns the SubListOfSpeciesFeatures object based on its identifier.
+ */
+const SubListOfSpeciesFeatures*
+MultiSpeciesPlugin::getSubListOfSpeciesFeatures(const std::string& sid) const
+{
+  return static_cast<const SubListOfSpeciesFeatures*>(mSpeciesFeatures.getSubListOfSpeciesFeatures(sid));
+}
+
+
+/*
+ * Returns the SubListOfSpeciesFeatures object based on its identifier.
+ */
+SubListOfSpeciesFeatures*
+MultiSpeciesPlugin::getSubListOfSpeciesFeatures(const std::string& sid)
+{
+  return static_cast<SubListOfSpeciesFeatures*>(mSpeciesFeatures.getSubListOfSpeciesFeatures(sid));
+}
+
+
+/*
+ * Adds a copy of the given SubListOfSpeciesFeatures to the ListOfSpeciesFeatures in this plugin object.
+ */
+int
+MultiSpeciesPlugin::addSubListOfSpeciesFeatures (SubListOfSpeciesFeatures* subListOfSpeciesFeatures)
+{
+  if (subListOfSpeciesFeatures == NULL)
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+  else if (subListOfSpeciesFeatures->hasRequiredElements() == false)
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+  else if (getLevel() != subListOfSpeciesFeatures->getLevel())
+  {
+    return LIBSBML_LEVEL_MISMATCH;
+  }
+  else if (getVersion() != subListOfSpeciesFeatures->getVersion())
+  {
+    return LIBSBML_VERSION_MISMATCH;
+  }
+  else if (getPackageVersion() != subListOfSpeciesFeatures->getPackageVersion())
+  {
+    return LIBSBML_PKG_VERSION_MISMATCH;
+  }
+  else
+  {
+    mSpeciesFeatures.addSubListOfSpeciesFeatures(subListOfSpeciesFeatures);
+  }
+
+  return LIBSBML_OPERATION_SUCCESS;
+
+}
+
 
 /*
  * Creates a new SpeciesFeature object and adds it to the ListOfSpeciesFeatures in this plugin object.
  */
-ListOfSpeciesFeatures* 
+SubListOfSpeciesFeatures*
 MultiSpeciesPlugin::createSubListOfSpeciesFeatures ()
 {
-   ListOfSpeciesFeatures* losf = NULL;
+   SubListOfSpeciesFeatures* losf = NULL;
 
   try
   {
     MULTI_CREATE_NS(multins, getSBMLNamespaces());
-    losf = new ListOfSpeciesFeatures(multins);
+    losf = new SubListOfSpeciesFeatures(multins);
     delete multins;
   }
   catch(...)
@@ -665,8 +738,6 @@ MultiSpeciesPlugin::createSubListOfSpeciesFeatures ()
   if (losf != NULL)
   {
     mSpeciesFeatures.addSubListOfSpeciesFeatures(losf);
-    //static_cast<ListOfSpeciesFeatures*>(losf)->setIsSubList();
-    //mSpeciesFeaturesmSubListOfSpeciesFeatures->add(losf);
   }
 
   return losf;
@@ -699,7 +770,16 @@ MultiSpeciesPlugin::removeSpeciesFeature(const std::string& sid)
 unsigned int 
 MultiSpeciesPlugin::getNumSpeciesFeatures () const
 {
-  return mSpeciesFeatures.size();
+  return mSpeciesFeatures.getNumSpeciesFeatures();
+}
+
+/*
+ * Returns the number of SubListOfSpeciesFeatures objects in this plugin object.
+ */
+unsigned int
+MultiSpeciesPlugin::getNumSubListOfSpeciesFeatures () const
+{
+  return mSpeciesFeatures.getNumSubListOfSpeciesFeatures();
 }
 
 
@@ -743,6 +823,20 @@ MultiSpeciesPlugin::enablePackageInternal(const std::string& pkgURI,
   mSpeciesFeatures.enablePackageInternal(pkgURI, pkgPrefix, flag);
 }
 
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Connects to child elements
+ */
+void
+MultiSpeciesPlugin::connectToChild()
+{
+  connectToParent(getParentSBMLObject());
+}
+
+/** @endcond */
+
+
 
 /*
  * Accept the SBMLVisitor.
@@ -750,10 +844,8 @@ MultiSpeciesPlugin::enablePackageInternal(const std::string& pkgURI,
 bool
 MultiSpeciesPlugin::accept(SBMLVisitor& v) const
 {
-  const Model * model = static_cast<const Model * >(this->getParentSBMLObject());
-
-  v.visit(*model);
-  v.leave(*model);
+  const Species * species = static_cast<const Species * >(this->getParentSBMLObject());
+  v.visit(*species);
 
   for(unsigned int i = 0; i < getNumOutwardBindingSites(); i++)
   {
@@ -763,6 +855,11 @@ MultiSpeciesPlugin::accept(SBMLVisitor& v) const
   for(unsigned int i = 0; i < getNumSpeciesFeatures(); i++)
   {
     getSpeciesFeature(i)->accept(v);
+  }
+
+  for(unsigned int i = 0; i < getNumSubListOfSpeciesFeatures(); i++)
+  {
+    getSubListOfSpeciesFeatures(i)->accept(v);
   }
 
   return true;

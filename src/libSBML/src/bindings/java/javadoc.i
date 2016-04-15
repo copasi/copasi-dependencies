@@ -1280,13 +1280,7 @@ Similarly, the filename in the archive will be
 
 
 %javamethodmodifiers SBase::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this {@link SBase} object.
-   <p>
-   * @param v the SBMLVisitor instance to be used
-   <p>
-   * @return the result of calling <code>v.visit()</code>.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -1312,7 +1306,54 @@ Similarly, the filename in the archive will be
 ";
 
 
+%javamethodmodifiers SBase::getElementBySId(const std::string& id) const "
+/**
+   * Returns the first child element found that has the given <code>id</code> in the
+   * model-wide <code>SId</code> namespace, or <code>null</code> if no such object is found.
+   <p>
+   * @param id string representing the \'id\' attribute value of the object
+   * to find.
+   <p>
+   * @return pointer to the first element found with the given identifier.
+   */ public
+";
+
+
 %javamethodmodifiers SBase::getElementByMetaId(const std::string& metaid) "
+/**
+   * Returns the first child element it can find with a specific \'metaid\'
+   * attribute value, or <code>null</code> if no such object is found.
+   <p>
+   * <p>
+ * The optional attribute named \'metaid\', present on every major SBML
+ * component type, is for supporting metadata annotations using RDF (<a
+ * href=\'http://www.w3.org/RDF/\'>Resource Description Format</a>).  The
+ * attribute value has the data type <a
+ * href=\'http://www.w3.org/TR/REC-xml/#id\'>XML <code>ID</code></a>, the XML
+ * identifier type, which means each \'metaid\' value must be globally unique
+ * within an SBML file.  The latter point is important, because the
+ * uniqueness criterion applies across <em>any</em> attribute with type
+ * <code>ID</code> anywhere in the file, not just the \'metaid\' attribute used
+ * by SBML&mdash;something to be aware of if your application-specific XML
+ * content inside the \'annotation\' subelement happens to use the XML
+ * <code>ID</code> type.  Although SBML itself specifies the use of <a
+ * href=\'http://www.w3.org/TR/REC-xml/#id\'>XML <code>ID</code></a> only for
+ * the \'metaid\' attribute, SBML-compatible applications should be careful if
+ * they use XML <code>ID</code>\'s in XML portions of a model that are not
+ * defined by SBML, such as in the application-specific content of the
+ * \'annotation\' subelement.  Finally, note that LibSBML does not provide an
+ * explicit XML <code>ID</code> data type; it uses ordinary character
+ * strings, which is easier for applications to support.
+   <p>
+   * @param metaid string representing the \'metaid\' attribute value of the
+   * object to find.
+   <p>
+   * @return pointer to the first element found with the given meta-identifier.
+   */ public
+";
+
+
+%javamethodmodifiers SBase::getElementByMetaId(const std::string& metaid) const "
 /**
    * Returns the first child element it can find with a specific \'metaid\'
    * attribute value, or <code>null</code> if no such object is found.
@@ -2240,10 +2281,12 @@ appears in the documentation.
 
 %javamethodmodifiers SBase::getLine() const "
 /**
-   * Returns the line number on which this object first appears in the XML
+   * Returns the line number where this object first appears in the XML
    * representation of the SBML document.
    <p>
-   * @return the line number of this SBML object.
+   * @return the line number of this SBML object.  If this object was
+   * created programmatically and not read from a file, this method will
+   * return the value <code>0.</code>
    <p>
    * @note The line number for each construct in an SBML model is set upon
    * reading the model.  The accuracy of the line number depends on the
@@ -2267,10 +2310,12 @@ appears in the documentation.
 
 %javamethodmodifiers SBase::getColumn() const "
 /**
-   * Returns the column number on which this object first appears in the XML
+   * Returns the column number where this object first appears in the XML
    * representation of the SBML document.
    <p>
-   * @return the column number of this SBML object.
+   * @return the column number of this SBML object.  If this object was
+   * created programmatically and not read from a file, this method will
+   * return the value <code>0.</code>
    <p>
    * @note The column number for each construct in an SBML model is set
    * upon reading the model.  The accuracy of the column number depends on
@@ -2787,7 +2832,7 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    *
    * </ul> <p>
-   * @see #removeTopLevelAnnotationElement(String elementName, String elementURI)
+   * @see #removeTopLevelAnnotationElement(String elementName, String elementURI, boolean removeEmpty)
    * @see #replaceTopLevelAnnotationElement(String)
    */ public
 ";
@@ -3793,9 +3838,9 @@ void example (SBase sb)
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getPackageName()
    * @see #getElementName()
@@ -3816,6 +3861,7 @@ void example (SBase sb)
    * <li> Level&nbsp;2 Version&nbsp;2: &quot;<code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version2</code>&quot;
    * <li> Level&nbsp;2 Version&nbsp;3: &quot;<code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version3</code>&quot;
    * <li> Level&nbsp;2 Version&nbsp;4: &quot;<code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version4</code>&quot;
+   * <li> Level&nbsp;2 Version&nbsp;5: &quot;<code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level2/version5</code>&quot;
    * <li> Level&nbsp;3 Version&nbsp;1 Core: &quot;<code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://www.sbml.org/sbml/level3/version1/core</code>&quot;
    * </ul>
    <p>
@@ -4025,6 +4071,13 @@ void example (SBase sb)
  * objects created by libSBML plug-ins supporting additional Level&nbsp;3
  * packages.
    <p>
+   * <p>
+ * If a plugin is <em>disabled</em>, the package information it contains is
+ * no longer considered to be part of the SBML document for the purposes of
+ * searching the document or writing out the document.  However, the information
+ * is still retained, so if the plugin is enabled again, the same information
+ * will once again be available, and will be written out to the final model.
+   <p>
    * @param n the index of the disabled plug-in to return
    <p>
    * @return the nth disabled plug-in object (the libSBML extension interface) of a
@@ -4055,6 +4108,13 @@ void example (SBase sb)
  * may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
  * objects created by libSBML plug-ins supporting additional Level&nbsp;3
  * packages.
+   <p>
+   * <p>
+ * If a plugin is <em>disabled</em>, the package information it contains is
+ * no longer considered to be part of the SBML document for the purposes of
+ * searching the document or writing out the document.  However, the information
+ * is still retained, so if the plugin is enabled again, the same information
+ * will once again be available, and will be written out to the final model.
    <p>
    * @param n the index of the disabled plug-in to return
    <p>
@@ -4097,7 +4157,7 @@ void example (SBase sb)
 
 %javamethodmodifiers SBase::getNumDisabledPlugins() const "
 /**
-   * Returns the number of disabled plug-in objects (extenstion interfaces) 
+   * Returns the number of disabled plug-in objects (extension interfaces) 
    * for SBML Level&nbsp;3 package extensions known.
    <p>
    * <p>
@@ -4115,6 +4175,13 @@ void example (SBase sb)
  * objects created by libSBML plug-ins supporting additional Level&nbsp;3
  * packages.
    <p>
+   * <p>
+ * If a plugin is <em>disabled</em>, the package information it contains is
+ * no longer considered to be part of the SBML document for the purposes of
+ * searching the document or writing out the document.  However, the information
+ * is still retained, so if the plugin is enabled again, the same information
+ * will once again be available, and will be written out to the final model.
+   <p>
    * @return the number of disabled plug-in objects (extension interfaces) 
    * of package extensions known by this instance of libSBML.
    */ public
@@ -4123,7 +4190,30 @@ void example (SBase sb)
 
 %javamethodmodifiers SBase::deleteDisabledPlugins(bool recursive=true) "
 /**
-   * Deletes all information stored in disabled plugins. 
+   * Deletes all information stored in disabled plugins.  If the plugin is 
+   * re-enabled later, it will then not have any previously-stored information.
+   <p>
+   * <p>
+ * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
+ * via optional SBML Level&nbsp;3 <em>packages</em>.  A given model may indicate
+ * that it uses one or more SBML packages, and likewise, a software tool may be
+ * able to support one or more packages.  LibSBML does not come preconfigured
+ * with all possible packages included and enabled, in part because not all
+ * package specifications have been finalized.  To support the ability for
+ * software systems to enable support for the Level&nbsp;3 packages they choose,
+ * libSBML features a <em>plug-in</em> mechanism.  Each SBML Level&nbsp;3
+ * package is implemented in a separate code plug-in that can be enabled by the
+ * application to support working with that SBML package.  A given SBML model
+ * may thus contain not only objects defined by SBML Level&nbsp;3 Core, but also
+ * objects created by libSBML plug-ins supporting additional Level&nbsp;3
+ * packages.
+   <p>
+   * <p>
+ * If a plugin is <em>disabled</em>, the package information it contains is
+ * no longer considered to be part of the SBML document for the purposes of
+ * searching the document or writing out the document.  However, the information
+ * is still retained, so if the plugin is enabled again, the same information
+ * will once again be available, and will be written out to the final model.
    <p>
    * @param recursive if <code>true</code>, the disabled information will be deleted
    * also from all child elements, otherwise only from this {@link SBase} element.
@@ -4573,9 +4663,10 @@ newModel.addSpecies(s1);
    <p>
    * This function first returns the URI for this element by looking into the
    * {@link SBMLNamespaces} object of the document with the its package name.  If not
-   * found, it will * return the XML namespace to which this element belongs.
+   * found, it will then look for the namespace associated with the element
+   * itself.
    <p>
-   * @return the URI of this element
+   * @return the URI of this element, as a text string
    <p>
    * @see #getSBMLDocument()
    * @see #getPackageName()
@@ -4847,14 +4938,6 @@ defined in SBML.
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -4976,15 +5059,7 @@ appears in the documentation.
 
 
 %javamethodmodifiers ListOf::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next item in the
-   * list.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -5297,9 +5372,9 @@ appears in the documentation.
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getItemTypeCode()
    * @see #getElementName()
@@ -5387,7 +5462,7 @@ appears in the documentation.
  * within the model, the list must not be empty; that is, it must have
  * length one or more.  The following are the components and lists
  * permitted in different Levels and Versions of SBML in
- * version 5.11.5
+ * version 5.13.0
  * of libSBML:
  * <ul>
  * <li> In SBML Level 1, the components are: {@link UnitDefinition}, {@link Compartment},
@@ -5496,7 +5571,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <h2>Consistency and adherence to SBML specifications</h2>
  <p>
  * To make it easier for applications to do whatever they need,
- * libSBML version 5.11.5
+ * libSBML version 5.13.0
  * is relatively lax when it comes to enforcing correctness and
  * completeness of models <em>during</em> model construction and editing.
  * Essentially, libSBML <em>will</em> <em>not</em> in most cases check automatically
@@ -5652,10 +5727,10 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param version a long integer, the SBML Version to assign to this
    * {@link Model}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -5691,10 +5766,10 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -5720,21 +5795,12 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * Copy constructor; creates a (deep) copy of the given {@link Model} object.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers Model::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link Constraint}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -8617,12 +8683,12 @@ sp.setId(&#34;BestSpeciesEver&#34;);
 ";
 
 
-%javamethodmodifiers Model::convertL1ToL3 "
+%javamethodmodifiers Model::convertL1ToL3(bool addDefaultUnits = true) "
 /** * @internal */ public
 ";
 
 
-%javamethodmodifiers Model::convertL2ToL3(bool strict = false) "
+%javamethodmodifiers Model::convertL2ToL3(bool strict = false, bool addDefaultUnits = true) "
 /** * @internal */ public
 ";
 
@@ -8742,11 +8808,6 @@ sp.setId(&#34;BestSpeciesEver&#34;);
 ";
 
 
-%javamethodmodifiers Model::convertToL2Strict "
-/** * @internal */ public
-";
-
-
 %javamethodmodifiers Model::setSBMLDocument(SBMLDocument* d) "
 /** * @internal */ public
 ";
@@ -8772,9 +8833,9 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -9741,7 +9802,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    <p>
    * <p>
  * This \'default Level\' corresponds to the most recent SBML specification
- * Level available at the time libSBML version 5.11.5 was released.  The default Level is used by
+ * Level available at the time libSBML version 5.13.0 was released.  The default Level is used by
  * {@link SBMLDocument} if no Level is explicitly specified at the time of the
  * construction of an {@link SBMLDocument} instance.
    <p>
@@ -9761,7 +9822,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * <p>
  * This \'default Version\' corresponds to the most recent Version within the
  * most recent Level of SBML available at the time libSBML version
- * 5.11.5 was released.  The default Version is
+ * 5.13.0 was released.  The default Version is
  * used by {@link SBMLDocument} if no Version is explicitly specified at the time of
  * the construction of an {@link SBMLDocument} instance. 
    <p>
@@ -9801,10 +9862,10 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    <p>
    * @param version an integer for the Version within the SBML Level
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * 
 </dl><dl class=\"docnote\"><dt><b>Documentation note:</b></dt><dd>
@@ -9843,10 +9904,10 @@ appears in the documentation.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    */ public
 ";
 
@@ -9856,21 +9917,12 @@ appears in the documentation.
    * Copy constructor; creates a copy of this {@link SBMLDocument}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers SBMLDocument::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link SBMLDocument}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -10404,6 +10456,25 @@ appears in the documentation.
 ";
 
 
+%javamethodmodifiers SBMLDocument::checkConsistencyWithStrictUnits "
+/**
+   * Performs consistency checking and validation on this SBML document
+   * using the ultra strict units validator that assumes that there
+   * are no hidden numerical conversion factors.
+   <p>
+   * If this method returns a nonzero value (meaning, one or more
+   * consistency checks have failed for SBML document), the failures may be
+   * due to warnings <em>or</em> errors.  Callers should inspect the severity
+   * flag in the individual {@link SBMLError} objects returned by
+   * {@link SBMLDocument#getError(long)} to determine the nature of the failures.
+   <p>
+   * @return the number of failed checks (errors) encountered.
+   <p>
+   * @see SBMLDocument#checkInternalConsistency()
+   */ public
+";
+
+
 %javamethodmodifiers SBMLDocument::validateSBML "
 /**
    * Performs consistency checking and validation on this SBML document.
@@ -10448,7 +10519,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers SBMLDocument::checkL1Compatibility "
+%javamethodmodifiers SBMLDocument::checkL1Compatibility(bool inConversion = false) "
 /**
    * Performs a set of consistency checks on the document to establish
    * whether it is compatible with SBML Level&nbsp;1 and can be converted
@@ -10462,7 +10533,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers SBMLDocument::checkL2v1Compatibility "
+%javamethodmodifiers SBMLDocument::checkL2v1Compatibility(bool inConversion = false) "
 /**
    * Performs a set of consistency checks on the document to establish
    * whether it is compatible with SBML Level&nbsp;2 Version&nbsp;1 and can
@@ -10476,7 +10547,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers SBMLDocument::checkL2v2Compatibility "
+%javamethodmodifiers SBMLDocument::checkL2v2Compatibility(bool inConversion = false) "
 /**
    * Performs a set of consistency checks on the document to establish
    * whether it is compatible with SBML Level&nbsp;2 Version&nbsp;2 and can
@@ -10490,7 +10561,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers SBMLDocument::checkL2v3Compatibility "
+%javamethodmodifiers SBMLDocument::checkL2v3Compatibility(bool inConversion = false) "
 /**
    * Performs a set of consistency checks on the document to establish
    * whether it is compatible with SBML Level&nbsp;2 Version&nbsp;3 and can
@@ -10716,9 +10787,9 @@ appears in the documentation.
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see SBMLDocument#getElementName()
    * @see #getPackageName()
@@ -11172,14 +11243,6 @@ appears in the documentation.
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -11215,10 +11278,10 @@ appears in the documentation.
    * @param version a long integer, the SBML Version to assign to this
    * {@link FunctionDefinition}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -11254,10 +11317,10 @@ appears in the documentation.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -11283,23 +11346,12 @@ appears in the documentation.
    * Copy constructor; creates a copy of this {@link FunctionDefinition}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers FunctionDefinition::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link FunctionDefinition}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link FunctionDefinition} in
-   * the list of function definitions.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -11563,9 +11615,9 @@ appears in the documentation.
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -11689,6 +11741,27 @@ appears in the documentation.
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -11703,6 +11776,27 @@ appears in the documentation.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfFunctionDefinitions} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -12128,14 +12222,6 @@ to indicate an invalid or unset unit.</td></tr>
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -12171,10 +12257,10 @@ to indicate an invalid or unset unit.</td></tr>
    * @param version a long integer, the SBML Version to assign to this
    * {@link Unit}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -12210,10 +12296,10 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -12239,24 +12325,12 @@ to indicate an invalid or unset unit.</td></tr>
    * Copy constructor; creates a copy of this {@link Unit}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers Unit::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link Unit}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link Unit} in the list
-   * of units within which this {@link Unit} is embedded (i.e., in the {@link ListOfUnits}
-   * located in the enclosing {@link UnitDefinition} instance).
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -13007,9 +13081,9 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getPackageName()
    * @see #getElementName()
@@ -13339,6 +13413,27 @@ to indicate an invalid or unset unit.</td></tr>
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -13353,6 +13448,27 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfUnits} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -13708,14 +13824,6 @@ to indicate an invalid or unset unit.</td></tr>
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -13751,10 +13859,10 @@ to indicate an invalid or unset unit.</td></tr>
    * @param version a long integer, the SBML Version to assign to this
    * {@link UnitDefinition}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -13790,10 +13898,10 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -13819,24 +13927,12 @@ to indicate an invalid or unset unit.</td></tr>
    * Copy constructor; creates a copy of this {@link UnitDefinition}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers UnitDefinition::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link UnitDefinition}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link UnitDefinition} in the
-   * list of units within which this {@link UnitDefinition} is embedded (i.e., in
-   * the {@link ListOfUnitDefinitions} located in the enclosing {@link Model} instance).
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -14248,9 +14344,9 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getPackageName()
    * @see #getElementName()
@@ -14541,6 +14637,27 @@ to indicate an invalid or unset unit.</td></tr>
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -14555,6 +14672,27 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfUnitDefinitions} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -14785,14 +14923,6 @@ to indicate an invalid or unset unit.</td></tr>
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -14829,10 +14959,10 @@ to indicate an invalid or unset unit.</td></tr>
    * @param version a long integer, the SBML Version to assign to this
    * {@link CompartmentType}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -14875,10 +15005,10 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -14904,23 +15034,12 @@ to indicate an invalid or unset unit.</td></tr>
    * Copy constructor; creates a copy of this {@link CompartmentType} object.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers CompartmentType::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link CompartmentType}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link CompartmentType} object in
-   * the list of compartment types.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -15100,9 +15219,9 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -15175,6 +15294,27 @@ to indicate an invalid or unset unit.</td></tr>
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -15189,6 +15329,27 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfCompartmentTypes} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -15400,14 +15561,6 @@ to indicate an invalid or unset unit.</td></tr>
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -15443,10 +15596,10 @@ to indicate an invalid or unset unit.</td></tr>
    * @param version a long integer, the SBML Version to assign to this
    * {@link SpeciesType}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -15489,10 +15642,10 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -15518,23 +15671,12 @@ to indicate an invalid or unset unit.</td></tr>
    * Copy constructor; creates a copy of this {@link SpeciesType}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers SpeciesType::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link SpeciesType}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link SpeciesType} in
-   * the list of compartment types.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -15683,9 +15825,9 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -15755,6 +15897,27 @@ to indicate an invalid or unset unit.</td></tr>
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -15769,6 +15932,27 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfSpeciesTypes} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -16271,14 +16455,6 @@ to indicate an invalid or unset unit.</td></tr>
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -16314,10 +16490,10 @@ to indicate an invalid or unset unit.</td></tr>
    * @param version a long integer, the SBML Version to assign to this
    * {@link Compartment}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -16360,10 +16536,10 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -16391,24 +16567,12 @@ to indicate an invalid or unset unit.</td></tr>
    * This creates a copy of a {@link Compartment} object.
    <p>
    * @param orig the {@link Compartment} instance to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers Compartment::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link Compartment}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link Compartment} object in the
-   * list of compartments within which this {@link Compartment} object is embedded (i.e.,
-   * the {@link ListOfCompartments} in the parent {@link Model}).
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -17234,7 +17398,7 @@ to indicate an invalid or unset unit.</td></tr>
    *
    * </ul> <p>
    * @see #isSetConstant()
-   * @see #setConstant(String)
+   * @see #setConstant(boolean)
    * @see #getConstant()
    */ public
 ";
@@ -17491,9 +17655,9 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -17584,6 +17748,27 @@ to indicate an invalid or unset unit.</td></tr>
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -17598,6 +17783,27 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfCompartments} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -18119,14 +18325,6 @@ attributes.</caption>
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -18162,10 +18360,10 @@ attributes.</caption>
    * @param version a long integer, the SBML Version to assign to this
    * {@link Species}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -18208,10 +18406,10 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -18237,21 +18435,12 @@ attributes.</caption>
    * Copy constructor; creates a copy of this {@link Species} object.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers Species::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link Species}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -19037,7 +19226,7 @@ attributes.</caption>
    *
    * </ul> <p>
    * @see #isSetConstant()
-   * @see #setConstant(String)
+   * @see #setConstant(boolean)
    * @see #getConstant()
    */ public
 ";
@@ -19363,9 +19552,9 @@ attributes.</caption>
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -19523,6 +19712,27 @@ attributes.</caption>
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -19537,6 +19747,27 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfSpecies} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -19803,14 +20034,6 @@ attributes.</caption>
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -19846,10 +20069,10 @@ attributes.</caption>
    * @param version a long integer, the SBML Version to assign to this
    * {@link Parameter}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -19893,10 +20116,10 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -19922,24 +20145,12 @@ attributes.</caption>
    * Copy constructor; creates a copy of a {@link Parameter}.
    <p>
    * @param orig the {@link Parameter} instance to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
-   */ public
+     */ public
 ";
 
 
 %javamethodmodifiers Parameter::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link Parameter}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, indicating
-   * whether the Visitor would like to visit the next {@link Parameter} object in
-   * the list of parameters within which <em>the</em> present object is
-   * embedded.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -20331,7 +20542,7 @@ attributes.</caption>
    *
    * </ul> <p>
    * @see #isSetConstant()
-   * @see #setConstant(String)
+   * @see #setConstant(boolean)
    * @see #getConstant()
    */ public
 ";
@@ -20465,9 +20676,9 @@ attributes.</caption>
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -20630,6 +20841,27 @@ attributes.</caption>
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -20644,6 +20876,27 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfParameters} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -20883,14 +21136,6 @@ attributes.</caption>
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -20927,10 +21172,10 @@ attributes.</caption>
    * @param version a long integer, the SBML Version to assign to this
    * {@link LocalParameter}.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -20974,10 +21219,10 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -21003,9 +21248,6 @@ attributes.</caption>
    * Copy constructor; creates a copy of a given {@link LocalParameter} object.
    <p>
    * @param orig the {@link LocalParameter} instance to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -21016,25 +21258,12 @@ attributes.</caption>
    * the attributes of a given {@link Parameter} object.
    <p>
    * @param orig the {@link Parameter} instance to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers LocalParameter::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link LocalParameter}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link LocalParameter} in the list
-   * of parameters within which this {@link LocalParameter} is embedded (i.e., either
-   * the list of parameters in the parent {@link Model} or the list of parameters
-   * in the enclosing {@link KineticLaw}).
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -21141,9 +21370,9 @@ attributes.</caption>
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -21228,6 +21457,27 @@ attributes.</caption>
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -21242,6 +21492,27 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfLocalParameters} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -21576,14 +21847,6 @@ attributes.</caption>
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -21619,10 +21882,10 @@ attributes.</caption>
    * @param version a long integer, the SBML Version to assign to this
    * {@link InitialAssignment}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -21658,10 +21921,10 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -21677,7 +21940,7 @@ attributes.</caption>
  * situations where objects are not yet attached to parents (e.g.,
  * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
  * libSBML determine such things as whether it is valid to assign a
- * particular value to an attribute. 
+ * particular value to an attribute.
    */ public
 ";
 
@@ -21687,23 +21950,12 @@ attributes.</caption>
    * Copy constructor; creates a copy of this {@link InitialAssignment}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers InitialAssignment::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link InitialAssignment}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link InitialAssignment} in
-   * the list of compartment types.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -21954,9 +22206,9 @@ attributes.</caption>
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -22129,6 +22381,27 @@ attributes.</caption>
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -22143,6 +22416,27 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfInitialAssignments} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -22487,14 +22781,6 @@ attributes.</caption>
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -22525,23 +22811,12 @@ attributes.</caption>
    * Copy constructor; creates a copy of this {@link Rule}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers Rule::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link Rule}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link Rule} object in the
-   * list of rules within which <em>the</em> present object is embedded.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -23112,9 +23387,9 @@ attributes.</caption>
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -23145,7 +23420,7 @@ attributes.</caption>
    <p>
    * The returned value can be any of a number of different strings,
    * depending on the SBML Level in use and the kind of {@link Rule} object this
-   * is.  The rules as of libSBML version 5.11.5
+   * is.  The rules as of libSBML version 5.13.0
    * are the following:
    * <ul>
    * <li> (Level&nbsp;2 and&nbsp;3) RateRule: returns <code>\'rateRule\'</code>
@@ -23366,6 +23641,27 @@ attributes.</caption>
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -23380,6 +23676,27 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfRules} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -23740,10 +24057,10 @@ attributes.</caption>
    <p>
    * @param version the SBML Version to assign to this {@link AlgebraicRule} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -23779,10 +24096,10 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind of
-   * SBML object, are either invalid or mismatched with respect to the parent
-   * {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -23813,15 +24130,7 @@ attributes.</caption>
 
 
 %javamethodmodifiers AlgebraicRule::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link AlgebraicRule}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link AlgebraicRule} object
-   * in the list of rules within which <em>the</em> present object is embedded.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -24100,10 +24409,10 @@ attributes.</caption>
    * @param version a long integer, the SBML Version to assign to this
    * {@link AssignmentRule}.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -24139,10 +24448,10 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -24173,15 +24482,7 @@ attributes.</caption>
 
 
 %javamethodmodifiers AssignmentRule::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link AssignmentRule}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link AssignmentRule} object
-   * in the list of rules within which <em>the</em> present object is embedded.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -24448,10 +24749,10 @@ attributes.</caption>
    * @param version a long integer, the SBML Version to assign to this
    * {@link RateRule}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -24487,10 +24788,10 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -24521,15 +24822,7 @@ attributes.</caption>
 
 
 %javamethodmodifiers RateRule::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link RateRule} object
-   * in the list of rules within which <em>the</em> present object is embedded.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -24676,14 +24969,6 @@ attributes.</caption>
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -24719,10 +25004,10 @@ attributes.</caption>
    * @param version a long integer, the SBML Version to assign to this
    * {@link Constraint}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -24758,10 +25043,10 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -24787,24 +25072,12 @@ attributes.</caption>
    * Copy constructor; creates a copy of this {@link Constraint}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers Constraint::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link Constraint}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link Constraint} in the
-   * list of constraints within which this {@link Constraint} is embedded (i.e., in
-   * the {@link ListOfConstraints} located in the enclosing {@link Model} instance).
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -25029,9 +25302,9 @@ attributes.</caption>
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -25111,6 +25384,27 @@ attributes.</caption>
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -25125,6 +25419,27 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfConstraints} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -25363,14 +25678,6 @@ attributes.</caption>
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -25406,10 +25713,10 @@ attributes.</caption>
    * @param version a long integer, the SBML Version to assign to this
    * {@link Reaction}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -25441,14 +25748,14 @@ attributes.</caption>
  * Level&nbsp;3) packages used in addition to SBML Level&nbsp;3 Core.  A
  * common approach to using libSBML\'s {@link SBMLNamespaces} facilities is to create an
  * {@link SBMLNamespaces} object somewhere in a program once, then hand that object
- * as needed to object constructors that accept {@link SBMLNamespaces} as arguments. 
+ * as needed to object constructors that accept {@link SBMLNamespaces} as arguments.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -25474,21 +25781,12 @@ attributes.</caption>
    * Copy constructor; creates a copy of this {@link Reaction}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers Reaction::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link Reaction}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -26055,6 +26353,51 @@ attributes.</caption>
 ";
 
 
+%javamethodmodifiers Reaction::addReactant(const Species* species, double stoichiometry = 1.0, const std::string& id = "", bool constant = true) "
+/**
+   * Adds the given species as a reactant with the given stoichiometry
+   <p>
+   * @param species the species to be added as reactant
+   <p>
+   * @param stoichiometry an optional parameter specifying the
+   *        stoichiometry of the product (defaulting to 1)
+   <p>
+   * @param id an optional id to be given to the species reference that will
+   *        be created. (defaulting to empty string, i.e. not set)
+   <p>
+   * @param constant an attribute specifying whether the species reference is
+   *        constant or not (defaulting to true)
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   *
+   * </ul> <p>
+   * <p>
+ * @note This method should be used with some caution.  The fact that this
+ * method <em>copies</em> the object passed to it means that the caller will be
+ * left holding a physically different object instance than the one contained
+ * inside this object.  Changes made to the original object instance (such as
+ * resetting attribute values) will <em>not affect the instance in this
+ * object</em>.  In addition, the caller should make sure to free the
+ * original object if it is no longer being used, or else a memory leak will
+ * result.  Please see other methods on this class (particularly a
+ * corresponding method whose name begins with the word <code>create</code>)
+ * for alternatives that do not lead to these issues.
+   <p>
+   * @note the {@link Species} object itself is NOT added to the model
+   <p>
+   * @see #createProduct()
+   */ public
+";
+
+
 %javamethodmodifiers Reaction::addProduct(const SpeciesReference* sr) "
 /**
    * Adds a given {@link SpeciesReference} object as a product in this {@link Reaction}.
@@ -26086,6 +26429,51 @@ attributes.</caption>
  * result.  Please see other methods on this class (particularly a
  * corresponding method whose name begins with the word <code>create</code>)
  * for alternatives that do not lead to these issues. 
+   <p>
+   * @see #createProduct()
+   */ public
+";
+
+
+%javamethodmodifiers Reaction::addProduct(const Species* species, double stoichiometry = 1.0, const std::string& id = "", bool constant = true) "
+/**
+   * Adds the given species as a product with the given stoichiometry
+   <p>
+   * @param species the species to be added as product
+   <p>
+   * @param stoichiometry an optional parameter specifying the
+   *        stoichiometry of the product (defaulting to 1)
+   <p>
+   * @param id an optional id to be given to the species reference that will
+   *        be created. (defaulting to empty string, i.e. not set)
+   <p>
+   * @param constant an attribute specifying whether the species reference is
+   *        constant or not (defaulting to true)
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   *
+   * </ul> <p>
+   * <p>
+ * @note This method should be used with some caution.  The fact that this
+ * method <em>copies</em> the object passed to it means that the caller will be
+ * left holding a physically different object instance than the one contained
+ * inside this object.  Changes made to the original object instance (such as
+ * resetting attribute values) will <em>not affect the instance in this
+ * object</em>.  In addition, the caller should make sure to free the
+ * original object if it is no longer being used, or else a memory leak will
+ * result.  Please see other methods on this class (particularly a
+ * corresponding method whose name begins with the word <code>create</code>)
+ * for alternatives that do not lead to these issues.
+   <p>
+   * @note the {@link Species} object itself is NOT added to the model
    <p>
    * @see #createProduct()
    */ public
@@ -26126,6 +26514,45 @@ attributes.</caption>
  * result.  Please see other methods on this class (particularly a
  * corresponding method whose name begins with the word <code>create</code>)
  * for alternatives that do not lead to these issues. 
+   <p>
+   * @see #createModifier()
+   */ public
+";
+
+
+%javamethodmodifiers Reaction::addModifier(const Species *species, const std::string &id = "") "
+/**
+   * Adds the given species as a modifier to this reaction
+   <p>
+   * @param species the species to be added as modifier
+   <p>
+   * @param id an optional id to be given to the species reference that will
+   *        be created. (defaulting to empty string, i.e. not set)
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * <li> {@link libsbmlConstants#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID}
+   *
+   * </ul> <p>
+   * <p>
+ * @note This method should be used with some caution.  The fact that this
+ * method <em>copies</em> the object passed to it means that the caller will be
+ * left holding a physically different object instance than the one contained
+ * inside this object.  Changes made to the original object instance (such as
+ * resetting attribute values) will <em>not affect the instance in this
+ * object</em>.  In addition, the caller should make sure to free the
+ * original object if it is no longer being used, or else a memory leak will
+ * result.  Please see other methods on this class (particularly a
+ * corresponding method whose name begins with the word <code>create</code>)
+ * for alternatives that do not lead to these issues.
+   <p>
+   * @note the {@link Species} object itself is NOT added to the model
    <p>
    * @see #createModifier()
    */ public
@@ -26575,9 +27002,9 @@ attributes.</caption>
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -26673,6 +27100,27 @@ attributes.</caption>
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -26687,6 +27135,27 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfReactions} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -26920,10 +27389,10 @@ attributes.</caption>
    * @param version a long integer, the SBML Version to assign to this
    * {@link KineticLaw}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -26959,10 +27428,10 @@ attributes.</caption>
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -26988,21 +27457,12 @@ attributes.</caption>
    * Copy constructor; creates a copy of this {@link KineticLaw}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers KineticLaw::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link KineticLaw}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -27843,9 +28303,9 @@ AST mechanisms.
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -28095,10 +28555,26 @@ AST mechanisms.
    * @param version a long integer, the SBML Version to assign to this
    * {@link SimpleSpeciesReference}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -28108,21 +28584,12 @@ AST mechanisms.
    * Copy constructor; creates a copy of this {@link SimpleSpeciesReference}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers SimpleSpeciesReference::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -28619,14 +29086,6 @@ AST mechanisms.
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -28663,6 +29122,11 @@ AST mechanisms.
    * {@link SpeciesReference}
    <p>
    * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -28689,6 +29153,11 @@ AST mechanisms.
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
    * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -28712,21 +29181,12 @@ AST mechanisms.
    * Copy constructor; creates a copy of this {@link SpeciesReference}.
    <p>
    * @param orig the {@link SpeciesReference} instance to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers SpeciesReference::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -29405,6 +29865,27 @@ AST mechanisms.
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -29419,6 +29900,27 @@ AST mechanisms.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfSpeciesReferences} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -29617,6 +30119,11 @@ AST mechanisms.
    * {@link ModifierSpeciesReference}
    <p>
    * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -29643,6 +30150,11 @@ AST mechanisms.
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
    * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
  * combination of SBML Level, Version and XML namespaces than the object
  * itself will result in an error at the time a caller attempts to make the
@@ -29662,13 +30174,7 @@ AST mechanisms.
 
 
 %javamethodmodifiers ModifierSpeciesReference::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -29701,9 +30207,9 @@ AST mechanisms.
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -29933,14 +30439,6 @@ AST mechanisms.
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -29976,10 +30474,10 @@ AST mechanisms.
    * @param version a long integer, the SBML Version to assign to this
    * {@link Event}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -30015,10 +30513,10 @@ AST mechanisms.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -30044,23 +30542,12 @@ AST mechanisms.
    * Copy constructor; creates a copy of this {@link Event}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers Event::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link Event}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link Event} in the list
-   * of events within which this {@link Event} is embedded.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -30965,9 +31452,9 @@ AST mechanisms.
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -31070,6 +31557,27 @@ AST mechanisms.
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -31084,6 +31592,27 @@ AST mechanisms.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfEvents} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -31395,14 +31924,6 @@ AST mechanisms.
  * defined by the SBML specification, such as \'metaid\' attributes and
  * annotations.
  <p>
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- <p>
- * <figure>
-  <object type=\"image/svg+xml\" data=\"listof-illustration.svg\" class=\"centered\"></object>
-</figure>
-
- <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -31438,10 +31959,10 @@ AST mechanisms.
    * @param version a long integer, the SBML Version to assign to this
    * {@link EventAssignment}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -31477,10 +31998,10 @@ AST mechanisms.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -31506,24 +32027,12 @@ AST mechanisms.
    * Copy constructor; creates a copy of this {@link EventAssignment}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers EventAssignment::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link EventAssignment}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>, which indicates
-   * whether the Visitor would like to visit the next {@link EventAssignment} in
-   * the list within which this {@link EventAssignment} is embedded (i.e., in the
-   * {@link ListOfEventAssignments} located in the enclosing {@link Event} instance).
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -31803,9 +32312,9 @@ AST mechanisms.
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -31978,6 +32487,27 @@ AST mechanisms.
    * @param level the SBML Level
    <p>
    * @param version the Version within the SBML Level
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -31992,6 +32522,27 @@ AST mechanisms.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object that is used to determine the
    * characteristics of the {@link ListOfEventAssignments} object to be created.
+   <p>
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -32273,10 +32824,26 @@ AST mechanisms.
    * @param version a long integer, the SBML Version to assign to this
    * {@link Trigger}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -32296,10 +32863,26 @@ AST mechanisms.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
+   <p>
+   * <p>
+ * @note Attempting to add an object to an {@link SBMLDocument} having a different
+ * combination of SBML Level, Version and XML namespaces than the object
+ * itself will result in an error at the time a caller attempts to make the
+ * addition.  A parent object must have compatible Level, Version and XML
+ * namespaces.  (Strictly speaking, a parent may also have more XML
+ * namespaces than a child, but the reverse is not permitted.)  The
+ * restriction is necessary to ensure that an SBML model has a consistent
+ * overall structure.  This requires callers to manage their objects
+ * carefully, but the benefit is increased flexibility in how models can be
+ * created by permitting callers to create objects bottom-up if desired.  In
+ * situations where objects are not yet attached to parents (e.g.,
+ * {@link SBMLDocument}), knowledge of the intented SBML Level and Version help
+ * libSBML determine such things as whether it is valid to assign a
+ * particular value to an attribute.
    */ public
 ";
 
@@ -32309,21 +32892,12 @@ AST mechanisms.
    * Copy constructor; creates a copy of this {@link Trigger}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers Trigger::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link Trigger}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -32478,8 +33052,6 @@ AST mechanisms.
    * (SBML Level&nbsp;3 only) Unsets the \'initialValue\' attribute of this 
    * {@link Trigger} instance.
    <p>
-   * @param initialValue a boolean representing the initialValue to be set.
-   <p>
    * <p>
  * @return integer value indicating success/failure of the
  * function.   The possible values
@@ -32499,8 +33071,6 @@ AST mechanisms.
 /**
    * (SBML Level&nbsp;3 only) Unsets the \'persistent\' attribute of this 
    * {@link Trigger} instance.
-   <p>
-   * @param persistent a boolean representing the persistent value to be set.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -32537,9 +33107,9 @@ AST mechanisms.
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -32844,10 +33414,10 @@ AST mechanisms.
    * @param version a long integer, the SBML Version to assign to this
    * {@link Delay}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -32883,10 +33453,10 @@ AST mechanisms.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -32912,21 +33482,12 @@ AST mechanisms.
    * Copy constructor; creates a copy of this {@link Delay}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers Delay::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link Delay}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -33158,9 +33719,9 @@ AST mechanisms.
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -33469,10 +34030,10 @@ AST mechanisms.
    * @param version a long integer, the SBML Version to assign to this
    * {@link Priority}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -33512,10 +34073,10 @@ AST mechanisms.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note Attempting to add an object to an {@link SBMLDocument} having a different
@@ -33545,21 +34106,12 @@ AST mechanisms.
    * Copy constructor; creates a copy of this {@link Priority}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers Priority::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link Priority}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -33631,9 +34183,9 @@ AST mechanisms.
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -34324,6 +34876,11 @@ defined in SBML.
 ";
 
 
+%javamethodmodifiers SBO::getParentBranch(unsigned int term) "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers SBO::isChildOf(unsigned int term, unsigned int parent) "
 /** * @internal */ public
 ";
@@ -34853,10 +35410,10 @@ appears in the documentation.
    * @param version a long integer, the SBML Version to assign to this
    * {@link StoichiometryMath}
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>level</code> and <code>version</code> combination are invalid
+ * or if this object is incompatible with the given level and version.
    <p>
    * <p>
  * @note The {@link StoichiometryMath} construct exists only in SBML Level&nbsp;2.
@@ -34901,10 +35458,10 @@ appears in the documentation.
    <p>
    * @param sbmlns an {@link SBMLNamespaces} object.
    <p>
-   * @throws SBMLConstructorException
-   * Thrown if the given <code>level</code> and <code>version</code> combination, or this kind
-   * of SBML object, are either invalid or mismatched with respect to the
-   * parent {@link SBMLDocument} object.
+   * <p>
+ * @throws SBMLConstructorException
+ * Thrown if the given <code>sbmlns</code> is inconsistent or incompatible
+ * with this object.
    <p>
    * <p>
  * @note The {@link StoichiometryMath} construct exists only in SBML Level&nbsp;2.
@@ -34939,21 +35496,12 @@ appears in the documentation.
    * Copy constructor; creates a copy of this {@link StoichiometryMath}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
 
 %javamethodmodifiers StoichiometryMath::accept(SBMLVisitor& v) const "
-/**
-   * Accepts the given SBMLVisitor for this instance of {@link StoichiometryMath}.
-   <p>
-   * @param v the SBMLVisitor instance to be used.
-   <p>
-   * @return the result of calling <code>v.visit()</code>.
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -35187,9 +35735,9 @@ appears in the documentation.
    <p>
    * <p>
  * @warning <span class=\'warning\'>The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -35481,9 +36029,6 @@ appears in the documentation.
    * Copy constructor; creates a copy of a {@link SBMLNamespaces}.
    <p>
    * @param orig the {@link SBMLNamespaces} instance to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -36195,9 +36740,6 @@ appears in the documentation.
    * Copy constructor; creates a copy of an {@link ConversionOption} object.
    <p>
    * @param orig the {@link ConversionOption} object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -36478,25 +37020,9 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.5:
+ * provided by libSBML 5.13.0:
  <p>
- * <p>
- * <ul>
- * <li> CobraToFbcConverter
- * <li> CompFlatteningConverter
- * <li> FbcToCobraConverter
- * <li> {@link SBMLFunctionDefinitionConverter}
- * <li> {@link SBMLIdConverter}
- * <li> {@link SBMLInferUnitsConverter}
- * <li> {@link SBMLInitialAssignmentConverter}
- * <li> {@link SBMLLevelVersionConverter}
- * <li> {@link SBMLLocalParameterConverter}
- * <li> {@link SBMLReactionConverter}
- * <li> {@link SBMLRuleConverter}
- * <li> {@link SBMLStripPackageConverter}
- * <li> {@link SBMLUnitsConverter}
- *
- * </ul>
+ * @copydetails doc_list_of_libsbml_converters
  <p>
  * @see ConversionOption
  * @see SBMLNamespaces
@@ -36534,9 +37060,6 @@ appears in the documentation.
    * Copy constructor.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -37030,25 +37553,9 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.5:
+ * provided by libSBML 5.13.0:
  <p>
- * <p>
- * <ul>
- * <li> CobraToFbcConverter
- * <li> CompFlatteningConverter
- * <li> FbcToCobraConverter
- * <li> {@link SBMLFunctionDefinitionConverter}
- * <li> {@link SBMLIdConverter}
- * <li> {@link SBMLInferUnitsConverter}
- * <li> {@link SBMLInitialAssignmentConverter}
- * <li> {@link SBMLLevelVersionConverter}
- * <li> {@link SBMLLocalParameterConverter}
- * <li> {@link SBMLReactionConverter}
- * <li> {@link SBMLRuleConverter}
- * <li> {@link SBMLStripPackageConverter}
- * <li> {@link SBMLUnitsConverter}
- *
- * </ul>
+ * @copydetails doc_list_of_libsbml_converters
  */
 "
 
@@ -37076,9 +37583,6 @@ if (config != None) {
    * This creates a copy of an {@link SBMLConverter} object.
    <p>
    * @param orig the {@link SBMLConverter} object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -37513,25 +38017,9 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.5:
+ * provided by libSBML 5.13.0:
  <p>
- * <p>
- * <ul>
- * <li> CobraToFbcConverter
- * <li> CompFlatteningConverter
- * <li> FbcToCobraConverter
- * <li> {@link SBMLFunctionDefinitionConverter}
- * <li> {@link SBMLIdConverter}
- * <li> {@link SBMLInferUnitsConverter}
- * <li> {@link SBMLInitialAssignmentConverter}
- * <li> {@link SBMLLevelVersionConverter}
- * <li> {@link SBMLLocalParameterConverter}
- * <li> {@link SBMLReactionConverter}
- * <li> {@link SBMLRuleConverter}
- * <li> {@link SBMLStripPackageConverter}
- * <li> {@link SBMLUnitsConverter}
- *
- * </ul>
+ * @copydetails doc_list_of_libsbml_converters
  */
 "
 
@@ -37760,25 +38248,9 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.5:
+ * provided by libSBML 5.13.0:
  <p>
- * <p>
- * <ul>
- * <li> CobraToFbcConverter
- * <li> CompFlatteningConverter
- * <li> FbcToCobraConverter
- * <li> {@link SBMLFunctionDefinitionConverter}
- * <li> {@link SBMLIdConverter}
- * <li> {@link SBMLInferUnitsConverter}
- * <li> {@link SBMLInitialAssignmentConverter}
- * <li> {@link SBMLLevelVersionConverter}
- * <li> {@link SBMLLocalParameterConverter}
- * <li> {@link SBMLReactionConverter}
- * <li> {@link SBMLRuleConverter}
- * <li> {@link SBMLStripPackageConverter}
- * <li> {@link SBMLUnitsConverter}
- *
- * </ul>
+ * @copydetails doc_list_of_libsbml_converters
  */
 "
 
@@ -37980,25 +38452,9 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.5:
+ * provided by libSBML 5.13.0:
  <p>
- * <p>
- * <ul>
- * <li> CobraToFbcConverter
- * <li> CompFlatteningConverter
- * <li> FbcToCobraConverter
- * <li> {@link SBMLFunctionDefinitionConverter}
- * <li> {@link SBMLIdConverter}
- * <li> {@link SBMLInferUnitsConverter}
- * <li> {@link SBMLInitialAssignmentConverter}
- * <li> {@link SBMLLevelVersionConverter}
- * <li> {@link SBMLLocalParameterConverter}
- * <li> {@link SBMLReactionConverter}
- * <li> {@link SBMLRuleConverter}
- * <li> {@link SBMLStripPackageConverter}
- * <li> {@link SBMLUnitsConverter}
- *
- * </ul>
+ * @copydetails doc_list_of_libsbml_converters
  */
 "
 
@@ -38235,25 +38691,9 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.5:
+ * provided by libSBML 5.13.0:
  <p>
- * <p>
- * <ul>
- * <li> CobraToFbcConverter
- * <li> CompFlatteningConverter
- * <li> FbcToCobraConverter
- * <li> {@link SBMLFunctionDefinitionConverter}
- * <li> {@link SBMLIdConverter}
- * <li> {@link SBMLInferUnitsConverter}
- * <li> {@link SBMLInitialAssignmentConverter}
- * <li> {@link SBMLLevelVersionConverter}
- * <li> {@link SBMLLocalParameterConverter}
- * <li> {@link SBMLReactionConverter}
- * <li> {@link SBMLRuleConverter}
- * <li> {@link SBMLStripPackageConverter}
- * <li> {@link SBMLUnitsConverter}
- *
- * </ul>
+ * @copydetails doc_list_of_libsbml_converters
  */
 "
 
@@ -38377,10 +38817,10 @@ the implementation of extra functionality provided by libSBML.
  * {@link ConversionProperties} object (using
  * {@link ConversionProperties#setTargetNamespaces(SBMLNamespaces targetNS)}).
  <p>
- * In addition, this converter offers one option:
+ * In addition, this converter offers the following options:
  <p>
  * <ul>
- * <li> <code>\'strict\':</code> if this option has the value <code>true</code>, then the validity
+ * <li> <code>\'strict\':</code> If this option has the value <code>true</code>, then the validity
  * of the SBML document will be strictly preserved.  This means that SBML
  * validation will be performed, and if the original model is not valid or
  * semantics cannot be preserved in the converted model, then conversion will
@@ -38388,6 +38828,18 @@ the implementation of extra functionality provided by libSBML.
  * conversion will always be performed; if any errors are detected related to
  * altered semantics, the errors will be logged in the usual way (i.e., the
  * error log on the {@link SBMLDocument} object).
+ <p>
+ * <li> <code>\'addDefaultUnits\':</code> By default, a conversion from SBML Level&nbsp;2
+ * to Level&nbsp;3 will explicitly add {@link UnitDefinition} objects and unit
+ * attributes on the {@link Model} object to define units that are implicitly defined
+ * in SBML Level&nbsp;2.  This is usually desirable because in SBML
+ * Level&nbsp;3, there are no default units and a conversion from
+ * Level&nbsp;2 that did <em>not</em> add unit definitions would actually result
+ * in a loss of information.  However, some users or software tools may not
+ * need or want this, or worse, may be fooled into thinking that libSBML has
+ * somehow inferred the proper units for model quantities.  (It has not; it
+ * merely adds generic predefined units.)  This option lets callers control
+ * this behavior.
  *
  * </ul> <p>
  * <p>
@@ -38470,25 +38922,9 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.5:
+ * provided by libSBML 5.13.0:
  <p>
- * <p>
- * <ul>
- * <li> CobraToFbcConverter
- * <li> CompFlatteningConverter
- * <li> FbcToCobraConverter
- * <li> {@link SBMLFunctionDefinitionConverter}
- * <li> {@link SBMLIdConverter}
- * <li> {@link SBMLInferUnitsConverter}
- * <li> {@link SBMLInitialAssignmentConverter}
- * <li> {@link SBMLLevelVersionConverter}
- * <li> {@link SBMLLocalParameterConverter}
- * <li> {@link SBMLReactionConverter}
- * <li> {@link SBMLRuleConverter}
- * <li> {@link SBMLStripPackageConverter}
- * <li> {@link SBMLUnitsConverter}
- *
- * </ul>
+ * @copydetails doc_list_of_libsbml_converters
  */
 "
 
@@ -38615,6 +39051,17 @@ if (config != None) {
 ";
 
 
+%javamethodmodifiers SBMLLevelVersionConverter::getAddDefaultUnits "
+/**
+   * Returns the flag indicating whether default units should be added when
+   * converting to L3 or not.
+   <p>
+   * @return <code>true</code> if default units should be added, <code>false</code>
+   * otherwise.
+   */ public
+";
+
+
 %javamethodmodifiers SBMLLevelVersionConverter::conversion_errors(unsigned int errors, bool strictUnits = true) "
 /** * @internal */ public
 ";
@@ -38636,6 +39083,247 @@ if (config != None) {
 
 
 %javamethodmodifiers SBMLLevelVersionConverter::validateConvertedDocument "
+/** * @internal */ public
+";
+
+
+%typemap(javaimports) SBMLLevel1Version1Converter "
+/** 
+ *  Whole-document SBML Level/Version converter.
+ <p>
+ * <p style='color: #777; font-style: italic'>
+This class of objects is defined by libSBML only and has no direct
+equivalent in terms of SBML components.  It is a class used in
+the implementation of extra functionality provided by libSBML.
+</p>
+
+ <p>
+ * This SBML converter takes an SBML document having one SBML Level+Version
+ * combination, and attempts to convert it to an SBML document having a
+ * different Level+Version combination.  This converter
+ * (SBMLLevel1Version1Converter) converts models to SBML Level&nbsp;1
+ * Version&nbsp;1, to the extent possible by the limited features of
+ * that Level/Version combination of SBML.
+ <p>
+ * <h2>Configuration and use of {@link SBMLLevel1Version1Converter}</h2>
+ <p>
+ * {@link SBMLLevel1Version1Converter} is enabled by creating a {@link ConversionProperties}
+ * object with the option <code>\'convertToL1V1\'</code>, and passing this
+ * properties object to {@link SBMLDocument#convert(ConversionProperties)}.  The target SBML Level and Version
+ * combination are determined by the value of the SBML namespace set on the
+ * {@link ConversionProperties} object (using
+ * {@link ConversionProperties#setTargetNamespaces(SBMLNamespaces targetNS)}).
+ <p>
+ * In addition, this converter offers the following options:
+ <p>
+ * <ul>
+ * <li> <code>\'changePow\':</code> Mathematical expressions for exponentiation of
+ * the form <code>pow(s1, 2)</code> will be converted to the expression
+ * <code>s1^2</code>.
+ <p>
+ * <li> <code>\'inlineCompartmentSizes\':</code> Back in the days of SBML Level&nbsp;1
+ * Version&nbsp;1, many software tools assumed that the \'kinetic laws\' of
+ * SBML were written in terms of units of
+ * <em>concentration</em>/<em>time</em>.  These tools would not expect (and
+ * thus not handle) rate expressions such as
+ * <code>CompartmentOfS1 * k * S1</code>.
+ * When the option <code>\'inlineCompartmentSizes\'</code> is enabled, libSBML will
+ * replace the references to compartments (such as <code>\'CompartmentOfS1\'</code> in
+ * this example) with their initial sizes.  This is not strictly correct in
+ * all cases; in particular, if the compartment volume varies during
+ * simulation, this conversion will not reflect the expected behavior.
+ * However, many models do not have time-varying compartment sizes, so this
+ * option makes it easy to get modern SBML rate expressions into a form that
+ * old software tools may better understand.
+ *
+ * </ul> <p>
+ * <p>
+ * <h2>General information about the use of SBML converters</h2>
+ <p>
+ * The use of all the converters follows a similar approach.  First, one
+ * creates a {@link ConversionProperties} object and calls
+ * {@link ConversionProperties#addOption(ConversionOption)}
+ * on this object with one arguments: a text string that identifies the desired
+ * converter.  (The text string is specific to each converter; consult the
+ * documentation for a given converter to find out how it should be enabled.)
+ <p>
+ * Next, for some converters, the caller can optionally set some
+ * converter-specific properties using additional calls to
+ * {@link ConversionProperties#addOption(ConversionOption)}.
+ * Many converters provide the ability to
+ * configure their behavior to some extent; this is realized through the use
+ * of properties that offer different options.  The default property values
+ * for each converter can be interrogated using the method
+ * {@link SBMLConverter#getDefaultProperties()} on the converter class in question .
+ <p>
+ * Finally, the caller should invoke the method
+ * {@link SBMLDocument#convert(ConversionProperties)}
+ * with the {@link ConversionProperties} object as an argument.
+ <p>
+ * <h3>Example of invoking an SBML converter</h3>
+ <p>
+ * The following code fragment illustrates an example using
+ * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * <code>\'replaceReactions\':</code>
+ <p>
+<pre class=\'fragment\'>
+{@link ConversionProperties} props = new {@link ConversionProperties}();
+if (props != null) {
+  props.addOption(\'replaceReactions\');
+} else {
+  // Deal with error.
+}
+</pre>
+<p>
+ * In the case of {@link SBMLReactionConverter}, there are no options to affect
+ * its behavior, so the next step is simply to invoke the converter on
+ * an {@link SBMLDocument} object.  Continuing the example code:
+ <p>
+<pre class=\'fragment\'>
+  // Assume that the variable \'document\' has been set to an {@link SBMLDocument} object.
+  status = document.convert(config);
+  if (status != libsbml.LIBSBML_OPERATION_SUCCESS)
+  {
+    // Handle error somehow.
+    System.out.println(\'Error: conversion failed due to the following:\');
+    document.printErrors();
+  }
+</pre>
+<p>
+ * Here is an example of using a converter that offers an option. The
+ * following code invokes {@link SBMLStripPackageConverter} to remove the
+ * SBML Level&nbsp;3 <em>Layout</em> package from a model.  It sets the name
+ * of the package to be removed by adding a value for the option named
+ * <code>\'package\'</code> defined by that converter:
+ <p>
+<pre class=\'fragment\'>
+{@link ConversionProperties} config = new {@link ConversionProperties}();
+if (config != None) {
+  config.addOption(\'stripPackage\');
+  config.addOption(\'package\', \'layout\');
+  status = document.convert(config);
+  if (status != LIBSBML_OPERATION_SUCCESS) {
+    // Handle error somehow.
+    System.out.println(\'Error: unable to strip the Layout package\');
+    document.printErrors();
+  }
+} else {
+  // Handle error somehow.
+  System.out.println(\'Error: unable to create {@link ConversionProperties} object\');
+}
+</pre>
+<p>
+ * <h3>Available SBML converters in libSBML</h3>
+ <p>
+ * LibSBML provides a number of built-in converters; by convention, their
+ * names end in <em>Converter</em>. The following are the built-in converters
+ * provided by libSBML 5.13.0:
+ <p>
+ * @copydetails doc_list_of_libsbml_converters
+ */
+"
+
+
+%javamethodmodifiers SBMLLevel1Version1Converter::init "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBMLLevel1Version1Converter::SBMLLevel1Version1Converter "
+/**
+   * Creates a new {@link SBMLLevel1Version1Converter} object.
+   */ public
+";
+
+
+%javamethodmodifiers SBMLLevel1Version1Converter::SBMLLevel1Version1Converter(const SBMLLevel1Version1Converter& obj) "
+/**
+   * Copy constructor; creates a copy of an {@link SBMLLevel1Version1Converter}
+   * object.
+   <p>
+   * @param obj the {@link SBMLLevel1Version1Converter} object to copy.
+   */ public
+";
+
+
+%javamethodmodifiers SBMLLevel1Version1Converter::clone() const "
+/**
+   * Creates and returns a deep copy of this {@link SBMLLevel1Version1Converter}
+   * object.
+   <p>
+   * @return a (deep) copy of this converter.
+   */ public
+";
+
+
+%javamethodmodifiers SBMLLevel1Version1Converter::matchesProperties(const ConversionProperties &props) const "
+/**
+   * Returns <code>true</code> if this converter object\'s properties match the given
+   * properties.
+   <p>
+   * A typical use of this method involves creating a {@link ConversionProperties}
+   * object, setting the options desired, and then calling this method on
+   * an {@link SBMLLevel1Version1Converter} object to find out if the object\'s
+   * property values match the given ones.  This method is also used by
+   * {@link SBMLConverterRegistry#getConverterFor(ConversionProperties)}
+   * to search across all registered converters for one matching particular
+   * properties.
+   <p>
+   * @param props the properties to match.
+   <p>
+   * @return <code>true</code> if this converter\'s properties match, <code>false</code>
+   * otherwise.
+   */ public
+";
+
+
+%javamethodmodifiers SBMLLevel1Version1Converter::convert "
+/**
+   * Perform the conversion.
+   <p>
+   * This method causes the converter to do the actual conversion work,
+   * that is, to convert the {@link SBMLDocument} object set by
+   * {@link SBMLConverter#setDocument(SBMLDocument)} and
+   * with the configuration options set by
+   * {@link SBMLConverter#setProperties(ConversionProperties)}.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_CONV_INVALID_TARGET_NAMESPACE LIBSBML_CONV_INVALID_TARGET_NAMESPACE}
+   * <li> {@link libsbmlConstants#LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE}
+   * <li> {@link libsbmlConstants#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT}
+   * </ul>
+   */ public
+";
+
+
+%javamethodmodifiers SBMLLevel1Version1Converter::getDefaultProperties() const "
+/**
+   * Returns the default properties of this converter.
+   <p>
+   * A given converter exposes one or more properties that can be adjusted
+   * in order to influence the behavior of the converter.  This method
+   * returns the <em>default</em> property settings for this converter.  It is
+   * meant to be called in order to discover all the settings for the
+   * converter object.
+   <p>
+   * @return the {@link ConversionProperties} object describing the default properties
+   * for this converter.
+   */ public
+";
+
+
+%javamethodmodifiers SBMLLevel1Version1Converter::inlineCompartmentSizes "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBMLLevel1Version1Converter::shouldChangePow "
 /** * @internal */ public
 ";
 
@@ -38750,25 +39438,9 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.5:
+ * provided by libSBML 5.13.0:
  <p>
- * <p>
- * <ul>
- * <li> CobraToFbcConverter
- * <li> CompFlatteningConverter
- * <li> FbcToCobraConverter
- * <li> {@link SBMLFunctionDefinitionConverter}
- * <li> {@link SBMLIdConverter}
- * <li> {@link SBMLInferUnitsConverter}
- * <li> {@link SBMLInitialAssignmentConverter}
- * <li> {@link SBMLLevelVersionConverter}
- * <li> {@link SBMLLocalParameterConverter}
- * <li> {@link SBMLReactionConverter}
- * <li> {@link SBMLRuleConverter}
- * <li> {@link SBMLStripPackageConverter}
- * <li> {@link SBMLUnitsConverter}
- *
- * </ul>
+ * @copydetails doc_list_of_libsbml_converters
  */
 "
 
@@ -38970,25 +39642,9 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.5:
+ * provided by libSBML 5.13.0:
  <p>
- * <p>
- * <ul>
- * <li> CobraToFbcConverter
- * <li> CompFlatteningConverter
- * <li> FbcToCobraConverter
- * <li> {@link SBMLFunctionDefinitionConverter}
- * <li> {@link SBMLIdConverter}
- * <li> {@link SBMLInferUnitsConverter}
- * <li> {@link SBMLInitialAssignmentConverter}
- * <li> {@link SBMLLevelVersionConverter}
- * <li> {@link SBMLLocalParameterConverter}
- * <li> {@link SBMLReactionConverter}
- * <li> {@link SBMLRuleConverter}
- * <li> {@link SBMLStripPackageConverter}
- * <li> {@link SBMLUnitsConverter}
- *
- * </ul>
+ * @copydetails doc_list_of_libsbml_converters
  */
 "
 
@@ -39283,25 +39939,9 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.5:
+ * provided by libSBML 5.13.0:
  <p>
- * <p>
- * <ul>
- * <li> CobraToFbcConverter
- * <li> CompFlatteningConverter
- * <li> FbcToCobraConverter
- * <li> {@link SBMLFunctionDefinitionConverter}
- * <li> {@link SBMLIdConverter}
- * <li> {@link SBMLInferUnitsConverter}
- * <li> {@link SBMLInitialAssignmentConverter}
- * <li> {@link SBMLLevelVersionConverter}
- * <li> {@link SBMLLocalParameterConverter}
- * <li> {@link SBMLReactionConverter}
- * <li> {@link SBMLRuleConverter}
- * <li> {@link SBMLStripPackageConverter}
- * <li> {@link SBMLUnitsConverter}
- *
- * </ul>
+ * @copydetails doc_list_of_libsbml_converters
  */
 "
 
@@ -39427,6 +40067,19 @@ the implementation of extra functionality provided by libSBML.
  * nickname of the SBML Level&nbsp;3 package to be stripped from the model.
  *
  * </ul> <p>
+ * In addition, the converter understands an additional optional:
+ <p>
+ * <ul>
+ * <li> <code>\'stripAllUnrecognized\':</code> if set to <code>true</code>, the converter will
+ * remove all SBML Level&nbsp;3 package constructs for Level&nbsp;3 packages
+ * that this copy of libSBML does not recognize.  Note that what a given copy
+ * of libSBML recognizes is determined by which plug-ins it has been
+ * configured to include.  If this option is enabled, it may remove SBML
+ * Level&nbsp;3 package constructs that are legitimate in the sense that they
+ * are officially defined SBML constructs, but not recognized because the
+ * running copy of libSBML has not had support enabled for them.
+ *
+ * </ul> <p>
  * <p>
  * <h2>General information about the use of SBML converters</h2>
  <p>
@@ -39507,25 +40160,9 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.5:
+ * provided by libSBML 5.13.0:
  <p>
- * <p>
- * <ul>
- * <li> CobraToFbcConverter
- * <li> CompFlatteningConverter
- * <li> FbcToCobraConverter
- * <li> {@link SBMLFunctionDefinitionConverter}
- * <li> {@link SBMLIdConverter}
- * <li> {@link SBMLInferUnitsConverter}
- * <li> {@link SBMLInitialAssignmentConverter}
- * <li> {@link SBMLLevelVersionConverter}
- * <li> {@link SBMLLocalParameterConverter}
- * <li> {@link SBMLReactionConverter}
- * <li> {@link SBMLRuleConverter}
- * <li> {@link SBMLStripPackageConverter}
- * <li> {@link SBMLUnitsConverter}
- *
- * </ul>
+ * @copydetails doc_list_of_libsbml_converters
  */
 "
 
@@ -39761,25 +40398,9 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.11.5:
+ * provided by libSBML 5.13.0:
  <p>
- * <p>
- * <ul>
- * <li> CobraToFbcConverter
- * <li> CompFlatteningConverter
- * <li> FbcToCobraConverter
- * <li> {@link SBMLFunctionDefinitionConverter}
- * <li> {@link SBMLIdConverter}
- * <li> {@link SBMLInferUnitsConverter}
- * <li> {@link SBMLInitialAssignmentConverter}
- * <li> {@link SBMLLevelVersionConverter}
- * <li> {@link SBMLLocalParameterConverter}
- * <li> {@link SBMLReactionConverter}
- * <li> {@link SBMLRuleConverter}
- * <li> {@link SBMLStripPackageConverter}
- * <li> {@link SBMLUnitsConverter}
- *
- * </ul>
+ * @copydetails doc_list_of_libsbml_converters
  */
 "
 
@@ -40011,9 +40632,6 @@ defined in SBML.
    * Copy constructor; creates a copy of an {@link SBMLValidator} object.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -40384,9 +41002,6 @@ defined in SBML.
    * Copy constructor; creates a copy of this {@link XMLAttributes} object.
    <p>
    * <code>orig</code> the {@link XMLAttributes} object to copy.
-   <p>
-   * @throws XMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -41214,8 +41829,6 @@ foo:myattribute=\'7\'
    <p>
    * @param value a Boolean, the return parameter into which the value should
    * be assigned.
-   <p>
-   * @copydetails doc_read_methods_common_args
    <p>
    * @param log an {@link XMLErrorLog} object, an optional error log for reporting
    * problems.
@@ -42237,9 +42850,6 @@ defined in SBML.
    * Copy constructor; creates a copy of this {@link XMLNamespaces} list.
    <p>
    * @param orig the {@link XMLNamespaces} object to copy
-   <p>
-   * @throws XMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -42755,9 +43365,6 @@ appears in the documentation.
    * @param column a long integer, the column number to associate with the
    * token (default = 0).
    <p>
-   * @throws XMLConstructorException
-   * Thrown if the argument <code>chars</code> is <code>null.</code>
-   <p>
    * 
 </dl><dl class=\"docnote\"><dt><b>Documentation note:</b></dt><dd>
 The native C++ implementation of this method defines a default argument
@@ -42781,9 +43388,6 @@ appears in the documentation.
    * Copy constructor; creates a copy of this {@link XMLToken} object.
    <p>
    * @param orig the {@link XMLToken} object to copy.
-   <p>
-   * @throws XMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -44139,9 +44743,6 @@ appears in the documentation.
    * Copy constructor; creates a copy of this {@link XMLNode}.
    <p>
    * @param orig the {@link XMLNode} instance to copy.
-   <p>
-   * @throws XMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -44466,9 +45067,6 @@ defined in SBML.
    * @param name a string, the name for the entity represented by this object.
    * @param uri a string, the XML namespace URI associated with the prefix.
    * @param prefix a string, the XML namespace prefix for this triple.
-   <p>
-   * @throws XMLConstructorException
-   * Thrown if any of the arguments are <code>null.</code>
    */ public
 ";
 
@@ -44491,9 +45089,6 @@ defined in SBML.
    <p>
    * @param triplet a string representing the triplet as shown above
    * @param sepchar a character, the sepchar used in the triplet
-   <p>
-   * @throws XMLConstructorException
-   * Thrown if the argument <code>triplet</code> is <code>null.</code>
    <p>
    * 
 </dl><dl class=\"docnote\"><dt><b>Documentation note:</b></dt><dd>
@@ -44518,9 +45113,6 @@ appears in the documentation.
    * Copy constructor; creates a copy of this {@link XMLTriple} object.
    <p>
    * @param orig the {@link XMLTriple} object to copy.
-   <p>
-   * @throws XMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -44671,7 +45263,7 @@ public class test
 "
 
 
-%javamethodmodifiers XMLOutputStream::XMLOutputStream(  std::ostream&       stream , const std::string&  encoding       = "UTF-8" , bool                writeXMLDecl   = true , const std::string&  programName    = "" , const std::string&  programVersion = "") "
+%javamethodmodifiers XMLOutputStream::XMLOutputStream(std::ostream&       stream , const std::string&  encoding       = "UTF-8" , bool                writeXMLDecl   = true , const std::string&  programName    = "" , const std::string&  programVersion = "") "
 /**
    * Creates a new {@link XMLOutputStream} that wraps the given <code>stream</code>.
    <p>
@@ -45137,7 +45729,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLOutputStream::writeComment(const std::string& programName, const std::string& programVersion) "
+%javamethodmodifiers XMLOutputStream::writeComment(const std::string& programName, const std::string& programVersion, bool writeTimestamp = true) "
 /**
    * Writes an XML comment with the name and version of this program.
    <p>
@@ -45155,6 +45747,9 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
    <p>
    * @param programVersion an optional version identification string to write
    * as a comment in the output stream.
+   <p>
+   * @param writeTimestamp an optional flag indicating that a timestamp should
+   * be written
    */ public
 ";
 
@@ -45212,6 +45807,75 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
    * Sets the {@link SBMLNamespaces} object associated with this output stream.
    <p>
    * @param sbmlns the namespace object.
+   */ public
+";
+
+
+%javamethodmodifiers XMLOutputStream::getWriteComment "
+/**
+   * @return a boolean, whether the output stream will write an XML
+   * comment at the top of the file. (Enabled by default)
+   */ public
+";
+
+
+%javamethodmodifiers XMLOutputStream::setWriteComment(bool writeComment) "
+/**
+   * sets a flag, whether the output stream will write an XML
+   * comment at the top of the file. (Enabled by default)
+   <p>
+   * @param writeComment the flag
+   */ public
+";
+
+
+%javamethodmodifiers XMLOutputStream::getWriteTimestamp "
+/**
+   * @return a boolean, whether the output stream will write an XML
+   * comment with a timestamp at the top of the file. (Enabled by default)
+   */ public
+";
+
+
+%javamethodmodifiers XMLOutputStream::setWriteTimestamp(bool writeTimestamp) "
+/**
+   * sets a flag, whether the output stream will write an XML
+   * comment with a timestamp at the top of the file. (Enabled by default)
+   <p>
+   * @param writeTimestamp the flag
+   */ public
+";
+
+
+%javamethodmodifiers XMLOutputStream::getLibraryName "
+/**
+   * @return the name of the library to be used in comments (\'libSBML\' by default)
+   */ public
+";
+
+
+%javamethodmodifiers XMLOutputStream::setLibraryName(const std::string& libraryName) "
+/**
+   * sets the name of the library writing the XML
+<p>
+   * @param libraryName the name of the library to be used in comments
+   */ public
+";
+
+
+%javamethodmodifiers XMLOutputStream::getLibraryVersion "
+/**
+   * @return a string representing the version of the library writing the output.
+   *         This is the value of getLibSBMLDottedVersion() by default.
+   */ public
+";
+
+
+%javamethodmodifiers XMLOutputStream::setLibraryVersion(const std::string& libraryVersion) "
+/**
+   * sets the name of the library writing the output
+   <p>
+   * @param libraryVersion the version information as string
    */ public
 ";
 
@@ -45311,7 +45975,7 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
 ";
 
 
-%javamethodmodifiers XMLOwningOutputFileStream::XMLOwningOutputFileStream(  const std::string&  filename , const std::string&  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string&  programName  = "" , const std::string&  programVersion = "") "
+%javamethodmodifiers XMLOwningOutputFileStream::XMLOwningOutputFileStream(const std::string&  filename , const std::string&  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string&  programName  = "" , const std::string&  programVersion = "") "
 /** * @internal */ public
 ";
 
@@ -45637,6 +46301,31 @@ appears in the documentation.
    <p>
    * @return a long integer giving the number of children of type 
    * <code>childName</code> within the <code>container</code> element.
+   <p>
+   * @note This method assumes the stream has been read up to and including
+   * the element <code>container</code>.
+   */ public
+";
+
+
+%javamethodmodifiers XMLInputStream::containsChild(const std::string& childName, const std::string& container) "
+/**
+   * Predicate returning <code>true</code> if a child token of the specified type occurs 
+   * within a given container element.
+   <p>
+   * This method allows information from the input stream to be determined
+   * without the need to actually read and consume the tokens in the stream.
+   * It returns <code>true</code> if the <code>childName</code> element occurs at any point
+   * within the element specified by <code>container</code>.
+   <p>
+   * @param childName a string representing the name of the child
+   * element whose presence is to be determined.
+   <p>
+   * @param container a string representing the name of the element
+   * for which the presence of the child element is to be determined.
+   <p>
+   * @return boolean <code>true</code> if a child of type <code>childName</code> occurs within 
+   * the <code>container</code> element, <code>false</code> otherwise.
    <p>
    * @note This method assumes the stream has been read up to and including
    * the element <code>container</code>.
@@ -45987,9 +46676,6 @@ appears in the documentation.
    * Copy constructor; creates a copy of this {@link XMLError}.
    <p>
    * <code>orig</code> the {@link XMLError} object to copy.
-   <p>
-   * @throws XMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -55471,7 +56157,7 @@ defined in SBML.
  * name=\'SBMLErrorSeverity_t\'>Severity codes associated with {@link SBMLError}
  * objects</h3>
  <p>
- * In libSBML version 5.11.5
+ * In libSBML version 5.13.0
  * there are no additional severity codes beyond those defined by {@link XMLError}.
  * They are implemented as static integer constants defined in the interface
  * class <code><a href=\'libsbmlConstants.html\'>libsbmlConstants</a></code>,
@@ -55834,7 +56520,7 @@ defined in SBML.
    * qualifiers web page</a> for an explanation of the meaning of these
    * different qualifiers.
    <p>
-   * @param type a qualifier type
+   * @param type a qualifier type.
    <p>
    * 
 </dl><dl class=\"docnote\"><dt><b>Documentation note:</b></dt><dd>
@@ -55899,9 +56585,6 @@ appears in the documentation.
    * Copy constructor; creates a copy of a {@link CVTerm} object.
    <p>
    * @param orig the {@link CVTerm} instance to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -55974,15 +56657,76 @@ appears in the documentation.
    * of this object or {@link libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}
    * (the default).
    <p>
-   * @see CVTerm#getResources()
-   * @see CVTerm#getModelQualifierType()
-   * @see CVTerm#getBiologicalQualifierType()
+   * @see #getResources()
+   * @see #getModelQualifierType()
+   * @see #getBiologicalQualifierType()
    */ public
 ";
 
 
 %javamethodmodifiers CVTerm::getQualifierType() const "
-/** * @internal */ public
+/**
+   * Returns the qualifier type of this {@link CVTerm} object.
+   <p>
+   * <p>
+ * The RDF element used in the SBML format for referring to external entities
+ * is <code>&lt;rdf:Description&gt;</code>, with a
+ * <code>&lt;rdf:Bag&gt;</code> element inside of it containing one or more
+ * <code>&lt;rdf:li&gt;</code> elements.  The following template illustrates
+ * the structure:
+ * <pre class=\'fragment\'>
+ * &lt;rdf:Description rdf:about=&quot;#<span style=\'border-bottom: 1px solid black\'>meta id</span>&quot;&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #ddd; border-bottom: 2px dotted #888\'>HISTORY</span>
+ * &nbsp;&nbsp;&lt;<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:Bag&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:li rdf:resource=&quot;<span style=\'background-color: #d0d0ee\'>resource URI</span>&quot; /&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;/rdf:Bag&gt;
+ * &nbsp;&nbsp;&lt;/<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &lt;/rdf:Description&gt;
+ * </pre>
+ * In the template above, the placeholder <span class=\'code\'
+ * style=\'border-bottom: 1px solid black\'>meta id</span> stands for the
+ * element\'s meta identifier, which is a field available on all SBML
+ * components derived from the {@link SBase} base object class.  The <span
+ * style=\'border-bottom: 2px dotted #888\'>dotted</span> portions are
+ * optional, and the ellipses <span class=\'code\' style=\'background-color:
+ * #edd\'>...</span> are placeholders for zero or more elements of the same
+ * form as the immediately preceding element.
+   <p>
+   * The placeholder <span class=\'code\' style=\'background-color: #bbb\'>
+   * RELATION_ELEMENT</span> refers to a BioModels.net qualifier
+   * element name.  This is an element in either the XML namespace
+   * <code>\'http://biomodels.net/model-qualifiers\'</code> (for model
+   * qualifiers) or <code>\'http://biomodels.net/biology-qualifiers\'</code>
+   * (for biological qualifier).  The present method returns a code
+   * identifying which one of these two relationship namespaces is being
+   * used; any other qualifier in libSBML is considered unknown (as far as
+   * the {@link CVTerm} class is concerned).  Consequently, this method will return
+   * one of the following values:
+   <p>
+   * <ul>
+   * <li> {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER}
+   * <li> {@link libsbmlConstants#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER}
+   * <li> {@link libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}
+   *
+   * </ul> <p>
+   * The specific relationship of this {@link CVTerm} to the enclosing SBML object
+   * can be determined using the {@link CVTerm} methods such as
+   * {@link CVTerm#getModelQualifierType()} and
+   * {@link CVTerm#getBiologicalQualifierType()}.  Callers will typically want to
+   * use the present method to find out which one of the <em>other</em> two
+   * methods to call to find out the specific relationship.
+   <p>
+   * @return the qualifier type
+   * of this object or {@link libsbmlConstants#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER}
+   * (the default).
+   <p>
+   * @see #getResources()
+   * @see #getModelQualifierType()
+   * @see #getBiologicalQualifierType()
+   */ public
 ";
 
 
@@ -56058,7 +56802,73 @@ appears in the documentation.
 
 
 %javamethodmodifiers CVTerm::getModelQualifierType() const "
-/** * @internal */ public
+/**
+   * Returns the model qualifier type of this {@link CVTerm} object.
+   <p>
+   * <p>
+ * The RDF element used in the SBML format for referring to external entities
+ * is <code>&lt;rdf:Description&gt;</code>, with a
+ * <code>&lt;rdf:Bag&gt;</code> element inside of it containing one or more
+ * <code>&lt;rdf:li&gt;</code> elements.  The following template illustrates
+ * the structure:
+ * <pre class=\'fragment\'>
+ * &lt;rdf:Description rdf:about=&quot;#<span style=\'border-bottom: 1px solid black\'>meta id</span>&quot;&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #ddd; border-bottom: 2px dotted #888\'>HISTORY</span>
+ * &nbsp;&nbsp;&lt;<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:Bag&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:li rdf:resource=&quot;<span style=\'background-color: #d0d0ee\'>resource URI</span>&quot; /&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;/rdf:Bag&gt;
+ * &nbsp;&nbsp;&lt;/<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &lt;/rdf:Description&gt;
+ * </pre>
+ * In the template above, the placeholder <span class=\'code\'
+ * style=\'border-bottom: 1px solid black\'>meta id</span> stands for the
+ * element\'s meta identifier, which is a field available on all SBML
+ * components derived from the {@link SBase} base object class.  The <span
+ * style=\'border-bottom: 2px dotted #888\'>dotted</span> portions are
+ * optional, and the ellipses <span class=\'code\' style=\'background-color:
+ * #edd\'>...</span> are placeholders for zero or more elements of the same
+ * form as the immediately preceding element.
+   <p>
+   * The placeholder <span class=\'code\' style=\'background-color: #bbb\'>
+   * RELATION_ELEMENT</span> refers to a BioModels.net qualifier
+   * element name.  This is an element in either the XML namespace
+   * <code>\'http://biomodels.net/model-qualifiers\'</code> (for model
+   * qualifiers) or <code>\'http://biomodels.net/biology-qualifiers\'</code>
+   * (for biological qualifier).  Callers will typically use
+   * {@link CVTerm#getQualifierType()} to find out the type of qualifier relevant to this
+   * particular {@link CVTerm} object, then if it is a <em>model</em> qualifier, use the
+   * present method to determine the specific qualifier.
+   <p>
+   * Annotations with model qualifiers express a relationship between an
+   * annotation resource and the <em>modeling concept</em> represented by a
+   * given object in the model.  The diagram below illustrates the
+   * relationship in this case:
+   <p>
+   * <center class=\'image\'><img src=\'model-qualifiers.png\'></center>
+   * 
+   <p>
+   * <br> The set of known model qualifiers is, at the time of this libSBML
+   * release, the following:
+   <p>
+   * <ul>
+   * <li> {@link libsbmlConstants#BQM_IS BQM_IS}
+   * <li> {@link libsbmlConstants#BQM_IS_DESCRIBED_BY BQM_IS_DESCRIBED_BY}
+   * <li> {@link libsbmlConstants#BQM_IS_DERIVED_FROM BQM_IS_DERIVED_FROM}
+   * <li> {@link libsbmlConstants#BQM_IS_INSTANCE_OF BQM_IS_INSTANCE_OF}
+   * <li> {@link libsbmlConstants#BQM_HAS_INSTANCE BQM_HAS_INSTANCE}
+   *
+   * </ul> <p>
+   * Any other BioModels.net qualifier found in the model is considered
+   * unknown by libSBML and reported as
+   * {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
+   <p>
+   * @return the model qualifier type
+   * of this object or {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}
+   * (the default).
+   */ public
 ";
 
 
@@ -56142,7 +56952,81 @@ appears in the documentation.
 
 
 %javamethodmodifiers CVTerm::getBiologicalQualifierType() const "
-/** * @internal */ public
+/**
+   * Returns the biological qualifier type of this {@link CVTerm} object.
+   <p>
+   * <p>
+ * The RDF element used in the SBML format for referring to external entities
+ * is <code>&lt;rdf:Description&gt;</code>, with a
+ * <code>&lt;rdf:Bag&gt;</code> element inside of it containing one or more
+ * <code>&lt;rdf:li&gt;</code> elements.  The following template illustrates
+ * the structure:
+ * <pre class=\'fragment\'>
+ * &lt;rdf:Description rdf:about=&quot;#<span style=\'border-bottom: 1px solid black\'>meta id</span>&quot;&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #ddd; border-bottom: 2px dotted #888\'>HISTORY</span>
+ * &nbsp;&nbsp;&lt;<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:Bag&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;rdf:li rdf:resource=&quot;<span style=\'background-color: #d0d0ee\'>resource URI</span>&quot; /&gt;
+ * &nbsp;&nbsp;&nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&lt;/rdf:Bag&gt;
+ * &nbsp;&nbsp;&lt;/<span style=\'background-color: #bbb\'>RELATION_ELEMENT</span>&gt;
+ * &nbsp;&nbsp;<span style=\'background-color: #edd\'>...</span>
+ * &lt;/rdf:Description&gt;
+ * </pre>
+ * In the template above, the placeholder <span class=\'code\'
+ * style=\'border-bottom: 1px solid black\'>meta id</span> stands for the
+ * element\'s meta identifier, which is a field available on all SBML
+ * components derived from the {@link SBase} base object class.  The <span
+ * style=\'border-bottom: 2px dotted #888\'>dotted</span> portions are
+ * optional, and the ellipses <span class=\'code\' style=\'background-color:
+ * #edd\'>...</span> are placeholders for zero or more elements of the same
+ * form as the immediately preceding element.
+   <p>
+   * The placeholder <span class=\'code\' style=\'background-color: #bbb\'>
+   * RELATION_ELEMENT</span> refers to a BioModels.net qualifier element
+   * name.  This is an element in either the XML namespace
+   * <code>\'http://biomodels.net/model-qualifiers\'</code> (for model
+   * qualifiers) or <code>\'http://biomodels.net/biology-qualifiers\'</code>
+   * (for biological qualifier).  Callers will typically use
+   * {@link CVTerm#getQualifierType()} to find out the type of qualifier relevant to
+   * this particular {@link CVTerm} object, then if it is a <em>biological</em> qualifier,
+   * use the present method to determine the specific qualifier.
+   <p>
+   * Annotations with biological qualifiers express a relationship between an
+   * annotation resource and the <em>biological concept</em> represented by a
+   * given object in the model.    The diagram
+   * below illustrates the relationship in this case:
+   <p>
+   * <center class=\'image\'><img src=\'biology-qualifiers.png\'></center>
+   * 
+   <p>
+   * <br> The set of known biological qualifiers is, at the time of this
+   * libSBML release, the following:
+   <p>
+   * <ul>
+   * <li> {@link libsbmlConstants#BQB_IS BQB_IS}
+   * <li> {@link libsbmlConstants#BQB_HAS_PART BQB_HAS_PART}
+   * <li> {@link libsbmlConstants#BQB_IS_PART_OF BQB_IS_PART_OF}
+   * <li> {@link libsbmlConstants#BQB_IS_VERSION_OF BQB_IS_VERSION_OF}
+   * <li> {@link libsbmlConstants#BQB_HAS_VERSION BQB_HAS_VERSION}
+   * <li> {@link libsbmlConstants#BQB_IS_HOMOLOG_TO BQB_IS_HOMOLOG_TO}
+   * <li> {@link libsbmlConstants#BQB_IS_DESCRIBED_BY BQB_IS_DESCRIBED_BY}
+   * <li> {@link libsbmlConstants#BQB_IS_ENCODED_BY BQB_IS_ENCODED_BY}
+   * <li> {@link libsbmlConstants#BQB_ENCODES BQB_ENCODES}
+   * <li> {@link libsbmlConstants#BQB_OCCURS_IN BQB_OCCURS_IN}
+   * <li> {@link libsbmlConstants#BQB_HAS_PROPERTY BQB_HAS_PROPERTY}
+   * <li> {@link libsbmlConstants#BQB_IS_PROPERTY_OF BQB_IS_PROPERTY_OF}
+   * <li> {@link libsbmlConstants#BQB_HAS_TAXON BQB_HAS_TAXON}
+   *
+   * </ul> <p>
+   * Any other BioModels.net qualifier found in the model is considered
+   * unknown by libSBML and reported as
+   * {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}.
+   <p>
+   * @return the biology qualifier type
+   * of this object or {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}
+   * (the default).
+   */ public
 ";
 
 
@@ -56190,9 +57074,9 @@ appears in the documentation.
    <p>
    * @return the {@link XMLAttributes} that store the resources of this {@link CVTerm}.
    <p>
-   * @see CVTerm#getQualifierType()
-   * @see CVTerm#addResource(String resource)
-   * @see CVTerm#getResourceURI(long n)
+   * @see #getQualifierType()
+   * @see #addResource(String resource)
+   * @see #getResourceURI(long n)
    */ public
 ";
 
@@ -56241,9 +57125,9 @@ appears in the documentation.
    <p>
    * @return the {@link XMLAttributes} that store the resources of this {@link CVTerm}.
    <p>
-   * @see CVTerm#getQualifierType()
-   * @see CVTerm#addResource(String resource)
-   * @see CVTerm#getResourceURI(long n)
+   * @see #getQualifierType()
+   * @see #addResource(String resource)
+   * @see #getResourceURI(long n)
    */ public
 ";
 
@@ -56289,8 +57173,8 @@ appears in the documentation.
    * @return the number of resources in the set of {@link XMLAttributes}
    * of this {@link CVTerm}.
    <p>
-   * @see CVTerm#getResources()
-   * @see CVTerm#getResourceURI(long n)
+   * @see #getResources()
+   * @see #getResourceURI(long n)
    */ public
 ";
 
@@ -56336,8 +57220,8 @@ appears in the documentation.
    * @return the number of resources in the set of {@link XMLAttributes}
    * of this {@link CVTerm}.
    <p>
-   * @see CVTerm#getResources()
-   * @see CVTerm#getResourceURI(long n)
+   * @see #getResources()
+   * @see #getResourceURI(long n)
    */ public
 ";
 
@@ -56383,13 +57267,13 @@ appears in the documentation.
    * are stored in this {@link CVTerm} object, then call this method to retrieve the
    * <em>n</em>th resource URI.
    <p>
-   * @param n the index of the resource to query
+   * @param n the index of the resource to query.
    <p>
    * @return string representing the value of the nth resource
    * in the set of {@link XMLAttributes} of this {@link CVTerm}.
    <p>
-   * @see CVTerm#getNumResources()
-   * @see CVTerm#getQualifierType()
+   * @see #getNumResources()
+   * @see #getQualifierType()
    */ public
 ";
 
@@ -56435,13 +57319,13 @@ appears in the documentation.
    * are stored in this {@link CVTerm} object, then call this method to retrieve the
    * <em>n</em>th resource URI.
    <p>
-   * @param n the index of the resource to query
+   * @param n the index of the resource to query.
    <p>
    * @return string representing the value of the nth resource
    * in the set of {@link XMLAttributes} of this {@link CVTerm}.
    <p>
-   * @see CVTerm#getNumResources()
-   * @see CVTerm#getQualifierType()
+   * @see #getNumResources()
+   * @see #getQualifierType()
    */ public
 ";
 
@@ -56461,7 +57345,7 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
    * </ul> <p>
-   * @see CVTerm#getQualifierType()
+   * @see #getQualifierType()
    */ public
 ";
 
@@ -56471,7 +57355,7 @@ appears in the documentation.
    * Sets the model qualifier type
    * of this {@link CVTerm} object.
    <p>
-   * @param type the model qualifier type
+   * @param type the model qualifier type.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -56487,8 +57371,8 @@ appears in the documentation.
    * then the model qualifier type
    * will default to {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
    <p>
-   * @see CVTerm#getQualifierType()
-   * @see CVTerm#setQualifierType(int)
+   * @see #getQualifierType()
+   * @see #setQualifierType(int)
    */ public
 ";
 
@@ -56515,8 +57399,8 @@ appears in the documentation.
    * then the biology qualifier type
    * will default to {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}.
    <p>
-   * @see CVTerm#getQualifierType()
-   * @see CVTerm#setQualifierType(int)
+   * @see #getQualifierType()
+   * @see #setQualifierType(int)
    */ public
 ";
 
@@ -56526,7 +57410,7 @@ appears in the documentation.
    * Sets the model qualifier
    * type value of this {@link CVTerm} object.
    <p>
-   * @param qualifier the string representing a model qualifier
+   * @param qualifier the string representing a model qualifier.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -56542,8 +57426,8 @@ appears in the documentation.
    * then the model qualifier type
    * will default to {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
    <p>
-   * @see CVTerm#getQualifierType()
-   * @see CVTerm#setQualifierType(int)
+   * @see #getQualifierType()
+   * @see #setQualifierType(int)
    */ public
 ";
 
@@ -56553,7 +57437,7 @@ appears in the documentation.
    * Sets the biology qualifier
    * type code of this {@link CVTerm} object.
    <p>
-   * @param qualifier the string representing a biology qualifier
+   * @param qualifier the string representing a biology qualifier.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -56569,8 +57453,8 @@ appears in the documentation.
    * then the biology qualifier type code
    * will default to {@link libsbmlConstants#BQB_UNKNOWN BQB_UNKNOWN}.
    <p>
-   * @see CVTerm#getQualifierType()
-   * @see CVTerm#setQualifierType(int)
+   * @see #getQualifierType()
+   * @see #setQualifierType(int)
    */ public
 ";
 
@@ -56660,11 +57544,11 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    *
    * </ul> <p>
-   * @see CVTerm#getResources()
-   * @see CVTerm#removeResource(String resource)
-   * @see CVTerm#getQualifierType()
-   * @see CVTerm#getModelQualifierType()
-   * @see CVTerm#getBiologicalQualifierType()
+   * @see #getResources()
+   * @see #removeResource(String resource)
+   * @see #getQualifierType()
+   * @see #getModelQualifierType()
+   * @see #getBiologicalQualifierType()
    */ public
 ";
 
@@ -56687,7 +57571,7 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
-   * @see CVTerm#addResource(String resource)
+   * @see #addResource(String resource)
    */ public
 ";
 
@@ -56722,42 +57606,180 @@ appears in the documentation.
 
 
 %javamethodmodifiers CVTerm::getNumNestedCVTerms() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers CVTerm::getNestedCVTerm "
-/** * @internal */ public
+/**
+   * Returns the number of {@link CVTerm} objects nested within this {@link CVTerm}
+   * object.
+   <p>
+   * @return the number of CVTerms nested within this {@link CVTerm} object.
+   <p>
+   * @note this does not recurse through potentially nested {@link CVTerm} objects
+   * within a given nested {@link CVTerm}. It returns the number of terms immediately
+   * nested within this {@link CVTerm}.
+   */ public
 ";
 
 
 %javamethodmodifiers CVTerm::getNestedCVTerm(unsigned int n) "
-/** * @internal */ public
+/**
+   * Returns the nth {@link CVTerm} in the list of CVTerms of this {@link CVTerm}
+   * object.
+   <p>
+   * @param n long the index of the {@link CVTerm} to retrieve.
+   <p>
+   * @return the nth {@link CVTerm} in the list of CVTerms for this {@link CVTerm} object.
+   */ public
+";
+
+
+%javamethodmodifiers CVTerm::getNestedCVTerm "
+/**
+   * Returns the nth {@link CVTerm} in the list of CVTerms of this {@link CVTerm}
+   * object.
+   <p>
+   * @param n long the index of the {@link CVTerm} to retrieve.
+   <p>
+   * @return the nth {@link CVTerm} in the list of CVTerms for this {@link CVTerm} object.
+   */ public
 ";
 
 
 %javamethodmodifiers CVTerm::getListNestedCVTerms "
-/** * @internal */ public
+/**
+   * Returns a list of {@link CVTerm} objects contained within this {@link CVTerm}
+   * object.
+   <p>
+   * @return the list of CVTerms for this {@link CVTerm} object.
+   */ public
 ";
 
 
 %javamethodmodifiers CVTerm::getListNestedCVTerms() const "
-/** * @internal */ public
+/**
+   * Returns a list of {@link CVTerm} objects contained within this {@link CVTerm}
+   * object.
+   <p>
+   * @return the list of CVTerms for this {@link CVTerm} object.
+   */ public
 ";
 
 
 %javamethodmodifiers CVTerm::addNestedCVTerm(const CVTerm* term) "
-/** * @internal */ public
+/**
+   * Adds a copy of the given {@link CVTerm} object to the list of nested {@link CVTerm}
+   * objects within this {@link CVTerm} object.
+   <p>
+   * @param term the {@link CVTerm} to assign.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * </ul>
+   */ public
 ";
 
 
 %javamethodmodifiers CVTerm::removeNestedCVTerm(unsigned int n) "
-/** * @internal */ public
+/**
+   * Removes the nth {@link CVTerm} in the list of CVTerms of this {@link CVTerm}
+   * object and returns a pointer to it.
+   <p>
+   * @param n long the index of the {@link CVTerm} to retrieve.
+   <p>
+   * @return a pointer to the nth {@link CVTerm} in the list of CVTerms for this 
+   * {@link CVTerm} object.
+   */ public
 ";
 
 
 %javamethodmodifiers CVTerm::setHasBeenModifiedFlag "
 /** * @internal */ public
+";
+
+
+%javamethodmodifiers ModelQualifierType_toString(ModelQualifierType_t type) "
+/**
+ * This method takes a model qualifier type code and returns a string
+ * representing the code.
+ <p>
+ * This method takes a model qualifier type as argument
+ * and returns a string name corresponding to that code.  For example,
+ * passing it the qualifier <code>BQM_IS_DESCRIBED_BY</code> will return
+ * the string <code>\'isDescribedBy\'</code>.
+ <p>
+ * @param type The  value to
+ * translate. The value should be a libSBML constant whose
+ * name begins with <code>BQM_</code>, such as (for example)
+ * {@link libsbmlConstants#BQM_IS BQM_IS}.
+ <p>
+ * @return a human readable qualifier name for the given qualifier type.
+ <p>
+ * @note The caller does not own the returned string and is therefore not
+ * allowed to modify it.
+ */ public
+";
+
+
+%javamethodmodifiers BiolQualifierType_toString(BiolQualifierType_t type) "
+/**
+ * This method takes a biol qualifier type code and returns a string
+ * representing the code.
+ <p>
+ * This method takes a biol qualifier type as argument
+ * and returns a string name corresponding to that code.  For example,
+ * passing it the qualifier <code>BQB_HAS_VERSION</code> will return
+ * the string <code>\'hasVersion\'</code>.
+ <p>
+ * @param type The  value to
+ * translate. The value should be a constant whose name
+ * begins with <code>BQB_</code>, such as (for example)
+ * {@link libsbmlConstants#BQB_IS BQB_IS}.
+ <p>
+ * @return a human readable qualifier name for the given type.
+ <p>
+ * @note The caller does not own the returned string and is therefore not
+ * allowed to modify it.
+ */ public
+";
+
+
+%javamethodmodifiers ModelQualifierType_fromString(const char* s) "
+/**
+ * This method takes a a string and returns a model qualifier
+ * representing the string.
+ <p>
+ * This method takes a string as argument and returns a model qualifier type
+ * corresponding to that string.  For example, passing it the string
+ * <code>\'isDescribedBy\'</code> will return the qualifier
+ * <code>BQM_IS_DESCRIBED_BY</code>.
+ <p>
+ * @param s The string to translate to a libSBML constant value representing a model qualifier.
+ <p>
+ * @return a libSBML qualifier enumeration value for the given human readable
+ * qualifier name.
+ */ public
+";
+
+
+%javamethodmodifiers BiolQualifierType_fromString(const char* s) "
+/**
+ * This method takes a a string and returns a biol qualifier
+ * representing the string.
+ <p>
+ * This method takes a string as argument and returns a biol qualifier type
+ * corresponding to that string.  For example, passing it the string
+ * <code>\'hasVersion\'</code> will return the qualifier
+ * <code>BQB_HAS_VERSION</code>.
+ <p>
+ * @param s The string to translate to a libSBML constant value representing a biological qualifier.
+ <p>
+ * @return a libSBML qualifier enumeration value for the given human readable
+ * qualifier name.
+ */ public
 ";
 
 
@@ -56993,9 +58015,6 @@ appears in the documentation.
    * Copy constructor; creates a copy of this {@link Date}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -57503,9 +58522,6 @@ defined in SBML.
    * Copy constructor; creates a copy of the {@link ModelCreator}.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -57922,9 +58938,6 @@ defined in SBML.
    * Copy constructor; creates a copy of this {@link ModelHistory} object.
    <p>
    * @param orig the object to copy.
-   <p>
-   * @throws SBMLConstructorException
-   * Thrown if the argument <code>orig</code> is <code>null.</code>
    */ public
 ";
 
@@ -58998,7 +60011,6 @@ defined in SBML.
    <p>
    * @see #getPackageName()
    * @see #getElementNamespace()
-   * @see SBMLDocument#getSBMLNamespaces()
    * @see #getSBMLDocument()
    */ public
 ";
@@ -59116,6 +60128,89 @@ defined in SBML.
 ";
 
 
+%javamethodmodifiers SBasePlugin::renameSIdRefs(const std::string& oldid, const std::string& newid) "
+/**
+   * <p>
+ * Replaces all uses of a given <code>SIdRef</code> type attribute value with another
+ * value.
+ <p>
+ * <p>
+ * In SBML, object identifiers are of a data type called <code>SId</code>.
+ * In SBML Level&nbsp;3, an explicit data type called <code>SIdRef</code> was
+ * introduced for attribute values that refer to <code>SId</code> values; in
+ * previous Levels of SBML, this data type did not exist and attributes were
+ * simply described to as \'referring to an identifier\', but the effective
+ * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * other methods of libSBML refer to the type <code>SIdRef</code> for all
+ * Levels of SBML, even if the corresponding SBML specification did not
+ * explicitly name the data type.
+ <p>
+ * This method works by looking at all attributes and (if appropriate)
+ * mathematical formulas in MathML content, comparing the referenced
+ * identifiers to the value of <code>oldid</code>.  If any matches are found, the
+ * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
+ * descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
+   */ public
+";
+
+
+%javamethodmodifiers SBasePlugin::renameMetaIdRefs(const std::string& oldid, const std::string& newid) "
+/**
+   * <p>
+ * Replaces all uses of a given meta identifier attribute value with
+ * another value.
+ <p>
+ * <p>
+ * In SBML, object \'meta\' identifiers are of the XML data type <code>ID</code>;
+ * the SBML object attribute itself is typically named <code>metaid</code>.  All
+ * attributes that hold values <em>referring</em> to values of type
+ * <code>ID</code> are of the XML data type <code>IDREF</code>.  They are also
+ * sometimes informally referred to as \'metaid refs\', in analogy to the
+ * SBML-defined type <code>SIdRef</code>.
+ <p>
+ * This method works by looking at all meta-identifier attribute values,
+ * comparing the identifiers to the value of <code>oldid</code>.  If any matches are
+ * found, the matching identifiers are replaced with <code>newid</code>.  The method
+ * does <em>not</em> descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
+   */ public
+";
+
+
+%javamethodmodifiers SBasePlugin::renameUnitSIdRefs(const std::string& oldid, const std::string& newid) "
+/**
+   * <p>
+ * Replaces all uses of a given <code>UnitSIdRef</code> type attribute value with
+ * another value.
+ <p>
+ * <p>
+ * In SBML, unit definitions have identifiers of type <code>UnitSId</code>.  In
+ * SBML Level&nbsp;3, an explicit data type called <code>UnitSIdRef</code> was
+ * introduced for attribute values that refer to <code>UnitSId</code> values; in
+ * previous Levels of SBML, this data type did not exist and attributes were
+ * simply described to as \'referring to a unit identifier\', but the effective
+ * data type was the same as <code>UnitSIdRef</code> in Level&nbsp;3.  These and
+ * other methods of libSBML refer to the type <code>UnitSIdRef</code> for all
+ * Levels of SBML, even if the corresponding SBML specification did not
+ * explicitly name the data type.
+ <p>
+ * This method works by looking at all unit identifier attribute values
+ * (including, if appropriate, inside mathematical formulas), comparing the
+ * referenced unit identifiers to the value of <code>oldid</code>.  If any matches
+ * are found, the matching values are replaced with <code>newid</code>.  The method
+ * does <em>not</em> descend into child elements.
+ <p>
+ * @param oldid the old identifier
+ * @param newid the new identifier
+   */ public
+";
+
+
 %javamethodmodifiers SBasePlugin::transformIdentifiers(IdentifierTransformer* sidTransformer) "
 /** * @internal */ public
 ";
@@ -59147,6 +60242,11 @@ defined in SBML.
 
 
 %javamethodmodifiers SBasePlugin::accept(SBMLVisitor& v) const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBasePlugin::getSBMLExtension() const "
 /** * @internal */ public
 ";
 
@@ -59891,6 +60991,11 @@ if (doc-&gt;getLevel() == 2)
    * @return a boolean indicating whether the extension is actually being
    * used by the document.
    */ public
+";
+
+
+%javamethodmodifiers SBMLExtension::hasMultipleVersions() const "
+/** * @internal */ public
 ";
 
 
@@ -60771,106 +61876,6 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ASTBase::isChild() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::setIsChildFlag(bool flag) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getClass() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getId() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getStyle() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getParentSBMLObject() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isSetClass() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isSetId() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isSetStyle() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isSetParentSBMLObject() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::setClass(std::string className) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::setId(std::string id) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::setStyle(std::string style) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::setParentSBMLObject(SBase* sb) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::unsetClass "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::unsetId "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::unsetStyle "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::unsetParentSBMLObject "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getFunction() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::addPlugin(ASTBasePlugin* plugin) "
-/** * @internal */ public
-";
-
-
 %javamethodmodifiers ASTBase::getPlugin(const std::string& package) "
 /** * @internal */ public
 ";
@@ -61169,7 +62174,7 @@ defined in SBML.
  * mathematical functions that are permitted in SBML. The values are shown
  * in the following table:
  <p>
- * <table border=\"0\" class=\"centered text-table borderless code\">
+ * <table border=\"0\" class=\"centered text-table align-bottom borderless code\">
 <tr><td>AST_CONSTANT_E</td><td>         AST_FUNCTION_COT</td><td>       AST_LOGICAL_NOT</td></tr>
 <tr><td>AST_CONSTANT_FALSE</td><td>     AST_FUNCTION_COTH</td><td>      AST_LOGICAL_OR</td></tr>
 <tr><td>AST_CONSTANT_PI</td><td>        AST_FUNCTION_CSC</td><td>       AST_LOGICAL_XOR</td></tr>
@@ -61444,7 +62449,7 @@ appears in the documentation.
  * may also be useful for checking the results of node modifications.
    <p>
    * @see #prependChild(ASTNode disownedChild)
-   * @see #replaceChild(long n, ASTNode disownedChild)
+   * @see #replaceChild(long n, ASTNode disownedChild, boolean delreplaced)
    * @see #insertChild(long n, ASTNode disownedChild)
    * @see #removeChild(long n)
    * @see #isWellFormedASTNode()
@@ -61480,7 +62485,7 @@ appears in the documentation.
  * may also be useful for checking the results of node modifications.
    <p>
    * @see #addChild(ASTNode disownedChild)
-   * @see #replaceChild(long n, ASTNode disownedChild)
+   * @see #replaceChild(long n, ASTNode disownedChild, boolean delreplaced)
    * @see #insertChild(long n, ASTNode disownedChild)
    * @see #removeChild(long n)
    */ public
@@ -61514,7 +62519,7 @@ appears in the documentation.
    <p>
    * @see #addChild(ASTNode disownedChild)
    * @see #prependChild(ASTNode disownedChild)
-   * @see #replaceChild(long n, ASTNode disownedChild)
+   * @see #replaceChild(long n, ASTNode disownedChild, boolean delreplaced)
    * @see #insertChild(long n, ASTNode disownedChild)
    */ public
 ";
@@ -61586,7 +62591,7 @@ appears in the documentation.
    <p>
    * @see #addChild(ASTNode disownedChild)
    * @see #prependChild(ASTNode disownedChild)
-   * @see #replaceChild(long n, ASTNode disownedChild)
+   * @see #replaceChild(long n, ASTNode disownedChild, boolean delreplaced)
    * @see #removeChild(long n)
    */ public
 ";
@@ -63389,6 +64394,11 @@ used to define a number with value <code>10</code> and unit of measurement
 ";
 
 
+%javamethodmodifiers ASTNode::getNumPiece() const "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers ASTNode::containsVariable(const std::string id) const "
 /** * @internal */ public
 ";
@@ -63460,6 +64470,46 @@ used to define a number with value <code>10</code> and unit of measurement
 
 
 %javamethodmodifiers ASTNode::getFunction() const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers MathML::MathML(SBMLNamespaces* sbmlns) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers MathML::MathML "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers MathML::setPrefix(const std::string& prefix) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers MathML::readMathML(XMLInputStream& stream) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers MathML::writeMathML(XMLOutputStream& stream, const ASTNode* node) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers MathML::hasSeriousErrors(XMLErrorLog* log, unsigned int index) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers MathML::writeOpenMathElement(XMLOutputStream& stream, const ASTNode* node) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers MathML::writeCloseMathElement(XMLOutputStream& stream) "
 /** * @internal */ public
 ";
 
@@ -63653,7 +64703,7 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * <a href=\'libsbml.html#parseL3Formula(java.lang.String)\'><code>libsbml.parseL3Formula(String)</code></a> and
  * <a href=\'libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)\'><code>libsbml.formulaToL3String(ASTNode)</code></a>.  The Level&nbsp;1-oriented
  * system (i.e., what is provided by <a href=\'libsbml.html#formulaToString(java.lang.String)\'><code>libsbml.formulaToString(String)</code></a>
- * and <a href=\'libsbml.html#parseFormula(org.sbml.libsbml.ASTNode)\'><code>libsbml.parseFormula(ASTNode)</code></a>) is provided 
+ * and <a href=\'libsbml.html#parseFormula(org.sbml.libsbml.ASTNode)\'><code>libsbml.parseFormula(ASTNode)</code></a>) is provided
  * untouched for backwards compatibility.
  <p>
  * <p>
@@ -64499,7 +65549,7 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * <a href=\'libsbml.html#parseL3Formula(java.lang.String)\'><code>libsbml.parseL3Formula(String)</code></a> and
  * <a href=\'libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)\'><code>libsbml.formulaToL3String(ASTNode)</code></a>.  The Level&nbsp;1-oriented
  * system (i.e., what is provided by <a href=\'libsbml.html#formulaToString(java.lang.String)\'><code>libsbml.formulaToString(String)</code></a>
- * and <a href=\'libsbml.html#parseFormula(org.sbml.libsbml.ASTNode)\'><code>libsbml.parseFormula(ASTNode)</code></a>) is provided 
+ * and <a href=\'libsbml.html#parseFormula(org.sbml.libsbml.ASTNode)\'><code>libsbml.parseFormula(ASTNode)</code></a>) is provided
  * untouched for backwards compatibility.
  <p>
  * <p>
@@ -65242,7 +66292,7 @@ in the \"Level&nbsp;3\" text-string formula syntax.
  * {@link libsbmlConstants#AST_NAME AST_NAME}.
  * <li> Strings that match built-in functions and constants can either be parsed
  * as a match regardless of capitalization, or may be required to be
- * all-lower-case to be considered a match.  
+ * all-lower-case to be considered a match.
  * <li> LibSBML plug-ins implementing support for SBML Level&nbsp;3 packages
  * may introduce extensions to the syntax understood by the parser.  The
  * precise nature of the extensions will be documented by the individual
@@ -65998,7 +67048,7 @@ defined in SBML.
  * {@link libsbmlConstants#AST_NAME AST_NAME}.
  * <li> Strings that match built-in functions and constants can either be parsed
  * as a match regardless of capitalization, or may be required to be
- * all-lower-case to be considered a match.  
+ * all-lower-case to be considered a match.
  * <li> LibSBML plug-ins implementing support for SBML Level&nbsp;3 packages
  * may introduce extensions to the syntax understood by the parser.  The
  * precise nature of the extensions will be documented by the individual
@@ -66890,6 +67940,21 @@ defined in SBML.
 
 
 %javamethodmodifiers ASTBasePlugin::getNameFromType(int type) const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTBasePlugin::renameSIdRefs(const std::string& oldid, const std::string& newid) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTBasePlugin::renameUnitSIdRefs(const std::string& oldid, const std::string& newid) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTBasePlugin::replaceIDWithFunction(const std::string& id, const ASTNode* function) "
 /** * @internal */ public
 ";
 

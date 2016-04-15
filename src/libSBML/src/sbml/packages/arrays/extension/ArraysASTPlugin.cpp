@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -69,6 +69,7 @@ static const char* ARRAYS_MATHML_ELEMENTS[] =
 };
 #endif
 
+#if (0)
 static const char* ARRAYS_MATHML_ELEMENTS[] =
 {
     "condition"
@@ -88,6 +89,12 @@ static const char* ARRAYS_MATHML_ELEMENTS[] =
   , "variance"
   , "vector"
 };
+#endif
+static const char* ARRAYS_MATHML_ELEMENTS[] =
+{
+    "selector"
+  , "vector"
+};
 
 #if (0)
 static const int ARRAYS_MATHML_TYPES[] =
@@ -104,7 +111,7 @@ static const int ARRAYS_MATHML_TYPES[] =
   , AST_ARRAYS_UNKNOWN
 };
 #endif
-
+#if (0)
 static const int ARRAYS_MATHML_TYPES[] =
 {
     AST_QUALIFIER_CONDITION
@@ -122,6 +129,14 @@ static const int ARRAYS_MATHML_TYPES[] =
   , AST_SERIES_SUM
   , AST_QUALIFIER_UPLIMIT
   , AST_STATISTICS_VARIANCE
+  , AST_LINEAR_ALGEBRA_VECTOR_CONSTRUCTOR
+  , AST_ARRAYS_UNKNOWN
+};
+#endif
+
+static const int ARRAYS_MATHML_TYPES[] =
+{
+    AST_LINEAR_ALGEBRA_SELECTOR
   , AST_LINEAR_ALGEBRA_VECTOR_CONSTRUCTOR
   , AST_ARRAYS_UNKNOWN
 };
@@ -712,7 +727,6 @@ ArraysASTPlugin::isFunction(int type) const
     case AST_LINEAR_ALGEBRA_VECTOR_PRODUCT:
     case AST_LINEAR_ALGEBRA_SCALAR_PRODUCT:
     case AST_LINEAR_ALGEBRA_OUTER_PRODUCT:
-#endif
     case AST_LOGICAL_EXISTS:
     case AST_LOGICAL_FORALL:
     case AST_STATISTICS_MEAN:
@@ -723,6 +737,7 @@ ArraysASTPlugin::isFunction(int type) const
     case AST_STATISTICS_SDEV:
     case AST_SERIES_SUM:
     case AST_STATISTICS_VARIANCE:
+#endif
       valid = true;
       break;
     default:
@@ -815,6 +830,7 @@ ArraysASTPlugin::representsNaryFunction(int type) const
   switch (type)
   {
     case AST_LINEAR_ALGEBRA_SELECTOR:
+#if (0)
     case AST_LOGICAL_EXISTS:
     case AST_LOGICAL_FORALL:
     case AST_STATISTICS_MEAN:
@@ -825,6 +841,7 @@ ArraysASTPlugin::representsNaryFunction(int type) const
     case AST_STATISTICS_SDEV:
     case AST_SERIES_SUM:
     case AST_STATISTICS_VARIANCE:
+#endif
       valid = true;
       break;
     default:
@@ -840,6 +857,7 @@ ArraysASTPlugin::representsQualifier(int type) const
 {
   bool valid = false;
 
+#if (0)
   switch (type)
   {
     case AST_QUALIFIER_CONDITION:
@@ -850,8 +868,9 @@ ArraysASTPlugin::representsQualifier(int type) const
       break;
     default:
       break;
-
   }
+#endif
+
   return valid;
 }
 
@@ -907,7 +926,7 @@ ArraysASTPlugin::getNameFromType(int type) const
 {
 
   static const int size = sizeof(ARRAYS_MATHML_ELEMENTS) / sizeof(ARRAYS_MATHML_ELEMENTS[0]);
-  if (type >= AST_QUALIFIER_CONDITION && type < AST_ARRAYS_UNKNOWN)
+  if (type >= AST_LINEAR_ALGEBRA_SELECTOR && type < AST_ARRAYS_UNKNOWN)
   {
     bool found = false;
     unsigned int i;
@@ -956,7 +975,7 @@ ArraysASTPlugin::getASTType() const
   }
 
 
-  if (type >= AST_QUALIFIER_CONDITION &&
+  if (type >= AST_LINEAR_ALGEBRA_SELECTOR &&
     type < AST_ARRAYS_UNKNOWN)
   {
     return (ArraysASTNodeType_t)(type);
@@ -1086,6 +1105,9 @@ ArraysASTPlugin::isPackageInfixFunction() const
   case AST_LINEAR_ALGEBRA_SELECTOR:
   case AST_LINEAR_ALGEBRA_VECTOR_CONSTRUCTOR:
     return false;
+  case AST_ARRAYS_UNKNOWN:
+  default:
+    return false;
 #if (0)
   case AST_LINEAR_ALGEBRA_MATRIX_CONSTRUCTOR:
     //An empty matrix or a matrix with only one row looks like a vector, so we have to use the functional form
@@ -1104,7 +1126,6 @@ ArraysASTPlugin::isPackageInfixFunction() const
   case AST_LINEAR_ALGEBRA_OUTER_PRODUCT:
   case AST_LINEAR_ALGEBRA_MATRIXROW_CONSTRUCTOR:
     return true;
-#endif
   case AST_LOGICAL_EXISTS:
   case AST_LOGICAL_FORALL:
   case AST_STATISTICS_MEAN:
@@ -1122,6 +1143,7 @@ ArraysASTPlugin::isPackageInfixFunction() const
   case AST_QUALIFIER_MOMENTABOUT:
   case AST_QUALIFIER_UPLIMIT:
     return false;
+#endif
   }
   return false;
 }
@@ -1148,7 +1170,6 @@ ArraysASTPlugin::hasPackageOnlyInfixSyntax() const
   case AST_LINEAR_ALGEBRA_SCALAR_PRODUCT:
   case AST_LINEAR_ALGEBRA_OUTER_PRODUCT:
   case AST_LINEAR_ALGEBRA_MATRIXROW_CONSTRUCTOR:
-#endif
   case AST_QUALIFIER_CONDITION:
   case AST_LOGICAL_EXISTS:
   case AST_LOGICAL_FORALL:
@@ -1163,6 +1184,7 @@ ArraysASTPlugin::hasPackageOnlyInfixSyntax() const
   case AST_SERIES_SUM:
   case AST_QUALIFIER_UPLIMIT:
   case AST_STATISTICS_VARIANCE:
+#endif
   case AST_ARRAYS_UNKNOWN:
     return false;
   }
@@ -1188,7 +1210,6 @@ ArraysASTPlugin::getL3PackageInfixPrecedence() const
   case AST_LINEAR_ALGEBRA_SCALAR_PRODUCT:
   case AST_LINEAR_ALGEBRA_OUTER_PRODUCT:
   case AST_LINEAR_ALGEBRA_MATRIXROW_CONSTRUCTOR:
-#endif
   case AST_QUALIFIER_CONDITION:
   case AST_LOGICAL_EXISTS:
   case AST_LOGICAL_FORALL:
@@ -1203,6 +1224,7 @@ ArraysASTPlugin::getL3PackageInfixPrecedence() const
   case AST_SERIES_SUM:
   case AST_QUALIFIER_UPLIMIT:
   case AST_STATISTICS_VARIANCE:
+#endif
     return 8; //Everything is either a function or has unambiguous syntax.
   case AST_ARRAYS_UNKNOWN:
     return -1;
@@ -1239,7 +1261,6 @@ bool ArraysASTPlugin::hasUnambiguousPackageInfixGrammar(const ASTNode *child) co
   case AST_LINEAR_ALGEBRA_SCALAR_PRODUCT:
   case AST_LINEAR_ALGEBRA_OUTER_PRODUCT:
   case AST_LINEAR_ALGEBRA_MATRIXROW_CONSTRUCTOR:
-#endif
   case AST_QUALIFIER_CONDITION:
   case AST_LOGICAL_EXISTS:
   case AST_LOGICAL_FORALL:
@@ -1254,6 +1275,7 @@ bool ArraysASTPlugin::hasUnambiguousPackageInfixGrammar(const ASTNode *child) co
   case AST_SERIES_SUM:
   case AST_QUALIFIER_UPLIMIT:
   case AST_STATISTICS_VARIANCE:
+#endif
     return true; //Everything is either a function or has unambiguous syntax.
   case AST_ARRAYS_UNKNOWN:
     return false;
@@ -1284,7 +1306,6 @@ void ArraysASTPlugin::visitPackageInfixSyntax ( const ASTNode *parent,
   case AST_LINEAR_ALGEBRA_SCALAR_PRODUCT:
   case AST_LINEAR_ALGEBRA_OUTER_PRODUCT:
   case AST_LINEAR_ALGEBRA_MATRIXROW_CONSTRUCTOR:
-#endif
   case AST_QUALIFIER_CONDITION:
   case AST_LOGICAL_EXISTS:
   case AST_LOGICAL_FORALL:
@@ -1299,6 +1320,7 @@ void ArraysASTPlugin::visitPackageInfixSyntax ( const ASTNode *parent,
   case AST_SERIES_SUM:
   case AST_QUALIFIER_UPLIMIT:
   case AST_STATISTICS_VARIANCE:
+#endif
   case AST_ARRAYS_UNKNOWN:
     return;
   }
@@ -1314,25 +1336,27 @@ int ArraysASTPlugin::checkNumArguments(const ASTNode* function, std::stringstrea
   //unsigned int c=0;
   //unsigned int firstrow=0;
 
-  switch(aap->getASTType()) {
-  case AST_LINEAR_ALGEBRA_SELECTOR:
-    switch(function->getNumChildren()) {
-    case 0:
-      error << "The 'selector' function must have at least one argument: the vector or matrix in question.";
-      return -1;
-    case 1:
-    case 2:
-    case 3:
-      return 1; //correct number
-    default:
-      error << "The 'selector' function may not have more than three arguments ('selector(a, x, y)'):  the first for the vector or matrix from which to select, the second for the index of the vector or the matrixrow of the matrix, and an optional third, which only applies to matrices, for the index of the selected matrixrow of the matrix.  Similarly, the bracketed form may have no more than two ('a[x, y]'), for the same reason.";
-      return -1;
-    }
-  case AST_LINEAR_ALGEBRA_VECTOR_CONSTRUCTOR:
+  switch(aap->getASTType()) 
+  {
+    case AST_LINEAR_ALGEBRA_SELECTOR:
+      switch(function->getNumChildren()) 
+      {
+      case 0:
+        error << "The 'selector' function must have at least one argument: the vector or matrix in question.";
+        return -1;
+      case 1:
+      case 2:
+      case 3:
+        return 1; //correct number
+      default:
+        error << "The 'selector' function may not have more than three arguments ('selector(a, x, y)'):  the first for the vector or matrix from which to select, the second for the index of the vector or the matrixrow of the matrix, and an optional third, which only applies to matrices, for the index of the selected matrixrow of the matrix.  Similarly, the bracketed form may have no more than two ('a[x, y]'), for the same reason.";
+        return -1;
+      }
+    case AST_LINEAR_ALGEBRA_VECTOR_CONSTRUCTOR:
 #if (0)
   case AST_LINEAR_ALGEBRA_MATRIXROW_CONSTRUCTOR:
 #endif
-    return 1; //Vectors and matrix rows can have any number of arguments.
+      return 1; //Vectors and matrix rows can have any number of arguments.
 #if (0)
   case AST_LINEAR_ALGEBRA_MATRIX_CONSTRUCTOR:
     //Matrices can have any number of children, but all of those children have to be matrixrows, and have the same number of kids.
@@ -1384,7 +1408,7 @@ int ArraysASTPlugin::checkNumArguments(const ASTNode* function, std::stringstrea
       error << "The " << product << " function must have exactly two vector arguments.";
       return -1;
     }
-#endif
+
   case AST_LOGICAL_EXISTS:
   case AST_LOGICAL_FORALL:
   case AST_STATISTICS_MEAN:
@@ -1409,15 +1433,10 @@ int ArraysASTPlugin::checkNumArguments(const ASTNode* function, std::stringstrea
         << " qualifier must have exactly one argument.";
       return -1;
     }
-  case AST_ARRAYS_UNKNOWN:
-#if (0)
-    assert(false); //It was supposed to originate in the Arrays package!
 #endif
-    return 0;
+    case AST_ARRAYS_UNKNOWN:
+      return 0;
   }
-#if (0)
-  assert(false);
-#endif
   return 0;
 }
 
@@ -1547,6 +1566,7 @@ int ArraysASTPlugin::getPackageFunctionFor(const std::string& name) const
     return AST_LINEAR_ALGEBRA_SELECTOR;
   if (!strcmp_insensitive(name.c_str(), "vector"))        
     return AST_LINEAR_ALGEBRA_VECTOR_CONSTRUCTOR;
+#if (0)
   if (!strcmp_insensitive(name.c_str(), "exists"))        
     return AST_LOGICAL_EXISTS;
   if (!strcmp_insensitive(name.c_str(), "forall"))        
@@ -1567,6 +1587,7 @@ int ArraysASTPlugin::getPackageFunctionFor(const std::string& name) const
     return AST_SERIES_SUM;
   if (!strcmp_insensitive(name.c_str(), "variance"))  
     return AST_STATISTICS_VARIANCE;
+#endif
   return AST_UNKNOWN;
 }
 

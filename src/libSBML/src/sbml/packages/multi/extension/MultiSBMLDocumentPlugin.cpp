@@ -86,11 +86,12 @@ MultiSBMLDocumentPlugin::~MultiSBMLDocumentPlugin ()
 
 void 
 MultiSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
-                            const ExpectedAttributes& expectedAttributes)
+                            const ExpectedAttributes& /*expectedAttributes*/)
 {
   // for now don't read the required flag for L2 models 
   if (getSBMLDocument() != NULL && getSBMLDocument()->getLevel() < 3) return;
   
+  // for "multi:required" attribute
   unsigned int numErrs = getErrorLog()->getNumErrors();
   XMLTriple tripleRequired("required", mURI, getPrefix());
   bool assigned = attributes.readInto(tripleRequired, mRequired);
@@ -100,24 +101,23 @@ MultiSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
         getErrorLog()->contains(XMLAttributeTypeMismatch))
     {
 			getErrorLog()->remove(XMLAttributeTypeMismatch);
-      getErrorLog()->logPackageError("multi", MultiUnknownError,
-        getPackageVersion(), getLevel(), getVersion());
+      getErrorLog()->logPackageError("multi", MultiSBML_RequiredAttMustBeBoolean,
+        getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
     }
     else
     {
-      getErrorLog()->logPackageError("multi", MultiUnknownError,
-        getPackageVersion(), getLevel(), getVersion());
+      getErrorLog()->logPackageError("multi", MultiSBML_RequiredAttMissing,
+        getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
     }
   }
   else
   {
-    mIsSetRequired = true;
-	/* LOG ERROR RELATING TO EXPECTED VALUE */
-    //if (mRequired == true)
-    //{
-    //  getErrorLog()->logPackageError("multi", ERROR,
-    //    getPackageVersion(), getLevel(), getVersion());
-    //}
+      mIsSetRequired = true;
+      if (mRequired == false)
+      {
+        getErrorLog()->logPackageError("multi", MultiSBML_RequiredAttMustBeTrue,
+          getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
+      }
   }
 }
 

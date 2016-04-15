@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -81,19 +81,12 @@ TransformationComponents::TransformationComponents (SpatialPkgNamespaces* spatia
  */
 TransformationComponents::TransformationComponents (const TransformationComponents& orig)
   : SBase(orig)
+  , mComponents  ( NULL)
+  , mComponentsLength  ( orig.mComponentsLength)
+  , mIsSetComponentsLength  ( orig.mIsSetComponentsLength)
+  , mElementName ( orig.mElementName)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mComponents  = NULL;
-    setComponents(orig.mComponents, orig.mComponentsLength);
-    mComponentsLength  = orig.mComponentsLength;
-    mIsSetComponentsLength  = orig.mIsSetComponentsLength;
-    mElementName = orig.mElementName;
-  }
+  setComponents(orig.mComponents, orig.mComponentsLength);
 }
 
 
@@ -103,11 +96,7 @@ TransformationComponents::TransformationComponents (const TransformationComponen
 TransformationComponents&
 TransformationComponents::operator=(const TransformationComponents& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mComponents  = NULL;

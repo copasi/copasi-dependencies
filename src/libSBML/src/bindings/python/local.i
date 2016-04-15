@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -258,7 +258,7 @@ namespace std
 /**
  * Convert SBase, SimpleSpeciesReference and Rule objects into the most specific type possible.
  */
-%typemap(out) SBase*, SimpleSpeciesReference*, Rule*, SBasePlugin*, SBMLExtension*, SBMLNamespaces*, SBMLConverter*
+%typemap(out) SBase*, SimpleSpeciesReference*, Rule*, SBasePlugin*, SBMLExtension*, SBMLNamespaces*, SBMLConverter*, Reaction*
 {
   $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), GetDowncastSwigType($1),
                                $owner | %newpointer_flags);
@@ -857,6 +857,7 @@ WRAP_LISTWRAPPER(SBMLNamespaces)
 WRAP_LISTWRAPPER(CVTerm)
 WRAP_LISTWRAPPER(Date)
 WRAP_LISTWRAPPER(ModelCreator)
+WRAP_LISTWRAPPER(SBase)
 
 
 /**
@@ -909,6 +910,8 @@ SBMLNamespaces::getSupportedNamespaces
                                SWIG_POINTER_OWN |  0 );
 }
  
+
+ 
 %feature("shadow")
 ModelHistory::getListCreators
 %{
@@ -916,7 +919,7 @@ ModelHistory::getListCreators
     """
     getListCreators(self) -> ModelCreatorList
 
-    Get the ModelCreatorList of ModelCreator objects in this 
+    Get the List of ModelCreator objects in this 
     ModelHistory.
 
     Returns the ModelCreatorList for this ModelHistory.
@@ -946,7 +949,7 @@ ModelHistory::getListModifiedDates
     """
     getListModifiedDates(self) -> DateList
 
-    Get the DateList of Date objects in this ModelHistory.
+    Get the List of Date objects in this ModelHistory.
 
     Returns the DateList for this ModelHistory.
           
@@ -974,9 +977,9 @@ SBase::getCVTerms
     """
     getCVTerms(self) -> CVTermList
 
-    Get the CVTermList of CVTerm objects in this SBase.
+    Get the List of CVTerm objects in this element.
 
-    Returns the CVTermList for this SBase.
+    Returns the CVTermList for this element.
 
 
     """
@@ -994,6 +997,93 @@ SBase::getCVTerms
 #endif
                                SWIG_POINTER_OWN |  0 );
 }
+
+
+%feature("shadow")
+SBase::getListOfAllElements
+%{
+  def getListOfAllElements(self):
+    """
+    getListOfAllElements(self) -> SBaseList
+
+    Get the List of all SBase objects in this element.
+
+    Returns the List of all child elements.
+
+
+    """
+    return _libsbml.SBase_getListOfAllElements(self)
+%}
+
+%typemap(out) List* SBase::getListOfAllElements
+{
+  ListWrapper<SBase> *listw = ($1 != 0) ? new ListWrapper<SBase>($1) : 0;
+  $result = SWIG_NewPointerObj(SWIG_as_voidptr(listw), 
+#if SWIG_VERSION > 0x010333
+                               SWIGTYPE_p_ListWrapperT_SBase_t, 
+#else
+                               SWIGTYPE_p_ListWrapperTSBase_t, 
+#endif
+                               SWIG_POINTER_OWN |  0 );
+}
+
+
+%feature("shadow")
+SBase::getListOfAllElementsFromPlugins
+%{
+  def getListOfAllElementsFromPlugins(self):
+    """
+    getListOfAllElementsFromPlugins(self) -> SBaseList
+
+    Get the List of SBase objects in this elements plugins.
+
+    Returns the SBaseList of all plugins for this element.
+
+
+    """
+    return _libsbml.SBase_getListOfAllElementsFromPlugins(self)
+%}
+
+%typemap(out) List* SBase::getListOfAllElementsFromPlugins
+{
+  ListWrapper<SBase> *listw = ($1 != 0) ? new ListWrapper<SBase>($1) : 0;
+  $result = SWIG_NewPointerObj(SWIG_as_voidptr(listw), 
+#if SWIG_VERSION > 0x010333
+                               SWIGTYPE_p_ListWrapperT_SBase_t, 
+#else
+                               SWIGTYPE_p_ListWrapperTSBase_t, 
+#endif
+                               SWIG_POINTER_OWN |  0 );
+}
+
+%feature("shadow")
+SBasePlugin::getListOfAllElements
+%{
+  def getListOfAllElements(self):
+    """
+    getListOfAllElements(self) -> SBaseList
+
+    Get the List of SBase objects in this plugin.
+
+    Returns the SBaseList of all element for this plugin.
+
+
+    """
+    return _libsbml.SBasePlugin_getListOfAllElements(self)
+%}
+
+%typemap(out) List* SBasePlugin::getListOfAllElements
+{
+  ListWrapper<SBase> *listw = ($1 != 0) ? new ListWrapper<SBase>($1) : 0;
+  $result = SWIG_NewPointerObj(SWIG_as_voidptr(listw), 
+#if SWIG_VERSION > 0x010333
+                               SWIGTYPE_p_ListWrapperT_SBase_t, 
+#else
+                               SWIGTYPE_p_ListWrapperTSBase_t, 
+#endif
+                               SWIG_POINTER_OWN |  0 );
+}
+
 
 #endif
 

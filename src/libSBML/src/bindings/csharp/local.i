@@ -10,7 +10,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -81,7 +81,9 @@
 %define SWIGCSHARP_IMTYPE_WSTRING(TYPENAME)
 %typemap(imtype, 
          inattributes="[MarshalAs(UnmanagedType.LPWStr)]", 
-         outattributes="[return: MarshalAs(UnmanagedType.LPWStr)]" 
+         outattributes="[return: MarshalAs(UnmanagedType.LPWStr)]",
+         directorinattributes="[MarshalAs(UnmanagedType.LPWStr)]", 
+         directoroutattributes="[return: MarshalAs(UnmanagedType.LPWStr)]"
         ) TYPENAME "string"
 %enddef
 
@@ -624,6 +626,15 @@ SWIGEXPORT void SWIGSTDCALL SWIGRegisterWStringCallback_$module(SWIG_CSharpWStri
 %typemap("csout", excode=SWIGEXCODE) SBase*
 {
 	SBase ret = (SBase) libsbml.DowncastSBase($imcall, $owner);$excode
+	return ret;
+}
+
+/**
+ * Convert SBase objects into the most specific object possible.
+ */
+%typemap("csout", excode=SWIGEXCODE) Reaction*
+{
+	Reaction ret = (Reaction) libsbml.DowncastSBase($imcall, $owner);$excode
 	return ret;
 }
 
@@ -1253,7 +1264,6 @@ XMLCONSTRUCTOR_EXCEPTION(XMLTripple)
 %typemap(ctype) char*              "wchar_t*"
 %typemap(ctype) const char*        "wchar_t*"
 
-
 //
 // Unicode -> UTF8 (std::string&, const std::string&)
 // (argument variable)
@@ -1354,6 +1364,11 @@ XMLCONSTRUCTOR_EXCEPTION(XMLTripple)
     arg_str.assign(mbstr);
     $1 = &arg_str;
     delete[] mbstr;
+}
+
+%typemap("directorin") std::string const &uri, const std::string& baseUri{
+  $input = convertUTF8ToUnicode( $1.c_str());
+  if (!$input) return $null;
 }
 
 

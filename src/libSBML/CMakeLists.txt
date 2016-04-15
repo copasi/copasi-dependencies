@@ -7,7 +7,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2015 jointly by the following organizations:
+# Copyright (C) 2013-2016 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -59,11 +59,13 @@ set(LIBSBML_VERSION_MAJOR)
 set(LIBSBML_VERSION_MINOR)
 set(LIBSBML_VERSION_PATCH)
 set(LIBSBML_VERSION_RELEASE)
+set(LIBSBML_DOTTED_VERSION)
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt")
 
     file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt" VersionString NEWLINE_CONSUME)
     string(STRIP "${VersionString}" VersionString)
+    set(LIBSBML_DOTTED_VERSION ${VersionString})
     string(REPLACE "." ";" VersionString "${VersionString}" )
     string(REPLACE "-" ";" VersionString "${VersionString}" )
     list(LENGTH VersionString versionLength)
@@ -304,7 +306,7 @@ endif()
 #
 set(LIBSBML_USE_CPP_NAMESPACE OFF)
 if(WITH_CPP_NAMESPACE)
-    add_definitions(-DLIBSBML_USE_CPP_NAMESPACE)
+    add_definitions(-DLIBSBML_USE_CPP_NAMESPACE=1)
     set(LIBSBML_USE_CPP_NAMESPACE ON)	
 endif()
 
@@ -1298,6 +1300,14 @@ CONFIGURE_FILE(
 ADD_CUSTOM_TARGET(uninstall
   "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake") 
 
+if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/dev/utilities/sboTree/updateSBO.cmake")
+# add update_sbo target
+ADD_CUSTOM_TARGET(update_sbo
+  "${CMAKE_COMMAND}"
+      -DSRC_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+      -DPYTHON_EXECUTABLE="${PYTHON_EXECUTABLE}"
+      -P "${CMAKE_CURRENT_SOURCE_DIR}/dev/utilities/sboTree/updateSBO.cmake") 
+endif()
 ## To compile a test program simply comment out the lines below ...
 #
 #OPTION(WITH_TEST_PROGRAM " COMPILE SMALL TEST PROGRAM " ON)

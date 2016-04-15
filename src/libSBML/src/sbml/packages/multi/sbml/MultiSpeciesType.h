@@ -59,13 +59,13 @@ class LIBSBML_EXTERN MultiSpeciesType : public SBase
 
 protected:
 
-  std::string   mId;
-  std::string   mName;
-  std::string   mCompartment;
-  ListOfSpeciesFeatureTypes   mSpeciesFeatureTypes;
-  ListOfSpeciesTypeInstances   mSpeciesTypeInstances;
-  ListOfSpeciesTypeComponentIndexes   mSpeciesTypeComponentIndexes;
-  ListOfInSpeciesTypeBonds   mInSpeciesTypeBonds;
+  std::string                           mId;
+  std::string                           mName;
+  std::string                           mCompartment;
+  ListOfSpeciesFeatureTypes             mListOfSpeciesFeatureTypes;
+  ListOfSpeciesTypeInstances            mListOfSpeciesTypeInstances;
+  ListOfSpeciesTypeComponentIndexes     mListOfSpeciesTypeComponentIndexes;
+  ListOfInSpeciesTypeBonds              mListOfInSpeciesTypeBonds;
 
 
 public:

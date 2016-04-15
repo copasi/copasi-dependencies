@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -86,27 +86,17 @@ Uncertainty::Uncertainty (DistribPkgNamespaces* distribns)
  */
 Uncertainty::Uncertainty (const Uncertainty& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mName  ( orig.mName)
+  , mUncertML ( NULL)
 {
-  if (&orig == NULL)
+  if (orig.mUncertML != NULL)
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
+    mUncertML = orig.mUncertML->clone();
   }
-  else
-  {
-    mId  = orig.mId;
-    mName  = orig.mName;
-    if (orig.mUncertML != NULL)
-    {
-      mUncertML = orig.mUncertML->clone();
-    }
-    else
-    {
-      mUncertML = NULL;
-    }
 
-    // connect to child objects
-    connectToChild();
-  }
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -116,11 +106,7 @@ Uncertainty::Uncertainty (const Uncertainty& orig)
 Uncertainty&
 Uncertainty::operator=(const Uncertainty& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
@@ -236,15 +222,8 @@ Uncertainty::setId(const std::string& id)
 int
 Uncertainty::setName(const std::string& name)
 {
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
-  {
-    mName = name;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 

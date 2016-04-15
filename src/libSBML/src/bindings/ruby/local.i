@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -197,7 +197,7 @@ namespace std
 /**
  * Convert SBase, SimpleSpeciesReference, and Rule objects into the most specific type possible.
  */
-%typemap(out) SBase*, SimpleSpeciesReference*, Rule*, SBasePlugin*, SBMLExtension*, SBMLNamespaces*, SBMLConverter*
+%typemap(out) SBase*, SimpleSpeciesReference*, Rule*, SBasePlugin*, SBMLExtension*, SBMLNamespaces*, SBMLConverter*, Reaction*
 {
   $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), GetDowncastSwigType($1), $owner | %newpointer_flags);
 }
@@ -410,17 +410,24 @@ XMLCONSTRUCTOR_EXCEPTION(XMLTripple)
                                SWIG_POINTER_OWN |  0 );
 }
 
-%typemap(out) List* SBase::getCVTerms
+%define LIST_WRAPPER(_FNAME_,_TYPENAME_)
+%typemap(out) List* _FNAME_
 {
-  ListWrapper<CVTerm> *listw = ($1 != 0)? new ListWrapper<CVTerm>($1) : 0;
+  ListWrapper<_TYPENAME_> *listw = ($1 != 0)? new ListWrapper<_TYPENAME_>($1) : 0;
   $result = SWIG_NewPointerObj(SWIG_as_voidptr(listw), 
 #if SWIG_VERSION > 0x010333
-                               SWIGTYPE_p_ListWrapperT_CVTerm_t, 
+                               SWIGTYPE_p_ListWrapperT_ ## _TYPENAME_ ## _t, 
 #else
-                               SWIGTYPE_p_ListWrapperTCVTerm_t, 
+                               SWIGTYPE_p_ListWrapperT ## _TYPENAME_ ## _t, 
 #endif
                                SWIG_POINTER_OWN |  0 );
 }
+%enddef
+LIST_WRAPPER(SBase::getCVTerms,CVTerm)
+LIST_WRAPPER(SBase::getListOfAllElements,SBase)
+LIST_WRAPPER(SBasePlugin::getListOfAllElements,SBase)
+LIST_WRAPPER(SBase::getListOfAllElementsFromPlugins,SBase)
+
 
 %include "local-packages.i"
 

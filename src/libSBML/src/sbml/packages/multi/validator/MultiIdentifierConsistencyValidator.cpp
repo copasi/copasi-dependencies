@@ -3,6 +3,7 @@
 /**
  * @file:   MultiIdentifierConsistencyValidator.cpp
  * @brief:  Implementation of the MultiIdentifierConsistencyValidator class
+ * @author: Fengkai Zhang
  * @author: SBMLTeam
  *
  * <!--------------------------------------------------------------------------
@@ -36,13 +37,16 @@
 #include "constraints/MultiIdentifierConsistencyConstraints.cpp"
 
 LIBSBML_CPP_NAMESPACE_BEGIN
+#ifdef __cplusplus
 
 void
 MultiIdentifierConsistencyValidator::init ()
 {
 #define  AddingConstraintsToValidator 1
-#include "constraints/MultiIdentifierConsistencyConstraints.cpp"
+#include "constraints/MultiIdentifierConsistencyConstraintsDeclared.cxx"
 }
+
+#endif /* __cplusplus */
 
 LIBSBML_CPP_NAMESPACE_END
 

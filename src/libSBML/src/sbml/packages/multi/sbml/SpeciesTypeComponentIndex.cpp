@@ -45,16 +45,10 @@ SpeciesTypeComponentIndex::SpeciesTypeComponentIndex (unsigned int level, unsign
   : SBase(level, version)
    ,mId ("")
    ,mComponent ("")
-   ,mOccur (SBML_INT_MAX)
-   ,mIsSetOccur (false)
    ,mIdentifyingParent ("")
-   ,mDenotedSpeciesTypeComponentIndexes (level, version, pkgVersion)
 {
   // set an SBMLNamespaces derived object of this package
   setSBMLNamespacesAndOwn(new MultiPkgNamespaces(level, version, pkgVersion));
-
-  // connect to child objects
-  connectToChild();
 }
 
 
@@ -65,16 +59,10 @@ SpeciesTypeComponentIndex::SpeciesTypeComponentIndex (MultiPkgNamespaces* multin
   : SBase(multins)
    ,mId ("")
    ,mComponent ("")
-   ,mOccur (SBML_INT_MAX)
-   ,mIsSetOccur (false)
    ,mIdentifyingParent ("")
-   ,mDenotedSpeciesTypeComponentIndexes (multins)
 {
   // set the element namespace of this object
   setElementNamespace(multins->getURI());
-
-  // connect to child objects
-  connectToChild();
 
   // load package extensions bound with this object (if any) 
   loadPlugins(multins);
@@ -86,23 +74,10 @@ SpeciesTypeComponentIndex::SpeciesTypeComponentIndex (MultiPkgNamespaces* multin
  */
 SpeciesTypeComponentIndex::SpeciesTypeComponentIndex (const SpeciesTypeComponentIndex& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mComponent  ( orig.mComponent)
+  , mIdentifyingParent  ( orig.mIdentifyingParent)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mComponent  = orig.mComponent;
-    mOccur  = orig.mOccur;
-    mIsSetOccur  = orig.mIsSetOccur;
-    mIdentifyingParent  = orig.mIdentifyingParent;
-    mDenotedSpeciesTypeComponentIndexes  = orig.mDenotedSpeciesTypeComponentIndexes;
-
-    // connect to child objects
-    connectToChild();
-  }
 }
 
 
@@ -112,22 +87,12 @@ SpeciesTypeComponentIndex::SpeciesTypeComponentIndex (const SpeciesTypeComponent
 SpeciesTypeComponentIndex&
 SpeciesTypeComponentIndex::operator=(const SpeciesTypeComponentIndex& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
     mComponent  = rhs.mComponent;
-    mOccur  = rhs.mOccur;
-    mIsSetOccur  = rhs.mIsSetOccur;
     mIdentifyingParent  = rhs.mIdentifyingParent;
-    mDenotedSpeciesTypeComponentIndexes  = rhs.mDenotedSpeciesTypeComponentIndexes;
-
-    // connect to child objects
-    connectToChild();
   }
   return *this;
 }
@@ -172,16 +137,6 @@ SpeciesTypeComponentIndex::getComponent() const
 
 
 /*
- * Returns the value of the "occur" attribute of this SpeciesTypeComponentIndex.
- */
-unsigned int
-SpeciesTypeComponentIndex::getOccur() const
-{
-  return mOccur;
-}
-
-
-/*
  * Returns the value of the "identifyingParent" attribute of this SpeciesTypeComponentIndex.
  */
 const std::string&
@@ -212,16 +167,6 @@ SpeciesTypeComponentIndex::isSetComponent() const
 
 
 /*
- * Returns true/false if occur is set.
- */
-bool
-SpeciesTypeComponentIndex::isSetOccur() const
-{
-  return mIsSetOccur;
-}
-
-
-/*
  * Returns true/false if identifyingParent is set.
  */
 bool
@@ -247,11 +192,7 @@ SpeciesTypeComponentIndex::setId(const std::string& id)
 int
 SpeciesTypeComponentIndex::setComponent(const std::string& component)
 {
-  if (&(component) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(component)))
+  if (!(SyntaxChecker::isValidInternalSId(component)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -264,28 +205,12 @@ SpeciesTypeComponentIndex::setComponent(const std::string& component)
 
 
 /*
- * Sets occur and returns value indicating success.
- */
-int
-SpeciesTypeComponentIndex::setOccur(unsigned int occur)
-{
-  mOccur = occur;
-  mIsSetOccur = true;
-  return LIBSBML_OPERATION_SUCCESS;
-}
-
-
-/*
  * Sets identifyingParent and returns value indicating success.
  */
 int
 SpeciesTypeComponentIndex::setIdentifyingParent(const std::string& identifyingParent)
 {
-  if (&(identifyingParent) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(identifyingParent)))
+  if (!(SyntaxChecker::isValidInternalSId(identifyingParent)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -336,26 +261,6 @@ SpeciesTypeComponentIndex::unsetComponent()
 
 
 /*
- * Unsets occur and returns value indicating success.
- */
-int
-SpeciesTypeComponentIndex::unsetOccur()
-{
-  mOccur = SBML_INT_MAX;
-  mIsSetOccur = false;
-
-  if (isSetOccur() == false)
-  {
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else
-  {
-    return LIBSBML_OPERATION_FAILED;
-  }
-}
-
-
-/*
  * Unsets identifyingParent and returns value indicating success.
  */
 int
@@ -375,168 +280,12 @@ SpeciesTypeComponentIndex::unsetIdentifyingParent()
 
 
 /*
- * Returns the  "ListOfDenotedSpeciesTypeComponentIndexes" in this SpeciesTypeComponentIndex object.
- */
-const ListOfDenotedSpeciesTypeComponentIndexes*
-SpeciesTypeComponentIndex::getListOfDenotedSpeciesTypeComponentIndexes() const
-{
-  return &mDenotedSpeciesTypeComponentIndexes;
-}
-
-
-/*
- * Returns the  "ListOfDenotedSpeciesTypeComponentIndexes" in this SpeciesTypeComponentIndex object.
- */
-ListOfDenotedSpeciesTypeComponentIndexes*
-SpeciesTypeComponentIndex::getListOfDenotedSpeciesTypeComponentIndexes()
-{
-  return &mDenotedSpeciesTypeComponentIndexes;
-}
-
-
-/*
- * Removes the nth DenotedSpeciesTypeComponentIndex from the ListOfDenotedSpeciesTypeComponentIndexes.
- */
-DenotedSpeciesTypeComponentIndex*
-SpeciesTypeComponentIndex::removeDenotedSpeciesTypeComponentIndex(unsigned int n)
-{
-  return mDenotedSpeciesTypeComponentIndexes.remove(n);
-}
-
-
-/*
- * Removes the a DenotedSpeciesTypeComponentIndex with given id from the ListOfDenotedSpeciesTypeComponentIndexes.
- */
-DenotedSpeciesTypeComponentIndex*
-SpeciesTypeComponentIndex::removeDenotedSpeciesTypeComponentIndex(const std::string& sid)
-{
-  return mDenotedSpeciesTypeComponentIndexes.remove(sid);
-}
-
-
-/*
- * Return the nth DenotedSpeciesTypeComponentIndex in the ListOfDenotedSpeciesTypeComponentIndexes within this SpeciesTypeComponentIndex.
- */
-DenotedSpeciesTypeComponentIndex*
-SpeciesTypeComponentIndex::getDenotedSpeciesTypeComponentIndex(unsigned int n)
-{
-  return mDenotedSpeciesTypeComponentIndexes.get(n);
-}
-
-
-/*
- * Return the nth DenotedSpeciesTypeComponentIndex in the ListOfDenotedSpeciesTypeComponentIndexes within this SpeciesTypeComponentIndex.
- */
-const DenotedSpeciesTypeComponentIndex*
-SpeciesTypeComponentIndex::getDenotedSpeciesTypeComponentIndex(unsigned int n) const
-{
-  return mDenotedSpeciesTypeComponentIndexes.get(n);
-}
-
-
-/*
- * Return a DenotedSpeciesTypeComponentIndex from the ListOfDenotedSpeciesTypeComponentIndexes by id.
- */
-DenotedSpeciesTypeComponentIndex*
-SpeciesTypeComponentIndex::getDenotedSpeciesTypeComponentIndex(const std::string& sid)
-{
-  return mDenotedSpeciesTypeComponentIndexes.get(sid);
-}
-
-
-/*
- * Return a DenotedSpeciesTypeComponentIndex from the ListOfDenotedSpeciesTypeComponentIndexes by id.
- */
-const DenotedSpeciesTypeComponentIndex*
-SpeciesTypeComponentIndex::getDenotedSpeciesTypeComponentIndex(const std::string& sid) const
-{
-  return mDenotedSpeciesTypeComponentIndexes.get(sid);
-}
-
-
-/*
- * Adds a copy the given "DenotedSpeciesTypeComponentIndex" to this SpeciesTypeComponentIndex.
- */
-int
-SpeciesTypeComponentIndex::addDenotedSpeciesTypeComponentIndex(const DenotedSpeciesTypeComponentIndex* dstci)
-{
-  if (dstci == NULL)
-  {
-    return LIBSBML_OPERATION_FAILED;
-  }
-  else if (dstci->hasRequiredAttributes() == false)
-  {
-    return LIBSBML_INVALID_OBJECT;
-  }
-  else if (getLevel() != dstci->getLevel())
-  {
-    return LIBSBML_LEVEL_MISMATCH;
-  }
-  else if (getVersion() != dstci->getVersion())
-  {
-    return LIBSBML_VERSION_MISMATCH;
-  }
-  else if (matchesRequiredSBMLNamespacesForAddition(static_cast<const SBase *>(dstci)) == false)
-  {
-    return LIBSBML_NAMESPACES_MISMATCH;
-  }
-  else
-  {
-    mDenotedSpeciesTypeComponentIndexes.append(dstci);
-
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-}
-
-
-/*
- * Get the number of DenotedSpeciesTypeComponentIndex objects in this SpeciesTypeComponentIndex.
- */
-unsigned int
-SpeciesTypeComponentIndex::getNumDenotedSpeciesTypeComponentIndexes() const
-{
-  return mDenotedSpeciesTypeComponentIndexes.size();
-}
-
-
-/*
- * Creates a new DenotedSpeciesTypeComponentIndex object, adds it to this SpeciesTypeComponentIndexes
- */
-DenotedSpeciesTypeComponentIndex*
-SpeciesTypeComponentIndex::createDenotedSpeciesTypeComponentIndex()
-{
-  DenotedSpeciesTypeComponentIndex* dstci = NULL;
-
-  try
-  {
-    MULTI_CREATE_NS(multins, getSBMLNamespaces());
-    dstci = new DenotedSpeciesTypeComponentIndex(multins);
-    delete multins;
-  }
-  catch (...)
-  {
-    /* here we do not create a default object as the level/version must
-     * match the parent object
-     *
-     * do nothing
-     */
-  }
-
-  if(dstci != NULL)
-  {
-    mDenotedSpeciesTypeComponentIndexes.appendAndOwn(dstci);
-  }
-
-  return dstci;
-}
-
-
-/*
  * rename attributes that are SIdRefs or instances in math
  */
 void
 SpeciesTypeComponentIndex::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetComponent() == true && mComponent == oldid)
   {
     setComponent(newid);
@@ -547,20 +296,6 @@ SpeciesTypeComponentIndex::renameSIdRefs(const std::string& oldid, const std::st
     setIdentifyingParent(newid);
   }
 
-}
-
-
-List*
-SpeciesTypeComponentIndex::getAllElements(ElementFilter* filter)
-{
-  List* ret = new List();
-  List* sublist = NULL;
-
-  ADD_FILTERED_LIST(ret, sublist, mDenotedSpeciesTypeComponentIndexes, filter);
-
-  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
-
-  return ret;
 }
 
 
@@ -599,21 +334,6 @@ SpeciesTypeComponentIndex::hasRequiredAttributes () const
   if (isSetComponent() == false)
     allPresent = false;
 
-  if (isSetOccur() == false)
-    allPresent = false;
-
-  return allPresent;
-}
-
-
-/*
- * check if all the required elements are set
- */
-bool
-SpeciesTypeComponentIndex::hasRequiredElements () const
-{
-  bool allPresent = true;
-
   return allPresent;
 }
 
@@ -627,11 +347,6 @@ void
 SpeciesTypeComponentIndex::writeElements (XMLOutputStream& stream) const
 {
   SBase::writeElements(stream);
-
-  if (getNumDenotedSpeciesTypeComponentIndexes() > 0)
-  {
-    mDenotedSpeciesTypeComponentIndexes.write(stream);
-  }
 
   SBase::writeExtensionElements(stream);
 }
@@ -650,10 +365,6 @@ SpeciesTypeComponentIndex::accept (SBMLVisitor& v) const
 {
   v.visit(*this);
 
-/* VISIT CHILDREN */
-
-  v.leave(*this);
-
   return true;
 }
 
@@ -670,22 +381,6 @@ void
 SpeciesTypeComponentIndex::setSBMLDocument (SBMLDocument* d)
 {
   SBase::setSBMLDocument(d);
-  mDenotedSpeciesTypeComponentIndexes.setSBMLDocument(d);
-}
-
-
-  /** @endcond doxygenLibsbmlInternal */
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-/*
-   * Connects to child elements.
- */
-void
-SpeciesTypeComponentIndex::connectToChild()
-{
-  mDenotedSpeciesTypeComponentIndexes.connectToParent(this);
 }
 
 
@@ -702,7 +397,6 @@ SpeciesTypeComponentIndex::enablePackageInternal(const std::string& pkgURI,
              const std::string& pkgPrefix, bool flag)
 {
   SBase::enablePackageInternal(pkgURI, pkgPrefix, flag);
-  mDenotedSpeciesTypeComponentIndexes.enablePackageInternal(pkgURI, pkgPrefix, flag);
 }
 
 
@@ -717,18 +411,14 @@ SpeciesTypeComponentIndex::enablePackageInternal(const std::string& pkgURI,
 SBase*
 SpeciesTypeComponentIndex::createObject(XMLInputStream& stream)
 {
-  const string& name = stream.peek().getName();
-  SBase* object = NULL;
+  return NULL;
+  //const string& name = stream.peek().getName();
+  //SBase* object = NULL;
 
-  MULTI_CREATE_NS(multins, getSBMLNamespaces());
+  //MULTI_CREATE_NS(multins, getSBMLNamespaces());
 
-  if (name == "listOfDenotedSpeciesTypeComponentIndexes")
-  {
-    object = &mDenotedSpeciesTypeComponentIndexes;
-  }
-
-  delete multins;
-  return object;
+  //delete multins;
+  //return object;
 }
 
 
@@ -747,7 +437,6 @@ SpeciesTypeComponentIndex::addExpectedAttributes(ExpectedAttributes& attributes)
 
   attributes.add("id");
   attributes.add("component");
-  attributes.add("occur");
   attributes.add("identifyingParent");
 }
 
@@ -774,8 +463,11 @@ SpeciesTypeComponentIndex::readAttributes (const XMLAttributes& attributes,
    * happened immediately prior to this read
   */
 
+  ListOfSpeciesTypeComponentIndexes * parentListOf =
+      static_cast<ListOfSpeciesTypeComponentIndexes*>(getParentSBMLObject());
+
   if (getErrorLog() != NULL &&
-      static_cast<ListOfSpeciesTypeComponentIndexes*>(getParentSBMLObject())->size() < 2)
+      parentListOf->size() < 2)
   {
     numErrs = getErrorLog()->getNumErrors();
     for (int n = numErrs-1; n >= 0; n--)
@@ -785,16 +477,18 @@ SpeciesTypeComponentIndex::readAttributes (const XMLAttributes& attributes,
         const std::string details =
               getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofSptCpoInds_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOf->getLine(), parentListOf->getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                    getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofSptCpoInds_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOf->getLine(), parentListOf->getColumn());
       }
     }
   }
@@ -812,16 +506,18 @@ SpeciesTypeComponentIndex::readAttributes (const XMLAttributes& attributes,
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiSptCpoInd_AllowedMultiAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiSptCpoInd_AllowedCoreAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
     }
   }
@@ -843,15 +539,18 @@ SpeciesTypeComponentIndex::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mId) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute id='" + mId + "' does not conform.");
+        std::string details = "The syntax of the attribute id='" + mId + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
   else
   {
     std::string message = "Multi attribute 'id' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+    getErrorLog()->logPackageError("multi", MultiSptCpoInd_AllowedMultiAtts,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message,
+                   getLine(), getColumn());
   }
 
   //
@@ -869,41 +568,18 @@ SpeciesTypeComponentIndex::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mComponent) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute component='" + mComponent + "' does not conform.");
+        std::string details = "The syntax of the attribute component='" + mComponent + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
   else
   {
     std::string message = "Multi attribute 'component' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
-  }
-
-  //
-  // occur unsigned int   ( use = "required" )
-  //
-  numErrs = getErrorLog()->getNumErrors();
-  mIsSetOccur = attributes.readInto("occur", mOccur);
-
-  if (mIsSetOccur == false)
-  {
-    if (getErrorLog() != NULL)
-    {
-      if (getErrorLog()->getNumErrors() == numErrs + 1 &&
-              getErrorLog()->contains(XMLAttributeTypeMismatch))
-      {
-        getErrorLog()->remove(XMLAttributeTypeMismatch);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                     getPackageVersion(), sbmlLevel, sbmlVersion);
-      }
-      else
-      {
-        std::string message = "Multi attribute 'occur' is missing.";
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, message);
-      }
-    }
+    getErrorLog()->logPackageError("multi", MultiSptCpoInd_AllowedMultiAtts,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message,
+                   getLine(), getColumn());
   }
 
   //
@@ -921,9 +597,10 @@ SpeciesTypeComponentIndex::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mIdentifyingParent) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute identifyingParent='" + mIdentifyingParent 
-        + "' does not conform.");
+        std::string details = "The syntax of the attribute identifyingParent='" + mIdentifyingParent + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
 
@@ -948,9 +625,6 @@ SpeciesTypeComponentIndex::writeAttributes (XMLOutputStream& stream) const
 
   if (isSetComponent() == true)
     stream.writeAttribute("component", getPrefix(), mComponent);
-
-  if (isSetOccur() == true)
-    stream.writeAttribute("occur", getPrefix(), mOccur);
 
   if (isSetIdentifyingParent() == true)
     stream.writeAttribute("identifyingParent", getPrefix(), mIdentifyingParent);
@@ -1229,17 +903,6 @@ SpeciesTypeComponentIndex_getComponent(SpeciesTypeComponentIndex_t * stci)
  * 
  */
 LIBSBML_EXTERN
-unsigned int
-SpeciesTypeComponentIndex_getOccur(SpeciesTypeComponentIndex_t * stci)
-{
-  return (stci != NULL) ? stci->getOccur() : SBML_INT_MAX;
-}
-
-
-/**
- * 
- */
-LIBSBML_EXTERN
 char *
 SpeciesTypeComponentIndex_getIdentifyingParent(SpeciesTypeComponentIndex_t * stci)
 {
@@ -1269,17 +932,6 @@ int
 SpeciesTypeComponentIndex_isSetComponent(SpeciesTypeComponentIndex_t * stci)
 {
   return (stci != NULL) ? static_cast<int>(stci->isSetComponent()) : 0;
-}
-
-
-/**
- * 
- */
-LIBSBML_EXTERN
-int
-SpeciesTypeComponentIndex_isSetOccur(SpeciesTypeComponentIndex_t * stci)
-{
-  return (stci != NULL) ? static_cast<int>(stci->isSetOccur()) : 0;
 }
 
 
@@ -1321,17 +973,6 @@ SpeciesTypeComponentIndex_setComponent(SpeciesTypeComponentIndex_t * stci, const
  */
 LIBSBML_EXTERN
 int
-SpeciesTypeComponentIndex_setOccur(SpeciesTypeComponentIndex_t * stci, unsigned int occur)
-{
-  return (stci != NULL) ? stci->setOccur(occur) : LIBSBML_INVALID_OBJECT;
-}
-
-
-/**
- * 
- */
-LIBSBML_EXTERN
-int
 SpeciesTypeComponentIndex_setIdentifyingParent(SpeciesTypeComponentIndex_t * stci, const char * identifyingParent)
 {
   return (stci != NULL) ? stci->setIdentifyingParent(identifyingParent) : LIBSBML_INVALID_OBJECT;
@@ -1357,17 +998,6 @@ int
 SpeciesTypeComponentIndex_unsetComponent(SpeciesTypeComponentIndex_t * stci)
 {
   return (stci != NULL) ? stci->unsetComponent() : LIBSBML_INVALID_OBJECT;
-}
-
-
-/**
- * 
- */
-LIBSBML_EXTERN
-int
-SpeciesTypeComponentIndex_unsetOccur(SpeciesTypeComponentIndex_t * stci)
-{
-  return (stci != NULL) ? stci->unsetOccur() : LIBSBML_INVALID_OBJECT;
 }
 
 

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -109,32 +109,26 @@ SampledField::SampledField (SpatialPkgNamespaces* spatialns)
  */
 SampledField::SampledField (const SampledField& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mDataType  ( orig.mDataType)
+  , mNumSamples1  ( orig.mNumSamples1)
+  , mIsSetNumSamples1  ( orig.mIsSetNumSamples1)
+  , mNumSamples2  ( orig.mNumSamples2)
+  , mIsSetNumSamples2  ( orig.mIsSetNumSamples2)
+  , mNumSamples3  ( orig.mNumSamples3)
+  , mIsSetNumSamples3  ( orig.mIsSetNumSamples3)
+  , mInterpolationType  ( orig.mInterpolationType)
+  , mCompression  ( orig.mCompression)
+  , mSamples  ( NULL)
+  , mSamplesLength  ( orig.mSamplesLength)
+  , mIsSetSamplesLength  ( orig.mIsSetSamplesLength)
+  , mUncompressedSamples ( NULL)
+  , mUncompressedLength ( 0)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mDataType  = orig.mDataType;
-    mNumSamples1  = orig.mNumSamples1;
-    mIsSetNumSamples1  = orig.mIsSetNumSamples1;
-    mNumSamples2  = orig.mNumSamples2;
-    mIsSetNumSamples2  = orig.mIsSetNumSamples2;
-    mNumSamples3  = orig.mNumSamples3;
-    mIsSetNumSamples3  = orig.mIsSetNumSamples3;
-    mInterpolationType  = orig.mInterpolationType;
-    mCompression  = orig.mCompression;
-    mSamples  = NULL;
-    setSamples(orig.mSamples, orig.mSamplesLength);
-    mSamplesLength  = orig.mSamplesLength;
-    mIsSetSamplesLength  = orig.mIsSetSamplesLength;
-    mUncompressedSamples = NULL;
-    mUncompressedLength = 0;
-    // connect to child objects
-    connectToChild();
-  }
+  setSamples(orig.mSamples, orig.mSamplesLength);
+  
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -144,11 +138,7 @@ SampledField::SampledField (const SampledField& orig)
 SampledField&
 SampledField::operator=(const SampledField& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;

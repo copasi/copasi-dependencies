@@ -122,7 +122,8 @@ MultiASTPlugin::createObject(XMLInputStream& stream)
 }
 
 bool
-MultiASTPlugin::read(XMLInputStream& stream, const std::string& reqd_prefix)
+MultiASTPlugin::read(XMLInputStream& stream, const std::string& reqd_prefix,
+                                            const XMLToken& currentElement)
 {
   bool read = false;
   //const XMLToken element = stream.peek();
@@ -280,7 +281,7 @@ MultiASTPlugin::addExpectedAttributes(ExpectedAttributes& attributes,
 bool 
 MultiASTPlugin::readAttributes(const XMLAttributes& attributes,
                        const ExpectedAttributes& expectedAttributes,
-                               XMLInputStream& stream, XMLToken element,
+                               XMLInputStream& stream, const XMLToken& element,
                                int type)
 {
   bool read = true;
@@ -392,6 +393,15 @@ MultiASTPlugin::writeXMLNS(XMLOutputStream& stream) const
 }
 
 
+void 
+MultiASTPlugin::renameSIdRefs(const std::string& oldid, const std::string& newid)
+{
+  if (!mSpeciesReference.empty() && mSpeciesReference == oldid) {
+    mSpeciesReference = newid;
+  }
+}
+
+
 bool
 MultiASTPlugin::hasAttributesSet() const
 {
@@ -420,7 +430,7 @@ MultiASTPlugin::hasAttributesSet() const
       if (ast != NULL)
       {
         MultiASTPlugin* mp = 
-                        static_cast<MultiASTPlugin*>(ast->getPlugin("multi"));
+                        dynamic_cast<MultiASTPlugin*>(ast->getPlugin("multi"));
         if (mp != NULL)
         {
           hasAttributes = mp->hasAttributesSet();

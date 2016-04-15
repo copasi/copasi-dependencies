@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -706,6 +706,7 @@ int
 FbcAssociation_hasRequiredAttributes(const FbcAssociation_t * fa);
 
 
+
 LIBSBML_EXTERN
 FbcAssociation_t *
 ListOfFbcAssociations_getById(ListOf_t * lo, const char * sid);
@@ -716,7 +717,13 @@ FbcAssociation_t *
 ListOfFbcAssociations_removeById(ListOf_t * lo, const char * sid);
 
 
+LIBSBML_EXTERN
+char *
+FbcAssociation_toInfix(const FbcAssociation_t * fa);
 
+LIBSBML_EXTERN
+FbcAssociation_t*
+FbcAssociation_parseFbcInfixAssociation(const char * infix, SBasePlugin_t* plugin);
 
 END_C_DECLS
 LIBSBML_CPP_NAMESPACE_END

@@ -1093,11 +1093,7 @@ its author(s) and modification history.
 
 
 %feature("docstring") SBase::accept "
-Accepts the given SBMLVisitor for this SBase object.
-
-Parameter 'v' is the SBMLVisitor instance to be used
-
-Returns the result of calling v.visit().
+Internal implementation method.
 ";
 
 
@@ -1648,10 +1644,12 @@ URL, or an empty string if the value is not set.
 
 
 %feature("docstring") SBase::getLine "
-Returns the line number on which this object first appears in the XML
+Returns the line number where this object first appears in the XML
 representation of the SBML document.
 
-Returns the line number of this SBML object.
+Returns the line number of this SBML object.  If this object was
+created programmatically and not read from a file, this method will
+return the value 0.
 
 Note:
 
@@ -1672,10 +1670,12 @@ See also getColumn().
 
 
 %feature("docstring") SBase::getColumn "
-Returns the column number on which this object first appears in the
-XML representation of the SBML document.
+Returns the column number where this object first appears in the XML
+representation of the SBML document.
 
-Returns the column number of this SBML object.
+Returns the column number of this SBML object.  If this object was
+created programmatically and not read from a file, this method will
+return the value 0.
 
 Note:
 
@@ -2778,9 +2778,9 @@ code.
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getPackageName(), getElementName().
 ";
@@ -2875,6 +2875,13 @@ SBML package.  A given SBML model may thus contain not only objects
 defined by SBML Level 3 Core, but also objects created by libSBML
 plug-ins supporting additional Level 3 packages.
 
+If a plugin is disabled, the package information it contains is no
+longer considered to be part of the SBML document for the purposes of
+searching the document or writing out the document.  However, the
+information is still retained, so if the plugin is enabled again, the
+same information will once again be available, and will be written out
+to the final model.
+
 Parameter 'n' is the index of the disabled plug-in to return
 
 Returns the nth disabled plug-in object (the libSBML extension
@@ -2910,7 +2917,7 @@ See also getPlugin().
 
 
 %feature("docstring") SBase::getNumDisabledPlugins "
-Returns the number of disabled plug-in objects (extenstion interfaces)
+Returns the number of disabled plug-in objects (extension interfaces)
 for SBML Level 3 package extensions known.
 
 SBML Level 3 consists of a Core definition that can be extended via
@@ -2927,13 +2934,43 @@ SBML package.  A given SBML model may thus contain not only objects
 defined by SBML Level 3 Core, but also objects created by libSBML
 plug-ins supporting additional Level 3 packages.
 
+If a plugin is disabled, the package information it contains is no
+longer considered to be part of the SBML document for the purposes of
+searching the document or writing out the document.  However, the
+information is still retained, so if the plugin is enabled again, the
+same information will once again be available, and will be written out
+to the final model.
+
 Returns the number of disabled plug-in objects (extension interfaces)
 of package extensions known by this instance of libSBML.
 ";
 
 
 %feature("docstring") SBase::deleteDisabledPlugins "
-Deletes all information stored in disabled plugins.
+Deletes all information stored in disabled plugins.  If the plugin is
+re-enabled later, it will then not have any previously-stored
+information.
+
+SBML Level 3 consists of a Core definition that can be extended via
+optional SBML Level 3 packages.  A given model may indicate that it
+uses one or more SBML packages, and likewise, a software tool may be
+able to support one or more packages.  LibSBML does not come
+preconfigured with all possible packages included and enabled, in part
+because not all package specifications have been finalized.  To
+support the ability for software systems to enable support for the
+Level 3 packages they choose, libSBML features a plug-in mechanism.
+Each SBML Level 3 package is implemented in a separate code plug-in
+that can be enabled by the application to support working with that
+SBML package.  A given SBML model may thus contain not only objects
+defined by SBML Level 3 Core, but also objects created by libSBML
+plug-ins supporting additional Level 3 packages.
+
+If a plugin is disabled, the package information it contains is no
+longer considered to be part of the SBML document for the purposes of
+searching the document or writing out the document.  However, the
+information is still retained, so if the plugin is enabled again, the
+same information will once again be available, and will be written out
+to the final model.
 
 Parameter 'recursive' is if True, the disabled information will be
 deleted also from all child elements, otherwise only from this SBase
@@ -3331,10 +3368,10 @@ must would have the URI
 
 This function first returns the URI for this element by looking into
 the SBMLNamespaces object of the document with the its package name.
-If not found, it will return the XML namespace to which this element
-belongs.
+If not found, it will then look for the namespace associated with the
+element itself.
 
-Returns the URI of this element
+Returns the URI of this element, as a text string
 
 See also getSBMLDocument(), getPackageName().
 ";
@@ -3563,46 +3600,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -3717,12 +3714,7 @@ Parameter 'orig' is the ListOf instance to copy.
 
 
 %feature("docstring") ListOf::accept "
-Accepts the given SBMLVisitor.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next item in the list.
+Internal implementation method.
 ";
 
 
@@ -3973,9 +3965,9 @@ the class of this SBML object.
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getItemTypeCode(), getElementName(), getPackageName().
 ";
@@ -4050,7 +4042,7 @@ the overall container for the lists of the various model components.
 All of the lists are optional, but if a given list container is
 present within the model, the list must not be empty; that is, it must
 have length one or more.  The following are the components and lists
-permitted in different Levels and Versions of SBML in version 5.11.5
+permitted in different Levels and Versions of SBML in version 5.13.0
 of libSBML:
 
 * In SBML Level 1, the components are: UnitDefinition, Compartment,
@@ -4169,7 +4161,7 @@ Consistency and adherence to SBML specifications
 ======================================================================
 
 To make it easier for applications to do whatever they need, libSBML
-version 5.11.5 is relatively lax when it comes to enforcing
+version 5.13.0 is relatively lax when it comes to enforcing
 correctness and completeness of models during model construction and
 editing. Essentially, libSBML will not in most cases check
 automatically that a model's components have valid attribute values,
@@ -4339,9 +4331,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -4374,8 +4365,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this Model
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -4402,18 +4393,11 @@ Model(Model orig)
 Copy constructor; creates a (deep) copy of the given Model object.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") Model::accept "
-Accepts the given SBMLVisitor for this instance of Constraint.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit().
+Internal implementation method.
 ";
 
 
@@ -6774,11 +6758,6 @@ Internal implementation method.
 ";
 
 
-%feature("docstring") Model::convertToL2Strict "
-Internal implementation method.
-";
-
-
 %feature("docstring") Model::setSBMLDocument "
 Internal implementation method.
 ";
@@ -6801,9 +6780,9 @@ Returns the SBML type code for this object: SBML_MODEL (default).
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -7818,7 +7797,7 @@ or using the methods on the SBMLErrorLog object.
 The default SBML Level of new SBMLDocument objects.
 
 This 'default Level' corresponds to the most recent SBML
-specification Level available at the time libSBML version 5.11.5 was
+specification Level available at the time libSBML version 5.13.0 was
 released.  The default Level is used by SBMLDocument if no Level is
 explicitly specified at the time of the construction of an
 SBMLDocument instance.
@@ -7844,7 +7823,7 @@ The default Version of new SBMLDocument objects.
 
 This 'default Version' corresponds to the most recent Version within
 the most recent Level of SBML available at the time libSBML version
-5.11.5 was released.  The default Version is used by SBMLDocument if
+5.13.0 was released.  The default Version is used by SBMLDocument if
 no Version is explicitly specified at the time of the construction of
 an SBMLDocument instance.
 
@@ -7887,9 +7866,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -7920,8 +7898,8 @@ Parameter 'version' is an integer for the Version within the SBML
 Level
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Documentation note: The native C++ implementation of this method
 defines a default argument value. In the documentation generated for
@@ -7946,18 +7924,11 @@ SBMLDocument(SBMLDocument orig)
 Copy constructor; creates a copy of this SBMLDocument.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") SBMLDocument::accept "
-Accepts the given SBMLVisitor for this instance of SBMLDocument.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit().
+Internal implementation method.
 ";
 
 
@@ -8404,6 +8375,23 @@ See also SBMLDocument.checkInternalConsistency().
 ";
 
 
+%feature("docstring") SBMLDocument::checkConsistencyWithStrictUnits "
+Performs consistency checking and validation on this SBML document
+using the ultra strict units validator that assumes that there are no
+hidden numerical conversion factors.
+
+If this method returns a nonzero value (meaning, one or more
+consistency checks have failed for SBML document), the failures may be
+due to warnings or errors.  Callers should inspect the severity flag
+in the individual SBMLError objects returned by
+SBMLDocument.getError() to determine the nature of the failures.
+
+Returns the number of failed checks (errors) encountered.
+
+See also SBMLDocument.checkInternalConsistency().
+";
+
+
 %feature("docstring") SBMLDocument::validateSBML "
 Performs consistency checking and validation on this SBML document.
 
@@ -8647,9 +8635,9 @@ Returns the SBML type code for this object: SBML_DOCUMENT (default).
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also SBMLDocument.getElementName(), getPackageName().
 ";
@@ -9044,46 +9032,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -9122,9 +9070,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -9158,8 +9105,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this FunctionDefinition
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -9186,20 +9133,11 @@ FunctionDefinition(FunctionDefinition orig)
 Copy constructor; creates a copy of this FunctionDefinition.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") FunctionDefinition::accept "
-Accepts the given SBMLVisitor for this instance of FunctionDefinition.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next FunctionDefinition in the list of
-function definitions.
+Internal implementation method.
 ";
 
 
@@ -9421,9 +9359,9 @@ Returns the SBML type code for this object: SBML_FUNCTION_DEFINITION
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -9543,6 +9481,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfFunctionDefinitions object
 to be created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -9556,6 +9514,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -9895,46 +9874,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -9972,9 +9911,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -10007,8 +9945,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this Unit
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -10035,21 +9973,11 @@ Unit(Unit orig)
 Copy constructor; creates a copy of this Unit.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") Unit::accept "
-Accepts the given SBMLVisitor for this instance of Unit.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next Unit in the list of units within
-which this Unit is embedded (i.e., in the ListOfUnits located in the
-enclosing UnitDefinition instance).
+Internal implementation method.
 ";
 
 
@@ -10634,9 +10562,9 @@ Returns the SBML type code for this object: SBML_UNIT (default).
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getPackageName(), getElementName().
 ";
@@ -10995,6 +10923,26 @@ Version combination determined by the SBMLNamespaces object in
 Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfUnits object to be created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -11008,6 +10956,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -11294,46 +11263,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -11372,9 +11301,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -11408,8 +11336,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this UnitDefinition
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -11436,21 +11364,11 @@ UnitDefinition(UnitDefinition orig)
 Copy constructor; creates a copy of this UnitDefinition.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") UnitDefinition::accept "
-Accepts the given SBMLVisitor for this instance of UnitDefinition.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next UnitDefinition in the list of
-units within which this UnitDefinition is embedded (i.e., in the
-ListOfUnitDefinitions located in the enclosing Model instance).
+Internal implementation method.
 ";
 
 
@@ -11792,9 +11710,9 @@ Returns the SBML type code for this object: SBML_UNIT_DEFINITION
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getPackageName(), getElementName().
 ";
@@ -12125,6 +12043,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfUnitDefinitions object to
 be created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -12138,6 +12076,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -12312,46 +12271,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -12397,9 +12316,8 @@ the method setId().
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -12433,8 +12351,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this CompartmentType
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -12461,20 +12379,11 @@ CompartmentType(CompartmentType orig)
 Copy constructor; creates a copy of this CompartmentType object.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") CompartmentType::accept "
-Accepts the given SBMLVisitor for this instance of CompartmentType.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next CompartmentType object in the
-list of compartment types.
+Internal implementation method.
 ";
 
 
@@ -12617,9 +12526,9 @@ Returns the SBML type code for this object: SBML_COMPARTMENT_TYPE
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -12693,6 +12602,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfCompartmentTypes object to
 be created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -12706,6 +12635,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -12863,46 +12813,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -12948,9 +12858,8 @@ the method SBase.setId().
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -12984,8 +12893,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this SpeciesType
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -13012,20 +12921,11 @@ SpeciesType(SpeciesType orig)
 Copy constructor; creates a copy of this SpeciesType.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") SpeciesType::accept "
-Accepts the given SBMLVisitor for this instance of SpeciesType.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next SpeciesType in the list of
-compartment types.
+Internal implementation method.
 ";
 
 
@@ -13150,9 +13050,9 @@ Returns the SBML type code for this object: SBML_SPECIES_TYPE
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -13223,6 +13123,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfSpeciesTypes object to be
 created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -13236,6 +13156,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -13604,46 +13545,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -13689,9 +13590,8 @@ the method setId().
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -13725,8 +13625,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this Compartment
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -13755,21 +13655,11 @@ Copy constructor.
 This creates a copy of a Compartment object.
 
 Parameter 'orig' is the Compartment instance to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") Compartment::accept "
-Accepts the given SBMLVisitor for this instance of Compartment.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next Compartment object in the list of
-compartments within which this Compartment object is embedded (i.e.,
-the ListOfCompartments in the parent Model).
+Internal implementation method.
 ";
 
 
@@ -14612,9 +14502,9 @@ Returns the SBML type code for this object: SBML_COMPARTMENT
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -14708,6 +14598,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfCompartments object to be
 created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -14721,6 +14631,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -15148,46 +15079,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -15232,9 +15123,8 @@ method Species.setId().
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -15268,8 +15158,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this Species
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -15296,18 +15186,11 @@ Species(Species orig)
 Copy constructor; creates a copy of this Species object.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") Species::accept "
-Accepts the given SBMLVisitor for this instance of Species.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit().
+Internal implementation method.
 ";
 
 
@@ -16245,9 +16128,9 @@ Returns the SBML type code for this object: SBML_SPECIES (default).
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -16405,6 +16288,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfSpecies object to be
 created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -16418,6 +16321,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -16629,46 +16553,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -16714,9 +16598,8 @@ identifier can be accomplished using the method setId().
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -16750,8 +16633,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this Parameter
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -16778,20 +16661,11 @@ Parameter(Parameter orig)
 Copy constructor; creates a copy of a Parameter.
 
 Parameter 'orig' is the Parameter instance to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") Parameter::accept "
-Accepts the given SBMLVisitor for this instance of Parameter.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), indicating whether the
-Visitor would like to visit the next Parameter object in the list of
-parameters within which the present object is embedded.
+Internal implementation method.
 ";
 
 
@@ -17208,9 +17082,9 @@ Returns the SBML type code for this object: SBML_PARAMETER (default).
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -17367,6 +17241,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfParameters object to be
 created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -17380,6 +17274,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -17563,46 +17478,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -17648,9 +17523,8 @@ the identifier can be accomplished using the method setId().
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -17684,8 +17558,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this LocalParameter.
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -17713,9 +17587,6 @@ Copy constructor; creates a copy of a given LocalParameter object.
 
 Parameter 'orig' is the LocalParameter instance to copy.
 
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
-
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -17725,22 +17596,11 @@ Copy constructor; creates a LocalParameter object by copying the
 attributes of a given Parameter object.
 
 Parameter 'orig' is the Parameter instance to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") LocalParameter::accept "
-Accepts the given SBMLVisitor for this instance of LocalParameter.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next LocalParameter in the list of
-parameters within which this LocalParameter is embedded (i.e., either
-the list of parameters in the parent Model or the list of parameters
-in the enclosing KineticLaw).
+Internal implementation method.
 ";
 
 
@@ -17804,9 +17664,9 @@ Returns the SBML type code for this object: SBML_LOCAL_PARAMETER
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -17894,6 +17754,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfLocalParameters object to
 be created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -17907,6 +17787,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -18185,46 +18086,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -18263,9 +18124,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -18299,8 +18159,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this InitialAssignment
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -18327,20 +18187,11 @@ InitialAssignment(InitialAssignment orig)
 Copy constructor; creates a copy of this InitialAssignment.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") InitialAssignment::accept "
-Accepts the given SBMLVisitor for this instance of InitialAssignment.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next InitialAssignment in the list of
-compartment types.
+Internal implementation method.
 ";
 
 
@@ -18506,9 +18357,9 @@ Returns the SBML type code for this object: SBML_INITIAL_ASSIGNMENT
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -18673,6 +18524,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfInitialAssignments object
 to be created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -18686,6 +18557,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -18977,46 +18869,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -19034,13 +18886,7 @@ ListOfRules, ListOfConstraints, ListOfReactions, ListOfEvents.
 
 
 %feature("docstring") Rule::accept "
-Accepts the given SBMLVisitor for this instance of Rule.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next Rule object in the list of rules
-within which the present object is embedded.
+Internal implementation method.
 ";
 
 
@@ -19502,9 +19348,9 @@ Core.
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -19527,7 +19373,7 @@ Returns the XML element name of this object.
 
 The returned value can be any of a number of different strings,
 depending on the SBML Level in use and the kind of Rule object this
-is.  The rules as of libSBML version 5.11.5 are the following:
+is.  The rules as of libSBML version 5.13.0 are the following:
 
 * (Level 2 and 3) RateRule: returns 'rateRule'
 
@@ -19732,6 +19578,26 @@ Version combination determined by the SBMLNamespaces object in
 Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfRules object to be created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -19745,6 +19611,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -20071,9 +19958,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -20107,8 +19993,8 @@ Parameter 'version' is the SBML Version to assign to this
 AlgebraicRule object.
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -20137,13 +20023,7 @@ Returns the (deep) copy of this Rule object.
 
 
 %feature("docstring") AlgebraicRule::accept "
-Accepts the given SBMLVisitor for this instance of AlgebraicRule.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next AlgebraicRule object in the list
-of rules within which the present object is embedded.
+Internal implementation method.
 ";
 
 
@@ -20417,9 +20297,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -20453,8 +20332,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this AssignmentRule.
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -20483,13 +20362,7 @@ Returns the (deep) copy of this Rule object.
 
 
 %feature("docstring") AssignmentRule::accept "
-Accepts the given SBMLVisitor for this instance of AssignmentRule.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next AssignmentRule object in the list
-of rules within which the present object is embedded.
+Internal implementation method.
 ";
 
 
@@ -20755,9 +20628,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -20791,8 +20663,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this RateRule
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -20821,13 +20693,7 @@ Returns the (deep) copy of this RateRule object.
 
 
 %feature("docstring") RateRule::accept "
-Accepts the given SBMLVisitor.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next RateRule object in the list of
-rules within which the present object is embedded.
+Internal implementation method.
 ";
 
 
@@ -20959,46 +20825,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -21037,9 +20863,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -21073,8 +20898,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this Constraint
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -21101,21 +20926,11 @@ Constraint(Constraint orig)
 Copy constructor; creates a copy of this Constraint.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") Constraint::accept "
-Accepts the given SBMLVisitor for this instance of Constraint.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next Constraint in the list of
-constraints within which this Constraint is embedded (i.e., in the
-ListOfConstraints located in the enclosing Model instance).
+Internal implementation method.
 ";
 
 
@@ -21309,9 +21124,9 @@ Returns the SBML type code for this object: SBML_CONSTRAINT (default).
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -21394,6 +21209,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfConstraints object to be
 created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -21407,6 +21242,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -21610,46 +21466,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -21687,9 +21503,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -21723,8 +21538,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this Reaction
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -21751,18 +21566,11 @@ Reaction(Reaction orig)
 Copy constructor; creates a copy of this Reaction.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") Reaction::accept "
-Accepts the given SBMLVisitor for this instance of Reaction.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit().
+Internal implementation method.
 ";
 
 
@@ -22206,27 +22014,38 @@ The possible values returned by this function are:
 
 
 %feature("docstring") Reaction::addReactant "
-Adds a given SpeciesReference object as a reactant in this Reaction.
+This method has multiple variants; they differ in the arguments  they
+accept.  Each variant is described separately below.
 
-The SpeciesReference instance in 'sr' is copied.
+______________________________________________________________________
+Method variant with the following signature:
 
-Parameter 'sr' is a SpeciesReference object referring to a Species in
-the enclosing Model
+addReactant(Species species, double stoichiometry = 1.0, string id
+= '', bool constant = true)
+
+Adds the given species as a reactant with the given stoichiometry
+
+Parameter 'species' is the species to be added as reactant
+
+Parameter 'stoichiometry' is an optional parameter specifying the
+stoichiometry of the product (defaulting to 1)
+
+Parameter 'id' is an optional id to be given to the species reference
+that will be created. (defaulting to empty string, i.e. not set)
+
+Parameter 'constant' is an attribute specifying whether the species
+reference is constant or not (defaulting to true)
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
 
 * LIBSBML_OPERATION_SUCCESS
 
-* LIBSBML_LEVEL_MISMATCH
-
-* LIBSBML_VERSION_MISMATCH
-
-* LIBSBML_DUPLICATE_OBJECT_ID
-
 * LIBSBML_INVALID_OBJECT
 
-* LIBSBML_OPERATION_FAILED
+* LIBSBML_INVALID_ATTRIBUTE_VALUE
+
+* LIBSBML_DUPLICATE_OBJECT_ID
 
 Note:
 
@@ -22241,28 +22060,47 @@ memory leak will result.  Please see other methods on this class
 (particularly a corresponding method whose name begins with the word
 create) for alternatives that do not lead to these issues.
 
-See also createReactant().
+Note:
+
+the Species object itself is NOT added to the model
+
+See also createProduct(), createReactant().
 ";
 
 
 %feature("docstring") Reaction::addProduct "
-Adds a given SpeciesReference object as a product in this Reaction.
+This method has multiple variants; they differ in the arguments  they
+accept.  Each variant is described separately below.
 
-The SpeciesReference instance in 'sr' is copied.
+______________________________________________________________________
+Method variant with the following signature:
 
-Parameter 'sr' is a SpeciesReference object referring to a Species in
-the enclosing Model
+addProduct(Species species, double stoichiometry = 1.0, string id
+= '', bool constant = true)
+
+Adds the given species as a product with the given stoichiometry
+
+Parameter 'species' is the species to be added as product
+
+Parameter 'stoichiometry' is an optional parameter specifying the
+stoichiometry of the product (defaulting to 1)
+
+Parameter 'id' is an optional id to be given to the species reference
+that will be created. (defaulting to empty string, i.e. not set)
+
+Parameter 'constant' is an attribute specifying whether the species
+reference is constant or not (defaulting to true)
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
 
 * LIBSBML_OPERATION_SUCCESS
 
-* LIBSBML_LEVEL_MISMATCH
+* LIBSBML_INVALID_OBJECT
 
-* LIBSBML_VERSION_MISMATCH
+* LIBSBML_INVALID_ATTRIBUTE_VALUE
 
-* LIBSBML_OPERATION_FAILED
+* LIBSBML_DUPLICATE_OBJECT_ID
 
 Note:
 
@@ -22277,33 +22115,40 @@ memory leak will result.  Please see other methods on this class
 (particularly a corresponding method whose name begins with the word
 create) for alternatives that do not lead to these issues.
 
-See also createProduct().
+Note:
+
+the Species object itself is NOT added to the model
+
+See also createProduct(), createProduct().
 ";
 
 
 %feature("docstring") Reaction::addModifier "
-Adds a given ModifierSpeciesReference object as a product in this
-Reaction.
+This method has multiple variants; they differ in the arguments  they
+accept.  Each variant is described separately below.
 
-The ModifierSpeciesReference instance in 'msr' is copied.
+______________________________________________________________________
+Method variant with the following signature:
 
-Parameter 'msr' is a ModifierSpeciesReference object referring to a
-Species in the enclosing Model
+addModifier(Species species, string &id = '')
+
+Adds the given species as a modifier to this reaction
+
+Parameter 'species' is the species to be added as modifier
+
+Parameter 'id' is an optional id to be given to the species reference
+that will be created. (defaulting to empty string, i.e. not set)
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
 
 * LIBSBML_OPERATION_SUCCESS
 
-* LIBSBML_UNEXPECTED_ATTRIBUTE
+* LIBSBML_INVALID_OBJECT
 
-* LIBSBML_LEVEL_MISMATCH
+* LIBSBML_INVALID_ATTRIBUTE_VALUE
 
 * LIBSBML_DUPLICATE_OBJECT_ID
-
-* LIBSBML_VERSION_MISMATCH
-
-* LIBSBML_OPERATION_FAILED
 
 Note:
 
@@ -22318,7 +22163,11 @@ memory leak will result.  Please see other methods on this class
 (particularly a corresponding method whose name begins with the word
 create) for alternatives that do not lead to these issues.
 
-See also createModifier().
+Note:
+
+the Species object itself is NOT added to the model
+
+See also createModifier(), createModifier().
 ";
 
 
@@ -22664,9 +22513,9 @@ Returns the SBML type code for this object: SBML_REACTION (default).
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -22768,6 +22617,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfReactions object to be
 created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -22781,6 +22650,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -22986,9 +22876,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -23022,8 +22911,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this KineticLaw
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -23050,18 +22939,11 @@ KineticLaw(KineticLaw orig)
 Copy constructor; creates a copy of this KineticLaw.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") KineticLaw::accept "
-Accepts the given SBMLVisitor for this instance of KineticLaw.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit().
+Internal implementation method.
 ";
 
 
@@ -23737,9 +23619,9 @@ Returns the SBML type code for this object: SBML_KINETIC_LAW
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -23975,8 +23857,25 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this SimpleSpeciesReference
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -23986,18 +23885,11 @@ SimpleSpeciesReference(SimpleSpeciesReference orig)
 Copy constructor; creates a copy of this SimpleSpeciesReference.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") SimpleSpeciesReference::accept "
-Accepts the given SBMLVisitor.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit().
+Internal implementation method.
 ";
 
 
@@ -24440,46 +24332,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -24509,6 +24361,9 @@ Creates a new SpeciesReference using the given SBMLNamespaces object
 'sbmlns'.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
+
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -24541,6 +24396,10 @@ SpeciesReference
 Parameter 'version' is a long integer, the SBML Version to assign to
 this SpeciesReference
 
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
 Note:
 
 Attempting to add an object to an SBMLDocument having a different
@@ -24566,18 +24425,11 @@ SpeciesReference(SpeciesReference orig)
 Copy constructor; creates a copy of this SpeciesReference.
 
 Parameter 'orig' is the SpeciesReference instance to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") SpeciesReference::accept "
-Accepts the given SBMLVisitor.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit().
+Internal implementation method.
 ";
 
 
@@ -25122,6 +24974,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfSpeciesReferences object to
 be created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -25135,6 +25007,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -25290,6 +25183,9 @@ object 'sbmlns'.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
 Note:
 
 Attempting to add an object to an SBMLDocument having a different
@@ -25321,6 +25217,10 @@ ModifierSpeciesReference
 Parameter 'version' is a long integer, the SBML Version to assign to
 this ModifierSpeciesReference
 
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
 Note:
 
 Attempting to add an object to an SBMLDocument having a different
@@ -25341,11 +25241,7 @@ particular value to an attribute.
 
 
 %feature("docstring") ModifierSpeciesReference::accept "
-Accepts the given SBMLVisitor.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit().
+Internal implementation method.
 ";
 
 
@@ -25375,9 +25271,9 @@ SBML_MODIFIER_SPECIES_REFERENCE (default).
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -25587,46 +25483,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -25664,9 +25520,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -25699,8 +25554,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this Event
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -25727,20 +25582,11 @@ Event(Event orig)
 Copy constructor; creates a copy of this Event.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") Event::accept "
-Accepts the given SBMLVisitor for this instance of Event.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next Event in the list of events
-within which this Event is embedded.
+Internal implementation method.
 ";
 
 
@@ -26493,9 +26339,9 @@ Returns the SBML type code for this object: SBML_EVENT (default).
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -26601,6 +26447,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfEvents object to be
 created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -26614,6 +26480,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -26866,46 +26753,6 @@ turn derived from SBase, which provides all of the various ListOf___
 classes with common features defined by the SBML specification, such
 as 'metaid' attributes and annotations.
 
-The relationship between the lists and the rest of an SBML model is
-illustrated by the following (for SBML Level 2 Version 4):
-
-  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" 
-        level=\"3\" version=\"1\">
-    <model id=\"My_Model\">
-      <listOfFunctionDefinitions>
-        <functionDefinition> ... </functionDefinition> 
-      </listOfFunctionDefinitions>
-      <listOfUnitDefinitions>
-        <unitDefinition> ... </unitDefinition> 
-      </listOfUnitDefinitions>
-      <listOfCompartments>
-        <compartment> ... </compartment> 
-      </listOfCompartments>
-      <listOfSpecies>
-        <species> ... </species> 
-      </listOfSpecies>
-      <listOfParameters>
-        <parameter> ... </parameter> 
-      </listOfParameters>
-      <listOfInitialAssignments>
-        <initialAssignment> ... </initialAssignment> 
-      </listOfInitialAssignments>
-      <listOfRules>
-        ... elements of subclasses of Rule ...
-      </listOfRules>
-      <listOfConstraints>
-        <constraint> ... </constraint> 
-      </listOfConstraints>
-      <listOfReactions>
-        <reaction> ... </reaction> 
-      </listOfReactions>
-      <listOfEvents>
-        <event> ... </event> 
-      </listOfEvents>
-    </model>
-  </sbml>
-
 Readers may wonder about the motivations for using the ListOf___
 containers in SBML.  A simpler approach in XML might be to place the
 components all directly at the top level of the model definition.  The
@@ -26944,9 +26791,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -26980,8 +26826,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this EventAssignment
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -27008,21 +26854,11 @@ EventAssignment(EventAssignment orig)
 Copy constructor; creates a copy of this EventAssignment.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") EventAssignment::accept "
-Accepts the given SBMLVisitor for this instance of EventAssignment.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit(), which indicates whether the
-Visitor would like to visit the next EventAssignment in the list
-within which this EventAssignment is embedded (i.e., in the
-ListOfEventAssignments located in the enclosing Event instance).
+Internal implementation method.
 ";
 
 
@@ -27202,9 +27038,9 @@ Returns the SBML type code for this object: SBML_EVENT_ASSIGNMENT
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -27369,6 +27205,26 @@ Parameter 'sbmlns' is an SBMLNamespaces object that is used to
 determine the characteristics of the ListOfEventAssignments object to
 be created.
 
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
+
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -27382,6 +27238,27 @@ Level and Version combination.
 Parameter 'level' is the SBML Level
 
 Parameter 'version' is the Version within the SBML Level
+
+Throws SBMLConstructorException: Thrown if the given 'level' and
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 ";
 
 
@@ -27621,9 +27498,25 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -27640,8 +27533,25 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this Trigger
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
+
+Note:
+
+Attempting to add an object to an SBMLDocument having a different
+combination of SBML Level, Version and XML namespaces than the object
+itself will result in an error at the time a caller attempts to make
+the addition.  A parent object must have compatible Level, Version and
+XML namespaces.  (Strictly speaking, a parent may also have more XML
+namespaces than a child, but the reverse is not permitted.)  The
+restriction is necessary to ensure that an SBML model has a consistent
+overall structure.  This requires callers to manage their objects
+carefully, but the benefit is increased flexibility in how models can
+be created by permitting callers to create objects bottom-up if
+desired.  In situations where objects are not yet attached to parents
+(e.g., SBMLDocument), knowledge of the intented SBML Level and Version
+help libSBML determine such things as whether it is valid to assign a
+particular value to an attribute.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -27651,18 +27561,11 @@ Trigger(Trigger orig)
 Copy constructor; creates a copy of this Trigger.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") Trigger::accept "
-Accepts the given SBMLVisitor for this instance of Trigger.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit().
+Internal implementation method.
 ";
 
 
@@ -27805,9 +27708,6 @@ Core, but is not present in lower Levels of SBML.
 (SBML Level 3 only) Unsets the 'initialValue' attribute of this
 Trigger instance.
 
-Parameter 'initialValue' is a boolean representing the initialValue to
-be set.
-
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
 
@@ -27825,9 +27725,6 @@ Core, but is not present in lower Levels of SBML.
 %feature("docstring") Trigger::unsetPersistent "
 (SBML Level 3 only) Unsets the 'persistent' attribute of this  Trigger
 instance.
-
-Parameter 'persistent' is a boolean representing the persistent value
-to be set.
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
@@ -27860,9 +27757,9 @@ Returns the SBML type code for this object: SBML_TRIGGER (default).
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -28155,9 +28052,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -28190,8 +28086,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this Delay
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -28218,18 +28114,11 @@ Delay(Delay orig)
 Copy constructor; creates a copy of this Delay.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") Delay::accept "
-Accepts the given SBMLVisitor for this instance of Delay.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit().
+Internal implementation method.
 ";
 
 
@@ -28363,9 +28252,9 @@ Returns the SBML type code for this object: SBML_DELAY (default).
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -28659,9 +28548,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -28700,8 +28588,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this Priority
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -28733,18 +28621,11 @@ Priority(Priority orig)
 Copy constructor; creates a copy of this Priority.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") Priority::accept "
-Accepts the given SBMLVisitor for this instance of Priority.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit().
+Internal implementation method.
 ";
 
 
@@ -28802,9 +28683,9 @@ Returns the SBML type code for this object: SBML_PRIORITY (default).\
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -29712,6 +29593,11 @@ functionally identical.
 ";
 
 
+%feature("docstring") SBO::getParentBranch "
+Internal implementation method.
+";
+
+
 %feature("docstring") SBO::isChildOf "
 Internal implementation method.
 ";
@@ -30249,9 +30135,8 @@ arguments.
 
 Parameter 'sbmlns' is an SBMLNamespaces object.
 
-Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+Throws SBMLConstructorException: Thrown if the given 'sbmlns' is
+inconsistent or incompatible with this object.
 
 Note:
 
@@ -30295,8 +30180,8 @@ Parameter 'version' is a long integer, the SBML Version to assign to
 this StoichiometryMath
 
 Throws SBMLConstructorException: Thrown if the given 'level' and
-'version' combination, or this kind of SBML object, are either invalid
-or mismatched with respect to the parent SBMLDocument object.
+'version' combination are invalid or if this object is incompatible
+with the given level and version.
 
 Note:
 
@@ -30333,18 +30218,11 @@ StoichiometryMath(StoichiometryMath orig)
 Copy constructor; creates a copy of this StoichiometryMath.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
 %feature("docstring") StoichiometryMath::accept "
-Accepts the given SBMLVisitor for this instance of StoichiometryMath.
-
-Parameter 'v' is the SBMLVisitor instance to be used.
-
-Returns the result of calling v.visit().
+Internal implementation method.
 ";
 
 
@@ -30502,9 +30380,9 @@ Returns the SBML type code for this object: SBML_STOICHIOMETRY_MATH
 WARNING:
 
 The specific integer values of the possible type codes may be reused
-by different Level 3 package plug-ins. Thus, to identifiy the correct
-code, it is necessary to invoke both getTypeCode() and
-getPackageName().
+by different libSBML plug-ins for SBML Level 3. packages,  To fully
+identify the correct code, it is necessary to invoke both
+getTypeCode() and getPackageName().
 
 See also getElementName(), getPackageName().
 ";
@@ -30694,9 +30572,6 @@ SBMLNamespaces(SBMLNamespaces orig)
 Copy constructor; creates a copy of a SBMLNamespaces.
 
 Parameter 'orig' is the SBMLNamespaces instance to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -31310,9 +31185,6 @@ Copy constructor; creates a copy of an ConversionOption object.
 
 Parameter 'orig' is the ConversionOption object to copy.
 
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
-
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -31587,33 +31459,9 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.5:
+provided by libSBML 5.13.0:
 
-* CobraToFbcConverter
-
-* CompFlatteningConverter
-
-* FbcToCobraConverter
-
-* SBMLFunctionDefinitionConverter
-
-* SBMLIdConverter
-
-* SBMLInferUnitsConverter
-
-* SBMLInitialAssignmentConverter
-
-* SBMLLevelVersionConverter
-
-* SBMLLocalParameterConverter
-
-* SBMLReactionConverter
-
-* SBMLRuleConverter
-
-* SBMLStripPackageConverter
-
-* SBMLUnitsConverter
+@copydetails doc_list_of_libsbml_converters
 
 See also ConversionOption, SBMLNamespaces.
 ";
@@ -31631,9 +31479,6 @@ ConversionProperties(ConversionProperties orig)
 Copy constructor.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -32090,33 +31935,9 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.5:
+provided by libSBML 5.13.0:
 
-* CobraToFbcConverter
-
-* CompFlatteningConverter
-
-* FbcToCobraConverter
-
-* SBMLFunctionDefinitionConverter
-
-* SBMLIdConverter
-
-* SBMLInferUnitsConverter
-
-* SBMLInitialAssignmentConverter
-
-* SBMLLevelVersionConverter
-
-* SBMLLocalParameterConverter
-
-* SBMLReactionConverter
-
-* SBMLRuleConverter
-
-* SBMLStripPackageConverter
-
-* SBMLUnitsConverter
+@copydetails doc_list_of_libsbml_converters
 ";
 
 
@@ -32141,9 +31962,6 @@ Copy constructor.
 This creates a copy of an SBMLConverter object.
 
 Parameter 'orig' is the SBMLConverter object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -32519,33 +32337,9 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.5:
+provided by libSBML 5.13.0:
 
-* CobraToFbcConverter
-
-* CompFlatteningConverter
-
-* FbcToCobraConverter
-
-* SBMLFunctionDefinitionConverter
-
-* SBMLIdConverter
-
-* SBMLInferUnitsConverter
-
-* SBMLInitialAssignmentConverter
-
-* SBMLLevelVersionConverter
-
-* SBMLLocalParameterConverter
-
-* SBMLReactionConverter
-
-* SBMLRuleConverter
-
-* SBMLStripPackageConverter
-
-* SBMLUnitsConverter
+@copydetails doc_list_of_libsbml_converters
 ";
 
 
@@ -32755,33 +32549,9 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.5:
+provided by libSBML 5.13.0:
 
-* CobraToFbcConverter
-
-* CompFlatteningConverter
-
-* FbcToCobraConverter
-
-* SBMLFunctionDefinitionConverter
-
-* SBMLIdConverter
-
-* SBMLInferUnitsConverter
-
-* SBMLInitialAssignmentConverter
-
-* SBMLLevelVersionConverter
-
-* SBMLLocalParameterConverter
-
-* SBMLReactionConverter
-
-* SBMLRuleConverter
-
-* SBMLStripPackageConverter
-
-* SBMLUnitsConverter
+@copydetails doc_list_of_libsbml_converters
 ";
 
 
@@ -32963,33 +32733,9 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.5:
+provided by libSBML 5.13.0:
 
-* CobraToFbcConverter
-
-* CompFlatteningConverter
-
-* FbcToCobraConverter
-
-* SBMLFunctionDefinitionConverter
-
-* SBMLIdConverter
-
-* SBMLInferUnitsConverter
-
-* SBMLInitialAssignmentConverter
-
-* SBMLLevelVersionConverter
-
-* SBMLLocalParameterConverter
-
-* SBMLReactionConverter
-
-* SBMLRuleConverter
-
-* SBMLStripPackageConverter
-
-* SBMLUnitsConverter
+@copydetails doc_list_of_libsbml_converters
 ";
 
 
@@ -33191,33 +32937,9 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.5:
+provided by libSBML 5.13.0:
 
-* CobraToFbcConverter
-
-* CompFlatteningConverter
-
-* FbcToCobraConverter
-
-* SBMLFunctionDefinitionConverter
-
-* SBMLIdConverter
-
-* SBMLInferUnitsConverter
-
-* SBMLInitialAssignmentConverter
-
-* SBMLLevelVersionConverter
-
-* SBMLLocalParameterConverter
-
-* SBMLReactionConverter
-
-* SBMLRuleConverter
-
-* SBMLStripPackageConverter
-
-* SBMLUnitsConverter
+@copydetails doc_list_of_libsbml_converters
 ";
 
 
@@ -33330,9 +33052,9 @@ SBML Level and Version combination are determined by the value of the
 SBML namespace set on the ConversionProperties object (using
 ConversionProperties.setTargetNamespaces()).
 
-In addition, this converter offers one option:
+In addition, this converter offers the following options:
 
-* 'strict': if this option has the value True, then the validity
+* 'strict': If this option has the value True, then the validity
 of the SBML document will be strictly preserved.  This means that SBML
 validation will be performed, and if the original model is not valid
 or semantics cannot be preserved in the converted model, then
@@ -33340,6 +33062,18 @@ conversion will not be performed.  Conversely, if this option is set
 to False, model conversion will always be performed; if any errors are
 detected related to altered semantics, the errors will be logged in
 the usual way (i.e., the error log on the SBMLDocument object).
+
+* 'addDefaultUnits': By default, a conversion from SBML Level 2 to
+Level 3 will explicitly add UnitDefinition objects and unit attributes
+on the Model object to define units that are implicitly defined in
+SBML Level 2.  This is usually desirable because in SBML Level 3,
+there are no default units and a conversion from Level 2 that did not
+add unit definitions would actually result in a loss of information.
+However, some users or software tools may not need or want this, or
+worse, may be fooled into thinking that libSBML has somehow inferred
+the proper units for model quantities.  (It has not; it merely adds
+generic predefined units.)  This option lets callers control this
+behavior.
 
 General information about the use of SBML converters
 ======================================================================
@@ -33410,33 +33144,9 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.5:
+provided by libSBML 5.13.0:
 
-* CobraToFbcConverter
-
-* CompFlatteningConverter
-
-* FbcToCobraConverter
-
-* SBMLFunctionDefinitionConverter
-
-* SBMLIdConverter
-
-* SBMLInferUnitsConverter
-
-* SBMLInitialAssignmentConverter
-
-* SBMLLevelVersionConverter
-
-* SBMLLocalParameterConverter
-
-* SBMLReactionConverter
-
-* SBMLRuleConverter
-
-* SBMLStripPackageConverter
-
-* SBMLUnitsConverter
+@copydetails doc_list_of_libsbml_converters
 ";
 
 
@@ -33552,6 +33262,14 @@ Returns True if strict validity has been requested, False otherwise.
 ";
 
 
+%feature("docstring") SBMLLevelVersionConverter::getAddDefaultUnits "
+Returns the flag indicating whether default units should be added when
+converting to L3 or not.
+
+Returns True if default units should be added, False otherwise.
+";
+
+
 %feature("docstring") SBMLLevelVersionConverter::conversion_errors "
 Internal implementation method.
 ";
@@ -33573,6 +33291,224 @@ Internal implementation method.
 
 
 %feature("docstring") SBMLLevelVersionConverter::validateConvertedDocument "
+Internal implementation method.
+";
+
+
+%feature("docstring") SBMLLevel1Version1Converter "
+Whole-document SBML Level/Version converter.
+
+This class of objects is defined by libSBML only and has no direct
+equivalent in terms of SBML components. It is a class used in the
+implementation of extra functionality provided by libSBML.
+
+This SBML converter takes an SBML document having one SBML
+Level+Version combination, and attempts to convert it to an SBML
+document having a different Level+Version combination.  This converter
+(SBMLLevel1Version1Converter) converts models to SBML Level 1 Version
+1, to the extent possible by the limited features of that
+Level/Version combination of SBML.
+
+Configuration and use of SBMLLevel1Version1Converter
+======================================================================
+
+SBMLLevel1Version1Converter is enabled by creating a
+ConversionProperties object with the option 'convertToL1V1', and
+passing this properties object to SBMLDocument.convert().  The target
+SBML Level and Version combination are determined by the value of the
+SBML namespace set on the ConversionProperties object (using
+ConversionProperties.setTargetNamespaces()).
+
+In addition, this converter offers the following options:
+
+* 'changePow': Mathematical expressions for exponentiation of the
+form pow(s1, 2) will be converted to the expression s1^2.
+
+* 'inlineCompartmentSizes': Back in the days of SBML Level 1
+Version 1, many software tools assumed that the 'kinetic laws' of SBML
+were written in terms of units of concentration/time.  These tools
+would not expect (and thus not handle) rate expressions such as
+CompartmentOfS1 * k * S1. When the option 'inlineCompartmentSizes' is
+enabled, libSBML will replace the references to compartments (such as
+'CompartmentOfS1' in this example) with their initial sizes.  This is
+not strictly correct in all cases; in particular, if the compartment
+volume varies during simulation, this conversion will not reflect the
+expected behavior. However, many models do not have time-varying
+compartment sizes, so this option makes it easy to get modern SBML
+rate expressions into a form that old software tools may better
+understand.
+
+General information about the use of SBML converters
+======================================================================
+
+The use of all the converters follows a similar approach.  First, one
+creates a ConversionProperties object and calls
+ConversionProperties.addOption() on this object with one arguments: a
+text string that identifies the desired converter.  (The text string
+is specific to each converter; consult the documentation for a given
+converter to find out how it should be enabled.)
+
+Next, for some converters, the caller can optionally set some
+converter-specific properties using additional calls to
+ConversionProperties.addOption(). Many converters provide the ability
+to configure their behavior to some extent; this is realized through
+the use of properties that offer different options.  The default
+property values for each converter can be interrogated using the
+method SBMLConverter.getDefaultProperties() on the converter class in
+question .
+
+Finally, the caller should invoke the method SBMLDocument.convert()
+with the ConversionProperties object as an argument.
+
+Example of invoking an SBML converter
+......................................................................
+
+The following code fragment illustrates an example using
+SBMLReactionConverter, which is invoked using the option string
+'replaceReactions':
+
+  config = ConversionProperties()
+  if config != None:
+    config.addOption(\'replaceReactions\')
+
+In the case of SBMLReactionConverter, there are no options to affect
+its behavior, so the next step is simply to invoke the converter on an
+SBMLDocument object.  Continuing the example code:
+
+    # Assume that the variable \'document\' has been set to an SBMLDocument object.
+    status = document.convert(config)
+    if status != LIBSBML_OPERATION_SUCCESS:
+      # Handle error somehow.
+      print(\'Error: conversion failed due to the following:\')
+      document.printErrors()
+
+Here is an example of using a converter that offers an option. The
+following code invokes SBMLStripPackageConverter to remove the SBML
+Level 3 Layout package from a model.  It sets the name of the package
+to be removed by adding a value for the option named 'package' defined
+by that converter:
+
+  def strip_layout_example(document):
+    config = ConversionProperties()
+    if config != None:
+      config.addOption(\'stripPackage\')
+      config.addOption(\'package\', \'layout\')
+      status = document.convert(config)
+      if status != LIBSBML_OPERATION_SUCCESS:
+        # Handle error somehow.
+        print(\'Error: unable to strip the Layout package.\')
+        print(\'LibSBML returned error: \' + OperationReturnValue_toString(status).strip())
+    else:
+      # Handle error somehow.
+      print(\'Error: unable to create ConversionProperties object\')
+
+Available SBML converters in libSBML
+......................................................................
+
+LibSBML provides a number of built-in converters; by convention, their
+names end in Converter. The following are the built-in converters
+provided by libSBML 5.13.0:
+
+@copydetails doc_list_of_libsbml_converters
+";
+
+
+%feature("docstring") SBMLLevel1Version1Converter::init "
+Internal implementation method.
+";
+
+
+%feature("docstring") SBMLLevel1Version1Converter::SBMLLevel1Version1Converter "
+This method has multiple variants; they differ in the arguments  they
+accept.  Each variant is described separately below.
+
+______________________________________________________________________
+Method variant with the following signature:
+
+SBMLLevel1Version1Converter()
+
+Creates a new SBMLLevel1Version1Converter object.
+
+______________________________________________________________________
+Method variant with the following signature:
+
+SBMLLevel1Version1Converter(SBMLLevel1Version1Converter obj)
+
+Copy constructor; creates a copy of an SBMLLevel1Version1Converter
+object.
+
+Parameter 'obj' is the SBMLLevel1Version1Converter object to copy.
+";
+
+
+%feature("docstring") SBMLLevel1Version1Converter::clone "
+Creates and returns a deep copy of this SBMLLevel1Version1Converter
+object.
+
+Returns a (deep) copy of this converter.
+";
+
+
+%feature("docstring") SBMLLevel1Version1Converter::matchesProperties "
+Returns True if this converter object's properties match the given
+properties.
+
+A typical use of this method involves creating a ConversionProperties
+object, setting the options desired, and then calling this method on
+an SBMLLevel1Version1Converter object to find out if the object's
+property values match the given ones.  This method is also used by
+SBMLConverterRegistry.getConverterFor() to search across all
+registered converters for one matching particular properties.
+
+Parameter 'props' is the properties to match.
+
+Returns True if this converter's properties match, False otherwise.
+";
+
+
+%feature("docstring") SBMLLevel1Version1Converter::convert "
+Perform the conversion.
+
+This method causes the converter to do the actual conversion work,
+that is, to convert the SBMLDocument object set by
+SBMLConverter.setDocument() and with the configuration options set by
+SBMLConverter.setProperties().
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_OPERATION_FAILED
+
+* LIBSBML_CONV_INVALID_TARGET_NAMESPACE
+
+* LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE
+
+* LIBSBML_CONV_INVALID_SRC_DOCUMENT
+";
+
+
+%feature("docstring") SBMLLevel1Version1Converter::getDefaultProperties "
+Returns the default properties of this converter.
+
+A given converter exposes one or more properties that can be adjusted
+in order to influence the behavior of the converter.  This method
+returns the default property settings for this converter.  It is meant
+to be called in order to discover all the settings for the converter
+object.
+
+Returns the ConversionProperties object describing the default
+properties for this converter.
+";
+
+
+%feature("docstring") SBMLLevel1Version1Converter::inlineCompartmentSizes "
+Internal implementation method.
+";
+
+
+%feature("docstring") SBMLLevel1Version1Converter::shouldChangePow "
 Internal implementation method.
 ";
 
@@ -33675,33 +33611,9 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.5:
+provided by libSBML 5.13.0:
 
-* CobraToFbcConverter
-
-* CompFlatteningConverter
-
-* FbcToCobraConverter
-
-* SBMLFunctionDefinitionConverter
-
-* SBMLIdConverter
-
-* SBMLInferUnitsConverter
-
-* SBMLInitialAssignmentConverter
-
-* SBMLLevelVersionConverter
-
-* SBMLLocalParameterConverter
-
-* SBMLReactionConverter
-
-* SBMLRuleConverter
-
-* SBMLStripPackageConverter
-
-* SBMLUnitsConverter
+@copydetails doc_list_of_libsbml_converters
 ";
 
 
@@ -33883,33 +33795,9 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.5:
+provided by libSBML 5.13.0:
 
-* CobraToFbcConverter
-
-* CompFlatteningConverter
-
-* FbcToCobraConverter
-
-* SBMLFunctionDefinitionConverter
-
-* SBMLIdConverter
-
-* SBMLInferUnitsConverter
-
-* SBMLInitialAssignmentConverter
-
-* SBMLLevelVersionConverter
-
-* SBMLLocalParameterConverter
-
-* SBMLReactionConverter
-
-* SBMLRuleConverter
-
-* SBMLStripPackageConverter
-
-* SBMLUnitsConverter
+@copydetails doc_list_of_libsbml_converters
 ";
 
 
@@ -34180,33 +34068,9 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.5:
+provided by libSBML 5.13.0:
 
-* CobraToFbcConverter
-
-* CompFlatteningConverter
-
-* FbcToCobraConverter
-
-* SBMLFunctionDefinitionConverter
-
-* SBMLIdConverter
-
-* SBMLInferUnitsConverter
-
-* SBMLInitialAssignmentConverter
-
-* SBMLLevelVersionConverter
-
-* SBMLLocalParameterConverter
-
-* SBMLReactionConverter
-
-* SBMLRuleConverter
-
-* SBMLStripPackageConverter
-
-* SBMLUnitsConverter
+@copydetails doc_list_of_libsbml_converters
 ";
 
 
@@ -34320,6 +34184,17 @@ converter takes one required option:
 * 'package': the value of this option should be a text string, the
 nickname of the SBML Level 3 package to be stripped from the model.
 
+In addition, the converter understands an additional optional:
+
+* 'stripAllUnrecognized': if set to True, the converter will
+remove all SBML Level 3 package constructs for Level 3 packages that
+this copy of libSBML does not recognize.  Note that what a given copy
+of libSBML recognizes is determined by which plug-ins it has been
+configured to include.  If this option is enabled, it may remove SBML
+Level 3 package constructs that are legitimate in the sense that they
+are officially defined SBML constructs, but not recognized because the
+running copy of libSBML has not had support enabled for them.
+
 General information about the use of SBML converters
 ======================================================================
 
@@ -34389,33 +34264,9 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.5:
+provided by libSBML 5.13.0:
 
-* CobraToFbcConverter
-
-* CompFlatteningConverter
-
-* FbcToCobraConverter
-
-* SBMLFunctionDefinitionConverter
-
-* SBMLIdConverter
-
-* SBMLInferUnitsConverter
-
-* SBMLInitialAssignmentConverter
-
-* SBMLLevelVersionConverter
-
-* SBMLLocalParameterConverter
-
-* SBMLReactionConverter
-
-* SBMLRuleConverter
-
-* SBMLStripPackageConverter
-
-* SBMLUnitsConverter
+@copydetails doc_list_of_libsbml_converters
 ";
 
 
@@ -34624,33 +34475,9 @@ Available SBML converters in libSBML
 
 LibSBML provides a number of built-in converters; by convention, their
 names end in Converter. The following are the built-in converters
-provided by libSBML 5.11.5:
+provided by libSBML 5.13.0:
 
-* CobraToFbcConverter
-
-* CompFlatteningConverter
-
-* FbcToCobraConverter
-
-* SBMLFunctionDefinitionConverter
-
-* SBMLIdConverter
-
-* SBMLInferUnitsConverter
-
-* SBMLInitialAssignmentConverter
-
-* SBMLLevelVersionConverter
-
-* SBMLLocalParameterConverter
-
-* SBMLReactionConverter
-
-* SBMLRuleConverter
-
-* SBMLStripPackageConverter
-
-* SBMLUnitsConverter
+@copydetails doc_list_of_libsbml_converters
 ";
 
 
@@ -34868,9 +34695,6 @@ SBMLValidator(SBMLValidator orig)
 Copy constructor; creates a copy of an SBMLValidator object.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
@@ -35182,8 +35006,6 @@ XMLAttributes(XMLAttributes orig)
 Copy constructor; creates a copy of this XMLAttributes object.
 
 'orig' the XMLAttributes object to copy.
-
-Throws XMLConstructorException: Thrown if the argument 'orig' is None.
 ";
 
 
@@ -36067,8 +35889,6 @@ Parameter 'name' is a string, the name of the attribute.
 Parameter 'value' is a Boolean, the return parameter into which the
 value should be assigned.
 
-@copydetails doc_read_methods_common_args
-
 Parameter 'log' is an XMLErrorLog object, an optional error log for
 reporting problems.
 
@@ -36583,8 +36403,6 @@ XMLNamespaces(XMLNamespaces orig)
 Copy constructor; creates a copy of this XMLNamespaces list.
 
 Parameter 'orig' is the XMLNamespaces object to copy
-
-Throws XMLConstructorException: Thrown if the argument 'orig' is None.
 ";
 
 
@@ -36937,8 +36755,6 @@ Copy constructor; creates a copy of this XMLToken object.
 
 Parameter 'orig' is the XMLToken object to copy.
 
-Throws XMLConstructorException: Thrown if the argument 'orig' is None.
-
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -37053,9 +36869,6 @@ the token (default = 0).
 
 Parameter 'column' is a long integer, the column number to associate
 with the token (default = 0).
-
-Throws XMLConstructorException: Thrown if the argument 'chars' is
-None.
 
 Documentation note: The native C++ implementation of this method
 defines a default argument value. In the documentation generated for
@@ -38170,8 +37983,6 @@ Copy constructor; creates a copy of this XMLNode.
 
 Parameter 'orig' is the XMLNode instance to copy.
 
-Throws XMLConstructorException: Thrown if the argument 'orig' is None.
-
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -38519,9 +38330,6 @@ this object. Parameter 'uri' is a string, the XML namespace URI
 associated with the prefix. Parameter 'prefix' is a string, the XML
 namespace prefix for this triple.
 
-Throws XMLConstructorException: Thrown if any of the arguments are
-None.
-
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -38540,9 +38348,6 @@ where x represents the separator character, 'sepchar'.
 Parameter 'triplet' is a string representing the triplet as shown
 above Parameter 'sepchar' is a character, the sepchar used in the
 triplet
-
-Throws XMLConstructorException: Thrown if the argument 'triplet' is
-None.
 
 Documentation note: The native C++ implementation of this method
 defines a default argument value. In the documentation generated for
@@ -38571,8 +38376,6 @@ XMLTriple(XMLTriple orig)
 Copy constructor; creates a copy of this XMLTriple object.
 
 Parameter 'orig' is the XMLTriple object to copy.
-
-Throws XMLConstructorException: Thrown if the argument 'orig' is None.
 ";
 
 
@@ -39118,6 +38921,9 @@ comment in the output stream.
 
 Parameter 'programVersion' is an optional version identification
 string to write as a comment in the output stream.
+
+Parameter 'writeTimestamp' is an optional flag indicating that a
+timestamp should be written
 ";
 
 
@@ -39163,6 +38969,59 @@ Returns the SBMLNamespaces object, or None if none has been set.
 Sets the SBMLNamespaces object associated with this output stream.
 
 Parameter 'sbmlns' is the namespace object.
+";
+
+
+%feature("docstring") XMLOutputStream::getWriteComment "
+Returns a boolean, whether the output stream will write an XML comment
+at the top of the file. (Enabled by default)
+";
+
+
+%feature("docstring") XMLOutputStream::setWriteComment "
+sets a flag, whether the output stream will write an XML comment at
+the top of the file. (Enabled by default)
+
+Parameter 'writeComment' is the flag
+";
+
+
+%feature("docstring") XMLOutputStream::getWriteTimestamp "
+Returns a boolean, whether the output stream will write an XML comment
+with a timestamp at the top of the file. (Enabled by default)
+";
+
+
+%feature("docstring") XMLOutputStream::setWriteTimestamp "
+sets a flag, whether the output stream will write an XML comment with
+a timestamp at the top of the file. (Enabled by default)
+
+Parameter 'writeTimestamp' is the flag
+";
+
+
+%feature("docstring") XMLOutputStream::getLibraryName "
+Returns the name of the library to be used in comments ('libSBML' by
+default)
+";
+
+
+%feature("docstring") XMLOutputStream::setLibraryName "
+sets the name of the library writing the XML Parameter 'libraryName'
+is the name of the library to be used in comments
+";
+
+
+%feature("docstring") XMLOutputStream::getLibraryVersion "
+Returns a string representing the version of the library writing the
+output. This is the value of getLibSBMLDottedVersion() by default.
+";
+
+
+%feature("docstring") XMLOutputStream::setLibraryVersion "
+sets the name of the library writing the output
+
+Parameter 'libraryVersion' is the version information as string
 ";
 
 
@@ -39470,6 +39329,31 @@ element 'container'.
 ";
 
 
+%feature("docstring") XMLInputStream::containsChild "
+Predicate returning True if a child token of the specified type occurs
+within a given container element.
+
+This method allows information from the input stream to be determined
+without the need to actually read and consume the tokens in the
+stream. It returns True if the 'childName' element occurs at any point
+within the element specified by 'container'.
+
+Parameter 'childName' is a string representing the name of the child
+element whose presence is to be determined.
+
+Parameter 'container' is a string representing the name of the element
+for which the presence of the child element is to be determined.
+
+Returns boolean True if a child of type 'childName' occurs within  the
+'container' element, False otherwise.
+
+Note:
+
+This method assumes the stream has been read up to and including the
+element 'container'.
+";
+
+
 %feature("docstring") XMLInputStream::queueToken "
 Internal implementation method.
 ";
@@ -39639,8 +39523,6 @@ XMLError(XMLError orig)
 Copy constructor; creates a copy of this XMLError.
 
 'orig' the XMLError object to copy.
-
-Throws XMLConstructorException: Thrown if the argument 'orig' is None.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -41484,7 +41366,7 @@ of its meaning.
 with SBMLError objects
 ......................................................................
 
-In libSBML version 5.11.5 there are no additional severity codes
+In libSBML version 5.13.0 there are no additional severity codes
 beyond those defined by XMLError. They are implemented as static
 integer constants defined in the interface class libsbml, and have
 names beginning with LIBSBML_SEV_.
@@ -41797,9 +41679,6 @@ Copy constructor; creates a copy of a CVTerm object.
 
 Parameter 'orig' is the CVTerm instance to copy.
 
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
-
 ______________________________________________________________________
 Method variant with the following signature:
 
@@ -41870,7 +41749,7 @@ relationships.  Please refer to the SBML specification or the
 BioModels.net qualifiers web page for an explanation of the meaning of
 these different qualifiers.
 
-Parameter 'type' is a qualifier type
+Parameter 'type' is a qualifier type.
 
 Documentation note: The native C++ implementation of this method
 defines a default argument value. In the documentation generated for
@@ -41944,8 +41823,8 @@ to call to find out the specific relationship.
 Returns the qualifier type of this object or UNKNOWN_QUALIFIER (the
 default).
 
-See also CVTerm.getResources(), CVTerm.getModelQualifierType(),
-CVTerm.getBiologicalQualifierType().
+See also getResources(), getModelQualifierType(),
+getBiologicalQualifierType().
 ";
 
 
@@ -42144,8 +42023,7 @@ value for the relationship qualifier.
 
 Returns the XMLAttributes that store the resources of this CVTerm.
 
-See also CVTerm.getQualifierType(), CVTerm.addResource(),
-CVTerm.getResourceURI().
+See also getQualifierType(), addResource(), getResourceURI().
 ";
 
 
@@ -42184,7 +42062,7 @@ CVTerm object.
 Returns the number of resources in the set of XMLAttributes of this
 CVTerm.
 
-See also CVTerm.getResources(), CVTerm.getResourceURI().
+See also getResources(), getResourceURI().
 ";
 
 
@@ -42222,12 +42100,12 @@ relationship. Callers can use CVTerm.getNumResources() to find out how
 many resources are stored in this CVTerm object, then call this method
 to retrieve the nth resource URI.
 
-Parameter 'n' is the index of the resource to query
+Parameter 'n' is the index of the resource to query.
 
 Returns string representing the value of the nth resource in the set
 of XMLAttributes of this CVTerm.
 
-See also CVTerm.getNumResources(), CVTerm.getQualifierType().
+See also getNumResources(), getQualifierType().
 ";
 
 
@@ -42241,7 +42119,7 @@ The possible values returned by this function are:
 
 * LIBSBML_OPERATION_SUCCESS
 
-See also CVTerm.getQualifierType().
+See also getQualifierType().
 ";
 
 
@@ -42256,7 +42134,7 @@ setModelQualifierType(string qualifier)
 
 Sets the model qualifier type value of this CVTerm object.
 
-Parameter 'qualifier' is the string representing a model qualifier
+Parameter 'qualifier' is the string representing a model qualifier.
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
@@ -42270,8 +42148,8 @@ Note:
 If the Qualifier Type of this object is not MODEL_QUALIFIER,  then the
 model qualifier type will default to BQM_UNKNOWN.
 
-See also CVTerm.getQualifierType(), CVTerm.setQualifierType(),
-CVTerm.getQualifierType(), CVTerm.setQualifierType().
+See also getQualifierType(), setQualifierType(), getQualifierType(),
+setQualifierType().
 ";
 
 
@@ -42286,7 +42164,7 @@ setBiologicalQualifierType(string qualifier)
 
 Sets the biology qualifier type code of this CVTerm object.
 
-Parameter 'qualifier' is the string representing a biology qualifier
+Parameter 'qualifier' is the string representing a biology qualifier.
 
 Returns integer value indicating success/failure of the function.
 The possible values returned by this function are:
@@ -42300,8 +42178,8 @@ Note:
 If the Qualifier Type of this object is not BIOLOGICAL_QUALIFIER, then
 the biology qualifier type code will default to BQB_UNKNOWN.
 
-See also CVTerm.getQualifierType(), CVTerm.setQualifierType(),
-CVTerm.getQualifierType(), CVTerm.setQualifierType().
+See also getQualifierType(), setQualifierType(), getQualifierType(),
+setQualifierType().
 ";
 
 
@@ -42376,9 +42254,8 @@ The possible values returned by this function are:
 
 * LIBSBML_OPERATION_FAILED
 
-See also CVTerm.getResources(), CVTerm.removeResource(),
-CVTerm.getQualifierType(), CVTerm.getModelQualifierType(),
-CVTerm.getBiologicalQualifierType().
+See also getResources(), removeResource(), getQualifierType(),
+getModelQualifierType(), getBiologicalQualifierType().
 ";
 
 
@@ -42398,7 +42275,7 @@ The possible values returned by this function are:
 
 * LIBSBML_INVALID_ATTRIBUTE_VALUE
 
-See also CVTerm.addResource().
+See also addResource().
 ";
 
 
@@ -42428,32 +42305,137 @@ Internal implementation method.
 
 
 %feature("docstring") CVTerm::getNumNestedCVTerms "
-Internal implementation method.
+Returns the number of CVTerm objects nested within this CVTerm object.
+
+Returns the number of CVTerms nested within this CVTerm object.
+
+Note:
+
+this does not recurse through potentially nested CVTerm objects within
+a given nested CVTerm. It returns the number of terms immediately
+nested within this CVTerm.
 ";
 
 
 %feature("docstring") CVTerm::getNestedCVTerm "
-Internal implementation method.
+Returns the nth CVTerm in the list of CVTerms of this CVTerm object.
+
+Parameter 'n' is long the index of the CVTerm to retrieve.
+
+Returns the nth CVTerm in the list of CVTerms for this CVTerm object.
 ";
 
 
 %feature("docstring") CVTerm::getListNestedCVTerms "
-Internal implementation method.
+Returns a list of CVTerm objects contained within this CVTerm object.
+
+Returns the list of CVTerms for this CVTerm object.
 ";
 
 
 %feature("docstring") CVTerm::addNestedCVTerm "
-Internal implementation method.
+Adds a copy of the given CVTerm object to the list of nested CVTerm
+objects within this CVTerm object.
+
+Parameter 'term' is the CVTerm to assign.
+
+Returns integer value indicating success/failure of the function.
+The possible values returned by this function are:
+
+* LIBSBML_OPERATION_SUCCESS
+
+* LIBSBML_OPERATION_FAILED
+
+* LIBSBML_INVALID_OBJECT
 ";
 
 
 %feature("docstring") CVTerm::removeNestedCVTerm "
-Internal implementation method.
+Removes the nth CVTerm in the list of CVTerms of this CVTerm object
+and returns a pointer to it.
+
+Parameter 'n' is long the index of the CVTerm to retrieve.
+
+Returns a pointer to the nth CVTerm in the list of CVTerms for this
+CVTerm object.
 ";
 
 
 %feature("docstring") CVTerm::setHasBeenModifiedFlag "
 Internal implementation method.
+";
+
+
+%feature("docstring") ModelQualifierType_toString "
+This method takes a model qualifier type code and returns a string
+representing the code.
+
+This method takes a model qualifier type as argument and returns a
+string name corresponding to that code.  For example, passing it the
+qualifier BQM_IS_DESCRIBED_BY will return the string 'isDescribedBy'.
+
+Parameter 'type' is The  value to translate. The value should be a
+libSBML constant whose name begins with BQM_, such as (for example)
+BQM_IS.
+
+Returns a human readable qualifier name for the given qualifier type.
+
+Note:
+
+The caller does not own the returned string and is therefore not
+allowed to modify it.
+";
+
+
+%feature("docstring") BiolQualifierType_toString "
+This method takes a biol qualifier type code and returns a string
+representing the code.
+
+This method takes a biol qualifier type as argument and returns a
+string name corresponding to that code.  For example, passing it the
+qualifier BQB_HAS_VERSION will return the string 'hasVersion'.
+
+Parameter 'type' is The  value to translate. The value should be a
+constant whose name begins with BQB_, such as (for example) BQB_IS.
+
+Returns a human readable qualifier name for the given type.
+
+Note:
+
+The caller does not own the returned string and is therefore not
+allowed to modify it.
+";
+
+
+%feature("docstring") ModelQualifierType_fromString "
+This method takes a a string and returns a model qualifier
+representing the string.
+
+This method takes a string as argument and returns a model qualifier
+type corresponding to that string.  For example, passing it the string
+'isDescribedBy' will return the qualifier BQM_IS_DESCRIBED_BY.
+
+Parameter 's' is The string to translate to a libSBML constant value
+representing a model qualifier.
+
+Returns a libSBML qualifier enumeration value for the given human
+readable qualifier name.
+";
+
+
+%feature("docstring") BiolQualifierType_fromString "
+This method takes a a string and returns a biol qualifier representing
+the string.
+
+This method takes a string as argument and returns a biol qualifier
+type corresponding to that string.  For example, passing it the string
+'hasVersion' will return the qualifier BQB_HAS_VERSION.
+
+Parameter 's' is The string to translate to a libSBML constant value
+representing a biological qualifier.
+
+Returns a libSBML qualifier enumeration value for the given human
+readable qualifier name.
 ";
 
 
@@ -42678,9 +42660,6 @@ Date(Date orig)
 Copy constructor; creates a copy of this Date.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
@@ -43108,9 +43087,6 @@ ModelCreator(ModelCreator orig)
 Copy constructor; creates a copy of the ModelCreator.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 ";
 
 
@@ -43462,9 +43438,6 @@ ModelHistory(ModelHistory orig)
 Copy constructor; creates a copy of this ModelHistory object.
 
 Parameter 'orig' is the object to copy.
-
-Throws SBMLConstructorException: Thrown if the argument 'orig' is
-None.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -44416,8 +44389,7 @@ be found, this method returns the result of getElementNamespace().
 Returns a string, the URI of the XML namespace to which this object
 belongs.
 
-See also getPackageName(), getElementNamespace(),
-SBMLDocument.getSBMLNamespaces(), getSBMLDocument().
+See also getPackageName(), getElementNamespace(), getSBMLDocument().
 ";
 
 
@@ -44510,6 +44482,75 @@ Internal implementation method.
 ";
 
 
+%feature("docstring") SBasePlugin::renameSIdRefs "
+Replaces all uses of a given SIdRef type attribute value with another
+value.
+
+In SBML, object identifiers are of a data type called SId. In SBML
+Level 3, an explicit data type called SIdRef was introduced for
+attribute values that refer to SId values; in previous Levels of SBML,
+this data type did not exist and attributes were simply described to
+as 'referring to an identifier', but the effective data type was the
+same as SIdRefin Level 3.  These and other methods of libSBML refer to
+the type SIdRef for all Levels of SBML, even if the corresponding SBML
+specification did not explicitly name the data type.
+
+This method works by looking at all attributes and (if appropriate)
+mathematical formulas in MathML content, comparing the referenced
+identifiers to the value of 'oldid'.  If any matches are found, the
+matching values are replaced with 'newid'.  The method does not
+descend into child elements.
+
+Parameter 'oldid' is the old identifier Parameter 'newid' is the new
+identifier
+";
+
+
+%feature("docstring") SBasePlugin::renameMetaIdRefs "
+Replaces all uses of a given meta identifier attribute value with
+another value.
+
+In SBML, object 'meta' identifiers are of the XML data type ID; the
+SBML object attribute itself is typically named metaid.  All
+attributes that hold values referring to values of type ID are of the
+XML data type IDREF.  They are also sometimes informally referred to
+as 'metaid refs', in analogy to the SBML-defined type SIdRef.
+
+This method works by looking at all meta-identifier attribute values,
+comparing the identifiers to the value of 'oldid'.  If any matches are
+found, the matching identifiers are replaced with 'newid'.  The method
+does not descend into child elements.
+
+Parameter 'oldid' is the old identifier Parameter 'newid' is the new
+identifier
+";
+
+
+%feature("docstring") SBasePlugin::renameUnitSIdRefs "
+Replaces all uses of a given UnitSIdRef type attribute value with
+another value.
+
+In SBML, unit definitions have identifiers of type UnitSId.  In SBML
+Level 3, an explicit data type called UnitSIdRef was introduced for
+attribute values that refer to UnitSId values; in previous Levels of
+SBML, this data type did not exist and attributes were simply
+described to as 'referring to a unit identifier', but the effective
+data type was the same as UnitSIdRef in Level 3.  These and other
+methods of libSBML refer to the type UnitSIdRef for all Levels of
+SBML, even if the corresponding SBML specification did not explicitly
+name the data type.
+
+This method works by looking at all unit identifier attribute values
+(including, if appropriate, inside mathematical formulas), comparing
+the referenced unit identifiers to the value of 'oldid'.  If any
+matches are found, the matching values are replaced with 'newid'.  The
+method does not descend into child elements.
+
+Parameter 'oldid' is the old identifier Parameter 'newid' is the new
+identifier
+";
+
+
 %feature("docstring") SBasePlugin::transformIdentifiers "
 Internal implementation method.
 ";
@@ -44541,6 +44582,11 @@ Internal implementation method.
 
 
 %feature("docstring") SBasePlugin::accept "
+Internal implementation method.
+";
+
+
+%feature("docstring") SBasePlugin::getSBMLExtension "
 Internal implementation method.
 ";
 
@@ -45151,6 +45197,11 @@ used by the document.
 ";
 
 
+%feature("docstring") SBMLExtension::hasMultipleVersions "
+Internal implementation method.
+";
+
+
 %feature("docstring") SBMLExtension::getErrorTableIndex "
 Internal implementation method.
 ";
@@ -45754,106 +45805,6 @@ Internal implementation method.
 
 
 %feature("docstring") ASTBase::logError "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::isChild "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::setIsChildFlag "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::getClass "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::getId "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::getStyle "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::getParentSBMLObject "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::isSetClass "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::isSetId "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::isSetStyle "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::isSetParentSBMLObject "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::setClass "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::setId "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::setStyle "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::setParentSBMLObject "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::unsetClass "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::unsetId "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::unsetStyle "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::unsetParentSBMLObject "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::getFunction "
-Internal implementation method.
-";
-
-
-%feature("docstring") ASTBase::addPlugin "
 Internal implementation method.
 ";
 
@@ -47862,6 +47813,11 @@ Internal implementation method.
 ";
 
 
+%feature("docstring") ASTNode::getNumPiece "
+Internal implementation method.
+";
+
+
 %feature("docstring") ASTNode::containsVariable "
 Internal implementation method.
 ";
@@ -47923,6 +47879,36 @@ Internal implementation method.
 
 
 %feature("docstring") ASTNode::getFunction "
+Internal implementation method.
+";
+
+
+%feature("docstring") MathML::setPrefix "
+Internal implementation method.
+";
+
+
+%feature("docstring") MathML::readMathML "
+Internal implementation method.
+";
+
+
+%feature("docstring") MathML::writeMathML "
+Internal implementation method.
+";
+
+
+%feature("docstring") MathML::hasSeriousErrors "
+Internal implementation method.
+";
+
+
+%feature("docstring") MathML::writeOpenMathElement "
+Internal implementation method.
+";
+
+
+%feature("docstring") MathML::writeCloseMathElement "
 Internal implementation method.
 ";
 
@@ -48079,7 +48065,7 @@ provided by libSBML's newer and more powerful Level 3-oriented formula
 parser and formatter.  The entry points to this second system are
 parseL3Formula() and formulaToL3String().  The Level 1-oriented system
 (i.e., what is provided by formulaToString() and parseFormula()) is
-provided  untouched for backwards compatibility.
+provided untouched for backwards compatibility.
 
 Note:
 
@@ -48515,7 +48501,7 @@ provided by libSBML's newer and more powerful Level 3-oriented formula
 parser and formatter.  The entry points to this second system are
 parseL3Formula() and formulaToL3String().  The Level 1-oriented system
 (i.e., what is provided by formulaToString() and parseFormula()) is
-provided  untouched for backwards compatibility.
+provided untouched for backwards compatibility.
 
 Note:
 
@@ -50065,6 +50051,21 @@ Internal implementation method.
 
 
 %feature("docstring") ASTBasePlugin::getNameFromType "
+Internal implementation method.
+";
+
+
+%feature("docstring") ASTBasePlugin::renameSIdRefs "
+Internal implementation method.
+";
+
+
+%feature("docstring") ASTBasePlugin::renameUnitSIdRefs "
+Internal implementation method.
+";
+
+
+%feature("docstring") ASTBasePlugin::replaceIDWithFunction "
 Internal implementation method.
 ";
 

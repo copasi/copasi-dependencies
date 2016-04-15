@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -2517,10 +2517,18 @@ ASTNode::replaceArgument(const std::string bvar, ASTNode * arg)
       else if (arg->isReal())
       {
         this->setValue(arg->getReal());
+        if (arg->isSetUnits())
+        {
+          this->setUnits(arg->getUnits());
+        }
       }
       else if (arg->isInteger())
       {
         this->setValue(arg->getInteger());
+        if (arg->isSetUnits())
+        {
+          this->setUnits(arg->getUnits());
+        }
       }
       else if (arg->isConstant())
       {
@@ -2551,10 +2559,18 @@ ASTNode::replaceArgument(const std::string bvar, ASTNode * arg)
         else if (arg->isReal())
         {
           getChild(i)->setValue(arg->getReal());
+          if (arg->isSetUnits())
+          {
+            getChild(i)->setUnits(arg->getUnits());
+          }
         }
         else if (arg->isInteger())
         {
           getChild(i)->setValue(arg->getInteger());
+          if (arg->isSetUnits())
+          {
+            getChild(i)->setUnits(arg->getUnits());
+          }
         }
         else if (arg->isConstant())
         {

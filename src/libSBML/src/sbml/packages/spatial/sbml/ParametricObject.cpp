@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -95,26 +95,18 @@ ParametricObject::ParametricObject (SpatialPkgNamespaces* spatialns)
  */
 ParametricObject::ParametricObject (const ParametricObject& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mPolygonType  ( orig.mPolygonType)
+  , mDomainType  ( orig.mDomainType)
+  , mPointIndex  ( NULL)
+  , mPointIndexLength  ( orig.mPointIndexLength)
+  , mIsSetPointIndexLength  ( orig.mIsSetPointIndexLength)
+  , mCompression  ( orig.mCompression)
+  , mDataType  ( orig.mDataType)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mPolygonType  = orig.mPolygonType;
-    mDomainType  = orig.mDomainType;
-    mPointIndex  = NULL;
-    setPointIndex(orig.mPointIndex, orig.mPointIndexLength);
-    mPointIndexLength  = orig.mPointIndexLength;
-    mIsSetPointIndexLength  = orig.mIsSetPointIndexLength;
-    mCompression  = orig.mCompression;
-    mDataType  = orig.mDataType;
-
-    // connect to child objects
-    connectToChild();
-  }
+  setPointIndex(orig.mPointIndex, orig.mPointIndexLength);
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -124,11 +116,7 @@ ParametricObject::ParametricObject (const ParametricObject& orig)
 ParametricObject&
 ParametricObject::operator=(const ParametricObject& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
@@ -356,11 +344,7 @@ ParametricObject::setPolygonType(const std::string& polygonType)
 int
 ParametricObject::setDomainType(const std::string& domainType)
 {
-  if (&(domainType) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(domainType)))
+  if (!(SyntaxChecker::isValidInternalSId(domainType)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -568,6 +552,7 @@ ParametricObject::unsetDataType()
 void
 ParametricObject::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetDomainType() == true && mDomainType == oldid)
   {
     setDomainType(newid);
@@ -741,7 +726,7 @@ ParametricObject::createObject(XMLInputStream& stream)
 {
   SBase* object = NULL;
 
-  const string& name = stream.peek().getName();
+  //const string& name = stream.peek().getName();
 
   connectToChild();
 

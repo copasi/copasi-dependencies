@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -85,21 +85,14 @@ SpatialPoints::SpatialPoints (SpatialPkgNamespaces* spatialns)
  */
 SpatialPoints::SpatialPoints (const SpatialPoints& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mCompression  ( orig.mCompression)
+  , mArrayData  ( NULL)
+  , mArrayDataLength  ( orig.mArrayDataLength)
+  , mIsSetArrayDataLength  ( orig.mIsSetArrayDataLength)
+  , mDataType  ( orig.mDataType)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mCompression  = orig.mCompression;
-    mArrayData  = NULL;
-    setArrayData(orig.mArrayData, orig.mArrayDataLength);
-    mArrayDataLength  = orig.mArrayDataLength;
-    mIsSetArrayDataLength  = orig.mIsSetArrayDataLength;
-    mDataType  = orig.mDataType;
-  }
+  setArrayData(orig.mArrayData, orig.mArrayDataLength);
 }
 
 
@@ -109,11 +102,7 @@ SpatialPoints::SpatialPoints (const SpatialPoints& orig)
 SpatialPoints&
 SpatialPoints::operator=(const SpatialPoints& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;

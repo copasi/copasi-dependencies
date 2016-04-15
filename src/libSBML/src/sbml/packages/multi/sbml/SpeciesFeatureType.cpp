@@ -85,22 +85,14 @@ SpeciesFeatureType::SpeciesFeatureType (MultiPkgNamespaces* multins)
  */
 SpeciesFeatureType::SpeciesFeatureType (const SpeciesFeatureType& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mName  ( orig.mName)
+  , mOccur  ( orig.mOccur)
+  , mIsSetOccur  ( orig.mIsSetOccur)
+  , mPossibleSpeciesFeatureValues  ( orig.mPossibleSpeciesFeatureValues)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mName  = orig.mName;
-    mOccur  = orig.mOccur;
-    mIsSetOccur  = orig.mIsSetOccur;
-    mPossibleSpeciesFeatureValues  = orig.mPossibleSpeciesFeatureValues;
-
-    // connect to child objects
-    connectToChild();
-  }
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -110,11 +102,7 @@ SpeciesFeatureType::SpeciesFeatureType (const SpeciesFeatureType& orig)
 SpeciesFeatureType&
 SpeciesFeatureType::operator=(const SpeciesFeatureType& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
@@ -224,15 +212,8 @@ SpeciesFeatureType::setId(const std::string& id)
 int
 SpeciesFeatureType::setName(const std::string& name)
 {
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
-  {
-    mName = name;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -560,9 +541,11 @@ SpeciesFeatureType::accept (SBMLVisitor& v) const
 {
   v.visit(*this);
 
-/* VISIT CHILDREN */
-
-  v.leave(*this);
+  // PossibleSpeciesFeatureValue
+  for(unsigned int i = 0; i < getNumPossibleSpeciesFeatureValues(); i++)
+  {
+    getPossibleSpeciesFeatureValue(i)->accept(v);
+  }
 
   return true;
 }
@@ -683,8 +666,11 @@ SpeciesFeatureType::readAttributes (const XMLAttributes& attributes,
    * happened immediately prior to this read
   */
 
+  ListOfSpeciesFeatureTypes * parentList =
+      static_cast<ListOfSpeciesFeatureTypes*>(getParentSBMLObject());
+
   if (getErrorLog() != NULL &&
-      static_cast<ListOfSpeciesFeatureTypes*>(getParentSBMLObject())->size() < 2)
+      parentList->size() < 2)
   {
     numErrs = getErrorLog()->getNumErrors();
     for (int n = numErrs-1; n >= 0; n--)
@@ -694,16 +680,18 @@ SpeciesFeatureType::readAttributes (const XMLAttributes& attributes,
         const std::string details =
               getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofSpeFtrTyps_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentList->getLine(), parentList->getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                    getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofSpeFtrTyps_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentList->getLine(), parentList->getColumn());
       }
     }
   }
@@ -721,16 +709,18 @@ SpeciesFeatureType::readAttributes (const XMLAttributes& attributes,
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiSpeFtrTyp_AllowedMultiAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiSpeFtrTyp_AllowedCoreAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
     }
   }
@@ -752,15 +742,18 @@ SpeciesFeatureType::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mId) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute id='" + mId + "' does not conform.");
+        std::string details = "The syntax of the attribute id='" + mId + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
   else
   {
     std::string message = "Multi attribute 'id' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+    getErrorLog()->logPackageError("multi", MultiSpeFtrTyp_AllowedMultiAtts,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message,
+                   getLine(), getColumn());
   }
 
   //
@@ -789,21 +782,23 @@ SpeciesFeatureType::readAttributes (const XMLAttributes& attributes,
     if (getErrorLog() != NULL)
     {
       if (getErrorLog()->getNumErrors() == numErrs + 1 &&
-              getErrorLog()->contains(XMLAttributeTypeMismatch))
+              getErrorLog()->contains(numErrs))
       {
+        std::string details = getErrorLog()->getError(XMLAttributeTypeMismatch)->getMessage();
         getErrorLog()->remove(XMLAttributeTypeMismatch);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                     getPackageVersion(), sbmlLevel, sbmlVersion);
+        getErrorLog()->logPackageError("multi", MultiSpeFtrTyp_OccAtt_Ref,
+                     getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                     getLine(), getColumn());
       }
       else
       {
         std::string message = "Multi attribute 'occur' is missing.";
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, message);
+        getErrorLog()->logPackageError("multi", MultiSpeFtrTyp_AllowedMultiAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, message,
+                       getLine(), getColumn());
       }
     }
   }
-
 }
 
 

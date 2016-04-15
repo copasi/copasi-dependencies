@@ -50,7 +50,7 @@ MultiCompartmentPlugin::MultiCompartmentPlugin(const std::string& uri,
                                  const std::string& prefix, 
                                MultiPkgNamespaces* multins) :
     SBasePlugin(uri, prefix, multins)
-  , mCompartmentReferences (multins)
+  , mListOfCompartmentReferences (multins)
    ,mCompartmentType ("")
    ,mIsType (false)
    ,mIsSetIsType (false)
@@ -63,14 +63,11 @@ MultiCompartmentPlugin::MultiCompartmentPlugin(const std::string& uri,
  */
 MultiCompartmentPlugin::MultiCompartmentPlugin(const MultiCompartmentPlugin& orig) :
     SBasePlugin(orig)
-  , mCompartmentReferences ( orig.mCompartmentReferences)
+  , mListOfCompartmentReferences ( orig.mListOfCompartmentReferences)
+  , mCompartmentType  ( orig.mCompartmentType)
+  , mIsType  ( orig.mIsType)
+  , mIsSetIsType  ( orig.mIsSetIsType)
 {
-  if (&orig == NULL)
-  {
-    mCompartmentType  = orig.mCompartmentType;
-    mIsType  = orig.mIsType;
-    mIsSetIsType  = orig.mIsSetIsType;
-  }
 }
 
 
@@ -83,7 +80,7 @@ MultiCompartmentPlugin::operator=(const MultiCompartmentPlugin& rhs)
   if (&rhs != this)
   {
     this->SBasePlugin::operator=(rhs);
-    mCompartmentReferences = rhs.mCompartmentReferences;
+    mListOfCompartmentReferences = rhs.mListOfCompartmentReferences;
     mCompartmentType  = rhs.mCompartmentType;
     mIsType  = rhs.mIsType;
     mIsSetIsType  = rhs.mIsSetIsType;
@@ -121,32 +118,50 @@ MultiCompartmentPlugin::~MultiCompartmentPlugin()
  * create object
  */
 SBase*
-MultiCompartmentPlugin::createObject (XMLInputStream& stream)
+MultiCompartmentPlugin::createObject(XMLInputStream& stream)
 {
-  SBase* object = NULL; 
+  SBase* object = NULL;
 
-  const std::string&      name   = stream.peek().getName(); 
-  const XMLNamespaces&    xmlns  = stream.peek().getNamespaces(); 
-  const std::string&      prefix = stream.peek().getPrefix(); 
+  const std::string& name = stream.peek().getName();
+  const XMLNamespaces& xmlns = stream.peek().getNamespaces();
+  std::string prefix(stream.peek().getPrefix());
 
-  const std::string& targetPrefix = (xmlns.hasURI(mURI)) ? xmlns.getPrefix(mURI) : mPrefix;
+  const std::string& targetPrefix =
+      (xmlns.hasURI(mURI)) ? xmlns.getPrefix(mURI) : mPrefix;
 
-  if (prefix == targetPrefix) 
-  { 
-    MULTI_CREATE_NS(multins, getSBMLNamespaces());
-    if (name == "listOfCompartmentReferences" ) 
-    { 
-      object = &mCompartmentReferences;
+  if (prefix == targetPrefix)
+    {
+      MULTI_CREATE_NS(multins, getSBMLNamespaces());
+      if (!targetPrefix.empty())
+        {
+          prefix += ":";
+        }
 
-      if (targetPrefix.empty() == true) 
-      { 
-        mCompartmentReferences.getSBMLDocument()->enableDefaultNS(mURI, true); 
-      } 
-    } 
-    delete multins;
-  } 
+      if (name == "listOfCompartmentReferences")
+        {
+          if (mListOfCompartmentReferences.size() > 0)
+            {
+              getErrorLog()->logPackageError("multi", MultiLofCpaRefs_OnlyOne,
+                  getPackageVersion(), getLevel(), getVersion(),
+                  "Extended <compartment> may only have one <" + prefix
+                      + "listOfCompartmentReferences>", getLine(),
+                  getColumn());
+            }
+          else
+            {
+              object = &mListOfCompartmentReferences;
 
-  return object; 
+              if (targetPrefix.empty() == true)
+                {
+                  mListOfCompartmentReferences.getSBMLDocument()->enableDefaultNS(
+                      mURI, true);
+                }
+            }
+        }
+      delete multins;
+    }
+
+  return object;
 }
 
 
@@ -158,7 +173,7 @@ MultiCompartmentPlugin::writeElements (XMLOutputStream& stream) const
 {
   if (getNumCompartmentReferences() > 0) 
   { 
-    mCompartmentReferences.write(stream);
+    mListOfCompartmentReferences.write(stream);
   } 
 }
 
@@ -249,9 +264,10 @@ MultiCompartmentPlugin::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mCompartmentType) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute compartmentType='" + mCompartmentType + 
-        "' does not conform.");
+      std::string details = "The syntax of the attribute compartmentType='" + mCompartmentType + "' does not conform.";
+      getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                 getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                 getLine(), getColumn());
     }
   }
 
@@ -269,17 +285,40 @@ MultiCompartmentPlugin::readAttributes (const XMLAttributes& attributes,
               getErrorLog()->contains(XMLAttributeTypeMismatch))
       {
         getErrorLog()->remove(XMLAttributeTypeMismatch);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                     getPackageVersion(), sbmlLevel, sbmlVersion);
+        getErrorLog()->logPackageError("multi", MultiExCpa_IsTypeAtt_Invalid,
+                     getPackageVersion(), sbmlLevel, sbmlVersion, "",
+                     getLine(), getColumn());
       }
       else
       {
         std::string message = "Multi attribute 'isType' is missing.";
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, message);
+        getErrorLog()->logPackageError("multi", MultiExCpa_IsTypeAtt_Required,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, message,
+                       getLine(), getColumn());
       }
     }
   }
+
+  // check if there is any attribute not expected
+  //
+  // check that all attributes of this plugin object are expected
+  //
+  for (int i = 0; i < attributes.getLength(); i++)
+  {
+    std::string name = attributes.getName(i);
+    std::string uri  = attributes.getURI(i);
+
+    if (uri != mURI) continue;
+
+    if (!expectedAttributes.hasAttribute(name))
+    {
+        std::string message = " The attribute '" + name + "' is not an expected attribute in the multi package.";
+        getErrorLog()->logPackageError("multi", MultiExCpa_AllowedMultiAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, message,
+                       getLine(), getColumn());
+    }
+  }
+
 
 }
 
@@ -360,11 +399,7 @@ MultiCompartmentPlugin::isSetIsType() const
 int
 MultiCompartmentPlugin::setCompartmentType(const std::string& compartmentType)
 {
-  if (&(compartmentType) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(compartmentType)))
+  if (!(SyntaxChecker::isValidInternalSId(compartmentType)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -426,7 +461,7 @@ MultiCompartmentPlugin::getAllElements(ElementFilter* filter)
   List* ret = new List();
   List* sublist = NULL;
 
-  ADD_FILTERED_LIST(ret, sublist, mCompartmentReferences, filter);
+  ADD_FILTERED_LIST(ret, sublist, mListOfCompartmentReferences, filter);
 
   return ret;
 }
@@ -438,7 +473,7 @@ MultiCompartmentPlugin::getAllElements(ElementFilter* filter)
 const ListOfCompartmentReferences* 
 MultiCompartmentPlugin::getListOfCompartmentReferences () const
 {
-  return &this->mCompartmentReferences;
+  return &this->mListOfCompartmentReferences;
 }
 
 
@@ -448,7 +483,7 @@ MultiCompartmentPlugin::getListOfCompartmentReferences () const
 ListOfCompartmentReferences* 
 MultiCompartmentPlugin::getListOfCompartmentReferences ()
 {
-  return &this->mCompartmentReferences;
+  return &this->mListOfCompartmentReferences;
 }
 
 
@@ -458,7 +493,7 @@ MultiCompartmentPlugin::getListOfCompartmentReferences ()
 const CompartmentReference*
 MultiCompartmentPlugin::getCompartmentReference(unsigned int n) const
 {
-  return static_cast<const CompartmentReference*>(mCompartmentReferences.get(n));
+  return static_cast<const CompartmentReference*>(mListOfCompartmentReferences.get(n));
 }
 
 
@@ -468,7 +503,7 @@ MultiCompartmentPlugin::getCompartmentReference(unsigned int n) const
 CompartmentReference*
 MultiCompartmentPlugin::getCompartmentReference(unsigned int n)
 {
-  return static_cast<CompartmentReference*>(mCompartmentReferences.get(n));
+  return static_cast<CompartmentReference*>(mListOfCompartmentReferences.get(n));
 }
 
 
@@ -478,7 +513,7 @@ MultiCompartmentPlugin::getCompartmentReference(unsigned int n)
 const CompartmentReference*
 MultiCompartmentPlugin::getCompartmentReference(const std::string& sid) const
 {
-  return static_cast<const CompartmentReference*>(mCompartmentReferences.get(sid));
+  return static_cast<const CompartmentReference*>(mListOfCompartmentReferences.get(sid));
 }
 
 
@@ -488,7 +523,7 @@ MultiCompartmentPlugin::getCompartmentReference(const std::string& sid) const
 CompartmentReference*
 MultiCompartmentPlugin::getCompartmentReference(const std::string& sid)
 {
-  return static_cast<CompartmentReference*>(mCompartmentReferences.get(sid));
+  return static_cast<CompartmentReference*>(mListOfCompartmentReferences.get(sid));
 }
 
 
@@ -520,7 +555,7 @@ MultiCompartmentPlugin::addCompartmentReference (const CompartmentReference* com
   }
   else
   {
-    mCompartmentReferences.append(compartmentReference);
+    mListOfCompartmentReferences.append(compartmentReference);
   }
 
   return LIBSBML_OPERATION_SUCCESS;
@@ -548,7 +583,7 @@ MultiCompartmentPlugin::createCompartmentReference ()
 
   if (cr != NULL)
   {
-    mCompartmentReferences.appendAndOwn(cr);
+    mListOfCompartmentReferences.appendAndOwn(cr);
   }
 
   return cr;
@@ -561,7 +596,7 @@ MultiCompartmentPlugin::createCompartmentReference ()
 CompartmentReference* 
 MultiCompartmentPlugin::removeCompartmentReference(unsigned int n)
 {
-  return static_cast<CompartmentReference*>(mCompartmentReferences.remove(n));
+  return static_cast<CompartmentReference*>(mListOfCompartmentReferences.remove(n));
 }
 
 
@@ -571,7 +606,7 @@ MultiCompartmentPlugin::removeCompartmentReference(unsigned int n)
 CompartmentReference* 
 MultiCompartmentPlugin::removeCompartmentReference(const std::string& sid)
 {
-  return static_cast<CompartmentReference*>(mCompartmentReferences.remove(sid));
+  return static_cast<CompartmentReference*>(mListOfCompartmentReferences.remove(sid));
 }
 
 
@@ -581,7 +616,7 @@ MultiCompartmentPlugin::removeCompartmentReference(const std::string& sid)
 unsigned int 
 MultiCompartmentPlugin::getNumCompartmentReferences () const
 {
-  return mCompartmentReferences.size();
+  return mListOfCompartmentReferences.size();
 }
 
 
@@ -596,7 +631,7 @@ MultiCompartmentPlugin::setSBMLDocument(SBMLDocument* d)
 {
   SBasePlugin::setSBMLDocument(d);
 
-  mCompartmentReferences.setSBMLDocument(d);
+  mListOfCompartmentReferences.setSBMLDocument(d);
 }
 
 
@@ -608,7 +643,7 @@ MultiCompartmentPlugin::connectToParent(SBase* sbase)
 {
   SBasePlugin::connectToParent(sbase);
 
-  mCompartmentReferences.connectToParent(sbase);
+  mListOfCompartmentReferences.connectToParent(sbase);
 }
 
 
@@ -619,7 +654,7 @@ void
 MultiCompartmentPlugin::enablePackageInternal(const std::string& pkgURI,
                                    const std::string& pkgPrefix, bool flag)
 {
-  mCompartmentReferences.enablePackageInternal(pkgURI, pkgPrefix, flag);
+  mListOfCompartmentReferences.enablePackageInternal(pkgURI, pkgPrefix, flag);
 }
 
 
@@ -629,10 +664,8 @@ MultiCompartmentPlugin::enablePackageInternal(const std::string& pkgURI,
 bool
 MultiCompartmentPlugin::accept(SBMLVisitor& v) const
 {
-  const Model * model = static_cast<const Model * >(this->getParentSBMLObject());
-
-  v.visit(*model);
-  v.leave(*model);
+  const Compartment * compartment = static_cast<const Compartment * >(this->getParentSBMLObject());
+  v.visit(*compartment);
 
   for(unsigned int i = 0; i < getNumCompartmentReferences(); i++)
   {

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -98,29 +98,19 @@ CSGObject::CSGObject (SpatialPkgNamespaces* spatialns)
  */
 CSGObject::CSGObject (const CSGObject& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mDomainType  ( orig.mDomainType)
+  , mOrdinal  ( orig.mOrdinal)
+  , mIsSetOrdinal  ( orig.mIsSetOrdinal)
+  , mCsgNode ( NULL)
 {
-  if (&orig == NULL)
+  if (orig.mCsgNode != NULL)
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
+    mCsgNode = orig.mCsgNode->clone();
   }
-  else
-  {
-    mId  = orig.mId;
-    mDomainType  = orig.mDomainType;
-    mOrdinal  = orig.mOrdinal;
-    mIsSetOrdinal  = orig.mIsSetOrdinal;
-    if (orig.mCsgNode != NULL)
-    {
-      mCsgNode = orig.mCsgNode->clone();
-    }
-    else
-    {
-      mCsgNode = NULL;
-    }
 
-    // connect to child objects
-    connectToChild();
-  }
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -130,11 +120,7 @@ CSGObject::CSGObject (const CSGObject& orig)
 CSGObject&
 CSGObject::operator=(const CSGObject& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
@@ -388,11 +374,7 @@ CSGObject::setId(const std::string& id)
 int
 CSGObject::setDomainType(const std::string& domainType)
 {
-  if (&(domainType) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(domainType)))
+  if (!(SyntaxChecker::isValidInternalSId(domainType)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -522,6 +504,7 @@ CSGObject::unsetCsgNode()
 void
 CSGObject::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetDomainType() == true && mDomainType == oldid)
   {
     setDomainType(newid);

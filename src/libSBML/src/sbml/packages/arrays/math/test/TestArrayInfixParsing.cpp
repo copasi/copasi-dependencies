@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1365,7 +1365,7 @@ START_TEST (test_parse_function_matrixrow_3args)
   delete r;
 }
 END_TEST
-#endif
+
 
 
 START_TEST (test_parse_function_mean_1args)
@@ -1411,7 +1411,7 @@ START_TEST (test_parse_function_mode_2args)
   delete r;
 }
 END_TEST
-
+#endif
 
 Suite *
 create_suite_ArrayInfixParsing ()
@@ -1496,11 +1496,11 @@ create_suite_ArrayInfixParsing ()
   tcase_add_test( tcase, test_parse_function_matrixrow_1args);
   tcase_add_test( tcase, test_parse_function_matrixrow_2args);
   tcase_add_test( tcase, test_parse_function_matrixrow_3args);
-#endif
+
  
   tcase_add_test( tcase, test_parse_function_mean_1args);
   tcase_add_test( tcase, test_parse_function_mode_2args);
-
+#endif
   suite_add_tcase(suite, tcase);
 
   return suite;

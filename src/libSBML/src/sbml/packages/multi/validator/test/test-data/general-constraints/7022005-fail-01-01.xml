@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:multi="http://www.sbml.org/sbml/level3/version1/multi/version1" level="3" version="1" multi:required="true">
+  <model id="testModel">
+    <listOfCompartments>
+      <compartment id="c1" constant="true" multi:isType="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="spX1" compartment="c1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false" multi:speciesType="stX">
+        <multi:listOfSpeciesFeatures>
+          <multi:speciesFeature multi:speciesFeatureType="sftP" multi:occur="1" multi:component="stX">
+            <multi:listOfSpeciesFeatureValues>
+              <multi:speciesFeatureValue multi:value="v1"/>
+            </multi:listOfSpeciesFeatureValues>
+          </multi:speciesFeature>
+        </multi:listOfSpeciesFeatures>
+      </species>
+      <species id="spX2" compartment="c1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false" multi:speciesType="stX">
+        <multi:listOfSpeciesFeatures>
+          <multi:speciesFeature multi:id="spfP2" multi:speciesFeatureType="sftP" multi:occur="1" multi:component="stX">
+            <multi:listOfSpeciesFeatureValues>
+              <multi:speciesFeatureValue multi:value="v2"/>
+            </multi:listOfSpeciesFeatureValues>
+          </multi:speciesFeature>
+        </multi:listOfSpeciesFeatures>
+      </species>
+      <species id="spXX" compartment="c1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false" multi:speciesType="stXX">
+        <multi:listOfSpeciesFeatures>
+          <multi:speciesFeature multi:speciesFeatureType="sftP" multi:occur="1" multi:component="stiXX1">
+            <multi:listOfSpeciesFeatureValues>
+              <multi:speciesFeatureValue multi:value="v1"/>
+            </multi:listOfSpeciesFeatureValues>
+          </multi:speciesFeature>
+          <multi:speciesFeature multi:id="spfPP2" multi:speciesFeatureType="sftP" multi:occur="1" multi:component="stiXX2">
+            <multi:listOfSpeciesFeatureValues>
+              <multi:speciesFeatureValue multi:value="v1"/>
+            </multi:listOfSpeciesFeatureValues>
+          </multi:speciesFeature>
+        </multi:listOfSpeciesFeatures>
+      </species>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="r" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference id="reactant1" species="spX1" constant="false"/>
+          <speciesReference id="reactant2" species="spX2" constant="false"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference id="product" species="spXX" constant="false">
+            <multi:listOfSpeciesTypeComponentMapsInProduct>
+              <multi:speciesTypeComponentMapInProduct multi:reactant="reactant1" multi:reactantComponent="stX" multi:productComponent="stiXX1"/>
+              <multi:speciesTypeComponentMapInProduct multi:reactant="reactant2" multi:reactantComponent="stX" multi:productComponent="stiXX2">
+                <multi:listOfSpeciesFeatureChanges>
+                  <multi:speciesFeatureChange multi:reactantSpeciesFeature="spfP2" multi:productSpeciesFeature="spfPPN"/>
+                </multi:listOfSpeciesFeatureChanges>
+              </multi:speciesTypeComponentMapInProduct>
+            </multi:listOfSpeciesTypeComponentMapsInProduct>
+          </speciesReference>
+        </listOfProducts>
+      </reaction>
+    </listOfReactions>
+    <multi:listOfSpeciesTypes>
+      <multi:speciesType multi:id="stX" multi:compartment="c1">
+        <multi:listOfSpeciesFeatureTypes>
+          <multi:speciesFeatureType multi:id="sftP" multi:occur="1">
+            <multi:listOfPossibleSpeciesFeatureValues>
+              <multi:possibleSpeciesFeatureValue multi:id="v1"/>
+              <multi:possibleSpeciesFeatureValue multi:id="v2"/>
+            </multi:listOfPossibleSpeciesFeatureValues>
+          </multi:speciesFeatureType>
+        </multi:listOfSpeciesFeatureTypes>
+      </multi:speciesType>
+      <multi:speciesType multi:id="stXX" multi:compartment="c1">
+        <multi:listOfSpeciesTypeInstances>
+          <multi:speciesTypeInstance multi:id="stiXX1" multi:speciesType="stX"/>
+          <multi:speciesTypeInstance multi:id="stiXX2" multi:speciesType="stX"/>
+        </multi:listOfSpeciesTypeInstances>
+      </multi:speciesType>
+    </multi:listOfSpeciesTypes>
+  </model>
+</sbml>

@@ -90,7 +90,7 @@
 ## This file is part of libSBML.  Please visit http://sbml.org for more
 ## information about SBML, and the latest version of libSBML.
 ##
-## Copyright (C) 2013-2014 jointly by the following organizations:
+## Copyright (C) 2013-2016 jointly by the following organizations:
 ##     1. California Institute of Technology, Pasadena, CA, USA
 ##     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 ##     3. University of Heidelberg, Heidelberg, Germany
@@ -272,7 +272,13 @@ def rewrite(contents, include_dir, graphics_dir, quietly=False):
     Print messages about errors unless parameter 'quietly' is True."""
 
     p = re.compile('(%feature\("docstring"\) \S+ "\n)(.*?)(^";\n\s*)', re.DOTALL|re.MULTILINE)
-    return p.sub(lambda match: rewrite_each(match, include_dir, graphics_dir, quietly), contents)
+    try:
+      return p.sub(lambda match: rewrite_each(match, include_dir, graphics_dir, quietly), contents)
+    except:
+      print("Warning: the content contains non-ascii characters, the character will be replaced. Please be sure to check the generated file.")
+      contents = contents.decode('ascii', 'ignore')
+      return p.sub(lambda match: rewrite_each(match, include_dir, graphics_dir, quietly), contents)
+
 
 
 def rewrite_each(match, include_dir, graphics_dir, quietly):

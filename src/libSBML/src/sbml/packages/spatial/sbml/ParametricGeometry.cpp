@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -83,26 +83,17 @@ ParametricGeometry::ParametricGeometry (SpatialPkgNamespaces* spatialns)
  */
 ParametricGeometry::ParametricGeometry (const ParametricGeometry& orig)
   : GeometryDefinition(orig)
-{
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    if (orig.mSpatialPoints != NULL)
-    {
-      mSpatialPoints = orig.mSpatialPoints->clone();
-    }
-    else
-    {
-      mSpatialPoints = NULL;
-    }
-    mParametricObjects  = orig.mParametricObjects;
+  , mSpatialPoints ( NULL)
+  , mParametricObjects  ( orig.mParametricObjects)
 
-    // connect to child objects
-    connectToChild();
+{
+  if (orig.mSpatialPoints != NULL)
+  {
+    mSpatialPoints = orig.mSpatialPoints->clone();
   }
+
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -112,11 +103,7 @@ ParametricGeometry::ParametricGeometry (const ParametricGeometry& orig)
 ParametricGeometry&
 ParametricGeometry::operator=(const ParametricGeometry& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     GeometryDefinition::operator=(rhs);
     if (rhs.mSpatialPoints != NULL)

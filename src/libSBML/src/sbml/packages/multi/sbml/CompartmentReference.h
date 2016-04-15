@@ -406,7 +406,6 @@ protected:
   /** @endcond doxygenLibsbmlInternal */
 
 
-
 };
 
 class LIBSBML_EXTERN ListOfCompartmentReferences : public ListOf

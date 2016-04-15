@@ -46,6 +46,7 @@ CK_CPPSTART
 Suite *create_suite_GroupsExtension (void);
 Suite *create_suite_WriteGroupsExtension (void);
 Suite *create_suite_ReadGroupsExtension (void);
+Suite *create_suite_GroupsModelPlugin (void);
 
 /**
  * Global.
@@ -86,6 +87,7 @@ main (int argc, char* argv[])
   SRunner *runner = srunner_create(create_suite_GroupsExtension());
   srunner_add_suite(runner, create_suite_WriteGroupsExtension());
   srunner_add_suite(runner, create_suite_ReadGroupsExtension());
+  srunner_add_suite(runner, create_suite_GroupsModelPlugin());
 
   if (argc > 1 && !strcmp(argv[1], "-nofork"))
   {

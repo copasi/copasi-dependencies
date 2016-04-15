@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -55,7 +55,6 @@ typedef CLASS_OR_STRUCT SpeciesFeatureValue    SpeciesFeatureValue_t;
 typedef CLASS_OR_STRUCT CompartmentReference    CompartmentReference_t;
 typedef CLASS_OR_STRUCT SpeciesTypeInstance    SpeciesTypeInstance_t;
 typedef CLASS_OR_STRUCT InSpeciesTypeBond    InSpeciesTypeBond_t;
-typedef CLASS_OR_STRUCT DenotedSpeciesTypeComponentIndex    DenotedSpeciesTypeComponentIndex_t;
 typedef CLASS_OR_STRUCT OutwardBindingSite    OutwardBindingSite_t;
 typedef CLASS_OR_STRUCT SpeciesFeatureChange    SpeciesFeatureChange_t;
 typedef CLASS_OR_STRUCT SpeciesFeatureType    SpeciesFeatureType_t;

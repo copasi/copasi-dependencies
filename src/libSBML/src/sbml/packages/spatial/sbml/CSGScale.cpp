@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -85,20 +85,13 @@ CSGScale::CSGScale (SpatialPkgNamespaces* spatialns)
  */
 CSGScale::CSGScale (const CSGScale& orig)
   : CSGTransformation(orig)
+  , mScaleX  ( orig.mScaleX)
+  , mIsSetScaleX  ( orig.mIsSetScaleX)
+  , mScaleY  ( orig.mScaleY)
+  , mIsSetScaleY  ( orig.mIsSetScaleY)
+  , mScaleZ  ( orig.mScaleZ)
+  , mIsSetScaleZ  ( orig.mIsSetScaleZ)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mScaleX  = orig.mScaleX;
-    mIsSetScaleX  = orig.mIsSetScaleX;
-    mScaleY  = orig.mScaleY;
-    mIsSetScaleY  = orig.mIsSetScaleY;
-    mScaleZ  = orig.mScaleZ;
-    mIsSetScaleZ  = orig.mIsSetScaleZ;
-  }
 }
 
 
@@ -108,11 +101,7 @@ CSGScale::CSGScale (const CSGScale& orig)
 CSGScale&
 CSGScale::operator=(const CSGScale& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     CSGTransformation::operator=(rhs);
     mScaleX  = rhs.mScaleX;

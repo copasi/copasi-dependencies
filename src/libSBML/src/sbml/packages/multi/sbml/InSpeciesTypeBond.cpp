@@ -75,18 +75,11 @@ InSpeciesTypeBond::InSpeciesTypeBond (MultiPkgNamespaces* multins)
  */
 InSpeciesTypeBond::InSpeciesTypeBond (const InSpeciesTypeBond& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mName  ( orig.mName)
+  , mBindingSite1  ( orig.mBindingSite1)
+  , mBindingSite2  ( orig.mBindingSite2)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mName  = orig.mName;
-    mBindingSite1  = orig.mBindingSite1;
-    mBindingSite2  = orig.mBindingSite2;
-  }
 }
 
 
@@ -96,11 +89,7 @@ InSpeciesTypeBond::InSpeciesTypeBond (const InSpeciesTypeBond& orig)
 InSpeciesTypeBond&
 InSpeciesTypeBond::operator=(const InSpeciesTypeBond& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
@@ -226,15 +215,8 @@ InSpeciesTypeBond::setId(const std::string& id)
 int
 InSpeciesTypeBond::setName(const std::string& name)
 {
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
-  {
-    mName = name;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -244,11 +226,7 @@ InSpeciesTypeBond::setName(const std::string& name)
 int
 InSpeciesTypeBond::setBindingSite1(const std::string& bindingSite1)
 {
-  if (&(bindingSite1) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(bindingSite1)))
+  if (!(SyntaxChecker::isValidInternalSId(bindingSite1)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -266,11 +244,7 @@ InSpeciesTypeBond::setBindingSite1(const std::string& bindingSite1)
 int
 InSpeciesTypeBond::setBindingSite2(const std::string& bindingSite2)
 {
-  if (&(bindingSite2) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(bindingSite2)))
+  if (!(SyntaxChecker::isValidInternalSId(bindingSite2)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -364,6 +338,7 @@ InSpeciesTypeBond::unsetBindingSite2()
 void
 InSpeciesTypeBond::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetBindingSite1() == true && mBindingSite1 == oldid)
   {
     setBindingSite1(newid);
@@ -518,8 +493,11 @@ InSpeciesTypeBond::readAttributes (const XMLAttributes& attributes,
    * happened immediately prior to this read
   */
 
+  ListOfInSpeciesTypeBonds * parentListOf =
+      static_cast<ListOfInSpeciesTypeBonds*>(getParentSBMLObject());
+
   if (getErrorLog() != NULL &&
-      static_cast<ListOfInSpeciesTypeBonds*>(getParentSBMLObject())->size() < 2)
+      parentListOf->size() < 2)
   {
     numErrs = getErrorLog()->getNumErrors();
     for (int n = numErrs-1; n >= 0; n--)
@@ -529,16 +507,18 @@ InSpeciesTypeBond::readAttributes (const XMLAttributes& attributes,
         const std::string details =
               getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofInSptBnds_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOf->getLine(), parentListOf->getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                    getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofInSptBnds_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOf->getLine(), parentListOf->getColumn());
       }
     }
   }
@@ -556,16 +536,18 @@ InSpeciesTypeBond::readAttributes (const XMLAttributes& attributes,
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiInSptBnd_AllowedMultiAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiInSptBnd_AllowedCoreAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
     }
   }
@@ -587,8 +569,10 @@ InSpeciesTypeBond::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mId) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute id='" + mId + "' does not conform.");
+        std::string details = "The syntax of the attribute id='" + mId + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
 
@@ -622,16 +606,18 @@ InSpeciesTypeBond::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mBindingSite1) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute bindingSite1='" + mBindingSite1 + 
-        "' does not conform.");
+      std::string details = "The syntax of the attribute bindingSite1='" + mBindingSite1 + "' does not conform.";
+      getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                 getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                 getLine(), getColumn());
     }
   }
   else
   {
     std::string message = "Multi attribute 'bindingSite1' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+    getErrorLog()->logPackageError("multi", MultiInSptBnd_AllowedMultiAtts,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message,
+                   getLine(), getColumn());
   }
 
   //
@@ -655,9 +641,11 @@ InSpeciesTypeBond::readAttributes (const XMLAttributes& attributes,
   }
   else
   {
-    std::string message = "Multi attribute 'bindingSite2' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+    std::string details = "The syntax of the attribute bindingSite2='" + mBindingSite2 + "' does not conform.";
+    getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+               getPackageVersion(), sbmlLevel, sbmlVersion, details,
+               getLine(), getColumn());
+
   }
 
 }

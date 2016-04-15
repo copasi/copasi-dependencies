@@ -39,6 +39,7 @@
 
 #include <sbml/extension/SBasePlugin.h>
 #include <sbml/packages/multi/extension/MultiExtension.h>
+#include <sbml/packages/multi/sbml/IntraSpeciesReaction.h>
 
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -93,6 +94,8 @@ public:
   // Functions for interacting with the members of the plugin
   //
   //---------------------------------------------------------------
+
+  SBase* createObject (XMLInputStream& stream);
 
 
   /** @cond doxygenLibsbmlInternal */

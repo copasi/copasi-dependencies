@@ -73,17 +73,10 @@ SpeciesFeatureChange::SpeciesFeatureChange (MultiPkgNamespaces* multins)
  */
 SpeciesFeatureChange::SpeciesFeatureChange (const SpeciesFeatureChange& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mReactantSpeciesFeature  ( orig.mReactantSpeciesFeature)
+  , mProductSpeciesFeature  ( orig.mProductSpeciesFeature)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mReactantSpeciesFeature  = orig.mReactantSpeciesFeature;
-    mProductSpeciesFeature  = orig.mProductSpeciesFeature;
-  }
 }
 
 
@@ -93,11 +86,7 @@ SpeciesFeatureChange::SpeciesFeatureChange (const SpeciesFeatureChange& orig)
 SpeciesFeatureChange&
 SpeciesFeatureChange::operator=(const SpeciesFeatureChange& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
@@ -202,11 +191,7 @@ SpeciesFeatureChange::setId(const std::string& id)
 int
 SpeciesFeatureChange::setReactantSpeciesFeature(const std::string& reactantSpeciesFeature)
 {
-  if (&(reactantSpeciesFeature) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(reactantSpeciesFeature)))
+  if (!(SyntaxChecker::isValidInternalSId(reactantSpeciesFeature)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -224,11 +209,7 @@ SpeciesFeatureChange::setReactantSpeciesFeature(const std::string& reactantSpeci
 int
 SpeciesFeatureChange::setProductSpeciesFeature(const std::string& productSpeciesFeature)
 {
-  if (&(productSpeciesFeature) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(productSpeciesFeature)))
+  if (!(SyntaxChecker::isValidInternalSId(productSpeciesFeature)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -303,6 +284,7 @@ SpeciesFeatureChange::unsetProductSpeciesFeature()
 void
 SpeciesFeatureChange::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetReactantSpeciesFeature() == true && mReactantSpeciesFeature == oldid)
   {
     setReactantSpeciesFeature(newid);
@@ -456,8 +438,10 @@ SpeciesFeatureChange::readAttributes (const XMLAttributes& attributes,
    * happened immediately prior to this read
   */
 
-  if (getErrorLog() != NULL &&
-      static_cast<ListOfSpeciesFeatureChanges*>(getParentSBMLObject())->size() < 2)
+  ListOfSpeciesFeatureChanges * parentListOf =
+      static_cast<ListOfSpeciesFeatureChanges*>(getParentSBMLObject());
+
+  if (getErrorLog() != NULL && parentListOf->size() < 2)
   {
     numErrs = getErrorLog()->getNumErrors();
     for (int n = numErrs-1; n >= 0; n--)
@@ -467,16 +451,18 @@ SpeciesFeatureChange::readAttributes (const XMLAttributes& attributes,
         const std::string details =
               getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofSpeFtrChgs_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOf->getLine(), parentListOf->getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                    getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofSpeFtrChgs_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOf->getLine(), parentListOf->getColumn());
       }
     }
   }
@@ -494,16 +480,18 @@ SpeciesFeatureChange::readAttributes (const XMLAttributes& attributes,
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiSpeFtrChg_AllowedMultiAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiSpeFtrChg_AllowedCoreAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
     }
   }
@@ -525,8 +513,10 @@ SpeciesFeatureChange::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mId) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute id='" + mId + "' does not conform.");
+      std::string details = "The syntax of the attribute id='" + mId + "' does not conform.";
+      getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                 getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                 getLine(), getColumn());
     }
   }
 
@@ -545,15 +535,16 @@ SpeciesFeatureChange::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mReactantSpeciesFeature) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute reactantSpeciesFeature='" 
-        + mReactantSpeciesFeature + "' does not conform.");
+        std::string details = "The syntax of the attribute reactantSpeciesFeature='" + mReactantSpeciesFeature + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
   else
   {
     std::string message = "Multi attribute 'reactantSpeciesFeature' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
+    getErrorLog()->logPackageError("multi", MultiSpeFtrChg_AllowedMultiAtts,
                    getPackageVersion(), sbmlLevel, sbmlVersion, message);
   }
 
@@ -572,15 +563,16 @@ SpeciesFeatureChange::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mProductSpeciesFeature) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute productSpeciesFeature='" 
-        + mProductSpeciesFeature + "' does not conform.");
+        std::string details = "The syntax of the attribute productSpeciesFeature='" + mProductSpeciesFeature + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
   else
   {
     std::string message = "Multi attribute 'productSpeciesFeature' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
+    getErrorLog()->logPackageError("multi", MultiSpeFtrChg_AllowedMultiAtts,
                    getPackageVersion(), sbmlLevel, sbmlVersion, message);
   }
 

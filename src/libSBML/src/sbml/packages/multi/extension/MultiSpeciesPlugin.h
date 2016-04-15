@@ -42,6 +42,7 @@
 #include <sbml/extension/SBasePlugin.h>
 #include <sbml/packages/multi/sbml/OutwardBindingSite.h>
 #include <sbml/packages/multi/sbml/SpeciesFeature.h>
+#include <sbml/packages/multi/sbml/SubListOfSpeciesFeatures.h>
 
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -416,12 +417,76 @@ public:
 
 
   /**
-   * Creates a new ListOfSpeciesFeatures object and 
-   * adds it to the ListOfSpeciesFeatures in this plugin object.
+   * Returns the SubListOfSpeciesFeatures object that belongs to the given index. If the
+   * index is invalid, NULL is returned.
    *
-   * @return the newly created ListOfSpeciesFeatures object.
+   * @param n the index number of the SubListOfSpeciesFeatures to get
+   *
+   * @return the nth SubListOfSpeciesFeatures in the ListOfSpeciesFeatures
    */
-  ListOfSpeciesFeatures* createSubListOfSpeciesFeatures ();
+  const SubListOfSpeciesFeatures* getSubListOfSpeciesFeatures(unsigned int n) const;
+
+
+  /**
+   * Returns the SubListOfSpeciesFeatures object that belongs to the given index. If the
+   * index is invalid, NULL is returned.
+   *
+   * @param n the index number of the SubListOfSpeciesFeatures to get
+   *
+   * @return the nth SubListOfSpeciesFeatures in the ListOfSpeciesFeatures
+   */
+  SubListOfSpeciesFeatures* getSubListOfSpeciesFeatures(unsigned int n);
+
+
+  /**
+   * Returns the SubListOfSpeciesFeatures object based on its identifier.
+   *
+   * @param sid a string representing the id of the SubListOfSpeciesFeatures to get
+   *
+   * @return SubListOfSpeciesFeatures in the ListOfSpeciesFeatures with the given id
+   * or NULL if no such SubListOfSpeciesFeatures exists.
+   *
+   * @see get(unsigned int n)
+   * @see size()
+   */
+  const SubListOfSpeciesFeatures* getSubListOfSpeciesFeatures(const std::string& sid) const;
+
+
+  /**
+   * Returns the SubListOfSpeciesFeatures object based on its identifier.
+   *
+   * @param sid a string representing the id of the SubListOfSpeciesFeatures to get
+   *
+   * @return SubListOfSpeciesFeatures in the ListOfSpeciesFeatures with the given id
+   * or NULL if no such SubListOfSpeciesFeatures exists.
+   *
+   * @see get(unsigned int n)
+   * @see size()
+   */
+  SubListOfSpeciesFeatures* getSubListOfSpeciesFeatures(const std::string& sid);
+
+
+  /**
+   * Adds a copy of the given SubListOfSpeciesFeatures to the ListOfSpeciesFeatures in this plugin object.
+   *
+   * @param SubListOfSpeciesFeatures the SubListOfSpeciesFeatures to be added.
+   *
+   * @return integer value indicating success/failure of the
+   * function.  @if clike The value is drawn from the
+   * enumeration #OperationReturnValues_t. @endif The possible values
+   * returned by this function are:
+   * @li LIBSBML_OPERATION_SUCCESS
+   */
+  int addSubListOfSpeciesFeatures (SubListOfSpeciesFeatures* subListOfSpeciesFeatures);
+
+
+  /**
+   * Creates a new SubListOfSpeciesFeatures object and
+   * adds it to the SubListOfSpeciesFeatures in this plugin object.
+   *
+   * @return the newly created SubListOfSpeciesFeatures object.
+   */
+  SubListOfSpeciesFeatures* createSubListOfSpeciesFeatures ();
 
 
   /**
@@ -461,6 +526,13 @@ public:
    */
   unsigned int getNumSpeciesFeatures () const;
 
+  /**
+   * Returns the number of SubListOfSpeciesFeatures objects in this plugin object.
+   *
+   * @return the number of SubListOfSpeciesFeatures objects in this plugin object.
+   */
+  unsigned int getNumSubListOfSpeciesFeatures () const;
+
 
   /** @cond doxygenLibsbmlInternal */
 
@@ -476,6 +548,8 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   virtual void connectToParent (SBase* sbase);
+
+  virtual void connectToChild();
 
 
   /** @endcond doxygenLibsbmlInternal */
@@ -541,7 +615,6 @@ protected:
   std::string   mSpeciesType;
 
   /** @endcond doxygenLibsbmlInternal */
-
 
 };
 

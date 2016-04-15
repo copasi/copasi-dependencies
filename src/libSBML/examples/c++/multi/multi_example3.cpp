@@ -94,13 +94,9 @@ main (int argc, char* argv[])
   SpeciesFeatureValue *sfv = sf->createSpeciesFeatureValue();
   sfv->setValue("c");
 
-  // set the relation attribute on the listOfSpeciesfeatures element
-  ListOfSpeciesFeatures * loSF = spPlug->getListOfSpeciesFeatures();
-  loSF->setRelation(Relation_fromString("or"));
-
   // create a subListOfSpeciesFeatures
-  loSF = spPlug->createSubListOfSpeciesFeatures();
-  loSF->setRelation(Relation_fromString("and"));
+  SubListOfSpeciesFeatures* subloSF = spPlug->createSubListOfSpeciesFeatures();
+  subloSF->setRelation(Relation_fromString("and"));
 
   // add speciesFeatures to the subList
   SpeciesFeature *sf1 = new SpeciesFeature(3, 1, 1);
@@ -111,7 +107,7 @@ main (int argc, char* argv[])
   SpeciesFeatureValue *sfv1 = sf1->createSpeciesFeatureValue();
   sfv1->setValue("c1");
 
-  loSF->appendAndOwn(sf1);
+  subloSF->appendAndOwn(sf1);
 
   sf1 = new SpeciesFeature(3, 1, 1);
   sf1->setSpeciesFeatureType("a2");
@@ -121,11 +117,11 @@ main (int argc, char* argv[])
   sfv1 = sf1->createSpeciesFeatureValue();
   sfv1->setValue("c2");
 
-  loSF->appendAndOwn(sf1);
+  subloSF->appendAndOwn(sf1);
 
   // create a second subListOfSpeciesfeatures
-  loSF = spPlug->createSubListOfSpeciesFeatures();
-  loSF->setRelation(Relation_fromString("or"));
+  subloSF = spPlug->createSubListOfSpeciesFeatures();
+  subloSF->setRelation(Relation_fromString("or"));
 
   sf1 = new SpeciesFeature(3, 1, 1);
   sf1->setSpeciesFeatureType("a3");
@@ -135,7 +131,7 @@ main (int argc, char* argv[])
   sfv1 = sf1->createSpeciesFeatureValue();
   sfv1->setValue("c3");
 
-  loSF->appendAndOwn(sf1);
+  subloSF->appendAndOwn(sf1);
 
   sf1 = new SpeciesFeature(3, 1, 1);
   sf1->setSpeciesFeatureType("a4");
@@ -145,7 +141,7 @@ main (int argc, char* argv[])
   sfv1 = sf1->createSpeciesFeatureValue();
   sfv1->setValue("c4");
 
-  loSF->appendAndOwn(sf1);
+  subloSF->appendAndOwn(sf1);
 
   writeSBML(document,"multi_example3.xml");
  

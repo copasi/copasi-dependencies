@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -84,26 +84,16 @@ DrawFromDistribution::DrawFromDistribution (DistribPkgNamespaces* distribns)
  */
 DrawFromDistribution::DrawFromDistribution (const DrawFromDistribution& orig)
   : SBase(orig)
+  , mDistribInputs  ( orig.mDistribInputs)
+  , mUncertML ( NULL)
 {
-  if (&orig == NULL)
+  if (orig.mUncertML != NULL)
   {
-    throw SBMLConstructorException("Null argument to copy constructor");
+    mUncertML = orig.mUncertML->clone();
   }
-  else
-  {
-    mDistribInputs  = orig.mDistribInputs;
-    if (orig.mUncertML != NULL)
-    {
-      mUncertML = orig.mUncertML->clone();
-    }
-    else
-    {
-      mUncertML = NULL;
-    }
 
-    // connect to child objects
-    connectToChild();
-  }
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -113,11 +103,7 @@ DrawFromDistribution::DrawFromDistribution (const DrawFromDistribution& orig)
 DrawFromDistribution&
 DrawFromDistribution::operator=(const DrawFromDistribution& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mDistribInputs  = rhs.mDistribInputs;

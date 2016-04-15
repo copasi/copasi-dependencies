@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -52,11 +52,6 @@
  * @if conly data structures @else classes@endif@~ with common features
  * defined by the SBML specification, such as "metaid" attributes and
  * annotations.
- *
- * The relationship between the lists and the rest of an SBML model is
- * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
- *
- * @htmlinclude listof-illustration.html
  *
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
@@ -308,9 +303,9 @@
  * @class doc_warning_typecodes_not_unique
  *
  * @warning <span class="warning">The specific integer values of the possible
- * type codes may be reused by different Level&nbsp;3 package plug-ins.
- * Thus, to identifiy the correct code, <strong>it is necessary to invoke
- * both getTypeCode() and getPackageName()</strong>.</span>
+ * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
+ * packages,  To fully identify the correct code, <strong>it is necessary to
+ * invoke both getTypeCode() and getPackageName()</strong>.</span>
  *
  * <!-- ------------------------------------------------------------------- -->
  * @class doc_what_are_plugins
@@ -337,7 +332,7 @@
  * If a plugin is <em>disabled</em>, the package information it contains is
  * no longer considered to be part of the SBML document for the purposes of
  * searching the document or writing out the document.  However, the information
- * is still retained, so if the plugin is enabled again, the same information 
+ * is still retained, so if the plugin is enabled again, the same information
  * will once again be available, and will be written out to the final model.
  *
  * <!-- ------------------------------------------------------------------- -->
@@ -532,12 +527,12 @@
  *
  * <!-- ------------------------------------------------------------------- -->
  * @class doc_summary_of_astnode_methods
- * 
+ *
  * @par
  * There are a number of methods for interrogating the type of an ASTNode and
  * for testing whether a node belongs to a general category of constructs.
  * The methods on ASTNode for this purpose are the following:
- * 
+ *
  * @if cpp
  * @li <code>ASTNodeType_t @link ASTNode::getType() getType()@endlink</code>
  * returns the type of this AST node.
@@ -699,47 +694,47 @@
  * @li <code>bool ASTNode_isUnknown()</code>
  * returns @c 1 if this AST node's type is unknown.
  * @endif
- * 
+ *
  * Programs manipulating AST node structures should check the type of a given
  * node before calling methods that return a value from the node.  The
  * following are the ASTNode object methods available for returning values
  * from nodes:
- * 
+ *
  * @if cpp
- * @li <code>long @link ASTNode::getInteger() getInteger()@endlink</code> 
- * @li <code>char @link ASTNode::getCharacter() getCharacter()@endlink</code> 
- * @li <code>const char* @link ASTNode::getName() getName()@endlink</code> 
- * @li <code>long @link ASTNode::getNumerator() getNumerator()@endlink</code> 
+ * @li <code>long @link ASTNode::getInteger() getInteger()@endlink</code>
+ * @li <code>char @link ASTNode::getCharacter() getCharacter()@endlink</code>
+ * @li <code>const char* @link ASTNode::getName() getName()@endlink</code>
+ * @li <code>long @link ASTNode::getNumerator() getNumerator()@endlink</code>
  * @li <code>long @link ASTNode::getDenominator() getDenominator()@endlink</code>
- * @li <code>double @link ASTNode::getReal() getReal()@endlink</code> 
- * @li <code>double @link ASTNode::getMantissa() getMantissa()@endlink</code> 
- * @li <code>long @link ASTNode::getExponent() getExponent()@endlink</code> 
+ * @li <code>double @link ASTNode::getReal() getReal()@endlink</code>
+ * @li <code>double @link ASTNode::getMantissa() getMantissa()@endlink</code>
+ * @li <code>long @link ASTNode::getExponent() getExponent()@endlink</code>
  * @endif
  * @if python
- * @li <code>long</code> @link libsbml.ASTNode.getInteger() ASTNode.getInteger()@endlink 
- * @li <code>char</code> @link libsbml.ASTNode.getCharacter() ASTNode.getCharacter()@endlink 
- * @li <code>string</code> @link libsbml.ASTNode.getName() ASTNode.getName()@endlink 
- * @li <code>long</code> @link libsbml.ASTNode.getNumerator() ASTNode.getNumerator()@endlink 
- * @li <code>long</code> @link libsbml.ASTNode.getDenominator() ASTNode.getDenominator()@endlink 
- * @li <code>float</code> @link libsbml.ASTNode.getReal() ASTNode.getReal()@endlink 
- * @li <code>float</code> @link libsbml.ASTNode.getMantissa() ASTNode.getMantissa()@endlink 
- * @li <code>long</code> @link libsbml.ASTNode.getExponent() ASTNode.getExponent()@endlink 
+ * @li <code>long</code> @link libsbml.ASTNode.getInteger() ASTNode.getInteger()@endlink
+ * @li <code>char</code> @link libsbml.ASTNode.getCharacter() ASTNode.getCharacter()@endlink
+ * @li <code>string</code> @link libsbml.ASTNode.getName() ASTNode.getName()@endlink
+ * @li <code>long</code> @link libsbml.ASTNode.getNumerator() ASTNode.getNumerator()@endlink
+ * @li <code>long</code> @link libsbml.ASTNode.getDenominator() ASTNode.getDenominator()@endlink
+ * @li <code>float</code> @link libsbml.ASTNode.getReal() ASTNode.getReal()@endlink
+ * @li <code>float</code> @link libsbml.ASTNode.getMantissa() ASTNode.getMantissa()@endlink
+ * @li <code>long</code> @link libsbml.ASTNode.getExponent() ASTNode.getExponent()@endlink
  * @endif
  * @if conly
- * @li <code>long ASTNode_getInteger()</code> 
- * @li <code>char ASTNode_getCharacter()</code> 
- * @li <code>const char* ASTNode_getName()</code> 
- * @li <code>long ASTNode_getNumerator()</code> 
+ * @li <code>long ASTNode_getInteger()</code>
+ * @li <code>char ASTNode_getCharacter()</code>
+ * @li <code>const char* ASTNode_getName()</code>
+ * @li <code>long ASTNode_getNumerator()</code>
  * @li <code>long ASTNode_getDenominator()</code>
- * @li <code>double ASTNode_getReal()</code> 
- * @li <code>double ASTNode_getMantissa()</code> 
- * @li <code>long ASTNode_getExponent()</code> 
+ * @li <code>double ASTNode_getReal()</code>
+ * @li <code>double ASTNode_getMantissa()</code>
+ * @li <code>long ASTNode_getExponent()</code>
  * @endif
- * 
+ *
  * Of course, all of this would be of little use if libSBML didn't also
  * provide methods for @em setting the values of AST node objects!  And it
  * does.  The methods are the following:
- * 
+ *
  * @if cpp
  * @li <code>void @link ASTNode::setCharacter(char value) setCharacter(char
  * value)@endlink</code> sets the value of this ASTNode to the given
@@ -806,7 +801,7 @@
  * (<code>isOperator(node) != 0</code>) or number (<code>isNumber(node) !=
  * 0</code>).  This allows names to be set for @c AST_FUNCTIONs and the like.
  * @li <code>void ASTNode_setInteger(ASTNode_t *node, long value)</code> sets the value of the node
- * to the given integer <code>value</code>.  
+ * to the given integer <code>value</code>.
  * @li <code>void ASTNode_setRational(ASTNode_t *node, long numerator, long denominator)</code> sets
  * the value of this ASTNode to the given rational <code>value</code> in two
  * parts: the numerator and denominator.  The node type is set to @c
@@ -818,10 +813,10 @@
  * the value of this ASTNode to a real (double) using the two parts given: the
  * mantissa and the exponent.  The node type is set to @c AST_REAL_E.
  * @endif
- * 
+ *
  * Finally, ASTNode also defines some miscellaneous methods for manipulating
  * ASTs:
- * 
+ *
  * @if cpp
  * @li <code>ASTNode* @link ASTNode::ASTNode(ASTNodeType_t type)
  * ASTNode(ASTNodeType_t type)@endlink</code> creates a new ASTNode object
@@ -910,13 +905,13 @@
  *
  * <!-- ------------------------------------------------------------------- -->
  * @class doc_summary_of_writing_mathml_directly
- * 
+ *
  * @par
  * As mentioned above, applications often can avoid working with raw MathML by
  * using either libSBML's text-string interface or the AST API.  However, when
  * needed, reading MathML content directly and creating ASTs is easily done in
  * libSBML using a method designed for this purpose:
- * 
+ *
  * @if cpp
  * @li <code>ASTNode_t* @sbmlfunction{readMathMLFromString, String}</code> reads raw
  * MathML from a text string, constructs an AST from it, then returns the root
@@ -932,10 +927,10 @@
  * MathML from a text string, constructs an AST from it, then returns the root
  * ASTNode_t of the resulting expression tree.
  * @endif
- * 
+ *
  * Similarly, writing out Abstract Syntax Tree structures is easily done using
  * the following method:
- * 
+ *
  * @if cpp
  * @li <code>char* @sbmlfunction{writeMathMLToString, ASTNode}</code> writes an
  * AST to a string.  The caller owns the character string returned and should free
@@ -1279,7 +1274,7 @@
  * @sbmlconstant{AST_NAME, ASTNodeType_t}.
  * @li Strings that match built-in functions and constants can either be parsed
  * as a match regardless of capitalization, or may be required to be
- * all-lower-case to be considered a match.  
+ * all-lower-case to be considered a match.
  * @li LibSBML plug-ins implementing support for SBML Level&nbsp;3 packages
  * may introduce extensions to the syntax understood by the parser.  The
  * precise nature of the extensions will be documented by the individual
@@ -1297,7 +1292,7 @@
  * @sbmlfunction{parseL3Formula, String} and
  * @sbmlfunction{formulaToL3String, ASTNode}.  The Level&nbsp;1-oriented
  * system (i.e., what is provided by @sbmlfunction{formulaToString, String}
- * and @sbmlfunction{parseFormula, ASTNode}) is provided 
+ * and @sbmlfunction{parseFormula, ASTNode}) is provided
  * untouched for backwards compatibility.
  *
  * <!-- ------------------------------------------------------------------- -->
@@ -1934,6 +1929,29 @@ if (config != None) {
  * returned by this function are:
  *
  * <!-- ------------------------------------------------------------------- -->
+ * @class doc_what_is_sbmlextension
+ *
+ * @par
+ * The SBMLExtension class provides methods for managing common attributes of
+ * package extensions (e.g., the SBML package name, the package version, and
+ * more), registration of instantiated plug-in creators to hook into the rest
+ * of libSBML, and initialization/registration of package extensions when the
+ * library code for the package is loaded by libSBML.  SBMLExtension is an
+ * abstract class that must be extended by each package extension
+ * implementation.
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class doc_what_is_sbmldocumentplugin
+ *
+ * @par
+ * Every SBML Level&nbsp;3 package needs to add, at minimum, an attribute
+ * called "required" to the top-level SBML <code>&lt;sbml&gt;</code> element.
+ * Some packages need to go beyond that and add additional subcomponents.
+ * The SBMLDocumentPlugin class is part of libSBML's machinery to support
+ * the implementation of classes that manipulate <code>&lt;sbml&gt;</code>
+ * and do other necessary operations.
+ *
+ * <!-- ------------------------------------------------------------------- -->
  * @class doc_extension_sbmlextension
  *
  * @par
@@ -1987,7 +2005,7 @@ unsigned int GroupsExtension::getDefaultPackageVersion()
  * combination for which the package can be used.  For instance, if a package
  * is only usable in SBML Level&nbsp;3 Version&nbsp;1, and the libSBML
  * extension for the package implements version&nbsp;1 of the package, the
- * necessary method is <code>getXmlnsL3V1V1()</code>.  
+ * necessary method is <code>getXmlnsL3V1V1()</code>.
 @code{.cpp}
 const std::string& GroupsExtension::getXmlnsL3V1V1 ()
 {
@@ -3174,7 +3192,7 @@ if (lmp != null)
  * in SBML Level&nbsp;3 Version&nbsp;2, but since that specfication has not yet been
  * released or finalized, libsbml itself might not yet implement support for
  * this.</b>
- * 
+ *
  * <!-- ------------------------------------------------------------------- -->
  * @class doc_throw_exception_lv
  *
@@ -3248,6 +3266,64 @@ if (lmp != null)
  * @see SBMLDocument::checkConsistency()
  * @see SBMLDocument::checkInternalConsistency()
  * @see SBMLDocument::setConsistencyChecks(@if java int categ, boolean onoff@endif)
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class doc_group_semantics
+ *
+ * @par
+ * If a Member object within a Group object's ListOfMembers references
+ * another Group object, it is the <em>referenced Group itself</em> that is
+ * considered to be a member of the parent Group, @em not the corresponding
+ * referenced model component(s).  This is true regardless of whether those
+ * components themselves happen to point to other components using some
+ * mechanism defined by another SBML Level&nbsp;3 package (as happens, for
+ * example, in the SBML Level&nbsp;3 Hierarchical %Model Composition package
+ * and its use of SBaseRef).  However, if instead a Member object references
+ * a ListOfMembers object (using the "id" attribute permitted on
+ * ListOfMembers objects), it is the components of that ListOfMembers that
+ * are considered to be part of the parent Group.  In other words: if in some
+ * Group @em G, a Member @em M references another Group, that Group is the
+ * member of @em G; if @em M references a ListOfMembers, it is the entities
+ * referenced by the Member objects within the ListOfMembers that are
+ * the members of @em G and not the ListOfMembers object itself.
+ *
+ * The implication of this is that any rule that applies to members of a
+ * group (such the meaning of the "kind" attribute, or the restrictions on
+ * the application of "sboTerm" attributes on a ListOfMembers) applies to the
+ * child group when referenced by the Group "id", and to the members of the
+ * child group when referenced by the ListOfMembers "id". In an example
+ * situation where a parent group includes two Species plus a Group which
+ * itself contains three other Species, if the parent group's ListOfMembers
+ * is given an "sboTerm" attribute value, that SBO term applies to the two
+ * species and the group, not to the three child species members of the
+ * second group.  (Note also that in such a case, the parent group's "kind"
+ * attribute value would almost certainly be @c "collection" or @c
+ * "partonomy", and not @c "classification", as two species and a group are
+ * very unlikely to be classified as the same thing.)  In contrast, in the
+ * situation where a parent group includes two Species plus a ListOfMembers
+ * which contains three other Species, the parent group's ListOfMembers
+ * "sboTerm" would apply to the five Species, and could be more reasonably
+ * marked as a @c "classification".
+ *
+ * In a future version of this SBML Level&nbsp;3 Groups specification, it may
+ * be possible to perform set operations on groups, but for now, this type of
+ * union is the only set operation that is possible.
+ *
+ * Groups are not permitted to be circular: no Member may reference itself,
+ * its parent ListOfMembers, nor its parent Group. If a Member references a
+ * Group, the same restrictions apply to that subgroup's children: they may
+ * not reference the Member, its parent ListOfMembers, nor its parent Group,
+ * and if any of those children reference a Group, the same restrictions apply
+ * to them, etc.
+ *
+ * If a Member has a "idRef" or "metaIdRef" attribute which references an
+ * object from a namespace that is not understood by the interpreter of the
+ * SBML model, that Member must be ignored. The referenced object will not be
+ * understood by the interpreter, and therefore has no need to become a
+ * member of the group. If an interpreter cannot tell whether a referenced
+ * object does not exist or if exists in an unparsed namespace, it may choose
+ * to produce a warning.
+ *
  */
 
 /* <!-- -------------------------------------------------------------------
@@ -3257,18 +3333,18 @@ if (lmp != null)
  *
  * @copydetails doc_l3v2_specific_addition
  *
- * Similarly, the combined set of RateRule and Reaction objects constitute 
- * a set of definitions for the rates of change of various model entities 
- * (namely, the objects identified by the values of the 'variable' attributes 
- * of the RateRule objects, and the 'species' attributes of the SpeciesReference 
- * objects in each Reaction).  These rates of change may be referenced directly 
- * using the <em>rateOf</em> csymbol, but may not thereby contain algebraic 
- * loops---dependency chains between these statements must terminate.  More 
- * formally, consider a directed graph in which the nodes are the definitions 
- * of different variables' rates of change, and directed arcs exist for each 
- * occurrence of a variable referenced by a <em>rateOf</em> csymbol from any 
- * RateRule or KineticLaw object in the model.  Let the directed arcs point 
- * from the variable referenced by the <em>rateOf</em> csymbol (call it 
+ * Similarly, the combined set of RateRule and Reaction objects constitute
+ * a set of definitions for the rates of change of various model entities
+ * (namely, the objects identified by the values of the 'variable' attributes
+ * of the RateRule objects, and the 'species' attributes of the SpeciesReference
+ * objects in each Reaction).  These rates of change may be referenced directly
+ * using the <em>rateOf</em> csymbol, but may not thereby contain algebraic
+ * loops---dependency chains between these statements must terminate.  More
+ * formally, consider a directed graph in which the nodes are the definitions
+ * of different variables' rates of change, and directed arcs exist for each
+ * occurrence of a variable referenced by a <em>rateOf</em> csymbol from any
+ * RateRule or KineticLaw object in the model.  Let the directed arcs point
+ * from the variable referenced by the <em>rateOf</em> csymbol (call it
  * <em>x</em>) to the variable(s) determined by the 'math' expression in which
  * <em>x</em> appears.  This graph must be acyclic.
  *

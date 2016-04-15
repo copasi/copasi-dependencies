@@ -95,10 +95,12 @@ MultiListOfReactionsPlugin::clone () const
 bool
 MultiListOfReactionsPlugin::accept(SBMLVisitor& v) const
 {
-  const Model * model = static_cast<const Model * >(this->getParentSBMLObject());
+  // here we dont need to do this as the constraints to the model
+  // have already been applied via the multimodelplugin
+  //const Model * model = static_cast<const Model * >(this->getParentSBMLObject());
 
-  v.visit(*model);
-  v.leave(*model);
+  //v.visit(*model);
+  //v.leave(*model);
 
   return true;
 }
@@ -109,6 +111,44 @@ MultiListOfReactionsPlugin::isValidTypeForList(SBase* item) const
   return item->getTypeCode() == SBML_REACTION ||
       item->getTypeCode() == SBML_MULTI_INTRA_SPECIES_REACTION;
 }
+
+SBase*
+MultiListOfReactionsPlugin::createObject (XMLInputStream& stream)
+{
+  const string& name   = stream.peek().getName();
+  SBase*        object = NULL;
+
+
+  if (name == "intraSpeciesReaction")
+  {
+    try
+    {
+       MULTI_CREATE_NS(multins, getSBMLNamespaces());
+       object = new IntraSpeciesReaction(multins);
+       delete multins;
+    }
+    catch (SBMLConstructorException*)
+    {
+      object = new IntraSpeciesReaction(SBMLDocument::getDefaultLevel(),
+        SBMLDocument::getDefaultVersion());
+    }
+    catch ( ... )
+    {
+      object = new IntraSpeciesReaction(SBMLDocument::getDefaultLevel(),
+        SBMLDocument::getDefaultVersion());
+    }
+
+    if (object != NULL)
+    {
+      ListOf * lo = dynamic_cast<ListOf*>(getParentSBMLObject());
+      if (lo != NULL)
+        lo->appendAndOwn(object);
+    }
+  }
+
+  return object;
+}
+
 
 
 LIBSBML_CPP_NAMESPACE_END

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -149,6 +149,8 @@ FbcReactionPlugin::createObject (XMLInputStream& stream)
         getErrorLog()->logPackageError("fbc", FbcReactionOnlyOneGeneProdAss, 
           getPackageVersion(), getLevel(), getVersion());
       }
+
+      delete mGeneProductAssociation;
       
       mGeneProductAssociation = new GeneProductAssociation(fbcns);
 
@@ -179,22 +181,7 @@ FbcReactionPlugin::writeElements (XMLOutputStream& stream) const
 /** @endcond */
 
 
-/*
- * Checks if this plugin object has all the required elements.
- */
-bool
-FbcReactionPlugin::hasRequiredElements () const
-{
-  bool allPresent = true; 
-
-  // TO DO 
-
-  return allPresent; 
-}
-
-
-  /** @cond doxygenLibsbmlInternal */
-
+/** @cond doxygenLibsbmlInternal */
 /*
  * Get the list of expected attributes for this element.
  */
@@ -435,6 +422,8 @@ FbcReactionPlugin::setGeneProductAssociation(const GeneProductAssociation* geneP
   {
     delete mGeneProductAssociation;
     mGeneProductAssociation = static_cast<GeneProductAssociation*>(geneProductAssociation->clone());
+    if (mGeneProductAssociation != NULL) mGeneProductAssociation->connectToParent(this->getParentSBMLObject());
+
     return LIBSBML_OPERATION_SUCCESS;
   }
 }
@@ -664,9 +653,128 @@ FbcReactionPlugin::accept(SBMLVisitor& v) const
 
 
 
-LIBSBML_CPP_NAMESPACE_END
 
 
 #endif /* __cplusplus */
 
+
+LIBSBML_EXTERN
+char *
+FbcReactionPlugin_getUpperFluxBound(SBasePlugin_t * fbc)
+{
+  if (fbc == NULL) return NULL;
+
+  return static_cast<FbcReactionPlugin*>(fbc)->getUpperFluxBound().empty() 
+    ? safe_strdup("")
+    : safe_strdup(static_cast<FbcReactionPlugin*>(fbc)->getUpperFluxBound().c_str());
+}
+
+
+LIBSBML_EXTERN
+int
+FbcReactionPlugin_isSetUpperFluxBound(SBasePlugin_t * fbc)
+{
+  return (fbc != NULL) 
+    ? static_cast<int>
+             (static_cast<FbcReactionPlugin*>(fbc)->isSetUpperFluxBound()) 
+    : 0;
+}
+
+
+LIBSBML_EXTERN
+int
+FbcReactionPlugin_setUpperFluxBound(SBasePlugin_t * fbc, const char * chemform)
+{
+  return (fbc != NULL) 
+    ? static_cast<FbcReactionPlugin*>(fbc)->setUpperFluxBound(chemform)
+    : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+FbcReactionPlugin_unsetUpperFluxBound(SBasePlugin_t * fbc)
+{
+  return (fbc != NULL) 
+    ? static_cast<FbcReactionPlugin*>(fbc)->unsetUpperFluxBound()
+    : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+char *
+FbcReactionPlugin_getLowerFluxBound(SBasePlugin_t * fbc)
+{
+  if (fbc == NULL) return NULL;
+
+  return static_cast<FbcReactionPlugin*>(fbc)->getLowerFluxBound().empty() 
+    ? safe_strdup("")
+    : safe_strdup(static_cast<FbcReactionPlugin*>(fbc)->getLowerFluxBound().c_str());
+}
+
+
+LIBSBML_EXTERN
+int
+FbcReactionPlugin_isSetLowerFluxBound(SBasePlugin_t * fbc)
+{
+  return (fbc != NULL) 
+    ? static_cast<int>
+             (static_cast<FbcReactionPlugin*>(fbc)->isSetLowerFluxBound()) 
+    : 0;
+}
+
+
+LIBSBML_EXTERN
+int
+FbcReactionPlugin_setLowerFluxBound(SBasePlugin_t * fbc, const char * chemform)
+{
+  return (fbc != NULL) 
+    ? static_cast<FbcReactionPlugin*>(fbc)->setLowerFluxBound(chemform)
+    : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+FbcReactionPlugin_unsetLowerFluxBound(SBasePlugin_t * fbc)
+{
+  return (fbc != NULL) 
+    ? static_cast<FbcReactionPlugin*>(fbc)->unsetLowerFluxBound()
+    : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+FbcReactionPlugin_isSetGeneProductAssociation(SBasePlugin_t * fbc)
+{
+  return (fbc != NULL) 
+    ? static_cast<int>
+             (static_cast<FbcReactionPlugin*>(fbc)->isSetGeneProductAssociation()) 
+    : 0;
+}
+
+
+LIBSBML_EXTERN
+GeneProductAssociation_t*
+FbcReactionPlugin_getGeneProductAssociation(SBasePlugin_t * fbc)
+{
+  return  (fbc != NULL) ? static_cast<FbcReactionPlugin*>(fbc)->getGeneProductAssociation() : NULL;
+
+}
+
+LIBSBML_EXTERN
+int
+FbcReactionPlugin_setGeneProductAssociation(SBasePlugin_t * fbc, 
+                                            GeneProductAssociation_t* gpa)
+{
+  return (fbc != NULL) 
+    ? static_cast<FbcReactionPlugin*>(fbc)->setGeneProductAssociation(gpa)
+    : LIBSBML_INVALID_OBJECT;
+}
+
+
+
+
+LIBSBML_CPP_NAMESPACE_END
 

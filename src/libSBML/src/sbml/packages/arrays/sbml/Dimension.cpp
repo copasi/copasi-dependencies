@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -82,19 +82,12 @@ Dimension::Dimension (ArraysPkgNamespaces* arraysns)
  */
 Dimension::Dimension (const Dimension& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mName  ( orig.mName)
+  , mSize  ( orig.mSize)
+  , mArrayDimension  ( orig.mArrayDimension)
+  , mIsSetArrayDimension  ( orig.mIsSetArrayDimension)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mName  = orig.mName;
-    mSize  = orig.mSize;
-    mArrayDimension  = orig.mArrayDimension;
-    mIsSetArrayDimension  = orig.mIsSetArrayDimension;
-  }
 }
 
 
@@ -104,11 +97,7 @@ Dimension::Dimension (const Dimension& orig)
 Dimension&
 Dimension::operator=(const Dimension& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
@@ -235,15 +224,8 @@ Dimension::setId(const std::string& id)
 int
 Dimension::setName(const std::string& name)
 {
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
-  {
-    mName = name;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -253,11 +235,7 @@ Dimension::setName(const std::string& name)
 int
 Dimension::setSize(const std::string& size)
 {
-  if (&(size) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(size)))
+  if (!(SyntaxChecker::isValidInternalSId(size)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }

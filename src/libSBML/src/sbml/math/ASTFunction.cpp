@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -4256,6 +4256,19 @@ ASTFunction::readQualifier(XMLInputStream& stream, const std::string& reqd_prefi
   else
   {
     numChildren = determineNumArgs(stream, currentName);
+  }
+
+  // Jason Zwolak reported that a piece with only one child was not
+  // being flagged as an error
+  if (currentName == "piece" && numChildren != 2)
+  {
+    std::string message = "The <piece> element should have two child elements.";
+    logError(stream, currentElement, OpsNeedCorrectNumberOfArgs, message);
+  }
+  else if (currentName == "otherwise" && numChildren != 1)
+  {
+    std::string message = "The <otherwise> element should have one child elements.";
+    logError(stream, currentElement, OpsNeedCorrectNumberOfArgs, message);
   }
     
   // this is a nasty one as we have already consumed currentName

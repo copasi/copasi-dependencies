@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -446,19 +446,19 @@ SBMLLevelVersionConverter::performConversion(bool strict, bool strictUnits,
       switch (targetVersion)
       {
       case 1:
-        if (!conversion_errors(mDocument->checkL2v1Compatibility()))
+        if (!conversion_errors(mDocument->checkL2v1Compatibility(true)))
         {
           doConversion = true;
         }
         break;
       case 2:
-        if (!conversion_errors(mDocument->checkL2v2Compatibility()))
+        if (!conversion_errors(mDocument->checkL2v2Compatibility(true)))
         {
           doConversion = true;
         }
         break;
       case 3:
-        if (!conversion_errors(mDocument->checkL2v3Compatibility()))
+        if (!conversion_errors(mDocument->checkL2v3Compatibility(true)))
         {
           doConversion = true;
         }
@@ -526,7 +526,7 @@ SBMLLevelVersionConverter::performConversion(bool strict, bool strictUnits,
         mDocument->getErrorLog()->logError(CannotConvertToL1V1);
         break;
       case 2:
-        if (!conversion_errors(mDocument->checkL1Compatibility()))
+        if (!conversion_errors(mDocument->checkL1Compatibility(true)))
         {
           doConversion = true;
           /* if existing model is L2V4 need to mDocument->check that
@@ -570,7 +570,7 @@ SBMLLevelVersionConverter::performConversion(bool strict, bool strictUnits,
       switch (targetVersion)
       {
       case 1:
-        if (!conversion_errors(mDocument->checkL2v1Compatibility()))
+        if (!conversion_errors(mDocument->checkL2v1Compatibility(true)))
         {
           doConversion = true;
           /* if existing model is L2V4 need to mDocument->check that
@@ -598,7 +598,7 @@ SBMLLevelVersionConverter::performConversion(bool strict, bool strictUnits,
         }
         break;
       case 2:
-        if (!conversion_errors(mDocument->checkL2v2Compatibility()))
+        if (!conversion_errors(mDocument->checkL2v2Compatibility(true)))
         {
           doConversion = true;
           /* if existing model is L2V4 need to mDocument->check that
@@ -645,7 +645,7 @@ SBMLLevelVersionConverter::performConversion(bool strict, bool strictUnits,
          }
         break;
       case 3:
-        if (!conversion_errors(mDocument->checkL2v3Compatibility()))
+        if (!conversion_errors(mDocument->checkL2v3Compatibility(true)))
         {
           doConversion = true;
           /* if existing model is L2V4 need to mDocument->check that
@@ -790,7 +790,7 @@ SBMLLevelVersionConverter::performConversion(bool strict, bool strictUnits,
         mDocument->getErrorLog()->logError(CannotConvertToL1V1);
         break;
       case 2:
-        if (!conversion_errors(mDocument->checkL1Compatibility(), strictUnits))
+        if (!conversion_errors(mDocument->checkL1Compatibility(true), strictUnits))
         {
           doConversion = true;
           if (strictUnits == true && !hasStrictUnits())
@@ -827,7 +827,7 @@ SBMLLevelVersionConverter::performConversion(bool strict, bool strictUnits,
       switch (targetVersion)
       {
       case 1:
-        if (!conversion_errors(mDocument->checkL2v1Compatibility(), strictUnits))
+        if (!conversion_errors(mDocument->checkL2v1Compatibility(true), strictUnits))
         {
           doConversion = true;
            if (strictUnits == true && !hasStrictUnits())
@@ -848,7 +848,7 @@ SBMLLevelVersionConverter::performConversion(bool strict, bool strictUnits,
        }
         break;
       case 2:
-        if (!conversion_errors(mDocument->checkL2v2Compatibility(), strictUnits))
+        if (!conversion_errors(mDocument->checkL2v2Compatibility(true), strictUnits))
         {
           doConversion = true;
           if (strictUnits == true && !hasStrictUnits())
@@ -884,7 +884,7 @@ SBMLLevelVersionConverter::performConversion(bool strict, bool strictUnits,
        }
         break;
       case 3:
-        if (!conversion_errors(mDocument->checkL2v3Compatibility(), strictUnits))
+        if (!conversion_errors(mDocument->checkL2v3Compatibility(true), strictUnits))
         {
           doConversion = true;
           if (strictUnits == true && !hasStrictUnits())

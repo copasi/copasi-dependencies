@@ -445,7 +445,7 @@ protected:
   /** @cond doxygenLibsbmlInternal */
 
 
-  ListOfCompartmentReferences mCompartmentReferences;
+  ListOfCompartmentReferences mListOfCompartmentReferences;
 
   std::string   mCompartmentType;
   bool          mIsType;

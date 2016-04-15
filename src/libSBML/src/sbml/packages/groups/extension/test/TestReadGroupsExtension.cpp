@@ -173,77 +173,9 @@ START_TEST (test_GroupsExtension_read_L3V1V1_unknown_elements)
   Model *model = document->getModel();
  
   fail_unless(model != NULL);
-  fail_unless(document->getNumErrors() == 4);
+  fail_unless(document->getNumErrors() == 3);
 
   delete document;
-}
-END_TEST
-
-
-START_TEST (test_GroupsExtension_read_memberConstraints)
-{
-  char *filename = safe_strcat(TestDataDirectory, "groups_speciestype_example.xml");
-  SBMLDocument *document = readSBMLFromFile(filename);
-  fail_unless(document->getPackageName() == "core");
-
-  Model *model = document->getModel();
-
-  fail_unless(model != NULL);
-  fail_unless(model->getPackageName() == "core");
-  fail_unless(document->getNumErrors() == 0);
-
-  // get the Group
-
-  GroupsModelPlugin* mplugin = static_cast<GroupsModelPlugin*>(model->getPlugin("groups"));
-  fail_unless(mplugin != NULL);
-
-  fail_unless(mplugin->getNumGroups() == 1);
-  fail_unless(mplugin->getListOfGroups()->getPackageName() == "groups");
-
-  Group* group = mplugin->getGroup(0);
-  fail_unless(group->getId()          == "ATP");
-  fail_unless(group->getKind()        == GROUP_KIND_CLASSIFICATION);
-  fail_unless(group->getNumMembers()  == 2);
-  fail_unless(group->getNumMemberConstraints() == 3);
-  fail_unless(group->getPackageName() == "groups");
-
-  fail_unless(group->getListOfMembers()->getPackageName() == "groups");
-  fail_unless(group->getListOfMembers()->getSBOTermID()   == "SBO:0000248");
-
-  Member* member = group->getMember(0);
-  fail_unless(member->getIdRef()      == "ATPc");
-  fail_unless(member->getPackageName() == "groups");
-
-  member = group->getMember(1);
-  fail_unless(member->getIdRef()      == "ATPm");
-  fail_unless(member->getPackageName() == "groups");
-
-  ListOfMemberConstraints* lomcs = group->getListOfMemberConstraints();
-  fail_unless(lomcs->getPackageName() == "groups");
-  fail_unless(lomcs->isSetMembersShareType() == true);
-  fail_unless(lomcs->getMembersShareType() == true);
-
-  MemberConstraint* mc = group->getMemberConstraint(0);
-  fail_unless(mc->isSetDistinctAttribute() == true);
-  fail_unless(mc->isSetIdenticalAttribute() == false);
-  fail_unless(mc->getDistinctAttribute() == "compartment");
-  fail_unless(mc->getPackageName() == "groups");
-
-  mc = group->getMemberConstraint(1);
-  fail_unless(mc->isSetDistinctAttribute() == false);
-  fail_unless(mc->isSetIdenticalAttribute() == true);
-  fail_unless(mc->getIdenticalAttribute() == "initialConcentration");
-  fail_unless(mc->getPackageName() == "groups");
-
-  mc = group->getMemberConstraint(2);
-  fail_unless(mc->isSetDistinctAttribute() == false);
-  fail_unless(mc->isSetIdenticalAttribute() == true);
-  fail_unless(mc->getIdenticalAttribute() == "constant");
-  fail_unless(mc->getPackageName() == "groups");
-
-
-  delete document;  
-  safe_free(filename);
 }
 END_TEST
 
@@ -257,7 +189,6 @@ create_suite_ReadGroupsExtension (void)
   tcase_add_test( tcase, test_GroupsExtension_read_L3V1V1);
   tcase_add_test( tcase, test_GroupsExtension_read_L3V1V1_defaultNS);
   tcase_add_test( tcase, test_GroupsExtension_read_L3V1V1_unknown_elements);
-  tcase_add_test( tcase, test_GroupsExtension_read_memberConstraints);
   
   
   suite_add_tcase(suite, tcase);

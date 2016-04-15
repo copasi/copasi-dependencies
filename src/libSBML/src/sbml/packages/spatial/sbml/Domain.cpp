@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -85,20 +85,12 @@ Domain::Domain (SpatialPkgNamespaces* spatialns)
  */
 Domain::Domain (const Domain& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mDomainType  ( orig.mDomainType)
+  , mInteriorPoints  ( orig.mInteriorPoints)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mDomainType  = orig.mDomainType;
-    mInteriorPoints  = orig.mInteriorPoints;
-
-    // connect to child objects
-    connectToChild();
-  }
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -108,11 +100,7 @@ Domain::Domain (const Domain& orig)
 Domain&
 Domain::operator=(const Domain& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
@@ -200,11 +188,7 @@ Domain::setId(const std::string& id)
 int
 Domain::setDomainType(const std::string& domainType)
 {
-  if (&(domainType) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(domainType)))
+  if (!(SyntaxChecker::isValidInternalSId(domainType)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -432,6 +416,7 @@ Domain::createInteriorPoint()
 void
 Domain::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetDomainType() == true && mDomainType == oldid)
   {
     setDomainType(newid);

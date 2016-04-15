@@ -71,16 +71,9 @@ OutwardBindingSite::OutwardBindingSite (MultiPkgNamespaces* multins)
  */
 OutwardBindingSite::OutwardBindingSite (const OutwardBindingSite& orig)
   : SBase(orig)
+  , mBindingStatus  ( orig.mBindingStatus)
+  , mComponent  ( orig.mComponent)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mBindingStatus  = orig.mBindingStatus;
-    mComponent  = orig.mComponent;
-  }
 }
 
 
@@ -90,11 +83,7 @@ OutwardBindingSite::OutwardBindingSite (const OutwardBindingSite& orig)
 OutwardBindingSite&
 OutwardBindingSite::operator=(const OutwardBindingSite& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mBindingStatus  = rhs.mBindingStatus;
@@ -187,11 +176,7 @@ OutwardBindingSite::setBindingStatus(BindingStatus_t bindingStatus)
 int
 OutwardBindingSite::setComponent(const std::string& component)
 {
-  if (&(component) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(component)))
+  if (!(SyntaxChecker::isValidInternalSId(component)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -239,6 +224,7 @@ OutwardBindingSite::unsetComponent()
 void
 OutwardBindingSite::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetComponent() == true && mComponent == oldid)
   {
     setComponent(newid);
@@ -386,8 +372,10 @@ OutwardBindingSite::readAttributes (const XMLAttributes& attributes,
    * happened immediately prior to this read
   */
 
-  if (getErrorLog() != NULL &&
-      static_cast<ListOfOutwardBindingSites*>(getParentSBMLObject())->size() < 2)
+  ListOfOutwardBindingSites * parentListOf =
+      static_cast<ListOfOutwardBindingSites*>(getParentSBMLObject());
+
+  if (getErrorLog() != NULL && parentListOf->size() < 2)
   {
     numErrs = getErrorLog()->getNumErrors();
     for (int n = numErrs-1; n >= 0; n--)
@@ -397,16 +385,18 @@ OutwardBindingSite::readAttributes (const XMLAttributes& attributes,
         const std::string details =
               getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofOutBsts_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOf->getLine(), parentListOf->getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                    getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofOutBsts_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOf->getLine(), parentListOf->getColumn());
       }
     }
   }
@@ -424,16 +414,18 @@ OutwardBindingSite::readAttributes (const XMLAttributes& attributes,
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiOutBst_AllowedMultiAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiOutBst_AllowedCoreAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
     }
   }
@@ -455,15 +447,18 @@ OutwardBindingSite::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mComponent) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute component='" + mComponent + "' does not conform.");
+        std::string details = "The syntax of the attribute component='" + mComponent + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
   else
   {
     std::string message = "Multi attribute 'component' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+    getErrorLog()->logPackageError("multi", MultiOutBst_AllowedMultiAtts,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message,
+                   getLine(), getColumn());
   }
 
   //
@@ -487,8 +482,9 @@ OutwardBindingSite::readAttributes (const XMLAttributes& attributes,
        mBindingStatus = BindingStatus_fromString( bindingStatus.c_str() );
        if (OutwardBindingSite_isValidBindingStatus(mBindingStatus) == 0)
        {
-          getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion);
+          getErrorLog()->logPackageError("multi", MultiOutBst_BdgStaAtt_Ref,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, "",
+                       getLine(), getColumn());
        }
     }
   }

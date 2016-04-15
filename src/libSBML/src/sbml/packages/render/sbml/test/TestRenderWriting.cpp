@@ -59,7 +59,6 @@
 #include <sbml/packages/layout/sbml/CubicBezier.h>
 #include <sbml/packages/layout/sbml/Curve.h>
 
-
 #include <sbml/packages/render/extension/RenderLayoutPlugin.h>
 #include <sbml/packages/render/extension/RenderListOfLayoutsPlugin.h>
 #include <sbml/packages/render/extension/RenderGraphicalObjectPlugin.h>
@@ -6178,7 +6177,6 @@ START_TEST (test_RenderWriting_write_L3_model_2)
   fail_unless(pStyle2_1 != NULL);
   if(pStyle2_1->getId() == "style_for_graphical_object_2")
   {
-      pStyle2_1=pStyle2_1;
       pStyle2_1=pLocalRenderInfo2->getStyle(1);
   }
   else

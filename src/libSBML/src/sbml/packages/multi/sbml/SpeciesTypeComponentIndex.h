@@ -46,7 +46,6 @@
 #include <sbml/ListOf.h>
 #include <sbml/packages/multi/extension/MultiExtension.h>
 
-#include <sbml/packages/multi/sbml/DenotedSpeciesTypeComponentIndex.h>
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
@@ -58,10 +57,7 @@ protected:
 
   std::string   mId;
   std::string   mComponent;
-  unsigned int  mOccur;
-  bool          mIsSetOccur;
   std::string   mIdentifyingParent;
-  ListOfDenotedSpeciesTypeComponentIndexes   mDenotedSpeciesTypeComponentIndexes;
 
 
 public:
@@ -212,52 +208,6 @@ public:
 
 
   /**
-   * Returns the value of the "occur" attribute of this SpeciesTypeComponentIndex.
-   *
-   * @return the value of the "occur" attribute of this SpeciesTypeComponentIndex as a unsigned integer.
-   */
-  virtual unsigned int getOccur() const;
-
-
-  /**
-   * Predicate returning @c true or @c false depending on whether this
-   * SpeciesTypeComponentIndex's "occur" attribute has been set.
-   *
-   * @return @c true if this SpeciesTypeComponentIndex's "occur" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetOccur() const;
-
-
-  /**
-   * Sets the value of the "occur" attribute of this SpeciesTypeComponentIndex.
-   *
-   * @param occur; unsigned int value of the "occur" attribute to be set
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-   */
-  virtual int setOccur(unsigned int occur);
-
-
-  /**
-   * Unsets the value of the "occur" attribute of this SpeciesTypeComponentIndex.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
-   */
-  virtual int unsetOccur();
-
-
-  /**
    * Returns the value of the "identifyingParent" attribute of this SpeciesTypeComponentIndex.
    *
    * @return the value of the "identifyingParent" attribute of this SpeciesTypeComponentIndex as a string.
@@ -304,145 +254,6 @@ public:
 
 
   /**
-   * Returns the  "ListOfDenotedSpeciesTypeComponentIndexes" in this SpeciesTypeComponentIndex object.
-   *
-   * @return the "ListOfDenotedSpeciesTypeComponentIndexes" attribute of this SpeciesTypeComponentIndex.
-   */
-  const ListOfDenotedSpeciesTypeComponentIndexes* getListOfDenotedSpeciesTypeComponentIndexes() const;
-
-
-  /**
-   * Returns the  "ListOfDenotedSpeciesTypeComponentIndexes" in this SpeciesTypeComponentIndex object.
-   *
-   * @return the "ListOfDenotedSpeciesTypeComponentIndexes" attribute of this SpeciesTypeComponentIndex.
-   */
-  ListOfDenotedSpeciesTypeComponentIndexes* getListOfDenotedSpeciesTypeComponentIndexes();
-
-
-  /**
-   * Get a DenotedSpeciesTypeComponentIndex from the ListOfDenotedSpeciesTypeComponentIndexes.
-   *
-   * @param n the index number of the DenotedSpeciesTypeComponentIndex to get.
-   *
-   * @return the nth DenotedSpeciesTypeComponentIndex in the ListOfDenotedSpeciesTypeComponentIndexes within this SpeciesTypeComponentIndex.
-   *
-   * @see getNumDenotedSpeciesTypeComponentIndexes()
-   */
-  DenotedSpeciesTypeComponentIndex* getDenotedSpeciesTypeComponentIndex(unsigned int n);
-
-
-  /**
-   * Get a DenotedSpeciesTypeComponentIndex from the ListOfDenotedSpeciesTypeComponentIndexes.
-   *
-   * @param n the index number of the DenotedSpeciesTypeComponentIndex to get.
-   *
-   * @return the nth DenotedSpeciesTypeComponentIndex in the ListOfDenotedSpeciesTypeComponentIndexes within this SpeciesTypeComponentIndex.
-   *
-   * @see getNumDenotedSpeciesTypeComponentIndexes()
-   */
-  const DenotedSpeciesTypeComponentIndex* getDenotedSpeciesTypeComponentIndex(unsigned int n) const;
-
-
-  /**
-   * Get a DenotedSpeciesTypeComponentIndex from the ListOfDenotedSpeciesTypeComponentIndexes
-   * based on its identifier.
-   *
-   * @param sid a string representing the identifier
-   * of the DenotedSpeciesTypeComponentIndex to get.
-   *
-   * @return the DenotedSpeciesTypeComponentIndex in the ListOfDenotedSpeciesTypeComponentIndexes
-   * with the given id or NULL if no such
-   * DenotedSpeciesTypeComponentIndex exists.
-   *
-   * @see getDenotedSpeciesTypeComponentIndex(unsigned int n)
-   *
-   * @see getNumDenotedSpeciesTypeComponentIndexes()
-   */
-  DenotedSpeciesTypeComponentIndex* getDenotedSpeciesTypeComponentIndex(const std::string& sid);
-
-
-  /**
-   * Get a DenotedSpeciesTypeComponentIndex from the ListOfDenotedSpeciesTypeComponentIndexes
-   * based on its identifier.
-   *
-   * @param sid a string representing the identifier
-   * of the DenotedSpeciesTypeComponentIndex to get.
-   *
-   * @return the DenotedSpeciesTypeComponentIndex in the ListOfDenotedSpeciesTypeComponentIndexes
-   * with the given id or NULL if no such
-   * DenotedSpeciesTypeComponentIndex exists.
-   *
-   * @see getDenotedSpeciesTypeComponentIndex(unsigned int n)
-   *
-   * @see getNumDenotedSpeciesTypeComponentIndexes()
-   */
-  const DenotedSpeciesTypeComponentIndex* getDenotedSpeciesTypeComponentIndex(const std::string& sid) const;
-
-
-  /**
-   * Adds a copy the given "DenotedSpeciesTypeComponentIndex" to this SpeciesTypeComponentIndex.
-   *
-   * @param dstci; the DenotedSpeciesTypeComponentIndex object to add
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-   */
-  int addDenotedSpeciesTypeComponentIndex(const DenotedSpeciesTypeComponentIndex* dstci);
-
-
-  /**
-   * Get the number of DenotedSpeciesTypeComponentIndex objects in this SpeciesTypeComponentIndex.
-   *
-   * @return the number of DenotedSpeciesTypeComponentIndex objects in this SpeciesTypeComponentIndex
-   */
-  unsigned int getNumDenotedSpeciesTypeComponentIndexes() const;
-
-
-  /**
-   * Creates a new DenotedSpeciesTypeComponentIndex object, adds it to this SpeciesTypeComponentIndexes
-   * ListOfDenotedSpeciesTypeComponentIndexes and returns the DenotedSpeciesTypeComponentIndex object created. 
-   *
-   * @return a new DenotedSpeciesTypeComponentIndex object instance
-   *
-   * @see addDenotedSpeciesTypeComponentIndex(const DenotedSpeciesTypeComponentIndex* dstci)
-   */
-  DenotedSpeciesTypeComponentIndex* createDenotedSpeciesTypeComponentIndex();
-
-
-  /**
-   * Removes the nth DenotedSpeciesTypeComponentIndex from the ListOfDenotedSpeciesTypeComponentIndexes within this SpeciesTypeComponentIndex.
-   * and returns a pointer to it.
-   *
-   * The caller owns the returned item and is responsible for deleting it.
-   *
-   * @param n the index of the DenotedSpeciesTypeComponentIndex to remove.
-   *
-   * @see getNumDenotedSpeciesTypeComponentIndexes()
-   */
-  DenotedSpeciesTypeComponentIndex* removeDenotedSpeciesTypeComponentIndex(unsigned int n);
-
-
-  /**
-   * Removes the DenotedSpeciesTypeComponentIndex with the given identifier from the ListOfDenotedSpeciesTypeComponentIndexes within this SpeciesTypeComponentIndex
-   * and returns a pointer to it.
-   *
-   * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier @p sid, then
-   * @c NULL is returned.
-   *
-   * @param sid the identifier of the DenotedSpeciesTypeComponentIndex to remove.
-   *
-   * @return the DenotedSpeciesTypeComponentIndex removed. As mentioned above, the caller owns the
-   * returned item.
-   */
-  DenotedSpeciesTypeComponentIndex* removeDenotedSpeciesTypeComponentIndex(const std::string& sid);
-
-
-  /**
    * Renames all the @c SIdRef attributes on this element, including any
    * found in MathML content (if such exists).
    *
@@ -455,15 +266,6 @@ public:
    * @param newid the new identifier
    */
    virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
-
-
-  /**
-   * Returns a List of all child SBase objects, including those nested to an
-   * arbitary depth.
-   *
-   * @return a List* of pointers to all child objects.
-   */
-   virtual List* getAllElements(ElementFilter * filter = NULL);
 
 
   /**
@@ -523,18 +325,6 @@ public:
   virtual bool hasRequiredAttributes() const;
 
 
-  /**
-   * Predicate returning @c true if all the required elements
-   * for this SpeciesTypeComponentIndex object have been set.
-   *
-   * @note The required elements for a SpeciesTypeComponentIndex object are:
-   *
-   * @return a boolean value indicating whether all the required
-   * elements for this object have been defined.
-   */
-  virtual bool hasRequiredElements() const;
-
-
   /** @cond doxygenLibsbmlInternal */
 
   /**
@@ -565,17 +355,6 @@ public:
    * Sets the parent SBMLDocument.
    */
   virtual void setSBMLDocument (SBMLDocument* d);
-
-
-  /** @endcond doxygenLibsbmlInternal */
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
-   * Connects to child elements.
-   */
-  virtual void connectToChild ();
 
 
   /** @endcond doxygenLibsbmlInternal */
@@ -973,46 +752,6 @@ SpeciesTypeComponentIndex_unsetOccur(SpeciesTypeComponentIndex_t * stci);
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_unsetIdentifyingParent(SpeciesTypeComponentIndex_t * stci);
-
-
-LIBSBML_EXTERN
-int
-SpeciesTypeComponentIndex_addDenotedSpeciesTypeComponentIndex(SpeciesTypeComponentIndex_t * stci, DenotedSpeciesTypeComponentIndex_t * dstci);
-
-
-LIBSBML_EXTERN
-DenotedSpeciesTypeComponentIndex_t *
-SpeciesTypeComponentIndex_createDenotedSpeciesTypeComponentIndex(SpeciesTypeComponentIndex_t * stci);
-
-
-LIBSBML_EXTERN
-ListOf_t *
-SpeciesTypeComponentIndex_getListOfDenotedSpeciesTypeComponentIndexes(SpeciesTypeComponentIndex_t * stci) ;
-
-
-LIBSBML_EXTERN
-DenotedSpeciesTypeComponentIndex_t *
-SpeciesTypeComponentIndex_getDenotedSpeciesTypeComponentIndex(SpeciesTypeComponentIndex_t * stci, unsigned int n);
-
-
-LIBSBML_EXTERN
-DenotedSpeciesTypeComponentIndex_t *
-SpeciesTypeComponentIndex_getDenotedSpeciesTypeComponentIndexById(SpeciesTypeComponentIndex_t * stci, const char * sid);
-
-
-LIBSBML_EXTERN
-unsigned int
-SpeciesTypeComponentIndex_getNumDenotedSpeciesTypeComponentIndexes(SpeciesTypeComponentIndex_t * stci);
-
-
-LIBSBML_EXTERN
-DenotedSpeciesTypeComponentIndex_t *
-SpeciesTypeComponentIndex_removeDenotedSpeciesTypeComponentIndex(SpeciesTypeComponentIndex_t * stci, unsigned int n);
-
-
-LIBSBML_EXTERN
-DenotedSpeciesTypeComponentIndex_t *
-SpeciesTypeComponentIndex_removeDenotedSpeciesTypeComponentIndexById(SpeciesTypeComponentIndex_t * stci, const char * sid);
 
 
 LIBSBML_EXTERN

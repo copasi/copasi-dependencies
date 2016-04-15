@@ -63,62 +63,45 @@
 		SBase sb = new SBase(cPtr, false);
 		switch( sb.getTypeCode() )
 		{
-			case (int) libsbml.SBML_LIST_OF:
-			     string name = sb.getElementName();
-		             if(name =="listOfMembers")
-			     {
-		               return new ListOfMembers(cPtr, owner);
-                             }
-				else if (name == "listOfMemberConstraints")
-				{
-					return new ListOfMemberConstraints(cPtr, owner);
-				}
-		             else if(name =="listOfGroups")
-			     {
-		               return new ListOfGroups(cPtr, owner);
-                             }
-		       
-		             return new ListOf(cPtr, owner);
-				
-			case (int) libsbml.SBML_GROUPS_MEMBER:
-				return new Member(cPtr, owner);
+      case (int) libsbml.SBML_LIST_OF:
+        string name = sb.getElementName();
+        if (name == "listOfGroups")
+        {
+          return new ListOfGroups(cPtr, owner);
+        }
+        else if (name == "listOfMembers")
+        {
+          return new ListOfMembers(cPtr, owner);
+        }
 
-			case (int) libsbml.SBML_GROUPS_MEMBER_CONSTRAINT:
-				return new MemberConstraint(cPtr, owner);
+        return new ListOf(cPtr, owner);
 
-			case (int) libsbml.SBML_GROUPS_GROUP:
-				return new Group(cPtr, owner);
-				
-			default:
-				return new SBase(cPtr, owner);
+      case (int) libsbml.SBML_GROUPS_GROUP:
+        return new Group(cPtr, owner);
+
+      case (int) libsbml.SBML_GROUPS_MEMBER:
+        return new Member(cPtr, owner);
+
+      default:
+        return new SBase(cPtr, owner);
 		}
 	}
 %}
 
 COVARIANT_RTYPE_CLONE(GroupsExtension)
-COVARIANT_RTYPE_CLONE(Member)
-COVARIANT_RTYPE_CLONE(MemberConstraint)
 COVARIANT_RTYPE_CLONE(Group)
-COVARIANT_RTYPE_CLONE(ListOfMembers)
-COVARIANT_RTYPE_CLONE(ListOfMemberConstraints)
+COVARIANT_RTYPE_CLONE(Member)
 COVARIANT_RTYPE_CLONE(ListOfGroups)
+COVARIANT_RTYPE_CLONE(ListOfMembers)
 
-COVARIANT_RTYPE_LISTOF_GET_REMOVE(Member)
-COVARIANT_RTYPE_LISTOF_GET_REMOVE(MemberConstraint)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(Group)
+COVARIANT_RTYPE_LISTOF_GET_REMOVE(Member)
 
 SBMLCONSTRUCTOR_EXCEPTION(GroupsPkgNamespaces)
-SBMLCONSTRUCTOR_EXCEPTION(Member)
-SBMLCONSTRUCTOR_EXCEPTION(MemberConstraint)
 SBMLCONSTRUCTOR_EXCEPTION(Group)
-SBMLCONSTRUCTOR_EXCEPTION(ListOfMembers)
-SBMLCONSTRUCTOR_EXCEPTION(ListOfMemberConstraints)
+SBMLCONSTRUCTOR_EXCEPTION(Member)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfGroups)
-
-COVARIANT_METHOD_NAME(ListOfMemberConstraints,unsetId)
-COVARIANT_METHOD_NAME(ListOfMemberConstraints,isSetName)
-COVARIANT_METHOD_NAME(ListOfMemberConstraints,setName)
-COVARIANT_METHOD_NAME(ListOfMemberConstraints,unsetName)
+SBMLCONSTRUCTOR_EXCEPTION(ListOfMembers)
 
 #endif  /* USE_GROUPS */
 

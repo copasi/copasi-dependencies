@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -28,8 +28,8 @@
  * @sbmlbrief{comp} Extension of SBase.
  *
  * The CompSBasePlugin class inherits from the SBasePlugin class, and
- * codifies the extentions to the SBase class defined in the @ref comp
- * (&ldquo;comp&rdquo;) package.  This extention allows the modeler to define
+ * codifies the extensions to the SBase class defined in the @ref comp
+ * (&ldquo;comp&rdquo;) package.  This extension allows the modeler to define
  * one or more submodel elements which the parent SBase object replaces,
  * and/or a single submodel element which replaces the parent SBase object.
 

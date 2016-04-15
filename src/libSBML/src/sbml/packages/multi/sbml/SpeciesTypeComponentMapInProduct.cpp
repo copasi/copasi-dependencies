@@ -83,21 +83,13 @@ SpeciesTypeComponentMapInProduct::SpeciesTypeComponentMapInProduct (MultiPkgName
  */
 SpeciesTypeComponentMapInProduct::SpeciesTypeComponentMapInProduct (const SpeciesTypeComponentMapInProduct& orig)
   : SBase(orig)
+  , mReactant  ( orig.mReactant)
+  , mReactantComponent  ( orig.mReactantComponent)
+  , mProductComponent  ( orig.mProductComponent)
+  , mSpeciesFeatureChanges  ( orig.mSpeciesFeatureChanges)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mReactant  = orig.mReactant;
-    mReactantComponent  = orig.mReactantComponent;
-    mProductComponent  = orig.mProductComponent;
-    mSpeciesFeatureChanges  = orig.mSpeciesFeatureChanges;
-
-    // connect to child objects
-    connectToChild();
-  }
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -107,11 +99,7 @@ SpeciesTypeComponentMapInProduct::SpeciesTypeComponentMapInProduct (const Specie
 SpeciesTypeComponentMapInProduct&
 SpeciesTypeComponentMapInProduct::operator=(const SpeciesTypeComponentMapInProduct& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mReactant  = rhs.mReactant;
@@ -210,11 +198,7 @@ SpeciesTypeComponentMapInProduct::isSetProductComponent() const
 int
 SpeciesTypeComponentMapInProduct::setReactant(const std::string& reactant)
 {
-  if (&(reactant) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(reactant)))
+  if (!(SyntaxChecker::isValidInternalSId(reactant)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -232,11 +216,7 @@ SpeciesTypeComponentMapInProduct::setReactant(const std::string& reactant)
 int
 SpeciesTypeComponentMapInProduct::setReactantComponent(const std::string& reactantComponent)
 {
-  if (&(reactantComponent) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(reactantComponent)))
+  if (!(SyntaxChecker::isValidInternalSId(reactantComponent)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -254,11 +234,7 @@ SpeciesTypeComponentMapInProduct::setReactantComponent(const std::string& reacta
 int
 SpeciesTypeComponentMapInProduct::setProductComponent(const std::string& productComponent)
 {
-  if (&(productComponent) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(productComponent)))
+  if (!(SyntaxChecker::isValidInternalSId(productComponent)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -490,6 +466,7 @@ SpeciesTypeComponentMapInProduct::createSpeciesFeatureChange()
 void
 SpeciesTypeComponentMapInProduct::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetReactant() == true && mReactant == oldid)
   {
     setReactant(newid);
@@ -608,7 +585,10 @@ SpeciesTypeComponentMapInProduct::accept (SBMLVisitor& v) const
 {
   v.visit(*this);
 
-/* VISIT CHILDREN */
+  for(unsigned int i = 0; i < getNumSpeciesFeatureChanges(); i++)
+  {
+    getSpeciesFeatureChange(i)->accept(v);
+  }
 
   v.leave(*this);
 
@@ -731,8 +711,10 @@ SpeciesTypeComponentMapInProduct::readAttributes (const XMLAttributes& attribute
    * happened immediately prior to this read
   */
 
-  if (getErrorLog() != NULL &&
-      static_cast<ListOfSpeciesTypeComponentMapInProducts*>(getParentSBMLObject())->size() < 2)
+  ListOfSpeciesTypeComponentMapInProducts * parentListOf =
+      static_cast<ListOfSpeciesTypeComponentMapInProducts*>(getParentSBMLObject());
+
+  if (getErrorLog() != NULL && parentListOf->size() < 2)
   {
     numErrs = getErrorLog()->getNumErrors();
     for (int n = numErrs-1; n >= 0; n--)
@@ -742,16 +724,18 @@ SpeciesTypeComponentMapInProduct::readAttributes (const XMLAttributes& attribute
         const std::string details =
               getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofSptCpoMapsInPro_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOf->getLine(), parentListOf->getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                    getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofSptCpoMapsInPro_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOf->getLine(), parentListOf->getColumn());
       }
     }
   }
@@ -769,16 +753,18 @@ SpeciesTypeComponentMapInProduct::readAttributes (const XMLAttributes& attribute
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiSptCpoMapInPro_AllowedMultiAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiSptCpoMapInPro_AllowedCoreAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
     }
   }
@@ -800,14 +786,17 @@ SpeciesTypeComponentMapInProduct::readAttributes (const XMLAttributes& attribute
     }
     else if (SyntaxChecker::isValidSBMLSId(mReactant) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute reactant='" + mReactant + "' does not conform.");
+        std::string details = "The syntax of the attribute reactant='" + mReactant + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
+
     }
   }
   else
   {
     std::string message = "Multi attribute 'reactant' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
+    getErrorLog()->logPackageError("multi", MultiSptCpoMapInPro_AllowedMultiAtts,
                    getPackageVersion(), sbmlLevel, sbmlVersion, message);
   }
 
@@ -826,15 +815,17 @@ SpeciesTypeComponentMapInProduct::readAttributes (const XMLAttributes& attribute
     }
     else if (SyntaxChecker::isValidSBMLSId(mReactantComponent) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute reactantComponent='" + mReactantComponent 
-        + "' does not conform.");
+        std::string details = "The syntax of the attribute reactantComponent='" + mReactantComponent + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
+
     }
   }
   else
   {
     std::string message = "Multi attribute 'reactantComponent' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
+    getErrorLog()->logPackageError("multi", MultiSptCpoMapInPro_AllowedMultiAtts,
                    getPackageVersion(), sbmlLevel, sbmlVersion, message);
   }
 
@@ -853,15 +844,16 @@ SpeciesTypeComponentMapInProduct::readAttributes (const XMLAttributes& attribute
     }
     else if (SyntaxChecker::isValidSBMLSId(mProductComponent) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute productComponent='" + mProductComponent 
-        + "' does not conform.");
+        std::string details = "The syntax of the attribute productComponent='" + mProductComponent + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
   else
   {
     std::string message = "Multi attribute 'productComponent' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
+    getErrorLog()->logPackageError("multi", MultiSptCpoMapInPro_AllowedMultiAtts,
                    getPackageVersion(), sbmlLevel, sbmlVersion, message);
   }
 

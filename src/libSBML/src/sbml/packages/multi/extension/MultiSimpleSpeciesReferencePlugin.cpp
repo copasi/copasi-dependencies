@@ -59,11 +59,8 @@ MultiSimpleSpeciesReferencePlugin::MultiSimpleSpeciesReferencePlugin(const std::
  */
 MultiSimpleSpeciesReferencePlugin::MultiSimpleSpeciesReferencePlugin(const MultiSimpleSpeciesReferencePlugin& orig) :
     SBasePlugin(orig)
-{
-  if (&orig == NULL)
-  {
-    mCompartmentReference  = orig.mCompartmentReference;
-  }
+  , mCompartmentReference  ( orig.mCompartmentReference)
+{  
 }
 
 
@@ -193,8 +190,9 @@ MultiSimpleSpeciesReferencePlugin::readAttributes (const XMLAttributes& attribut
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiExSplSpeRef_AllowedMultiAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -202,7 +200,8 @@ MultiSimpleSpeciesReferencePlugin::readAttributes (const XMLAttributes& attribut
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
     }
   }
@@ -225,9 +224,10 @@ MultiSimpleSpeciesReferencePlugin::readAttributes (const XMLAttributes& attribut
     }
     else if (SyntaxChecker::isValidSBMLSId(mCompartmentReference) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute compartmentReference='" + mCompartmentReference 
-        + "' does not conform.");
+        std::string details = "The syntax of the attribute compartmentReference='" + mCompartmentReference + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
 }
@@ -286,11 +286,7 @@ MultiSimpleSpeciesReferencePlugin::isSetCompartmentReference() const
 int
 MultiSimpleSpeciesReferencePlugin::setCompartmentReference(const std::string& compartmentReference)
 {
-  if (&(compartmentReference) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(compartmentReference)))
+  if (!(SyntaxChecker::isValidInternalSId(compartmentReference)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -373,10 +369,8 @@ MultiSimpleSpeciesReferencePlugin::enablePackageInternal(const std::string& pkgU
 bool
 MultiSimpleSpeciesReferencePlugin::accept(SBMLVisitor& v) const
 {
-  const Model * model = static_cast<const Model * >(this->getParentSBMLObject());
-
-  v.visit(*model);
-  v.leave(*model);
+  const SimpleSpeciesReference * simpleSpeciesReference = static_cast<const SimpleSpeciesReference * >(this->getParentSBMLObject());
+  v.visit(*simpleSpeciesReference);
 
   return true;
 }

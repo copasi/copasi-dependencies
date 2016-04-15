@@ -35,15 +35,6 @@
 #include <sbml/common/sbmlfwd.h>
 #include <sbml/packages/multi/common/multifwd.h>
 
-typedef enum
-{
-    MULTI_RELATION_AND
-  , MULTI_RELATION_OR
-  , MULTI_RELATION_NOT
-  , MULTI_RELATION_UNKNOWN
-} Relation_t;
-
-
 
 #ifdef __cplusplus
 
@@ -59,6 +50,8 @@ typedef enum
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
+
+class SubListOfSpeciesFeatures;
 
 class LIBSBML_EXTERN SpeciesFeature : public SBase
 {
@@ -656,172 +649,230 @@ class LIBSBML_EXTERN ListOfSpeciesFeatures : public ListOf
 
 public:
 
-  /**
-   * Creates a new ListOfSpeciesFeatures with the given level, version, and package version.
-   *
-   * @param level an unsigned int, the SBML Level to assign to this ListOfSpeciesFeatures
-   *
-   * @param version an unsigned int, the SBML Version to assign to this ListOfSpeciesFeatures
-   *
-   * @param pkgVersion an unsigned int, the SBML Multi Version to assign to this ListOfSpeciesFeatures
-   */
-  ListOfSpeciesFeatures(unsigned int level      = MultiExtension::getDefaultLevel(),
-                        unsigned int version    = MultiExtension::getDefaultVersion(),
-                        unsigned int pkgVersion = MultiExtension::getDefaultPackageVersion());
+    /**
+     * Creates a new ListOfSpeciesFeatures with the given level, version, and package version.
+     *
+     * @param level an unsigned int, the SBML Level to assign to this ListOfSpeciesFeatures
+     *
+     * @param version an unsigned int, the SBML Version to assign to this ListOfSpeciesFeatures
+     *
+     * @param pkgVersion an unsigned int, the SBML Multi Version to assign to this ListOfSpeciesFeatures
+     */
+    ListOfSpeciesFeatures(unsigned int level      = MultiExtension::getDefaultLevel(),
+			  unsigned int version    = MultiExtension::getDefaultVersion(),
+			  unsigned int pkgVersion = MultiExtension::getDefaultPackageVersion());
 
 
-  /**
-   * Creates a new ListOfSpeciesFeatures with the given MultiPkgNamespaces object.
-   *
-   * @param multins the MultiPkgNamespaces object
-   */
-  ListOfSpeciesFeatures(MultiPkgNamespaces* multins);
+    /**
+     * Creates a new ListOfSpeciesFeatures with the given MultiPkgNamespaces object.
+     *
+     * @param multins the MultiPkgNamespaces object
+     */
+    ListOfSpeciesFeatures(MultiPkgNamespaces* multins);
+
+
+    /**
+     * Creates and returns a deep copy of this ListOfSpeciesFeatures object
+     *
+     * @param multins the MultiPkgNamespaces object
+     */
+    ListOfSpeciesFeatures(const ListOfSpeciesFeatures& orig);
+
+
+     /**
+     * Creates and returns a deep copy of this ListOfSpeciesFeatures object.
+     *
+     * @return a (deep) copy of this ListOfSpeciesFeatures object.
+     */
+    virtual ListOfSpeciesFeatures* clone () const;
+
+
+     /**
+     * Destroys this ListOfSpeciesFeatures object.
+     */
+    virtual ~ListOfSpeciesFeatures();
+
+
+    /**
+    * Get a SpeciesFeature from the ListOfSpeciesFeatures.
+    *
+    * @param n the index number of the SpeciesFeature to get.
+    *
+    * @return the nth SpeciesFeature in this ListOfSpeciesFeatures.
+    *
+    * @see size()
+    */
+   virtual SpeciesFeature* get(unsigned int n);
 
 
    /**
-   * Creates and returns a deep copy of this ListOfSpeciesFeatures object.
-   *
-   * @return a (deep) copy of this ListOfSpeciesFeatures object.
-   */
-  virtual ListOfSpeciesFeatures* clone () const;
+    * Get a SpeciesFeature from the ListOfSpeciesFeatures.
+    *
+    * @param n the index number of the SpeciesFeature to get.
+    *
+    * @return the nth SpeciesFeature in this ListOfSpeciesFeatures.
+    *
+    * @see size()
+    */
+   virtual const SpeciesFeature* get(unsigned int n) const;
 
 
    /**
-   * Get a SpeciesFeature from the ListOfSpeciesFeatures.
+    * Get a SpeciesFeature from the ListOfSpeciesFeatures
+    * based on its identifier.
+    *
+    * @param sid a string representing the identifier
+    * of the SpeciesFeature to get.
+    *
+    * @return SpeciesFeature in this ListOfSpeciesFeatures
+    * with the given id or NULL if no such
+    * SpeciesFeature exists.
+    *
+    * @see get(unsigned int n)   *
+    * @see size()
+    */
+   virtual SpeciesFeature* get(const std::string& sid);
+
+
+   /**
+    * Get a SpeciesFeature from the ListOfSpeciesFeatures
+    * based on its identifier.
+    *
+    * @param sid a string representing the identifier
+    * of the SpeciesFeature to get.
+    *
+    * @return SpeciesFeature in this ListOfSpeciesFeatures
+    * with the given id or NULL if no such
+    * SpeciesFeature exists.
+    *
+    * @see get(unsigned int n)   *
+    * @see size()
+    */
+   virtual const SpeciesFeature* get(const std::string& sid) const;
+
+
+   /**
+    * Removes the nth SpeciesFeature from this ListOfSpeciesFeatures
+    * and returns a pointer to it.
+    *
+    * The caller owns the returned item and is responsible for deleting it.
+    *
+    * @param n the index of the SpeciesFeature to remove.
+    *
+    * @see size()
+    */
+   virtual SpeciesFeature* remove(unsigned int n);
+
+
+   /**
+    * Removes the SpeciesFeature from this ListOfSpeciesFeatures with the given identifier
+    * and returns a pointer to it.
+    *
+    * The caller owns the returned item and is responsible for deleting it.
+    * If none of the items in this list have the identifier @p sid, then
+    * @c NULL is returned.
+    *
+    * @param sid the identifier of the SpeciesFeature to remove.
+    *
+    * @return the SpeciesFeature removed. As mentioned above, the caller owns the
+    * returned item.
+    */
+   virtual SpeciesFeature* remove(const std::string& sid);
+
+   unsigned int getNumSpeciesFeatures() const;
+
+   unsigned int size() const;
+
+   /**
+   * Get a SubListOfSpeciesFeatures from the ListOfSpeciesFeatures.
    *
-   * @param n the index number of the SpeciesFeature to get.
+   * @param n the index number of the SubListOfSpeciesFeatures to get.
    *
-   * @return the nth SpeciesFeature in this ListOfSpeciesFeatures.
+   * @return the nth SubListOfSpeciesFeatures in this ListOfSpeciesFeatures.
    *
    * @see size()
    */
-  virtual SpeciesFeature* get(unsigned int n);
+  virtual SubListOfSpeciesFeatures* getSubListOfSpeciesFeatures(unsigned int n);
 
 
   /**
-   * Get a SpeciesFeature from the ListOfSpeciesFeatures.
+   * Get a SubListOfSpeciesFeatures from the ListOfSpeciesFeatures.
    *
-   * @param n the index number of the SpeciesFeature to get.
+   * @param n the index number of the SubListOfSpeciesFeatures to get.
    *
-   * @return the nth SpeciesFeature in this ListOfSpeciesFeatures.
+   * @return the nth SubListOfSpeciesFeatures in this ListOfSpeciesFeatures.
    *
    * @see size()
    */
-  virtual const SpeciesFeature* get(unsigned int n) const;
+  virtual const SubListOfSpeciesFeatures* getSubListOfSpeciesFeatures(unsigned int n) const;
 
 
   /**
-   * Get a SpeciesFeature from the ListOfSpeciesFeatures
+   * Get a SubListOfSpeciesFeatures from the ListOfSpeciesFeatures
    * based on its identifier.
    *
    * @param sid a string representing the identifier
-   * of the SpeciesFeature to get.
+   * of the SubListOfSpeciesFeatures to get.
    *
-   * @return SpeciesFeature in this ListOfSpeciesFeatures
+   * @return SubListOfSpeciesFeatures in this ListOfSpeciesFeatures
    * with the given id or NULL if no such
-   * SpeciesFeature exists.
+   * SubListOfSpeciesFeatures exists.
    *
    * @see get(unsigned int n)   *
    * @see size()
    */
-  virtual SpeciesFeature* get(const std::string& sid);
+  virtual SubListOfSpeciesFeatures* getSubListOfSpeciesFeatures(const std::string& sid);
 
 
   /**
-   * Get a SpeciesFeature from the ListOfSpeciesFeatures
+   * Get a SubListOfSpeciesFeatures from the ListOfSpeciesFeatures
    * based on its identifier.
    *
    * @param sid a string representing the identifier
-   * of the SpeciesFeature to get.
+   * of the SubListOfSpeciesFeatures to get.
    *
-   * @return SpeciesFeature in this ListOfSpeciesFeatures
+   * @return SubListOfSpeciesFeatures in this ListOfSpeciesFeatures
    * with the given id or NULL if no such
-   * SpeciesFeature exists.
+   * SubListOfSpeciesFeatures exists.
    *
    * @see get(unsigned int n)   *
    * @see size()
    */
-  virtual const SpeciesFeature* get(const std::string& sid) const;
+  virtual const SubListOfSpeciesFeatures* getSubListOfSpeciesFeatures(const std::string& sid) const;
 
 
   /**
-   * Removes the nth SpeciesFeature from this ListOfSpeciesFeatures
+   * Removes the nth SubListOfSpeciesFeatures from this ListOfSpeciesFeatures
    * and returns a pointer to it.
    *
    * The caller owns the returned item and is responsible for deleting it.
    *
-   * @param n the index of the SpeciesFeature to remove.
+   * @param n the index of the SubListOfSpeciesFeatures to remove.
    *
    * @see size()
    */
-  virtual SpeciesFeature* remove(unsigned int n);
+  virtual SubListOfSpeciesFeatures* removeSubListOfSpeciesFeatures(unsigned int n);
 
 
   /**
-   * Removes the SpeciesFeature from this ListOfSpeciesFeatures with the given identifier
+   * Removes the SubListOfSpeciesFeatures from this ListOfSpeciesFeatures with the given identifier
    * and returns a pointer to it.
    *
    * The caller owns the returned item and is responsible for deleting it.
    * If none of the items in this list have the identifier @p sid, then
    * @c NULL is returned.
    *
-   * @param sid the identifier of the SpeciesFeature to remove.
+   * @param sid the identifier of the SubListOfSpeciesFeatures to remove.
    *
-   * @return the SpeciesFeature removed. As mentioned above, the caller owns the
+   * @return the SubListOfSpeciesFeatures removed. As mentioned above, the caller owns the
    * returned item.
    */
-  virtual SpeciesFeature* remove(const std::string& sid);
+  virtual SubListOfSpeciesFeatures* removeSubListOfSpeciesFeatures(const std::string& sid);
 
 
-  int addSubListOfSpeciesFeatures(ListOfSpeciesFeatures* losf);
+  int addSubListOfSpeciesFeatures(SubListOfSpeciesFeatures* losf);
 
   unsigned int getNumSubListOfSpeciesFeatures() const;
-
-
-   /**
-   * Returns the value of the "relation" attribute of this ListOfSpeciesFeatures.
-   *
-   * @return the value of the "relation" attribute of this ListOfSpeciesFeatures as a FIX ME.
-   */
-  Relation_t getRelation() const;
-
-
-  /**
-   * Predicate returning @c true or @c false depending on whether this
-   * ListOfSpeciesFeatures's "relation" attribute has been set.
-   *
-   * @return @c true if this ListOfSpeciesFeatures's "relation" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetRelation() const;
-
-
-  /**
-   * Sets the value of the "relation" attribute of this ListOfSpeciesFeatures.
-   *
-   * @param relation; FIX ME value of the "relation" attribute to be set
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-   */
-  virtual int setRelation(Relation_t relation);
-
-
-  /**
-   * Unsets the value of the "relation" attribute of this ListOfSpeciesFeatures.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
-   */
-  virtual int unsetRelation();
 
 
   /**
@@ -910,7 +961,6 @@ public:
   /** @endcond doxygenLibsbmlInternal */
 
 
-
 protected:
 
   /** @cond doxygenLibsbmlInternal */
@@ -967,22 +1017,15 @@ protected:
    */
   virtual void writeElements (XMLOutputStream& stream) const;  
   
-  void setIsSubList() { mIsSubList = true; };
-  bool getIsSubList() const { return mIsSubList; };
 
   /** @endcond */
 
-    /** @cond doxygenLibsbmlInternal */
+
+  /** @cond doxygenLibsbmlInternal */
 
   List * mSubListOfSpeciesFeatures;
 
-  Relation_t mRelation;
-
-  bool mIsSubList;
-
-
   /** @endcond */
-
 
 };
 
@@ -1155,24 +1198,7 @@ ListOfSpeciesFeatures_removeById(ListOf_t * lo, const char * sid);
 
 LIBSBML_EXTERN
 int 
-SpeciesFeature_isValidRelation(Relation_t relation);
-
-
-LIBSBML_EXTERN
-int 
-SpeciesFeature_isValidRelationString(const char* s);
-
-
-LIBSBML_EXTERN
-const char* 
-Relation_toString(Relation_t relation);
-
-
-LIBSBML_EXTERN
-Relation_t 
-Relation_fromString(const char* s);
-
-
+SubListOfSpeciesFeatures_isValidRelationString(const char* s);
 
 
 END_C_DECLS

@@ -7,7 +7,7 @@
  * This file is part of SBMLToolbox.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of SBMLToolbox.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -51,6 +51,8 @@
 #include <sbml/packages/fbc/sbml/FluxBound.h>
 #include <sbml/packages/fbc/sbml/FluxObjective.h>
 #include <sbml/packages/fbc/sbml/Objective.h>
+
+#include <sbml/packages/fbc/common/FbcExtensionTypes.h>
 
 #endif
 mxArray * mxModel[2];
@@ -186,6 +188,7 @@ static char * delaySymbol = NULL;
 static char * avoSymbol = NULL;
 
 int fbcPresent;
+unsigned int fbcVersion = 0;
 
 /* function declarations */
 void LookForCSymbolTime(ASTNode_t *);
@@ -233,7 +236,10 @@ void GetParameterFromKineticLaw ( mxArray *, unsigned int, unsigned int, Kinetic
 
 void  GetFluxBound         ( mxArray *, unsigned int, unsigned int, unsigned int, Model_t * );
 void  GetObjective         ( mxArray *, unsigned int, unsigned int, unsigned int, Model_t * );
+void  GetGeneProduct         ( mxArray *, unsigned int, unsigned int, unsigned int, Model_t * );
 void  GetFluxObjective         ( mxArray *, unsigned int, unsigned int, unsigned int, Objective_t * );
+void  GetGeneProductAssociation         ( mxArray *, unsigned int, unsigned int, unsigned int, Reaction_t * );
+void  GetGeneAssociation         ( mxArray *, unsigned int, unsigned int, unsigned int, GeneProductAssociation_t *, Reaction_t*);
 
 #endif
 
@@ -280,20 +286,19 @@ char * ReadString(mxArray* mxParent, const char * name,
                   size_t total)
 {
   mxArray * mxField;
-  char * value;
-  size_t nBuflen = 0;
-  int nStatus;
+  char * value = NULL;
+  int nStatus = 1;
 
   /* get field */
   mxField = mxGetField(mxParent, index, name);
   if (mxField != NULL)
   {
-    nBuflen = (mxGetM(mxField)*mxGetN(mxField)+1);
-    value = (char *)mxCalloc(nBuflen, sizeof(char));
-    nStatus = mxGetString(mxField, value, (mwSize)(nBuflen));
+    value = mxArrayToString(mxField);
+    if (value != NULL)
+    {
+      nStatus = 0;
+    }
   }
-  else
-    nStatus = 1;
 
   if (nStatus != 0)
   {
@@ -342,8 +347,8 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
   Model_t *sbmlModel;
 
 
-  mxArray * mxLevel, * mxVersion, * mxAnnotations, * mxFBCVersion;
-  mxArray * mxName, *mxNamespaces, *mxMetaid, *mxTimeSymbol, *mxId;
+  mxArray * mxLevel, * mxVersion, * mxFBCVersion;
+  mxArray *mxNamespaces, *mxTimeSymbol, *mxId;
   mxArray * mxSubstanceUnits, * mxTimeUnits, *mxLengthUnits, *mxAreaUnits;
   mxArray * mxVolumeUnits, * mxExtentUnits, *mxConversionFactor;
   mxArray * mxDelaySymbol, *mxAvoSymbol, *mxActiveObjective;
@@ -353,12 +358,13 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
   char * pacSubstanceUnits, * pacTimeUnits, *pacLengthUnits, *pacAreaUnits;
   char * pacVolumeUnits, * pacExtentUnits, *pacConversionFactor, *pacActiveObjective;
   int nSBOTerm;
+  int nFbcStrict = 0;
 
   mxArray * mxParameters, * mxCompartments, * mxFunctionDefinitions;
   mxArray * mxUnitDefinitions, *mxSBOTerm;
   mxArray * mxSpecies, * mxRules, * mxReactions, * mxEvents, * mxConstraints;
   mxArray * mxSpeciesTypes, * mxCompartmentTypes, * mxInitialAssignments;
-  mxArray * mxFluxBounds, *mxObjectives;
+  mxArray * mxFluxBounds, *mxObjectives, *mxGeneProducts, *mxStrict;
   unsigned int usingOctave = 0;
   mxArray * mxOctave[1];
   int inInstaller = 0;
@@ -563,6 +569,7 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     SBMLDocument_setPkgRequired(sbmlDocument, "fbc", 0);
     mxFBCVersion = mxGetField(mxModel[0], 0, "fbc_version");
     nFBCVersion = (unsigned int) mxGetScalar(mxFBCVersion);
+    fbcVersion = nFBCVersion;
   }
 
   /* create a model within the document */
@@ -573,16 +580,7 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
   SBase_setNotesString((SBase_t *)(sbmlModel), pacNotes); 
 
   /* get name */
-  mxName = mxGetField(mxModel[0], 0, "name");
-  nBuflen = (mxGetM(mxName)*mxGetN(mxName)+1);
-  pacName = (char *)mxCalloc(nBuflen, sizeof(char));
-  nStatus = mxGetString(mxName, pacName, (mwSize)(nBuflen));
-
-  if (nStatus != 0)
-  {
-    reportError("OutputSBML:Model", "Cannot copy name");
-  }
-
+  pacName = ReadString(mxModel[0], "name", "Model", 0, 0);
   Model_setName(sbmlModel, pacName);
 
   mxUnitDefinitions = mxGetField(mxModel[0], 0, "unitDefinition");
@@ -600,8 +598,8 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
   mxRules = mxGetField(mxModel[0], 0, "rule");
   GetRule(mxRules, nLevel, nVersion, sbmlModel);
 
-  mxReactions = mxGetField(mxModel[0], 0, "reaction");
-  GetReaction(mxReactions, nLevel, nVersion, sbmlModel);
+  //mxReactions = mxGetField(mxModel[0], 0, "reaction");
+  //GetReaction(mxReactions, nLevel, nVersion, sbmlModel);
 
   /* level 2 and 3 only */
   if (nLevel > 1)
@@ -620,16 +618,7 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     Model_setId(sbmlModel, pacId);
 
     /* get metaid */
-    mxMetaid = mxGetField(mxModel[0], 0, "metaid");
-    nBuflen = (mxGetM(mxMetaid)*mxGetN(mxMetaid)+1);
-    pacMetaid = (char *)mxCalloc(nBuflen, sizeof(char));
-    nStatus = mxGetString(mxMetaid, pacMetaid, (mwSize)(nBuflen));
-
-    if (nStatus != 0)
-    {
-      reportError("OutputSBML:Model", "Cannot copy metaid");
-    }
-
+    pacMetaid = ReadString(mxModel[0], "metaid", "Model", 0, 0);
     SBase_setMetaId((SBase_t *) (sbmlModel), pacMetaid);
 
     mxFunctionDefinitions = mxGetField(mxModel[0], 0, "functionDefinition");
@@ -774,24 +763,29 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 
 
   /* get annotations  */
-  mxAnnotations = mxGetField(mxModel[0], 0, "annotation");
-  nBuflen = (mxGetM(mxAnnotations)*mxGetN(mxAnnotations)+1);
-  pacAnnotations = (char *)mxCalloc(nBuflen, sizeof(char));
-
-  nStatus = mxGetString(mxAnnotations, pacAnnotations, (mwSize)(nBuflen));
-
-  if (nStatus != 0)
-  {
-    reportError("OutputSBML:Model", "Cannot copy annotations");
-  }
-
+  pacAnnotations = ReadString(mxModel[0], "annotation", "Model", 0, 0);
   SBase_setAnnotationString((SBase_t *) (sbmlModel), pacAnnotations); 
 
   if (fbcPresent == 1)
   {
 #ifdef USE_FBC
-    mxFluxBounds = mxGetField(mxModel[0], 0, "fbc_fluxBound");
-    GetFluxBound(mxFluxBounds, nLevel, nVersion, nFBCVersion, sbmlModel);
+    if (nFBCVersion == 1)
+    {
+      mxFluxBounds = mxGetField(mxModel[0], 0, "fbc_fluxBound");
+      GetFluxBound(mxFluxBounds, nLevel, nVersion, nFBCVersion, sbmlModel);
+    }
+    else
+    {
+      mxGeneProducts = mxGetField(mxModel[0], 0, "fbc_geneProduct");
+      GetGeneProduct(mxGeneProducts, nLevel, nVersion, nFBCVersion, sbmlModel);
+
+      /* get sboTerm */
+      mxStrict = mxGetField(mxModel[0], 0, "fbc_strict");
+      nFbcStrict = (int)mxGetScalar(mxStrict);
+
+      FbcModelPlugin_setStrict(SBase_getPlugin((SBase_t *)(sbmlModel), "fbc"),
+        nFbcStrict);
+    }
 
     mxObjectives = mxGetField(mxModel[0], 0, "fbc_objective");
     GetObjective(mxObjectives, nLevel, nVersion, nFBCVersion, sbmlModel);
@@ -811,6 +805,9 @@ mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
       pacActiveObjective);
 #endif
   }
+
+  mxReactions = mxGetField(mxModel[0], 0, "reaction");
+  GetReaction(mxReactions, nLevel, nVersion, sbmlModel);
 
 
   /************************************************************************************************************
@@ -2396,6 +2393,8 @@ GetUnit ( mxArray * mxUnits,
 	char * pacAnnotations;
 	char * pacName;
   char * pacCompartment;
+  char * pacLowerFluxBound;
+  char * pacUpperFluxBound;
 	int nReversible;
 	int nFast;
 	char * pacId;
@@ -2409,9 +2408,11 @@ GetUnit ( mxArray * mxUnits,
 
 	mxArray * mxModifiers;
 	mxArray * mxReversible, * mxFast, * mxIsSetFast, *mxReactants, * mxProducts;
-  mxArray * mxSBOTerm, * mxKineticLaw;
+  mxArray * mxSBOTerm, * mxKineticLaw, *mxGeneProductAssociation;
 
 	Reaction_t *pReaction;
+  
+  SBasePlugin_t *plugin;
 
 	for (i = 0; i < nNoReaction; i++) 
 	{
@@ -2551,6 +2552,24 @@ GetUnit ( mxArray * mxUnits,
       pacCompartment = ReadString(mxReaction, "compartment", "reaction", i, nNoReaction);
 		  Reaction_setCompartment(pReaction, pacCompartment);
 
+     if (fbcPresent == 1 && fbcVersion == 2)
+     {
+#ifdef USE_FBC
+       plugin = SBase_getPlugin((SBase_t *)(pReaction), "fbc");
+
+        /* getLowerFluxBound */
+       pacLowerFluxBound = ReadString(mxReaction, "fbc_lowerFluxBound", "reaction", i, nNoReaction);
+       FbcReactionPlugin_setLowerFluxBound(plugin, pacLowerFluxBound);
+
+       /* getUpperFluxBound */
+       pacUpperFluxBound = ReadString(mxReaction, "fbc_upperFluxBound", "reaction", i, nNoReaction);
+       FbcReactionPlugin_setUpperFluxBound(plugin, pacUpperFluxBound);
+
+       mxGeneProductAssociation = mxGetField(mxReaction, i, "fbc_geneProductAssociation");
+       GetGeneProductAssociation(mxGeneProductAssociation, unSBMLLevel, unSBMLVersion, fbcVersion, pReaction);
+
+#endif
+     }
     }
 
 		/* get annotations */
@@ -4583,4 +4602,274 @@ GetFluxObjective ( mxArray * mxFluxObjective,
     Objective_addFluxObjective(pObjective, pFluxObjective);
 	}
 }
+
+/**
+ * NAME:    GetGeneProduct
+ *
+ * PARAMETERS:  mxArray of Objective structures
+ *              unSBMLLevel
+ *              unSBMLVersion - included for possible expansion needs
+ *				      Pointer to the model
+ *
+ * RETURNS:    void
+ *
+ * FUNCTION:  gets data from the Objective mxArray structure
+ *        and adds each Objective to the model
+ */
+void
+GetGeneProduct ( mxArray * mxGeneProduct,
+               unsigned int unSBMLLevel,
+               unsigned int unSBMLVersion, 
+               unsigned int unFBCVersion, 
+               Model_t * sbmlModel )
+{
+  if (unFBCVersion != 2)
+  {
+    return;
+  }
+
+  size_t nNoGeneProducts = mxGetNumberOfElements(mxGeneProduct);
+
+  /* values */
+  char * pacNotes;
+  char * pacAnnotations;
+  int nSBOTerm;
+  char * pacMetaid;
+  char * pacId;
+  char * pacName;
+  char * pacLabel;
+  char * pacAssociatedSpecies;
+
+  mxArray * mxSBOTerm;
+
+  GeneProduct_t *pGeneProduct;
+  size_t i;
+
+  SBasePlugin_t *plugin = SBase_getPlugin((SBase_t *)(sbmlModel), "fbc");
+
+  for (i = 0; i < nNoGeneProducts; i++) 
+  {
+    pGeneProduct = GeneProduct_create(unSBMLLevel, unSBMLVersion,
+      unFBCVersion);
+
+    /* get notes */
+    pacNotes = ReadString(mxGeneProduct, "notes", "fbc_geneProduct", i, nNoGeneProducts);
+    SBase_setNotesString((SBase_t *) (pGeneProduct), pacNotes);
+
+
+    /* get metaid */
+    pacMetaid = ReadString(mxGeneProduct, "metaid", "fbc_geneProduct", i, nNoGeneProducts);
+    SBase_setMetaId((SBase_t *) (pGeneProduct), pacMetaid);
+
+
+    /* get annotations */
+    pacAnnotations = ReadString(mxGeneProduct, "annotation", "fbc_geneProduct", i, nNoGeneProducts);
+    SBase_setAnnotationString((SBase_t *) (pGeneProduct), pacAnnotations); 
+
+
+    /* get sboTerm */
+    mxSBOTerm = mxGetField(mxGeneProduct, i, "sboTerm");
+    nSBOTerm = (int)mxGetScalar(mxSBOTerm);
+
+    SBase_setSBOTerm((SBase_t *) (pGeneProduct), nSBOTerm);
+
+    /* get id */
+    pacId = ReadString(mxGeneProduct, "fbc_id", "fbc_geneProduct", i, nNoGeneProducts);
+    GeneProduct_setId(pGeneProduct, pacId);
+
+    /* get Name */
+    pacName = ReadString(mxGeneProduct, "fbc_name", "fbc_geneProduct", i, nNoGeneProducts);
+    GeneProduct_setName(pGeneProduct, pacName);
+
+    /* get Label */
+    pacLabel = ReadString(mxGeneProduct, "fbc_label", "fbc_geneProduct", i, nNoGeneProducts);
+    GeneProduct_setLabel(pGeneProduct, pacLabel);
+
+    /* get Name */
+    pacAssociatedSpecies = ReadString(mxGeneProduct, "fbc_associatedSpecies", "fbc_geneProduct", i, nNoGeneProducts);
+    GeneProduct_setAssociatedSpecies(pGeneProduct, pacAssociatedSpecies);
+
+
+
+    /* free any memory allocated */
+    mxFree(pacNotes);
+    mxFree(pacAnnotations);
+    mxFree(pacMetaid);
+    mxFree(pacId);
+    mxFree(pacName);
+    mxFree(pacLabel);
+    mxFree(pacAssociatedSpecies);
+
+    /* add this flux bound to the model */
+    FbcModelPlugin_addGeneProduct(plugin, pGeneProduct);
+  }
+}
+
+/**
+ * NAME:    void  GetGeneProductAssociation 
+
+ *
+ * PARAMETERS:  mxArray of Objective structures
+ *              unSBMLLevel
+ *              unSBMLVersion - included for possible expansion needs
+ *				      Pointer to the model
+ *
+ * RETURNS:    void
+ *
+ * FUNCTION:  gets data from the Objective mxArray structure
+ *        and adds each Objective to the model
+ */
+void
+GetGeneProductAssociation  ( mxArray * mxGeneProductAssociation,
+               unsigned int unSBMLLevel,
+               unsigned int unSBMLVersion, 
+               unsigned int unFBCVersion, 
+               Reaction_t * reaction )
+{
+  if (unFBCVersion != 2)
+  {
+    return;
+  }
+
+  /* values */
+  char * pacNotes;
+  char * pacAnnotations;
+  int nSBOTerm;
+  char * pacMetaid;
+  char * pacId;
+  char * pacName;
+
+  mxArray * mxSBOTerm, *mxGeneAssociation;
+
+  GeneProductAssociation_t *pGeneProductAssociation;
+
+  SBasePlugin_t *plugin = SBase_getPlugin((SBase_t *)(reaction), "fbc");
+
+  pGeneProductAssociation = GeneProductAssociation_create(unSBMLLevel, unSBMLVersion, fbcVersion);
+
+  /* get notes */
+  pacNotes = ReadString(mxGeneProductAssociation, "notes", "fbc_geneProductAssociation", 0, 0);
+  SBase_setNotesString((SBase_t *) (pGeneProductAssociation), pacNotes);
+
+
+  /* get metaid */
+  pacMetaid = ReadString(mxGeneProductAssociation, "metaid", "fbc_geneProductAssociation", 0, 0);
+  SBase_setMetaId((SBase_t *) (pGeneProductAssociation), pacMetaid);
+
+
+  /* get annotations */
+  pacAnnotations = ReadString(mxGeneProductAssociation, "annotation", "fbc_geneProductAssociation", 0, 0);
+  SBase_setAnnotationString((SBase_t *) (pGeneProductAssociation), pacAnnotations); 
+
+
+  /* get sboTerm */
+  mxSBOTerm = mxGetField(mxGeneProductAssociation, 0, "sboTerm");
+  nSBOTerm = (int)mxGetScalar(mxSBOTerm);
+
+  SBase_setSBOTerm((SBase_t *) (pGeneProductAssociation), nSBOTerm);
+
+  /* get id */
+  pacId = ReadString(mxGeneProductAssociation, "fbc_id", "fbc_geneProductAssociation", 0, 0);
+  GeneProductAssociation_setId(pGeneProductAssociation, pacId);
+
+  /* get Name */
+  pacName = ReadString(mxGeneProductAssociation, "fbc_name", "fbc_geneProductAssociation", 0, 0);
+  GeneProductAssociation_setName(pGeneProductAssociation, pacName);
+
+  mxGeneAssociation = mxGetField(mxGeneProductAssociation, 0, "fbc_association");
+  GetGeneAssociation(mxGeneAssociation, unSBMLLevel, unSBMLVersion, fbcVersion, pGeneProductAssociation, reaction);
+
+
+  /* free any memory allocated */
+  mxFree(pacNotes);
+  mxFree(pacAnnotations);
+  mxFree(pacMetaid);
+  mxFree(pacId);
+  mxFree(pacName);
+
+  /* add this flux bound to the model */
+  FbcReactionPlugin_setGeneProductAssociation(plugin, pGeneProductAssociation);
+}
+
+/**
+ * NAME:    void  GetGeneAssociation 
+
+ *
+ * PARAMETERS:  mxArray of Objective structures
+ *              unSBMLLevel
+ *              unSBMLVersion - included for possible expansion needs
+ *				      Pointer to the model
+ *
+ * RETURNS:    void
+ *
+ * FUNCTION:  gets data from the Objective mxArray structure
+ *        and adds each Objective to the model
+ */
+void
+GetGeneAssociation  ( mxArray * mxGeneAssociation,
+               unsigned int unSBMLLevel,
+               unsigned int unSBMLVersion, 
+               unsigned int unFBCVersion, 
+               GeneProductAssociation_t * gpa,
+               Reaction_t* reaction)
+{
+  if (unFBCVersion != 2)
+  {
+    return;
+  }
+
+  /* values */
+  char * pacNotes;
+  char * pacAnnotations;
+  int nSBOTerm;
+  char * pacMetaid;
+  char * pacAssociation;
+
+  mxArray * mxSBOTerm;
+
+  FbcAssociation_t *pAssociation;
+
+  pacAssociation = ReadString(mxGeneAssociation, "fbc_association", "fbc_association", 0, 0);
+
+  SBase * m = reaction->getAncestorOfType(SBML_MODEL);
+  if (m == NULL)
+    return;
+  FbcModelPlugin* plugin = static_cast<FbcModelPlugin*>(m->getPlugin("fbc"));
+  if (plugin == NULL)
+    return;
+
+  pAssociation = FbcAssociation::parseFbcInfixAssociation(pacAssociation, plugin);
+
+  /* get notes */
+  pacNotes = ReadString(mxGeneAssociation, "notes", "fbc_association", 0, 0);
+  SBase_setNotesString((SBase_t *) (pAssociation), pacNotes);
+
+
+  /* get metaid */
+  pacMetaid = ReadString(mxGeneAssociation, "metaid", "fbc_association", 0, 0);
+  SBase_setMetaId((SBase_t *) (pAssociation), pacMetaid);
+
+
+  /* get annotations */
+  pacAnnotations = ReadString(mxGeneAssociation, "annotation", "fbc_association", 0, 0);
+  SBase_setAnnotationString((SBase_t *) (pAssociation), pacAnnotations); 
+
+
+  /* get sboTerm */
+  mxSBOTerm = mxGetField(mxGeneAssociation, 0, "sboTerm");
+  nSBOTerm = (int)mxGetScalar(mxSBOTerm);
+
+  SBase_setSBOTerm((SBase_t *) (pAssociation), nSBOTerm);
+
+
+
+  /* free any memory allocated */
+  mxFree(pacNotes);
+  mxFree(pacAnnotations);
+  mxFree(pacMetaid);
+
+  /* add this flux bound to the model */
+  GeneProductAssociation_setAssociation(gpa, pAssociation);
+}
+
 #endif

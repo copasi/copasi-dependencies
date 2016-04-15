@@ -12,7 +12,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -43,6 +43,24 @@
 #include <assert.h>
 
 #include <sbml/util/util.h>
+
+int
+isUnaryMinus (const ASTNode_t *node)
+{
+  if (node==NULL) return 0;
+  if (ASTNode_getType(node) != AST_MINUS) return 0;
+  if (ASTNode_getNumChildren(node) != 1) return 0;
+  return 1;
+}
+
+int
+isUnaryNot (const ASTNode_t *node)
+{
+  if (node==NULL) return 0;
+  if (ASTNode_getType(node) != AST_LOGICAL_NOT) return 0;
+  if (ASTNode_getNumChildren(node) != 1) return 0;
+  return 1;
+}
 
 int
 L3FormulaFormatter_hasUnambiguousGrammar(const ASTNode_t *node, 
@@ -175,6 +193,17 @@ int isTranslatedModulo (const ASTNode_t* node)
   return 1;
 }
 
+const ASTNode_t* L3FormulaFormatter_getRightChild(const ASTNode_t* parent)
+{
+  if (isTranslatedModulo(parent)==1) {
+    return ASTNode_getChild(ASTNode_getChild(ASTNode_getChild(parent, 0), 1), 0);
+  }
+  if (isUnaryMinus(parent) || isUnaryNot(parent)) {
+    return ASTNode_getChild(parent, 0);
+  }
+  return ASTNode_getRightChild(parent);
+}
+
 
 /*
  * @return the precedence of this ASTNode as defined in the L3 parser documentation.
@@ -242,8 +271,8 @@ int getL3Precedence(const ASTNode_t* node)
       case AST_RELATIONAL_LEQ:
       case AST_RELATIONAL_LT:
       case AST_RELATIONAL_NEQ:
-        //The relational symbols (==, >=, etc.) are only used when there are two children.
-        if (numchildren == 2) {
+        //The relational symbols (==, >=, etc.) are only used when there are two or more children.
+        if (numchildren >= 2) {
           precedence = 3;
         }
         else {
@@ -294,57 +323,81 @@ L3FormulaFormatter_isGrouped (const ASTNode_t *parent, const ASTNode_t *child, c
   int pp, cp;
   int pt, ct;
   int group = 0;
-  int parentmodulo = 0;
-
+  const ASTNode_t* rchild = NULL;
 
   if (parent != NULL)
   {
-    if (ASTNode_getType(parent) == AST_SEMANTICS)
-    {
-      return group;
+    if (isUnaryMinus(parent)) {
+      child = L3FormulaFormatter_getRightChild(parent);
+      if (isUnaryNot(child)) {
+        //Always group: -(!a) because reasons.
+        return 1;
+      }
     }
-    parentmodulo = isTranslatedModulo(parent);
-    if (parentmodulo || !L3FormulaFormatter_hasUnambiguousGrammar(parent, child, settings))
-    {
-      group = 1;
-      pp = getL3Precedence(parent);
-      cp = getL3Precedence(child);
-
-      if (pp < cp)
-      {
-        group = 0;
+    else if (isUnaryNot(parent)) {
+      child = L3FormulaFormatter_getRightChild(parent);
+      if (isUnaryMinus(child)) {
+        //Always group: !(-a) because reasons.
+        return 1;
       }
-      else if (pp == cp)
-      {
-        if (parentmodulo) {
-          //Always group:  x * y % z -> (x * y) % z
-          group = 1;
-        }
-        /**
-         * Don't group only if i) child is the first on the list and ii) both parent and
-         * child are the same type, or if they
-         * should be associative operators (i.e. not AST_MINUS or
-         * AST_DIVIDE).  That is, do not group a parent and left child
-         * that are either both AST_PLUS or both AST_TIMES operators, nor the logical operators
-         * that have the same precedence.
-         */
-        if (ASTNode_getLeftChild(parent) == child)
-        {
-          pt = ASTNode_getType(parent);
-          ct = ASTNode_getType(child);
-          if (ASTNode_isLogical(parent) || ASTNode_isRelational(parent)) {
-            group = !(pt == ct);
-          }
-          else {
-            group = !((pt == ct) || (pt == AST_PLUS || pt == AST_TIMES));
-          }
-        }
-      }
-      else if (pp==7 && cp==6) {
-        //If the parent is 'power' and the child is 'unary not' or 'unary minus', we only need
-        // to group if the child is the *left* child:  '(-x)^y', but 'x^-y'.
-        if (!(ASTNode_getLeftChild(parent) == child)) { 
+    }
+    if (ASTNode_isLogical(parent) || ASTNode_isRelational(parent) || isTranslatedModulo(parent)) {
+      if (!L3FormulaFormatter_hasUnambiguousGrammar(NULL, child, settings)) {
+        //Always group potentially-ambiguous children of logical, relational, and modulo operators, since their precedence is unfamiliar to most users.
+        group = 1;
+        rchild = L3FormulaFormatter_getRightChild(parent);
+        if (child == rchild) {
+          if (isUnaryMinus(child) || isUnaryNot(child)) {
+          //Don't need to group right-side unary minus nor unary not: they are not actually ambiguous
           group = 0;
+          }
+        }
+      }
+    }
+    else if (!L3FormulaFormatter_hasUnambiguousGrammar(parent, child, settings))
+    {
+      if ((ASTNode_isLogical(child) || ASTNode_isRelational(child) || isTranslatedModulo(child)) &&
+          !isUnaryMinus(child) && !isUnaryNot(child)){
+        //Always group child  logical, relational, and modulo, since their precedence is unfamiliar to most users.
+        group = 1;
+      }
+      else {
+        group = 1;
+        pp = getL3Precedence(parent);
+        cp = getL3Precedence(child);
+
+        if (pp < cp)
+        {
+          group = 0;
+        }
+        else if (pp == cp)
+        {
+          /**
+          * Don't group only if i) child is the first on the list and ii) both parent and
+          * child are the same type, or if they
+          * should be associative operators (i.e. not AST_MINUS or
+          * AST_DIVIDE).  That is, do not group a parent and left child
+          * that are either both AST_PLUS or both AST_TIMES operators, nor the logical operators
+          * that have the same precedence.
+          */
+          if (ASTNode_getLeftChild(parent) == child)
+          {
+            pt = ASTNode_getType(parent);
+            ct = ASTNode_getType(child);
+            if (ASTNode_isLogical(parent) || ASTNode_isRelational(parent)) {
+              group = !(pt == ct);
+            }
+            else {
+              group = !((pt == ct) || (pt == AST_DIVIDE || pt == AST_MINUS));
+            }
+          }
+        }
+        else if (pp==7 && cp==6) {
+          //If the parent is 'power' and the child is 'unary not' or 'unary minus', we only need
+          // to group if the child is the *left* child:  '(-x)^y', but 'x^-y'.
+          if (!(ASTNode_getLeftChild(parent) == child)) { 
+            group = 0;
+          }
         }
       }
     }
@@ -386,6 +439,14 @@ L3FormulaFormatter_format (StringBuffer_t *sb, const ASTNode_t *node, const L3Pa
   {
     L3FormulaFormatter_formatReal(sb, node, settings);
   }
+  else if (ASTNode_isAvogadro(node))
+  {
+    StringBuffer_append(sb, "avogadro");
+  }
+  else if (ASTNode_getType(node) == AST_NAME_TIME)
+  {
+    StringBuffer_append(sb, "time");
+  }
   else if ( !ASTNode_isUnknown(node) )
   {
     StringBuffer_append(sb, ASTNode_getName(node));
@@ -420,6 +481,9 @@ L3FormulaFormatter_formatFunction (StringBuffer_t *sb, const ASTNode_t *node, co
     break;
   case AST_FUNCTION_LN:
     StringBuffer_append(sb, "ln");
+    break;
+  case AST_FUNCTION_DELAY:
+    StringBuffer_append(sb, "delay");
     break;
 
   default:
@@ -787,7 +851,7 @@ L3FormulaFormatter_visitModulo ( const ASTNode_t *parent,
   //Get x and y from the first child of the piecewise function, 
   // then the first child of that (times), and the first child
   // of that (minus).
-  L3FormulaFormatter_visit ( subnode, ASTNode_getLeftChild(subnode), sb, settings);
+  L3FormulaFormatter_visit ( node, ASTNode_getLeftChild(subnode), sb, settings);
   StringBuffer_appendChar(sb, ' ');
   StringBuffer_appendChar(sb, '%');
   StringBuffer_appendChar(sb, ' ');
@@ -872,6 +936,10 @@ L3FormulaFormatter_hasUnambiguousGrammar(const ASTNode_t *node,
   //'8', the highest precedence, is only ever given to functions and other top-level 
   // unambiguous objects.
   if (getL3Precedence(child) == 8) return 1;
+
+  //If the parent node is 'semantics' this never gets printed at all.
+  if (ASTNode_getType(node) == AST_SEMANTICS) return 1;
+
   return 0;
 }
 
@@ -901,7 +969,7 @@ L3FormulaFormatter_isFunction (const ASTNode_t *node,
   case AST_RELATIONAL_GT:
   case AST_RELATIONAL_LEQ:
   case AST_RELATIONAL_LT:
-    if (ASTNode_getNumChildren(node) == 2) {
+    if (ASTNode_getNumChildren(node) >= 2) {
       return 0;
     }
     return 1;

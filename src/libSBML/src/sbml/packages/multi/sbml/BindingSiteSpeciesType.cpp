@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -74,13 +74,6 @@ BindingSiteSpeciesType::BindingSiteSpeciesType (MultiPkgNamespaces* multins)
 BindingSiteSpeciesType::BindingSiteSpeciesType (const BindingSiteSpeciesType& orig)
   : MultiSpeciesType(orig)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-  }
 }
 
 
@@ -90,11 +83,7 @@ BindingSiteSpeciesType::BindingSiteSpeciesType (const BindingSiteSpeciesType& or
 BindingSiteSpeciesType&
 BindingSiteSpeciesType::operator=(const BindingSiteSpeciesType& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     MultiSpeciesType::operator=(rhs);
   }

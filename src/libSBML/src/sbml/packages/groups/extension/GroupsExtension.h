@@ -1,294 +1,420 @@
 /**
- * @file    GroupsExtension.h
- * @brief   Definition of GroupsExtension, the core module of groups package. 
- * @author  Akiya Jouraku
- *
- * $Id: GroupsExtension.h 12789 2011-02-08 23:11:37Z mhucka $
- * $HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/branches/libsbml-5/src/sbml/packages/groups/extension/GroupsExtension.h $
+ * @file GroupsExtension.h
+ * @brief Definition of GroupsExtension.
+ * @author SBMLTeam
  *
  * <!--------------------------------------------------------------------------
- * This file is part of libSBML.  Please visit http://sbml.org for more
+ * This file is part of libSBML. Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2013-2016 jointly by the following organizations:
+ * 1. California Institute of Technology, Pasadena, CA, USA
+ * 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ * 3. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2009-2013 jointly by the following organizations:
- *     1. California Institute of Technology, Pasadena, CA, USA
- *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
- *  
+ * 1. California Institute of Technology, Pasadena, CA, USA
+ * 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ *
  * Copyright (C) 2006-2008 by the California Institute of Technology,
- *     Pasadena, CA, USA 
- *  
- * Copyright (C) 2002-2005 jointly by the following organizations: 
- *     1. California Institute of Technology, Pasadena, CA, USA
- *     2. Japan Science and Technology Agency, Japan
- * 
+ * Pasadena, CA, USA
+ *
+ * Copyright (C) 2002-2005 jointly by the following organizations:
+ * 1. California Institute of Technology, Pasadena, CA, USA
+ * 2. Japan Science and Technology Agency, Japan
+ *
  * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation.  A copy of the license agreement is provided
- * in the file named "LICENSE.txt" included with this software distribution
- * and also available online as http://sbml.org/software/libsbml/license.html
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation. A copy of the license agreement is provided in the
+ * file named "LICENSE.txt" included with this software distribution and also
+ * available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
+ *
+ * @class GroupsExtension
+ * @sbmlbrief{groups} Base extension class for the package.
+ *
+ * This is the Groups package extension of the SBMLExtension class that
+ * every libSBML plug-in must implement in order to implement an
+ * SBML Level&nbsp;3 package.
+ *
+ * @copydetails doc_what_is_sbmlextension
+ *
+ * @class GroupsPkgNamespaces
+ * @sbmlbrief{groups} SBMLNamespaces extension for the package.
  */
 
-#ifndef GroupsExtension_h
-#define GroupsExtension_h
+
+#ifndef GroupsExtension_H__
+#define GroupsExtension_H__
+
 
 #include <sbml/common/extern.h>
 #include <sbml/SBMLTypeCodes.h>
 
+
 #ifdef __cplusplus
+
 
 #include <sbml/extension/SBMLExtension.h>
 #include <sbml/extension/SBMLExtensionNamespaces.h>
 #include <sbml/extension/SBMLExtensionRegister.h>
 
-
 #ifndef GROUPS_CREATE_NS
-#define GROUPS_CREATE_NS(variable,sbmlns)\
-  EXTENSION_CREATE_NS(GroupsPkgNamespaces,variable,sbmlns);
+#define GROUPS_CREATE_NS(variable, sbmlns)\
+EXTENSION_CREATE_NS(GroupsPkgNamespaces, variable, sbmlns);
 #endif
 
 #include <vector>
 
+
 LIBSBML_CPP_NAMESPACE_BEGIN
+
 
 class LIBSBML_EXTERN GroupsExtension : public SBMLExtension
 {
 public:
 
-  //---------------------------------------------------------------
-  //
-  // Required class methods
-  //
-  //---------------------------------------------------------------
-
   /**
-   * Returns the package name of this extension.
+   * Returns the nickname of the SBML Level&nbsp;3 package implemented by this
+   * libSBML extension.
+   *
+   * @return the package nickname, as a string.
+   *
+   * @copydetails doc_note_static_methods
    */
-  static const std::string& getPackageName ();
+  static const std::string& getPackageName();
+
 
   /**
-   * Returns the default SBML Level this extension.
+   * Returns the default SBML Level implemented by this libSBML extension.
+   *
+   * @return the SBML Level, as an unsigned integer.
+   *
+   * @copydetails doc_note_static_methods
    */
   static unsigned int getDefaultLevel();
 
+
   /**
-   * Returns the default SBML Version this extension.
+   * Returns the default SBML Version implemented by this libSBML extension.
+   *
+   * @return the Version within the default SBML Level, as an unsigned integer.
+   *
+   * @copydetails doc_note_static_methods
    */
   static unsigned int getDefaultVersion();
 
+
   /**
-   * Returns the default SBML version this extension.
+   * Returns the default version of the SBML Level&nbsp;3 package implemented
+   * by this libSBML extension.
+   *
+   * @return the default version number of the SBML Level&nbsp;3 package
+   * definition, as an unsigned integer.
+   *
+   * @copydetails doc_note_static_methods
    */
   static unsigned int getDefaultPackageVersion();
 
-  /**
-   * Returns URI of supported versions of this package.
-   */
-  static const std::string&  getXmlnsL3V1V1();
-
-  //
-  // Other URI needed in this package (if any)
-  //
-
-  //---------------------------------------------------------------
-
 
   /**
-   * Constructor
+   * Returns the XML namespace URI of the SBML Level&nbsp;3 package implemented
+   * by this libSBML extension.
+   *
+   * @return the XML namespace, as a string.
+   *
+   * @copydetails doc_note_static_methods
    */
-  GroupsExtension ();
+  static const std::string& getXmlnsL3V1V1();
 
 
   /**
-   * Copy constructor.
+   * Creates a new GroupsExtension instance.
    */
-  GroupsExtension(const GroupsExtension&);
+  GroupsExtension();
 
 
   /**
-   * Destroy this object.
+   * Copy constructor for GroupsExtension.
+   *
+   * @param orig the GroupsExtension instance to copy.
    */
-  virtual ~GroupsExtension ();
+  GroupsExtension(const GroupsExtension& orig);
 
 
   /**
    * Assignment operator for GroupsExtension.
+   *
+   * @param rhs the GroupsExtension object whose values are to be used as the
+   * basis of the assignment.
    */
-  GroupsExtension& operator=(const GroupsExtension&);
+  GroupsExtension& operator=(const GroupsExtension& rhs);
 
 
   /**
    * Creates and returns a deep copy of this GroupsExtension object.
-   * 
-   * @return a (deep) copy of this SBase object
+   *
+   * @return a (deep) copy of this GroupsExtension object.
    */
-  virtual GroupsExtension* clone () const;
+  virtual GroupsExtension* clone() const;
 
 
   /**
-   * Returns the name of this package ("groups")
+   * Destructor for GroupsExtension.
+   */
+  virtual ~GroupsExtension();
+
+
+  /**
+   * Returns the name of this SBML Level&nbsp;3 package ("groups").
    *
-   * @pram the name of this package ("groups")
+   * @return a string representing the name of this package ("groups").
    */
   virtual const std::string& getName() const;
 
 
   /**
-   * Returns the URI (namespace) of the package corresponding to the combination of 
-   * the given sbml level, sbml version, and package version.
-   * Empty string will be returned if no corresponding URI exists.
+   * Returns a string representing the SBML XML namespace of this SBML
+   * Level&nbsp;3 package.
    *
-   * @param sbmlLevel the level of SBML
-   * @param sbmlVersion the version of SBML
-   * @param pkgVersion the version of package
+   * The namespace URI constructed by this method corresponds to the
+   * combination of the Level and Version of SBML, and the Version of the SBML
+   * Level&nbsp;3 package. (At the time of this writing, the only SBML Level
+   * that supports packages is Level&nbsp;3, so the value of @p sbmlLevel is
+   * necessarily always <code>3</code>.)
    *
-   * @return a string of the package URI
+   * @param sbmlLevel the level of SBML.
+   *
+   * @param sbmlVersion the version of SBML.
+   *
+   * @param pkgVersion the version of this package.
+   *
+   * @return a string representing the name of this package ("groups").
    */
-  virtual const std::string& getURI(unsigned int sbmlLevel, unsigned int sbmlVersion, 
+  virtual const std::string& getURI(unsigned int sbmlLevel,
+                                    unsigned int sbmlVersion,
                                     unsigned int pkgVersion) const;
 
 
   /**
-   * Returns the SBML level with the given URI of this package.
+   * Returns the SBML Level for the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of groups package
+   * @param uri the string of the URI that represents one of the versions of
+   * the "groups" package.
    *
-   * @return the SBML level with the given URI of this package. 0 will be returned
-   * if the given URI is invalid.
-   *
+   * @return the SBML Level for the given URI of this package, or @c 0 if the
+   * given URI is invalid.
    */
-  virtual unsigned int getLevel(const std::string &uri) const;
+  virtual unsigned int getLevel(const std::string& uri) const;
 
 
   /**
-   * Returns the SBML version with the given URI of this package.
+   * Returns the Version within the SBML Level for the given URI of this
+   * package.
    *
-   * @param uri the string of URI that represents one of versions of groups package
+   * @param uri the string of the URI that represents one of the versions of
+   * the "groups" package.
    *
-   * @return the SBML version with the given URI of this package. 0 will be returned
-   * if the given URI is invalid.
+   * @return the SBML Version within the SBML Level for the given URI of this
+   * package, or @c 0 if the given URI is invalid.
    */
-  virtual unsigned int getVersion(const std::string &uri) const;
+  virtual unsigned int getVersion(const std::string& uri) const;
 
 
   /**
-   * Returns the package version with the given URI of this package.
+   * Returns the SBML Level&nbsp;3 package version for the given URI of this
+   * package.
    *
-   * @param uri the string of URI that represents one of versions of groups package
+   * @param uri the string of the URI that represents one of the versions of
+   * the "groups" package.
    *
-   * @return the package version with the given URI of this package. 0 will be returned
-   * if the given URI is invalid.
+   * @return the version of the SBML Level&nbsp;3 package for the given URI of
+   * this package, or @c 0 if the given URI is invalid.
    */
-  virtual unsigned int getPackageVersion(const std::string &uri) const;
+  virtual unsigned int getPackageVersion(const std::string& uri) const;
 
 
   /**
-   * Returns an SBMLExtensionNamespaces<GroupsExtension> object whose alias type is 
-   * GroupsPkgNamespace.
-   * Null will be returned if the given uri is not defined in the groups package.
+   * Returns a GroupsPkgNamespaces object.
    *
-   * @param uri the string of URI that represents one of versions of groups package
+   * @param uri the string of the URI that represents one of the versions of
+   * the "groups" package.
    *
-   * @return an GroupsPkgNamespace object corresponding to the given uri. NULL will
-   * be returned if the given URI is not defined in groups package.
+   * @return GroupsPkgNamespaces object corresponding to the given URI of this
+   * package, or @c NULL if the given URI is not defined in the "groups"
+   * package.
    */
-  virtual SBMLNamespaces* getSBMLExtensionNamespaces(const std::string &uri) const;
+  virtual SBMLNamespaces* getSBMLExtensionNamespaces(const std::string& uri)
+    const;
 
 
   /**
-   * This method takes a type code from the Groups package and returns a string representing 
-   * the code.
+   * Returns a string describing the type code of the &ldquo;groups&rdquo;
+   * package.
+   *
+   * @param typeCode a libSBML type code defined by the libSBML extension
+   * implementing support for the SBML Level&nbsp;3 &ldquo;groups&rdquo;
+   * package.
+   *
+   * @return a text string representing the type code given by @p typeCode. If
+   * the type code is unrecognized for this implementation of the libSBML
+   * &ldquo;groups&rdquo; package, the string returned will be <code>"(Unknown
+   * SBML Groups Type)"</code>.
    */
   virtual const char* getStringFromTypeCode(int typeCode) const;
 
 
-  /** @cond doxygenLibsbmlInternal */
-  /**
-   * Initializes groups extension by creating an object of this class with 
-   * required SBasePlugin derived objects and registering the object 
-   * to the SBMLExtensionRegistry class.
-   *
-   * (NOTE) This function is automatically invoked when creating the following
-   *        global object in GroupsExtension.cpp
-   *
-   *        static SBMLExtensionRegister<GroupsExtension> groupsExtensionRegistry;
-   *
-   */
-
-  static void init();
-
-  /** @endcond doxygenLibsbmlInternal */
-
 
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Return the entry in the error table at this index. 
+   * Returns the entry in the error table at this index.
    *
-   * @param index an unsigned intgere representing the index of the error in the GroupsSBMLErrorTable
+   * @param index an unsigned integer representing the index of the error.
    *
-   * @return packageErrorTableEntry object in the GroupsSBMLErrorTable corresponding to the index given.
+   * @return packageErrorTableEntry object in the GroupsSBMLErrorTable.
    */
   virtual packageErrorTableEntry getErrorTable(unsigned int index) const;
 
+  /** @endcond */
 
-  /** @endcond doxygenLibsbmlInternal */
 
 
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Return the index in the error table with the given errorId. 
+   * Return the index in the error table with the given errorId.
    *
-   * @param errorId an unsigned intgere representing the errorId of the error in the GroupsSBMLErrorTable
+   * @param errorId an unsigned integer representing the errorId of the error.
    *
-   * @return unsigned integer representing the index in the GroupsSBMLErrorTable corresponding to the errorId given.
+   * @return unsigned int representing the index in the GroupsSBMLErrorTable
+   * corresponding to the errorId given.
    */
   virtual unsigned int getErrorTableIndex(unsigned int errorId) const;
 
+  /** @endcond */
 
-  /** @endcond doxygenLibsbmlInternal */
 
 
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Return the offset for the errorId range for the groups L3 package. 
+   * Returns the offset for the errorId range for the "groups" package.
    *
-   * @return unsigned intege representing the  offset for errors GroupsSBMLErrorTable.
+   * @return unsigned int representing the offset for errors in the
+   * GroupsSBMLErrorTable.
    */
   virtual unsigned int getErrorIdOffset() const;
 
+  /** @endcond */
 
-  /** @endcond doxygenLibsbmlInternal */
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Initializes groups extension by creating an object of this class with the
+   * required SBasePlugin derived objects and registering the object to the
+   * SBMLExtensionRegistry class
+   *
+   * This function is automatically invoked when creatingthe following global
+   * object in GroupsExtension.cpp
+   *
+   * static SBMLExtensionRegister<GroupsExtension> groupsExtensionRegistry;
+   */
+  static void init();
+
+  /** @endcond */
 
 
 };
 
+/**
+ *
+ * Required typedef definitions
+ *
+ * GroupsPkgNamespace is derived from SBMLNamespaces class and used when
+ * creating an object of SBase derived classes defined in the groups package
+ *
+ * SBMLExtensionNamespaces<GroupsExtension> must be instantiated in
+ * GroupsExtension.cpp for DLL
+ *
+ */
+typedef SBMLExtensionNamespaces<GroupsExtension> GroupsPkgNamespaces;
 
-// --------------------------------------------------------------------
-//
-// Required typedef definitions
-//
-// GroupsPkgNamespaces is derived from the SBMLNamespaces class and
-// used when creating an object of SBase derived classes defined in
-// groups package.
-//
-// --------------------------------------------------------------------
-//
-// (NOTE) 
-//
-// SBMLExtensionNamespaces<GroupsExtension> must be instantiated
-// in GroupsExtension.cpp for DLL.
-//
-typedef SBMLExtensionNamespaces<GroupsExtension> GroupsPkgNamespaces; 
 
+LIBSBML_CPP_NAMESPACE_END
+
+
+
+
+#endif /* __cplusplus */
+
+
+
+
+LIBSBML_CPP_NAMESPACE_BEGIN
+
+
+/**
+ * @enum SBMLGroupsTypeCode_t
+ * @brief SBMLGroupsTypeCode_t Enumeration of possible types in the libSBML
+ * &ldquo;groups&rdquo; package implementation.
+ *
+ * @copydetails doc_what_are_typecodes
+ *
+ * @copydetails doc_additional_typecode_details
+ */
 typedef enum
 {
-    SBML_GROUPS_MEMBER             = 500
-  , SBML_GROUPS_MEMBER_CONSTRAINT  = 501
-  , SBML_GROUPS_GROUP              = 502
+  SBML_GROUPS_MEMBER     =   500  /*!<Member */
+, SBML_GROUPS_GROUP      =   501  /*!<Group */
 } SBMLGroupsTypeCode_t;
+
+
+/**
+ * @enum GroupKind_t
+ * @brief Enumeration of values permitted as the value of the "kind"
+ * attribute on Group objects.
+ *
+ * @see Group::getKind()
+ * @see Group::setKind(@if java long kind@endif)
+ */
+typedef enum
+{
+  GROUP_KIND_CLASSIFICATION       /*!< The group kind is @c "classification". */
+, GROUP_KIND_PARTONOMY            /*!< The group kind is @c "partonomy". */
+, GROUP_KIND_COLLECTION           /*!< The group kind is @c "collection". */
+, GROUP_KIND_UNKNOWN              /*!< Invalid GroupKind value. */
+} GroupKind_t;
+
+
+/**
+ */
+LIBSBML_EXTERN
+const char*
+GroupKind_toString(GroupKind_t gk);
+
+
+/**
+ */
+LIBSBML_EXTERN
+GroupKind_t
+GroupKind_fromString(const char* code);
+
+
+/**
+ */
+LIBSBML_EXTERN
+int
+GroupKind_isValid(GroupKind_t gk);
+
+
+/**
+ */
+LIBSBML_EXTERN
+int
+GroupKind_isValidString(const char* code);
 
 
 
@@ -296,7 +422,8 @@ typedef enum
 LIBSBML_CPP_NAMESPACE_END
 
 
-#endif /* __cplusplus */
-#endif /* GroupsExtension_H__ */
+
+
+#endif /* !GroupsExtension_H__ */
 
 

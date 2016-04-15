@@ -69,15 +69,8 @@ SpeciesFeatureValue::SpeciesFeatureValue (MultiPkgNamespaces* multins)
  */
 SpeciesFeatureValue::SpeciesFeatureValue (const SpeciesFeatureValue& orig)
   : SBase(orig)
+  , mValue  ( orig.mValue)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mValue  = orig.mValue;
-  }
 }
 
 
@@ -87,11 +80,7 @@ SpeciesFeatureValue::SpeciesFeatureValue (const SpeciesFeatureValue& orig)
 SpeciesFeatureValue&
 SpeciesFeatureValue::operator=(const SpeciesFeatureValue& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mValue  = rhs.mValue;
@@ -144,11 +133,7 @@ SpeciesFeatureValue::isSetValue() const
 int
 SpeciesFeatureValue::setValue(const std::string& value)
 {
-  if (&(value) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(value)))
+  if (!(SyntaxChecker::isValidInternalSId(value)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -185,6 +170,7 @@ SpeciesFeatureValue::unsetValue()
 void
 SpeciesFeatureValue::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetValue() == true && mValue == oldid)
   {
     setValue(newid);
@@ -328,8 +314,11 @@ SpeciesFeatureValue::readAttributes (const XMLAttributes& attributes,
    * happened immediately prior to this read
   */
 
+  ListOfSpeciesFeatureValues * parentListOf =
+      static_cast<ListOfSpeciesFeatureValues*>(getParentSBMLObject());
+
   if (getErrorLog() != NULL &&
-      static_cast<ListOfSpeciesFeatureValues*>(getParentSBMLObject())->size() < 2)
+      parentListOf->size() < 2)
   {
     numErrs = getErrorLog()->getNumErrors();
     for (int n = numErrs-1; n >= 0; n--)
@@ -339,16 +328,18 @@ SpeciesFeatureValue::readAttributes (const XMLAttributes& attributes,
         const std::string details =
               getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofSpeFtrVals_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOf->getLine(), parentListOf->getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                    getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofSpeFtrVals_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOf->getLine(), parentListOf->getColumn());
       }
     }
   }
@@ -366,16 +357,18 @@ SpeciesFeatureValue::readAttributes (const XMLAttributes& attributes,
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiSpeFtrVal_AllowedMultiAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiSpeFtrVal_AllowedCoreAtts,
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                       getLine(), getColumn());
       }
     }
   }
@@ -397,14 +390,16 @@ SpeciesFeatureValue::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mValue) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute value='" + mValue + "' does not conform.");
+        std::string details = "The syntax of the attribute value='" + mValue + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
   else
   {
     std::string message = "Multi attribute 'value' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
+    getErrorLog()->logPackageError("multi", MultiSpeFtrVal_AllowedMultiAtts,
                    getPackageVersion(), sbmlLevel, sbmlVersion, message);
   }
 

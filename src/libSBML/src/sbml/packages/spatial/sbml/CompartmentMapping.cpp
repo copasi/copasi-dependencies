@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -81,18 +81,11 @@ CompartmentMapping::CompartmentMapping (SpatialPkgNamespaces* spatialns)
  */
 CompartmentMapping::CompartmentMapping (const CompartmentMapping& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mDomainType  ( orig.mDomainType)
+  , mUnitSize  ( orig.mUnitSize)
+  , mIsSetUnitSize  ( orig.mIsSetUnitSize)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mDomainType  = orig.mDomainType;
-    mUnitSize  = orig.mUnitSize;
-    mIsSetUnitSize  = orig.mIsSetUnitSize;
-  }
 }
 
 
@@ -102,11 +95,7 @@ CompartmentMapping::CompartmentMapping (const CompartmentMapping& orig)
 CompartmentMapping&
 CompartmentMapping::operator=(const CompartmentMapping& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
@@ -212,11 +201,7 @@ CompartmentMapping::setId(const std::string& id)
 int
 CompartmentMapping::setDomainType(const std::string& domainType)
 {
-  if (&(domainType) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(domainType)))
+  if (!(SyntaxChecker::isValidInternalSId(domainType)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -304,6 +289,7 @@ CompartmentMapping::unsetUnitSize()
 void
 CompartmentMapping::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetDomainType() == true && mDomainType == oldid)
   {
     setDomainType(newid);

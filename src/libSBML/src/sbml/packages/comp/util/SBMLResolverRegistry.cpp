@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -30,6 +30,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <cstdlib>
 
 #include <sbml/SBMLDocument.h>
 #include <sbml/packages/comp/util/SBMLResolverRegistry.h>
@@ -41,11 +42,26 @@ using namespace std;
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 
+/** @cond doxygenLibsbmlInternal */
+SBMLResolverRegistry* SBMLResolverRegistry::mInstance = NULL;
+/** @endcond */
+
+void 
+SBMLResolverRegistry::deleteResolerRegistryInstance()
+{
+  delete SBMLResolverRegistry::mInstance;
+  SBMLResolverRegistry::mInstance = NULL;
+}
+
 SBMLResolverRegistry&
 SBMLResolverRegistry::getInstance()
 {
-  static SBMLResolverRegistry singletonObj; 
-  return singletonObj;
+  if (SBMLResolverRegistry::mInstance == NULL) 
+  {
+    mInstance = new SBMLResolverRegistry();
+    std::atexit(&SBMLResolverRegistry::deleteResolerRegistryInstance);
+  }
+  return *mInstance;
 }
 
 int

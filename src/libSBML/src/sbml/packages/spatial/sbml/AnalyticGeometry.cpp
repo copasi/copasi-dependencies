@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -81,18 +81,10 @@ AnalyticGeometry::AnalyticGeometry (SpatialPkgNamespaces* spatialns)
  */
 AnalyticGeometry::AnalyticGeometry (const AnalyticGeometry& orig)
   : GeometryDefinition(orig)
+  , mAnalyticVolumes  ( orig.mAnalyticVolumes)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mAnalyticVolumes  = orig.mAnalyticVolumes;
-
-    // connect to child objects
-    connectToChild();
-  }
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -102,11 +94,7 @@ AnalyticGeometry::AnalyticGeometry (const AnalyticGeometry& orig)
 AnalyticGeometry&
 AnalyticGeometry::operator=(const AnalyticGeometry& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     GeometryDefinition::operator=(rhs);
     mAnalyticVolumes  = rhs.mAnalyticVolumes;

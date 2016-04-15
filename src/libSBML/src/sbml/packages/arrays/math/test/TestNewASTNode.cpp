@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -143,7 +143,7 @@ START_TEST (test_ASTNode_deepCopy_1)
 }
 END_TEST
 
-
+#if (0)
 START_TEST (test_ASTNode_setNewTypes_1)
 {
   ASTNode *node = new ASTNode(AST_INTEGER);
@@ -184,7 +184,7 @@ START_TEST (test_ASTNode_setNewTypes_1)
   delete m;
 }
 END_TEST
-
+#endif
 
 START_TEST (test_ASTNode_replaceArgument)
 {
@@ -672,9 +672,9 @@ create_suite_NewASTNode (void)
 
   tcase_add_test( tcase, test_ASTNode_deepCopy_1              );
 
-
-
+#if (0)
   tcase_add_test( tcase, test_ASTNode_setNewTypes_1             );
+#endif
 
   tcase_add_test( tcase, test_ASTNode_replaceArgument         );
   tcase_add_test( tcase, test_ASTNode_removeChild             );

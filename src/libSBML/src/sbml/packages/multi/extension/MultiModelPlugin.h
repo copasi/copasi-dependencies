@@ -331,7 +331,7 @@ protected:
 
   /** @cond doxygenLibsbmlInternal */
 
-  ListOfMultiSpeciesTypes mMultiSpeciesTypes;
+  ListOfMultiSpeciesTypes mListOfMultiSpeciesTypes;
 
   /** @endcond doxygenLibsbmlInternal */
 

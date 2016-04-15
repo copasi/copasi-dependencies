@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -81,18 +81,11 @@ SpatialComponent::SpatialComponent (DynPkgNamespaces* dynns)
  */
 SpatialComponent::SpatialComponent (const SpatialComponent& orig)
   : SBase(orig)
+  , mSpatialIndex  ( orig.mSpatialIndex)
+  , mVariable  ( orig.mVariable)
+  , mId  ( orig.mId)
+  , mName  ( orig.mName)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mSpatialIndex  = orig.mSpatialIndex;
-    mVariable  = orig.mVariable;
-    mId  = orig.mId;
-    mName  = orig.mName;
-  }
 }
 
 
@@ -102,11 +95,7 @@ SpatialComponent::SpatialComponent (const SpatialComponent& orig)
 SpatialComponent&
 SpatialComponent::operator=(const SpatialComponent& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mSpatialIndex  = rhs.mSpatialIndex;
@@ -246,11 +235,7 @@ SpatialComponent::setSpatialIndex(const std::string& spatialIndex)
 int
 SpatialComponent::setVariable(const std::string& variable)
 {
-  if (&(variable) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(variable)))
+  if (!(SyntaxChecker::isValidInternalSId(variable)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -278,15 +263,8 @@ SpatialComponent::setId(const std::string& id)
 int
 SpatialComponent::setName(const std::string& name)
 {
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
-  {
-    mName = name;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -364,6 +342,7 @@ SpatialComponent::unsetName()
 void
 SpatialComponent::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetVariable() == true && mVariable == oldid)
   {
     setVariable(newid);

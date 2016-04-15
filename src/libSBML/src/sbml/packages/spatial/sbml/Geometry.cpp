@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -102,25 +102,17 @@ Geometry::Geometry (SpatialPkgNamespaces* spatialns)
  */
 Geometry::Geometry (const Geometry& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mCoordinateSystem  ( orig.mCoordinateSystem)
+  , mCoordinateComponents  ( orig.mCoordinateComponents)
+  , mDomainTypes  ( orig.mDomainTypes)
+  , mDomains  ( orig.mDomains)
+  , mAdjacentDomains  ( orig.mAdjacentDomains)
+  , mGeometryDefinitions  ( orig.mGeometryDefinitions)
+  , mSampledFields  ( orig.mSampledFields)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mCoordinateSystem  = orig.mCoordinateSystem;
-    mCoordinateComponents  = orig.mCoordinateComponents;
-    mDomainTypes  = orig.mDomainTypes;
-    mDomains  = orig.mDomains;
-    mAdjacentDomains  = orig.mAdjacentDomains;
-    mGeometryDefinitions  = orig.mGeometryDefinitions;
-    mSampledFields  = orig.mSampledFields;
-
-    // connect to child objects
-    connectToChild();
-  }
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -130,11 +122,7 @@ Geometry::Geometry (const Geometry& orig)
 Geometry&
 Geometry::operator=(const Geometry& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;

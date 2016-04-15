@@ -18,7 +18,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2014 jointly by the following organizations:
+# Copyright (C) 2013-2016 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -117,7 +117,7 @@ def reformatDocString (match):
 
   # Now we do some final transformations.
 
-  start  = '<pre class=["\']signature["\']>'
+  start  = '<pre class=["\']signature["\']>'      #" This comment is for Emacs.
   middle = '.*?'
   end    = '</pre>'
 
@@ -149,7 +149,7 @@ def clean_up_spaces(match):
   return normalized
 
 
-def filterDocStrings (contents):
+def filterDocStrings(contents):
   global libsbml_enums
 
   # Make the docstrings more readable.

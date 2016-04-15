@@ -46,8 +46,6 @@ SpeciesTypeInstance::SpeciesTypeInstance (unsigned int level, unsigned int versi
    ,mName ("")
    ,mSpeciesType ("")
    ,mCompartmentReference ("")
-   ,mOccur (SBML_INT_MAX)
-   ,mIsSetOccur (false)
 {
   // set an SBMLNamespaces derived object of this package
   setSBMLNamespacesAndOwn(new MultiPkgNamespaces(level, version, pkgVersion));
@@ -63,8 +61,6 @@ SpeciesTypeInstance::SpeciesTypeInstance (MultiPkgNamespaces* multins)
    ,mName ("")
    ,mSpeciesType ("")
    ,mCompartmentReference ("")
-   ,mOccur (SBML_INT_MAX)
-   ,mIsSetOccur (false)
 {
   // set the element namespace of this object
   setElementNamespace(multins->getURI());
@@ -79,20 +75,11 @@ SpeciesTypeInstance::SpeciesTypeInstance (MultiPkgNamespaces* multins)
  */
 SpeciesTypeInstance::SpeciesTypeInstance (const SpeciesTypeInstance& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mName  ( orig.mName)
+  , mSpeciesType  ( orig.mSpeciesType)
+  , mCompartmentReference  ( orig.mCompartmentReference)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mName  = orig.mName;
-    mSpeciesType  = orig.mSpeciesType;
-    mCompartmentReference  = orig.mCompartmentReference;
-    mOccur  = orig.mOccur;
-    mIsSetOccur  = orig.mIsSetOccur;
-  }
 }
 
 
@@ -102,19 +89,13 @@ SpeciesTypeInstance::SpeciesTypeInstance (const SpeciesTypeInstance& orig)
 SpeciesTypeInstance&
 SpeciesTypeInstance::operator=(const SpeciesTypeInstance& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
     mName  = rhs.mName;
     mSpeciesType  = rhs.mSpeciesType;
     mCompartmentReference  = rhs.mCompartmentReference;
-    mOccur  = rhs.mOccur;
-    mIsSetOccur  = rhs.mIsSetOccur;
   }
   return *this;
 }
@@ -179,16 +160,6 @@ SpeciesTypeInstance::getCompartmentReference() const
 
 
 /*
- * Returns the value of the "occur" attribute of this SpeciesTypeInstance.
- */
-unsigned int
-SpeciesTypeInstance::getOccur() const
-{
-  return mOccur;
-}
-
-
-/*
  * Returns true/false if id is set.
  */
 bool
@@ -229,16 +200,6 @@ SpeciesTypeInstance::isSetCompartmentReference() const
 
 
 /*
- * Returns true/false if occur is set.
- */
-bool
-SpeciesTypeInstance::isSetOccur() const
-{
-  return mIsSetOccur;
-}
-
-
-/*
  * Sets id and returns value indicating success.
  */
 int
@@ -254,15 +215,8 @@ SpeciesTypeInstance::setId(const std::string& id)
 int
 SpeciesTypeInstance::setName(const std::string& name)
 {
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
-  {
-    mName = name;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -272,11 +226,7 @@ SpeciesTypeInstance::setName(const std::string& name)
 int
 SpeciesTypeInstance::setSpeciesType(const std::string& speciesType)
 {
-  if (&(speciesType) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(speciesType)))
+  if (!(SyntaxChecker::isValidInternalSId(speciesType)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -294,11 +244,7 @@ SpeciesTypeInstance::setSpeciesType(const std::string& speciesType)
 int
 SpeciesTypeInstance::setCompartmentReference(const std::string& compartmentReference)
 {
-  if (&(compartmentReference) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(compartmentReference)))
+  if (!(SyntaxChecker::isValidInternalSId(compartmentReference)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -307,18 +253,6 @@ SpeciesTypeInstance::setCompartmentReference(const std::string& compartmentRefer
     mCompartmentReference = compartmentReference;
     return LIBSBML_OPERATION_SUCCESS;
   }
-}
-
-
-/*
- * Sets occur and returns value indicating success.
- */
-int
-SpeciesTypeInstance::setOccur(unsigned int occur)
-{
-  mOccur = occur;
-  mIsSetOccur = true;
-  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -399,31 +333,12 @@ SpeciesTypeInstance::unsetCompartmentReference()
 
 
 /*
- * Unsets occur and returns value indicating success.
- */
-int
-SpeciesTypeInstance::unsetOccur()
-{
-  mOccur = SBML_INT_MAX;
-  mIsSetOccur = false;
-
-  if (isSetOccur() == false)
-  {
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else
-  {
-    return LIBSBML_OPERATION_FAILED;
-  }
-}
-
-
-/*
  * rename attributes that are SIdRefs or instances in math
  */
 void
 SpeciesTypeInstance::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetSpeciesType() == true && mSpeciesType == oldid)
   {
     setSpeciesType(newid);
@@ -470,9 +385,6 @@ SpeciesTypeInstance::hasRequiredAttributes () const
     allPresent = false;
 
   if (isSetSpeciesType() == false)
-    allPresent = false;
-
-  if (isSetOccur() == false)
     allPresent = false;
 
   return allPresent;
@@ -556,7 +468,6 @@ SpeciesTypeInstance::addExpectedAttributes(ExpectedAttributes& attributes)
   attributes.add("name");
   attributes.add("speciesType");
   attributes.add("compartmentReference");
-  attributes.add("occur");
 }
 
 
@@ -569,10 +480,10 @@ SpeciesTypeInstance::addExpectedAttributes(ExpectedAttributes& attributes)
  * Read values from the given XMLAttributes set into their specific fields.
  */
 void
-SpeciesTypeInstance::readAttributes (const XMLAttributes& attributes,
-                             const ExpectedAttributes& expectedAttributes)
+SpeciesTypeInstance::readAttributes(const XMLAttributes& attributes,
+    const ExpectedAttributes& expectedAttributes)
 {
-  const unsigned int sbmlLevel   = getLevel  ();
+  const unsigned int sbmlLevel = getLevel();
   const unsigned int sbmlVersion = getVersion();
 
   unsigned int numErrs;
@@ -580,59 +491,71 @@ SpeciesTypeInstance::readAttributes (const XMLAttributes& attributes,
   /* look to see whether an unknown attribute error was logged
    * during the read of the listOfSpeciesTypeInstances - which will have
    * happened immediately prior to this read
-  */
+   */
 
-  if (getErrorLog() != NULL &&
-      static_cast<ListOfSpeciesTypeInstances*>(getParentSBMLObject())->size() < 2)
-  {
-    numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs-1; n >= 0; n--)
+  ListOfSpeciesTypeInstances * parentListOf =
+      static_cast<ListOfSpeciesTypeInstances*>(getParentSBMLObject());
+
+  if (getErrorLog() != NULL && parentListOf->size() < 2)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
-      {
-        const std::string details =
-              getErrorLog()->getError(n)->getMessage();
-        getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
-      }
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
-      {
-        const std::string details =
-                   getErrorLog()->getError(n)->getMessage();
-        getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
-      }
+      numErrs = getErrorLog()->getNumErrors();
+      for (int n = numErrs - 1; n >= 0; n--)
+        {
+          if (getErrorLog()->getError(n)->getErrorId()
+              == UnknownPackageAttribute)
+            {
+              const std::string details =
+                  getErrorLog()->getError(n)->getMessage();
+              getErrorLog()->remove(UnknownPackageAttribute);
+              getErrorLog()->logPackageError("multi",
+                  MultiLofSptInss_AllowedAtts, getPackageVersion(), sbmlLevel,
+                  sbmlVersion, details, parentListOf->getLine(),
+                  parentListOf->getColumn());
+            }
+          else if (getErrorLog()->getError(n)->getErrorId()
+              == UnknownCoreAttribute)
+            {
+              const std::string details =
+                  getErrorLog()->getError(n)->getMessage();
+              getErrorLog()->remove(UnknownCoreAttribute);
+              getErrorLog()->logPackageError("multi",
+                  MultiLofSptInss_AllowedAtts, getPackageVersion(), sbmlLevel,
+                  sbmlVersion, details, parentListOf->getLine(),
+                  parentListOf->getColumn());
+            }
+        }
     }
-  }
 
   SBase::readAttributes(attributes, expectedAttributes);
 
   // look to see whether an unknown attribute error was logged
   if (getErrorLog() != NULL)
-  {
-    numErrs = getErrorLog()->getNumErrors();
-    for (int n = numErrs-1; n >= 0; n--)
     {
-      if (getErrorLog()->getError(n)->getErrorId() == UnknownPackageAttribute)
-      {
-        const std::string details =
-                          getErrorLog()->getError(n)->getMessage();
-        getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
-      }
-      else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
-      {
-        const std::string details =
-                          getErrorLog()->getError(n)->getMessage();
-        getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
-      }
+      numErrs = getErrorLog()->getNumErrors();
+      for (int n = numErrs - 1; n >= 0; n--)
+        {
+          if (getErrorLog()->getError(n)->getErrorId()
+              == UnknownPackageAttribute)
+            {
+              const std::string details =
+                  getErrorLog()->getError(n)->getMessage();
+              getErrorLog()->remove(UnknownPackageAttribute);
+              getErrorLog()->logPackageError("multi",
+                  MultiSptIns_AllowedMultiAtts, getPackageVersion(), sbmlLevel,
+                  sbmlVersion, details, getLine(), getColumn());
+            }
+          else if (getErrorLog()->getError(n)->getErrorId()
+              == UnknownCoreAttribute)
+            {
+              const std::string details =
+                  getErrorLog()->getError(n)->getMessage();
+              getErrorLog()->remove(UnknownCoreAttribute);
+              getErrorLog()->logPackageError("multi",
+                  MultiSptIns_AllowedCoreAtts, getPackageVersion(), sbmlLevel,
+                  sbmlVersion, details, getLine(), getColumn());
+            }
+        }
     }
-  }
 
   bool assigned = false;
 
@@ -641,26 +564,31 @@ SpeciesTypeInstance::readAttributes (const XMLAttributes& attributes,
   //
   assigned = attributes.readInto("id", mId);
 
-   if (assigned == true)
-  {
-    // check string is not empty and correct syntax
+  if (assigned == true)
+    {
+      // check string is not empty and correct syntax
 
-    if (mId.empty() == true)
-    {
-      logEmptyString(mId, getLevel(), getVersion(), "<SpeciesTypeInstance>");
+      if (mId.empty() == true)
+        {
+          logEmptyString(mId, getLevel(), getVersion(),
+              "<SpeciesTypeInstance>");
+        }
+      else if (SyntaxChecker::isValidSBMLSId(mId)
+          == false&& getErrorLog() != NULL)
+        {
+          std::string details = "The syntax of the attribute id='" + mId + "' does not conform.";
+          getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                     getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                     getLine(), getColumn());
+        }
     }
-    else if (SyntaxChecker::isValidSBMLSId(mId) == false && getErrorLog() != NULL)
-    {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute id='" + mId + "' does not conform.");
-    }
-  }
   else
-  {
-    std::string message = "Multi attribute 'id' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
-  }
+    {
+      std::string message = "Multi attribute 'id' is missing.";
+      getErrorLog()->logPackageError("multi", MultiSptIns_AllowedMultiAtts,
+          getPackageVersion(), sbmlLevel, sbmlVersion, message,
+          getLine(), getColumn());
+    }
 
   //
   // name string   ( use = "optional" )
@@ -668,14 +596,15 @@ SpeciesTypeInstance::readAttributes (const XMLAttributes& attributes,
   assigned = attributes.readInto("name", mName);
 
   if (assigned == true)
-  {
-    // check string is not empty
-
-    if (mName.empty() == true)
     {
-      logEmptyString(mName, getLevel(), getVersion(), "<SpeciesTypeInstance>");
+      // check string is not empty
+
+      if (mName.empty() == true)
+        {
+          logEmptyString(mName, getLevel(), getVersion(),
+              "<SpeciesTypeInstance>");
+        }
     }
-  }
 
   //
   // speciesType SIdRef   ( use = "required" )
@@ -683,25 +612,30 @@ SpeciesTypeInstance::readAttributes (const XMLAttributes& attributes,
   assigned = attributes.readInto("speciesType", mSpeciesType);
 
   if (assigned == true)
-  {
-    // check string is not empty and correct syntax
+    {
+      // check string is not empty and correct syntax
 
-    if (mSpeciesType.empty() == true)
-    {
-      logEmptyString(mSpeciesType, getLevel(), getVersion(), "<SpeciesTypeInstance>");
+      if (mSpeciesType.empty() == true)
+        {
+          logEmptyString(mSpeciesType, getLevel(), getVersion(),
+              "<SpeciesTypeInstance>");
+        }
+      else if (SyntaxChecker::isValidSBMLSId(mSpeciesType)
+          == false&& getErrorLog() != NULL)
+        {
+          std::string details = "The syntax of the attribute speciesType='" + mSpeciesType + "' does not conform.";
+          getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                     getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                     getLine(), getColumn());
+        }
     }
-    else if (SyntaxChecker::isValidSBMLSId(mSpeciesType) == false && getErrorLog() != NULL)
-    {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute speciesType='" + mSpeciesType + "' does not conform.");
-    }
-  }
   else
-  {
-    std::string message = "Multi attribute 'speciesType' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
-  }
+    {
+      std::string message = "Multi attribute 'speciesType' is missing.";
+      getErrorLog()->logPackageError("multi", MultiSptIns_AllowedMultiAtts,
+          getPackageVersion(), sbmlLevel, sbmlVersion, message,
+          getLine(), getColumn());
+    }
 
   //
   // compartmentReference SIdRef   ( use = "optional" )
@@ -709,46 +643,24 @@ SpeciesTypeInstance::readAttributes (const XMLAttributes& attributes,
   assigned = attributes.readInto("compartmentReference", mCompartmentReference);
 
   if (assigned == true)
-  {
-    // check string is not empty and correct syntax
-
-    if (mCompartmentReference.empty() == true)
     {
-      logEmptyString(mCompartmentReference, getLevel(), getVersion(), "<SpeciesTypeInstance>");
-    }
-    else if (SyntaxChecker::isValidSBMLSId(mCompartmentReference) == false && getErrorLog() != NULL)
-    {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute compartmentReference='" + 
-        mCompartmentReference + "' does not conform.");
-    }
-  }
+      // check string is not empty and correct syntax
 
-  //
-  // occur unsigned int   ( use = "required" )
-  //
-  numErrs = getErrorLog()->getNumErrors();
-  mIsSetOccur = attributes.readInto("occur", mOccur);
+      if (mCompartmentReference.empty() == true)
+        {
+          logEmptyString(mCompartmentReference, getLevel(), getVersion(),
+              "<SpeciesTypeInstance>");
+        }
+      else if (SyntaxChecker::isValidSBMLSId(mCompartmentReference)
+          == false&& getErrorLog() != NULL)
+        {
+          std::string details = "The syntax of the attribute compartmentReference='" + mCompartmentReference + "' does not conform.";
+          getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                     getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                     getLine(), getColumn());
 
-  if (mIsSetOccur == false)
-  {
-    if (getErrorLog() != NULL)
-    {
-      if (getErrorLog()->getNumErrors() == numErrs + 1 &&
-              getErrorLog()->contains(XMLAttributeTypeMismatch))
-      {
-        getErrorLog()->remove(XMLAttributeTypeMismatch);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                     getPackageVersion(), sbmlLevel, sbmlVersion);
-      }
-      else
-      {
-        std::string message = "Multi attribute 'occur' is missing.";
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, message);
-      }
+        }
     }
-  }
 
 }
 
@@ -777,9 +689,6 @@ SpeciesTypeInstance::writeAttributes (XMLOutputStream& stream) const
 
   if (isSetCompartmentReference() == true)
     stream.writeAttribute("compartmentReference", getPrefix(), mCompartmentReference);
-
-  if (isSetOccur() == true)
-    stream.writeAttribute("occur", getPrefix(), mOccur);
 
   SBase::writeExtensionAttributes(stream);
 
@@ -1083,17 +992,6 @@ SpeciesTypeInstance_getCompartmentReference(SpeciesTypeInstance_t * sti)
  * 
  */
 LIBSBML_EXTERN
-unsigned int
-SpeciesTypeInstance_getOccur(SpeciesTypeInstance_t * sti)
-{
-  return (sti != NULL) ? sti->getOccur() : SBML_INT_MAX;
-}
-
-
-/**
- * 
- */
-LIBSBML_EXTERN
 int
 SpeciesTypeInstance_isSetId(SpeciesTypeInstance_t * sti)
 {
@@ -1131,17 +1029,6 @@ int
 SpeciesTypeInstance_isSetCompartmentReference(SpeciesTypeInstance_t * sti)
 {
   return (sti != NULL) ? static_cast<int>(sti->isSetCompartmentReference()) : 0;
-}
-
-
-/**
- * 
- */
-LIBSBML_EXTERN
-int
-SpeciesTypeInstance_isSetOccur(SpeciesTypeInstance_t * sti)
-{
-  return (sti != NULL) ? static_cast<int>(sti->isSetOccur()) : 0;
 }
 
 
@@ -1194,17 +1081,6 @@ SpeciesTypeInstance_setCompartmentReference(SpeciesTypeInstance_t * sti, const c
  */
 LIBSBML_EXTERN
 int
-SpeciesTypeInstance_setOccur(SpeciesTypeInstance_t * sti, unsigned int occur)
-{
-  return (sti != NULL) ? sti->setOccur(occur) : LIBSBML_INVALID_OBJECT;
-}
-
-
-/**
- * 
- */
-LIBSBML_EXTERN
-int
 SpeciesTypeInstance_unsetId(SpeciesTypeInstance_t * sti)
 {
   return (sti != NULL) ? sti->unsetId() : LIBSBML_INVALID_OBJECT;
@@ -1241,17 +1117,6 @@ int
 SpeciesTypeInstance_unsetCompartmentReference(SpeciesTypeInstance_t * sti)
 {
   return (sti != NULL) ? sti->unsetCompartmentReference() : LIBSBML_INVALID_OBJECT;
-}
-
-
-/**
- * 
- */
-LIBSBML_EXTERN
-int
-SpeciesTypeInstance_unsetOccur(SpeciesTypeInstance_t * sti)
-{
-  return (sti != NULL) ? sti->unsetOccur() : LIBSBML_INVALID_OBJECT;
 }
 
 

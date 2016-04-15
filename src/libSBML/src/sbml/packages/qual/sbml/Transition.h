@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -813,21 +813,8 @@ public:
    * Predicate returning @c true if all the required attributes
    * for this Transition object have been set.
    *
-   * @note The required attributes for a Transition object are:
-   * @li "output"
-   *
-   * @return a boolean value indicating whether all the required
-   * attributes for this object have been defined.
-   */
-  virtual bool hasRequiredAttributes() const;
-
-
-  /**
-   * Predicate returning @c true if all the required attributes
-   * for this Transition object have been set.
-   *
    * @note The required elements for a Transition object are:
-   * @li "output"
+   * @li a "defaultTerm" child of the child ListOfFunctionTerms.
    *
    * @return a boolean value indicating whether all the required
    * elements for this object have been defined.

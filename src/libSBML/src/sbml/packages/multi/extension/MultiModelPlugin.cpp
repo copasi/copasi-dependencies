@@ -32,7 +32,7 @@
 #include <sbml/util/ElementFilter.h>
 #include <sbml/Model.h>
 #include <sbml/packages/multi/sbml/IntraSpeciesReaction.h>
-
+#include <sbml/packages/multi/validator/MultiSBMLError.h>
 
 
 using namespace std;
@@ -51,7 +51,7 @@ MultiModelPlugin::MultiModelPlugin(const std::string& uri,
                                  const std::string& prefix, 
                                MultiPkgNamespaces* multins) :
     SBasePlugin(uri, prefix, multins)
-  , mMultiSpeciesTypes (multins)
+  , mListOfMultiSpeciesTypes (multins)
 {
 }
 
@@ -61,7 +61,7 @@ MultiModelPlugin::MultiModelPlugin(const std::string& uri,
  */
 MultiModelPlugin::MultiModelPlugin(const MultiModelPlugin& orig) :
     SBasePlugin(orig)
-  , mMultiSpeciesTypes ( orig.mMultiSpeciesTypes)
+  , mListOfMultiSpeciesTypes ( orig.mListOfMultiSpeciesTypes)
 {
 }
 
@@ -75,7 +75,7 @@ MultiModelPlugin::operator=(const MultiModelPlugin& rhs)
   if (&rhs != this)
   {
     this->SBasePlugin::operator=(rhs);
-    mMultiSpeciesTypes = rhs.mMultiSpeciesTypes;
+    mListOfMultiSpeciesTypes = rhs.mListOfMultiSpeciesTypes;
   }
 
   return *this;
@@ -110,32 +110,55 @@ MultiModelPlugin::~MultiModelPlugin()
  * create object
  */
 SBase*
-MultiModelPlugin::createObject (XMLInputStream& stream)
+MultiModelPlugin::createObject(XMLInputStream& stream)
 {
-  SBase* object = NULL; 
+  SBase* object = NULL;
 
-  const std::string&      name   = stream.peek().getName(); 
-  const XMLNamespaces&    xmlns  = stream.peek().getNamespaces(); 
-  const std::string&      prefix = stream.peek().getPrefix(); 
+  const std::string& name = stream.peek().getName();
+  const XMLNamespaces& xmlns = stream.peek().getNamespaces();
+  std::string prefix(stream.peek().getPrefix());
 
-  const std::string& targetPrefix = (xmlns.hasURI(mURI)) ? xmlns.getPrefix(mURI) : mPrefix;
+  const std::string& targetPrefix =
+      (xmlns.hasURI(mURI)) ? xmlns.getPrefix(mURI) : mPrefix;
 
-  if (prefix == targetPrefix) 
-  { 
-    MULTI_CREATE_NS(multins, getSBMLNamespaces());
-    if (name == "listOfSpeciesTypes" ) 
-    { 
-      object = &mMultiSpeciesTypes;
+  if (prefix == targetPrefix)
+    {
+      MULTI_CREATE_NS(multins, getSBMLNamespaces());
+      if (!targetPrefix.empty())
+        {
+          prefix += ":";
+        }
 
-      if (targetPrefix.empty() == true) 
-      { 
-        mMultiSpeciesTypes.getSBMLDocument()->enableDefaultNS(mURI, true); 
-      } 
-    } 
-    delete multins;
-  } 
+      if (name == "listOfSpeciesTypes")
+        {
+          if (mListOfMultiSpeciesTypes.size() > 0)
+            {
+              getErrorLog()->logPackageError("multi", MultiLofStps_OnlyOne,
+                  getPackageVersion(), getLevel(), getVersion(),
+                  "Model may only have one <" + prefix + "listOfSpeciesTypes>",
+                  stream.peek().getLine(), stream.peek().getColumn());
+            }
+          
+          // here if we have encountered two lists we take the second
+          // if we just return NULL then the rest of the code tries to
+          // read the element and ends up reporting several other errors
 
-  return object; 
+          //else
+          //  {
+              object = &mListOfMultiSpeciesTypes;
+
+              if (targetPrefix.empty() == true)
+                {
+                  mListOfMultiSpeciesTypes.getSBMLDocument()->enableDefaultNS(
+                      mURI, true);
+                }
+          //  }
+        }
+
+      delete multins;
+    }
+
+  return object;
 }
 
 
@@ -147,7 +170,7 @@ MultiModelPlugin::writeElements (XMLOutputStream& stream) const
 {
   if (getNumMultiSpeciesTypes() > 0) 
   { 
-    mMultiSpeciesTypes.write(stream);
+    mListOfMultiSpeciesTypes.write(stream);
   } 
 }
 
@@ -178,7 +201,7 @@ MultiModelPlugin::getAllElements(ElementFilter* filter)
   List* ret = new List();
   List* sublist = NULL;
 
-  ADD_FILTERED_LIST(ret, sublist, mMultiSpeciesTypes, filter);
+  ADD_FILTERED_LIST(ret, sublist, mListOfMultiSpeciesTypes, filter);
 
   return ret;
 }
@@ -190,7 +213,7 @@ MultiModelPlugin::getAllElements(ElementFilter* filter)
 const ListOfMultiSpeciesTypes* 
 MultiModelPlugin::getListOfMultiSpeciesTypes () const
 {
-  return &this->mMultiSpeciesTypes;
+  return &this->mListOfMultiSpeciesTypes;
 }
 
 
@@ -200,7 +223,7 @@ MultiModelPlugin::getListOfMultiSpeciesTypes () const
 ListOfMultiSpeciesTypes* 
 MultiModelPlugin::getListOfMultiSpeciesTypes ()
 {
-  return &this->mMultiSpeciesTypes;
+  return &this->mListOfMultiSpeciesTypes;
 }
 
 
@@ -210,7 +233,7 @@ MultiModelPlugin::getListOfMultiSpeciesTypes ()
 const MultiSpeciesType*
 MultiModelPlugin::getMultiSpeciesType(unsigned int n) const
 {
-  return static_cast<const MultiSpeciesType*>(mMultiSpeciesTypes.get(n));
+  return static_cast<const MultiSpeciesType*>(mListOfMultiSpeciesTypes.get(n));
 }
 
 
@@ -220,7 +243,7 @@ MultiModelPlugin::getMultiSpeciesType(unsigned int n) const
 MultiSpeciesType*
 MultiModelPlugin::getMultiSpeciesType(unsigned int n)
 {
-  return static_cast<MultiSpeciesType*>(mMultiSpeciesTypes.get(n));
+  return static_cast<MultiSpeciesType*>(mListOfMultiSpeciesTypes.get(n));
 }
 
 
@@ -230,7 +253,7 @@ MultiModelPlugin::getMultiSpeciesType(unsigned int n)
 const MultiSpeciesType*
 MultiModelPlugin::getMultiSpeciesType(const std::string& sid) const
 {
-  return static_cast<const MultiSpeciesType*>(mMultiSpeciesTypes.get(sid));
+  return static_cast<const MultiSpeciesType*>(mListOfMultiSpeciesTypes.get(sid));
 }
 
 
@@ -240,7 +263,7 @@ MultiModelPlugin::getMultiSpeciesType(const std::string& sid) const
 MultiSpeciesType*
 MultiModelPlugin::getMultiSpeciesType(const std::string& sid)
 {
-  return static_cast<MultiSpeciesType*>(mMultiSpeciesTypes.get(sid));
+  return static_cast<MultiSpeciesType*>(mListOfMultiSpeciesTypes.get(sid));
 }
 
 
@@ -272,7 +295,7 @@ MultiModelPlugin::addMultiSpeciesType (const MultiSpeciesType* multiSpeciesType)
   }
   else
   {
-    mMultiSpeciesTypes.append(multiSpeciesType);
+    mListOfMultiSpeciesTypes.append(multiSpeciesType);
   }
 
   return LIBSBML_OPERATION_SUCCESS;
@@ -300,7 +323,7 @@ MultiModelPlugin::createMultiSpeciesType ()
 
   if (mst != NULL)
   {
-    mMultiSpeciesTypes.appendAndOwn(mst);
+    mListOfMultiSpeciesTypes.appendAndOwn(mst);
   }
 
   return mst;
@@ -327,7 +350,7 @@ MultiModelPlugin::createBindingSiteSpeciesType ()
 
   if (bst != NULL)
   {
-    mMultiSpeciesTypes.appendAndOwn(bst);
+    mListOfMultiSpeciesTypes.appendAndOwn(bst);
   }
 
   return bst;
@@ -340,7 +363,7 @@ MultiModelPlugin::createBindingSiteSpeciesType ()
 MultiSpeciesType* 
 MultiModelPlugin::removeMultiSpeciesType(unsigned int n)
 {
-  return static_cast<MultiSpeciesType*>(mMultiSpeciesTypes.remove(n));
+  return static_cast<MultiSpeciesType*>(mListOfMultiSpeciesTypes.remove(n));
 }
 
 
@@ -350,7 +373,7 @@ MultiModelPlugin::removeMultiSpeciesType(unsigned int n)
 MultiSpeciesType* 
 MultiModelPlugin::removeMultiSpeciesType(const std::string& sid)
 {
-  return static_cast<MultiSpeciesType*>(mMultiSpeciesTypes.remove(sid));
+  return static_cast<MultiSpeciesType*>(mListOfMultiSpeciesTypes.remove(sid));
 }
 
 
@@ -360,7 +383,7 @@ MultiModelPlugin::removeMultiSpeciesType(const std::string& sid)
 unsigned int 
 MultiModelPlugin::getNumMultiSpeciesTypes () const
 {
-  return mMultiSpeciesTypes.size();
+  return mListOfMultiSpeciesTypes.size();
 }
 
 /*
@@ -402,7 +425,7 @@ MultiModelPlugin::setSBMLDocument(SBMLDocument* d)
 {
   SBasePlugin::setSBMLDocument(d);
 
-  mMultiSpeciesTypes.setSBMLDocument(d);
+  mListOfMultiSpeciesTypes.setSBMLDocument(d);
 }
 
 
@@ -414,7 +437,7 @@ MultiModelPlugin::connectToParent(SBase* sbase)
 {
   SBasePlugin::connectToParent(sbase);
 
-  mMultiSpeciesTypes.connectToParent(sbase);
+  mListOfMultiSpeciesTypes.connectToParent(sbase);
 }
 
 
@@ -425,7 +448,7 @@ void
 MultiModelPlugin::enablePackageInternal(const std::string& pkgURI,
                                    const std::string& pkgPrefix, bool flag)
 {
-  mMultiSpeciesTypes.enablePackageInternal(pkgURI, pkgPrefix, flag);
+  mListOfMultiSpeciesTypes.enablePackageInternal(pkgURI, pkgPrefix, flag);
 }
 
 
@@ -436,9 +459,7 @@ bool
 MultiModelPlugin::accept(SBMLVisitor& v) const
 {
   const Model * model = static_cast<const Model * >(this->getParentSBMLObject());
-
   v.visit(*model);
-  v.leave(*model);
 
   for(unsigned int i = 0; i < getNumMultiSpeciesTypes(); i++)
   {

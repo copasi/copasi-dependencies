@@ -3,6 +3,7 @@
 /**
  * @file:   MultiConsistencyValidator.cpp
  * @brief:  Implementation of the MultiConsistencyValidator class
+ * @author: Fengkai Zhang
  * @author: SBMLTeam
  *
  * <!--------------------------------------------------------------------------
@@ -36,13 +37,16 @@
 #include "constraints/MultiConsistencyConstraints.cpp"
 
 LIBSBML_CPP_NAMESPACE_BEGIN
+#ifdef __cplusplus
 
 void
 MultiConsistencyValidator::init ()
 {
 #define  AddingConstraintsToValidator 1
-#include "constraints/MultiConsistencyConstraints.cpp"
+#include "constraints/MultiConsistencyConstraintsDeclared.cxx"
 }
+
+#endif /* __cplusplus */
 
 LIBSBML_CPP_NAMESPACE_END
 

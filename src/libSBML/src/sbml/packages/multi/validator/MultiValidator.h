@@ -2,6 +2,7 @@
  * @file:   MultiValidator.h
  * @brief:  Implementation of the MultiValidator class
  * @author: SBMLTeam
+ * @author: Fengkai Zhang
  *
  * <!--------------------------------------------------------------------------
  * This file is part of libSBML.  Please visit http://sbml.org for more

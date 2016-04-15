@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -780,12 +780,11 @@ CompModelPlugin::instantiateSubmodels()
 int CompModelPlugin::saveAllReferencedElements()
 {
   set<SBase*> norefs;
-  return saveAllReferencedElements(norefs, norefs);
+  return saveAllReferencedElements(norefs, norefs, getSBMLDocument());
 }
 
-int CompModelPlugin::saveAllReferencedElements(set<SBase*> uniqueRefs, set<SBase*> replacedBys)
+int CompModelPlugin::saveAllReferencedElements(set<SBase*> uniqueRefs, set<SBase*> replacedBys, SBMLDocument* doc)
 {
-  SBMLDocument* doc = getSBMLDocument();
   Model* model = static_cast<Model*>(getParentSBMLObject());
   if (model==NULL) {
     if (doc) {
@@ -937,7 +936,7 @@ int CompModelPlugin::saveAllReferencedElements(set<SBase*> uniqueRefs, set<SBase
     if (subplug==NULL) {
       return LIBSBML_OPERATION_FAILED;
     }
-    ret = subplug->saveAllReferencedElements(uniqueRefs, replacedBys);
+    ret = subplug->saveAllReferencedElements(uniqueRefs, replacedBys, doc);
     if (ret != LIBSBML_OPERATION_SUCCESS) {
       return ret;
     }

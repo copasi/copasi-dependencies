@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -363,7 +363,7 @@ START_TEST (test_element_selector)
 END_TEST
 
 
-
+#if (0)
 START_TEST (test_element_sum)
 {
   const char* s = wrapMathML
@@ -435,7 +435,7 @@ START_TEST (test_element_sum)
 
 }
 END_TEST
-
+#endif
 
 
 
@@ -454,7 +454,10 @@ create_suite_NewReadMathML ()
   tcase_add_test( tcase, test_element_vectorproduct                      );
 #endif
   tcase_add_test( tcase, test_element_selector                      );
+
+#if (0)
   tcase_add_test( tcase, test_element_sum                      );
+#endif
 
   suite_add_tcase(suite, tcase);
 

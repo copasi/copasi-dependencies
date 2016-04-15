@@ -100,12 +100,10 @@ main (int argc, char* argv[])
   SpeciesTypeInstance * sti = st->createSpeciesTypeInstance();
   sti->setId("stiX1");
   sti->setSpeciesType("stX");
-  sti->setOccur(1);
 
   sti = st->createSpeciesTypeInstance();
   sti->setId("stiX2");
   sti->setSpeciesType("stX");
-  sti->setOccur(1);
 
   // create speciesTypeBond
 
@@ -124,13 +122,11 @@ main (int argc, char* argv[])
   sti = st->createSpeciesTypeInstance();
   sti->setId("stiX1");
   sti->setSpeciesType("stX");
-  sti->setOccur(1);
   sti->setCompartmentReference("cr1");
 
   sti = st->createSpeciesTypeInstance();
   sti->setId("stiX2");
   sti->setSpeciesType("stX");
-  sti->setOccur(1);
   sti->setCompartmentReference("cr2");
 
   // create speciesTypeBond

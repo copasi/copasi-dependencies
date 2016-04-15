@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -81,18 +81,11 @@ Boundary::Boundary (SpatialPkgNamespaces* spatialns)
  */
 Boundary::Boundary (const Boundary& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mValue  ( orig.mValue)
+  , mIsSetValue  ( orig.mIsSetValue)
+  , mElementName ( orig.mElementName)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mValue  = orig.mValue;
-    mIsSetValue  = orig.mIsSetValue;
-    mElementName = orig.mElementName;
-  }
 }
 
 
@@ -102,11 +95,7 @@ Boundary::Boundary (const Boundary& orig)
 Boundary&
 Boundary::operator=(const Boundary& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;

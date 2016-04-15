@@ -1,6 +1,7 @@
 /**
  * @file    TestRunner.c
  * @brief   Runs all unit tests in the extension module in the multi package
+ * @author  Fengkai Zhang
  * @author  Akiya Jouraku
  *
  * $Id: $
@@ -25,6 +26,8 @@ CK_CPPSTART
 #endif
 
 Suite *create_suite_MultiExtension(void);
+Suite *create_suite_MultiCheckConsistency(void);
+Suite *create_suite_MultiAST(void);
 
 
 /**
@@ -68,6 +71,8 @@ main (int argc, char* argv[])
   setTestDataDirectory();
 
   SRunner *runner = srunner_create(create_suite_MultiExtension());
+  srunner_add_suite( runner, create_suite_MultiCheckConsistency() );
+  srunner_add_suite( runner, create_suite_MultiAST() );
 
   if (argc > 1 && !strcmp(argv[1], "-nofork"))
   {

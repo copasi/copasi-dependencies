@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -43,6 +43,7 @@
 
 #include <sbml/validator/SBMLInternalValidator.h>
 #include <sbml/validator/StrictUnitConsistencyValidator.h>
+#include <sbml/validator/UnitConsistencyValidator.h>
 
 #include <sbml/Model.h>
 #include <sbml/SBMLErrorLog.h>
@@ -888,6 +889,12 @@ SBMLDocument::checkInternalConsistency()
   return numErrors;
 }
 
+unsigned int
+getLevelVersionSeverity(unsigned int errorId, unsigned int level, unsigned int version)
+{
+  return SBMLError(errorId, level, version).getSeverity();
+}
+
 /*
  * Performs a set of semantic consistency checks on the document to establish
  * whether it is compatible with L1 and can be converted.  Query
@@ -896,9 +903,47 @@ SBMLDocument::checkInternalConsistency()
  * @return the number of failed checks (errors) encountered.
  */
 unsigned int
-SBMLDocument::checkL1Compatibility ()
+SBMLDocument::checkL1Compatibility (bool inConversion)
 {
-  return mInternalValidator->checkL1Compatibility();
+  unsigned int nerrors =  mInternalValidator->checkL1Compatibility();
+  unsigned int unit_errors = 0;
+
+  if (inConversion == false)
+  {
+    UnitConsistencyValidator unit_validator;
+    unit_validator.init();
+    unit_errors = unit_validator.validate(*this);
+    if (unit_errors > 0)
+    {
+      // need to check whether these are what would be warnings
+      // and only log the error if there would be a units error
+      bool logUnitError = false;
+      std::list<SBMLError> errors = unit_validator.getFailures();
+      std::list<SBMLError>::iterator it = errors.begin();
+
+      while(!logUnitError && it != errors.end())
+      {
+        SBMLError err = (SBMLError)(*it);
+        unsigned int l2v1_sev = getLevelVersionSeverity(err.getErrorId(), 1, 2);
+        if (l2v1_sev == LIBSBML_SEV_ERROR)
+        {
+          logUnitError = true;
+        }
+        it++;
+      }
+      if (logUnitError)
+      {
+        getErrorLog()->logError(StrictUnitsRequiredInL1, getLevel(), getVersion());
+        unit_errors = 1;
+      }
+      else
+      {
+        unit_errors = 0;
+      }
+    }
+  }
+
+  return nerrors + unit_errors;
 }
 
 
@@ -910,9 +955,47 @@ SBMLDocument::checkL1Compatibility ()
  * @return the number of failed checks (errors) encountered.
  */
 unsigned int
-SBMLDocument::checkL2v1Compatibility ()
+SBMLDocument::checkL2v1Compatibility (bool inConversion)
 {
-  return mInternalValidator->checkL2v1Compatibility();
+  unsigned int nerrors = mInternalValidator->checkL2v1Compatibility();
+  unsigned int unit_errors = 0;
+
+  if (inConversion == false)
+  {
+    UnitConsistencyValidator unit_validator;
+    unit_validator.init();
+    unit_errors = unit_validator.validate(*this);
+    if (unit_errors > 0)
+    {
+      // need to check whether these are what would be warnings
+      // and only log the error if there would be a units error
+      bool logUnitError = false;
+      std::list<SBMLError> errors = unit_validator.getFailures();
+      std::list<SBMLError>::iterator it = errors.begin();
+
+      while(!logUnitError && it != errors.end())
+      {
+        SBMLError err = (SBMLError)(*it);
+        unsigned int l2v1_sev = getLevelVersionSeverity(err.getErrorId(), 2, 1);
+        if (l2v1_sev == LIBSBML_SEV_ERROR)
+        {
+          logUnitError = true;
+        }
+        it++;
+      }
+      if (logUnitError)
+      {
+        getErrorLog()->logError(StrictUnitsRequiredInL2v1, getLevel(), getVersion());
+        unit_errors = 1;
+      }
+      else
+      {
+        unit_errors = 0;
+      }
+    }
+  }
+
+  return nerrors + unit_errors;
 }
 
 
@@ -924,9 +1007,47 @@ SBMLDocument::checkL2v1Compatibility ()
  * @return the number of failed checks (errors) encountered.
  */
 unsigned int
-SBMLDocument::checkL2v2Compatibility ()
+SBMLDocument::checkL2v2Compatibility (bool inConversion)
 {
-  return mInternalValidator->checkL2v2Compatibility();
+  unsigned int nerrors =  mInternalValidator->checkL2v2Compatibility();
+  unsigned int unit_errors = 0;
+
+  if (inConversion == false)
+  {
+    UnitConsistencyValidator unit_validator;
+    unit_validator.init();
+    unit_errors = unit_validator.validate(*this);
+    if (unit_errors > 0)
+    {
+      // need to check whether these are what would be warnings
+      // and only log the error if there would be a units error
+      bool logUnitError = false;
+      std::list<SBMLError> errors = unit_validator.getFailures();
+      std::list<SBMLError>::iterator it = errors.begin();
+
+      while(!logUnitError && it != errors.end())
+      {
+        SBMLError err = (SBMLError)(*it);
+        unsigned int l2v1_sev = getLevelVersionSeverity(err.getErrorId(), 1, 2);
+        if (l2v1_sev == LIBSBML_SEV_ERROR)
+        {
+          logUnitError = true;
+        }
+        it++;
+      }
+      if (logUnitError)
+      {
+        getErrorLog()->logError(StrictUnitsRequiredInL2v2, getLevel(), getVersion());
+        unit_errors = 1;
+      }
+      else
+      {
+        unit_errors = 0;
+      }
+    }
+  }
+
+  return nerrors + unit_errors;
 }
 
 
@@ -938,9 +1059,47 @@ SBMLDocument::checkL2v2Compatibility ()
  * @return the number of failed checks (errors) encountered.
  */
 unsigned int
-SBMLDocument::checkL2v3Compatibility ()
+SBMLDocument::checkL2v3Compatibility (bool inConversion)
 {
-  return mInternalValidator->checkL2v3Compatibility();
+  unsigned int nerrors =  mInternalValidator->checkL2v3Compatibility();
+  unsigned int unit_errors = 0;
+
+  if (inConversion == false)
+  {
+    UnitConsistencyValidator unit_validator;
+    unit_validator.init();
+    unit_errors = unit_validator.validate(*this);
+    if (unit_errors > 0)
+    {
+      // need to check whether these are what would be warnings
+      // and only log the error if there would be a units error
+      bool logUnitError = false;
+      std::list<SBMLError> errors = unit_validator.getFailures();
+      std::list<SBMLError>::iterator it = errors.begin();
+
+      while(!logUnitError && it != errors.end())
+      {
+        SBMLError err = (SBMLError)(*it);
+        unsigned int l2v1_sev = getLevelVersionSeverity(err.getErrorId(), 1, 2);
+        if (l2v1_sev == LIBSBML_SEV_ERROR)
+        {
+          logUnitError = true;
+        }
+        it++;
+      }
+      if (logUnitError)
+      {
+        getErrorLog()->logError(StrictUnitsRequiredInL2v3, getLevel(), getVersion());
+        unit_errors = 1;
+      }
+      else
+      {
+        unit_errors = 0;
+      }
+    }
+  }
+
+  return nerrors + unit_errors;
 }
 
 

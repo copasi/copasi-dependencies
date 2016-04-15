@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -106,7 +106,7 @@ FormulaTokenizer_getName (FormulaTokenizer_t *ft, Token_t *t)
   start = ft->pos;
   c     = ft->formula[ ++ft->pos ];
 
-  while (isalpha(c) || isdigit(c) || c == '_')
+  while (isalpha((int)c) || isdigit((int)c) || c == '_')
   {
     c = ft->formula[ ++ft->pos ];
   }
@@ -254,7 +254,7 @@ FormulaTokenizer_nextToken (FormulaTokenizer_t *ft)
   /**
    * Skip whitespace
    */
-  while (isspace(c))
+  while (isspace((int)c))
   {
     c = ft->formula[ ++ft->pos ];
   }
@@ -272,11 +272,11 @@ FormulaTokenizer_nextToken (FormulaTokenizer_t *ft)
     t->value.ch = c;
     ft->pos++;
   }
-  else if (isalpha(c) || c == '_')
+  else if (isalpha((int)c) || c == '_')
   {
     FormulaTokenizer_getName(ft, t);
   }
-  else if (c == '.' || isdigit(c))
+  else if (c == '.' || isdigit((int)c))
   {
     FormulaTokenizer_getNumber(ft, t);
   }

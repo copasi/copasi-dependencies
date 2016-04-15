@@ -9,7 +9,7 @@
 ## This file is part of libSBML.  Please visit http://sbml.org for more
 ## information about SBML, and the latest version of libSBML.
 ##
-## Copyright (C) 2013-2015 jointly by the following organizations:
+## Copyright (C) 2013-2016 jointly by the following organizations:
 ##     1. California Institute of Technology, Pasadena, CA, USA
 ##     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 ##     3. University of Heidelberg, Heidelberg, Germany
@@ -66,6 +66,15 @@ AC_SUBST(PACKAGE_FBC_V2_VERSION, 2)
 AC_SUBST(PACKAGE_FBC_V2_RELEASE, 1)
 AC_SUBST(PACKAGE_FBC_V2_SPEC_URL, [http://identifiers.org/combine.specifications/sbml.level-3.version-1.fbc.version-2.release-1])
 AC_SUBST(PACKAGE_FBC_V2_ERRATA_URL, [http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/Flux_Balance_Constraints_%28flux%29/Confirmed_issues_in_the_Flux_Balance_Constraints_package_specification])
+
+# -----------------------------------------------------------------------------
+# 'groups' package, v1
+# -----------------------------------------------------------------------------
+
+AC_SUBST(PACKAGE_GROUPS_V1_VERSION, 1)
+AC_SUBST(PACKAGE_GROUPS_V1_RELEASE, 1)
+AC_SUBST(PACKAGE_GROUPS_V1_SPEC_URL, [http://identifiers.org/combine.specifications/sbml.level-3.version-1.groups.version-1.release-1])
+AC_SUBST(PACKAGE_GROUPS_V1_ERRATA_URL, [http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/Groups/Confirmed_issues_in_the_Groups_package_specification])
 
 # -----------------------------------------------------------------------------
 # 'layout' package

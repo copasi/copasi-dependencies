@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -671,6 +671,29 @@ SBO::isObselete  (unsigned int sboTerm)
 
 
 /** @cond doxygenLibsbmlInternal */
+unsigned int
+SBO::getParentBranch(unsigned int term)
+{
+  if (isMathematicalExpression(term))
+    return 64;
+  else if (isMetadataRepresentation(term))
+    return 544;
+  else if (isModellingFramework(term))
+    return 4;
+  else if (isOccurringEntityRepresentation(term))
+    return 231;
+  else if (isParticipantRole(term))
+    return 3;
+  else if (isPhysicalEntityRepresentation(term))
+    return 236;
+  else if (isSystemsDescriptionParameter(term))
+    return 545;
+  else
+    return 1000;
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
 /**
   * functions for checking the SBO term is from correct part of SBO
   * populates the parent-child map
@@ -678,7 +701,7 @@ SBO::isObselete  (unsigned int sboTerm)
 void
 SBO::populateSBOTree()
 {
-  // generated from SBO on July 7th 2015
+  // generated from SBO on 04/14/2016
   mParent.insert( pair<const int, int>(  1,  64) );
   mParent.insert( pair<const int, int>(  2, 545) );
   mParent.insert( pair<const int, int>(  3,   0) );
@@ -1355,11 +1378,13 @@ SBO::populateSBOTree()
   mParent.insert( pair<const int, int>(624,   4) );
   mParent.insert( pair<const int, int>(625, 613) );
   mParent.insert( pair<const int, int>(626, 625) );
-  mParent.insert( pair<const int, int>(627, 375) );
-  mParent.insert( pair<const int, int>(628, 375) );
+  mParent.insert( pair<const int, int>(627, 631) );
+  mParent.insert( pair<const int, int>(628, 631) );
   mParent.insert( pair<const int, int>(629, 395) );
   mParent.insert( pair<const int, int>(630, 395) );
-
+  mParent.insert( pair<const int, int>(631, 375) );
+  mParent.insert( pair<const int, int>(632, 631) );
+  mParent.insert( pair<const int, int>(633, 473) );
 
 }
 /** @endcond */

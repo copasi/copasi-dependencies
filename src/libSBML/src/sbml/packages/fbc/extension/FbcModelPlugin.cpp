@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -421,12 +421,16 @@ FbcModelPlugin::parseAnnotation(SBase *parentObject, XMLNode *pAnnotation)
 
 
 /** @cond doxygenLibsbmlInternal */
+#ifndef ANNOATION
+bool
+FbcModelPlugin::readOtherXML (SBase* /*parentObject*/, XMLInputStream& /*stream*/)
+{
+  return false;
+}
+#else
 bool
 FbcModelPlugin::readOtherXML (SBase* parentObject, XMLInputStream& stream)
 {
-#ifndef ANNOATION
-  return false;
-#else
   bool readAnnotationFromStream = false;
   const string& name = stream.peek().getName();
   
@@ -522,14 +526,17 @@ FbcModelPlugin::readOtherXML (SBase* parentObject, XMLInputStream& stream)
   }
   
   return readAnnotationFromStream;
-#endif
 }
+#endif
 /** @endcond */
 
 
 /*
  * Checks if this plugin object has all the required elements.
  */
+  //According to the specs for both FBC v1 and v2, the model plugin has no 
+  // required children!
+/*
 bool
 FbcModelPlugin::hasRequiredElements () const
 {
@@ -540,10 +547,9 @@ FbcModelPlugin::hasRequiredElements () const
     allPresent = false;    
   }
 
-
   return allPresent; 
 }
-
+*/
 
   /** @cond doxygenLibsbmlInternal */
 
@@ -1776,6 +1782,49 @@ FbcModelPlugin_setActiveObjectiveId(SBasePlugin_t * fbc, const char * activeId)
     ? static_cast<FbcModelPlugin *>(fbc)->setActiveObjectiveId(activeId) 
     : LIBSBML_INVALID_OBJECT;
 }
+
+
+LIBSBML_EXTERN
+int
+FbcModelPlugin_addGeneProduct(SBasePlugin_t * fbc, GeneProduct_t * fb)
+{
+  return (fbc != NULL) ? static_cast<FbcModelPlugin*>(fbc)->addGeneProduct(fb)
+    : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+GeneProduct_t *
+FbcModelPlugin_getGeneProduct(SBasePlugin_t * fbc, unsigned int n)
+{
+  return (fbc != NULL) ? static_cast<FbcModelPlugin*>(fbc)->getGeneProduct(n)
+    : NULL;
+}
+
+
+LIBSBML_EXTERN
+unsigned int
+FbcModelPlugin_getNumGeneProducts(SBasePlugin_t * fbc)
+{
+  return (fbc != NULL) ? static_cast<FbcModelPlugin*>(fbc)->getNumGeneProducts()
+    : SBML_INT_MAX;
+}
+
+LIBSBML_EXTERN
+int
+FbcModelPlugin_getStrict(SBasePlugin_t * fmp)
+{
+  return (int)(((FbcModelPlugin*)(fmp))->getStrict());
+}
+
+
+LIBSBML_EXTERN
+int
+FbcModelPlugin_setStrict(SBasePlugin_t * fmp, int strict)
+{
+  return ((FbcModelPlugin*)(fmp))->setStrict((bool)(strict));
+}
+
 /** @endcond */
 
 

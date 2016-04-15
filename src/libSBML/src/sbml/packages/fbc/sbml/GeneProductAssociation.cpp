@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -341,9 +341,10 @@ int GeneProductAssociation::setAssociation(const std::string& association)
   if (newAssociation == NULL)
     return LIBSBML_OPERATION_FAILED;
 
+  /* this clones the association so we need to free the memory */
   int result = setAssociation(newAssociation);
 
-  if (result != LIBSBML_OPERATION_SUCCESS)
+  if (result == LIBSBML_OPERATION_SUCCESS)
     delete newAssociation;
 
   return result;
@@ -587,6 +588,7 @@ GeneProductAssociation::createObject(XMLInputStream& stream)
                     details, getLine(), getColumn());
 
   }
+  delete mAssociation;
 
   if (name == "and")
   {

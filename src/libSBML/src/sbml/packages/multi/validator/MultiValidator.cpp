@@ -2,6 +2,7 @@
  * @file:   MultiValidator.cpp
  * @brief:  Implementation of the MultiValidator class
  * @author: SBMLTeam
+ * @author: Fengkai Zhang
  *
  * <!--------------------------------------------------------------------------
  * This file is part of libSBML.  Please visit http://sbml.org for more
@@ -12,7 +13,7 @@
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *
  * Copyright (C) 2006-2008 by the California Institute of Technology,
- *     Pasadena, CA, USA 
+ *     Pasadena, CA, USA
  *
  * Copyright (C) 2002-2005 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
@@ -31,13 +32,14 @@
 #include <sbml/packages/multi/validator/MultiValidator.h>
 
 #include <sbml/SBMLReader.h>
+#include <sbml/ModifierSpeciesReference.h>
 
 
-  /** @cond doxygenLibsbmlInternal */
+/** @cond doxygenLibsbmlInternal */
 
 using namespace std;
 
-  /** @endcond doxygenLibsbmlInternal */
+/** @endcond doxygenLibsbmlInternal */
 
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -59,10 +61,10 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 /*
  * Applies a Constraint<T> to an SBML object of type T.
  */
-template <typename T>
+ template <typename T>
 struct Apply : public unary_function<TConstraint<T>*, void>
 {
-  Apply (const Model& m, const T& o) : model(m), object(o) { }
+  Apply(const Model& m, const T& o) : model(m), object(o) { }
 
 
   void operator() (TConstraint<T>* constraint)
@@ -81,14 +83,14 @@ class ConstraintSet
 {
 public:
 
-   ConstraintSet () { }
-  ~ConstraintSet () { }
+  ConstraintSet() { }
+  ~ConstraintSet() { }
 
 
   /*
    * Adds a Constraint to this ConstraintSet.
    */
-  void add (TConstraint<T>* c)
+  void add(TConstraint<T>* c)
   {
     constraints.push_back(c);
   }
@@ -97,7 +99,7 @@ public:
    * Applies all Constraints in this ConstraintSet to the given SBML object
    * of type T.  Constraint violations are logged to Validator.
    */
-  void applyTo (const Model& model, const T& object)
+  void applyTo(const Model& model, const T& object)
   {
     for_each(constraints.begin(), constraints.end(), Apply<T>(model, object));
   }
@@ -105,7 +107,7 @@ public:
   /*
    * @return true if this ConstraintSet is empty, false otherwise.
    */
-  bool empty () const
+  bool empty() const
   {
     return constraints.empty();
   }
@@ -134,25 +136,26 @@ protected:
  */
 struct MultiValidatorConstraints
 {
-  ConstraintSet<SBMLDocument>             mSBMLDocument;
-  ConstraintSet<Model>                    mModel;
+  ConstraintSet<SBMLDocument>          mSBMLDocument;
+  ConstraintSet<Model>                 mModel;
   ConstraintSet<PossibleSpeciesFeatureValue>      mPossibleSpeciesFeatureValue;
-  ConstraintSet<SpeciesFeatureValue>      mSpeciesFeatureValue;
-  ConstraintSet<CompartmentReference>      mCompartmentReference;
-  ConstraintSet<SpeciesTypeInstance>      mSpeciesTypeInstance;
-  ConstraintSet<InSpeciesTypeBond>      mInSpeciesTypeBond;
-  ConstraintSet<DenotedSpeciesTypeComponentIndex>      mDenotedSpeciesTypeComponentIndex;
-  ConstraintSet<OutwardBindingSite>      mOutwardBindingSite;
-  ConstraintSet<SpeciesFeatureChange>      mSpeciesFeatureChange;
-  ConstraintSet<SpeciesFeatureType>      mSpeciesFeatureType;
+  ConstraintSet<SpeciesFeatureValue>   mSpeciesFeatureValue;
+  ConstraintSet<CompartmentReference>  mCompartmentReference;
+  ConstraintSet<SpeciesTypeInstance>   mSpeciesTypeInstance;
+  ConstraintSet<InSpeciesTypeBond>     mInSpeciesTypeBond;
+  ConstraintSet<OutwardBindingSite>    mOutwardBindingSite;
+  ConstraintSet<SpeciesFeatureChange>  mSpeciesFeatureChange;
+  ConstraintSet<SpeciesFeatureType>    mSpeciesFeatureType;
   ConstraintSet<SpeciesTypeComponentIndex>      mSpeciesTypeComponentIndex;
-  ConstraintSet<SpeciesFeature>      mSpeciesFeature;
+  ConstraintSet<SpeciesFeature>        mSpeciesFeature;
   ConstraintSet<SpeciesTypeComponentMapInProduct>      mSpeciesTypeComponentMapInProduct;
   ConstraintSet<MultiSpeciesType>      mMultiSpeciesType;
-  map<VConstraint*,bool> ptrMap;
+  ConstraintSet<Compartment>           mCompartment;
+  ConstraintSet<Species>           	   mSpecies;
+  map<VConstraint*, bool> ptrMap;
 
-  ~MultiValidatorConstraints ();
-  void add (VConstraint* c);
+  ~MultiValidatorConstraints();
+  void add(VConstraint* c);
 };
 
 
@@ -165,14 +168,14 @@ struct MultiValidatorConstraints
  * ConstraintSet<ModifierSimpleSpeciesReference>), a pointer map is used for
  * avoiding segmentation fault caused by deleting the same pointer twice.
  */
-MultiValidatorConstraints::~MultiValidatorConstraints ()
+MultiValidatorConstraints::~MultiValidatorConstraints()
 {
-  map<VConstraint*,bool>::iterator it = ptrMap.begin();
+  map<VConstraint*, bool>::iterator it = ptrMap.begin();
 
-  while(it != ptrMap.end())
+  while (it != ptrMap.end())
   {
-     if(it->second) delete it->first;
-     ++it;
+    if (it->second) delete it->first;
+    ++it;
   }
 }
 
@@ -181,98 +184,102 @@ MultiValidatorConstraints::~MultiValidatorConstraints ()
  * Adds the given Contraint to the appropriate ConstraintSet.
  */
 void
-MultiValidatorConstraints::add (VConstraint* c)
+MultiValidatorConstraints::add(VConstraint* c)
 {
   if (c == NULL) return;
 
-  ptrMap.insert(pair<VConstraint*,bool>(c,true));
+  ptrMap.insert(pair<VConstraint*, bool>(c, true));
 
-  if (dynamic_cast< TConstraint<SBMLDocument>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<SBMLDocument>*>(c) != NULL)
   {
-    mSBMLDocument.add( static_cast< TConstraint<SBMLDocument>* >(c) );
+    mSBMLDocument.add(static_cast<TConstraint<SBMLDocument>*>(c));
     return;
   }
 
-  if (dynamic_cast< TConstraint<Model>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<Model>*>(c) != NULL)
   {
-    mModel.add( static_cast< TConstraint<Model>* >(c) );
+    mModel.add(static_cast<TConstraint<Model>*>(c));
     return;
   }
-  if (dynamic_cast< TConstraint<PossibleSpeciesFeatureValue>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<PossibleSpeciesFeatureValue>*>(c) != NULL)
   {
-    mPossibleSpeciesFeatureValue.add( static_cast< TConstraint<PossibleSpeciesFeatureValue>* >(c) );
-    return;
-  }
-
-  if (dynamic_cast< TConstraint<SpeciesFeatureValue>* >(c) != NULL)
-  {
-    mSpeciesFeatureValue.add( static_cast< TConstraint<SpeciesFeatureValue>* >(c) );
+    mPossibleSpeciesFeatureValue.add(static_cast<TConstraint<PossibleSpeciesFeatureValue>*>(c));
     return;
   }
 
-  if (dynamic_cast< TConstraint<CompartmentReference>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<SpeciesFeatureValue>*>(c) != NULL)
   {
-    mCompartmentReference.add( static_cast< TConstraint<CompartmentReference>* >(c) );
+    mSpeciesFeatureValue.add(static_cast<TConstraint<SpeciesFeatureValue>*>(c));
     return;
   }
 
-  if (dynamic_cast< TConstraint<SpeciesTypeInstance>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<CompartmentReference>*>(c) != NULL)
   {
-    mSpeciesTypeInstance.add( static_cast< TConstraint<SpeciesTypeInstance>* >(c) );
+    mCompartmentReference.add(static_cast<TConstraint<CompartmentReference>*>(c));
     return;
   }
 
-  if (dynamic_cast< TConstraint<InSpeciesTypeBond>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<SpeciesTypeInstance>*>(c) != NULL)
   {
-    mInSpeciesTypeBond.add( static_cast< TConstraint<InSpeciesTypeBond>* >(c) );
+    mSpeciesTypeInstance.add(static_cast<TConstraint<SpeciesTypeInstance>*>(c));
     return;
   }
 
-  if (dynamic_cast< TConstraint<DenotedSpeciesTypeComponentIndex>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<InSpeciesTypeBond>*>(c) != NULL)
   {
-    mDenotedSpeciesTypeComponentIndex.add( static_cast< TConstraint<DenotedSpeciesTypeComponentIndex>* >(c) );
+    mInSpeciesTypeBond.add(static_cast<TConstraint<InSpeciesTypeBond>*>(c));
     return;
   }
 
-  if (dynamic_cast< TConstraint<OutwardBindingSite>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<OutwardBindingSite>*>(c) != NULL)
   {
-    mOutwardBindingSite.add( static_cast< TConstraint<OutwardBindingSite>* >(c) );
+    mOutwardBindingSite.add(static_cast<TConstraint<OutwardBindingSite>*>(c));
     return;
   }
 
-  if (dynamic_cast< TConstraint<SpeciesFeatureChange>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<SpeciesFeatureChange>*>(c) != NULL)
   {
-    mSpeciesFeatureChange.add( static_cast< TConstraint<SpeciesFeatureChange>* >(c) );
+    mSpeciesFeatureChange.add(static_cast<TConstraint<SpeciesFeatureChange>*>(c));
     return;
   }
 
-  if (dynamic_cast< TConstraint<SpeciesFeatureType>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<SpeciesFeatureType>*>(c) != NULL)
   {
-    mSpeciesFeatureType.add( static_cast< TConstraint<SpeciesFeatureType>* >(c) );
+    mSpeciesFeatureType.add(static_cast<TConstraint<SpeciesFeatureType>*>(c));
     return;
   }
 
-  if (dynamic_cast< TConstraint<SpeciesTypeComponentIndex>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<SpeciesTypeComponentIndex>*>(c) != NULL)
   {
-    mSpeciesTypeComponentIndex.add( static_cast< TConstraint<SpeciesTypeComponentIndex>* >(c) );
+    mSpeciesTypeComponentIndex.add(static_cast<TConstraint<SpeciesTypeComponentIndex>*>(c));
     return;
   }
 
-  if (dynamic_cast< TConstraint<SpeciesFeature>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<SpeciesFeature>*>(c) != NULL)
   {
-    mSpeciesFeature.add( static_cast< TConstraint<SpeciesFeature>* >(c) );
+    mSpeciesFeature.add(static_cast<TConstraint<SpeciesFeature>*>(c));
     return;
   }
 
-  if (dynamic_cast< TConstraint<SpeciesTypeComponentMapInProduct>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<SpeciesTypeComponentMapInProduct>*>(c) != NULL)
   {
-    mSpeciesTypeComponentMapInProduct.add( static_cast< TConstraint<SpeciesTypeComponentMapInProduct>* >(c) );
+    mSpeciesTypeComponentMapInProduct.add(static_cast<TConstraint<SpeciesTypeComponentMapInProduct>*>(c));
     return;
   }
 
-  if (dynamic_cast< TConstraint<MultiSpeciesType>* >(c) != NULL)
+  if (dynamic_cast<TConstraint<MultiSpeciesType>*>(c) != NULL)
   {
-    mMultiSpeciesType.add( static_cast< TConstraint<MultiSpeciesType>* >(c) );
+    mMultiSpeciesType.add(static_cast<TConstraint<MultiSpeciesType>*>(c));
+    return;
+  }
+  if (dynamic_cast<TConstraint<Compartment>*>(c) != NULL)
+  {
+    mCompartment.add(static_cast<TConstraint<Compartment>*>(c));
+    return;
+  }
+  if (dynamic_cast<TConstraint<Species>*>(c) != NULL)
+  {
+    mSpecies.add(static_cast<TConstraint<Species>*>(c));
     return;
   }
 
@@ -295,95 +302,117 @@ MultiValidatorConstraints::add (VConstraint* c)
  * A ValidatingVisitor overrides each visit method to validate the given
  * SBML object.
  */
-class MultiValidatingVisitor: public SBMLVisitor
+class MultiValidatingVisitor : public SBMLVisitor
 {
 public:
 
-  MultiValidatingVisitor (MultiValidator& v, const Model& m) : v(v), m(m) { }
+  MultiValidatingVisitor(MultiValidator& v, const Model& m) : v(v), m(m) { }
+
 
   using SBMLVisitor::visit;
 
-  bool visit (const PossibleSpeciesFeatureValue &x)
+  // model
+  virtual void visit(const Model &x)
+  {
+    v.mMultiConstraints->mModel.applyTo(m, x);
+    v.mMultiConstraints->mModel.empty();
+  }
+
+  bool visit(const PossibleSpeciesFeatureValue &x)
   {
     v.mMultiConstraints->mPossibleSpeciesFeatureValue.applyTo(m, x);
     return !v.mMultiConstraints->mPossibleSpeciesFeatureValue.empty();
   }
 
-  bool visit (const SpeciesFeatureValue &x)
+  bool visit(const SpeciesFeatureValue &x)
   {
     v.mMultiConstraints->mSpeciesFeatureValue.applyTo(m, x);
     return !v.mMultiConstraints->mSpeciesFeatureValue.empty();
   }
 
-  bool visit (const CompartmentReference &x)
+  bool visit(const CompartmentReference &x)
   {
     v.mMultiConstraints->mCompartmentReference.applyTo(m, x);
     return !v.mMultiConstraints->mCompartmentReference.empty();
   }
 
-  bool visit (const SpeciesTypeInstance &x)
+  bool visit(const SpeciesTypeInstance &x)
   {
     v.mMultiConstraints->mSpeciesTypeInstance.applyTo(m, x);
     return !v.mMultiConstraints->mSpeciesTypeInstance.empty();
   }
 
-  bool visit (const InSpeciesTypeBond &x)
+  bool visit(const InSpeciesTypeBond &x)
   {
     v.mMultiConstraints->mInSpeciesTypeBond.applyTo(m, x);
     return !v.mMultiConstraints->mInSpeciesTypeBond.empty();
   }
 
-  bool visit (const DenotedSpeciesTypeComponentIndex &x)
-  {
-    v.mMultiConstraints->mDenotedSpeciesTypeComponentIndex.applyTo(m, x);
-    return !v.mMultiConstraints->mDenotedSpeciesTypeComponentIndex.empty();
-  }
-
-  bool visit (const OutwardBindingSite &x)
+  bool visit(const OutwardBindingSite &x)
   {
     v.mMultiConstraints->mOutwardBindingSite.applyTo(m, x);
     return !v.mMultiConstraints->mOutwardBindingSite.empty();
   }
 
-  bool visit (const SpeciesFeatureChange &x)
+  bool visit(const SpeciesFeatureChange &x)
   {
     v.mMultiConstraints->mSpeciesFeatureChange.applyTo(m, x);
     return !v.mMultiConstraints->mSpeciesFeatureChange.empty();
   }
 
-  bool visit (const SpeciesFeatureType &x)
+  bool visit(const SpeciesFeatureType &x)
   {
     v.mMultiConstraints->mSpeciesFeatureType.applyTo(m, x);
     return !v.mMultiConstraints->mSpeciesFeatureType.empty();
   }
 
-  bool visit (const SpeciesTypeComponentIndex &x)
+  bool visit(const SpeciesTypeComponentIndex &x)
   {
     v.mMultiConstraints->mSpeciesTypeComponentIndex.applyTo(m, x);
     return !v.mMultiConstraints->mSpeciesTypeComponentIndex.empty();
   }
 
-  bool visit (const SpeciesFeature &x)
+  bool visit(const SpeciesFeature &x)
   {
     v.mMultiConstraints->mSpeciesFeature.applyTo(m, x);
     return !v.mMultiConstraints->mSpeciesFeature.empty();
   }
 
-  bool visit (const SpeciesTypeComponentMapInProduct &x)
+  bool visit(const SpeciesTypeComponentMapInProduct &x)
   {
     v.mMultiConstraints->mSpeciesTypeComponentMapInProduct.applyTo(m, x);
     return !v.mMultiConstraints->mSpeciesTypeComponentMapInProduct.empty();
   }
 
-  bool visit (const MultiSpeciesType &x)
+  bool visit(const MultiSpeciesType &x)
   {
     v.mMultiConstraints->mMultiSpeciesType.applyTo(m, x);
     return !v.mMultiConstraints->mMultiSpeciesType.empty();
   }
 
+  bool visit(const Compartment &x)
+  {
+    v.mMultiConstraints->mCompartment.applyTo(m, x);
+    return !v.mMultiConstraints->mCompartment.empty();
+  }
+  bool visit(const Species &x)
+  {
+    v.mMultiConstraints->mSpecies.applyTo(m, x);
+    return !v.mMultiConstraints->mSpecies.empty();
+  }
+  //  bool visit (const Reaction &x)
+  //  {
+  //    v.mMultiConstraints->mReactions.applyTo(m, x);
+  //    return !v.mMultiConstraints->mReactions.empty();
+  //  }
+  //  bool visit (const ASTNode &x)
+  //  {
+  //    v.mMultiConstraints->mASTNodes.applyTo(m, x);
+  //    return !v.mMultiConstraints->mASTNodes.empty();
+  //  }
   virtual bool visit(const SBase &x)
   {
-    if (&x == NULL || x.getPackageName() != "multi")
+    if (x.getPackageName() != "multi")
     {
       return SBMLVisitor::visit(x);
     }
@@ -418,10 +447,6 @@ public:
       {
         return visit((const InSpeciesTypeBond&)x);
       }
-      else if (code == SBML_MULTI_DENOTED_SPECIES_TYPE_COMPONENT_INDEX)
-      {
-        return visit((const DenotedSpeciesTypeComponentIndex&)x);
-      }
       else if (code == SBML_MULTI_OUTWARD_BINDING_SITE)
       {
         return visit((const OutwardBindingSite&)x);
@@ -446,14 +471,14 @@ public:
       {
         return visit((const SpeciesTypeComponentMapInProduct&)x);
       }
-      else if (code == SBML_MULTI_SPECIES_TYPE)
+      else if (code == SBML_MULTI_SPECIES_TYPE || code == SBML_MULTI_BINDING_SITE_SPECIES_TYPE)
       {
         return visit((const MultiSpeciesType&)x);
       }
-      else 
+      else
       {
         return SBMLVisitor::visit(x);
-      } 
+      }
     }
   }
 
@@ -474,14 +499,14 @@ protected:
 // ----------------------------------------------------------------------
 
 
-MultiValidator::MultiValidator (const SBMLErrorCategory_t category):
-  Validator(category)
+MultiValidator::MultiValidator(const SBMLErrorCategory_t category) :
+Validator(category)
 {
   mMultiConstraints = new MultiValidatorConstraints();
 }
 
 
-MultiValidator::~MultiValidator ()
+MultiValidator::~MultiValidator()
 {
   delete mMultiConstraints;
 }
@@ -491,10 +516,17 @@ MultiValidator::~MultiValidator ()
  * Adds the given Contraint to this validator.
  */
 void
-MultiValidator::addConstraint (VConstraint* c)
+MultiValidator::addConstraint(VConstraint* c)
 {
   mMultiConstraints->add(c);
 }
+
+#define ACCEPT_MULTI(x,vv)\
+{\
+   const SBasePlugin *plugin = static_cast <const SBasePlugin *>((x)->getPlugin(MultiExtension::getPackageName()));\
+   if (plugin != NULL) plugin->accept(vv);\
+}
+
 
 
 /*
@@ -504,27 +536,78 @@ MultiValidator::addConstraint (VConstraint* c)
  * @return the number of validation errors that occurred.
  */
 unsigned int
-MultiValidator::validate (const SBMLDocument& d)
+MultiValidator::validate(const SBMLDocument& d)
 {
-  if (&d == NULL) return 0;
 
   const Model* m = d.getModel();
 
+  // model
   if (m != NULL)
   {
     MultiValidatingVisitor vv(*this, *m);
 
-    const MultiModelPlugin* plugin = 
-      static_cast <const MultiModelPlugin *> (m->getPlugin("multi"));
-      
-    if (plugin != NULL)
+    // Model
+    ACCEPT_MULTI(m, vv);
+
+    // Compartment
+    for (unsigned int i = 0; i < m->getNumCompartments(); i++)
     {
-      plugin->accept(vv);
+      ACCEPT_MULTI(m->getCompartment(i), vv);
     }
+
+    //  Species
+    for (unsigned int i = 0; i < m->getNumSpecies(); i++)
+    {
+      ACCEPT_MULTI(m->getSpecies(i), vv);
+    }
+
+    // ListOfReactions
+    ACCEPT_MULTI(m->getListOfReactions(), vv);
+
+    // Reaction
+    for (unsigned int i = 0; i < m->getNumReactions(); i++)
+    {
+      const Reaction * r = m->getReaction(i);
+
+      for (unsigned int j = 0; j < r->getNumReactants(); j++)
+      {
+        ACCEPT_MULTI(r->getReactant(j), vv);
+      }
+      for (unsigned int j = 0; j < r->getNumProducts(); j++)
+      {
+        ACCEPT_MULTI(r->getProduct(j), vv);
+      }
+      for (unsigned int j = 0; j < r->getNumModifiers(); j++)
+      {
+        ACCEPT_MULTI(r->getModifier(j), vv);
+      }
+
+      const KineticLaw * kineticLaw = r->getKineticLaw();
+      if (kineticLaw) {
+        const ASTNode * math = kineticLaw->getMath();
+        // TODO for validation of ci elements
+        List * listNumberNodes = math->getListOfNodes((ASTNodePredicate)ASTNode_isNumber);
+
+        for (unsigned int i = 0; i < listNumberNodes->getSize(); i++)
+        {
+          const ASTNode * node = static_cast<const ASTNode *> (listNumberNodes->get(i));
+          if (node != NULL) {
+            const MultiASTPlugin * astPlugin = static_cast<const MultiASTPlugin*>(node->getPlugin("multi"));
+            if (astPlugin != NULL) {
+              //						astPlugin-
+            }
+          }
+        }
+
+        delete listNumberNodes;
+
+      }
+    }
+
   }
 
   /* ADD ANY OTHER OBJECTS THAT HAVE PLUGINS */
-  
+
   return (unsigned int)mFailures.size();
 }
 
@@ -536,20 +619,23 @@ MultiValidator::validate (const SBMLDocument& d)
  * @return the number of validation errors that occurred.
  */
 unsigned int
-MultiValidator::validate (const std::string& filename)
+MultiValidator::validate(const std::string& filename)
 {
-  if (&filename == NULL) return 0;
 
   SBMLReader    reader;
-  SBMLDocument& d = *reader.readSBML(filename);
+  SBMLDocument *d = reader.readSBML(filename);
 
 
-  for (unsigned int n = 0; n < d.getNumErrors(); ++n)
+  for (unsigned int n = 0; n < d->getNumErrors(); ++n)
   {
-    logFailure( *d.getError(n) );
+    logFailure(*d->getError(n));
   }
 
-  return validate(d);
+  int result = validate(*d);
+
+  delete d;
+
+  return result;
 }
 
 

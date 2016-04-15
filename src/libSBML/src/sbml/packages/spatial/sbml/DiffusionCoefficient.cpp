@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -81,18 +81,11 @@ DiffusionCoefficient::DiffusionCoefficient (SpatialPkgNamespaces* spatialns)
  */
 DiffusionCoefficient::DiffusionCoefficient (const DiffusionCoefficient& orig)
   : SBase(orig)
+  , mVariable  ( orig.mVariable)
+  , mType  ( orig.mType)
+  , mCoordinateReference1  ( orig.mCoordinateReference1)
+  , mCoordinateReference2  ( orig.mCoordinateReference2)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mVariable  = orig.mVariable;
-    mType  = orig.mType;
-    mCoordinateReference1  = orig.mCoordinateReference1;
-    mCoordinateReference2  = orig.mCoordinateReference2;
-  }
 }
 
 
@@ -102,11 +95,7 @@ DiffusionCoefficient::DiffusionCoefficient (const DiffusionCoefficient& orig)
 DiffusionCoefficient&
 DiffusionCoefficient::operator=(const DiffusionCoefficient& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mVariable  = rhs.mVariable;
@@ -222,11 +211,7 @@ DiffusionCoefficient::isSetCoordinateReference2() const
 int
 DiffusionCoefficient::setVariable(const std::string& variable)
 {
-  if (&(variable) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(variable)))
+  if (!(SyntaxChecker::isValidInternalSId(variable)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -368,6 +353,7 @@ DiffusionCoefficient::unsetCoordinateReference2()
 void
 DiffusionCoefficient::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetVariable() == true && mVariable == oldid)
   {
     setVariable(newid);

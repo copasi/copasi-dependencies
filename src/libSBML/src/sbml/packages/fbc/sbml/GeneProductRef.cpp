@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -31,7 +31,7 @@
  * ------------------------------------------------------------------------ -->
  */
 
-
+#include <sbml/packages/fbc/extension/FbcModelPlugin.h>
 #include <sbml/packages/fbc/sbml/GeneProductRef.h>
 #include <sbml/packages/fbc/validator/FbcSBMLError.h>
 #include <sbml/util/ElementFilter.h>
@@ -144,7 +144,18 @@ GeneProductRef::getGeneProduct() const
 std::string 
 GeneProductRef::toInfix() const
 {
-  return mGeneProduct;
+  const SBMLDocument* doc = getSBMLDocument(); 
+  if (doc == NULL) return mGeneProduct;
+  
+  const Model* model = doc->getModel();
+  if (model == NULL) return mGeneProduct;
+    
+  const FbcModelPlugin* plug = dynamic_cast<const FbcModelPlugin*>(model->getPlugin("fbc"));
+  if (plug == NULL) return mGeneProduct;
+  const GeneProduct* product = plug->getGeneProduct(mGeneProduct);
+  if (product == NULL) return mGeneProduct;
+      
+  return product->getLabel();
 }
 
 

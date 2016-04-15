@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -156,6 +156,9 @@ Suite *create_suite_GetMultipleObjects            (void);
 Suite *create_suite_RemoveFromParent              (void);
 Suite *create_suite_RenameIDs                     (void);
 Suite *create_suite_SBMLTransforms                (void);
+
+Suite *create_suite_LevelCompatibility                (void);
+
 /**
  * Global.
  *
@@ -292,6 +295,7 @@ main (int argc, char* argv[])
   srunner_add_suite( runner, create_suite_SBMLConstructorException      () );
   srunner_add_suite( runner, create_suite_SBMLTransforms                () );
   srunner_add_suite( runner, create_suite_GetMultipleObjects            () );
+  srunner_add_suite( runner, create_suite_LevelCompatibility            () );
 
 
 #ifdef TRACE_MEMORY

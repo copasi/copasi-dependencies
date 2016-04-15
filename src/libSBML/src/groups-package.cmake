@@ -35,7 +35,7 @@ include(${LIBSBML_ROOT_SOURCE_DIR}/groups-package.cmake)
 set(GROUPS_SOURCES)
 
 # go through all directories: common, extension and sbml
-foreach(dir common extension sbml validator)
+foreach(dir common extension sbml validator validator/constraints)
 
 	# add to include directory
 	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sbml/packages/groups/${dir})
@@ -83,6 +83,7 @@ SET(LIBSBML_SOURCES ${LIBSBML_SOURCES} ${GROUPS_SOURCES})
 if(WITH_CHECK)
 
 	add_subdirectory(sbml/packages/groups/extension/test)
+	add_subdirectory(sbml/packages/groups/validator/test)
 
 endif()
 

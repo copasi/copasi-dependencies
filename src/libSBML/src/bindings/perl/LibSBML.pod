@@ -745,9 +745,7 @@ author(s) and modification history.
 
 =item SBase::accept
 
-Accepts the given SBMLVisitor for this SBase object.
-@param v the SBMLVisitor instance to be used
-@return the result of calling C<v.visit()>.
+@internal
 
 
 =item SBase::clone
@@ -763,6 +761,25 @@ model-wide C<SId> namespace, or C<NULL> if no such object is found.
 @param id string representing the "id" attribute value of the object
 to find.
 @return pointer to the first element found with the given identifier.
+
+
+=item SBase::getElementBySId
+
+Returns the first child element found that has the given C<id> in the
+model-wide C<SId> namespace, or C<NULL> if no such object is found.
+@param id string representing the "id" attribute value of the object
+to find.
+@return pointer to the first element found with the given identifier.
+
+
+=item SBase::getElementByMetaId
+
+Returns the first child element it can find with a specific "metaid"
+attribute value, or C<NULL> if no such object is found.
+C<opydetails> doc_what_is_metaid
+@param metaid string representing the "metaid" attribute value of the
+object to find.
+@return pointer to the first element found with the given meta-identifier.
 
 
 =item SBase::getElementByMetaId
@@ -1253,9 +1270,11 @@ or an empty string if the value is not set.
 
 =item SBase::getLine
 
-Returns the line number on which this object first appears in the XML
+Returns the line number where this object first appears in the XML
 representation of the SBML document.
-@return the line number of this SBML object.
+@return the line number of this SBML object.  If this object was
+created programmatically and not read from a file, this method will
+return the value C<0>.
 @note The line number for each construct in an SBML model is set upon
 reading the model.  The accuracy of the line number depends on the
 correctness of the XML representation of the model, and on the
@@ -1276,9 +1295,11 @@ href="http://xerces.apache.org/xerces-c/">Xerces</a>.)
 
 =item SBase::getColumn
 
-Returns the column number on which this object first appears in the XML
+Returns the column number where this object first appears in the XML
 representation of the SBML document.
-@return the column number of this SBML object.
+@return the column number of this SBML object.  If this object was
+created programmatically and not read from a file, this method will
+return the value C<0>.
 @note The column number for each construct in an SBML model is set
 upon reading the model.  The accuracy of the column number depends on
 the correctness of the XML representation of the model, and on the
@@ -1640,7 +1661,7 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-@see removeTopLevelAnnotationElement(const std::string elementName, const std::string elementURI)
+@see removeTopLevelAnnotationElement(const std::string elementName, const std::string elementURI, bool removeEmpty)
 @see replaceTopLevelAnnotationElement(const std::string&)
 
 
@@ -2374,6 +2395,7 @@ release of libSBML are the following:
 \n=item\n\nLevel&nbsp;2 Version&nbsp;2: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version2</code>&quot;
 \n=item\n\nLevel&nbsp;2 Version&nbsp;3: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version3</code>&quot;
 \n=item\n\nLevel&nbsp;2 Version&nbsp;4: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version4</code>&quot;
+\n=item\n\nLevel&nbsp;2 Version&nbsp;5: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level2/version5</code>&quot;
 \n=item\n\nLevel&nbsp;3 Version&nbsp;1 Core: &quot;<code style='margin-right:0; padding-right:0'>http</code><code style='margin-left:0; padding-left:0'>://www.sbml.org/sbml/level3/version1/core</code>&quot;
 \n=back\n
 
@@ -2474,6 +2496,7 @@ package extension.
 Returns the nth disabled plug-in object (extension interface) for an SBML Level&nbsp;3
 package extension.
 C<opydetails> doc_what_are_plugins
+C<opydetails> doc_what_are_disabled_plugins
 @param n the index of the disabled plug-in to return
 @return the nth disabled plug-in object (the libSBML extension interface) of a
 package extension.
@@ -2486,6 +2509,7 @@ package extension.
 Returns the nth disabled plug-in object (extension interface) for an SBML Level&nbsp;3
 package extension.
 C<opydetails> doc_what_are_plugins
+C<opydetails> doc_what_are_disabled_plugins
 @param n the index of the disabled plug-in to return
 @return the nth disabled plug-in object (the libSBML extension interface) of a
 package extension.
@@ -2505,16 +2529,20 @@ package extensions known by this instance of libSBML.
 
 =item SBase::getNumDisabledPlugins
 
-Returns the number of disabled plug-in objects (extenstion interfaces) 
+Returns the number of disabled plug-in objects (extension interfaces) 
 for SBML Level&nbsp;3 package extensions known.
 C<opydetails> doc_what_are_plugins
+C<opydetails> doc_what_are_disabled_plugins
 @return the number of disabled plug-in objects (extension interfaces) 
 of package extensions known by this instance of libSBML.
 
 
 =item SBase::deleteDisabledPlugins
 
-Deletes all information stored in disabled plugins. 
+Deletes all information stored in disabled plugins.  If the plugin is 
+re-enabled later, it will then not have any previously-stored information.
+C<opydetails> doc_what_are_plugins
+C<opydetails> doc_what_are_disabled_plugins
 @param recursive if C<true>, the disabled information will be deleted
 also from all child elements, otherwise only from this SBase element.
 @see getNumDisabledPlugins()
@@ -2885,12 +2913,12 @@ C<"http://www.sbml.org/sbml/level3/version1/layout/version1">.
 
 This function first returns the URI for this element by looking into the
 SBMLNamespaces object of the document with the its package name.  If not
-found, it will @if clike return the result of getElementNamespace()@else
-return the XML namespace to which this element belongs@endif.
-@return the URI of this element
+found, it will then look for the namespace associated with the element
+itself.
+
+@return the URI of this element, as a text string
 @see getSBMLDocument()
 @see getPackageName()
-@if clike @see getElementNamespace() @endif
 
 
 =item SBase::getPrefix
@@ -3168,11 +3196,7 @@ Copy constructor; creates a copy of this ListOf.
 
 =item ListOf::accept
 
-Accepts the given SBMLVisitor.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next item in the
-list.
+@internal
 
 
 =item ListOf::clone
@@ -3737,10 +3761,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Model
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -3750,10 +3771,7 @@ Creates a new Model using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -3761,15 +3779,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a (deep) copy of the given Model object.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Model::accept
 
-Accepts the given SBMLVisitor for this instance of Constraint.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>.
+@internal
 
 
 =item Model::clone
@@ -5604,11 +5618,6 @@ C<opydoc> doc_renameunitsidref_common
 @internal
 
 
-=item Model::convertToL2Strict
-
-@internal
-
-
 =item Model::setSBMLDocument
 
 @internal
@@ -6479,10 +6488,7 @@ SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
 shortly after creating the SBMLDocument object.
 @param level an integer for the SBML Level
 @param version an integer for the Version within the SBML Level
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 @see SBMLDocument::setLevelAndVersion(@if java long, long, boolean@endif)
 @see getDefaultLevel()
@@ -6495,25 +6501,18 @@ Creates a new SBMLDocument using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 
 
 =item SBMLDocument::SBMLDocument
 
 Copy constructor; creates a copy of this SBMLDocument.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item SBMLDocument::accept
 
-Accepts the given SBMLVisitor for this instance of SBMLDocument.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>.
+@internal
 
 
 =item SBMLDocument::clone
@@ -6929,6 +6928,20 @@ C<category> should be applied or not.
 =item SBMLDocument::checkConsistency
 
 Performs consistency checking and validation on this SBML document.
+If this method returns a nonzero value (meaning, one or more
+consistency checks have failed for SBML document), the failures may be
+due to warnings I<or> errors.  Callers should inspect the severity
+flag in the individual SBMLError objects returned by
+SBMLDocument::getError(@if java long@endif) to determine the nature of the failures.
+@return the number of failed checks (errors) encountered.
+@see SBMLDocument::checkInternalConsistency()
+
+
+=item SBMLDocument::checkConsistencyWithStrictUnits
+
+Performs consistency checking and validation on this SBML document
+using the ultra strict units validator that assumes that there
+are no hidden numerical conversion factors.
 If this method returns a nonzero value (meaning, one or more
 consistency checks have failed for SBML document), the failures may be
 due to warnings I<or> errors.  Callers should inspect the severity
@@ -7519,10 +7532,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 FunctionDefinition
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -7532,10 +7542,7 @@ Creates a new FunctionDefinition using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -7543,17 +7550,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this FunctionDefinition.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item FunctionDefinition::accept
 
-Accepts the given SBMLVisitor for this instance of FunctionDefinition.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next FunctionDefinition in
-the list of function definitions.
+@internal
 
 
 =item FunctionDefinition::clone
@@ -7795,6 +7796,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfFunctionDefinitions::ListOfFunctionDefinitions
@@ -7806,6 +7809,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfFunctionDefinitions object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfFunctionDefinitions::clone
@@ -8139,10 +8144,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Unit
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -8152,10 +8154,7 @@ Creates a new Unit using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -8163,18 +8162,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this Unit.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Unit::accept
 
-Accepts the given SBMLVisitor for this instance of Unit.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next Unit in the list
-of units within which this Unit is embedded (i.e., in the ListOfUnits
-located in the enclosing UnitDefinition instance).
+@internal
 
 
 =item Unit::clone
@@ -8921,6 +8913,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfUnits::ListOfUnits
@@ -8932,6 +8926,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfUnits object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfUnits::clone
@@ -9208,10 +9204,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 UnitDefinition
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -9221,10 +9214,7 @@ Creates a new UnitDefinition using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -9232,18 +9222,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this UnitDefinition.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item UnitDefinition::accept
 
-Accepts the given SBMLVisitor for this instance of UnitDefinition.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next UnitDefinition in the
-list of units within which this UnitDefinition is embedded (i.e., in
-the ListOfUnitDefinitions located in the enclosing Model instance).
+@internal
 
 
 =item UnitDefinition::clone
@@ -9723,6 +9706,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfUnitDefinitions::ListOfUnitDefinitions
@@ -9734,6 +9719,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfUnitDefinitions object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfUnitDefinitions::clone
@@ -9912,10 +9899,7 @@ CompartmentType
 @param version an unsigned int, the SBML Version to assign to this
 CompartmentType
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -9931,10 +9915,7 @@ value.  Thus, callers are cautioned to assign a value after calling this
 constructor.  Setting the identifier can be accomplished using the
 method setId(@if java String@endif).
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -9942,17 +9923,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this CompartmentType object.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item CompartmentType::accept
 
-Accepts the given SBMLVisitor for this instance of CompartmentType.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next CompartmentType object in
-the list of compartment types.
+@internal
 
 
 =item CompartmentType::clone
@@ -10105,6 +10080,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfCompartmentTypes::ListOfCompartmentTypes
@@ -10116,6 +10093,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfCompartmentTypes object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfCompartmentTypes::clone
@@ -10278,10 +10257,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 SpeciesType
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -10297,10 +10273,7 @@ Thus, callers are cautioned to assign a value after calling this
 constructor.  Setting the identifier can be accomplished using the
 method SBase::setId(@if java String@endif).
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -10308,17 +10281,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this SpeciesType.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item SpeciesType::accept
 
-Accepts the given SBMLVisitor for this instance of SpeciesType.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next SpeciesType in
-the list of compartment types.
+@internal
 
 
 =item SpeciesType::clone
@@ -10445,6 +10412,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfSpeciesTypes::ListOfSpeciesTypes
@@ -10456,6 +10425,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfSpeciesTypes object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfSpeciesTypes::clone
@@ -10888,10 +10859,7 @@ version values.
 @param version an unsigned int, the SBML Version to assign to this
 Compartment
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -10907,10 +10875,7 @@ value.  Thus, callers are cautioned to assign a value after calling this
 constructor.  Setting the identifier can be accomplished using the
 method @if java Compartment::setId(String id)@else setId()@endif.
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -10919,18 +10884,11 @@ C<opydetails> doc_note_setting_lv
 Copy constructor.
 This creates a copy of a Compartment object.
 @param orig the Compartment instance to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Compartment::accept
 
-Accepts the given SBMLVisitor for this instance of Compartment.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next Compartment object in the
-list of compartments within which this Compartment object is embedded (i.e.,
-the ListOfCompartments in the parent Model).
+@internal
 
 
 =item Compartment::clone
@@ -11398,7 +11356,7 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see isSetConstant()
-@see setConstant(@if java String@endif)
+@see setConstant(@if java bool@endif)
 @see getConstant()
 
 
@@ -11587,6 +11545,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfCompartments::ListOfCompartments
@@ -11598,6 +11558,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfCompartments object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfCompartments::clone
@@ -11995,10 +11957,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Species
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -12014,10 +11973,7 @@ Thus, callers are cautioned to assign a value after calling this
 constructor.  Setting the identifier can be accomplished using the
 method Species::setId(@if java String@endif).
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -12025,15 +11981,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this Species object.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Species::accept
 
-Accepts the given SBMLVisitor for this instance of Species.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>.
+@internal
 
 
 =item Species::clone
@@ -12469,7 +12421,7 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see isSetConstant()
-@see setConstant(@if java String@endif)
+@see setConstant(@if java boolean@endif)
 @see getConstant()
 
 
@@ -12746,6 +12698,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfSpecies::ListOfSpecies
@@ -12757,6 +12711,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfSpecies object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfSpecies::clone
@@ -12970,10 +12926,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Parameter
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -12990,10 +12943,7 @@ constructor if no identifier is provided as an argument.  Setting the
 identifier can be accomplished using the method
 @if java setId(String id)@else setId()@endif.
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -13001,18 +12951,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of a Parameter.
 @param orig the Parameter instance to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Parameter::accept
 
-Accepts the given SBMLVisitor for this instance of Parameter.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, indicating
-whether the Visitor would like to visit the next Parameter object in
-the list of parameters within which I<the> present object is
-embedded.
+@internal
 
 
 =item Parameter::clone
@@ -13218,7 +13161,7 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 @see isSetConstant()
-@see setConstant(@if java String@endif)
+@see setConstant(@if java boolean@endif)
 @see getConstant()
 
 
@@ -13439,6 +13382,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfParameters::ListOfParameters
@@ -13450,6 +13395,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfParameters object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfParameters::clone
@@ -13640,10 +13587,7 @@ LocalParameter.
 @param version an unsigned int, the SBML Version to assign to this
 LocalParameter.
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -13660,10 +13604,7 @@ constructor if no identifier is provided as an argument.  Setting the
 identifier can be accomplished using the method
 @if java setId(String id)@else setId()@endif.
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -13671,8 +13612,6 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of a given LocalParameter object.
 @param orig the LocalParameter instance to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item LocalParameter::LocalParameter
@@ -13680,19 +13619,11 @@ Thrown if the argument C<orig> is C<NULL>.
 Copy constructor; creates a LocalParameter object by copying
 the attributes of a given Parameter object.
 @param orig the Parameter instance to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item LocalParameter::accept
 
-Accepts the given SBMLVisitor for this instance of LocalParameter.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next LocalParameter in the list
-of parameters within which this LocalParameter is embedded (i.e., either
-the list of parameters in the parent Model or the list of parameters
-in the enclosing KineticLaw).
+@internal
 
 
 =item LocalParameter::clone
@@ -13805,6 +13736,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfLocalParameters::ListOfLocalParameters
@@ -13816,6 +13749,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfLocalParameters object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfLocalParameters::clone
@@ -14086,10 +14021,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 InitialAssignment
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -14099,10 +14031,7 @@ Creates a new InitialAssignment using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -14110,17 +14039,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this InitialAssignment.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item InitialAssignment::accept
 
-Accepts the given SBMLVisitor for this instance of InitialAssignment.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next InitialAssignment in
-the list of compartment types.
+@internal
 
 
 =item InitialAssignment::clone
@@ -14352,6 +14275,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfInitialAssignments::ListOfInitialAssignments
@@ -14363,6 +14288,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfInitialAssignments object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfInitialAssignments::clone
@@ -14514,17 +14441,11 @@ C<opydetails> doc_what_is_listof
 
 Copy constructor; creates a copy of this Rule.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Rule::accept
 
-Accepts the given SBMLVisitor for this instance of Rule.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next Rule object in the
-list of rules within which I<the> present object is embedded.
+@internal
 
 
 =item Rule::clone
@@ -15028,6 +14949,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfRules::ListOfRules
@@ -15039,6 +14962,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfRules object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfRules::clone
@@ -15201,10 +15126,7 @@ Creates a new AlgebraicRule object using the given SBML C<level> and @p
 version values.
 @param level the SBML Level to assign to this AlgebraicRule object.
 @param version the SBML Version to assign to this AlgebraicRule object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -15214,10 +15136,7 @@ Creates a new AlgebraicRule object using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind of
-SBML object, are either invalid or mismatched with respect to the parent
-SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -15229,11 +15148,7 @@ Creates and returns a deep copy of this AlgebraicRule object.
 
 =item AlgebraicRule::accept
 
-Accepts the given SBMLVisitor for this instance of AlgebraicRule.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next AlgebraicRule object
-in the list of rules within which I<the> present object is embedded.
+@internal
 
 
 =item AlgebraicRule::setInternalIdOnly
@@ -15367,10 +15282,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 AssignmentRule.
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -15380,10 +15292,7 @@ Creates a new AssignmentRule using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -15395,11 +15304,7 @@ Creates and returns a deep copy of this AssignmentRule object.
 
 =item AssignmentRule::accept
 
-Accepts the given SBMLVisitor for this instance of AssignmentRule.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next AssignmentRule object
-in the list of rules within which I<the> present object is embedded.
+@internal
 
 
 =item AssignmentRule::hasRequiredAttributes
@@ -15496,10 +15401,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 RateRule
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -15509,10 +15411,7 @@ Creates a new RateRule using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -15524,11 +15423,7 @@ Creates and returns a deep copy of this RateRule object.
 
 =item RateRule::accept
 
-Accepts the given SBMLVisitor.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next RateRule object
-in the list of rules within which I<the> present object is embedded.
+@internal
 
 
 =item RateRule::hasRequiredAttributes
@@ -15646,10 +15541,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Constraint
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -15659,10 +15551,7 @@ Creates a new Constraint using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -15670,18 +15559,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this Constraint.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Constraint::accept
 
-Accepts the given SBMLVisitor for this instance of Constraint.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next Constraint in the
-list of constraints within which this Constraint is embedded (i.e., in
-the ListOfConstraints located in the enclosing Model instance).
+@internal
 
 
 =item Constraint::clone
@@ -15853,6 +15735,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfConstraints::ListOfConstraints
@@ -15864,6 +15748,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfConstraints object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfConstraints::clone
@@ -16064,10 +15950,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Reaction
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -16075,12 +15958,9 @@ C<opydetails> doc_note_setting_lv
 
 Creates a new Reaction using the given SBMLNamespaces object
 C<sbmlns>.
-C<opydetails> doc_what_are_sbmlnamespaces 
+C<opydetails> doc_what_are_sbmlnamespaces
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -16088,15 +15968,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this Reaction.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Reaction::accept
 
-Accepts the given SBMLVisitor for this instance of Reaction.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>.
+@internal
 
 
 =item Reaction::clone
@@ -16373,6 +16249,26 @@ C<opydetails> doc_note_object_is_copied
 @see createReactant()
 
 
+=item Reaction::addReactant
+
+Adds the given species as a reactant with the given stoichiometry
+@param species the species to be added as reactant
+@param stoichiometry an optional parameter specifying the
+stoichiometry of the product (defaulting to 1)
+@param id an optional id to be given to the species reference that will
+be created. (defaulting to empty string, i.e. not set)
+@param constant an attribute specifying whether the species reference is
+constant or not (defaulting to true)
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+C<opydetails> doc_note_object_is_copied
+@note the Species object itself is NOT added to the model
+@see createProduct()
+
+
 =item Reaction::addProduct
 
 Adds a given SpeciesReference object as a product in this Reaction.
@@ -16385,6 +16281,26 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
+@see createProduct()
+
+
+=item Reaction::addProduct
+
+Adds the given species as a product with the given stoichiometry
+@param species the species to be added as product
+@param stoichiometry an optional parameter specifying the
+stoichiometry of the product (defaulting to 1)
+@param id an optional id to be given to the species reference that will
+be created. (defaulting to empty string, i.e. not set)
+@param constant an attribute specifying whether the species reference is
+constant or not (defaulting to true)
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+C<opydetails> doc_note_object_is_copied
+@note the Species object itself is NOT added to the model
 @see createProduct()
 
 
@@ -16404,6 +16320,22 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_VERSION_MISMATCH LIBSBML_VERSION_MISMATCH@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_note_object_is_copied 
+@see createModifier()
+
+
+=item Reaction::addModifier
+
+Adds the given species as a modifier to this reaction
+@param species the species to be added as modifier
+@param id an optional id to be given to the species reference that will
+be created. (defaulting to empty string, i.e. not set)
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+@li @link OperationReturnValues_t#LIBSBML_DUPLICATE_OBJECT_ID LIBSBML_DUPLICATE_OBJECT_ID@endlink
+C<opydetails> doc_note_object_is_copied
+@note the Species object itself is NOT added to the model
 @see createModifier()
 
 
@@ -16796,6 +16728,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfReactions::ListOfReactions
@@ -16807,6 +16741,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfReactions object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfReactions::clone
@@ -16981,10 +16917,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 KineticLaw
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -16994,10 +16927,7 @@ Creates a new KineticLaw using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -17005,15 +16935,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this KineticLaw.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item KineticLaw::accept
 
-Accepts the given SBMLVisitor for this instance of KineticLaw.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>.
+@internal
 
 
 =item KineticLaw::clone
@@ -17648,25 +17574,19 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 SimpleSpeciesReference
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item SimpleSpeciesReference::SimpleSpeciesReference
 
 Copy constructor; creates a copy of this SimpleSpeciesReference.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item SimpleSpeciesReference::accept
 
-Accepts the given SBMLVisitor.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>.
+@internal
 
 
 =item SimpleSpeciesReference::getId
@@ -18035,6 +17955,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 SpeciesReference
 
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -18043,6 +17964,7 @@ C<opydetails> doc_note_setting_lv
 Creates a new SpeciesReference using the given SBMLNamespaces object
 C<sbmlns>.
 @param sbmlns an SBMLNamespaces object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -18050,15 +17972,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this SpeciesReference.
 @param orig the SpeciesReference instance to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item SpeciesReference::accept
 
-Accepts the given SBMLVisitor.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>.
+@internal
 
 
 =item SpeciesReference::clone
@@ -18563,6 +18481,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfSpeciesReferences::ListOfSpeciesReferences
@@ -18574,6 +18494,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfSpeciesReferences object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfSpeciesReferences::clone
@@ -18720,6 +18642,7 @@ ModifierSpeciesReference
 @param version an unsigned int, the SBML Version to assign to this
 ModifierSpeciesReference
 
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -18728,14 +18651,13 @@ C<opydetails> doc_note_setting_lv
 Creates a new ModifierSpeciesReference using the given SBMLNamespaces
 object C<sbmlns>.
 @param sbmlns an SBMLNamespaces object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
 =item ModifierSpeciesReference::accept
 
-Accepts the given SBMLVisitor.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>.
+@internal
 
 
 =item ModifierSpeciesReference::clone
@@ -18960,10 +18882,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Event
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -18973,10 +18892,7 @@ Creates a new Event using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -18984,17 +18900,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this Event.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Event::accept
 
-Accepts the given SBMLVisitor for this instance of Event.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next Event in the list
-of events within which this Event is embedded.
+@internal
 
 
 =item Event::clone
@@ -19536,6 +19446,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfEvents::ListOfEvents
@@ -19547,6 +19459,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfEvents object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfEvents::clone
@@ -19798,10 +19712,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 EventAssignment
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -19811,10 +19722,7 @@ Creates a new EventAssignment using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -19822,18 +19730,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this EventAssignment.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item EventAssignment::accept
 
-Accepts the given SBMLVisitor for this instance of EventAssignment.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>, which indicates
-whether the Visitor would like to visit the next EventAssignment in
-the list within which this EventAssignment is embedded (i.e., in the
-ListOfEventAssignments located in the enclosing Event instance).
+@internal
 
 
 =item EventAssignment::clone
@@ -20082,6 +19983,8 @@ The object is constructed such that it is valid for the given SBML
 Level and Version combination.
 @param level the SBML Level
 @param version the Version within the SBML Level
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfEventAssignments::ListOfEventAssignments
@@ -20093,6 +19996,8 @@ sbmlns.
 
 @param sbmlns an SBMLNamespaces object that is used to determine the
 characteristics of the ListOfEventAssignments object to be created.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item ListOfEventAssignments::clone
@@ -20310,10 +20215,8 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Trigger
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
+C<opydetails> doc_note_setting_lv
 
 
 =item Trigger::Trigger
@@ -20322,25 +20225,19 @@ Creates a new Trigger using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
+C<opydetails> doc_note_setting_lv
 
 
 =item Trigger::Trigger
 
 Copy constructor; creates a copy of this Trigger.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Trigger::accept
 
-Accepts the given SBMLVisitor for this instance of Trigger.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>.
+@internal
 
 
 =item Trigger::clone
@@ -20440,7 +20337,6 @@ Version&nbsp;1 Core, but is not present in lower Levels of SBML.
 
 (SBML Level&nbsp;3 only) Unsets the "initialValue" attribute of this 
 Trigger instance.
-@param initialValue a boolean representing the initialValue to be set.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -20452,7 +20348,6 @@ Version&nbsp;1 Core, but is not present in lower Levels of SBML.
 
 (SBML Level&nbsp;3 only) Unsets the "persistent" attribute of this 
 Trigger instance.
-@param persistent a boolean representing the persistent value to be set.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
@@ -20692,10 +20587,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 Delay
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 
 
@@ -20705,10 +20597,7 @@ Creates a new Delay using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 
 
@@ -20716,15 +20605,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this Delay.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Delay::accept
 
-Accepts the given SBMLVisitor for this instance of Delay.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>.
+@internal
 
 
 =item Delay::clone
@@ -21055,10 +20940,7 @@ version values.
 @param version an unsigned int, the SBML Version to assign to this
 Priority
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_setting_lv
 C<opydetails> doc_note_priority_only_l3
 
@@ -21069,10 +20951,7 @@ Creates a new Priority object using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_setting_lv
 C<opydetails> doc_note_priority_only_l3
 
@@ -21081,15 +20960,11 @@ C<opydetails> doc_note_priority_only_l3
 
 Copy constructor; creates a copy of this Priority.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Priority::accept
 
-Accepts the given SBMLVisitor for this instance of Priority.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>.
+@internal
 
 
 =item Priority::clone
@@ -21610,6 +21485,11 @@ otherwise.
 C<opydetails> doc_note_static_methods
 
 
+=item SBO::getParentBranch
+
+@internal
+
+
 =item SBO::isChildOf
 
 @internal
@@ -21969,10 +21849,7 @@ values.
 @param version an unsigned int, the SBML Version to assign to this
 StoichiometryMath
 
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_lv
 C<opydetails> doc_note_stoichiometrymath_availability
 C<opydetails> doc_note_setting_lv
 
@@ -21983,10 +21860,7 @@ Creates a new StoichiometryMath object using the given SBMLNamespaces object
 C<sbmlns>.
 C<opydetails> doc_what_are_sbmlnamespaces 
 @param sbmlns an SBMLNamespaces object.
-@throws SBMLConstructorException
-Thrown if the given C<level> and C<version> combination, or this kind
-of SBML object, are either invalid or mismatched with respect to the
-parent SBMLDocument object.
+C<opydetails> doc_throw_exception_namespace
 C<opydetails> doc_note_stoichiometrymath_availability
 C<opydetails> doc_note_setting_lv
 
@@ -21995,15 +21869,11 @@ C<opydetails> doc_note_setting_lv
 
 Copy constructor; creates a copy of this StoichiometryMath.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item StoichiometryMath::accept
 
-Accepts the given SBMLVisitor for this instance of StoichiometryMath.
-@param v the SBMLVisitor instance to be used.
-@return the result of calling C<v.visit()>.
+@internal
 
 
 =item StoichiometryMath::clone
@@ -22315,8 +22185,6 @@ package version has not been registered with libSBML.
 
 Copy constructor; creates a copy of a SBMLNamespaces.
 @param orig the SBMLNamespaces instance to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item SBMLNamespaces::clone
@@ -22842,8 +22710,6 @@ Creates a new ConversionOption specialized for integer-type options.
 
 Copy constructor; creates a copy of an ConversionOption object.
 @param orig the ConversionOption object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item ConversionOption::clone
@@ -22996,8 +22862,6 @@ with a specific SBML target namespace.
 
 Copy constructor.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item ConversionProperties::clone
@@ -23245,8 +23109,6 @@ Creates a new SBMLConverter object with a given name.
 Copy constructor.
 This creates a copy of an SBMLConverter object.
 @param orig the SBMLConverter object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item SBMLConverter::clone
@@ -23947,8 +23809,8 @@ ConversionProperties@endif).  The target SBML Level and Version
 combination are determined by the value of the SBML namespace set on the
 ConversionProperties object (using
 ConversionProperties::setTargetNamespaces(SBMLNamespaces  targetNS)).
-In addition, this converter offers one option:
-@li C<"strict">: if this option has the value C<true>, then the validity
+In addition, this converter offers the following options:
+@li C<"strict">: If this option has the value C<true>, then the validity
 of the SBML document will be strictly preserved.  This means that SBML
 validation will be performed, and if the original model is not valid or
 semantics cannot be preserved in the converted model, then conversion will
@@ -23956,6 +23818,17 @@ not be performed.  Conversely, if this option is set to C<false>, model
 conversion will always be performed; if any errors are detected related to
 altered semantics, the errors will be logged in the usual way (i.e., the
 error log on the SBMLDocument object).
+@li C<"addDefaultUnits">: By default, a conversion from SBML Level&nbsp;2
+to Level&nbsp;3 will explicitly add UnitDefinition objects and unit
+attributes on the Model object to define units that are implicitly defined
+in SBML Level&nbsp;2.  This is usually desirable because in SBML
+Level&nbsp;3, there are no default units and a conversion from
+Level&nbsp;2 that did I<not> add unit definitions would actually result
+in a loss of information.  However, some users or software tools may not
+need or want this, or worse, may be fooled into thinking that libSBML has
+somehow inferred the proper units for model quantities.  (It has not; it
+merely adds generic predefined units.)  This option lets callers control
+this behavior.
 C<opydetails> doc_section_using_sbml_converters
 
 =over
@@ -24052,6 +23925,14 @@ Returns the flag indicating whether the conversion has been set to "strict".
 otherwise.
 
 
+=item SBMLLevelVersionConverter::getAddDefaultUnits
+
+Returns the flag indicating whether default units should be added when
+converting to L3 or not.
+@return C<true> if default units should be added, C<false>
+otherwise.
+
+
 =item SBMLLevelVersionConverter::conversion_errors
 
 @internal
@@ -24073,6 +23954,134 @@ otherwise.
 
 
 =item SBMLLevelVersionConverter::validateConvertedDocument
+
+@internal
+
+
+=back
+
+=head2 SBMLLevel1Version1Converter
+
+@sbmlpackage{core}
+
+@htmlinclude pkg-marker-core.html Whole-document SBML Level/Version converter.
+@htmlinclude libsbml-facility-only-warning.html
+This SBML converter takes an SBML document having one SBML Level+Version
+combination, and attempts to convert it to an SBML document having a
+different Level+Version combination.  This converter
+(SBMLLevel1Version1Converter) converts models to SBML Level&nbsp;1
+Version&nbsp;1, to the extent possible by the limited features of
+that Level/Version combination of SBML.
+@section SBMLLevel1Version1Converter-usage Configuration and use of SBMLLevel1Version1Converter
+SBMLLevel1Version1Converter is enabled by creating a ConversionProperties
+object with the option C<"convertToL1V1">, and passing this
+properties object to SBMLDocument::convert(@if java
+ConversionProperties@endif).  The target SBML Level and Version
+combination are determined by the value of the SBML namespace set on the
+ConversionProperties object (using
+ConversionProperties::setTargetNamespaces(SBMLNamespaces  targetNS)).
+In addition, this converter offers the following options:
+@li C<"changePow">: Mathematical expressions for exponentiation of
+the form C<pow(s1, 2)> will be converted to the expression
+C<s1^2>.
+
+@li C<"inlineCompartmentSizes">: Back in the days of SBML Level&nbsp;1
+Version&nbsp;1, many software tools assumed that the "kinetic laws" of
+SBML were written in terms of units of
+<em>concentration</em>/<em>time</em>.  These tools would not expect (and
+thus not handle) rate expressions such as
+C<CompartmentOfS1   k   S1>.
+When the option C<"inlineCompartmentSizes"> is enabled, libSBML will
+replace the references to compartments (such as C<"CompartmentOfS1"> in
+this example) with their initial sizes.  This is not strictly correct in
+all cases; in particular, if the compartment volume varies during
+simulation, this conversion will not reflect the expected behavior.
+However, many models do not have time-varying compartment sizes, so this
+option makes it easy to get modern SBML rate expressions into a form that
+old software tools may better understand.
+C<opydetails> doc_section_using_sbml_converters
+
+=over
+
+
+=item SBMLLevel1Version1Converter::init
+
+@internal
+
+
+=item SBMLLevel1Version1Converter::SBMLLevel1Version1Converter
+
+Creates a new SBMLLevel1Version1Converter object.
+
+
+=item SBMLLevel1Version1Converter::SBMLLevel1Version1Converter
+
+Copy constructor; creates a copy of an SBMLLevel1Version1Converter
+object.
+
+@param obj the SBMLLevel1Version1Converter object to copy.
+
+
+=item SBMLLevel1Version1Converter::clone
+
+Creates and returns a deep copy of this SBMLLevel1Version1Converter
+object.
+
+@return a (deep) copy of this converter.
+
+
+=item SBMLLevel1Version1Converter::matchesProperties
+
+Returns C<true> if this converter object's properties match the given
+properties.
+
+A typical use of this method involves creating a ConversionProperties
+object, setting the options desired, and then calling this method on
+an SBMLLevel1Version1Converter object to find out if the object's
+property values match the given ones.  This method is also used by
+SBMLConverterRegistry::getConverterFor(@if java ConversionProperties@endif)
+to search across all registered converters for one matching particular
+properties.
+
+@param props the properties to match.
+@return C<true> if this converter's properties match, C<false>
+otherwise.
+
+
+=item SBMLLevel1Version1Converter::convert
+
+Perform the conversion.
+This method causes the converter to do the actual conversion work,
+that is, to convert the SBMLDocument object set by
+SBMLConverter::setDocument(@if java SBMLDocument@endif) and
+with the configuration options set by
+SBMLConverter::setProperties(@if java ConversionProperties@endif).
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_INVALID_TARGET_NAMESPACE LIBSBML_CONV_INVALID_TARGET_NAMESPACE@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE@endlink
+@li @link OperationReturnValues_t#LIBSBML_CONV_INVALID_SRC_DOCUMENT LIBSBML_CONV_INVALID_SRC_DOCUMENT@endlink
+
+
+=item SBMLLevel1Version1Converter::getDefaultProperties
+
+Returns the default properties of this converter.
+A given converter exposes one or more properties that can be adjusted
+in order to influence the behavior of the converter.  This method
+returns the I<default> property settings for this converter.  It is
+meant to be called in order to discover all the settings for the
+converter object.
+@return the ConversionProperties object describing the default properties
+for this converter.
+
+
+=item SBMLLevel1Version1Converter::inlineCompartmentSizes
+
+@internal
+
+
+=item SBMLLevel1Version1Converter::shouldChangePow
 
 @internal
 
@@ -24454,6 +24463,15 @@ object to SBMLDocument::convert(@if java ConversionProperties@endif).
 This converter takes one required option:
 @li C<"package">: the value of this option should be a text string, the
 nickname of the SBML Level&nbsp;3 package to be stripped from the model.
+In addition, the converter understands an additional optional:
+@li C<"stripAllUnrecognized">: if set to C<true>, the converter will
+remove all SBML Level&nbsp;3 package constructs for Level&nbsp;3 packages
+that this copy of libSBML does not recognize.  Note that what a given copy
+of libSBML recognizes is determined by which plug-ins it has been
+configured to include.  If this option is enabled, it may remove SBML
+Level&nbsp;3 package constructs that are legitimate in the sense that they
+are officially defined SBML constructs, but not recognized because the
+running copy of libSBML has not had support enabled for them.
 C<opydetails> doc_section_using_sbml_converters
 
 =over
@@ -24775,8 +24793,6 @@ Creates a new SBMLValidator.
 
 Copy constructor; creates a copy of an SBMLValidator object.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item SBMLValidator::clone
@@ -25063,8 +25079,6 @@ Creates a new, empty XMLAttributes object.
 
 Copy constructor; creates a copy of this XMLAttributes object.
 C<orig> the XMLAttributes object to copy.
-@throws XMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item XMLAttributes::clone
@@ -25424,7 +25438,6 @@ Values are read using the "C" locale.
 @param name a string, the name of the attribute.
 @param value a Boolean, the return parameter into which the value should
 be assigned.
-C<opydetails> doc_read_methods_common_args
 @param log an XMLErrorLog object, an optional error log for reporting
 problems.
 
@@ -26106,8 +26119,6 @@ Creates a new empty list of XML namespace declarations.
 
 Copy constructor; creates a copy of this XMLNamespaces list.
 @param orig the XMLNamespaces object to copy
-@throws XMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item XMLNamespaces::clone
@@ -26426,8 +26437,6 @@ Creates a text object.
 token (default = 0).
 @param column an unsigned int, the column number to associate with the
 token (default = 0).
-@throws XMLConstructorException
-Thrown if the argument C<chars> is C<NULL>.
 @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
@@ -26435,8 +26444,6 @@ Thrown if the argument C<chars> is C<NULL>.
 
 Copy constructor; creates a copy of this XMLToken object.
 @param orig the XMLToken object to copy.
-@throws XMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item XMLToken::clone
@@ -27260,8 +27267,6 @@ Creates a text XMLNode.
 
 Copy constructor; creates a copy of this XMLNode.
 @param orig the XMLNode instance to copy.
-@throws XMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item XMLNode::clone
@@ -27485,8 +27490,6 @@ prefix.
 @param name a string, the name for the entity represented by this object.
 @param uri a string, the XML namespace URI associated with the prefix.
 @param prefix a string, the XML namespace prefix for this triple.
-@throws XMLConstructorException
-Thrown if any of the arguments are C<NULL>.
 
 
 =item XMLTriple::XMLTriple
@@ -27505,8 +27508,6 @@ where <span style="background-color: purple; color: white; padding-left: 2px; pa
 represents the separator character, C<sepchar>.
 @param triplet a string representing the triplet as shown above
 @param sepchar a character, the sepchar used in the triplet
-@throws XMLConstructorException
-Thrown if the argument C<triplet> is C<NULL>.
 @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
@@ -27514,8 +27515,6 @@ Thrown if the argument C<triplet> is C<NULL>.
 
 Copy constructor; creates a copy of this XMLTriple object.
 @param orig the XMLTriple object to copy.
-@throws XMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item XMLTriple::clone
@@ -27951,6 +27950,8 @@ comment.
 in the output stream.
 @param programVersion an optional version identification string to write
 as a comment in the output stream.
+@param writeTimestamp an optional flag indicating that a timestamp should
+be written
 
 
 =item XMLOutputStream::downIndent
@@ -27982,6 +27983,55 @@ Returns the SBMLNamespaces object attached to this output stream.
 
 Sets the SBMLNamespaces object associated with this output stream.
 @param sbmlns the namespace object.
+
+
+=item XMLOutputStream::getWriteComment
+
+@return a boolean, whether the output stream will write an XML
+comment at the top of the file. (Enabled by default)
+
+
+=item XMLOutputStream::setWriteComment
+
+sets a flag, whether the output stream will write an XML
+comment at the top of the file. (Enabled by default)
+@param writeComment the flag
+
+
+=item XMLOutputStream::getWriteTimestamp
+
+@return a boolean, whether the output stream will write an XML
+comment with a timestamp at the top of the file. (Enabled by default)
+
+
+=item XMLOutputStream::setWriteTimestamp
+
+sets a flag, whether the output stream will write an XML
+comment with a timestamp at the top of the file. (Enabled by default)
+@param writeTimestamp the flag
+
+
+=item XMLOutputStream::getLibraryName
+
+@return the name of the library to be used in comments ('libSBML' by default)
+
+
+=item XMLOutputStream::setLibraryName
+
+sets the name of the library writing the XML
+@param libraryName the name of the library to be used in comments
+
+
+=item XMLOutputStream::getLibraryVersion
+
+@return a string representing the version of the library writing the output.
+This is the value of getLibSBMLDottedVersion() by default.
+
+
+=item XMLOutputStream::setLibraryVersion
+
+sets the name of the library writing the output
+@param libraryVersion the version information as string
 
 
 =item XMLOutputStream::XMLOutputStream
@@ -28280,6 +28330,24 @@ element whose number is to be determined.
 for which the number of children are to be determined.
 @return an unsigned int giving the number of children of type @p
 childName within the C<container> element.
+@note This method assumes the stream has been read up to and including
+the element C<container>.
+
+
+=item XMLInputStream::containsChild
+
+Predicate returning C<true> if a child token of the specified type occurs 
+within a given container element.
+This method allows information from the input stream to be determined
+without the need to actually read and consume the tokens in the stream.
+It returns C<true> if the C<childName> element occurs at any point
+within the element specified by C<container>.
+@param childName a string representing the name of the child
+element whose presence is to be determined.
+@param container a string representing the name of the element
+for which the presence of the child element is to be determined.
+@return boolean C<true> if a child of type C<childName> occurs within 
+the C<container> element, C<false> otherwise.
 @note This method assumes the stream has been read up to and including
 the element C<container>.
 
@@ -28666,8 +28734,6 @@ belongs.
 
 Copy constructor; creates a copy of this XMLError.
 C<orig> the XMLError object to copy.
-@throws XMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item XMLError::getErrorId
@@ -30104,7 +30170,7 @@ relationships.  Please refer to the SBML specification or the <a
 target="_blank" href="http://co.mbine.org/standards/qualifiers/">BioModels.net
 qualifiers web page</a> for an explanation of the meaning of these
 different qualifiers.
-@param type a @if clike #QualifierType_t value@else qualifier type@endif@~
+@param type a @if clike #QualifierType_t value@else qualifier type@endif@~.
 @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 
 
@@ -30130,8 +30196,6 @@ the correct structural form.
 
 Copy constructor; creates a copy of a CVTerm object.
 @param orig the CVTerm instance to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item CVTerm::clone
@@ -30166,14 +30230,40 @@ methods to call to find out the specific relationship.
 @return the @if clike #QualifierType_t value@else qualifier type@endif@~
 of this object or @link QualifierType_t#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink
 (the default).
-@see CVTerm::getResources()
-@see CVTerm::getModelQualifierType()
-@see CVTerm::getBiologicalQualifierType()
+@see getResources()
+@see getModelQualifierType()
+@see getBiologicalQualifierType()
 
 
 =item CVTerm::getQualifierType
 
-@internal
+Returns the qualifier type of this CVTerm object.
+C<opydetails> doc_cvterm_common_description
+The placeholder <span class="code" style="background-color: #bbb">
+RELATION_ELEMENT</span> refers to a BioModels.net qualifier
+element name.  This is an element in either the XML namespace
+C<"http://biomodels.net/model-qualifiers"> (for model
+qualifiers) or C<"http://biomodels.net/biology-qualifiers">
+(for biological qualifier).  The present method returns a code
+identifying which one of these two relationship namespaces is being
+used; any other qualifier in libSBML is considered unknown (as far as
+the CVTerm class is concerned).  Consequently, this method will return
+one of the following values:
+@li @link QualifierType_t#MODEL_QUALIFIER MODEL_QUALIFIER@endlink
+@li @link QualifierType_t#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink
+@li @link QualifierType_t#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink
+The specific relationship of this CVTerm to the enclosing SBML object
+can be determined using the CVTerm methods such as
+CVTerm::getModelQualifierType() and
+CVTerm::getBiologicalQualifierType().  Callers will typically want to
+use the present method to find out which one of the I<other> two
+methods to call to find out the specific relationship.
+@return the @if clike #QualifierType_t value@else qualifier type@endif@~
+of this object or @link QualifierType_t#UNKNOWN_QUALIFIER UNKNOWN_QUALIFIER@endlink
+(the default).
+@see getResources()
+@see getModelQualifierType()
+@see getBiologicalQualifierType()
 
 
 =item CVTerm::getModelQualifierType
@@ -30212,7 +30302,36 @@ of this object or @link ModelQualifierType_t#BQM_UNKNOWN BQM_UNKNOWN@endlink
 
 =item CVTerm::getModelQualifierType
 
-@internal
+Returns the model qualifier type of this CVTerm object.
+C<opydetails> doc_cvterm_common_description
+The placeholder <span class="code" style="background-color: #bbb">
+RELATION_ELEMENT</span> refers to a BioModels.net qualifier
+element name.  This is an element in either the XML namespace
+C<"http://biomodels.net/model-qualifiers"> (for model
+qualifiers) or C<"http://biomodels.net/biology-qualifiers">
+(for biological qualifier).  Callers will typically use
+CVTerm::getQualifierType() to find out the type of qualifier relevant to this
+particular CVTerm object, then if it is a I<model> qualifier, use the
+present method to determine the specific qualifier.
+Annotations with model qualifiers express a relationship between an
+annotation resource and the <em>modeling concept</em> represented by a
+given object in the model.  The diagram below illustrates the
+relationship in this case:
+@image html model-qualifiers.png "Relationship expressed by model qualifiers"
+@image latex model-qualifiers.png "Relationship expressed by model qualifiers"
+<br> The set of known model qualifiers is, at the time of this libSBML
+release, the following:
+@li @link ModelQualifierType_t#BQM_IS BQM_IS@endlink
+@li @link ModelQualifierType_t#BQM_IS_DESCRIBED_BY BQM_IS_DESCRIBED_BY@endlink
+@li @link ModelQualifierType_t#BQM_IS_DERIVED_FROM BQM_IS_DERIVED_FROM@endlink
+@li @link ModelQualifierType_t#BQM_IS_INSTANCE_OF BQM_IS_INSTANCE_OF@endlink
+@li @link ModelQualifierType_t#BQM_HAS_INSTANCE BQM_HAS_INSTANCE@endlink
+Any other BioModels.net qualifier found in the model is considered
+unknown by libSBML and reported as
+@link ModelQualifierType_t#BQM_UNKNOWN BQM_UNKNOWN@endlink.
+@return the @if clike #ModelQualifierType_t value@else model qualifier type@endif@~
+of this object or @link ModelQualifierType_t#BQM_UNKNOWN BQM_UNKNOWN@endlink
+(the default).
 
 
 =item CVTerm::getBiologicalQualifierType
@@ -30259,7 +30378,44 @@ of this object or @link BiolQualifierType_t#BQB_UNKNOWN BQB_UNKNOWN@endlink
 
 =item CVTerm::getBiologicalQualifierType
 
-@internal
+Returns the biological qualifier type of this CVTerm object.
+C<opydetails> doc_cvterm_common_description
+The placeholder <span class="code" style="background-color: #bbb">
+RELATION_ELEMENT</span> refers to a BioModels.net qualifier element
+name.  This is an element in either the XML namespace
+C<"http://biomodels.net/model-qualifiers"> (for model
+qualifiers) or C<"http://biomodels.net/biology-qualifiers">
+(for biological qualifier).  Callers will typically use
+CVTerm::getQualifierType() to find out the type of qualifier relevant to
+this particular CVTerm object, then if it is a I<biological> qualifier,
+use the present method to determine the specific qualifier.
+Annotations with biological qualifiers express a relationship between an
+annotation resource and the <em>biological concept</em> represented by a
+given object in the model.    The diagram
+below illustrates the relationship in this case:
+@image html biology-qualifiers.png "Relationship expressed by biological qualifiers"
+@image latex biology-qualifiers.png "Relationship expressed by biological qualifiers"
+<br> The set of known biological qualifiers is, at the time of this
+libSBML release, the following:
+@li @link BiolQualifierType_t#BQB_IS BQB_IS@endlink
+@li @link BiolQualifierType_t#BQB_HAS_PART BQB_HAS_PART@endlink
+@li @link BiolQualifierType_t#BQB_IS_PART_OF BQB_IS_PART_OF@endlink
+@li @link BiolQualifierType_t#BQB_IS_VERSION_OF BQB_IS_VERSION_OF@endlink
+@li @link BiolQualifierType_t#BQB_HAS_VERSION BQB_HAS_VERSION@endlink
+@li @link BiolQualifierType_t#BQB_IS_HOMOLOG_TO BQB_IS_HOMOLOG_TO@endlink
+@li @link BiolQualifierType_t#BQB_IS_DESCRIBED_BY BQB_IS_DESCRIBED_BY@endlink
+@li @link BiolQualifierType_t#BQB_IS_ENCODED_BY BQB_IS_ENCODED_BY@endlink
+@li @link BiolQualifierType_t#BQB_ENCODES BQB_ENCODES@endlink
+@li @link BiolQualifierType_t#BQB_OCCURS_IN BQB_OCCURS_IN@endlink
+@li @link BiolQualifierType_t#BQB_HAS_PROPERTY BQB_HAS_PROPERTY@endlink
+@li @link BiolQualifierType_t#BQB_IS_PROPERTY_OF BQB_IS_PROPERTY_OF@endlink
+@li @link BiolQualifierType_t#BQB_HAS_TAXON BQB_HAS_TAXON@endlink
+Any other BioModels.net qualifier found in the model is considered
+unknown by libSBML and reported as
+@link BiolQualifierType_t#BQB_UNKNOWN BQB_UNKNOWN@endlink.
+@return the @if clike #BiolQualifierType_t value@else biology qualifier type@endif@~
+of this object or @link BiolQualifierType_t#BQB_UNKNOWN BQB_UNKNOWN@endlink
+(the default).
 
 
 =item CVTerm::getResources
@@ -30276,9 +30432,9 @@ resource URI</span> shown in the XML template above.
 A valid CVTerm entity must always have at least one resource and
 a value for the relationship qualifier.
 @return the XMLAttributes that store the resources of this CVTerm.
-@see CVTerm::getQualifierType()
-@see CVTerm::addResource(const std::string& resource)
-@see CVTerm::getResourceURI(unsigned int n)
+@see getQualifierType()
+@see addResource(const std::string& resource)
+@see getResourceURI(unsigned int n)
 
 
 =item CVTerm::getResources
@@ -30295,9 +30451,9 @@ resource URI</span> shown in the XML template above.
 A valid CVTerm entity must always have at least one resource and
 a value for the relationship qualifier.
 @return the XMLAttributes that store the resources of this CVTerm.
-@see CVTerm::getQualifierType()
-@see CVTerm::addResource(const std::string& resource)
-@see CVTerm::getResourceURI(unsigned int n)
+@see getQualifierType()
+@see addResource(const std::string& resource)
+@see getResourceURI(unsigned int n)
 
 
 =item CVTerm::getNumResources
@@ -30312,8 +30468,8 @@ style="background-color: #bbb">RELATION_ELEMENT</span>).  The present
 method returns a count of the resources stored in this CVTerm object.
 @return the number of resources in the set of XMLAttributes
 of this CVTerm.
-@see CVTerm::getResources()
-@see CVTerm::getResourceURI(unsigned int n)
+@see getResources()
+@see getResourceURI(unsigned int n)
 
 
 =item CVTerm::getNumResources
@@ -30328,8 +30484,8 @@ style="background-color: #bbb">RELATION_ELEMENT</span>).  The present
 method returns a count of the resources stored in this CVTerm object.
 @return the number of resources in the set of XMLAttributes
 of this CVTerm.
-@see CVTerm::getResources()
-@see CVTerm::getResourceURI(unsigned int n)
+@see getResources()
+@see getResourceURI(unsigned int n)
 
 
 =item CVTerm::getResourceURI
@@ -30345,11 +30501,11 @@ all resource URIs in a single CVTerm object for a given relationship.
 Callers can use CVTerm::getNumResources() to find out how many resources
 are stored in this CVTerm object, then call this method to retrieve the
 <em>n</em>th resource URI.
-@param n the index of the resource to query
+@param n the index of the resource to query.
 @return string representing the value of the nth resource
 in the set of XMLAttributes of this CVTerm.
-@see CVTerm::getNumResources()
-@see CVTerm::getQualifierType()
+@see getNumResources()
+@see getQualifierType()
 
 
 =item CVTerm::getResourceURI
@@ -30365,11 +30521,11 @@ all resource URIs in a single CVTerm object for a given relationship.
 Callers can use CVTerm::getNumResources() to find out how many resources
 are stored in this CVTerm object, then call this method to retrieve the
 <em>n</em>th resource URI.
-@param n the index of the resource to query
+@param n the index of the resource to query.
 @return string representing the value of the nth resource
 in the set of XMLAttributes of this CVTerm.
-@see CVTerm::getNumResources()
-@see CVTerm::getQualifierType()
+@see getNumResources()
+@see getQualifierType()
 
 
 =item CVTerm::setQualifierType
@@ -30379,14 +30535,14 @@ CVTerm object.
 @param type the @if clike #QualifierType_t value@else qualifier type@endif.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-@see CVTerm::getQualifierType()
+@see getQualifierType()
 
 
 =item CVTerm::setModelQualifierType
 
 Sets the @if clike #ModelQualifierType_t value@else model qualifier type@endif@~
 of this CVTerm object.
-@param type the @if clike #ModelQualifierType_t value@else model qualifier type@endif@~
+@param type the @if clike #ModelQualifierType_t value@else model qualifier type@endif@~.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -30394,8 +30550,8 @@ C<opydetails> doc_returns_success_code
 @link QualifierType_t#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, then the
 then the @if clike #ModelQualifierType_t value@else model qualifier type@endif@~
 will default to @link QualifierType_t#BQM_UNKNOWN BQM_UNKNOWN@endlink.
-@see CVTerm::getQualifierType()
-@see CVTerm::setQualifierType(@if java int@endif)
+@see getQualifierType()
+@see setQualifierType(@if java int@endif)
 
 
 =item CVTerm::setBiologicalQualifierType
@@ -30411,15 +30567,15 @@ C<opydetails> doc_returns_success_code
 @link QualifierType_t#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink,
 then the @if clike #BiolQualifierType_t value@else biology qualifier type@endif@~
 will default to @link BiolQualifierType_t#BQB_UNKNOWN BQB_UNKNOWN@endlink.
-@see CVTerm::getQualifierType()
-@see CVTerm::setQualifierType(@if java int@endif)
+@see getQualifierType()
+@see setQualifierType(@if java int@endif)
 
 
 =item CVTerm::setModelQualifierType
 
 Sets the @if clike #ModelQualifierType_t@else model qualifier
 type@endif@~ value of this CVTerm object.
-@param qualifier the string representing a model qualifier
+@param qualifier the string representing a model qualifier.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -30427,15 +30583,15 @@ C<opydetails> doc_returns_success_code
 @link QualifierType_t#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, 
 then the @if clike #ModelQualifierType_t value@else model qualifier type@endif@~
 will default to @link QualifierType_t#BQM_UNKNOWN BQM_UNKNOWN@endlink.
-@see CVTerm::getQualifierType()
-@see CVTerm::setQualifierType(@if java int@endif)
+@see getQualifierType()
+@see setQualifierType(@if java int@endif)
 
 
 =item CVTerm::setBiologicalQualifierType
 
 Sets the @if clike #BiolQualifierType_t@else biology qualifier
 type code@endif@~ of this CVTerm object.
-@param qualifier the string representing a biology qualifier
+@param qualifier the string representing a biology qualifier.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
@@ -30443,8 +30599,8 @@ C<opydetails> doc_returns_success_code
 @link QualifierType_t#BIOLOGICAL_QUALIFIER BIOLOGICAL_QUALIFIER@endlink,
 then the @if clike #BiolQualifierType_t@else biology qualifier type code@endif@~
 will default to @link BiolQualifierType_t#BQB_UNKNOWN BQB_UNKNOWN@endlink.
-@see CVTerm::getQualifierType()
-@see CVTerm::setQualifierType(@if java int@endif)
+@see getQualifierType()
+@see setQualifierType(@if java int@endif)
 
 
 =item CVTerm::addResource
@@ -30503,11 +30659,11 @@ C<"http://www.geneontology.org/#GO:0005892">.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-@see CVTerm::getResources()
-@see CVTerm::removeResource(std::string resource)
-@see CVTerm::getQualifierType()
-@see CVTerm::getModelQualifierType()
-@see CVTerm::getBiologicalQualifierType()
+@see getResources()
+@see removeResource(std::string resource)
+@see getQualifierType()
+@see getModelQualifierType()
+@see getBiologicalQualifierType()
 
 
 =item CVTerm::removeResource
@@ -30521,7 +30677,7 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_INDEX_EXCEEDS_SIZE LIBSBML_INDEX_EXCEEDS_SIZE@endlink
 @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-@see CVTerm::addResource(const std::string& resource)
+@see addResource(const std::string& resource)
 
 
 =item CVTerm::hasRequiredAttributes
@@ -30550,42 +30706,148 @@ CVTerm object have been set.
 
 =item CVTerm::getNumNestedCVTerms
 
-@internal
+Returns the number of CVTerm objects nested within this CVTerm
+object.
+
+@return the number of CVTerms nested within this CVTerm object.
+@note this does not recurse through potentially nested CVTerm objects
+within a given nested CVTerm. It returns the number of terms immediately
+nested within this CVTerm.
 
 
 =item CVTerm::getNestedCVTerm
 
-@internal
+Returns the nth CVTerm in the list of CVTerms of this CVTerm
+object.
+
+@param n unsigned int the index of the CVTerm to retrieve.
+@return the nth CVTerm in the list of CVTerms for this CVTerm object.
 
 
 =item CVTerm::getNestedCVTerm
 
-@internal
+Returns the nth CVTerm in the list of CVTerms of this CVTerm
+object.
+
+@param n unsigned int the index of the CVTerm to retrieve.
+@return the nth CVTerm in the list of CVTerms for this CVTerm object.
 
 
 =item CVTerm::getListNestedCVTerms
 
-@internal
+Returns a list of CVTerm objects contained within this CVTerm
+object.
+
+@return the list of CVTerms for this CVTerm object.
 
 
 =item CVTerm::getListNestedCVTerms
 
-@internal
+Returns a list of CVTerm objects contained within this CVTerm
+object.
+
+@return the list of CVTerms for this CVTerm object.
 
 
 =item CVTerm::addNestedCVTerm
 
-@internal
+Adds a copy of the given CVTerm object to the list of nested CVTerm
+objects within this CVTerm object.
+@param term the CVTerm to assign.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@li @link OperationReturnValues_t#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
 
 
 =item CVTerm::removeNestedCVTerm
 
-@internal
+Removes the nth CVTerm in the list of CVTerms of this CVTerm
+object and returns a pointer to it.
+@param n unsigned int the index of the CVTerm to retrieve.
+@return a pointer to the nth CVTerm in the list of CVTerms for this 
+CVTerm object.
 
 
 =item CVTerm::setHasBeenModifiedFlag
 
 @internal
+
+
+=item ModelQualifierType_toString
+
+This method takes a model qualifier type code and returns a string
+representing the code.
+This method takes a model qualifier type as argument
+and returns a string name corresponding to that code.  For example,
+passing it the qualifier C<BQM_IS_DESCRIBED_BY> will return
+the string C<"isDescribedBy">.
+@param type The @if clike ModelQualifierType_t@endif@~ value to
+translate. @ifnot clike The value should be a libSBML constant whose
+name begins with C<BQM_>, such as (for example)
+@link BiolQualifierType_t#BQM_IS BQM_IS@endlink.@endif@~
+@return a human readable qualifier name for the given qualifier type.
+@note The caller does not own the returned string and is therefore not
+allowed to modify it.
+@if conly
+@memberof CVTerm_t
+@endif
+
+
+=item BiolQualifierType_toString
+
+This method takes a biol qualifier type code and returns a string
+representing the code.
+This method takes a biol qualifier type as argument
+and returns a string name corresponding to that code.  For example,
+passing it the qualifier C<BQB_HAS_VERSION> will return
+the string C<"hasVersion">.
+@param type The @if clike BiolQualifierType_t@endif@~ value to
+translate. @ifnot clike The value should be a constant whose name
+begins with C<BQB_>, such as (for example)
+@link BiolQualifierType_t#BQB_IS BQB_IS@endlink.@endif@~
+@return a human readable qualifier name for the given type.
+@note The caller does not own the returned string and is therefore not
+allowed to modify it.
+@if conly
+@memberof CVTerm_t
+@endif
+
+
+=item ModelQualifierType_fromString
+
+This method takes a a string and returns a model qualifier
+representing the string.
+This method takes a string as argument and returns a model qualifier type
+corresponding to that string.  For example, passing it the string
+C<"isDescribedBy"> will return the qualifier
+C<BQM_IS_DESCRIBED_BY>.
+
+@param s The string to translate to a @if clike ModelQualifierType_t
+value@else libSBML constant value representing a model qualifier@endif.
+@return a libSBML qualifier enumeration value for the given human readable
+qualifier name.
+@if conly
+@memberof CVTerm_t
+@endif
+
+
+=item BiolQualifierType_fromString
+
+This method takes a a string and returns a biol qualifier
+representing the string.
+This method takes a string as argument and returns a biol qualifier type
+corresponding to that string.  For example, passing it the string
+C<"hasVersion"> will return the qualifier
+C<BQB_HAS_VERSION>.
+
+@param s The string to translate to a @if clike BiolQualifierType_t
+value@else libSBML constant value representing a biological qualifier@endif.
+@return a libSBML qualifier enumeration value for the given human readable
+qualifier name.
+@if conly
+@memberof CVTerm_t
+@endif
 
 
 =back
@@ -30732,8 +30994,6 @@ complete format described above, or unpredictable results will happen.
 
 Copy constructor; creates a copy of this Date.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item Date::clone
@@ -31019,8 +31279,6 @@ Creates a new ModelCreator from an XMLNode.
 
 Copy constructor; creates a copy of the ModelCreator.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item ModelCreator::clone
@@ -31297,8 +31555,6 @@ Creates a new ModelHistory object.
 
 Copy constructor; creates a copy of this ModelHistory object.
 @param orig the object to copy.
-@throws SBMLConstructorException
-Thrown if the argument C<orig> is C<NULL>.
 
 
 =item ModelHistory::clone
@@ -32052,7 +32308,6 @@ found, this method returns the result of getElementNamespace().
 @return a string, the URI of the XML namespace to which this object belongs.
 @see getPackageName()
 @see getElementNamespace()
-@see SBMLDocument::getSBMLNamespaces()
 @see getSBMLDocument()
 
 
@@ -32130,6 +32385,21 @@ object.
 @internal
 
 
+=item SBasePlugin::renameSIdRefs
+
+C<opydoc> doc_renamesidref_common
+
+
+=item SBasePlugin::renameMetaIdRefs
+
+C<opydoc> doc_renamemetasidref_common
+
+
+=item SBasePlugin::renameUnitSIdRefs
+
+C<opydoc> doc_renameunitsidref_common
+
+
 =item SBasePlugin::transformIdentifiers
 
 @internal
@@ -32161,6 +32431,11 @@ object.
 
 
 =item SBasePlugin::accept
+
+@internal
+
+
+=item SBasePlugin::getSBMLExtension
 
 @internal
 
@@ -32526,6 +32801,11 @@ converted.
 @param doc the SBML document to test.
 @return a boolean indicating whether the extension is actually being
 used by the document.
+
+
+=item SBMLExtension::hasMultipleVersions
+
+@internal
 
 
 =item SBMLExtension::getErrorTableIndex
@@ -33239,106 +33519,6 @@ this stream buffer.
 @internal
 
 
-=item ASTBase::isChild
-
-@internal
-
-
-=item ASTBase::setIsChildFlag
-
-@internal
-
-
-=item ASTBase::getClass
-
-@internal
-
-
-=item ASTBase::getId
-
-@internal
-
-
-=item ASTBase::getStyle
-
-@internal
-
-
-=item ASTBase::getParentSBMLObject
-
-@internal
-
-
-=item ASTBase::isSetClass
-
-@internal
-
-
-=item ASTBase::isSetId
-
-@internal
-
-
-=item ASTBase::isSetStyle
-
-@internal
-
-
-=item ASTBase::isSetParentSBMLObject
-
-@internal
-
-
-=item ASTBase::setClass
-
-@internal
-
-
-=item ASTBase::setId
-
-@internal
-
-
-=item ASTBase::setStyle
-
-@internal
-
-
-=item ASTBase::setParentSBMLObject
-
-@internal
-
-
-=item ASTBase::unsetClass
-
-@internal
-
-
-=item ASTBase::unsetId
-
-@internal
-
-
-=item ASTBase::unsetStyle
-
-@internal
-
-
-=item ASTBase::unsetParentSBMLObject
-
-@internal
-
-
-=item ASTBase::getFunction
-
-@internal
-
-
-=item ASTBase::addPlugin
-
-@internal
-
-
 =item ASTBase::getPlugin
 
 @internal
@@ -33683,7 +33863,7 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_warning_modifying_structure
 @see prependChild(ASTNode  disownedChild)
-@see replaceChild(unsigned int n, ASTNode  disownedChild)
+@see replaceChild(unsigned int n, ASTNode  disownedChild, bool delreplaced)
 @see insertChild(unsigned int n, ASTNode  disownedChild)
 @see removeChild(unsigned int n)
 @see isWellFormedASTNode()
@@ -33699,7 +33879,7 @@ C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
 C<opydetails> doc_warning_modifying_structure
 @see addChild(ASTNode  disownedChild)
-@see replaceChild(unsigned int n, ASTNode  disownedChild)
+@see replaceChild(unsigned int n, ASTNode  disownedChild, bool delreplaced)
 @see insertChild(unsigned int n, ASTNode  disownedChild)
 @see removeChild(unsigned int n)
 
@@ -33714,7 +33894,7 @@ C<opydetails> doc_returns_success_code
 C<opydetails> doc_warning_modifying_structure
 @see addChild(ASTNode  disownedChild)
 @see prependChild(ASTNode  disownedChild)
-@see replaceChild(unsigned int n, ASTNode  disownedChild)
+@see replaceChild(unsigned int n, ASTNode  disownedChild, bool delreplaced)
 @see insertChild(unsigned int n, ASTNode  disownedChild)
 
 
@@ -33748,7 +33928,7 @@ C<opydetails> doc_returns_success_code
 C<opydetails> doc_warning_modifying_structure
 @see addChild(ASTNode  disownedChild)
 @see prependChild(ASTNode  disownedChild)
-@see replaceChild(unsigned int n, ASTNode  disownedChild)
+@see replaceChild(unsigned int n, ASTNode  disownedChild, bool delreplaced)
 @see removeChild(unsigned int n)
 
 
@@ -34940,6 +35120,11 @@ Returns the MathML C<definitionURL> attribute value as a string.
 @internal
 
 
+=item ASTNode::getNumPiece
+
+@internal
+
+
 =item ASTNode::containsVariable
 
 @internal
@@ -35011,6 +35196,46 @@ Returns the MathML C<definitionURL> attribute value as a string.
 
 
 =item ASTNode::getFunction
+
+@internal
+
+
+=item MathML::MathML
+
+@internal
+
+
+=item MathML::MathML
+
+@internal
+
+
+=item MathML::setPrefix
+
+@internal
+
+
+=item MathML::readMathML
+
+@internal
+
+
+=item MathML::writeMathML
+
+@internal
+
+
+=item MathML::hasSeriousErrors
+
+@internal
+
+
+=item MathML::writeOpenMathElement
+
+@internal
+
+
+=item MathML::writeCloseMathElement
 
 @internal
 
@@ -35958,6 +36183,21 @@ as the value, all plugins will be loaded.
 
 
 =item ASTBasePlugin::getNameFromType
+
+@internal
+
+
+=item ASTBasePlugin::renameSIdRefs
+
+@internal
+
+
+=item ASTBasePlugin::renameUnitSIdRefs
+
+@internal
+
+
+=item ASTBasePlugin::replaceIDWithFunction
 
 @internal
 

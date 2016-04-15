@@ -7,7 +7,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2015 jointly by the following organizations:
+# Copyright (C) 2013-2016 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -38,9 +38,9 @@ option(ENABLE_FBC
 list(APPEND LIBSBML_PACKAGE_SUMMARY "SBML 'fbc' package     = ${ENABLE_FBC}")
 
 if(ENABLE_FBC)
-    SET(USE_FBC TRUE)
-	set(LIBSBML_PACKAGE_INCLUDES ${LIBSBML_PACKAGE_INCLUDES} "LIBSBML_HAS_PACKAGE_FBC")
-	add_definitions(-DUSE_FBC)
-	list(APPEND SWIG_EXTRA_ARGS -DUSE_FBC)
-	list(APPEND SWIG_SWIGDOCDEFINES --define USE_FBC)
+  SET(USE_FBC TRUE)
+  set(LIBSBML_PACKAGE_INCLUDES ${LIBSBML_PACKAGE_INCLUDES} "LIBSBML_HAS_PACKAGE_FBC")
+  add_definitions(-DUSE_FBC=1)
+  list(APPEND SWIG_EXTRA_ARGS -DUSE_FBC)
+  list(APPEND SWIG_SWIGDOCDEFINES --define USE_FBC)
 endif()

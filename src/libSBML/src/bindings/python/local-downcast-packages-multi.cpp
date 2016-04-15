@@ -25,10 +25,6 @@ else if (pkgName == "multi")
       {
         return SWIGTYPE_p_ListOfInSpeciesTypeBonds;
       }
-      else if (name == "listOfDenotedSpeciesTypeComponentIndexes")
-      {
-        return SWIGTYPE_p_ListOfDenotedSpeciesTypeComponentIndexes;
-      }
       else if (name == "listOfOutwardBindingSites")
       {
         return SWIGTYPE_p_ListOfOutwardBindingSites;
@@ -74,9 +70,6 @@ else if (pkgName == "multi")
 
     case SBML_MULTI_IN_SPECIES_TYPE_BOND:
       return SWIGTYPE_p_InSpeciesTypeBond;
-
-    case SBML_MULTI_DENOTED_SPECIES_TYPE_COMPONENT_INDEX:
-      return SWIGTYPE_p_DenotedSpeciesTypeComponentIndex;
 
     case SBML_MULTI_OUTWARD_BINDING_SITE:
       return SWIGTYPE_p_OutwardBindingSite;

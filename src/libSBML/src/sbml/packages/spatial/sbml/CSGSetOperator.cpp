@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -96,21 +96,13 @@ CSGSetOperator::CSGSetOperator (SpatialPkgNamespaces* spatialns)
  */
 CSGSetOperator::CSGSetOperator (const CSGSetOperator& orig)
   : CSGNode(orig)
+  , mOperationType  ( orig.mOperationType)
+  , mComplementA  ( orig.mComplementA)
+  , mComplementB  ( orig.mComplementB)
+  , mCsgNodes  ( orig.mCsgNodes)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mOperationType  = orig.mOperationType;
-    mComplementA  = orig.mComplementA;
-    mComplementB  = orig.mComplementB;
-    mCsgNodes  = orig.mCsgNodes;
-
-    // connect to child objects
-    connectToChild();
-  }
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -120,11 +112,7 @@ CSGSetOperator::CSGSetOperator (const CSGSetOperator& orig)
 CSGSetOperator&
 CSGSetOperator::operator=(const CSGSetOperator& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     CSGNode::operator=(rhs);
     mOperationType  = rhs.mOperationType;
@@ -247,11 +235,7 @@ CSGSetOperator::setOperationType(const std::string& operationType)
 int
 CSGSetOperator::setComplementA(const std::string& complementA)
 {
-  if (&(complementA) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(complementA)))
+  if (!(SyntaxChecker::isValidInternalSId(complementA)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -269,11 +253,7 @@ CSGSetOperator::setComplementA(const std::string& complementA)
 int
 CSGSetOperator::setComplementB(const std::string& complementB)
 {
-  if (&(complementB) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(complementB)))
+  if (!(SyntaxChecker::isValidInternalSId(complementB)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -734,6 +714,7 @@ CSGSetOperator::createCsgSetOperator()
 void
 CSGSetOperator::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  CSGNode::renameSIdRefs(oldid, newid);
   if (isSetComplementA() == true && mComplementA == oldid)
   {
     setComplementA(newid);

@@ -7,7 +7,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2015 jointly by the following organizations:
+# Copyright (C) 2013-2016 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -50,6 +50,7 @@ file(GLOB SWIG_DEPENDENCIES
   ${CMAKE_CURRENT_SOURCE_DIR}/*.i 
   ${CMAKE_CURRENT_SOURCE_DIR}/*.h 
   ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/*.cmake
   ${CMAKE_CURRENT_SOURCE_DIR}/../swig/*.i
   ${CMAKE_CURRENT_SOURCE_DIR}/../swig/*.h
   )
@@ -216,6 +217,11 @@ add_custom_command(
   COMMAND "${CMAKE_COMMAND}"
   ARGS  -E rename pydoc.i pydoc-normal.i 
 
+  COMMAND "${CMAKE_COMMAND}"
+  ARGS  -DCUR_BIN_DIRECTORY=\"${CMAKE_CURRENT_BINARY_DIR}\"
+        -DVERSION=\"${LIBSBML_DOTTED_VERSION}\"
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/add_version.cmake"
+
   MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/libsbml.i
   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
           ${CMAKE_CURRENT_SOURCE_DIR}/doc-converter/rewrite_pydoc.py
@@ -266,7 +272,7 @@ endif()
 
 if(APPLE)
   option (PYTHON_USE_DYNAMIC_LOOKUP
-  "Do not actually link against the python library, instead use the undefined lookup mechanism, that ." OFF)
+  "Do not actually link against the python library, instead use the undefined lookup mechanism." OFF)
   mark_as_advanced(PYTHON_USE_DYNAMIC_LOOKUP)
 endif(APPLE)
 
@@ -290,13 +296,44 @@ else()
   set(PYTHON_PACKAGE_INSTALL_DIR ${MISC_PREFIX}bindings/python)
 endif()
 
-INSTALL(TARGETS binding_python_lib DESTINATION ${PYTHON_PACKAGE_INSTALL_DIR}/libsbml )
+####################################################################
+#
+# install using the configured install prefix
+#
 
-file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pth" "libsbml\n")
-INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsbml.pth  DESTINATION ${PYTHON_PACKAGE_INSTALL_DIR})
-INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsbml.py  DESTINATION ${PYTHON_PACKAGE_INSTALL_DIR}/libsbml )
+option (PYTHON_INSTALL_IN_PREFIX
+        "Install python binaries using the specified install prefix." ON)
+if (PYTHON_INSTALL_IN_PREFIX)
+  install(TARGETS binding_python_lib DESTINATION ${PYTHON_PACKAGE_INSTALL_DIR}/libsbml )
+  
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pth" "libsbml\n")
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsbml.pth  DESTINATION ${PYTHON_PACKAGE_INSTALL_DIR})
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsbml.py  DESTINATION ${PYTHON_PACKAGE_INSTALL_DIR}/libsbml )
+endif(PYTHON_INSTALL_IN_PREFIX)
 
+####################################################################
+#
+# install using setup.py
+#
 
+option (PYTHON_INSTALL_WITH_SETUP
+        "Use setup.py to install the compiled python binaries (be sure to install with the appropriate privileges)." OFF)
+if (PYTHON_INSTALL_WITH_SETUP)
+
+  # adjust the setup.py script 
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/setup.py.cmake ${CMAKE_CURRENT_BINARY_DIR}/setup.py)
+    
+  # execute the python interpreter
+   INSTALL(TARGETS binding_python_lib DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/libsbml)
+   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsbml.py  DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/libsbml RENAME __init__.py )
+   INSTALL(CODE "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E chdir ${CMAKE_CURRENT_BINARY_DIR} ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/setup.py install)")
+
+endif(PYTHON_INSTALL_WITH_SETUP)
+
+####################################################################
+#
+# generate source package
+#
 option(WITH_CREATE_PYTHON_SOURCE   "Generate Python Source Package." OFF)
 if (WITH_CREATE_PYTHON_SOURCE AND EXISTS "${LIBSBML_ROOT_SOURCE_DIR}/dev/utilities/python_package/")
 
@@ -323,8 +360,7 @@ add_custom_command(
 )
 
 add_custom_target(binding_python_source_config ALL DEPENDS ${PYTHON_SOURCE_OUT_DIR}/setup.py)
-add_dependencies(binding_python_source_config binding_python_swig)
-
+add_dependencies(binding_python_source_config binding_python_swig binding_python_lib)
 add_custom_command(
   OUTPUT ${PYTHON_SOURCE_OUT_DIR}/MANIFEST
 
@@ -342,6 +378,7 @@ add_custom_command(
 
 add_custom_target(binding_python_source_package ALL DEPENDS ${PYTHON_SOURCE_OUT_DIR}/MANIFEST)
 add_dependencies(binding_python_source_package binding_python_source_config)
+add_dependencies( binding_python_source_package binding_python_swig) 
  
 
 endif(WITH_CREATE_PYTHON_SOURCE AND EXISTS "${LIBSBML_ROOT_SOURCE_DIR}/dev/utilities/python_package/")

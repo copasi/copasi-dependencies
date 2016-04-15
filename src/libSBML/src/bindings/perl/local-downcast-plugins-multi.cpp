@@ -21,6 +21,10 @@ if (pkgName == "multi")
   {
     return SWIGTYPE_p_MultiSpeciesReferencePlugin;
   }
+  else if (sb->getElementName() == "listOfReactions")
+  {
+    return SWIGTYPE_p_MultiListOfReactionsPlugin;
+  }
 }
 
 #endif // USE_MULTI 

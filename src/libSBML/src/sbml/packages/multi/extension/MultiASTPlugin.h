@@ -175,19 +175,20 @@ public:
 
   //virtual void write(XMLOutputStream& stream) const;
 
-  using ASTBasePlugin::read;
+//  using ASTBasePlugin::read;
 
-  virtual bool read(XMLInputStream& stream, const std::string& reqd_prefix="");
+  virtual bool read(XMLInputStream& stream, const std::string& reqd_prefix,
+                                            const XMLToken& currentElement);
 
   virtual void addExpectedAttributes(ExpectedAttributes& attributes, 
                                      XMLInputStream& stream, int type);
 
 
-  using ASTBasePlugin::readAttributes;
+//  using ASTBasePlugin::readAttributes;
 
   virtual bool readAttributes (const XMLAttributes& attributes,
                                const ExpectedAttributes& expectedAttributes,
-                               XMLInputStream& stream, XMLToken element,
+                               XMLInputStream& stream, const XMLToken& element,
                                int type);
 
 
@@ -196,6 +197,13 @@ public:
   //  virtual int getTypeFromName(const std::string& name) const;
   //virtual const char * getNameFromType(int type) const;
 
+  /**
+   * Renames the speciesReference SIdRef attribute on this node.
+   *
+   * @param oldid the old identifier.
+   * @param newid the new identifier.
+   */
+  virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 protected:
   /** @cond doxygenLibsbmlInternal */
 

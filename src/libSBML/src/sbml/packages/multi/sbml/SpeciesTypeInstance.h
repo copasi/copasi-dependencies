@@ -59,8 +59,6 @@ protected:
   std::string   mName;
   std::string   mSpeciesType;
   std::string   mCompartmentReference;
-  unsigned int  mOccur;
-  bool          mIsSetOccur;
 
 
 public:
@@ -300,52 +298,6 @@ public:
    * @li LIBSBML_OPERATION_FAILED
    */
   virtual int unsetCompartmentReference();
-
-
-  /**
-   * Returns the value of the "occur" attribute of this SpeciesTypeInstance.
-   *
-   * @return the value of the "occur" attribute of this SpeciesTypeInstance as a unsigned integer.
-   */
-  virtual unsigned int getOccur() const;
-
-
-  /**
-   * Predicate returning @c true or @c false depending on whether this
-   * SpeciesTypeInstance's "occur" attribute has been set.
-   *
-   * @return @c true if this SpeciesTypeInstance's "occur" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetOccur() const;
-
-
-  /**
-   * Sets the value of the "occur" attribute of this SpeciesTypeInstance.
-   *
-   * @param occur; unsigned int value of the "occur" attribute to be set
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-   */
-  virtual int setOccur(unsigned int occur);
-
-
-  /**
-   * Unsets the value of the "occur" attribute of this SpeciesTypeInstance.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_OPERATION_FAILED
-   */
-  virtual int unsetOccur();
 
 
   /**
@@ -779,11 +731,6 @@ SpeciesTypeInstance_getCompartmentReference(SpeciesTypeInstance_t * sti);
 
 
 LIBSBML_EXTERN
-unsigned int
-SpeciesTypeInstance_getOccur(SpeciesTypeInstance_t * sti);
-
-
-LIBSBML_EXTERN
 int
 SpeciesTypeInstance_isSetId(SpeciesTypeInstance_t * sti);
 
@@ -801,11 +748,6 @@ SpeciesTypeInstance_isSetSpeciesType(SpeciesTypeInstance_t * sti);
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_isSetCompartmentReference(SpeciesTypeInstance_t * sti);
-
-
-LIBSBML_EXTERN
-int
-SpeciesTypeInstance_isSetOccur(SpeciesTypeInstance_t * sti);
 
 
 LIBSBML_EXTERN
@@ -830,11 +772,6 @@ SpeciesTypeInstance_setCompartmentReference(SpeciesTypeInstance_t * sti, const c
 
 LIBSBML_EXTERN
 int
-SpeciesTypeInstance_setOccur(SpeciesTypeInstance_t * sti, unsigned int occur);
-
-
-LIBSBML_EXTERN
-int
 SpeciesTypeInstance_unsetId(SpeciesTypeInstance_t * sti);
 
 
@@ -851,11 +788,6 @@ SpeciesTypeInstance_unsetSpeciesType(SpeciesTypeInstance_t * sti);
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_unsetCompartmentReference(SpeciesTypeInstance_t * sti);
-
-
-LIBSBML_EXTERN
-int
-SpeciesTypeInstance_unsetOccur(SpeciesTypeInstance_t * sti);
 
 
 LIBSBML_EXTERN

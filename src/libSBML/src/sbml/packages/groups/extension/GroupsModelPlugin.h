@@ -1,37 +1,57 @@
 /**
- * @file    GroupsModelPlugin.h
- * @brief   Definition of GroupsModelPlugin, the plugin class of
- *          groups package for the Model element.
- * @author  Akiya Jouraku
- *
- * $Id: GroupsModelPlugin.h 13541 2011-04-08 22:16:45Z fbergmann $
- * $HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/branches/libsbml-5/src/sbml/packages/groups/extension/GroupsModelPlugin.h $
+ * @file GroupsModelPlugin.h
+ * @brief Definition of the GroupsModelPlugin class.
+ * @author SBMLTeam
  *
  * <!--------------------------------------------------------------------------
- * This file is part of libSBML.  Please visit http://sbml.org for more
+ * This file is part of libSBML. Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2013-2016 jointly by the following organizations:
+ * 1. California Institute of Technology, Pasadena, CA, USA
+ * 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ * 3. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2009-2013 jointly by the following organizations:
- *     1. California Institute of Technology, Pasadena, CA, USA
- *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
- *  
+ * 1. California Institute of Technology, Pasadena, CA, USA
+ * 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ *
  * Copyright (C) 2006-2008 by the California Institute of Technology,
- *     Pasadena, CA, USA 
- *  
- * Copyright (C) 2002-2005 jointly by the following organizations: 
- *     1. California Institute of Technology, Pasadena, CA, USA
- *     2. Japan Science and Technology Agency, Japan
- * 
+ * Pasadena, CA, USA
+ *
+ * Copyright (C) 2002-2005 jointly by the following organizations:
+ * 1. California Institute of Technology, Pasadena, CA, USA
+ * 2. Japan Science and Technology Agency, Japan
+ *
  * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation.  A copy of the license agreement is provided
- * in the file named "LICENSE.txt" included with this software distribution
- * and also available online as http://sbml.org/software/libsbml/license.html
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation. A copy of the license agreement is provided in the
+ * file named "LICENSE.txt" included with this software distribution and also
+ * available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
+ *
+ * @class GroupsModelPlugin
+ * @sbmlbrief{groups} Extension of Model.
+ *
+ * The GroupsModelPlugin class inherits from the SBMLSBasePlugin class, and
+ * codifies the extensions to the Model class defined in the SBML
+ * Level&nbsp;3 @ref groups (&ldquo;groups&rdquo;) package.  This extension
+ * allows a Model to contain an optional ListOfGroups object inside a new
+ * element called <code>&lt;listOfGroups&gt;</code>.  This list holds the
+ * definition of optional groups defined in the model.
+ *
+ * A "group" in SBML Level&nbsp;3 provides a mechanism for
+ * indicating that components of an SBML model are related in some way.
+ * Groups may contain either the same or different types of SBML objects, and
+ * groups may be nested if desired. There are no predefined behavioral
+ * semantics associated with groups.  All groups in a given model have to be
+ * defined as Group objects and included in the ListOfGroups object attached
+ * to the Model object containing them.
  */
 
-#ifndef GroupsModelPlugin_h
-#define GroupsModelPlugin_h
+
+#ifndef GroupsModelPlugin_H__
+#define GroupsModelPlugin_H__
 
 
 #include <sbml/common/extern.h>
@@ -41,303 +61,444 @@
 
 
 #include <sbml/extension/SBasePlugin.h>
+#include <sbml/packages/groups/sbml/ListOfGroups.h>
 #include <sbml/packages/groups/sbml/Group.h>
+
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
+
 class LIBSBML_EXTERN GroupsModelPlugin : public SBasePlugin
 {
+protected:
+
+  /** @cond doxygenLibsbmlInternal */
+
+  ListOfGroups mGroups;
+
+  /** @endcond */
+
 public:
 
   /**
-   * Creates a new GroupsModelPlugin
+   * Creates a new GroupsModelPlugin using the given URI, prefix and package
+   * namespace.
+   *
+   * @param uri a string, representing the URI of the package.
+   *
+   * @param prefix a string, the prefix to be used.
+   *
+   * @param groupsns a pointer to the GroupsPkgNamespaces object to be used.
    */
-  GroupsModelPlugin(const std::string& uri, const std::string& prefix, 
-                                 GroupsPkgNamespaces* groupsns);
+  GroupsModelPlugin(const std::string& uri,
+                    const std::string& prefix,
+                    GroupsPkgNamespaces* groupsns);
 
 
   /**
    * Copy constructor for GroupsModelPlugin.
    *
-   * @param orig; the GroupsModelPlugin instance to copy.
+   * @param orig the GroupsModelPlugin instance to copy.
    */
   GroupsModelPlugin(const GroupsModelPlugin& orig);
 
 
   /**
-   * Destroy this object.
-   */
-  virtual ~GroupsModelPlugin ();
-
-
-  /**
    * Assignment operator for GroupsModelPlugin.
+   *
+   * @param rhs the GroupsModelPlugin object whose values are to be used as
+   * the basis of the assignment.
    */
-  GroupsModelPlugin& operator=(const GroupsModelPlugin& orig);
+  GroupsModelPlugin& operator=(const GroupsModelPlugin& rhs);
 
 
   /**
    * Creates and returns a deep copy of this GroupsModelPlugin object.
-   * 
-   * @return a (deep) copy of this SBase object
-   */
-  virtual GroupsModelPlugin* clone () const;
-
-
-  // --------------------------------------------------------
-  //
-  // overridden virtual functions for reading/writing/checking 
-  // elements
-  //
-  // --------------------------------------------------------
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
-   * Subclasses must override this method to create, store, and then
-   * return an SBML object corresponding to the next XMLToken in the
-   * XMLInputStream if they have their specific elements.
    *
-   * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * @return a (deep) copy of this GroupsModelPlugin object.
    */
-  virtual SBase* createObject (XMLInputStream& stream);
+  virtual GroupsModelPlugin* clone() const;
 
 
   /**
-   * Subclasses must override this method to write out their contained
-   * SBML objects as XML elements if they have their specific elements.
+   * Destructor for GroupsModelPlugin.
    */
-  virtual void writeElements (XMLOutputStream& stream) const;
+  virtual ~GroupsModelPlugin();
 
 
   /**
-   * Checks if this plugin object has all the required elements.
+   * Returns the ListOfGroups from this GroupsModelPlugin.
    *
-   * Subclasses should override this function if they have their specific
-   * elements.
+   * @return the ListOfGroups from this GroupsModelPlugin.
    *
-   * @return true if this pugin object has all the required elements,
-   * otherwise false will be returned.
+   * @see addGroup(const Group* g)
+   * @see createGroup()
+   * @see getGroup(const std::string& sid)
+   * @see getGroup(unsigned int n)
+   * @see getNumGroups()
+   * @see removeGroup(unsigned int n)
+   * @see removeGroup(const std::string& sid)
    */
-  virtual bool hasRequiredElements() const ;
-
-
-  /** ------------------------------------------------------------------
-   *
-   *  Additional public functions
-   *
-   * ------------------------------------------------------------------
-   */
-  
-  /**
-   * Returns the ListOfGroups in this plugin object.
-   *
-   * @return ListOfGroups object in this plugin object.
-   */
-  const ListOfGroups* getListOfGroups () const;
+  const ListOfGroups* getListOfGroups() const;
 
 
   /**
-   * Returns the ListOfGroups in this plugin object.
+   * Returns the ListOfGroups from this GroupsModelPlugin.
    *
-   * @return ListOfGroups object in this plugin object.
+   * @return the ListOfGroups from this GroupsModelPlugin.
+   *
+   * @see addGroup(const Group* g)
+   * @see createGroup()
+   * @see getGroup(const std::string& sid)
+   * @see getGroup(unsigned int n)
+   * @see getNumGroups()
+   * @see removeGroup(unsigned int n)
+   * @see removeGroup(const std::string& sid)
    */
-  ListOfGroups* getListOfGroups ();
+  ListOfGroups* getListOfGroups();
 
 
   /**
-   * Returns the Group object that belongs to the given index. If the
-   * index is invalid, NULL is returned.
+   * Returns the nth Group.
    *
-   * @param n the index number of the Group to get.
+   * @param n an unsigned int representing the index of the Group to retrieve.
    *
-   * @return the nth Group in the ListOfGroups.
+   * @return the nth Group in the ListOfGroups within this GroupsModelPlugin.
+   *
+   * @see addGroup(const Group* g)
+   * @see createGroup()
+   * @see getGroup(const std::string& sid)
+   * @see getGroup(unsigned int n)
+   * @see getNumGroups()
+   * @see removeGroup(unsigned int n)
+   * @see removeGroup(const std::string& sid)
    */
-  const Group* getGroup (unsigned int n) const;
+  Group* getGroup(unsigned int n);
 
 
   /**
-   * Returns the Group object that belongs to the given index. If the
-   * index is invalid, NULL is returned.
+   * Get a Group from the GroupsModelPlugin.
    *
-   * @param n the index number of the Group to get.
+   * @param n an unsigned int representing the index of the Group to retrieve.
    *
-   * @return the nth Group in the ListOfGroups.
+   * @return the nth Group in the ListOfGroups within this GroupsModelPlugin
+   * object.
+   *
+   * @see addGroup(const Group* g)
+   * @see createGroup()
+   * @see getGroup(const std::string& sid)
+   * @see getGroup(unsigned int n)
+   * @see getNumGroups()
+   * @see removeGroup(unsigned int n)
+   * @see removeGroup(const std::string& sid)
    */
-  Group* getGroup (unsigned int n);
+  const Group* getGroup(unsigned int n) const;
 
 
   /**
-   * Returns the group object based on its identifier.
+   * Get a Group from the GroupsModelPlugin based on its identifier.
    *
-   * @param sid a string representing the identifier 
-   * of the Group to get.
-   * 
-   * @return Group in the ListOfGroups with the given id
-   * or NULL if no such Group exists.
+   * @param sid a string representing the identifier of the Group to retrieve.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @return the Group in the ListOfGroups within this GroupsModelPlugin with
+   * the given identifier @p sid, or @c NULL if no such Group exists.
+   *
+   * @see addGroup(const Group* g)
+   * @see createGroup()
+   * @see getGroup(const std::string& sid)
+   * @see getGroup(unsigned int n)
+   * @see getNumGroups()
+   * @see removeGroup(unsigned int n)
+   * @see removeGroup(const std::string& sid)
    */
-  Group* getGroup (const std::string& sid);
+  Group* getGroup(const std::string& sid);
 
 
   /**
-   * Returns the group object based on its identifier.
+   * Get a Group from the GroupsModelPlugin based on its identifier.
    *
-   * @param sid a string representing the identifier 
-   * of the Group to get.
-   * 
-   * @return Group in the ListOfGroups with the given id 
-   * or NULL if no such Group exists.
+   * @param sid a string representing the identifier of the Group to retrieve.
    *
-   * @see get(unsigned int n)
-   * @see size()
+   * @return the Group in the ListOfGroups within this GroupsModelPlugin with
+   * the given identifier @p sid, or @c NULL if no such Group exists.
+   *
+   * @see addGroup(const Group* g)
+   * @see createGroup()
+   * @see getGroup(unsigned int n)
+   * @see getNumGroups()
+   * @see removeGroup(unsigned int n)
+   * @see removeGroup(const std::string& sid)
    */
-  const Group* getGroup (const std::string& sid) const;
-
-  /**
-   * Adds a copy of the given Group object to the list of groups.
-   *
-   * @param group the Group object to be added to the list of groups.
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   */ 
-  int addGroup (const Group* group);
+  const Group* getGroup(const std::string& sid) const;
 
 
   /**
-   * Creates a new groups object and adds it to the list of groups objects
-   * and returns it.
+   * Adds a copy of the given Group to this GroupsModelPlugin.
    *
-   * @return a newly created Group object
+   * @param g the Group object to add.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_LEVEL_MISMATCH, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_VERSION_MISMATCH, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_PKG_VERSION_MISMATCH, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_DUPLICATE_OBJECT_ID, OperationReturnValues_t}
+   *
+   * @copydetails doc_note_object_is_copied
+   *
+   * @see createGroup()
+   * @see getGroup(const std::string& sid)
+   * @see getGroup(unsigned int n)
+   * @see getNumGroups()
+   * @see removeGroup(unsigned int n)
+   * @see removeGroup(const std::string& sid)
+   */
+  int addGroup(const Group* g);
+
+
+  /**
+   * Get the number of Group objects in this GroupsModelPlugin.
+   *
+   * @return the number of Group objects in this GroupsModelPlugin.
+   *
+   * @see createGroup()
+   * @see getGroup(const std::string& sid)
+   * @see getGroup(unsigned int n)
+   * @see removeGroup(unsigned int n)
+   * @see removeGroup(const std::string& sid)
+   */
+  unsigned int getNumGroups() const;
+
+
+  /**
+   * Creates a new Group object
+   *
+   * This method creates a new Group object, adds it to this
+   * GroupsModelPlugin object, and returns the Group object created.
+   *
+   * @return a new Group object instance.
+   *
+   * @see addGroup(const Group* g)
+   * @see getGroup(const std::string& sid)
+   * @see getGroup(unsigned int n)
+   * @see removeGroup(unsigned int n)
+   * @see removeGroup(const std::string& sid)
    */
   Group* createGroup();
 
 
   /**
-   * Removes the nth Group object from this plugin object and
+   * Removes the nth Group.
+   *
+   * This removes the nth Group from this GroupsModelPlugin object and
    * returns a pointer to it.
    *
-   * The caller owns the returned object and is responsible for
-   *  deleting it.
+   * @param n an unsigned int representing the index of the Group to remove.
    *
-   * @param n the index of the Group object to remove
+   * @return a pointer to the nth Group in this GroupsModelPlugin.
    *
-   * @return the Group object removed.  As mentioned above, the 
-   * caller owns the returned object. NULL is returned if the 
-   * given index is out of range.
+   * @note The caller owns the returned object and is responsible for deleting
+   * it.
+   *
+   * @see addGroup(const Group* g)
+   * @see createGroup()
+   * @see getGroup(const std::string& sid)
+   * @see getGroup(unsigned int n)
+   * @see getNumGroups()
+   * @see removeGroup(const std::string& sid)
    */
-  Group* removeGroup (unsigned int n);
+  Group* removeGroup(unsigned int n);
 
 
   /**
-   * Removes the Group object with the given id attribute from 
-   * this plugin object and returns a pointer to it.
+   * Removes the Group from this GroupsModelPlugin based on its identifier.
    *
-   * The caller owns the returned object and is responsible for
-   * deleting it.
+   * This method removes the Group from this GroupsModelPlugin based on its
+   * identifier, and returns a pointer to it.
    *
-   * @param sid the id attribute of the Group object to remove
+   * @param sid a string representing the identifier of the Group to remove.
    *
-   * @return the Group object removed.  As mentioned above, the 
-   * caller owns the returned object. NULL is returned if the 
-   * given index is out of range.
+   * @return the Group in this GroupsModelPlugin based on the identifier, or
+   * @c @c NULL if no such Group exists.
+   *
+   * @note The caller owns the returned object and is responsible for deleting
+   * it.
+   *
+   * @see addGroup(const Group* g)
+   * @see createGroup()
+   * @see getGroup(const std::string& sid)
+   * @see getGroup(unsigned int n)
+   * @see getNumGroups()
    */
-  Group* removeGroup (const std::string& sid);
+  Group* removeGroup(const std::string& sid);
 
-
-  /**
-   * Returns the number of Group object in this plugin object.
-   *
-   * @return the number of Group object in this plugin object.
-   */
-  unsigned int getNumGroups () const;
-
-  // ---------------------------------------------------------
-  //
-  // virtual functions (internal implementation) which should
-  // be overridden by subclasses.
-  //
-  // ---------------------------------------------------------
 
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Sets the parent SBMLDocument of this plugin object.
-   *
-   * Subclasses which contain one or more SBase derived elements must
-   * override this function.
-   *
-   * @param d the SBMLDocument object to use
-   *
-   * @see connectToParent
-   * @see enablePackageInternal
+   * Write any contained elements
    */
-  virtual void setSBMLDocument (SBMLDocument* d);
+  virtual void writeElements(XMLOutputStream& stream) const;
 
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Sets the parent SBML object of this plugin object to
-   * this object and child elements (if any).
-   * (Creates a child-parent relationship by this plugin object)
-   *
-   * This function is called when this object is created by
-   * the parent element.
-   * Subclasses must override this this function if they have one
-   * or more child elements.Also, SBasePlugin::connectToParent()
-   * must be called in the overridden function.
-   *
-   * @param sbase the SBase object to use
-   *
-   * @see setSBMLDocument
-   * @see enablePackageInternal
+   * Accepts the given SBMLVisitor
    */
-  virtual void connectToParent (SBase *sbase);
+  virtual bool accept(SBMLVisitor& v) const;
 
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Enables/Disables the given package with child elements in this plugin
-   * object (if any).
-   * (This is an internal implementation invoked from
-   *  SBase::enablePakcageInternal() function)
-   *
-   * @note Subclasses in which one or more SBase derived elements are
-   * defined must override this function.
-   *
-   * @see setSBMLDocument
-   * @see connectToParent
+   * Sets the parent SBMLDocument
+   */
+  virtual void setSBMLDocument(SBMLDocument* d);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Connects to child elements
+   */
+  virtual void connectToChild();
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Connects to parent element
+   */
+  virtual void connectToParent(SBase* base);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Enables/disables the given package with this element
    */
   virtual void enablePackageInternal(const std::string& pkgURI,
-                                     const std::string& pkgPrefix, bool flag);
-  /** @endcond doxygenLibsbmlInternal */
+                                     const std::string& pkgPrefix,
+                                     bool flag);
+
+  /** @endcond */
+
+
+  /**
+   * Returns the first child element that has the given @p id
+   *
+   * This method searches the model-wide SId namespace for the @p id.
+   *
+   * @param id a string representing the id attribute of the object to
+   * retrieve.
+   *
+   * @return a pointer to the SBase element with the given @p id.  If no such
+   * object is found, this method returns @c NULL.
+   */
+  virtual SBase* getElementBySId(const std::string& id);
+
+
+  /**
+   * Returns the first child element that has the given @p metaid.
+   *
+   * @param metaid a string representing the metaid attribute of the object to
+   * retrieve.
+   *
+   * @return a pointer to the SBase element with the given @p metaid.  If
+   * no such object is found, this method returns @c NULL.
+   */
+  virtual SBase* getElementByMetaId(const std::string& metaid);
+
+
+  /**
+   * Returns a List of all child SBase objects, including those nested to an
+   * arbitrary depth.
+   *
+   * @param filter an ElementFilter that may impose restrictions on the
+   * objects to be retrieved.
+   *
+   * @return a List pointer of pointers to all SBase child objects with any
+   * restriction imposed.
+   */
+  virtual List* getAllElements(ElementFilter * filter = NULL);
+
 
 
   /** @cond doxygenLibsbmlInternal */
 
-  virtual bool accept (SBMLVisitor& v) const;
+  /**
+   * Append items from model (used in comp flattening)
+   *
+   * @param model a pointer to a model object.
+   *
+   */
+  int appendFrom(const Model* model);
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 protected:
+
+
   /** @cond doxygenLibsbmlInternal */
 
-  /*-- data members --*/
+  /**
+   * Creates a new object from the next XMLToken on the XMLInputStream
+   */
+  virtual SBase* createObject(XMLInputStream& stream);
 
-  ListOfGroups mGroups;
+  /** @endcond */
 
-  /** @endcond doxygenLibsbmlInternal */
+
+public:
+
+  /**
+   * For nested groups (Member objects that reference a ListOfMembers 
+   * object), SBO terms, Notes, and Annotation from the
+   * parent ListOfMembers applies to the child.  This function
+   * copies any information from any of those three things to all 
+   * child ListOfMembers, and if that information is not already 
+   * set.  After calling
+   * this function, it is sufficient to check any ListOfMembers
+   * to see if its SBO term, Notes, or Annotation is set, without
+   * further checking to see if that element was nested in another
+   * Group.
+   */
+  virtual void copyInformationToNestedLists();
+
+
 };
+
+
 
 LIBSBML_CPP_NAMESPACE_END
 
-#endif  /* __cplusplus */
-#endif  /* GroupsModelPlugin_h */
+
+
+
+#endif /* __cplusplus */
+
+
+
+
+#endif /* !GroupsModelPlugin_H__ */
 
 

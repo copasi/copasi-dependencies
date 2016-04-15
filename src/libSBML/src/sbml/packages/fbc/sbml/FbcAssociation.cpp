@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -301,7 +301,9 @@ FbcAssociation* toAssociation(const ASTNode* node, FbcModelPlugin* plugin)
     replaceAllSubStrings(name, "__NINE__", "9");
     replaceAllSubStrings(name, "__ZERO__", "0");
 
-    GeneProduct* prod = plugin->getGeneProductByLabel(name);
+    GeneProduct* prod = plugin->getGeneProductByLabel(node->getName());
+    if (prod == NULL)
+        prod = plugin->getGeneProductByLabel(name);
     string id;
     if (prod == NULL)
     {
@@ -986,6 +988,26 @@ ListOfFbcAssociations_removeById(ListOf_t * lo, const char * sid)
     return NULL;
 
   return (sid != NULL) ? static_cast <ListOfFbcAssociations *>(lo)->remove(sid) : NULL;
+}
+
+
+LIBSBML_EXTERN
+char *
+FbcAssociation_toInfix(const FbcAssociation_t * fa)
+{
+  return (fa != NULL) ? safe_strdup(fa->toInfix().c_str()) : NULL;
+}
+
+
+FbcAssociation_t*
+FbcAssociation_parseFbcInfixAssociation(const char * infix, SBasePlugin_t* plugin)
+{
+  if (infix == NULL || plugin == NULL)
+  {
+    return NULL;
+  }
+
+  return FbcAssociation::parseFbcInfixAssociation(infix, static_cast<FbcModelPlugin*>(plugin));
 }
 
 

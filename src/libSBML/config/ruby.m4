@@ -9,7 +9,7 @@ dnl <!-------------------------------------------------------------------------
 dnl This file is part of libSBML.  Please visit http://sbml.org for more
 dnl information about SBML, and the latest version of libSBML.
 dnl
-dnl Copyright (C) 2013-2014 jointly by the following organizations:
+dnl Copyright (C) 2013-2016 jointly by the following organizations:
 dnl     1. California Institute of Technology, Pasadena, CA, USA
 dnl     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 dnl     3. University of Heidelberg, Heidelberg, Germany
@@ -81,6 +81,12 @@ AC_DEFUN([CONFIG_PROG_RUBY],
     RUBY_PREFIX=`$RUBY -rrbconfig -e ["include Config; puts CONFIG['prefix']"]`
     AC_MSG_RESULT($RUBY_PREFIX)
 
+    if test `$RUBY -rrbconfig -e ["puts RUBY_VERSION >= \"2.1.0\" ? \"OK\" : \"OLD\""]` = "OK";
+    then
+      RUBY_ARCHDIR=`$RUBY -rrbconfig -e ["include RbConfig; print \"#{CONFIG['rubyhdrdir']} -I#{CONFIG['rubyarchhdrdir']}\" "]`
+      RUBY_H=`$RUBY -rrbconfig -e ["include RbConfig; print \"#{CONFIG['rubyhdrdir']}\" "]`"/ruby.h"
+      RUBY_INSTALL_DIR=`/usr/bin/ruby -rrbconfig -e 's = File::SEPARATOR; a = RbConfig::CONFIG["archdir"].squeeze(s); b = RbConfig::CONFIG["libdir"].squeeze(s); print a.sub(/^#{b}#{s}ruby/, "/usr/local/lib#{s}ruby#{s}site_ruby")'`
+    else
     if test `$RUBY -rrbconfig -e ["puts RUBY_VERSION >= \"2.0.0\" ? \"OK\" : \"OLD\""]` = "OK";
     then
       RUBY_ARCHDIR=`$RUBY -rrbconfig -e ["include RbConfig; print \"#{CONFIG['rubyhdrdir']} -I#{CONFIG['rubyhdrdir']}/#{CONFIG['arch']}\" "]`
@@ -98,6 +104,7 @@ AC_DEFUN([CONFIG_PROG_RUBY],
       RUBY_INSTALL_DIR=`/usr/bin/ruby -rrbconfig -e 's = File::SEPARATOR; a = Config::CONFIG["archdir"].squeeze(s); b = Config::CONFIG["libdir"].squeeze(s); print a.sub(/^#{b}#{s}ruby/, "/usr/local/lib#{s}ruby#{s}site_ruby")'`
     fi
     fi
+    fi
 
     AC_MSG_CHECKING(for ruby.h)
     if test -z "$RUBY_H" || ! test -f "$RUBY_H"; 
@@ -108,8 +115,17 @@ AC_DEFUN([CONFIG_PROG_RUBY],
     fi
     AC_MSG_RESULT(yes)
 
-    RUBY_LIBDIR=`$RUBY -rrbconfig -e ["include Config; puts CONFIG['libdir']"]` 
+    RUBY_LIBDIR=`$RUBY -rrbconfig -e ["include Config; puts CONFIG['libdir']"]`
+    if test -z "$RUBY_LIBDIR"; 
+    then
+      RUBY_LIBDIR=`$RUBY -rrbconfig -e ["include RbConfig; puts CONFIG['libdir']"]`
+    fi  
     RUBY_NAME=`$RUBY -rrbconfig -e ["include Config; puts CONFIG['RUBY_SO_NAME']"]`
+    if test -z "$RUBY_NAME"; 
+    then
+      RUBY_NAME=`$RUBY -rrbconfig -e ["include RbConfig; puts CONFIG['RUBY_SO_NAME']"]`
+    fi  
+    
 
 
     dnl

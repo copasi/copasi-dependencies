@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -170,6 +170,10 @@ public:
    */
   virtual SBMLUri* resolveUri(const std::string &uri, const std::string& baseUri="") const;
 
+  /**
+   * deletes the static resolver registry instance
+   */
+  static void deleteResolerRegistryInstance();
 
 protected:
 
@@ -185,6 +189,7 @@ protected:
   /** @cond doxygenLibsbmlInternal */
   std::vector<const SBMLResolver*>  mResolvers;
   std::set<const SBMLDocument*>  mOwnedDocuments;
+  static SBMLResolverRegistry* mInstance;
   /** @endcond */
 };
 

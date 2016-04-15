@@ -1,6 +1,6 @@
 /**
  * @file    local.i
- * @brief   Ruby-specific SWIG directives for wrapping libSBML API
+ * @brief   R-specific SWIG directives for wrapping libSBML API
  * @author  Alex Gutteridge
  * @author  Ben Bornstein
  * @author  Akiya Jouraku
@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -172,7 +172,7 @@ namespace std
 /**
  * Convert SBase, SimpleSpeciesReference, and Rule objects into the most specific type possible.
  */
-%typemap(out) SBase*, SimpleSpeciesReference*, Rule*, SBasePlugin*, SBMLExtension*, SBMLNamespaces*, SBMLConverter*
+%typemap(out) SBase*, SimpleSpeciesReference*, Rule*, SBasePlugin*, SBMLExtension*, SBMLNamespaces*, SBMLConverter*, Reaction*
 {
   $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), GetDowncastSwigType($1), $owner | %newpointer_flags);
 }
@@ -351,11 +351,6 @@ XMLCONSTRUCTOR_EXCEPTION(XMLTripple)
   $result = SWIG_NewPointerObj(SWIG_as_voidptr(listw), SWIGTYPE_p_ListWrapperT_Date_t, SWIG_POINTER_OWN |  0 );
 }
 
-%typemap(out) List* SBase::getCVTerms
-{
-  ListWrapper<CVTerm> *listw = ($1 != 0)? new ListWrapper<CVTerm>($1) : 0;
-  $result = SWIG_NewPointerObj(SWIG_as_voidptr(listw), SWIGTYPE_p_ListWrapperT_CVTerm_t, SWIG_POINTER_OWN |  0 );
-}
  
 
 %include "local-packages.i"
@@ -392,13 +387,26 @@ XMLCONSTRUCTOR_EXCEPTION(XMLTripple)
     $result <- new("_p_ListWrapperT_Date_t", ref=$result) ;
  %}
  
- 
-%typemap(scoerceout) List* SBase::getCVTerms
+%define LIST_WRAPPER(_FNAME_,_TYPENAME_)
+%typemap(out) List* _FNAME_
+{
+  ListWrapper<_TYPENAME_> *listw = ($1 != 0)? new ListWrapper<_TYPENAME_>($1) : 0;
+  $result = SWIG_NewPointerObj(SWIG_as_voidptr(listw), SWIGTYPE_p_ListWrapperT_ ## _TYPENAME_ ## _t, SWIG_POINTER_OWN |  0 );
+}
+
+%typemap(scoerceout) List* _FNAME_
 %{ 
    if (length(grep("0x0>",capture.output($result))) > 0 ||
       length(grep("nil",capture.output($result))) > 0)
     {
       return(NULL);
     }
-    $result <- new("_p_ListWrapperT_CVTerm_t", ref=$result) ;
+    $result <- new("_p_ListWrapperT_##_TYPENAME_##_t", ref=$result) ;
  %}
+%enddef
+
+LIST_WRAPPER(SBase::getCVTerms,CVTerm)
+LIST_WRAPPER(SBase::getListOfAllElements,SBase)
+LIST_WRAPPER(SBasePlugin::getListOfAllElements,SBase)
+LIST_WRAPPER(SBase::getListOfAllElementsFromPlugins,SBase)
+

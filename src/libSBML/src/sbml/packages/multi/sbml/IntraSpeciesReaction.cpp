@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -74,13 +74,6 @@ IntraSpeciesReaction::IntraSpeciesReaction (MultiPkgNamespaces* multins)
 IntraSpeciesReaction::IntraSpeciesReaction (const IntraSpeciesReaction& orig)
   : Reaction(orig)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-  }
 }
 
 
@@ -90,11 +83,7 @@ IntraSpeciesReaction::IntraSpeciesReaction (const IntraSpeciesReaction& orig)
 IntraSpeciesReaction&
 IntraSpeciesReaction::operator=(const IntraSpeciesReaction& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     Reaction::operator=(rhs);
   }
@@ -278,7 +267,7 @@ IntraSpeciesReaction::readAttributes (const XMLAttributes& attributes,
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
+        getErrorLog()->logPackageError("multi", MultiIntSpeRec_AllowedAtts,
                        getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
@@ -286,7 +275,7 @@ IntraSpeciesReaction::readAttributes (const XMLAttributes& attributes,
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
+        getErrorLog()->logPackageError("multi", MultiIntSpeRec_AllowedAtts,
                        getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
     }

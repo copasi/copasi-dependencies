@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2014 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -34,9 +34,9 @@
  * @sbmlbrief{fbc} Extension of SBMLDocument for the &ldquo;fbc&rdquo; package.
  *
  * The FbcSBMLDocumentPlugin class inherits from the SBMLDocumentPlugin
- * class, and codifies the extentions to the SBMLDocument class defined in
+ * class, and codifies the extensions to the SBMLDocument class defined in
  * the SBML Level&nbsp;3 @ref fbc (&ldquo;fbc&rdquo;) package.  This
- * extention defines a required flag named "required", which indicates
+ * extension defines a required flag named "required", which indicates
  * whether &ldquo;fbc&rdquo; constructs can be used to change the core
  * mathematical interpretation of the Model defined in the SBML input.  Since
  * &ldquo;fbc&rdquo; constructs cannot, this attribute must be set to the

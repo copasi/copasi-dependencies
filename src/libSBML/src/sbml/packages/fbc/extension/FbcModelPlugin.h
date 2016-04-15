@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -229,7 +229,7 @@ public:
   /** @endcond doxygenLibsbmlInternal */
 
 
-  /**
+  /*
    * Checks if this plugin object has all the required elements.
    *
    * Subclasses must override this method 
@@ -238,7 +238,8 @@ public:
    * @return true if this plugin object has all the required elements
    * otherwise false will be returned.
    */
-  virtual bool hasRequiredElements () const;
+  //virtual bool hasRequiredElements () const;
+
   /** @cond doxygenLibsbmlInternal */
   /**
    * Parses Gene Annotation Extension 
@@ -293,6 +294,9 @@ public:
   /**
    * Returns a List of all child SBase objects, including those nested to an
    * arbitrary depth.
+   *
+   * @param filter an ElementFilter that may impose restrictions on the
+   * objects to be retrieved.
    *
    * @return a List* of pointers to all child objects.
    */
@@ -1028,12 +1032,12 @@ FbcModelPlugin_getFluxBound(SBasePlugin_t * fmp, unsigned int n);
 
 
 /**
- * Returns the number of EventAssignment_t structures attached to the given
+ * Returns the number of FluxBound_t structures attached to the given
  * FbcModelPlugin_t.
  *
  * @param fmp the FbcModelPlugin_t structure to use
  * 
- * @return the number of EventAssignment_t structures in the given FbcModelPlugin_t.
+ * @return the number of FluxBound_t structures in the given FbcModelPlugin_t.
  *
  * @memberof FbcModelPlugin_t
  */
@@ -1129,6 +1133,93 @@ FbcModelPlugin_getActiveObjectiveId(SBasePlugin_t * fmp);
 LIBSBML_EXTERN
 int
 FbcModelPlugin_setActiveObjectiveId(SBasePlugin_t * fmp, const char * activeObjective);
+
+
+/**
+ * Appends a copy of the given GeneProduct_t structure to the given FbcModelPlugin_t
+ * structure.
+ *
+ * @param fmp the FbcModelPlugin_t structure to which the GeneProduct_t should be
+ * added
+ *
+ * @param fb a GeneProduct_t structure to add
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_LEVEL_MISMATCH, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_VERSION_MISMATCH, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_PKG_VERSION_MISMATCH, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_DUPLICATE_OBJECT_ID, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ *
+ * @memberof FbcModelPlugin_t
+ */
+LIBSBML_EXTERN
+int
+FbcModelPlugin_addGeneProduct(SBasePlugin_t * fmp, GeneProduct_t * fb);
+
+
+/**
+ * Return a specific GeneProduct_t structure of the given FbcModelPlugin_t.
+ *
+ * @param fmp the FbcModelPlugin_t structure to use
+ *
+ * @param n an integer, the index of the GeneProduct_t structure to return
+ * 
+ * @return the nth GeneProduct_t of the given FbcModelPlugin_t, or @c NULL if no such GeneProduct_t exists.
+ *
+ * @memberof FbcModelPlugin_t
+ */
+LIBSBML_EXTERN
+GeneProduct_t *
+FbcModelPlugin_getGeneProduct(SBasePlugin_t * fmp, unsigned int n);
+
+
+/**
+ * Returns the number of GeneProduct_t structures attached to the given
+ * FbcModelPlugin_t.
+ *
+ * @param fmp the GeneProduct_t structure to use
+ * 
+ * @return the number of EventAssignment_t structures in the given FbcModelPlugin_t.
+ *
+ * @memberof FbcModelPlugin_t
+ */
+LIBSBML_EXTERN
+unsigned int
+FbcModelPlugin_getNumGeneProducts(SBasePlugin_t * fmp);
+
+
+/**
+ * Takes a FbcModelPlugin_t structure and returns the value of the strict attribute.
+ *
+ * @param fmp the FbcModelPlugin_t whose 'strict' attribute is sought.
+ *
+ * @return the id of the current activeObjective of the given FbcModelPlugin_t, as a pointer to a string.
+ *
+ * @memberof FbcModelPlugin_t
+ */
+LIBSBML_EXTERN
+int
+FbcModelPlugin_getStrict(SBasePlugin_t * fmp);
+
+
+/**
+ * Sets the strict attribute of the given FbcModelPlugin_t.
+ *
+ * @param fmp the FbcModelPlugin_t structure to set
+ * @param activeObjective the activeObjective to assign to the given FbcModelPlugin_t's "activeObjective" attribute.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ *
+ * @memberof FbcModelPlugin_t
+ */
+LIBSBML_EXTERN
+int
+FbcModelPlugin_setStrict(SBasePlugin_t * fmp, int strict);
+
 
 END_C_DECLS
 LIBSBML_CPP_NAMESPACE_END

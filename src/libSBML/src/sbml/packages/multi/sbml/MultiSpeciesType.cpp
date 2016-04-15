@@ -28,6 +28,7 @@
 
 
 #include <sbml/packages/multi/sbml/MultiSpeciesType.h>
+#include <sbml/packages/multi/sbml/BindingSiteSpeciesType.h>
 #include <sbml/packages/multi/validator/MultiSBMLError.h>
 
 #include <sbml/util/ElementFilter.h>
@@ -47,10 +48,10 @@ MultiSpeciesType::MultiSpeciesType (unsigned int level, unsigned int version, un
    ,mId ("")
    ,mName ("")
    ,mCompartment ("")
-   ,mSpeciesFeatureTypes (level, version, pkgVersion)
-   ,mSpeciesTypeInstances (level, version, pkgVersion)
-   ,mSpeciesTypeComponentIndexes (level, version, pkgVersion)
-   ,mInSpeciesTypeBonds (level, version, pkgVersion)
+   ,mListOfSpeciesFeatureTypes (level, version, pkgVersion)
+   ,mListOfSpeciesTypeInstances (level, version, pkgVersion)
+   ,mListOfSpeciesTypeComponentIndexes (level, version, pkgVersion)
+   ,mListOfInSpeciesTypeBonds (level, version, pkgVersion)
 {
   // set an SBMLNamespaces derived object of this package
   setSBMLNamespacesAndOwn(new MultiPkgNamespaces(level, version, pkgVersion));
@@ -68,10 +69,10 @@ MultiSpeciesType::MultiSpeciesType (MultiPkgNamespaces* multins)
    ,mId ("")
    ,mName ("")
    ,mCompartment ("")
-   ,mSpeciesFeatureTypes (multins)
-   ,mSpeciesTypeInstances (multins)
-   ,mSpeciesTypeComponentIndexes (multins)
-   ,mInSpeciesTypeBonds (multins)
+   ,mListOfSpeciesFeatureTypes (multins)
+   ,mListOfSpeciesTypeInstances (multins)
+   ,mListOfSpeciesTypeComponentIndexes (multins)
+   ,mListOfInSpeciesTypeBonds (multins)
 {
   // set the element namespace of this object
   setElementNamespace(multins->getURI());
@@ -89,24 +90,16 @@ MultiSpeciesType::MultiSpeciesType (MultiPkgNamespaces* multins)
  */
 MultiSpeciesType::MultiSpeciesType (const MultiSpeciesType& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mName  ( orig.mName)
+  , mCompartment  ( orig.mCompartment)
+  ,mListOfSpeciesFeatureTypes (orig.mListOfSpeciesFeatureTypes)
+  ,mListOfSpeciesTypeInstances (orig.mListOfSpeciesTypeInstances)
+   ,mListOfSpeciesTypeComponentIndexes (orig.mListOfSpeciesTypeComponentIndexes)
+   ,mListOfInSpeciesTypeBonds (orig.mListOfInSpeciesTypeBonds)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mName  = orig.mName;
-    mCompartment  = orig.mCompartment;
-    mSpeciesFeatureTypes  = orig.mSpeciesFeatureTypes;
-    mSpeciesTypeInstances  = orig.mSpeciesTypeInstances;
-    mSpeciesTypeComponentIndexes  = orig.mSpeciesTypeComponentIndexes;
-    mInSpeciesTypeBonds  = orig.mInSpeciesTypeBonds;
-
-    // connect to child objects
-    connectToChild();
-  }
+  // connect to child objects
+  connectToChild();
 }
 
 
@@ -116,20 +109,16 @@ MultiSpeciesType::MultiSpeciesType (const MultiSpeciesType& orig)
 MultiSpeciesType&
 MultiSpeciesType::operator=(const MultiSpeciesType& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
     mName  = rhs.mName;
     mCompartment  = rhs.mCompartment;
-    mSpeciesFeatureTypes  = rhs.mSpeciesFeatureTypes;
-    mSpeciesTypeInstances  = rhs.mSpeciesTypeInstances;
-    mSpeciesTypeComponentIndexes  = rhs.mSpeciesTypeComponentIndexes;
-    mInSpeciesTypeBonds  = rhs.mInSpeciesTypeBonds;
+    mListOfSpeciesFeatureTypes  = rhs.mListOfSpeciesFeatureTypes;
+    mListOfSpeciesTypeInstances  = rhs.mListOfSpeciesTypeInstances;
+    mListOfSpeciesTypeComponentIndexes  = rhs.mListOfSpeciesTypeComponentIndexes;
+    mListOfInSpeciesTypeBonds  = rhs.mListOfInSpeciesTypeBonds;
 
     // connect to child objects
     connectToChild();
@@ -236,15 +225,8 @@ MultiSpeciesType::setId(const std::string& id)
 int
 MultiSpeciesType::setName(const std::string& name)
 {
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
-  {
-    mName = name;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -256,11 +238,7 @@ MultiSpeciesType::setName(const std::string& name)
 int
 MultiSpeciesType::setCompartment(const std::string& compartment)
 {
-  if (&(compartment) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(compartment)))
+  if (!(SyntaxChecker::isValidInternalSId(compartment)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -337,7 +315,7 @@ MultiSpeciesType::unsetCompartment()
 const ListOfSpeciesFeatureTypes*
 MultiSpeciesType::getListOfSpeciesFeatureTypes() const
 {
-  return &mSpeciesFeatureTypes;
+  return &mListOfSpeciesFeatureTypes;
 }
 
 
@@ -347,7 +325,7 @@ MultiSpeciesType::getListOfSpeciesFeatureTypes() const
 ListOfSpeciesFeatureTypes*
 MultiSpeciesType::getListOfSpeciesFeatureTypes()
 {
-  return &mSpeciesFeatureTypes;
+  return &mListOfSpeciesFeatureTypes;
 }
 
 
@@ -357,7 +335,7 @@ MultiSpeciesType::getListOfSpeciesFeatureTypes()
 SpeciesFeatureType*
 MultiSpeciesType::removeSpeciesFeatureType(unsigned int n)
 {
-  return mSpeciesFeatureTypes.remove(n);
+  return mListOfSpeciesFeatureTypes.remove(n);
 }
 
 
@@ -367,7 +345,7 @@ MultiSpeciesType::removeSpeciesFeatureType(unsigned int n)
 SpeciesFeatureType*
 MultiSpeciesType::removeSpeciesFeatureType(const std::string& sid)
 {
-  return mSpeciesFeatureTypes.remove(sid);
+  return mListOfSpeciesFeatureTypes.remove(sid);
 }
 
 
@@ -377,7 +355,7 @@ MultiSpeciesType::removeSpeciesFeatureType(const std::string& sid)
 SpeciesFeatureType*
 MultiSpeciesType::getSpeciesFeatureType(unsigned int n)
 {
-  return mSpeciesFeatureTypes.get(n);
+  return mListOfSpeciesFeatureTypes.get(n);
 }
 
 
@@ -387,7 +365,7 @@ MultiSpeciesType::getSpeciesFeatureType(unsigned int n)
 const SpeciesFeatureType*
 MultiSpeciesType::getSpeciesFeatureType(unsigned int n) const
 {
-  return mSpeciesFeatureTypes.get(n);
+  return mListOfSpeciesFeatureTypes.get(n);
 }
 
 
@@ -397,7 +375,7 @@ MultiSpeciesType::getSpeciesFeatureType(unsigned int n) const
 SpeciesFeatureType*
 MultiSpeciesType::getSpeciesFeatureType(const std::string& sid)
 {
-  return mSpeciesFeatureTypes.get(sid);
+  return mListOfSpeciesFeatureTypes.get(sid);
 }
 
 
@@ -407,7 +385,7 @@ MultiSpeciesType::getSpeciesFeatureType(const std::string& sid)
 const SpeciesFeatureType*
 MultiSpeciesType::getSpeciesFeatureType(const std::string& sid) const
 {
-  return mSpeciesFeatureTypes.get(sid);
+  return mListOfSpeciesFeatureTypes.get(sid);
 }
 
 
@@ -439,7 +417,7 @@ MultiSpeciesType::addSpeciesFeatureType(const SpeciesFeatureType* sft)
   }
   else
   {
-    mSpeciesFeatureTypes.append(sft);
+    mListOfSpeciesFeatureTypes.append(sft);
 
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -452,7 +430,7 @@ MultiSpeciesType::addSpeciesFeatureType(const SpeciesFeatureType* sft)
 unsigned int
 MultiSpeciesType::getNumSpeciesFeatureTypes() const
 {
-  return mSpeciesFeatureTypes.size();
+  return mListOfSpeciesFeatureTypes.size();
 }
 
 
@@ -481,7 +459,7 @@ MultiSpeciesType::createSpeciesFeatureType()
 
   if(sft != NULL)
   {
-    mSpeciesFeatureTypes.appendAndOwn(sft);
+    mListOfSpeciesFeatureTypes.appendAndOwn(sft);
   }
 
   return sft;
@@ -494,7 +472,7 @@ MultiSpeciesType::createSpeciesFeatureType()
 const ListOfSpeciesTypeInstances*
 MultiSpeciesType::getListOfSpeciesTypeInstances() const
 {
-  return &mSpeciesTypeInstances;
+  return &mListOfSpeciesTypeInstances;
 }
 
 
@@ -504,7 +482,7 @@ MultiSpeciesType::getListOfSpeciesTypeInstances() const
 ListOfSpeciesTypeInstances*
 MultiSpeciesType::getListOfSpeciesTypeInstances()
 {
-  return &mSpeciesTypeInstances;
+  return &mListOfSpeciesTypeInstances;
 }
 
 
@@ -514,7 +492,7 @@ MultiSpeciesType::getListOfSpeciesTypeInstances()
 SpeciesTypeInstance*
 MultiSpeciesType::removeSpeciesTypeInstance(unsigned int n)
 {
-  return mSpeciesTypeInstances.remove(n);
+  return mListOfSpeciesTypeInstances.remove(n);
 }
 
 
@@ -524,7 +502,7 @@ MultiSpeciesType::removeSpeciesTypeInstance(unsigned int n)
 SpeciesTypeInstance*
 MultiSpeciesType::removeSpeciesTypeInstance(const std::string& sid)
 {
-  return mSpeciesTypeInstances.remove(sid);
+  return mListOfSpeciesTypeInstances.remove(sid);
 }
 
 
@@ -534,7 +512,7 @@ MultiSpeciesType::removeSpeciesTypeInstance(const std::string& sid)
 SpeciesTypeInstance*
 MultiSpeciesType::getSpeciesTypeInstance(unsigned int n)
 {
-  return mSpeciesTypeInstances.get(n);
+  return mListOfSpeciesTypeInstances.get(n);
 }
 
 
@@ -544,7 +522,7 @@ MultiSpeciesType::getSpeciesTypeInstance(unsigned int n)
 const SpeciesTypeInstance*
 MultiSpeciesType::getSpeciesTypeInstance(unsigned int n) const
 {
-  return mSpeciesTypeInstances.get(n);
+  return mListOfSpeciesTypeInstances.get(n);
 }
 
 
@@ -554,7 +532,7 @@ MultiSpeciesType::getSpeciesTypeInstance(unsigned int n) const
 SpeciesTypeInstance*
 MultiSpeciesType::getSpeciesTypeInstance(const std::string& sid)
 {
-  return mSpeciesTypeInstances.get(sid);
+  return mListOfSpeciesTypeInstances.get(sid);
 }
 
 
@@ -564,7 +542,7 @@ MultiSpeciesType::getSpeciesTypeInstance(const std::string& sid)
 const SpeciesTypeInstance*
 MultiSpeciesType::getSpeciesTypeInstance(const std::string& sid) const
 {
-  return mSpeciesTypeInstances.get(sid);
+  return mListOfSpeciesTypeInstances.get(sid);
 }
 
 
@@ -596,7 +574,7 @@ MultiSpeciesType::addSpeciesTypeInstance(const SpeciesTypeInstance* sti)
   }
   else
   {
-    mSpeciesTypeInstances.append(sti);
+    mListOfSpeciesTypeInstances.append(sti);
 
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -609,7 +587,7 @@ MultiSpeciesType::addSpeciesTypeInstance(const SpeciesTypeInstance* sti)
 unsigned int
 MultiSpeciesType::getNumSpeciesTypeInstances() const
 {
-  return mSpeciesTypeInstances.size();
+  return mListOfSpeciesTypeInstances.size();
 }
 
 
@@ -638,7 +616,7 @@ MultiSpeciesType::createSpeciesTypeInstance()
 
   if(sti != NULL)
   {
-    mSpeciesTypeInstances.appendAndOwn(sti);
+    mListOfSpeciesTypeInstances.appendAndOwn(sti);
   }
 
   return sti;
@@ -651,7 +629,7 @@ MultiSpeciesType::createSpeciesTypeInstance()
 const ListOfSpeciesTypeComponentIndexes*
 MultiSpeciesType::getListOfSpeciesTypeComponentIndexes() const
 {
-  return &mSpeciesTypeComponentIndexes;
+  return &mListOfSpeciesTypeComponentIndexes;
 }
 
 
@@ -661,7 +639,7 @@ MultiSpeciesType::getListOfSpeciesTypeComponentIndexes() const
 ListOfSpeciesTypeComponentIndexes*
 MultiSpeciesType::getListOfSpeciesTypeComponentIndexes()
 {
-  return &mSpeciesTypeComponentIndexes;
+  return &mListOfSpeciesTypeComponentIndexes;
 }
 
 
@@ -671,7 +649,7 @@ MultiSpeciesType::getListOfSpeciesTypeComponentIndexes()
 SpeciesTypeComponentIndex*
 MultiSpeciesType::removeSpeciesTypeComponentIndex(unsigned int n)
 {
-  return mSpeciesTypeComponentIndexes.remove(n);
+  return mListOfSpeciesTypeComponentIndexes.remove(n);
 }
 
 
@@ -681,7 +659,7 @@ MultiSpeciesType::removeSpeciesTypeComponentIndex(unsigned int n)
 SpeciesTypeComponentIndex*
 MultiSpeciesType::removeSpeciesTypeComponentIndex(const std::string& sid)
 {
-  return mSpeciesTypeComponentIndexes.remove(sid);
+  return mListOfSpeciesTypeComponentIndexes.remove(sid);
 }
 
 
@@ -691,7 +669,7 @@ MultiSpeciesType::removeSpeciesTypeComponentIndex(const std::string& sid)
 SpeciesTypeComponentIndex*
 MultiSpeciesType::getSpeciesTypeComponentIndex(unsigned int n)
 {
-  return mSpeciesTypeComponentIndexes.get(n);
+  return mListOfSpeciesTypeComponentIndexes.get(n);
 }
 
 
@@ -701,7 +679,7 @@ MultiSpeciesType::getSpeciesTypeComponentIndex(unsigned int n)
 const SpeciesTypeComponentIndex*
 MultiSpeciesType::getSpeciesTypeComponentIndex(unsigned int n) const
 {
-  return mSpeciesTypeComponentIndexes.get(n);
+  return mListOfSpeciesTypeComponentIndexes.get(n);
 }
 
 
@@ -711,7 +689,7 @@ MultiSpeciesType::getSpeciesTypeComponentIndex(unsigned int n) const
 SpeciesTypeComponentIndex*
 MultiSpeciesType::getSpeciesTypeComponentIndex(const std::string& sid)
 {
-  return mSpeciesTypeComponentIndexes.get(sid);
+  return mListOfSpeciesTypeComponentIndexes.get(sid);
 }
 
 
@@ -721,7 +699,7 @@ MultiSpeciesType::getSpeciesTypeComponentIndex(const std::string& sid)
 const SpeciesTypeComponentIndex*
 MultiSpeciesType::getSpeciesTypeComponentIndex(const std::string& sid) const
 {
-  return mSpeciesTypeComponentIndexes.get(sid);
+  return mListOfSpeciesTypeComponentIndexes.get(sid);
 }
 
 
@@ -753,7 +731,7 @@ MultiSpeciesType::addSpeciesTypeComponentIndex(const SpeciesTypeComponentIndex* 
   }
   else
   {
-    mSpeciesTypeComponentIndexes.append(stci);
+    mListOfSpeciesTypeComponentIndexes.append(stci);
 
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -766,7 +744,7 @@ MultiSpeciesType::addSpeciesTypeComponentIndex(const SpeciesTypeComponentIndex* 
 unsigned int
 MultiSpeciesType::getNumSpeciesTypeComponentIndexes() const
 {
-  return mSpeciesTypeComponentIndexes.size();
+  return mListOfSpeciesTypeComponentIndexes.size();
 }
 
 
@@ -795,7 +773,7 @@ MultiSpeciesType::createSpeciesTypeComponentIndex()
 
   if(stci != NULL)
   {
-    mSpeciesTypeComponentIndexes.appendAndOwn(stci);
+    mListOfSpeciesTypeComponentIndexes.appendAndOwn(stci);
   }
 
   return stci;
@@ -808,7 +786,7 @@ MultiSpeciesType::createSpeciesTypeComponentIndex()
 const ListOfInSpeciesTypeBonds*
 MultiSpeciesType::getListOfInSpeciesTypeBonds() const
 {
-  return &mInSpeciesTypeBonds;
+  return &mListOfInSpeciesTypeBonds;
 }
 
 
@@ -818,7 +796,7 @@ MultiSpeciesType::getListOfInSpeciesTypeBonds() const
 ListOfInSpeciesTypeBonds*
 MultiSpeciesType::getListOfInSpeciesTypeBonds()
 {
-  return &mInSpeciesTypeBonds;
+  return &mListOfInSpeciesTypeBonds;
 }
 
 
@@ -828,7 +806,7 @@ MultiSpeciesType::getListOfInSpeciesTypeBonds()
 InSpeciesTypeBond*
 MultiSpeciesType::removeInSpeciesTypeBond(unsigned int n)
 {
-  return mInSpeciesTypeBonds.remove(n);
+  return mListOfInSpeciesTypeBonds.remove(n);
 }
 
 
@@ -838,7 +816,7 @@ MultiSpeciesType::removeInSpeciesTypeBond(unsigned int n)
 InSpeciesTypeBond*
 MultiSpeciesType::removeInSpeciesTypeBond(const std::string& sid)
 {
-  return mInSpeciesTypeBonds.remove(sid);
+  return mListOfInSpeciesTypeBonds.remove(sid);
 }
 
 
@@ -848,7 +826,7 @@ MultiSpeciesType::removeInSpeciesTypeBond(const std::string& sid)
 InSpeciesTypeBond*
 MultiSpeciesType::getInSpeciesTypeBond(unsigned int n)
 {
-  return mInSpeciesTypeBonds.get(n);
+  return mListOfInSpeciesTypeBonds.get(n);
 }
 
 
@@ -858,7 +836,7 @@ MultiSpeciesType::getInSpeciesTypeBond(unsigned int n)
 const InSpeciesTypeBond*
 MultiSpeciesType::getInSpeciesTypeBond(unsigned int n) const
 {
-  return mInSpeciesTypeBonds.get(n);
+  return mListOfInSpeciesTypeBonds.get(n);
 }
 
 
@@ -868,7 +846,7 @@ MultiSpeciesType::getInSpeciesTypeBond(unsigned int n) const
 InSpeciesTypeBond*
 MultiSpeciesType::getInSpeciesTypeBond(const std::string& sid)
 {
-  return mInSpeciesTypeBonds.get(sid);
+  return mListOfInSpeciesTypeBonds.get(sid);
 }
 
 
@@ -878,7 +856,7 @@ MultiSpeciesType::getInSpeciesTypeBond(const std::string& sid)
 const InSpeciesTypeBond*
 MultiSpeciesType::getInSpeciesTypeBond(const std::string& sid) const
 {
-  return mInSpeciesTypeBonds.get(sid);
+  return mListOfInSpeciesTypeBonds.get(sid);
 }
 
 
@@ -910,7 +888,7 @@ MultiSpeciesType::addInSpeciesTypeBond(const InSpeciesTypeBond* istb)
   }
   else
   {
-    mInSpeciesTypeBonds.append(istb);
+    mListOfInSpeciesTypeBonds.append(istb);
 
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -923,7 +901,7 @@ MultiSpeciesType::addInSpeciesTypeBond(const InSpeciesTypeBond* istb)
 unsigned int
 MultiSpeciesType::getNumInSpeciesTypeBonds() const
 {
-  return mInSpeciesTypeBonds.size();
+  return mListOfInSpeciesTypeBonds.size();
 }
 
 
@@ -952,7 +930,7 @@ MultiSpeciesType::createInSpeciesTypeBond()
 
   if(istb != NULL)
   {
-    mInSpeciesTypeBonds.appendAndOwn(istb);
+    mListOfInSpeciesTypeBonds.appendAndOwn(istb);
   }
 
   return istb;
@@ -965,6 +943,7 @@ MultiSpeciesType::createInSpeciesTypeBond()
 void
 MultiSpeciesType::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetCompartment() == true && mCompartment == oldid)
   {
     setCompartment(newid);
@@ -979,10 +958,10 @@ MultiSpeciesType::getAllElements(ElementFilter* filter)
   List* ret = new List();
   List* sublist = NULL;
 
-  ADD_FILTERED_LIST(ret, sublist, mSpeciesFeatureTypes, filter);
-  ADD_FILTERED_LIST(ret, sublist, mSpeciesTypeInstances, filter);
-  ADD_FILTERED_LIST(ret, sublist, mSpeciesTypeComponentIndexes, filter);
-  ADD_FILTERED_LIST(ret, sublist, mInSpeciesTypeBonds, filter);
+  ADD_FILTERED_LIST(ret, sublist, mListOfSpeciesFeatureTypes, filter);
+  ADD_FILTERED_LIST(ret, sublist, mListOfSpeciesTypeInstances, filter);
+  ADD_FILTERED_LIST(ret, sublist, mListOfSpeciesTypeComponentIndexes, filter);
+  ADD_FILTERED_LIST(ret, sublist, mListOfInSpeciesTypeBonds, filter);
 
   ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
 
@@ -1051,22 +1030,22 @@ MultiSpeciesType::writeElements (XMLOutputStream& stream) const
 
   if (getNumSpeciesFeatureTypes() > 0)
   {
-    mSpeciesFeatureTypes.write(stream);
+    mListOfSpeciesFeatureTypes.write(stream);
   }
 
   if (getNumSpeciesTypeInstances() > 0)
   {
-    mSpeciesTypeInstances.write(stream);
+    mListOfSpeciesTypeInstances.write(stream);
   }
 
   if (getNumSpeciesTypeComponentIndexes() > 0)
   {
-    mSpeciesTypeComponentIndexes.write(stream);
+    mListOfSpeciesTypeComponentIndexes.write(stream);
   }
 
   if (getNumInSpeciesTypeBonds() > 0)
   {
-    mInSpeciesTypeBonds.write(stream);
+    mListOfInSpeciesTypeBonds.write(stream);
   }
 
   SBase::writeExtensionElements(stream);
@@ -1086,9 +1065,29 @@ MultiSpeciesType::accept (SBMLVisitor& v) const
 {
   v.visit(*this);
 
-/* VISIT CHILDREN */
+  // SpeciesFeatureType
+  for(unsigned int i = 0; i < getNumSpeciesFeatureTypes(); i++)
+  {
+    getSpeciesFeatureType(i)->accept(v);
+  }
 
-  v.leave(*this);
+  // SpeciesTypeInstance
+  for(unsigned int i = 0; i < getNumSpeciesTypeInstances(); i++)
+  {
+    getSpeciesTypeInstance(i)->accept(v);
+  }
+
+  // SpeciesTypeComponentIndex
+  for(unsigned int i = 0; i < getNumSpeciesTypeComponentIndexes(); i++)
+  {
+    getSpeciesTypeComponentIndex(i)->accept(v);
+  }
+
+  // InSpeciesTypeBond
+  for(unsigned int i = 0; i < getNumInSpeciesTypeBonds(); i++)
+  {
+    getInSpeciesTypeBond(i)->accept(v);
+  }
 
   return true;
 }
@@ -1106,10 +1105,10 @@ void
 MultiSpeciesType::setSBMLDocument (SBMLDocument* d)
 {
   SBase::setSBMLDocument(d);
-  mSpeciesFeatureTypes.setSBMLDocument(d);
-  mSpeciesTypeInstances.setSBMLDocument(d);
-  mSpeciesTypeComponentIndexes.setSBMLDocument(d);
-  mInSpeciesTypeBonds.setSBMLDocument(d);
+  mListOfSpeciesFeatureTypes.setSBMLDocument(d);
+  mListOfSpeciesTypeInstances.setSBMLDocument(d);
+  mListOfSpeciesTypeComponentIndexes.setSBMLDocument(d);
+  mListOfInSpeciesTypeBonds.setSBMLDocument(d);
 }
 
 
@@ -1124,10 +1123,10 @@ MultiSpeciesType::setSBMLDocument (SBMLDocument* d)
 void
 MultiSpeciesType::connectToChild()
 {
-  mSpeciesFeatureTypes.connectToParent(this);
-  mSpeciesTypeInstances.connectToParent(this);
-  mSpeciesTypeComponentIndexes.connectToParent(this);
-  mInSpeciesTypeBonds.connectToParent(this);
+  mListOfSpeciesFeatureTypes.connectToParent(this);
+  mListOfSpeciesTypeInstances.connectToParent(this);
+  mListOfSpeciesTypeComponentIndexes.connectToParent(this);
+  mListOfInSpeciesTypeBonds.connectToParent(this);
 }
 
 
@@ -1144,10 +1143,10 @@ MultiSpeciesType::enablePackageInternal(const std::string& pkgURI,
              const std::string& pkgPrefix, bool flag)
 {
   SBase::enablePackageInternal(pkgURI, pkgPrefix, flag);
-  mSpeciesFeatureTypes.enablePackageInternal(pkgURI, pkgPrefix, flag);
-  mSpeciesTypeInstances.enablePackageInternal(pkgURI, pkgPrefix, flag);
-  mSpeciesTypeComponentIndexes.enablePackageInternal(pkgURI, pkgPrefix, flag);
-  mInSpeciesTypeBonds.enablePackageInternal(pkgURI, pkgPrefix, flag);
+  mListOfSpeciesFeatureTypes.enablePackageInternal(pkgURI, pkgPrefix, flag);
+  mListOfSpeciesTypeInstances.enablePackageInternal(pkgURI, pkgPrefix, flag);
+  mListOfSpeciesTypeComponentIndexes.enablePackageInternal(pkgURI, pkgPrefix, flag);
+  mListOfInSpeciesTypeBonds.enablePackageInternal(pkgURI, pkgPrefix, flag);
 }
 
 
@@ -1162,29 +1161,111 @@ MultiSpeciesType::enablePackageInternal(const std::string& pkgURI,
 SBase*
 MultiSpeciesType::createObject(XMLInputStream& stream)
 {
-  const string& name = stream.peek().getName();
   SBase* object = NULL;
 
-  MULTI_CREATE_NS(multins, getSBMLNamespaces());
+  const std::string& name = stream.peek().getName();
+  const XMLNamespaces& xmlns = stream.peek().getNamespaces();
+  std::string prefix(stream.peek().getPrefix());
 
-  if (name == "listOfSpeciesFeatureTypes")
-  {
-    object = &mSpeciesFeatureTypes;
-  }
-  else if (name == "listOfSpeciesTypeInstances")
-  {
-    object = &mSpeciesTypeInstances;
-  }
-  else if (name == "listOfSpeciesTypeComponentIndexes")
-  {
-    object = &mSpeciesTypeComponentIndexes;
-  }
-  else if (name == "listOfInSpeciesTypeBonds")
-  {
-    object = &mInSpeciesTypeBonds;
-  }
+  const std::string& targetPrefix =
+      (xmlns.hasURI(mURI)) ? xmlns.getPrefix(mURI) : getPrefix();
 
-  delete multins;
+  if (prefix == targetPrefix)
+    {
+      MULTI_CREATE_NS(multins, getSBMLNamespaces());
+      if (!targetPrefix.empty()) {
+          prefix += ":";
+      }
+
+      if (name == "listOfSpeciesFeatureTypes")
+        {
+          if (mListOfSpeciesFeatureTypes.size() > 0)
+            {
+              getErrorLog()->logPackageError("multi", MultiLofSpeFtrTyps_onlyOne,
+                  getPackageVersion(), getLevel(), getVersion(),
+                  "<" + prefix + "speciesType> may only have one <" + prefix
+                      + "listOfSpeciesFeatureTypes>",
+                      stream.peek().getLine(),
+                      stream.peek().getColumn());
+            }
+          else {
+              object = &mListOfSpeciesFeatureTypes;
+
+              if (targetPrefix.empty() == true)
+                {
+                  mListOfSpeciesFeatureTypes.getSBMLDocument()->enableDefaultNS(mURI,
+                      true);
+                }
+          }
+        }
+      else if (name == "listOfSpeciesTypeInstances")
+        {
+          if (mListOfSpeciesTypeInstances.size() > 0)
+            {
+              getErrorLog()->logPackageError("multi", MultiLofSptInss_onlyOne,
+                  getPackageVersion(), getLevel(), getVersion(),
+                  "<" + prefix + "speciesType> may only have one <" + prefix
+                      + "listOfSpeciesTypeInstances>",
+                      stream.peek().getLine(),
+                      stream.peek().getColumn());
+            }
+          else {
+              object = &mListOfSpeciesTypeInstances;
+
+              if (targetPrefix.empty() == true)
+                {
+                  mListOfSpeciesTypeInstances.getSBMLDocument()->enableDefaultNS(mURI,
+                      true);
+                }
+          }
+        }
+      else if (name == "listOfSpeciesTypeComponentIndexes")
+        {
+          if (mListOfSpeciesTypeComponentIndexes.size() > 0)
+            {
+              getErrorLog()->logPackageError("multi", MultiLofSptCpoInds_onlyOne,
+                  getPackageVersion(), getLevel(), getVersion(),
+                  "<" + prefix + "speciesType> may only have one <" + prefix
+                      + "listOfSpeciesTypeComponentIndexes>",
+                      stream.peek().getLine(),
+                      stream.peek().getColumn());
+            }
+          else {
+              object = &mListOfSpeciesTypeComponentIndexes;
+
+              if (targetPrefix.empty() == true)
+                {
+                  mListOfSpeciesTypeComponentIndexes.getSBMLDocument()->enableDefaultNS(mURI,
+                      true);
+                }
+          }
+        }
+      else if (name == "listOfInSpeciesTypeBonds")
+        {
+          if (mListOfInSpeciesTypeBonds.size() > 0)
+            {
+              getErrorLog()->logPackageError("multi", MultiLofInSptBnds_onlyOne,
+                  getPackageVersion(), getLevel(), getVersion(),
+                  "<" + prefix + "speciesType> may only have one <" + prefix
+                      + "listOfInSpeciesTypeBonds>",
+                      stream.peek().getLine(),
+                      stream.peek().getColumn());
+            }
+          else {
+              object = &mListOfInSpeciesTypeBonds;
+
+              if (targetPrefix.empty() == true)
+                {
+                  mListOfInSpeciesTypeBonds.getSBMLDocument()->enableDefaultNS(mURI,
+                      true);
+                }
+          }
+          object = &mListOfInSpeciesTypeBonds;
+        }
+
+      delete multins;
+    }
+
   return object;
 }
 
@@ -1241,16 +1322,18 @@ MultiSpeciesType::readAttributes (const XMLAttributes& attributes,
         const std::string details =
               getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofStps_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  getLine(), getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                    getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofStps_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  getLine(), getColumn());
       }
     }
   }
@@ -1268,7 +1351,7 @@ MultiSpeciesType::readAttributes (const XMLAttributes& attributes,
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
+        getErrorLog()->logPackageError("multi", MultiSpt_AllowedMultiAtts,
                        getPackageVersion(), sbmlLevel, sbmlVersion, details);
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
@@ -1276,7 +1359,7 @@ MultiSpeciesType::readAttributes (const XMLAttributes& attributes,
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
+        getErrorLog()->logPackageError("multi", MultiSpt_AllowedCoreAtts,
                        getPackageVersion(), sbmlLevel, sbmlVersion, details);
       }
     }
@@ -1299,14 +1382,16 @@ MultiSpeciesType::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mId) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute id='" + mId + "' does not conform.");
+        std::string details = "The syntax of the attribute id='" + mId + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
   else
   {
     std::string message = "Multi attribute 'id' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
+    getErrorLog()->logPackageError("multi", MultiSpt_AllowedMultiAtts,
                    getPackageVersion(), sbmlLevel, sbmlVersion, message);
   }
 
@@ -1325,7 +1410,6 @@ MultiSpeciesType::readAttributes (const XMLAttributes& attributes,
     }
   }
 
-
   //
   // compartment SIdRef   ( use = "optional" )
   //
@@ -1341,8 +1425,11 @@ MultiSpeciesType::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mCompartment) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute compartment='" + mCompartment + "' does not conform.");
+      std::string details = "The syntax of the attribute compartment='" + mCompartment + "' does not conform.";
+      getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                 getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                 getLine(), getColumn());
+
     }
   }
 
@@ -1533,6 +1620,13 @@ ListOfMultiSpeciesTypes::createObject(XMLInputStream& stream)
   {
     MULTI_CREATE_NS(multins, getSBMLNamespaces());
     object = new MultiSpeciesType(multins);
+    appendAndOwn(object);
+    delete multins;
+  }
+  else if (name == "bindingSiteSpeciesType")
+  {
+    MULTI_CREATE_NS(multins, getSBMLNamespaces());
+    object = new BindingSiteSpeciesType(multins);
     appendAndOwn(object);
     delete multins;
   }

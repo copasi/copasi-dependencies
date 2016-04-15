@@ -73,17 +73,10 @@ CompartmentReference::CompartmentReference (MultiPkgNamespaces* multins)
  */
 CompartmentReference::CompartmentReference (const CompartmentReference& orig)
   : SBase(orig)
+  , mId  ( orig.mId)
+  , mName  ( orig.mName)
+  , mCompartment  ( orig.mCompartment)
 {
-  if (&orig == NULL)
-  {
-    throw SBMLConstructorException("Null argument to copy constructor");
-  }
-  else
-  {
-    mId  = orig.mId;
-    mName  = orig.mName;
-    mCompartment  = orig.mCompartment;
-  }
 }
 
 
@@ -93,11 +86,7 @@ CompartmentReference::CompartmentReference (const CompartmentReference& orig)
 CompartmentReference&
 CompartmentReference::operator=(const CompartmentReference& rhs)
 {
-  if (&rhs == NULL)
-  {
-    throw SBMLConstructorException("Null argument to assignment");
-  }
-  else if (&rhs != this)
+  if (&rhs != this)
   {
     SBase::operator=(rhs);
     mId  = rhs.mId;
@@ -202,15 +191,8 @@ CompartmentReference::setId(const std::string& id)
 int
 CompartmentReference::setName(const std::string& name)
 {
-  if (&(name) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else
-  {
-    mName = name;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -220,11 +202,7 @@ CompartmentReference::setName(const std::string& name)
 int
 CompartmentReference::setCompartment(const std::string& compartment)
 {
-  if (&(compartment) == NULL)
-  {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
-  }
-  else if (!(SyntaxChecker::isValidInternalSId(compartment)))
+  if (!(SyntaxChecker::isValidInternalSId(compartment)))
   {
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -299,6 +277,7 @@ CompartmentReference::unsetCompartment()
 void
 CompartmentReference::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
+  SBase::renameSIdRefs(oldid, newid);
   if (isSetCompartment() == true && mCompartment == oldid)
   {
     setCompartment(newid);
@@ -444,8 +423,10 @@ CompartmentReference::readAttributes (const XMLAttributes& attributes,
    * happened immediately prior to this read
   */
 
-  if (getErrorLog() != NULL &&
-      static_cast<ListOfCompartmentReferences*>(getParentSBMLObject())->size() < 2)
+  ListOfCompartmentReferences * parentListOfCompartmentReferences =
+      static_cast<ListOfCompartmentReferences*>(getParentSBMLObject());
+
+  if (getErrorLog() != NULL && parentListOfCompartmentReferences->size() < 2)
   {
     numErrs = getErrorLog()->getNumErrors();
     for (int n = numErrs-1; n >= 0; n--)
@@ -455,16 +436,20 @@ CompartmentReference::readAttributes (const XMLAttributes& attributes,
         const std::string details =
               getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofCpaRefs_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOfCompartmentReferences->getLine(),
+                  parentListOfCompartmentReferences->getColumn());
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details =
                    getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
-                  getPackageVersion(), sbmlLevel, sbmlVersion, details);
+        getErrorLog()->logPackageError("multi", MultiLofCpaRefs_AllowedAtts,
+                  getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                  parentListOfCompartmentReferences->getLine(),
+                  parentListOfCompartmentReferences->getColumn());
       }
     }
   }
@@ -482,7 +467,7 @@ CompartmentReference::readAttributes (const XMLAttributes& attributes,
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
+        getErrorLog()->logPackageError("multi", MultiCpaRef_AllowedMultiAtts,
                        getPackageVersion(), sbmlLevel, sbmlVersion, details);
       }
       else if (getErrorLog()->getError(n)->getErrorId() == UnknownCoreAttribute)
@@ -490,7 +475,7 @@ CompartmentReference::readAttributes (const XMLAttributes& attributes,
         const std::string details =
                           getErrorLog()->getError(n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
-        getErrorLog()->logPackageError("multi", MultiUnknownError,
+        getErrorLog()->logPackageError("multi", MultiCpaRef_AllowedCoreAtts,
                        getPackageVersion(), sbmlLevel, sbmlVersion, details);
       }
     }
@@ -513,8 +498,10 @@ CompartmentReference::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mId) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute id='" + mId + "' does not conform.");
+        std::string details = "The syntax of the attribute id='" + mId + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
     }
   }
 
@@ -548,14 +535,17 @@ CompartmentReference::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mCompartment) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute compartment='" + mCompartment + "' does not conform.");
+      std::string details = "The syntax of the attribute compartment='" + mCompartment + "' does not conform.";
+      getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                 getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                 getLine(), getColumn());
+
     }
   }
   else
   {
-    std::string message = "Multi attribute 'compartment' is missing.";
-    getErrorLog()->logPackageError("multi", MultiUnknownError,
+    std::string message = "The attribute 'compartment' is missing in the <compartmentReference> element.";
+    getErrorLog()->logPackageError("multi", MultiCpaRef_AllowedMultiAtts,
                    getPackageVersion(), sbmlLevel, sbmlVersion, message);
   }
 
@@ -738,16 +728,16 @@ ListOfCompartmentReferences::getItemTypeCode () const
 SBase*
 ListOfCompartmentReferences::createObject(XMLInputStream& stream)
 {
-  const std::string& name   = stream.peek().getName();
   SBase* object = NULL;
+  const std::string& name = stream.peek().getName();
 
   if (name == "compartmentReference")
-  {
-    MULTI_CREATE_NS(multins, getSBMLNamespaces());
-    object = new CompartmentReference(multins);
-    appendAndOwn(object);
-    delete multins;
-  }
+    {
+      MULTI_CREATE_NS(multins, getSBMLNamespaces());
+      object = new CompartmentReference(multins);
+      appendAndOwn(object);
+      delete multins;
+    }
 
   return object;
 }

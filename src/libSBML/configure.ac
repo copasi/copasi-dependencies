@@ -7,7 +7,7 @@ dnl <!-------------------------------------------------------------------------
 dnl This file is part of libSBML.  Please visit http://sbml.org for more
 dnl information about SBML, and the latest version of libSBML.
 dnl
-dnl Copyright (C) 2013-2015 jointly by the following organizations:
+dnl Copyright (C) 2013-2016 jointly by the following organizations:
 dnl     1. California Institute of Technology, Pasadena, CA, USA
 dnl     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 dnl     3. University of Heidelberg, Heidelberg, Germany
@@ -50,7 +50,7 @@ AC_INIT([libSBML],
 
 AC_CONFIG_AUX_DIR(config)
 
-AC_REVISION($Revision: 22630 $)
+AC_REVISION($Revision: 23070 $)
 
 AC_CONFIG_SRCDIR(src/Makefile.in)
 
@@ -160,6 +160,19 @@ if test "$enable_qual" != no; then
   AC_DEFINE([LIBSBML_HAS_PACKAGE_QUAL], 1, [Define to 1 to build support for SBML 'qual'.])
   AC_SUBST(USE_QUAL, 1)
   AC_SUBST(LIBSBML_HAS_PACKAGE_QUAL, 1)
+fi
+
+AC_ARG_ENABLE([groups],
+  AS_HELP_STRING([--enable-groups@<:@=ARG@:>@],
+                 [build support for SBML 'groups' @<:@default=no@:>@]),
+  [enable_groups=$enableval],
+  [enable_groups=no])
+
+if test "$enable_groups" != no; then
+  AC_DEFINE([USE_GROUPS], 1, [Define to 1 to build support for SBML 'groups'.])
+  AC_DEFINE([LIBSBML_HAS_PACKAGE_GROUPS], 1, [Define to 1 to build support for SBML 'groups'.])
+  AC_SUBST(USE_GROUPS, 1)
+  AC_SUBST(LIBSBML_HAS_PACKAGE_GROUPS, 1)
 fi
 
 dnl -------------------------------------------------------
@@ -306,7 +319,7 @@ CONFIG_PROG_SWIG(2.0.0)
 dnl Make sure to test doxygen *after* java, because there's a dependency
 dnl in CONFIG_PROG_DOXYGEN on whether --with-java was also given.
 
-CONFIG_PROG_DOXYGEN(1.7.0,1.8.10)
+CONFIG_PROG_DOXYGEN(1.7.0,1.8.11)
 
 dnl Do this one last, because some earlier config options may end up changing
 dnl things like CFLAGS, which in turn affects the libtool script that the
@@ -548,6 +561,7 @@ AC_CONFIG_FILES([docs/src/doxygen-config-matlab.txt])
 AC_CONFIG_FILES([docs/src/common-text/libsbml-downloading.html])
 AC_CONFIG_FILES([docs/src/common-text/libsbml-group-comp-intro.html])
 AC_CONFIG_FILES([docs/src/common-text/libsbml-group-fbc-intro.html])
+AC_CONFIG_FILES([docs/src/common-text/libsbml-group-groups-intro.html])
 AC_CONFIG_FILES([docs/src/common-text/libsbml-group-layout-intro.html])
 AC_CONFIG_FILES([docs/src/common-text/libsbml-group-qual-intro.html])
 AC_CONFIG_FILES([docs/src/common-text/libsbml-installation.html])
@@ -801,6 +815,9 @@ if test "$enable_comp" != "no" ; then
 fi
 if test "$enable_fbc" != "no" ; then
   echo "  SBML 'fbc'                    = $enable_fbc"
+fi
+if test "$enable_groups" != "no" ; then
+  echo "  SBML 'groups'                 = $enable_groups"
 fi
 if test "$enable_layout" != "no" ; then
   echo "  SBML 'layout'                 = $enable_layout"

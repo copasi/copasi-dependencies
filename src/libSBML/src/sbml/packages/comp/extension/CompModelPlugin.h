@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -28,8 +28,8 @@
  * @sbmlbrief{comp} Extension of Model.
  *
  * The CompModelPlugin class inherits from the SBMLSBasePlugin class, and
- * codifies the extentions to the Model class defined in the SBML
- * Level&nbsp;3 @ref comp (&ldquo;comp&rdquo;) package.  This extention
+ * codifies the extensions to the Model class defined in the SBML
+ * Level&nbsp;3 @ref comp (&ldquo;comp&rdquo;) package.  This extension
  * allows a Model to define Submodels (other Models that are instantiated as
  * new parts of the parent Model), and Ports, a defined interface for
  * including the given Model as a Submodel of a different Model.
@@ -664,7 +664,7 @@ virtual int collectDeletionsAndDeleteSome(std::set<SBase*>* removed,
 
   /** @cond doxygenLibsbmlInternal */
   protected:
-  virtual int saveAllReferencedElements(std::set<SBase*> uniqueRefs, std::set<SBase*> replacedBys);
+  virtual int saveAllReferencedElements(std::set<SBase*> uniqueRefs, std::set<SBase*> replacedBys, SBMLDocument* doc);
   /** @endcond */
 
 };

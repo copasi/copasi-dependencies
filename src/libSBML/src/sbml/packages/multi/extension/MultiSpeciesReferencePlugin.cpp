@@ -378,10 +378,8 @@ MultiSpeciesReferencePlugin::enablePackageInternal(const std::string& pkgURI,
 bool
 MultiSpeciesReferencePlugin::accept(SBMLVisitor& v) const
 {
-  const Model * model = static_cast<const Model * >(this->getParentSBMLObject());
-
-  v.visit(*model);
-  v.leave(*model);
+  const SpeciesReference * speciesReference = static_cast<const SpeciesReference * >(this->getParentSBMLObject());
+  v.visit(*speciesReference);
 
   for(unsigned int i = 0; i < getNumSpeciesTypeComponentMapInProducts(); i++)
   {

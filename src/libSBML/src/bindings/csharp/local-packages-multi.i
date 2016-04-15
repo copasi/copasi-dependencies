@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2015 jointly by the following organizations:
+ * Copyright (C) 2013-2016 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -42,6 +42,9 @@
 
     SBasePlugin sbp = new SBasePlugin(cPtr, false);
     SBase sb = sbp.getParentSBMLObject();
+
+    if (sb.getElementName() == "listOfReactions")
+      return new MultiListOfReactionsPlugin(cPtr, owner);
 
     switch( sb.getTypeCode() )
     {
@@ -94,10 +97,6 @@
         {
           return new ListOfInSpeciesTypeBonds(cPtr, owner);
         }
-        else if (name == "listOfDenotedSpeciesTypeComponentIndexes")
-        {
-          return new ListOfDenotedSpeciesTypeComponentIndexes(cPtr, owner);
-        }
         else if (name == "listOfOutwardBindingSites")
         {
           return new ListOfOutwardBindingSites(cPtr, owner);
@@ -144,9 +143,6 @@
       case (int) libsbml.SBML_MULTI_IN_SPECIES_TYPE_BOND:
         return new InSpeciesTypeBond(cPtr, owner);
 
-      case (int) libsbml.SBML_MULTI_DENOTED_SPECIES_TYPE_COMPONENT_INDEX:
-        return new DenotedSpeciesTypeComponentIndex(cPtr, owner);
-
       case (int) libsbml.SBML_MULTI_OUTWARD_BINDING_SITE:
         return new OutwardBindingSite(cPtr, owner);
 
@@ -187,7 +183,6 @@ COVARIANT_RTYPE_CLONE(SpeciesFeatureValue)
 COVARIANT_RTYPE_CLONE(CompartmentReference)
 COVARIANT_RTYPE_CLONE(SpeciesTypeInstance)
 COVARIANT_RTYPE_CLONE(InSpeciesTypeBond)
-COVARIANT_RTYPE_CLONE(DenotedSpeciesTypeComponentIndex)
 COVARIANT_RTYPE_CLONE(OutwardBindingSite)
 COVARIANT_RTYPE_CLONE(SpeciesFeatureChange)
 COVARIANT_RTYPE_CLONE(SpeciesFeatureType)
@@ -202,7 +197,6 @@ COVARIANT_RTYPE_CLONE(ListOfSpeciesFeatureValues)
 COVARIANT_RTYPE_CLONE(ListOfCompartmentReferences)
 COVARIANT_RTYPE_CLONE(ListOfSpeciesTypeInstances)
 COVARIANT_RTYPE_CLONE(ListOfInSpeciesTypeBonds)
-COVARIANT_RTYPE_CLONE(ListOfDenotedSpeciesTypeComponentIndexes)
 COVARIANT_RTYPE_CLONE(ListOfOutwardBindingSites)
 COVARIANT_RTYPE_CLONE(ListOfSpeciesFeatureChanges)
 COVARIANT_RTYPE_CLONE(ListOfSpeciesFeatureTypes)
@@ -216,7 +210,6 @@ COVARIANT_RTYPE_LISTOF_GET_REMOVE(SpeciesFeatureValue)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(CompartmentReference)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SpeciesTypeInstance)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(InSpeciesTypeBond)
-COVARIANT_RTYPE_LISTOF_GET_REMOVE(DenotedSpeciesTypeComponentIndex)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(OutwardBindingSite)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SpeciesFeatureChange)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SpeciesFeatureType)
@@ -231,7 +224,6 @@ SBMLCONSTRUCTOR_EXCEPTION(SpeciesFeatureValue)
 SBMLCONSTRUCTOR_EXCEPTION(CompartmentReference)
 SBMLCONSTRUCTOR_EXCEPTION(SpeciesTypeInstance)
 SBMLCONSTRUCTOR_EXCEPTION(InSpeciesTypeBond)
-SBMLCONSTRUCTOR_EXCEPTION(DenotedSpeciesTypeComponentIndex)
 SBMLCONSTRUCTOR_EXCEPTION(OutwardBindingSite)
 SBMLCONSTRUCTOR_EXCEPTION(SpeciesFeatureChange)
 SBMLCONSTRUCTOR_EXCEPTION(SpeciesFeatureType)
@@ -246,7 +238,6 @@ SBMLCONSTRUCTOR_EXCEPTION(ListOfSpeciesFeatureValues)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfCompartmentReferences)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfSpeciesTypeInstances)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfInSpeciesTypeBonds)
-SBMLCONSTRUCTOR_EXCEPTION(ListOfDenotedSpeciesTypeComponentIndexes)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfOutwardBindingSites)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfSpeciesFeatureChanges)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfSpeciesFeatureTypes)
