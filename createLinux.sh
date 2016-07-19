@@ -158,6 +158,7 @@ $CMAKE ${COPASI_CMAKE_OPTIONS} \
   -DLIBSBML_LIBRARY=$DIRECTORY/bin/lib/libsbml-static.a \
   -DLIBSEDML_DEPENDENCY_DIR=$DIRECTORY/bin \
   -DEXTRA_LIBS=$DIRECTORY/bin/lib/libexpat.a \
+  -DWITH_ZLIB=OFF \
   $DIRECTORY/src/libSEDML
 $MAKE -j 4
 $MAKE install
