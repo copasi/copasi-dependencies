@@ -1,0 +1,4 @@
+Name: org.numl.libnuml
+Implementation-Title: "@PACKAGE_NAME@ Java API"
+Implementation-Version: "@PACKAGE_VERSION@"
+Implementation-Vendor: "Joseph O. Dada"

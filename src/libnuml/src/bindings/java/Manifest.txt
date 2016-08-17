@@ -1,0 +1,4 @@
+Name: org.numl.libnuml
+Implementation-Title: "libNUML Java API"
+Implementation-Version: "1.0.1"
+Implementation-Vendor: "Joseph O. Dada"
