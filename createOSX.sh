@@ -149,4 +149,32 @@ make -j
 make install
 [ -e $DIRECTORY/bin/lib/libsedml*.dylib ] && rm $DIRECTORY/bin/lib/libsedml*.dylib
 
+# build zlib
+mkdir -p $DIRECTORY/tmp/zlib
+cd $DIRECTORY/tmp/zlib
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+  $DIRECTORY/src/zlib
+make -j 4
+make install
+
+# build zipper
+mkdir -p $DIRECTORY/tmp/zipper
+cd $DIRECTORY/tmp/zipper
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+   -DWITH_QT_FILESYSTEM=ON \
+   -DZIPPER_DEPENDENCY_DIR=$DIRECTORY/bin \
+    $DIRECTORY/src/zipper
+make -j 4
+make install
+
+# build libCombine
+mkdir -p $DIRECTORY/tmp/libCombine
+cd $DIRECTORY/tmp/libCombine
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+   -DWITH_QT_FILESYSTEM=ON \
+   -DCOMBINE_DEPENDENCY_DIR=$DIRECTORY/bin \
+    $DIRECTORY/src/libCombine
+make -j 4
+make install
+
 echo ${COPASI_CMAKE_OPTIONS}
