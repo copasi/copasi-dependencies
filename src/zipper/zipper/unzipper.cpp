@@ -129,8 +129,13 @@ namespace zipper {
       {
         err = unzCloseCurrentFile(m_zf);
         if (UNZ_OK != err)
-          throw EXCEPTION_CLASS(("Error " + std::to_string(err) + " closing internal file '" + entryinfo.name +
-            "' in zip").c_str());
+        {
+          std::stringstream str;
+          str << "Error " << err << " openinginternal file '" 
+              << entryinfo.name << "' in zip";
+
+          throw EXCEPTION_CLASS(str.str().c_str());
+        }
       }
 
       return UNZ_OK == err;
@@ -148,8 +153,13 @@ namespace zipper {
       {
         err = unzCloseCurrentFile(m_zf);
         if (UNZ_OK != err)
-          throw EXCEPTION_CLASS(("Error " + std::to_string(err) + " closing internal file '" + entryinfo.name +
-            "' in zip").c_str());
+        {
+          std::stringstream str;
+          str << "Error " << err << " opening internal file '" 
+              << entryinfo.name << "' in zip";
+
+          throw EXCEPTION_CLASS(str.str().c_str());
+        }
       }
 
       return UNZ_OK == err;
@@ -167,8 +177,13 @@ namespace zipper {
       {
         err = unzCloseCurrentFile(m_zf);
         if (UNZ_OK != err)
-          throw EXCEPTION_CLASS(("Error " + std::to_string(err) + " closing internal file '" + entryinfo.name +
-            "' in zip").c_str());
+        {
+          std::stringstream str;
+          str << "Error " << err << " opening internal file '" 
+              << entryinfo.name << "' in zip";
+
+          throw EXCEPTION_CLASS(str.str().c_str());
+        }
       }
 
       return UNZ_OK == err;
@@ -209,8 +224,13 @@ namespace zipper {
 
       err = unzOpenCurrentFilePassword(m_zf, m_outer.m_password.c_str());
       if (UNZ_OK != err)
-        throw EXCEPTION_CLASS(("Error " + std::to_string(err) + " opening internal file '" + info.name +
-          "' in zip").c_str());
+      {
+        std::stringstream str;
+        str << "Error " << err << " opening internal file '" 
+            << info.name << "' in zip";
+
+        throw EXCEPTION_CLASS(str.str().c_str());
+      }
 
       std::vector<char> buffer;
       buffer.resize(WRITEBUFFERSIZE);
@@ -241,8 +261,13 @@ namespace zipper {
 
       err = unzOpenCurrentFilePassword(m_zf, m_outer.m_password.c_str());
       if (UNZ_OK != err)
-        throw EXCEPTION_CLASS(("Error " + std::to_string(err) + " opening internal file '" + info.name +
-          "' in zip").c_str());
+      {
+        std::stringstream str;
+        str << "Error " << err << " opening internal file '" 
+            << info.name << "' in zip";
+
+        throw EXCEPTION_CLASS(str.str().c_str());
+      }
 
       std::vector<unsigned char> buffer;
       buffer.resize(WRITEBUFFERSIZE);
