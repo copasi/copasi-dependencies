@@ -176,10 +176,9 @@ $MAKE install
 mkdir -p $DIRECTORY/tmp/zipper
 cd $DIRECTORY/tmp/zipper
 $CMAKE ${COPASI_CMAKE_OPTIONS} \
-   -DCMAKE_CXX_COMPILER=g++ \
    -DWITH_QT_FILESYSTEM=ON \
    -DZIPPER_DEPENDENCY_DIR=$DIRECTORY/bin \
-   -DQT_CORE_LIBRARY=$QTDIR/lib/libQtCore4.so \
+   -DQT_CORE_LIBRARY=$QTDIR/lib/libQtCore.so \
    -DQT_INCLUDE_DIR=$QTDIR/include \
     $DIRECTORY/src/zipper
 $MAKE -j 4
@@ -189,10 +188,9 @@ $MAKE install
 mkdir -p $DIRECTORY/tmp/libCombine
 cd $DIRECTORY/tmp/libCombine
 $CMAKE ${COPASI_CMAKE_OPTIONS} \
-   -DCMAKE_CXX_COMPILER=g++ \
    -DWITH_QT_FILESYSTEM=ON \
    -DCOMBINE_DEPENDENCY_DIR=$DIRECTORY/bin \
-   -DQT_CORE_LIBRARY=$QTDIR/lib/libQtCore4.so \
+   -DQT_CORE_LIBRARY=$QTDIR/lib/libQtCore.so \
    -DQT_INCLUDE_DIR=$QTDIR/include \
     $DIRECTORY/src/libCombine
 $MAKE -j 4

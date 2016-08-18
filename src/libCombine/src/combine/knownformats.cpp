@@ -11,12 +11,14 @@ bool
 KnownFormats::isFormat(const std::string &formatKey,
                        const std::string &format)
 {
-  auto it = mKnownFormats.find(formatKey);
+  std::map<std::string,std::vector<std::string> >::iterator it = 
+    mKnownFormats.find(formatKey);
 
   if (it != mKnownFormats.end())
   {
-    auto& knownFormats = it->second;
-    auto foundIt = std::find(knownFormats.begin(), knownFormats.end(), format);
+    std::vector<std::string>& knownFormats = it->second;
+    std::vector<std::string>::iterator foundIt = 
+       std::find(knownFormats.begin(), knownFormats.end(), format);
     return foundIt != knownFormats.end();
   }
 
@@ -35,11 +37,12 @@ KnownFormats::isFormat(const std::string &formatKey,
 std::string
 KnownFormats::lookupFormat(const std::string& format)
 {
-  auto it = mKnownFormats.find(format);
+  std::map<std::string, std::vector<std::string> >::iterator it = 
+     mKnownFormats.find(format);
 
   if (it != mKnownFormats.end())
   {
-    auto& knownFormats = it->second;
+    std::vector<std::string>& knownFormats = it->second;
     return knownFormats.front();
   }
   return "";
@@ -70,7 +73,9 @@ std::vector<std::string>
 KnownFormats::getFormatKeys()
 {
   std::vector<std::string> result;
-  auto it = mKnownFormats.begin();
+  std::map<std::string, std::vector<std::string> >::iterator it = 
+     mKnownFormats.begin();
+
   for (;it != mKnownFormats.end(); ++it)
     result.push_back(it->first);
   return result;
@@ -78,9 +83,22 @@ KnownFormats::getFormatKeys()
 
 
 std::map<std::string, std::vector<std::string> >
-KnownFormats::mKnownFormats =
+KnownFormats::mKnownFormats = initializeMap();
+
+std::map<std::string, std::vector<std::string> >&
+KnownFormats::getKnownFormats()
 {
-  {"sbml", {
+  return mKnownFormats;
+}
+
+
+std::map<std::string, std::vector<std::string> >
+KnownFormats::initializeMap()
+{
+  std::map<std::string, std::vector<std::string> > result;
+  {
+    std::string temp[] = 
+    {
      "http://identifiers.org/combine.specifications/sbml",
      "http://identifiers.org/combine.specifications/sbml.level-1.version-1",
      "http://identifiers.org/combine.specifications/sbml.level-1.version-2",
@@ -100,7 +118,12 @@ KnownFormats::mKnownFormats =
      "http://identifiers.org/combine.specifications/sbml.level-2.version.5",
      "http://identifiers.org/combine.specifications/sbml.level-3.version.1",
      "http://identifiers.org/combine.specifications/sbml.level-3.version.2",
-   } },
+    };
+    result["sbml"] = std::vector<std::string>(temp, temp+19);
+  }
+/*
+
+ },
   {"sedml",
    {
      "http://identifiers.org/combine.specifications/sed-ml",
@@ -318,4 +341,6 @@ KnownFormats::mKnownFormats =
   {"xml", {"application/xml"}},
   {"z", {"application/x-compress"}},
   {"zip", {"application/zip"}},
+*/
+  return result;
 };
