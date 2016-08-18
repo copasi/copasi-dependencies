@@ -11,9 +11,9 @@ Setlocal EnableDelayedExpansion
 
 ::REM set up 32bit environment
 call  "%VC_VARS%" x86
-::title Building x86 debug
-::cd /d %THIS_DIR%
-::call createX86_vs14_x86_debug 
+title Building x86 debug
+cd /d %THIS_DIR%
+call createX86_vs14_x86_debug 
 
 title Building x86 release
 cd /d %THIS_DIR%
@@ -21,9 +21,9 @@ call createX86_vs14_x86_release
  
 ::REM set up 64bit environment
 call  "%VC_VARS%" x86_amd64
-::title Building x64 debug
-::cd /d %THIS_DIR%
-::call createX86_vs14_x64_debug 
+title Building x64 debug
+cd /d %THIS_DIR%
+call createX86_vs14_x64_debug 
 
 title Building x64 release
 cd /d %THIS_DIR%
