@@ -72,6 +72,6 @@ Util::getCurrentMilliseconds()
 
   time ( &rawtime );
   timeinfo = gmtime ( &rawtime );
-  unsigned long result = mktime(timeinfo);
+  unsigned long result = (unsigned long)mktime(timeinfo);
   return result;
 }
