@@ -227,7 +227,7 @@ pip-log.txt
 ##
 ## Gnumake files ...
 ##
-
+src/cppunit/a.out.dSYM
 .deps/
 src/cppunit/Makefile
 src/cppunit/config.status
