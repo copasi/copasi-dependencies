@@ -164,6 +164,40 @@ $MAKE -j 4
 $MAKE install
 [ -e $DIRECTORY/bin/lib/libsedml*.so ] && rm $DIRECTORY/bin/lib/libsedml*.so
 
+# build zlib
+mkdir -p $DIRECTORY/tmp/zlib
+cd $DIRECTORY/tmp/zlib
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+  $DIRECTORY/src/zlib
+$MAKE -j 4
+$MAKE install
+
+# build zipper
+mkdir -p $DIRECTORY/tmp/zipper
+cd $DIRECTORY/tmp/zipper
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+   -DCMAKE_CXX_COMPILER=g++ \
+   -DWITH_QT_FILESYSTEM=ON \
+   -DZIPPER_DEPENDENCY_DIR=$DIRECTORY/bin \
+   -DQT_CORE_LIBRARY=$QTDIR/lib/libQtCore4.so \
+   -DQT_INCLUDE_DIR=$QTDIR/include \
+    $DIRECTORY/src/zipper
+$MAKE -j 4
+$MAKE install
+
+# build libCombine
+mkdir -p $DIRECTORY/tmp/libCombine
+cd $DIRECTORY/tmp/libCombine
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+   -DCMAKE_CXX_COMPILER=g++ \
+   -DWITH_QT_FILESYSTEM=ON \
+   -DCOMBINE_DEPENDENCY_DIR=$DIRECTORY/bin \
+   -DQT_CORE_LIBRARY=$QTDIR/lib/libQtCore4.so \
+   -DQT_INCLUDE_DIR=$QTDIR/include \
+    $DIRECTORY/src/libCombine
+$MAKE -j 4
+$MAKE install
+
 cd $DIRECTORY/bin
 
 case "$(uname -m)" in

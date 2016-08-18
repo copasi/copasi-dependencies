@@ -5,6 +5,7 @@
 #include <functional>
 #include <exception>
 #include <fstream>
+#include <stdexcept>
 
 namespace zipper {
 
@@ -12,7 +13,7 @@ namespace zipper {
   {
     Unzipper& m_outer;
     zipFile m_zf;
-    ourmemory_t m_zipmem = ourmemory_t();
+    ourmemory_t m_zipmem;
     zlib_filefunc_def m_filefunc;
 
   private:
@@ -177,10 +178,9 @@ namespace zipper {
 
   public:
 
-    Impl(Unzipper& outer) : m_outer(outer)
+    Impl(Unzipper& outer) : m_outer(outer), m_zipmem(), m_filefunc()
     {
       m_zf = NULL;
-      m_filefunc = { 0 };
     }
 
     ~Impl()
@@ -208,7 +208,7 @@ namespace zipper {
     bool initWithStream(std::istream& stream)
     {
       stream.seekg(0, std::ios::end);
-      auto size = stream.tellg();
+      size_t size = (size_t)stream.tellg();
       stream.seekg(0);
 
       if (size > 0)
@@ -393,6 +393,12 @@ namespace zipper {
   bool Unzipper::extract(const std::string& destination, const std::map<std::string, std::string>& alternativeNames)
   {
     return m_impl->extractAll(destination, alternativeNames);
+  }
+
+  bool 
+  Unzipper::extract(const std::string& destination)
+  {
+    return m_impl->extractAll(destination, std::map<std::string, std::string>());
   }
 
   void Unzipper::close()
