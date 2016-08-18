@@ -43,6 +43,7 @@ namespace zipper {
         file_info.tmu_date.tm_hour, file_info.tmu_date.tm_min, file_info.tmu_date.tm_sec, file_info.dosDate);
     }
 
+#if 0
     // lambda as a parameter https://en.wikipedia.org/wiki/C%2B%2B11#Polymorphic_wrappers_for_function_objects
     void iterEntries(std::function<void(ZipEntry&)> callback)
     {
@@ -67,9 +68,36 @@ namespace zipper {
           return;
       }
     }
+#endif
+
+    void getEntries(std::vector<ZipEntry>& entries)
+    {
+      int err = unzGoToFirstFile(m_zf);
+      if (UNZ_OK == err)
+      {
+        do
+        {
+          ZipEntry entryinfo = currentEntryInfo();
+
+          if (entryinfo.valid())
+          {
+            entries.push_back(entryinfo);
+            err = unzGoToNextFile(m_zf);
+          }
+          else
+            err = UNZ_ERRNO;
+
+        } while (UNZ_OK == err);
+
+        if (UNZ_END_OF_LIST_OF_FILE != err && UNZ_OK != err)
+          return;
+      }
+    }
+
 
   public:
-    bool extractCurrentEntry(ZipEntry& entryinfo, std::function <int(ZipEntry&)> extractStrategy)
+#if 0
+    bool extractCurrentEntry(ZipEntry& entryinfo, int (extractStrategy)(ZipEntry&) )
     {
       int err = UNZ_OK;
 
@@ -77,6 +105,64 @@ namespace zipper {
         return false;
 
       err = extractStrategy(entryinfo);
+      if (UNZ_OK == err)
+      {
+        err = unzCloseCurrentFile(m_zf);
+        if (UNZ_OK != err)
+          throw EXCEPTION_CLASS(("Error " + std::to_string(err) + " closing internal file '" + entryinfo.name +
+            "' in zip").c_str());
+      }
+
+      return UNZ_OK == err;
+    }
+#endif
+
+    bool extractCurrentEntryToFile(ZipEntry& entryinfo, const std::string& fileName)
+    {
+      int err = UNZ_OK;
+
+      if (!entryinfo.valid())
+        return false;
+
+      err = extractToFile(fileName, entryinfo);
+      if (UNZ_OK == err)
+      {
+        err = unzCloseCurrentFile(m_zf);
+        if (UNZ_OK != err)
+          throw EXCEPTION_CLASS(("Error " + std::to_string(err) + " closing internal file '" + entryinfo.name +
+            "' in zip").c_str());
+      }
+
+      return UNZ_OK == err;
+    }
+
+    bool extractCurrentEntryToStream(ZipEntry& entryinfo, std::ostream& stream)
+    {
+      int err = UNZ_OK;
+
+      if (!entryinfo.valid())
+        return false;
+
+      err = extractToStream(stream, entryinfo);
+      if (UNZ_OK == err)
+      {
+        err = unzCloseCurrentFile(m_zf);
+        if (UNZ_OK != err)
+          throw EXCEPTION_CLASS(("Error " + std::to_string(err) + " closing internal file '" + entryinfo.name +
+            "' in zip").c_str());
+      }
+
+      return UNZ_OK == err;
+    }
+
+    bool extractCurrentEntryToMemory(ZipEntry& entryinfo, std::vector<unsigned char>& outvec)
+    {
+      int err = UNZ_OK;
+
+      if (!entryinfo.valid())
+        return false;
+
+      err = extractToMemory(outvec, entryinfo);
       if (UNZ_OK == err)
       {
         err = unzCloseCurrentFile(m_zf);
@@ -238,40 +324,40 @@ namespace zipper {
     std::vector<ZipEntry> entries()
     {
       std::vector<ZipEntry> entrylist;
-      iterEntries([this, &entrylist](ZipEntry& entryinfo) { entrylist.push_back(entryinfo); });
-
+      getEntries(entrylist);
       return entrylist;
     }
 
+    
+
     bool extractAll(const std::string& destination, const std::map<std::string, std::string>& alternativeNames)
     {
-      iterEntries(
-        [this, &destination, &alternativeNames](ZipEntry& entryinfo)
+      std::vector<ZipEntry> entries;
+      getEntries(entries);
+      std::vector<ZipEntry>::iterator it = entries.begin();
+      for (; it != entries.end(); ++it)
       {
         std::string alternativeName = destination.empty() ? "" : destination + "/";
 
-        if (alternativeNames.find(entryinfo.name) != alternativeNames.end())
-          alternativeName += alternativeNames.at(entryinfo.name);
+        if (alternativeNames.find(it->name) != alternativeNames.end())
+          alternativeName += alternativeNames.at(it->name);
         else
-          alternativeName += entryinfo.name;
+          alternativeName += it->name;
 
-        std::function<int(ZipEntry&)> func = std::bind(&zipper::Unzipper::Impl::extractToFile, this, alternativeName, std::placeholders::_1);
-        this->extractCurrentEntry(entryinfo, func);
-      }
-      );
+        this->extractCurrentEntryToFile(*it, alternativeName);
+      };
 
       return true;
     }
 
     bool extractEntry(const std::string& name, const std::string& destination)
     {
-      auto outputfile = destination.empty() ? name : destination + "\\" + name;
-      std::function<int(ZipEntry&)> func = std::bind(&zipper::Unzipper::Impl::extractToFile, this, outputfile, std::placeholders::_1);
+      std::string outputFile = destination.empty() ? name : destination + "\\" + name;
 
       if (locateEntry(name))
       {
         ZipEntry entry = currentEntryInfo();
-        return extractCurrentEntry(entry, func);
+        return extractCurrentEntryToFile(entry, outputFile);
       }
       else
       {
@@ -281,12 +367,10 @@ namespace zipper {
 
     bool extractEntryToStream(const std::string& name, std::ostream& stream)
     {
-      std::function<int(ZipEntry&)> func = std::bind(&zipper::Unzipper::Impl::extractToStream, this, std::ref(stream), std::placeholders::_1);
-
       if (locateEntry(name))
       {
         ZipEntry entry = currentEntryInfo();
-        return extractCurrentEntry(entry, func);
+        return extractCurrentEntryToStream(entry, stream);
       }
       else
       {
@@ -296,12 +380,10 @@ namespace zipper {
 
     bool extractEntryToMemory(const std::string& name, std::vector<unsigned char>& vec)
     {
-      std::function<int(ZipEntry&)> func = std::bind(&zipper::Unzipper::Impl::extractToMemory, this, std::ref(vec), std::placeholders::_1);
-
       if (locateEntry(name))
       {
         ZipEntry entry = currentEntryInfo();
-        return extractCurrentEntry(entry, func);
+        return extractCurrentEntryToMemory(entry, vec);
       }
       else
       {
