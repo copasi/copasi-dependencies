@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+import org.sbml.libcombine.*;
 
-using libcombinecs;
-
-namespace CreateArchiveExample
-{
-  class Program
+  class createArchiveExample
   {
-    static void Main(string[] args)
+    public static void main(String[] args)
     {
-      if (args.Length < 1)
+      if (args.length < 1)
       {
-        Console.WriteLine("usage: CreateArchiveExample sbml-file");
+        System.out.println("usage: createArchiveExample sbml-file");
         return;
       }
-      var archive = new CombineArchive();
+      
+      System.loadLibrary("combinej");
+      
+      CombineArchive archive = new CombineArchive();
       archive.addFile(
             args[0], // filename
             "./models/model.xml", // target file name
@@ -25,12 +20,12 @@ namespace CreateArchiveExample
             true // mark file as master
             );
 
-      var description = new OmexDescription();
+      OmexDescription description = new OmexDescription();
       description.setAbout("."); // about the archive itself
       description.setDescription("Simple test archive including one SBML model");
       description.setCreated(OmexDescription.getCurrentDateAndTime());
 
-      var creator = new VCard();
+      VCard creator = new VCard();
       creator.setFamilyName("Bergmann");
       creator.setGivenName("Frank");
       creator.setEmail("fbergman@caltech.edu");
@@ -43,4 +38,3 @@ namespace CreateArchiveExample
       archive.writeToFile("out.omex");
     }
   }
-}
