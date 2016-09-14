@@ -2553,7 +2553,7 @@ doublereal dla_syrpvgrw__(char *uplo, integer *n, integer *info, doublereal *
 /* Subroutine */ int dla_wwaddw__(integer *n, doublereal *x, doublereal *y, 
 	doublereal *w);
 
-/* Subroutine */ int dlabad_(doublereal *small, doublereal *large);
+/* Subroutine */ int dlabad_(doublereal *small__, doublereal *large);
 
 /* Subroutine */ int dlabrd_(integer *m, integer *n, integer *nb, doublereal *
 	a, integer *lda, doublereal *d__, doublereal *e, doublereal *tauq, 
@@ -4327,7 +4327,7 @@ doublereal sla_syrpvgrw__(char *uplo, integer *n, integer *info, real *a,
 
 /* Subroutine */ int sla_wwaddw__(integer *n, real *x, real *y, real *w);
 
-/* Subroutine */ int slabad_(real *small, real *large);
+/* Subroutine */ int slabad_(real *small__, real *large);
 
 /* Subroutine */ int slabrd_(integer *m, integer *n, integer *nb, real *a, 
 	integer *lda, real *d__, real *e, real *tauq, real *taup, real *x, 
