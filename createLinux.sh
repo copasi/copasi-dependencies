@@ -72,7 +72,8 @@ case $1 in
   expat)
     # build expat
     cd $DIRECTORY/src/expat
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" chmod +x configure ./configure \
+    chmod +x configure
+    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" ./configure \
         --with-pic \
         --enable-shared=no \
         --prefix=$DIRECTORY/bin
