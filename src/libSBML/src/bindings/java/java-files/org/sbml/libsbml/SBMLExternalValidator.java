@@ -63,8 +63,8 @@ public class SBMLExternalValidator extends SBMLValidator {
 
   
 /** * @internal */ public
- SBMLExternalValidator(SBMLExternalValidator arg0) {
-    this(libsbmlJNI.new_SBMLExternalValidator__SWIG_1(SBMLExternalValidator.getCPtr(arg0), arg0), true);
+ SBMLExternalValidator(SBMLExternalValidator orig) {
+    this(libsbmlJNI.new_SBMLExternalValidator__SWIG_1(SBMLExternalValidator.getCPtr(orig), orig), true);
   }
 
   

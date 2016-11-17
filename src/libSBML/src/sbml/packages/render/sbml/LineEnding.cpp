@@ -64,7 +64,7 @@ const std::string LineEnding::ELEMENT_NAME="lineEnding";
  */
 LineEnding::LineEnding (unsigned int level, unsigned int version, unsigned int pkgVersion) : 
     GraphicalPrimitive2D(level,version, pkgVersion)
-    ,mId("")
+////    ,mId("")
     ,mEnableRotationalMapping(true)
     ,mBoundingBox(level, version, pkgVersion)
     ,mGroup(level,version, pkgVersion)
@@ -85,7 +85,7 @@ LineEnding::LineEnding (unsigned int level, unsigned int version, unsigned int p
  */
 LineEnding::LineEnding (RenderPkgNamespaces* renderns):
     GraphicalPrimitive2D(renderns)
-    ,mId("")
+////    ,mId("")
     ,mEnableRotationalMapping(true)
     ,mBoundingBox(renderns->getLevel(), renderns->getVersion())
     ,mGroup(renderns)     
@@ -247,11 +247,13 @@ LineEnding::LineEnding(const XMLNode& node, unsigned int l2version)
  */
 LineEnding::LineEnding(const LineEnding& other) : 
     GraphicalPrimitive2D(other)
-  , mId(other.mId)
+//  , mId(other.mId)
   , mEnableRotationalMapping(other.mEnableRotationalMapping)
   , mBoundingBox(other.mBoundingBox)
   , mGroup(other.mGroup)
 {    
+  setId(other.mId);
+
     connectToChild();
 }
 
@@ -274,7 +276,7 @@ LineEnding::LineEnding(const LineEnding& other) :
  */
 LineEnding::LineEnding(RenderPkgNamespaces* renderns, const std::string& id) :
     GraphicalPrimitive2D(renderns)
-    ,mId(id)
+//    ,mId(id)
     ,mEnableRotationalMapping(true)
     ,mGroup(renderns)    
 {
@@ -283,6 +285,8 @@ LineEnding::LineEnding(RenderPkgNamespaces* renderns, const std::string& id) :
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. LineEnding::LineEnding(const std::string& id) is deprecated." << std::endl;
 #endif // DEPRECATION_WARNINGS
+  setId(id);
+
         // set the element namespace of this object
   setElementNamespace(renderns->getURI());
 

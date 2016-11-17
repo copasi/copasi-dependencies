@@ -144,10 +144,10 @@ public class ConversionOption : IDisposable {
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * @link libsbml libsbml@endlink.@endif
    *
-   * @param key the key for this option
-   * @param value an optional value for this option
-   * @param type the type of this option
-   * @param description the description for this option
+   * @param key the key for this option.
+   * @param value an optional value for this option.
+   * @param type the type of this option.
+   * @param description the description for this option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -171,10 +171,10 @@ public class ConversionOption : IDisposable {
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * @link libsbml libsbml@endlink.@endif
    *
-   * @param key the key for this option
-   * @param value an optional value for this option
-   * @param type the type of this option
-   * @param description the description for this option
+   * @param key the key for this option.
+   * @param value an optional value for this option.
+   * @param type the type of this option.
+   * @param description the description for this option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -198,10 +198,10 @@ public class ConversionOption : IDisposable {
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * @link libsbml libsbml@endlink.@endif
    *
-   * @param key the key for this option
-   * @param value an optional value for this option
-   * @param type the type of this option
-   * @param description the description for this option
+   * @param key the key for this option.
+   * @param value an optional value for this option.
+   * @param type the type of this option.
+   * @param description the description for this option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -225,10 +225,10 @@ public class ConversionOption : IDisposable {
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * @link libsbml libsbml@endlink.@endif
    *
-   * @param key the key for this option
-   * @param value an optional value for this option
-   * @param type the type of this option
-   * @param description the description for this option
+   * @param key the key for this option.
+   * @param value an optional value for this option.
+   * @param type the type of this option.
+   * @param description the description for this option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -239,9 +239,9 @@ public class ConversionOption : IDisposable {
 /**
    * Creates a new ConversionOption specialized for string-type options.
    *
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -252,9 +252,9 @@ public class ConversionOption : IDisposable {
 /**
    * Creates a new ConversionOption specialized for Boolean-type options.
    *
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -265,9 +265,9 @@ public class ConversionOption : IDisposable {
 /**
    * Creates a new ConversionOption specialized for Boolean-type options.
    *
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -278,9 +278,9 @@ public class ConversionOption : IDisposable {
 /**
    * Creates a new ConversionOption specialized for double-type options.
    *
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -291,9 +291,9 @@ public class ConversionOption : IDisposable {
 /**
    * Creates a new ConversionOption specialized for double-type options.
    *
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -304,9 +304,9 @@ public class ConversionOption : IDisposable {
 /**
    * Creates a new ConversionOption specialized for float-type options.
    *
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -317,9 +317,9 @@ public class ConversionOption : IDisposable {
 /**
    * Creates a new ConversionOption specialized for float-type options.
    *
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -330,9 +330,9 @@ public class ConversionOption : IDisposable {
 /**
    * Creates a new ConversionOption specialized for integer-type options.
    *
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -343,9 +343,9 @@ public class ConversionOption : IDisposable {
 /**
    * Creates a new ConversionOption specialized for integer-type options.
    *
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -486,7 +486,7 @@ public class ConversionOption : IDisposable {
    * Invoking this method will also set the type of the option to
    * @link libsbml#CNV_TYPE_BOOL CNV_TYPE_BOOL@endlink.
    *
-   * @param value the Boolean value to set
+   * @param value the Boolean value to set.
    */ public new
  void setBoolValue(bool value) {
     libsbmlPINVOKE.ConversionOption_setBoolValue(swigCPtr, value);
@@ -510,7 +510,7 @@ public class ConversionOption : IDisposable {
    * Invoking this method will also set the type of the option to
    * @link libsbml#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE@endlink.
    *
-   * @param value the value to set
+   * @param value the value to set.
    */ public new
  void setDoubleValue(double value) {
     libsbmlPINVOKE.ConversionOption_setDoubleValue(swigCPtr, value);
@@ -520,7 +520,7 @@ public class ConversionOption : IDisposable {
 /**
    * Returns the value of this option as a @c float.
    *
-   * @return the value of this option as a float
+   * @return the value of this option as a float.
    */ public new
  float getFloatValue() {
     float ret = libsbmlPINVOKE.ConversionOption_getFloatValue(swigCPtr);
@@ -534,7 +534,7 @@ public class ConversionOption : IDisposable {
    * Invoking this method will also set the type of the option to
    * @link libsbml#CNV_TYPE_SINGLE CNV_TYPE_SINGLE@endlink.
    *
-   * @param value the value to set
+   * @param value the value to set.
    */ public new
  void setFloatValue(float value) {
     libsbmlPINVOKE.ConversionOption_setFloatValue(swigCPtr, value);
@@ -544,7 +544,7 @@ public class ConversionOption : IDisposable {
 /**
    * Returns the value of this option as an @c integer.
    *
-   * @return the value of this option, as an int
+   * @return the value of this option, as an int.
    */ public new
  int getIntValue() {
     int ret = libsbmlPINVOKE.ConversionOption_getIntValue(swigCPtr);
@@ -558,7 +558,7 @@ public class ConversionOption : IDisposable {
    * Invoking this method will also set the type of the option to
    * @link libsbml#CNV_TYPE_INT CNV_TYPE_INT@endlink.
    *
-   * @param value the value to set
+   * @param value the value to set.
    */ public new
  void setIntValue(int value) {
     libsbmlPINVOKE.ConversionOption_setIntValue(swigCPtr, value);

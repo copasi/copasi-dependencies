@@ -122,6 +122,12 @@ package org.sbml.libsbml;
  * by calling {@link SBMLDocument#getNumErrors()}
  *
  * </ul> <p>
+ * It should be noted that as of SBML Level&nbsp;3 Version&nbsp;2, the {@link Model}
+ * became an optional child of {@link SBMLDocument}, instead of being required.  This
+ * means that one can no longer use {@link SBMLDocument#getModel()} as a cheap method
+ * of checking if an SBML document was read in properly: the more robust
+ * getError methods detailed above must be used instead.
+ <p>
  * <h2>Converting documents between Levels and Versions of SBML</h2>
  <p>
  * LibSBML provides facilities for limited translation of SBML between
@@ -150,7 +156,8 @@ package org.sbml.libsbml;
  * <li> {@link SBMLDocument#checkL2v1Compatibility()},
  * <li> {@link SBMLDocument#checkL2v2Compatibility()},
  * <li> {@link SBMLDocument#checkL2v3Compatibility()}, 
- * <li> {@link SBMLDocument#checkL2v4Compatibility()}, and
+ * <li> {@link SBMLDocument#checkL2v4Compatibility()},
+ * <li> {@link SBMLDocument#checkL2v5Compatibility()}, and
  * <li> {@link SBMLDocument#checkL3v1Compatibility()}.
  *
  * </ul> <p>
@@ -240,11 +247,11 @@ public class SBMLDocument extends SBase {
    <p>
    * <p>
  * This 'default Level' corresponds to the most recent SBML specification
- * Level available at the time libSBML version 5.13.0 was released.  The default Level is used by
+ * Level available at the time libSBML version 5.14.0 was released.  The default Level is used by
  * {@link SBMLDocument} if no Level is explicitly specified at the time of the
  * construction of an {@link SBMLDocument} instance.
    <p>
-   * @return an integer indicating the most recent SBML specification Level
+   * @return an integer indicating the most recent SBML specification Level.
    <p>
    * 
    <p>
@@ -261,12 +268,12 @@ public class SBMLDocument extends SBase {
    * <p>
  * This 'default Version' corresponds to the most recent Version within the
  * most recent Level of SBML available at the time libSBML version
- * 5.13.0 was released.  The default Version is
+ * 5.14.0 was released.  The default Version is
  * used by {@link SBMLDocument} if no Version is explicitly specified at the time of
  * the construction of an {@link SBMLDocument} instance. 
    <p>
    * @return an integer indicating the most recent SBML specification
-   * Version
+   * Version.
    <p>
    * 
    <p>
@@ -298,9 +305,9 @@ public class SBMLDocument extends SBase {
    * {@link SBMLDocument#setLevelAndVersion(long, long, boolean)}
    * shortly after creating the {@link SBMLDocument} object.
    <p>
-   * @param level an integer for the SBML Level
+   * @param level an integer for the SBML Level.
    <p>
-   * @param version an integer for the Version within the SBML Level
+   * @param version an integer for the Version within the SBML Level.
    <p>
    * <p>
  * @throws SBMLConstructorException
@@ -352,9 +359,9 @@ appears in the documentation.
    * {@link SBMLDocument#setLevelAndVersion(long, long, boolean)}
    * shortly after creating the {@link SBMLDocument} object.
    <p>
-   * @param level an integer for the SBML Level
+   * @param level an integer for the SBML Level.
    <p>
-   * @param version an integer for the Version within the SBML Level
+   * @param version an integer for the Version within the SBML Level.
    <p>
    * <p>
  * @throws SBMLConstructorException
@@ -406,9 +413,9 @@ appears in the documentation.
    * {@link SBMLDocument#setLevelAndVersion(long, long, boolean)}
    * shortly after creating the {@link SBMLDocument} object.
    <p>
-   * @param level an integer for the SBML Level
+   * @param level an integer for the SBML Level.
    <p>
-   * @param version an integer for the Version within the SBML Level
+   * @param version an integer for the Version within the SBML Level.
    <p>
    * <p>
  * @throws SBMLConstructorException
@@ -504,7 +511,7 @@ appears in the documentation.
    * or {@link SBMLDocument#setModel(Model)}.
    * This method returns <code>null</code> if a model does not yet exist.
    <p>
-   * @return the {@link Model} contained in this {@link SBMLDocument}.
+   * @return the {@link Model} contained in this {@link SBMLDocument}, or <code>null</code> if no such model exists.
    <p>
    * @see #createModel()
    */ public
@@ -518,7 +525,7 @@ appears in the documentation.
    * Returns the first child element found that has the given <code>id</code> in the
    * model-wide SId namespace, or <code>null</code> if no such object is found.
    <p>
-   * @param id string representing the id of objects to find
+   * @param id string representing the id of the object to find.
    <p>
    * @return pointer to the first element found with the given <code>id</code>.
    */ public
@@ -532,7 +539,7 @@ appears in the documentation.
    * itself if it has the given <code>metaid</code>, or <code>null</code> if no such object is
    * found.
    <p>
-   * @param metaid string representing the metaid of objects to find
+   * @param metaid string representing the metaid of the object to find.
    <p>
    * @return pointer to the first element found with the given <code>metaid</code>.
    */ public
@@ -615,7 +622,8 @@ appears in the documentation.
    * {@link SBMLDocument#checkL2v1Compatibility()},
    * {@link SBMLDocument#checkL2v2Compatibility()},
    * {@link SBMLDocument#checkL2v3Compatibility()},
-   * {@link SBMLDocument#checkL2v4Compatibility()}, and
+   * {@link SBMLDocument#checkL2v4Compatibility()},
+   * {@link SBMLDocument#checkL2v5Compatibility()}, and
    * {@link SBMLDocument#checkL3v1Compatibility()}.
    <p>
    * The valid combinations of SBML Level and Version as of this release
@@ -626,7 +634,9 @@ appears in the documentation.
    * <li> Level&nbsp;2 Version&nbsp;2
    * <li> Level&nbsp;2 Version&nbsp;3
    * <li> Level&nbsp;2 Version&nbsp;4
+   * <li> Level&nbsp;2 Version&nbsp;5
    * <li> Level&nbsp;3 Version&nbsp;1
+   * <li> Level&nbsp;3 Version&nbsp;2
    * </ul>
    <p>
    * Strict conversion applies the additional criteria that both the
@@ -639,17 +649,17 @@ appears in the documentation.
    * and version.  Thus, information that cannot be converted
    * (e.g. sboTerms) will be lost.
    <p>
-   * @param level the desired SBML Level
+   * @param level the desired SBML Level.
    <p>
-   * @param version the desired Version within the SBML Level
+   * @param version the desired Version within the SBML Level.
    <p>
    * @param strict boolean indicating whether to check consistency
    * of both the source and target model when performing
-   * conversion (defaults to <code> true </code>)
+   * conversion (defaults to <code> true </code>).
    <p>
    * @param ignorePackages boolean indicating whether the presence of
    * packages should be ignored by the conversion routine 
-   * (defaults to <code> false </code>)
+   * (defaults to <code> false </code>).
    <p>
    * @return <code>true</code> if the level and version of the document were
    * successfully set to the requested values (which may have required
@@ -684,7 +694,7 @@ appears in the documentation.
    * @see #checkL2v2Compatibility()
    * @see #checkL2v3Compatibility()
    * @see #checkL2v4Compatibility()
-   * @see #checkL3v1Compatibility()
+   * @see #checkL2v5Compatibility()
    * @see #checkL3v1Compatibility()
    */ public
  boolean setLevelAndVersion(long level, long version, boolean strict, boolean ignorePackages) {
@@ -709,7 +719,8 @@ appears in the documentation.
    * {@link SBMLDocument#checkL2v1Compatibility()},
    * {@link SBMLDocument#checkL2v2Compatibility()},
    * {@link SBMLDocument#checkL2v3Compatibility()},
-   * {@link SBMLDocument#checkL2v4Compatibility()}, and
+   * {@link SBMLDocument#checkL2v4Compatibility()},
+   * {@link SBMLDocument#checkL2v5Compatibility()}, and
    * {@link SBMLDocument#checkL3v1Compatibility()}.
    <p>
    * The valid combinations of SBML Level and Version as of this release
@@ -720,7 +731,9 @@ appears in the documentation.
    * <li> Level&nbsp;2 Version&nbsp;2
    * <li> Level&nbsp;2 Version&nbsp;3
    * <li> Level&nbsp;2 Version&nbsp;4
+   * <li> Level&nbsp;2 Version&nbsp;5
    * <li> Level&nbsp;3 Version&nbsp;1
+   * <li> Level&nbsp;3 Version&nbsp;2
    * </ul>
    <p>
    * Strict conversion applies the additional criteria that both the
@@ -733,17 +746,17 @@ appears in the documentation.
    * and version.  Thus, information that cannot be converted
    * (e.g. sboTerms) will be lost.
    <p>
-   * @param level the desired SBML Level
+   * @param level the desired SBML Level.
    <p>
-   * @param version the desired Version within the SBML Level
+   * @param version the desired Version within the SBML Level.
    <p>
    * @param strict boolean indicating whether to check consistency
    * of both the source and target model when performing
-   * conversion (defaults to <code> true </code>)
+   * conversion (defaults to <code> true </code>).
    <p>
    * @param ignorePackages boolean indicating whether the presence of
    * packages should be ignored by the conversion routine 
-   * (defaults to <code> false </code>)
+   * (defaults to <code> false </code>).
    <p>
    * @return <code>true</code> if the level and version of the document were
    * successfully set to the requested values (which may have required
@@ -778,7 +791,7 @@ appears in the documentation.
    * @see #checkL2v2Compatibility()
    * @see #checkL2v3Compatibility()
    * @see #checkL2v4Compatibility()
-   * @see #checkL3v1Compatibility()
+   * @see #checkL2v5Compatibility()
    * @see #checkL3v1Compatibility()
    */ public
  boolean setLevelAndVersion(long level, long version, boolean strict) {
@@ -803,7 +816,8 @@ appears in the documentation.
    * {@link SBMLDocument#checkL2v1Compatibility()},
    * {@link SBMLDocument#checkL2v2Compatibility()},
    * {@link SBMLDocument#checkL2v3Compatibility()},
-   * {@link SBMLDocument#checkL2v4Compatibility()}, and
+   * {@link SBMLDocument#checkL2v4Compatibility()},
+   * {@link SBMLDocument#checkL2v5Compatibility()}, and
    * {@link SBMLDocument#checkL3v1Compatibility()}.
    <p>
    * The valid combinations of SBML Level and Version as of this release
@@ -814,7 +828,9 @@ appears in the documentation.
    * <li> Level&nbsp;2 Version&nbsp;2
    * <li> Level&nbsp;2 Version&nbsp;3
    * <li> Level&nbsp;2 Version&nbsp;4
+   * <li> Level&nbsp;2 Version&nbsp;5
    * <li> Level&nbsp;3 Version&nbsp;1
+   * <li> Level&nbsp;3 Version&nbsp;2
    * </ul>
    <p>
    * Strict conversion applies the additional criteria that both the
@@ -827,17 +843,17 @@ appears in the documentation.
    * and version.  Thus, information that cannot be converted
    * (e.g. sboTerms) will be lost.
    <p>
-   * @param level the desired SBML Level
+   * @param level the desired SBML Level.
    <p>
-   * @param version the desired Version within the SBML Level
+   * @param version the desired Version within the SBML Level.
    <p>
    * @param strict boolean indicating whether to check consistency
    * of both the source and target model when performing
-   * conversion (defaults to <code> true </code>)
+   * conversion (defaults to <code> true </code>).
    <p>
    * @param ignorePackages boolean indicating whether the presence of
    * packages should be ignored by the conversion routine 
-   * (defaults to <code> false </code>)
+   * (defaults to <code> false </code>).
    <p>
    * @return <code>true</code> if the level and version of the document were
    * successfully set to the requested values (which may have required
@@ -872,7 +888,7 @@ appears in the documentation.
    * @see #checkL2v2Compatibility()
    * @see #checkL2v3Compatibility()
    * @see #checkL2v4Compatibility()
-   * @see #checkL3v1Compatibility()
+   * @see #checkL2v5Compatibility()
    * @see #checkL3v1Compatibility()
    */ public
  boolean setLevelAndVersion(long level, long version) {
@@ -1026,7 +1042,7 @@ appears in the documentation.
    * Performing this set of checks is highly recommended.  With respect to
    * the SBML specification, these concern failures in applying the
    * validation rules numbered 2xxxx in the Level&nbsp;2
-   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.
    <p>
    * <li> {@link libsbmlConstants#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY}:
    * Correctness and consistency of identifiers used for model entities.  An
@@ -1034,31 +1050,31 @@ appears in the documentation.
    * reaction rate formula without first having declared the species.  With
    * respect to the SBML specification, these concern failures in applying
    * the validation rules numbered 103xx in the Level&nbsp;2
-   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.
    <p>
    * <li> {@link libsbmlConstants#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY}:
    * Consistency of measurement units associated with quantities in a model.
    * With respect to the SBML specification, these concern failures in
    * applying the validation rules numbered 105xx in the Level&nbsp;2
-   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.
    <p>
    * <li> {@link libsbmlConstants#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY}:
    * Syntax of MathML constructs.  With respect to the SBML specification,
    * these concern failures in applying the validation rules numbered 102xx
    * in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
-   * Version&nbsp;1 specifications.
+   * Versions&nbsp;1&ndash;2 specifications.
    <p>
    * <li> {@link libsbmlConstants#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY}:
    * Consistency and validity of SBO identifiers (if any) used in the model.
    * With respect to the SBML specification, these concern failures in
    * applying the validation rules numbered 107xx in the Level&nbsp;2
-   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.
    <p>
    * <li> {@link libsbmlConstants#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL}:
    * Static analysis of whether the system of equations implied by a model is
    * mathematically overdetermined.  With respect to the SBML specification,
    * this is validation rule #10601 in the Level&nbsp;2
-   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.
    <p>
    * <li> {@link libsbmlConstants#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE}:
    * Additional checks for recommended good modeling practice. (These are
@@ -1119,7 +1135,7 @@ appears in the documentation.
    * Performing this set of checks is highly recommended.  With respect to
    * the SBML specification, these concern failures in applying the
    * validation rules numbered 2xxxx in the Level&nbsp;2
-   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.
    <p>
    * <li> {@link libsbmlConstants#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY}:
    * Correctness and consistency of identifiers used for model entities.  An
@@ -1127,32 +1143,32 @@ appears in the documentation.
    * reaction rate formula without first having declared the species.  With
    * respect to the SBML specification, these concern failures in applying
    * the validation rules numbered 103xx in the Level&nbsp;2
-   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.
    <p>
    * <li> {@link libsbmlConstants#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY}:
 <p>
    * Consistency of measurement units associated with quantities in a model.
    * With respect to the SBML specification, these concern failures in
    * applying the validation rules numbered 105xx in the Level&nbsp;2
-   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.
    <p>
    * <li> {@link libsbmlConstants#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY}:
    * Syntax of MathML constructs.  With respect to the SBML specification,
    * these concern failures in applying the validation rules numbered 102xx
    * in the Level&nbsp;2 Versions&nbsp;2&ndash;4 and Level&nbsp;3
-   * Version&nbsp;1 specifications.
+   * Versions&nbsp;1&ndash;2 specifications.
    <p>
    * <li> {@link libsbmlConstants#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY}:
    * Consistency and validity of SBO identifiers (if any) used in the model.
    * With respect to the SBML specification, these concern failures in
    * applying the validation rules numbered 107xx in the Level&nbsp;2
-   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.
    <p>
    * <li> {@link libsbmlConstants#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL}:
    * Static analysis of whether the system of equations implied by a model is
    * mathematically overdetermined.  With respect to the SBML specification,
    * this is validation rule #10601 in the Level&nbsp;2
-   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Version&nbsp;1 specifications.
+   * Versions&nbsp;2&ndash;4 and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.
    <p>
    * <li> {@link libsbmlConstants#LIBSBML_CAT_MODELING_PRACTICE LIBSBML_CAT_MODELING_PRACTICE}:
    * Additional checks for recommended good modeling practice. (These are
@@ -1410,6 +1426,21 @@ appears in the documentation.
   
 /**
    * Performs a set of consistency checks on the document to establish
+   * whether it is compatible with SBML Level&nbsp;2 Version&nbsp;5 and can
+   * be converted to Level&nbsp;2 Version&nbsp;5.
+   <p>
+   * Callers should query the results of the consistency check by calling
+   * {@link SBMLDocument#getError(long)}.
+   <p>
+   * @return the number of failed checks (errors) encountered.
+   */ public
+ long checkL2v5Compatibility() {
+    return libsbmlJNI.SBMLDocument_checkL2v5Compatibility(swigCPtr, this);
+  }
+
+  
+/**
+   * Performs a set of consistency checks on the document to establish
    * whether it is compatible with SBML Level&nbsp;3 Version&nbsp;1 and can
    * be converted to Level&nbsp;3 Version&nbsp;1.
    <p>
@@ -1420,6 +1451,21 @@ appears in the documentation.
    */ public
  long checkL3v1Compatibility() {
     return libsbmlJNI.SBMLDocument_checkL3v1Compatibility(swigCPtr, this);
+  }
+
+  
+/**
+  * Performs a set of consistency checks on the document to establish
+  * whether it is compatible with SBML Level&nbsp;3 Version&nbsp;2 and can
+  * be converted to Level&nbsp;3 Version&nbsp;2.
+  <p>
+  * Callers should query the results of the consistency check by calling
+  * {@link SBMLDocument#getError(long)}.
+  <p>
+  * @return the number of failed checks (errors) encountered.
+  */ public
+ long checkL3v2Compatibility() {
+    return libsbmlJNI.SBMLDocument_checkL3v2Compatibility(swigCPtr, this);
   }
 
   
@@ -1467,7 +1513,7 @@ appears in the documentation.
    * Returns the number of errors or warnings encountered during parsing,
    * consistency checking, or attempted translation of this model.
    <p>
-   * @return the number of errors or warnings encountered
+   * @return the number of errors or warnings encountered.
    <p>
    * @see SBMLDocument#getError(long n)
    */ public
@@ -1481,9 +1527,9 @@ appears in the documentation.
    * severity during parsing,
    * consistency checking, or attempted translation of this model.
    <p>
-   * @param severity the severity of the error sought. 
+   * @param severity the severity of the error sought.
    <p>
-   * @return the number of errors or warnings encountered
+   * @return the number of errors or warnings encountered.
    <p>
    * @see SBMLDocument#getError(long n)
    */ public
@@ -1617,7 +1663,7 @@ appears in the documentation.
    * Converts this document using the converter that best matches
    * the given conversion properties. 
    <p>
-   * @param props the conversion properties to use
+   * @param props the conversion properties to use.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -1686,7 +1732,7 @@ appears in the documentation.
    * Returns the list of errors or warnings logged during parsing, 
    * consistency checking, or attempted translation of this model.
    <p>
-   * @return the {@link SBMLErrorLog} used for this {@link SBMLDocument}
+   * @return the {@link SBMLErrorLog} used for this {@link SBMLDocument}.
    <p>
    * @see SBMLDocument#getNumErrors()
    */ public
@@ -1700,7 +1746,7 @@ appears in the documentation.
    * Returns a list of XML Namespaces associated with the XML content
    * of this SBML document.
    <p>
-   * @return the XML Namespaces associated with this SBML object
+   * @return the XML Namespaces associated with this SBML object.
    */ public
  XMLNamespaces getNamespaces() {
     long cPtr = libsbmlJNI.SBMLDocument_getNamespaces(swigCPtr, this);
@@ -1744,7 +1790,7 @@ appears in the documentation.
    <p>
    * @param package the name or URI of the package extension.
    <p>
-   * @return a boolean 
+   * @return a boolean indicating whether the given package's default namespace is enabled.
    */ public
  boolean isEnabledDefaultNS(String arg0) {
     return libsbmlJNI.SBMLDocument_isEnabledDefaultNS(swigCPtr, this, arg0);
@@ -1801,7 +1847,7 @@ appears in the documentation.
    <p>
    * @param package the name or URI of the package extension.
    <p>
-   * @return a Boolean
+   * @return a Boolean indicating whether the package's 'required' flag is set.
    */ public
  boolean isSetPackageRequired(String arg0) {
     return libsbmlJNI.SBMLDocument_isSetPackageRequired(swigCPtr, this, arg0);
@@ -1922,7 +1968,7 @@ appears in the documentation.
    <p>
    * @param pkgURI the URI of the package extension.
    <p>
-   * @return a boolean
+   * @return a boolean indicating whether the given package is being ignored.
    <p>
    * @deprecated <div class='deprecated'>Replaced in libSBML 5.2.0 by
    * isIgnoredPackage(String)

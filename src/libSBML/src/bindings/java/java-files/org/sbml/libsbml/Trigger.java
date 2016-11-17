@@ -18,11 +18,20 @@ package org.sbml.libsbml;
  <p>
  * A {@link Trigger} object in SBML Level&nbsp;2 and Level&nbsp;3 contains one
  * subelement named 'math' containing a MathML expression.  The expression
- * must evaluate to a value of type <code>boolean.</code>  The exact moment at which
+ * is evaluated as a value of type <code>boolean.</code>  The exact moment at which
  * the expression evaluates to <code>true</code> is the time point when the {@link Event} is
  * <em>triggered</em>.  In SBML Level&nbsp;3, {@link Trigger} has additional attributes
  * that must be assigned values; they are discussed in a separate section
  * below.
+ <p>
+ * In SBML Level&nbsp;2 and SBML Level&nbsp;3 Version&nbsp;1, the 'math'
+ * subelement is required, and it must evaluate to a <code>boolean</code> expression.
+ * In SBML Level&nbsp;3 Version&nbsp;2, those restrictions are relaxed:
+ * the 'math' element is optional, and numeric values are allowed in 
+ * Boolean contexts (a '0' is interpreted as <code>false</code>, and all other
+ * values are interpreted as <code>true</code>).  If a {@link Trigger} with no 'math'
+ * is present in an {@link Event}, that {@link Event} will never <em>trigger</em>, unless that
+ * missing information is included in an SBML Level&nbsp;3 package.
  <p>
  * An event only <em>triggers</em> when its {@link Trigger} expression makes the
  * transition in value from <code>false</code> to <code>true.</code>  The event will also
@@ -154,10 +163,10 @@ public class Trigger extends SBase {
    * Creates a new {@link Trigger} using the given SBML <code>level</code> and <code>version</code>
    * values.
    <p>
-   * @param level a long integer, the SBML Level to assign to this {@link Trigger}
+   * @param level a long integer, the SBML Level to assign to this {@link Trigger}.
    <p>
    * @param version a long integer, the SBML Version to assign to this
-   * {@link Trigger}
+   * {@link Trigger}.
    <p>
    * <p>
  * @throws SBMLConstructorException
@@ -250,7 +259,7 @@ public class Trigger extends SBase {
    * Get the mathematical formula for the trigger and return it
    * as an AST.
    <p>
-   * @return the math of this {@link Trigger}.
+   * @return the math of this {@link Trigger}, or <code>null</code> if the math is not set.
    */ public
  ASTNode getMath() {
     long cPtr = libsbmlJNI.Trigger_getMath(swigCPtr, this);
@@ -265,8 +274,8 @@ public class Trigger extends SBase {
    * @return the boolean value stored as the 'initialValue' attribute value
    * in this {@link Trigger}.
    <p>
-   * @note The attribute 'initialValue' is available in SBML Level&nbsp;3
-   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   * @note The attribute 'initialValue' is available in SBML Level&nbsp;3,
+   * but is not present in lower Levels of SBML.
    */ public
  boolean getInitialValue() {
     return libsbmlJNI.Trigger_getInitialValue(swigCPtr, this);
@@ -280,8 +289,8 @@ public class Trigger extends SBase {
    * @return the boolean value stored as the 'persistent' attribute value
    * in this {@link Trigger}.
    <p>
-   * @note The attribute 'persistent' is available in SBML Level&nbsp;3
-   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   * @note The attribute 'persistent' is available in SBML Level&nbsp;3,
+   * but is not present in lower Levels of SBML.
    */ public
  boolean getPersistent() {
     return libsbmlJNI.Trigger_getPersistent(swigCPtr, this);
@@ -306,8 +315,8 @@ public class Trigger extends SBase {
    * @return <code>true</code> if the initialValue attribute of
    * this {@link Trigger} is set, <code>false</code> otherwise.
    <p>
-   * @note The attribute 'initialValue' is available in SBML Level&nbsp;3
-   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   * @note The attribute 'initialValue' is available in SBML Level&nbsp;3,
+   * but is not present in lower Levels of SBML.
    */ public
  boolean isSetInitialValue() {
     return libsbmlJNI.Trigger_isSetInitialValue(swigCPtr, this);
@@ -321,8 +330,8 @@ public class Trigger extends SBase {
    * @return <code>true</code> if the persistent attribute of
    * this {@link Trigger} is set, <code>false</code> otherwise.
    <p>
-   * @note The attribute 'persistent' is available in SBML Level&nbsp;3
-   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   * @note The attribute 'persistent' is available in SBML Level&nbsp;3,
+   * but is not present in lower Levels of SBML.
    */ public
  boolean isSetPersistent() {
     return libsbmlJNI.Trigger_isSetPersistent(swigCPtr, this);
@@ -363,8 +372,8 @@ public class Trigger extends SBase {
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
-   * @note The attribute 'initialValue' is available in SBML Level&nbsp;3
-   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   * @note The attribute 'initialValue' is available in SBML Level&nbsp;3,
+   * but is not present in lower Levels of SBML.
    */ public
  int setInitialValue(boolean initialValue) {
     return libsbmlJNI.Trigger_setInitialValue(swigCPtr, this, initialValue);
@@ -385,8 +394,8 @@ public class Trigger extends SBase {
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
-   * @note The attribute 'persistent' is available in SBML Level&nbsp;3
-   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   * @note The attribute 'persistent' is available in SBML Level&nbsp;3,
+   * but is not present in lower Levels of SBML.
    */ public
  int setPersistent(boolean persistent) {
     return libsbmlJNI.Trigger_setPersistent(swigCPtr, this, persistent);
@@ -406,8 +415,8 @@ public class Trigger extends SBase {
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
-   * @note The attribute 'initialValue' is available in SBML Level&nbsp;3
-   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   * @note The attribute 'initialValue' is available in SBML Level&nbsp;3,
+   * but is not present in lower Levels of SBML.
    */ public
  int unsetInitialValue() {
     return libsbmlJNI.Trigger_unsetInitialValue(swigCPtr, this);
@@ -427,8 +436,8 @@ public class Trigger extends SBase {
    * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
-   * @note The attribute 'persistent' is available in SBML Level&nbsp;3
-   * Version&nbsp;1 Core, but is not present in lower Levels of SBML.
+   * @note The attribute 'persistent' is available in SBML Level&nbsp;3,
+   * but is not present in lower Levels of SBML.
    */ public
  int unsetPersistent() {
     return libsbmlJNI.Trigger_unsetPersistent(swigCPtr, this);
@@ -488,7 +497,7 @@ public class Trigger extends SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -499,8 +508,8 @@ public class Trigger extends SBase {
  * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
  * descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.Trigger_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -529,8 +538,8 @@ public class Trigger extends SBase {
  * are found, the matching values are replaced with <code>newid</code>.  The method
  * does <em>not</em> descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.Trigger_renameUnitSIdRefs(swigCPtr, this, oldid, newid);
@@ -550,7 +559,8 @@ public class Trigger extends SBase {
    <p>
    * @note The required elements for a {@link Trigger} object are:
    * <ul>
-   * <li> 'math'
+   * <li> 'math' inSBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1.  
+   *     (In SBML Level&nbsp;3 Version&nbsp;2+, it is no longer required.)
    *
    * </ul> <p>
    * @return a boolean value indicating whether all the required

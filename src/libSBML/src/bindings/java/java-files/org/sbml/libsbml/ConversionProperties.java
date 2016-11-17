@@ -38,7 +38,7 @@ the implementation of extra functionality provided by libSBML.
  * The use of all the converters follows a similar approach.  First, one
  * creates a {@link ConversionProperties} object and calls
  * {@link ConversionProperties#addOption(ConversionOption)}
- * on this object with one arguments: a text string that identifies the desired
+ * on this object with one argument: a text string that identifies the desired
  * converter.  (The text string is specific to each converter; consult the
  * documentation for a given converter to find out how it should be enabled.)
  <p>
@@ -112,7 +112,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.13.0:
+ * provided by libSBML 5.14.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  <p>
@@ -167,7 +167,7 @@ public class ConversionProperties {
    * Constructor that initializes the conversion properties
    * with a specific SBML target namespace.
    <p>
-   * @param targetNS the target namespace to convert to
+   * @param targetNS the target namespace to convert to.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -193,7 +193,7 @@ appears in the documentation.
    * Constructor that initializes the conversion properties
    * with a specific SBML target namespace.
    <p>
-   * @param targetNS the target namespace to convert to
+   * @param targetNS the target namespace to convert to.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -321,7 +321,7 @@ appears in the documentation.
 /**
    * Adds a copy of the given option to this properties object.
    <p>
-   * @param option the option to add
+   * @param option the option to add.
    */ public
  void addOption(ConversionOption option) {
     libsbmlJNI.ConversionProperties_addOption__SWIG_0(swigCPtr, this, ConversionOption.getCPtr(option), option);
@@ -331,11 +331,11 @@ appears in the documentation.
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
-   * @param key the key for the new option
-   * @param value (optional) the value of that option
+   * @param key the key for the new option.
+   * @param value (optional) the value of that option.
    * @param type (optional) the type of the option (see the documentation
-   * for {@link ConversionOption} for more information about the types)
-   * @param description (optional) the description for the option
+   * for {@link ConversionOption} for more information about the types).
+   * @param description (optional) the description for the option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -360,11 +360,11 @@ appears in the documentation.
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
-   * @param key the key for the new option
-   * @param value (optional) the value of that option
+   * @param key the key for the new option.
+   * @param value (optional) the value of that option.
    * @param type (optional) the type of the option (see the documentation
-   * for {@link ConversionOption} for more information about the types)
-   * @param description (optional) the description for the option
+   * for {@link ConversionOption} for more information about the types).
+   * @param description (optional) the description for the option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -389,11 +389,11 @@ appears in the documentation.
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
-   * @param key the key for the new option
-   * @param value (optional) the value of that option
+   * @param key the key for the new option.
+   * @param value (optional) the value of that option.
    * @param type (optional) the type of the option (see the documentation
-   * for {@link ConversionOption} for more information about the types)
-   * @param description (optional) the description for the option
+   * for {@link ConversionOption} for more information about the types).
+   * @param description (optional) the description for the option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -418,11 +418,11 @@ appears in the documentation.
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
-   * @param key the key for the new option
-   * @param value (optional) the value of that option
+   * @param key the key for the new option.
+   * @param value (optional) the value of that option.
    * @param type (optional) the type of the option (see the documentation
-   * for {@link ConversionOption} for more information about the types)
-   * @param description (optional) the description for the option
+   * for {@link ConversionOption} for more information about the types).
+   * @param description (optional) the description for the option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -447,9 +447,9 @@ appears in the documentation.
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
-   * @param key the key for the new option
-   * @param value the string value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the string value of that option.
+   * @param description (optional) the description for the option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -474,9 +474,9 @@ appears in the documentation.
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
-   * @param key the key for the new option
-   * @param value the boolean value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the boolean value of that option.
+   * @param description (optional) the description for the option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -501,9 +501,9 @@ appears in the documentation.
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
-   * @param key the key for the new option
-   * @param value the boolean value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the boolean value of that option.
+   * @param description (optional) the description for the option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -528,9 +528,9 @@ appears in the documentation.
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
-   * @param key the key for the new option
-   * @param value the double value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the double value of that option.
+   * @param description (optional) the description for the option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -555,9 +555,9 @@ appears in the documentation.
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
-   * @param key the key for the new option
-   * @param value the double value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the double value of that option.
+   * @param description (optional) the description for the option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -582,9 +582,9 @@ appears in the documentation.
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
-   * @param key the key for the new option
-   * @param value the float value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the float value of that option.
+   * @param description (optional) the description for the option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -609,9 +609,9 @@ appears in the documentation.
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
-   * @param key the key for the new option
-   * @param value the float value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the float value of that option.
+   * @param description (optional) the description for the option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -636,9 +636,9 @@ appears in the documentation.
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
-   * @param key the key for the new option
-   * @param value the integer value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the integer value of that option.
+   * @param description (optional) the description for the option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -663,9 +663,9 @@ appears in the documentation.
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
-   * @param key the key for the new option
-   * @param value the integer value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the integer value of that option.
+   * @param description (optional) the description for the option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -690,8 +690,8 @@ appears in the documentation.
 /**
    * Removes the option with the given key from this properties object.
    <p>
-   * @param key the key for the new option to remove
-   * @return the removed option
+   * @param key the key for the new option to remove.
+   * @return the removed option.
    */ public
  ConversionOption removeOption(String key) {
     long cPtr = libsbmlJNI.ConversionProperties_removeOption(swigCPtr, this, key);
@@ -728,8 +728,8 @@ appears in the documentation.
 /**
    * Sets the value of the given option to a string.
    <p>
-   * @param key the key for the option
-   * @param value the new value
+   * @param key the key for the option.
+   * @param value the new value.
    */ public
  void setValue(String key, String value) {
     libsbmlJNI.ConversionProperties_setValue(swigCPtr, this, key, value);
@@ -835,7 +835,7 @@ appears in the documentation.
 /** 
    * Returns the number of options in this Conversion Properties object
    <p>
-   * @return the number of options in this properties object
+   * @return the number of options in this properties object.
    */ public
  int getNumOptions() {
     return libsbmlJNI.ConversionProperties_getNumOptions(swigCPtr, this);

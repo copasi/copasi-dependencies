@@ -176,9 +176,7 @@ protected:
   void checkId (const SubListOfSpeciesFeatures&  x);
   void checkId (const PossibleSpeciesFeatureValue&  x);
   void checkId (const SpeciesFeature&  x);
-  void checkId (const SpeciesFeatureChange&  x);
   void checkId (const CompartmentReference&  x);
-//  void checkId (const SBase&    x);
 
   /**
    * Returns a non-owning character pointer to the typename of the given SBase 

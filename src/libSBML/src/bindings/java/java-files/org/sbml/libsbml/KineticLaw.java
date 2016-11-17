@@ -17,7 +17,9 @@ package org.sbml.libsbml;
  * (of class {@link ListOfParameters}), in addition to the attributes and
  * subelements it inherits from {@link SBase}.
  <p>
- * {@link KineticLaw}'s 'math' subelement for holding a MathML formula defines the
+ * {@link KineticLaw}'s 'math' subelement for holding a MathML formula (required 
+ * through SBML Level&nbsp;3 Version&nbsp;1, but optional as of SBML 
+ * Level&nbsp;3 Version&nbsp;2) defines the
  * rate of the reaction.  The formula may refer to other entities in a
  * model as well as local parameter definitions within the scope of the
  * {@link Reaction} (see below).  It is important to keep in mind, however, that
@@ -33,7 +35,9 @@ package org.sbml.libsbml;
  * objects; in SBML Level&nbsp;3, this is achieved using a specialized
  * object class called {@link LocalParameter} and the containing subelement is
  * called 'listOfLocalParameters'.  In both cases, the parameters so
- * defined are only visible within the {@link KineticLaw}; they cannot be accessed
+ * defined are only visible within the {@link KineticLaw} (or, as of SBML
+ * Level&nbsp;3 Version&nbsp;2, only visible within the parent {@link Reaction}); 
+ * they cannot be accessed
  * outside.  A local parameter within one reaction is not visible from
  * within another reaction, nor is it visible to any other construct
  * outside of the {@link KineticLaw} in which it is defined.  In addition, another
@@ -81,6 +85,15 @@ package org.sbml.libsbml;
  * As mentioned above, in SBML Level&nbsp;2 Versions 2&ndash;4, local
  * parameters are of class {@link Parameter}.  In SBML Level&nbsp;3, the class of
  * object is {@link LocalParameter}.
+ <p>
+ * In SBML Level&nbsp;3 Version&nbsp;2, the scope of the {@link LocalParameter}
+ * was expanded to the entire {@link Reaction}, instead of just the {@link KineticLaw}.  
+ * This introduced a single new restriction: an L3v2 {@link LocalParameter} may 
+ * not now shadow the <code>id</code> of any {@link Species} referenced by a {@link SpeciesReference}
+ * in the same {@link Reaction}.  Other than that, there is no difference in any 
+ * core construct.  However, packages may take advantage of this new scope by 
+ * adding elements to the {@link Reaction} that may now reference a {@link LocalParameter} 
+ * defined in the same {@link Reaction}.
  */
 
 public class KineticLaw extends SBase {
@@ -130,10 +143,10 @@ public class KineticLaw extends SBase {
    * Creates a new {@link KineticLaw} using the given SBML <code>level</code> and <code>version</code>
    * values.
    <p>
-   * @param level a long integer, the SBML Level to assign to this {@link KineticLaw}
+   * @param level a long integer, the SBML Level to assign to this {@link KineticLaw}.
    <p>
    * @param version a long integer, the SBML Version to assign to this
-   * {@link KineticLaw}
+   * {@link KineticLaw}.
    <p>
    * <p>
  * @throws SBMLConstructorException
@@ -226,7 +239,7 @@ public class KineticLaw extends SBase {
    * Returns the first child element found that has the given <code>id</code> in the
    * model-wide SId namespace, or <code>null</code> if no such object is found.
    <p>
-   * @param id string representing the id of objects to find.
+   * @param id string representing the id of the object to find.
    <p>
    * @return pointer to the first element found with the given <code>id</code>.
    */ public
@@ -239,7 +252,7 @@ public class KineticLaw extends SBase {
    * Returns the first child element it can find with the given <code>metaid</code>, or
    * <code>null</code> if no such object is found.
    <p>
-   * @param metaid string representing the metaid of objects to find
+   * @param metaid string representing the metaid of the object to find.
    <p>
    * @return pointer to the first element found with the given <code>metaid</code>.
    */ public
@@ -287,7 +300,8 @@ AST mechanisms.
    * with SBML Level&nbsp;1, which represented mathematical formulas in
    * text-string form.
    <p>
-   * @return the {@link ASTNode} representation of the mathematical formula.
+   * @return the {@link ASTNode} representation of the mathematical formula, 
+   * or null if the math is not set.
    <p>
    * @see #getFormula()
    */ public
@@ -599,7 +613,7 @@ AST mechanisms.
    * Adds a copy of the given {@link Parameter} object to the list of local
    * parameters in this {@link KineticLaw}.
    <p>
-   * @param p the {@link Parameter} to add
+   * @param p the {@link Parameter} to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -637,7 +651,7 @@ AST mechanisms.
    * Adds a copy of the given {@link LocalParameter} object to the list of local
    * parameters in this {@link KineticLaw}.
    <p>
-   * @param p the {@link LocalParameter} to add
+   * @param p the {@link LocalParameter} to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -675,7 +689,7 @@ AST mechanisms.
    * Creates a new {@link Parameter} object, adds it to this {@link KineticLaw}'s list of
    * local parameters, and returns the {@link Parameter} object created.
    <p>
-   * @return a new {@link Parameter} object instance
+   * @return a new {@link Parameter} object instance.
    <p>
    * @see #addParameter(Parameter p)
    */ public
@@ -689,7 +703,7 @@ AST mechanisms.
    * Creates a new {@link LocalParameter} object, adds it to this {@link KineticLaw}'s list
    * of local parameters, and returns the {@link LocalParameter} object created.
    <p>
-   * @return a new {@link LocalParameter} object instance
+   * @return a new {@link LocalParameter} object instance.
    <p>
    * @see #addLocalParameter(LocalParameter p)
    */ public
@@ -725,7 +739,7 @@ AST mechanisms.
    * Returns the nth {@link Parameter} object in the list of local parameters in
    * this {@link KineticLaw} instance.
    <p>
-   * @param n the index of the {@link Parameter} object sought
+   * @param n the index of the {@link Parameter} object sought.
    <p>
    * @return the nth {@link Parameter} of this {@link KineticLaw}.
    */ public
@@ -739,7 +753,7 @@ AST mechanisms.
    * Returns the nth {@link LocalParameter} object in the list of local parameters in
    * this {@link KineticLaw} instance.
    <p>
-   * @param n the index of the {@link LocalParameter} object sought
+   * @param n the index of the {@link LocalParameter} object sought.
    <p>
    * @return the nth {@link LocalParameter} of this {@link KineticLaw}.
    */ public
@@ -866,7 +880,7 @@ AST mechanisms.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link Parameter} object to remove
+   * @param n the index of the {@link Parameter} object to remove.
    <p>
    * @return the {@link Parameter} object removed.  As mentioned above, 
    * the caller owns the returned item. <code>null</code> is returned if the given index 
@@ -884,7 +898,7 @@ AST mechanisms.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link LocalParameter} object to remove
+   * @param n the index of the {@link LocalParameter} object to remove.
    <p>
    * @return the {@link LocalParameter} object removed.  As mentioned above, 
    * the caller owns the returned item. <code>null</code> is returned if the given index 
@@ -902,7 +916,7 @@ AST mechanisms.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param sid the identifier of the {@link Parameter} to remove
+   * @param sid the identifier of the {@link Parameter} to remove.
    <p>
    * @return the {@link Parameter} object removed.  As mentioned above, the 
    * caller owns the returned object. <code>null</code> is returned if no {@link Parameter}
@@ -920,7 +934,7 @@ AST mechanisms.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param sid the identifier of the {@link LocalParameter} to remove
+   * @param sid the identifier of the {@link LocalParameter} to remove.
    <p>
    * @return the {@link LocalParameter} object removed.  As mentioned above, the 
    * caller owns the returned object. <code>null</code> is returned if no {@link LocalParameter}
@@ -1007,7 +1021,8 @@ AST mechanisms.
    <p>
    * @note The required elements for a {@link KineticLaw} object are:
    * <ul>
-   * <li> 'math'
+   * <li> 'math' inSBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1.  
+   *     (In SBML Level&nbsp;3 Version&nbsp;2+, it is no longer required.)
    *
    * </ul> <p>
    * @return a boolean value indicating whether all the required
@@ -1049,7 +1064,7 @@ AST mechanisms.
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -1060,8 +1075,8 @@ AST mechanisms.
  * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
  * descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.KineticLaw_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -1090,8 +1105,8 @@ AST mechanisms.
  * are found, the matching values are replaced with <code>newid</code>.  The method
  * does <em>not</em> descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.KineticLaw_renameUnitSIdRefs(swigCPtr, this, oldid, newid);

@@ -82,10 +82,10 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
    * <code>version</code> values.
    <p>
    * @param level a long integer, the SBML Level to assign to this
-   * {@link ModifierSpeciesReference}
+   * {@link ModifierSpeciesReference}.
    <p>
    * @param version a long integer, the SBML Version to assign to this
-   * {@link ModifierSpeciesReference}
+   * {@link ModifierSpeciesReference}.
    <p>
    * <p>
  * @throws SBMLConstructorException

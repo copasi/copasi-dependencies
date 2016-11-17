@@ -221,6 +221,7 @@ FbcOr::getAssociation(const std::string& sid) const
  * returned by this function are:
  * @li LIBSBML_OPERATION_SUCCESS
  * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
+ * Adds a copy the given FbcAssociation to this FbcOr.
  */
 int
 FbcOr::addAssociation(const FbcAssociation* fa)
@@ -241,14 +242,17 @@ FbcOr::addAssociation(const FbcAssociation* fa)
   {
     return LIBSBML_VERSION_MISMATCH;
   }
+  else if (getPackageVersion() != fa->getPackageVersion())
+  {
+    return LIBSBML_PKG_VERSION_MISMATCH;
+  }
   else if (matchesRequiredSBMLNamespacesForAddition(static_cast<const SBase *>(fa)) == false)
   {
     return LIBSBML_NAMESPACES_MISMATCH;
   }
   else
   {
-    mAssociations.append(fa);
-    return LIBSBML_OPERATION_SUCCESS;
+    return mAssociations.append(fa);
   }
 }
 
@@ -285,7 +289,7 @@ FbcOr::toInfix() const
 
 
 /*
- * Creates a new FbcAnd object, adds it to this FbcOrs
+ * Creates a new FbcAnd object, adds it to this FbcOr's
  * ListOfFbcAssociations and returns the FbcAnd object created. 
  *
  * @return a new FbcAnd object instance
@@ -322,7 +326,7 @@ FbcOr::createAnd()
 
 
 /*
- * Creates a new FbcOr object, adds it to this FbcOrs
+ * Creates a new FbcOr object, adds it to this FbcOr's
  * ListOfFbcAssociations and returns the FbcOr object created. 
  *
  * @return a new FbcOr object instance
@@ -359,7 +363,7 @@ FbcOr::createOr()
 
 
 /*
- * Creates a new GeneProductRef object, adds it to this FbcOrs
+ * Creates a new GeneProductRef object, adds it to this FbcOr's
  * ListOfFbcAssociations and returns the GeneProductRef object created. 
  *
  * @return a new GeneProductRef object instance
@@ -470,7 +474,7 @@ FbcOr::writeElements (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -492,7 +496,7 @@ FbcOr::accept (SBMLVisitor& v) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -508,7 +512,7 @@ FbcOr::setSBMLDocument (SBMLDocument* d)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -525,7 +529,7 @@ FbcOr::connectToChild()
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -542,7 +546,7 @@ FbcOr::enablePackageInternal(const std::string& pkgURI,
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -565,7 +569,7 @@ FbcOr::createObject(XMLInputStream& stream)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -581,7 +585,7 @@ FbcOr::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -628,7 +632,7 @@ FbcOr::readAttributes (const XMLAttributes& attributes,
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -644,7 +648,7 @@ FbcOr::writeAttributes (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 LIBSBML_EXTERN

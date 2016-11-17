@@ -540,7 +540,6 @@ END_CONSTRAINT
 // MultiSptIns_AllowedCoreAtts           = 7020801 - caught at read at 'SpeciesTypeInstance::readAttributes()'
 // MultiSptIns_AllowedCoreElts           = 7020802 - caught at read at 'SBase::logUnknownElement()'
 // MultiSptIns_AllowedMultiAtts          = 7020803 - caught at read at 'SpeciesTypeInstance::readAttributes()'
-// MultiSptIns_OccAtt_Ref                = 7020804 - caught at read at 'SpeciesTypeInstance::readAttributes()'
 
 // MultiSptIns_SptAtt_Ref                = 7020805
 /*!< SpeciesTypeInstance: 'speciesType' must be the 'id' of a speciesType */
@@ -616,18 +615,6 @@ START_CONSTRAINT (MultiSptCpoInd_IdParAtt_Ref, SpeciesTypeComponentIndex, specie
   }
 }
 END_CONSTRAINT
-
-// MultiSptCpoInd_OccAtt_Ref             = 7020908 - caught at read at 'SpeciesTypeComponentIndex::readAttributes()'
-// MultiLofDenSptCpoInds_NoEmpty         = 7020909 - caught at read at 'SBase::checkListOfPopulated()', TODO: need update if core is revised.
-// MultiLofDenSptCpoInds_AllowedAtts     = 7020910 - caught at read at 'DenotedSpeciesTypeComponentIndex::readAttributes()'
-// MultiLofDenSptCpoInds_Elts            = 7020911 - caught at read at 'SBase::logUnknownElement()'
-
-//************************************
-// Rules for DenotedSpeciesTypeComponentIndex objects
-
-// MultiDenSptCpoInd_AllowedCoreAtts     = 7021001 - caught at read at 'DenotedSpeciesTypeComponentIndex::readAttributes()'
-// MultiDenSptCpoInd_AllowedCoreElts     = 7021002 - caught at read at 'SBase::logUnknownElement()'
-// MultiDenSptCpoInd_AllowedMultiAtts    = 7021003 - caught at read at 'DenotedSpeciesTypeComponentIndex::readAttributes()'
 
 //************************************
 // Rules for InSpeciesTypeBond objects
@@ -748,6 +735,44 @@ START_CONSTRAINT (MultiOutBst_CpoAtt_Ref, OutwardBindingSite, outwardBindingSite
 		  dynamic_cast<const BindingSiteSpeciesType*>(st);
 
   inv(bst != NULL);
+}
+END_CONSTRAINT
+
+// MultiOutBst_NotInBond                = 7021306
+/*!< OutwardBindingSite: An outwardBindingSite can not be in a bond of the species */
+
+START_CONSTRAINT (MultiOutBst_NotInBond, OutwardBindingSite, outwardBindingSite)
+{
+  // compare only component ids in bonds, TODO: check all possible component ids of binding site in bonds
+  const MultiModelPlugin * mPlugin =
+      dynamic_cast<const MultiModelPlugin*>(m.getPlugin("multi"));
+
+  pre (mPlugin != 0);
+
+  std::string bstComponentId = outwardBindingSite.getComponent();
+
+  const SBase * parent = outwardBindingSite.getParentSBMLObject()->getParentSBMLObject();
+  const Species * species = dynamic_cast<const Species *> (parent);
+  pre (species != 0);
+
+  const MultiSpeciesPlugin * spPlugin =
+		  dynamic_cast<const MultiSpeciesPlugin *>(species->getPlugin("multi"));
+  pre (spPlugin != 0);
+
+  std::string stId = spPlugin->getSpeciesType();
+
+  const MultiSpeciesType * st = mPlugin->getMultiSpeciesType(stId);
+  pre (st != 0);
+
+  bool found = false;
+  for (unsigned int i = 0; !found && i < st->getNumInSpeciesTypeBonds(); i++) {
+	const InSpeciesTypeBond * inSpeciesTypeBond = st->getInSpeciesTypeBond(i);
+	std::string bst1 = inSpeciesTypeBond->getBindingSite1();
+	inv(bst1 != bstComponentId);
+
+	std::string bst2 = inSpeciesTypeBond->getBindingSite2();
+	inv(bst2 != bstComponentId);
+  }
 }
 END_CONSTRAINT
 
@@ -1110,90 +1135,6 @@ START_CONSTRAINT (MultiSptCpoMapInPro_ProCpoAtt_Ref, SpeciesTypeComponentMapInPr
 }
 END_CONSTRAINT
 
-// MultiLofSpeFtrChgs_NoEmpty            = 7021907 - caught at read at 'SBase::checkListOfPopulated()', TODO: need update if core is revised.
-// MultiLofSpeFtrChgs_AllowedAtts        = 7021908 - caught at read at 'SpeciesFeatureChange::readAttributes()'
-// MultiLofSpeFtrChgs_AllowedElts        = 7021909 - caught at read at 'SBase::logUnknownElement()'
-
-//************************************
-// Rules for SpeciesFeatureChange objects
-
-// MultiSpeFtrChg_AllowedCoreAtts        = 7022001 - caught at read at 'SpeciesFeatureChange::readAttributes()'
-// MultiSpeFtrChg_AllowedCoreElts        = 7022002 - caught at read at 'SBase::logUnknownElement()'
-// MultiSpeFtrChg_AllowedMultiAtts       = 7022003 - caught at read at 'SpeciesFeatureChange::readAttributes()'
-
-// MultiSpeFtrChg_RctSpeFtrAtt_Ref       = 7022004
-/*!< SpeciesFeatureChange: 'reactantSpeciesFeature' must be the 'id' of a speciesFeature */
-
-START_CONSTRAINT (MultiSpeFtrChg_RctSpeFtrAtt_Ref, SpeciesFeatureChange, speciesFeatureChange)
-{
-    std::string reactantSpeciesFeatureId =
-        speciesFeatureChange.getReactantSpeciesFeature();
-
-    // parent of map -- list
-    const SBase * sbaseListOfSpeciesFeatureChanges = speciesFeatureChange.getParentSBMLObject();
-    pre (sbaseListOfSpeciesFeatureChanges != NULL);
-
-
-    // parent of map list -- speciesReference
-    const SBase * sbaseSpeciesTypeComponentMapInProduct = sbaseListOfSpeciesFeatureChanges->getParentSBMLObject();
-    const SpeciesTypeComponentMapInProduct * stcmip = dynamic_cast<const SpeciesTypeComponentMapInProduct *> (sbaseSpeciesTypeComponentMapInProduct);
-    pre (stcmip != NULL);
-
-    std::string reactantId = stcmip->getReactant();
-
-    const SBase * sbaseListSpeciesTypeComponentMapsInProduct =
-                sbaseSpeciesTypeComponentMapInProduct->getParentSBMLObject();
-    pre (sbaseListSpeciesTypeComponentMapsInProduct != NULL);
-
-    const SBase * sbaseProduct = sbaseListSpeciesTypeComponentMapsInProduct->getParentSBMLObject();
-    pre (sbaseProduct != NULL);
-
-    const SBase * sbaseListOfProducts = sbaseProduct->getParentSBMLObject();
-    pre (sbaseListOfProducts != NULL);
-
-    const SBase * sbaseReaction = sbaseListOfProducts->getParentSBMLObject();
-    const Reaction * reaction = dynamic_cast<const Reaction *> (sbaseReaction);
-    pre (reaction != NULL);
-
-    const SpeciesReference * reactant = reaction->getReactant(reactantId);
-    pre (reactant != NULL);
-
-    std::string speciesId = reactant->getSpecies();
-
-    inv(__isSpeciesFeature(m, speciesId, reactantSpeciesFeatureId));
-  }
-END_CONSTRAINT
-
-// MultiSpeFtrChg_ProSpeFtrAtt_Ref       = 7022005
-/*!< SpeciesFeatureChange: 'productSpeciesFeature' must be the 'id' of a speciesFeature */
-
-START_CONSTRAINT (MultiSpeFtrChg_ProSpeFtrAtt_Ref, SpeciesFeatureChange, speciesFeatureChange)
-{
-    std::string productSpeciesFeatureId =
-        speciesFeatureChange.getProductSpeciesFeature();
-
-    // parent of map -- list
-    const SBase * sbaseListOfSpeciesFeatureChanges = speciesFeatureChange.getParentSBMLObject();
-    pre (sbaseListOfSpeciesFeatureChanges != NULL);
-
-    // parent of map list -- speciesReference
-    const SBase * sbaseSpeciesTypeComponentMapInProduct = sbaseListOfSpeciesFeatureChanges->getParentSBMLObject();
-    pre (sbaseSpeciesTypeComponentMapInProduct != NULL);
-
-    const SBase * sbaseListSpeciesTypeComponentMapsInProduct =
-                sbaseSpeciesTypeComponentMapInProduct->getParentSBMLObject();
-    pre (sbaseListSpeciesTypeComponentMapsInProduct != NULL);
-
-    const SBase * sbaseSpeciesReference =
-    		sbaseListSpeciesTypeComponentMapsInProduct->getParentSBMLObject();
-    const SpeciesReference * product =
-                    dynamic_cast<const SpeciesReference*>(sbaseSpeciesReference);
-    pre (product != NULL);
-
-    std::string speciesId = product->getSpecies();
-    inv( __isSpeciesFeature(m, speciesId, productSpeciesFeatureId));
-  }
-END_CONSTRAINT
 
 //************************************
 // Rules for extended ci elements in Math objects

@@ -5,6 +5,10 @@ if (pkgName == "multi")
   {
     return SWIGTYPE_p_MultiModelPlugin;
   }
+  else if (sb->getTypeCode() == SBML_DOCUMENT)
+  {
+    return SWIGTYPE_p_MultiSBMLDocumentPlugin;
+  }
   else if (sb->getTypeCode() == SBML_COMPARTMENT)
   {
     return SWIGTYPE_p_MultiCompartmentPlugin;

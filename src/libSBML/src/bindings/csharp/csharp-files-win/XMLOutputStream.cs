@@ -879,7 +879,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * as a comment in the output stream.
    *
    * @param writeTimestamp an optional flag indicating that a timestamp should
-   * be written
+   * be written.
    */ public
  void writeComment(string programName, string programVersion, bool writeTimestamp) {
     libsbmlPINVOKE.XMLOutputStream_writeComment__SWIG_0(swigCPtr, programName, programVersion, writeTimestamp);
@@ -905,7 +905,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * as a comment in the output stream.
    *
    * @param writeTimestamp an optional flag indicating that a timestamp should
-   * be written
+   * be written.
    */ public
  void writeComment(string programName, string programVersion) {
     libsbmlPINVOKE.XMLOutputStream_writeComment__SWIG_1(swigCPtr, programName, programVersion);
@@ -972,7 +972,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
   
 /**
    * @return a boolean, whether the output stream will write an XML
-   * comment at the top of the file. (Enabled by default)
+   * comment at the top of the file. (Enabled by default.)
    */ public
  static bool getWriteComment() {
     bool ret = libsbmlPINVOKE.XMLOutputStream_getWriteComment();
@@ -982,9 +982,9 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
   
 /**
    * sets a flag, whether the output stream will write an XML
-   * comment at the top of the file. (Enabled by default)
+   * comment at the top of the file. (Enabled by default.)
    *
-   * @param writeComment the flag
+   * @param writeComment the flag.
    */ public
  static void setWriteComment(bool writeComment) {
     libsbmlPINVOKE.XMLOutputStream_setWriteComment(writeComment);
@@ -993,7 +993,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
   
 /**
    * @return a boolean, whether the output stream will write an XML
-   * comment with a timestamp at the top of the file. (Enabled by default)
+   * comment with a timestamp at the top of the file. (Enabled by default.)
    */ public
  static bool getWriteTimestamp() {
     bool ret = libsbmlPINVOKE.XMLOutputStream_getWriteTimestamp();
@@ -1003,9 +1003,9 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
   
 /**
    * sets a flag, whether the output stream will write an XML
-   * comment with a timestamp at the top of the file. (Enabled by default)
+   * comment with a timestamp at the top of the file. (Enabled by default.)
    *
-   * @param writeTimestamp the flag
+   * @param writeTimestamp the flag.
    */ public
  static void setWriteTimestamp(bool writeTimestamp) {
     libsbmlPINVOKE.XMLOutputStream_setWriteTimestamp(writeTimestamp);
@@ -1013,7 +1013,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 
   
 /**
-   * @return the name of the library to be used in comments ('libSBML' by default)
+   * @return the name of the library to be used in comments ('libSBML' by default).
    */ public
  static string getLibraryName() {
     string ret = libsbmlPINVOKE.XMLOutputStream_getLibraryName();
@@ -1024,7 +1024,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * sets the name of the library writing the XML
 
-   * @param libraryName the name of the library to be used in comments
+   * @param libraryName the name of the library to be used in comments.
    */ public
  static void setLibraryName(string libraryName) {
     libsbmlPINVOKE.XMLOutputStream_setLibraryName(libraryName);
@@ -1044,7 +1044,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 /**
    * sets the name of the library writing the output
    *
-   * @param libraryVersion the version information as string
+   * @param libraryVersion the version information as string.
    */ public
  static void setLibraryVersion(string libraryVersion) {
     libsbmlPINVOKE.XMLOutputStream_setLibraryVersion(libraryVersion);

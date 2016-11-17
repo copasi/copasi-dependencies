@@ -12,11 +12,11 @@ if (ENABLE_MULTI)
   add_subdirectory(c++/multi)
   
   if(WITH_CSHARP)
-  #  add_subdirectory(csharp/fbc)
+   add_subdirectory(csharp/multi)
   endif(WITH_CSHARP)
   
   if(WITH_JAVA)
-  #  add_subdirectory(java/fbc)
+   add_subdirectory(java/multi)
   endif(WITH_JAVA)
   
   file(GLOB c_multi_samples "${CMAKE_CURRENT_SOURCE_DIR}/c/multi/*.c"

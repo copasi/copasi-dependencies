@@ -391,7 +391,7 @@ FbcModelPlugin::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
@@ -621,7 +621,7 @@ FbcModelPlugin::readAttributes (const XMLAttributes& attributes,
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -675,7 +675,7 @@ FbcModelPlugin::writeAttributes (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 //---------------------------------------------------------------
@@ -798,10 +798,7 @@ const FluxBound*
 *
 * @param bound the FluxBound object to be added to the list of FluxBounds.
 *
-* @return integer value indicating success/failure of the
-* function.  @if clike The value is drawn from the
-* enumeration #OperationReturnValues_t. @endif The possible values
-* returned by this function are:
+* @copydetails doc_returns_success_code
 * @li LIBSBML_OPERATION_SUCCESS
 */ 
 int 
@@ -829,10 +826,8 @@ int
   }
   else
   {
-    mBounds.append(bound);
+    return mBounds.append(bound);
   }
-
-  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -877,7 +872,7 @@ FluxBound*
 * The caller owns the returned object and is responsible for
 *  deleting it.
 *
-* @param n the index of the FluxBound object to remove
+* @param n the index of the FluxBound object to remove.
 *
 * @return the FluxBound object removed.  As mentioned above, the 
 * caller owns the returned object. @c NULL is returned if the 
@@ -897,7 +892,7 @@ FluxBound*
 * The caller owns the returned object and is responsible for
 * deleting it.
 *
-* @param sid the id attribute of the FluxBound object to remove
+* @param sid the id attribute of the FluxBound object to remove.
 *
 * @return the FluxBound object removed.  As mentioned above, the 
 * caller owns the returned object. @c NULL is returned if the 
@@ -1049,14 +1044,11 @@ FbcModelPlugin::getObjective(const std::string& sid) const
 
 
 /*
- * Adds a copy the given "Objective" to this FbcModelPlugin.
+ * Adds a copy the given Objective to this FbcModelPlugin.
  *
- * @param o; the Objective object to add
+ * @param o the Objective object to add.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li LIBSBML_OPERATION_SUCCESS
  * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
  */
@@ -1079,10 +1071,13 @@ FbcModelPlugin::addObjective(const Objective* o)
   {
     return LIBSBML_VERSION_MISMATCH;
   }
+  else if (getPackageVersion() != o->getPackageVersion())
+  {
+    return LIBSBML_PKG_VERSION_MISMATCH;
+  }
   else
   {
-    mObjectives.append(o);
-    return LIBSBML_OPERATION_SUCCESS;
+    return mObjectives.append(o);
   }
 }
 
@@ -1100,7 +1095,7 @@ FbcModelPlugin::getNumObjectives() const
 
 
 /*
- * Creates a new Objective object, adds it to this FbcModelPlugins
+ * Creates a new Objective object, adds it to this FbcModelPlugin's
  * FbcModelPlugin and returns the Objective object created. 
  *
  * @return a new Objective object instance
@@ -1229,14 +1224,11 @@ FbcModelPlugin::getGeneProduct(const std::string& sid) const
 
 
 /*
- * Adds a copy the given "GeneProduct" to this FbcModelPlugin.
+ * Adds a copy the given GeneProduct to this FbcModelPlugin.
  *
- * @param gp; the GeneProduct object to add
+ * @param gp the GeneProduct object to add.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+   * @copydetails doc_returns_success_code
  * @li LIBSBML_OPERATION_SUCCESS
  * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
  */
@@ -1259,10 +1251,13 @@ FbcModelPlugin::addGeneProduct(const GeneProduct* gp)
   {
     return LIBSBML_VERSION_MISMATCH;
   }
+  else if (getPackageVersion() != gp->getPackageVersion())
+  {
+    return LIBSBML_PKG_VERSION_MISMATCH;
+  }
   else
   {
-    mGeneProducts.append(gp);
-    return LIBSBML_OPERATION_SUCCESS;
+    return mGeneProducts.append(gp);
   }
 }
 
@@ -1280,7 +1275,7 @@ FbcModelPlugin::getNumGeneProducts() const
 
 
 /*
- * Creates a new GeneProduct object, adds it to this FbcModelPlugins
+ * Creates a new GeneProduct object, adds it to this FbcModelPlugin's
  * FbcModelPlugin and returns the GeneProduct object created. 
  *
  * @return a new GeneProduct object instance
@@ -1356,10 +1351,11 @@ FbcModelPlugin::getActiveObjectiveId() const
 /* 
  * Unsets the active objective.
  */  
-void 
+int 
 FbcModelPlugin::unsetActiveObjectiveId()
 {
   mObjectives.unsetActiveObjective();
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 /*
@@ -1453,10 +1449,7 @@ const GeneAssociation*
 *
 * @param association the GeneAssociation object to be added to the list of GeneAssociations.
 *
-* @return integer value indicating success/failure of the
-* function.  @if clike The value is drawn from the
-* enumeration #OperationReturnValues_t. @endif The possible values
-* returned by this function are:
+* @copydetails doc_returns_success_code
 * @li LIBSBML_OPERATION_SUCCESS
 */ 
 int 
@@ -1484,10 +1477,8 @@ int
   }
   else
   {
-    mAssociations.append(association);
+    return mAssociations.append(association);
   }
-
-  return LIBSBML_OPERATION_SUCCESS;
 }
 
 /*
@@ -1530,7 +1521,7 @@ GeneAssociation*
 * The caller owns the returned object and is responsible for
 *  deleting it.
 *
-* @param n the index of the GeneAssociation object to remove
+* @param n the index of the GeneAssociation object to remove.
 *
 * @return the GeneAssociation object removed.  As mentioned above, the 
 * caller owns the returned object. @c NULL is returned if the 
@@ -1549,7 +1540,7 @@ GeneAssociation*
 * The caller owns the returned object and is responsible for
 * deleting it.
 *
-* @param sid the id attribute of the GeneAssociation object to remove
+* @param sid the id attribute of the GeneAssociation object to remove.
 *
 * @return the GeneAssociation object removed.  As mentioned above, the 
 * caller owns the returned object. @c NULL is returned if the 
@@ -1580,7 +1571,7 @@ int
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *
- * @param d the SBMLDocument object to use
+ * @param d the SBMLDocument object to use.
  */
 void
 FbcModelPlugin::setSBMLDocument(SBMLDocument* d)

@@ -57,6 +57,16 @@ package org.sbml.libsbml;
  * As with all other major SBML components, {@link LocalParameter} is derived from
  * {@link SBase}, and the methods defined on {@link SBase} are available on {@link LocalParameter}.
  <p>
+ * In SBML Level&nbsp;3 Version&nbsp;2, the scope of the {@link LocalParameter} 
+ * was expanded slightly to officially encompass the entire {@link Reaction}
+ * instead of just the {@link KineticLaw} in which it appears.  This has no
+ * effect on models using only SBML Level&nbsp;3 Core constructs,
+ * but has the potential to allow SBML Level&nbsp;3 Packages to
+ * include elements in a {@link Reaction} that could reference a
+ * {@link LocalParameter} from that {@link Reaction}'s {@link KineticLaw}.  It also means that
+ * no {@link LocalParameter} may have the same <code>'id'</code> as a referenced {@link Species}
+ * in any {@link SimpleSpeciesReference} in that {@link Reaction}. 
+ <p>
  * @warning <span class='warning'>LibSBML derives {@link LocalParameter} from
  * {@link Parameter}; however, this does not precisely match the object hierarchy
  * defined by SBML Level&nbsp;3, where {@link LocalParameter} is derived directly

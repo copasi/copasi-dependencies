@@ -37,7 +37,10 @@ package org.sbml.libsbml;
  <p>
  * The {@link EventAssignment} attribute 'variable' must be the identifier of an
  * existing {@link Compartment}, {@link Species}, {@link SpeciesReference}, or {@link Parameter}
- * instance defined in the model.  When the event is executed, the value of
+ * instance defined in the model.  In SBML Level&nbsp;3 Version&nbsp;2,
+ * this list was expanded to include identifiers of SBML Level&nbsp;3
+ * package variables that have both mathematical meaning and the 
+ * ability to be assigned.  When the event is executed, the value of
  * the model component identified by 'variable' is changed by the
  * {@link EventAssignment} to the value computed by the 'math' element; that is, a
  * species' quantity, species reference's stoichiometry, compartment's size
@@ -50,8 +53,14 @@ package org.sbml.libsbml;
  * <code>true.</code>  (Constants cannot be affected by events.)
  <p>
  * <li> The 'variable' attribute must not contain the identifier of a
- * reaction; only species, species references, compartment and parameter
- * values may be set by an {@link Event}.
+ * reaction.  In SBML Level&nbsp;2 and SBML Level&nbsp;3 Version&nbsp;1,
+ * only species, species references, compartment and parameter
+ * values may be set by an {@link Event}.  In SBML Level&nbsp;3 Version&nbsp;2,
+ * the 'variable' attribute may also be the identifier of an SBML
+ * Level&nbsp;3 package element with mathematical meaning and the
+ * ability to be assigned a value.  This situation may only arise if 
+ * the SBML package is present in the SBML document with a 
+ * package:required attribute of <code>true</code>
  <p>
  * <li> The value of every 'variable' attribute must be unique among the set
  * of {@link EventAssignment} structures within a given {@link Event} structure.  In other
@@ -68,6 +77,18 @@ package org.sbml.libsbml;
  * hold at all times, therefore it would be inconsistent to also define an
  * event that reassigns the value of the same variable.)
  * </ul>
+ <p>
+ * If the variable attribute of an {@link EventAssignment} object references an 
+ * object in an SBML namespace that is not understood by the interpreter 
+ * reading a given SBML document (that is, if the object is defined by an 
+ * SBML Level&nbsp;3 package that the software does not support), the 
+ * event assignment must be ignored--the object's value will not need to 
+ * be set, as the interpreter could not understand that package. If an 
+ * interpreter cannot establish whether a referenced object is missing 
+ * from the model or instead is defined in an SBML namespace not 
+ * understood by the interpreter, it may produce a warning to the user. 
+ * (The latter situation may only arise if an SBML package is present in 
+ * the SBML document with a package:required attribute of 'true'.)
  <p>
  * Note that the time of assignment of the object identified by the
  * value of the 'variable' attribute is always the time at which the {@link Event}
@@ -136,6 +157,15 @@ package org.sbml.libsbml;
  * overall units of the formula should (in SBML Level&nbsp;2 Version&nbsp;4
  * and Level&nbsp;3) or must (in previous Versions of Level&nbsp;2) be
  * identical to the units defined for the parameter.
+ <p>
+ * <li> (For SBML Level&nbsp;3 Version &nbsp;2 only) <em>In the case of 
+ * an object from an SBML Level&nbsp;3 package</em>, an {@link EventAssignment} sets 
+ * the referenced object's value (as defined by that package) to the 
+ * value of the formula in 'math'. The unit of measurement associated 
+ * with the value produced by the formula should be the same as that 
+ * object's units attribute value (if it has such an attribute), or be 
+ * equal to the units of model components of that type (if objects of 
+ * that class are defined by the package as having the same units).
  * </ul>
  <p>
  * Note that the formula placed in the 'math' element <em>has no assumed
@@ -144,6 +174,14 @@ package org.sbml.libsbml;
  * established just as in the case of the value of the {@link Delay} subelement.
  * An approach similar to the one discussed in the context of {@link Delay} may be
  * used for the formula of an {@link EventAssignment}.
+ <p>
+ * <h2>Restrictions relaxed in SBML Level&nbsp;3 Version&nbsp;2</h2>
+ <p>
+ * In SBML Level&nbsp;3 Version&nbsp;2, the requirement that an {@link EventAssignment}
+ * have a 'math' subelement was relaxed, making it optional.  In
+ * this case, the {@link EventAssignment} remains undefined, and unless that information
+ * is provided in some other form (such as with an SBML Level&nbsp;3
+ * package), the {@link Event} behaves as if it had no {@link EventAssignment}.
  <p>
  * @see Event
  */
@@ -195,10 +233,10 @@ public class EventAssignment extends SBase {
    * Creates a new {@link EventAssignment} using the given SBML <code>level</code> and <code>version</code>
    * values.
    <p>
-   * @param level a long integer, the SBML Level to assign to this {@link EventAssignment}
+   * @param level a long integer, the SBML Level to assign to this {@link EventAssignment}.
    <p>
    * @param version a long integer, the SBML Version to assign to this
-   * {@link EventAssignment}
+   * {@link EventAssignment}.
    <p>
    * <p>
  * @throws SBMLConstructorException
@@ -303,7 +341,7 @@ public class EventAssignment extends SBase {
    * subelement.
    <p>
    * @return the top {@link ASTNode} of an abstract syntax tree representing the
-   * mathematical formula in this {@link EventAssignment}.
+   * mathematical formula in this {@link EventAssignment}, or <code>null</code> if the math is not set.
    */ public
  ASTNode getMath() {
     long cPtr = libsbmlJNI.EventAssignment_getMath(swigCPtr, this);
@@ -402,7 +440,7 @@ public class EventAssignment extends SBase {
  * The units are calculated based on the mathematical expression in the
  * {@link EventAssignment} and the model quantities referenced by
  * <code>&lt;ci&gt;</code> elements used within that expression.  The method
- * {@link EventAssignment#getDerivedUnitDefinition()} returns the calculated units,
+ * getDerivedUnitDefinition() returns the calculated units,
  * to the extent that libSBML can compute them. 
    <p>
    * <p>
@@ -412,19 +450,19 @@ public class EventAssignment extends SBase {
  * and this method will return <code>null.</code> 
    <p>
    * <p>
- * @warning <span class='warning'>Note that it is possible the 'math'
- * expression in the {@link EventAssignment} contains literal numbers or parameters
- * with undeclared units.  In those cases, it is not possible to calculate
- * the units of the overall expression without making assumptions.  LibSBML
- * does not make assumptions about the units, and
- * {@link EventAssignment#getDerivedUnitDefinition()} only returns the units as far
+ * @warning Note that it is possible the 'math' expression in the
+ * {@link EventAssignment} contains literal numbers or parameters with undeclared
+ * units.  In those cases, it is not possible to calculate the units of the
+ * overall expression without making assumptions.  LibSBML does not make
+ * assumptions about the units, and
+ * getDerivedUnitDefinition() only returns the units as far
  * as it is able to determine them.  For example, in an expression <em>X +
  * Y</em>, if <em>X</em> has unambiguously-defined units and <em>Y</em> does
  * not, it will return the units of <em>X</em>.  When using this method,
  * <strong>it is critical that callers also invoke the method</strong>
- * {@link EventAssignment#containsUndeclaredUnits()} <strong>to determine whether
+ * containsUndeclaredUnits() <strong>to determine whether
  * this situation holds</strong>.  Callers should take suitable action in
- * those situations.</span>
+ * those situations.
    <p>
    * @return a {@link UnitDefinition} that expresses the units of the math 
    * expression of this {@link EventAssignment}, or <code>null</code> if one cannot be constructed.
@@ -446,14 +484,14 @@ public class EventAssignment extends SBase {
  * The units are calculated based on the mathematical expression in the
  * {@link EventAssignment} and the model quantities referenced by
  * <code>&lt;ci&gt;</code> elements used within that expression.  The method
- * {@link EventAssignment#getDerivedUnitDefinition()} returns the calculated units,
+ * getDerivedUnitDefinition() returns the calculated units,
  * to the extent that libSBML can compute them.
    <p>
    * If the expression contains literal numbers or parameters with undeclared
    * units, libSBML may not be able to compute the full units of the
    * expression and will only return what it can compute.  Callers should
-   * always use {@link EventAssignment#containsUndeclaredUnits()} when using
-   * {@link EventAssignment#getDerivedUnitDefinition()} to decide whether the
+   * always use containsUndeclaredUnits() when using
+   * getDerivedUnitDefinition() to decide whether the
    * returned units may be incomplete.
    <p>
    * @return <code>true</code> if the math expression of this {@link EventAssignment}
@@ -461,7 +499,7 @@ public class EventAssignment extends SBase {
    * with undeclared units, <code>false</code> otherwise.
    <p>
    * @note A return value of <code>true</code> indicates that the {@link UnitDefinition}
-   * returned by {@link EventAssignment#getDerivedUnitDefinition()} may not
+   * returned by getDerivedUnitDefinition() may not
    * accurately represent the units of the expression.
    <p>
    * @see #getDerivedUnitDefinition()
@@ -506,7 +544,7 @@ public class EventAssignment extends SBase {
    * Returns the XML element name of this object, which for
    * {@link EventAssignment}, is always <code>'eventAssignment'.</code>
    <p>
-   * @return the name of this element, i.e., <code>'eventAssignment'.</code> 
+   * @return the name of this element, i.e., <code>'eventAssignment'.</code>
    */ public
  String getElementName() {
     return libsbmlJNI.EventAssignment_getElementName(swigCPtr, this);
@@ -534,9 +572,10 @@ public class EventAssignment extends SBase {
    * Predicate returning <code>true</code> if all the required elements for this
    * {@link EventAssignment} object have been set.
    <p>
-   * @note The required elements for a {@link EventAssignment} object are:
+   * @note The required elements for an {@link EventAssignment} object are:
    * <ul>
-   * <li> 'math'
+   * <li> 'math' in SBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1.  
+   *     (In SBML Level&nbsp;3 Version&nbsp;2+, it is no longer required.)
    *
    * </ul> <p>
    * @return a boolean value indicating whether all the required
@@ -547,7 +586,24 @@ public class EventAssignment extends SBase {
   }
 
   
-/** * @internal */ public
+/**
+   * Returns the value of the 'variable' attribute of this {@link EventAssignment} (NOT the 'id').
+   <p>
+   * @note Because of the inconsistent behavior of this function with 
+   * respect to assignments and rules, it is now recommended to
+   * use the getIdAttribute() or getVariable() instead.
+   <p>
+   * The 'variable' attribute of an {@link EventAssignment} indicates the element which
+   * the results of the 'math' are to be applied upon {@link Event} execution.
+   <p>
+   * @return the variable of this {@link EventAssignment}.
+   <p>
+   * @see #getIdAttribute()
+   * @see #setIdAttribute(String sid)
+   * @see #isSetIdAttribute()
+   * @see #unsetIdAttribute()
+   * @see #getVariable()
+   */ public
  String getId() {
     return libsbmlJNI.EventAssignment_getId(swigCPtr, this);
   }
@@ -564,7 +620,7 @@ public class EventAssignment extends SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -575,8 +631,8 @@ public class EventAssignment extends SBase {
  * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
  * descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.EventAssignment_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -605,8 +661,8 @@ public class EventAssignment extends SBase {
  * are found, the matching values are replaced with <code>newid</code>.  The method
  * does <em>not</em> descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.EventAssignment_renameUnitSIdRefs(swigCPtr, this, oldid, newid);

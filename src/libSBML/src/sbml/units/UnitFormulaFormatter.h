@@ -39,7 +39,7 @@
  *
  * A UnitFormulaFormatter object is created using a Model object
  * and uses the information from that Model to derive the units
- * of either an ASTNode respresenting a math expression or
+ * of either an ASTNode representing a math expression or
  * an appropriate SBML object. The derived units are formulated into 
  * a UnitDefinition object.
  */
@@ -175,6 +175,15 @@ public:
 
    /**
    * Returns the unitDefinition constructed
+   * from the time units of this Model.
+   *
+   * @return the unitDefinition constructed to represent the time units 
+   * of the Model.
+   */
+  UnitDefinition * getTimeUnitDefinition();
+
+   /**
+   * Returns the unitDefinition constructed
    * from the substance units of this Species.
    */
   UnitDefinition * getSpeciesSubstanceUnitDefinition(const Species * species);
@@ -260,6 +269,18 @@ public:
     bool inKL, int reactNo);
 
   /** 
+   * returns the unitDefinition for the ASTNode from a rem function
+   */
+  UnitDefinition * getUnitDefinitionFromRem(const ASTNode *node, 
+    bool inKL, int reactNo);
+
+  /** 
+   * returns the unitDefinition for the ASTNode from a rateOf function
+   */
+  UnitDefinition * getUnitDefinitionFromRateOf(const ASTNode *node, 
+    bool inKL, int reactNo);
+
+  /** 
    * returns the unitDefinition for the ASTNode from a power function
    */
   UnitDefinition * getUnitDefinitionFromPower(const ASTNode *node, 
@@ -326,6 +347,14 @@ public:
   bool possibleToUseUnitsData(FormulaUnitsData * fud);
 
   /** @endcond */
+
+protected:
+  /* @cond doxygenLibsbmlInternal */
+
+//  UnitDefinition * getTimeUnitDefinition();
+
+  /** @endcond */
+
 
 private:
   /* @cond doxygenLibsbmlInternal */

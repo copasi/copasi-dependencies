@@ -55,6 +55,8 @@
 
 #include <sbml/util/IdentifierTransformer.h>
 #include <sbml/util/ElementFilter.h>
+#include <sbml/util/IdFilter.h>
+#include <sbml/util/MetaIdFilter.h>
 
 #include <sbml/extension/SBMLExtensionRegistry.h>
 #include <sbml/extension/SBasePlugin.h>
@@ -70,8 +72,6 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 Model::Model (unsigned int level, unsigned int version) :
    SBase ( level, version )
- , mId               ( "" )
- , mName             ( "" )
  , mSubstanceUnits   ( "" )
  , mTimeUnits        ( "" )
  , mVolumeUnits      ( "" )
@@ -92,6 +92,8 @@ Model::Model (unsigned int level, unsigned int version) :
  , mReactions           (level,version)
  , mEvents              (level,version)
  , mFormulaUnitsData ( NULL  )
+ , mIdList (  )
+ , mMetaidList ( )
 {
   if (!hasValidLevelVersionNamespaceCombination())
     throw SBMLConstructorException();
@@ -102,8 +104,6 @@ Model::Model (unsigned int level, unsigned int version) :
 
 Model::Model (SBMLNamespaces * sbmlns) :
    SBase             ( sbmlns )
- , mId               ( "" )
- , mName             ( "" )
  , mSubstanceUnits   ( "" )
  , mTimeUnits        ( "" )
  , mVolumeUnits      ( "" )
@@ -124,6 +124,8 @@ Model::Model (SBMLNamespaces * sbmlns) :
  , mReactions           (sbmlns)
  , mEvents              (sbmlns)
  , mFormulaUnitsData ( NULL  )
+ , mIdList (  )
+ , mMetaidList ( )
 {
   if (!hasValidLevelVersionNamespaceCombination())
   {
@@ -159,8 +161,6 @@ Model::~Model ()
  */
 Model::Model(const Model& orig)
   : SBase                (orig)
-  , mId                  (orig.mId)
-  , mName                (orig.mName)
   , mSubstanceUnits      (orig.mSubstanceUnits)
   , mTimeUnits           (orig.mTimeUnits)
   , mVolumeUnits         (orig.mVolumeUnits)
@@ -181,6 +181,8 @@ Model::Model(const Model& orig)
   , mReactions           (orig.mReactions)
   , mEvents              (orig.mEvents)
   , mFormulaUnitsData    (NULL)
+  , mIdList              (orig.mIdList)
+  , mMetaidList          (orig.mMetaidList)
 {
 
   if(orig.mFormulaUnitsData != NULL)
@@ -207,8 +209,6 @@ Model& Model::operator=(const Model& rhs)
   if(&rhs!=this)
   {
     this->SBase::operator = (rhs);
-    mId = rhs.mId;
-    mName = rhs.mName;
     mSubstanceUnits       = rhs.mSubstanceUnits ;
     mTimeUnits            = rhs.mTimeUnits ;
     mVolumeUnits          = rhs.mVolumeUnits ;
@@ -255,6 +255,9 @@ Model& Model::operator=(const Model& rhs)
       this->mFormulaUnitsData = NULL;
     }
   }
+
+  mIdList     = rhs.mIdList;
+  mMetaidList = rhs.mMetaidList;
 
   connectToChild();
 
@@ -1146,9 +1149,7 @@ Model::addFunctionDefinition (const FunctionDefinition* fd)
   }
   else
   {
-    mFunctionDefinitions.append(fd);
-   
-    return LIBSBML_OPERATION_SUCCESS;
+    return mFunctionDefinitions.append(fd);
   }
 }
 
@@ -1171,9 +1172,7 @@ Model::addUnitDefinition (const UnitDefinition* ud)
   }
   else
   {
-    mUnitDefinitions.append(ud);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mUnitDefinitions.append(ud);
   }
 }
 
@@ -1196,9 +1195,7 @@ Model::addCompartmentType (const CompartmentType* ct)
   }
   else
   {
-    mCompartmentTypes.append(ct);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mCompartmentTypes.append(ct);
   }
 }
 
@@ -1221,9 +1218,7 @@ Model::addSpeciesType (const SpeciesType* st)
   }
   else
   {
-    mSpeciesTypes.append(st);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mSpeciesTypes.append(st);
   }
 }
 
@@ -1246,9 +1241,7 @@ Model::addCompartment (const Compartment* c)
   }
   else
   {
-    mCompartments.append(c);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mCompartments.append(c);
   }
 }
 
@@ -1271,9 +1264,7 @@ Model::addSpecies (const Species* s)
   }
   else
   {
-    mSpecies.append(s);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mSpecies.append(s);
   }
 }
 
@@ -1299,15 +1290,13 @@ Model::addParameter (const Parameter* p)
     /* hack so that this will accept a local parameter !! */
     if (p->getTypeCode() == SBML_LOCAL_PARAMETER)
     {
-      Parameter *p1 = new Parameter(*p);
-      mParameters.append(p1);
+      Parameter p1(*p);
+      return mParameters.append(&p1);
     }
     else
     {
-      mParameters.append(p);
+      return mParameters.append(p);
     }
-
-    return LIBSBML_OPERATION_SUCCESS;
   }
 }
 
@@ -1330,9 +1319,7 @@ Model::addInitialAssignment (const InitialAssignment* ia)
   }
   else
   {
-    mInitialAssignments.append(ia);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mInitialAssignments.append(ia);
   }
 }
 
@@ -1356,9 +1343,7 @@ Model::addRule (const Rule* r)
   }
   else
   {
-    mRules.append(r);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mRules.append(r);
   }
 }
 
@@ -1376,9 +1361,7 @@ Model::addConstraint (const Constraint* c)
   }
   else
   {
-    mConstraints.append(c);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mConstraints.append(c);
   }
 }
 
@@ -1401,9 +1384,7 @@ Model::addReaction (const Reaction* r)
   }
   else
   {
-    mReactions.append(r);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mReactions.append(r);
   }
 }
 
@@ -1426,9 +1407,7 @@ Model::addEvent (const Event* e)
   }
   else
   {
-    mEvents.append(e);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mEvents.append(e);
   }
 }
 
@@ -3763,6 +3742,452 @@ Model::removeEvent (const std::string& sid)
   return mEvents.remove(sid);
 }
 
+
+
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Model.
+ */
+int
+Model::getAttribute(const std::string& attributeName, bool& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Model.
+ */
+int
+Model::getAttribute(const std::string& attributeName, int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Model.
+ */
+int
+Model::getAttribute(const std::string& attributeName, double& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Model.
+ */
+int
+Model::getAttribute(const std::string& attributeName,
+                    unsigned int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Model.
+ */
+int
+Model::getAttribute(const std::string& attributeName,
+                    std::string& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "substanceUnits")
+  {
+    value = getSubstanceUnits();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "timeUnits")
+  {
+    value = getTimeUnits();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "volumeUnits")
+  {
+    value = getVolumeUnits();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "lengthUnits")
+  {
+    value = getLengthUnits();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "areaUnits")
+  {
+    value = getAreaUnits();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "extentUnits")
+  {
+    value = getExtentUnits();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "conversionFactor")
+  {
+    value = getConversionFactor();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Model.
+ */
+int
+Model::getAttribute(const std::string& attributeName, const char* value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "substanceUnits")
+  {
+    value = getSubstanceUnits().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "timeUnits")
+  {
+    value = getTimeUnits().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "volumeUnits")
+  {
+    value = getVolumeUnits().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "lengthUnits")
+  {
+    value = getLengthUnits().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "areaUnits")
+  {
+    value = getAreaUnits().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "extentUnits")
+  {
+    value = getExtentUnits().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "conversionFactor")
+  {
+    value = getConversionFactor().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this Model's attribute "attributeName" is
+ * set.
+ */
+bool
+Model::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = SBase::isSetAttribute(attributeName);
+
+  if (attributeName == "substanceUnits")
+  {
+    value = isSetSubstanceUnits();
+  }
+  else if (attributeName == "timeUnits")
+  {
+    value = isSetTimeUnits();
+  }
+  else if (attributeName == "volumeUnits")
+  {
+    value = isSetVolumeUnits();
+  }
+  else if (attributeName == "lengthUnits")
+  {
+    value = isSetLengthUnits();
+  }
+  else if (attributeName == "areaUnits")
+  {
+    value = isSetAreaUnits();
+  }
+  else if (attributeName == "extentUnits")
+  {
+    value = isSetExtentUnits();
+  }
+  else if (attributeName == "conversionFactor")
+  {
+    value = isSetConversionFactor();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Model.
+ */
+int
+Model::setAttribute(const std::string& attributeName, bool value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Model.
+ */
+int
+Model::setAttribute(const std::string& attributeName, int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Model.
+ */
+int
+Model::setAttribute(const std::string& attributeName, double value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Model.
+ */
+int
+Model::setAttribute(const std::string& attributeName, unsigned int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Model.
+ */
+int
+Model::setAttribute(const std::string& attributeName,
+                    const std::string& value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "substanceUnits")
+  {
+    return_value = setSubstanceUnits(value);
+  }
+  else if (attributeName == "timeUnits")
+  {
+    return_value = setTimeUnits(value);
+  }
+  else if (attributeName == "volumeUnits")
+  {
+    return_value = setVolumeUnits(value);
+  }
+  else if (attributeName == "lengthUnits")
+  {
+    return_value = setLengthUnits(value);
+  }
+  else if (attributeName == "areaUnits")
+  {
+    return_value = setAreaUnits(value);
+  }
+  else if (attributeName == "extentUnits")
+  {
+    return_value = setExtentUnits(value);
+  }
+  else if (attributeName == "conversionFactor")
+  {
+    return_value = setConversionFactor(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Model.
+ */
+int
+Model::setAttribute(const std::string& attributeName, const char* value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "substanceUnits")
+  {
+    return_value = setSubstanceUnits(value);
+  }
+  else if (attributeName == "timeUnits")
+  {
+    return_value = setTimeUnits(value);
+  }
+  else if (attributeName == "volumeUnits")
+  {
+    return_value = setVolumeUnits(value);
+  }
+  else if (attributeName == "lengthUnits")
+  {
+    return_value = setLengthUnits(value);
+  }
+  else if (attributeName == "areaUnits")
+  {
+    return_value = setAreaUnits(value);
+  }
+  else if (attributeName == "extentUnits")
+  {
+    return_value = setExtentUnits(value);
+  }
+  else if (attributeName == "conversionFactor")
+  {
+    return_value = setConversionFactor(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Unsets the value of the "attributeName" attribute of this Model.
+ */
+int
+Model::unsetAttribute(const std::string& attributeName)
+{
+  int value = SBase::unsetAttribute(attributeName);
+
+  if (attributeName == "substanceUnits")
+  {
+    value = unsetSubstanceUnits();
+  }
+  else if (attributeName == "timeUnits")
+  {
+    value = unsetTimeUnits();
+  }
+  else if (attributeName == "volumeUnits")
+  {
+    value = unsetVolumeUnits();
+  }
+  else if (attributeName == "lengthUnits")
+  {
+    value = unsetLengthUnits();
+  }
+  else if (attributeName == "areaUnits")
+  {
+    value = unsetAreaUnits();
+  }
+  else if (attributeName == "extentUnits")
+  {
+    value = unsetExtentUnits();
+  }
+  else if (attributeName == "conversionFactor")
+  {
+    value = unsetConversionFactor();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+
 int 
 Model::appendFrom(const Model* model)
 {
@@ -3944,6 +4369,7 @@ Model::createObject (XMLInputStream& stream)
         logError(OneOfEachListOf);
       }
     }
+    mFunctionDefinitions.setExplicitlyListed();
     object = &mFunctionDefinitions;
   }
 
@@ -3960,6 +4386,7 @@ Model::createObject (XMLInputStream& stream)
         logError(OneOfEachListOf);
       }
     }
+    mUnitDefinitions.setExplicitlyListed();
     object = &mUnitDefinitions;
   }
 
@@ -3975,6 +4402,7 @@ Model::createObject (XMLInputStream& stream)
     {
       logError(NotSchemaConformant);
     }
+    mCompartmentTypes.setExplicitlyListed();
     object = &mCompartmentTypes;
   }
 
@@ -3990,6 +4418,7 @@ Model::createObject (XMLInputStream& stream)
     {
       logError(NotSchemaConformant);
     }
+    mSpeciesTypes.setExplicitlyListed();
     object = &mSpeciesTypes;
   }
 
@@ -4006,6 +4435,7 @@ Model::createObject (XMLInputStream& stream)
         logError(OneOfEachListOf);
       }
     }
+    mCompartments.setExplicitlyListed();
     object = &mCompartments;
   }
   
@@ -4022,6 +4452,7 @@ Model::createObject (XMLInputStream& stream)
         logError(OneOfEachListOf);
       }
     }
+    mSpecies.setExplicitlyListed();
     object = &mSpecies;
   }
 
@@ -4038,6 +4469,7 @@ Model::createObject (XMLInputStream& stream)
         logError(OneOfEachListOf);
       }
     }
+    mParameters.setExplicitlyListed();
     object = &mParameters;
   }
 
@@ -4058,6 +4490,7 @@ Model::createObject (XMLInputStream& stream)
         logError(OneOfEachListOf);
       }
     }
+    mInitialAssignments.setExplicitlyListed();
     object = &mInitialAssignments;
   }
 
@@ -4074,6 +4507,7 @@ Model::createObject (XMLInputStream& stream)
         logError(OneOfEachListOf);
       }
     }
+    mRules.setExplicitlyListed();
     object = &mRules;
   }
 
@@ -4094,6 +4528,7 @@ Model::createObject (XMLInputStream& stream)
         logError(OneOfEachListOf);
       }
     }
+    mConstraints.setExplicitlyListed();
     object = &mConstraints;
   }
 
@@ -4110,6 +4545,7 @@ Model::createObject (XMLInputStream& stream)
         logError(OneOfEachListOf);
       }
     }
+    mReactions.setExplicitlyListed();
     object = &mReactions;
   }
 
@@ -4130,6 +4566,7 @@ Model::createObject (XMLInputStream& stream)
         logError(OneOfEachListOf);
       }
     }
+    mEvents.setExplicitlyListed();
     object = &mEvents;
   }
 
@@ -4196,7 +4633,7 @@ Model::addExpectedAttributes(ExpectedAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 Model::readAttributes (const XMLAttributes& attributes,
@@ -4227,7 +4664,7 @@ Model::readAttributes (const XMLAttributes& attributes,
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 Model::readL1Attributes (const XMLAttributes& attributes)
@@ -4255,7 +4692,7 @@ Model::readL1Attributes (const XMLAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 Model::readL2Attributes (const XMLAttributes& attributes)
@@ -4294,7 +4731,7 @@ Model::readL2Attributes (const XMLAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 Model::readL3Attributes (const XMLAttributes& attributes)
@@ -4302,22 +4739,33 @@ Model::readL3Attributes (const XMLAttributes& attributes)
   const unsigned int level   = getLevel  ();
   const unsigned int version = getVersion();
 
+  bool assigned;
   //
   //   id: SId    { use="optional" }  (L2v1 -> )
   //
-  bool assigned = attributes.readInto("id", mId, getErrorLog(), false, getLine(), getColumn());
-  if (assigned && mId.size() == 0)
+  // for l3v2 sbase will read this as generically optional
+  // we want to log errors relating to the specific object
+  if (version == 1)
   {
-    logEmptyString("id", level, version, "<model>");
+    assigned = attributes.readInto("id", mId, getErrorLog(), false, 
+      getLine(), getColumn());
+    if (assigned && mId.size() == 0)
+    {
+      logEmptyString("id", level, version, "<model>");
+    }
+    if (!SyntaxChecker::isValidInternalSId(mId))
+    {
+      logError(InvalidIdSyntax, level, version, "The id '" + mId + 
+      "' does not conform to the syntax.");
+    }
+
+    //
+    // name: string  { use="optional" }  (L2v1 ->)
+    //
+    attributes.readInto("name", mName, getErrorLog(), false, 
+                                       getLine(), getColumn());
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) 
-    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
-
-  //
-  // name: string  { use="optional" }  (L2v1 ->)
-  //
-  attributes.readInto("name", mName, getErrorLog(), false, getLine(), getColumn());
 
   //
   // substanceUnits: string  { use="optional" }  (L3v1 ->)
@@ -4408,7 +4856,7 @@ Model::readL3Attributes (const XMLAttributes& attributes)
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
- * to the XMLOutputStream.  Be sure to call your parents implementation
+ * to the XMLOutputStream.  Be sure to call your parent's implementation
  * of this method as well.
  */
 void
@@ -4429,19 +4877,26 @@ Model::writeAttributes (XMLOutputStream& stream) const
     SBO::writeTerm(stream, mSBOTerm);
   }
 
+  // for L3V2 and above SBase will write this out
+  if (level < 3 || (level == 3 && version == 1))
+  {
   //
   // name: SName   { use="required" }  (L1v1, L1v2)
   //   id: SId     { use="required" }  (L2v1->)
   //
   const string id = (level == 1) ? "name" : "id";
   stream.writeAttribute(id, mId);
-
+  }
   if (level > 1)
   {
-    //
-    // name: string  { use="optional" }  (L2v1->)
-    //
-    stream.writeAttribute("name", mName);
+    // for L3V2 and above SBase will write this out
+    if (level < 3 || (level == 3 && version == 1))
+    {
+      //
+      // name: string  { use="optional" }  (L2v1->)
+      //
+      stream.writeAttribute("name", mName);
+    }
   }
 
   if (level > 2)
@@ -4494,7 +4949,7 @@ Model::writeAttributes (XMLOutputStream& stream) const
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
- * SBML objects as XML elements.  Be sure to call your parents
+ * SBML objects as XML elements.  Be sure to call your parent's
  * implementation of this method as well.
  */
 void
@@ -4508,40 +4963,119 @@ Model::writeElements (XMLOutputStream& stream) const
   const unsigned int level   = getLevel  ();
   const unsigned int version = getVersion();
 
-  if (level > 1 && getNumFunctionDefinitions() > 0)
+  // for l3v2 there may not be any elements in the listOf but
+  // if there is other information i.e. attributes/notes/annotations
+  // we write out the empty wrapper with this information
+  if (level == 3 && version > 1)
   {
-    mFunctionDefinitions.write(stream);
+    if (mFunctionDefinitions.hasOptionalElements() == true ||
+        mFunctionDefinitions.hasOptionalAttributes() == true ||
+        mFunctionDefinitions.isExplicitlyListed())
+    {
+      mFunctionDefinitions.write(stream);
+    }
+
+    if (mUnitDefinitions.hasOptionalElements() == true ||
+        mUnitDefinitions.hasOptionalAttributes() == true ||
+        mUnitDefinitions.isExplicitlyListed())
+    {
+      mUnitDefinitions.write(stream);
+    }
+
+    if (mCompartments.hasOptionalElements() == true ||
+        mCompartments.hasOptionalAttributes() == true ||
+        mCompartments.isExplicitlyListed())
+    {
+      mCompartments.write(stream);
+    }
+
+    if (mSpecies.hasOptionalElements() == true ||
+        mSpecies.hasOptionalAttributes() == true ||
+        mSpecies.isExplicitlyListed())
+    {
+      mSpecies.write(stream);
+    }
+
+    if (mParameters.hasOptionalElements() == true ||
+        mParameters.hasOptionalAttributes() == true ||
+        mParameters.isExplicitlyListed())
+    {
+      mParameters.write(stream);
+    }
+
+    if (mInitialAssignments.hasOptionalElements() == true ||
+        mInitialAssignments.hasOptionalAttributes() == true ||
+        mInitialAssignments.isExplicitlyListed())
+    {
+      mInitialAssignments.write(stream);
+    }
+
+    if (mRules.hasOptionalElements() == true ||
+        mRules.hasOptionalAttributes() == true ||
+        mRules.isExplicitlyListed())
+    {
+      mRules.write(stream);
+    }
+
+    if (mConstraints.hasOptionalElements() == true ||
+        mConstraints.hasOptionalAttributes() == true ||
+        mConstraints.isExplicitlyListed())
+    {
+      mConstraints.write(stream);
+    }
+
+    if (mReactions.hasOptionalElements() == true ||
+        mReactions.hasOptionalAttributes() == true ||
+        mReactions.isExplicitlyListed())
+    {
+      mReactions.write(stream);
+    }
+
+    if (mEvents.hasOptionalElements() == true ||
+        mEvents.hasOptionalAttributes() == true ||
+        mEvents.isExplicitlyListed())
+    {
+      mEvents.write(stream);
+    }
   }
-
-  if ( getNumUnitDefinitions() > 0 ) mUnitDefinitions.write(stream);
-
-  if (level == 2 && version > 1)
+  else
   {
-    if ( getNumCompartmentTypes() > 0 ) mCompartmentTypes.write(stream);
-    if ( getNumSpeciesTypes    () > 0 ) mSpeciesTypes    .write(stream);
-  }
+      // code as before
+    if (level > 1 && getNumFunctionDefinitions() > 0 )
+    {
+      mFunctionDefinitions.write(stream);
+    }
 
-  if ( getNumCompartments() > 0 ) mCompartments.write(stream);
-  if ( getNumSpecies     () > 0 ) mSpecies     .write(stream);
-  if ( getNumParameters  () > 0 ) mParameters  .write(stream);
+    if ( getNumUnitDefinitions() > 0 ) mUnitDefinitions.write(stream);
 
-  if (level > 2 || (level == 2 && version > 1))
-  {
-    if ( getNumInitialAssignments() > 0 ) mInitialAssignments.write(stream);
-  }
+    if (level == 2 && version > 1)
+    {
+      if ( getNumCompartmentTypes() > 0 ) mCompartmentTypes.write(stream);
+      if ( getNumSpeciesTypes    () > 0 ) mSpeciesTypes    .write(stream);
+    }
 
-  if ( getNumRules() > 0 ) mRules.write(stream);
+    if ( getNumCompartments() > 0 ) mCompartments.write(stream);
+    if ( getNumSpecies     () > 0 ) mSpecies     .write(stream);
+    if ( getNumParameters  () > 0 ) mParameters  .write(stream);
 
-  if (level > 2 || (level == 2 && version > 1))
-  {
-    if ( getNumConstraints() > 0 ) mConstraints.write(stream);
-  }
+    if (level > 2 || (level == 2 && version > 1))
+    {
+      if ( getNumInitialAssignments() > 0 ) mInitialAssignments.write(stream);
+    }
 
-  if ( getNumReactions() > 0 ) mReactions.write(stream);
+    if ( getNumRules() > 0 ) mRules.write(stream);
 
-  if (level > 1 && getNumEvents () > 0 )
-  {
-    mEvents.write(stream);
+    if (level > 2 || (level == 2 && version > 1))
+    {
+      if ( getNumConstraints() > 0 ) mConstraints.write(stream);
+    }
+
+    if ( getNumReactions() > 0 ) mReactions.write(stream);
+
+    if (level > 1 && getNumEvents () > 0 )
+    {
+      mEvents.write(stream);
+    }
   }
 
   //
@@ -5860,24 +6394,11 @@ Model::createEventUnitsData(UnitFormulaFormatter * unitFormatter)
   {
     Event* e = getEvent(n);
 
-    // sort out the id of this event - it may or may not be set
-    if (e->isSetId())
-    {
-      newID = e->getId();//sprintf(newId, "%s", e->getId());
-    }
-    else
-    {
-      sprintf(newId, "event_%u", countEvents);
-      newID.assign(newId);
-      countEvents++;
-    }
+    sprintf(newId, "event_%u", countEvents);
+    newID.assign(newId);
+    e->setInternalId(newID);
+    countEvents++;
     
-    if (!e->isSetId())
-    {
-      e->setId(newID);
-      e->setInternalIdOnly();
-    }
-
     /* dont need units returned by trigger formula - 
      * should be boolean
      */
@@ -6180,6 +6701,110 @@ Model::isPopulatedListFormulaUnitsData()
 }
 /** @endcond */
 
+
+/**
+ * Populates the internal list of the identifiers of all elements within this Model object.
+ */
+void 
+Model::populateAllElementIdList()
+{
+  mIdList.clear();
+  IdFilter filter;
+  List* allElements = this->getAllElements(&filter);
+
+  //for (unsigned int i = 0; i < allElements->getSize(); i++)
+  //{
+  //  mIdList.append(static_cast<SBase*>(allElements->get(i))->getId());
+  //}
+
+  for (ListIterator iter = allElements->begin(); iter != allElements->end(); ++iter)
+  {
+    mIdList.append(static_cast<SBase*>(*iter)->getId());
+  }
+
+  delete allElements;
+}
+
+
+/**
+  * @return @c true if the id list has already been populated, @c false
+  * otherwise.
+  */
+bool 
+Model::isPopulatedAllElementIdList() const
+{
+  return (mIdList.size() != 0);
+}
+
+
+/**
+  * Returns the internal list of the identifiers of all elements within this Model object.
+  */
+IdList
+Model::getAllElementIdList() const
+{
+  return mIdList;
+}
+
+
+/**
+  * Clears the internal list of the identifiers of all elements within this Model object.
+  */
+void
+Model::clearAllElementIdList()
+{
+  mIdList.clear();
+}
+
+
+/**
+ * Populates the internal list of the metaids of all elements within this Model object.
+ */
+void 
+Model::populateAllElementMetaIdList()
+{
+  mMetaidList.clear();
+  MetaIdFilter filter;
+  List* allElements = this->getAllElements(&filter);
+
+  for (ListIterator iter = allElements->begin(); iter != allElements->end(); ++iter)
+  {
+    mMetaidList.append(static_cast<SBase*>(*iter)->getMetaId());
+  }
+
+  delete allElements;
+}
+
+
+/**
+  * @return @c true if the metaid list has already been populated, @c false
+  * otherwise.
+  */
+bool 
+Model::isPopulatedAllElementMetaIdList() const
+{
+  return (mMetaidList.size() != 0);
+}
+
+
+/**
+  * Returns the internal list of the metaids of all elements within this Model object.
+  */
+IdList
+Model::getAllElementMetaIdList() const
+{
+  return mMetaidList;
+}
+
+
+/**
+  * Clears the internal list of the metaids of all elements within this Model object.
+  */
+void
+Model::clearAllElementMetaIdList()
+{
+  mMetaidList.clear();
+}
 
 
 #endif /* __cplusplus */

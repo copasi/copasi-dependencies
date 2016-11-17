@@ -502,6 +502,22 @@ SBMLDocument::setLevelAndVersion (unsigned int level, unsigned int version,
     return false;
 }
 
+/** @cond doxygenLibsbmlInternal */
+
+/* 
+* function to set level to 0 on a doc that was just been created to read in to
+* the SBMLReader will only do this if the file is found to be invalid
+* this will allow for testing for an SBMLDocument without
+* relying on it having a model to be valid 
+* (in L3V2 a missing model will be valid) 
+*/
+void 
+SBMLDocument::setInvalidLevel()
+{
+  mLevel = 0;
+}
+
+/** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
 void 
@@ -559,8 +575,11 @@ SBMLDocument::updateSBMLNamespace(const std::string&, unsigned int level,
       switch (mVersion)
       {
       case 1:
-      default:
         uri = SBML_XMLNS_L3V1;
+        break;
+      case 2:
+      default:
+        uri = SBML_XMLNS_L3V2;
         break;
       }
       break;
@@ -1119,7 +1138,21 @@ SBMLDocument::checkL2v4Compatibility ()
 
 /*
  * Performs a set of semantic consistency checks on the document to establish
- * whether it is compatible with L2v1 and can be converted.  Query
+ * whether it is compatible with L2v4 and can be converted.  Query
+ * the results by calling getNumErrors() and getError().
+ *
+ * @return the number of failed checks (errors) encountered.
+ */
+unsigned int
+SBMLDocument::checkL2v5Compatibility ()
+{
+  return mInternalValidator->checkL2v5Compatibility();
+}
+
+
+/*
+ * Performs a set of semantic consistency checks on the document to establish
+ * whether it is compatible with L3v1 and can be converted.  Query
  * the results by calling getNumErrors() and getError().
  *
  * @return the number of failed checks (errors) encountered.
@@ -1128,6 +1161,20 @@ unsigned int
 SBMLDocument::checkL3v1Compatibility ()
 {
   return mInternalValidator->checkL3v1Compatibility();
+}
+
+
+/*
+* Performs a set of semantic consistency checks on the document to establish
+* whether it is compatible with L3v2 and can be converted.  Query
+* the results by calling getNumErrors() and getError().
+*
+* @return the number of failed checks (errors) encountered.
+*/
+unsigned int
+SBMLDocument::checkL3v2Compatibility()
+{
+  return mInternalValidator->checkL3v2Compatibility();
 }
 
 
@@ -1451,9 +1498,7 @@ SBMLDocument::addUnknownPackageRequired(const std::string& pkgURI,
 {
   std::string value = (flag) ? "true" : "false";
 
-  mRequiredAttrOfUnknownPkg.add("required", value, pkgURI, prefix);
-
-  return LIBSBML_OPERATION_SUCCESS;
+  return mRequiredAttrOfUnknownPkg.add("required", value, pkgURI, prefix);
 }
 /** @endcond */
 
@@ -1657,7 +1702,7 @@ SBMLDocument::addExpectedAttributes(ExpectedAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 SBMLDocument::readAttributes (const XMLAttributes& attributes,
@@ -1794,7 +1839,7 @@ SBMLDocument::readAttributes (const XMLAttributes& attributes,
   }
   else if (mLevel == 3)
   {
-    if (mVersion > 1)
+    if (mVersion > 2)
     {
       logError(InvalidSBMLLevelVersion);
     }
@@ -1914,6 +1959,20 @@ SBMLDocument::readAttributes (const XMLAttributes& attributes,
         }
         break;
       }
+      else if (!strcmp(ns->getURI(n).c_str(), 
+                "http://www.sbml.org/sbml/level3/version2/core"))
+      {
+        match = 1;
+        if (mLevel != 3 || !levelRead)
+        {
+          logError(MissingOrInconsistentLevel);
+        }
+        if (mVersion != 2 || !versionRead)
+        {
+          logError(MissingOrInconsistentVersion);
+        }
+        break;
+      }
     }
     if (match == 0)
     {
@@ -1962,7 +2021,7 @@ SBMLDocument::readAttributes (const XMLAttributes& attributes,
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
- * to the XMLOutputStream.  Be sure to call your parents implementation
+ * to the XMLOutputStream.  Be sure to call your parent's implementation
  * of this method as well.
  */
 void
@@ -2033,7 +2092,7 @@ SBMLDocument::writeAttributes (XMLOutputStream& stream) const
 /*
  *
  * Subclasses should override this method to write their xmlns attriubutes
- * (if any) to the XMLOutputStream.  Be sure to call your parents implementation
+ * (if any) to the XMLOutputStream.  Be sure to call your parent's implementation
  * of this method as well.
  *
  */
@@ -2097,7 +2156,7 @@ SBMLDocument::writeXMLNS (XMLOutputStream& stream) const
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
- * SBML objects as XML elements.  Be sure to call your parents
+ * SBML objects as XML elements.  Be sure to call your parent's
  * implementation of this method as well.
  */
 void
@@ -2441,6 +2500,14 @@ unsigned int
 SBMLDocument_checkL2v4Compatibility (SBMLDocument_t *d)
 {
   return (d != NULL) ? d->checkL2v4Compatibility() : SBML_INT_MAX;
+}
+
+
+LIBSBML_EXTERN
+unsigned int 
+SBMLDocument_checkL2v5Compatibility (SBMLDocument_t *d)
+{
+  return (d != NULL) ? d->checkL2v5Compatibility() : SBML_INT_MAX;
 }
 
 

@@ -66,9 +66,8 @@ public class ASTBasePlugin {
   
 /** * @internal */ public
  ASTBasePlugin cloneObject() {
-    long cPtr = libsbmlJNI.ASTBasePlugin_cloneObject(swigCPtr, this);
-    return (cPtr == 0) ? null : new ASTBasePlugin(cPtr, true);
-  }
+  return libsbml.DowncastASTBasePlugin(libsbmlJNI.ASTBasePlugin_cloneObject(swigCPtr, this), true);
+}
 
   
 /** * @internal */ public

@@ -183,8 +183,9 @@ public class SBMLWriter {
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -217,8 +218,9 @@ public class SBMLWriter {
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -251,7 +253,7 @@ Similarly, the filename in the archive will be
 <code>&quot;test.sbml.zip&quot;</code>.
 
    <p>
-   * @param d the SBML document to be written
+   * @param d the SBML document to be written.
    <p>
    * @param filename the name or full pathname of the file where the SBML
    * is to be written. 
@@ -280,7 +282,7 @@ unreadable files will be logged and this method will return
 /**
    * Writes the given SBML document to the output stream.
    <p>
-   * @param d the SBML document to be written
+   * @param d the SBML document to be written.
    <p>
    * @param stream the stream object where the SBML is to be written.
    <p>
@@ -322,7 +324,7 @@ Similarly, the filename in the archive will be
 <code>&quot;test.sbml.zip&quot;</code>.
 
    <p>
-   * @param d the SBML document to be written
+   * @param d the SBML document to be written.
    <p>
    * @param filename the name or full pathname of the file where the SBML
    * is to be written. 
@@ -355,7 +357,7 @@ unreadable files will be logged and this method will return
    * The string is owned by the caller and should be freed (with <code>free</code>())
    * when no longer needed.
    <p>
-   * @param d the SBML document to be written
+   * @param d the SBML document to be written.
    <p>
    * @return the string on success and <code>0</code> if one of the underlying parser
    * components fail.

@@ -42,8 +42,8 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 InSpeciesTypeBond::InSpeciesTypeBond (unsigned int level, unsigned int version, unsigned int pkgVersion)
   : SBase(level, version)
-   ,mId ("")
-   ,mName ("")
+////   ,mId ("")
+////   ,mName ("")
    ,mBindingSite1 ("")
    ,mBindingSite2 ("")
 {
@@ -57,8 +57,8 @@ InSpeciesTypeBond::InSpeciesTypeBond (unsigned int level, unsigned int version, 
  */
 InSpeciesTypeBond::InSpeciesTypeBond (MultiPkgNamespaces* multins)
   : SBase(multins)
-   ,mId ("")
-   ,mName ("")
+////   ,mId ("")
+////   ,mName ("")
    ,mBindingSite1 ("")
    ,mBindingSite2 ("")
 {
@@ -75,8 +75,8 @@ InSpeciesTypeBond::InSpeciesTypeBond (MultiPkgNamespaces* multins)
  */
 InSpeciesTypeBond::InSpeciesTypeBond (const InSpeciesTypeBond& orig)
   : SBase(orig)
-  , mId  ( orig.mId)
-  , mName  ( orig.mName)
+//  , mId  ( orig.mId)
+//  , mName  ( orig.mName)
   , mBindingSite1  ( orig.mBindingSite1)
   , mBindingSite2  ( orig.mBindingSite2)
 {

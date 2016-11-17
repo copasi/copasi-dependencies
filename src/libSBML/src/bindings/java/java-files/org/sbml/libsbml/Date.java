@@ -55,11 +55,11 @@ defined in SBML.
  * signifying <code>+</code> and <code>1</code> signifying <code>-</code>).  See the paragraph below for
  * further explanations.
  <p>
- * <li> <em>hours</em> offset: a long integer representing the time zone's hour
- * offset from GMT.
+ * <li> <em>hours</em> <em>offset</em>: a long integer representing the time zone's hour
+ * offset from GMT, with a range of 0&ndash;12.
  <p>
- * <li> <em>minute</em> offset: a long integer representing the time zone's
- * minute offset from GMT.
+ * <li> <em>minute</em> <em>offset</em>: a long integer representing the time zone's
+ * minute offset from GMT, with a range of 0&ndash;59.
  *
  * </ul> <p>
  * To illustrate the time zone offset, a value of <code>-05:00</code> would
@@ -913,6 +913,8 @@ appears in the documentation.
  * <li> <em>DD</em> is a two-digit integer representing the day of the month,
  * with a range of values of 01&ndash;31.
  <p>
+ * <li> <em>T</em> is the literal character <code>T.</code>
+ <p>
  * <li> <em>hh</em> is a two-digit integer representing the hour on a 24-hour
  * clock, with a range of values of 00&ndash;23.
  <p>
@@ -1081,6 +1083,8 @@ appears in the documentation.
  <p>
  * <li> <em>DD</em> is a two-digit integer representing the day of the month,
  * with a range of values of 01&ndash;31.
+ <p>
+ * <li> <em>T</em> is the literal character <code>T.</code>
  <p>
  * <li> <em>hh</em> is a two-digit integer representing the hour on a 24-hour
  * clock, with a range of values of 00&ndash;23.
@@ -1263,7 +1267,7 @@ appears in the documentation.
    * Sets the value of this {@link Date} object's time zone hour offset.
    <p>
    * @param hoursOffset a long integer representing the hours of the
-   * offset; it must be in the range 0&ndash;23 or an error will be
+   * offset; it must be in the range 0&ndash;12 or an error will be
    * signaled.
    <p>
    * <p>
@@ -1324,6 +1328,8 @@ appears in the documentation.
  * <li> <em>DD</em> is a two-digit integer representing the day of the month,
  * with a range of values of 01&ndash;31.
  <p>
+ * <li> <em>T</em> is the literal character <code>T.</code>
+ <p>
  * <li> <em>hh</em> is a two-digit integer representing the hour on a 24-hour
  * clock, with a range of values of 00&ndash;23.
  <p>
@@ -1370,7 +1376,7 @@ appears in the documentation.
 
   
 /**
-   * Returns true or false depending on whether this date object represents
+   * Returns <code>true</code> or <code>false</code> depending on whether this date object represents
    * a valid date and time value.
    <p>
    * This method verifies that the date/time value stored in this object is

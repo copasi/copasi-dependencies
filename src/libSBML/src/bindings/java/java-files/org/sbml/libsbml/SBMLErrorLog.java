@@ -130,7 +130,7 @@ public class SBMLErrorLog extends XMLErrorLog {
    <p>
    * @param n the index number of the error to retrieve (with 0 being the
    * first error).
-   * @param severity the severity of the error to retrieve 
+   * @param severity the severity of the error to retrieve.
    <p>
    * @return the <i>n</i>th {@link SBMLError} in this log, or <code>null</code> if <code>n</code> is
    * greater than or equal to
@@ -180,8 +180,8 @@ public class SBMLErrorLog extends XMLErrorLog {
 
   
 /** * @internal */ public
- SBMLErrorLog(SBMLErrorLog other) {
-    this(libsbmlJNI.new_SBMLErrorLog__SWIG_1(SBMLErrorLog.getCPtr(other), other), true);
+ SBMLErrorLog(SBMLErrorLog orig) {
+    this(libsbmlJNI.new_SBMLErrorLog__SWIG_1(SBMLErrorLog.getCPtr(orig), orig), true);
   }
 
   
@@ -335,7 +335,7 @@ public class SBMLErrorLog extends XMLErrorLog {
 
   
 /**
-   * Returns true if {@link SBMLErrorLog} contains an errorId
+   * Returns <code>true</code> if {@link SBMLErrorLog} contains an errorId
    <p>
    * @param errorId the error identifier of the error to be found.
    */ public

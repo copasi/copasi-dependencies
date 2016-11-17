@@ -25,7 +25,7 @@ function buildSBML(varargin)
 
 % Filename    : buildSBML.m
 % Description : Build MATLAB binding.
-% Author(s)   : SBML Team <sbml-team@caltech.edu>
+% Author(s)   : SBML Team <sbml-team@googlegroups.com>
 % Organization: EMBL-EBI, Caltech
 % Created     : 2011-02-08
 %
@@ -105,7 +105,7 @@ function buildSBML(varargin)
   else
     message = sprintf('\n%s\n%s\n', ...
       'Unable to determine the type of operating system in use.', ...
-      'Please contact libsbml-team@caltech.edu to help resolve this problem.');
+      'Please contact libsbml-team@googlegroups.com to help resolve this problem.');
       error(message);
   end;
 
@@ -141,7 +141,7 @@ function y = isWindows()
   if ~ispc()
     message = sprintf('\n%s\n%s\n', ...
       'Unable to determine the type of operating system in use.', ...
-      'Please contact libsbml-team@caltech.edu to help resolve this problem.');
+      'Please contact libsbml-team@googlegroups.com to help resolve this problem.');
     error(message);
   end;
 

@@ -54,7 +54,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 GraphicalPrimitive1D::GraphicalPrimitive1D (unsigned int level, unsigned int version, unsigned int pkgVersion) : 
     Transformation2D(level,version,pkgVersion)
-    ,mId("")
+////    ,mId("")
     ,mStroke("")
     ,mStrokeWidth(std::numeric_limits<double>::quiet_NaN())
 {
@@ -71,7 +71,7 @@ GraphicalPrimitive1D::GraphicalPrimitive1D (unsigned int level, unsigned int ver
  */
 GraphicalPrimitive1D::GraphicalPrimitive1D (RenderPkgNamespaces* renderns):
     Transformation2D(renderns)
-    ,mId("")
+////    ,mId("")
     ,mStroke("")
     ,mStrokeWidth(std::numeric_limits<double>::quiet_NaN())
 {
@@ -91,10 +91,11 @@ GraphicalPrimitive1D::GraphicalPrimitive1D (RenderPkgNamespaces* renderns):
  */
 GraphicalPrimitive1D::GraphicalPrimitive1D(const GraphicalPrimitive1D& other)
   : Transformation2D(other)
-  , mId(other.mId)
+//  , mId(other.mId)
   , mStroke(other.mStroke)
   , mStrokeWidth(other.mStrokeWidth)
 {
+  setId(other.mId);
 }
 
 
@@ -204,13 +205,15 @@ void GraphicalPrimitive1D::readAttributes (const XMLAttributes& attributes, cons
  */
 GraphicalPrimitive1D::GraphicalPrimitive1D(RenderPkgNamespaces* renderns, const std::string& id):
     Transformation2D(renderns)
-    ,mId(id)
+//    ,mId(id)
     ,mStroke("")
     ,mStrokeWidth(std::numeric_limits<double>::quiet_NaN())
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. GraphicalPrimitive1D::GraphicalPrimitive1D(const std::string& id) is deprecated." << std::endl;
 #endif // DEPRECATION_WARNINGS
+  setId(id);
+
         // set the element namespace of this object
   setElementNamespace(renderns->getURI());
 

@@ -167,6 +167,20 @@ StringBuffer_appendExp (StringBuffer_t *sb, double r)
   StringBuffer_appendNumber(sb, "%e", r);
 }
 
+LIBSBML_EXTERN
+void
+StringBuffer_appendFullExp(StringBuffer_t *sb, double mantissa, long exponent, double value)
+{
+  if (mantissa >= 1e14 || mantissa <= -1e14 || (mantissa < 1e-4 && mantissa > -1e-4)) {
+    StringBuffer_appendReal(sb, value);
+    return;
+  }
+	StringBuffer_appendNumber(sb, LIBSBML_FLOAT_FORMAT, mantissa);
+	StringBuffer_appendChar(sb, 'e');
+	StringBuffer_appendInt(sb, exponent);
+}
+
+
 
 LIBSBML_EXTERN
 void

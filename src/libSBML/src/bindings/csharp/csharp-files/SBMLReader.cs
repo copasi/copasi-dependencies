@@ -592,7 +592,7 @@ if (doc.getNumErrors() > 0)
  *
  *
    *
-   * @param xml a string containing a full SBML model
+   * @param xml a string containing a full SBML model.
    *
    * @return a pointer to the SBMLDocument created from the SBML content,
    * or a null pointer if @p xml is null.

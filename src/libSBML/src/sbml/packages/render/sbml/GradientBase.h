@@ -88,7 +88,7 @@ public:
 
 protected:
   /** @cond doxygenLibsbmlInternal */
-  std::string mId;
+////  std::string mId;
   SPREADMETHOD mSpreadMethod;
   ListOfGradientStops mGradientStops;
   /** @endcond */

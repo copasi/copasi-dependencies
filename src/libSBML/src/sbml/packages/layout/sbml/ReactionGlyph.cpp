@@ -387,10 +387,33 @@ ReactionGlyph::getSpeciesReferenceGlyph (unsigned int index) const
 /*
  * Adds a new species reference glyph to the list.
  */
-void
+int
 ReactionGlyph::addSpeciesReferenceGlyph (const SpeciesReferenceGlyph* glyph)
 {
-  this->mSpeciesReferenceGlyphs.append(glyph);
+  if (!glyph)
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }    
+  else if (!(glyph->hasRequiredElements() && glyph->hasRequiredAttributes()))
+  {
+    return LIBSBML_INVALID_OBJECT;
+  }
+  else if (getLevel() != glyph->getLevel())
+  {
+    return LIBSBML_LEVEL_MISMATCH;
+  }
+  else if (getVersion() != glyph->getVersion())
+  {
+    return LIBSBML_VERSION_MISMATCH;
+  }
+  else if (getPackageVersion() != glyph->getPackageVersion())
+  {
+    return LIBSBML_PKG_VERSION_MISMATCH;
+  }
+  else
+  {
+    return mSpeciesReferenceGlyphs.append(glyph);
+  }
 }
 
 
@@ -811,7 +834,7 @@ XMLNode ReactionGlyph::toXML() const
 
 
 /*
- * Ctor.
+ * Constructor.
  */
 ListOfSpeciesReferenceGlyphs::ListOfSpeciesReferenceGlyphs(unsigned int level, unsigned int version, unsigned int pkgVersion)
  : ListOf(level,version)
@@ -821,7 +844,7 @@ ListOfSpeciesReferenceGlyphs::ListOfSpeciesReferenceGlyphs(unsigned int level, u
 
 
 /*
- * Ctor.
+ * Constructor.
  */
 ListOfSpeciesReferenceGlyphs::ListOfSpeciesReferenceGlyphs(LayoutPkgNamespaces* layoutns)
  : ListOf(layoutns)

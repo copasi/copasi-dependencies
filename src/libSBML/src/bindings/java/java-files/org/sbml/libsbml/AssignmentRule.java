@@ -14,10 +14,13 @@ package org.sbml.libsbml;
  * The rule type {@link AssignmentRule} is derived from the parent class {@link Rule}.  It
  * is used to express equations that set the values of variables.  The
  * left-hand side (the attribute named 'variable') of an assignment rule
- * can refer to the identifier of a {@link Species}, {@link SpeciesReference} (in SBML
- * Level&nbsp;3), {@link Compartment}, or {@link Parameter}
+ * must refer to the identifier of a {@link Species}, {@link SpeciesReference} (in SBML
+ * Level&nbsp;3), {@link Compartment}, or global {@link Parameter}
  * object in the model (but not a
- * {@link Reaction}).  The entity identified must have its 'constant' attribute set
+ * {@link Reaction}).  In SBML Level&nbsp;3 Version&nbsp;2, it may also refer to
+ * the SId of an element defined in an SBML Level&nbsp;3 package with 
+ * mathematical meaning and the ability to be assigned.
+ * The entity identified must have its 'constant' attribute set
  * to <code>false.</code>  The effects of an assignment rule construct are in general
  * terms the same, but differ in the precise details depending on the type of
  * SBML component being set:
@@ -45,7 +48,7 @@ package org.sbml.libsbml;
  * formula should be consistent with the unit 'dimensionless', because
  * reactant and product stoichiometries in reactions are dimensionless
  * quantities.
-  <p>
+ <p>
  * <li> <em>In the case of a compartment</em>, an SBML assignment rule sets
  * the referenced compartment's size to the value determined by the formula
  * in the 'math' subelement of the {@link AssignmentRule}
@@ -61,7 +64,39 @@ package org.sbml.libsbml;
  * formula in the 'math' subelement <em>should</em> (in SBML Level&nbsp;2
  * Version&nbsp;4 and in SBML Level&nbsp;3) or <em>must</em> (in SBML releases
  * prior to Level&nbsp;2 version&nbsp;4) be the same as the units defined for
- * the parameter.  </ul>
+ * the parameter.  
+ <p>
+ * <li> (For SBML Level&nbsp;3 Version &nbsp;2 only) <em>In the case of 
+ * an object from an SBML Level&nbsp;3 package</em>, an {@link AssignmentRule} sets 
+ * the referenced object's value (as defined by that package) to the 
+ * value of the formula in math. The unit of measurement associated 
+ * with the value produced by the formula should be the same as that 
+ * object's units attribute value (if it has such an attribute), or be 
+ * equal to the units of model components of that type (if objects of 
+ * that class are defined by the package as having the same units).
+ <p>
+ * </ul>
+ <p>
+ * In SBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1, the 'math' 
+ * subelement of the {@link AssignmentRule} is required.  In SBML Level&nbsp;3
+ * Version&nbsp;2, this rule is relaxed, and the subelement is
+ * optional.  If an {@link AssignmentRule} with no 'math' child is present
+ * in the model, the value of its referenced 'variable' is 
+ * undefined.  This may represent a situation where the model itself
+ * is unfinished, or the missing information may be provided by an
+ * SBML Level&nbsp;3 package.
+ <p>
+ * If the variable attribute of an {@link AssignmentRule} object references an 
+ * object in an SBML namespace not understood by the interpreter reading 
+ * a given SBML document (that is, if the object is defined by an SBML 
+ * Level&nbsp;3 package that the software does not support), the assignment 
+ * rule must be ignored--the object's value will not need to be set, as the 
+ * interpreter could not understand that package. If an interpreter cannot 
+ * establish whether a referenced object is missing from the model or 
+ * instead is defined in an SBML namespace not understood by the interpreter, 
+ * it may produce a warning to the user. (The latter situation may only 
+ * arise if an SBML package is present in the SBML document with a 
+ * package:required attribute of 'true'.)
  <p>
  * In the context of a simulation, assignment rules are in effect at all
  * times, <em>t</em> &#8805; <em>0</em>.  For purposes of evaluating
@@ -187,6 +222,22 @@ package org.sbml.libsbml;
  * statements that contain the symbol in their 'math' subelement expressions.
  * This graph must be acyclic.
  <p>
+ * Similarly, the combined set of {@link RateRule} and {@link Reaction} objects constitute 
+ * a set of definitions for the rates of change of various model entities 
+ * (namely, the objects identified by the values of the 'variable' attributes 
+ * of the {@link RateRule} objects, and the 'species' attributes of the {@link SpeciesReference} 
+ * objects in each {@link Reaction}).  In SBML Level&nbsp;3 Version&nbsp;2, these rates 
+ * of change may be referenced directly 
+ * using the <em>rateOf</em> csymbol, but may not thereby contain algebraic 
+ * loops&mdash;dependency chains between these statements must terminate.  More 
+ * formally, consider a directed graph in which the nodes are the definitions 
+ * of different variables' rates of change, and directed arcs exist for each 
+ * occurrence of a variable referenced by a <em>rateOf</em> csymbol from any 
+ * {@link RateRule} or {@link KineticLaw} object in the model.  Let the directed arcs point 
+ * from the variable referenced by the <em>rateOf</em> csymbol (call it 
+ * <em>x</em>) to the variable(s) determined by the 'math' expression in which
+ * <em>x</em> appears.  This graph must be acyclic.
+ <p>
  * SBML does not specify when or how often rules should be evaluated.
  * Eliminating algebraic loops ensures that assignment statements can be
  * evaluated any number of times without the result of those evaluations
@@ -203,11 +254,11 @@ package org.sbml.libsbml;
  * <h3>A model must not be overdetermined</h3>
  <p>
  * An SBML model must not be overdetermined; that is, a model must not
- * define more equations than there are unknowns in a model.  An SBML model
+ * define more equations than there are unknowns in a model.  A valid SBML model
  * that does not contain {@link AlgebraicRule} structures cannot be overdetermined.
  <p>
  * LibSBML implements the static analysis procedure described in
- * Appendix&nbsp;B of the SBML Level&nbsp;3 Version&nbsp;1 Core
+ * Appendix&nbsp;B of the SBML Level&nbsp;3
  * specification for assessing whether a model is overdetermined.
  <p>
  * (In summary, assessing whether a given continuous, deterministic,
@@ -403,7 +454,7 @@ public class AssignmentRule extends Rule {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -414,8 +465,8 @@ public class AssignmentRule extends Rule {
  * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
  * descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.AssignmentRule_renameSIdRefs(swigCPtr, this, oldid, newid);

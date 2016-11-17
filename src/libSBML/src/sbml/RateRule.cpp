@@ -107,6 +107,297 @@ RateRule::hasRequiredAttributes() const
 }
 
 
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this RateRule.
+ */
+int
+RateRule::getAttribute(const std::string& attributeName, bool& value) const
+{
+  int return_value = Rule::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this RateRule.
+ */
+int
+RateRule::getAttribute(const std::string& attributeName, int& value) const
+{
+  int return_value = Rule::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this RateRule.
+ */
+int
+RateRule::getAttribute(const std::string& attributeName, double& value) const
+{
+  int return_value = Rule::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this RateRule.
+ */
+int
+RateRule::getAttribute(const std::string& attributeName,
+                       unsigned int& value) const
+{
+  int return_value = Rule::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this RateRule.
+ */
+int
+RateRule::getAttribute(const std::string& attributeName,
+                       std::string& value) const
+{
+  int return_value = Rule::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "variable")
+  {
+    value = getVariable();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this RateRule.
+ */
+int
+RateRule::getAttribute(const std::string& attributeName,
+                       const char* value) const
+{
+  int return_value = Rule::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "variable")
+  {
+    value = getVariable().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this RateRule's attribute "attributeName" is
+ * set.
+ */
+bool
+RateRule::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = Rule::isSetAttribute(attributeName);
+
+  if (attributeName == "variable")
+  {
+    value = isSetVariable();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this RateRule.
+ */
+int
+RateRule::setAttribute(const std::string& attributeName, bool value)
+{
+  int return_value = Rule::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this RateRule.
+ */
+int
+RateRule::setAttribute(const std::string& attributeName, int value)
+{
+  int return_value = Rule::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this RateRule.
+ */
+int
+RateRule::setAttribute(const std::string& attributeName, double value)
+{
+  int return_value = Rule::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this RateRule.
+ */
+int
+RateRule::setAttribute(const std::string& attributeName, unsigned int value)
+{
+  int return_value = Rule::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this RateRule.
+ */
+int
+RateRule::setAttribute(const std::string& attributeName,
+                       const std::string& value)
+{
+  int return_value = Rule::setAttribute(attributeName, value);
+
+  if (attributeName == "variable")
+  {
+    return_value = setVariable(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this RateRule.
+ */
+int
+RateRule::setAttribute(const std::string& attributeName, const char* value)
+{
+  int return_value = Rule::setAttribute(attributeName, value);
+
+  if (attributeName == "variable")
+  {
+    return_value = setVariable(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Unsets the value of the "attributeName" attribute of this RateRule.
+ */
+int
+RateRule::unsetAttribute(const std::string& attributeName)
+{
+  int value = Rule::unsetAttribute(attributeName);
+
+  if (attributeName == "variable")
+  {
+    value = unsetVariable();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+
+
+
+
 /** @cond doxygenLibsbmlInternal */
 bool
 RateRule::accept (SBMLVisitor& v) const

@@ -260,7 +260,39 @@ runL2v4Test (const TestFile& file)
  * TestFile, false otherwise.
  */
 bool
+runL2v5Test (const TestFile& file)
+{
+  L2v4CompatibilityValidator validator;
+  TestValidator            tester(validator);
+
+
+  validator.init();
+
+  return tester.test(file);
+}
+
+/**
+ * @return true if the Validator behaved as expected when validating
+ * TestFile, false otherwise.
+ */
+bool
 runL3v1Test (const TestFile& file)
+{
+  L3v1CompatibilityValidator validator;
+  TestValidator            tester(validator);
+
+
+  validator.init();
+
+  return tester.test(file);
+}
+
+/**
+ * @return true if the Validator behaved as expected when validating
+ * TestFile, false otherwise.
+ */
+bool
+runL3v2Test (const TestFile& file)
 {
   L3v1CompatibilityValidator validator;
   TestValidator            tester(validator);
@@ -367,8 +399,8 @@ runTests ( const string& msg,
   cout << msg << "." << endl;
 
   set<TestFile> files    = TestFile::getFilesIn(directory, begin, end, library);
-  unsigned int  passes   = count_if(files.begin(), files.end(), tester);
-  unsigned int  failures = files.size() - passes;
+  unsigned int  passes   = (unsigned int)count_if(files.begin(), files.end(), tester);
+  unsigned int  failures = (unsigned int)files.size() - passes;
   double        percent  = (static_cast<double>(passes) / files.size()) * 100;
 
   cout << static_cast<int>(percent) << "%: Checks: " << files.size();
@@ -479,9 +511,30 @@ main (int argc, char* argv[])
   failed += runTests( "Testing L3v1 Compatibility Constraints (96000 - 96999)",
 		      testDataConversionDir, 96000, 96999, runL3v1Test, library);
 
+  failed += runTests( "Testing L1 for New Compatibility Constraints (98000 - 98999)",
+		      testDataConversionDir, 98000, 98999, runL1Test, library);
+
+  failed += runTests( "Testing L2v1 for New Compatibility Constraints (98000 - 98999)",
+		      testDataConversionDir, 98000, 98999, runL2v1Test, library);
+
+  failed += runTests( "Testing L2v2 for New Compatibility Constraints (98000 - 98999)",
+		      testDataConversionDir, 98000, 98999, runL2v2Test, library);
+
+  failed += runTests( "Testing L2v3 for New Compatibility Constraints (98000 - 98999)",
+		      testDataConversionDir, 98000, 98999, runL2v3Test, library);
+
+  failed += runTests( "Testing L3v1 for New Compatibility Constraints (98000 - 98999)",
+		      testDataConversionDir, 98000, 98999, runL3v1Test, library);
+
+  failed += runTests( "Testing New Compatibility Constraints (98000 - 98999)",
+		      testDataConversionDir, 98000, 98999, runL3v2Test, library);
+
   testThisDataDir = testDataDir + "/" + "libsbml-constraints";
-  failed += runTests("Testing Additional SBML Constraints (99100 - 99199)",
-		     testThisDataDir, 99100, 99199, runAdditionalSBMLTest, library);
+  failed += runTests("Testing Additional SBML Constraints (99100 - 99108)",
+		     testThisDataDir, 99100, 99108, runAdditionalSBMLTest, library);
+
+  failed += runTests("Testing Additional SBML Constraints (99129 - 99199)",
+		     testThisDataDir, 99129, 99199, runAdditionalSBMLTest, library);
 
   failed += runTests("Testing Additional Math Constraints (99200 - 99299)",
 		     testThisDataDir, 99200, 99299, runAdditionalMathTest, library);
@@ -491,6 +544,9 @@ main (int argc, char* argv[])
 
   failed += runTests("Testing Additional Annotation Constraints (99400 - 99499)",
 		     testThisDataDir, 99400, 99499, runAdditionalSBMLTest, library);
+
+  failed += runTests("Testing Additional Unit Constraints (99127 - 99128)",
+		     testThisDataDir, 99127, 99128, runAdditionalUnitTest, library);
 
   failed += runTests("Testing Additional Unit Constraints (99500 - 99599)",
 		     testThisDataDir, 99500, 99599, runAdditionalUnitTest, library);

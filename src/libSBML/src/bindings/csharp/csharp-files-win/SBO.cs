@@ -210,6 +210,8 @@ public class SBO : IDisposable {
 /**
    * Returns @c true if the given term identifier comes from the stated branch of %SBO.
    *
+   * @note The @em 'quantitative parameter' SBO term is now known as 'systems description parameter'.
+   *
    * @return @c true if @p term is-a %SBO <em>'quantiative parameter'</em>, @c false
    * otherwise.
    *
@@ -475,6 +477,8 @@ public class SBO : IDisposable {
 /**
    * Returns @c true if the given term identifier comes from the stated branch of %SBO.
    *
+   * @note The @em 'interaction' SBO term is now known as 'occurring entity representation'.
+   *
    * @return @c true if @p term is-a %SBO <em>'interaction'</em>, @c false otherwise.
    *
    *
@@ -496,6 +500,8 @@ public class SBO : IDisposable {
   
 /**
    * Returns @c true if the given term identifier comes from the stated branch of %SBO.
+   *
+   * @note The @em 'entity' SBO term is now known as 'physical entity representation'.
    *
    * @return @c true if @p term is-a %SBO <em>'entity'</em>, @c false otherwise.
    *

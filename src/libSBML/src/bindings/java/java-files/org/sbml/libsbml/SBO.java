@@ -207,6 +207,8 @@ public class SBO {
 /**
    * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
    <p>
+   * @note The <em>'quantitative</em> parameter' {@link SBO} term is now known as 'systems description parameter'.
+   <p>
    * @return <code>true</code> if <code>term</code> is-a SBO <em>'quantiative parameter'</em>, <code>false</code>
    * otherwise.
    <p>
@@ -352,6 +354,8 @@ public class SBO {
 /**
    * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
    <p>
+   * @note The <em>'interaction'</em> {@link SBO} term is now known as 'occurring entity representation'.
+   <p>
    * @return <code>true</code> if <code>term</code> is-a SBO <em>'interaction'</em>, <code>false</code> otherwise.
    <p>
    * 
@@ -363,6 +367,8 @@ public class SBO {
   
 /**
    * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+   <p>
+   * @note The <em>'entity'</em> {@link SBO} term is now known as 'physical entity representation'.
    <p>
    * @return <code>true</code> if <code>term</code> is-a SBO <em>'entity'</em>, <code>false</code> otherwise.
    <p>

@@ -182,8 +182,8 @@ public class XMLTriple {
    * where <span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span>
    * represents the separator character, <code>sepchar</code>.
    <p>
-   * @param triplet a string representing the triplet as shown above
-   * @param sepchar a character, the sepchar used in the triplet
+   * @param triplet a string representing the triplet as shown above.
+   * @param sepchar a character, the sepchar used in the triplet.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -220,8 +220,8 @@ appears in the documentation.
    * where <span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span>
    * represents the separator character, <code>sepchar</code>.
    <p>
-   * @param triplet a string representing the triplet as shown above
-   * @param sepchar a character, the sepchar used in the triplet
+   * @param triplet a string representing the triplet as shown above.
+   * @param sepchar a character, the sepchar used in the triplet.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>

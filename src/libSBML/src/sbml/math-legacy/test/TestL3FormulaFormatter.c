@@ -321,22 +321,14 @@ START_TEST (test_SBML_formulaToL3String)
   {
     "1",
     "2.1",
-#if defined(WIN32) && !defined(CYGWIN)
-#if _MSC_VER < 1900
-	  "2.100000e-010",
-#else
-	  "2.100000e-10",
-#endif
-#else
-    "2.100000e-10",
-#endif
+    "2.101e-10",
     "foo",
     "1 + foo",
     "1 + 2",
     "1 + 2 * 3",
     "(1 - 2) * 3",
     "1 + -2 / 3",
-    "1 + -2.000000e-100 / 3",
+    "1 + -2e-100 / 3",
     "1 - -foo / 3",
     "2 * foo^bar + 3.1",
     "foo()",
@@ -651,6 +643,55 @@ START_TEST (test_L3FormulaFormatter_multiPlusTimes)
 
   safe_free(s);
   ASTNode_free(n);
+}
+END_TEST
+
+START_TEST (test_SBML_formulaToL3String_L3v2)
+{
+  ASTNode_t *n;
+  char      *s;
+
+
+  n = SBML_parseL3Formula("rateOf(x)");
+  s = SBML_formulaToL3String(n);
+
+  fail_unless( !strcmp(s, "rateOf(x)"), NULL );
+
+  safe_free(s);
+  ASTNode_free(n);
+
+  n = SBML_parseL3Formula("rem(x,y)");
+  s = SBML_formulaToL3String(n);
+
+  fail_unless( !strcmp(s, "rem(x, y)"), NULL );
+
+  safe_free(s);
+  ASTNode_free(n);
+
+  n = SBML_parseL3Formula("quotient(1,2)");
+  s = SBML_formulaToL3String(n);
+
+  fail_unless( !strcmp(s, "quotient(1, 2)"), NULL );
+
+  safe_free(s);
+  ASTNode_free(n);
+
+  n = SBML_parseL3Formula("max(a,b,5,8.4)");
+  s = SBML_formulaToL3String(n);
+
+  fail_unless( !strcmp(s, "max(a, b, 5, 8.4)"), NULL );
+
+  safe_free(s);
+  ASTNode_free(n);
+
+  n = SBML_parseL3Formula("min(x)");
+  s = SBML_formulaToL3String(n);
+
+  fail_unless( !strcmp(s, "min(x)"), NULL );
+
+  safe_free(s);
+  ASTNode_free(n);
+
 }
 END_TEST
 
@@ -1037,6 +1078,7 @@ create_suite_L3FormulaFormatter (void)
   tcase_add_test( tcase, test_SBML_formulaToL3String            );
   tcase_add_test( tcase, test_SBML_formulaToL3String_L1toL3     );
   tcase_add_test( tcase, test_SBML_formulaToL3String_L2toL3     );
+  tcase_add_test( tcase, test_SBML_formulaToL3String_L3v2       );
   tcase_add_test( tcase, test_L3FormulaFormatter_collapseMinus  );
   tcase_add_test( tcase, test_L3FormulaFormatter_parseUnits     );
   tcase_add_test( tcase, test_L3FormulaFormatter_multiEq        );

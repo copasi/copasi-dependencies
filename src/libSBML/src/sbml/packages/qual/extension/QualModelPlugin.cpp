@@ -393,11 +393,8 @@ QualModelPlugin::addQualitativeSpecies (const QualitativeSpecies* qual)
   }
   else
   {
-    mQualitativeSpecies.append(qual);
+    return mQualitativeSpecies.append(qual);
   }
-
-  return LIBSBML_OPERATION_SUCCESS;
-
 }
 /** @endcond */
 
@@ -578,11 +575,8 @@ QualModelPlugin::addTransition (const Transition* qual)
   }
   else
   {
-    mTransitions.append(qual);
+    return mTransitions.append(qual);
   }
-
-  return LIBSBML_OPERATION_SUCCESS;
-
 }
 /** @endcond */
 
@@ -650,7 +644,7 @@ QualModelPlugin::removeTransition (const std::string& sid)
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *
- * @param d the SBMLDocument object to use
+ * @param d the SBMLDocument object to use.
  */
 void 
 QualModelPlugin::setSBMLDocument (SBMLDocument* d)

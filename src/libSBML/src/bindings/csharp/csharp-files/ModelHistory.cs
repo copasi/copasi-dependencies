@@ -374,7 +374,7 @@ public class ModelHistory : IDisposable {
    * creators.  The libSBML ModelHistory class supports this by storing a
    * list of 'model creator' values.
    * 
-   * @param mc the ModelCreator to add
+   * @param mc the ModelCreator to add.
    *
    *
  * @return integer value indicating success/failure of the

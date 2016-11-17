@@ -55,8 +55,8 @@ class LIBSBML_EXTERN InSpeciesTypeBond : public SBase
 
 protected:
 
-  std::string   mId;
-  std::string   mName;
+////  std::string   mId;
+////  std::string   mName;
   std::string   mBindingSite1;
   std::string   mBindingSite2;
 

@@ -869,7 +869,7 @@ appears in the documentation.
  * method will return {@link libsbmlConstants#LIBSBML_INVALID_XML_OPERATION LIBSBML_INVALID_XML_OPERATION} if this {@link XMLToken} object is not an XML start
  * element.
    <p>
-   * @param n an integer the index of the resource to be deleted
+   * @param n an integer the index of the resource to be deleted.
    <p>
    * <p>
  * @return integer value indicating success/failure of the

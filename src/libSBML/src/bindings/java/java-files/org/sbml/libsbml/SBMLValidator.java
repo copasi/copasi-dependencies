@@ -143,7 +143,7 @@ public class SBMLValidator {
 /**
    * Returns the current SBML document in use by this validator.
    <p>
-   * @return the current SBML document
+   * @return the current SBML document.
    <p>
    * @see #setDocument(SBMLDocument)
    */ public
@@ -156,12 +156,13 @@ public class SBMLValidator {
 /** 
    * Sets the current SBML document to the given {@link SBMLDocument} object.
    <p>
-   * @param doc the document to use for this validation
+   * @param doc the document to use for this validation.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -200,7 +201,7 @@ public class SBMLValidator {
 /**
    * Adds the given failure to this list of Validators failures.
    <p>
-   * @param err an {@link SBMLError} object representing an error or warning
+   * @param err an {@link SBMLError} object representing an error or warning.
    */ public
  void logFailure(SBMLError err) {
     libsbmlJNI.SBMLValidator_logFailure(swigCPtr, this, SBMLError.getCPtr(err), err);
@@ -213,7 +214,7 @@ public class SBMLValidator {
    * This is identical to calling setDocument(SBMLDocument )
    * followed by validate().
    <p>
-   * @param d the SBML document to validate
+   * @param d the SBML document to validate.
    <p>
    * @return the number of validation failures that occurred.  The objects
    * describing the actual failures can be retrieved using getFailures().
@@ -248,7 +249,7 @@ public class SBMLValidator {
    * errors and warnings is <em>separate</em> from the validation failures
    * tracked by this validator (i.e., the list returned by getFailures()).
    <p>
-   * @return the {@link SBMLErrorLog} used for the {@link SBMLDocument}
+   * @return the {@link SBMLErrorLog} used for the {@link SBMLDocument}.
    */ public
  SBMLErrorLog getErrorLog() {
     long cPtr = libsbmlJNI.SBMLValidator_getErrorLog(swigCPtr, this);
@@ -286,7 +287,7 @@ public class SBMLValidator {
    * {@link SBMLDocument#getErrorLog()}), because other parts of libSBML may log
    * errors and warnings beyond those found by this validator.
    <p>
-   * @return the number of errors logged by this validator. 
+   * @return the number of errors logged by this validator.
    */ public
  long getNumFailures() {
     return libsbmlJNI.SBMLValidator_getNumFailures(swigCPtr, this);

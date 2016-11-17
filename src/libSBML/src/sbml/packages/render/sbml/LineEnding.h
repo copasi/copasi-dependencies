@@ -79,7 +79,7 @@ class LIBSBML_EXTERN LineEnding : public GraphicalPrimitive2D
 {
 protected:
   /** @cond doxygenLibsbmlInternal */
-  std::string mId;
+////  std::string mId;
   bool mEnableRotationalMapping;
   BoundingBox mBoundingBox;
   RenderGroup mGroup;

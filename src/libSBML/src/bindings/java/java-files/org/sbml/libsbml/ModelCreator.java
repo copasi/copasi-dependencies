@@ -249,6 +249,16 @@ public class ModelCreator {
 
   
 /**
+   * Returns the 'fn' stored in this {@link ModelCreator} object when using vCard4.
+   <p>
+   * @return the 'fn' portion of the {@link ModelCreator} object.
+   */ public
+ String getName() {
+    return libsbmlJNI.ModelCreator_getName(swigCPtr, this);
+  }
+
+  
+/**
    * Predicate returning <code>true</code> or <code>false</code> depending on whether this
    * {@link ModelCreator}'s 'family name' part is set.
    <p>
@@ -308,9 +318,20 @@ public class ModelCreator {
 
   
 /**
+   * Predicate returning <code>true</code> or <code>false</code> depending on whether this
+   * {@link ModelCreator}'s 'fn' part is set (when using vCard4).
+   <p>
+   * @return <code>true</code> if the fn of this {@link ModelCreator} is set, <code>false</code> otherwise.
+   */ public
+ boolean isSetName() {
+    return libsbmlJNI.ModelCreator_isSetName(swigCPtr, this);
+  }
+
+  
+/**
    * Sets the 'family name' portion of this {@link ModelCreator} object.
    <p>
-   * @param familyName a string representing the familyName of the {@link ModelCreator}. 
+   * @param familyName a string representing the familyName of the {@link ModelCreator}.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -329,7 +350,7 @@ public class ModelCreator {
 /**
    * Sets the 'given name' portion of this {@link ModelCreator} object.
    <p>
-   * @param givenName a string representing the givenName of the {@link ModelCreator}. 
+   * @param givenName a string representing the givenName of the {@link ModelCreator}.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -348,7 +369,7 @@ public class ModelCreator {
 /**
    * Sets the 'email' portion of this {@link ModelCreator} object.
    <p>
-   * @param email a string representing the email of the {@link ModelCreator}. 
+   * @param email a string representing the email of the {@link ModelCreator}.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -406,6 +427,25 @@ public class ModelCreator {
    */ public
  int setOrganisation(String organization) {
     return libsbmlJNI.ModelCreator_setOrganisation(swigCPtr, this, organization);
+  }
+
+  
+/**
+   * Sets the 'fn' portion of this {@link ModelCreator} object (when using vCard4).
+   <p>
+   * @param name a string representing the fn of the {@link ModelCreator}. 
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+   * </ul>
+   */ public
+ int setName(String name) {
+    return libsbmlJNI.ModelCreator_setName(swigCPtr, this, name);
   }
 
   
@@ -499,6 +539,23 @@ public class ModelCreator {
 
   
 /**
+   * Unsets the 'fn' portion of this {@link ModelCreator} object (when using vCard4).
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * </ul>
+   */ public
+ int unsetName() {
+    return libsbmlJNI.ModelCreator_unsetName(swigCPtr, this);
+  }
+
+  
+/**
    * Predicate returning <code>true</code> if all the required elements for this
    * {@link ModelCreator} object have been set.
    <p>
@@ -522,6 +579,12 @@ public class ModelCreator {
 /** * @internal */ public
  void resetModifiedFlags() {
     libsbmlJNI.ModelCreator_resetModifiedFlags(swigCPtr, this);
+  }
+
+  
+/** * @internal */ public
+ boolean usingFNVcard4() {
+    return libsbmlJNI.ModelCreator_usingFNVcard4(swigCPtr, this);
   }
 
 }

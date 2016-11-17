@@ -38,7 +38,7 @@ namespace libsbml {
  * The use of all the converters follows a similar approach.  First, one
  * creates a ConversionProperties object and calls
  * ConversionProperties::addOption(@if java ConversionOption@endif)
- * on this object with one arguments: a text string that identifies the desired
+ * on this object with one argument: a text string that identifies the desired
  * converter.  (The text string is specific to each converter; consult the
  * documentation for a given converter to find out how it should be enabled.)
  *
@@ -243,7 +243,7 @@ public class ConversionProperties : IDisposable {
    * Constructor that initializes the conversion properties
    * with a specific SBML target namespace.
    *
-   * @param targetNS the target namespace to convert to
+   * @param targetNS the target namespace to convert to.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -255,7 +255,7 @@ public class ConversionProperties : IDisposable {
    * Constructor that initializes the conversion properties
    * with a specific SBML target namespace.
    *
-   * @param targetNS the target namespace to convert to
+   * @param targetNS the target namespace to convert to.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -377,7 +377,7 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a copy of the given option to this properties object.
    *
-   * @param option the option to add
+   * @param option the option to add.
    */ public new
  void addOption(ConversionOption option) {
     libsbmlPINVOKE.ConversionProperties_addOption__SWIG_0(swigCPtr, ConversionOption.getCPtr(option));
@@ -388,11 +388,11 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a new ConversionOption object with the given parameters.
    *
-   * @param key the key for the new option
-   * @param value (optional) the value of that option
+   * @param key the key for the new option.
+   * @param value (optional) the value of that option.
    * @param type (optional) the type of the option (see the documentation
-   * for ConversionOption for more information about the types)
-   * @param description (optional) the description for the option
+   * for ConversionOption for more information about the types).
+   * @param description (optional) the description for the option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public new
@@ -404,11 +404,11 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a new ConversionOption object with the given parameters.
    *
-   * @param key the key for the new option
-   * @param value (optional) the value of that option
+   * @param key the key for the new option.
+   * @param value (optional) the value of that option.
    * @param type (optional) the type of the option (see the documentation
-   * for ConversionOption for more information about the types)
-   * @param description (optional) the description for the option
+   * for ConversionOption for more information about the types).
+   * @param description (optional) the description for the option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public new
@@ -420,11 +420,11 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a new ConversionOption object with the given parameters.
    *
-   * @param key the key for the new option
-   * @param value (optional) the value of that option
+   * @param key the key for the new option.
+   * @param value (optional) the value of that option.
    * @param type (optional) the type of the option (see the documentation
-   * for ConversionOption for more information about the types)
-   * @param description (optional) the description for the option
+   * for ConversionOption for more information about the types).
+   * @param description (optional) the description for the option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public new
@@ -436,11 +436,11 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a new ConversionOption object with the given parameters.
    *
-   * @param key the key for the new option
-   * @param value (optional) the value of that option
+   * @param key the key for the new option.
+   * @param value (optional) the value of that option.
    * @param type (optional) the type of the option (see the documentation
-   * for ConversionOption for more information about the types)
-   * @param description (optional) the description for the option
+   * for ConversionOption for more information about the types).
+   * @param description (optional) the description for the option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public new
@@ -452,9 +452,9 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a new ConversionOption object with the given parameters.
    *
-   * @param key the key for the new option
-   * @param value the string value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the string value of that option.
+   * @param description (optional) the description for the option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public new
@@ -466,9 +466,9 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a new ConversionOption object with the given parameters.
    *
-   * @param key the key for the new option
-   * @param value the boolean value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the boolean value of that option.
+   * @param description (optional) the description for the option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public new
@@ -480,9 +480,9 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a new ConversionOption object with the given parameters.
    *
-   * @param key the key for the new option
-   * @param value the boolean value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the boolean value of that option.
+   * @param description (optional) the description for the option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public new
@@ -494,9 +494,9 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a new ConversionOption object with the given parameters.
    *
-   * @param key the key for the new option
-   * @param value the double value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the double value of that option.
+   * @param description (optional) the description for the option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public new
@@ -508,9 +508,9 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a new ConversionOption object with the given parameters.
    *
-   * @param key the key for the new option
-   * @param value the double value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the double value of that option.
+   * @param description (optional) the description for the option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public new
@@ -522,9 +522,9 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a new ConversionOption object with the given parameters.
    *
-   * @param key the key for the new option
-   * @param value the float value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the float value of that option.
+   * @param description (optional) the description for the option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public new
@@ -536,9 +536,9 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a new ConversionOption object with the given parameters.
    *
-   * @param key the key for the new option
-   * @param value the float value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the float value of that option.
+   * @param description (optional) the description for the option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public new
@@ -550,9 +550,9 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a new ConversionOption object with the given parameters.
    *
-   * @param key the key for the new option
-   * @param value the integer value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the integer value of that option.
+   * @param description (optional) the description for the option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public new
@@ -564,9 +564,9 @@ public class ConversionProperties : IDisposable {
 /**
    * Adds a new ConversionOption object with the given parameters.
    *
-   * @param key the key for the new option
-   * @param value the integer value of that option
-   * @param description (optional) the description for the option
+   * @param key the key for the new option.
+   * @param value the integer value of that option.
+   * @param description (optional) the description for the option.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public new
@@ -578,8 +578,8 @@ public class ConversionProperties : IDisposable {
 /**
    * Removes the option with the given key from this properties object.
    *
-   * @param key the key for the new option to remove
-   * @return the removed option
+   * @param key the key for the new option to remove.
+   * @return the removed option.
    */ public new
  ConversionOption removeOption(string key) {
     IntPtr cPtr = libsbmlPINVOKE.ConversionProperties_removeOption(swigCPtr, key);
@@ -619,8 +619,8 @@ public class ConversionProperties : IDisposable {
 /**
    * Sets the value of the given option to a string.
    *
-   * @param key the key for the option
-   * @param value the new value
+   * @param key the key for the option.
+   * @param value the new value.
    */ public new
  void setValue(string key, string value) {
     libsbmlPINVOKE.ConversionProperties_setValue(swigCPtr, key, value);
@@ -730,7 +730,7 @@ public class ConversionProperties : IDisposable {
 /** 
    * Returns the number of options in this Conversion Properties object
    *
-   * @return the number of options in this properties object
+   * @return the number of options in this properties object.
    */ public new
  int getNumOptions() {
     int ret = libsbmlPINVOKE.ConversionProperties_getNumOptions(swigCPtr);

@@ -39,7 +39,7 @@ class LIBSBML_EXTERN SubListOfSpeciesFeatures : public ListOf
 
 protected:
 
-  std::string   mId;
+////  std::string   mId;
   Relation_t mRelation;
   std::string   mComponent;
 

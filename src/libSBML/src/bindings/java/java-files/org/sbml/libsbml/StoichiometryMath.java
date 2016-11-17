@@ -109,8 +109,8 @@ package org.sbml.libsbml;
  <p>
  * <h2>Stoichiometries in SBML Level 3</h2>
  <p>
- * The {@link StoichiometryMath} construct is not defined in SBML Level&nbsp;3
- * Version&nbsp;1 Core.  Instead, Level&nbsp;3 defines the identifier of
+ * The {@link StoichiometryMath} construct is not defined in SBML Level&nbsp;3.
+ * Instead, Level&nbsp;3 defines the identifier of
  * {@link SpeciesReference} objects as a stand-in for the stoichiometry of the
  * reactant or product being referenced, and allows that identifier to be
  * used elsewhere in SBML models, including (for example) {@link InitialAssignment}
@@ -184,10 +184,10 @@ public class StoichiometryMath extends SBase {
    * Creates a new {@link StoichiometryMath} object using the given SBML <code>level</code>
    * values.
    <p>
-   * @param level a long integer, the SBML Level to assign to this {@link StoichiometryMath}
+   * @param level a long integer, the SBML Level to assign to this {@link StoichiometryMath}.
    <p>
    * @param version a long integer, the SBML Version to assign to this
-   * {@link StoichiometryMath}
+   * {@link StoichiometryMath}.
    <p>
    * <p>
  * @throws SBMLConstructorException
@@ -298,7 +298,7 @@ public class StoichiometryMath extends SBase {
    * Retrieves the mathematical formula within this {@link StoichiometryMath} and
    * return it as an AST.
    <p>
-   * @return the math of this {@link StoichiometryMath}.
+   * @return the math of this {@link StoichiometryMath}, or <code>null</code> if the math is not set.
    <p>
    * <p>
  * @note The {@link StoichiometryMath} construct exists only in SBML Level&nbsp;2.
@@ -470,7 +470,7 @@ public class StoichiometryMath extends SBase {
    * Returns the XML element name of this object, which for {@link StoichiometryMath}, is
    * always <code>'stoichiometryMath'.</code>
    <p>
-   * @return the name of this element, i.e., <code>'stoichiometryMath'.</code> 
+   * @return the name of this element, i.e., <code>'stoichiometryMath'.</code>
    */ public
  String getElementName() {
     return libsbmlJNI.StoichiometryMath_getElementName(swigCPtr, this);
@@ -526,7 +526,7 @@ public class StoichiometryMath extends SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -537,8 +537,8 @@ public class StoichiometryMath extends SBase {
  * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
  * descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.StoichiometryMath_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -567,8 +567,8 @@ public class StoichiometryMath extends SBase {
  * are found, the matching values are replaced with <code>newid</code>.  The method
  * does <em>not</em> descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.StoichiometryMath_renameUnitSIdRefs(swigCPtr, this, oldid, newid);

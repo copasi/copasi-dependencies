@@ -71,7 +71,7 @@ public class SyntaxChecker : IDisposable {
 
   
 /**
-   * Returns true @c true or @c false depending on whether the argument
+   * Returns @c true or @c false depending on whether the argument
    * string conforms to the syntax of SBML identifiers.
    *
    *
@@ -97,28 +97,24 @@ public class SyntaxChecker : IDisposable {
    * @return @c true if the string conforms to type SBML data type
    * <code>SId</code>, @c false otherwise.
    *
+   * The identifier given by an object's 'id' attribute value
+   * is used to identify the object within the SBML model definition.
+   * Other objects can refer to the component using this identifier.  The
+   * data type of 'id' is always <code>SId</code> or a type derived
+   * from that, such as <code>UnitSId</code>, depending on the object in 
+   * question.  All data types are defined as follows:
+   * <pre style='margin-left: 2em; border: none; font-weight: bold; color: black'>
+   *   letter ::= 'a'..'z','A'..'Z'
+   *   digit  ::= '0'..'9'
+   *   idChar ::= letter | digit | '_'
+   *   SId    ::= ( letter | '_' ) idChar*
+   * </pre>
    *
- * 
- * SBML has strict requirements for the syntax of identifiers, that is, the
- * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type
- * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation:
- * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
- * letter ::= 'a'..'z','A'..'Z'
- * digit  ::= '0'..'9'
- * idChar ::= letter | digit | '_'
- * SId    ::= ( letter | '_' ) idChar*</pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> 'zero or more times', and the character
- * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  In addition, there are a few
- * conditions for the uniqueness of identifiers in an SBML model.  Please
- * consult the SBML specifications for the exact details of the uniqueness
- * requirements.
- *
- *
+   * The equality of <code>SId</code> and <code>SId</code>-derived values
+   * in SBML is determined by an exact character sequence match; i.e.,
+   * comparisons of these identifiers must be performed in a case-sensitive
+   * manner.  This applies to all uses of <code>SId</code>, 
+   * <code>SIdRef</code>, and derived types.
    *
    *
  * @if python @note Because this is a static method on a class, the Python

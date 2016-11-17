@@ -365,6 +365,19 @@ public class libsbml implements libsbmlConstants {
   
 
 
+
+	public static ASTBasePlugin DowncastASTBasePlugin(long cPtr, boolean owner)
+  {
+    if (cPtr == 0) return null;
+    
+		ASTBasePlugin ext = new ASTBasePlugin(cPtr, false);
+		String pkgName = ext.getPackageName();
+
+				
+		return new ASTBasePlugin(cPtr,owner);
+	}
+
+
    static String getAbsolutePath(String filename)
    {
      java.io.File file = new java.io.File(filename);
@@ -555,7 +568,7 @@ public class libsbml implements libsbmlConstants {
  * This method takes an SBML operation return value and returns a string representing
  * the code.
  <p>
- * @param returnValue the operation return value to convert to a string
+ * @param returnValue the operation return value to convert to a string.
  <p>
  * @return a human readable name for the given
  * operation return value .
@@ -743,7 +756,7 @@ if (doc.getNumErrors() &gt; 0)
  * {@link SBMLReader#readSBML(String)} for an example of code for
  * testing the returned error code.
  <p>
- * @param xml a string containing a full SBML model
+ * @param xml a string containing a full SBML model.
  <p>
  * @return a pointer to the {@link SBMLDocument} structure created from the SBML
  * content in <code>xml</code>.
@@ -787,7 +800,7 @@ Similarly, the filename in the archive will be
 <code>&quot;test.sbml.zip&quot;</code>.
 
  <p>
- * @param d the {@link SBMLDocument} object to be written out in XML format
+ * @param d the {@link SBMLDocument} object to be written out in XML format.
  <p>
  * @param filename a string giving the path to a file where the XML
  * content is to be written.
@@ -817,7 +830,7 @@ Similarly, the filename in the archive will be
  <p>
  * but does not require the caller to create an {@link SBMLWriter} object first.
  <p>
- * @param d an {@link SBMLDocument} object to be written out in XML format
+ * @param d an {@link SBMLDocument} object to be written out in XML format.
  <p>
  * @return the string on success and <code>null</code> if one of the underlying parser
  * components fail.
@@ -853,7 +866,7 @@ Similarly, the filename in the archive will be
 <code>&quot;test.sbml.zip&quot;</code>.
 
  <p>
- * @param d an {@link SBMLDocument} object to be written out in XML format
+ * @param d an {@link SBMLDocument} object to be written out in XML format.
  <p>
  * @param filename a string giving the path to a file where the XML
  * content is to be written.
@@ -911,8 +924,8 @@ Similarly, the filename in the archive will be
  * (because each of the above is a distinct enumeration value), but
  * this function returns <code>true.</code>
  <p>
- * @param uk1 a <code>UNIT_KIND_</code> value 
- * @param uk2 a second <code>UNIT_KIND_</code> value to compare to <code>uk1</code>
+ * @param uk1 a <code>UNIT_KIND_</code> value.
+ * @param uk2 a second <code>UNIT_KIND_</code> value to compare to <code>uk1</code>.
  <p>
  * @return nonzero (for <code>true</code>) if <code>uk1</code> is logically equivalent to 
  * <code>uk2</code>, zero (for <code>false</code>) otherwise.
@@ -929,7 +942,7 @@ Similarly, the filename in the archive will be
  * Converts a text string naming a kind of unit to its corresponding
  * libSBML <code>UNIT_KIND_</code> constant/enumeration value.
  <p>
- * @param name a string, the name of a predefined base unit in SBML
+ * @param name a string, the name of a predefined base unit in SBML.
  <p>
  * @return a value the set of <code>UNIT_KIND_</code> codes
  * defined in class {@link libsbmlConstants}, corresponding to the string
@@ -966,9 +979,9 @@ Similarly, the filename in the archive will be
  * Predicate for testing whether a given string corresponds to a
  * predefined libSBML unit code.
  <p>
- * @param str a text string naming a base unit defined by SBML
- * @param level the Level of SBML
- * @param version the Version within the Level of SBML
+ * @param str a text string naming a base unit defined by SBML.
+ * @param level the Level of SBML.
+ * @param version the Version within the Level of SBML.
  <p>
  * @return nonzero (for <code>true</code>) if string is the name of a valid
  * <code>UNIT_KIND_</code> value, zero (for <code>false</code>) otherwise.
@@ -990,7 +1003,7 @@ Similarly, the filename in the archive will be
  * passing it the qualifier <code>BQM_IS_DESCRIBED_BY</code> will return
  * the string <code>'isDescribedBy'</code>.
  <p>
- * @param type The  value to
+ * @param type the  value to
  * translate. The value should be a libSBML constant whose
  * name begins with <code>BQM_</code>, such as (for example)
  * {@link libsbmlConstants#BQM_IS BQM_IS}.
@@ -1014,7 +1027,7 @@ Similarly, the filename in the archive will be
  * passing it the qualifier <code>BQB_HAS_VERSION</code> will return
  * the string <code>'hasVersion'</code>.
  <p>
- * @param type The  value to
+ * @param type the  value to
  * translate. The value should be a constant whose name
  * begins with <code>BQB_</code>, such as (for example)
  * {@link libsbmlConstants#BQB_IS BQB_IS}.
@@ -1038,7 +1051,7 @@ Similarly, the filename in the archive will be
  * <code>'isDescribedBy'</code> will return the qualifier
  * <code>BQM_IS_DESCRIBED_BY</code>.
  <p>
- * @param s The string to translate to a libSBML constant value representing a model qualifier.
+ * @param s the string to translate to a libSBML constant value representing a model qualifier.
  <p>
  * @return a libSBML qualifier enumeration value for the given human readable
  * qualifier name.
@@ -1057,7 +1070,7 @@ Similarly, the filename in the archive will be
  * <code>'hasVersion'</code> will return the qualifier
  * <code>BQB_HAS_VERSION</code>.
  <p>
- * @param s The string to translate to a libSBML constant value representing a biological qualifier.
+ * @param s the string to translate to a libSBML constant value representing a biological qualifier.
  <p>
  * @return a libSBML qualifier enumeration value for the given human readable
  * qualifier name.
@@ -1167,7 +1180,7 @@ Similarly, the filename in the archive will be
  * Reads the MathML from the given XML string, constructs a corresponding
  * abstract syntax tree, and returns a pointer to the root of the tree.
  <p>
- * @param xml a string containing a full MathML expression
+ * @param xml a string containing a full MathML expression.
  <p>
  * @return the root of an AST corresponding to the given mathematical
  * expression, otherwise <code>null</code> is returned if the given string is <code>null</code>
@@ -1183,7 +1196,7 @@ Similarly, the filename in the archive will be
  * Reads the MathML from the given XML string, constructs a corresponding
  * abstract syntax tree, and returns a pointer to the root of the tree.
  <p>
- * @param xml a string containing a full MathML expression
+ * @param xml a string containing a full MathML expression.
  * @param xmlns an {@link XMLNamespaces}
  * object containing namespaces that are considered active during the
  * read. (For example, an SBML Level&nbsp;3 package namespace.)
@@ -1213,6 +1226,27 @@ Similarly, the filename in the archive will be
  */ public
  static String writeMathMLToString(ASTNode node) {
     return libsbmlJNI.writeMathMLToString(ASTNode.getCPtr(node), node);
+  }
+
+  
+/**
+* Writes the given AST node (and its children) to a string as MathML, and
+* returns the string.
+*
+* @param node the root of an AST to write out to the stream.
+* @param sbmlns the SBML namespace to be used
+*
+* @return a string containing the written-out MathML representation
+* of the given AST.
+*
+* @note The string is owned by the caller and should be freed (with
+* free()) when no longer needed.  <code>null</code> is returned if the given
+* argument is <code>null.</code>
+*
+* 
+*/ public
+ static String writeMathMLWithNamespaceToString(ASTNode node, SBMLNamespaces sbmlns) {
+    return libsbmlJNI.writeMathMLWithNamespaceToString(ASTNode.getCPtr(node), node, SBMLNamespaces.getCPtr(sbmlns), sbmlns);
   }
 
   
@@ -1332,7 +1366,7 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * provide a direct text-string input facility to users of their software
  * systems.</span>
  <p>
- * @param formula the text-string formula expression to be parsed
+ * @param formula the text-string formula expression to be parsed.
  <p>
  * @return the root node of the AST corresponding to the <code>formula</code>, or 
  * <code>null</code> if an error occurred in parsing the formula
@@ -2829,7 +2863,7 @@ in the "Level&nbsp;3" text-string formula syntax.
  * functionality is provided because SBML Level&nbsp;2 models may not use
  * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} AST nodes.
  <p>
- * @param formula the text-string formula expression to be parsed
+ * @param formula the text-string formula expression to be parsed.
  <p>
  * @return the root node of an AST representing the mathematical formula, or
  * <code>null</code> if an error occurred while parsing the formula.  When <code>null</code> is
@@ -2873,9 +2907,9 @@ in the "Level&nbsp;3" text-string formula syntax.
  * about the parser, please see the definition of {@link L3ParserSettings} and
  * the function <a href='libsbml.html#parseL3Formula(java.lang.String)'><code>libsbml.parseL3Formula(String)</code></a>.
  <p>
- * @param formula the mathematical formula expression to be parsed
+ * @param formula the mathematical formula expression to be parsed.
  <p>
- * @param model the {@link Model} object to use for checking identifiers
+ * @param model the {@link Model} object to use for checking identifiers.
  <p>
  * @return the root node of an AST representing the mathematical formula,
  * or <code>null</code> if an error occurred while parsing the formula.  When <code>null</code>
@@ -2957,9 +2991,9 @@ in the "Level&nbsp;3" text-string formula syntax.
  * For more details about the parser, please see the definition of
  * {@link L3ParserSettings} and <a href='libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.
  <p>
- * @param formula the mathematical formula expression to be parsed
+ * @param formula the mathematical formula expression to be parsed.
  <p>
- * @param settings the settings to be used for this parser invocation
+ * @param settings the settings to be used for this parser invocation.
  <p>
  * @return the root node of an AST representing the mathematical formula,
  * or <code>null</code> if an error occurred while parsing the formula.  When <code>null</code>

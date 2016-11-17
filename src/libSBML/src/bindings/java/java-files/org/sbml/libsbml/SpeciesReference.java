@@ -174,7 +174,7 @@ package org.sbml.libsbml;
  * by {@link AssignmentRule} or {@link AlgebraicRule}, and in addition, for simulation time
  * <em>t &gt; 0</em>, it may also be changed by a {@link RateRule} or {@link Event}
  * objects.  (However, some of these constructs are mutually exclusive; see
- * the SBML Level&nbsp;3 Version&nbsp;1 Core specifiation for more
+ * the SBML Level&nbsp;3 Core specifiation for more
  * details.)  It is not an error to define 'stoichiometry' on a species
  * reference and also redefine the stoichiometry using an
  * {@link InitialAssignment}, but the 'stoichiometry' attribute in that case is
@@ -256,10 +256,10 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * Creates a new {@link SpeciesReference} using the given SBML <code>level</code> and <code>version</code>
    * values.
    <p>
-   * @param level a long integer, the SBML Level to assign to this {@link SpeciesReference}
+   * @param level a long integer, the SBML Level to assign to this {@link SpeciesReference}.
    <p>
    * @param version a long integer, the SBML Version to assign to this
-   * {@link SpeciesReference}
+   * {@link SpeciesReference}.
    <p>
    * <p>
  * @throws SBMLConstructorException
@@ -525,7 +525,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * In SBML Level 3, there is no {@link StoichiometryMath}, and {@link SpeciesReference}
    * objects have only the 'stoichiometry' attribute.
    <p>
-   * @param value the new value of the 'stoichiometry' attribute
+   * @param value the new value of the 'stoichiometry' attribute.
    <p>
    * @note In SBML Level&nbsp;2, the 'stoichiometryMath' subelement of this
    * {@link SpeciesReference} object will be unset because the 'stoichiometry'
@@ -611,7 +611,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * 'stoichiometry' and 'denominator' in the case of SBML Level&nbsp;1, or
    * a 'stoichiometryMath' subelement in the case of SBML Level&nbsp;2).
    <p>
-   * @param value the scalar value 
+   * @param value the scalar value.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -631,7 +631,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * <code>flag</code>.
    <p>
    * @param flag a boolean, the value for the 'constant' attribute of this
-   * {@link SpeciesReference} instance
+   * {@link SpeciesReference} instance.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -740,7 +740,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * Creates a new, empty {@link StoichiometryMath} object, adds it to this
    * {@link SpeciesReference}, and returns it.
    <p>
-   * @return the newly created {@link StoichiometryMath} object instance
+   * @return the newly created {@link StoichiometryMath} object instance.
    <p>
    * @see Reaction#addReactant(SpeciesReference sr)
    * @see Reaction#addProduct(SpeciesReference sr)
@@ -763,12 +763,13 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * discarded.  An alternative may be to use appendAnnotation().
    <p>
    * @param annotation an XML structure that is to be used as the content
-   * of the 'annotation' subelement of this object
+   * of the 'annotation' subelement of this object.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -793,7 +794,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * discarded.  An alternative may be to use appendAnnotation().
    <p>
    * @param annotation an XML string that is to be used as the content
-   * of the 'annotation' subelement of this object
+   * of the 'annotation' subelement of this object.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -822,7 +823,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * adds its own data.
    <p>
    * @param annotation an XML structure that is to be copied and appended
-   * to the content of the 'annotation' subelement of this object
+   * to the content of the 'annotation' subelement of this object.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -851,7 +852,7 @@ public class SpeciesReference extends SimpleSpeciesReference {
    * adds its own data.
    <p>
    * @param annotation an XML string that is to be copied and appended
-   * to the content of the 'annotation' subelement of this object
+   * to the content of the 'annotation' subelement of this object.
    <p>
    * <p>
  * @return integer value indicating success/failure of the

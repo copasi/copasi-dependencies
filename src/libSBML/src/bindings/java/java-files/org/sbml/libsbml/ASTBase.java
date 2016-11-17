@@ -400,16 +400,14 @@ public class ASTBase {
   
 /** * @internal */ public
  ASTBasePlugin getPlugin(String arg0) {
-    long cPtr = libsbmlJNI.ASTBase_getPlugin__SWIG_0(swigCPtr, this, arg0);
-    return (cPtr == 0) ? null : new ASTBasePlugin(cPtr, false);
-  }
+  return libsbml.DowncastASTBasePlugin(libsbmlJNI.ASTBase_getPlugin__SWIG_0(swigCPtr, this, arg0), false);
+}
 
   
 /** * @internal */ public
  ASTBasePlugin getPlugin(long n) {
-    long cPtr = libsbmlJNI.ASTBase_getPlugin__SWIG_2(swigCPtr, this, n);
-    return (cPtr == 0) ? null : new ASTBasePlugin(cPtr, false);
-  }
+  return libsbml.DowncastASTBasePlugin(libsbmlJNI.ASTBase_getPlugin__SWIG_2(swigCPtr, this, n), false);
+}
 
   
 /** * @internal */ public

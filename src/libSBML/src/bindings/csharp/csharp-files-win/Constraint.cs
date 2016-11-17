@@ -31,12 +31,21 @@ namespace libsbml {
  * be used according to the guidelines described in the SBML specification
  * (e.g., Section 3.3 in the Level&nbsp;2 Version 4 specification).  
  *
- * Constraint has one required subelement, 'math', containing a MathML
- * formula defining the condition of the constraint.  This formula must
- * return a boolean value of @c true when the model is a <em>valid</em>
+ * Constraint has one subelement, 'math', containing a MathML
+ * formula defining the condition of the constraint.  This formula will
+ * return a Boolean value of @c true when the model is a <em>valid</em>
  * state.  The formula can be an arbitrary expression referencing the
  * variables and other entities in an SBML model.  The evaluation of 'math'
  * and behavior of constraints are described in more detail below.
+ *
+ * In SBML Level&nbsp;2 and SBML Level&nbsp;3 Version&nbsp;1, the 'math'
+ * subelement is required, and its formula must be a Boolean value.  In
+ * SBML Level&nbsp;3 Version&nbsp;2, these restrictions were relaxed:
+ * the 'math' subelement is optional, and numeric values are allowed
+ * in Boolean contexts (a '0' is interpreted as @c false, and all other
+ * values are interpreted as @c true).  If a Constraint with no 'math'
+ * is present in a Model, no restriction on the Model's behavior is
+ * implied or enforced.
  *
  * A Constraint structure also has an optional subelement called 'message'.
  * This can contain a message in XHTML format that may be displayed to the
@@ -142,10 +151,10 @@ public class Constraint : SBase {
    * Creates a new Constraint using the given SBML @p level and @p version
    * values.
    *
-   * @param level a long integer, the SBML Level to assign to this Constraint
+   * @param level a long integer, the SBML Level to assign to this Constraint.
    *
    * @param version a long integer, the SBML Version to assign to this
-   * Constraint
+   * Constraint.
    *
    *
  * @throws SBMLConstructorException
@@ -272,7 +281,7 @@ public class Constraint : SBase {
 /**
    * Get the mathematical expression of this Constraint
    * 
-   * @return the math for this Constraint, as an ASTNode.
+   * @return the math for this Constraint, as an ASTNode, or @c null if the math is not set.
    */ public
  ASTNode getMath() {
     IntPtr cPtr = libsbmlPINVOKE.Constraint_getMath(swigCPtr);
@@ -332,7 +341,7 @@ public class Constraint : SBase {
    * Sets the message of this Constraint.
    *
    * @param message an XML string that is to be used as the content of the
-   * 'message' subelement of this object
+   * 'message' subelement of this object.
    *
    * @param addXHTMLMarkup a boolean indicating whether to wrap the contents
    * of the @p message argument with XHTML paragraph (<code>&lt;p&gt;</code>)
@@ -357,7 +366,7 @@ public class Constraint : SBase {
    * Sets the message of this Constraint.
    *
    * @param message an XML string that is to be used as the content of the
-   * 'message' subelement of this object
+   * 'message' subelement of this object.
    *
    * @param addXHTMLMarkup a boolean indicating whether to wrap the contents
    * of the @p message argument with XHTML paragraph (<code>&lt;p&gt;</code>)
@@ -383,7 +392,7 @@ public class Constraint : SBase {
    * AST given as @p math.
    *
    * @param math an ASTNode expression to be assigned as the 'math'
-   * subelement of this Constraint
+   * subelement of this Constraint.
    *
    *
  * @return integer value indicating success/failure of the
@@ -429,7 +438,7 @@ public class Constraint : SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -442,8 +451,8 @@ public class Constraint : SBase {
  * matching values are replaced with @p newid.  The method does @em not
  * descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new
@@ -477,8 +486,8 @@ public class Constraint : SBase {
  * are found, the matching values are replaced with @p newid.  The method
  * does @em not descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new
@@ -557,7 +566,8 @@ public class Constraint : SBase {
    * have been set.
    *
    * @note The required elements for a Constraint object are:
-   * @li 'math'
+   * @li 'math' (through SBML Level&nbsp;3 Version&nbsp;1 only; not 
+   *     required in Level&nbsp;3 Version&nbsp;2+.)
    *
    * @return a boolean value indicating whether all the required
    * elements for this object have been defined.

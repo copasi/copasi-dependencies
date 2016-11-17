@@ -56,8 +56,8 @@ class LIBSBML_EXTERN SpeciesFeatureType : public SBase
 
 protected:
 
-  std::string   mId;
-  std::string   mName;
+////  std::string   mId;
+////  std::string   mName;
   unsigned int  mOccur;
   bool          mIsSetOccur;
   ListOfPossibleSpeciesFeatureValues   mPossibleSpeciesFeatureValues;

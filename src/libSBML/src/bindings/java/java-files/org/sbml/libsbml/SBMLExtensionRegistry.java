@@ -212,7 +212,7 @@ public class SBMLExtensionRegistry {
 /**
    * Returns the number of extensions that have a given extension point.
    <p>
-   * @param extPoint the {@link SBaseExtensionPoint} object
+   * @param extPoint the {@link SBaseExtensionPoint} object.
    <p>
    * @return the number of {@link SBMLExtension}-derived objects with the given
    * extension point.
@@ -270,7 +270,7 @@ public class SBMLExtensionRegistry {
    * SBML packages for which package extensions are registered with this copy
    * of libSBML.  The vector will contain <code>String</code> objects.
    <p>
-   * @return a vector of strings
+   * @return a vector of strings of the registered package names.
    */ public
  static SWIGTYPE_p_std__vectorT_std__string_t getAllRegisteredPackageNames() {
     return new SWIGTYPE_p_std__vectorT_std__string_t(libsbmlJNI.SBMLExtensionRegistry_getAllRegisteredPackageNames(), true);

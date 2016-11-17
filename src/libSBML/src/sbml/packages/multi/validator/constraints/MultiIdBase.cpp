@@ -257,23 +257,12 @@ MultiIdBase::checkId (const SpeciesFeature& x)
   if (x.isSetId()) doCheckId(x.getId(), x);
 }
 
-void
-MultiIdBase::checkId (const SpeciesFeatureChange& x)
-{
-  if (x.isSetId()) doCheckId(x.getId(), x);
-}
 
 void
 MultiIdBase::checkId (const CompartmentReference& x)
 {
   if (x.isSetId()) doCheckId(x.getId(), x);
 }
-
-//void
-//MultiIdBase::checkId (const SBase& x)
-//{
-//  if (x.isSetSymbol()) doCheckId(x.getSymbol(), x);
-//}
 
 
 /*

@@ -34,7 +34,7 @@ namespace libsbmlcs {
  * and 'multiplier'.  It represents a (possibly transformed) reference to a
  * base unit.  The attribute 'kind' on Unit indicates the chosen base unit.
  * Its value must be one of the text strings listed below; this list
- * corresponds to SBML Level&nbsp;3 Version&nbsp;1 Core:
+ * corresponds to SBML Level&nbsp;3:
  *
  *
  * 
@@ -224,10 +224,10 @@ public class Unit : SBase {
    * Creates a new Unit using the given SBML @p level and @p version
    * values.
    *
-   * @param level a long integer, the SBML Level to assign to this Unit
+   * @param level a long integer, the SBML Level to assign to this Unit.
    *
    * @param version a long integer, the SBML Version to assign to this
-   * Unit
+   * Unit.
    *
    *
  * @throws SBMLConstructorException
@@ -527,7 +527,6 @@ public class Unit : SBase {
    * dimensionless.
    *
    * @return @c true if the kind of this Unit is @c dimensionless, @c false
-   * 
    * otherwise.
    */ public
  bool isDimensionless() {
@@ -970,7 +969,7 @@ public class Unit : SBase {
 /**
    * Sets the 'exponent' attribute value of this Unit.
    *
-   * @param value the integer to which the attribute 'exponent' should be set
+   * @param value the integer to which the attribute 'exponent' should be set.
    *
    *
  * @return integer value indicating success/failure of the
@@ -989,7 +988,7 @@ public class Unit : SBase {
 /**
    * Sets the 'exponent' attribute value of this Unit.
    *
-   * @param value the double to which the attribute 'exponent' should be set
+   * @param value the double to which the attribute 'exponent' should be set.
    *
    *
  * @return integer value indicating success/failure of the
@@ -1007,7 +1006,7 @@ public class Unit : SBase {
 /**
    * Sets the 'scale' attribute value of this Unit.
    *
-   * @param value the integer to which the attribute 'scale' should be set
+   * @param value the integer to which the attribute 'scale' should be set.
    *
    *
  * @return integer value indicating success/failure of the
@@ -1026,7 +1025,7 @@ public class Unit : SBase {
    * Sets the 'multipler' attribute value of this Unit.
    *
    * @param value the floating-point value to which the attribute
-   * 'multiplier' should be set
+   * 'multiplier' should be set.
    *
    *
  * @return integer value indicating success/failure of the
@@ -1046,7 +1045,7 @@ public class Unit : SBase {
    * Sets the 'offset' attribute value of this Unit.
    *
    * @param value the float-point value to which the attribute 'offset'
-   * should set
+   * should set.
    *
    *
  * @return integer value indicating success/failure of the
@@ -1232,7 +1231,7 @@ public class Unit : SBase {
    * Predicate to test whether a given string is the name of a
    * predefined SBML unit.
    *
-   * @param name a string to be tested against the predefined unit names
+   * @param name a string to be tested against the predefined unit names.
    *
    * @param level the Level of SBML for which the determination should be
    * made.  This is necessary because there are a few small differences
@@ -1276,15 +1275,15 @@ public class Unit : SBase {
    * compatibility and support for reading models in older Versions of
    * Level&nbsp;2.
    *
-   * @param name a string to be tested
+   * @param name a string to be tested.
    * 
    * @param level a long integer representing the SBML specification
-   * Level 
+   * Level.
    * 
    * @param version a long integer representing the SBML specification
-   * Version
+   * Version.
    * 
-   * @return @c true if name is a valid SBML UnitKind, @c false otherwise
+   * @return @c true if name is a valid SBML UnitKind, @c false otherwise.
    *
    * @note The allowed unit names differ between SBML Levels&nbsp;1
    * and&nbsp;2 and again slightly between Level&nbsp;2 Versions&nbsp;1
@@ -1317,8 +1316,8 @@ public class Unit : SBase {
    * Unit u1, %Unit u2@endif), which compares Unit objects only with respect
    * to certain attributes.)
    *
-   * @param unit1 the first Unit object to compare
-   * @param unit2 the second Unit object to compare
+   * @param unit1 the first Unit object to compare.
+   * @param unit2 the second Unit object to compare.
    *
    * @return @c true if all the attributes of unit1 are identical
    * to the attributes of unit2, @c false otherwise.
@@ -1353,8 +1352,8 @@ public class Unit : SBase {
    * areIdentical(@if java Unit, %Unit@endif), which compares Unit objects with respect to all
    * attributes, not just the 'kind' and 'exponent'.)
    *
-   * @param unit1 the first Unit object to compare
-   * @param unit2 the second Unit object to compare
+   * @param unit1 the first Unit object to compare.
+   * @param unit2 the second Unit object to compare.
    *
    * @return @c true if the 'kind' and 'exponent' attributes of unit1 are
    * identical to the kind and exponent attributes of unit2, @c false
@@ -1393,8 +1392,9 @@ public class Unit : SBase {
    *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * enumeration #OperationReturnValues_t. @endif This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    *
@@ -1435,7 +1435,7 @@ public class Unit : SBase {
    * left as a new version of this unit, modified in-place.  Not modified if
    * the two units have different kinds.
    * 
-   * @param unit2 the second Unit object to merge with the first
+   * @param unit2 the second Unit object to merge with the first.
    *
    *
  * @if python @note Because this is a static method on a class, the Python
@@ -1465,7 +1465,7 @@ public class Unit : SBase {
    * hertz is identical to 1&nbsp;sec<sup>-1</sup>, one litre is equivalent
    * to 1 cubic decametre, and so on.
    *
-   * @param unit the Unit object to convert to SI
+   * @param unit the Unit object to convert to SI.
    *
    * @return a UnitDefinition object containing the SI unit.
    *

@@ -51,8 +51,6 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 CompartmentType::CompartmentType (unsigned int level, unsigned int version) :
    SBase ( level, version )
- , mId   ( "" )
- , mName ( "" )
 {
   if (!hasValidLevelVersionNamespaceCombination())
     throw SBMLConstructorException();
@@ -61,8 +59,6 @@ CompartmentType::CompartmentType (unsigned int level, unsigned int version) :
 
 CompartmentType::CompartmentType (SBMLNamespaces* sbmlns) :
    SBase ( sbmlns )
- , mId   ( "" )
- , mName ( "" )
 {
   if (!hasValidLevelVersionNamespaceCombination())
   {
@@ -86,8 +82,6 @@ CompartmentType::~CompartmentType ()
  */
 CompartmentType::CompartmentType(const CompartmentType& orig)
   : SBase             ( orig                    )
-  , mId               (orig.mId)
-  , mName             (orig.mName)
 {
 }
 
@@ -100,8 +94,6 @@ CompartmentType& CompartmentType::operator=(const CompartmentType& rhs)
   if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
-    mId = rhs.mId;
-    mName = rhs.mName;
   }
 
   return *this;
@@ -283,7 +275,7 @@ CompartmentType::getElementName () const
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
- * SBML objects as XML elements.  Be sure to call your parents
+ * SBML objects as XML elements.  Be sure to call your parent's
  * implementation of this method as well.
  */
 void
@@ -312,6 +304,255 @@ CompartmentType::hasRequiredAttributes() const
 }
 
 
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this CompartmentType.
+ */
+int
+CompartmentType::getAttribute(const std::string& attributeName,
+                              bool& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this CompartmentType.
+ */
+int
+CompartmentType::getAttribute(const std::string& attributeName,
+                              int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this CompartmentType.
+ */
+int
+CompartmentType::getAttribute(const std::string& attributeName,
+                              double& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this CompartmentType.
+ */
+int
+CompartmentType::getAttribute(const std::string& attributeName,
+                              unsigned int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this CompartmentType.
+ */
+int
+CompartmentType::getAttribute(const std::string& attributeName,
+                              std::string& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this CompartmentType.
+ */
+int
+CompartmentType::getAttribute(const std::string& attributeName,
+                              const char* value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this CompartmentType's attribute
+ * "attributeName" is set.
+ */
+bool
+CompartmentType::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = SBase::isSetAttribute(attributeName);
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this CompartmentType.
+ */
+int
+CompartmentType::setAttribute(const std::string& attributeName, bool value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this CompartmentType.
+ */
+int
+CompartmentType::setAttribute(const std::string& attributeName, int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this CompartmentType.
+ */
+int
+CompartmentType::setAttribute(const std::string& attributeName, double value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this CompartmentType.
+ */
+int
+CompartmentType::setAttribute(const std::string& attributeName,
+                              unsigned int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this CompartmentType.
+ */
+int
+CompartmentType::setAttribute(const std::string& attributeName,
+                              const std::string& value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this CompartmentType.
+ */
+int
+CompartmentType::setAttribute(const std::string& attributeName,
+                              const char* value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Unsets the value of the "attributeName" attribute of this CompartmentType.
+ */
+int
+CompartmentType::unsetAttribute(const std::string& attributeName)
+{
+  int value = SBase::unsetAttribute(attributeName);
+
+  return value;
+}
+
+/** @endcond */
+
+
+
 /** @cond doxygenLibsbmlInternal */
 /**
  * Subclasses should override this method to get the list of
@@ -332,7 +573,7 @@ CompartmentType::addExpectedAttributes(ExpectedAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 CompartmentType::readAttributes (const XMLAttributes& attributes,
@@ -374,7 +615,7 @@ CompartmentType::readAttributes (const XMLAttributes& attributes,
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 CompartmentType::readL2Attributes (const XMLAttributes& attributes)
@@ -404,7 +645,7 @@ CompartmentType::readL2Attributes (const XMLAttributes& attributes)
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
- * to the XMLOutputStream.  Be sure to call your parents implementation
+ * to the XMLOutputStream.  Be sure to call your parent's implementation
  * of this method as well.
  */
 void

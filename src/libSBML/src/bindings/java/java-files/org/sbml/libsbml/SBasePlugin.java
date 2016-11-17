@@ -162,7 +162,7 @@ public class SBasePlugin {
    * as if a model is invalid because of multiple objects having the same
    * identifier.
    <p>
-   * @param id string representing the identifier of the object to find
+   * @param id string representing the identifier of the object to find.
    <p>
    * @return pointer to the first object with the given <code>id</code>.
    */ public
@@ -291,8 +291,9 @@ public class SBasePlugin {
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -385,7 +386,7 @@ public class SBasePlugin {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -396,8 +397,8 @@ public class SBasePlugin {
  * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
  * descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.SBasePlugin_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -422,8 +423,8 @@ public class SBasePlugin {
  * found, the matching identifiers are replaced with <code>newid</code>.  The method
  * does <em>not</em> descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameMetaIdRefs(String oldid, String newid) {
     libsbmlJNI.SBasePlugin_renameMetaIdRefs(swigCPtr, this, oldid, newid);
@@ -452,8 +453,8 @@ public class SBasePlugin {
  * are found, the matching values are replaced with <code>newid</code>.  The method
  * does <em>not</em> descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.SBasePlugin_renameUnitSIdRefs(swigCPtr, this, oldid, newid);

@@ -78,7 +78,7 @@ public class SBMLExtensionException {
    * Creates a new {@link SBMLExtensionException} object with a given message.
    <p>
    * @param errmsg a string, the text of the error message to store
-   * with this exception
+   * with this exception.
    */ public
  SBMLExtensionException(String errmsg) {
     this(libsbmlJNI.new_SBMLExtensionException(errmsg), true);

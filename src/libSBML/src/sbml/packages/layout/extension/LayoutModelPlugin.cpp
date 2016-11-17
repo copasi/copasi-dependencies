@@ -461,10 +461,8 @@ LayoutModelPlugin::addLayout (const Layout* layout)
   }
   else
   {
-    mLayouts.append(layout);
+    return mLayouts.append(layout);
   }
-
-  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -513,7 +511,7 @@ LayoutModelPlugin::removeLayout (unsigned int n)
 /*
  * Sets the parent SBMLDocument of this SBML object.
  *
- * @param d the SBMLDocument object to use
+ * @param d the SBMLDocument object to use.
  */
 void 
 LayoutModelPlugin::setSBMLDocument (SBMLDocument* d)

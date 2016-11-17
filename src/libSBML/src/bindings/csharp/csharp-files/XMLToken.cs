@@ -696,7 +696,7 @@ public class XMLToken : IDisposable {
  *
  *
    *
-   * @param n an integer the index of the resource to be deleted
+   * @param n an integer the index of the resource to be deleted.
    *
    *
  * @return integer value indicating success/failure of the

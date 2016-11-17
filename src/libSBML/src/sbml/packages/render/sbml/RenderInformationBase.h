@@ -74,8 +74,8 @@ class LIBSBML_EXTERN RenderInformationBase:public SBase
 {
 protected:
   /** @cond doxygenLibsbmlInternal */
-  std::string mId;
-  std::string mName;
+////  std::string mId;
+////  std::string mName;
   std::string mProgramName;
   std::string mProgramVersion;
   std::string mReferenceRenderInformation;

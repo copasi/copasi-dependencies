@@ -238,7 +238,7 @@ public class SBMLExtensionRegistry : IDisposable {
 /**
    * Returns the number of extensions that have a given extension point.
    *
-   * @param extPoint the SBaseExtensionPoint object
+   * @param extPoint the SBaseExtensionPoint object.
    *
    * @return the number of SBMLExtension-derived objects with the given
    * extension point.
@@ -300,7 +300,7 @@ public class SBMLExtensionRegistry : IDisposable {
    * SBML packages for which package extensions are registered with this copy
    * of libSBML.  The vector will contain <code>string</code> objects.
    *
-   * @return a vector of strings
+   * @return a vector of strings of the registered package names.
    */ public
  static SWIGTYPE_p_std__vectorT_std__string_t getAllRegisteredPackageNames() {
     SWIGTYPE_p_std__vectorT_std__string_t ret = new SWIGTYPE_p_std__vectorT_std__string_t(libsbmlPINVOKE.SBMLExtensionRegistry_getAllRegisteredPackageNames(), true);

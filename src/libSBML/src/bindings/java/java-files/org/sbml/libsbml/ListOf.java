@@ -26,6 +26,18 @@ defined in SBML.
  * Java lists,
  * so that it can provide the methods and features associated with {@link SBase}.
  <p>
+ * Whether a given {@link ListOf} element may be empty or not depends on the 
+ * element in question, and on what level and version of SBML it
+ * is being used for.  For {@link ListOf} elements in SBML Level&nbsp;3
+ * Version&nbsp;1 and prior, no core list and few package lists could
+ * be empty.  As of SBML Level&nbsp;3 Version&nbsp;2, the rules
+ * were relaxed, and lists were allowed to be empty.  In libSBML,
+ * documents created for Level&nbsp;3 Version&nbsp;2 will be written
+ * with empty {@link ListOf}'s if that {@link ListOf} contains some other 'extra'
+ * information: an attribute such as metaid or sboTerm, a child
+ * '&lt;notes&gt;' or '&lt;annotation&gt;', or information from a SBML 
+ * Level&nbsp;3 package.
+ <p>
  * <p>
  * The various ListOf___ classes in SBML
  * are merely containers used for organizing the main components of an SBML
@@ -38,6 +50,25 @@ defined in SBML.
  * classes with common features
  * defined by the SBML specification, such as 'metaid' attributes and
  * annotations.
+ <p>
+ * The relationship between the lists and the rest of an SBML model is
+ * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
+ <p>
+ * <figure>
+  <object type="image/svg+xml" data="listof-illustration.svg" class="centered"></object>
+</figure>
+
+ <p>
+ * SBML Level&nbsp;3 Version&nbsp;1 has essentially the same structure as 
+ * Level&nbsp;2 Version&nbsp;4, depicted above, but SBML Level&nbsp;3 
+ * Version&nbsp;2 allows
+ * containers to contain zero or more of the relevant object, instead of 
+ * requiring at least one.  As such, libsbml will write out an 
+ * otherwise-empty ListOf___ element that has any optional attribute set 
+ * (such as 'id' or 'metaid'), that has an optional child (such 
+ * as a 'notes' or 'annotation'), or that has attributes or children set
+ * from any SBML Level&nbsp;3 package, whether or not the ListOf___ has 
+ * any other children.
  <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
@@ -356,6 +387,7 @@ appears in the documentation.
    * ownership behavior, see the {@link ListOf#append(SBase item)} method.
    <p>
    * @param disownedItem the item to be added to the list.
+   * Will become a child of the parent list.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -432,8 +464,9 @@ appears in the documentation.
    * This means that when the {@link ListOf} is destroyed, the original <code>item</code>
    * <em>will</em> be destroyed.
    <p>
-   * @param location the location where to insert the item
-   * @param disownedItem the item to be inserted to the list
+   * @param location the location where to insert the item.
+   * @param disownedItem the item to be inserted to the list.
+   * Will become a child of the parent list.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -590,7 +623,7 @@ appears in the documentation.
    <p>
    * The caller owns the returned item and is responsible for deleting it.
    <p>
-   * @param n the index of the item to remove
+   * @param n the index of the item to remove.
    <p>
    * @see #size()
    */ public
@@ -694,6 +727,30 @@ appears in the documentation.
 /** * @internal */ public
  void enablePackageInternal(String pkgURI, String pkgPrefix, boolean flag) {
     libsbmlJNI.ListOf_enablePackageInternal(swigCPtr, this, pkgURI, pkgPrefix, flag);
+  }
+
+  
+/** * @internal */ public
+ boolean hasOptionalElements() {
+    return libsbmlJNI.ListOf_hasOptionalElements(swigCPtr, this);
+  }
+
+  
+/** * @internal */ public
+ boolean isExplicitlyListed() {
+    return libsbmlJNI.ListOf_isExplicitlyListed(swigCPtr, this);
+  }
+
+  
+/** * @internal */ public
+ void setExplicitlyListed(boolean value) {
+    libsbmlJNI.ListOf_setExplicitlyListed__SWIG_0(swigCPtr, this, value);
+  }
+
+  
+/** * @internal */ public
+ void setExplicitlyListed() {
+    libsbmlJNI.ListOf_setExplicitlyListed__SWIG_1(swigCPtr, this);
   }
 
 }

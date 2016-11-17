@@ -47,8 +47,6 @@ addConstraint(new UniqueSubListOfSpeciesFeaturesIdsWithinSpecies(MultiUnqId_SubL
 
 addConstraint(new UniqueSpeciesFeatureIdsWithinSpecies(MultiUnqId_SpeFtr, *this));
 
-addConstraint(new UniqueSpeciesFeatureChangeIdsWithinSpeciesTypeComponentMapInProduct(MultiUnqId_SpeFtrChg, *this));
-
 addConstraint(new UniqueCompartmentReferenceIdsWithinCompartment(MultiUnqId_CpaRef, *this));
 
 /** @endcond */

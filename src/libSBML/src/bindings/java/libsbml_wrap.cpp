@@ -3510,6 +3510,21 @@ SWIGEXPORT jstring JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1getId(JNIEnv 
 }
 
 
+SWIGEXPORT jstring JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1getIdAttribute(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  SBase *arg1 = (SBase *) 0 ;
+  std::string *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(SBase **)&jarg1; 
+  result = (std::string *) &((SBase const *)arg1)->getIdAttribute();
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
 SWIGEXPORT jstring JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1getName(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jstring jresult = 0 ;
   SBase *arg1 = (SBase *) 0 ;
@@ -3793,6 +3808,21 @@ SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1isSetId(JNIE
 }
 
 
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1isSetIdAttribute(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  SBase *arg1 = (SBase *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(SBase **)&jarg1; 
+  result = (bool)((SBase const *)arg1)->isSetIdAttribute();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1isSetName(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   SBase *arg1 = (SBase *) 0 ;
@@ -3913,6 +3943,31 @@ SWIGEXPORT jint JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1setId(JNIEnv *je
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
   result = (int)(arg1)->setId((std::string const &)*arg2);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1setIdAttribute(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jint jresult = 0 ;
+  SBase *arg1 = (SBase *) 0 ;
+  std::string *arg2 = 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(SBase **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null std::string");
+    return 0;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  result = (int)(arg1)->setIdAttribute((std::string const &)*arg2);
   jresult = (jint)result; 
   return jresult;
 }
@@ -4405,6 +4460,21 @@ SWIGEXPORT jint JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1unsetId(JNIEnv *
   (void)jarg1_;
   arg1 = *(SBase **)&jarg1; 
   result = (int)(arg1)->unsetId();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1unsetIdAttribute(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  SBase *arg1 = (SBase *) 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(SBase **)&jarg1; 
+  result = (int)(arg1)->unsetIdAttribute();
   jresult = (jint)result; 
   return jresult;
 }
@@ -5365,6 +5435,36 @@ SWIGEXPORT jstring JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1getPrefix(JNI
 }
 
 
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1hasOptionalAttributes(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  SBase *arg1 = (SBase *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(SBase **)&jarg1; 
+  result = (bool)((SBase const *)arg1)->hasOptionalAttributes();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1hasOptionalElements(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  SBase *arg1 = (SBase *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(SBase **)&jarg1; 
+  result = (bool)((SBase const *)arg1)->hasOptionalElements();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBase_1getListOfAllElements_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   jlong jresult = 0 ;
   SBase *arg1 = (SBase *) 0 ;
@@ -5940,6 +6040,60 @@ SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_ListOf_1enablePackageIn
   jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
   arg4 = jarg4 ? true : false; 
   (arg1)->enablePackageInternal((std::string const &)*arg2,(std::string const &)*arg3,arg4);
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_ListOf_1hasOptionalElements(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  ListOf *arg1 = (ListOf *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ListOf **)&jarg1; 
+  result = (bool)((ListOf const *)arg1)->hasOptionalElements();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_ListOf_1isExplicitlyListed(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  ListOf *arg1 = (ListOf *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ListOf **)&jarg1; 
+  result = (bool)((ListOf const *)arg1)->isExplicitlyListed();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_ListOf_1setExplicitlyListed_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  ListOf *arg1 = (ListOf *) 0 ;
+  bool arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ListOf **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  (arg1)->setExplicitlyListed(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_ListOf_1setExplicitlyListed_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  ListOf *arg1 = (ListOf *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ListOf **)&jarg1; 
+  (arg1)->setExplicitlyListed();
 }
 
 
@@ -8730,6 +8884,41 @@ SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1convertL3ToL2_1_
 }
 
 
+SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1convertFromL3V2_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  Model *arg1 = (Model *) 0 ;
+  bool arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(Model **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  (arg1)->convertFromL3V2(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1convertFromL3V2_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  Model *arg1 = (Model *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(Model **)&jarg1; 
+  (arg1)->convertFromL3V2();
+}
+
+
+SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1dealWithFast(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  Model *arg1 = (Model *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(Model **)&jarg1; 
+  (arg1)->dealWithFast();
+}
+
+
 SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1addModifiers(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   Model *arg1 = (Model *) 0 ;
   
@@ -9043,6 +9232,110 @@ SWIGEXPORT jlong JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1getFormulaUnits
   result = (FormulaUnitsData *)(arg1)->getFormulaUnitsDataForAssignment((std::string const &)*arg2);
   *(FormulaUnitsData **)&jresult = result; 
   return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1populateAllElementIdList(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  Model *arg1 = (Model *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(Model **)&jarg1; 
+  (arg1)->populateAllElementIdList();
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1isPopulatedAllElementIdList(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  Model *arg1 = (Model *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(Model **)&jarg1; 
+  result = (bool)((Model const *)arg1)->isPopulatedAllElementIdList();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1getAllElementIdList(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  Model *arg1 = (Model *) 0 ;
+  IdList result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(Model **)&jarg1; 
+  result = ((Model const *)arg1)->getAllElementIdList();
+  *(IdList **)&jresult = new IdList((const IdList &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1clearAllElementIdList(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  Model *arg1 = (Model *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(Model **)&jarg1; 
+  (arg1)->clearAllElementIdList();
+}
+
+
+SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1populateAllElementMetaIdList(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  Model *arg1 = (Model *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(Model **)&jarg1; 
+  (arg1)->populateAllElementMetaIdList();
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1isPopulatedAllElementMetaIdList(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  Model *arg1 = (Model *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(Model **)&jarg1; 
+  result = (bool)((Model const *)arg1)->isPopulatedAllElementMetaIdList();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1getAllElementMetaIdList(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  Model *arg1 = (Model *) 0 ;
+  IdList result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(Model **)&jarg1; 
+  result = ((Model const *)arg1)->getAllElementMetaIdList();
+  *(IdList **)&jresult = new IdList((const IdList &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_Model_1clearAllElementMetaIdList(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  Model *arg1 = (Model *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(Model **)&jarg1; 
+  (arg1)->clearAllElementMetaIdList();
 }
 
 
@@ -10373,6 +10666,21 @@ SWIGEXPORT jlong JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBMLDocument_1checkL2v
 }
 
 
+SWIGEXPORT jlong JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBMLDocument_1checkL2v5Compatibility(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  SBMLDocument *arg1 = (SBMLDocument *) 0 ;
+  unsigned int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(SBMLDocument **)&jarg1; 
+  result = (unsigned int)(arg1)->checkL2v5Compatibility();
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBMLDocument_1checkL3v1Compatibility(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   SBMLDocument *arg1 = (SBMLDocument *) 0 ;
@@ -10383,6 +10691,21 @@ SWIGEXPORT jlong JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBMLDocument_1checkL3v
   (void)jarg1_;
   arg1 = *(SBMLDocument **)&jarg1; 
   result = (unsigned int)(arg1)->checkL3v1Compatibility();
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBMLDocument_1checkL3v2Compatibility(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  SBMLDocument *arg1 = (SBMLDocument *) 0 ;
+  unsigned int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(SBMLDocument **)&jarg1; 
+  result = (unsigned int)(arg1)->checkL3v2Compatibility();
   jresult = (jlong)result; 
   return jresult;
 }
@@ -13529,7 +13852,24 @@ SWIGEXPORT jint JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1unsetNa
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfArea(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfArea_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  jboolean jresult = 0 ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(UnitDefinition **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfArea(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfArea_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -13544,7 +13884,24 @@ SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isV
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfLength(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfLength_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  jboolean jresult = 0 ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(UnitDefinition **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfLength(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfLength_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -13559,7 +13916,24 @@ SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isV
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfSubstance(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfSubstance_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  jboolean jresult = 0 ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(UnitDefinition **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfSubstance(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfSubstance_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -13574,7 +13948,24 @@ SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isV
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfTime(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfTime_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  jboolean jresult = 0 ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(UnitDefinition **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfTime(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfTime_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -13589,7 +13980,24 @@ SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isV
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfVolume(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfVolume_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  jboolean jresult = 0 ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(UnitDefinition **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfVolume(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfVolume_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -13604,7 +14012,24 @@ SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isV
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfDimensionless(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfDimensionless_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  jboolean jresult = 0 ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(UnitDefinition **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfDimensionless(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfDimensionless_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -13619,7 +14044,24 @@ SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isV
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfMass(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfMass_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  jboolean jresult = 0 ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(UnitDefinition **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfMass(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfMass_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -13634,7 +14076,24 @@ SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isV
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfSubstancePerTime(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfSubstancePerTime_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  jboolean jresult = 0 ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(UnitDefinition **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfSubstancePerTime(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_UnitDefinition_1isVariantOfSubstancePerTime_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -30173,6 +30632,21 @@ SWIGEXPORT jdouble JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBMLTransforms_1eval
 }
 
 
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBMLTransforms_1expandL3V2InitialAssignments(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  Model *arg1 = (Model *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(Model **)&jarg1; 
+  result = (bool)SBMLTransforms::expandL3V2InitialAssignments(arg1);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_org_sbml_libsbml_libsbmlJNI_SBMLTransforms_1mapComponentValues(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   Model *arg1 = (Model *) 0 ;
@@ -43954,6 +44428,21 @@ SWIGEXPORT jstring JNICALL Java_org_sbml_libsbml_libsbmlJNI_ModelCreator_1getOrg
 }
 
 
+SWIGEXPORT jstring JNICALL Java_org_sbml_libsbml_libsbmlJNI_ModelCreator_1getName(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  ModelCreator *arg1 = (ModelCreator *) 0 ;
+  std::string *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ModelCreator **)&jarg1; 
+  result = (std::string *) &((ModelCreator const *)arg1)->getName();
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
 SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_ModelCreator_1isSetFamilyName(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   ModelCreator *arg1 = (ModelCreator *) 0 ;
@@ -44024,6 +44513,21 @@ SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_ModelCreator_1isSet
   (void)jarg1_;
   arg1 = *(ModelCreator **)&jarg1; 
   result = (bool)(arg1)->isSetOrganisation();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_ModelCreator_1isSetName(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  ModelCreator *arg1 = (ModelCreator *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ModelCreator **)&jarg1; 
+  result = (bool)(arg1)->isSetName();
   jresult = (jboolean)result; 
   return jresult;
 }
@@ -44154,6 +44658,31 @@ SWIGEXPORT jint JNICALL Java_org_sbml_libsbml_libsbmlJNI_ModelCreator_1setOrgani
 }
 
 
+SWIGEXPORT jint JNICALL Java_org_sbml_libsbml_libsbmlJNI_ModelCreator_1setName(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jint jresult = 0 ;
+  ModelCreator *arg1 = (ModelCreator *) 0 ;
+  std::string *arg2 = 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ModelCreator **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null std::string");
+    return 0;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  result = (int)(arg1)->setName((std::string const &)*arg2);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jint JNICALL Java_org_sbml_libsbml_libsbmlJNI_ModelCreator_1unsetFamilyName(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jint jresult = 0 ;
   ModelCreator *arg1 = (ModelCreator *) 0 ;
@@ -44229,6 +44758,21 @@ SWIGEXPORT jint JNICALL Java_org_sbml_libsbml_libsbmlJNI_ModelCreator_1unsetOrga
 }
 
 
+SWIGEXPORT jint JNICALL Java_org_sbml_libsbml_libsbmlJNI_ModelCreator_1unsetName(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  ModelCreator *arg1 = (ModelCreator *) 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ModelCreator **)&jarg1; 
+  result = (int)(arg1)->unsetName();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_ModelCreator_1hasRequiredAttributes(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   ModelCreator *arg1 = (ModelCreator *) 0 ;
@@ -44267,6 +44811,21 @@ SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_ModelCreator_1resetModi
   (void)jarg1_;
   arg1 = *(ModelCreator **)&jarg1; 
   (arg1)->resetModifiedFlags();
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_ModelCreator_1usingFNVcard4(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  ModelCreator *arg1 = (ModelCreator *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ModelCreator **)&jarg1; 
+  result = (bool)(arg1)->usingFNVcard4();
+  jresult = (jboolean)result; 
+  return jresult;
 }
 
 
@@ -50293,6 +50852,36 @@ SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_ASTNode_1represents
 }
 
 
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_ASTNode_1usesL3V2MathConstructs(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ASTNode **)&jarg1; 
+  result = (bool)((ASTNode const *)arg1)->usesL3V2MathConstructs();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_sbml_libsbml_libsbmlJNI_ASTNode_1usesRateOf(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ASTNode **)&jarg1; 
+  result = (bool)((ASTNode const *)arg1)->usesRateOf();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void JNICALL Java_org_sbml_libsbml_libsbmlJNI_ASTNode_1write(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   ASTNode *arg1 = (ASTNode *) 0 ;
   XMLOutputStream *arg2 = 0 ;
@@ -50635,6 +51224,24 @@ SWIGEXPORT jstring JNICALL Java_org_sbml_libsbml_libsbmlJNI_writeMathMLToString(
   result = (char *)writeMathMLToString((ASTNode const *)arg1);
   if (result) jresult = jenv->NewStringUTF((const char *)result);
   free(result);
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_org_sbml_libsbml_libsbmlJNI_writeMathMLWithNamespaceToString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jstring jresult = 0 ;
+  ASTNode_t *arg1 = (ASTNode_t *) 0 ;
+  SBMLNamespaces_t *arg2 = (SBMLNamespaces_t *) 0 ;
+  char *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(ASTNode_t **)&jarg1; 
+  arg2 = *(SBMLNamespaces_t **)&jarg2; 
+  result = (char *)writeMathMLWithNamespaceToString((ASTNode const *)arg1,arg2);
+  if (result) jresult = jenv->NewStringUTF((const char *)result);
   return jresult;
 }
 

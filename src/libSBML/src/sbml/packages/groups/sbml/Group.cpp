@@ -56,8 +56,8 @@ Group::Group(unsigned int level,
              unsigned int version,
              unsigned int pkgVersion)
   : SBase(level, version)
-  , mId ("")
-  , mName ("")
+//  , mId ("")
+//  , mName ("")
   , mKind (GROUP_KIND_UNKNOWN)
   , mMembers (level, version, pkgVersion)
 {
@@ -71,8 +71,8 @@ Group::Group(unsigned int level,
  */
 Group::Group(GroupsPkgNamespaces *groupsns)
   : SBase(groupsns)
-  , mId ("")
-  , mName ("")
+//  , mId ("")
+//  , mName ("")
   , mKind (GROUP_KIND_UNKNOWN)
   , mMembers (groupsns)
 {
@@ -87,8 +87,8 @@ Group::Group(GroupsPkgNamespaces *groupsns)
  */
 Group::Group(const Group& orig)
   : SBase( orig )
-  , mId ( orig.mId )
-  , mName ( orig.mName )
+  //, mId ( orig.mId )
+  //, mName ( orig.mName )
   , mKind ( orig.mKind )
   , mMembers ( orig.mMembers )
 {
@@ -426,8 +426,7 @@ Group::addMember(const Member* m)
   }
   else
   {
-    mMembers.append(m);
-    return LIBSBML_OPERATION_SUCCESS;
+    return mMembers.append(m);
   }
 }
 

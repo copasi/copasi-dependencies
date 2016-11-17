@@ -69,7 +69,7 @@ class LIBSBML_EXTERN Image : public Transformation2D
 {
 protected:
   /** @cond doxygenLibsbmlInternal */
-  std::string mId;
+////  std::string mId;
   RelAbsVector mX;
   RelAbsVector mY;
   RelAbsVector mZ;

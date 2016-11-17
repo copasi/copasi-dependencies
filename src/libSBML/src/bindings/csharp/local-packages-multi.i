@@ -48,6 +48,9 @@
 
     switch( sb.getTypeCode() )
     {
+      case (int) libsbml.SBML_DOCUMENT:
+        return new MultiSBMLDocumentPlugin(cPtr, owner);
+
       case (int) libsbml.SBML_MODEL:
         return new MultiModelPlugin(cPtr, owner);
 
@@ -101,10 +104,6 @@
         {
           return new ListOfOutwardBindingSites(cPtr, owner);
         }
-        else if (name == "listOfSpeciesFeatureChanges")
-        {
-          return new ListOfSpeciesFeatureChanges(cPtr, owner);
-        }
         else if (name == "listOfSpeciesFeatureTypes")
         {
           return new ListOfSpeciesFeatureTypes(cPtr, owner);
@@ -146,9 +145,6 @@
       case (int) libsbml.SBML_MULTI_OUTWARD_BINDING_SITE:
         return new OutwardBindingSite(cPtr, owner);
 
-      case (int) libsbml.SBML_MULTI_SPECIES_FEATURE_CHANGE:
-        return new SpeciesFeatureChange(cPtr, owner);
-
       case (int) libsbml.SBML_MULTI_SPECIES_FEATURE_TYPE:
         return new SpeciesFeatureType(cPtr, owner);
 
@@ -184,7 +180,6 @@ COVARIANT_RTYPE_CLONE(CompartmentReference)
 COVARIANT_RTYPE_CLONE(SpeciesTypeInstance)
 COVARIANT_RTYPE_CLONE(InSpeciesTypeBond)
 COVARIANT_RTYPE_CLONE(OutwardBindingSite)
-COVARIANT_RTYPE_CLONE(SpeciesFeatureChange)
 COVARIANT_RTYPE_CLONE(SpeciesFeatureType)
 COVARIANT_RTYPE_CLONE(SpeciesTypeComponentIndex)
 COVARIANT_RTYPE_CLONE(SpeciesFeature)
@@ -198,7 +193,6 @@ COVARIANT_RTYPE_CLONE(ListOfCompartmentReferences)
 COVARIANT_RTYPE_CLONE(ListOfSpeciesTypeInstances)
 COVARIANT_RTYPE_CLONE(ListOfInSpeciesTypeBonds)
 COVARIANT_RTYPE_CLONE(ListOfOutwardBindingSites)
-COVARIANT_RTYPE_CLONE(ListOfSpeciesFeatureChanges)
 COVARIANT_RTYPE_CLONE(ListOfSpeciesFeatureTypes)
 COVARIANT_RTYPE_CLONE(ListOfSpeciesTypeComponentIndexes)
 COVARIANT_RTYPE_CLONE(ListOfSpeciesFeatures)
@@ -211,7 +205,6 @@ COVARIANT_RTYPE_LISTOF_GET_REMOVE(CompartmentReference)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SpeciesTypeInstance)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(InSpeciesTypeBond)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(OutwardBindingSite)
-COVARIANT_RTYPE_LISTOF_GET_REMOVE(SpeciesFeatureChange)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SpeciesFeatureType)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SpeciesTypeComponentIndex)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SpeciesFeature)
@@ -225,7 +218,6 @@ SBMLCONSTRUCTOR_EXCEPTION(CompartmentReference)
 SBMLCONSTRUCTOR_EXCEPTION(SpeciesTypeInstance)
 SBMLCONSTRUCTOR_EXCEPTION(InSpeciesTypeBond)
 SBMLCONSTRUCTOR_EXCEPTION(OutwardBindingSite)
-SBMLCONSTRUCTOR_EXCEPTION(SpeciesFeatureChange)
 SBMLCONSTRUCTOR_EXCEPTION(SpeciesFeatureType)
 SBMLCONSTRUCTOR_EXCEPTION(SpeciesTypeComponentIndex)
 SBMLCONSTRUCTOR_EXCEPTION(SpeciesFeature)
@@ -239,7 +231,6 @@ SBMLCONSTRUCTOR_EXCEPTION(ListOfCompartmentReferences)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfSpeciesTypeInstances)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfInSpeciesTypeBonds)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfOutwardBindingSites)
-SBMLCONSTRUCTOR_EXCEPTION(ListOfSpeciesFeatureChanges)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfSpeciesFeatureTypes)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfSpeciesTypeComponentIndexes)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfSpeciesFeatures)

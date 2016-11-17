@@ -55,8 +55,8 @@ class LIBSBML_EXTERN PossibleSpeciesFeatureValue : public SBase
 
 protected:
 
-  std::string   mId;
-  std::string   mName;
+////  std::string   mId;
+////  std::string   mName;
   std::string   mNumericValue;
 
 

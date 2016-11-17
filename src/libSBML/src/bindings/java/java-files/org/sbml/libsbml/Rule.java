@@ -17,7 +17,7 @@ package org.sbml.libsbml;
  * expressed using {@link Reaction} nor {@link InitialAssignment} objects alone.
  <p>
  * The libSBML implementation of rules mirrors the SBML Level&nbsp;3
- * Version&nbsp;1 Core definition (which is in turn is very similar to the
+ * definition (which is in turn is very similar to the
  * Level&nbsp;2 Version&nbsp;4 definition), with {@link Rule} being the parent
  * class of three subclasses as explained below.  The {@link Rule} class itself
  * cannot be instantiated by user programs and has no constructor; only the
@@ -106,6 +106,22 @@ package org.sbml.libsbml;
  * statements that contain the symbol in their 'math' subelement expressions.
  * This graph must be acyclic.
  <p>
+ * Similarly, the combined set of {@link RateRule} and {@link Reaction} objects constitute 
+ * a set of definitions for the rates of change of various model entities 
+ * (namely, the objects identified by the values of the 'variable' attributes 
+ * of the {@link RateRule} objects, and the 'species' attributes of the {@link SpeciesReference} 
+ * objects in each {@link Reaction}).  In SBML Level&nbsp;3 Version&nbsp;2, these rates 
+ * of change may be referenced directly 
+ * using the <em>rateOf</em> csymbol, but may not thereby contain algebraic 
+ * loops&mdash;dependency chains between these statements must terminate.  More 
+ * formally, consider a directed graph in which the nodes are the definitions 
+ * of different variables' rates of change, and directed arcs exist for each 
+ * occurrence of a variable referenced by a <em>rateOf</em> csymbol from any 
+ * {@link RateRule} or {@link KineticLaw} object in the model.  Let the directed arcs point 
+ * from the variable referenced by the <em>rateOf</em> csymbol (call it 
+ * <em>x</em>) to the variable(s) determined by the 'math' expression in which
+ * <em>x</em> appears.  This graph must be acyclic.
+ <p>
  * SBML does not specify when or how often rules should be evaluated.
  * Eliminating algebraic loops ensures that assignment statements can be
  * evaluated any number of times without the result of those evaluations
@@ -122,11 +138,11 @@ package org.sbml.libsbml;
  * <h3>A model must not be overdetermined</h3>
  <p>
  * An SBML model must not be overdetermined; that is, a model must not
- * define more equations than there are unknowns in a model.  An SBML model
+ * define more equations than there are unknowns in a model.  A valid SBML model
  * that does not contain {@link AlgebraicRule} structures cannot be overdetermined.
  <p>
  * LibSBML implements the static analysis procedure described in
- * Appendix&nbsp;B of the SBML Level&nbsp;3 Version&nbsp;1 Core
+ * Appendix&nbsp;B of the SBML Level&nbsp;3
  * specification for assessing whether a model is overdetermined.
  <p>
  * (In summary, assessing whether a given continuous, deterministic,
@@ -253,7 +269,8 @@ public class Rule extends SBase {
 /**
    * Get the mathematical formula of this {@link Rule} as an {@link ASTNode} tree.
    <p>
-   * @return an {@link ASTNode}, the value of the 'math' subelement of this {@link Rule}.
+   * @return an {@link ASTNode}, the value of the 'math' subelement of this {@link Rule},
+   * or null if the math is not set.
    <p>
    * @note The subelement 'math' is present in SBML Levels&nbsp;2
    * and&nbsp;3.  In SBML Level&nbsp;1, the equivalent construct is the
@@ -285,8 +302,13 @@ public class Rule extends SBase {
  * uniform name for all such attributes, and it is 'variable', regardless of
  * whether Level&nbsp;1 rules or Level&nbsp;2&ndash;3 rules are being used.
    <p>
+   * The 'variable' attribute of a {@link Rule} indicates the element which
+   * the results of the 'math' are to be applied.  An {@link AlgebraicRule} has
+   * no 'variable', and will always return an empty string.
+   <p>
    * @return the identifier string stored as the 'variable' attribute value
-   * in this {@link Rule}, or <code>null</code> if this object is an {@link AlgebraicRule} object.
+   * in this {@link Rule}, or <code>null</code> if this object is an {@link AlgebraicRule} object, or if 
+   * the attribute is unset.
    */ public
  String getVariable() {
     return libsbmlJNI.Rule_getVariable(swigCPtr, this);
@@ -381,7 +403,7 @@ public class Rule extends SBase {
    * Predicate returning <code>true</code> if this {@link Rule}'s 'units' attribute is set.
    <p>
    * @return <code>true</code> if the units for this {@link Rule} is set, <code>false</code>
-   * otherwise
+   * otherwise.
    <p>
    * @note The attribute 'units' exists on SBML Level&nbsp;1 ParameterRule
    * objects only.  It is not present in SBML Levels&nbsp;2 and&nbsp;3.
@@ -488,7 +510,7 @@ public class Rule extends SBase {
 /**
    * Sets the units for this {@link Rule}.
    <p>
-   * @param sname the identifier of the units
+   * @param sname the identifier of the units.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -788,7 +810,7 @@ public class Rule extends SBase {
    <p>
    * The returned value can be any of a number of different strings,
    * depending on the SBML Level in use and the kind of {@link Rule} object this
-   * is.  The rules as of libSBML version 5.13.0
+   * is.  The rules as of libSBML version 5.14.0
    * are the following:
    * <ul>
    * <li> (Level&nbsp;2 and&nbsp;3) RateRule: returns <code>'rateRule'</code>
@@ -804,7 +826,7 @@ public class Rule extends SBase {
    * Beware that the last (<code>'unknownRule'</code>) is not a valid SBML element
    * name.
    <p>
-   * @return the name of this element
+   * @return the name of this element.
    */ public
  String getElementName() {
     return libsbmlJNI.Rule_getElementName(swigCPtr, this);
@@ -838,7 +860,9 @@ public class Rule extends SBase {
    * Predicate returning <code>true</code> if all the required elements for this {@link Rule}
    * object have been set.
    <p>
-   * The only required element for a {@link Rule} object is the 'math' subelement.
+   * The only required element for a {@link Rule} object is the 'math' subelement in
+   * SBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1.  In SBML Level&nbsp;3
+   * Version&nbsp;2+, it is no longer required.
    <p>
    * @return a boolean value indicating whether all the required
    * elements for this object have been defined.
@@ -854,7 +878,7 @@ public class Rule extends SBase {
    <p>
    * The required attributes for a {@link Rule} object depend on the type of {@link Rule}
    * it is.  For {@link AssignmentRule} and {@link RateRule} objects (and SBML
-   * Level&nbsp1's SpeciesConcentrationRule, CompartmentVolumeRule, and
+   * Level&nbsp;1's SpeciesConcentrationRule, CompartmentVolumeRule, and
    * ParameterRule objects), the required attribute is 'variable'; for
    * {@link AlgebraicRule} objects, there is no required attribute.
    <p>
@@ -877,7 +901,7 @@ public class Rule extends SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -888,8 +912,8 @@ public class Rule extends SBase {
  * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
  * descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.Rule_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -918,15 +942,33 @@ public class Rule extends SBase {
  * are found, the matching values are replaced with <code>newid</code>.  The method
  * does <em>not</em> descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.Rule_renameUnitSIdRefs(swigCPtr, this, oldid, newid);
   }
 
   
-/** * @internal */ public
+/**
+   * Returns the value of the 'variable' attribute of this {@link Rule} (NOT the 'id').
+   <p>
+   * @note Because of the inconsistent behavior of this function with 
+   * respect to assignments and rules, it is now recommended to
+   * use the getIdAttribute() or the getVariable() function instead.
+   <p>
+   * The 'variable' attribute of a {@link Rule} indicates the element which
+   * the results of the 'math' are to be applied.  An {@link AlgebraicRule} has
+   * no 'variable', and will always return an empty string.
+   <p>
+   * @return the variable of this {@link Rule}.
+   <p>
+   * @see #getIdAttribute()
+   * @see #setIdAttribute(String sid)
+   * @see #isSetIdAttribute()
+   * @see #unsetIdAttribute()
+   * @see #getVariable()
+   */ public
  String getId() {
     return libsbmlJNI.Rule_getId(swigCPtr, this);
   }

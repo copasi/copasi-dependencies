@@ -46,8 +46,6 @@
 #include <sbml/ListOf.h>
 #include <sbml/packages/multi/extension/MultiExtension.h>
 
-#include <sbml/packages/multi/sbml/SpeciesFeatureChange.h>
-
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 
@@ -59,7 +57,6 @@ protected:
   std::string   mReactant;
   std::string   mReactantComponent;
   std::string   mProductComponent;
-  ListOfSpeciesFeatureChanges   mSpeciesFeatureChanges;
 
 
 public:
@@ -256,145 +253,6 @@ public:
 
 
   /**
-   * Returns the  "ListOfSpeciesFeatureChanges" in this SpeciesTypeComponentMapInProduct object.
-   *
-   * @return the "ListOfSpeciesFeatureChanges" attribute of this SpeciesTypeComponentMapInProduct.
-   */
-  const ListOfSpeciesFeatureChanges* getListOfSpeciesFeatureChanges() const;
-
-
-  /**
-   * Returns the  "ListOfSpeciesFeatureChanges" in this SpeciesTypeComponentMapInProduct object.
-   *
-   * @return the "ListOfSpeciesFeatureChanges" attribute of this SpeciesTypeComponentMapInProduct.
-   */
-  ListOfSpeciesFeatureChanges* getListOfSpeciesFeatureChanges();
-
-
-  /**
-   * Get a SpeciesFeatureChange from the ListOfSpeciesFeatureChanges.
-   *
-   * @param n the index number of the SpeciesFeatureChange to get.
-   *
-   * @return the nth SpeciesFeatureChange in the ListOfSpeciesFeatureChanges within this SpeciesTypeComponentMapInProduct.
-   *
-   * @see getNumSpeciesFeatureChanges()
-   */
-  SpeciesFeatureChange* getSpeciesFeatureChange(unsigned int n);
-
-
-  /**
-   * Get a SpeciesFeatureChange from the ListOfSpeciesFeatureChanges.
-   *
-   * @param n the index number of the SpeciesFeatureChange to get.
-   *
-   * @return the nth SpeciesFeatureChange in the ListOfSpeciesFeatureChanges within this SpeciesTypeComponentMapInProduct.
-   *
-   * @see getNumSpeciesFeatureChanges()
-   */
-  const SpeciesFeatureChange* getSpeciesFeatureChange(unsigned int n) const;
-
-
-  /**
-   * Get a SpeciesFeatureChange from the ListOfSpeciesFeatureChanges
-   * based on its identifier.
-   *
-   * @param sid a string representing the identifier
-   * of the SpeciesFeatureChange to get.
-   *
-   * @return the SpeciesFeatureChange in the ListOfSpeciesFeatureChanges
-   * with the given id or NULL if no such
-   * SpeciesFeatureChange exists.
-   *
-   * @see getSpeciesFeatureChange(unsigned int n)
-   *
-   * @see getNumSpeciesFeatureChanges()
-   */
-  SpeciesFeatureChange* getSpeciesFeatureChange(const std::string& sid);
-
-
-  /**
-   * Get a SpeciesFeatureChange from the ListOfSpeciesFeatureChanges
-   * based on its identifier.
-   *
-   * @param sid a string representing the identifier
-   * of the SpeciesFeatureChange to get.
-   *
-   * @return the SpeciesFeatureChange in the ListOfSpeciesFeatureChanges
-   * with the given id or NULL if no such
-   * SpeciesFeatureChange exists.
-   *
-   * @see getSpeciesFeatureChange(unsigned int n)
-   *
-   * @see getNumSpeciesFeatureChanges()
-   */
-  const SpeciesFeatureChange* getSpeciesFeatureChange(const std::string& sid) const;
-
-
-  /**
-   * Adds a copy the given "SpeciesFeatureChange" to this SpeciesTypeComponentMapInProduct.
-   *
-   * @param sfc; the SpeciesFeatureChange object to add
-   *
-   * @return integer value indicating success/failure of the
-   * function.  @if clike The value is drawn from the
-   * enumeration #OperationReturnValues_t. @endif The possible values
-   * returned by this function are:
-   * @li LIBSBML_OPERATION_SUCCESS
-   * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
-   */
-  int addSpeciesFeatureChange(const SpeciesFeatureChange* sfc);
-
-
-  /**
-   * Get the number of SpeciesFeatureChange objects in this SpeciesTypeComponentMapInProduct.
-   *
-   * @return the number of SpeciesFeatureChange objects in this SpeciesTypeComponentMapInProduct
-   */
-  unsigned int getNumSpeciesFeatureChanges() const;
-
-
-  /**
-   * Creates a new SpeciesFeatureChange object, adds it to this SpeciesTypeComponentMapInProducts
-   * ListOfSpeciesFeatureChanges and returns the SpeciesFeatureChange object created. 
-   *
-   * @return a new SpeciesFeatureChange object instance
-   *
-   * @see addSpeciesFeatureChange(const SpeciesFeatureChange* sfc)
-   */
-  SpeciesFeatureChange* createSpeciesFeatureChange();
-
-
-  /**
-   * Removes the nth SpeciesFeatureChange from the ListOfSpeciesFeatureChanges within this SpeciesTypeComponentMapInProduct.
-   * and returns a pointer to it.
-   *
-   * The caller owns the returned item and is responsible for deleting it.
-   *
-   * @param n the index of the SpeciesFeatureChange to remove.
-   *
-   * @see getNumSpeciesFeatureChanges()
-   */
-  SpeciesFeatureChange* removeSpeciesFeatureChange(unsigned int n);
-
-
-  /**
-   * Removes the SpeciesFeatureChange with the given identifier from the ListOfSpeciesFeatureChanges within this SpeciesTypeComponentMapInProduct
-   * and returns a pointer to it.
-   *
-   * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier @p sid, then
-   * @c NULL is returned.
-   *
-   * @param sid the identifier of the SpeciesFeatureChange to remove.
-   *
-   * @return the SpeciesFeatureChange removed. As mentioned above, the caller owns the
-   * returned item.
-   */
-  SpeciesFeatureChange* removeSpeciesFeatureChange(const std::string& sid);
-
-
-  /**
    * Renames all the @c SIdRef attributes on this element, including any
    * found in MathML content (if such exists).
    *
@@ -408,14 +266,6 @@ public:
    */
    virtual void renameSIdRefs(const std::string& oldid, const std::string& newid);
 
-
-  /**
-   * Returns a List of all child SBase objects, including those nested to an
-   * arbitary depth.
-   *
-   * @return a List* of pointers to all child objects.
-   */
-   virtual List* getAllElements(ElementFilter * filter = NULL);
 
 
   /**
@@ -475,17 +325,6 @@ public:
   virtual bool hasRequiredAttributes() const;
 
 
-  /**
-   * Predicate returning @c true if all the required elements
-   * for this SpeciesTypeComponentMapInProduct object have been set.
-   *
-   * @note The required elements for a SpeciesTypeComponentMapInProduct object are:
-   *
-   * @return a boolean value indicating whether all the required
-   * elements for this object have been defined.
-   */
-  virtual bool hasRequiredElements() const;
-
 
   /** @cond doxygenLibsbmlInternal */
 
@@ -525,17 +364,6 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Connects to child elements.
-   */
-  virtual void connectToChild ();
-
-
-  /** @endcond doxygenLibsbmlInternal */
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
    * Enables/Disables the given package with this element.
    */
   virtual void enablePackageInternal(const std::string& pkgURI,
@@ -546,17 +374,6 @@ public:
 
 
 protected:
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
-   * return the SBML object corresponding to next XMLToken.
-   */
-  virtual SBase* createObject(XMLInputStream& stream);
-
-
-  /** @endcond doxygenLibsbmlInternal */
-
 
   /** @cond doxygenLibsbmlInternal */
 
@@ -905,46 +722,6 @@ SpeciesTypeComponentMapInProduct_unsetReactantComponent(SpeciesTypeComponentMapI
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_unsetProductComponent(SpeciesTypeComponentMapInProduct_t * stcmip);
-
-
-LIBSBML_EXTERN
-int
-SpeciesTypeComponentMapInProduct_addSpeciesFeatureChange(SpeciesTypeComponentMapInProduct_t * stcmip, SpeciesFeatureChange_t * sfc);
-
-
-LIBSBML_EXTERN
-SpeciesFeatureChange_t *
-SpeciesTypeComponentMapInProduct_createSpeciesFeatureChange(SpeciesTypeComponentMapInProduct_t * stcmip);
-
-
-LIBSBML_EXTERN
-ListOf_t *
-SpeciesTypeComponentMapInProduct_getListOfSpeciesFeatureChanges(SpeciesTypeComponentMapInProduct_t * stcmip) ;
-
-
-LIBSBML_EXTERN
-SpeciesFeatureChange_t *
-SpeciesTypeComponentMapInProduct_getSpeciesFeatureChange(SpeciesTypeComponentMapInProduct_t * stcmip, unsigned int n);
-
-
-LIBSBML_EXTERN
-SpeciesFeatureChange_t *
-SpeciesTypeComponentMapInProduct_getSpeciesFeatureChangeById(SpeciesTypeComponentMapInProduct_t * stcmip, const char * sid);
-
-
-LIBSBML_EXTERN
-unsigned int
-SpeciesTypeComponentMapInProduct_getNumSpeciesFeatureChanges(SpeciesTypeComponentMapInProduct_t * stcmip);
-
-
-LIBSBML_EXTERN
-SpeciesFeatureChange_t *
-SpeciesTypeComponentMapInProduct_removeSpeciesFeatureChange(SpeciesTypeComponentMapInProduct_t * stcmip, unsigned int n);
-
-
-LIBSBML_EXTERN
-SpeciesFeatureChange_t *
-SpeciesTypeComponentMapInProduct_removeSpeciesFeatureChangeById(SpeciesTypeComponentMapInProduct_t * stcmip, const char * sid);
 
 
 LIBSBML_EXTERN

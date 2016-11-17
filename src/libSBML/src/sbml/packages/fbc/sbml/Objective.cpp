@@ -51,8 +51,8 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 Objective::Objective (unsigned int level, unsigned int version, unsigned int pkgVersion)
   : SBase(level, version)
-  , mId ("")
-  , mName ("")
+//  , mId ("")
+//  , mName ("")
   , mType (OBJECTIVE_TYPE_UNKNOWN)
   , mFluxObjectives (level, version, pkgVersion)
   , mIsSetListOfFluxObjectives(false)
@@ -71,8 +71,8 @@ Objective::Objective (unsigned int level, unsigned int version, unsigned int pkg
  */
 Objective::Objective (FbcPkgNamespaces* fbcns)
   : SBase(fbcns)
-  , mId ("")
-  , mName ("")
+//  , mId ("")
+//  , mName ("")
   , mType (OBJECTIVE_TYPE_UNKNOWN)
   , mFluxObjectives (fbcns)
   , mIsSetListOfFluxObjectives(false)
@@ -94,8 +94,8 @@ Objective::Objective (FbcPkgNamespaces* fbcns)
  */
 Objective::Objective (const Objective& orig)
   : SBase(orig)
-  , mId (orig.mId)
-  , mName(orig.mName)
+  //, mId (orig.mId)
+  //, mName(orig.mName)
   , mType(orig.mType)
   , mFluxObjectives(orig.mFluxObjectives)
   , mIsSetListOfFluxObjectives(orig.mIsSetListOfFluxObjectives)
@@ -404,14 +404,11 @@ Objective::getFluxObjective(const std::string& sid) const
 
 
 /*
- * Adds a copy the given "FluxObjective" to this Objective.
+ * Adds a copy the given FluxObjective to this Objective.
  *
- * @param fo; the FluxObjective object to add
+ * @param fo the FluxObjective object to add.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li LIBSBML_OPERATION_SUCCESS
  * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
  */
@@ -440,8 +437,7 @@ Objective::addFluxObjective(const FluxObjective* fo)
   }
   else
   {
-    mFluxObjectives.append(fo);
-    return LIBSBML_OPERATION_SUCCESS;
+    return mFluxObjectives.append(fo);
   }
 }
 
@@ -459,8 +455,8 @@ Objective::getNumFluxObjectives() const
 
 
 /*
- * Creates a new FluxObjective object, adds it to this Objectives
- * Objective and returns the FluxObjective object created. 
+ * Creates a new FluxObjective object, adds it to this Objective
+ * and returns the FluxObjective object created. 
  *
  * @return a new FluxObjective object instance
  *
@@ -587,7 +583,7 @@ Objective::writeElements (XMLOutputStream& stream) const
 /** @endcond */
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -609,7 +605,7 @@ Objective::accept (SBMLVisitor& v) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -625,7 +621,7 @@ Objective::setSBMLDocument (SBMLDocument* d)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -642,7 +638,7 @@ Objective::connectToChild()
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -659,7 +655,7 @@ Objective::enablePackageInternal(const std::string& pkgURI,
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -692,7 +688,7 @@ Objective::createObject(XMLInputStream& stream)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -711,7 +707,7 @@ Objective::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -850,7 +846,7 @@ Objective::readAttributes (const XMLAttributes& attributes,
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -876,7 +872,7 @@ Objective::writeAttributes (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 /*
@@ -979,14 +975,11 @@ ListOfObjectives::get(const std::string& sid) const
 
 
 /*
- * Adds a copy the given "Objective" to this ListOfObjectives.
+ * Adds a copy the given Objective to this ListOfObjectives.
  *
- * @param o; the Objective object to add
+ * @param o the Objective object to add.
  *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * @copydetails doc_returns_success_code
  * @li LIBSBML_OPERATION_SUCCESS
  * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
  */
@@ -1015,8 +1008,7 @@ ListOfObjectives::addObjective(const Objective* o)
   }
   else
   {
-  append(o);
-    return LIBSBML_OPERATION_SUCCESS;
+    return append(o);
   }
 }
 
@@ -1034,7 +1026,7 @@ ListOfObjectives::getNumObjectives() const
 
 /*
  * Creates a new Objective object, adds it to this ListOfObjectives
- * Objective and returns the Objective object created. 
+ * and returns the Objective object created. 
  *
  * @return a new Objective object instance
  *
@@ -1176,7 +1168,7 @@ ListOfObjectives::createObject(XMLInputStream& stream)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 bool
@@ -1296,7 +1288,7 @@ ListOfObjectives::writeXMLNS(XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */

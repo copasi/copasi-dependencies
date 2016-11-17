@@ -58,7 +58,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 Style::Style (unsigned int level, unsigned int version, unsigned int pkgVersion) : 
     SBase(level,version)
-    ,mId("") 
+////    ,mId("") 
     ,mGroup(level,version) 
 {
   setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level,version,pkgVersion));  
@@ -75,7 +75,7 @@ Style::Style (unsigned int level, unsigned int version, unsigned int pkgVersion)
  */
 Style::Style (RenderPkgNamespaces* renderns):
     SBase(renderns)
-    ,mId("")
+////    ,mId("")
     ,mGroup(renderns) 
 {
       // set the element namespace of this object
@@ -104,12 +104,14 @@ Style::Style (RenderPkgNamespaces* renderns):
  */
 Style::Style(RenderPkgNamespaces* renderns, const std::string& id):
     SBase(renderns)
-    ,mId(id) 
+//    ,mId(id) 
     ,mGroup(renderns)
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. Style::Style(const std::string& id) is deprecated." << std::endl;
 #endif // DEPRECATION_WARNINGS
+  setId(id);
+
         // set the element namespace of this object
   setElementNamespace(renderns->getURI());
 

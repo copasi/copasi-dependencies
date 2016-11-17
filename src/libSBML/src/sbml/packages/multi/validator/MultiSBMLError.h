@@ -61,7 +61,6 @@ typedef enum
 , MultiUnqId_Sft                        = 7010404 /*!< SpeciesFeatureType must have unique ids within the parent speciesType */
 , MultiUnqId_SubListOfSfs               = 7010405 /*!< SubListOfSpeciesFeatures must have unique ids within a species */
 , MultiUnqId_SpeFtr                  	= 7010406 /*!< SpeciesFeature must have unique ids within a species */
-, MultiUnqId_SpeFtrChg            	= 7010407 /*!< SpeciesFeatureChange must have unique ids within a speciesTypeComponentMapInProduct */
 , MultiUnqId_CpaRef           		= 7010408 /*!< CompartmentReference must have unique ids within a compartment */
 
   // SIdRef under SpeciesType
@@ -71,7 +70,6 @@ typedef enum
 , MultiInvSIdRefSyn_SptIns_CpaRefAtt	= 7010504 /*!< Invalid SIdRef syntax: 'compartmentReference' attribute of SpeciesTypeInstance */
 , MultiInvSIdRefSyn_SptCpoInd_CpoAtt	= 7010505 /*!< Invalid SIdRef syntax: 'component' attribute of SpeciesTypeComponentIndex */
 , MultiInvSIdRefSyn_SptCpoInd_ParAtt 	= 7010506 /*!< Invalid SIdRef syntax: 'identifyingParent' attribute of SpeciesTypeComponentIndex */
-//, MultiInvSIdRefSyn_DenSptCpoInd_IndAtt	= 7010507 /*!< Invalid SIdRef syntax: 'speciesTypeComponentIndex' attribute of DenotedSpeciesTypeComponentIndex */
 , MultiInvSIdRefSyn_InSptBnd_Bst1Att	= 7010508 /*!< Invalid SIdRef syntax: 'bindingSite1' attribute of InSpeciesTypeBond */
 , MultiInvSIdRefSyn_InSptBnd_Bst2Att	= 7010509 /*!< Invalid SIdRef syntax: 'bindingSite2' attribute of InSpeciesTypeBond */
 
@@ -87,8 +85,6 @@ typedef enum
 , MultiInvSIdRefSyn_StpCpoMapInPro_RctAtt = 7010702 /*!< Invalid SIdRef syntax: 'reactant' attribute of SpeciesTypeComponentMapInProduct */
 , MultiInvSIdRefSyn_StpCpoMapInPro_RctCpoAtt = 7010703 /*!< Invalid SIdRef syntax: 'reactantComponent' attribute of SpeciesTypeComponentMapInProduct */
 , MultiInvSIdRefSyn_StpCpoMapInPro_ProCpoAtt = 7010704 /*!< Invalid SIdRef syntax: 'productComponent' attribute of SpeciesTypeComponentMapInProduct */
-, MultiInvSIdRefSyn_SpeFtrChg_RctSpeFtrAtt = 7010705 /*!< Invalid SIdRef syntax: 'reactantSpeciesFeature' attribute of SpeciesFeatureChange */
-, MultiInvSIdRefSyn_SpeFtrChg_ProSpeFtrAtt = 7010706 /*!< Invalid SIdRef syntax: 'productSpeciesFeature' attribute of SpeciesFeatureChange */
 
   // SIdRef under Compartment
 , MultiInvSIdRefSyn_Cpa_CpaTypAtt 	= 7010801 /*!< Invalid SIdRef syntax: 'compartmentType' attribute of extended Compartment */
@@ -163,7 +159,6 @@ typedef enum
 , MultiSptIns_AllowedCoreAtts  		= 7020801 /*!< SpeciesTypeInstance: Allowed SBML core attributes */
 , MultiSptIns_AllowedCoreElts  		= 7020802 /*!< SpeciesTypeInstance: Allowed SBML core elements */
 , MultiSptIns_AllowedMultiAtts  	= 7020803 /*!< SpeciesTypeInstance: Allowed Multi attributes */
-//, MultiSptIns_OccAtt_Ref  		= 7020804 /*!< SpeciesTypeInstance: 'occur' must be a positiveInteger */
 , MultiSptIns_SptAtt_Ref		= 7020805 /*!< SpeciesTypeInstance: 'speciesType' must be the 'id' of a speciesType */
 , MultiSptIns_CpaRefAtt_Ref		= 7020806 /*!< SpeciesTypeInstance: 'compartmentReference' must be the 'id' of a compartmentReference */
 
@@ -172,19 +167,7 @@ typedef enum
 , MultiSptCpoInd_AllowedCoreElts	= 7020902 /*!< SpeciesTypeComponentIndex: Allowed SBML core elements */
 , MultiSptCpoInd_AllowedMultiAtts  	= 7020903 /*!< SpeciesTypeComponentIndex: Allowed Multi attributes */
 , MultiSptCpoInd_CpoAtt_Ref		= 7020904 /*!< SpeciesTypeComponentIndex: 'component' must be the 'id' of a component */
-//, MultiSptCpoInd_RestrictElts		= 7020905 /*!< SpeciesTypeComponentIndex: Can not have a listOfDenotedSpeciesTypeComponentIndexes if component references an index  */
-//, MultiSptCpoInd_SameOccurAsRefIndex	= 7020906 /*!< SpeciesTypeComponentIndex: 'occur' attribute must have the same value as that of the referenced index */
 , MultiSptCpoInd_IdParAtt_Ref		= 7020907 /*!< SpeciesTypeComponentIndex: 'identifyingParent' must be the 'id' of a component */
-//, MultiSptCpoInd_OccAtt_Ref		= 7020908 /*!< SpeciesTypeComponentIndex: 'occur' must be a positiveInteger */
-//, MultiLofDenSptCpoInds_NoEmpty  	= 7020909 /*!< ListOfDenotedSpeciesTypeComponentIndexes: Must not be empty */
-//, MultiLofDenSptCpoInds_AllowedAtts	= 7020910 /*!< ListOfDenotedSpeciesTypeComponentIndexes: Allowed attributes */
-//, MultiLofDenSptCpoInds_Elts  		= 7020911 /*!< ListOfDenotedSpeciesTypeComponentIndexes: Only allow denotedSpeciesTypeComponentIndex elements */
-
-//// Rules for DenotedSpeciesTypeComponentIndex objects
-//, MultiDenSptCpoInd_AllowedCoreAtts	= 7021001 /*!< DenotedSpeciesTypeComponentIndex: Allowed SBML core attributes */
-//, MultiDenSptCpoInd_AllowedCoreElts	= 7021002 /*!< DenotedSpeciesTypeComponentIndex: Allowed SBML core elements */
-//, MultiDenSptCpoInd_AllowedMultiAtts 	= 7021003 /*!< DenotedSpeciesTypeComponentIndex: Allowed Multi attributes */
-//, MultiDenSptCpoInd_SpTypeCpoIndAtt_Ref = 7021004 /*!< DenotedSpeciesTypeComponentIndex: 'speciesTypeComponentIndex' must the 'id' of a speciesTypeComponentIndex */
 
 // Rules for InSpeciesTypeBond objects
 , MultiInSptBnd_AllowedCoreAtts  	= 7021101 /*!< InSpeciesTypeBond: Allowed SBML core attributes */
@@ -215,6 +198,7 @@ typedef enum
 , MultiOutBst_AllowedMultiAtts  	= 7021303 /*!< OutwardBindingSite: Allowed Multi attributes */
 , MultiOutBst_BdgStaAtt_Ref		= 7021304 /*!< OutwardBindingSite: 'bindingStatus' must have a value of 'BindingStatus' */
 , MultiOutBst_CpoAtt_Ref		= 7021305 /*!< OutwardBindingSite: 'component' must be the 'id' of a 'BindingSiteSpeciesType' component */
+, MultiOutBst_NotInBond			= 7021306 /*!< OutwardBindingSite: An outwardBindingSite can not be in a bond of the species */
 
 // Rules for SpeciesFeature objects
 , MultiSpeFtr_AllowedCoreAtts  		= 7021401 /*!< SpeciesFeature: Allowed SBML core attributes */
@@ -254,17 +238,6 @@ typedef enum
 , MultiSptCpoMapInPro_RctAtt_Ref  	= 7021904 /*!< SpeciesTypeComponentMapInProduct: 'reactant' must be the 'id' of a reactant speciesReference */
 , MultiSptCpoMapInPro_RctCpoAtt_Ref	= 7021905 /*!< SpeciesTypeComponentMapInProduct: 'reactantComponent' must be the 'id' of a reactant component */
 , MultiSptCpoMapInPro_ProCpoAtt_Ref	= 7021906 /*!< SpeciesTypeComponentMapInProduct: 'productComponent' must be the 'id' of a product component */
-, MultiLofSpeFtrChgs_NoEmpty		= 7021907 /*!< ListOfSpeciesFeatureChanges: Must not be empty */
-, MultiLofSpeFtrChgs_AllowedAtts  	= 7021908 /*!< ListOfSpeciesFeatureChanges: Allowed attributes */
-, MultiLofSpeFtrChgs_AllowedElts	= 7021909 /*!< ListOfSpeciesFeatureChanges: Allowed elements */
-
-// Rules for SpeciesFeatureChange objects
-, MultiSpeFtrChg_AllowedCoreAtts  	= 7022001 /*!< SpeciesFeatureChange: Allowed SBML core attributes */
-, MultiSpeFtrChg_AllowedCoreElts	= 7022002 /*!< SpeciesFeatureChange: Allowed SBML core elements */
-, MultiSpeFtrChg_AllowedMultiAtts  	= 7022003 /*!< SpeciesFeatureChange: Allowed Multi attributes */
-, MultiSpeFtrChg_RctSpeFtrAtt_Ref	= 7022004 /*!< SpeciesFeatureChange: 'reactantSpeciesFeature' must be the 'id' of a speciesFeature */
-, MultiSpeFtrChg_ProSpeFtrAtt_Ref	= 7022005 /*!< SpeciesFeatureChange: 'productSpeciesFeature' must be the 'id' of a speciesFeature */
-
 
 // Rules for extended ci elements in Math objects
 , MultiMathCi_AllowedMultiAtts  	= 7022101 /*!< Math ci element: Allowed Multi attributes */

@@ -47,13 +47,9 @@ SpeciesTypeComponentMapInProduct::SpeciesTypeComponentMapInProduct (unsigned int
    ,mReactant ("")
    ,mReactantComponent ("")
    ,mProductComponent ("")
-   ,mSpeciesFeatureChanges (level, version, pkgVersion)
 {
   // set an SBMLNamespaces derived object of this package
   setSBMLNamespacesAndOwn(new MultiPkgNamespaces(level, version, pkgVersion));
-
-  // connect to child objects
-  connectToChild();
 }
 
 
@@ -65,13 +61,9 @@ SpeciesTypeComponentMapInProduct::SpeciesTypeComponentMapInProduct (MultiPkgName
    ,mReactant ("")
    ,mReactantComponent ("")
    ,mProductComponent ("")
-   ,mSpeciesFeatureChanges (multins)
 {
   // set the element namespace of this object
   setElementNamespace(multins->getURI());
-
-  // connect to child objects
-  connectToChild();
 
   // load package extensions bound with this object (if any) 
   loadPlugins(multins);
@@ -86,10 +78,7 @@ SpeciesTypeComponentMapInProduct::SpeciesTypeComponentMapInProduct (const Specie
   , mReactant  ( orig.mReactant)
   , mReactantComponent  ( orig.mReactantComponent)
   , mProductComponent  ( orig.mProductComponent)
-  , mSpeciesFeatureChanges  ( orig.mSpeciesFeatureChanges)
 {
-  // connect to child objects
-  connectToChild();
 }
 
 
@@ -105,10 +94,6 @@ SpeciesTypeComponentMapInProduct::operator=(const SpeciesTypeComponentMapInProdu
     mReactant  = rhs.mReactant;
     mReactantComponent  = rhs.mReactantComponent;
     mProductComponent  = rhs.mProductComponent;
-    mSpeciesFeatureChanges  = rhs.mSpeciesFeatureChanges;
-
-    // connect to child objects
-    connectToChild();
   }
   return *this;
 }
@@ -304,163 +289,6 @@ SpeciesTypeComponentMapInProduct::unsetProductComponent()
 
 
 /*
- * Returns the  "ListOfSpeciesFeatureChanges" in this SpeciesTypeComponentMapInProduct object.
- */
-const ListOfSpeciesFeatureChanges*
-SpeciesTypeComponentMapInProduct::getListOfSpeciesFeatureChanges() const
-{
-  return &mSpeciesFeatureChanges;
-}
-
-
-/*
- * Returns the  "ListOfSpeciesFeatureChanges" in this SpeciesTypeComponentMapInProduct object.
- */
-ListOfSpeciesFeatureChanges*
-SpeciesTypeComponentMapInProduct::getListOfSpeciesFeatureChanges()
-{
-  return &mSpeciesFeatureChanges;
-}
-
-
-/*
- * Removes the nth SpeciesFeatureChange from the ListOfSpeciesFeatureChanges.
- */
-SpeciesFeatureChange*
-SpeciesTypeComponentMapInProduct::removeSpeciesFeatureChange(unsigned int n)
-{
-  return mSpeciesFeatureChanges.remove(n);
-}
-
-
-/*
- * Removes the a SpeciesFeatureChange with given id from the ListOfSpeciesFeatureChanges.
- */
-SpeciesFeatureChange*
-SpeciesTypeComponentMapInProduct::removeSpeciesFeatureChange(const std::string& sid)
-{
-  return mSpeciesFeatureChanges.remove(sid);
-}
-
-
-/*
- * Return the nth SpeciesFeatureChange in the ListOfSpeciesFeatureChanges within this SpeciesTypeComponentMapInProduct.
- */
-SpeciesFeatureChange*
-SpeciesTypeComponentMapInProduct::getSpeciesFeatureChange(unsigned int n)
-{
-  return mSpeciesFeatureChanges.get(n);
-}
-
-
-/*
- * Return the nth SpeciesFeatureChange in the ListOfSpeciesFeatureChanges within this SpeciesTypeComponentMapInProduct.
- */
-const SpeciesFeatureChange*
-SpeciesTypeComponentMapInProduct::getSpeciesFeatureChange(unsigned int n) const
-{
-  return mSpeciesFeatureChanges.get(n);
-}
-
-
-/*
- * Return a SpeciesFeatureChange from the ListOfSpeciesFeatureChanges by id.
- */
-SpeciesFeatureChange*
-SpeciesTypeComponentMapInProduct::getSpeciesFeatureChange(const std::string& sid)
-{
-  return mSpeciesFeatureChanges.get(sid);
-}
-
-
-/*
- * Return a SpeciesFeatureChange from the ListOfSpeciesFeatureChanges by id.
- */
-const SpeciesFeatureChange*
-SpeciesTypeComponentMapInProduct::getSpeciesFeatureChange(const std::string& sid) const
-{
-  return mSpeciesFeatureChanges.get(sid);
-}
-
-
-/*
- * Adds a copy the given "SpeciesFeatureChange" to this SpeciesTypeComponentMapInProduct.
- */
-int
-SpeciesTypeComponentMapInProduct::addSpeciesFeatureChange(const SpeciesFeatureChange* sfc)
-{
-  if (sfc == NULL)
-  {
-    return LIBSBML_OPERATION_FAILED;
-  }
-  else if (sfc->hasRequiredAttributes() == false)
-  {
-    return LIBSBML_INVALID_OBJECT;
-  }
-  else if (getLevel() != sfc->getLevel())
-  {
-    return LIBSBML_LEVEL_MISMATCH;
-  }
-  else if (getVersion() != sfc->getVersion())
-  {
-    return LIBSBML_VERSION_MISMATCH;
-  }
-  else if (matchesRequiredSBMLNamespacesForAddition(static_cast<const SBase *>(sfc)) == false)
-  {
-    return LIBSBML_NAMESPACES_MISMATCH;
-  }
-  else
-  {
-    mSpeciesFeatureChanges.append(sfc);
-
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-}
-
-
-/*
- * Get the number of SpeciesFeatureChange objects in this SpeciesTypeComponentMapInProduct.
- */
-unsigned int
-SpeciesTypeComponentMapInProduct::getNumSpeciesFeatureChanges() const
-{
-  return mSpeciesFeatureChanges.size();
-}
-
-
-/*
- * Creates a new SpeciesFeatureChange object, adds it to this SpeciesTypeComponentMapInProducts
- */
-SpeciesFeatureChange*
-SpeciesTypeComponentMapInProduct::createSpeciesFeatureChange()
-{
-  SpeciesFeatureChange* sfc = NULL;
-
-  try
-  {
-    MULTI_CREATE_NS(multins, getSBMLNamespaces());
-    sfc = new SpeciesFeatureChange(multins);
-    delete multins;
-  }
-  catch (...)
-  {
-    /* here we do not create a default object as the level/version must
-     * match the parent object
-     *
-     * do nothing
-     */
-  }
-
-  if(sfc != NULL)
-  {
-    mSpeciesFeatureChanges.appendAndOwn(sfc);
-  }
-
-  return sfc;
-}
-
-
-/*
  * rename attributes that are SIdRefs or instances in math
  */
 void
@@ -484,19 +312,6 @@ SpeciesTypeComponentMapInProduct::renameSIdRefs(const std::string& oldid, const 
 
 }
 
-
-List*
-SpeciesTypeComponentMapInProduct::getAllElements(ElementFilter* filter)
-{
-  List* ret = new List();
-  List* sublist = NULL;
-
-  ADD_FILTERED_LIST(ret, sublist, mSpeciesFeatureChanges, filter);
-
-  ADD_FILTERED_FROM_PLUGIN(ret, sublist, filter);
-
-  return ret;
-}
 
 
 /*
@@ -541,17 +356,6 @@ SpeciesTypeComponentMapInProduct::hasRequiredAttributes () const
 }
 
 
-/*
- * check if all the required elements are set
- */
-bool
-SpeciesTypeComponentMapInProduct::hasRequiredElements () const
-{
-  bool allPresent = true;
-
-  return allPresent;
-}
-
 
   /** @cond doxygenLibsbmlInternal */
 
@@ -562,11 +366,6 @@ void
 SpeciesTypeComponentMapInProduct::writeElements (XMLOutputStream& stream) const
 {
   SBase::writeElements(stream);
-
-  if (getNumSpeciesFeatureChanges() > 0)
-  {
-    mSpeciesFeatureChanges.write(stream);
-  }
 
   SBase::writeExtensionElements(stream);
 }
@@ -583,16 +382,7 @@ SpeciesTypeComponentMapInProduct::writeElements (XMLOutputStream& stream) const
 bool
 SpeciesTypeComponentMapInProduct::accept (SBMLVisitor& v) const
 {
-  v.visit(*this);
-
-  for(unsigned int i = 0; i < getNumSpeciesFeatureChanges(); i++)
-  {
-    getSpeciesFeatureChange(i)->accept(v);
-  }
-
-  v.leave(*this);
-
-  return true;
+  return v.visit(*this);
 }
 
 
@@ -608,22 +398,6 @@ void
 SpeciesTypeComponentMapInProduct::setSBMLDocument (SBMLDocument* d)
 {
   SBase::setSBMLDocument(d);
-  mSpeciesFeatureChanges.setSBMLDocument(d);
-}
-
-
-  /** @endcond doxygenLibsbmlInternal */
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-/*
-   * Connects to child elements.
- */
-void
-SpeciesTypeComponentMapInProduct::connectToChild()
-{
-  mSpeciesFeatureChanges.connectToParent(this);
 }
 
 
@@ -640,33 +414,6 @@ SpeciesTypeComponentMapInProduct::enablePackageInternal(const std::string& pkgUR
              const std::string& pkgPrefix, bool flag)
 {
   SBase::enablePackageInternal(pkgURI, pkgPrefix, flag);
-  mSpeciesFeatureChanges.enablePackageInternal(pkgURI, pkgPrefix, flag);
-}
-
-
-  /** @endcond doxygenLibsbmlInternal */
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-/*
- * creates object.
- */
-SBase*
-SpeciesTypeComponentMapInProduct::createObject(XMLInputStream& stream)
-{
-  const string& name = stream.peek().getName();
-  SBase* object = NULL;
-
-  MULTI_CREATE_NS(multins, getSBMLNamespaces());
-
-  if (name == "listOfSpeciesFeatureChanges")
-  {
-    object = &mSpeciesFeatureChanges;
-  }
-
-  delete multins;
-  return object;
 }
 
 
@@ -1302,7 +1049,6 @@ ListOfSpeciesTypeComponentMapInProducts_removeById(ListOf_t * lo, const char * s
 
   return (sid != NULL) ? static_cast <ListOfSpeciesTypeComponentMapInProducts *>(lo)->remove(sid) : NULL;
 }
-
 
 
 

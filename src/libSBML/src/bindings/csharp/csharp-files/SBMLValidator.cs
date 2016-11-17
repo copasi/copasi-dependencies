@@ -133,7 +133,7 @@ public class SBMLValidator : IDisposable {
 /**
    * Returns the current SBML document in use by this validator.
    * 
-   * @return the current SBML document
+   * @return the current SBML document.
    *
    * @see setDocument(@if java SBMLDocument@endif)
    */ public virtual
@@ -147,13 +147,14 @@ public class SBMLValidator : IDisposable {
 /** 
    * Sets the current SBML document to the given SBMLDocument object.
    * 
-   * @param doc the document to use for this validation
+   * @param doc the document to use for this validation.
    * 
    *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * enumeration #OperationReturnValues_t. @endif This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getDocument()
@@ -192,7 +193,7 @@ public class SBMLValidator : IDisposable {
 /**
    * Adds the given failure to this list of Validators failures.
    *
-   * @param err an SBMLError object representing an error or warning
+   * @param err an SBMLError object representing an error or warning.
    *
    * @if clike @see getFailures() @endif
    */ public
@@ -208,7 +209,7 @@ public class SBMLValidator : IDisposable {
    * This is identical to calling setDocument(@if java SBMLDocument @endif)
    * followed by validate().
    *
-   * @param d the SBML document to validate
+   * @param d the SBML document to validate.
    *
    * @return the number of validation failures that occurred.  The objects
    * describing the actual failures can be retrieved using getFailures().
@@ -239,7 +240,7 @@ public class SBMLValidator : IDisposable {
    * errors and warnings is @em separate from the validation failures
    * tracked by this validator (i.e., the list returned by getFailures()).
    * 
-   * @return the SBMLErrorLog used for the SBMLDocument
+   * @return the SBMLErrorLog used for the SBMLDocument.
    * 
    * @if clike @see getFailures() @endif
    */ public
@@ -281,7 +282,7 @@ public class SBMLValidator : IDisposable {
    * SBMLDocument::getErrorLog()), because other parts of libSBML may log
    * errors and warnings beyond those found by this validator.
    *
-   * @return the number of errors logged by this validator. 
+   * @return the number of errors logged by this validator.
    */ public
  long getNumFailures() { return (long)libsbmlPINVOKE.SBMLValidator_getNumFailures(swigCPtr); }
 

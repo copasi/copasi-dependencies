@@ -30,6 +30,11 @@
 #
 ###############################################################################
 
+# used to create CMake config files for projects using this library
+if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
+include(CMakePackageConfigHelpers)
+endif()
+
 ###############################################################################
 #
 # Initialize SBML sources
@@ -264,7 +269,7 @@ macro(ADD_FUNCTION directory)
 #              list(REMOVE_ITEM temp "${tempFile}")
             endif()
         endif()
-        if ("${tempFile}" MATCHES ".*.cxx")
+        if ("${tempFile}" MATCHES ".*.cxx$")
           set_source_files_properties(
               ${tempFile}
               PROPERTIES HEADER_FILE_ONLY true
@@ -355,6 +360,8 @@ set(COMPRESS_SOURCES ${COMPRESS_SOURCES}
         sbml/compress/unzip.c
         sbml/compress/ioapi.h
         sbml/compress/ioapi.c
+        sbml/compress/ioapi_mem.h
+        sbml/compress/ioapi_mem.c
         sbml/compress/zfstream.h
         sbml/compress/zfstream.cpp
         sbml/compress/zipfstream.cpp
@@ -509,6 +516,10 @@ endif(MSVC)
 #
 # Build library
 #
+SET (INCLUDE_DESTINATION)
+if (${CMAKE_VERSION} VERSION_GREATER "2.8.11")
+  set(INCLUDE_DESTINATION INCLUDES DESTINATION include)
+endif()
 
 if (NOT LIBSBML_SKIP_SHARED_LIBRARY)
 
@@ -522,12 +533,32 @@ endif()
 
 target_link_libraries(${LIBSBML_LIBRARY} ${LIBSBML_LIBS} ${EXTRA_LIBS})
 
-INSTALL(TARGETS ${LIBSBML_LIBRARY}
+INSTALL(TARGETS ${LIBSBML_LIBRARY} EXPORT ${LIBSBML_LIBRARY}-config
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  )
+        ${INCLUDE_DESTINATION}
+)
 
+# and install the exported target configuration
+INSTALL(EXPORT ${LIBSBML_LIBRARY}-config
+        DESTINATION ${PACKAGE_CONFIG_DIR}
+)
+
+if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
+WRITE_BASIC_PACKAGE_VERSION_FILE(
+  ${CMAKE_CURRENT_BINARY_DIR}/${LIBSBML_LIBRARY}-config-version.cmake 
+  VERSION ${PROJECT_VERSION}
+  COMPATIBILITY AnyNewerVersion
+)
+  
+INSTALL(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/${LIBSBML_LIBRARY}-config-version.cmake
+  DESTINATION ${PACKAGE_CONFIG_DIR}
+)
+endif()
+
+  
 endif()
 
 add_library (${LIBSBML_LIBRARY}-static STATIC ${LIBSBML_SOURCES} )
@@ -540,10 +571,30 @@ endif(WIN32 AND NOT CYGWIN)
 target_link_libraries(${LIBSBML_LIBRARY}-static ${LIBSBML_LIBS} ${EXTRA_LIBS})
 
 INSTALL(TARGETS ${LIBSBML_LIBRARY}-static
+        EXPORT  ${LIBSBML_LIBRARY}-static-config
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ${INCLUDE_DESTINATION}
 )
+
+# and install the exported target configuration
+INSTALL(EXPORT ${LIBSBML_LIBRARY}-static-config 
+        DESTINATION ${PACKAGE_CONFIG_DIR}
+)
+
+if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
+WRITE_BASIC_PACKAGE_VERSION_FILE(
+  ${CMAKE_CURRENT_BINARY_DIR}/${LIBSBML_LIBRARY}-static-config-version.cmake
+  VERSION ${PROJECT_VERSION}
+  COMPATIBILITY AnyNewerVersion
+)
+
+INSTALL(FILES 
+  ${CMAKE_CURRENT_BINARY_DIR}/${LIBSBML_LIBRARY}-static-config-version.cmake
+  DESTINATION ${PACKAGE_CONFIG_DIR}
+)
+endif()
 
 ##############################################################################
 #

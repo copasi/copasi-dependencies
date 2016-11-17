@@ -131,8 +131,8 @@ public class XMLTriple : IDisposable {
    * where <span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span>
    * represents the separator character, @p sepchar.
    *
-   * @param triplet a string representing the triplet as shown above
-   * @param sepchar a character, the sepchar used in the triplet
+   * @param triplet a string representing the triplet as shown above.
+   * @param sepchar a character, the sepchar used in the triplet.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -155,8 +155,8 @@ public class XMLTriple : IDisposable {
    * where <span style='background-color: purple; color: white; padding-left: 2px; padding-right: 2px'>x</span>
    * represents the separator character, @p sepchar.
    *
-   * @param triplet a string representing the triplet as shown above
-   * @param sepchar a character, the sepchar used in the triplet
+   * @param triplet a string representing the triplet as shown above.
+   * @param sepchar a character, the sepchar used in the triplet.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public

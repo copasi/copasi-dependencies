@@ -63,8 +63,8 @@ class LIBSBML_EXTERN Style : public SBase
 {
 protected:
   /** @cond doxygenLibsbmlInternal */
-  std::string mId; 
-  std::string mName;
+////  std::string mId; 
+////  std::string mName;
   std::set<std::string> mRoleList;
   std::set<std::string> mTypeList;
   RenderGroup mGroup;

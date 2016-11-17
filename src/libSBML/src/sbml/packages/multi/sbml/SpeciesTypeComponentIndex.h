@@ -55,7 +55,7 @@ class LIBSBML_EXTERN SpeciesTypeComponentIndex : public SBase
 
 protected:
 
-  std::string   mId;
+////  std::string   mId;
   std::string   mComponent;
   std::string   mIdentifyingParent;
 

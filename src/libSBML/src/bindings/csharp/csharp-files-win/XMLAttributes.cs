@@ -743,7 +743,7 @@ foo:myattribute='7'
 /**
    * Removes the <em>n</em>th attribute from this list of attributes.
    *
-   * @param n an integer the index of the resource to be deleted
+   * @param n an integer the index of the resource to be deleted.
    *
    *
  * @return integer value indicating success/failure of the
@@ -867,8 +867,9 @@ foo:myattribute='7'
    *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * enumeration #OperationReturnValues_t. @endif This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see remove(int n)

@@ -123,7 +123,7 @@ Point::Point(LayoutPkgNamespaces* layoutns, double x, double y, double z)
   , mXOffset(x)
   , mYOffset(y)
   , mZOffset(z)
-  , mZOffsetExplicitlySet (true)
+  , mZOffsetExplicitlySet (z != 0.0)
   , mElementName("point")  
 {
   //
@@ -380,7 +380,7 @@ Point::getZOffsetExplicitlySet() const
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
- * SBML objects as XML elements.  Be sure to call your parents
+ * SBML objects as XML elements.  Be sure to call your parent's
  * implementation of this method as well.  For example:
  *
  *   SBase::writeElements(stream);
@@ -606,7 +606,7 @@ void Point::writeAttributes (XMLOutputStream& stream) const
   //
   // (TODO) default value should be allowd in package of Level 3?
   //
-  if(this->mZOffset!=0.0)
+  if(this->mZOffset!=0.0 || (getLevel() > 2 && mZOffsetExplicitlySet))
   {
     stream.writeAttribute("z", getPrefix(), mZOffset);
   }

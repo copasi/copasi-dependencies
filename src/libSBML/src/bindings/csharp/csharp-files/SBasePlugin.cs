@@ -328,7 +328,7 @@ public class SBasePlugin : IDisposable {
    * as if a model is invalid because of multiple objects having the same
    * identifier.
    *
-   * @param id string representing the identifier of the object to find
+   * @param id string representing the identifier of the object to find.
    *
    * @return pointer to the first object with the given @p id.
    */ public new
@@ -477,8 +477,9 @@ public class SBasePlugin : IDisposable {
    *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * enumeration #OperationReturnValues_t. @endif This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see getElementNamespace()
@@ -574,7 +575,7 @@ public class SBasePlugin : IDisposable {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -587,8 +588,8 @@ public class SBasePlugin : IDisposable {
  * matching values are replaced with @p newid.  The method does @em not
  * descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new
@@ -619,8 +620,8 @@ public class SBasePlugin : IDisposable {
  * found, the matching identifiers are replaced with @p newid.  The method
  * does @em not descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new
@@ -655,8 +656,8 @@ public class SBasePlugin : IDisposable {
  * are found, the matching values are replaced with @p newid.  The method
  * does @em not descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new

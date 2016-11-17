@@ -8570,33 +8570,33 @@ namespace libsbml {
  * errors that can occur while validating general SBML constructs.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 2xxxx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
+ * and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_IDENTIFIER_CONSISTENCY LIBSBML_CAT_IDENTIFIER_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating symbol identifiers in a model.
  * With respect to the SBML specification, these concern failures in
  * applying the validation rules numbered 103xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
+ * and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_UNITS_CONSISTENCY LIBSBML_CAT_UNITS_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating the units of measurement on
  * quantities in a model.  With respect to the SBML specification, these
  * concern failures in applying the validation rules numbered 105xx in the
  * Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
+ * and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_MATHML_CONSISTENCY LIBSBML_CAT_MATHML_CONSISTENCY@endlink</td><td>Category of
  * errors that can occur while validating MathML formulas in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 102xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
+ * and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBO_CONSISTENCY LIBSBML_CAT_SBO_CONSISTENCY@endlink</td><td>Category of errors
  * that can occur while validating SBO identifiers in a model.  With
  * respect to the SBML specification, these concern failures in applying
  * the validation rules numbered 107xx in the Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
+ * and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_OVERDETERMINED_MODEL LIBSBML_CAT_OVERDETERMINED_MODEL@endlink</td><td>Error in the
  * system of equations in the model: the system is overdetermined,
  * therefore violating a tenet of proper SBML.  With respect to the SBML
  * specification, this is validation rule #10601 in the SBML Level&nbsp;2 Versions&nbsp;2&ndash;4
- * and Level&nbsp;3 Version&nbsp;1 specifications.</td></tr>
+ * and Level&nbsp;3 Versions&nbsp;1&ndash;2 specifications.</td></tr>
  * <tr><td>@link libsbml#LIBSBML_CAT_SBML_L2V3_COMPAT LIBSBML_CAT_SBML_L2V3_COMPAT@endlink</td><td>Category of errors
  * that can only occur during attempted translation from one Level/Version
  * of SBML to another.  This particular category applies to errors
@@ -8787,9 +8787,9 @@ public class SBMLError : XMLError {
    *
    * @param errorId a long integer, the identification number of the error.
    *
-   * @param level the SBML Level of the SBML model
+   * @param level the SBML Level of the SBML model.
    *
-   * @param version the SBML Version within the Level of the SBML model
+   * @param version the SBML Version within the Level of the SBML model.
    *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
@@ -8899,9 +8899,9 @@ public class SBMLError : XMLError {
    *
    * @param errorId a long integer, the identification number of the error.
    *
-   * @param level the SBML Level of the SBML model
+   * @param level the SBML Level of the SBML model.
    *
-   * @param version the SBML Version within the Level of the SBML model
+   * @param version the SBML Version within the Level of the SBML model.
    *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
@@ -9011,9 +9011,9 @@ public class SBMLError : XMLError {
    *
    * @param errorId a long integer, the identification number of the error.
    *
-   * @param level the SBML Level of the SBML model
+   * @param level the SBML Level of the SBML model.
    *
-   * @param version the SBML Version within the Level of the SBML model
+   * @param version the SBML Version within the Level of the SBML model.
    *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
@@ -9123,9 +9123,9 @@ public class SBMLError : XMLError {
    *
    * @param errorId a long integer, the identification number of the error.
    *
-   * @param level the SBML Level of the SBML model
+   * @param level the SBML Level of the SBML model.
    *
-   * @param version the SBML Version within the Level of the SBML model
+   * @param version the SBML Version within the Level of the SBML model.
    *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
@@ -9235,9 +9235,9 @@ public class SBMLError : XMLError {
    *
    * @param errorId a long integer, the identification number of the error.
    *
-   * @param level the SBML Level of the SBML model
+   * @param level the SBML Level of the SBML model.
    *
-   * @param version the SBML Version within the Level of the SBML model
+   * @param version the SBML Version within the Level of the SBML model.
    *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
@@ -9347,9 +9347,9 @@ public class SBMLError : XMLError {
    *
    * @param errorId a long integer, the identification number of the error.
    *
-   * @param level the SBML Level of the SBML model
+   * @param level the SBML Level of the SBML model.
    *
-   * @param version the SBML Version within the Level of the SBML model
+   * @param version the SBML Version within the Level of the SBML model.
    *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
@@ -9459,9 +9459,9 @@ public class SBMLError : XMLError {
    *
    * @param errorId a long integer, the identification number of the error.
    *
-   * @param level the SBML Level of the SBML model
+   * @param level the SBML Level of the SBML model.
    *
-   * @param version the SBML Version within the Level of the SBML model
+   * @param version the SBML Version within the Level of the SBML model.
    *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
@@ -9571,9 +9571,9 @@ public class SBMLError : XMLError {
    *
    * @param errorId a long integer, the identification number of the error.
    *
-   * @param level the SBML Level of the SBML model
+   * @param level the SBML Level of the SBML model.
    *
-   * @param version the SBML Version within the Level of the SBML model
+   * @param version the SBML Version within the Level of the SBML model.
    *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
@@ -9683,9 +9683,9 @@ public class SBMLError : XMLError {
    *
    * @param errorId a long integer, the identification number of the error.
    *
-   * @param level the SBML Level of the SBML model
+   * @param level the SBML Level of the SBML model.
    *
-   * @param version the SBML Version within the Level of the SBML model
+   * @param version the SBML Version within the Level of the SBML model.
    *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
@@ -9795,9 +9795,9 @@ public class SBMLError : XMLError {
    *
    * @param errorId a long integer, the identification number of the error.
    *
-   * @param level the SBML Level of the SBML model
+   * @param level the SBML Level of the SBML model.
    *
-   * @param version the SBML Version within the Level of the SBML model
+   * @param version the SBML Version within the Level of the SBML model.
    *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
@@ -9907,9 +9907,9 @@ public class SBMLError : XMLError {
    *
    * @param errorId a long integer, the identification number of the error.
    *
-   * @param level the SBML Level of the SBML model
+   * @param level the SBML Level of the SBML model.
    *
-   * @param version the SBML Version within the Level of the SBML model
+   * @param version the SBML Version within the Level of the SBML model.
    *
    * @param details a string containing additional details about the error.
    * If the error code in @p errorId is one that is recognized by SBMLError,
@@ -9938,6 +9938,8 @@ public class SBMLError : XMLError {
   
 /**
    * Copy constructor; creates a copy of this SBMLError.
+   *
+   * @param orig the instance to copy.
    */ public
  SBMLError(SBMLError orig) : this(libsbmlPINVOKE.new_SBMLError__SWIG_11(SBMLError.getCPtr(orig)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();

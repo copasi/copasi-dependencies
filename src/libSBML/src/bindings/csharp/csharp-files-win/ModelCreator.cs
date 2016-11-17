@@ -242,6 +242,17 @@ public class ModelCreator : IDisposable {
 
   
 /**
+   * Returns the 'fn' stored in this ModelCreator object when using vCard4.
+   *
+   * @return the 'fn' portion of the ModelCreator object.
+   */ public
+ string getName() {
+    string ret = libsbmlPINVOKE.ModelCreator_getName(swigCPtr);
+    return ret;
+  }
+
+  
+/**
    * Predicate returning @c true or @c false depending on whether this
    * ModelCreator's 'family name' part is set.
    *
@@ -306,9 +317,21 @@ public class ModelCreator : IDisposable {
 
   
 /**
+   * Predicate returning @c true or @c false depending on whether this
+   * ModelCreator's 'fn' part is set (when using vCard4).
+   *
+   * @return @c true if the fn of this ModelCreator is set, @c false otherwise.
+   */ public
+ bool isSetName() {
+    bool ret = libsbmlPINVOKE.ModelCreator_isSetName(swigCPtr);
+    return ret;
+  }
+
+  
+/**
    * Sets the 'family name' portion of this ModelCreator object.
    *  
-   * @param familyName a string representing the familyName of the ModelCreator. 
+   * @param familyName a string representing the familyName of the ModelCreator.
    *
    *
  * @return integer value indicating success/failure of the
@@ -327,7 +350,7 @@ public class ModelCreator : IDisposable {
 /**
    * Sets the 'given name' portion of this ModelCreator object.
    *  
-   * @param givenName a string representing the givenName of the ModelCreator. 
+   * @param givenName a string representing the givenName of the ModelCreator.
    *
    *
  * @return integer value indicating success/failure of the
@@ -346,7 +369,7 @@ public class ModelCreator : IDisposable {
 /**
    * Sets the 'email' portion of this ModelCreator object.
    *  
-   * @param email a string representing the email of the ModelCreator. 
+   * @param email a string representing the email of the ModelCreator.
    *
    *
  * @return integer value indicating success/failure of the
@@ -403,6 +426,25 @@ public class ModelCreator : IDisposable {
    */ public
  int setOrganisation(string organization) {
     int ret = libsbmlPINVOKE.ModelCreator_setOrganisation(swigCPtr, organization);
+    return ret;
+  }
+
+  
+/**
+   * Sets the 'fn' portion of this ModelCreator object (when using vCard4).
+   *  
+   * @param name a string representing the fn of the ModelCreator. 
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+   */ public
+ int setName(string name) {
+    int ret = libsbmlPINVOKE.ModelCreator_setName(swigCPtr, name);
     return ret;
   }
 
@@ -497,6 +539,23 @@ public class ModelCreator : IDisposable {
 
   
 /**
+   * Unsets the 'fn' portion of this ModelCreator object (when using vCard4).
+   *
+   *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+   */ public
+ int unsetName() {
+    int ret = libsbmlPINVOKE.ModelCreator_unsetName(swigCPtr);
+    return ret;
+  }
+
+  
+/**
    * Predicate returning @c true if all the required elements for this
    * ModelCreator object have been set.
    *
@@ -522,6 +581,13 @@ public class ModelCreator : IDisposable {
 /** */ /* libsbml-internal */ public
  void resetModifiedFlags() {
     libsbmlPINVOKE.ModelCreator_resetModifiedFlags(swigCPtr);
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ bool usingFNVcard4() {
+    bool ret = libsbmlPINVOKE.ModelCreator_usingFNVcard4(swigCPtr);
+    return ret;
   }
 
 }

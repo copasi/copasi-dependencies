@@ -51,7 +51,7 @@ namespace libsbml {
  * The use of all the converters follows a similar approach.  First, one
  * creates a ConversionProperties object and calls
  * ConversionProperties::addOption(@if java ConversionOption@endif)
- * on this object with one arguments: a text string that identifies the desired
+ * on this object with one argument: a text string that identifies the desired
  * converter.  (The text string is specific to each converter; consult the
  * documentation for a given converter to find out how it should be enabled.)
  *
@@ -354,7 +354,7 @@ public class SBMLStripPackageConverter : SBMLConverter {
 
   
 /** 
-   * @return the package to be stripped 
+   * @return the package to be stripped.
    */ public
  string getPackageToStrip() {
     string ret = libsbmlPINVOKE.SBMLStripPackageConverter_getPackageToStrip(swigCPtr);
@@ -363,7 +363,7 @@ public class SBMLStripPackageConverter : SBMLConverter {
 
   
 /** 
-   * @return whether all unrecognized packages should be removed
+   * @return a boolean indicating whether all unrecognized packages should be removed.
    */ public
  bool isStripAllUnrecognizedPackages() {
     bool ret = libsbmlPINVOKE.SBMLStripPackageConverter_isStripAllUnrecognizedPackages(swigCPtr);

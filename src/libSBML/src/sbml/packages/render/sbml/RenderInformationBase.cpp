@@ -55,9 +55,9 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 RenderInformationBase::RenderInformationBase (unsigned int level, unsigned int version, unsigned int pkgVersion)
   : SBase(level,version)
-  , mId("")
-  , mName ("")
-  , mProgramName ("")
+////  , mId("")
+////  , mName ("")
+////  , mProgramName ("")
   , mProgramVersion ("")
   , mReferenceRenderInformation ("")
   , mBackgroundColor("")
@@ -79,9 +79,9 @@ RenderInformationBase::RenderInformationBase (unsigned int level, unsigned int v
  */
 RenderInformationBase::RenderInformationBase (RenderPkgNamespaces* renderns)
   : SBase(renderns)
-  , mId("")
-  , mName ("")
-  , mProgramName ("")
+////  , mId("")
+////  , mName ("")
+////  , mProgramName ("")
   , mProgramVersion ("")
   , mReferenceRenderInformation ("")
   , mBackgroundColor("")
@@ -224,8 +224,8 @@ void RenderInformationBase::parseXML(const XMLNode& node)
  */
 RenderInformationBase::RenderInformationBase(RenderPkgNamespaces* renderns, const std::string& id)
   : SBase(renderns)
-  , mId(id)
-  , mName ("")
+//  , mId(id)
+////  , mName ("")
   , mProgramName ("")
   , mProgramVersion ("")
   , mReferenceRenderInformation ("")
@@ -237,6 +237,7 @@ RenderInformationBase::RenderInformationBase(RenderPkgNamespaces* renderns, cons
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. RenderInformationBase::RenderInformationBase(const std::string& id) is deprecated." << std::endl;
 #endif // DEPRECATION_WARNINGS
+    setId(id);
         // set the element namespace of this object
   setElementNamespace(renderns->getURI());
 

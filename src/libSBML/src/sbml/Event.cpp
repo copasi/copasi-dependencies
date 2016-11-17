@@ -58,8 +58,6 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 Event::Event (unsigned int level, unsigned int version) :
    SBase ( level, version )
- , mId                       ( ""   )
- , mName                     ( ""   )
  , mTrigger                  ( NULL    )
  , mDelay                    ( NULL    )
  , mPriority                 ( NULL    )
@@ -67,8 +65,8 @@ Event::Event (unsigned int level, unsigned int version) :
  , mIsSetUseValuesFromTriggerTime ( false )
  , mExplicitlySetUVFTT (false )
  , mEventAssignments(level, version)
+ , mInternalId      ("")
 {
-  mInternalIdOnly = false;
   if (!hasValidLevelVersionNamespaceCombination())
     throw SBMLConstructorException();
   // before level 3 useValuesFromTriggerTime was set by default
@@ -82,8 +80,6 @@ Event::Event (unsigned int level, unsigned int version) :
 
 Event::Event (SBMLNamespaces * sbmlns) :
    SBase                     ( sbmlns )
- , mId                       ( ""   )
- , mName                     ( ""   )
  , mTrigger                  ( NULL    )
  , mDelay                    ( NULL    )
  , mPriority                 ( NULL    )
@@ -91,9 +87,8 @@ Event::Event (SBMLNamespaces * sbmlns) :
  , mIsSetUseValuesFromTriggerTime (false )
  , mExplicitlySetUVFTT (false )
  , mEventAssignments(sbmlns)
+ , mInternalId      ("")
 {
-  mInternalIdOnly = false;
-
   if (!hasValidLevelVersionNamespaceCombination())
   {
     throw SBMLConstructorException(getElementName(), sbmlns);
@@ -124,17 +119,15 @@ Event::~Event ()
  */
 Event::Event (const Event& orig) :
    SBase                     ( orig            )
- , mId                       ( orig.mId        )
- , mName                     ( orig.mName      )
  , mTrigger                  ( NULL            )
  , mDelay                    ( NULL            )
  , mPriority                 ( NULL            )
  , mTimeUnits                ( orig.mTimeUnits )
  , mUseValuesFromTriggerTime ( orig.mUseValuesFromTriggerTime )
  , mIsSetUseValuesFromTriggerTime ( orig.mIsSetUseValuesFromTriggerTime )
- , mInternalIdOnly           ( orig.mInternalIdOnly     )
  , mExplicitlySetUVFTT       ( orig.mExplicitlySetUVFTT )
  , mEventAssignments         ( orig.mEventAssignments   )
+ , mInternalId      ( orig.mInternalId      )
 {
   
   if (orig.mTrigger != NULL) 
@@ -166,13 +159,11 @@ Event& Event::operator=(const Event& rhs)
   {
     this->SBase::operator =(rhs);
    
-    mId = rhs.mId;
-    mName = rhs.mName;
     mTimeUnits        = rhs.mTimeUnits        ;
     mUseValuesFromTriggerTime = rhs.mUseValuesFromTriggerTime;
     mIsSetUseValuesFromTriggerTime = rhs.mIsSetUseValuesFromTriggerTime;
     mExplicitlySetUVFTT = rhs.mExplicitlySetUVFTT;
-    mInternalIdOnly   = rhs.mInternalIdOnly   ;
+    mInternalId     = rhs.mInternalId     ;
     mEventAssignments = rhs.mEventAssignments ;
 
     delete mTrigger;
@@ -527,7 +518,6 @@ Event::setId (const std::string& sid)
   else
   {
     mId = sid;
-    mInternalIdOnly = false;
     return LIBSBML_OPERATION_SUCCESS;
   }
 }
@@ -1237,15 +1227,6 @@ Event::hasRequiredElements() const
 
 /** @cond doxygenLibsbmlInternal */
 /*
- * sets the mInternalIdOnly flag
- */
-void 
-Event::setInternalIdOnly()
-{
-  mInternalIdOnly = true;
-}
-
-/*
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or @c NULL if the token was not recognized.
  */
@@ -1266,6 +1247,7 @@ Event::createObject (XMLInputStream& stream)
       else
         logError(OneListOfEventAssignmentsPerEvent, getLevel(), getVersion());
     }
+    mEventAssignments.setExplicitlyListed();
     object = &mEventAssignments;
   }
   else if (name == "trigger")
@@ -1364,6 +1346,320 @@ Event::createObject (XMLInputStream& stream)
 /** @endcond */
 
 
+
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Event.
+ */
+int
+Event::getAttribute(const std::string& attributeName, bool& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "useValuesFromTriggerTime")
+  {
+    value = getUseValuesFromTriggerTime();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Event.
+ */
+int
+Event::getAttribute(const std::string& attributeName, int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Event.
+ */
+int
+Event::getAttribute(const std::string& attributeName, double& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Event.
+ */
+int
+Event::getAttribute(const std::string& attributeName,
+                    unsigned int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Event.
+ */
+int
+Event::getAttribute(const std::string& attributeName,
+                    std::string& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "timeUnits")
+  {
+    value = getTimeUnits();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Event.
+ */
+int
+Event::getAttribute(const std::string& attributeName, const char* value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "timeUnits")
+  {
+    value = getTimeUnits().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this Event's attribute "attributeName" is
+ * set.
+ */
+bool
+Event::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = SBase::isSetAttribute(attributeName);
+
+  if (attributeName == "useValuesFromTriggerTime")
+  {
+    value = isSetUseValuesFromTriggerTime();
+  }
+  else if (attributeName == "timeUnits")
+  {
+    value = isSetTimeUnits();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Event.
+ */
+int
+Event::setAttribute(const std::string& attributeName, bool value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "useValuesFromTriggerTime")
+  {
+    return_value = setUseValuesFromTriggerTime(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Event.
+ */
+int
+Event::setAttribute(const std::string& attributeName, int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Event.
+ */
+int
+Event::setAttribute(const std::string& attributeName, double value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Event.
+ */
+int
+Event::setAttribute(const std::string& attributeName, unsigned int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Event.
+ */
+int
+Event::setAttribute(const std::string& attributeName,
+                    const std::string& value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "timeUnits")
+  {
+    return_value = setTimeUnits(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Event.
+ */
+int
+Event::setAttribute(const std::string& attributeName, const char* value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "timeUnits")
+  {
+    return_value = setTimeUnits(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Unsets the value of the "attributeName" attribute of this Event.
+ */
+int
+Event::unsetAttribute(const std::string& attributeName)
+{
+  int value = SBase::unsetAttribute(attributeName);
+
+  if (attributeName == "useValuesFromTriggerTime")
+  {
+    value = unsetUseValuesFromTriggerTime();
+  }
+  else if (attributeName == "timeUnits")
+  {
+    value = unsetTimeUnits();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+
+
 /** @cond doxygenLibsbmlInternal */
 /**
  * Subclasses should override this method to get the list of
@@ -1411,7 +1707,7 @@ Event::addExpectedAttributes(ExpectedAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 Event::readAttributes (const XMLAttributes& attributes,
@@ -1443,7 +1739,7 @@ Event::readAttributes (const XMLAttributes& attributes,
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 Event::readL2Attributes (const XMLAttributes& attributes)
@@ -1507,7 +1803,7 @@ Event::readL2Attributes (const XMLAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 Event::readL3Attributes (const XMLAttributes& attributes)
@@ -1518,19 +1814,29 @@ Event::readL3Attributes (const XMLAttributes& attributes)
   //
   // id: SId  { use="optional" }  (L2v1 ->)
   //
-  bool assigned = attributes.readInto("id", mId, getErrorLog(), false, getLine(), getColumn());
-  if (assigned && mId.size() == 0)
+  // for l3v2 sbase will read this as generically optional
+  // we want to log errors relating to the specific object
+  if (version == 1)
   {
-    logEmptyString("id", level, version, "<event>");
+    bool assigned = attributes.readInto("id", mId, getErrorLog(), false, getLine(), getColumn());
+    if (assigned && mId.size() == 0)
+    {
+      logEmptyString("id", level, version, "<event>");
+    }
+    if (!SyntaxChecker::isValidInternalSId(mId)) 
+      logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
   }
-  if (!SyntaxChecker::isValidInternalSId(mId)) 
-    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
   //
   // name: string  { use="optional" }  (L2v1 ->)
   //
-  attributes.readInto("name", mName, getErrorLog(), false, getLine(), getColumn());
-
+  // for l3v2 sbase will read this
+  if (version == 1)
+  {
+    attributes.readInto("name", mName, getErrorLog(), false, 
+                                       getLine(), getColumn());
+  }
+   
   //
   //
   // useValuesFromTriggerTime: bool {use="required" } (L3 ->)
@@ -1554,7 +1860,7 @@ Event::readL3Attributes (const XMLAttributes& attributes)
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
- * to the XMLOutputStream.  Be sure to call your parents implementation
+ * to the XMLOutputStream.  Be sure to call your parent's implementation
  * of this method as well.
  */
 void
@@ -1582,17 +1888,20 @@ Event::writeAttributes (XMLOutputStream& stream) const
   }
 
 
-  //
-  //
-  // id: SId  { use="optional" }  (L2v1 ->)
-  //
-  if (!mInternalIdOnly)
+  // for L3V2 and above SBase will write this out
+  if (level < 3 || (level == 3 && version == 1))
+  {
+    //
+    //
+    // id: SId  { use="optional" }  (L2v1 ->)
+    //
     stream.writeAttribute("id", mId);
 
-  //
-  // name: string  { use="optional" }  (L2v1->)
-  //
-  stream.writeAttribute("name", mName);
+    //
+    // name: string  { use="optional" }  (L2v1->)
+    //
+    stream.writeAttribute("name", mName);
+  }
 
   if (level == 2 && version < 3)
   {
@@ -1632,7 +1941,7 @@ Event::writeAttributes (XMLOutputStream& stream) const
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
- * SBML objects as XML elements.  Be sure to call your parents
+ * SBML objects as XML elements.  Be sure to call your parent's
  * implementation of this method as well.
  */
 void
@@ -1655,7 +1964,20 @@ Event::writeElements (XMLOutputStream& stream) const
     mPriority->write(stream);
   }
 
-  if ( getNumEventAssignments() > 0 ) mEventAssignments.write(stream);
+  if (getLevel() == 3 && getVersion() > 1)
+  {
+    if (mEventAssignments.hasOptionalElements() == true ||
+        mEventAssignments.hasOptionalAttributes() == true ||
+        mEventAssignments.isExplicitlyListed())
+    {
+      mEventAssignments.write(stream);
+    }
+  }
+  else
+  {
+    // use original code
+    if ( getNumEventAssignments() > 0 ) mEventAssignments.write(stream);
+  }
 
   //
   // (EXTENSION)

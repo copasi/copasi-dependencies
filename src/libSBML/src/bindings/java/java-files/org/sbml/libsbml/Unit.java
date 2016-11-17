@@ -26,7 +26,7 @@ package org.sbml.libsbml;
  * and 'multiplier'.  It represents a (possibly transformed) reference to a
  * base unit.  The attribute 'kind' on {@link Unit} indicates the chosen base unit.
  * Its value must be one of the text strings listed below; this list
- * corresponds to SBML Level&nbsp;3 Version&nbsp;1 Core:
+ * corresponds to SBML Level&nbsp;3:
  <p>
  * <p>
 <table border='0' class='centered text-table width80 normal-font code'
@@ -225,10 +225,10 @@ public class Unit extends SBase {
    * Creates a new {@link Unit} using the given SBML <code>level</code> and <code>version</code>
    * values.
    <p>
-   * @param level a long integer, the SBML Level to assign to this {@link Unit}
+   * @param level a long integer, the SBML Level to assign to this {@link Unit}.
    <p>
    * @param version a long integer, the SBML Version to assign to this
-   * {@link Unit}
+   * {@link Unit}.
    <p>
    * <p>
  * @throws SBMLConstructorException
@@ -493,7 +493,6 @@ public class Unit extends SBase {
    * <code>dimensionless.</code>
    <p>
    * @return <code>true</code> if the kind of this {@link Unit} is <code>dimensionless</code>, <code>false</code>
-   <p>
    * otherwise.
    */ public
  boolean isDimensionless() {
@@ -894,7 +893,7 @@ public class Unit extends SBase {
 /**
    * Sets the 'exponent' attribute value of this {@link Unit}.
    <p>
-   * @param value the integer to which the attribute 'exponent' should be set
+   * @param value the integer to which the attribute 'exponent' should be set.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -913,7 +912,7 @@ public class Unit extends SBase {
 /**
    * Sets the 'exponent' attribute value of this {@link Unit}.
    <p>
-   * @param value the double to which the attribute 'exponent' should be set
+   * @param value the double to which the attribute 'exponent' should be set.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -931,7 +930,7 @@ public class Unit extends SBase {
 /**
    * Sets the 'scale' attribute value of this {@link Unit}.
    <p>
-   * @param value the integer to which the attribute 'scale' should be set
+   * @param value the integer to which the attribute 'scale' should be set.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -950,7 +949,7 @@ public class Unit extends SBase {
    * Sets the 'multipler' attribute value of this {@link Unit}.
    <p>
    * @param value the floating-point value to which the attribute
-   * 'multiplier' should be set
+   * 'multiplier' should be set.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -970,7 +969,7 @@ public class Unit extends SBase {
    * Sets the 'offset' attribute value of this {@link Unit}.
    <p>
    * @param value the float-point value to which the attribute 'offset'
-   * should set
+   * should set.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -1138,7 +1137,7 @@ public class Unit extends SBase {
    * Predicate to test whether a given string is the name of a
    * predefined SBML unit.
    <p>
-   * @param name a string to be tested against the predefined unit names
+   * @param name a string to be tested against the predefined unit names.
    <p>
    * @param level the Level of SBML for which the determination should be
    * made.  This is necessary because there are a few small differences
@@ -1171,15 +1170,15 @@ public class Unit extends SBase {
    * compatibility and support for reading models in older Versions of
    * Level&nbsp;2.
    <p>
-   * @param name a string to be tested
+   * @param name a string to be tested.
    <p>
    * @param level a long integer representing the SBML specification
-   * Level 
+   * Level.
    <p>
    * @param version a long integer representing the SBML specification
-   * Version
+   * Version.
    <p>
-   * @return <code>true</code> if name is a valid SBML UnitKind, <code>false</code> otherwise
+   * @return <code>true</code> if name is a valid SBML UnitKind, <code>false</code> otherwise.
    <p>
    * @note The allowed unit names differ between SBML Levels&nbsp;1
    * and&nbsp;2 and again slightly between Level&nbsp;2 Versions&nbsp;1
@@ -1200,8 +1199,8 @@ public class Unit extends SBase {
    * all attributes.  (Contrast this to the method areEquivalent(Unit u1, Unit u2), which compares {@link Unit} objects only with respect
    * to certain attributes.)
    <p>
-   * @param unit1 the first {@link Unit} object to compare
-   * @param unit2 the second {@link Unit} object to compare
+   * @param unit1 the first {@link Unit} object to compare.
+   * @param unit2 the second {@link Unit} object to compare.
    <p>
    * @return <code>true</code> if all the attributes of unit1 are identical
    * to the attributes of unit2, <code>false</code> otherwise.
@@ -1226,8 +1225,8 @@ public class Unit extends SBase {
    * areIdentical(Unit, Unit), which compares {@link Unit} objects with respect to all
    * attributes, not just the 'kind' and 'exponent'.)
    <p>
-   * @param unit1 the first {@link Unit} object to compare
-   * @param unit2 the second {@link Unit} object to compare
+   * @param unit1 the first {@link Unit} object to compare.
+   * @param unit2 the second {@link Unit} object to compare.
    <p>
    * @return <code>true</code> if the 'kind' and 'exponent' attributes of unit1 are
    * identical to the kind and exponent attributes of unit2, <code>false</code>
@@ -1255,8 +1254,9 @@ public class Unit extends SBase {
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -1289,7 +1289,7 @@ public class Unit extends SBase {
    * left as a new version of this unit, modified in-place.  Not modified if
    * the two units have different kinds.
    <p>
-   * @param unit2 the second {@link Unit} object to merge with the first
+   * @param unit2 the second {@link Unit} object to merge with the first.
    <p>
    * 
    <p>
@@ -1310,7 +1310,7 @@ public class Unit extends SBase {
    * hertz is identical to 1&nbsp;sec<sup>-1</sup>, one litre is equivalent
    * to 1 cubic decametre, and so on.
    <p>
-   * @param unit the {@link Unit} object to convert to SI
+   * @param unit the {@link Unit} object to convert to SI.
    <p>
    * @return a {@link UnitDefinition} object containing the SI unit.
    <p>

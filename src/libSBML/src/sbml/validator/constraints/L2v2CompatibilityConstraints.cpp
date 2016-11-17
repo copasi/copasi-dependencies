@@ -40,6 +40,7 @@
 #include <sbml/validator/VConstraint.h>
 #include <math.h>
 #include "DuplicateTopLevelAnnotation.h"
+#include "CompatibilityConstraints.cxx"
 #endif
 
 
@@ -425,14 +426,6 @@ START_CONSTRAINT (91018, Model, x)
   }
 
   inv (allCorrect == true);
-}
-END_CONSTRAINT
-
-
-START_CONSTRAINT (92011, Event, e)
-{
-  pre (e.getLevel() > 2);
-  inv( !e.isSetPriority() );
 }
 END_CONSTRAINT
 

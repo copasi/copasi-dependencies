@@ -66,17 +66,8 @@ addConstraint(new VConstraintSpeciesTypeInstanceMultiSptIns_CpaRefAtt_Ref(*this)
 // MultiSptCpoInd_CpoAtt_Ref             = 7020904
 addConstraint(new VConstraintSpeciesTypeComponentIndexMultiSptCpoInd_CpoAtt_Ref(*this));
 
-//// MultiSptCpoInd_RestrictElts           = 7020905
-//addConstraint(new VConstraintSpeciesTypeComponentIndexMultiSptCpoInd_RestrictElts(*this));
-
-//// MultiSptCpoInd_SameOccurAsRefIndex    = 7020906
-//addConstraint(new VConstraintSpeciesTypeComponentIndexMultiSptCpoInd_SameOccurAsRefIndex(*this));
-
 // MultiSptCpoInd_IdParAtt_Ref           = 7020907
 addConstraint(new VConstraintSpeciesTypeComponentIndexMultiSptCpoInd_IdParAtt_Ref(*this));
-
-//// MultiDenSptCpoInd_SpTypeCpoIndAtt_Ref = 7021004
-//addConstraint(new VConstraintDenotedSpeciesTypeComponentIndexMultiDenSptCpoInd_SpTypeCpoIndAtt_Ref(*this));
 
 // MultiInSptBnd_Bst1Att_Ref             = 7021104
 addConstraint(new VConstraintInSpeciesTypeBondMultiInSptBnd_Bst1Att_Ref(*this));
@@ -95,6 +86,9 @@ addConstraint(new VConstraintSubListOfSpeciesFeaturesMultiSubLofSpeFtrs_CpoAtt_R
 
 // MultiOutBst_CpoAtt_Ref                = 7021305
 addConstraint(new VConstraintOutwardBindingSiteMultiOutBst_CpoAtt_Ref(*this));
+
+// MultiOutBst_NotInBond                = 7021306
+addConstraint(new VConstraintOutwardBindingSiteMultiOutBst_NotInBond(*this));
 
 // MultiSpeFtr_SpeFtrTypAtt_Ref          = 7021404
 addConstraint(new VConstraintSpeciesFeatureMultiSpeFtr_SpeFtrTypAtt_Ref(*this));
@@ -122,12 +116,6 @@ addConstraint(new VConstraintSpeciesTypeComponentMapInProductMultiSptCpoMapInPro
 
 // MultiSptCpoMapInPro_ProCpoAtt_Ref     = 7021906
 addConstraint(new VConstraintSpeciesTypeComponentMapInProductMultiSptCpoMapInPro_ProCpoAtt_Ref(*this));
-
-// MultiSpeFtrChg_RctSpeFtrAtt_Ref       = 7022004
-addConstraint(new VConstraintSpeciesFeatureChangeMultiSpeFtrChg_RctSpeFtrAtt_Ref(*this));
-
-// MultiSpeFtrChg_ProSpeFtrAtt_Ref       = 7022005
-addConstraint(new VConstraintSpeciesFeatureChangeMultiSpeFtrChg_ProSpeFtrAtt_Ref(*this));
 
 // MultiMathCi_SpeRefAtt_Ref             = 7022102
 addConstraint(new MultiMathCiCheckSpeciesReference(MultiMathCi_SpeRefAtt_Ref, *this));

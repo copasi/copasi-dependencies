@@ -2717,6 +2717,23 @@ SWIGEXPORT wchar_t* SWIGSTDCALL CSharp_SBase_getId(void * jarg1) {
 }
 
 
+SWIGEXPORT wchar_t* SWIGSTDCALL CSharp_SBase_getIdAttribute(void * jarg1) {
+  wchar_t* jresult ;
+  SBase *arg1 = (SBase *) 0 ;
+  std::string *result = 0 ;
+  
+  arg1 = (SBase *)jarg1; 
+  result = (std::string *) &((SBase const *)arg1)->getIdAttribute();
+  {
+    jresult = convertUTF8ToUnicode((result)->c_str());
+    wchar_t* unistr = convertUTF8ToUnicode((result)->c_str());
+    jresult = (wchar_t*) SWIG_csharp_wstring_callback((const wchar_t*)unistr);
+    delete[] unistr;
+  }
+  return jresult;
+}
+
+
 SWIGEXPORT wchar_t* SWIGSTDCALL CSharp_SBase_getName(void * jarg1) {
   wchar_t* jresult ;
   SBase *arg1 = (SBase *) 0 ;
@@ -2968,6 +2985,18 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBase_isSetId(void * jarg1) {
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBase_isSetIdAttribute(void * jarg1) {
+  unsigned int jresult ;
+  SBase *arg1 = (SBase *) 0 ;
+  bool result;
+  
+  arg1 = (SBase *)jarg1; 
+  result = (bool)((SBase const *)arg1)->isSetIdAttribute();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBase_isSetName(void * jarg1) {
   unsigned int jresult ;
   SBase *arg1 = (SBase *) 0 ;
@@ -3067,6 +3096,28 @@ SWIGEXPORT int SWIGSTDCALL CSharp_SBase_setId(void * jarg1, wchar_t* jarg2) {
     delete[] mbstr;
   }
   result = (int)(arg1)->setId((std::string const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_SBase_setIdAttribute(void * jarg1, wchar_t* jarg2) {
+  int jresult ;
+  SBase *arg1 = (SBase *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string arg_str2 ;
+  int result;
+  
+  arg1 = (SBase *)jarg1; 
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg2);
+    if (!mbstr) return 0;
+    
+    arg_str2.assign(mbstr);
+    arg2 = &arg_str2;
+    delete[] mbstr;
+  }
+  result = (int)(arg1)->setIdAttribute((std::string const &)*arg2);
   jresult = result; 
   return jresult;
 }
@@ -3467,6 +3518,18 @@ SWIGEXPORT int SWIGSTDCALL CSharp_SBase_unsetId(void * jarg1) {
   
   arg1 = (SBase *)jarg1; 
   result = (int)(arg1)->unsetId();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_SBase_unsetIdAttribute(void * jarg1) {
+  int jresult ;
+  SBase *arg1 = (SBase *) 0 ;
+  int result;
+  
+  arg1 = (SBase *)jarg1; 
+  result = (int)(arg1)->unsetIdAttribute();
   jresult = result; 
   return jresult;
 }
@@ -4290,6 +4353,30 @@ SWIGEXPORT wchar_t* SWIGSTDCALL CSharp_SBase_getPrefix(void * jarg1) {
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBase_hasOptionalAttributes(void * jarg1) {
+  unsigned int jresult ;
+  SBase *arg1 = (SBase *) 0 ;
+  bool result;
+  
+  arg1 = (SBase *)jarg1; 
+  result = (bool)((SBase const *)arg1)->hasOptionalAttributes();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBase_hasOptionalElements(void * jarg1) {
+  unsigned int jresult ;
+  SBase *arg1 = (SBase *) 0 ;
+  bool result;
+  
+  arg1 = (SBase *)jarg1; 
+  result = (bool)((SBase const *)arg1)->hasOptionalElements();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_SBase_getListOfAllElements__SWIG_0(void * jarg1, void * jarg2) {
   void * jresult ;
   SBase *arg1 = (SBase *) 0 ;
@@ -4750,6 +4837,48 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ListOf_enablePackageInternal(void * jarg1, wc
   }
   arg4 = jarg4 ? true : false; 
   (arg1)->enablePackageInternal((std::string const &)*arg2,(std::string const &)*arg3,arg4);
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ListOf_hasOptionalElements(void * jarg1) {
+  unsigned int jresult ;
+  ListOf *arg1 = (ListOf *) 0 ;
+  bool result;
+  
+  arg1 = (ListOf *)jarg1; 
+  result = (bool)((ListOf const *)arg1)->hasOptionalElements();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ListOf_isExplicitlyListed(void * jarg1) {
+  unsigned int jresult ;
+  ListOf *arg1 = (ListOf *) 0 ;
+  bool result;
+  
+  arg1 = (ListOf *)jarg1; 
+  result = (bool)((ListOf const *)arg1)->isExplicitlyListed();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_ListOf_setExplicitlyListed__SWIG_0(void * jarg1, unsigned int jarg2) {
+  ListOf *arg1 = (ListOf *) 0 ;
+  bool arg2 ;
+  
+  arg1 = (ListOf *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  (arg1)->setExplicitlyListed(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_ListOf_setExplicitlyListed__SWIG_1(void * jarg1) {
+  ListOf *arg1 = (ListOf *) 0 ;
+  
+  arg1 = (ListOf *)jarg1; 
+  (arg1)->setExplicitlyListed();
 }
 
 
@@ -7106,6 +7235,32 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Model_convertL3ToL2__SWIG_1(void * jarg1) {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_Model_convertFromL3V2__SWIG_0(void * jarg1, unsigned int jarg2) {
+  Model *arg1 = (Model *) 0 ;
+  bool arg2 ;
+  
+  arg1 = (Model *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  (arg1)->convertFromL3V2(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Model_convertFromL3V2__SWIG_1(void * jarg1) {
+  Model *arg1 = (Model *) 0 ;
+  
+  arg1 = (Model *)jarg1; 
+  (arg1)->convertFromL3V2();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Model_dealWithFast(void * jarg1) {
+  Model *arg1 = (Model *) 0 ;
+  
+  arg1 = (Model *)jarg1; 
+  (arg1)->dealWithFast();
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_Model_addModifiers(void * jarg1) {
   Model *arg1 = (Model *) 0 ;
   
@@ -7356,6 +7511,86 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Model_getFormulaUnitsDataForAssignment(void
   result = (FormulaUnitsData *)(arg1)->getFormulaUnitsDataForAssignment((std::string const &)*arg2);
   jresult = (void *)result; 
   return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Model_populateAllElementIdList(void * jarg1) {
+  Model *arg1 = (Model *) 0 ;
+  
+  arg1 = (Model *)jarg1; 
+  (arg1)->populateAllElementIdList();
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Model_isPopulatedAllElementIdList(void * jarg1) {
+  unsigned int jresult ;
+  Model *arg1 = (Model *) 0 ;
+  bool result;
+  
+  arg1 = (Model *)jarg1; 
+  result = (bool)((Model const *)arg1)->isPopulatedAllElementIdList();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Model_getAllElementIdList(void * jarg1) {
+  void * jresult ;
+  Model *arg1 = (Model *) 0 ;
+  IdList result;
+  
+  arg1 = (Model *)jarg1; 
+  result = ((Model const *)arg1)->getAllElementIdList();
+  jresult = new IdList((const IdList &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Model_clearAllElementIdList(void * jarg1) {
+  Model *arg1 = (Model *) 0 ;
+  
+  arg1 = (Model *)jarg1; 
+  (arg1)->clearAllElementIdList();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Model_populateAllElementMetaIdList(void * jarg1) {
+  Model *arg1 = (Model *) 0 ;
+  
+  arg1 = (Model *)jarg1; 
+  (arg1)->populateAllElementMetaIdList();
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Model_isPopulatedAllElementMetaIdList(void * jarg1) {
+  unsigned int jresult ;
+  Model *arg1 = (Model *) 0 ;
+  bool result;
+  
+  arg1 = (Model *)jarg1; 
+  result = (bool)((Model const *)arg1)->isPopulatedAllElementMetaIdList();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Model_getAllElementMetaIdList(void * jarg1) {
+  void * jresult ;
+  Model *arg1 = (Model *) 0 ;
+  IdList result;
+  
+  arg1 = (Model *)jarg1; 
+  result = ((Model const *)arg1)->getAllElementMetaIdList();
+  jresult = new IdList((const IdList &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Model_clearAllElementMetaIdList(void * jarg1) {
+  Model *arg1 = (Model *) 0 ;
+  
+  arg1 = (Model *)jarg1; 
+  (arg1)->clearAllElementMetaIdList();
 }
 
 
@@ -8498,6 +8733,18 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLDocument_checkL2v4Compatibility(v
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLDocument_checkL2v5Compatibility(void * jarg1) {
+  unsigned int jresult ;
+  SBMLDocument *arg1 = (SBMLDocument *) 0 ;
+  unsigned int result;
+  
+  arg1 = (SBMLDocument *)jarg1; 
+  result = (unsigned int)(arg1)->checkL2v5Compatibility();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLDocument_checkL3v1Compatibility(void * jarg1) {
   unsigned int jresult ;
   SBMLDocument *arg1 = (SBMLDocument *) 0 ;
@@ -8505,6 +8752,18 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLDocument_checkL3v1Compatibility(v
   
   arg1 = (SBMLDocument *)jarg1; 
   result = (unsigned int)(arg1)->checkL3v1Compatibility();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLDocument_checkL3v2Compatibility(void * jarg1) {
+  unsigned int jresult ;
+  SBMLDocument *arg1 = (SBMLDocument *) 0 ;
+  unsigned int result;
+  
+  arg1 = (SBMLDocument *)jarg1; 
+  result = (unsigned int)(arg1)->checkL3v2Compatibility();
   jresult = result; 
   return jresult;
 }
@@ -11162,7 +11421,21 @@ SWIGEXPORT int SWIGSTDCALL CSharp_UnitDefinition_unsetName(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfArea(void * jarg1) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfArea__SWIG_0(void * jarg1, unsigned int jarg2) {
+  unsigned int jresult ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  arg1 = (UnitDefinition *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfArea(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfArea__SWIG_1(void * jarg1) {
   unsigned int jresult ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -11174,7 +11447,21 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfArea(void *
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfLength(void * jarg1) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfLength__SWIG_0(void * jarg1, unsigned int jarg2) {
+  unsigned int jresult ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  arg1 = (UnitDefinition *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfLength(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfLength__SWIG_1(void * jarg1) {
   unsigned int jresult ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -11186,7 +11473,21 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfLength(void
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfSubstance(void * jarg1) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfSubstance__SWIG_0(void * jarg1, unsigned int jarg2) {
+  unsigned int jresult ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  arg1 = (UnitDefinition *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfSubstance(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfSubstance__SWIG_1(void * jarg1) {
   unsigned int jresult ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -11198,7 +11499,21 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfSubstance(v
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfTime(void * jarg1) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfTime__SWIG_0(void * jarg1, unsigned int jarg2) {
+  unsigned int jresult ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  arg1 = (UnitDefinition *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfTime(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfTime__SWIG_1(void * jarg1) {
   unsigned int jresult ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -11210,7 +11525,21 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfTime(void *
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfVolume(void * jarg1) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfVolume__SWIG_0(void * jarg1, unsigned int jarg2) {
+  unsigned int jresult ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  arg1 = (UnitDefinition *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfVolume(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfVolume__SWIG_1(void * jarg1) {
   unsigned int jresult ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -11222,7 +11551,21 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfVolume(void
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfDimensionless(void * jarg1) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfDimensionless__SWIG_0(void * jarg1, unsigned int jarg2) {
+  unsigned int jresult ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  arg1 = (UnitDefinition *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfDimensionless(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfDimensionless__SWIG_1(void * jarg1) {
   unsigned int jresult ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -11234,7 +11577,21 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfDimensionle
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfMass(void * jarg1) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfMass__SWIG_0(void * jarg1, unsigned int jarg2) {
+  unsigned int jresult ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  arg1 = (UnitDefinition *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfMass(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfMass__SWIG_1(void * jarg1) {
   unsigned int jresult ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -11246,7 +11603,21 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfMass(void *
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfSubstancePerTime(void * jarg1) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfSubstancePerTime__SWIG_0(void * jarg1, unsigned int jarg2) {
+  unsigned int jresult ;
+  UnitDefinition *arg1 = (UnitDefinition *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  arg1 = (UnitDefinition *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)((UnitDefinition const *)arg1)->isVariantOfSubstancePerTime(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_UnitDefinition_isVariantOfSubstancePerTime__SWIG_1(void * jarg1) {
   unsigned int jresult ;
   UnitDefinition *arg1 = (UnitDefinition *) 0 ;
   bool result;
@@ -25222,6 +25593,18 @@ SWIGEXPORT double SWIGSTDCALL CSharp_SBMLTransforms_evaluateASTNode__SWIG_1(void
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLTransforms_expandL3V2InitialAssignments(void * jarg1) {
+  unsigned int jresult ;
+  Model *arg1 = (Model *) 0 ;
+  bool result;
+  
+  arg1 = (Model *)jarg1; 
+  result = (bool)SBMLTransforms::expandL3V2InitialAssignments(arg1);
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLTransforms_mapComponentValues(void * jarg1) {
   void * jresult ;
   Model *arg1 = (Model *) 0 ;
@@ -37503,6 +37886,23 @@ SWIGEXPORT wchar_t* SWIGSTDCALL CSharp_ModelCreator_getOrganisation(void * jarg1
 }
 
 
+SWIGEXPORT wchar_t* SWIGSTDCALL CSharp_ModelCreator_getName(void * jarg1) {
+  wchar_t* jresult ;
+  ModelCreator *arg1 = (ModelCreator *) 0 ;
+  std::string *result = 0 ;
+  
+  arg1 = (ModelCreator *)jarg1; 
+  result = (std::string *) &((ModelCreator const *)arg1)->getName();
+  {
+    jresult = convertUTF8ToUnicode((result)->c_str());
+    wchar_t* unistr = convertUTF8ToUnicode((result)->c_str());
+    jresult = (wchar_t*) SWIG_csharp_wstring_callback((const wchar_t*)unistr);
+    delete[] unistr;
+  }
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ModelCreator_isSetFamilyName(void * jarg1) {
   unsigned int jresult ;
   ModelCreator *arg1 = (ModelCreator *) 0 ;
@@ -37558,6 +37958,18 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ModelCreator_isSetOrganisation(void *
   
   arg1 = (ModelCreator *)jarg1; 
   result = (bool)(arg1)->isSetOrganisation();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ModelCreator_isSetName(void * jarg1) {
+  unsigned int jresult ;
+  ModelCreator *arg1 = (ModelCreator *) 0 ;
+  bool result;
+  
+  arg1 = (ModelCreator *)jarg1; 
+  result = (bool)(arg1)->isSetName();
   jresult = result; 
   return jresult;
 }
@@ -37673,6 +38085,28 @@ SWIGEXPORT int SWIGSTDCALL CSharp_ModelCreator_setOrganisation(void * jarg1, wch
 }
 
 
+SWIGEXPORT int SWIGSTDCALL CSharp_ModelCreator_setName(void * jarg1, wchar_t* jarg2) {
+  int jresult ;
+  ModelCreator *arg1 = (ModelCreator *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string arg_str2 ;
+  int result;
+  
+  arg1 = (ModelCreator *)jarg1; 
+  {
+    char*  mbstr = convertUnicodeToUTF8(jarg2);
+    if (!mbstr) return 0;
+    
+    arg_str2.assign(mbstr);
+    arg2 = &arg_str2;
+    delete[] mbstr;
+  }
+  result = (int)(arg1)->setName((std::string const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT int SWIGSTDCALL CSharp_ModelCreator_unsetFamilyName(void * jarg1) {
   int jresult ;
   ModelCreator *arg1 = (ModelCreator *) 0 ;
@@ -37733,6 +38167,18 @@ SWIGEXPORT int SWIGSTDCALL CSharp_ModelCreator_unsetOrganisation(void * jarg1) {
 }
 
 
+SWIGEXPORT int SWIGSTDCALL CSharp_ModelCreator_unsetName(void * jarg1) {
+  int jresult ;
+  ModelCreator *arg1 = (ModelCreator *) 0 ;
+  int result;
+  
+  arg1 = (ModelCreator *)jarg1; 
+  result = (int)(arg1)->unsetName();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ModelCreator_hasRequiredAttributes(void * jarg1) {
   unsigned int jresult ;
   ModelCreator *arg1 = (ModelCreator *) 0 ;
@@ -37762,6 +38208,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ModelCreator_resetModifiedFlags(void * jarg1)
   
   arg1 = (ModelCreator *)jarg1; 
   (arg1)->resetModifiedFlags();
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ModelCreator_usingFNVcard4(void * jarg1) {
+  unsigned int jresult ;
+  ModelCreator *arg1 = (ModelCreator *) 0 ;
+  bool result;
+  
+  arg1 = (ModelCreator *)jarg1; 
+  result = (bool)(arg1)->usingFNVcard4();
+  jresult = result; 
+  return jresult;
 }
 
 
@@ -42939,6 +43397,30 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTNode_representsBvar(void * jarg1) 
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTNode_usesL3V2MathConstructs(void * jarg1) {
+  unsigned int jresult ;
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  bool result;
+  
+  arg1 = (ASTNode *)jarg1; 
+  result = (bool)((ASTNode const *)arg1)->usesL3V2MathConstructs();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTNode_usesRateOf(void * jarg1) {
+  unsigned int jresult ;
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  bool result;
+  
+  arg1 = (ASTNode *)jarg1; 
+  result = (bool)((ASTNode const *)arg1)->usesRateOf();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_ASTNode_write(void * jarg1, void * jarg2) {
   ASTNode *arg1 = (ASTNode *) 0 ;
   XMLOutputStream *arg2 = 0 ;
@@ -43242,6 +43724,25 @@ SWIGEXPORT wchar_t* SWIGSTDCALL CSharp_writeMathMLToString(void * jarg1) {
     delete[] unistr;
   }
   free(result);
+  return jresult;
+}
+
+
+SWIGEXPORT wchar_t* SWIGSTDCALL CSharp_writeMathMLWithNamespaceToString(void * jarg1, void * jarg2) {
+  wchar_t* jresult ;
+  ASTNode_t *arg1 = (ASTNode_t *) 0 ;
+  SBMLNamespaces_t *arg2 = (SBMLNamespaces_t *) 0 ;
+  char *result = 0 ;
+  
+  arg1 = (ASTNode_t *)jarg1; 
+  arg2 = (SBMLNamespaces_t *)jarg2; 
+  result = (char *)writeMathMLWithNamespaceToString((ASTNode const *)arg1,arg2);
+  {
+    jresult = convertUTF8ToUnicode( result );
+    wchar_t* unistr = convertUTF8ToUnicode( result );
+    jresult = (wchar_t*) SWIG_csharp_wstring_callback((const wchar_t*)unistr);
+    delete[] unistr;
+  }
   return jresult;
 }
 

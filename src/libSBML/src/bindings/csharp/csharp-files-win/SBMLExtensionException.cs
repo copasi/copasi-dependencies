@@ -83,7 +83,7 @@ public class SBMLExtensionException : IDisposable {
    * Creates a new SBMLExtensionException object with a given message.
    *
    * @param errmsg a string, the text of the error message to store
-   * with this exception
+   * with this exception.
    */ public
  SBMLExtensionException(string errmsg) : this(libsbmlPINVOKE.new_SBMLExtensionException(errmsg), true) {
   }

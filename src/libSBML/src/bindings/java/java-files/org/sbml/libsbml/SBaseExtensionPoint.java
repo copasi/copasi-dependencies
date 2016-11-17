@@ -172,7 +172,7 @@ public class SBaseExtensionPoint {
   <p>
   * @param elementName element name for the target element, in case 
   * multiple elements match the same type code (as will be the case
-  * for {@link ListOf} classes)
+  * for {@link ListOf} classes).
   <p>
   * @param elementOnly flag to be used during the registration 
   * of the package, when set then the plugin is only applied to 
@@ -210,7 +210,7 @@ public class SBaseExtensionPoint {
   <p>
   * @param elementName element name for the target element, in case 
   * multiple elements match the same type code (as will be the case
-  * for {@link ListOf} classes)
+  * for {@link ListOf} classes).
   <p>
   * @param elementOnly flag to be used during the registration 
   * of the package, when set then the plugin is only applied to 

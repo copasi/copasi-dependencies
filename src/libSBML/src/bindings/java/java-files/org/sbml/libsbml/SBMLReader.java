@@ -400,7 +400,7 @@ if (doc.getNumErrors() &gt; 0)
  * {@link SBMLReader#readSBML(String)} for an example of code for
  * testing the returned error code.
    <p>
-   * @param xml a string containing a full SBML model
+   * @param xml a string containing a full SBML model.
    <p>
    * @return a pointer to the {@link SBMLDocument} created from the SBML content,
    * or a null pointer if <code>xml</code> is null.

@@ -98,6 +98,12 @@ public class SBMLTransforms {
     return libsbmlJNI.SBMLTransforms_evaluateASTNode__SWIG_1(ASTNode.getCPtr(node), node);
   }
 
+  
+/** * @internal */ public
+ static boolean expandL3V2InitialAssignments(Model m) {
+    return libsbmlJNI.SBMLTransforms_expandL3V2InitialAssignments(Model.getCPtr(m), m);
+  }
+
   public static IdList mapComponentValues(Model m) {
     return new IdList(libsbmlJNI.SBMLTransforms_mapComponentValues(Model.getCPtr(m), m), true);
   }

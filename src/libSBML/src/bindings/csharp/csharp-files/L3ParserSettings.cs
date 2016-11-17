@@ -415,6 +415,8 @@ public class L3ParserSettings : IDisposable {
   
 /**
    * Copy constructor.
+   *
+   * @param source the instance to copy.
    */ public
  L3ParserSettings(L3ParserSettings source) : this(libsbmlPINVOKE.new_L3ParserSettings__SWIG_4(L3ParserSettings.getCPtr(source)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -659,7 +661,7 @@ public class L3ParserSettings : IDisposable {
    *
    * This method sets the formula parser's behavior with respect to units.
    *
-   * @param units A boolean indicating whether to parse units.  The
+   * @param units a boolean indicating whether to parse units.  The
    * possible values are as follows:
    *
  * <ul>

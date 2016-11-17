@@ -39,6 +39,55 @@ using namespace std;
 LIBSBML_CPP_NAMESPACE_BEGIN
 #ifdef __cplusplus
 
+
+bool
+isWellFormedChemicalFormula(const std::string& chemicalFormula)
+{
+  size_t index = 0;
+  size_t sizeStr = chemicalFormula.size();
+  char c = chemicalFormula[index];
+  bool valid = true;
+
+  // first must be a capital letter
+  if (isupper(c) == 0)
+  {
+    valid = false;
+    return valid;
+  }
+  
+  if (sizeStr == 1)
+  { 
+    return valid;
+  }
+
+  index++;
+  bool prevNum = false;
+  while (valid && index < sizeStr)
+  {
+    c = chemicalFormula[index];
+
+    // if it is a letter it should be
+    // upper if it follows a nume
+    if (isalpha(c) != 0)
+    {
+      if (prevNum)
+      {
+        if (isupper(c) == 0)
+        { 
+          valid = false;
+        }
+      }
+      prevNum = false;
+    }
+    else
+    {
+      prevNum = true;
+    }
+
+    index++;
+  }
+  return valid;
+}
 static void
 parseChemicalFormula(std::string& chemicalFormula, 
                      SBMLErrorLog& errLog, unsigned int packageVersion, 
@@ -239,7 +288,7 @@ FbcSpeciesPlugin::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -296,7 +345,7 @@ FbcSpeciesPlugin::readAttributes (const XMLAttributes& attributes,
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -318,7 +367,7 @@ FbcSpeciesPlugin::writeAttributes (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 //---------------------------------------------------------------
@@ -326,15 +375,6 @@ FbcSpeciesPlugin::writeAttributes (XMLOutputStream& stream) const
 // Functions for interacting with the members of the plugin
 //
 //---------------------------------------------------------------
-
-List*
-FbcSpeciesPlugin::getAllElements(ElementFilter*)
-{
-  List* ret = new List();
-
-  return ret;
-}
-
 
 /*
  * Returns the value of the "charge" attribute of this FbcSpeciesPlugin.
@@ -394,9 +434,17 @@ FbcSpeciesPlugin::setCharge(int charge)
 int
 FbcSpeciesPlugin::setChemicalFormula(const std::string& chemicalFormula)
 {
+  if (isWellFormedChemicalFormula(chemicalFormula))
   {
     mChemicalFormula = chemicalFormula;
     return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    // since not setting an invalid formula would be a change 
+    // in behaviour I set it anyway
+    mChemicalFormula = chemicalFormula;
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
 }
 

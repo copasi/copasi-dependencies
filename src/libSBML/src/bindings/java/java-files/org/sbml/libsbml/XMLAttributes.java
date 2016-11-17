@@ -781,7 +781,7 @@ foo:myattribute='7'
 /**
    * Removes the <em>n</em>th attribute from this list of attributes.
    <p>
-   * @param n an integer the index of the resource to be deleted
+   * @param n an integer the index of the resource to be deleted.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -901,8 +901,9 @@ foo:myattribute='7'
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *

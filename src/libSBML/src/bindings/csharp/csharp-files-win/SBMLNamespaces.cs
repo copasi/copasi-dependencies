@@ -151,8 +151,8 @@ public class SBMLNamespaces : IDisposable {
  * internal data structures for the given SBML Level and Version.
  * 
    *
-   * @param level the SBML level
-   * @param version the SBML version
+   * @param level the SBML level.
+   * @param version the SBML version.
    * 
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -186,8 +186,8 @@ public class SBMLNamespaces : IDisposable {
  * internal data structures for the given SBML Level and Version.
  * 
    *
-   * @param level the SBML level
-   * @param version the SBML version
+   * @param level the SBML level.
+   * @param version the SBML version.
    * 
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -221,8 +221,8 @@ public class SBMLNamespaces : IDisposable {
  * internal data structures for the given SBML Level and Version.
  * 
    *
-   * @param level the SBML level
-   * @param version the SBML version
+   * @param level the SBML level.
+   * @param version the SBML version.
    * 
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    */ public
@@ -257,10 +257,10 @@ public class SBMLNamespaces : IDisposable {
  * internal data structures for the given SBML Level and Version.
  * 
    *
-   * @param level   the SBML Level
-   * @param version the SBML Version
-   * @param pkgName the string of package name (e.g. 'layout', 'multi')
-   * @param pkgVersion the package version
+   * @param level   the SBML Level.
+   * @param version the SBML Version.
+   * @param pkgName the string of package name (e.g. 'layout', 'multi').
+   * @param pkgVersion the package version.
    * @param pkgPrefix the prefix of the package namespace (e.g. 'layout', 'multi') to be added.
    *        The package's name will be used if the given string is empty (default).
    *
@@ -299,10 +299,10 @@ public class SBMLNamespaces : IDisposable {
  * internal data structures for the given SBML Level and Version.
  * 
    *
-   * @param level   the SBML Level
-   * @param version the SBML Version
-   * @param pkgName the string of package name (e.g. 'layout', 'multi')
-   * @param pkgVersion the package version
+   * @param level   the SBML Level.
+   * @param version the SBML Version.
+   * @param pkgName the string of package name (e.g. 'layout', 'multi').
+   * @param pkgVersion the package version.
    * @param pkgPrefix the prefix of the package namespace (e.g. 'layout', 'multi') to be added.
    *        The package's name will be used if the given string is empty (default).
    *
@@ -341,8 +341,8 @@ public class SBMLNamespaces : IDisposable {
    * Returns a string representing the SBML XML namespace for the 
    * given @p level and @p version of SBML.
    *
-   * @param level the SBML level
-   * @param version the SBML version
+   * @param level the SBML level.
+   * @param version the SBML version.
    *
    * @return a string representing the SBML namespace that reflects the
    * SBML Level and Version specified.
@@ -368,7 +368,7 @@ public class SBMLNamespaces : IDisposable {
    * Returns a list of all supported SBMLNamespaces in this version of 
    * libsbml. 
    * 
-   * @return a list with supported SBML namespaces. 
+   * @return a list with supported SBML namespaces.
    *
    *
  * @if python @note Because this is a static method on a class, the Python
@@ -643,8 +643,8 @@ else
    *
    * The SBML Level and SBML Version of this object is used.
    * 
-   * @param pkgName the string of package name (e.g. 'layout', 'multi')
-   * @param pkgVersion the package version
+   * @param pkgName the string of package name (e.g. 'layout', 'multi').
+   * @param pkgVersion the package version.
    * @param prefix the prefix of the package namespace to be added.
    *        The package's name will be used if the given string is empty (default).
    *
@@ -674,8 +674,8 @@ else
    *
    * The SBML Level and SBML Version of this object is used.
    * 
-   * @param pkgName the string of package name (e.g. 'layout', 'multi')
-   * @param pkgVersion the package version
+   * @param pkgName the string of package name (e.g. 'layout', 'multi').
+   * @param pkgVersion the package version.
    * @param prefix the prefix of the package namespace to be added.
    *        The package's name will be used if the given string is empty (default).
    *
@@ -728,10 +728,10 @@ else
    * Removes an XML namespace of a package extension from the set of namespaces 
    * within this SBMLNamespaces object.
    *
-   * @param level   the SBML level
-   * @param version the SBML version
-   * @param pkgName the string of package name (e.g. 'layout', 'multi')
-   * @param pkgVersion the package version
+   * @param level   the SBML level.
+   * @param version the SBML version.
+   * @param pkgName the string of package name (e.g. 'layout', 'multi').
+   * @param pkgVersion the package version.
    *
    *
  * @return integer value indicating success/failure of the
@@ -780,7 +780,7 @@ else
    * Predicate returning @c true if the given URL is one of SBML XML
    * namespaces.
    *
-   * @param uri the URI of namespace
+   * @param uri the URI of namespace.
    *
    * @return @c true if the 'uri' is one of SBML namespaces, @c false otherwise.
    *

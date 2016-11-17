@@ -596,7 +596,20 @@ protected:
 
 };
 
+BEGIN_C_DECLS
 
+
+LIBSBML_EXTERN
+const char* 
+BindingStatus_toString(BindingStatus_t bindingStatus);
+
+
+LIBSBML_EXTERN
+BindingStatus_t 
+BindingStatus_fromString(const char* s);
+
+
+END_C_DECLS
 
 LIBSBML_CPP_NAMESPACE_END
 
@@ -687,16 +700,6 @@ OutwardBindingSite_isValidBindingStatus(BindingStatus_t bindigStatus);
 LIBSBML_EXTERN
 int 
 OutwardBindingSite_isValidBindingStatusString(const char* s);
-
-
-LIBSBML_EXTERN
-const char* 
-BindingStatus_toString(BindingStatus_t bindingStatus);
-
-
-LIBSBML_EXTERN
-BindingStatus_t 
-BindingStatus_fromString(const char* s);
 
 
 END_C_DECLS

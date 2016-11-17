@@ -55,7 +55,7 @@ const std::string Image::ELEMENT_NAME="image";
  */
 Image::Image (unsigned int level, unsigned int version, unsigned int pkgVersion) : 
     Transformation2D(level,version, pkgVersion)
-    ,mId("")
+////    ,mId("")
     ,mX(RelAbsVector(0.0,0.0))
     ,mY(RelAbsVector(0.0,0.0))
     ,mZ(RelAbsVector(0.0,0.0))
@@ -77,7 +77,7 @@ Image::Image (unsigned int level, unsigned int version, unsigned int pkgVersion)
  */
 Image::Image (RenderPkgNamespaces* renderns):
     Transformation2D(renderns)
-    ,mId("")
+////    ,mId("")
     ,mX(RelAbsVector(0.0,0.0))
     ,mY(RelAbsVector(0.0,0.0))
     ,mZ(RelAbsVector(0.0,0.0))
@@ -110,7 +110,7 @@ Image::Image (RenderPkgNamespaces* renderns):
  * object to be instantiated.
  */
 Image::Image(const XMLNode& node, unsigned int l2version):Transformation2D(node, l2version)
-    ,mId("")
+////    ,mId("")
     ,mX(RelAbsVector(0.0,0.0))
     ,mY(RelAbsVector(0.0,0.0))
     ,mZ(RelAbsVector(0.0,0.0))
@@ -200,7 +200,7 @@ void Image::readAttributes (const XMLAttributes& attributes, const ExpectedAttri
  */
     Image::Image(RenderPkgNamespaces* renderns, const std::string& id)
     :Transformation2D(renderns)
-    ,mId(id)
+//    ,mId(id)
     ,mX(RelAbsVector(0.0,0.0))
     ,mY(RelAbsVector(0.0,0.0))
     ,mZ(RelAbsVector(0.0,0.0))
@@ -211,6 +211,8 @@ void Image::readAttributes (const XMLAttributes& attributes, const ExpectedAttri
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. Image::Image(const std::string& id) is deprecated." << std::endl;
 #endif // DEPRECATION_WARNINGS
+  setId(id);
+
         // set the element namespace of this object
   setElementNamespace(renderns->getURI());
 

@@ -47,7 +47,7 @@ SubListOfSpeciesFeatures::SubListOfSpeciesFeatures(unsigned int level,
                         unsigned int version,
                         unsigned int pkgVersion)
  : ListOf(level, version)
-  ,mId("")
+////  ,mId("")
   ,mRelation (MULTI_RELATION_UNKNOWN)
   ,mComponent("")
 {
@@ -62,7 +62,7 @@ SubListOfSpeciesFeatures::SubListOfSpeciesFeatures(unsigned int level,
  */
 SubListOfSpeciesFeatures::SubListOfSpeciesFeatures(MultiPkgNamespaces* multins)
   : ListOf(multins)
-  ,mId("")
+////  ,mId("")
   ,mRelation (MULTI_RELATION_UNKNOWN )
   ,mComponent("")
 {
@@ -75,7 +75,7 @@ SubListOfSpeciesFeatures::SubListOfSpeciesFeatures(MultiPkgNamespaces* multins)
  */
 SubListOfSpeciesFeatures::SubListOfSpeciesFeatures (const SubListOfSpeciesFeatures & orig)
   : ListOf(orig)
-  ,mId(orig.mId)
+//  ,mId(orig.mId)
   ,mRelation(orig.mRelation)
   ,mComponent(orig.mComponent)
 {

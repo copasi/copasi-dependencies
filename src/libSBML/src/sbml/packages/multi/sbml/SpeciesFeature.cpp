@@ -45,7 +45,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 SpeciesFeature::SpeciesFeature (unsigned int level, unsigned int version, unsigned int pkgVersion)
   : SBase(level, version)
-   ,mId ("")
+////   ,mId ("")
    ,mSpeciesFeatureType ("")
    ,mOccur (SBML_INT_MAX)
    ,mIsSetOccur (false)
@@ -65,7 +65,7 @@ SpeciesFeature::SpeciesFeature (unsigned int level, unsigned int version, unsign
  */
 SpeciesFeature::SpeciesFeature (MultiPkgNamespaces* multins)
   : SBase(multins)
-   ,mId ("")
+////   ,mId ("")
    ,mSpeciesFeatureType ("")
    ,mOccur (SBML_INT_MAX)
    ,mIsSetOccur (false)
@@ -88,7 +88,7 @@ SpeciesFeature::SpeciesFeature (MultiPkgNamespaces* multins)
  */
 SpeciesFeature::SpeciesFeature (const SpeciesFeature& orig)
   : SBase(orig)
-  , mId  ( orig.mId)
+//  , mId  ( orig.mId)
   , mSpeciesFeatureType  ( orig.mSpeciesFeatureType)
   , mOccur  ( orig.mOccur)
   , mIsSetOccur  ( orig.mIsSetOccur)

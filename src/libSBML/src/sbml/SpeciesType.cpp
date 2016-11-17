@@ -51,8 +51,6 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 SpeciesType::SpeciesType (unsigned int level, unsigned int version) :
    SBase ( level, version )
- , mId   ( "" )
- , mName ( "" )
 {
   if (!hasValidLevelVersionNamespaceCombination())
     throw SBMLConstructorException();
@@ -61,8 +59,6 @@ SpeciesType::SpeciesType (unsigned int level, unsigned int version) :
 
 SpeciesType::SpeciesType (SBMLNamespaces * sbmlns) :
    SBase ( sbmlns )
- , mId   ( "" )
- , mName ( "" )
 {
   if (!hasValidLevelVersionNamespaceCombination())
   {
@@ -86,8 +82,6 @@ SpeciesType::~SpeciesType ()
  */
 SpeciesType::SpeciesType(const SpeciesType& orig)
   : SBase             ( orig )
-  , mId               ( orig.mId )
-  , mName             ( orig.mName )
 {
 }
 
@@ -100,8 +94,6 @@ SpeciesType& SpeciesType::operator=(const SpeciesType& rhs)
   if(&rhs!=this)
   {
     this->SBase::operator =(rhs);
-    mId = rhs.mId;
-    mName = rhs.mName;
   }
 
   return *this;
@@ -283,7 +275,7 @@ SpeciesType::getElementName () const
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
- * SBML objects as XML elements.  Be sure to call your parents
+ * SBML objects as XML elements.  Be sure to call your parent's
  * implementation of this method as well.
  */
 void
@@ -312,6 +304,251 @@ SpeciesType::hasRequiredAttributes() const
 }
 
 
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this SpeciesType.
+ */
+int
+SpeciesType::getAttribute(const std::string& attributeName, bool& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this SpeciesType.
+ */
+int
+SpeciesType::getAttribute(const std::string& attributeName, int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this SpeciesType.
+ */
+int
+SpeciesType::getAttribute(const std::string& attributeName,
+                          double& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this SpeciesType.
+ */
+int
+SpeciesType::getAttribute(const std::string& attributeName,
+                          unsigned int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this SpeciesType.
+ */
+int
+SpeciesType::getAttribute(const std::string& attributeName,
+                          std::string& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this SpeciesType.
+ */
+int
+SpeciesType::getAttribute(const std::string& attributeName,
+                          const char* value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this SpeciesType's attribute "attributeName"
+ * is set.
+ */
+bool
+SpeciesType::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = SBase::isSetAttribute(attributeName);
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this SpeciesType.
+ */
+int
+SpeciesType::setAttribute(const std::string& attributeName, bool value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this SpeciesType.
+ */
+int
+SpeciesType::setAttribute(const std::string& attributeName, int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this SpeciesType.
+ */
+int
+SpeciesType::setAttribute(const std::string& attributeName, double value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this SpeciesType.
+ */
+int
+SpeciesType::setAttribute(const std::string& attributeName,
+                          unsigned int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this SpeciesType.
+ */
+int
+SpeciesType::setAttribute(const std::string& attributeName,
+                          const std::string& value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this SpeciesType.
+ */
+int
+SpeciesType::setAttribute(const std::string& attributeName, const char* value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Unsets the value of the "attributeName" attribute of this SpeciesType.
+ */
+int
+SpeciesType::unsetAttribute(const std::string& attributeName)
+{
+  int value = SBase::unsetAttribute(attributeName);
+
+  return value;
+}
+
+/** @endcond */
+
+
 /** @cond doxygenLibsbmlInternal */
 /**
  * Subclasses should override this method to get the list of
@@ -332,7 +569,7 @@ SpeciesType::addExpectedAttributes(ExpectedAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 SpeciesType::readAttributes (const XMLAttributes& attributes,
@@ -374,7 +611,7 @@ SpeciesType::readAttributes (const XMLAttributes& attributes,
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 SpeciesType::readL2Attributes (const XMLAttributes& attributes)
@@ -404,7 +641,7 @@ SpeciesType::readL2Attributes (const XMLAttributes& attributes)
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
- * to the XMLOutputStream.  Be sure to call your parents implementation
+ * to the XMLOutputStream.  Be sure to call your parent's implementation
  * of this method as well.
  */
 void

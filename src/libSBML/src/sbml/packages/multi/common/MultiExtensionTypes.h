@@ -54,7 +54,6 @@
 #include <sbml/packages/multi/sbml/PossibleSpeciesFeatureValue.h>
 #include <sbml/packages/multi/sbml/SpeciesFeature.h>
 #include <sbml/packages/multi/sbml/SubListOfSpeciesFeatures.h>
-#include <sbml/packages/multi/sbml/SpeciesFeatureChange.h>
 #include <sbml/packages/multi/sbml/SpeciesFeatureType.h>
 #include <sbml/packages/multi/sbml/SpeciesFeatureValue.h>
 #include <sbml/packages/multi/sbml/SpeciesTypeComponentIndex.h>

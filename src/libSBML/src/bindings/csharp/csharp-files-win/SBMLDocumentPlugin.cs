@@ -24,6 +24,13 @@ namespace libsbml {
  * Level&nbsp;3 packages; these extensions can be subclasses of this
  * class or from a derived class of this class.
  *
+ * All packages must additionally define a
+ * required flag named <code>required</code>, which indicates whether 
+ * that package's constructs can be used to change the core mathematics of the
+ * <code>&lt;model&gt;</code> child of the <code>&lt;sbml&gt;</code> element.
+ * If they can, this attribute must be set @c true, and if they cannot, this 
+ * attribute must be set @c false.
+ *
  * @if clike
  * @section sbmldocumentplugin-howto How to extend SBMLDocumentPlugin for a package implementation
  *

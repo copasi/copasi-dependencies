@@ -479,19 +479,17 @@ public class ASTBase : IDisposable {
   
 /** */ /* libsbml-internal */ public new
  ASTBasePlugin getPlugin(string package) {
-    IntPtr cPtr = libsbmlPINVOKE.ASTBase_getPlugin__SWIG_0(swigCPtr, package);
-    ASTBasePlugin ret = (cPtr == IntPtr.Zero) ? null : new ASTBasePlugin(cPtr, false);
+        ASTBasePlugin ret = (ASTBasePlugin) libsbml.DowncastASTBasePlugin(libsbmlPINVOKE.ASTBase_getPlugin__SWIG_0(swigCPtr, package), false);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
+        return ret;
+}
 
   
 /** */ /* libsbml-internal */ public new
  ASTBasePlugin getPlugin(long n) {
-    IntPtr cPtr = libsbmlPINVOKE.ASTBase_getPlugin__SWIG_2(swigCPtr, n);
-    ASTBasePlugin ret = (cPtr == IntPtr.Zero) ? null : new ASTBasePlugin(cPtr, false);
-    return ret;
-  }
+        ASTBasePlugin ret = (ASTBasePlugin) libsbml.DowncastASTBasePlugin(libsbmlPINVOKE.ASTBase_getPlugin__SWIG_2(swigCPtr, n), false);
+        return ret;
+}
 
   
 /** */ /* libsbml-internal */ public

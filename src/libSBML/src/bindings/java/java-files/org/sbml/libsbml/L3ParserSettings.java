@@ -453,6 +453,8 @@ appears in the documentation.
   
 /**
    * Copy constructor.
+   <p>
+   * @param source the instance to copy.
    */ public
  L3ParserSettings(L3ParserSettings source) {
     this(libsbmlJNI.new_L3ParserSettings__SWIG_4(L3ParserSettings.getCPtr(source), source), true);
@@ -686,7 +688,7 @@ appears in the documentation.
    <p>
    * This method sets the formula parser's behavior with respect to units.
    <p>
-   * @param units A boolean indicating whether to parse units.  The
+   * @param units a boolean indicating whether to parse units.  The
    * possible values are as follows:
    * <p>
  * <ul>

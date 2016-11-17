@@ -260,7 +260,6 @@ START_TEST(test_MultiExtension_typecode)
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_SPECIES_TYPE_INSTANCE), "SpeciesTypeInstance") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_IN_SPECIES_TYPE_BOND), "InSpeciesTypeBond") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_OUTWARD_BINDING_SITE), "OutwardBindingSite") == 0);
-  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_SPECIES_FEATURE_CHANGE), "SpeciesFeatureChange") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_SPECIES_FEATURE_TYPE), "SpeciesFeatureType") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_SPECIES_TYPE_COMPONENT_INDEX), "SpeciesTypeComponentIndex") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_SPECIES_FEATURE), "SpeciesFeature") == 0);
@@ -283,7 +282,6 @@ START_TEST(test_MultiExtension_SBMLtypecode)
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_SPECIES_TYPE_INSTANCE,"multi"), "SpeciesTypeInstance") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_IN_SPECIES_TYPE_BOND,"multi"), "InSpeciesTypeBond") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_OUTWARD_BINDING_SITE   ,"multi"), "OutwardBindingSite") == 0);
-  fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_SPECIES_FEATURE_CHANGE   ,"multi"), "SpeciesFeatureChange") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_SPECIES_FEATURE_TYPE   ,"multi"), "SpeciesFeatureType") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_SPECIES_TYPE_COMPONENT_INDEX    ,"multi"), "SpeciesTypeComponentIndex") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_SPECIES_FEATURE    ,"multi"), "SpeciesFeature") == 0);

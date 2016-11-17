@@ -117,8 +117,8 @@ namespace libsbmlcs {
  *
  * @section l3-stoichiometries Stoichiometries in SBML Level 3
  *
- * The StoichiometryMath construct is not defined in SBML Level&nbsp;3
- * Version&nbsp;1 Core.  Instead, Level&nbsp;3 defines the identifier of
+ * The StoichiometryMath construct is not defined in SBML Level&nbsp;3.
+ * Instead, Level&nbsp;3 defines the identifier of
  * SpeciesReference objects as a stand-in for the stoichiometry of the
  * reactant or product being referenced, and allows that identifier to be
  * used elsewhere in SBML models, including (for example) InitialAssignment
@@ -195,10 +195,10 @@ public class StoichiometryMath : SBase {
    * Creates a new StoichiometryMath object using the given SBML @p level
    * values.
    *
-   * @param level a long integer, the SBML Level to assign to this StoichiometryMath
+   * @param level a long integer, the SBML Level to assign to this StoichiometryMath.
    *
    * @param version a long integer, the SBML Version to assign to this
-   * StoichiometryMath
+   * StoichiometryMath.
    *
    *
  * @throws SBMLConstructorException
@@ -323,7 +323,7 @@ public class StoichiometryMath : SBase {
    * Retrieves the mathematical formula within this StoichiometryMath and
    * return it as an AST.
    * 
-   * @return the math of this StoichiometryMath.
+   * @return the math of this StoichiometryMath, or @c null if the math is not set.
    *
    *
  * @note The StoichiometryMath construct exists only in SBML Level&nbsp;2.
@@ -517,7 +517,7 @@ public class StoichiometryMath : SBase {
    * Returns the XML element name of this object, which for StoichiometryMath, is
    * always @c 'stoichiometryMath'.
    * 
-   * @return the name of this element, i.e., @c 'stoichiometryMath'. 
+   * @return the name of this element, i.e., @c 'stoichiometryMath'.
    */ public new
  string getElementName() {
     string ret = libsbmlPINVOKE.StoichiometryMath_getElementName(swigCPtr);
@@ -575,7 +575,7 @@ public class StoichiometryMath : SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -588,8 +588,8 @@ public class StoichiometryMath : SBase {
  * matching values are replaced with @p newid.  The method does @em not
  * descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new
@@ -624,8 +624,8 @@ public class StoichiometryMath : SBase {
  * are found, the matching values are replaced with @p newid.  The method
  * does @em not descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new

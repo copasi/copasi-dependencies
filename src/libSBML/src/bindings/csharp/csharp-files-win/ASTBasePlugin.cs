@@ -68,10 +68,9 @@ public class ASTBasePlugin : IDisposable {
   
 /** */ /* libsbml-internal */ public new
  ASTBasePlugin clone() {
-    IntPtr cPtr = libsbmlPINVOKE.ASTBasePlugin_clone(swigCPtr);
-    ASTBasePlugin ret = (cPtr == IntPtr.Zero) ? null : new ASTBasePlugin(cPtr, true);
-    return ret;
-  }
+        ASTBasePlugin ret = (ASTBasePlugin) libsbml.DowncastASTBasePlugin(libsbmlPINVOKE.ASTBasePlugin_clone(swigCPtr), true);
+        return ret;
+}
 
   
 /** */ /* libsbml-internal */ public

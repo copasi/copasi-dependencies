@@ -42,7 +42,7 @@ namespace libsbml {
  * 
  * If no Priority subobjects are defined for two or more Event objects,
  * then those events are still executed simultaneously but their order of
- * execution is <em>undefined by the SBML Level&nbsp;3 Version&nbsp;1
+ * execution is <em>undefined by the SBML Level&nbsp;3
  * specification</em>.  A software implementation may choose to execute
  * such simultaneous events in any order, as long as each event is executed
  * only once and the requirements of checking the 'persistent' attribute
@@ -135,6 +135,14 @@ namespace libsbml {
  * @note The Priority construct exists only in SBML Level&nbsp;3; it cannot
  * be used in SBML Level&nbsp;2 or Level&nbsp;1 models.
  *
+ * @section priority-restrictions Restrictions relaxed in SBML Level&nbsp;3 Version&nbsp;2
+ * 
+ * In SBML Level&nbsp;3 Version&nbsp;2, the requirement that a Priority
+ * have a 'math' subelement was relaxed, making it optional.  In
+ * this case, the Priority remains undefined, and unless that information
+ * is provided in some other form (such as with an SBML Level&nbsp;3
+ * package), the Event behaves as if it had no Priority.
+ *
  * @see Event
  * @see Delay
  * @see EventAssignment
@@ -190,10 +198,10 @@ public class Priority : SBase {
    * Creates a new Priority object using the given SBML @p level and @p
    * version values.
    *
-   * @param level a long integer, the SBML Level to assign to this Priority
+   * @param level a long integer, the SBML Level to assign to this Priority.
    *
    * @param version a long integer, the SBML Version to assign to this
-   * Priority
+   * Priority.
    *
    *
  * @throws SBMLConstructorException
@@ -309,7 +317,7 @@ public class Priority : SBase {
    * Get the mathematical formula for the priority and return it
    * as an AST.
    * 
-   * @return the math of this Priority.
+   * @return the math of this Priority, or @c null if the math is not set.
    */ public
  ASTNode getMath() {
     IntPtr cPtr = libsbmlPINVOKE.Priority_getMath(swigCPtr);
@@ -414,7 +422,8 @@ public class Priority : SBase {
    * Priority object have been set.
    *
    * @note The required elements for a Priority object are:
-   * @li 'math'
+   * @li 'math' inSBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1.  
+   *     (In SBML Level&nbsp;3 Version&nbsp;2+, it is no longer required.)
    *
    * @return a boolean value indicating whether all the required
    * elements for this object have been defined.
@@ -458,7 +467,7 @@ public class Priority : SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -471,8 +480,8 @@ public class Priority : SBase {
  * matching values are replaced with @p newid.  The method does @em not
  * descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new
@@ -506,8 +515,8 @@ public class Priority : SBase {
  * are found, the matching values are replaced with @p newid.  The method
  * does @em not descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new

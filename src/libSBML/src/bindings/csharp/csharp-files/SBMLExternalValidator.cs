@@ -73,7 +73,7 @@ public class SBMLExternalValidator : SBMLValidator {
 
   
 /** */ /* libsbml-internal */ public
- SBMLExternalValidator(SBMLExternalValidator arg0) : this(libsbmlPINVOKE.new_SBMLExternalValidator__SWIG_1(SBMLExternalValidator.getCPtr(arg0)), true) {
+ SBMLExternalValidator(SBMLExternalValidator orig) : this(libsbmlPINVOKE.new_SBMLExternalValidator__SWIG_1(SBMLExternalValidator.getCPtr(orig)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 

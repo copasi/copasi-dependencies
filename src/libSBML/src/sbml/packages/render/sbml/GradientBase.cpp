@@ -69,7 +69,7 @@ const std::string ListOfGradientDefinitions::ELEMENT_NAME="listOfGradientDefinit
  */
 GradientBase::GradientBase (unsigned int level, unsigned int version, unsigned int pkgVersion) : 
     SBase(level,version)
-    ,mId("")
+////    ,mId("")
     ,mSpreadMethod(GradientBase::PAD)
     ,mGradientStops(level, version, pkgVersion)
 {
@@ -87,7 +87,7 @@ GradientBase::GradientBase (unsigned int level, unsigned int version, unsigned i
  */
 GradientBase::GradientBase (RenderPkgNamespaces* renderns):
     SBase(renderns)
-    ,mId("")
+////    ,mId("")
     ,mSpreadMethod(GradientBase::PAD)
     ,mGradientStops(renderns)
 {
@@ -180,13 +180,16 @@ GradientBase::~GradientBase ()
  */
 GradientBase::GradientBase(RenderPkgNamespaces* renderns, const std::string& id)
   : SBase(renderns)
-  , mId(id)
+//  , mId(id)
   , mSpreadMethod(GradientBase::PAD)
   , mGradientStops(renderns)
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. GradientBase::GradientBase(const std::string& id) is deprecated." << std::endl;
 #endif // DEPRECATION_WARNINGS
+
+    setId(id);
+
         // set the element namespace of this object
   setElementNamespace(renderns->getURI());
 

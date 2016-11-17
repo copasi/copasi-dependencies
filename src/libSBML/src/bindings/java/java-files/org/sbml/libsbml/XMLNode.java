@@ -184,7 +184,7 @@ public class XMLNode extends XMLToken {
 /**
    * Creates a new {@link XMLNode} by copying an {@link XMLToken} object.
    <p>
-   * @param token {@link XMLToken} to be copied to {@link XMLNode}
+   * @param token {@link XMLToken} to be copied to {@link XMLNode}.
    */ public
  XMLNode(XMLToken token) throws org.sbml.libsbml.XMLConstructorException {
     this(libsbmlJNI.new_XMLNode__SWIG_1(XMLToken.getCPtr(token), token), true);
@@ -449,7 +449,7 @@ appears in the documentation.
 /**
    * Creates a text {@link XMLNode}.
    <p>
-   * @param chars a string, the text to be added to the {@link XMLToken}
+   * @param chars a string, the text to be added to the {@link XMLToken}.
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    <p>
@@ -476,7 +476,7 @@ appears in the documentation.
 /**
    * Creates a text {@link XMLNode}.
    <p>
-   * @param chars a string, the text to be added to the {@link XMLToken}
+   * @param chars a string, the text to be added to the {@link XMLToken}.
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    <p>
@@ -503,7 +503,7 @@ appears in the documentation.
 /**
    * Creates a text {@link XMLNode}.
    <p>
-   * @param chars a string, the text to be added to the {@link XMLToken}
+   * @param chars a string, the text to be added to the {@link XMLToken}.
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    <p>
@@ -586,10 +586,10 @@ appears in the documentation.
    * the <code>node</code> is added at the end of the list of children.  Even in
    * that situation, this method does not throw an error.
    <p>
-   * @param n an integer, the index at which the given node is inserted
+   * @param n an integer, the index at which the given node is inserted.
    * @param node an {@link XMLNode} to be inserted as <code>n</code>th child.
    <p>
-   * @return a reference to the newly-inserted child <code>node</code>
+   * @return a reference to the newly-inserted child <code>node</code>.
    */ public
  XMLNode insertChild(long n, XMLNode node) {
     return new XMLNode(libsbmlJNI.XMLNode_insertChild(swigCPtr, this, n, XMLNode.getCPtr(node), node), false);
@@ -606,10 +606,10 @@ appears in the documentation.
    * greater than the number of child nodes in this {@link XMLNode}, this method
    * takes no action (and returns <code>null</code>).
    <p>
-   * @param n an integer, the index of the node to be removed
+   * @param n an integer, the index of the node to be removed.
    <p>
    * @return the removed child, or <code>null</code> if <code>n</code> is greater than the number
-   * of children in this node
+   * of children in this node.
    <p>
    * @note The caller owns the returned node and is responsible for deleting it.
    */ public
@@ -640,7 +640,7 @@ appears in the documentation.
    * If the index <code>n</code> is greater than the number of child nodes,
    * this method returns an empty node.
    <p>
-   * @param n a long integereger, the index of the node to return
+   * @param n a long integereger, the index of the node to return.
    <p>
    * @return the <code>n</code>th child of this {@link XMLNode}.
    */ public
@@ -655,7 +655,7 @@ appears in the documentation.
    * If no child with corrsponding name can be found,
    * this method returns an empty node.
    <p>
-   * @param name the name of the node to return
+   * @param name the name of the node to return.
    <p>
    * @return the first child of this {@link XMLNode} with given name.
    */ public
@@ -749,9 +749,9 @@ appears in the documentation.
 /**
    * Returns a string representation of a given {@link XMLNode}.
    <p>
-   * @param node the {@link XMLNode} to be represented as a string
+   * @param node the {@link XMLNode} to be represented as a string.
    <p>
-   * @return a string-form representation of <code>node</code>
+   * @return a string-form representation of <code>node</code>.
    */ public
  static String convertXMLNodeToString(XMLNode node) {
     return libsbmlJNI.XMLNode_convertXMLNodeToString(XMLNode.getCPtr(node), node);

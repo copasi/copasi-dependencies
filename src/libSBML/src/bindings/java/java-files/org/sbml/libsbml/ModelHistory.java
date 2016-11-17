@@ -382,7 +382,7 @@ public class ModelHistory {
    * creators.  The libSBML {@link ModelHistory} class supports this by storing a
    * list of 'model creator' values.
    <p>
-   * @param mc the {@link ModelCreator} to add
+   * @param mc the {@link ModelCreator} to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the

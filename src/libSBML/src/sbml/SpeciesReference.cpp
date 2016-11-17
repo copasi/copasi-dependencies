@@ -564,6 +564,355 @@ SpeciesReference::hasRequiredAttributes() const
 }
 
 
+
+
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this SpeciesReference.
+ */
+int
+SpeciesReference::getAttribute(const std::string& attributeName,
+                               bool& value) const
+{
+  int return_value = SimpleSpeciesReference::getAttribute(attributeName,
+    value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "constant")
+  {
+    value = getConstant();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this SpeciesReference.
+ */
+int
+SpeciesReference::getAttribute(const std::string& attributeName,
+                               int& value) const
+{
+  int return_value = SimpleSpeciesReference::getAttribute(attributeName,
+    value);
+
+  if (attributeName == "stoichiometry")
+  {
+    value = (int)(getStoichiometry());
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "denominator")
+  {
+    value = getDenominator();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this SpeciesReference.
+ */
+int
+SpeciesReference::getAttribute(const std::string& attributeName,
+                               double& value) const
+{
+  int return_value = SimpleSpeciesReference::getAttribute(attributeName,
+    value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "stoichiometry")
+  {
+    value = getStoichiometry();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this SpeciesReference.
+ */
+int
+SpeciesReference::getAttribute(const std::string& attributeName,
+                               unsigned int& value) const
+{
+  int return_value = SimpleSpeciesReference::getAttribute(attributeName,
+    value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this SpeciesReference.
+ */
+int
+SpeciesReference::getAttribute(const std::string& attributeName,
+                               std::string& value) const
+{
+  int return_value = SimpleSpeciesReference::getAttribute(attributeName,
+    value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this SpeciesReference.
+ */
+int
+SpeciesReference::getAttribute(const std::string& attributeName,
+                               const char* value) const
+{
+  int return_value = SimpleSpeciesReference::getAttribute(attributeName,
+    value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this SpeciesReference's attribute
+ * "attributeName" is set.
+ */
+bool
+SpeciesReference::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = SimpleSpeciesReference::isSetAttribute(attributeName);
+
+  if (attributeName == "stoichiometry")
+  {
+    value = isSetStoichiometry();
+  }
+  else if (attributeName == "constant")
+  {
+    value = isSetConstant();
+  }
+  else if (attributeName == "denominator")
+  {
+    value = true;
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this SpeciesReference.
+ */
+int
+SpeciesReference::setAttribute(const std::string& attributeName, bool value)
+{
+  int return_value = SimpleSpeciesReference::setAttribute(attributeName,
+    value);
+
+  if (attributeName == "constant")
+  {
+    return_value = setConstant(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this SpeciesReference.
+ */
+int
+SpeciesReference::setAttribute(const std::string& attributeName, int value)
+{
+  int return_value = SimpleSpeciesReference::setAttribute(attributeName,
+    value);
+
+  if (attributeName == "stoichiometry")
+  {
+    return_value = setStoichiometry(value);
+  }
+  else if (attributeName == "denominator")
+  {
+    return_value = setDenominator(value);
+  }
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this SpeciesReference.
+ */
+int
+SpeciesReference::setAttribute(const std::string& attributeName, double value)
+{
+  int return_value = SimpleSpeciesReference::setAttribute(attributeName,
+    value);
+
+  if (attributeName == "stoichiometry")
+  {
+    return_value = setStoichiometry(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this SpeciesReference.
+ */
+int
+SpeciesReference::setAttribute(const std::string& attributeName,
+                               unsigned int value)
+{
+  int return_value = SimpleSpeciesReference::setAttribute(attributeName,
+    value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this SpeciesReference.
+ */
+int
+SpeciesReference::setAttribute(const std::string& attributeName,
+                               const std::string& value)
+{
+  int return_value = SimpleSpeciesReference::setAttribute(attributeName,
+    value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this SpeciesReference.
+ */
+int
+SpeciesReference::setAttribute(const std::string& attributeName,
+                               const char* value)
+{
+  int return_value = SimpleSpeciesReference::setAttribute(attributeName,
+    value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Unsets the value of the "attributeName" attribute of this SpeciesReference.
+ */
+int
+SpeciesReference::unsetAttribute(const std::string& attributeName)
+{
+  int value = SimpleSpeciesReference::unsetAttribute(attributeName);
+
+  if (attributeName == "stoichiometry")
+  {
+    value = unsetStoichiometry();
+  }
+  else if (attributeName == "constant")
+  {
+    value = unsetConstant();
+  }
+  else if (attributeName == "denominator")
+  {
+    mDenominator = 1;
+    value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+
 /*
  * Sets the annotation of this SBML object to a copy of annotation.
  */
@@ -922,7 +1271,7 @@ SpeciesReference::addExpectedAttributes(ExpectedAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 SpeciesReference::readAttributes (const XMLAttributes& attributes,
@@ -952,7 +1301,7 @@ SpeciesReference::readAttributes (const XMLAttributes& attributes,
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 SpeciesReference::readL1Attributes (const XMLAttributes& attributes)
@@ -988,7 +1337,7 @@ SpeciesReference::readL1Attributes (const XMLAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 SpeciesReference::readL2Attributes (const XMLAttributes& attributes)
@@ -1005,7 +1354,7 @@ SpeciesReference::readL2Attributes (const XMLAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 SpeciesReference::readL3Attributes (const XMLAttributes& attributes)
@@ -1044,7 +1393,7 @@ SpeciesReference::readL3Attributes (const XMLAttributes& attributes)
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
- * to the XMLOutputStream.  Be sure to call your parents implementation
+ * to the XMLOutputStream.  Be sure to call your parent's implementation
  * of this method as well.
  */
 void
@@ -1097,7 +1446,7 @@ SpeciesReference::writeAttributes (XMLOutputStream& stream) const
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
- * SBML objects as XML elements.  Be sure to call your parents
+ * SBML objects as XML elements.  Be sure to call your parent's
  * implementation of this method as well.
  */
 void

@@ -183,7 +183,7 @@ namespace libsbmlcs {
  * by AssignmentRule or AlgebraicRule, and in addition, for simulation time
  * <em>t &gt; 0</em>, it may also be changed by a RateRule or Event
  * objects.  (However, some of these constructs are mutually exclusive; see
- * the SBML Level&nbsp;3 Version&nbsp;1 Core specifiation for more
+ * the SBML Level&nbsp;3 Core specifiation for more
  * details.)  It is not an error to define 'stoichiometry' on a species
  * reference and also redefine the stoichiometry using an
  * InitialAssignment, but the 'stoichiometry' attribute in that case is
@@ -270,10 +270,10 @@ public class SpeciesReference : SimpleSpeciesReference {
    * Creates a new SpeciesReference using the given SBML @p level and @p version
    * values.
    *
-   * @param level a long integer, the SBML Level to assign to this SpeciesReference
+   * @param level a long integer, the SBML Level to assign to this SpeciesReference.
    *
    * @param version a long integer, the SBML Version to assign to this
-   * SpeciesReference
+   * SpeciesReference.
    *
    *
  * @throws SBMLConstructorException
@@ -357,10 +357,10 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @return the (deep) copy of this SpeciesReference object.
    */ public new
  SpeciesReference clone() {
-    IntPtr cPtr = libsbmlPINVOKE.SpeciesReference_clone(swigCPtr);
-    SpeciesReference ret = (cPtr == IntPtr.Zero) ? null : new SpeciesReference(cPtr, true);
-    return ret;
-  }
+	SpeciesReference ret
+	    = (SpeciesReference) libsbml.DowncastSBase(libsbmlPINVOKE.SpeciesReference_clone(swigCPtr), true);
+	return ret;
+}
 
   
 /**
@@ -555,7 +555,7 @@ public class SpeciesReference : SimpleSpeciesReference {
    * In SBML Level 3, there is no StoichiometryMath, and SpeciesReference
    * objects have only the 'stoichiometry' attribute.
    * 
-   * @param value the new value of the 'stoichiometry' attribute
+   * @param value the new value of the 'stoichiometry' attribute.
    *
    * @note In SBML Level&nbsp;2, the 'stoichiometryMath' subelement of this
    * SpeciesReference object will be unset because the 'stoichiometry'
@@ -641,7 +641,7 @@ public class SpeciesReference : SimpleSpeciesReference {
    * 'stoichiometry' and 'denominator' in the case of SBML Level&nbsp;1, or
    * a 'stoichiometryMath' subelement in the case of SBML Level&nbsp;2).
    *
-   * @param value the scalar value 
+   * @param value the scalar value.
    *
    *
  * @return integer value indicating success/failure of the
@@ -661,7 +661,7 @@ public class SpeciesReference : SimpleSpeciesReference {
    * @p flag.
    *
    * @param flag a boolean, the value for the 'constant' attribute of this
-   * SpeciesReference instance
+   * SpeciesReference instance.
    *
    *
  * @return integer value indicating success/failure of the
@@ -770,7 +770,7 @@ public class SpeciesReference : SimpleSpeciesReference {
    * Creates a new, empty StoichiometryMath object, adds it to this
    * SpeciesReference, and returns it.
    *
-   * @return the newly created StoichiometryMath object instance
+   * @return the newly created StoichiometryMath object instance.
    *
    * @see Reaction::addReactant(SpeciesReference sr)
    * @see Reaction::addProduct(SpeciesReference sr)
@@ -794,13 +794,14 @@ public class SpeciesReference : SimpleSpeciesReference {
    * discarded.  An alternative may be to use appendAnnotation().
    *
    * @param annotation an XML structure that is to be used as the content
-   * of the 'annotation' subelement of this object
+   * of the 'annotation' subelement of this object.
    *
    *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * enumeration #OperationReturnValues_t. @endif This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see appendAnnotation(XMLNode annotation)
@@ -824,7 +825,7 @@ public class SpeciesReference : SimpleSpeciesReference {
    * discarded.  An alternative may be to use appendAnnotation().
    *
    * @param annotation an XML string that is to be used as the content
-   * of the 'annotation' subelement of this object
+   * of the 'annotation' subelement of this object.
    *
    *
  * @return integer value indicating success/failure of the
@@ -854,7 +855,7 @@ public class SpeciesReference : SimpleSpeciesReference {
    * adds its own data.
    *
    * @param annotation an XML structure that is to be copied and appended
-   * to the content of the 'annotation' subelement of this object
+   * to the content of the 'annotation' subelement of this object.
    *
    *
  * @return integer value indicating success/failure of the
@@ -883,7 +884,7 @@ public class SpeciesReference : SimpleSpeciesReference {
    * adds its own data.
    *
    * @param annotation an XML string that is to be copied and appended
-   * to the content of the 'annotation' subelement of this object
+   * to the content of the 'annotation' subelement of this object.
    *
    *
  * @return integer value indicating success/failure of the

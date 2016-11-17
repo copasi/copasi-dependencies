@@ -42,8 +42,8 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 SpeciesTypeInstance::SpeciesTypeInstance (unsigned int level, unsigned int version, unsigned int pkgVersion)
   : SBase(level, version)
-   ,mId ("")
-   ,mName ("")
+////   ,mId ("")
+////   ,mName ("")
    ,mSpeciesType ("")
    ,mCompartmentReference ("")
 {
@@ -57,8 +57,8 @@ SpeciesTypeInstance::SpeciesTypeInstance (unsigned int level, unsigned int versi
  */
 SpeciesTypeInstance::SpeciesTypeInstance (MultiPkgNamespaces* multins)
   : SBase(multins)
-   ,mId ("")
-   ,mName ("")
+////   ,mId ("")
+////   ,mName ("")
    ,mSpeciesType ("")
    ,mCompartmentReference ("")
 {
@@ -75,8 +75,8 @@ SpeciesTypeInstance::SpeciesTypeInstance (MultiPkgNamespaces* multins)
  */
 SpeciesTypeInstance::SpeciesTypeInstance (const SpeciesTypeInstance& orig)
   : SBase(orig)
-  , mId  ( orig.mId)
-  , mName  ( orig.mName)
+//  , mId  ( orig.mId)
+//  , mName  ( orig.mName)
   , mSpeciesType  ( orig.mSpeciesType)
   , mCompartmentReference  ( orig.mCompartmentReference)
 {

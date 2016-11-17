@@ -132,7 +132,7 @@ public class XMLNamespaces : IDisposable {
 /**
    * Copy constructor; creates a copy of this XMLNamespaces list.
    *
-   * @param orig the XMLNamespaces object to copy
+   * @param orig the XMLNamespaces object to copy.
    */ public
  XMLNamespaces(XMLNamespaces orig) : this(libsbmlPINVOKE.new_XMLNamespaces__SWIG_1(XMLNamespaces.getCPtr(orig)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -170,8 +170,8 @@ public class XMLNamespaces : IDisposable {
    * is necessary to replace the sbml namespace the namespace should be removed
    * prior to adding the new namespace.
    *
-   * @param uri a string, the uri for the namespace
-   * @param prefix a string, the prefix for the namespace
+   * @param uri a string, the uri for the namespace.
+   * @param prefix a string, the prefix for the namespace.
    *
    *
  * @return integer value indicating success/failure of the
@@ -209,8 +209,8 @@ public class XMLNamespaces : IDisposable {
    * is necessary to replace the sbml namespace the namespace should be removed
    * prior to adding the new namespace.
    *
-   * @param uri a string, the uri for the namespace
-   * @param prefix a string, the prefix for the namespace
+   * @param uri a string, the uri for the namespace.
+   * @param prefix a string, the prefix for the namespace.
    *
    *
  * @return integer value indicating success/failure of the
@@ -325,7 +325,7 @@ public class XMLNamespaces : IDisposable {
    * prefix @p prefix, this method returns its index in the list.
    *
    * @param prefix a string, the prefix string of the sought-after
-   * namespace
+   * namespace.
    *
    * @return the index of the given declaration, or <code>-1</code> if not
    * present.
@@ -372,10 +372,10 @@ public class XMLNamespaces : IDisposable {
    * XMLAttributes::getLength() first to find out how many namespaces are
    * stored in the list.
    *
-   * @param index an integer, position of the sought-after prefix
+   * @param index an integer, position of the sought-after prefix.
    *
    * @return the prefix of an XML namespace declaration in this list (by
-   * position), or an empty string if the @p index is out of range
+   * position), or an empty string if the @p index is out of range.
    *
    * @see getLength()
    */ public
@@ -392,10 +392,10 @@ public class XMLNamespaces : IDisposable {
    * prefixes.  This method returns the prefix for a pair that has the
    * given @p uri.
    *
-   * @param uri a string, the URI of the prefix being sought
+   * @param uri a string, the URI of the prefix being sought.
    *
    * @return the prefix of an XML namespace declaration given its URI, or
-   * an empty string if no such @p uri exists in this XMLNamespaces object
+   * an empty string if no such @p uri exists in this XMLNamespaces object.
    */ public
  string getPrefix(string uri) {
     string ret = libsbmlPINVOKE.XMLNamespaces_getPrefix__SWIG_1(swigCPtr, uri);
@@ -432,11 +432,11 @@ public class XMLNamespaces : IDisposable {
    * prefixes.  This method returns the namespace URI for a pair that has
    * the given @p prefix.
    *
-   * @param prefix a string, the prefix of the required URI
+   * @param prefix a string, the prefix of the required URI.
    *
    * @return the URI of an XML namespace declaration having the given @p
    * prefix, or an empty string if no such prefix-and-URI pair exists
-   * in this XMLNamespaces object
+   * in this XMLNamespaces object.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    * 
@@ -455,11 +455,11 @@ public class XMLNamespaces : IDisposable {
    * prefixes.  This method returns the namespace URI for a pair that has
    * the given @p prefix.
    *
-   * @param prefix a string, the prefix of the required URI
+   * @param prefix a string, the prefix of the required URI.
    *
    * @return the URI of an XML namespace declaration having the given @p
    * prefix, or an empty string if no such prefix-and-URI pair exists
-   * in this XMLNamespaces object
+   * in this XMLNamespaces object.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif
    * 
@@ -487,7 +487,7 @@ public class XMLNamespaces : IDisposable {
    * Predicate returning @c true or @c false depending on whether an XML
    * Namespace with the given URI is contained in this XMLNamespaces list.
    * 
-   * @param uri a string, the uri for the namespace
+   * @param uri a string, the uri for the namespace.
    *
    * @return @c true if an XML Namespace with the given URI is contained in
    * this XMLNamespaces list, @c false otherwise.
@@ -503,7 +503,7 @@ public class XMLNamespaces : IDisposable {
    * Namespace with the given prefix is contained in this XMLNamespaces
    * list.
    *
-   * @param prefix a string, the prefix for the namespace
+   * @param prefix a string, the prefix for the namespace.
    * 
    * @return @c true if an XML Namespace with the given URI is contained in
    * this XMLNamespaces list, @c false otherwise.
@@ -519,8 +519,8 @@ public class XMLNamespaces : IDisposable {
    * Namespace with the given URI and prefix pair is contained in this
    * XMLNamespaces list.
    *
-   * @param uri a string, the URI for the namespace
-   * @param prefix a string, the prefix for the namespace
+   * @param uri a string, the URI for the namespace.
+   * @param prefix a string, the prefix for the namespace.
    * 
    * @return @c true if an XML Namespace with the given uri/prefix pair is
    * contained in this XMLNamespaces list, @c false otherwise.

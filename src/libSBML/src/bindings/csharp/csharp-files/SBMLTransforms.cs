@@ -112,6 +112,13 @@ public class SBMLTransforms : IDisposable {
     return ret;
   }
 
+  
+/** */ /* libsbml-internal */ public
+ static bool expandL3V2InitialAssignments(Model m) {
+    bool ret = libsbmlPINVOKE.SBMLTransforms_expandL3V2InitialAssignments(Model.getCPtr(m));
+    return ret;
+  }
+
   public static IdList mapComponentValues(Model m) {
     IdList ret = new IdList(libsbmlPINVOKE.SBMLTransforms_mapComponentValues(Model.getCPtr(m)), true);
     return ret;

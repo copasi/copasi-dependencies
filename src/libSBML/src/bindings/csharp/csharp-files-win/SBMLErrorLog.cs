@@ -133,7 +133,7 @@ public class SBMLErrorLog : XMLErrorLog {
    *
    * @param n the index number of the error to retrieve (with 0 being the
    * first error).
-   * @param severity the severity of the error to retrieve 
+   * @param severity the severity of the error to retrieve.
    *
    * @return the <i>n</i>th SBMLError in this log, or @c null if @p n is
    * greater than or equal to
@@ -186,7 +186,7 @@ public class SBMLErrorLog : XMLErrorLog {
 
   
 /** */ /* libsbml-internal */ public
- SBMLErrorLog(SBMLErrorLog other) : this(libsbmlPINVOKE.new_SBMLErrorLog__SWIG_1(SBMLErrorLog.getCPtr(other)), true) {
+ SBMLErrorLog(SBMLErrorLog orig) : this(libsbmlPINVOKE.new_SBMLErrorLog__SWIG_1(SBMLErrorLog.getCPtr(orig)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -342,7 +342,7 @@ public class SBMLErrorLog : XMLErrorLog {
 
   
 /**
-   * Returns true if SBMLErrorLog contains an errorId
+   * Returns @c true if SBMLErrorLog contains an errorId
    *
    * @param errorId the error identifier of the error to be found.
    */ public

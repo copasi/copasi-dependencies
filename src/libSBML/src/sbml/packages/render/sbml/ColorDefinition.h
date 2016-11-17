@@ -80,7 +80,7 @@ class LIBSBML_EXTERN ColorDefinition : public SBase
 {
 protected:
   /** @cond doxygenLibsbmlInternal */
-  std::string mId;
+////  std::string mId;
   unsigned char mRed;
   unsigned char mGreen;
   unsigned char mBlue;

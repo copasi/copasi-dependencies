@@ -94,7 +94,7 @@ public class RDFAnnotationParser {
    * information, and create a list of corresponding {@link CVTerm} objects.
    <p>
    * @param annotation {@link XMLNode} containing the annotation.
-   * @param stream optional {@link XMLInputStream} that facilitates error logging
+   * @param stream optional {@link XMLInputStream} that facilitates error logging.
    * @param metaId optional metaId, if set only the RDF annotation for this metaId will be returned.
    <p>
    * 
@@ -115,7 +115,7 @@ public class RDFAnnotationParser {
    * information, and create a list of corresponding {@link CVTerm} objects.
    <p>
    * @param annotation {@link XMLNode} containing the annotation.
-   * @param stream optional {@link XMLInputStream} that facilitates error logging
+   * @param stream optional {@link XMLInputStream} that facilitates error logging.
    * @param metaId optional metaId, if set only the RDF annotation for this metaId will be returned.
    <p>
    * 
@@ -136,7 +136,7 @@ public class RDFAnnotationParser {
    * information, and create a list of corresponding {@link CVTerm} objects.
    <p>
    * @param annotation {@link XMLNode} containing the annotation.
-   * @param stream optional {@link XMLInputStream} that facilitates error logging
+   * @param stream optional {@link XMLInputStream} that facilitates error logging.
    * @param metaId optional metaId, if set only the RDF annotation for this metaId will be returned.
    <p>
    * 
@@ -178,7 +178,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation.
    * Level&nbsp;2 (Versions 2&ndash;4) and SBML Level&nbsp;3 specification
    * documents.
    <p>
-   * @return a pointer to an {@link XMLNode} for the annotation
+   * @return a pointer to an {@link XMLNode} for the annotation.
    <p>
    * 
    <p>
@@ -212,7 +212,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation.
    * {@link RDFAnnotationParser#createAnnotation()}
    * is available for creating the container.
    <p>
-   * @return a pointer to an {@link XMLNode}
+   * @return a pointer to an {@link XMLNode}.
    <p>
    * 
    <p>
@@ -246,7 +246,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation.
    * {@link RDFAnnotationParser#createAnnotation()}
    * is available for creating the container.
    <p>
-   * @return a pointer to an {@link XMLNode}
+   * @return a pointer to an {@link XMLNode}.
    <p>
    * 
    <p>
@@ -280,7 +280,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation.
    * {@link RDFAnnotationParser#createAnnotation()}
    * is available for creating the container.
    <p>
-   * @return a pointer to an {@link XMLNode}
+   * @return a pointer to an {@link XMLNode}.
    <p>
    * 
    <p>
@@ -300,7 +300,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation.
    * objects attached to it, creates an RDF 'Description' element to hold
    * the terms, and adds each term with appropriate qualifiers.
    <p>
-   * @param obj the SBML object to start from
+   * @param obj the SBML object to start from.
    <p>
    * @return the {@link XMLNode} tree corresponding to the Description element of
    * an RDF annotation.
@@ -322,7 +322,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation.
    * annotation to hold the terms, and finally calls * {@link RDFAnnotationParser#createAnnotation()} to wrap the result as
    * an SBML <code>&lt;annotation&gt;</code> element.
    <p>
-   * @param obj the SBML object to start from
+   * @param obj the SBML object to start from.
    <p>
    * @return the {@link XMLNode} tree corresponding to the annotation.
    <p>
@@ -339,7 +339,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation.
    * XML structure for an SBML annotation representing that metadata if 
    * there is a model history stored in <code>obj</code>.
    <p>
-   * @param obj any {@link SBase} object
+   * @param obj any {@link SBase} object.
    <p>
    * @return the {@link XMLNode} corresponding to an annotation containing 
    * MIRIAM-compliant model history and CV term information in RDF format.
@@ -359,7 +359,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation.
    * Reads the model history stored in <code>obj</code> and creates the
    * XML structure for an SBML annotation representing that history.
    <p>
-   * @param obj any {@link SBase} object
+   * @param obj any {@link SBase} object.
    <p>
    * @return the {@link XMLNode} corresponding to an annotation containing 
    * MIRIAM-compliant model history information in RDF format.
@@ -384,7 +384,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation.
    * of a History or {@link CVTerm} element.
    <p>
    * @param annotation the {@link XMLNode} tree within which the RDF annotation is
-   * to be found and deleted
+   * to be found and deleted.
    <p>
    * @return the {@link XMLNode} structure that is left after RDF annotations are
    * deleted.
@@ -409,7 +409,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation.
    * History element.
    <p>
    * @param annotation the {@link XMLNode} tree within which the RDF annotation is
-   * to be found and deleted
+   * to be found and deleted.
    <p>
    * @return the {@link XMLNode} structure that is left after RDF annotations are
    * deleted.
@@ -434,7 +434,7 @@ success      = sbmlObject.setAnnotation(ann); // Set object's annotation.
    * {@link CVTerm} element.
    <p>
    * @param annotation the {@link XMLNode} tree within which the RDF annotation is
-   * to be found and deleted
+   * to be found and deleted.
    <p>
    * @return the {@link XMLNode} structure that is left after RDF annotations are
    * deleted.

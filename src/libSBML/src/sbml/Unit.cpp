@@ -1003,6 +1003,349 @@ Unit::hasRequiredAttributes() const
 }
 
 
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Unit.
+ */
+int
+Unit::getAttribute(const std::string& attributeName, bool& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Unit.
+ */
+int
+Unit::getAttribute(const std::string& attributeName, int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "scale")
+  {
+    value = getScale();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "exponent")
+  {
+    value = getExponent();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Unit.
+ */
+int
+Unit::getAttribute(const std::string& attributeName, double& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "multiplier")
+  {
+    value = getMultiplier();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "exponent")
+  {
+    value = getExponentAsDouble();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "offset")
+  {
+    value = getOffset();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Unit.
+ */
+int
+Unit::getAttribute(const std::string& attributeName,
+                   unsigned int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Unit.
+ */
+int
+Unit::getAttribute(const std::string& attributeName, std::string& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Unit.
+ */
+int
+Unit::getAttribute(const std::string& attributeName, const char* value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this Unit's attribute "attributeName" is set.
+ */
+bool
+Unit::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = SBase::isSetAttribute(attributeName);
+
+  if (attributeName == "kind")
+  {
+    value = isSetKind();
+  }
+  else if (attributeName == "multiplier")
+  {
+    value = isSetMultiplier();
+  }
+  else if (attributeName == "scale")
+  {
+    value = isSetScale();
+  }
+  else if (attributeName == "exponent")
+  {
+    value = isSetExponent();
+  }
+  else if (attributeName == "offset")
+  {
+    value = isSetOffset();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Unit.
+ */
+int
+Unit::setAttribute(const std::string& attributeName, bool value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Unit.
+ */
+int
+Unit::setAttribute(const std::string& attributeName, int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "scale")
+  {
+    return_value = setScale(value);
+  }
+  else if (attributeName == "exponent")
+  {
+    return_value = setExponent(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Unit.
+ */
+int
+Unit::setAttribute(const std::string& attributeName, double value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "multiplier")
+  {
+    return_value = setMultiplier(value);
+  }
+  else if (attributeName == "exponent")
+  {
+    return_value = setExponent(value);
+  }
+  else if (attributeName == "offset")
+  {
+    return_value = setOffset(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Unit.
+ */
+int
+Unit::setAttribute(const std::string& attributeName, unsigned int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Unit.
+ */
+int
+Unit::setAttribute(const std::string& attributeName, const std::string& value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Unit.
+ */
+int
+Unit::setAttribute(const std::string& attributeName, const char* value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Unsets the value of the "attributeName" attribute of this Unit.
+ */
+int
+Unit::unsetAttribute(const std::string& attributeName)
+{
+  int value = SBase::unsetAttribute(attributeName);
+
+  if (attributeName == "kind")
+  {
+    value = unsetKind();
+  }
+  else if (attributeName == "multiplier")
+  {
+    value = unsetMultiplier();
+  }
+  else if (attributeName == "scale")
+  {
+    value = unsetScale();
+  }
+  else if (attributeName == "exponent")
+  {
+    value = unsetExponent();
+  }
+  else if (attributeName == "offset")
+  {
+    value = unsetOffset();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+
 /*
  * @return true if name is one of the five SBML built-in Unit names
  * ('substance', 'volume', 'area', 'length' or 'time'), false otherwise.
@@ -1104,8 +1447,8 @@ Unit::areIdentical(Unit * unit1, Unit * unit2)
  * Predicate returning @c true if 
  * Unit objects are equivalent (matching kind and exponent).
  *
- * @param unit1 the first Unit object to compare
- * @param unit2 the second Unit object to compare
+ * @param unit1 the first Unit object to compare.
+ * @param unit2 the second Unit object to compare.
  *
  * @return @c true if the kind and exponent attributes of unit1 are identical
  * to the kind and exponent attributes of unit2, @c false otherwise.
@@ -1187,8 +1530,8 @@ Unit::removeScale(Unit * unit)
  * merge to become
  * <unit kind="metre" exponent="3"/>
  *
- * @param unit1 the first Unit object 
- * @param unit2 the second Unit object to merge with the first
+ * @param unit1 the first Unit object.
+ * @param unit2 the second Unit object to merge with the first.
  */
 void
 Unit::merge(Unit * unit1, Unit * unit2)
@@ -1241,7 +1584,7 @@ Unit::merge(Unit * unit1, Unit * unit2)
  * Returns a UnitDefinition object which contains the argument unit
  * converted to the appropriate SI unit.
  *
- * @param unit the Unit object to convert to SI
+ * @param unit the Unit object to convert to SI.
  *
  * @return a UnitDefinition object containing the SI unit.
  */
@@ -1800,7 +2143,7 @@ Unit::addExpectedAttributes(ExpectedAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 Unit::readAttributes (const XMLAttributes& attributes,
@@ -1831,7 +2174,7 @@ Unit::readAttributes (const XMLAttributes& attributes,
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 Unit::readL1Attributes (const XMLAttributes& attributes)
@@ -1885,7 +2228,7 @@ Unit::readL1Attributes (const XMLAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 Unit::readL2Attributes (const XMLAttributes& attributes)
@@ -1947,7 +2290,7 @@ Unit::readL2Attributes (const XMLAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 Unit::readL3Attributes (const XMLAttributes& attributes)
@@ -2023,7 +2366,7 @@ Unit::readL3Attributes (const XMLAttributes& attributes)
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
- * SBML objects as XML elements.  Be sure to call your parents
+ * SBML objects as XML elements.  Be sure to call your parent's
  * implementation of this method as well.
  */
 void
@@ -2041,7 +2384,7 @@ Unit::writeElements (XMLOutputStream& stream) const
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
- * to the XMLOutputStream.  Be sure to call your parents implementation
+ * to the XMLOutputStream.  Be sure to call your parent's implementation
  * of this method as well.
  */
 void

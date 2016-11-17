@@ -37,7 +37,7 @@ package org.sbml.libsbml;
  <p>
  * If no {@link Priority} subobjects are defined for two or more {@link Event} objects,
  * then those events are still executed simultaneously but their order of
- * execution is <em>undefined by the SBML Level&nbsp;3 Version&nbsp;1
+ * execution is <em>undefined by the SBML Level&nbsp;3
  * specification</em>.  A software implementation may choose to execute
  * such simultaneous events in any order, as long as each event is executed
  * only once and the requirements of checking the 'persistent' attribute
@@ -130,6 +130,14 @@ package org.sbml.libsbml;
  * @note The {@link Priority} construct exists only in SBML Level&nbsp;3; it cannot
  * be used in SBML Level&nbsp;2 or Level&nbsp;1 models.
  <p>
+ * <h2>Restrictions relaxed in SBML Level&nbsp;3 Version&nbsp;2</h2>
+ <p>
+ * In SBML Level&nbsp;3 Version&nbsp;2, the requirement that a {@link Priority}
+ * have a 'math' subelement was relaxed, making it optional.  In
+ * this case, the {@link Priority} remains undefined, and unless that information
+ * is provided in some other form (such as with an SBML Level&nbsp;3
+ * package), the {@link Event} behaves as if it had no {@link Priority}.
+ <p>
  * @see Event
  * @see Delay
  * @see EventAssignment
@@ -182,10 +190,10 @@ public class Priority extends SBase {
    * Creates a new {@link Priority} object using the given SBML <code>level</code> and 
    * <code>version</code> values.
    <p>
-   * @param level a long integer, the SBML Level to assign to this {@link Priority}
+   * @param level a long integer, the SBML Level to assign to this {@link Priority}.
    <p>
    * @param version a long integer, the SBML Version to assign to this
-   * {@link Priority}
+   * {@link Priority}.
    <p>
    * <p>
  * @throws SBMLConstructorException
@@ -286,7 +294,7 @@ public class Priority extends SBase {
    * Get the mathematical formula for the priority and return it
    * as an AST.
    <p>
-   * @return the math of this {@link Priority}.
+   * @return the math of this {@link Priority}, or <code>null</code> if the math is not set.
    */ public
  ASTNode getMath() {
     long cPtr = libsbmlJNI.Priority_getMath(swigCPtr, this);
@@ -374,7 +382,8 @@ public class Priority extends SBase {
    <p>
    * @note The required elements for a {@link Priority} object are:
    * <ul>
-   * <li> 'math'
+   * <li> 'math' inSBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1.  
+   *     (In SBML Level&nbsp;3 Version&nbsp;2+, it is no longer required.)
    *
    * </ul> <p>
    * @return a boolean value indicating whether all the required
@@ -416,7 +425,7 @@ public class Priority extends SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -427,8 +436,8 @@ public class Priority extends SBase {
  * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
  * descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.Priority_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -457,8 +466,8 @@ public class Priority extends SBase {
  * are found, the matching values are replaced with <code>newid</code>.  The method
  * does <em>not</em> descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.Priority_renameUnitSIdRefs(swigCPtr, this, oldid, newid);

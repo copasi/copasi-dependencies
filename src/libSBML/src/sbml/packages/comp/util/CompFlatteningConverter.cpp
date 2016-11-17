@@ -401,6 +401,8 @@ CompFlatteningConverter::performConversion()
 
   if (getPerformValidation() == true)
   {
+    flatmodel->populateAllElementIdList();
+    flatmodel->populateAllElementMetaIdList();
     result = validateFlatDocument(flatmodel,
                     modelPlugin->getPackageVersion(), modelPlugin->getLevel(), 
                     modelPlugin->getVersion());

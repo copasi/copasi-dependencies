@@ -1083,7 +1083,7 @@ public class XMLError : IDisposable {
    * obtain additional information about the nature and severity of the
    * problem.
    *
-   * @return the message text
+   * @return the message text.
    *
    * @see getErrorId()
    * @see getShortMessage()
@@ -1106,7 +1106,7 @@ public class XMLError : IDisposable {
    * applications may wish to check XMLError::getMessage() in addition or
    * instead.
    *
-   * @return the short error message text
+   * @return the short error message text.
    * 
    * @see getErrorId()
    * @see getMessage()
@@ -1137,7 +1137,7 @@ public class XMLError : IDisposable {
    * encounters these values in an XMLError object, it can assume no valid
    * line/column number could be provided by libSBML in that situation.
    *
-   * @return the line number
+   * @return the line number.
    *
    * @see getColumn()
    */ public
@@ -1162,7 +1162,7 @@ public class XMLError : IDisposable {
    * encounters these values in an XMLError object, it can assume no valid
    * line/column number could be provided by libSBML in that situation.
    *
-   * @return the column number
+   * @return the column number.
    *
    * @see getLine()
    */ public
@@ -1344,7 +1344,7 @@ public class XMLError : IDisposable {
    * the value @link libsbml#LIBSBML_CAT_INTERNAL LIBSBML_CAT_INTERNAL@endlink from the
    * @if clike enumeration #XMLErrorCategory_t. @else set of predefined category codes.@endif
    *
-   * @return @c true or @c false
+   * @return a boolean indicating whether the error is an internal error.
    *
    * @see isSystem()
    * @see isXML()
@@ -1364,7 +1364,7 @@ public class XMLError : IDisposable {
    * the value @link libsbml#LIBSBML_CAT_SYSTEM LIBSBML_CAT_SYSTEM@endlink from the
    * @if clike enumeration #XMLErrorCategory_t. @else set of predefined category codes.@endif
    *
-   * @return @c true or @c false
+   * @return boolean indicating whether the error is a system error.
    *
    * @see isInternal()
    * @see isXML()
@@ -1385,7 +1385,7 @@ public class XMLError : IDisposable {
    * the value @link libsbml#LIBSBML_CAT_XML LIBSBML_CAT_XML@endlink from the
    * @if clike enumeration #XMLErrorCategory_t. @else set of predefined category codes.@endif
    *
-   * @return @c true or @c false
+   * @return a boolean indicating whether the error is an XML catetory error.
    *
    * @see isInternal()
    * @see isSystem()
@@ -1406,7 +1406,8 @@ public class XMLError : IDisposable {
    * the value XMLUnknownError or UnknownError from the
    * @if clike enumeration #XMLErrorCode_t. @else set of predefined error codes.@endif
    *
-   * @return @c true or @c false
+   * @return a boolean indicating whether the error is a valid error (@c true) 
+   * or whether it is unknown (@c false).
    */ public
  bool isValid() {
     bool ret = libsbmlPINVOKE.XMLError_isValid(swigCPtr);
@@ -1422,8 +1423,9 @@ public class XMLError : IDisposable {
    *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * enumeration #OperationReturnValues_t. @endif This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setColumn(unsigned int column)
@@ -1442,8 +1444,9 @@ public class XMLError : IDisposable {
    *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * enumeration #OperationReturnValues_t. @endif This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setLine(unsigned int line)

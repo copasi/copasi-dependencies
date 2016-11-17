@@ -43,9 +43,9 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 SpeciesTypeComponentIndex::SpeciesTypeComponentIndex (unsigned int level, unsigned int version, unsigned int pkgVersion)
   : SBase(level, version)
-   ,mId ("")
+////   ,mId ("")
    ,mComponent ("")
-   ,mIdentifyingParent ("")
+////   ,mIdentifyingParent ("")
 {
   // set an SBMLNamespaces derived object of this package
   setSBMLNamespacesAndOwn(new MultiPkgNamespaces(level, version, pkgVersion));
@@ -57,9 +57,9 @@ SpeciesTypeComponentIndex::SpeciesTypeComponentIndex (unsigned int level, unsign
  */
 SpeciesTypeComponentIndex::SpeciesTypeComponentIndex (MultiPkgNamespaces* multins)
   : SBase(multins)
-   ,mId ("")
+////   ,mId ("")
    ,mComponent ("")
-   ,mIdentifyingParent ("")
+////   ,mIdentifyingParent ("")
 {
   // set the element namespace of this object
   setElementNamespace(multins->getURI());
@@ -74,9 +74,9 @@ SpeciesTypeComponentIndex::SpeciesTypeComponentIndex (MultiPkgNamespaces* multin
  */
 SpeciesTypeComponentIndex::SpeciesTypeComponentIndex (const SpeciesTypeComponentIndex& orig)
   : SBase(orig)
-  , mId  ( orig.mId)
+//  , mId  ( orig.mId)
   , mComponent  ( orig.mComponent)
-  , mIdentifyingParent  ( orig.mIdentifyingParent)
+//  , mIdentifyingParent  ( orig.mIdentifyingParent)
 {
 }
 

@@ -923,7 +923,7 @@ appears in the documentation.
    * obtain additional information about the nature and severity of the
    * problem.
    <p>
-   * @return the message text
+   * @return the message text.
    <p>
    * @see #getErrorId()
    * @see #getShortMessage()
@@ -945,7 +945,7 @@ appears in the documentation.
    * applications may wish to check {@link XMLError#getMessage()} in addition or
    * instead.
    <p>
-   * @return the short error message text
+   * @return the short error message text.
    <p>
    * @see #getErrorId()
    * @see #getMessage()
@@ -975,7 +975,7 @@ appears in the documentation.
    * encounters these values in an {@link XMLError} object, it can assume no valid
    * line/column number could be provided by libSBML in that situation.
    <p>
-   * @return the line number
+   * @return the line number.
    <p>
    * @see #getColumn()
    */ public
@@ -1002,7 +1002,7 @@ appears in the documentation.
    * encounters these values in an {@link XMLError} object, it can assume no valid
    * line/column number could be provided by libSBML in that situation.
    <p>
-   * @return the column number
+   * @return the column number.
    <p>
    * @see #getLine()
    */ public
@@ -1184,7 +1184,7 @@ appears in the documentation.
    * the value {@link libsbmlConstants#LIBSBML_CAT_INTERNAL LIBSBML_CAT_INTERNAL} from the
    * set of predefined category codes.
    <p>
-   * @return <code>true</code> or <code>false</code>
+   * @return a boolean indicating whether the error is an internal error.
    <p>
    * @see #isSystem()
    * @see #isXML()
@@ -1203,7 +1203,7 @@ appears in the documentation.
    * the value {@link libsbmlConstants#LIBSBML_CAT_SYSTEM LIBSBML_CAT_SYSTEM} from the
    * set of predefined category codes.
    <p>
-   * @return <code>true</code> or <code>false</code>
+   * @return boolean indicating whether the error is a system error.
    <p>
    * @see #isInternal()
    * @see #isXML()
@@ -1223,7 +1223,7 @@ appears in the documentation.
    * the value {@link libsbmlConstants#LIBSBML_CAT_XML LIBSBML_CAT_XML} from the
    * set of predefined category codes.
    <p>
-   * @return <code>true</code> or <code>false</code>
+   * @return a boolean indicating whether the error is an XML catetory error.
    <p>
    * @see #isInternal()
    * @see #isSystem()
@@ -1243,7 +1243,8 @@ appears in the documentation.
    * the value XMLUnknownError or UnknownError from the
    * set of predefined error codes.
    <p>
-   * @return <code>true</code> or <code>false</code>
+   * @return a boolean indicating whether the error is a valid error (<code>true</code>) 
+   * or whether it is unknown (<code>false</code>).
    */ public
  boolean isValid() {
     return libsbmlJNI.XMLError_isValid(swigCPtr, this);
@@ -1257,8 +1258,9 @@ appears in the documentation.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -1277,8 +1279,9 @@ appears in the documentation.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *

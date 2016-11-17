@@ -49,8 +49,8 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 Transition::Transition (unsigned int level, unsigned int version, unsigned int pkgVersion)
   : SBase(level, version)
-   ,mId ("")
-   ,mName ("")
+//   ,mId ("")
+//   ,mName ("")
    ,mInputs (level, version, pkgVersion)
    ,mOutputs (level, version, pkgVersion)
    ,mFunctionTerms (level, version, pkgVersion)
@@ -68,8 +68,8 @@ Transition::Transition (unsigned int level, unsigned int version, unsigned int p
  */
 Transition::Transition (QualPkgNamespaces* qualns)
   : SBase(qualns)
-   ,mId ("")
-   ,mName ("")
+//   ,mId ("")
+//   ,mName ("")
    ,mInputs (qualns)
    ,mOutputs (qualns)
    ,mFunctionTerms (qualns)
@@ -90,8 +90,8 @@ Transition::Transition (QualPkgNamespaces* qualns)
  */
 Transition::Transition (const Transition& orig)
   : SBase(orig)
-  , mId (orig.mId)
-  , mName (orig.mName)
+  //, mId (orig.mId)
+  //, mName (orig.mName)
   , mInputs (orig.mInputs)
   , mOutputs (orig.mOutputs)
   , mFunctionTerms (orig.mFunctionTerms)
@@ -387,7 +387,7 @@ Transition::getInputBySpecies(const std::string& sid) const
 
 
 /**
- * Adds a copy the given "Input" to this Transition.
+ * Adds a copy the given Input to this Transition.
  */
 int 
 Transition::addInput(const Input* i)
@@ -420,9 +420,7 @@ Transition::addInput(const Input* i)
   }
   else
   {
-    mInputs.append(i);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mInputs.append(i);
   }
 }
 
@@ -430,7 +428,7 @@ Transition::addInput(const Input* i)
   /**
    * Get the number of Input objects in this Transition.
    *
-   * @return the number of Input objects in this Transition
+   * @return the number of Input objects in this Transition.
    */
 unsigned int 
 Transition::getNumInputs() const
@@ -440,7 +438,7 @@ Transition::getNumInputs() const
 
 
 /**
- * Creates a new Output object, adds it to this Transitions
+ * Creates a new Output object, adds it to this Transition's
  * ListOfOutputs and returns the Output object created. 
  */
 Input* 
@@ -573,7 +571,7 @@ Transition::getOutputBySpecies(const std::string& sid) const
 
 
 /**
- * Adds a copy the given "Output" to this Transition.
+ * Adds a copy the given Output to this Transition.
  */
 int 
 Transition::addOutput(const Output* i)
@@ -606,9 +604,7 @@ Transition::addOutput(const Output* i)
   }
   else
   {
-    mOutputs.append(i);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mOutputs.append(i);
   }
 }
 
@@ -616,7 +612,7 @@ Transition::addOutput(const Output* i)
   /**
    * Get the number of Output objects in this Transition.
    *
-   * @return the number of Output objects in this Transition
+   * @return the number of Output objects in this Transition.
    */
 unsigned int 
 Transition::getNumOutputs() const
@@ -626,7 +622,7 @@ Transition::getNumOutputs() const
 
 
 /**
- * Creates a new Output object, adds it to this Transitions
+ * Creates a new Output object, adds it to this Transition's
  * ListOfOutputs and returns the Output object created. 
  */
 Output* 
@@ -739,7 +735,7 @@ Transition::getFunctionTerm(const std::string& sid) const
 
 
 /**
- * Adds a copy the given "FunctionTerm" to this Transition.
+ * Adds a copy the given FunctionTerm to this Transition.
  */
 int 
 Transition::addFunctionTerm(const FunctionTerm* i)
@@ -766,9 +762,7 @@ Transition::addFunctionTerm(const FunctionTerm* i)
   }
   else
   {
-    mFunctionTerms.append(i);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mFunctionTerms.append(i);
   }
 }
 
@@ -776,7 +770,7 @@ Transition::addFunctionTerm(const FunctionTerm* i)
   /**
    * Get the number of FunctionTerm objects in this Transition.
    *
-   * @return the number of FunctionTerm objects in this Transition
+   * @return the number of FunctionTerm objects in this Transition.
    */
 unsigned int 
 Transition::getNumFunctionTerms() const
@@ -786,7 +780,7 @@ Transition::getNumFunctionTerms() const
 
 
 /**
- * Creates a new Output object, adds it to this Transitions
+ * Creates a new Output object, adds it to this Transition's
  * ListOfOutputs and returns the Output object created. 
  */
 FunctionTerm* 
@@ -1685,6 +1679,14 @@ int
 Transition_hasRequiredAttributes(Transition_t * t)
 {
   return (t != NULL) ? static_cast<int>(t->hasRequiredAttributes()) : 0;
+}
+
+
+LIBSBML_EXTERN
+int
+Transition_hasRequiredElements(Transition_t * t)
+{
+  return (t != NULL) ? static_cast<int>(t->hasRequiredElements()) : 0;
 }
 
 

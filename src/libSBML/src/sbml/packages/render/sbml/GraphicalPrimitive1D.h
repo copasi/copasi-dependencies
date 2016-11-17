@@ -66,7 +66,7 @@ class LIBSBML_EXTERN GraphicalPrimitive1D : public Transformation2D
 {
 protected:
   /** @cond doxygenLibsbmlInternal */
-   std::string mId;
+////   std::string mId;
    std::string mStroke;
    double mStrokeWidth;
    std::vector<unsigned int> mStrokeDashArray;

@@ -29,10 +29,6 @@ else if (pkgName == "multi")
       {
         return SWIGTYPE_p_ListOfOutwardBindingSites;
       }
-      else if (name == "listOfSpeciesFeatureChanges")
-      {
-        return SWIGTYPE_p_ListOfSpeciesFeatureChanges;
-      }
       else if (name == "listOfSpeciesFeatureTypes")
       {
         return SWIGTYPE_p_ListOfSpeciesFeatureTypes;
@@ -73,9 +69,6 @@ else if (pkgName == "multi")
 
     case SBML_MULTI_OUTWARD_BINDING_SITE:
       return SWIGTYPE_p_OutwardBindingSite;
-
-    case SBML_MULTI_SPECIES_FEATURE_CHANGE:
-      return SWIGTYPE_p_SpeciesFeatureChange;
 
     case SBML_MULTI_SPECIES_FEATURE_TYPE:
       return SWIGTYPE_p_SpeciesFeatureType;

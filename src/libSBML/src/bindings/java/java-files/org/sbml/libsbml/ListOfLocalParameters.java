@@ -24,6 +24,25 @@ package org.sbml.libsbml;
  * defined by the SBML specification, such as 'metaid' attributes and
  * annotations.
  <p>
+ * The relationship between the lists and the rest of an SBML model is
+ * illustrated by the following (for SBML Level&nbsp;2 Version&nbsp;4):
+ <p>
+ * <figure>
+  <object type="image/svg+xml" data="listof-illustration.svg" class="centered"></object>
+</figure>
+
+ <p>
+ * SBML Level&nbsp;3 Version&nbsp;1 has essentially the same structure as 
+ * Level&nbsp;2 Version&nbsp;4, depicted above, but SBML Level&nbsp;3 
+ * Version&nbsp;2 allows
+ * containers to contain zero or more of the relevant object, instead of 
+ * requiring at least one.  As such, libsbml will write out an 
+ * otherwise-empty ListOf___ element that has any optional attribute set 
+ * (such as 'id' or 'metaid'), that has an optional child (such 
+ * as a 'notes' or 'annotation'), or that has attributes or children set
+ * from any SBML Level&nbsp;3 package, whether or not the ListOf___ has 
+ * any other children.
+ <p>
  * Readers may wonder about the motivations for using the ListOf___
  * containers in SBML.  A simpler approach in XML might be to place the
  * components all directly at the top level of the model definition.  The
@@ -96,9 +115,9 @@ public class ListOfLocalParameters extends ListOfParameters {
    * The object is constructed such that it is valid for the given SBML
    * Level and Version combination.
    <p>
-   * @param level the SBML Level
+   * @param level the SBML Level.
    <p>
-   * @param version the Version within the SBML Level
+   * @param version the Version within the SBML Level.
    <p>
    * <p>
  * @throws SBMLConstructorException
@@ -257,7 +276,7 @@ public class ListOfLocalParameters extends ListOfParameters {
    * returned from this function (and is the reason we override the base
    * ListOf.getElementBySId function here).
    <p>
-   * @param id string representing the id of objects to find
+   * @param id string representing the id of the object to find.
    <p>
    * @return pointer to the first element found with the given <code>id</code>.
    */ public
@@ -270,7 +289,7 @@ public class ListOfLocalParameters extends ListOfParameters {
    * Removes the nth item from this {@link ListOfLocalParameters}, and returns a
    * pointer to it.
    <p>
-   * @param n the index of the item to remove.  
+   * @param n the index of the item to remove.
    <p>
    * @return the item removed.  The caller owns the returned object and is
    * responsible for deleting it.  If the index number <code>n</code> is out of

@@ -414,9 +414,9 @@ public class XMLErrorLog : IDisposable {
  * logging completely.  An override stays in effect until the override is
  * changed again by the calling application.
    *
-   * @param originalSeverity the severity code to match
+   * @param originalSeverity the severity code to match.
    *
-   * @param targetSeverity the severity code to use as the new severity
+   * @param targetSeverity the severity code to use as the new severity.
    *
    * @param package a string, the name of an SBML Level&nbsp;3 package
    * extension to use to narrow the search for errors.  A value of @c 'all'
@@ -456,9 +456,9 @@ public class XMLErrorLog : IDisposable {
  * logging completely.  An override stays in effect until the override is
  * changed again by the calling application.
    *
-   * @param originalSeverity the severity code to match
+   * @param originalSeverity the severity code to match.
    *
-   * @param targetSeverity the severity code to use as the new severity
+   * @param targetSeverity the severity code to use as the new severity.
    *
    * @param package a string, the name of an SBML Level&nbsp;3 package
    * extension to use to narrow the search for errors.  A value of @c 'all'

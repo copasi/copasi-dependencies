@@ -442,9 +442,9 @@ appears in the documentation.
  * logging completely.  An override stays in effect until the override is
  * changed again by the calling application.
    <p>
-   * @param originalSeverity the severity code to match
+   * @param originalSeverity the severity code to match.
    <p>
-   * @param targetSeverity the severity code to use as the new severity
+   * @param targetSeverity the severity code to use as the new severity.
    <p>
    * @param package a string, the name of an SBML Level&nbsp;3 package
    * extension to use to narrow the search for errors.  A value of <code>'all'</code>
@@ -495,9 +495,9 @@ appears in the documentation.
  * logging completely.  An override stays in effect until the override is
  * changed again by the calling application.
    <p>
-   * @param originalSeverity the severity code to match
+   * @param originalSeverity the severity code to match.
    <p>
-   * @param targetSeverity the severity code to use as the new severity
+   * @param targetSeverity the severity code to use as the new severity.
    <p>
    * @param package a string, the name of an SBML Level&nbsp;3 package
    * extension to use to narrow the search for errors.  A value of <code>'all'</code>

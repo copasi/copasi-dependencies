@@ -53,11 +53,11 @@ namespace libsbml {
  * signifying @c + and @c 1 signifying @c -).  See the paragraph below for
  * further explanations.
  * 
- * @li @em hours offset: a long integer representing the time zone's hour
- * offset from GMT.
+ * @li @em hours @em offset: a long integer representing the time zone's hour
+ * offset from GMT, with a range of 0&ndash;12.
  * 
- * @li @em minute offset: a long integer representing the time zone's
- * minute offset from GMT.
+ * @li @em minute @em offset: a long integer representing the time zone's
+ * minute offset from GMT, with a range of 0&ndash;59.
  *
  * To illustrate the time zone offset, a value of <code>-05:00</code> would
  * correspond to USA Eastern Standard Time.  In the Date object, this would
@@ -757,6 +757,8 @@ public class Date : IDisposable {
  * @li @em DD is a two-digit integer representing the day of the month,
  * with a range of values of 01&ndash;31.
  * 
+ * @li @em T is the literal character @c T.
+ * 
  * @li @em hh is a two-digit integer representing the hour on a 24-hour
  * clock, with a range of values of 00&ndash;23.
  * 
@@ -906,6 +908,8 @@ public class Date : IDisposable {
  *
  * @li @em DD is a two-digit integer representing the day of the month,
  * with a range of values of 01&ndash;31.
+ * 
+ * @li @em T is the literal character @c T.
  * 
  * @li @em hh is a two-digit integer representing the hour on a 24-hour
  * clock, with a range of values of 00&ndash;23.
@@ -1088,7 +1092,7 @@ public class Date : IDisposable {
    * Sets the value of this Date object's time zone hour offset.
    *  
    * @param hoursOffset a long integer representing the hours of the
-   * offset; it must be in the range 0&ndash;23 or an error will be
+   * offset; it must be in the range 0&ndash;12 or an error will be
    * signaled.
    *
    *
@@ -1149,6 +1153,8 @@ public class Date : IDisposable {
  * @li @em DD is a two-digit integer representing the day of the month,
  * with a range of values of 01&ndash;31.
  * 
+ * @li @em T is the literal character @c T.
+ * 
  * @li @em hh is a two-digit integer representing the hour on a 24-hour
  * clock, with a range of values of 00&ndash;23.
  * 
@@ -1194,7 +1200,7 @@ public class Date : IDisposable {
 
   
 /**
-   * Returns true or false depending on whether this date object represents
+   * Returns @c true or @c false depending on whether this date object represents
    * a valid date and time value.
    *
    * This method verifies that the date/time value stored in this object is

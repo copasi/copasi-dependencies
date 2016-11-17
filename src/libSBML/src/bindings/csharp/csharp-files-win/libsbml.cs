@@ -339,6 +339,19 @@ public class libsbml {
 
 
 
+
+	public static ASTBasePlugin DowncastASTBasePlugin(IntPtr cPtr, bool owner)
+	{		
+		if (cPtr.Equals(IntPtr.Zero)) return null;
+		
+		ASTBasePlugin ext = new ASTBasePlugin(cPtr, false);
+		string pkgName = ext.getPackageName();
+
+				
+		return new ASTBasePlugin(cPtr,owner);
+	}
+
+
   public static readonly OStream cout = new OStream(OStream.COUT); 
   public static readonly OStream cerr = new OStream(OStream.CERR); 
   public static readonly OStream clog = new OStream(OStream.CLOG); 
@@ -425,7 +438,7 @@ public class libsbml {
  * This method takes an SBML operation return value and returns a string representing
  * the code.
  *
- * @param returnValue the operation return value to convert to a string
+ * @param returnValue the operation return value to convert to a string.
  *
  * @return a human readable name for the given
  * @if clike #OperationReturnValues_t value@else operation return value @endif.
@@ -818,7 +831,7 @@ if (doc.getNumErrors() > 0)
  *
  *
  *
- * @param xml a string containing a full SBML model
+ * @param xml a string containing a full SBML model.
  *
  * @return a pointer to the SBMLDocument structure created from the SBML
  * content in @p xml.
@@ -851,7 +864,7 @@ if (doc.getNumErrors() > 0)
  *
  * @htmlinclude assuming-compressed-file.html
  *
- * @param d the SBMLDocument object to be written out in XML format
+ * @param d the SBMLDocument object to be written out in XML format.
  * 
  * @param filename a string giving the path to a file where the XML
  * content is to be written.
@@ -886,7 +899,7 @@ if (doc.getNumErrors() > 0)
  *
  * but does not require the caller to create an SBMLWriter object first.
  *
- * @param d an SBMLDocument object to be written out in XML format
+ * @param d an SBMLDocument object to be written out in XML format.
  *
  * @return the string on success and @c null if one of the underlying parser
  * components fail.
@@ -914,7 +927,7 @@ if (doc.getNumErrors() > 0)
  *
  * @htmlinclude assuming-compressed-file.html
  * 
- * @param d an SBMLDocument object to be written out in XML format
+ * @param d an SBMLDocument object to be written out in XML format.
  *
  * @param filename a string giving the path to a file where the XML
  * content is to be written.
@@ -997,8 +1010,8 @@ if (doc.getNumErrors() > 0)
  * (because each of the above is a distinct enumeration value), but
  * this function returns @c true.
  *
- * @param uk1 a <code>UNIT_KIND_</code> value 
- * @param uk2 a second <code>UNIT_KIND_</code> value to compare to @p uk1
+ * @param uk1 a <code>UNIT_KIND_</code> value.
+ * @param uk2 a second <code>UNIT_KIND_</code> value to compare to @p uk1.
  *
  * @return nonzero (for @c true) if @p uk1 is logically equivalent to @p
  * uk2, zero (for @c false) otherwise.
@@ -1020,7 +1033,7 @@ if (doc.getNumErrors() > 0)
  * Converts a text string naming a kind of unit to its corresponding
  * libSBML <code>UNIT_KIND_</code> constant/enumeration value.
  *
- * @param name a string, the name of a predefined base unit in SBML
+ * @param name a string, the name of a predefined base unit in SBML.
  * 
  * @return @if clike a value from UnitKind_t corresponding to the given
  * string @p name (determined in a case-insensitive manner).
@@ -1076,9 +1089,9 @@ if (doc.getNumErrors() > 0)
  * Predicate for testing whether a given string corresponds to a
  * predefined libSBML unit code.
  *
- * @param str a text string naming a base unit defined by SBML
- * @param level the Level of SBML
- * @param version the Version within the Level of SBML
+ * @param str a text string naming a base unit defined by SBML.
+ * @param level the Level of SBML.
+ * @param version the Version within the Level of SBML.
  *
  * @return nonzero (for @c true) if string is the name of a valid
  * <code>UNIT_KIND_</code> value, zero (for @c false) otherwise.
@@ -1105,7 +1118,7 @@ if (doc.getNumErrors() > 0)
  * passing it the qualifier <code>BQM_IS_DESCRIBED_BY</code> will return
  * the string <code>'isDescribedBy'</code>.
  *
- * @param type The @if clike ModelQualifierType_t@endif value to
+ * @param type the @if clike ModelQualifierType_t@endif value to
  * translate. @ifnot clike The value should be a libSBML constant whose
  * name begins with @c BQM_, such as (for example)
  * @link libsbml#BQM_IS BQM_IS@endlink.@endif
@@ -1134,7 +1147,7 @@ if (doc.getNumErrors() > 0)
  * passing it the qualifier <code>BQB_HAS_VERSION</code> will return
  * the string <code>'hasVersion'</code>.
  *
- * @param type The @if clike BiolQualifierType_t@endif value to
+ * @param type the @if clike BiolQualifierType_t@endif value to
  * translate. @ifnot clike The value should be a constant whose name
  * begins with @c BQB_, such as (for example)
  * @link libsbml#BQB_IS BQB_IS@endlink.@endif
@@ -1163,7 +1176,7 @@ if (doc.getNumErrors() > 0)
  * <code>'isDescribedBy'</code> will return the qualifier
  * <code>BQM_IS_DESCRIBED_BY</code>.
  *
- * @param s The string to translate to a @if clike ModelQualifierType_t
+ * @param s the string to translate to a @if clike ModelQualifierType_t
  * value@else libSBML constant value representing a model qualifier@endif.
  *
  * @return a libSBML qualifier enumeration value for the given human readable
@@ -1188,7 +1201,7 @@ if (doc.getNumErrors() > 0)
  * <code>'hasVersion'</code> will return the qualifier
  * <code>BQB_HAS_VERSION</code>.
  *
- * @param s The string to translate to a @if clike BiolQualifierType_t
+ * @param s the string to translate to a @if clike BiolQualifierType_t
  * value@else libSBML constant value representing a biological qualifier@endif.
  *
  * @return a libSBML qualifier enumeration value for the given human readable
@@ -1320,7 +1333,7 @@ if (doc.getNumErrors() > 0)
  * Reads the MathML from the given XML string, constructs a corresponding
  * abstract syntax tree, and returns a pointer to the root of the tree.
  *
- * @param xml a string containing a full MathML expression
+ * @param xml a string containing a full MathML expression.
  *
  * @return the root of an AST corresponding to the given mathematical
  * expression, otherwise @c null is returned if the given string is @c null
@@ -1341,7 +1354,7 @@ if (doc.getNumErrors() > 0)
  * Reads the MathML from the given XML string, constructs a corresponding
  * abstract syntax tree, and returns a pointer to the root of the tree.
  *
- * @param xml a string containing a full MathML expression
+ * @param xml a string containing a full MathML expression.
  * @param xmlns an @if conly XMLNamespaces_t structure @else XMLNamespaces
  * object@endif containing namespaces that are considered active during the
  * read. (For example, an SBML Level&nbsp;3 package namespace.)
@@ -1380,6 +1393,30 @@ if (doc.getNumErrors() > 0)
  */ public
  static string writeMathMLToString(ASTNode node) {
     string ret = libsbmlPINVOKE.writeMathMLToString(ASTNode.getCPtr(node));
+    return ret;
+  }
+
+  
+/**
+* Writes the given AST node (and its children) to a string as MathML, and
+* returns the string.
+*
+* @param node the root of an AST to write out to the stream.
+* @param sbmlns the SBML namespace to be used
+*
+* @return a string containing the written-out MathML representation
+* of the given AST.
+*
+* @note The string is owned by the caller and should be freed (with
+* free()) when no longer needed.  @c null is returned if the given
+* argument is @c null.
+*
+* @if conly
+* @memberof ASTNode_t
+* @endif
+*/ public
+ static string writeMathMLWithNamespaceToString(ASTNode node, SBMLNamespaces sbmlns) {
+    string ret = libsbmlPINVOKE.writeMathMLWithNamespaceToString(ASTNode.getCPtr(node), SBMLNamespaces.getCPtr(sbmlns));
     return ret;
   }
 
@@ -1453,7 +1490,7 @@ if (doc.getNumErrors() > 0)
  *
  *
  *
- * @param formula the text-string formula expression to be parsed
+ * @param formula the text-string formula expression to be parsed.
  *
  * @return the root node of the AST corresponding to the @p formula, or @c
  * null if an error occurred in parsing the formula
@@ -2160,7 +2197,7 @@ if (doc.getNumErrors() > 0)
  *
  *
  *
- * @param formula the text-string formula expression to be parsed
+ * @param formula the text-string formula expression to be parsed.
  *
  * @return the root node of an AST representing the mathematical formula, or
  * @c null if an error occurred while parsing the formula.  When @c null is
@@ -2210,9 +2247,9 @@ if (doc.getNumErrors() > 0)
  * about the parser, please see the definition of L3ParserSettings and
  * the function @sbmlfunction{parseL3Formula, String}.
  *
- * @param formula the mathematical formula expression to be parsed
+ * @param formula the mathematical formula expression to be parsed.
  *
- * @param model the Model object to use for checking identifiers
+ * @param model the Model object to use for checking identifiers.
  *
  * @return the root node of an AST representing the mathematical formula,
  * or @c null if an error occurred while parsing the formula.  When @c null
@@ -2297,9 +2334,9 @@ if (doc.getNumErrors() > 0)
  * L3ParserSettings and @sbmlfunction{parseL3FormulaWithSettings, String\,
  * L3ParserSettings}.
  *
- * @param formula the mathematical formula expression to be parsed
+ * @param formula the mathematical formula expression to be parsed.
  *
- * @param settings the settings to be used for this parser invocation
+ * @param settings the settings to be used for this parser invocation.
  *
  * @return the root node of an AST representing the mathematical formula,
  * or @c null if an error occurred while parsing the formula.  When @c null
@@ -2603,9 +2640,9 @@ if (doc.getNumErrors() > 0)
     libsbmlPINVOKE.SBML_deleteL3Parser();
   }
 
-  public const string LIBSBML_DOTTED_VERSION = "5.13.0";
-  public const int LIBSBML_VERSION = 51300;
-  public const string LIBSBML_VERSION_STRING = "51300";
+  public const string LIBSBML_DOTTED_VERSION = "5.14.0";
+  public const int LIBSBML_VERSION = 51400;
+  public const string LIBSBML_VERSION_STRING = "51400";
   // OperationReturnValues_t 
   public const int LIBSBML_OPERATION_SUCCESS = 0;
   public const int LIBSBML_INDEX_EXCEEDS_SIZE = -1;
@@ -2623,6 +2660,7 @@ if (doc.getNumErrors() > 0)
   public const int LIBSBML_ANNOTATION_NS_NOT_FOUND = -13;
   public const int LIBSBML_MISSING_METAID = -14;
   public const int LIBSBML_DEPRECATED_ATTRIBUTE = -15;
+  public const int LIBSBML_USE_ID_ATTRIBUTE_FUNCTION = -16;
   public const int LIBSBML_PKG_VERSION_MISMATCH = -20;
   public const int LIBSBML_PKG_UNKNOWN = -21;
   public const int LIBSBML_PKG_UNKNOWN_VERSION = -22;
@@ -2828,6 +2866,9 @@ if (doc.getNumErrors() > 0)
   public const int DisallowedMathUnitsUse = 10220;
   public const int InvalidUnitsValue = 10221;
   public const int CiCannotReference0DCompartment = 10222;
+  public const int RateOfTargetMustBeCi = 10223;
+  public const int RateOfTargetCannotBeAssigned = 10224;
+  public const int RateOfSpeciesTargetCompartmentNot = 10225;
   public const int DuplicateComponentId = 10301;
   public const int DuplicateUnitDefinitionId = 10302;
   public const int DuplicateLocalParameterId = 10303;
@@ -2887,6 +2928,7 @@ if (doc.getNumErrors() > 0)
   public const int InvalidTriggerSBOTerm = 10716;
   public const int InvalidDelaySBOTerm = 10717;
   public const int InvalidLocalParameterSBOTerm = 10718;
+  public const int InvalidSBMLElementSBOTerm = 10719;
   public const int NotesNotInXHTMLNamespace = 10801;
   public const int NotesContainsXMLDecl = 10802;
   public const int NotesContainsDOCTYPE = 10803;
@@ -3012,6 +3054,7 @@ if (doc.getNumErrors() > 0)
   public const int AllowedAttributesOnRateRule = 20909;
   public const int AllowedAttributesOnAlgRule = 20910;
   public const int RuleCannotRef0DComp = 20911;
+  public const int CircularDependencyRateOf = 20912;
   public const int ConstraintMathNotBoolean = 21001;
   public const int IncorrectOrderInConstraint = 21002;
   public const int ConstraintNotInXHTMLNamespace = 21003;
@@ -3050,6 +3093,7 @@ if (doc.getNumErrors() > 0)
   public const int AllowedAttributesOnListOfMods = 21151;
   public const int L3V2FastDeprecated = 21152;
   public const int AllowedAttributesOnLocalParameter = 21172;
+  public const int LocalParameterShadowsSpecies = 21173;
   public const int MissingTriggerInEvent = 21201;
   public const int TriggerMathNotBoolean = 21202;
   public const int MissingEventAssignment = 21203;
@@ -3153,6 +3197,16 @@ if (doc.getNumErrors() > 0)
   public const int DuplicateAnnotationInvalidInL3v1 = 96009;
   public const int NoCompartmentOutsideInL3v1 = 96010;
   public const int NoStoichiometryMathInL3v1 = 96011;
+  public const int DoubleExponentNotSupported = 98001;
+  public const int MathMLElementNotSupported = 98002;
+  public const int EmptyListOfElementNotSupported = 98003;
+  public const int MissingMathElementNotSupported = 98004;
+  public const int MissingTriggerElementNotSupported = 98005;
+  public const int BooleanNumericDiscrepancy = 98006;
+  public const int IdNameSBaseInL3V2 = 98007;
+  public const int MissingParticipantsNotSupported = 98008;
+  public const int ConvertibleMathInitialAssignment = 98009;
+  public const int FastReactionsNotSupported = 98010;
   public const int InvalidSBMLLevelVersion = 99101;
   public const int AnnotationNotesNotAllowedLevel1 = 99104;
   public const int InvalidRuleOrdering = 99106;
@@ -3188,6 +3242,7 @@ if (doc.getNumErrors() > 0)
   public const int UndeclaredTimeUnitsL3 = 99506;
   public const int UndeclaredExtentUnitsL3 = 99507;
   public const int UndeclaredObjectUnitsL3 = 99508;
+  public const int CannotVerifyUnitsObjectNoMath = 99509;
   public const int UnrecognisedSBOTerm = 99701;
   public const int ObseleteSBOTerm = 99702;
   public const int IncorrectCompartmentSpatialDimensions = 99901;
@@ -3239,6 +3294,8 @@ if (doc.getNumErrors() > 0)
   public const int LIBSBML_CAT_INTERNAL_CONSISTENCY = LIBSBML_CAT_MODELING_PRACTICE + 1;
   public const int LIBSBML_CAT_SBML_L2V4_COMPAT = LIBSBML_CAT_INTERNAL_CONSISTENCY + 1;
   public const int LIBSBML_CAT_SBML_L3V1_COMPAT = LIBSBML_CAT_SBML_L2V4_COMPAT + 1;
+  public const int LIBSBML_CAT_SBML_L3V2_COMPAT = LIBSBML_CAT_SBML_L3V1_COMPAT + 1;
+  public const int LIBSBML_CAT_SBML_COMPATIBILITY = LIBSBML_CAT_SBML_L3V2_COMPAT + 1;
 
   // SBMLErrorSeverity_t 
   public const int LIBSBML_SEV_SCHEMA_ERROR = (LIBSBML_SEV_FATAL+1);
@@ -3344,7 +3401,13 @@ if (doc.getNumErrors() > 0)
   public const int AST_SEMANTICS = AST_QUALIFIER_DEGREE + 1;
   public const int AST_CONSTRUCTOR_PIECE = AST_SEMANTICS + 1;
   public const int AST_CONSTRUCTOR_OTHERWISE = AST_CONSTRUCTOR_PIECE + 1;
-  public const int AST_UNKNOWN = AST_CONSTRUCTOR_OTHERWISE + 1;
+  public const int AST_FUNCTION_MAX = AST_CONSTRUCTOR_OTHERWISE + 1;
+  public const int AST_FUNCTION_MIN = AST_FUNCTION_MAX + 1;
+  public const int AST_FUNCTION_QUOTIENT = AST_FUNCTION_MIN + 1;
+  public const int AST_FUNCTION_RATE_OF = AST_FUNCTION_QUOTIENT + 1;
+  public const int AST_FUNCTION_REM = AST_FUNCTION_RATE_OF + 1;
+  public const int AST_LOGICAL_IMPLIES = AST_FUNCTION_REM + 1;
+  public const int AST_UNKNOWN = AST_LOGICAL_IMPLIES + 1;
   public const int AST_ORIGINATES_IN_PACKAGE = AST_UNKNOWN + 1;
 
   // AST_Class_TypeCode_t 
@@ -3362,7 +3425,8 @@ if (doc.getNumErrors() > 0)
   public const int AST_TYPECODE_CSYMBOL_AVOGADRO = AST_TYPECODE_CSYMBOL + 1;
   public const int AST_TYPECODE_CSYMBOL_DELAY = AST_TYPECODE_CSYMBOL_AVOGADRO + 1;
   public const int AST_TYPECODE_CSYMBOL_TIME = AST_TYPECODE_CSYMBOL_DELAY + 1;
-  public const int AST_TYPECODE_FUNCTION = AST_TYPECODE_CSYMBOL_TIME + 1;
+  public const int AST_TYPECODE_CSYMBOL_RATE_OF = AST_TYPECODE_CSYMBOL_TIME + 1;
+  public const int AST_TYPECODE_FUNCTION = AST_TYPECODE_CSYMBOL_RATE_OF + 1;
   public const int AST_TYPECODE_FUNCTION_UNARY = AST_TYPECODE_FUNCTION + 1;
   public const int AST_TYPECODE_FUNCTION_BINARY = AST_TYPECODE_FUNCTION_UNARY + 1;
   public const int AST_TYPECODE_FUNCTION_NARY = AST_TYPECODE_FUNCTION_BINARY + 1;

@@ -96,7 +96,7 @@ public class RDFAnnotationParser : IDisposable {
    * information, and create a list of corresponding CVTerm objects.
    *
    * @param annotation XMLNode containing the annotation.
-   * @param stream optional XMLInputStream that facilitates error logging
+   * @param stream optional XMLInputStream that facilitates error logging.
    * @param metaId optional metaId, if set only the RDF annotation for this metaId will be returned.
    *
    *
@@ -127,7 +127,7 @@ public class RDFAnnotationParser : IDisposable {
    * information, and create a list of corresponding CVTerm objects.
    *
    * @param annotation XMLNode containing the annotation.
-   * @param stream optional XMLInputStream that facilitates error logging
+   * @param stream optional XMLInputStream that facilitates error logging.
    * @param metaId optional metaId, if set only the RDF annotation for this metaId will be returned.
    *
    *
@@ -158,7 +158,7 @@ public class RDFAnnotationParser : IDisposable {
    * information, and create a list of corresponding CVTerm objects.
    *
    * @param annotation XMLNode containing the annotation.
-   * @param stream optional XMLInputStream that facilitates error logging
+   * @param stream optional XMLInputStream that facilitates error logging.
    * @param metaId optional metaId, if set only the RDF annotation for this metaId will be returned.
    *
    *
@@ -239,7 +239,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * Level&nbsp;2 (Versions 2&ndash;4) and SBML Level&nbsp;3 specification
    * documents.
    *
-   * @return a pointer to an XMLNode for the annotation
+   * @return a pointer to an XMLNode for the annotation.
    *
    *
  * @if python @note Because this is a static method on a class, the Python
@@ -283,7 +283,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * @if clike createAnnotation()@else RDFAnnotationParser::createAnnotation()@endif
    * is available for creating the container.
    *
-   * @return a pointer to an XMLNode
+   * @return a pointer to an XMLNode.
    *
    *
  * @if python @note Because this is a static method on a class, the Python
@@ -327,7 +327,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * @if clike createAnnotation()@else RDFAnnotationParser::createAnnotation()@endif
    * is available for creating the container.
    *
-   * @return a pointer to an XMLNode
+   * @return a pointer to an XMLNode.
    *
    *
  * @if python @note Because this is a static method on a class, the Python
@@ -371,7 +371,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * @if clike createAnnotation()@else RDFAnnotationParser::createAnnotation()@endif
    * is available for creating the container.
    *
-   * @return a pointer to an XMLNode
+   * @return a pointer to an XMLNode.
    *
    *
  * @if python @note Because this is a static method on a class, the Python
@@ -401,7 +401,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * objects attached to it, creates an RDF 'Description' element to hold
    * the terms, and adds each term with appropriate qualifiers.
    *
-   * @param obj the SBML object to start from
+   * @param obj the SBML object to start from.
    *
    * @return the XMLNode tree corresponding to the Description element of
    * an RDF annotation.
@@ -436,7 +436,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * RDFAnnotationParser::createAnnotation()@endif to wrap the result as
    * an SBML <code>&lt;annotation&gt;</code> element.
    *
-   * @param obj the SBML object to start from
+   * @param obj the SBML object to start from.
    *
    * @return the XMLNode tree corresponding to the annotation.
    *
@@ -463,7 +463,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * XML structure for an SBML annotation representing that metadata if 
    * there is a model history stored in @p obj.
    *
-   * @param obj any SBase object
+   * @param obj any SBase object.
    *
    * @return the XMLNode corresponding to an annotation containing 
    * MIRIAM-compliant model history and CV term information in RDF format.
@@ -493,7 +493,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * Reads the model history stored in @p obj and creates the
    * XML structure for an SBML annotation representing that history.
    *
-   * @param obj any SBase object
+   * @param obj any SBase object.
    *
    * @return the XMLNode corresponding to an annotation containing 
    * MIRIAM-compliant model history information in RDF format.
@@ -528,7 +528,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * of a History or CVTerm element.
    *
    * @param annotation the XMLNode tree within which the RDF annotation is
-   * to be found and deleted
+   * to be found and deleted.
    *
    * @return the XMLNode structure that is left after RDF annotations are
    * deleted.
@@ -563,7 +563,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * History element.
    *
    * @param annotation the XMLNode tree within which the RDF annotation is
-   * to be found and deleted
+   * to be found and deleted.
    *
    * @return the XMLNode structure that is left after RDF annotations are
    * deleted.
@@ -598,7 +598,7 @@ success = sbmlObject.setAnnotation(annot)           # Set object's annotation.
    * CVTerm element.
    *
    * @param annotation the XMLNode tree within which the RDF annotation is
-   * to be found and deleted
+   * to be found and deleted.
    *
    * @return the XMLNode structure that is left after RDF annotations are
    * deleted.

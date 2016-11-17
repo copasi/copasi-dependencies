@@ -940,7 +940,7 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
    * as a comment in the output stream.
    <p>
    * @param writeTimestamp an optional flag indicating that a timestamp should
-   * be written
+   * be written.
    */ public
  void writeComment(String programName, String programVersion, boolean writeTimestamp) {
     libsbmlJNI.XMLOutputStream_writeComment__SWIG_0(swigCPtr, this, programName, programVersion, writeTimestamp);
@@ -966,7 +966,7 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
    * as a comment in the output stream.
    <p>
    * @param writeTimestamp an optional flag indicating that a timestamp should
-   * be written
+   * be written.
    */ public
  void writeComment(String programName, String programVersion) {
     libsbmlJNI.XMLOutputStream_writeComment__SWIG_1(swigCPtr, this, programName, programVersion);
@@ -1031,7 +1031,7 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
   
 /**
    * @return a boolean, whether the output stream will write an XML
-   * comment at the top of the file. (Enabled by default)
+   * comment at the top of the file. (Enabled by default.)
    */ public
  static boolean getWriteComment() {
     return libsbmlJNI.XMLOutputStream_getWriteComment();
@@ -1040,9 +1040,9 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
   
 /**
    * sets a flag, whether the output stream will write an XML
-   * comment at the top of the file. (Enabled by default)
+   * comment at the top of the file. (Enabled by default.)
    <p>
-   * @param writeComment the flag
+   * @param writeComment the flag.
    */ public
  static void setWriteComment(boolean writeComment) {
     libsbmlJNI.XMLOutputStream_setWriteComment(writeComment);
@@ -1051,7 +1051,7 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
   
 /**
    * @return a boolean, whether the output stream will write an XML
-   * comment with a timestamp at the top of the file. (Enabled by default)
+   * comment with a timestamp at the top of the file. (Enabled by default.)
    */ public
  static boolean getWriteTimestamp() {
     return libsbmlJNI.XMLOutputStream_getWriteTimestamp();
@@ -1060,9 +1060,9 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
   
 /**
    * sets a flag, whether the output stream will write an XML
-   * comment with a timestamp at the top of the file. (Enabled by default)
+   * comment with a timestamp at the top of the file. (Enabled by default.)
    <p>
-   * @param writeTimestamp the flag
+   * @param writeTimestamp the flag.
    */ public
  static void setWriteTimestamp(boolean writeTimestamp) {
     libsbmlJNI.XMLOutputStream_setWriteTimestamp(writeTimestamp);
@@ -1070,7 +1070,7 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
 
   
 /**
-   * @return the name of the library to be used in comments ('libSBML' by default)
+   * @return the name of the library to be used in comments ('libSBML' by default).
    */ public
  static String getLibraryName() {
     return libsbmlJNI.XMLOutputStream_getLibraryName();
@@ -1080,7 +1080,7 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
 /**
    * sets the name of the library writing the XML
 <p>
-   * @param libraryName the name of the library to be used in comments
+   * @param libraryName the name of the library to be used in comments.
    */ public
  static void setLibraryName(String libraryName) {
     libsbmlJNI.XMLOutputStream_setLibraryName(libraryName);
@@ -1099,7 +1099,7 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
 /**
    * sets the name of the library writing the output
    <p>
-   * @param libraryVersion the version information as string
+   * @param libraryVersion the version information as string.
    */ public
  static void setLibraryVersion(String libraryVersion) {
     libsbmlJNI.XMLOutputStream_setLibraryVersion(libraryVersion);

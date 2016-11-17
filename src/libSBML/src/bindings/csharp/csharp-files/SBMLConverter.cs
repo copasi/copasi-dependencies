@@ -35,7 +35,7 @@ namespace libsbmlcs {
  * The use of all the converters follows a similar approach.  First, one
  * creates a ConversionProperties object and calls
  * ConversionProperties::addOption(@if java ConversionOption@endif)
- * on this object with one arguments: a text string that identifies the desired
+ * on this object with one argument: a text string that identifies the desired
  * converter.  (The text string is specific to each converter; consult the
  * documentation for a given converter to find out how it should be enabled.)
  *
@@ -244,7 +244,7 @@ public class SBMLConverter : IDisposable {
 /**
    * Creates a new SBMLConverter object with a given name.
    *
-   * @param name the name for the converter to create
+   * @param name the name for the converter to create.
    */ public
  SBMLConverter(string name) : this(libsbmlPINVOKE.new_SBMLConverter__SWIG_1(name), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();

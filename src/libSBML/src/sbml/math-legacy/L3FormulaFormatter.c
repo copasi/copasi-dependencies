@@ -359,45 +359,45 @@ L3FormulaFormatter_isGrouped (const ASTNode_t *parent, const ASTNode_t *child, c
         group = 1;
       }
       else {
-      group = 1;
-      pp = getL3Precedence(parent);
-      cp = getL3Precedence(child);
+        group = 1;
+        pp = getL3Precedence(parent);
+        cp = getL3Precedence(child);
 
-      if (pp < cp)
-      {
-        group = 0;
-      }
-      else if (pp == cp)
-      {
-        /**
-         * Don't group only if i) child is the first on the list and ii) both parent and
-         * child are the same type, or if they
-         * should be associative operators (i.e. not AST_MINUS or
-         * AST_DIVIDE).  That is, do not group a parent and left child
-         * that are either both AST_PLUS or both AST_TIMES operators, nor the logical operators
-         * that have the same precedence.
-         */
-        if (ASTNode_getLeftChild(parent) == child)
+        if (pp < cp)
         {
+          group = 0;
+        }
+        else if (pp == cp)
+        {
+          /**
+          * Don't group only if i) child is the first on the list and ii) both parent and
+          * child are the same type, or if they
+          * should be associative operators (i.e. not AST_MINUS or
+          * AST_DIVIDE).  That is, do not group a parent and left child
+          * that are either both AST_PLUS or both AST_TIMES operators, nor the logical operators
+          * that have the same precedence.
+          */
+          if (ASTNode_getLeftChild(parent) == child)
+          {
             pt = ASTNode_getType(parent);
             ct = ASTNode_getType(child);
-          if (ASTNode_isLogical(parent) || ASTNode_isRelational(parent)) {
+            if (ASTNode_isLogical(parent) || ASTNode_isRelational(parent)) {
               group = !(pt == ct);
-          }
-          else {
+            }
+            else {
               group = !((pt == ct) || (pt == AST_DIVIDE || pt == AST_MINUS));
+            }
           }
         }
-      }
-      else if (pp==7 && cp==6) {
-        //If the parent is 'power' and the child is 'unary not' or 'unary minus', we only need
-        // to group if the child is the *left* child:  '(-x)^y', but 'x^-y'.
-        if (!(ASTNode_getLeftChild(parent) == child)) { 
-          group = 0;
+        else if (pp==7 && cp==6) {
+          //If the parent is 'power' and the child is 'unary not' or 'unary minus', we only need
+          // to group if the child is the *left* child:  '(-x)^y', but 'x^-y'.
+          if (!(ASTNode_getLeftChild(parent) == child)) { 
+            group = 0;
+          }
         }
       }
     }
-  }
   }
 
   return group;
@@ -575,8 +575,8 @@ L3FormulaFormatter_formatReal (StringBuffer_t *sb, const ASTNode_t *node, const 
   {
     if (ASTNode_getType(node) == AST_REAL_E)
     {
-      StringBuffer_appendExp(sb, value);
-    }
+	    StringBuffer_appendFullExp(sb, ASTNode_getMantissa(node), ASTNode_getExponent(node), value);
+	  }
     else
     {
       StringBuffer_appendReal(sb, value);
@@ -982,6 +982,7 @@ L3FormulaFormatter_isFunction (const ASTNode_t *node,
     return 0;
 
   case AST_LOGICAL_XOR:
+  case AST_LOGICAL_IMPLIES:
   case AST_LAMBDA:
   case AST_FUNCTION:
   case AST_FUNCTION_ABS:
@@ -1010,7 +1011,12 @@ L3FormulaFormatter_isFunction (const ASTNode_t *node,
   case AST_FUNCTION_FLOOR:
   case AST_FUNCTION_LN:
   case AST_FUNCTION_LOG:
+  case AST_FUNCTION_MAX:
+  case AST_FUNCTION_MIN:
   case AST_FUNCTION_PIECEWISE:
+  case AST_FUNCTION_QUOTIENT:
+  case AST_FUNCTION_RATE_OF:
+  case AST_FUNCTION_REM:
   case AST_FUNCTION_ROOT:
   case AST_FUNCTION_SEC:
   case AST_FUNCTION_SECH:

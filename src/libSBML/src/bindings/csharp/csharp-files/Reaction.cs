@@ -54,11 +54,14 @@ namespace libsbmlcs {
  * formula to refer to species that have not been declared for that
  * reaction.
  *
- * <li> A reaction definition can contain an empty list of reactants
+ * <li> For SBML Levels 1, 2, and SBML Level&nbsp;3 Version&nbsp;1, a 
+ * reaction definition can contain an empty list of reactants
  * <em>or</em> an empty list of products, but it must have at least one
  * reactant or product; in other words, a reaction without any reactant or
  * product species is not permitted.  (This restriction does not apply to
- * modifier species, which remain optional in all cases.)
+ * modifier species, which remain optional in all cases.)  In SBML 
+ * Level&nbsp;3 Version&nbsp;2, this requirement was dropped, allowing 
+ * the creation of reactions with neither reactants nor products.
  * </ul>
  * 
  * A reaction can contain up to one KineticLaw object in a subelement named
@@ -97,12 +100,15 @@ namespace libsbmlcs {
  *
  * The Reaction object class has another boolean attribute called 'fast'.
  * This attribute is optional in SBML Level&nbsp;2, with a default of @c
- * false; it is mandatory in SBML Level&nbsp;3 (with no default value).  It
+ * false; it is mandatory in SBML Level&nbsp;3 (with no default value).  
+ * In SBML Level&nbsp;3 Version &nbsp;2, a value of @c true for the 'fast'
+ * attribute is deprecated in favor of all reactions having a 'fast' value 
+ * of @c false.  It
  * is used to indicate that a reaction occurs on a vastly faster time scale
  * than others in a system.  Readers are directed to the SBML Level&nbsp;2
  * Version&nbsp;4 specification, which provides more detail about the
  * conditions under which a reaction can be considered to be fast in this
- * sense.  The attribute's default value is @c false.  SBML Level&nbsp;1
+ * sense.  SBML Level&nbsp;1
  * and Level&nbsp;2 Version&nbsp;1 incorrectly claimed that software tools
  * could ignore this attribute if they did not implement support for the
  * corresponding concept; however, further research in SBML has revealed
@@ -115,7 +121,24 @@ namespace libsbmlcs {
  * so may lead to different results as compared to a software system that
  * <em>does</em> make use of 'fast'.
  *
- * In SBML Level&nbsp;3 Version&nbsp;1, the Reaction object has an
+ *
+ * 
+ * In SBML Level&nbsp;3 Version&nbsp;2, values of @c true
+ * for the 'fast' attribute were deprecated, and in future
+ * versions of the specification, the attribute itself will
+ * be removed.  Users should be aware that even for previous
+ * levels/versions of the specification, the 'fast' attribute
+ * has never achieved widespread support, and many software
+ * packages may ignore it.  To achieve the same or similar 
+ * effects as setting the fast attribute to 'true' for a given 
+ * reaction, the KineticLaw attribute should be constructed to 
+ * produce a value in the desired time scale, or else the 
+ * reaction could be replaced with an AssignmentRule or 
+ * AlgebraicRule.
+ *
+ *
+ *
+ * In SBML Level&nbsp;3, the Reaction object has an
  * additional optional attribute named 'compartment', whose value must be
  * the identifier of a compartment defined in the enclosing Model object.
  * The 'compartment' attribute can be used to indicate the compartment in
@@ -188,10 +211,10 @@ public class Reaction : SBase {
    * Creates a new Reaction using the given SBML @p level and @p version
    * values.
    *
-   * @param level a long integer, the SBML Level to assign to this Reaction
+   * @param level a long integer, the SBML Level to assign to this Reaction.
    *
    * @param version a long integer, the SBML Version to assign to this
-   * Reaction
+   * Reaction.
    *
    *
  * @throws SBMLConstructorException
@@ -295,7 +318,7 @@ public class Reaction : SBase {
    * Returns the first child element found that has the given @p id in the
    * model-wide SId namespace, or @c null if no such object is found.
    *
-   * @param id string representing the id of objects to find.
+   * @param id string representing the id of the object to find.
    *
    * @return pointer to the first element found with the given @p id.
    */ public new
@@ -310,7 +333,7 @@ public class Reaction : SBase {
    * Returns the first child element it can find with the given @p metaid, or
    * @c null if no such object is found.
    *
-   * @param metaid string representing the metaid of objects to find
+   * @param metaid string representing the metaid of the object to find.
    *
    * @return pointer to the first element found with the given @p metaid.
    */ public new
@@ -334,7 +357,7 @@ public class Reaction : SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -347,8 +370,8 @@ public class Reaction : SBase {
  * matching values are replaced with @p newid.  The method does @em not
  * descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new
@@ -393,8 +416,73 @@ public class Reaction : SBase {
   
 /**
    * Returns the value of the 'id' attribute of this Reaction.
-   * 
+   *
+   * @note Because of the inconsistent behavior of this function with 
+   * respect to assignments and rules, it is now recommended to
+   * use the getIdAttribute() function instead.
+   *
+   *
+ * 
+ * The identifier given by an object's 'id' attribute value
+ * is used to identify the object within the SBML model definition.
+ * Other objects can refer to the component using this identifier.  The
+ * data type of 'id' is always <code>SId</code> or a type derived
+ * from that, such as <code>UnitSId</code>, depending on the object in 
+ * question.  All data types are defined as follows:
+ * <pre style='margin-left: 2em; border: none; font-weight: bold; color: black'>
+ *   letter ::= 'a'..'z','A'..'Z'
+ *   digit  ::= '0'..'9'
+ *   idChar ::= letter | digit | '_'
+ *   SId    ::= ( letter | '_' ) idChar*
+ * </pre>
+ *
+ * The characters <code>(</code> and <code>)</code> are used for grouping, the
+ * character <code>*</code> 'zero or more times', and the character
+ * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
+ * determined by an exact character sequence match; i.e., comparisons must be
+ * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
+ * <code>SIdRef</code>, and derived types.
+ *
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to SBase directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on SBase itself to get, set, check, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all SBase objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ *
+ * The exception to this rule is that for InitialAssignment, EventAssignment, 
+ * AssignmentRule, and RateRule objects, the getId() function and the isSetId() 
+ * functions (though not the setId() or unsetId() functions) would instead 
+ * reference the value of the 'variable' attribute (for the rules and event 
+ * assignments) or the 'symbol' attribute (for initial assignments).  
+ * The AlgebraicRule fell into this category as well, though because it 
+ * contained neither a 'variable' nor a 'symbol' attribute, getId() would 
+ * always return an empty string, and isSetId() would always return @c false.
+ * For this reason, four new functions are now provided 
+ * (getIdAttribute(), setIdAttribute(@if java String@endif), 
+ * isSetIdAttribute(), and unsetIdAttribute()) that will always
+ * act on the actual 'id' attribute, regardless of the object's type.  The
+ * new functions should be used instead of the old ones unless the old behavior
+ * is somehow necessary.
+ * 
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * identifiers).  If the object in question does not posess an 'id' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the identifier to be set, nor will it read or 
+ * write 'id' attributes for those objects.
+ *
+ *
+   *
    * @return the id of this Reaction.
+   *
+   * @see getIdAttribute()
+   * @see setIdAttribute(string sid)
+   * @see isSetIdAttribute()
+   * @see unsetIdAttribute()
    */ public new
  string getId() {
     string ret = libsbmlPINVOKE.Reaction_getId(swigCPtr);
@@ -403,9 +491,70 @@ public class Reaction : SBase {
 
   
 /**
-   * Returns the value of the 'name' attribute of this Reaction.
-   * 
-   * @return the name of this Reaction.
+   * Returns the value of the 'name' attribute of this Reaction object.
+   *
+   *
+ *
+ * 
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to SBase directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on SBase itself to get, set, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all SBase objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ *
+ * The 'name' attribute is
+ * optional and is not intended to be used for cross-referencing purposes
+ * within a model.  Its purpose instead is to provide a human-readable
+ * label for the component.  The data type of 'name' is the type
+ * <code>string</code> defined in XML Schema.  SBML imposes no
+ * restrictions as to the content of 'name' attributes beyond those
+ * restrictions defined by the <code>string</code> type in XML Schema.
+ *
+ * The recommended practice for handling 'name' is as follows.  If a
+ * software tool has the capability for displaying the content of 'name'
+ * attributes, it should display this content to the user as a
+ * component's label instead of the component's 'id'.  If the user
+ * interface does not have this capability (e.g., because it cannot
+ * display or use special characters in symbol names), or if the 'name'
+ * attribute is missing on a given component, then the user interface
+ * should display the value of the 'id' attribute instead.  (Script
+ * language interpreters are especially likely to display 'id' instead of
+ * 'name'.)
+ * 
+ * As a consequence of the above, authors of systems that automatically
+ * generate the values of 'id' attributes should be aware some systems
+ * may display the 'id''s to the user.  Authors therefore may wish to
+ * take some care to have their software create 'id' values that are: (a)
+ * reasonably easy for humans to type and read; and (b) likely to be
+ * meaningful, for example by making the 'id' attribute be an abbreviated
+ * form of the name attribute value.
+ * 
+ * An additional point worth mentioning is although there are
+ * restrictions on the uniqueness of 'id' values, there are no
+ * restrictions on the uniqueness of 'name' values in a model.  This
+ * allows software applications leeway in assigning component identifiers.
+ *
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * names).  If the object in question does not posess a 'name' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the name to be set, nor will it read or 
+ * write 'name' attributes for those objects.
+ *
+ *
+ *
+ * @return the name of this SBML object, or the empty string if not set or unsettable.
+ *
+ * @see getIdAttribute()
+ * @see isSetName()
+ * @see setName(string sid)
+ * @see unsetName()
+ * 
+ *
    */ public new
  string getName() {
     string ret = libsbmlPINVOKE.Reaction_getName(swigCPtr);
@@ -440,6 +589,23 @@ public class Reaction : SBase {
 /**
    * Returns the value of the 'fast' attribute of this Reaction.
    * 
+   *
+ * 
+ * In SBML Level&nbsp;3 Version&nbsp;2, values of @c true
+ * for the 'fast' attribute were deprecated, and in future
+ * versions of the specification, the attribute itself will
+ * be removed.  Users should be aware that even for previous
+ * levels/versions of the specification, the 'fast' attribute
+ * has never achieved widespread support, and many software
+ * packages may ignore it.  To achieve the same or similar 
+ * effects as setting the fast attribute to 'true' for a given 
+ * reaction, the KineticLaw attribute should be constructed to 
+ * produce a value in the desired time scale, or else the 
+ * reaction could be replaced with an AssignmentRule or 
+ * AlgebraicRule.
+ *
+ *
+   *
    * @return the 'fast' status of this Reaction.
    *
    *
@@ -469,8 +635,8 @@ public class Reaction : SBase {
    * 
    * @return the compartment of this Reaction.
    *
-   * @note The 'compartment' attribute is available in SBML Level&nbsp;3
-   * Version&nbsp;1 Core, but is not present on Reaction in lower Levels of
+   * @note The 'compartment' attribute is available in SBML Level&nbsp;3,
+   * but is not present on Reaction in lower Levels of
    * SBML.
    */ public
  string getCompartment() {
@@ -483,8 +649,76 @@ public class Reaction : SBase {
    * Predicate returning @c true if this
    * Reaction's 'id' attribute is set.
    *
-   * @return @c true if the 'id' attribute of this Reaction is
-   * set, @c false otherwise.
+   *
+ * @note Because of the inconsistent behavior of this function with 
+ * respect to assignments and rules, it is now recommended to
+ * use the isSetIdAttribute() function instead.
+ *
+ *
+ * 
+ * The identifier given by an object's 'id' attribute value
+ * is used to identify the object within the SBML model definition.
+ * Other objects can refer to the component using this identifier.  The
+ * data type of 'id' is always <code>SId</code> or a type derived
+ * from that, such as <code>UnitSId</code>, depending on the object in 
+ * question.  All data types are defined as follows:
+ * <pre style='margin-left: 2em; border: none; font-weight: bold; color: black'>
+ *   letter ::= 'a'..'z','A'..'Z'
+ *   digit  ::= '0'..'9'
+ *   idChar ::= letter | digit | '_'
+ *   SId    ::= ( letter | '_' ) idChar*
+ * </pre>
+ *
+ * The characters <code>(</code> and <code>)</code> are used for grouping, the
+ * character <code>*</code> 'zero or more times', and the character
+ * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
+ * determined by an exact character sequence match; i.e., comparisons must be
+ * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
+ * <code>SIdRef</code>, and derived types.
+ *
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to SBase directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on SBase itself to get, set, check, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all SBase objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ *
+ * The exception to this rule is that for InitialAssignment, EventAssignment, 
+ * AssignmentRule, and RateRule objects, the getId() function and the isSetId() 
+ * functions (though not the setId() or unsetId() functions) would instead 
+ * reference the value of the 'variable' attribute (for the rules and event 
+ * assignments) or the 'symbol' attribute (for initial assignments).  
+ * The AlgebraicRule fell into this category as well, though because it 
+ * contained neither a 'variable' nor a 'symbol' attribute, getId() would 
+ * always return an empty string, and isSetId() would always return @c false.
+ * For this reason, four new functions are now provided 
+ * (getIdAttribute(), setIdAttribute(@if java String@endif), 
+ * isSetIdAttribute(), and unsetIdAttribute()) that will always
+ * act on the actual 'id' attribute, regardless of the object's type.  The
+ * new functions should be used instead of the old ones unless the old behavior
+ * is somehow necessary.
+ * 
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * identifiers).  If the object in question does not posess an 'id' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the identifier to be set, nor will it read or 
+ * write 'id' attributes for those objects.
+ *
+ *
+ * 
+ * @return @c true if the 'id' attribute of this SBML object is
+ * set, @c false otherwise.
+ *
+ * @see getIdAttribute()
+ * @see setIdAttribute(string sid)
+ * @see unsetIdAttribute()
+ * @see isSetIdAttribute()
+ *
+ *
    */ public new
  bool isSetId() {
     bool ret = libsbmlPINVOKE.Reaction_isSetId(swigCPtr);
@@ -496,8 +730,68 @@ public class Reaction : SBase {
    * Predicate returning @c true if this
    * Reaction's 'name' attribute is set.
    *
-   * @return @c true if the 'name' attribute of this Reaction is
-   * set, @c false otherwise.
+   *
+ *
+ * 
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to SBase directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on SBase itself to get, set, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all SBase objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ *
+ * The 'name' attribute is
+ * optional and is not intended to be used for cross-referencing purposes
+ * within a model.  Its purpose instead is to provide a human-readable
+ * label for the component.  The data type of 'name' is the type
+ * <code>string</code> defined in XML Schema.  SBML imposes no
+ * restrictions as to the content of 'name' attributes beyond those
+ * restrictions defined by the <code>string</code> type in XML Schema.
+ *
+ * The recommended practice for handling 'name' is as follows.  If a
+ * software tool has the capability for displaying the content of 'name'
+ * attributes, it should display this content to the user as a
+ * component's label instead of the component's 'id'.  If the user
+ * interface does not have this capability (e.g., because it cannot
+ * display or use special characters in symbol names), or if the 'name'
+ * attribute is missing on a given component, then the user interface
+ * should display the value of the 'id' attribute instead.  (Script
+ * language interpreters are especially likely to display 'id' instead of
+ * 'name'.)
+ * 
+ * As a consequence of the above, authors of systems that automatically
+ * generate the values of 'id' attributes should be aware some systems
+ * may display the 'id''s to the user.  Authors therefore may wish to
+ * take some care to have their software create 'id' values that are: (a)
+ * reasonably easy for humans to type and read; and (b) likely to be
+ * meaningful, for example by making the 'id' attribute be an abbreviated
+ * form of the name attribute value.
+ * 
+ * An additional point worth mentioning is although there are
+ * restrictions on the uniqueness of 'id' values, there are no
+ * restrictions on the uniqueness of 'name' values in a model.  This
+ * allows software applications leeway in assigning component identifiers.
+ *
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * names).  If the object in question does not posess a 'name' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the name to be set, nor will it read or 
+ * write 'name' attributes for those objects.
+ *
+ *
+ * 
+ * @return @c true if the 'name' attribute of this SBML object is
+ * set, @c false otherwise.
+ *
+ * @see getName()
+ * @see setName(string sid)
+ * @see unsetName()
+ *
+ *
    */ public new
  bool isSetName() {
     bool ret = libsbmlPINVOKE.Reaction_isSetName(swigCPtr);
@@ -520,9 +814,26 @@ public class Reaction : SBase {
   
 /**
    * Predicate returning @c true if the value of
-   * the 'fast' attribute on this Reaction.
+   * the 'fast' attribute on this Reaction is set.
    *
-   * @return @c true if the 'fast' attribute is true, @c false otherwise.
+   *
+ * 
+ * In SBML Level&nbsp;3 Version&nbsp;2, values of @c true
+ * for the 'fast' attribute were deprecated, and in future
+ * versions of the specification, the attribute itself will
+ * be removed.  Users should be aware that even for previous
+ * levels/versions of the specification, the 'fast' attribute
+ * has never achieved widespread support, and many software
+ * packages may ignore it.  To achieve the same or similar 
+ * effects as setting the fast attribute to 'true' for a given 
+ * reaction, the KineticLaw attribute should be constructed to 
+ * produce a value in the desired time scale, or else the 
+ * reaction could be replaced with an AssignmentRule or 
+ * AlgebraicRule.
+ *
+ *
+   *
+   * @return @c true if the 'fast' attribute is set, @c false otherwise.
    *
    *
  * @warning <span class='warning'>SBML definitions before SBML Level&nbsp;2
@@ -553,7 +864,7 @@ public class Reaction : SBase {
    * set, @c false otherwise.
    *
    * @note The 'compartment' attribute is available in SBML
-   * Level&nbsp;3 Version&nbsp;1 Core, but is not present on Reaction in
+   * Level&nbsp;3, but is not present on Reaction in
    * lower Levels of SBML.
    */ public
  bool isSetCompartment() {
@@ -578,40 +889,83 @@ public class Reaction : SBase {
 /**
    * Sets the value of the 'id' attribute of this Reaction.
    *
-   * The string @p sid is copied.
-   *
    *
  * 
- * SBML has strict requirements for the syntax of identifiers, that is, the
- * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type
- * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation:
- * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
- * letter ::= 'a'..'z','A'..'Z'
- * digit  ::= '0'..'9'
- * idChar ::= letter | digit | '_'
- * SId    ::= ( letter | '_' ) idChar*</pre>
+ * The string @p sid is copied.
+ *
+ *
+ * 
+ * The identifier given by an object's 'id' attribute value
+ * is used to identify the object within the SBML model definition.
+ * Other objects can refer to the component using this identifier.  The
+ * data type of 'id' is always <code>SId</code> or a type derived
+ * from that, such as <code>UnitSId</code>, depending on the object in 
+ * question.  All data types are defined as follows:
+ * <pre style='margin-left: 2em; border: none; font-weight: bold; color: black'>
+ *   letter ::= 'a'..'z','A'..'Z'
+ *   digit  ::= '0'..'9'
+ *   idChar ::= letter | digit | '_'
+ *   SId    ::= ( letter | '_' ) idChar*
+ * </pre>
+ *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
  * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  In addition, there are a few
- * conditions for the uniqueness of identifiers in an SBML model.  Please
- * consult the SBML specifications for the exact details of the uniqueness
- * requirements.
+ * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
+ * <code>SIdRef</code>, and derived types.
+ *
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to SBase directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on SBase itself to get, set, check, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all SBase objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ *
+ * The exception to this rule is that for InitialAssignment, EventAssignment, 
+ * AssignmentRule, and RateRule objects, the getId() function and the isSetId() 
+ * functions (though not the setId() or unsetId() functions) would instead 
+ * reference the value of the 'variable' attribute (for the rules and event 
+ * assignments) or the 'symbol' attribute (for initial assignments).  
+ * The AlgebraicRule fell into this category as well, though because it 
+ * contained neither a 'variable' nor a 'symbol' attribute, getId() would 
+ * always return an empty string, and isSetId() would always return @c false.
+ * For this reason, four new functions are now provided 
+ * (getIdAttribute(), setIdAttribute(@if java String@endif), 
+ * isSetIdAttribute(), and unsetIdAttribute()) that will always
+ * act on the actual 'id' attribute, regardless of the object's type.  The
+ * new functions should be used instead of the old ones unless the old behavior
+ * is somehow necessary.
+ * 
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * identifiers).  If the object in question does not posess an 'id' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the identifier to be set, nor will it read or 
+ * write 'id' attributes for those objects.
  *
  *
-   *
-   * @param sid the string to use as the identifier of this Reaction
-   *
-   *
+ * 
+ * @param sid the string to use as the identifier of this object.
+ *
+ *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+ * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+ * @li @link libsbml#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE@endlink
+ *
+ * @see getIdAttribute()
+ * @see setIdAttribute(string sid)
+ * @see isSetIdAttribute()
+ * @see unsetIdAttribute()
+ * 
+ *
    */ public new
  int setId(string sid) {
     int ret = libsbmlPINVOKE.Reaction_setId(swigCPtr, sid);
@@ -623,17 +977,22 @@ public class Reaction : SBase {
 /**
    * Sets the value of the 'name' attribute of this Reaction.
    *
-   * The string in @p name is copied.
    *
-   * @param name the new name for the Reaction
-   *
-   *
+ * 
+ *
+ * The string in @p name is copied.
+ *
+ * @param name the new name for the SBML object.
+ *
+ *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+ * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+ *
+ *
    */ public new
  int setName(string name) {
     int ret = libsbmlPINVOKE.Reaction_setName(swigCPtr, name);
@@ -684,6 +1043,28 @@ public class Reaction : SBase {
 /**
    * Sets the value of the 'fast' attribute of this Reaction.
    *
+   *
+ * 
+ * In SBML Level&nbsp;3 Version&nbsp;2, values of @c true
+ * for the 'fast' attribute were deprecated, and in future
+ * versions of the specification, the attribute itself will
+ * be removed.  Users should be aware that even for previous
+ * levels/versions of the specification, the 'fast' attribute
+ * has never achieved widespread support, and many software
+ * packages may ignore it.  To achieve the same or similar 
+ * effects as setting the fast attribute to 'true' for a given 
+ * reaction, the KineticLaw attribute should be constructed to 
+ * produce a value in the desired time scale, or else the 
+ * reaction could be replaced with an AssignmentRule or 
+ * AlgebraicRule.
+ *
+ *
+   *
+   * Calling this function with an argument of @c true for an
+   * SBML Level&nbsp;3 Version&nbsp;2 Reaction will set 
+   * the value, but will result in a return value of 
+   * @link libsbml#LIBSBML_DEPRECATED_ATTRIBUTE LIBSBML_DEPRECATED_ATTRIBUTE@endlink.
+   *
    * @param value the value of the 'fast' attribute.
    *
    *
@@ -692,6 +1073,7 @@ public class Reaction : SBase {
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+   * @li @link libsbml#LIBSBML_DEPRECATED_ATTRIBUTE LIBSBML_DEPRECATED_ATTRIBUTE@endlink
    * 
    *
  * @warning <span class='warning'>SBML definitions before SBML Level&nbsp;2
@@ -719,7 +1101,7 @@ public class Reaction : SBase {
    *
    * The string @p sid is copied.  
    *
-   * @param sid the string to use as the compartment of this Reaction
+   * @param sid the string to use as the compartment of this Reaction.
    *
    *
  * @return integer value indicating success/failure of the
@@ -731,7 +1113,7 @@ public class Reaction : SBase {
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The 'compartment' attribute is available in SBML
-   * Level&nbsp;3 Version&nbsp;1 Core, but is not present on Reaction in
+   * Level&nbsp;3, but is not present on Reaction in
    * lower Levels of SBML.
    */ public
  int setCompartment(string sid) {
@@ -745,12 +1127,72 @@ public class Reaction : SBase {
    * Unsets the value of the 'name' attribute of this Reaction.
    *
    *
+ *
+ * 
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to SBase directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on SBase itself to get, set, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all SBase objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ *
+ * The 'name' attribute is
+ * optional and is not intended to be used for cross-referencing purposes
+ * within a model.  Its purpose instead is to provide a human-readable
+ * label for the component.  The data type of 'name' is the type
+ * <code>string</code> defined in XML Schema.  SBML imposes no
+ * restrictions as to the content of 'name' attributes beyond those
+ * restrictions defined by the <code>string</code> type in XML Schema.
+ *
+ * The recommended practice for handling 'name' is as follows.  If a
+ * software tool has the capability for displaying the content of 'name'
+ * attributes, it should display this content to the user as a
+ * component's label instead of the component's 'id'.  If the user
+ * interface does not have this capability (e.g., because it cannot
+ * display or use special characters in symbol names), or if the 'name'
+ * attribute is missing on a given component, then the user interface
+ * should display the value of the 'id' attribute instead.  (Script
+ * language interpreters are especially likely to display 'id' instead of
+ * 'name'.)
+ * 
+ * As a consequence of the above, authors of systems that automatically
+ * generate the values of 'id' attributes should be aware some systems
+ * may display the 'id''s to the user.  Authors therefore may wish to
+ * take some care to have their software create 'id' values that are: (a)
+ * reasonably easy for humans to type and read; and (b) likely to be
+ * meaningful, for example by making the 'id' attribute be an abbreviated
+ * form of the name attribute value.
+ * 
+ * An additional point worth mentioning is although there are
+ * restrictions on the uniqueness of 'id' values, there are no
+ * restrictions on the uniqueness of 'name' values in a model.  This
+ * allows software applications leeway in assigning component identifiers.
+ *
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * names).  If the object in question does not posess a 'name' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the name to be set, nor will it read or 
+ * write 'name' attributes for those objects.
+ *
+ *
+ * 
+ *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+ * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+ *
+ * @see getName()
+ * @see setName(string sid)
+ * @see isSetName()
+ *
+ *
    */ public new
  int unsetName() {
     int ret = libsbmlPINVOKE.Reaction_unsetName(swigCPtr);
@@ -777,6 +1219,23 @@ public class Reaction : SBase {
   
 /**
    * Unsets the value of the 'fast' attribute of this Reaction.
+   *
+   *
+ * 
+ * In SBML Level&nbsp;3 Version&nbsp;2, values of @c true
+ * for the 'fast' attribute were deprecated, and in future
+ * versions of the specification, the attribute itself will
+ * be removed.  Users should be aware that even for previous
+ * levels/versions of the specification, the 'fast' attribute
+ * has never achieved widespread support, and many software
+ * packages may ignore it.  To achieve the same or similar 
+ * effects as setting the fast attribute to 'true' for a given 
+ * reaction, the KineticLaw attribute should be constructed to 
+ * produce a value in the desired time scale, or else the 
+ * reaction could be replaced with an AssignmentRule or 
+ * AlgebraicRule.
+ *
+ *
    *
    *
  * @return integer value indicating success/failure of the
@@ -820,7 +1279,7 @@ public class Reaction : SBase {
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The 'compartment' attribute is available in SBML
-   * Level&nbsp;3 Version&nbsp;1 Core, but is not present on Reaction in
+   * Level&nbsp;3, but is not present on Reaction in
    * lower Levels of SBML.
    */ public
  int unsetCompartment() {
@@ -853,7 +1312,7 @@ public class Reaction : SBase {
    * The SpeciesReference instance in @p sr is copied.
    *
    * @param sr a SpeciesReference object referring to a Species in the
-   * enclosing Model
+   * enclosing Model.
    *
    *
  * @return integer value indicating success/failure of the
@@ -892,16 +1351,16 @@ public class Reaction : SBase {
 /**
    * Adds the given species as a reactant with the given stoichiometry
    *
-   * @param species the species to be added as reactant
+   * @param species the species to be added as reactant.
    *
    * @param stoichiometry an optional parameter specifying the
-   *        stoichiometry of the product (defaulting to 1)
+   *        stoichiometry of the product (defaulting to 1).
    *
    * @param id an optional id to be given to the species reference that will
-   *        be created. (defaulting to empty string, i.e. not set)
+   *        be created. (defaulting to empty string, i.e. not set).
    *
    * @param constant an attribute specifying whether the species reference is
-   *        constant or not (defaulting to true)
+   *        constant or not (defaulting to true).
    *
    *
  * @return integer value indicating success/failure of the
@@ -941,16 +1400,16 @@ public class Reaction : SBase {
 /**
    * Adds the given species as a reactant with the given stoichiometry
    *
-   * @param species the species to be added as reactant
+   * @param species the species to be added as reactant.
    *
    * @param stoichiometry an optional parameter specifying the
-   *        stoichiometry of the product (defaulting to 1)
+   *        stoichiometry of the product (defaulting to 1).
    *
    * @param id an optional id to be given to the species reference that will
-   *        be created. (defaulting to empty string, i.e. not set)
+   *        be created. (defaulting to empty string, i.e. not set).
    *
    * @param constant an attribute specifying whether the species reference is
-   *        constant or not (defaulting to true)
+   *        constant or not (defaulting to true).
    *
    *
  * @return integer value indicating success/failure of the
@@ -990,16 +1449,16 @@ public class Reaction : SBase {
 /**
    * Adds the given species as a reactant with the given stoichiometry
    *
-   * @param species the species to be added as reactant
+   * @param species the species to be added as reactant.
    *
    * @param stoichiometry an optional parameter specifying the
-   *        stoichiometry of the product (defaulting to 1)
+   *        stoichiometry of the product (defaulting to 1).
    *
    * @param id an optional id to be given to the species reference that will
-   *        be created. (defaulting to empty string, i.e. not set)
+   *        be created. (defaulting to empty string, i.e. not set).
    *
    * @param constant an attribute specifying whether the species reference is
-   *        constant or not (defaulting to true)
+   *        constant or not (defaulting to true).
    *
    *
  * @return integer value indicating success/failure of the
@@ -1038,16 +1497,16 @@ public class Reaction : SBase {
 /**
    * Adds the given species as a reactant with the given stoichiometry
    *
-   * @param species the species to be added as reactant
+   * @param species the species to be added as reactant.
    *
    * @param stoichiometry an optional parameter specifying the
-   *        stoichiometry of the product (defaulting to 1)
+   *        stoichiometry of the product (defaulting to 1).
    *
    * @param id an optional id to be given to the species reference that will
-   *        be created. (defaulting to empty string, i.e. not set)
+   *        be created. (defaulting to empty string, i.e. not set).
    *
    * @param constant an attribute specifying whether the species reference is
-   *        constant or not (defaulting to true)
+   *        constant or not (defaulting to true).
    *
    *
  * @return integer value indicating success/failure of the
@@ -1089,7 +1548,7 @@ public class Reaction : SBase {
    * The SpeciesReference instance in @p sr is copied.
    *
    * @param sr a SpeciesReference object referring to a Species in the
-   * enclosing Model
+   * enclosing Model.
    *
    *
  * @return integer value indicating success/failure of the
@@ -1126,16 +1585,16 @@ public class Reaction : SBase {
 /**
    * Adds the given species as a product with the given stoichiometry
    *
-   * @param species the species to be added as product
+   * @param species the species to be added as product.
    *
    * @param stoichiometry an optional parameter specifying the
-   *        stoichiometry of the product (defaulting to 1)
+   *        stoichiometry of the product (defaulting to 1).
    *
    * @param id an optional id to be given to the species reference that will
-   *        be created. (defaulting to empty string, i.e. not set)
+   *        be created. (defaulting to empty string, i.e. not set).
    *
    * @param constant an attribute specifying whether the species reference is
-   *        constant or not (defaulting to true)
+   *        constant or not (defaulting to true).
    *
    *
  * @return integer value indicating success/failure of the
@@ -1175,16 +1634,16 @@ public class Reaction : SBase {
 /**
    * Adds the given species as a product with the given stoichiometry
    *
-   * @param species the species to be added as product
+   * @param species the species to be added as product.
    *
    * @param stoichiometry an optional parameter specifying the
-   *        stoichiometry of the product (defaulting to 1)
+   *        stoichiometry of the product (defaulting to 1).
    *
    * @param id an optional id to be given to the species reference that will
-   *        be created. (defaulting to empty string, i.e. not set)
+   *        be created. (defaulting to empty string, i.e. not set).
    *
    * @param constant an attribute specifying whether the species reference is
-   *        constant or not (defaulting to true)
+   *        constant or not (defaulting to true).
    *
    *
  * @return integer value indicating success/failure of the
@@ -1224,16 +1683,16 @@ public class Reaction : SBase {
 /**
    * Adds the given species as a product with the given stoichiometry
    *
-   * @param species the species to be added as product
+   * @param species the species to be added as product.
    *
    * @param stoichiometry an optional parameter specifying the
-   *        stoichiometry of the product (defaulting to 1)
+   *        stoichiometry of the product (defaulting to 1).
    *
    * @param id an optional id to be given to the species reference that will
-   *        be created. (defaulting to empty string, i.e. not set)
+   *        be created. (defaulting to empty string, i.e. not set).
    *
    * @param constant an attribute specifying whether the species reference is
-   *        constant or not (defaulting to true)
+   *        constant or not (defaulting to true).
    *
    *
  * @return integer value indicating success/failure of the
@@ -1272,16 +1731,16 @@ public class Reaction : SBase {
 /**
    * Adds the given species as a product with the given stoichiometry
    *
-   * @param species the species to be added as product
+   * @param species the species to be added as product.
    *
    * @param stoichiometry an optional parameter specifying the
-   *        stoichiometry of the product (defaulting to 1)
+   *        stoichiometry of the product (defaulting to 1).
    *
    * @param id an optional id to be given to the species reference that will
-   *        be created. (defaulting to empty string, i.e. not set)
+   *        be created. (defaulting to empty string, i.e. not set).
    *
    * @param constant an attribute specifying whether the species reference is
-   *        constant or not (defaulting to true)
+   *        constant or not (defaulting to true).
    *
    *
  * @return integer value indicating success/failure of the
@@ -1324,7 +1783,7 @@ public class Reaction : SBase {
    * The ModifierSpeciesReference instance in @p msr is copied.
    *
    * @param msr a ModifierSpeciesReference object referring to a Species in
-   * the enclosing Model
+   * the enclosing Model.
    *
    *
  * @return integer value indicating success/failure of the
@@ -1363,10 +1822,10 @@ public class Reaction : SBase {
 /**
    * Adds the given species as a modifier to this reaction
    *
-   * @param species the species to be added as modifier
+   * @param species the species to be added as modifier.
    *
    * @param id an optional id to be given to the species reference that will
-   *        be created. (defaulting to empty string, i.e. not set)
+   *        be created. (defaulting to empty string, i.e. not set).
    *
    *
  * @return integer value indicating success/failure of the
@@ -1406,10 +1865,10 @@ public class Reaction : SBase {
 /**
    * Adds the given species as a modifier to this reaction
    *
-   * @param species the species to be added as modifier
+   * @param species the species to be added as modifier.
    *
    * @param id an optional id to be given to the species reference that will
-   *        be created. (defaulting to empty string, i.e. not set)
+   *        be created. (defaulting to empty string, i.e. not set).
    *
    *
  * @return integer value indicating success/failure of the
@@ -1452,10 +1911,10 @@ public class Reaction : SBase {
    * @return a new SpeciesReference object.
    */ public
  SpeciesReference createReactant() {
-    IntPtr cPtr = libsbmlPINVOKE.Reaction_createReactant(swigCPtr);
-    SpeciesReference ret = (cPtr == IntPtr.Zero) ? null : new SpeciesReference(cPtr, false);
-    return ret;
-  }
+	SpeciesReference ret
+	    = (SpeciesReference) libsbml.DowncastSBase(libsbmlPINVOKE.Reaction_createReactant(swigCPtr), false);
+	return ret;
+}
 
   
 /**
@@ -1465,10 +1924,10 @@ public class Reaction : SBase {
    * @return a new SpeciesReference object.
    */ public
  SpeciesReference createProduct() {
-    IntPtr cPtr = libsbmlPINVOKE.Reaction_createProduct(swigCPtr);
-    SpeciesReference ret = (cPtr == IntPtr.Zero) ? null : new SpeciesReference(cPtr, false);
-    return ret;
-  }
+	SpeciesReference ret
+	    = (SpeciesReference) libsbml.DowncastSBase(libsbmlPINVOKE.Reaction_createProduct(swigCPtr), false);
+	return ret;
+}
 
   
 /**
@@ -1490,7 +1949,7 @@ public class Reaction : SBase {
    *
    * If this Reaction had a previous KineticLaw, it will be destroyed.
    *
-   * @return the new KineticLaw object
+   * @return the new KineticLaw object.
    */ public
  KineticLaw createKineticLaw() {
     IntPtr cPtr = libsbmlPINVOKE.Reaction_createKineticLaw(swigCPtr);
@@ -1503,7 +1962,7 @@ public class Reaction : SBase {
    * Returns the list of reactants in this Reaction object.
    * 
    * @return the ListOfSpeciesReferences containing the references to the
-   * species acting as reactants in this reaction
+   * species acting as reactants in this reaction.
    */ public
  ListOfSpeciesReferences getListOfReactants() {
     IntPtr cPtr = libsbmlPINVOKE.Reaction_getListOfReactants__SWIG_0(swigCPtr);
@@ -1516,7 +1975,7 @@ public class Reaction : SBase {
    * Returns the list of products in this Reaction object.
    * 
    * @return the ListOfSpeciesReferences containing the references to the
-   * species acting as products in this reaction
+   * species acting as products in this reaction.
    */ public
  ListOfSpeciesReferences getListOfProducts() {
     IntPtr cPtr = libsbmlPINVOKE.Reaction_getListOfProducts__SWIG_0(swigCPtr);
@@ -1529,7 +1988,7 @@ public class Reaction : SBase {
    * Returns the list of modifiers in this Reaction object.
    * 
    * @return the ListOfSpeciesReferences containing the references to the
-   * species acting as modifiers in this reaction
+   * species acting as modifiers in this reaction.
    */ public
  ListOfSpeciesReferences getListOfModifiers() {
     IntPtr cPtr = libsbmlPINVOKE.Reaction_getListOfModifiers__SWIG_0(swigCPtr);
@@ -1551,10 +2010,10 @@ public class Reaction : SBase {
    * Reaction.
    */ public
  SpeciesReference getReactant(long n) {
-    IntPtr cPtr = libsbmlPINVOKE.Reaction_getReactant__SWIG_0(swigCPtr, n);
-    SpeciesReference ret = (cPtr == IntPtr.Zero) ? null : new SpeciesReference(cPtr, false);
-    return ret;
-  }
+	SpeciesReference ret
+	    = (SpeciesReference) libsbml.DowncastSBase(libsbmlPINVOKE.Reaction_getReactant__SWIG_0(swigCPtr, n), false);
+	return ret;
+}
 
   
 /**
@@ -1562,17 +2021,17 @@ public class Reaction : SBase {
    * a specific identifier in this Reaction.
    *
    * @param species the identifier of the reactant Species ('species' 
-   * attribute of the reactant SpeciesReference object)
+   * attribute of the reactant SpeciesReference object).
    *
    * @return a SpeciesReference object, or @c null if no species with the
    * given identifier @p species appears as a reactant in this Reaction.
    */ public
  SpeciesReference getReactant(string species) {
-    IntPtr cPtr = libsbmlPINVOKE.Reaction_getReactant__SWIG_2(swigCPtr, species);
-    SpeciesReference ret = (cPtr == IntPtr.Zero) ? null : new SpeciesReference(cPtr, false);
+	SpeciesReference ret
+	    = (SpeciesReference) libsbml.DowncastSBase(libsbmlPINVOKE.Reaction_getReactant__SWIG_2(swigCPtr, species), false);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
+	return ret;
+}
 
   
 /**
@@ -1588,10 +2047,10 @@ public class Reaction : SBase {
    * Reaction.
    */ public
  SpeciesReference getProduct(long n) {
-    IntPtr cPtr = libsbmlPINVOKE.Reaction_getProduct__SWIG_0(swigCPtr, n);
-    SpeciesReference ret = (cPtr == IntPtr.Zero) ? null : new SpeciesReference(cPtr, false);
-    return ret;
-  }
+	SpeciesReference ret
+	    = (SpeciesReference) libsbml.DowncastSBase(libsbmlPINVOKE.Reaction_getProduct__SWIG_0(swigCPtr, n), false);
+	return ret;
+}
 
   
 /**
@@ -1599,17 +2058,17 @@ public class Reaction : SBase {
    * a specific identifier in this Reaction.
    *
    * @param species the identifier of the product Species ('species'
-   * attribute of the product SpeciesReference object)
+   * attribute of the product SpeciesReference object).
    *
    * @return a SpeciesReference object, or @c null if no species with the
    * given identifier @p species appears as a product in this Reaction.
    */ public
  SpeciesReference getProduct(string species) {
-    IntPtr cPtr = libsbmlPINVOKE.Reaction_getProduct__SWIG_2(swigCPtr, species);
-    SpeciesReference ret = (cPtr == IntPtr.Zero) ? null : new SpeciesReference(cPtr, false);
+	SpeciesReference ret
+	    = (SpeciesReference) libsbml.DowncastSBase(libsbmlPINVOKE.Reaction_getProduct__SWIG_2(swigCPtr, species), false);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
+	return ret;
+}
 
   
 /**
@@ -1619,7 +2078,7 @@ public class Reaction : SBase {
    * Callers should first call getNumModifiers() to find out how many
    * modifiers there are, to avoid using an invalid index number.
    *
-   * @param n the index of the modifier species sought
+   * @param n the index of the modifier species sought.
    * 
    * @return the nth modifier (as a ModifierSpeciesReference object) of
    * this Reaction.
@@ -1636,7 +2095,7 @@ public class Reaction : SBase {
    * having a specific identifier in this Reaction.
    *
    * @param species the identifier of the modifier Species ('species' 
-   * attribute of the ModifierSpeciesReference object)
+   * attribute of the ModifierSpeciesReference object).
    *
    * @return a ModifierSpeciesReference object, or @c null if no species with
    * the given identifier @p species appears as a modifier in this
@@ -1682,16 +2141,16 @@ public class Reaction : SBase {
    * The caller should first call getNumReactants() to find out how many
    * reactants there are, to avoid using an invalid index number.
    *
-   * @param n the index of the reactant SpeciesReference object to remove
+   * @param n the index of the reactant SpeciesReference object to remove.
    *
    * @return the removed reactant SpeciesReference object, or @c null if the 
    * given index is out of range.
    */ public
  SpeciesReference removeReactant(long n) {
-    IntPtr cPtr = libsbmlPINVOKE.Reaction_removeReactant__SWIG_0(swigCPtr, n);
-    SpeciesReference ret = (cPtr == IntPtr.Zero) ? null : new SpeciesReference(cPtr, true);
-    return ret;
-  }
+	SpeciesReference ret
+	    = (SpeciesReference) libsbml.DowncastSBase(libsbmlPINVOKE.Reaction_removeReactant__SWIG_0(swigCPtr, n), true);
+	return ret;
+}
 
   
 /**
@@ -1701,18 +2160,18 @@ public class Reaction : SBase {
    * The caller owns the returned object and is responsible for deleting it.
    *
    * @param species the 'species' attribute of the reactant SpeciesReference 
-   * object
+   * object.
    *
    * @return the removed reactant SpeciesReference object, or @c null if no 
    * reactant SpeciesReference object with the given 'species' attribute 
    * @p species exists in this Reaction.
    */ public
  SpeciesReference removeReactant(string species) {
-    IntPtr cPtr = libsbmlPINVOKE.Reaction_removeReactant__SWIG_1(swigCPtr, species);
-    SpeciesReference ret = (cPtr == IntPtr.Zero) ? null : new SpeciesReference(cPtr, true);
+	SpeciesReference ret
+	    = (SpeciesReference) libsbml.DowncastSBase(libsbmlPINVOKE.Reaction_removeReactant__SWIG_1(swigCPtr, species), true);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
+	return ret;
+}
 
   
 /**
@@ -1723,16 +2182,16 @@ public class Reaction : SBase {
    * The caller should first call getNumProducts() to find out how many
    * products there are, to avoid using an invalid index number.
    *
-   * @param n the index of the product SpeciesReference object to remove
+   * @param n the index of the product SpeciesReference object to remove.
    *
    * @return the removed product SpeciesReference object, or @c null if the 
    * given index is out of range.
    */ public
  SpeciesReference removeProduct(long n) {
-    IntPtr cPtr = libsbmlPINVOKE.Reaction_removeProduct__SWIG_0(swigCPtr, n);
-    SpeciesReference ret = (cPtr == IntPtr.Zero) ? null : new SpeciesReference(cPtr, true);
-    return ret;
-  }
+	SpeciesReference ret
+	    = (SpeciesReference) libsbml.DowncastSBase(libsbmlPINVOKE.Reaction_removeProduct__SWIG_0(swigCPtr, n), true);
+	return ret;
+}
 
   
 /**
@@ -1742,18 +2201,18 @@ public class Reaction : SBase {
    * The caller owns the returned object and is responsible for deleting it.
    *
    * @param species the 'species' attribute of the product SpeciesReference 
-   * object
+   * object.
    *
    * @return the removed product SpeciesReference object, or @c null if no 
    * product SpeciesReference object with the given 'species' attribute 
    * @p species exists in this Reaction.
    */ public
  SpeciesReference removeProduct(string species) {
-    IntPtr cPtr = libsbmlPINVOKE.Reaction_removeProduct__SWIG_1(swigCPtr, species);
-    SpeciesReference ret = (cPtr == IntPtr.Zero) ? null : new SpeciesReference(cPtr, true);
+	SpeciesReference ret
+	    = (SpeciesReference) libsbml.DowncastSBase(libsbmlPINVOKE.Reaction_removeProduct__SWIG_1(swigCPtr, species), true);
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
+	return ret;
+}
 
   
 /**
@@ -1764,7 +2223,7 @@ public class Reaction : SBase {
    * The caller should first call getNumModifiers() to find out how many
    * modifiers there are, to avoid using an invalid index number.
    *
-   * @param n the index of the ModifierSpeciesReference object to remove
+   * @param n the index of the ModifierSpeciesReference object to remove.
    *
    * @return the removed ModifierSpeciesReference object, or @c null if the 
    * given index is out of range.
@@ -1783,7 +2242,7 @@ public class Reaction : SBase {
    * The caller owns the returned object and is responsible for deleting it.
    *
    * @param species the 'species' attribute of the ModifierSpeciesReference 
-   * object
+   * object.
    *
    * @return the removed ModifierSpeciesReference object, or @c null if no 
    * ModifierSpeciesReference object with the given 'species' attribute @p 

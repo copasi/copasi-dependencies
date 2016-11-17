@@ -44,7 +44,7 @@ namespace libsbmlcs {
  * numerical value computed by the Delay's 'math' expression are @em
  * required to be in units of time, or the model is considered to have a
  * unit consistency error.  In Level&nbsp;2 Version&nbsp;4 as well as SBML
- * Level&nbsp;3 Version&nbsp;1 Core, this requirement is relaxed; these
+ * Level&nbsp;3, this requirement is relaxed; these
  * specifications only stipulate that the units of the numerical value
  * computed by a Delay instance's 'math' expression @em should match the
  * model's units of time (meaning the definition of the @c time units in
@@ -114,7 +114,7 @@ namespace libsbmlcs {
  * content of a @c cn element.  The attribute is named @c units but,
  * because it appears inside MathML element (which is in the XML namespace
  * for MathML and not the namespace for SBML), it must always be prefixed
- * with an XML namespace prefix for the SBML Level&nbsp;3 Version&nbsp;1
+ * with an XML namespace prefix for an SBML Level&nbsp;3
  * namespace.  The following is an example of this approach:
  * @verbatim
 <model timeUnits='second' ...>
@@ -134,6 +134,14 @@ namespace libsbmlcs {
     ...
 </model>
 @endverbatim
+ *
+ * @section delay-restrictions Restrictions relaxed in SBML Level&nbsp;3 Version&nbsp;2
+ * 
+ * In SBML Level&nbsp;3 Version&nbsp;2, the requirement that a Delay
+ * have a 'math' subelement was relaxed, making it optional.  In
+ * this case, the Delay remains undefined, and unless that information
+ * is provided in some other form (such as with an SBML Level&nbsp;3
+ * package), the Event behaves as if it had no Delay.
  */
 
 public class Delay : SBase {
@@ -186,10 +194,10 @@ public class Delay : SBase {
    * Creates a new Delay using the given SBML @p level and @p version
    * values.
    *
-   * @param level a long integer, the SBML Level to assign to this Delay
+   * @param level a long integer, the SBML Level to assign to this Delay.
    *
    * @param version a long integer, the SBML Version to assign to this
-   * Delay
+   * Delay.
    *
    *
  * @throws SBMLConstructorException
@@ -294,7 +302,7 @@ public class Delay : SBase {
    * Get the mathematical formula for the delay and return it
    * as an AST.
    * 
-   * @return the math of this Delay.
+   * @return the math of this Delay, or @c null if the math is not set.
    */ public
  ASTNode getMath() {
     IntPtr cPtr = libsbmlPINVOKE.Delay_getMath(swigCPtr);
@@ -495,7 +503,8 @@ public class Delay : SBase {
    * have been set.
    *
    * @note The required elements for a Delay object are:
-   * @li 'math'
+   * @li 'math' inSBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1.  
+   *     (In SBML Level&nbsp;3 Version&nbsp;2+, it is no longer required.)
    *
    * @return a boolean value indicating whether all the required
    * elements for this object have been defined.
@@ -539,7 +548,7 @@ public class Delay : SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -552,8 +561,8 @@ public class Delay : SBase {
  * matching values are replaced with @p newid.  The method does @em not
  * descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new
@@ -588,8 +597,8 @@ public class Delay : SBase {
  * are found, the matching values are replaced with @p newid.  The method
  * does @em not descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new

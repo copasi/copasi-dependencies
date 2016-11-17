@@ -58,6 +58,24 @@ namespace libsbmlcs {
  * reactions lacking kinetic laws are simply undefined, and not determined by
  * the algebraic rule.)
  *
+ * Finally, any symbol that appears as the target of a rateOf csymbol 
+ * (@link libsbml#AST_FUNCTION_RATE_OF AST_FUNCTION_RATE_OF@endlink, introduced in 
+ * SBML Level&nbsp;3 Version&nbsp;2) may 
+ * not be determined by an AlgebraicRule. This is because the rateOf 
+ * csymbol is defined as applying only to symbols whose rates of change 
+ * are easily determinable.
+ *
+ * Users should note that these rules about what symbols may not be 
+ * determined by an AlgebraicRule may be used to discover what symbol 
+ * is being determined by an AlgebraicRule. If three symbols appear in 
+ * the math element of an AlgebraicRule, the first of which is flagged 
+ * constant=@c true, and the second of which appears as the target of a
+ * rateOf csymbol, one may conclude that the AlgebraicRule must be used 
+ * to determine the value of the third symbol. This is, in fact, a 
+ * principle use (outside of validation) of the constant attribute: its 
+ * use in allowing software to properly identify the dependent variable 
+ * in an AlgebraicRule.
+ *
  *
  * @section rules-general General summary of SBML rules
  *
@@ -138,6 +156,22 @@ namespace libsbmlcs {
  * statements that contain the symbol in their 'math' subelement expressions.
  * This graph must be acyclic.
  *
+ * Similarly, the combined set of RateRule and Reaction objects constitute 
+ * a set of definitions for the rates of change of various model entities 
+ * (namely, the objects identified by the values of the 'variable' attributes 
+ * of the RateRule objects, and the 'species' attributes of the SpeciesReference 
+ * objects in each Reaction).  In SBML Level&nbsp;3 Version&nbsp;2, these rates 
+ * of change may be referenced directly 
+ * using the <em>rateOf</em> csymbol, but may not thereby contain algebraic 
+ * loops---dependency chains between these statements must terminate.  More 
+ * formally, consider a directed graph in which the nodes are the definitions 
+ * of different variables' rates of change, and directed arcs exist for each 
+ * occurrence of a variable referenced by a <em>rateOf</em> csymbol from any 
+ * RateRule or KineticLaw object in the model.  Let the directed arcs point 
+ * from the variable referenced by the <em>rateOf</em> csymbol (call it 
+ * <em>x</em>) to the variable(s) determined by the 'math' expression in which
+ * <em>x</em> appears.  This graph must be acyclic.
+ *
  * SBML does not specify when or how often rules should be evaluated.
  * Eliminating algebraic loops ensures that assignment statements can be
  * evaluated any number of times without the result of those evaluations
@@ -154,11 +188,11 @@ namespace libsbmlcs {
  * @subsection rules-not-overdetermined A model must not be overdetermined
  *
  * An SBML model must not be overdetermined; that is, a model must not
- * define more equations than there are unknowns in a model.  An SBML model
+ * define more equations than there are unknowns in a model.  A valid SBML model
  * that does not contain AlgebraicRule structures cannot be overdetermined.
  *
  * LibSBML implements the static analysis procedure described in
- * Appendix&nbsp;B of the SBML Level&nbsp;3 Version&nbsp;1 Core
+ * Appendix&nbsp;B of the SBML Level&nbsp;3
  * specification for assessing whether a model is overdetermined.
  *
  * (In summary, assessing whether a given continuous, deterministic,

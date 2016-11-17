@@ -146,7 +146,7 @@ public class XMLNamespaces {
 /**
    * Copy constructor; creates a copy of this {@link XMLNamespaces} list.
    <p>
-   * @param orig the {@link XMLNamespaces} object to copy
+   * @param orig the {@link XMLNamespaces} object to copy.
    */ public
  XMLNamespaces(XMLNamespaces orig) throws org.sbml.libsbml.XMLConstructorException {
     this(libsbmlJNI.new_XMLNamespaces__SWIG_1(XMLNamespaces.getCPtr(orig), orig), true);
@@ -183,8 +183,8 @@ public class XMLNamespaces {
    * is necessary to replace the sbml namespace the namespace should be removed
    * prior to adding the new namespace.
    <p>
-   * @param uri a string, the uri for the namespace
-   * @param prefix a string, the prefix for the namespace
+   * @param uri a string, the uri for the namespace.
+   * @param prefix a string, the prefix for the namespace.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -235,8 +235,8 @@ appears in the documentation.
    * is necessary to replace the sbml namespace the namespace should be removed
    * prior to adding the new namespace.
    <p>
-   * @param uri a string, the uri for the namespace
-   * @param prefix a string, the prefix for the namespace
+   * @param uri a string, the uri for the namespace.
+   * @param prefix a string, the prefix for the namespace.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -361,7 +361,7 @@ appears in the documentation.
    * prefix <code>prefix</code>, this method returns its index in the list.
    <p>
    * @param prefix a string, the prefix string of the sought-after
-   * namespace
+   * namespace.
    <p>
    * @return the index of the given declaration, or <code>-1</code> if not
    * present.
@@ -405,10 +405,10 @@ appears in the documentation.
    * {@link XMLAttributes#getLength()} first to find out how many namespaces are
    * stored in the list.
    <p>
-   * @param index an integer, position of the sought-after prefix
+   * @param index an integer, position of the sought-after prefix.
    <p>
    * @return the prefix of an XML namespace declaration in this list (by
-   * position), or an empty string if the <code>index</code> is out of range
+   * position), or an empty string if the <code>index</code> is out of range.
    <p>
    * @see #getLength()
    */ public
@@ -424,10 +424,10 @@ appears in the documentation.
    * prefixes.  This method returns the prefix for a pair that has the
    * given <code>uri</code>.
    <p>
-   * @param uri a string, the URI of the prefix being sought
+   * @param uri a string, the URI of the prefix being sought.
    <p>
    * @return the prefix of an XML namespace declaration given its URI, or
-   * an empty string if no such <code>uri</code> exists in this {@link XMLNamespaces} object
+   * an empty string if no such <code>uri</code> exists in this {@link XMLNamespaces} object.
    */ public
  String getPrefix(String uri) {
     return libsbmlJNI.XMLNamespaces_getPrefix__SWIG_1(swigCPtr, this, uri);
@@ -462,11 +462,11 @@ appears in the documentation.
    * prefixes.  This method returns the namespace URI for a pair that has
    * the given <code>prefix</code>.
    <p>
-   * @param prefix a string, the prefix of the required URI
+   * @param prefix a string, the prefix of the required URI.
    <p>
    * @return the URI of an XML namespace declaration having the given 
    * <code>prefix</code>, or an empty string if no such prefix-and-URI pair exists
-   * in this {@link XMLNamespaces} object
+   * in this {@link XMLNamespaces} object.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -497,11 +497,11 @@ appears in the documentation.
    * prefixes.  This method returns the namespace URI for a pair that has
    * the given <code>prefix</code>.
    <p>
-   * @param prefix a string, the prefix of the required URI
+   * @param prefix a string, the prefix of the required URI.
    <p>
    * @return the URI of an XML namespace declaration having the given 
    * <code>prefix</code>, or an empty string if no such prefix-and-URI pair exists
-   * in this {@link XMLNamespaces} object
+   * in this {@link XMLNamespaces} object.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -540,7 +540,7 @@ appears in the documentation.
    * Predicate returning <code>true</code> or <code>false</code> depending on whether an XML
    * Namespace with the given URI is contained in this {@link XMLNamespaces} list.
    <p>
-   * @param uri a string, the uri for the namespace
+   * @param uri a string, the uri for the namespace.
    <p>
    * @return <code>true</code> if an XML Namespace with the given URI is contained in
    * this {@link XMLNamespaces} list, <code>false</code> otherwise.
@@ -555,7 +555,7 @@ appears in the documentation.
    * Namespace with the given prefix is contained in this {@link XMLNamespaces}
    * list.
    <p>
-   * @param prefix a string, the prefix for the namespace
+   * @param prefix a string, the prefix for the namespace.
    <p>
    * @return <code>true</code> if an XML Namespace with the given URI is contained in
    * this {@link XMLNamespaces} list, <code>false</code> otherwise.
@@ -570,8 +570,8 @@ appears in the documentation.
    * Namespace with the given URI and prefix pair is contained in this
    * {@link XMLNamespaces} list.
    <p>
-   * @param uri a string, the URI for the namespace
-   * @param prefix a string, the prefix for the namespace
+   * @param uri a string, the URI for the namespace.
+   * @param prefix a string, the prefix for the namespace.
    <p>
    * @return <code>true</code> if an XML Namespace with the given uri/prefix pair is
    * contained in this {@link XMLNamespaces} list, <code>false</code> otherwise.

@@ -34,6 +34,16 @@
 cmake_minimum_required(VERSION 2.6)
 project(libsbml)
 
+if(POLICY CMP0054) 
+    cmake_policy(SET CMP0054 NEW) 
+endif() 
+
+if(POLICY CMP0058) 
+    cmake_policy(SET CMP0058 OLD) 
+endif() 
+
+
+
 set(LIBSBML_ROOT_SOURCE_DIR "${CMAKE_SOURCE_DIR}" CACHE PATH
     "Path to the libSBML root source directory")
 set(LIBSBML_ROOT_BINARY_DIR "${CMAKE_BINARY_DIR}" CACHE PATH
@@ -84,6 +94,15 @@ MATH(EXPR LIBSBML_VERSION_NUMERIC "${LIBSBML_VERSION_MAJOR} * 10000 + ${LIBSBML_
 set(PACKAGE_VERSION "${LIBSBML_VERSION_MAJOR}.${LIBSBML_VERSION_MINOR}.${LIBSBML_VERSION_PATCH}${LIBSBML_VERSION_RELEASE}")
 set(PACKAGE_NAME "libSBML")
 
+set(PACKAGE_CONFIG_DIR lib/cmake CACHE PATH
+    "Path into which the cmake config files should be installed")
+
+
+# PACKAGE_VERSION gets overridden by using other packages, so setting
+# the PROJECT_VERSION, which will be used when exporting targets in
+# src/CMakeLists.txt
+set(PROJECT_VERSION ${PACKAGE_VERSION})
+
 if (WITH_DOXYGEN OR WITH_PYTHON)
   # configure the version for documentation / bindings
   configure_file(
@@ -109,7 +128,7 @@ include(InstallRequiredSystemLibraries)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An API library for reading/writing/manipulating SBML.")
 set(CPACK_PACKAGE_NAME "${PACKAGE_NAME}")
 set(CPACK_PACKAGE_VENDOR "The libSBML Team")
-set(CPACK_PACKAGE_CONTACT "LibSBML Team <libsbml-team@caltech.edu>")
+set(CPACK_PACKAGE_CONTACT "LibSBML Team <libsbml-team@googlegroups.com>")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.txt")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING.txt")
 set(CPACK_PACKAGE_VERSION_MAJOR "${LIBSBML_VERSION_MAJOR}")
@@ -213,6 +232,8 @@ mark_as_advanced(WITH_WALL)
 if(WITH_WALL)
     if(MSVC OR USING_INTEL)
         add_definitions(/W4)
+        string(REPLACE "/W3" "/W4" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+        string(REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     else()
         add_definitions(-Wall)
     endif()
@@ -223,7 +244,7 @@ option(LIBSBML_USE_STRICT_INCLUDES
 "Compile using 'strict includes' rules: libSBML header files won't
 use SBMLTypes.h, among others." OFF)
 if(LIBSBML_USE_STRICT_INCLUDES)
-	add_definitions(-DLIBSBML_USE_STRICT_INCLUDES)
+  add_definitions(-DLIBSBML_USE_STRICT_INCLUDES)
 endif(LIBSBML_USE_STRICT_INCLUDES)
 mark_as_advanced(LIBSBML_USE_STRICT_INCLUDES)
 
@@ -307,18 +328,24 @@ endif()
 set(LIBSBML_USE_CPP_NAMESPACE OFF)
 if(WITH_CPP_NAMESPACE)
     add_definitions(-DLIBSBML_USE_CPP_NAMESPACE=1)
-    set(LIBSBML_USE_CPP_NAMESPACE ON)	
+    set(LIBSBML_USE_CPP_NAMESPACE ON)  
 endif()
 
 if(WITH_SWIG)
     find_program(SWIG_EXECUTABLE
         NAMES swig
         PATHS
+              c:/swigwin-3.0.10
+              c:/swigwin-3.0.9
+              c:/swigwin-3.0.8
+              c:/swigwin-3.0.7
+              c:/swigwin-3.0.6
               c:/swigwin-3.0.5
               c:/swigwin-3.0.4
               c:/swigwin-3.0.3
               c:/swigwin-3.0.2
               c:/swigwin-3.0.1
+              c:/swigwin-2.0.12
               c:/swigwin-2.0.11
               c:/swigwin-2.0.10
               c:/swigwin-2.0.9
@@ -340,7 +367,7 @@ if(WITH_SWIG)
         )
     find_package(SWIG)
     if (SWIG_FOUND AND SWIG_VERSION VERSION_LESS "2.0.4")
-    	message(WARNING
+      message(WARNING
 "You are using SWIG version ${SWIG_VERSION}.  We strongly recommend
 using version 2.0.4 or greater. For libSBML JavaScript support, you
 will need version 3.0.1 at minimum.")
@@ -383,7 +410,7 @@ if(WITH_EXPAT)
   endif()
   
     add_definitions( -DUSE_EXPAT )
-    list(APPEND SWIG_EXTRA_ARGS -DUSE_EXPAT)	
+    list(APPEND SWIG_EXTRA_ARGS -DUSE_EXPAT)  
 
     set(LIBSBML_XML_LIBRARY "expat")
     set(LIBSBML_XML_LIBRARY_INCLUDE ${LIBEXPAT_INCLUDE_DIR})
@@ -426,7 +453,7 @@ if(WITH_LIBXML)
   endif()
     
   add_definitions( -DUSE_LIBXML )
-  list(APPEND SWIG_EXTRA_ARGS -DUSE_LIBXML)	
+  list(APPEND SWIG_EXTRA_ARGS -DUSE_LIBXML)  
   set(USE_LIBXML ON)
 
   set(LIBSBML_XML_LIBRARY "libxml2")
@@ -493,6 +520,21 @@ find_library(LIBBZ_LIBRARY
     PATHS /usr/lib /usr/local/lib
           ${CMAKE_OSX_SYSROOT}/usr/lib
           ${LIBSBML_DEPENDENCY_DIR}/lib
+          NO_DEFAULT_PATH
+          NO_CMAKE_ENVIRONMENT_PATH
+          NO_CMAKE_PATH
+          NO_SYSTEM_ENVIRONMENT_PATH
+          NO_CMAKE_SYSTEM_PATH    
+ 
+          DOC "The file name of the bzip2 library."
+)
+endif()
+if (NOT LIBBZ_LIBRARY)
+find_library(LIBBZ_LIBRARY
+    NAMES bzip2.lib bz2 libbz2.lib
+    PATHS /usr/lib /usr/local/lib
+          ${CMAKE_OSX_SYSROOT}/usr/lib
+          ${LIBSBML_DEPENDENCY_DIR}/lib
     DOC "The file name of the bzip2 library."
 )
 endif()
@@ -530,7 +572,7 @@ if(WITH_BZIP2)
 
     set(USE_BZ2 ON)
     add_definitions( -DUSE_BZ2 )
-	list(APPEND SWIG_EXTRA_ARGS -DUSE_BZ2)
+  list(APPEND SWIG_EXTRA_ARGS -DUSE_BZ2)
 
     # make sure that we have a valid bzip2 library
     check_library_exists("${LIBBZ_LIBRARY}" "BZ2_bzCompressInit" "" LIBBZ_FOUND_SYMBOL)
@@ -582,6 +624,20 @@ find_library(LIBZ_LIBRARY
     PATHS /usr/lib /usr/local/lib
           ${CMAKE_OSX_SYSROOT}/usr/lib
           ${LIBSBML_DEPENDENCY_DIR}/lib
+          NO_DEFAULT_PATH
+          NO_CMAKE_ENVIRONMENT_PATH
+          NO_CMAKE_PATH
+          NO_SYSTEM_ENVIRONMENT_PATH
+          NO_CMAKE_SYSTEM_PATH    
+          DOC "The file name of the zip compression library."
+    )
+endif()
+if (NOT LIBZ_LIBRARY)
+find_library(LIBZ_LIBRARY
+    NAMES zdll.lib z zlib.lib
+    PATHS /usr/lib /usr/local/lib
+          ${CMAKE_OSX_SYSROOT}/usr/lib
+          ${LIBSBML_DEPENDENCY_DIR}/lib
     DOC "The file name of the zip compression library."
     )
 endif()
@@ -617,7 +673,7 @@ if(WITH_ZLIB)
     endif()
     set(USE_ZLIB ON)
     add_definitions( -DUSE_ZLIB )
-	list(APPEND SWIG_EXTRA_ARGS -DUSE_ZLIB)	
+  list(APPEND SWIG_EXTRA_ARGS -DUSE_ZLIB)  
 
     # make sure that we have a valid zip library
     check_library_exists("${LIBZ_LIBRARY}" "gzopen" "" LIBZ_FOUND_SYMBOL)
@@ -649,7 +705,7 @@ endif(WITH_ZLIB)
 #
 
 if(WITH_CSHARP)
-    FILE(TO_CMAKE_PATH "$ENV{WINDIR}" windir)	
+    FILE(TO_CMAKE_PATH "$ENV{WINDIR}" windir)  
     find_program(CSHARP_COMPILER
         NAMES gmcs csc mcs
         PATHS 
@@ -723,7 +779,7 @@ invalid. It should contain the file check.h, but it does not.")
         message(WARNING "Libcheck is not compatible with Visual Studio 2003 (or earlier versions).")
     endif()
 
-	if (UNIX)
+  if (UNIX)
       # setup valgrind
       set(CMAKE_MEMORYCHECK_COMMAND valgrind)
       set(CMAKE_MEMORYCHECK_COMMAND_OPTIONS
@@ -732,7 +788,7 @@ invalid. It should contain the file check.h, but it does not.")
       set(MEMCHECK_COMMAND
          "${CMAKE_MEMORYCHECK_COMMAND} ${CMAKE_MEMORYCHECK_COMMAND_OPTIONS}")
       separate_arguments(MEMCHECK_COMMAND)
-	endif()
+  endif()
 
     include(CTest)
 
@@ -848,7 +904,7 @@ other operating systems.)" OFF)
         endif(ENABLE_UNIVERSAL)
     else(APPLE)
         add_definitions(-DLINUX)
-		
+    
         if(NOT CYGWIN)
             # on cygwin all code is position independent so -fPIC is not needed
             set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing -fPIC")
@@ -881,35 +937,38 @@ else(UNIX)
                 if(${flag_var} MATCHES "/MD")
                     string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
                 endif(${flag_var} MATCHES "/MD")
-								
+                
             endforeach(flag_var)
         add_definitions( -D_MT)
         endif(WITH_STATIC_RUNTIME)
+        
+        # on VS enable multiprocessor build 
+        SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")      
 
         # Provide an easy way to use Visual Leak Detector (https://vld.codeplex.com)
-		option(LIBSBML_USE_VLD "When running debug builds with MSVC use Visual Leak Detector." OFF)
-		mark_as_advanced(LIBSBML_USE_VLD)
-		if (LIBSBML_USE_VLD)
+    option(LIBSBML_USE_VLD "When running debug builds with MSVC use Visual Leak Detector." OFF)
+    mark_as_advanced(LIBSBML_USE_VLD)
+    if (LIBSBML_USE_VLD)
           find_path(VLD_INCLUDE_DIR
             NAMES vld.h
             PATHS ${LIBSBML_DEPENDENCY_DIR}/include
-			      "$ENV{PROGRAMFILES}/Visual Leak Detector/include"
-				  "$ENV{PROGRAMFILES(X86)}/Visual Leak Detector/include"
+            "$ENV{PROGRAMFILES}/Visual Leak Detector/include"
+          "$ENV{PROGRAMFILES(X86)}/Visual Leak Detector/include"
             DOC "Directory containing VLD files."
           )
           if (NOT VLD_INCLUDE_DIR)
             message(WARNING "VLD is not found on your system, please ensure you installed it correctly.")
-		  else()
-		    include_directories(${VLD_INCLUDE_DIR})
-		  endif()
-		  
-		  add_definitions( -DLIBSBML_USE_VLD)
-		  
-		endif (LIBSBML_USE_VLD)
+      else()
+        include_directories(${VLD_INCLUDE_DIR})
+      endif()
+      
+      add_definitions( -DLIBSBML_USE_VLD)
+      
+    endif (LIBSBML_USE_VLD)
 
-		# CMake no longer creates PDB files for static libraries after 2.8.11
-		# so we store debug information in the object files instead
-		if (${CMAKE_VERSION} VERSION_GREATER "2.8.11")
+    # CMake no longer creates PDB files for static libraries after 2.8.11
+    # so we store debug information in the object files instead
+    if (${CMAKE_VERSION} VERSION_GREATER "2.8.11")
             foreach(flag_var
                 CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
                 CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO
@@ -917,19 +976,19 @@ else(UNIX)
                 CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO)
 
                 if(${flag_var} MATCHES "/Zi")
-				    STRING(REPLACE "/Zi"  "/Z7" "${flag_var}" "${${flag_var}}")
+            STRING(REPLACE "/Zi"  "/Z7" "${flag_var}" "${${flag_var}}")
                 endif(${flag_var} MATCHES "/Zi")
 
-            endforeach(flag_var)		  
-		endif()
-		
+            endforeach(flag_var)      
+    endif()
+    
         file(GLOB WIN32_BINARIES ${LIBSBML_DEPENDENCY_DIR}/bin/*.dll)
         INSTALL(FILES ${WIN32_BINARIES} DESTINATION bin)
         file(GLOB WIN32_DEPENDENCIES ${LIBSBML_DEPENDENCY_DIR}/lib/*.lib)
         install(FILES ${WIN32_DEPENDENCIES} DESTINATION lib)
         if(WITH_LIBXML)
-		  if (EXTRA_LIBS STREQUAL "")
-		    # populate EXTRA_LIBS variable
+      if (EXTRA_LIBS STREQUAL "")
+        # populate EXTRA_LIBS variable
               find_library(LIBICONV_LIBRARY
                 NAMES libiconv.lib iconv.lib iconv
                 PATHS /usr/lib /usr/local/lib
@@ -937,17 +996,17 @@ else(UNIX)
                       ${LIBSBML_DEPENDENCY_DIR}/lib
                 DOC "The file name of the libiconv library."
               )
-		    
-		    set(ADDITIONAL_LIBS)
-		    if (EXISTS ${LIBICONV_LIBRARY})
-		 	 set(ADDITIONAL_LIBS "${ADDITIONAL_LIBS}${LIBICONV_LIBRARY};")
-		    endif()
-		    if (EXISTS ${LIBZ_LIBRARY})
-		    set(ADDITIONAL_LIBS "${ADDITIONAL_LIBS}${LIBZ_LIBRARY};")
-		    endif()
-		    set(EXTRA_LIBS "WS2_32.lib;${ADDITIONAL_LIBS}" CACHE STRING "List of additional libraries to link against." FORCE)
-		  endif()
-		endif()
+        
+        set(ADDITIONAL_LIBS)
+        if (EXISTS ${LIBICONV_LIBRARY})
+        set(ADDITIONAL_LIBS "${ADDITIONAL_LIBS}${LIBICONV_LIBRARY};")
+        endif()
+        if (EXISTS ${LIBZ_LIBRARY})
+        set(ADDITIONAL_LIBS "${ADDITIONAL_LIBS}${LIBZ_LIBRARY};")
+        endif()
+        set(EXTRA_LIBS "WS2_32.lib;${ADDITIONAL_LIBS}" CACHE STRING "List of additional libraries to link against." FORCE)
+      endif()
+    endif()
     elseif(CYGWIN)
         add_definitions(-DCYGWIN)
         set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DCYGWIN")
@@ -1087,7 +1146,7 @@ set (PRIVATE_LIBS "${XERCES_LIBRARY} ${PRIVATE_LIBS}")
 endif()
 
 SET (PC_LIBDIR ${CMAKE_INSTALL_LIBDIR})
-if (${CMAKE_INSTALL_LIBDIR} STREQUAL "lib")
+if ("${CMAKE_INSTALL_LIBDIR}" STREQUAL "lib")
 SET (PC_LIBDIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
 endif()
 
@@ -1135,7 +1194,7 @@ libSBML version ${PACKAGE_VERSION}
    Please report problems using the issue tracker at
    http://sbml.org/Software/libsbml/issue-tracker
 
-   To contact the developers directly, email libsbml-team@caltech.edu
+   To contact the developers directly, email libsbml-team@googlegroups.com
 
    Configured on host '${HOSTNAME}'
      host type                       = ${CMAKE_SYSTEM_NAME}
@@ -1170,7 +1229,7 @@ if(WITH_SWIG)
     message(STATUS "     Using SWIG                      = ${SWIG_EXECUTABLE} (Version ${SWIG_VERSION})")
     
     if (SWIG_FOUND AND SWIG_VERSION VERSION_LESS "2.0.4")
-    	message(WARNING "   You are using SWIG version ${SWIG_VERSION}. We strongly recommend at least version 2.0.4.")
+      message(WARNING "   You are using SWIG version ${SWIG_VERSION}. We strongly recommend at least version 2.0.4.")
     endif()
 
 endif()

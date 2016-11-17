@@ -169,8 +169,9 @@ public class SBMLWriter : IDisposable {
    *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * enumeration #OperationReturnValues_t. @endif This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * 
    * @see setProgramVersion(string version)
@@ -203,8 +204,9 @@ public class SBMLWriter : IDisposable {
    *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * enumeration #OperationReturnValues_t. @endif This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @see setProgramName(string name)
@@ -220,7 +222,7 @@ public class SBMLWriter : IDisposable {
    *
    * @htmlinclude assuming-compressed-file.html
    *
-   * @param d the SBML document to be written
+   * @param d the SBML document to be written.
    *
    * @param filename the name or full pathname of the file where the SBML
    * is to be written. 
@@ -242,7 +244,7 @@ public class SBMLWriter : IDisposable {
 /**
    * Writes the given SBML document to the output stream.
    *
-   * @param d the SBML document to be written
+   * @param d the SBML document to be written.
    *
    * @param stream the stream object where the SBML is to be written.
    *
@@ -271,7 +273,7 @@ public class SBMLWriter : IDisposable {
    *
    * @htmlinclude assuming-compressed-file.html
    *
-   * @param d the SBML document to be written
+   * @param d the SBML document to be written.
    *
    * @param filename the name or full pathname of the file where the SBML
    * is to be written. 
@@ -297,7 +299,7 @@ public class SBMLWriter : IDisposable {
    * The string is owned by the caller and should be freed (with @c free())
    * when no longer needed.
    *
-   * @param d the SBML document to be written
+   * @param d the SBML document to be written.
    *
    * @return the string on success and @c 0 if one of the underlying parser
    * components fail.

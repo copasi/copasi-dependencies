@@ -545,8 +545,7 @@ KineticLaw::addParameter (const Parameter* p)
       }
       else
       {
-        mLocalParameters.append(&lp);
-        return LIBSBML_OPERATION_SUCCESS;
+        return mLocalParameters.append(&lp);
       }
     }
   }
@@ -569,9 +568,7 @@ KineticLaw::addParameter (const Parameter* p)
   }
   else
   {
-    mParameters.append(p);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mParameters.append(p);
   }
 }
 
@@ -594,9 +591,7 @@ KineticLaw::addLocalParameter (const LocalParameter* p)
   }
   else
   {
-    mLocalParameters.append(p);
-
-    return LIBSBML_OPERATION_SUCCESS;
+    return mLocalParameters.append(p);
   }
 }
 
@@ -1032,14 +1027,14 @@ KineticLaw::setSBMLDocument (SBMLDocument* d)
 {
   SBase::setSBMLDocument(d);
 
-  if (getLevel() < 3)
-  {
+  //if (getLevel() < 3)
+  //{
   mParameters.setSBMLDocument(d);
-  }
-  else
-  {
+  //}
+  //else
+  //{
   mLocalParameters.setSBMLDocument(d);
-  }
+  //}
 }
 
 
@@ -1122,9 +1117,13 @@ KineticLaw::hasRequiredElements() const
   bool allPresent = true;
 
   /* required attributes for kineticlaw: math */
+  /* l3v2 removed that requirement */
 
-  if (!isSetMath())
-    allPresent = false;
+  if ((getLevel() < 3 ) || (getLevel() == 3 && getVersion() == 1))
+  {
+    if (!isSetMath())
+      allPresent = false;
+  }
 
   return allPresent;
 }
@@ -1138,6 +1137,324 @@ int KineticLaw::removeFromParentAndDelete()
   if (parentReaction== NULL) return LIBSBML_OPERATION_FAILED;
   return parentReaction->unsetKineticLaw();
 }
+
+
+
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this KineticLaw.
+ */
+int
+KineticLaw::getAttribute(const std::string& attributeName, bool& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this KineticLaw.
+ */
+int
+KineticLaw::getAttribute(const std::string& attributeName, int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this KineticLaw.
+ */
+int
+KineticLaw::getAttribute(const std::string& attributeName,
+                         double& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this KineticLaw.
+ */
+int
+KineticLaw::getAttribute(const std::string& attributeName,
+                         unsigned int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this KineticLaw.
+ */
+int
+KineticLaw::getAttribute(const std::string& attributeName,
+                         std::string& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "timeUnits")
+  {
+    value = getTimeUnits();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "substanceUnits")
+  {
+    value = getSubstanceUnits();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this KineticLaw.
+ */
+int
+KineticLaw::getAttribute(const std::string& attributeName,
+                         const char* value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "timeUnits")
+  {
+    value = getTimeUnits().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "substanceUnits")
+  {
+    value = getSubstanceUnits().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this KineticLaw's attribute "attributeName"
+ * is set.
+ */
+bool
+KineticLaw::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = SBase::isSetAttribute(attributeName);
+
+  if (attributeName == "timeUnits")
+  {
+    value = isSetTimeUnits();
+  }
+  else if (attributeName == "substanceUnits")
+  {
+    value = isSetSubstanceUnits();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this KineticLaw.
+ */
+int
+KineticLaw::setAttribute(const std::string& attributeName, bool value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this KineticLaw.
+ */
+int
+KineticLaw::setAttribute(const std::string& attributeName, int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this KineticLaw.
+ */
+int
+KineticLaw::setAttribute(const std::string& attributeName, double value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this KineticLaw.
+ */
+int
+KineticLaw::setAttribute(const std::string& attributeName, unsigned int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this KineticLaw.
+ */
+int
+KineticLaw::setAttribute(const std::string& attributeName,
+                         const std::string& value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "timeUnits")
+  {
+    return_value = setTimeUnits(value);
+  }
+  else if (attributeName == "substanceUnits")
+  {
+    return_value = setSubstanceUnits(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this KineticLaw.
+ */
+int
+KineticLaw::setAttribute(const std::string& attributeName, const char* value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "timeUnits")
+  {
+    return_value = setTimeUnits(value);
+  }
+  else if (attributeName == "substanceUnits")
+  {
+    return_value = setSubstanceUnits(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Unsets the value of the "attributeName" attribute of this KineticLaw.
+ */
+int
+KineticLaw::unsetAttribute(const std::string& attributeName)
+{
+  int value = SBase::unsetAttribute(attributeName);
+
+  if (attributeName == "timeUnits")
+  {
+    value = unsetTimeUnits();
+  }
+  else if (attributeName == "substanceUnits")
+  {
+    value = unsetSubstanceUnits();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
 
 
 void
@@ -1226,7 +1543,7 @@ KineticLaw::getElementPosition () const
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
- * SBML objects as XML elements.  Be sure to call your parents
+ * SBML objects as XML elements.  Be sure to call your parent's
  * implementation of this method as well.
  */
 void
@@ -1234,10 +1551,31 @@ KineticLaw::writeElements (XMLOutputStream& stream) const
 {
   SBase::writeElements(stream);
 
-  if ( getLevel() > 1 && isSetMath() ) writeMathML(getMath(), stream, getSBMLNamespaces());
-  if ( getLevel() < 3 && getNumParameters() > 0 ) mParameters.write(stream);
-  if ( getLevel() > 2 && getNumLocalParameters() > 0 ) 
-    mLocalParameters.write(stream);
+  if ( getLevel() > 1 && isSetMath() ) 
+  {
+    writeMathML(getMath(), stream, getSBMLNamespaces());
+  }
+
+  if ( getLevel() < 3 && getNumParameters() > 0 ) 
+  {
+    mParameters.write(stream);
+  }
+  else if (getLevel() == 3)
+  { 
+    if ( getVersion() == 1 && getNumLocalParameters() > 0)
+    {
+      mLocalParameters.write(stream);
+    }
+    else if (getVersion() > 1)
+    {
+      if (mLocalParameters.hasOptionalElements() == true ||
+          mLocalParameters.hasOptionalAttributes() == true ||
+          mLocalParameters.isExplicitlyListed())
+      {
+        mLocalParameters.write(stream);
+      }
+    }
+  }
 
   //
   // (EXTENSION)
@@ -1275,6 +1613,7 @@ KineticLaw::createObject (XMLInputStream& stream)
     {
       logError(OneListOfPerKineticLaw, getLevel(), getVersion());
     }
+    mLocalParameters.setExplicitlyListed();
     object = &mLocalParameters;
   }
 
@@ -1398,7 +1737,7 @@ KineticLaw::addExpectedAttributes(ExpectedAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 KineticLaw::readAttributes (const XMLAttributes& attributes,
@@ -1429,7 +1768,7 @@ KineticLaw::readAttributes (const XMLAttributes& attributes,
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 KineticLaw::readL1Attributes (const XMLAttributes& attributes)
@@ -1457,7 +1796,7 @@ KineticLaw::readL1Attributes (const XMLAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 KineticLaw::readL2Attributes (const XMLAttributes& attributes)
@@ -1492,7 +1831,7 @@ KineticLaw::readL2Attributes (const XMLAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  */
 void
 KineticLaw::readL3Attributes (const XMLAttributes&)
@@ -1504,7 +1843,7 @@ KineticLaw::readL3Attributes (const XMLAttributes&)
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
- * to the XMLOutputStream.  Be sure to call your parents implementation
+ * to the XMLOutputStream.  Be sure to call your parent's implementation
  * of this method as well.
  */
 void

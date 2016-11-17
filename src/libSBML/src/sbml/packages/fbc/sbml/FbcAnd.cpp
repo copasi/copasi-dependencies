@@ -237,6 +237,10 @@ FbcAnd::addAssociation(const FbcAssociation* fa)
   {
     return LIBSBML_LEVEL_MISMATCH;
   }
+  else if (getPackageVersion() != fa->getPackageVersion())
+  {
+    return LIBSBML_PKG_VERSION_MISMATCH;
+  }
   else if (getVersion() != fa->getVersion())
   {
     return LIBSBML_VERSION_MISMATCH;
@@ -247,8 +251,7 @@ FbcAnd::addAssociation(const FbcAssociation* fa)
   }
   else
   {
-    mAssociations.append(fa);
-    return LIBSBML_OPERATION_SUCCESS;
+    return mAssociations.append(fa);
   }
 }
 

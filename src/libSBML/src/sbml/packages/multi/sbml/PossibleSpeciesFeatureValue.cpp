@@ -42,8 +42,8 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 PossibleSpeciesFeatureValue::PossibleSpeciesFeatureValue (unsigned int level, unsigned int version, unsigned int pkgVersion)
   : SBase(level, version)
-   ,mId ("")
-   ,mName ("")
+////   ,mId ("")
+////   ,mName ("")
    ,mNumericValue ("")
 {
   // set an SBMLNamespaces derived object of this package
@@ -56,8 +56,8 @@ PossibleSpeciesFeatureValue::PossibleSpeciesFeatureValue (unsigned int level, un
  */
 PossibleSpeciesFeatureValue::PossibleSpeciesFeatureValue (MultiPkgNamespaces* multins)
   : SBase(multins)
-   ,mId ("")
-   ,mName ("")
+////   ,mId ("")
+////   ,mName ("")
    ,mNumericValue ("")
 {
   // set the element namespace of this object
@@ -73,8 +73,8 @@ PossibleSpeciesFeatureValue::PossibleSpeciesFeatureValue (MultiPkgNamespaces* mu
  */
 PossibleSpeciesFeatureValue::PossibleSpeciesFeatureValue (const PossibleSpeciesFeatureValue& orig)
   : SBase(orig)
-  , mId  ( orig.mId)
-  , mName  ( orig.mName)
+//  , mId  ( orig.mId)
+//  , mName  ( orig.mName)
   , mNumericValue  ( orig.mNumericValue)
 {
 }

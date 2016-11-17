@@ -66,7 +66,7 @@ the implementation of extra functionality provided by libSBML.
  * The use of all the converters follows a similar approach.  First, one
  * creates a {@link ConversionProperties} object and calls
  * {@link ConversionProperties#addOption(ConversionOption)}
- * on this object with one arguments: a text string that identifies the desired
+ * on this object with one argument: a text string that identifies the desired
  * converter.  (The text string is specific to each converter; consult the
  * documentation for a given converter to find out how it should be enabled.)
  <p>
@@ -140,7 +140,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.13.0:
+ * provided by libSBML 5.14.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */

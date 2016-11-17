@@ -39,7 +39,6 @@
 #include "UniqueSpeciesFeatureTypeIdsWithinMultiSpeciesType.h"
 #include "UniqueSubListOfSpeciesFeaturesIdsWithinSpecies.h"
 #include "UniqueSpeciesFeatureIdsWithinSpecies.h"
-#include "UniqueSpeciesFeatureChangeIdsWithinSpeciesTypeComponentMapInProduct.h"
 #include "UniqueCompartmentReferenceIdsWithinCompartment.h"
 
 #endif  /* AddingConstrainstToValidator */
@@ -95,10 +94,6 @@ EXTERN_CONSTRAINT( MultiUnqId_SubListOfSfs, UniqueSubListOfSpeciesFeaturesIdsWit
 /*!< SpeciesFeature must have unique ids within a species */
 EXTERN_CONSTRAINT( MultiUnqId_SpeFtr, UniqueSpeciesFeatureIdsWithinSpecies )
 
-// MultiUnqId_SpeFtrChg                  = 7010407
-/*!< SpeciesFeatureChange must have unique ids within a speciesTypeComponentMapInProduct */
-EXTERN_CONSTRAINT( MultiUnqId_SpeFtrChg, UniqueSpeciesFeatureChangeIdsWithinSpeciesTypeComponentMapInProduct )
-
 // MultiUnqId_CpaRef                     = 7010408
 /*!< CompartmentReference must have unique ids within a compartment */
 EXTERN_CONSTRAINT( MultiUnqId_CpaRef, UniqueCompartmentReferenceIdsWithinCompartment )
@@ -118,7 +113,6 @@ EXTERN_CONSTRAINT( MultiUnqId_CpaRef, UniqueCompartmentReferenceIdsWithinCompart
 // MultiInvSIdRefSyn_SptIns_CpaRefAtt    = 7010504 /*!< Invalid SIdRef syntax: 'compartmentReference' attribute of SpeciesTypeInstance */
 // MultiInvSIdRefSyn_SptCpoInd_CpoAtt    = 7010505 /*!< Invalid SIdRef syntax: 'component' attribute of SpeciesTypeComponentIndex */
 // MultiInvSIdRefSyn_SptCpoInd_ParAtt    = 7010506 /*!< Invalid SIdRef syntax: 'identifyingParent' attribute of SpeciesTypeComponentIndex */
-// MultiInvSIdRefSyn_DenSptCpoInd_IndAtt = 7010507 /*!< Invalid SIdRef syntax: 'speciesTypeComponentIndex' attribute of DenotedSpeciesTypeComponentIndex */
 // MultiInvSIdRefSyn_InSptBnd_Bst1Att    = 7010508 /*!< Invalid SIdRef syntax: 'bindingSite1' attribute of InSpeciesTypeBond */
 // MultiInvSIdRefSyn_InSptBnd_Bst2Att    = 7010509 /*!< Invalid SIdRef syntax: 'bindingSite2' attribute of InSpeciesTypeBond */
 
@@ -138,8 +132,6 @@ EXTERN_CONSTRAINT( MultiUnqId_CpaRef, UniqueCompartmentReferenceIdsWithinCompart
 // MultiInvSIdRefSyn_StpCpoMapInPro_RctAtt = 7010702 /*!< Invalid SIdRef syntax: 'reactant' attribute of SpeciesTypeComponentMapInProduct */
 // MultiInvSIdRefSyn_StpCpoMapInPro_RctCpoAtt = 7010703 /*!< Invalid SIdRef syntax: 'reactantComponent' attribute of SpeciesTypeComponentMapInProduct */
 // MultiInvSIdRefSyn_StpCpoMapInPro_ProCpoAtt = 7010704 /*!< Invalid SIdRef syntax: 'productComponent' attribute of SpeciesTypeComponentMapInProduct */
-// MultiInvSIdRefSyn_SpeFtrChg_RctSpeFtrAtt = 7010705 /*!< Invalid SIdRef syntax: 'reactantSpeciesFeature' attribute of SpeciesFeatureChange */
-// MultiInvSIdRefSyn_SpeFtrChg_ProSpeFtrAtt = 7010706 /*!< Invalid SIdRef syntax: 'productSpeciesFeature' attribute of SpeciesFeatureChange */
 
 //************************************
 // SIdRef under Compartment

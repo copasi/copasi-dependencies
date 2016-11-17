@@ -54,8 +54,6 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 Parameter::Parameter (unsigned int level, unsigned int version) :
    SBase ( level, version )
- , mId        ( ""       )
- , mName      ( ""       )
  , mValue     ( 0.0      )
  , mUnits     ( ""       )
  , mConstant  ( true     )
@@ -82,8 +80,6 @@ Parameter::Parameter (unsigned int level, unsigned int version) :
 
 Parameter::Parameter (SBMLNamespaces * sbmlns) :
    SBase      ( sbmlns   )
- , mId        ( ""       )
- , mName      ( ""       )
  , mValue     ( 0.0      )
  , mUnits     ( ""       )
  , mConstant  ( true     )
@@ -115,8 +111,6 @@ Parameter::Parameter (SBMLNamespaces * sbmlns) :
 /** @cond doxygenLibsbmlInternal */
 Parameter::Parameter (SBMLNamespaces * sbmlns, bool) :
    SBase      ( sbmlns   )
- , mId        ( ""       )
- , mName      ( ""       )
  , mValue     ( 0.0      )
  , mUnits     ( ""       )
  , mConstant  ( true     )
@@ -149,8 +143,6 @@ Parameter::~Parameter ()
  */
 Parameter::Parameter(const Parameter& orig)
   :  SBase      ( orig             )
-  ,  mId        (orig.mId)
-  ,  mName      (orig.mName)
   ,  mValue     (orig.mValue)
   ,  mUnits     (orig.mUnits)
   ,  mConstant  (orig.mConstant)
@@ -175,8 +167,6 @@ Parameter& Parameter::operator=(const Parameter& rhs)
     mUnits      = rhs.mUnits    ;
     mConstant   = rhs.mConstant ;
     mIsSetValue = rhs.mIsSetValue;
-    mId = rhs.mId;
-    mName = rhs.mName;
     mIsSetConstant = rhs.mIsSetConstant;
     mExplicitlySetConstant = rhs.mExplicitlySetConstant;
     mCalculatingUnits = false; // only set by units converter
@@ -696,6 +686,343 @@ Parameter::hasRequiredAttributes() const
 }
 
 
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Parameter.
+ */
+int
+Parameter::getAttribute(const std::string& attributeName, bool& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "constant")
+  {
+    value = getConstant();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Parameter.
+ */
+int
+Parameter::getAttribute(const std::string& attributeName, int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Parameter.
+ */
+int
+Parameter::getAttribute(const std::string& attributeName, double& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "value")
+  {
+    value = getValue();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Parameter.
+ */
+int
+Parameter::getAttribute(const std::string& attributeName,
+                        unsigned int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Parameter.
+ */
+int
+Parameter::getAttribute(const std::string& attributeName,
+                        std::string& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "units")
+  {
+    value = getUnits();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this Parameter.
+ */
+int
+Parameter::getAttribute(const std::string& attributeName,
+                        const char* value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "units")
+  {
+    value = getUnits().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this Parameter's attribute "attributeName" is
+ * set.
+ */
+bool
+Parameter::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = SBase::isSetAttribute(attributeName);
+
+  if (attributeName == "value")
+  {
+    value = isSetValue();
+  }
+  else if (attributeName == "units")
+  {
+    value = isSetUnits();
+  }
+  else if (attributeName == "constant")
+  {
+    value = isSetConstant();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Parameter.
+ */
+int
+Parameter::setAttribute(const std::string& attributeName, bool value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "constant")
+  {
+    return_value = setConstant(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Parameter.
+ */
+int
+Parameter::setAttribute(const std::string& attributeName, int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Parameter.
+ */
+int
+Parameter::setAttribute(const std::string& attributeName, double value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "value")
+  {
+    return_value = setValue(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Parameter.
+ */
+int
+Parameter::setAttribute(const std::string& attributeName, unsigned int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Parameter.
+ */
+int
+Parameter::setAttribute(const std::string& attributeName,
+                        const std::string& value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "units")
+  {
+    return_value = setUnits(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this Parameter.
+ */
+int
+Parameter::setAttribute(const std::string& attributeName, const char* value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "units")
+  {
+    return_value = setUnits(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Unsets the value of the "attributeName" attribute of this Parameter.
+ */
+int
+Parameter::unsetAttribute(const std::string& attributeName)
+{
+  int value = SBase::unsetAttribute(attributeName);
+
+  if (attributeName == "value")
+  {
+    value = unsetValue();
+  }
+  else if (attributeName == "units")
+  {
+    value = unsetUnits();
+  }
+  else if (attributeName == "constant")
+  {
+    value = unsetConstant();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+
 void 
 Parameter::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
 {
@@ -754,9 +1081,9 @@ Parameter::addExpectedAttributes(ExpectedAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  *
- * @param attributes the XMLAttributes object to use
+ * @param attributes the XMLAttributes object to use.
  */
 void
 Parameter::readAttributes (const XMLAttributes& attributes,
@@ -787,9 +1114,9 @@ Parameter::readAttributes (const XMLAttributes& attributes,
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  *
- * @param attributes the XMLAttributes object to use
+ * @param attributes the XMLAttributes object to use.
  */
 void
 Parameter::readL1Attributes (const XMLAttributes& attributes)
@@ -840,9 +1167,9 @@ Parameter::readL1Attributes (const XMLAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  *
- * @param attributes the XMLAttributes object to use
+ * @param attributes the XMLAttributes object to use.
  */
 void
 Parameter::readL2Attributes (const XMLAttributes& attributes)
@@ -903,9 +1230,9 @@ Parameter::readL2Attributes (const XMLAttributes& attributes)
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
- * parents implementation of this method as well.
+ * parent's implementation of this method as well.
  *
- * @param attributes the XMLAttributes object to use
+ * @param attributes the XMLAttributes object to use.
  */
 void
 Parameter::readL3Attributes (const XMLAttributes& attributes)
@@ -915,26 +1242,51 @@ Parameter::readL3Attributes (const XMLAttributes& attributes)
 
   //   id: SId     { use="required" }  (L2v1, L2v2)
   //
-  bool assigned = attributes.readInto("id", mId, getErrorLog(), false, getLine(), getColumn());
-  if (!assigned)
+  bool assigned;
+  // for l3v2 sbase will read this as generically optional
+  // we want to log errors relating to the specific object
+  if (version == 1)
   {
-    if (this->getTypeCode() == SBML_PARAMETER)
+    assigned = attributes.readInto("id", mId, getErrorLog(), false, 
+                                              getLine(), getColumn());
+    if (!assigned)
     {
-      logError(AllowedAttributesOnParameter, level, version, 
-        "The required attribute 'id' is missing.");
+      if (this->getTypeCode() == SBML_PARAMETER)
+      {
+        logError(AllowedAttributesOnParameter, level, version, 
+          "The required attribute 'id' is missing.");
+      }
+      else
+      {
+        logError(AllowedAttributesOnLocalParameter, 
+                 level, version, "The required attribute 'id' is missing.");
+      }
     }
-    else
+    if (assigned && mId.size() == 0)
     {
-      logError(AllowedAttributesOnLocalParameter, 
-                       level, version, "The required attribute 'id' is missing.");
+      logEmptyString("id", level, version, "<parameter>");
+    }
+    if (!SyntaxChecker::isValidInternalSId(mId)) 
+      logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
+  }
+  else
+  {
+    // need to check that id was present
+    // it has already been read and checked for syntax/emptyness
+    if (attributes.hasAttribute("id") == false)
+    {
+      if (this->getTypeCode() == SBML_PARAMETER)
+      {
+        logError(AllowedAttributesOnParameter, level, version, 
+          "The required attribute 'id' is missing.");
+      }
+      else
+      {
+        logError(AllowedAttributesOnLocalParameter, 
+                 level, version, "The required attribute 'id' is missing.");
+      }
     }
   }
-  if (assigned && mId.size() == 0)
-  {
-    logEmptyString("id", level, version, "<parameter>");
-  }
-  if (!SyntaxChecker::isValidInternalSId(mId)) 
-    logError(InvalidIdSyntax, level, version, "The id '" + mId + "' does not conform to the syntax.");
 
   string elplusid = "<" + getElementName() + ">";
   if (!mId.empty()) {
@@ -956,15 +1308,19 @@ Parameter::readL3Attributes (const XMLAttributes& attributes)
   if (!SyntaxChecker::isValidInternalUnitSId(mUnits))
   {
     logError(InvalidUnitIdSyntax, level, version, "The " + elplusid + 
-      " has a substanceUnits with a value of '" + mUnits 
+      " has a unit with a value of '" + mUnits 
       + "' which does not conform .");
   }
 
   //
   // name: string  { use="optional" }  (L2v1 ->)
   //
-  attributes.readInto("name", mName, getErrorLog(), false, getLine(), getColumn());
-
+  // for l3v2 sbase will read this
+  if (version == 1)
+  {
+    attributes.readInto("name", mName, getErrorLog(), false, 
+                                       getLine(), getColumn());
+  }
   if (this->getTypeCode() == SBML_PARAMETER)
   {
     mIsSetConstant = attributes.readInto("constant", mConstant,
@@ -983,7 +1339,7 @@ Parameter::readL3Attributes (const XMLAttributes& attributes)
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write out their contained
- * SBML objects as XML elements.  Be sure to call your parents
+ * SBML objects as XML elements.  Be sure to call your parent's
  * implementation of this method as well.
  */
 void
@@ -1001,10 +1357,10 @@ Parameter::writeElements (XMLOutputStream& stream) const
 /** @cond doxygenLibsbmlInternal */
 /*
  * Subclasses should override this method to write their XML attributes
- * to the XMLOutputStream.  Be sure to call your parents implementation
+ * to the XMLOutputStream.  Be sure to call your parent's implementation
  * of this method as well.
  *
- * @param stream the XMLOutputStream to use
+ * @param stream the XMLOutputStream to use.
  */
 void
 Parameter::writeAttributes (XMLOutputStream& stream) const
@@ -1024,19 +1380,27 @@ Parameter::writeAttributes (XMLOutputStream& stream) const
     SBO::writeTerm(stream, mSBOTerm);
   }
 
-  //
-  // name: SName   { use="required" }  (L1v1, L1v2)
-  //   id: SId     { use="required" }  (L2v1->)
-  //
-  const string id = (level == 1) ? "name" : "id";
-  stream.writeAttribute(id, mId);
+  // for L3V2 and above SBase will write this out
+  if (level < 3 || (level == 3 && version == 1))
+  {
+    //
+    // name: SName   { use="required" }  (L1v1, L1v2)
+    //   id: SId     { use="required" }  (L2v1->)
+    //
+    const string id = (level == 1) ? "name" : "id";
+    stream.writeAttribute(id, mId);
+  }
 
   if (level > 1)
   {
-    //
-    // name: string  { use="optional" }  (L2v1->)
-    //
-    stream.writeAttribute("name", mName);
+    // for L3V2 and above SBase will write this out
+    if (level < 3 || (level == 3 && version == 1))
+    {
+      //
+      // name: string  { use="optional" }  (L2v1->)
+      //
+      stream.writeAttribute("name", mName);
+    }
   }
 
   //
@@ -1244,7 +1608,7 @@ Parameter::inferUnitsFromAssignments(UnitFormulaFormatter *uff, Model *m)
     EventAssignment * ea = e->getEventAssignment(id);
     if (ea != NULL)
     {
-      const string& variable = id + e->getId();
+      const string& variable = id + e->getInternalId();
       fud = m->getFormulaUnitsData(variable, SBML_EVENT_ASSIGNMENT);
       if (uff->possibleToUseUnitsData(fud) == true)
       {
@@ -1342,7 +1706,7 @@ Parameter::inferUnitsFromEvent(Event * e, UnitFormulaFormatter *uff, Model *m)
     if (uff->variableCanBeDeterminedFromMath(math, id) == true)
     {
       /* the units of the LHS will be the time units of the model */
-      FormulaUnitsData *fud = m->getFormulaUnitsData(e->getId(), SBML_EVENT);
+      FormulaUnitsData *fud = m->getFormulaUnitsData(e->getInternalId(), SBML_EVENT);
 
       // usually at this point we check the fud which should represent the
       // LHS
@@ -1579,7 +1943,7 @@ ListOfParameters::getElementPosition () const
  * @return the SBML object corresponding to next XMLToken in the
  * XMLInputStream or @c NULL if the token was not recognized.
  *
- * @param stream the XMLInputStream to use
+ * @param stream the XMLInputStream to use.
  */
 SBase*
 ListOfParameters::createObject (XMLInputStream& stream)

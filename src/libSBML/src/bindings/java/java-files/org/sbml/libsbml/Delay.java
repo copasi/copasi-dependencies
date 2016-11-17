@@ -36,7 +36,7 @@ package org.sbml.libsbml;
  * numerical value computed by the {@link Delay}'s 'math' expression are 
  * <em>required</em> to be in units of time, or the model is considered to have a
  * unit consistency error.  In Level&nbsp;2 Version&nbsp;4 as well as SBML
- * Level&nbsp;3 Version&nbsp;1 Core, this requirement is relaxed; these
+ * Level&nbsp;3, this requirement is relaxed; these
  * specifications only stipulate that the units of the numerical value
  * computed by a {@link Delay} instance's 'math' expression <em>should</em> match the
  * model's units of time (meaning the definition of the <code>time</code> units in
@@ -106,7 +106,7 @@ package org.sbml.libsbml;
  * content of a <code>cn</code> element.  The attribute is named <code>units</code> but,
  * because it appears inside MathML element (which is in the XML namespace
  * for MathML and not the namespace for SBML), it must always be prefixed
- * with an XML namespace prefix for the SBML Level&nbsp;3 Version&nbsp;1
+ * with an XML namespace prefix for an SBML Level&nbsp;3
  * namespace.  The following is an example of this approach:
  * <pre class='fragment'>
 &lt;model timeUnits='second' ...&gt;
@@ -126,6 +126,14 @@ package org.sbml.libsbml;
     ...
 &lt;/model&gt;
 </pre>
+ <p>
+ * <h2>Restrictions relaxed in SBML Level&nbsp;3 Version&nbsp;2</h2>
+ <p>
+ * In SBML Level&nbsp;3 Version&nbsp;2, the requirement that a {@link Delay}
+ * have a 'math' subelement was relaxed, making it optional.  In
+ * this case, the {@link Delay} remains undefined, and unless that information
+ * is provided in some other form (such as with an SBML Level&nbsp;3
+ * package), the {@link Event} behaves as if it had no {@link Delay}.
  */
 
 public class Delay extends SBase {
@@ -175,10 +183,10 @@ public class Delay extends SBase {
    * Creates a new {@link Delay} using the given SBML <code>level</code> and <code>version</code>
    * values.
    <p>
-   * @param level a long integer, the SBML Level to assign to this {@link Delay}
+   * @param level a long integer, the SBML Level to assign to this {@link Delay}.
    <p>
    * @param version a long integer, the SBML Version to assign to this
-   * {@link Delay}
+   * {@link Delay}.
    <p>
    * <p>
  * @throws SBMLConstructorException
@@ -271,7 +279,7 @@ public class Delay extends SBase {
    * Get the mathematical formula for the delay and return it
    * as an AST.
    <p>
-   * @return the math of this {@link Delay}.
+   * @return the math of this {@link Delay}, or <code>null</code> if the math is not set.
    */ public
  ASTNode getMath() {
     long cPtr = libsbmlJNI.Delay_getMath(swigCPtr, this);
@@ -444,7 +452,8 @@ public class Delay extends SBase {
    <p>
    * @note The required elements for a {@link Delay} object are:
    * <ul>
-   * <li> 'math'
+   * <li> 'math' inSBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1.  
+   *     (In SBML Level&nbsp;3 Version&nbsp;2+, it is no longer required.)
    *
    * </ul> <p>
    * @return a boolean value indicating whether all the required
@@ -486,7 +495,7 @@ public class Delay extends SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -497,8 +506,8 @@ public class Delay extends SBase {
  * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
  * descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.Delay_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -527,8 +536,8 @@ public class Delay extends SBase {
  * are found, the matching values are replaced with <code>newid</code>.  The method
  * does <em>not</em> descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.Delay_renameUnitSIdRefs(swigCPtr, this, oldid, newid);

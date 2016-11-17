@@ -63,7 +63,7 @@ const std::string ListOfColorDefinitions::ELEMENT_NAME="listOfColorDefinitions";
  */
 ColorDefinition::ColorDefinition (unsigned int level, unsigned int version, unsigned int pkgVersion) : 
     SBase(level,version)
-    ,mId("")
+////    ,mId("")
     ,mRed(0)
     ,mGreen(0)
     ,mBlue(0)
@@ -90,7 +90,7 @@ ColorDefinition::ColorDefinition (unsigned int level, unsigned int version, unsi
  */
 ColorDefinition::ColorDefinition (RenderPkgNamespaces* renderns) :
     SBase(renderns)
-    ,mId("")
+////    ,mId("")
     ,mRed(0)
     ,mGreen(0)
     ,mBlue(0)
@@ -168,12 +168,13 @@ ColorDefinition::ColorDefinition(const XMLNode& node, unsigned int l2version)
  */
 ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, const std::string& id)
    :SBase(renderns)
-    ,mId(id)
+//    ,mId(id)
     ,mRed(0)
     ,mGreen(0)
     ,mBlue(0)
     ,mAlpha(255)
 {
+  setId(id);
 
   // set the element namespace of this object
   setElementNamespace(renderns->getURI());
@@ -211,12 +212,13 @@ ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, const std::strin
  */
 ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, const std::string& id,unsigned char r,unsigned char g,unsigned char b,unsigned char a)
    :SBase(renderns)
-    ,mId(id)
+//    ,mId(id)
     ,mRed(r)
     ,mGreen(g)
     ,mBlue(b)
     ,mAlpha(a)
 {
+  setId(id);
 
   // set the element namespace of this object
   setElementNamespace(renderns->getURI());
@@ -252,7 +254,7 @@ ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, const std::strin
  */
 ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, unsigned char r,unsigned char g,unsigned char b,unsigned char a)
    :SBase(renderns)
-    ,mId()
+//    ,mId()
     ,mRed(r)
     ,mGreen(g)
     ,mBlue(b)

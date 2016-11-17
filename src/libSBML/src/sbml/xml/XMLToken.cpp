@@ -236,11 +236,25 @@ XMLToken::append (const std::string& chars)
  * @return the characters of this XML text.
  */
 const string&
-XMLToken::getCharacters () const
+XMLToken::getCharacters() const
 {
   return mChars;
 } 
 
+
+int 
+XMLToken::setCharacters(const std::string& chars)
+{
+  if (chars.empty())
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+  else
+  {
+    mChars = chars;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+}
 
 /*
  * @return the column at which this XMLToken occurred.
@@ -314,7 +328,7 @@ XMLToken::setAttributes(const XMLAttributes& attributes)
  * @param name a string, the local name of the attribute.
  * @param value a string, the value of the attribute.
  * @param namespaceURI a string, the namespace URI of the attribute.
- * @param prefix a string, the prefix of the namespace
+ * @param prefix a string, the prefix of the namespace.
  *
  * @note if local name with the same namespace URI already exists in the
  * attribute set, its value and prefix will be replaced.
@@ -333,9 +347,9 @@ XMLToken::setAttributes(const XMLAttributes& attributes)
  */
 int 
 XMLToken::addAttr (  const std::string& name
-	           , const std::string& value
-    	           , const std::string& namespaceURI
-	           , const std::string& prefix      )
+                   , const std::string& value
+                   , const std::string& namespaceURI
+                   , const std::string& prefix      )
 {
   if (mIsStart) 
   {
@@ -378,7 +392,7 @@ XMLToken::addAttr ( const XMLTriple& triple, const std::string& value)
  * this XMLToken.
  * Nothing will be done if this XMLToken is not a start element.
  *
- * @param n an integer the index of the resource to be deleted
+ * @param n an integer the index of the resource to be deleted.
  */
 int 
 XMLToken::removeAttr (int n)
@@ -702,7 +716,7 @@ XMLToken::hasAttr (const std::string name, const std::string uri) const
  * an attribute with the given XML triple exists in the attribute set in 
  * this XMLToken 
  *
- * @param triple an XMLTriple, the XML triple of the attribute 
+ * @param triple an XMLTriple, the XML triple of the attribute.
  *
  * @return @c true if an attribute with the given XML triple exists
  * in the attribute set in this XMLToken, @c false otherwise.
@@ -984,7 +998,7 @@ XMLToken::hasNamespaceURI(const std::string& uri) const
  * an XML Namespace with the given prefix is contained in the XMLNamespaces of
  * this XMLToken.
  *
- * @param prefix a string, the prefix for the namespace
+ * @param prefix a string, the prefix for the namespace.
  * 
  * @return @c true if an XML Namespace with the given URI is contained in the
  * XMLNamespaces of this XMLToken, @c false otherwise.
@@ -1001,8 +1015,8 @@ XMLToken::hasNamespacePrefix(const std::string& prefix) const
  * an XML Namespace with the given uri/prefix pair is contained in the 
  * XMLNamespaces ofthis XMLToken.
  *
- * @param uri a string, the uri for the namespace
- * @param prefix a string, the prefix for the namespace
+ * @param uri a string, the uri for the namespace.
+ * @param prefix a string, the prefix for the namespace.
  * 
  * @return @c true if an XML Namespace with the given uri/prefix pair is 
  * contained in the XMLNamespaces of this XMLToken,  @c false otherwise.
@@ -1277,7 +1291,7 @@ XMLToken_createWithTriple (const XMLTriple_t *triple)
 LIBLAX_EXTERN
 XMLToken_t *
 XMLToken_createWithTripleAttr (const XMLTriple_t *triple,
-			       const XMLAttributes_t *attr)
+             const XMLAttributes_t *attr)
 {
   if (triple == NULL || attr == NULL) return NULL;
   return new(nothrow) XMLToken(*triple, *attr);
@@ -1287,8 +1301,8 @@ XMLToken_createWithTripleAttr (const XMLTriple_t *triple,
 LIBLAX_EXTERN
 XMLToken_t *
 XMLToken_createWithTripleAttrNS (const XMLTriple_t *triple,
-				 const XMLAttributes_t *attr,
-				 const XMLNamespaces_t *ns)
+         const XMLAttributes_t *attr,
+         const XMLNamespaces_t *ns)
 {
   if (triple == NULL || attr == NULL || ns == NULL) return NULL;
   return new(nothrow) XMLToken(*triple, *attr, *ns);
@@ -1333,6 +1347,21 @@ XMLToken_append (XMLToken_t *token, const char *text)
     return LIBSBML_OPERATION_FAILED;
   }
 }
+
+LIBLAX_EXTERN
+int
+XMLToken_setCharacters(XMLToken_t *token, const char *text)
+{
+  if (token != NULL && text != NULL)
+  {
+    return token->setCharacters(text);
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
 
 
 LIBLAX_EXTERN
@@ -1393,9 +1422,9 @@ XMLToken_addAttr ( XMLToken_t *token,  const char* name, const char* value )
 LIBLAX_EXTERN
 int 
 XMLToken_addAttrWithNS ( XMLToken_t *token,  const char* name
-	                , const char* value
-    	                , const char* namespaceURI
-	                , const char* prefix      )
+                  , const char* value
+                      , const char* namespaceURI
+                  , const char* prefix      )
 {
   if (token == NULL) return LIBSBML_INVALID_OBJECT;
   return token->addAttr(name, value, namespaceURI, prefix);

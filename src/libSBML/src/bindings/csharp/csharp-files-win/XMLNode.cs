@@ -219,7 +219,7 @@ public class XMLNode : XMLToken {
 /**
    * Creates a new XMLNode by copying an XMLToken object.
    *
-   * @param token XMLToken to be copied to XMLNode
+   * @param token XMLToken to be copied to XMLNode.
    */ public
  XMLNode(XMLToken token) : this(libsbmlPINVOKE.new_XMLNode__SWIG_1(XMLToken.getCPtr(token)), true) {
     if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
@@ -367,7 +367,7 @@ public class XMLNode : XMLToken {
 /**
    * Creates a text XMLNode.
    *
-   * @param chars a string, the text to be added to the XMLToken
+   * @param chars a string, the text to be added to the XMLToken.
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
@@ -381,7 +381,7 @@ public class XMLNode : XMLToken {
 /**
    * Creates a text XMLNode.
    *
-   * @param chars a string, the text to be added to the XMLToken
+   * @param chars a string, the text to be added to the XMLToken.
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
@@ -395,7 +395,7 @@ public class XMLNode : XMLToken {
 /**
    * Creates a text XMLNode.
    *
-   * @param chars a string, the text to be added to the XMLToken
+   * @param chars a string, the text to be added to the XMLToken.
    * @param line a long integer, the line number (default = 0).
    * @param column a long integer, the column number (default = 0).
    *
@@ -467,10 +467,10 @@ public class XMLNode : XMLToken {
    * the @p node is added at the end of the list of children.  Even in
    * that situation, this method does not throw an error.
    *
-   * @param n an integer, the index at which the given node is inserted
+   * @param n an integer, the index at which the given node is inserted.
    * @param node an XMLNode to be inserted as <code>n</code>th child.
    *
-   * @return a reference to the newly-inserted child @p node
+   * @return a reference to the newly-inserted child @p node.
    */ public
  XMLNode insertChild(long n, XMLNode node) {
     XMLNode ret = new XMLNode(libsbmlPINVOKE.XMLNode_insertChild(swigCPtr, n, XMLNode.getCPtr(node)), false);
@@ -489,10 +489,10 @@ public class XMLNode : XMLToken {
    * greater than the number of child nodes in this XMLNode, this method
    * takes no action (and returns @c null).
    *
-   * @param n an integer, the index of the node to be removed
+   * @param n an integer, the index of the node to be removed.
    *
    * @return the removed child, or @c null if @p n is greater than the number
-   * of children in this node
+   * of children in this node.
    *
    * @note The caller owns the returned node and is responsible for deleting it.
    */ public
@@ -524,7 +524,7 @@ public class XMLNode : XMLToken {
    * If the index @p n is greater than the number of child nodes,
    * this method returns an empty node.
    *
-   * @param n a long integereger, the index of the node to return
+   * @param n a long integereger, the index of the node to return.
    *
    * @return the <code>n</code>th child of this XMLNode.
    */ public
@@ -540,7 +540,7 @@ public class XMLNode : XMLToken {
    * If no child with corrsponding name can be found,
    * this method returns an empty node.
    *
-   * @param name the name of the node to return
+   * @param name the name of the node to return.
    *
    * @return the first child of this XMLNode with given name.
    */ public
@@ -640,9 +640,9 @@ public class XMLNode : XMLToken {
 /**
    * Returns a string representation of a given XMLNode.
    *
-   * @param node the XMLNode to be represented as a string
+   * @param node the XMLNode to be represented as a string.
    *
-   * @return a string-form representation of @p node
+   * @return a string-form representation of @p node.
    */ public
  static string convertXMLNodeToString(XMLNode node) {
     string ret = libsbmlPINVOKE.XMLNode_convertXMLNodeToString(XMLNode.getCPtr(node));

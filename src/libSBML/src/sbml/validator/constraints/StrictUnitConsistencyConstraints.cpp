@@ -495,7 +495,7 @@ START_CONSTRAINT( 9999505, Event, e)
   pre ( e.isSetDelay() == 1 );
 
   const FormulaUnitsData * formulaUnits = 
-                                  m.getFormulaUnitsData(e.getId(), SBML_EVENT);
+                                  m.getFormulaUnitsData(e.getInternalId(), SBML_EVENT);
 
   pre ( formulaUnits != 0 );
  
@@ -1529,7 +1529,7 @@ START_CONSTRAINT( 9910551, Event, e)
   pre ( e.isSetDelay() == 1 );
 
   const FormulaUnitsData * formulaUnits = 
-                                  m.getFormulaUnitsData(e.getId(), SBML_EVENT);
+                                  m.getFormulaUnitsData(e.getInternalId(), SBML_EVENT);
 
   pre ( formulaUnits != NULL );
 
@@ -1827,6 +1827,19 @@ END_CONSTRAINT
 
 
 START_CONSTRAINT( 9920702, Parameter, p)
+{
+  pre( p.getLevel() > 2 );
+
+  msg = "The <parameter> ";
+  if (p.isSetId()) {
+    msg += "with id '" + p.getId() + "' ";
+  }
+  msg += "does not have a 'units' attribute.";
+  inv( p.isSetUnits() );
+}
+END_CONSTRAINT
+
+START_CONSTRAINT( 9920702, LocalParameter, p)
 {
   pre( p.getLevel() > 2 );
 

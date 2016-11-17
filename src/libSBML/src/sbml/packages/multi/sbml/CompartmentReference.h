@@ -55,8 +55,8 @@ class LIBSBML_EXTERN CompartmentReference : public SBase
 
 protected:
 
-  std::string   mId;
-  std::string   mName;
+////  std::string   mId;
+////  std::string   mName;
   std::string   mCompartment;
 
 

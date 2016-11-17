@@ -137,10 +137,10 @@ public class ConversionOption {
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * {@link libsbmlConstants}.
    <p>
-   * @param key the key for this option
-   * @param value an optional value for this option
-   * @param type the type of this option
-   * @param description the description for this option
+   * @param key the key for this option.
+   * @param value an optional value for this option.
+   * @param type the type of this option.
+   * @param description the description for this option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -174,10 +174,10 @@ appears in the documentation.
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * {@link libsbmlConstants}.
    <p>
-   * @param key the key for this option
-   * @param value an optional value for this option
-   * @param type the type of this option
-   * @param description the description for this option
+   * @param key the key for this option.
+   * @param value an optional value for this option.
+   * @param type the type of this option.
+   * @param description the description for this option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -211,10 +211,10 @@ appears in the documentation.
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * {@link libsbmlConstants}.
    <p>
-   * @param key the key for this option
-   * @param value an optional value for this option
-   * @param type the type of this option
-   * @param description the description for this option
+   * @param key the key for this option.
+   * @param value an optional value for this option.
+   * @param type the type of this option.
+   * @param description the description for this option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -248,10 +248,10 @@ appears in the documentation.
  * with the characters <code>CNV_TYPE_</code> in the interface class
  * {@link libsbmlConstants}.
    <p>
-   * @param key the key for this option
-   * @param value an optional value for this option
-   * @param type the type of this option
-   * @param description the description for this option
+   * @param key the key for this option.
+   * @param value an optional value for this option.
+   * @param type the type of this option.
+   * @param description the description for this option.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -276,9 +276,9 @@ appears in the documentation.
 /**
    * Creates a new {@link ConversionOption} specialized for string-type options.
    <p>
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -303,9 +303,9 @@ appears in the documentation.
 /**
    * Creates a new {@link ConversionOption} specialized for Boolean-type options.
    <p>
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -330,9 +330,9 @@ appears in the documentation.
 /**
    * Creates a new {@link ConversionOption} specialized for Boolean-type options.
    <p>
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -357,9 +357,9 @@ appears in the documentation.
 /**
    * Creates a new {@link ConversionOption} specialized for double-type options.
    <p>
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -384,9 +384,9 @@ appears in the documentation.
 /**
    * Creates a new {@link ConversionOption} specialized for double-type options.
    <p>
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -411,9 +411,9 @@ appears in the documentation.
 /**
    * Creates a new {@link ConversionOption} specialized for float-type options.
    <p>
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -438,9 +438,9 @@ appears in the documentation.
 /**
    * Creates a new {@link ConversionOption} specialized for float-type options.
    <p>
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -465,9 +465,9 @@ appears in the documentation.
 /**
    * Creates a new {@link ConversionOption} specialized for integer-type options.
    <p>
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -492,9 +492,9 @@ appears in the documentation.
 /**
    * Creates a new {@link ConversionOption} specialized for integer-type options.
    <p>
-   * @param key the key for this option
-   * @param value the value for this option
-   * @param description an optional description
+   * @param key the key for this option.
+   * @param value the value for this option.
+   * @param description an optional description.
    <p>
    * 
 </dl><dl class="docnote"><dt><b>Documentation note:</b></dt><dd>
@@ -639,7 +639,7 @@ appears in the documentation.
    * Invoking this method will also set the type of the option to
    * {@link libsbmlConstants#CNV_TYPE_BOOL CNV_TYPE_BOOL}.
    <p>
-   * @param value the Boolean value to set
+   * @param value the Boolean value to set.
    */ public
  void setBoolValue(boolean value) {
     libsbmlJNI.ConversionOption_setBoolValue(swigCPtr, this, value);
@@ -662,7 +662,7 @@ appears in the documentation.
    * Invoking this method will also set the type of the option to
    * {@link libsbmlConstants#CNV_TYPE_DOUBLE CNV_TYPE_DOUBLE}.
    <p>
-   * @param value the value to set
+   * @param value the value to set.
    */ public
  void setDoubleValue(double value) {
     libsbmlJNI.ConversionOption_setDoubleValue(swigCPtr, this, value);
@@ -672,7 +672,7 @@ appears in the documentation.
 /**
    * Returns the value of this option as a <code>float.</code>
    <p>
-   * @return the value of this option as a float
+   * @return the value of this option as a float.
    */ public
  float getFloatValue() {
     return libsbmlJNI.ConversionOption_getFloatValue(swigCPtr, this);
@@ -685,7 +685,7 @@ appears in the documentation.
    * Invoking this method will also set the type of the option to
    * {@link libsbmlConstants#CNV_TYPE_SINGLE CNV_TYPE_SINGLE}.
    <p>
-   * @param value the value to set
+   * @param value the value to set.
    */ public
  void setFloatValue(float value) {
     libsbmlJNI.ConversionOption_setFloatValue(swigCPtr, this, value);
@@ -695,7 +695,7 @@ appears in the documentation.
 /**
    * Returns the value of this option as an <code>integer.</code>
    <p>
-   * @return the value of this option, as an int
+   * @return the value of this option, as an int.
    */ public
  int getIntValue() {
     return libsbmlJNI.ConversionOption_getIntValue(swigCPtr, this);
@@ -708,7 +708,7 @@ appears in the documentation.
    * Invoking this method will also set the type of the option to
    * {@link libsbmlConstants#CNV_TYPE_INT CNV_TYPE_INT}.
    <p>
-   * @param value the value to set
+   * @param value the value to set.
    */ public
  void setIntValue(int value) {
     libsbmlJNI.ConversionOption_setIntValue(swigCPtr, this, value);

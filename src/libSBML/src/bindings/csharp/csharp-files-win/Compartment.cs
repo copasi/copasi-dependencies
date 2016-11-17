@@ -69,7 +69,7 @@ namespace libsbml {
  * using compartment size units differ between SBML Level&nbsp;2 and
  * Level&nbsp;3, and are discussed separately below.
  *
- * Finally, the optional Compartment attribute named 'constant' is used to
+ * Finally, the Compartment attribute named 'constant' is used to
  * indicate whether the compartment's size stays constant after simulation
  * begins.  A value of @c true indicates the compartment's 'size' cannot be
  * changed by any other construct except InitialAssignment; a value of @c
@@ -77,8 +77,9 @@ namespace libsbml {
  * constructs in SBML.  In SBML Level&nbsp;2, there is an additional
  * explicit restriction that if 'spatialDimensions'=@c '0', the value
  * cannot be changed by InitialAssignment either.  Further, in
- * Level&nbsp;2, 'constant' has a default value of @c true.  In SBML
- * Level&nbsp;3, there is no default value for the 'constant' attribute.
+ * Level&nbsp;2, 'constant' is optional, and has a default value of @c true.  In SBML
+ * Level&nbsp;3, there is no default value for the 'constant' attribute,
+ * and it is required.
  *
  *
  * @section comp-l2 Additional considerations in SBML Level&nbsp;2
@@ -154,11 +155,14 @@ namespace libsbml {
  * quantity in a mathematical formula expressed in MathML.
  *
  * <li> The @c math element of an AssignmentRule or InitialAssignment
- * referring to this compartment must have identical units.
+ * referring to this compartment @em must (in Level&nbsp;2 Versions&nbsp;1-3)
+ * or @em should (in Level&nbsp;2 Version 4) have identical units.
  *
  * <li> In RateRule objects that set the rate of change of the compartment's
- * size, the units of the rule's @c math element must be identical to the
- * compartment's 'units' attribute divided by the default @em time units.
+ * size, the units of the rule's @c math element @em must (in Level&nbsp;2 
+ * Versions&nbsp;1&ndash;3) or @em should (in Level&nbsp;2 Version 4) be identical to the
+ * compartment's units (whether defined by the 'units' attribute or by taking the 
+ * default value from the Model) divided by the default @em time units.
  * (In other words, the units for the rate of change of compartment size
  * are <em>compartment size</em>/<em>time</em> units.
  *
@@ -236,12 +240,13 @@ namespace libsbml {
  * define the relevant attribute ('volumeUnits', 'areaUnits' or
  * 'lengthUnits') for a given 'spatialDimensions' value, the unit associated
  * with that Compartment @if conly structure @else object@endif's size is
- * undefined.  If @em both 'spatialDimensions' and 'units' are left unset on
- * a given Compartment @if conly structure @else object@endif instance,
+ * undefined.  If a given Compartment's 'units' are left unset and 
+ * the 'spatialDimensions' either has a value other than @c 1, @c 2, or 
+ * @c 3 or is left unset itself (as it has no default value),
  * then no unit can be chosen from among the Model's 'volumeUnits',
  * 'areaUnits' or 'lengthUnits' attributes (even if the Model instance
  * provides values for those attributes), because there is no basis to select
- * between them and there is no default value of 'spatialDimensions'.
+ * between them.
  * Leaving the units of compartments' sizes undefined in an SBML model does
  * not render the model invalid; however, as a matter of best practice, we
  * strongly recommend that all models specify the units of measurement for
@@ -399,10 +404,10 @@ public class Compartment : SBase {
    * Creates a new Compartment object using the given SBML @p level and @p
    * version values.
    *
-   * @param level a long integer, the SBML Level to assign to this Compartment
+   * @param level a long integer, the SBML Level to assign to this Compartment.
    *
    * @param version a long integer, the SBML Version to assign to this
-   * Compartment
+   * Compartment.
    *
    *
  * @throws SBMLConstructorException
@@ -532,14 +537,74 @@ public class Compartment : SBase {
 
   
 /**
-   * Returns the value of the 'id' attribute of this Compartment object.
+   * Returns the value of the 'id' attribute of this Compartment.
    *
-   * @return the identifier of this Compartment object.
+   * @note Because of the inconsistent behavior of this function with 
+   * respect to assignments and rules, it is now recommended to
+   * use the getIdAttribute() function instead.
    *
-   * @see getName()
-   * @see setId(@if java String@endif)
-   * @see unsetId()
-   * @see isSetId()
+   *
+ * 
+ * The identifier given by an object's 'id' attribute value
+ * is used to identify the object within the SBML model definition.
+ * Other objects can refer to the component using this identifier.  The
+ * data type of 'id' is always <code>SId</code> or a type derived
+ * from that, such as <code>UnitSId</code>, depending on the object in 
+ * question.  All data types are defined as follows:
+ * <pre style='margin-left: 2em; border: none; font-weight: bold; color: black'>
+ *   letter ::= 'a'..'z','A'..'Z'
+ *   digit  ::= '0'..'9'
+ *   idChar ::= letter | digit | '_'
+ *   SId    ::= ( letter | '_' ) idChar*
+ * </pre>
+ *
+ * The characters <code>(</code> and <code>)</code> are used for grouping, the
+ * character <code>*</code> 'zero or more times', and the character
+ * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
+ * determined by an exact character sequence match; i.e., comparisons must be
+ * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
+ * <code>SIdRef</code>, and derived types.
+ *
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to SBase directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on SBase itself to get, set, check, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all SBase objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ *
+ * The exception to this rule is that for InitialAssignment, EventAssignment, 
+ * AssignmentRule, and RateRule objects, the getId() function and the isSetId() 
+ * functions (though not the setId() or unsetId() functions) would instead 
+ * reference the value of the 'variable' attribute (for the rules and event 
+ * assignments) or the 'symbol' attribute (for initial assignments).  
+ * The AlgebraicRule fell into this category as well, though because it 
+ * contained neither a 'variable' nor a 'symbol' attribute, getId() would 
+ * always return an empty string, and isSetId() would always return @c false.
+ * For this reason, four new functions are now provided 
+ * (getIdAttribute(), setIdAttribute(@if java String@endif), 
+ * isSetIdAttribute(), and unsetIdAttribute()) that will always
+ * act on the actual 'id' attribute, regardless of the object's type.  The
+ * new functions should be used instead of the old ones unless the old behavior
+ * is somehow necessary.
+ * 
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * identifiers).  If the object in question does not posess an 'id' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the identifier to be set, nor will it read or 
+ * write 'id' attributes for those objects.
+ *
+ *
+   *
+   * @return the id of this Compartment.
+   *
+   * @see getIdAttribute()
+   * @see setIdAttribute(string sid)
+   * @see isSetIdAttribute()
+   * @see unsetIdAttribute()
    */ public new
  string getId() {
     string ret = libsbmlPINVOKE.Compartment_getId(swigCPtr);
@@ -550,12 +615,68 @@ public class Compartment : SBase {
 /**
    * Returns the value of the 'name' attribute of this Compartment object.
    *
-   * @return the name of this Compartment object.
    *
-   * @see getId()
-   * @see isSetName()
-   * @see setName(@if java String@endif)
-   * @see unsetName()
+ *
+ * 
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to SBase directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on SBase itself to get, set, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all SBase objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ *
+ * The 'name' attribute is
+ * optional and is not intended to be used for cross-referencing purposes
+ * within a model.  Its purpose instead is to provide a human-readable
+ * label for the component.  The data type of 'name' is the type
+ * <code>string</code> defined in XML Schema.  SBML imposes no
+ * restrictions as to the content of 'name' attributes beyond those
+ * restrictions defined by the <code>string</code> type in XML Schema.
+ *
+ * The recommended practice for handling 'name' is as follows.  If a
+ * software tool has the capability for displaying the content of 'name'
+ * attributes, it should display this content to the user as a
+ * component's label instead of the component's 'id'.  If the user
+ * interface does not have this capability (e.g., because it cannot
+ * display or use special characters in symbol names), or if the 'name'
+ * attribute is missing on a given component, then the user interface
+ * should display the value of the 'id' attribute instead.  (Script
+ * language interpreters are especially likely to display 'id' instead of
+ * 'name'.)
+ * 
+ * As a consequence of the above, authors of systems that automatically
+ * generate the values of 'id' attributes should be aware some systems
+ * may display the 'id''s to the user.  Authors therefore may wish to
+ * take some care to have their software create 'id' values that are: (a)
+ * reasonably easy for humans to type and read; and (b) likely to be
+ * meaningful, for example by making the 'id' attribute be an abbreviated
+ * form of the name attribute value.
+ * 
+ * An additional point worth mentioning is although there are
+ * restrictions on the uniqueness of 'id' values, there are no
+ * restrictions on the uniqueness of 'name' values in a model.  This
+ * allows software applications leeway in assigning component identifiers.
+ *
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * names).  If the object in question does not posess a 'name' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the name to be set, nor will it read or 
+ * write 'name' attributes for those objects.
+ *
+ *
+ *
+ * @return the name of this SBML object, or the empty string if not set or unsettable.
+ *
+ * @see getIdAttribute()
+ * @see isSetName()
+ * @see setName(string sid)
+ * @see unsetName()
+ * 
+ *
    */ public new
  string getName() {
     string ret = libsbmlPINVOKE.Compartment_getName(swigCPtr);
@@ -587,7 +708,7 @@ public class Compartment : SBase {
    * Get the number of spatial dimensions of this Compartment object.
    *
    * @return the value of the 'spatialDimensions' attribute of this
-   * Compartment object as a long integereger
+   * Compartment object as a long integereger.
    *
    *
  * @note In SBML Level&nbsp;3, the data type of the 'spatialDimensions'
@@ -644,7 +765,7 @@ public class Compartment : SBase {
  * compartments may be other than three-dimensional, and therefore the
  * 'volume' attribute is named 'size' in Level&nbsp;2 and above.  LibSBML
  * provides both @if conly Compartment_getSize() and Compartment_getVolume()
- * @else Compartment::getSize() and Compartment::getVolume()@endif
+ * @else getSize() and getVolume()@endif
  * for easier support of different SBML Levels.
  *
  *
@@ -676,7 +797,7 @@ public class Compartment : SBase {
  * compartments may be other than three-dimensional, and therefore the
  * 'volume' attribute is named 'size' in Level&nbsp;2 and above.  LibSBML
  * provides both @if conly Compartment_getSize() and Compartment_getVolume()
- * @else Compartment::getSize() and Compartment::getVolume()@endif
+ * @else getSize() and getVolume()@endif
  * for easier support of different SBML Levels.
  *
  *
@@ -689,7 +810,7 @@ public class Compartment : SBase {
  * Level&nbsp;1.  In Level&nbsp;2 and above, the equivalent attribute is
  * named 'size'.  In SBML Level&nbsp;1, a compartment's volume has a default
  * value (@c 1.0) and therefore methods such as
- * @if conly Compartment_isSetVolume() @else Compartment::isSetVolume()@endif
+ * @if conly Compartment_isSetVolume() @else isSetVolume()@endif
  * will always return @c true for a Level&nbsp;1 model.  In Level&nbsp;2, a
  * compartment's size (the equivalent of SBML Level&nbsp;1's 'volume') is
  * optional and has no default value, and therefore may or may not be set.
@@ -748,8 +869,7 @@ public class Compartment : SBase {
    * @return the value of the 'outside' attribute of this Compartment object.
    *
    * @note The 'outside' attribute is defined in SBML Level&nbsp;1 and
-   * Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
-   * Core.
+   * Level&nbsp;2, but does not exist in SBML Level&nbsp;3.
    *
    * @see isSetOutside()
    * @see setOutside(@if java String@endif)
@@ -780,12 +900,76 @@ public class Compartment : SBase {
    * Predicate returning @c true if this Compartment object's 'id' attribute
    * is set.
    *
-   * @return @c true if the 'id' attribute of this Compartment object is
-   * set, @c false otherwise.
    *
-   * @see getId()
-   * @see unsetId()
-   * @see setId(@if java String@endif)
+ * @note Because of the inconsistent behavior of this function with 
+ * respect to assignments and rules, it is now recommended to
+ * use the isSetIdAttribute() function instead.
+ *
+ *
+ * 
+ * The identifier given by an object's 'id' attribute value
+ * is used to identify the object within the SBML model definition.
+ * Other objects can refer to the component using this identifier.  The
+ * data type of 'id' is always <code>SId</code> or a type derived
+ * from that, such as <code>UnitSId</code>, depending on the object in 
+ * question.  All data types are defined as follows:
+ * <pre style='margin-left: 2em; border: none; font-weight: bold; color: black'>
+ *   letter ::= 'a'..'z','A'..'Z'
+ *   digit  ::= '0'..'9'
+ *   idChar ::= letter | digit | '_'
+ *   SId    ::= ( letter | '_' ) idChar*
+ * </pre>
+ *
+ * The characters <code>(</code> and <code>)</code> are used for grouping, the
+ * character <code>*</code> 'zero or more times', and the character
+ * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
+ * determined by an exact character sequence match; i.e., comparisons must be
+ * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
+ * <code>SIdRef</code>, and derived types.
+ *
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to SBase directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on SBase itself to get, set, check, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all SBase objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ *
+ * The exception to this rule is that for InitialAssignment, EventAssignment, 
+ * AssignmentRule, and RateRule objects, the getId() function and the isSetId() 
+ * functions (though not the setId() or unsetId() functions) would instead 
+ * reference the value of the 'variable' attribute (for the rules and event 
+ * assignments) or the 'symbol' attribute (for initial assignments).  
+ * The AlgebraicRule fell into this category as well, though because it 
+ * contained neither a 'variable' nor a 'symbol' attribute, getId() would 
+ * always return an empty string, and isSetId() would always return @c false.
+ * For this reason, four new functions are now provided 
+ * (getIdAttribute(), setIdAttribute(@if java String@endif), 
+ * isSetIdAttribute(), and unsetIdAttribute()) that will always
+ * act on the actual 'id' attribute, regardless of the object's type.  The
+ * new functions should be used instead of the old ones unless the old behavior
+ * is somehow necessary.
+ * 
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * identifiers).  If the object in question does not posess an 'id' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the identifier to be set, nor will it read or 
+ * write 'id' attributes for those objects.
+ *
+ *
+ * 
+ * @return @c true if the 'id' attribute of this SBML object is
+ * set, @c false otherwise.
+ *
+ * @see getIdAttribute()
+ * @see setIdAttribute(string sid)
+ * @see unsetIdAttribute()
+ * @see isSetIdAttribute()
+ *
+ *
    */ public new
  bool isSetId() {
     bool ret = libsbmlPINVOKE.Compartment_isSetId(swigCPtr);
@@ -797,12 +981,68 @@ public class Compartment : SBase {
    * Predicate returning @c true if this Compartment object's 'name'
    * attribute is set.
    *
-   * @return @c true if the 'name' attribute of this Compartment object is
-   * set, @c false otherwise.
    *
-   * @see getName()
-   * @see setName(@if java String@endif)
-   * @see unsetName()
+ *
+ * 
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to SBase directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on SBase itself to get, set, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all SBase objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ *
+ * The 'name' attribute is
+ * optional and is not intended to be used for cross-referencing purposes
+ * within a model.  Its purpose instead is to provide a human-readable
+ * label for the component.  The data type of 'name' is the type
+ * <code>string</code> defined in XML Schema.  SBML imposes no
+ * restrictions as to the content of 'name' attributes beyond those
+ * restrictions defined by the <code>string</code> type in XML Schema.
+ *
+ * The recommended practice for handling 'name' is as follows.  If a
+ * software tool has the capability for displaying the content of 'name'
+ * attributes, it should display this content to the user as a
+ * component's label instead of the component's 'id'.  If the user
+ * interface does not have this capability (e.g., because it cannot
+ * display or use special characters in symbol names), or if the 'name'
+ * attribute is missing on a given component, then the user interface
+ * should display the value of the 'id' attribute instead.  (Script
+ * language interpreters are especially likely to display 'id' instead of
+ * 'name'.)
+ * 
+ * As a consequence of the above, authors of systems that automatically
+ * generate the values of 'id' attributes should be aware some systems
+ * may display the 'id''s to the user.  Authors therefore may wish to
+ * take some care to have their software create 'id' values that are: (a)
+ * reasonably easy for humans to type and read; and (b) likely to be
+ * meaningful, for example by making the 'id' attribute be an abbreviated
+ * form of the name attribute value.
+ * 
+ * An additional point worth mentioning is although there are
+ * restrictions on the uniqueness of 'id' values, there are no
+ * restrictions on the uniqueness of 'name' values in a model.  This
+ * allows software applications leeway in assigning component identifiers.
+ *
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * names).  If the object in question does not posess a 'name' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the name to be set, nor will it read or 
+ * write 'name' attributes for those objects.
+ *
+ *
+ * 
+ * @return @c true if the 'name' attribute of this SBML object is
+ * set, @c false otherwise.
+ *
+ * @see getName()
+ * @see setName(string sid)
+ * @see unsetName()
+ *
+ *
    */ public new
  bool isSetName() {
     bool ret = libsbmlPINVOKE.Compartment_isSetName(swigCPtr);
@@ -874,7 +1114,7 @@ public class Compartment : SBase {
  * Level&nbsp;1.  In Level&nbsp;2 and above, the equivalent attribute is
  * named 'size'.  In SBML Level&nbsp;1, a compartment's volume has a default
  * value (@c 1.0) and therefore methods such as
- * @if conly Compartment_isSetVolume() @else Compartment::isSetVolume()@endif
+ * @if conly Compartment_isSetVolume() @else isSetVolume()@endif
  * will always return @c true for a Level&nbsp;1 model.  In Level&nbsp;2, a
  * compartment's size (the equivalent of SBML Level&nbsp;1's 'volume') is
  * optional and has no default value, and therefore may or may not be set.
@@ -928,8 +1168,7 @@ public class Compartment : SBase {
    * set, @c false otherwise.
    *
    * @note The 'outside' attribute is defined in SBML Level&nbsp;1 and
-   * Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
-   * Core.
+   * Level&nbsp;2, but does not exist in SBML Level&nbsp;3.
    *
    * @see getOutside()
    * @see setOutside(@if java String@endif)
@@ -981,24 +1220,57 @@ public class Compartment : SBase {
    *
    *
  * 
- * SBML has strict requirements for the syntax of identifiers, that is, the
- * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type
- * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation:
- * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
- * letter ::= 'a'..'z','A'..'Z'
- * digit  ::= '0'..'9'
- * idChar ::= letter | digit | '_'
- * SId    ::= ( letter | '_' ) idChar*</pre>
+ * The identifier given by an object's 'id' attribute value
+ * is used to identify the object within the SBML model definition.
+ * Other objects can refer to the component using this identifier.  The
+ * data type of 'id' is always <code>SId</code> or a type derived
+ * from that, such as <code>UnitSId</code>, depending on the object in 
+ * question.  All data types are defined as follows:
+ * <pre style='margin-left: 2em; border: none; font-weight: bold; color: black'>
+ *   letter ::= 'a'..'z','A'..'Z'
+ *   digit  ::= '0'..'9'
+ *   idChar ::= letter | digit | '_'
+ *   SId    ::= ( letter | '_' ) idChar*
+ * </pre>
+ *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
  * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  In addition, there are a few
- * conditions for the uniqueness of identifiers in an SBML model.  Please
- * consult the SBML specifications for the exact details of the uniqueness
- * requirements.
+ * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
+ * <code>SIdRef</code>, and derived types.
+ *
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to SBase directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on SBase itself to get, set, check, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all SBase objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ *
+ * The exception to this rule is that for InitialAssignment, EventAssignment, 
+ * AssignmentRule, and RateRule objects, the getId() function and the isSetId() 
+ * functions (though not the setId() or unsetId() functions) would instead 
+ * reference the value of the 'variable' attribute (for the rules and event 
+ * assignments) or the 'symbol' attribute (for initial assignments).  
+ * The AlgebraicRule fell into this category as well, though because it 
+ * contained neither a 'variable' nor a 'symbol' attribute, getId() would 
+ * always return an empty string, and isSetId() would always return @c false.
+ * For this reason, four new functions are now provided 
+ * (getIdAttribute(), setIdAttribute(@if java String@endif), 
+ * isSetIdAttribute(), and unsetIdAttribute()) that will always
+ * act on the actual 'id' attribute, regardless of the object's type.  The
+ * new functions should be used instead of the old ones unless the old behavior
+ * is somehow necessary.
+ * 
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * identifiers).  If the object in question does not posess an 'id' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the identifier to be set, nor will it read or 
+ * write 'id' attributes for those objects.
  *
  *
    *
@@ -1027,23 +1299,22 @@ public class Compartment : SBase {
 /**
    * Sets the value of the 'name' attribute of this Compartment object.
    *
-   * The string in @p name is copied.
    *
-   * @param name the new name for the Compartment object. If the string is @c
-   * null, this method will return
-   * @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink.
-   *
-   *
+ * 
+ *
+ * The string in @p name is copied.
+ *
+ * @param name the new name for the SBML object.
+ *
+ *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-   *
-   * @see getName()
-   * @see isSetName()
-   * @see unsetName()
+ * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
+ *
+ *
    */ public new
  int setName(string name) {
     int ret = libsbmlPINVOKE.Compartment_setName(swigCPtr, name);
@@ -1140,8 +1411,9 @@ public class Compartment : SBase {
    *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * enumeration #OperationReturnValues_t. @endif This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    * @note This method is identical to
@@ -1173,8 +1445,9 @@ public class Compartment : SBase {
    *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
+ * enumeration #OperationReturnValues_t. @endif This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    *
    *
@@ -1182,7 +1455,7 @@ public class Compartment : SBase {
  * Level&nbsp;1.  In Level&nbsp;2 and above, the equivalent attribute is
  * named 'size'.  In SBML Level&nbsp;1, a compartment's volume has a default
  * value (@c 1.0) and therefore methods such as
- * @if conly Compartment_isSetVolume() @else Compartment::isSetVolume()@endif
+ * @if conly Compartment_isSetVolume() @else isSetVolume()@endif
  * will always return @c true for a Level&nbsp;1 model.  In Level&nbsp;2, a
  * compartment's size (the equivalent of SBML Level&nbsp;1's 'volume') is
  * optional and has no default value, and therefore may or may not be set.
@@ -1241,8 +1514,7 @@ public class Compartment : SBase {
    * @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
    *
    * @note The 'outside' attribute is defined in SBML Level&nbsp;1 and
-   * Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
-   * Core.
+   * Level&nbsp;2, but does not exist in SBML Level&nbsp;3.
    *
    * @see isSetOutside()
    * @see getOutside()
@@ -1291,7 +1563,7 @@ public class Compartment : SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -1304,8 +1576,8 @@ public class Compartment : SBase {
  * matching values are replaced with @p newid.  The method does @em not
  * descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new
@@ -1339,8 +1611,8 @@ public class Compartment : SBase {
  * are found, the matching values are replaced with @p newid.  The method
  * does @em not descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new
@@ -1353,16 +1625,72 @@ public class Compartment : SBase {
    * Unsets the value of the 'name' attribute of this Compartment object.
    *
    *
+ *
+ * 
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to SBase directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on SBase itself to get, set, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all SBase objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ *
+ * The 'name' attribute is
+ * optional and is not intended to be used for cross-referencing purposes
+ * within a model.  Its purpose instead is to provide a human-readable
+ * label for the component.  The data type of 'name' is the type
+ * <code>string</code> defined in XML Schema.  SBML imposes no
+ * restrictions as to the content of 'name' attributes beyond those
+ * restrictions defined by the <code>string</code> type in XML Schema.
+ *
+ * The recommended practice for handling 'name' is as follows.  If a
+ * software tool has the capability for displaying the content of 'name'
+ * attributes, it should display this content to the user as a
+ * component's label instead of the component's 'id'.  If the user
+ * interface does not have this capability (e.g., because it cannot
+ * display or use special characters in symbol names), or if the 'name'
+ * attribute is missing on a given component, then the user interface
+ * should display the value of the 'id' attribute instead.  (Script
+ * language interpreters are especially likely to display 'id' instead of
+ * 'name'.)
+ * 
+ * As a consequence of the above, authors of systems that automatically
+ * generate the values of 'id' attributes should be aware some systems
+ * may display the 'id''s to the user.  Authors therefore may wish to
+ * take some care to have their software create 'id' values that are: (a)
+ * reasonably easy for humans to type and read; and (b) likely to be
+ * meaningful, for example by making the 'id' attribute be an abbreviated
+ * form of the name attribute value.
+ * 
+ * An additional point worth mentioning is although there are
+ * restrictions on the uniqueness of 'id' values, there are no
+ * restrictions on the uniqueness of 'name' values in a model.  This
+ * allows software applications leeway in assigning component identifiers.
+ *
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * names).  If the object in question does not posess a 'name' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the name to be set, nor will it read or 
+ * write 'name' attributes for those objects.
+ *
+ *
+ * 
+ *
  * @return integer value indicating success/failure of the
  * function.  @if clike The value is drawn from the
  * enumeration #OperationReturnValues_t. @endif The possible values
  * returned by this function are:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
-   * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
-   *
-   * @see getName()
-   * @see setName(@if java String@endif)
-   * @see isSetName()
+ * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+ *
+ * @see getName()
+ * @see setName(string sid)
+ * @see isSetName()
+ *
+ *
    */ public new
  int unsetName() {
     int ret = libsbmlPINVOKE.Compartment_unsetName(swigCPtr);
@@ -1385,7 +1713,7 @@ public class Compartment : SBase {
    * @note The 'compartmentType' attribute is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.
    *
-   * @see setCompartmentType(string sid)
+   * @see setCompartmentType(@if java String@endif)
    * @see isSetCompartmentType()
    * @see getCompartmentType()
    */ public
@@ -1468,7 +1796,7 @@ public class Compartment : SBase {
  * Level&nbsp;1.  In Level&nbsp;2 and above, the equivalent attribute is
  * named 'size'.  In SBML Level&nbsp;1, a compartment's volume has a default
  * value (@c 1.0) and therefore methods such as
- * @if conly Compartment_isSetVolume() @else Compartment::isSetVolume()@endif
+ * @if conly Compartment_isSetVolume() @else isSetVolume()@endif
  * will always return @c true for a Level&nbsp;1 model.  In Level&nbsp;2, a
  * compartment's size (the equivalent of SBML Level&nbsp;1's 'volume') is
  * optional and has no default value, and therefore may or may not be set.
@@ -1519,8 +1847,7 @@ public class Compartment : SBase {
    * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
    *
    * @note The 'outside' attribute is defined in SBML Level&nbsp;1 and
-   * Level&nbsp;2, but does not exist in SBML Level&nbsp;3 Version&nbsp;1
-   * Core.
+   * Level&nbsp;2, but does not exist in SBML Level&nbsp;3.
    *
    * @see isSetOutside()
    * @see getOutside()

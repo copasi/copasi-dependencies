@@ -42,8 +42,8 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  */
 CompartmentReference::CompartmentReference (unsigned int level, unsigned int version, unsigned int pkgVersion)
   : SBase(level, version)
-   ,mId ("")
-   ,mName ("")
+////   ,mId ("")
+////   ,mName ("")
    ,mCompartment ("")
 {
   // set an SBMLNamespaces derived object of this package
@@ -56,8 +56,8 @@ CompartmentReference::CompartmentReference (unsigned int level, unsigned int ver
  */
 CompartmentReference::CompartmentReference (MultiPkgNamespaces* multins)
   : SBase(multins)
-   ,mId ("")
-   ,mName ("")
+////   ,mId ("")
+////   ,mName ("")
    ,mCompartment ("")
 {
   // set the element namespace of this object
@@ -73,8 +73,8 @@ CompartmentReference::CompartmentReference (MultiPkgNamespaces* multins)
  */
 CompartmentReference::CompartmentReference (const CompartmentReference& orig)
   : SBase(orig)
-  , mId  ( orig.mId)
-  , mName  ( orig.mName)
+//  , mId  ( orig.mId)
+//  , mName  ( orig.mName)
   , mCompartment  ( orig.mCompartment)
 {
 }

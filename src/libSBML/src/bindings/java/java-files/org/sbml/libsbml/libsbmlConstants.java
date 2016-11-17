@@ -9,9 +9,9 @@
 package org.sbml.libsbml;
 
 public interface libsbmlConstants {
-  public final static String LIBSBML_DOTTED_VERSION = "5.13.0";
-  public final static int LIBSBML_VERSION = 51300;
-  public final static String LIBSBML_VERSION_STRING = "51300";
+  public final static String LIBSBML_DOTTED_VERSION = "5.14.0";
+  public final static int LIBSBML_VERSION = 51400;
+  public final static String LIBSBML_VERSION_STRING = "51400";
   // OperationReturnValues_t 
   public final static int LIBSBML_OPERATION_SUCCESS = 0;
   public final static int LIBSBML_INDEX_EXCEEDS_SIZE = -1;
@@ -29,6 +29,7 @@ public interface libsbmlConstants {
   public final static int LIBSBML_ANNOTATION_NS_NOT_FOUND = -13;
   public final static int LIBSBML_MISSING_METAID = -14;
   public final static int LIBSBML_DEPRECATED_ATTRIBUTE = -15;
+  public final static int LIBSBML_USE_ID_ATTRIBUTE_FUNCTION = -16;
   public final static int LIBSBML_PKG_VERSION_MISMATCH = -20;
   public final static int LIBSBML_PKG_UNKNOWN = -21;
   public final static int LIBSBML_PKG_UNKNOWN_VERSION = -22;
@@ -234,6 +235,9 @@ public interface libsbmlConstants {
   public final static int DisallowedMathUnitsUse = 10220;
   public final static int InvalidUnitsValue = 10221;
   public final static int CiCannotReference0DCompartment = 10222;
+  public final static int RateOfTargetMustBeCi = 10223;
+  public final static int RateOfTargetCannotBeAssigned = 10224;
+  public final static int RateOfSpeciesTargetCompartmentNot = 10225;
   public final static int DuplicateComponentId = 10301;
   public final static int DuplicateUnitDefinitionId = 10302;
   public final static int DuplicateLocalParameterId = 10303;
@@ -293,6 +297,7 @@ public interface libsbmlConstants {
   public final static int InvalidTriggerSBOTerm = 10716;
   public final static int InvalidDelaySBOTerm = 10717;
   public final static int InvalidLocalParameterSBOTerm = 10718;
+  public final static int InvalidSBMLElementSBOTerm = 10719;
   public final static int NotesNotInXHTMLNamespace = 10801;
   public final static int NotesContainsXMLDecl = 10802;
   public final static int NotesContainsDOCTYPE = 10803;
@@ -418,6 +423,7 @@ public interface libsbmlConstants {
   public final static int AllowedAttributesOnRateRule = 20909;
   public final static int AllowedAttributesOnAlgRule = 20910;
   public final static int RuleCannotRef0DComp = 20911;
+  public final static int CircularDependencyRateOf = 20912;
   public final static int ConstraintMathNotBoolean = 21001;
   public final static int IncorrectOrderInConstraint = 21002;
   public final static int ConstraintNotInXHTMLNamespace = 21003;
@@ -456,6 +462,7 @@ public interface libsbmlConstants {
   public final static int AllowedAttributesOnListOfMods = 21151;
   public final static int L3V2FastDeprecated = 21152;
   public final static int AllowedAttributesOnLocalParameter = 21172;
+  public final static int LocalParameterShadowsSpecies = 21173;
   public final static int MissingTriggerInEvent = 21201;
   public final static int TriggerMathNotBoolean = 21202;
   public final static int MissingEventAssignment = 21203;
@@ -559,6 +566,16 @@ public interface libsbmlConstants {
   public final static int DuplicateAnnotationInvalidInL3v1 = 96009;
   public final static int NoCompartmentOutsideInL3v1 = 96010;
   public final static int NoStoichiometryMathInL3v1 = 96011;
+  public final static int DoubleExponentNotSupported = 98001;
+  public final static int MathMLElementNotSupported = 98002;
+  public final static int EmptyListOfElementNotSupported = 98003;
+  public final static int MissingMathElementNotSupported = 98004;
+  public final static int MissingTriggerElementNotSupported = 98005;
+  public final static int BooleanNumericDiscrepancy = 98006;
+  public final static int IdNameSBaseInL3V2 = 98007;
+  public final static int MissingParticipantsNotSupported = 98008;
+  public final static int ConvertibleMathInitialAssignment = 98009;
+  public final static int FastReactionsNotSupported = 98010;
   public final static int InvalidSBMLLevelVersion = 99101;
   public final static int AnnotationNotesNotAllowedLevel1 = 99104;
   public final static int InvalidRuleOrdering = 99106;
@@ -594,6 +611,7 @@ public interface libsbmlConstants {
   public final static int UndeclaredTimeUnitsL3 = 99506;
   public final static int UndeclaredExtentUnitsL3 = 99507;
   public final static int UndeclaredObjectUnitsL3 = 99508;
+  public final static int CannotVerifyUnitsObjectNoMath = 99509;
   public final static int UnrecognisedSBOTerm = 99701;
   public final static int ObseleteSBOTerm = 99702;
   public final static int IncorrectCompartmentSpatialDimensions = 99901;
@@ -645,6 +663,8 @@ public interface libsbmlConstants {
   public final static int LIBSBML_CAT_INTERNAL_CONSISTENCY = LIBSBML_CAT_MODELING_PRACTICE + 1;
   public final static int LIBSBML_CAT_SBML_L2V4_COMPAT = LIBSBML_CAT_INTERNAL_CONSISTENCY + 1;
   public final static int LIBSBML_CAT_SBML_L3V1_COMPAT = LIBSBML_CAT_SBML_L2V4_COMPAT + 1;
+  public final static int LIBSBML_CAT_SBML_L3V2_COMPAT = LIBSBML_CAT_SBML_L3V1_COMPAT + 1;
+  public final static int LIBSBML_CAT_SBML_COMPATIBILITY = LIBSBML_CAT_SBML_L3V2_COMPAT + 1;
 
   // SBMLErrorSeverity_t 
   public final static int LIBSBML_SEV_SCHEMA_ERROR = (LIBSBML_SEV_FATAL+1);
@@ -750,7 +770,13 @@ public interface libsbmlConstants {
   public final static int AST_SEMANTICS = AST_QUALIFIER_DEGREE + 1;
   public final static int AST_CONSTRUCTOR_PIECE = AST_SEMANTICS + 1;
   public final static int AST_CONSTRUCTOR_OTHERWISE = AST_CONSTRUCTOR_PIECE + 1;
-  public final static int AST_UNKNOWN = AST_CONSTRUCTOR_OTHERWISE + 1;
+  public final static int AST_FUNCTION_MAX = AST_CONSTRUCTOR_OTHERWISE + 1;
+  public final static int AST_FUNCTION_MIN = AST_FUNCTION_MAX + 1;
+  public final static int AST_FUNCTION_QUOTIENT = AST_FUNCTION_MIN + 1;
+  public final static int AST_FUNCTION_RATE_OF = AST_FUNCTION_QUOTIENT + 1;
+  public final static int AST_FUNCTION_REM = AST_FUNCTION_RATE_OF + 1;
+  public final static int AST_LOGICAL_IMPLIES = AST_FUNCTION_REM + 1;
+  public final static int AST_UNKNOWN = AST_LOGICAL_IMPLIES + 1;
   public final static int AST_ORIGINATES_IN_PACKAGE = AST_UNKNOWN + 1;
 
   // AST_Class_TypeCode_t 
@@ -768,7 +794,8 @@ public interface libsbmlConstants {
   public final static int AST_TYPECODE_CSYMBOL_AVOGADRO = AST_TYPECODE_CSYMBOL + 1;
   public final static int AST_TYPECODE_CSYMBOL_DELAY = AST_TYPECODE_CSYMBOL_AVOGADRO + 1;
   public final static int AST_TYPECODE_CSYMBOL_TIME = AST_TYPECODE_CSYMBOL_DELAY + 1;
-  public final static int AST_TYPECODE_FUNCTION = AST_TYPECODE_CSYMBOL_TIME + 1;
+  public final static int AST_TYPECODE_CSYMBOL_RATE_OF = AST_TYPECODE_CSYMBOL_TIME + 1;
+  public final static int AST_TYPECODE_FUNCTION = AST_TYPECODE_CSYMBOL_RATE_OF + 1;
   public final static int AST_TYPECODE_FUNCTION_UNARY = AST_TYPECODE_FUNCTION + 1;
   public final static int AST_TYPECODE_FUNCTION_BINARY = AST_TYPECODE_FUNCTION_UNARY + 1;
   public final static int AST_TYPECODE_FUNCTION_NARY = AST_TYPECODE_FUNCTION_BINARY + 1;

@@ -17,7 +17,7 @@ package org.sbml.libsbml;
  * within the model, the list must not be empty; that is, it must have
  * length one or more.  The following are the components and lists
  * permitted in different Levels and Versions of SBML in
- * version 5.13.0
+ * version 5.14.0
  * of libSBML:
  * <ul>
  * <li> In SBML Level 1, the components are: {@link UnitDefinition}, {@link Compartment},
@@ -62,7 +62,7 @@ package org.sbml.libsbml;
  * and 'name', and both are optional.  As is the case for other SBML
  * components with 'id' and 'name' attributes, they must be used according
  * to the guidelines described in the SBML specifications.  (Within the
- * frameworks of SBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1 Core, a
+ * frameworks of SBML Level&nbsp;2 and Level&nbsp;3, a
  * {@link Model} object identifier has no assigned meaning, but extension packages
  * planned for SBML Level&nbsp;3 are likely to make use of this
  * identifier.)
@@ -126,7 +126,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <h2>Consistency and adherence to SBML specifications</h2>
  <p>
  * To make it easier for applications to do whatever they need,
- * libSBML version 5.13.0
+ * libSBML version 5.14.0
  * is relatively lax when it comes to enforcing correctness and
  * completeness of models <em>during</em> model construction and editing.
  * Essentially, libSBML <em>will</em> <em>not</em> in most cases check automatically
@@ -157,7 +157,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <h2>Model attributes introduced in SBML Level&nbsp;3</h2>
  <p>
  * As mentioned above, the {@link Model} class has a number of optional attributes
- * in SBML Level&nbsp;3 Version&nbsp;1 Core.  These are 'substanceUnits',
+ * in SBML Level&nbsp;3.  These are 'substanceUnits',
  * 'timeUnits', 'volumeUnits', 'areaUnits', 'lengthUnits', 'extentUnits',
  * and 'conversionFactor.  The following provide more information about
  * them.
@@ -173,8 +173,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * define a value for this attribute, then there is no unit to inherit, and
  * all species that do not specify individual 'substanceUnits' attribute
  * values then have <em>no</em> declared units for their quantities.  The
- * SBML Level&nbsp;3 Version&nbsp;1 Core specification provides more
- * details.
+ * SBML Level&nbsp;3 specifications provide more details.
  <p>
  * Note that when the identifier of a species appears in a model's
  * mathematical expressions, the unit of measurement associated with that
@@ -266,8 +265,8 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * inherits the conversion factor specified by the {@link Model} 'conversionFactor'
  * attribute.  If the {@link Model} does not define a value for this attribute,
  * then there is no conversion factor to inherit.  More information about
- * conversion factors is provided in the SBML Level&nbsp;3 Version&nbsp;1
- * specification.
+ * conversion factors is provided in the SBML Level&nbsp;3
+ * specifications.
  */
 
 public class Model extends SBase {
@@ -317,10 +316,10 @@ public class Model extends SBase {
    * Creates a new {@link Model} using the given SBML <code>level</code> and <code>version</code>
    * values.
    <p>
-   * @param level a long integer, the SBML Level to assign to this {@link Model}
+   * @param level a long integer, the SBML Level to assign to this {@link Model}.
    <p>
    * @param version a long integer, the SBML Version to assign to this
-   * {@link Model}
+   * {@link Model}.
    <p>
    * <p>
  * @throws SBMLConstructorException
@@ -442,7 +441,69 @@ public class Model extends SBase {
 /**
    * Returns the value of the 'id' attribute of this {@link Model}.
    <p>
+   * @note Because of the inconsistent behavior of this function with 
+   * respect to assignments and rules, it is now recommended to
+   * use the getIdAttribute() function instead.
+   <p>
+   * <p>
+ * The identifier given by an object's 'id' attribute value
+ * is used to identify the object within the SBML model definition.
+ * Other objects can refer to the component using this identifier.  The
+ * data type of 'id' is always <code>SId</code> or a type derived
+ * from that, such as <code>UnitSId</code>, depending on the object in 
+ * question.  All data types are defined as follows:
+ * <pre style='margin-left: 2em; border: none; font-weight: bold; color: black'>
+ *   letter .= 'a'..'z','A'..'Z'
+ *   digit  .= '0'..'9'
+ *   idChar .= letter | digit | '_'
+ *   SId    .= ( letter | '_' ) idChar*
+ * </pre>
+ <p>
+ * The characters <code>(</code> and <code>)</code> are used for grouping, the
+ * character <code>*</code> 'zero or more times', and the character
+ * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
+ * determined by an exact character sequence match; i.e., comparisons must be
+ * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
+ * <code>SIdRef</code>, and derived types.
+ <p>
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to {@link SBase} directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all {@link SBase} objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ <p>
+ * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
+ * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
+ * functions (though not the setId() or unsetId() functions) would instead 
+ * reference the value of the 'variable' attribute (for the rules and event 
+ * assignments) or the 'symbol' attribute (for initial assignments).  
+ * The {@link AlgebraicRule} fell into this category as well, though because it 
+ * contained neither a 'variable' nor a 'symbol' attribute, getId() would 
+ * always return an empty string, and isSetId() would always return <code>false.</code>
+ * For this reason, four new functions are now provided 
+ * (getIdAttribute(), setIdAttribute(String), 
+ * isSetIdAttribute(), and unsetIdAttribute()) that will always
+ * act on the actual 'id' attribute, regardless of the object's type.  The
+ * new functions should be used instead of the old ones unless the old behavior
+ * is somehow necessary.
+ <p>
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * identifiers).  If the object in question does not posess an 'id' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the identifier to be set, nor will it read or 
+ * write 'id' attributes for those objects.
+   <p>
    * @return the id of this {@link Model}.
+   <p>
+   * @see #getIdAttribute()
+   * @see #setIdAttribute(String sid)
+   * @see #isSetIdAttribute()
+   * @see #unsetIdAttribute()
    */ public
  String getId() {
     return libsbmlJNI.Model_getId(swigCPtr, this);
@@ -450,9 +511,65 @@ public class Model extends SBase {
 
   
 /**
-   * Returns the value of the 'name' attribute of this {@link Model}.
+   * Returns the value of the 'name' attribute of this {@link Model} object.
    <p>
-   * @return the name of this {@link Model}.
+   * <p>
+ * <p>
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to {@link SBase} directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on {@link SBase} itself to get, set, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all {@link SBase} objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ <p>
+ * The 'name' attribute is
+ * optional and is not intended to be used for cross-referencing purposes
+ * within a model.  Its purpose instead is to provide a human-readable
+ * label for the component.  The data type of 'name' is the type
+ * <code>string</code> defined in XML Schema.  SBML imposes no
+ * restrictions as to the content of 'name' attributes beyond those
+ * restrictions defined by the <code>string</code> type in XML Schema.
+ <p>
+ * The recommended practice for handling 'name' is as follows.  If a
+ * software tool has the capability for displaying the content of 'name'
+ * attributes, it should display this content to the user as a
+ * component's label instead of the component's 'id'.  If the user
+ * interface does not have this capability (e.g., because it cannot
+ * display or use special characters in symbol names), or if the 'name'
+ * attribute is missing on a given component, then the user interface
+ * should display the value of the 'id' attribute instead.  (Script
+ * language interpreters are especially likely to display 'id' instead of
+ * 'name'.)
+ <p>
+ * As a consequence of the above, authors of systems that automatically
+ * generate the values of 'id' attributes should be aware some systems
+ * may display the 'id''s to the user.  Authors therefore may wish to
+ * take some care to have their software create 'id' values that are: (a)
+ * reasonably easy for humans to type and read; and (b) likely to be
+ * meaningful, for example by making the 'id' attribute be an abbreviated
+ * form of the name attribute value.
+ <p>
+ * An additional point worth mentioning is although there are
+ * restrictions on the uniqueness of 'id' values, there are no
+ * restrictions on the uniqueness of 'name' values in a model.  This
+ * allows software applications leeway in assigning component identifiers.
+ <p>
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * names).  If the object in question does not posess a 'name' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the name to be set, nor will it read or 
+ * write 'name' attributes for those objects.
+ <p>
+ * @return the name of this SBML object, or the empty string if not set or unsettable.
+ <p>
+ * @see #getIdAttribute()
+ * @see #isSetName()
+ * @see #setName(String sid)
+ * @see #unsetName()
    */ public
  String getName() {
     return libsbmlJNI.Model_getName(swigCPtr, this);
@@ -554,8 +671,71 @@ public class Model extends SBase {
    * Predicate returning <code>true</code> if this
    * {@link Model}'s 'id' attribute is set.
    <p>
-   * @return <code>true</code> if the 'id' attribute of this {@link Model} is
-   * set, <code>false</code> otherwise.
+   * <p>
+ * @note Because of the inconsistent behavior of this function with 
+ * respect to assignments and rules, it is now recommended to
+ * use the isSetIdAttribute() function instead.
+ <p>
+ * <p>
+ * The identifier given by an object's 'id' attribute value
+ * is used to identify the object within the SBML model definition.
+ * Other objects can refer to the component using this identifier.  The
+ * data type of 'id' is always <code>SId</code> or a type derived
+ * from that, such as <code>UnitSId</code>, depending on the object in 
+ * question.  All data types are defined as follows:
+ * <pre style='margin-left: 2em; border: none; font-weight: bold; color: black'>
+ *   letter .= 'a'..'z','A'..'Z'
+ *   digit  .= '0'..'9'
+ *   idChar .= letter | digit | '_'
+ *   SId    .= ( letter | '_' ) idChar*
+ * </pre>
+ <p>
+ * The characters <code>(</code> and <code>)</code> are used for grouping, the
+ * character <code>*</code> 'zero or more times', and the character
+ * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
+ * determined by an exact character sequence match; i.e., comparisons must be
+ * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
+ * <code>SIdRef</code>, and derived types.
+ <p>
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to {@link SBase} directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all {@link SBase} objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ <p>
+ * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
+ * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
+ * functions (though not the setId() or unsetId() functions) would instead 
+ * reference the value of the 'variable' attribute (for the rules and event 
+ * assignments) or the 'symbol' attribute (for initial assignments).  
+ * The {@link AlgebraicRule} fell into this category as well, though because it 
+ * contained neither a 'variable' nor a 'symbol' attribute, getId() would 
+ * always return an empty string, and isSetId() would always return <code>false.</code>
+ * For this reason, four new functions are now provided 
+ * (getIdAttribute(), setIdAttribute(String), 
+ * isSetIdAttribute(), and unsetIdAttribute()) that will always
+ * act on the actual 'id' attribute, regardless of the object's type.  The
+ * new functions should be used instead of the old ones unless the old behavior
+ * is somehow necessary.
+ <p>
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * identifiers).  If the object in question does not posess an 'id' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the identifier to be set, nor will it read or 
+ * write 'id' attributes for those objects.
+ <p>
+ * @return <code>true</code> if the 'id' attribute of this SBML object is
+ * set, <code>false</code> otherwise.
+ <p>
+ * @see #getIdAttribute()
+ * @see #setIdAttribute(String sid)
+ * @see #unsetIdAttribute()
+ * @see #isSetIdAttribute()
    */ public
  boolean isSetId() {
     return libsbmlJNI.Model_isSetId(swigCPtr, this);
@@ -566,8 +746,63 @@ public class Model extends SBase {
    * Predicate returning <code>true</code> if this
    * {@link Model}'s 'name' attribute is set.
    <p>
-   * @return <code>true</code> if the 'name' attribute of this {@link Model} is
-   * set, <code>false</code> otherwise.
+   * <p>
+ * <p>
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to {@link SBase} directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on {@link SBase} itself to get, set, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all {@link SBase} objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ <p>
+ * The 'name' attribute is
+ * optional and is not intended to be used for cross-referencing purposes
+ * within a model.  Its purpose instead is to provide a human-readable
+ * label for the component.  The data type of 'name' is the type
+ * <code>string</code> defined in XML Schema.  SBML imposes no
+ * restrictions as to the content of 'name' attributes beyond those
+ * restrictions defined by the <code>string</code> type in XML Schema.
+ <p>
+ * The recommended practice for handling 'name' is as follows.  If a
+ * software tool has the capability for displaying the content of 'name'
+ * attributes, it should display this content to the user as a
+ * component's label instead of the component's 'id'.  If the user
+ * interface does not have this capability (e.g., because it cannot
+ * display or use special characters in symbol names), or if the 'name'
+ * attribute is missing on a given component, then the user interface
+ * should display the value of the 'id' attribute instead.  (Script
+ * language interpreters are especially likely to display 'id' instead of
+ * 'name'.)
+ <p>
+ * As a consequence of the above, authors of systems that automatically
+ * generate the values of 'id' attributes should be aware some systems
+ * may display the 'id''s to the user.  Authors therefore may wish to
+ * take some care to have their software create 'id' values that are: (a)
+ * reasonably easy for humans to type and read; and (b) likely to be
+ * meaningful, for example by making the 'id' attribute be an abbreviated
+ * form of the name attribute value.
+ <p>
+ * An additional point worth mentioning is although there are
+ * restrictions on the uniqueness of 'id' values, there are no
+ * restrictions on the uniqueness of 'name' values in a model.  This
+ * allows software applications leeway in assigning component identifiers.
+ <p>
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * names).  If the object in question does not posess a 'name' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the name to be set, nor will it read or 
+ * write 'name' attributes for those objects.
+ <p>
+ * @return <code>true</code> if the 'name' attribute of this SBML object is
+ * set, <code>false</code> otherwise.
+ <p>
+ * @see #getName()
+ * @see #setName(String sid)
+ * @see #unsetName()
    */ public
  boolean isSetName() {
     return libsbmlJNI.Model_isSetName(swigCPtr, this);
@@ -682,38 +917,78 @@ public class Model extends SBase {
 /**
    * Sets the value of the 'id' attribute of this {@link Model}.
    <p>
-   * The string <code>sid</code> is copied.
-   <p>
    * <p>
- * SBML has strict requirements for the syntax of identifiers, that is, the
- * values of the 'id' attribute present on most types of SBML objects.
- * The following is a summary of the definition of the SBML identifier type
- * <code>SId</code>, which defines the permitted syntax of identifiers.  We
- * express the syntax using an extended form of BNF notation:
- * <pre style='margin-left: 2em; border: none; font-weight: bold; font-size: 13px; color: black'>
- * letter .= 'a'..'z','A'..'Z'
- * digit  .= '0'..'9'
- * idChar .= letter | digit | '_'
- * SId    .= ( letter | '_' ) idChar*</pre>
+ * The string <code>sid</code> is copied.
+ <p>
+ * <p>
+ * The identifier given by an object's 'id' attribute value
+ * is used to identify the object within the SBML model definition.
+ * Other objects can refer to the component using this identifier.  The
+ * data type of 'id' is always <code>SId</code> or a type derived
+ * from that, such as <code>UnitSId</code>, depending on the object in 
+ * question.  All data types are defined as follows:
+ * <pre style='margin-left: 2em; border: none; font-weight: bold; color: black'>
+ *   letter .= 'a'..'z','A'..'Z'
+ *   digit  .= '0'..'9'
+ *   idChar .= letter | digit | '_'
+ *   SId    .= ( letter | '_' ) idChar*
+ * </pre>
+ <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
  * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  In addition, there are a few
- * conditions for the uniqueness of identifiers in an SBML model.  Please
- * consult the SBML specifications for the exact details of the uniqueness
- * requirements.
-   <p>
-   * @param sid the string to use as the identifier of this {@link Model}
-   <p>
-   * <p>
+ * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
+ * <code>SIdRef</code>, and derived types.
+ <p>
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to {@link SBase} directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all {@link SBase} objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ <p>
+ * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
+ * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
+ * functions (though not the setId() or unsetId() functions) would instead 
+ * reference the value of the 'variable' attribute (for the rules and event 
+ * assignments) or the 'symbol' attribute (for initial assignments).  
+ * The {@link AlgebraicRule} fell into this category as well, though because it 
+ * contained neither a 'variable' nor a 'symbol' attribute, getId() would 
+ * always return an empty string, and isSetId() would always return <code>false.</code>
+ * For this reason, four new functions are now provided 
+ * (getIdAttribute(), setIdAttribute(String), 
+ * isSetIdAttribute(), and unsetIdAttribute()) that will always
+ * act on the actual 'id' attribute, regardless of the object's type.  The
+ * new functions should be used instead of the old ones unless the old behavior
+ * is somehow necessary.
+ <p>
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * identifiers).  If the object in question does not posess an 'id' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the identifier to be set, nor will it read or 
+ * write 'id' attributes for those objects.
+ <p>
+ * @param sid the string to use as the identifier of this object.
+ <p>
+ * <p>
  * @return integer value indicating success/failure of the
  * function.   The possible values
  * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
-   * </ul>
+ * <ul>
+ * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+ * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+ * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+ *
+ * </ul> <p>
+ * @see #getIdAttribute()
+ * @see #setIdAttribute(String sid)
+ * @see #isSetIdAttribute()
+ * @see #unsetIdAttribute()
    */ public
  int setId(String sid) {
     return libsbmlJNI.Model_setId(swigCPtr, this, sid);
@@ -723,18 +998,20 @@ public class Model extends SBase {
 /**
    * Sets the value of the 'name' attribute of this {@link Model}.
    <p>
-   * The string in <code>name</code> is copied.
-   <p>
-   * @param name the new name for the {@link Model}
-   <p>
    * <p>
+ * The string in <code>name</code> is copied.
+ <p>
+ * @param name the new name for the SBML object.
+ <p>
+ * <p>
  * @return integer value indicating success/failure of the
  * function.   The possible values
  * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
-   * </ul>
+ * <ul>
+ * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+ * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
+ *
+ * </ul>
    */ public
  int setName(String name) {
     return libsbmlJNI.Model_setName(swigCPtr, this, name);
@@ -746,7 +1023,7 @@ public class Model extends SBase {
    <p>
    * The string in <code>units</code> is copied.
    <p>
-   * @param units the new substanceUnits for the {@link Model}
+   * @param units the new substanceUnits for the {@link Model}.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -771,7 +1048,7 @@ public class Model extends SBase {
    <p>
    * The string in <code>units</code> is copied.
    <p>
-   * @param units the new timeUnits for the {@link Model}
+   * @param units the new timeUnits for the {@link Model}.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -796,7 +1073,7 @@ public class Model extends SBase {
    <p>
    * The string in <code>units</code> is copied.
    <p>
-   * @param units the new volumeUnits for the {@link Model}
+   * @param units the new volumeUnits for the {@link Model}.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -821,7 +1098,7 @@ public class Model extends SBase {
    <p>
    * The string in <code>units</code> is copied.
    <p>
-   * @param units the new areaUnits for the {@link Model}
+   * @param units the new areaUnits for the {@link Model}.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -846,7 +1123,7 @@ public class Model extends SBase {
    <p>
    * The string in <code>units</code> is copied.
    <p>
-   * @param units the new lengthUnits for the {@link Model}
+   * @param units the new lengthUnits for the {@link Model}.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -871,7 +1148,7 @@ public class Model extends SBase {
    <p>
    * The string in <code>units</code> is copied.
    <p>
-   * @param units the new extentUnits for the {@link Model}
+   * @param units the new extentUnits for the {@link Model}.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -896,7 +1173,7 @@ public class Model extends SBase {
    <p>
    * The string in <code>units</code> is copied.
    <p>
-   * @param units the new conversionFactor for the {@link Model}
+   * @param units the new conversionFactor for the {@link Model}.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -920,13 +1197,72 @@ public class Model extends SBase {
    * Unsets the value of the 'id' attribute of this {@link Model}.
    <p>
    * <p>
+ * <p>
+ * The identifier given by an object's 'id' attribute value
+ * is used to identify the object within the SBML model definition.
+ * Other objects can refer to the component using this identifier.  The
+ * data type of 'id' is always <code>SId</code> or a type derived
+ * from that, such as <code>UnitSId</code>, depending on the object in 
+ * question.  All data types are defined as follows:
+ * <pre style='margin-left: 2em; border: none; font-weight: bold; color: black'>
+ *   letter .= 'a'..'z','A'..'Z'
+ *   digit  .= '0'..'9'
+ *   idChar .= letter | digit | '_'
+ *   SId    .= ( letter | '_' ) idChar*
+ * </pre>
+ <p>
+ * The characters <code>(</code> and <code>)</code> are used for grouping, the
+ * character <code>*</code> 'zero or more times', and the character
+ * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
+ * determined by an exact character sequence match; i.e., comparisons must be
+ * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
+ * <code>SIdRef</code>, and derived types.
+ <p>
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to {@link SBase} directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all {@link SBase} objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ <p>
+ * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
+ * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
+ * functions (though not the setId() or unsetId() functions) would instead 
+ * reference the value of the 'variable' attribute (for the rules and event 
+ * assignments) or the 'symbol' attribute (for initial assignments).  
+ * The {@link AlgebraicRule} fell into this category as well, though because it 
+ * contained neither a 'variable' nor a 'symbol' attribute, getId() would 
+ * always return an empty string, and isSetId() would always return <code>false.</code>
+ * For this reason, four new functions are now provided 
+ * (getIdAttribute(), setIdAttribute(String), 
+ * isSetIdAttribute(), and unsetIdAttribute()) that will always
+ * act on the actual 'id' attribute, regardless of the object's type.  The
+ * new functions should be used instead of the old ones unless the old behavior
+ * is somehow necessary.
+ <p>
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * identifiers).  If the object in question does not posess an 'id' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the identifier to be set, nor will it read or 
+ * write 'id' attributes for those objects.
+ <p>
+ * <p>
  * @return integer value indicating success/failure of the
  * function.   The possible values
  * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
-   * </ul>
+ * <ul>
+ * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+ * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+ *
+ * </ul> <p>
+ * @see #getIdAttribute()
+ * @see #setIdAttribute(String sid)
+ * @see #isSetIdAttribute()
+ * @see #unsetIdAttribute()
    */ public
  int unsetId() {
     return libsbmlJNI.Model_unsetId(swigCPtr, this);
@@ -937,13 +1273,68 @@ public class Model extends SBase {
    * Unsets the value of the 'name' attribute of this {@link Model}.
    <p>
    * <p>
+ * <p>
+ * In SBML Level&nbsp;3 Version&nbsp;2, the 'id' and 'name' attributes were
+ * moved to {@link SBase} directly, instead of being defined individually for many
+ * (but not all) objects.  Libsbml has for a long time provided functions
+ * defined on {@link SBase} itself to get, set, and unset those attributes, which 
+ * would fail or otherwise return empty strings if executed on any object 
+ * for which those attributes were not defined.  Now that all {@link SBase} objects 
+ * define those attributes, those functions now succeed for any object with 
+ * the appropriate level and version.
+ <p>
+ * The 'name' attribute is
+ * optional and is not intended to be used for cross-referencing purposes
+ * within a model.  Its purpose instead is to provide a human-readable
+ * label for the component.  The data type of 'name' is the type
+ * <code>string</code> defined in XML Schema.  SBML imposes no
+ * restrictions as to the content of 'name' attributes beyond those
+ * restrictions defined by the <code>string</code> type in XML Schema.
+ <p>
+ * The recommended practice for handling 'name' is as follows.  If a
+ * software tool has the capability for displaying the content of 'name'
+ * attributes, it should display this content to the user as a
+ * component's label instead of the component's 'id'.  If the user
+ * interface does not have this capability (e.g., because it cannot
+ * display or use special characters in symbol names), or if the 'name'
+ * attribute is missing on a given component, then the user interface
+ * should display the value of the 'id' attribute instead.  (Script
+ * language interpreters are especially likely to display 'id' instead of
+ * 'name'.)
+ <p>
+ * As a consequence of the above, authors of systems that automatically
+ * generate the values of 'id' attributes should be aware some systems
+ * may display the 'id''s to the user.  Authors therefore may wish to
+ * take some care to have their software create 'id' values that are: (a)
+ * reasonably easy for humans to type and read; and (b) likely to be
+ * meaningful, for example by making the 'id' attribute be an abbreviated
+ * form of the name attribute value.
+ <p>
+ * An additional point worth mentioning is although there are
+ * restrictions on the uniqueness of 'id' values, there are no
+ * restrictions on the uniqueness of 'name' values in a model.  This
+ * allows software applications leeway in assigning component identifiers.
+ <p>
+ * Regardless of the level and version of the SBML, these functions allow
+ * client applications to use more generalized code in some situations 
+ * (for instance, when manipulating objects that are all known to have 
+ * names).  If the object in question does not posess a 'name' attribute 
+ * according to the SBML specification for the Level and Version in use,
+ * libSBML will not allow the name to be set, nor will it read or 
+ * write 'name' attributes for those objects.
+ <p>
+ * <p>
  * @return integer value indicating success/failure of the
  * function.   The possible values
  * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
-   * </ul>
+ * <ul>
+ * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+ * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+ *
+ * </ul> <p>
+ * @see #getName()
+ * @see #setName(String sid)
+ * @see #isSetName()
    */ public
  int unsetName() {
     return libsbmlJNI.Model_unsetName(swigCPtr, this);
@@ -1097,7 +1488,7 @@ public class Model extends SBase {
 /**
    * Adds a copy of the given {@link FunctionDefinition} object to this {@link Model}.
    <p>
-   * @param fd the {@link FunctionDefinition} to add
+   * @param fd the {@link FunctionDefinition} to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -1134,7 +1525,7 @@ public class Model extends SBase {
 /**
    * Adds a copy of the given {@link UnitDefinition} object to this {@link Model}.
    <p>
-   * @param ud the {@link UnitDefinition} object to add
+   * @param ud the {@link UnitDefinition} object to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -1171,7 +1562,7 @@ public class Model extends SBase {
 /**
    * Adds a copy of the given {@link CompartmentType} object to this {@link Model}.
    <p>
-   * @param ct the {@link CompartmentType} object to add
+   * @param ct the {@link CompartmentType} object to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -1212,7 +1603,7 @@ public class Model extends SBase {
 /**
    * Adds a copy of the given {@link SpeciesType} object to this {@link Model}.
    <p>
-   * @param st the {@link SpeciesType} object to add
+   * @param st the {@link SpeciesType} object to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -1253,11 +1644,12 @@ public class Model extends SBase {
 /**
    * Adds a copy of the given {@link Compartment} object to this {@link Model}.
    <p>
-   * @param c the {@link Compartment} object to add
+   * @param c the {@link Compartment} object to add.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_LEVEL_MISMATCH LIBSBML_LEVEL_MISMATCH}
@@ -1289,7 +1681,7 @@ public class Model extends SBase {
 /**
    * Adds a copy of the given {@link Species} object to this {@link Model}.
    <p>
-   * @param s the {@link Species} object to add
+   * @param s the {@link Species} object to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -1326,7 +1718,7 @@ public class Model extends SBase {
 /**
    * Adds a copy of the given {@link Parameter} object to this {@link Model}.
    <p>
-   * @param p the {@link Parameter} object to add
+   * @param p the {@link Parameter} object to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -1363,7 +1755,7 @@ public class Model extends SBase {
 /**
    * Adds a copy of the given {@link InitialAssignment} object to this {@link Model}.
    <p>
-   * @param ia the {@link InitialAssignment} object to add
+   * @param ia the {@link InitialAssignment} object to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -1400,7 +1792,7 @@ public class Model extends SBase {
 /**
    * Adds a copy of the given {@link Rule} object to this {@link Model}.
    <p>
-   * @param r the {@link Rule} object to add
+   * @param r the {@link Rule} object to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -1439,7 +1831,7 @@ public class Model extends SBase {
 /**
    * Adds a copy of the given {@link Constraint} object to this {@link Model}.
    <p>
-   * @param c the {@link Constraint} object to add
+   * @param c the {@link Constraint} object to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -1475,7 +1867,7 @@ public class Model extends SBase {
 /**
    * Adds a copy of the given {@link Reaction} object to this {@link Model}.
    <p>
-   * @param r the {@link Reaction} object to add
+   * @param r the {@link Reaction} object to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -1512,7 +1904,7 @@ public class Model extends SBase {
 /**
    * Adds a copy of the given {@link Event} object to this {@link Model}.
    <p>
-   * @param e the {@link Event} object to add
+   * @param e the {@link Event} object to add.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -1553,7 +1945,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link FunctionDefinition} object created
+   * @return the {@link FunctionDefinition} object created.
    <p>
    * @see #addFunctionDefinition(FunctionDefinition fd)
    */ public
@@ -1570,7 +1962,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link UnitDefinition} object created
+   * @return the {@link UnitDefinition} object created.
    <p>
    * @see #addUnitDefinition(UnitDefinition ud)
    */ public
@@ -1592,7 +1984,7 @@ public class Model extends SBase {
    * significant.  If a {@link UnitDefinition} object does not exist in this model,
    * a new {@link Unit} is <em>not</em> created and <code>null</code> is returned instead.
    <p>
-   * @return the {@link Unit} object created
+   * @return the {@link Unit} object created.
    <p>
    * @see #addUnitDefinition(UnitDefinition ud)
    */ public
@@ -1609,7 +2001,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link CompartmentType} object created
+   * @return the {@link CompartmentType} object created.
    <p>
    * @note The {@link CompartmentType} object class is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -1630,7 +2022,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link SpeciesType} object created
+   * @return the {@link SpeciesType} object created.
    <p>
    * @note The {@link SpeciesType} object class is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -1651,7 +2043,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link Compartment} object created
+   * @return the {@link Compartment} object created.
    <p>
    * @see #addCompartment(Compartment c)
    */ public
@@ -1668,7 +2060,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link Species} object created
+   * @return the {@link Species} object created.
    <p>
    * @see #addSpecies(Species s)
    */ public
@@ -1685,7 +2077,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link Parameter} object created
+   * @return the {@link Parameter} object created.
    <p>
    * @see #addParameter(Parameter p)
    */ public
@@ -1702,7 +2094,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link InitialAssignment} object created
+   * @return the {@link InitialAssignment} object created.
    <p>
    * @see #addInitialAssignment(InitialAssignment ia)
    */ public
@@ -1719,7 +2111,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link AlgebraicRule} object created
+   * @return the {@link AlgebraicRule} object created.
    <p>
    * @see #addRule(Rule r)
    */ public
@@ -1736,7 +2128,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link AssignmentRule} object created
+   * @return the {@link AssignmentRule} object created.
    <p>
    * @see #addRule(Rule r)
    */ public
@@ -1753,7 +2145,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link RateRule} object created
+   * @return the {@link RateRule} object created.
    <p>
    * @see #addRule(Rule r)
    */ public
@@ -1770,7 +2162,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link Constraint} object created
+   * @return the {@link Constraint} object created.
    <p>
    * @see #addConstraint(Constraint c)
    */ public
@@ -1787,7 +2179,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link Reaction} object created
+   * @return the {@link Reaction} object created.
    <p>
    * @see #addReaction(Reaction r)
    */ public
@@ -1958,7 +2350,7 @@ public class Model extends SBase {
    * any SBML package namespaces, are used to initialize this
    * object's corresponding attributes.
    <p>
-   * @return the {@link Event} object created
+   * @return the {@link Event} object created.
    */ public
  Event createEvent() {
     long cPtr = libsbmlJNI.Model_createEvent(swigCPtr, this);
@@ -1981,7 +2373,7 @@ public class Model extends SBase {
  * {@link Model} object, a new {@link EventAssignment} is <em>not</em> created and <code>null</code> is
  * returned instead.
    <p>
-   * @return the {@link EventAssignment} object created
+   * @return the {@link EventAssignment} object created.
    */ public
  EventAssignment createEventAssignment() {
     long cPtr = libsbmlJNI.Model_createEventAssignment(swigCPtr, this);
@@ -2004,7 +2396,7 @@ public class Model extends SBase {
  * {@link Model} object, a new {@link EventAssignment} is <em>not</em> created and <code>null</code> is
  * returned instead.
    <p>
-   * @return the {@link Trigger} object created
+   * @return the {@link Trigger} object created.
    */ public
  Trigger createTrigger() {
     long cPtr = libsbmlJNI.Model_createTrigger(swigCPtr, this);
@@ -2027,7 +2419,7 @@ public class Model extends SBase {
  * {@link Model} object, a new {@link EventAssignment} is <em>not</em> created and <code>null</code> is
  * returned instead.
    <p>
-   * @return the {@link Delay} object created
+   * @return the {@link Delay} object created.
    */ public
  Delay createDelay() {
     long cPtr = libsbmlJNI.Model_createDelay(swigCPtr, this);
@@ -2047,12 +2439,13 @@ public class Model extends SBase {
    * discarded.  An alternative may be to use appendAnnotation().
    <p>
    * @param annotation an XML structure that is to be used as the content
-   * of the 'annotation' subelement of this object
+   * of the 'annotation' subelement of this object.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    *
@@ -2076,7 +2469,7 @@ public class Model extends SBase {
    * discarded.  An alternative may be to use appendAnnotation().
    <p>
    * @param annotation an XML string that is to be used as the content
-   * of the 'annotation' subelement of this object
+   * of the 'annotation' subelement of this object.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -2103,7 +2496,7 @@ public class Model extends SBase {
    * adds its own data.
    <p>
    * @param annotation an XML structure that is to be copied and appended
-   * to the content of the 'annotation' subelement of this object
+   * to the content of the 'annotation' subelement of this object.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -2130,11 +2523,12 @@ public class Model extends SBase {
    * adds its own data.
    <p>
    * @param annotation an XML string that is to be copied and appended
-   * to the content of the 'annotation' subelement of this object
+   * to the content of the 'annotation' subelement of this object.
    <p>
-   * @return integer value indicating success/failure of the
-   * function.  The possible values
-   * returned by this function are:
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
@@ -2908,7 +3302,7 @@ public class Model extends SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -2919,8 +3313,8 @@ public class Model extends SBase {
  * matching values are replaced with <code>newid</code>.  The method does <em>not</em>
  * descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameSIdRefs(String oldid, String newid) {
     libsbmlJNI.Model_renameSIdRefs(swigCPtr, this, oldid, newid);
@@ -2949,8 +3343,8 @@ public class Model extends SBase {
  * are found, the matching values are replaced with <code>newid</code>.  The method
  * does <em>not</em> descend into child elements.
  <p>
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
    */ public
  void renameUnitSIdRefs(String oldid, String newid) {
     libsbmlJNI.Model_renameUnitSIdRefs(swigCPtr, this, oldid, newid);
@@ -3026,6 +3420,24 @@ public class Model extends SBase {
 /** * @internal */ public
  void convertL3ToL2() {
     libsbmlJNI.Model_convertL3ToL2__SWIG_1(swigCPtr, this);
+  }
+
+  
+/** * @internal */ public
+ void convertFromL3V2(boolean strict) {
+    libsbmlJNI.Model_convertFromL3V2__SWIG_0(swigCPtr, this, strict);
+  }
+
+  
+/** * @internal */ public
+ void convertFromL3V2() {
+    libsbmlJNI.Model_convertFromL3V2__SWIG_1(swigCPtr, this);
+  }
+
+  
+/** * @internal */ public
+ void dealWithFast() {
+    libsbmlJNI.Model_dealWithFast(swigCPtr, this);
   }
 
   
@@ -3254,6 +3666,116 @@ public class Model extends SBase {
 
   
 /**
+   * Populates the internal list of the identifiers of all elements within this {@link Model} object.
+   <p>
+   * This method tells libSBML to retrieve the identifiers of all elements
+   * of the enclosing {@link Model} object.  The result is stored in an internal list
+   * of ids.  Users can access the resulting data by calling the method
+   * getAllElementIdList().
+   <p>
+   * @warning Retrieving all elements within a model is a time-consuming operation.
+   * Callers may want to call isPopulatedAllElementIdList() to determine
+   * whether the id list may already have been populated.
+   <p>
+   * @see #isPopulatedAllElementIdList()
+   */ public
+ void populateAllElementIdList() {
+    libsbmlJNI.Model_populateAllElementIdList(swigCPtr, this);
+  }
+
+  
+/**
+   * Predicate returning <code>true</code> if libSBML has a list of the ids of all 
+   * components of this model.
+   <p>
+   * @return <code>true</code> if the id list has already been populated, <code>false</code>
+   * otherwise.
+   */ public
+ boolean isPopulatedAllElementIdList() {
+    return libsbmlJNI.Model_isPopulatedAllElementIdList(swigCPtr, this);
+  }
+
+  
+/**
+   * Returns the internal list of the identifiers of all elements within this {@link Model} object.
+   <p>
+   * @return an IdList of all the identifiers in the model.
+   <p>
+   * @see #populateAllElementIdList()
+   * @see #isPopulatedAllElementIdList()
+   */ public
+ IdList getAllElementIdList() {
+    return new IdList(libsbmlJNI.Model_getAllElementIdList(swigCPtr, this), true);
+  }
+
+  
+/**
+   * Clears the internal list of the identifiers of all elements within this {@link Model} object.
+   <p>
+   * @see #populateAllElementIdList()
+   * @see #isPopulatedAllElementIdList()
+   */ public
+ void clearAllElementIdList() {
+    libsbmlJNI.Model_clearAllElementIdList(swigCPtr, this);
+  }
+
+  
+/**
+   * Populates the internal list of the metaids of all elements within this {@link Model} object.
+   <p>
+   * This method tells libSBML to retrieve the identifiers of all elements
+   * of the enclosing {@link Model} object.  The result is stored in an internal list
+   * of metaids.  Users can access the resulting data by calling the method
+   * getAllElementMetaIdList().
+   <p>
+   * @warning Retrieving all elements within a model is a time-consuming operation.
+   * Callers may want to call isPopulatedAllElementMetaIdList() to determine
+   * whether the metaid list may already have been populated.
+   <p>
+   * @see #isPopulatedAllElementMetaIdList()
+   */ public
+ void populateAllElementMetaIdList() {
+    libsbmlJNI.Model_populateAllElementMetaIdList(swigCPtr, this);
+  }
+
+  
+/**
+   * Predicate returning <code>true</code> if libSBML has a list of the metaids of all 
+   * components of this model.
+   <p>
+   * @return <code>true</code> if the metaid list has already been populated, <code>false</code>
+   * otherwise.
+   */ public
+ boolean isPopulatedAllElementMetaIdList() {
+    return libsbmlJNI.Model_isPopulatedAllElementMetaIdList(swigCPtr, this);
+  }
+
+  
+/**
+   * Returns the internal list of the metaids of all elements within this {@link Model} object.
+   <p>
+   * @return an IdList of all the metaids in the model.
+   <p>
+   * @see #populateAllElementMetaIdList()
+   * @see #isPopulatedAllElementMetaIdList()
+   */ public
+ IdList getAllElementMetaIdList() {
+    return new IdList(libsbmlJNI.Model_getAllElementMetaIdList(swigCPtr, this), true);
+  }
+
+  
+/**
+   * Clears the internal list of the metaids of all elements within this {@link Model} object.
+   <p>
+   * @see #populateAllElementMetaIdList()
+   * @see #isPopulatedAllElementMetaIdList()
+   */ public
+ void clearAllElementMetaIdList() {
+    libsbmlJNI.Model_clearAllElementMetaIdList(swigCPtr, this);
+  }
+
+  
+/**
    * Predicate returning <code>true</code> if all the required elements for this {@link Model}
    * object have been set.
    <p>
@@ -3271,7 +3793,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link FunctionDefinition} object to remove
+   * @param n the index of the {@link FunctionDefinition} object to remove.
    <p>
    * @return the {@link FunctionDefinition} object removed, or <code>null</code> if the given
    * index is out of range.
@@ -3288,7 +3810,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param sid the identifier of the {@link FunctionDefinition} object to remove
+   * @param sid the identifier of the {@link FunctionDefinition} object to remove.
    <p>
    * @return the {@link FunctionDefinition} object removed, or <code>null</code> if no
    * {@link FunctionDefinition} object with the identifier exists in this {@link Model}
@@ -3306,7 +3828,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link UnitDefinition} object to remove
+   * @param n the index of the {@link UnitDefinition} object to remove.
    <p>
    * @return the {@link UnitDefinition} object removed., or <code>null</code> if the given
    * index is out of range.
@@ -3323,7 +3845,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param sid the identifier of the {@link UnitDefinition} object to remove
+   * @param sid the identifier of the {@link UnitDefinition} object to remove.
    <p>
    * @return the {@link UnitDefinition} object removed, or <code>null</code> if no
    * {@link UnitDefinition} object with the identifier exists in this {@link Model} object.
@@ -3340,7 +3862,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link CompartmentType} object to remove
+   * @param n the index of the {@link CompartmentType} object to remove.
    <p>
    * @return the ComapartmentType object removed, or <code>null</code> if the given
    * index is out of range.
@@ -3357,7 +3879,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param sid the identifier of the object to remove
+   * @param sid the identifier of the object to remove.
    <p>
    * @return the {@link CompartmentType} object removed, or <code>null</code> if no
    * {@link CompartmentType} object with the identifier exists in this {@link Model} object.
@@ -3374,7 +3896,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link SpeciesType} object to remove
+   * @param n the index of the {@link SpeciesType} object to remove.
    <p>
    * @return the {@link SpeciesType} object removed, or <code>null</code> if the given index is
    * out of range.
@@ -3391,7 +3913,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param sid the identifier of the {@link SpeciesType} object to remove
+   * @param sid the identifier of the {@link SpeciesType} object to remove.
    <p>
    * @return the {@link SpeciesType} object removed, or <code>null</code> if no {@link SpeciesType}
    * object with the identifier exists in this {@link Model} object.
@@ -3408,7 +3930,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link Compartment} object to remove
+   * @param n the index of the {@link Compartment} object to remove.
    <p>
    * @return the {@link Compartment} object removed, or <code>null</code> if the given index is
    * out of range.
@@ -3425,7 +3947,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param sid the identifier of the {@link Compartment} object to remove
+   * @param sid the identifier of the {@link Compartment} object to remove.
    <p>
    * @return the {@link Compartment} object removed, or <code>null</code> if no {@link Compartment}
    * object with the identifier exists in this {@link Model} object.
@@ -3442,7 +3964,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link Species} object to remove
+   * @param n the index of the {@link Species} object to remove.
    <p>
    * @return the {@link Species} object removed, or <code>null</code> if the given index is out
    * of range.
@@ -3459,7 +3981,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param sid the identifier of the {@link Species} object to remove
+   * @param sid the identifier of the {@link Species} object to remove.
    <p>
    * @return the {@link Species} object removed, or <code>null</code> if no {@link Species} object with
    * the identifier exists in this {@link Model} object.
@@ -3476,7 +3998,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link Parameter} object to remove
+   * @param n the index of the {@link Parameter} object to remove.
    <p>
    * @return the {@link Parameter} object removed, or <code>null</code> if the given index is
    * out of range.
@@ -3493,7 +4015,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param sid the identifier of the {@link Parameter} object to remove
+   * @param sid the identifier of the {@link Parameter} object to remove.
    <p>
    * @return the {@link Parameter} object removed, or <code>null</code> if no {@link Parameter} object
    * with the identifier exists in this {@link Model} object.
@@ -3510,7 +4032,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link InitialAssignment} object to remove
+   * @param n the index of the {@link InitialAssignment} object to remove.
    <p>
    * @return the {@link InitialAssignment} object removed, or <code>null</code> if the given
    * index is out of range.
@@ -3527,7 +4049,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param symbol the 'symbol' attribute of the {@link InitialAssignment} object to remove
+   * @param symbol the 'symbol' attribute of the {@link InitialAssignment} object to remove.
    <p>
    * @return the {@link InitialAssignment} object removed, or <code>null</code> if no
    * {@link InitialAssignment} object with the 'symbol' attribute exists in this
@@ -3545,7 +4067,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link Rule} object to remove
+   * @param n the index of the {@link Rule} object to remove.
    <p>
    * @return the {@link Rule} object removed, or <code>null</code> if the given index is out of
    * range.
@@ -3561,7 +4083,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param variable the 'variable' attribute of the {@link Rule} object to remove
+   * @param variable the 'variable' attribute of the {@link Rule} object to remove.
    <p>
    * @return the {@link Rule} object removed, or <code>null</code> if no {@link Rule} object with the
    * 'variable' attribute exists in this {@link Model} object.
@@ -3577,7 +4099,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param variable the 'variable' attribute of the {@link Rule} object to remove
+   * @param variable the 'variable' attribute of the {@link Rule} object to remove.
    <p>
    * @return the {@link Rule} object removed, or <code>null</code> if no {@link Rule} object with the
    * 'variable' attribute exists in this {@link Model} object.
@@ -3593,7 +4115,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link Constraint} object to remove
+   * @param n the index of the {@link Constraint} object to remove.
    <p>
    * @return the {@link Constraint} object removed, or <code>null</code> if the given index is
    * out of range.
@@ -3610,7 +4132,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link Reaction} object to remove
+   * @param n the index of the {@link Reaction} object to remove.
    <p>
    * @return the {@link Reaction} object removed, or <code>null</code> if the given index is
    * out of range.
@@ -3626,7 +4148,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param sid the identifier of the {@link Reaction} object to remove
+   * @param sid the identifier of the {@link Reaction} object to remove.
    <p>
    * @return the {@link Reaction} object removed, or <code>null</code> if no {@link Reaction} object
    * with the identifier exists in this {@link Model} object.
@@ -3642,7 +4164,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param n the index of the {@link Event} object to remove
+   * @param n the index of the {@link Event} object to remove.
    <p>
    * @return the {@link Event} object removed, or <code>null</code> if the given index is out
    * of range.
@@ -3659,7 +4181,7 @@ public class Model extends SBase {
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
-   * @param sid the identifier of the {@link Event} object to remove
+   * @param sid the identifier of the {@link Event} object to remove.
    <p>
    * @return the {@link Event} object removed, or <code>null</code> if no {@link Event} object with the
    * identifier exists in this {@link Model} object.

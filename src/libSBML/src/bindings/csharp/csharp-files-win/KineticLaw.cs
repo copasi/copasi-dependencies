@@ -22,7 +22,9 @@ namespace libsbml {
  * (of class ListOfParameters), in addition to the attributes and
  * subelements it inherits from SBase.
  *
- * KineticLaw's 'math' subelement for holding a MathML formula defines the
+ * KineticLaw's 'math' subelement for holding a MathML formula (required 
+ * through SBML Level&nbsp;3 Version&nbsp;1, but optional as of SBML 
+ * Level&nbsp;3 Version&nbsp;2) defines the
  * rate of the reaction.  The formula may refer to other entities in a
  * model as well as local parameter definitions within the scope of the
  * Reaction (see below).  It is important to keep in mind, however, that
@@ -38,7 +40,9 @@ namespace libsbml {
  * objects; in SBML Level&nbsp;3, this is achieved using a specialized
  * object class called LocalParameter and the containing subelement is
  * called 'listOfLocalParameters'.  In both cases, the parameters so
- * defined are only visible within the KineticLaw; they cannot be accessed
+ * defined are only visible within the KineticLaw (or, as of SBML
+ * Level&nbsp;3 Version&nbsp;2, only visible within the parent Reaction); 
+ * they cannot be accessed
  * outside.  A local parameter within one reaction is not visible from
  * within another reaction, nor is it visible to any other construct
  * outside of the KineticLaw in which it is defined.  In addition, another
@@ -88,6 +92,15 @@ namespace libsbml {
  * As mentioned above, in SBML Level&nbsp;2 Versions 2&ndash;4, local
  * parameters are of class Parameter.  In SBML Level&nbsp;3, the class of
  * object is LocalParameter.
+ *
+ * In SBML Level&nbsp;3 Version&nbsp;2, the scope of the LocalParameter
+ * was expanded to the entire Reaction, instead of just the KineticLaw.  
+ * This introduced a single new restriction: an L3v2 LocalParameter may 
+ * not now shadow the @c id of any Species referenced by a SpeciesReference
+ * in the same Reaction.  Other than that, there is no difference in any 
+ * core construct.  However, packages may take advantage of this new scope by 
+ * adding elements to the Reaction that may now reference a LocalParameter 
+ * defined in the same Reaction.
  */
 
 public class KineticLaw : SBase {
@@ -140,10 +153,10 @@ public class KineticLaw : SBase {
    * Creates a new KineticLaw using the given SBML @p level and @p version
    * values.
    *
-   * @param level a long integer, the SBML Level to assign to this KineticLaw
+   * @param level a long integer, the SBML Level to assign to this KineticLaw.
    *
    * @param version a long integer, the SBML Version to assign to this
-   * KineticLaw
+   * KineticLaw.
    *
    *
  * @throws SBMLConstructorException
@@ -248,7 +261,7 @@ public class KineticLaw : SBase {
    * Returns the first child element found that has the given @p id in the
    * model-wide SId namespace, or @c null if no such object is found.
    *
-   * @param id string representing the id of objects to find.
+   * @param id string representing the id of the object to find.
    *
    * @return pointer to the first element found with the given @p id.
    */ public new
@@ -262,7 +275,7 @@ public class KineticLaw : SBase {
    * Returns the first child element it can find with the given @p metaid, or
    * @c null if no such object is found.
    *
-   * @param metaid string representing the metaid of objects to find
+   * @param metaid string representing the metaid of the object to find.
    *
    * @return pointer to the first element found with the given @p metaid.
    */ public new
@@ -303,7 +316,8 @@ public class KineticLaw : SBase {
    * with SBML Level&nbsp;1, which represented mathematical formulas in
    * text-string form.
    * 
-   * @return the ASTNode representation of the mathematical formula.
+   * @return the ASTNode representation of the mathematical formula, 
+   * or null if the math is not set.
    *
    * @see getFormula()
    */ public
@@ -612,7 +626,7 @@ public class KineticLaw : SBase {
    * Adds a copy of the given Parameter object to the list of local
    * parameters in this KineticLaw.
    *
-   * @param p the Parameter to add
+   * @param p the Parameter to add.
    *
    *
  * @return integer value indicating success/failure of the
@@ -652,7 +666,7 @@ public class KineticLaw : SBase {
    * Adds a copy of the given LocalParameter object to the list of local
    * parameters in this KineticLaw.
    *
-   * @param p the LocalParameter to add
+   * @param p the LocalParameter to add.
    *
    *
  * @return integer value indicating success/failure of the
@@ -692,7 +706,7 @@ public class KineticLaw : SBase {
    * Creates a new Parameter object, adds it to this KineticLaw's list of
    * local parameters, and returns the Parameter object created.
    *
-   * @return a new Parameter object instance
+   * @return a new Parameter object instance.
    *
    * @see addParameter(Parameter p)
    */ public
@@ -707,7 +721,7 @@ public class KineticLaw : SBase {
    * Creates a new LocalParameter object, adds it to this KineticLaw's list
    * of local parameters, and returns the LocalParameter object created.
    *
-   * @return a new LocalParameter object instance
+   * @return a new LocalParameter object instance.
    *
    * @see addLocalParameter(LocalParameter p)
    */ public
@@ -746,7 +760,7 @@ public class KineticLaw : SBase {
    * Returns the nth Parameter object in the list of local parameters in
    * this KineticLaw instance.
    *
-   * @param n the index of the Parameter object sought
+   * @param n the index of the Parameter object sought.
    * 
    * @return the nth Parameter of this KineticLaw.
    */ public
@@ -761,7 +775,7 @@ public class KineticLaw : SBase {
    * Returns the nth LocalParameter object in the list of local parameters in
    * this KineticLaw instance.
    *
-   * @param n the index of the LocalParameter object sought
+   * @param n the index of the LocalParameter object sought.
    * 
    * @return the nth LocalParameter of this KineticLaw.
    */ public
@@ -896,7 +910,7 @@ public class KineticLaw : SBase {
    *
    * The caller owns the returned object and is responsible for deleting it.
    *
-   * @param n the index of the Parameter object to remove
+   * @param n the index of the Parameter object to remove.
    * 
    * @return the Parameter object removed.  As mentioned above, 
    * the caller owns the returned item. @c null is returned if the given index 
@@ -915,7 +929,7 @@ public class KineticLaw : SBase {
    *
    * The caller owns the returned object and is responsible for deleting it.
    *
-   * @param n the index of the LocalParameter object to remove
+   * @param n the index of the LocalParameter object to remove.
    * 
    * @return the LocalParameter object removed.  As mentioned above, 
    * the caller owns the returned item. @c null is returned if the given index 
@@ -934,7 +948,7 @@ public class KineticLaw : SBase {
    *
    * The caller owns the returned object and is responsible for deleting it.
    *
-   * @param sid the identifier of the Parameter to remove
+   * @param sid the identifier of the Parameter to remove.
    * 
    * @return the Parameter object removed.  As mentioned above, the 
    * caller owns the returned object. @c null is returned if no Parameter
@@ -953,7 +967,7 @@ public class KineticLaw : SBase {
    *
    * The caller owns the returned object and is responsible for deleting it.
    *
-   * @param sid the identifier of the LocalParameter to remove
+   * @param sid the identifier of the LocalParameter to remove.
    * 
    * @return the LocalParameter object removed.  As mentioned above, the 
    * caller owns the returned object. @c null is returned if no LocalParameter
@@ -1055,7 +1069,8 @@ public class KineticLaw : SBase {
    * KineticLaw object have been set.
    *
    * @note The required elements for a KineticLaw object are:
-   * @li 'math'
+   * @li 'math' inSBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1.  
+   *     (In SBML Level&nbsp;3 Version&nbsp;2+, it is no longer required.)
    *
    * @return a boolean value indicating whether all the required
    * elements for this object have been defined.
@@ -1099,7 +1114,7 @@ public class KineticLaw : SBase {
  * introduced for attribute values that refer to <code>SId</code> values; in
  * previous Levels of SBML, this data type did not exist and attributes were
  * simply described to as 'referring to an identifier', but the effective
- * data type was the same as <code>SIdRef</code>in Level&nbsp;3.  These and
+ * data type was the same as <code>SIdRef</code> in Level&nbsp;3.  These and
  * other methods of libSBML refer to the type <code>SIdRef</code> for all
  * Levels of SBML, even if the corresponding SBML specification did not
  * explicitly name the data type.
@@ -1112,8 +1127,8 @@ public class KineticLaw : SBase {
  * matching values are replaced with @p newid.  The method does @em not
  * descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new
@@ -1147,8 +1162,8 @@ public class KineticLaw : SBase {
  * are found, the matching values are replaced with @p newid.  The method
  * does @em not descend into child elements.
  *
- * @param oldid the old identifier
- * @param newid the new identifier
+ * @param oldid the old identifier.
+ * @param newid the new identifier.
  *
  *
    */ public new

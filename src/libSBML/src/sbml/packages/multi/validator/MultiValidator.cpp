@@ -144,7 +144,6 @@ struct MultiValidatorConstraints
   ConstraintSet<SpeciesTypeInstance>   mSpeciesTypeInstance;
   ConstraintSet<InSpeciesTypeBond>     mInSpeciesTypeBond;
   ConstraintSet<OutwardBindingSite>    mOutwardBindingSite;
-  ConstraintSet<SpeciesFeatureChange>  mSpeciesFeatureChange;
   ConstraintSet<SpeciesFeatureType>    mSpeciesFeatureType;
   ConstraintSet<SpeciesTypeComponentIndex>      mSpeciesTypeComponentIndex;
   ConstraintSet<SpeciesFeature>        mSpeciesFeature;
@@ -234,12 +233,6 @@ MultiValidatorConstraints::add(VConstraint* c)
   if (dynamic_cast<TConstraint<OutwardBindingSite>*>(c) != NULL)
   {
     mOutwardBindingSite.add(static_cast<TConstraint<OutwardBindingSite>*>(c));
-    return;
-  }
-
-  if (dynamic_cast<TConstraint<SpeciesFeatureChange>*>(c) != NULL)
-  {
-    mSpeciesFeatureChange.add(static_cast<TConstraint<SpeciesFeatureChange>*>(c));
     return;
   }
 
@@ -354,12 +347,6 @@ public:
     return !v.mMultiConstraints->mOutwardBindingSite.empty();
   }
 
-  bool visit(const SpeciesFeatureChange &x)
-  {
-    v.mMultiConstraints->mSpeciesFeatureChange.applyTo(m, x);
-    return !v.mMultiConstraints->mSpeciesFeatureChange.empty();
-  }
-
   bool visit(const SpeciesFeatureType &x)
   {
     v.mMultiConstraints->mSpeciesFeatureType.applyTo(m, x);
@@ -450,10 +437,6 @@ public:
       else if (code == SBML_MULTI_OUTWARD_BINDING_SITE)
       {
         return visit((const OutwardBindingSite&)x);
-      }
-      else if (code == SBML_MULTI_SPECIES_FEATURE_CHANGE)
-      {
-        return visit((const SpeciesFeatureChange&)x);
       }
       else if (code == SBML_MULTI_SPECIES_FEATURE_TYPE)
       {
