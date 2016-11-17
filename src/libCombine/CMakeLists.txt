@@ -94,6 +94,14 @@ endif()
 
 include(CPack)
 
+###############################################################################
+#
+# list of additional files to link against.
+#
+
+set(EXTRA_LIBS "" CACHE STRING "List of additional libraries to link against." )
+set(EXTRA_INCLUDE "" CACHE STRING "List of additional include directories to add." )
+set(EXTRA_DEFS "" CACHE STRING "List of additional flag to add." )
 
 ###############################################################################
 #
@@ -171,7 +179,7 @@ set( MISC_PREFIX )
 if(UNIX OR CYGWIN)
     set(PATH_SEP "/")
     set(FILE_SEP ":")
-    set( MISC_PREFIX "share/libsbml/" )
+    set( MISC_PREFIX "share/libcombine/" )
     set(COMBINE_LIBRARY Combine)
 else()
     set( MISC_PREFIX "" )
@@ -216,10 +224,22 @@ if(WITH_CPP_NAMESPACE)
     set (LIBCOMBINE_USE_CPP_NAMESPACE 1)
 endif()
 
+
+if (SWIG_EXECUTABLE AND NOT EXISTS "${SWIG_EXECUTABLE}")
+unset(SWIG_EXECUTABLE CACHE )
+unset(SWIG_DIR CACHE )
+unset(SWIG_VERSION CACHE )
+endif()
+
 if(WITH_SWIG)
     find_program(SWIG_EXECUTABLE
       NAMES swig
       PATHS
+        c:/swigwin-3.0.10
+        c:/swigwin-3.0.9
+        c:/swigwin-3.0.8
+        c:/swigwin-3.0.7
+        c:/swigwin-3.0.6
         c:/swigwin-3.0.5
         c:/swigwin-3.0.2
         c:/swigwin-3.0.0
@@ -279,6 +299,9 @@ file sbml/SBase.h, but it does not. Please specify the LIBSBML_INCLUDE_DIR varia
 endif()
 
 
+# detect zipper library if sources are not included
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/zipper)
+
 find_library(ZIPPER_LIBRARY
     NAMES Zipper-static Zipper libZipper-static libZipper
     PATHS /usr/lib /usr/local/lib
@@ -299,6 +322,11 @@ find_path(ZIPPER_INCLUDE_DIR
             NO_DEFAULT_PATH
       DOC "The directory containing the ZIPPER include files."
             )
+else()
+  unset(ZIPPER_LIBRARY)
+  unset(ZIPPER_INCLUDE_DIR)
+endif()
+
 
 find_library(LIBZ_LIBRARY
     NAMES zdll.lib z zlib.lib
@@ -403,49 +431,6 @@ if (WIN32 AND CMAKE_C_COMPILER AND ${CMAKE_C_COMPILER} MATCHES ".*icl.*$")
   set(USING_INTEL TRUE)
 endif ()
 
-option(WITH_QT_FILESYSTEM "Use Qt filesystem api instead of the c++17 one." OFF)
-if (WITH_QT_FILESYSTEM)
-  add_definitions(-DUSE_QT)
-  find_package(Qt4 4.7.0 REQUIRED QtCore)
-endif (WITH_QT_FILESYSTEM)
-
-if (WITH_QT_FILESYSTEM AND QT_QTCORE_LIBRARY)
-  set(LIBCOMBINE_LIBS ${LIBCOMBINE_LIBS} ${QT_QTCORE_LIBRARY})
-endif()
-
-option(WITH_BOOST_FILESYSTEM "Use Boost filesystem api instead of the c++17 one." OFF)
-if (WITH_BOOST_FILESYSTEM)
-add_definitions(-DUSE_BOOST)
-find_library(BOOST_SYSTEM_LIBRARY
-    NAMES boost_system libboost_system libboost_system-vc140-mt-gd-1_61.lib
-    PATHS /usr/lib /usr/local/lib
-          ${CMAKE_OSX_SYSROOT}/usr/lib
-          ${COMBINE_DEPENDENCY_DIR}/lib
-          ${ADDITIONAL_LIB_DIRS}
-    DOC "The boost system library."
-)
-find_library(BOOST_FILESYSTEM_LIBRARY
-    NAMES boost_filesystem libboost_filesystem libboost_filesystem-vc140-mt-gd-1_61.lib
-    PATHS /usr/lib /usr/local/lib
-          ${CMAKE_OSX_SYSROOT}/usr/lib
-          ${COMBINE_DEPENDENCY_DIR}/lib
-          ${ADDITIONAL_LIB_DIRS}
-    DOC "The boost filesystem library."
-)
-find_path(BOOST_INCLUDE_DIR
-    NAMES filesystem.hpp filesystem/path.h
-    PATHS ${CMAKE_OSX_SYSROOT}/usr/include
-          /usr/include /usr/local/include
-          ${COMBINE_DEPENDENCY_DIR}/include
-    DOC "The directory containing the boost header files."
-          )
-endif()
-
-if (WITH_BOOST_FILESYSTEM AND BOOST_FILESYSTEM_LIBRARY AND BOOST_SYSTEM_LIBRARY)
-  set(LIBCOMBINE_LIBS ${LIBCOMBINE_LIBS} ${BOOST_FILESYSTEM_LIBRARY} ${BOOST_SYSTEM_LIBRARY})
-endif()
-
-
     
 if(MSVC OR USING_INTEL)
 
@@ -494,8 +479,7 @@ if(MSVC OR USING_INTEL)
   endif()
 
 else()
-   # enable c++11
-   #set (CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -std=c++11)
+
    if(APPLE)
        # on osx starting with xcode 4.3 the system root is in
        # the app bundle, however cmake (up to 2.8.8) does not seem
@@ -567,14 +551,6 @@ endif()
 include_directories(BEFORE ${LIBZ_INCLUDE_DIR})
 include_directories(BEFORE ${ZIPPER_INCLUDE_DIR})
 
-if (WITH_BOOST_FILESYSTEM AND BOOST_INCLUDE_DIR)
-include_directories(${BOOST_INCLUDE_DIR})
-endif()
-
-if (WITH_QT_FILESYSTEM AND QT_INCLUDE_DIR)
-include_directories(${QT_INCLUDE_DIR})
-endif()
-
 # allow definition of extra include dirs
 if (EXTRA_INCLUDE_DIRS)
 include_directories(${EXTRA_INCLUDE_DIRS})
@@ -594,6 +570,46 @@ file(GLOB COMBINE_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/src/combine/*.cpp
 )
 source_group(combine FILES ${COMBINE_SOURCES} ${COMBINE_HEADERS})
+
+# if we have the zipper sources, include them directly
+if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/zipper)
+  include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/src/zipper)
+
+  file(GLOB ZIPPER_SOURCES
+    RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/zipper/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/zipper/*.h
+  )
+  
+  set(COMBINE_SOURCES ${COMBINE_SOURCES} ${ZIPPER_SOURCES})
+  
+  source_group(zipper FILES ${ZIPPER_SOURCES})
+  
+endif()
+
+# include minizip sources if we have them and libSBML has been compiled 
+# without compression
+
+if (EXISTS ${LIBSBML_LIBRARY})
+  SET(CMAKE_REQUIRED_LIBRARIES ${LIBSBML_LIBRARY} ${EXTRA_LIBS})
+  CHECK_FUNCTION_EXISTS(zipOpen3 LIBSBML_HAS_MINIZIP)
+endif()
+
+if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/minizip AND NOT LIBSBML_HAS_MINIZIP)
+  include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/src/minizip)
+
+  file(GLOB MINIZIP_SOURCES
+    RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/minizip/*.c
+  )
+  
+  set(COMBINE_SOURCES ${COMBINE_SOURCES} ${MINIZIP_SOURCES})
+  
+  source_group(minizip FILES ${MINIZIP_SOURCES})
+  
+endif()
+
+
 set(LIBCOMBINE_SOURCES ${COMBINE_SOURCES} ${COMBINE_HEADERS})
 set(LIBCOMBINE_LIBRARY ${COMBINE_LIBRARY})
 set (CMAKE_INSTALL_LIBDIR lib)
@@ -635,12 +651,6 @@ if (BUILD_TEST)
   
   add_executable(${COMBINE_LIBRARY}-test ${TEST_SOURCES})
   target_link_libraries(${COMBINE_LIBRARY}-test  ${LIBCOMBINE_LIBRARY}-static ${ZIPPER_LIBRARY} ${LIBZ_LIBRARY} ${LIBSBML_LIBRARY} ${EXTRA_LIBS})
-  if (WITH_BOOST_FILESYSTEM)
-    target_link_libraries(${COMBINE_LIBRARY}-test ${BOOST_SYSTEM_LIBRARY} ${BOOST_FILESYSTEM_LIBRARY})
-  endif()
-  if (WITH_QT_FILESYSTEM)
-    target_link_libraries(${COMBINE_LIBRARY}-test ${QT_QTCORE_LIBRARY})
-  endif()
 
   add_test(test_${COMBINE_LIBRARY}_run ${CMAKE_CURRENT_BINARY_DIR}/${COMBINE_LIBRARY}-test )
 set_tests_properties(test_${COMBINE_LIBRARY}_run PROPERTIES ENVIRONMENT 
@@ -648,6 +658,9 @@ set_tests_properties(test_${COMBINE_LIBRARY}_run PROPERTIES ENVIRONMENT
 
 endif()
 
+if (NOT HOSTNAME)
+ site_name(HOSTNAME)
+endif()
 
 message(STATUS "
 ----------------------------------------------------------------------
@@ -683,22 +696,4 @@ libCombine version ${PACKAGE_VERSION}
      Installation $prefix            = ${CMAKE_INSTALL_PREFIX}
      ")
 
-if(WITH_QT_FILESYSTEM)
-    message(STATUS " Using Qt Filesystem API
-     QtCore library                  = ${QT_QTCORE_LIBRARY}
-     Qt include dir                  = ${QT_INCLUDE_DIR}
-        
-    ")
-elseif(WITH_BOOST_FILESYSTEM)
-    message(STATUS " Using Boost Filesystem API
-     Filesystem library              = ${BOOST_FILESYSTEM_LIBRARY}
-     System library                  = ${BOOST_SYSTEM_LIBRARY}
-     Boost include dir               = ${BOOST_INCLUDE_DIR}
-        
-    ")
-else ()
-    message(STATUS " Using C++17 Filesystem API (please ensure that your compiler supports it)
- 
-    ")
-endif()
 
