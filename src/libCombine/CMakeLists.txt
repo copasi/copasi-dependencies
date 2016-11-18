@@ -52,6 +52,14 @@ endif()
 MATH(EXPR LIBCOMBINE_VERSION_NUMERIC "${LIBCOMBINE_VERSION_MAJOR} * 10000 + ${LIBCOMBINE_VERSION_MINOR} * 100 + ${LIBCOMBINE_VERSION_PATCH}" )
 set(PACKAGE_VERSION "${LIBCOMBINE_VERSION_MAJOR}.${LIBCOMBINE_VERSION_MINOR}.${LIBCOMBINE_VERSION_PATCH}${LIBCOMBINE_VERSION_RELEASE}")
 set(PACKAGE_NAME "libCombine")
+set(PACKAGE_CONFIG_DIR lib/cmake CACHE PATH
+    "Path into which the cmake config files should be installed")
+
+
+# PACKAGE_VERSION gets overridden by using other packages, so setting
+# the PROJECT_VERSION, which will be used when exporting targets in
+# src/CMakeLists.txt
+set(PROJECT_VERSION ${PACKAGE_VERSION})
 
 # add make dist and make check target as they are already familiar for
 # everyone using the gnumake build
@@ -109,7 +117,7 @@ set(EXTRA_DEFS "" CACHE STRING "List of additional flag to add." )
 #
 
 # Build static / shared library
-# option(BUILD_SHARED_LIBS  "Build shared library. (Set to OFF to build static libraries.)" OFF)
+option(LIBCOMBINE_SKIP_SHARED_LIBRARY  "If set the shared library will not be built." OFF)
 
 # Whether to compile examples
 option(WITH_EXAMPLES "Compile the libCombine example programs."  OFF)
