@@ -4,7 +4,7 @@
 DIRECTORY=$(cd `dirname $0` && pwd)
 
 if [ $# = 0 ]; then
-  ToBeBuild="expat raptor clapack MML qwt qwtplot3d SBW libSBML libSEDML zlib zipper libCombine"
+  ToBeBuild="expat raptor clapack MML qwt qwtplot3d SBW libSBML libSEDML zlib libCombine"
 else
   while [ _${1} != _ ]; do
     ToBeBuild="$ToBeBuild ${1}"
@@ -205,26 +205,14 @@ case $1 in
     $MAKE install
     ;;
 
-  zipper)
-    # build zipper
-    mkdir -p $DIRECTORY/tmp/zipper
-    cd $DIRECTORY/tmp/zipper
-    $CMAKE ${COPASI_CMAKE_OPTIONS} \
-        -DWITH_QT_FILESYSTEM=ON \
-        -DZIPPER_DEPENDENCY_DIR=$DIRECTORY/bin \
-        $DIRECTORY/src/zipper
-    $MAKE -j 4
-    $MAKE install
-    ;;
-
   libCombine)
      # build libCombine
     mkdir -p $DIRECTORY/tmp/libCombine
     cd $DIRECTORY/tmp/libCombine
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
-        -DWITH_QT_FILESYSTEM=ON \
         -DCOMBINE_DEPENDENCY_DIR=$DIRECTORY/bin \
         -DEXTRA_LIBS=$DIRECTORY/bin/lib/libexpat.a \
+        -DLIBCOMBINE_SKIP_SHARED_LIBRARY=ON \
         $DIRECTORY/src/libCombine
     $MAKE -j 4
     $MAKE install
