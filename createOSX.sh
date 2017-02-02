@@ -132,6 +132,23 @@ $CMAKE ${COPASI_CMAKE_OPTIONS} \
 make -j 4
 make install
 
+# build libnuml
+mkdir -p $DIRECTORY/tmp/libnuml
+cd $DIRECTORY/tmp/libnuml
+$CMAKE ${COPASI_CMAKE_OPTIONS} \
+  -DLIBSBML_STATIC=ON \
+  -DLIBNUML_SHARED_VERSION=OFF \
+  -DLIBNUML_SKIP_SHARED_LIBRARY=ON \
+  -DLIBNUML_DEPENDENCY_DIR=$DIRECTORY/bin \
+  -DLIBSBML_INCLUDE_DIR=$DIRECTORY/bin/include \
+  -DLIBSBML_LIBRARY=$DIRECTORY/bin/lib/libsbml-static.a \
+  -DEXTRA_LIBS=$DIRECTORY/bin/lib/libexpat.a \
+  -DWITH_ZLIB=OFF \
+  $DIRECTORY/src/libnuml
+make -j
+make install
+[ -e $DIRECTORY/bin/lib/libnuml*.dylib ] && rm $DIRECTORY/bin/lib/libnuml*.dylib
+
 # build libSEDML
 mkdir -p $DIRECTORY/tmp/libSEDML
 cd $DIRECTORY/tmp/libSEDML
