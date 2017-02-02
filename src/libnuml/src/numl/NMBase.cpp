@@ -225,24 +225,6 @@ NMBase::getMetaId ()
 const string&
 NMBase::getId () const
 {
-  NUMLTypeCode_t type = this->getTypeCode();
-
-  switch(type)
-  {
-  case NUML_ONTOLOGYTERM:
-    return static_cast <const OntologyTerm *> (this)->getId();
-    break;
-  case NUML_RESULTCOMPONENT:
-      return static_cast <const ResultComponent *> (this)->getId();
-      break;
-  case NUML_DIMENSIONDESCRIPTION:
-      return static_cast <const DimensionDescription *> (this)->getId();
-      break;
-  default:
-    return mEmptyString;
-    break;
-  }
-
   return mEmptyString;
 }
 
@@ -256,37 +238,13 @@ NMBase::getId () const
 const string&
 NMBase::getName () const
 {
-  NUMLTypeCode_t type = this->getTypeCode();
-
-  if (getLevel() == 1)
-  {
-    switch(type)
-    {
-    case NUML_RESULTCOMPONENT:
-      return static_cast <const ResultComponent *> (this)->getName();
-      break;
-
-    case NUML_DIMENSIONDESCRIPTION:
-      return static_cast <const DimensionDescription*> (this)->getName();
-      break;
-    case NUML_COMPOSITEDESCRIPTION:
-         return static_cast <const CompositeDescription*> (this)->getName();
-         break;
-
-    default:
-      return mEmptyString;
-      break;
-    }
-
-  }
-
   return mEmptyString;
 }
 
 /*
  * @return the Namespaces associated with this NUML object
  */
-XMLNamespaces*
+LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces*
 NMBase::getNamespaces() const
 {
   if (mNUML)
@@ -403,7 +361,7 @@ NMBase::getColumn () const
 /*
  * @return the list of CVTerms for this NUML object.
  */
-List*
+LIBSBML_CPP_NAMESPACE_QUALIFIER List*
 NMBase::getCVTerms()
 {
   return mCVTerms;
@@ -413,7 +371,7 @@ NMBase::getCVTerms()
 /*
  * @return the list of CVTerms for this NUML object.
  */
-List*
+LIBSBML_CPP_NAMESPACE_QUALIFIER List*
 NMBase::getCVTerms() const
 {
   return mCVTerms;
@@ -456,7 +414,7 @@ NMBase::setMetaId (const std::string& metaid)
     mMetaId.erase();
     return LIBNUML_OPERATION_SUCCESS;
   }
-  else if (!(SyntaxChecker::isValidXMLID(metaid)))
+  else if (!(LIBSBML_CPP_NAMESPACE_QUALIFIER SyntaxChecker::isValidXMLID(metaid)))
   {
     return LIBNUML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -513,7 +471,7 @@ NMBase::hasValidLevelVersionNamespaceCombination()
   std::string declaredURI("");
   //unsigned int index = 0;
   //unsigned int version = getVersion();
-  XMLNamespaces *xmlns = getNamespaces();
+  LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces *xmlns = getNamespaces();
   if (xmlns)
   {
     //
@@ -592,7 +550,7 @@ NMBase::getAncestorOfType(NUMLTypeCode_t type)
  * @param xmlns the namespaces to set
  */
 int 
-NMBase::setNamespaces(XMLNamespaces* xmlns)
+NMBase::setNamespaces(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces* xmlns)
 {
   if (xmlns == NULL)
   {
@@ -735,11 +693,11 @@ char*
 NMBase::toNUML ()
 {
   ostringstream    os;
-  XMLOutputStream  stream(os, "UTF-8", false);
+  LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream  stream(os, "UTF-8", false);
 
   write(stream);
 
-  return safe_strdup( os.str().c_str() );
+  return LIBSBML_CPP_NAMESPACE_QUALIFIER safe_strdup( os.str().c_str() );
 }
 
 
@@ -748,11 +706,11 @@ NMBase::toNUML ()
  * Reads (initializes) this NUML object by reading from XMLInputStream.
  */
 void
-NMBase::read (XMLInputStream& stream)
+NMBase::read (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 {
   if ( !stream.peek().isStart() ) return;
 
-  const XMLToken  element  = stream.next();
+  const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLToken  element  = stream.next();
   int             position =  0;
 
   setNMBaseFields( element );
@@ -775,7 +733,7 @@ NMBase::read (XMLInputStream& stream)
   while ( stream.isGood() )
   {
     stream.skipText();
-    const XMLToken& next = stream.peek();
+    const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLToken& next = stream.peek();
 
     // Re-check stream.isGood() because stream.peek() could hit something.
     if ( !stream.isGood() ) break;
@@ -831,7 +789,7 @@ NMBase::read (XMLInputStream& stream)
  * Writes (serializes) this NUML object by writing it to XMLOutputStream.
  */
 void
-NMBase::write (XMLOutputStream& stream) const
+NMBase::write (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
   stream.startElement( getElementName() );
 
@@ -850,7 +808,7 @@ NMBase::write (XMLOutputStream& stream) const
 
 
 void 
-NMBase::writeXMLNS(XMLOutputStream& stream) const
+NMBase::writeXMLNS(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
 
 }
@@ -862,7 +820,7 @@ NMBase::writeXMLNS(XMLOutputStream& stream) const
  * implementation of this method as well.
  */
 void
-NMBase::writeElements (XMLOutputStream& stream) const
+NMBase::writeElements (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& ) const
 {
 //  if ( mNotes      ) stream << *mNotes;
 
@@ -886,7 +844,7 @@ NMBase::writeElements (XMLOutputStream& stream) const
  * XMLInputStream or NULL if the token was not recognized.
  */
 NMBase*
-NMBase::createObject (XMLInputStream&)
+NMBase::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream&)
 {
   return 0;
 }
@@ -898,7 +856,7 @@ NMBase::createObject (XMLInputStream&)
  * @return true if read an <annotation> element from the stream
  */
 bool
-NMBase::readAnnotation (XMLInputStream& stream)
+NMBase::readAnnotation (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 {
   const string& name = stream.peek().getName();
 
@@ -925,7 +883,7 @@ NMBase::readAnnotation (XMLInputStream& stream)
     }
 
     delete mAnnotation;
-    mAnnotation = new XMLNode(stream);
+    mAnnotation = new LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode(stream);
     checkAnnotation();
 
     //TODO
@@ -954,7 +912,7 @@ NMBase::readAnnotation (XMLInputStream& stream)
  * an numl document, an error is logged.
  */
 void
-NMBase::checkXHTML(const XMLNode * xhtml)
+NMBase::checkXHTML(const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode * xhtml)
 {
   if (!xhtml) return;
 
@@ -990,17 +948,17 @@ NMBase::checkXHTML(const XMLNode * xhtml)
   */
   for (i = 0; i < getErrorLog()->getNumErrors(); i++)
   {
-    if (getErrorLog()->getError(i)->getErrorId() == BadXMLDeclLocation)
+    if (getErrorLog()->getError(i)->getErrorId() == LIBSBML_CPP_NAMESPACE_QUALIFIER BadXMLDeclLocation)
     {
       logError(errorXML);
     }
-    if (getErrorLog()->getError(i)->getErrorId() == BadlyFormedXML)
+    if (getErrorLog()->getError(i)->getErrorId() == LIBSBML_CPP_NAMESPACE_QUALIFIER BadlyFormedXML)
     {
       logError(errorDOC);
     }
   }
 
-  XMLNamespaces* toplevelNS = (mNUML) ? mNUML->getNamespaces() : 0;
+  LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces* toplevelNS = (mNUML) ? mNUML->getNamespaces() : 0;
 
   /*
   * namespace declaration is variable
@@ -1013,9 +971,9 @@ NMBase::checkXHTML(const XMLNode * xhtml)
   {
     for (i=0; i < children; i++)
     {
-      if (SyntaxChecker::isAllowedElement(xhtml->getChild(i)))
+      if (LIBSBML_CPP_NAMESPACE_QUALIFIER SyntaxChecker::isAllowedElement(xhtml->getChild(i)))
       {
-        if (!SyntaxChecker::hasDeclaredNS(xhtml->getChild(i),
+        if (!LIBSBML_CPP_NAMESPACE_QUALIFIER SyntaxChecker::hasDeclaredNS(xhtml->getChild(i),
                                                   toplevelNS))
         {
           logError(errorNS);
@@ -1037,18 +995,18 @@ NMBase::checkXHTML(const XMLNode * xhtml)
     const string& top_name = xhtml->getChild(0).getName();
 
     if (top_name != "html" && top_name != "body"
-      && !SyntaxChecker::isAllowedElement(xhtml->getChild(0)))
+      && !LIBSBML_CPP_NAMESPACE_QUALIFIER SyntaxChecker::isAllowedElement(xhtml->getChild(0)))
     {
       logError(errorELEM);
     }
     else
     {
-      if (!SyntaxChecker::hasDeclaredNS(xhtml->getChild(0), toplevelNS))
+      if (!LIBSBML_CPP_NAMESPACE_QUALIFIER SyntaxChecker::hasDeclaredNS(xhtml->getChild(0), toplevelNS))
       {
         logError(errorNS);
       }
       if (top_name == "html"
-        && !SyntaxChecker::isCorrectHTMLNode(xhtml->getChild(0)))
+        && !LIBSBML_CPP_NAMESPACE_QUALIFIER SyntaxChecker::isCorrectHTMLNode(xhtml->getChild(0)))
       {
         logError(errorELEM);
       }
@@ -1076,12 +1034,12 @@ NMBase::checkAnnotation()
   // checks if the given default namespace (if any) is a valid
   // NUML namespace
   //
-  const XMLNamespaces &xmlns = mAnnotation->getNamespaces();
+  const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces &xmlns = mAnnotation->getNamespaces();
   checkDefaultNamespace(&xmlns,"annotation");
 
   while (nNodes < mAnnotation->getNumChildren())
   {
-    XMLNode topLevel = mAnnotation->getChild(nNodes);
+    LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode topLevel = mAnnotation->getChild(nNodes);
 
     std::string prefix = topLevel.getPrefix();
 
@@ -1152,7 +1110,7 @@ NMBase::checkAnnotation()
  * @return true if read a <notes> element from the stream
  */
 bool
-NMBase::readNotes (XMLInputStream& stream)
+NMBase::readNotes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 {
   const string& name = stream.peek().getName();
 
@@ -1184,13 +1142,13 @@ NMBase::readNotes (XMLInputStream& stream)
     }
 
     delete mNotes;
-    mNotes = new XMLNode(stream);
+    mNotes = new LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode(stream);
 
     //
     // checks if the given default namespace (if any) is a valid
     // NUML namespace
     //
-    const XMLNamespaces &xmlns = mNotes->getNamespaces();
+    const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces &xmlns = mNotes->getNamespaces();
     checkDefaultNamespace(&xmlns,"notes");
 
     if (getNUMLDocument() != NULL)
@@ -1215,7 +1173,7 @@ NMBase::readNotes (XMLInputStream& stream)
  * @return true if the subclass read from the stream, false otherwise.
  */
 bool
-NMBase::readOtherXML (XMLInputStream&)
+NMBase::readOtherXML (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream&)
 {
   return false;
 }
@@ -1346,9 +1304,9 @@ NMBase::logError (  unsigned int       id
  * parents implementation of this method as well.
  */
 void
-NMBase::readAttributes (const XMLAttributes& attributes)
+NMBase::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes)
 {
-  const_cast<XMLAttributes&>(attributes).setErrorLog(getErrorLog());
+  const_cast<LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes&>(attributes).setErrorLog(getErrorLog());
 
   bool assigned = attributes.readInto("metaid", mMetaId);
 
@@ -1360,7 +1318,7 @@ NMBase::readAttributes (const XMLAttributes& attributes)
 
   if (isSetMetaId())
   {
-    if (!SyntaxChecker::isValidXMLID(mMetaId))
+    if (!LIBSBML_CPP_NAMESPACE_QUALIFIER SyntaxChecker::isValidXMLID(mMetaId))
       logError(NUMLInvalidMetaidSyntax, getLevel(), getVersion());
   }
 }
@@ -1374,7 +1332,7 @@ NMBase::readAttributes (const XMLAttributes& attributes)
  * of this method as well.
  */
 void
-NMBase::writeAttributes (XMLOutputStream& stream) const
+NMBase::writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
   if (getTypeCode() == NUML_DOCUMENT)
   {
@@ -1462,7 +1420,7 @@ NMBase::checkNUMLListPopulated(NMBase* object)
 /** @cond doxygen-libnuml-internal */
 
 void 
-NMBase::checkDefaultNamespace(const XMLNamespaces* xmlns, const std::string& elementName)
+NMBase::checkDefaultNamespace(const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces* xmlns, const std::string& elementName)
 {
   //
   // checks if the given default namespace (if any) is a valid
@@ -1511,14 +1469,14 @@ NMBase::hasRequiredElements() const
  * roundtripping) declared on this NUML (XML) element.
  */
 void
-NMBase::setNMBaseFields (const XMLToken& element)
+NMBase::setNMBaseFields (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLToken& element)
 {
   mLine   = element.getLine  ();
   mColumn = element.getColumn();
 
   if (element.getNamespaces().getLength() > 0)
   {
-    XMLNamespaces tmpxmlns(element.getNamespaces());
+    LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces tmpxmlns(element.getNamespaces());
     setNamespaces(&tmpxmlns);
   }
   else
@@ -1778,7 +1736,7 @@ NMBase_setMetaId (NMBase_t *sb, const char *metaid)
  */
 LIBNUML_EXTERN
 int
-NMBase_setNamespaces (NMBase_t *sb, XMLNamespaces_t *xmlns)
+NMBase_setNamespaces (NMBase_t *sb, LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces_t *xmlns)
 {
   return sb->setNamespaces(xmlns);
 }

@@ -28,13 +28,14 @@
 #include <numl/common/extern.h>
 #include <numl/common/numlfwd.h>
 
-#ifdef __cplusplus
+
 #include <numl/NMBase.h>
 #include <numl/NUMLList.h>
 #include <numl/AtomicValue.h>
 #include <vector>
 
 
+#ifdef __cplusplus
 LIBNUML_CPP_NAMESPACE_BEGIN
 
 class AtomicValue;
@@ -219,7 +220,7 @@ public:
 	AtomicValue* createAtomicValue();
 
 
-	virtual NMBase* createObject (XMLInputStream& stream);
+  virtual NMBase* createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
 
 	 /** @cond doxygen-libnuml-internal */
 	/**
@@ -230,7 +231,7 @@ public:
 	//virtual void writeElements(XMLOutputStream& stream) const;
 	/** @endcond doxygen-libnuml-internal */
 
-	virtual void write(XMLOutputStream& stream) const;
+  virtual void write(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
 
 protected:
 	/** @cond doxygen-libnuml-internal */
@@ -242,8 +243,8 @@ protected:
 	//virtual NMBase* createObject (XMLInputStream& stream);
 	//Tuple *mTuple;
 
-	virtual void readAttributes(const XMLAttributes & attributes);
-	virtual void writeAttributes(XMLOutputStream & stream) const;
+  virtual void readAttributes(const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes & attributes);
+  virtual void writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream & stream) const;
 
 	//attributes
 //	AtomicValue *mAtomicValue;

@@ -348,7 +348,7 @@ CompositeValue::getDescription () const
  * parents implementation of this method as well.
  */
 void
-CompositeValue::readAttributes (const XMLAttributes& attributes)
+CompositeValue::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes)
 {
 	NUMLList::readAttributes(attributes);
 
@@ -386,7 +386,7 @@ CompositeValue::readAttributes (const XMLAttributes& attributes)
  * of this method as well.
  */
 void
-CompositeValue::writeAttributes (XMLOutputStream& stream) const
+CompositeValue::writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
   NUMLList::writeAttributes(stream);
 
@@ -480,7 +480,7 @@ CompositeValue::createAtomicValue ()
  * XMLInputStream or NULL if the token was not recognized.
  */
 NMBase*
-CompositeValue::createObject (XMLInputStream& stream)
+CompositeValue::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 {
   const string& name   = stream.peek().getName();
   NMBase*        object = 0;

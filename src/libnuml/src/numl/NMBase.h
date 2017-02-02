@@ -37,29 +37,28 @@
 #include <numl/NUMLVisitor.h>
 
 
-#ifdef __cplusplus
-
-
 #include <string>
 #include <stdexcept>
 #include <algorithm>
 
 #include <numl/NUMLErrorLog.h>
 
+
+#include <sbml/xml/XMLAttributes.h>
+#include <sbml/xml/XMLOutputStream.h>
+#include <sbml/xml/XMLNode.h>
+#include <sbml/xml/XMLInputStream.h>
+#include <sbml/xml/XMLNamespaces.h>
+#include <sbml/xml/XMLToken.h>
+
+
+
+#ifdef __cplusplus
 LIBNUML_CPP_NAMESPACE_BEGIN
 
 class NUMLErrorLog;
 //class NUMLVisitor;
 class NUMLDocument;
-
-class List;
-
-class XMLAttributes;
-class XMLInputStream;
-class XMLNode;
-class XMLNamespaces;
-class XMLOutputStream;
-class XMLToken;
 
 /** @cond doxygen-libnuml-internal */
 class NUMLConstructorException : public std::invalid_argument
@@ -167,7 +166,7 @@ public:
    * 
    * @return the id of this NUML object.
    */
-  const std::string& getId () const;
+  virtual const std::string& getId () const;
   /** @endcond doxygen-libnuml-internal */
 
 
@@ -179,7 +178,7 @@ public:
    * 
    * @return the name of this NUML object.
    */
-  const std::string& getName () const;
+  virtual const std::string& getName () const;
   /**
    * Returns the content of the "annotation" subelement of this object as a
    * character string.
@@ -217,7 +216,7 @@ public:
    * 
    * @return the XML Namespaces associated with this NUML object
    */
-  virtual XMLNamespaces* getNamespaces() const ;
+  virtual LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces* getNamespaces() const ;
 
 
   /**
@@ -461,7 +460,7 @@ public:
    * returned by this function are:
    * @li LIBNUML_OPERATION_SUCCESS
    */
-  int setNamespaces(XMLNamespaces* xmlns);
+  int setNamespaces(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces* xmlns);
 
 
   /**
@@ -533,7 +532,7 @@ public:
   *
   * @return the list of CVTerms for this NUML object.
   */
-  List* getCVTerms();
+  LIBSBML_CPP_NAMESPACE_QUALIFIER List* getCVTerms();
 
 
   /**
@@ -542,7 +541,7 @@ public:
   *
   * @return the list of CVTerms for this NUML object.
   */
-  List* getCVTerms()  const;
+  LIBSBML_CPP_NAMESPACE_QUALIFIER List* getCVTerms()  const;
 
 
   /**
@@ -641,7 +640,7 @@ public:
   /**
    * Reads (initializes) this NUML object by reading from XMLInputStream.
    */
-  void read (XMLInputStream& stream);
+  void read (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
   /** @endcond doxygen-libnuml-internal */
 
 
@@ -649,7 +648,7 @@ public:
   /**
    * Writes (serializes) this NUML object by writing it to XMLOutputStream.
    */
-  void write (XMLOutputStream& stream) const;
+  void write (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
   /** @endcond doxygen-libnuml-internal */
 
 
@@ -664,7 +663,7 @@ public:
    *   mResultComponents.write(stream);
    *   ...
    */
-  virtual void writeElements (XMLOutputStream& stream) const;
+  virtual void writeElements (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
   /** @endcond doxygen-libnuml-internal */
 
 
@@ -706,7 +705,7 @@ protected:
    * (if any) to the XMLOutputStream.
    *
    */
-  virtual void writeXMLNS(XMLOutputStream& stream) const;
+  virtual void writeXMLNS(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
 
   /** @cond doxygen-libnuml-internal */
 
@@ -756,7 +755,7 @@ protected:
    * @return the NUML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */
-  virtual NMBase* createObject (XMLInputStream& stream);
+  virtual NMBase* createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
 
 
   /**
@@ -765,7 +764,7 @@ protected:
    *
    * @return true if the subclass read from the stream, false otherwise.
    */
-  virtual bool readOtherXML (XMLInputStream& stream);
+  virtual bool readOtherXML (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
 
 
   /**
@@ -843,7 +842,7 @@ protected:
    * XMLAttributes set into their specific fields.  Be sure to call your
    * parents implementation of this method as well.
    */
-  virtual void readAttributes (const XMLAttributes& attributes);
+  virtual void readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes);
 
 
   /**
@@ -856,7 +855,7 @@ protected:
    *   stream.writeAttribute( "name", mName );
    *   ...
    */
-  virtual void writeAttributes (XMLOutputStream& stream) const;
+  virtual void writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
 
 
   /**
@@ -906,7 +905,7 @@ protected:
    * Checks that the given default namespace in the given element is valid.
    * If the given default namespace is not valid, an error is logged.
    */
-  void checkDefaultNamespace(const XMLNamespaces* xmlns, const std::string& elementName);
+  void checkDefaultNamespace(const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces* xmlns, const std::string& elementName);
 
 
   /**
@@ -914,7 +913,7 @@ protected:
    * If the xhtml does not conform to the specification of valid xhtml within
    * an numl document, an error is logged.
   */
-  void checkXHTML(const XMLNode *);
+  void checkXHTML(const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode *);
 
   /**
   * Checks the annotation does not declare an numl namespace.
@@ -928,8 +927,8 @@ protected:
 
   NUMLDocument* mNUML;
 
-  XMLNode* mNotes;
-  XMLNode* mAnnotation;
+  LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode* mNotes;
+  LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode* mAnnotation;
 
   //int mObjectLevel;
   //int mObjectVersion;
@@ -946,7 +945,7 @@ protected:
   NMBase* mParentNUMLObject;
 
   /* storing annotations */
-   List * mCVTerms;
+   LIBSBML_CPP_NAMESPACE_QUALIFIER List * mCVTerms;
 
   /* flag that allows object to know its been deleted
    * for OS where the memory is still readable after a delete
@@ -965,19 +964,19 @@ private:
    * Stores the location (line and column) and any XML namespaces (for
    * roundtripping) declared on this NUML (XML) element.
    */
-  void setNMBaseFields (const XMLToken& element);
+  void setNMBaseFields (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLToken& element);
 
 
   /**
    * @return true if read an <annotation> element from the stream
    */
-  bool readAnnotation (XMLInputStream& stream);
+  bool readAnnotation (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
 
 
   /**
    * @return true if read a <notes> element from the stream
    */
-  bool readNotes (XMLInputStream& stream);
+  bool readNotes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
 
   bool getHasBeenDeleted();
 
@@ -1031,7 +1030,7 @@ NMBase_getColumn (const NMBase_t *sb);
 
 
 LIBNUML_EXTERN
-XMLNode_t *
+LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode_t *
 NMBase_getNotes (NMBase_t *sb);
 
 
@@ -1041,7 +1040,7 @@ NMBase_getNotesString (NMBase_t *sb);
 
 
 LIBNUML_EXTERN
-XMLNode_t *
+LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode_t *
 NMBase_getAnnotation (NMBase_t *sb);
 
 
@@ -1072,12 +1071,12 @@ NMBase_setMetaId (NMBase_t *sb, const char *metaid);
 
 LIBNUML_EXTERN
 int
-NMBase_setNamespaces (NMBase_t *sb, XMLNamespaces_t *xmlns);
+NMBase_setNamespaces (NMBase_t *sb, LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces_t *xmlns);
 
 
 LIBNUML_EXTERN
 int
-NMBase_setNotes (NMBase_t *sb, XMLNode_t *notes);
+NMBase_setNotes (NMBase_t *sb, LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode_t *notes);
 
 
 LIBNUML_EXTERN
@@ -1087,7 +1086,7 @@ NMBase_setNotesString (NMBase_t *sb, char *notes);
 
 LIBNUML_EXTERN
 int
-NMBase_appendNotes (NMBase_t *sb, XMLNode_t *notes);
+NMBase_appendNotes (NMBase_t *sb, LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode_t *notes);
 
 
 LIBNUML_EXTERN
@@ -1097,7 +1096,7 @@ NMBase_appendNotesString (NMBase_t *sb, char *notes);
 
 LIBNUML_EXTERN
 int
-NMBase_setAnnotation (NMBase_t *sb, XMLNode_t *annotation);
+NMBase_setAnnotation (NMBase_t *sb, LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode_t *annotation);
 
 
 LIBNUML_EXTERN
@@ -1107,7 +1106,7 @@ NMBase_setAnnotationString (NMBase_t *sb, char *annotation);
 
 LIBNUML_EXTERN
 int
-NMBase_appendAnnotation (NMBase_t *sb, XMLNode_t *annotation);
+NMBase_appendAnnotation (NMBase_t *sb, LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode_t *annotation);
 
 
 LIBNUML_EXTERN

@@ -154,13 +154,13 @@ NUMLError::NUMLError (  const unsigned int errorId
   // it is, fill in the fields of the error object with the appropriate
   // content.  If it's not in the table, take the content as-is.
 
-  if ( mErrorId < XMLErrorCodesUpperBound )
+  if ( mErrorId < LIBSBML_CPP_NAMESPACE_QUALIFIER XMLErrorCodesUpperBound )
   {
     // The error was caught during the XML read and the XMLError
     // constructor will have filled in all the right pieces.
     return;
   }
-  else if ( mErrorId > XMLErrorCodesUpperBound
+  else if ( mErrorId > LIBSBML_CPP_NAMESPACE_QUALIFIER XMLErrorCodesUpperBound
             && mErrorId < NUMLCodesUpperBound )
   {
     unsigned int tableSize = sizeof(errorTable)/sizeof(errorTable[0]);

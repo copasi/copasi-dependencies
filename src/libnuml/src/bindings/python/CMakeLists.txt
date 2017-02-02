@@ -18,8 +18,12 @@
 
 find_package(SWIG REQUIRED)
 include(${SWIG_USE_FILE})
-include(FindPythonLibs)
-include(FindPythonInterp)
+find_package(PythonInterp)
+
+# specify that the same python library should be found 
+# as the one the selected interpreter uses
+set (Python_ADDITIONAL_VERSIONS ${PYTHON_VERSION_STRING})
+find_package(PythonLibs)
 
 
 ####################################################################
@@ -49,7 +53,7 @@ if (LIBNUML_REMOVE_WRAPPERS)
 endif(LIBNUML_REMOVE_WRAPPERS)
 
 
-set(SWIG_EXTRA_FLAGS -DSWIGEXPORT -DLIBSBML_CPP_NAMESPACE_BEGIN -DLIBSBML_CPP_NAMESPACE_END)
+set(SWIG_EXTRA_FLAGS -DSWIGEXPORT -DLIBSBML_CPP_NAMESPACE_BEGIN -DLIBSBML_CPP_NAMESPACE_END -DLIBSBML_CPP_NAMESPACE_QUALIFIER -DLIBSBML_CPP_NAMESPACE_USE)
 if(NOT UNIX)
 	set(SWIG_EXTRA_FLAGS ${SWIG_EXTRA_FLAGS} -DSWIGWIN -DSWIG_CSHARP_NO_WSTRING_HELPER )
 endif()
@@ -71,8 +75,14 @@ ADD_CUSTOM_COMMAND(
 			${SWIG_EXTRA_ARGS}		 
 			-o ${CMAKE_CURRENT_BINARY_DIR}/libnuml_wrap.cpp 
 			${CMAKE_CURRENT_SOURCE_DIR}/libnuml.i
+      
+  COMMAND "${CMAKE_COMMAND}"
+  ARGS  -DCUR_BIN_DIRECTORY=\"${CMAKE_CURRENT_BINARY_DIR}\"
+        -DVERSION=\"${LIBNUML_VERSION}\"
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/add_version.cmake"
+        
 	DEPENDS local.i local.cpp local-contrib.i
-    COMMENT "Swig Python source") 
+  COMMENT "Swig Python source") 
 
 add_custom_target(binding_python_swig ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libnuml_wrap.cpp)
 	

@@ -43,13 +43,30 @@ CompositeDescription::CompositeDescription (NUMLNamespaces *numlns) :
     throw NUMLConstructorException();
 }
 CompositeDescription::CompositeDescription() {
-	// TODO Auto-generated constructor stub
+  // TODO Auto-generated constructor stub
 
 }
 
 CompositeDescription::~CompositeDescription() {
-	// TODO Auto-generated destructor stub
+  // TODO Auto-generated destructor stub
 }
+
+
+
+const std::string&
+CompositeDescription::getId() const
+{
+  return mId;
+}
+
+int
+CompositeDescription::setId(const std::string& id)
+{
+  mId = id;
+  return LIBNUML_OPERATION_SUCCESS;
+}
+
+/*
 
 /*
  * @return a (deep) copy of this CompositeDescription.
@@ -66,8 +83,8 @@ CompositeDescription::clone () const
 const string&
 CompositeDescription::getElementName () const
 {
-	static const string compDesc  = "compositeDescription";
-	return compDesc;
+  static const string compDesc  = "compositeDescription";
+  return compDesc;
 }
 
 
@@ -78,9 +95,9 @@ CompositeDescription::getElementName () const
 bool
 CompositeDescription::isContentCompositeDescription () const
 {
-	if(this->mContentType == NUML_COMPOSITEDESCRIPTION)
-		return true;
-	else return false;
+  if(this->mContentType == NUML_COMPOSITEDESCRIPTION)
+    return true;
+  else return false;
 }
 
 /*
@@ -90,9 +107,9 @@ CompositeDescription::isContentCompositeDescription () const
 bool
 CompositeDescription::isContentTupleDescription () const
 {
-	if(this->mContentType == NUML_TUPLEDESCRIPTION)
-		return true;
-	else return false;
+  if(this->mContentType == NUML_TUPLEDESCRIPTION)
+    return true;
+  else return false;
 }
 
 /*
@@ -102,9 +119,9 @@ CompositeDescription::isContentTupleDescription () const
 bool
 CompositeDescription::isContentAtomicDescription () const
 {
-	if(this->mContentType == NUML_ATOMICDESCRIPTION)
-		return true;
-	else return false;
+  if(this->mContentType == NUML_ATOMICDESCRIPTION)
+    return true;
+  else return false;
 }
 
 
@@ -138,30 +155,30 @@ NMBase::getAnnotationString ()
 NUMLTypeCode_t
 CompositeDescription::getItemTypeCode () const
 {
-	if (mContentType == NUML_COMPOSITEDESCRIPTION)
-	{
-		return NUML_COMPOSITEDESCRIPTION;
-	}
-	else if (mContentType == NUML_TUPLEDESCRIPTION)
-	{
-		return NUML_TUPLEDESCRIPTION;
-	}
-	else if (mContentType == NUML_ATOMICDESCRIPTION)
-	{
-		return NUML_ATOMICDESCRIPTION;
-	}
-	else
-	{
-		return NUML_UNKNOWN;
-	}
+  if (mContentType == NUML_COMPOSITEDESCRIPTION)
+  {
+    return NUML_COMPOSITEDESCRIPTION;
+  }
+  else if (mContentType == NUML_TUPLEDESCRIPTION)
+  {
+    return NUML_TUPLEDESCRIPTION;
+  }
+  else if (mContentType == NUML_ATOMICDESCRIPTION)
+  {
+    return NUML_ATOMICDESCRIPTION;
+  }
+  else
+  {
+    return NUML_UNKNOWN;
+  }
 }
 
 /* return nth item in list */
 CompositeDescription *
 CompositeDescription::getCompositeDescription(unsigned int n) {
-	if(this->getTypeCode()==NUML_COMPOSITEDESCRIPTION)
-	return static_cast<CompositeDescription*>(NUMLList::get(n));
-	else return NULL;
+  if(this->getTypeCode()==NUML_COMPOSITEDESCRIPTION)
+  return static_cast<CompositeDescription*>(NUMLList::get(n));
+  else return NULL;
 }
 
 /* return nth AtomicDescription from CompositeDescription list, note that only
@@ -170,11 +187,11 @@ CompositeDescription::getCompositeDescription(unsigned int n) {
  */
 AtomicDescription *
 CompositeDescription::getAtomicDescription() {
-	if(this->size() == 1 && this->mContentType == NUML_ATOMICDESCRIPTION)
-	{
-		return static_cast<AtomicDescription*>(NUMLList::get(0));
-	}
-	else return NULL;
+  if(this->size() == 1 && this->mContentType == NUML_ATOMICDESCRIPTION)
+  {
+    return static_cast<AtomicDescription*>(NUMLList::get(0));
+  }
+  else return NULL;
 }
 
 /* return nth TupleDescription from CompositeDescription list, note that only
@@ -183,11 +200,11 @@ CompositeDescription::getAtomicDescription() {
  */
 TupleDescription *
 CompositeDescription::getTupleDescription() {
-	if(this->size() == 1  && this->mContentType == NUML_TUPLEDESCRIPTION)
-	{
-		return static_cast<TupleDescription*>(NUMLList::get(0));
-	}
-	else return NULL;
+  if(this->size() == 1  && this->mContentType == NUML_TUPLEDESCRIPTION)
+  {
+    return static_cast<TupleDescription*>(NUMLList::get(0));
+  }
+  else return NULL;
 }
 
 /* return nth item in list */
@@ -226,24 +243,24 @@ CompositeDescription::getName () const
  * Sets the name attribute of this NUML object to a copy of name.
  */
 int CompositeDescription::setName(const std::string& name) {
-	mName = name;
-	return LIBNUML_OPERATION_SUCCESS;
+  mName = name;
+  return LIBNUML_OPERATION_SUCCESS;
 }
 
 /*
  * Sets the indexType attribute of this NUML object to a copy of indexType.
  */
 int CompositeDescription::setIndexType(const std::string& indexType) {
-	mIndexType = indexType;
-	return LIBNUML_OPERATION_SUCCESS;
+  mIndexType = indexType;
+  return LIBNUML_OPERATION_SUCCESS;
 }
 
 /*
  * Sets the ontologyTerm attribute of this NUML object to a copy of ontologyTerm.
  */
 int CompositeDescription::setOntologyTerm(const std::string& ontologyTerm) {
-	mOntologyTerm = ontologyTerm;
-	return LIBNUML_OPERATION_SUCCESS;
+  mOntologyTerm = ontologyTerm;
+  return LIBNUML_OPERATION_SUCCESS;
 
 }
 
@@ -272,37 +289,37 @@ CompositeDescription::getOntologyTerm () const
  * parents implementation of this method as well.
  */
 void
-CompositeDescription::readAttributes (const XMLAttributes& attributes)
+CompositeDescription::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes)
 {
-	NMBase::readAttributes(attributes);
+  NMBase::readAttributes(attributes);
 
-	const unsigned int level   = NMBase::getLevel  ();
-	const unsigned int version = NMBase::getVersion();
+  const unsigned int level   = NMBase::getLevel  ();
+  const unsigned int version = NMBase::getVersion();
 
-	std::vector<std::string> expectedAttributes;
-	expectedAttributes.clear();
-	expectedAttributes.push_back("metaid");
-	expectedAttributes.push_back("id");
-	expectedAttributes.push_back("name");
-	expectedAttributes.push_back("ontologyTerm");
-	expectedAttributes.push_back("indexType");
+  std::vector<std::string> expectedAttributes;
+  expectedAttributes.clear();
+  expectedAttributes.push_back("metaid");
+  expectedAttributes.push_back("id");
+  expectedAttributes.push_back("name");
+  expectedAttributes.push_back("ontologyTerm");
+  expectedAttributes.push_back("indexType");
 
-	// check that all attributes are expected
-	for (int i = 0; i < attributes.getLength(); i++)
-	{
-		std::vector<std::string>::const_iterator end = expectedAttributes.end();
-		std::vector<std::string>::const_iterator begin = expectedAttributes.begin();
+  // check that all attributes are expected
+  for (int i = 0; i < attributes.getLength(); i++)
+  {
+    std::vector<std::string>::const_iterator end = expectedAttributes.end();
+    std::vector<std::string>::const_iterator begin = expectedAttributes.begin();
 
-		std::string name = attributes.getName(i);
-		if (std::find(begin, end, name) == end)
-		{
-			logUnknownAttribute(name, level, version, "<compositeDescription>");
-		}
-	}
-	attributes.readInto("id", mId);
-	attributes.readInto("name", mName);
-	attributes.readInto("ontologyTerm", mOntologyTerm);
-	attributes.readInto("indexType", mIndexType);
+    std::string name = attributes.getName(i);
+    if (std::find(begin, end, name) == end)
+    {
+      logUnknownAttribute(name, level, version, "<compositeDescription>");
+    }
+  }
+  attributes.readInto("id", mId);
+  attributes.readInto("name", mName);
+  attributes.readInto("ontologyTerm", mOntologyTerm);
+  attributes.readInto("indexType", mIndexType);
 
 }
 /** @endcond doxygen-libnuml-internal */
@@ -314,14 +331,14 @@ CompositeDescription::readAttributes (const XMLAttributes& attributes)
  * of this method as well.
  */
 void
-CompositeDescription::writeAttributes (XMLOutputStream& stream) const
+CompositeDescription::writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
-	NMBase::writeAttributes(stream);
+  NMBase::writeAttributes(stream);
 
-	stream.writeAttribute("id", mId);
-	stream.writeAttribute("name", mName);
-	stream.writeAttribute("ontologyTerm", mOntologyTerm);
-	stream.writeAttribute("indexType", mIndexType);
+  stream.writeAttribute("id", mId);
+  stream.writeAttribute("name", mName);
+  stream.writeAttribute("ontologyTerm", mOntologyTerm);
+  stream.writeAttribute("indexType", mIndexType);
 }
 /** @endcond doxygen-libnuml-internal */
 
@@ -345,7 +362,7 @@ CompositeDescription::createCompositeDescription ()
      * so do nothing
      */
   }
-   	if(compDescription) this->appendAndOwn(compDescription);
+    if(compDescription) this->appendAndOwn(compDescription);
   return compDescription;
 }
 
@@ -372,10 +389,10 @@ CompositeDescription::createTupleDescription ()
 
   /* if the NUMLList is empty it doesn't know its parent */
   /* 	if (mTupleDescription.size() == 0) {
-   		mTupleDescription.setNUMLDocument(this->getNUMLDocument());
-   		mTupleDescription.setParentNUMLObject(this);
-   	}*/
-   	if(tDescription) this->appendAndOwn(tDescription);
+      mTupleDescription.setNUMLDocument(this->getNUMLDocument());
+      mTupleDescription.setParentNUMLObject(this);
+    }*/
+    if(tDescription) this->appendAndOwn(tDescription);
   return tDescription;
 }
 
@@ -385,24 +402,24 @@ CompositeDescription::createTupleDescription ()
 AtomicDescription*
 CompositeDescription::createAtomicDescription ()
 {
-	AtomicDescription* aDescription = 0;
+  AtomicDescription* aDescription = 0;
 
-	try
-	{
-		//mAtomicDescription = new AtomicDescription(getNUMLNamespaces());
-		aDescription = new AtomicDescription(getNUMLNamespaces());
-	}
-	catch (...)
-	{
-		/* here we do not create a default object as the level/version must
-		 * match the parent object
-		 *
-		 * so do nothing
-		 */
-	}
+  try
+  {
+    //mAtomicDescription = new AtomicDescription(getNUMLNamespaces());
+    aDescription = new AtomicDescription(getNUMLNamespaces());
+  }
+  catch (...)
+  {
+    /* here we do not create a default object as the level/version must
+     * match the parent object
+     *
+     * so do nothing
+     */
+  }
 
-	if(aDescription) this->appendAndOwn(aDescription);
-	return aDescription;
+  if(aDescription) this->appendAndOwn(aDescription);
+  return aDescription;
 }
 
 /** @cond doxygen-libnuml-internal */
@@ -411,76 +428,76 @@ CompositeDescription::createAtomicDescription ()
  * XMLInputStream or NULL if the token was not recognized.
  */
 NMBase*
-CompositeDescription::createObject (XMLInputStream& stream)
+CompositeDescription::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 {
   const string& name   = stream.peek().getName();
   NMBase*        object = 0;
 
   if (name == "compositeDescription")
   {
-	  this->mContentType = NUML_COMPOSITEDESCRIPTION;
-	  try
-	  {
-		  object = new CompositeDescription(getNUMLNamespaces());
-	  }
-	  catch (NUMLConstructorException*)
-	  {
-		  object = new CompositeDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
-	  }
-	  catch ( ... )
-	  {
-		  object = new CompositeDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
-	  }
+    this->mContentType = NUML_COMPOSITEDESCRIPTION;
+    try
+    {
+      object = new CompositeDescription(getNUMLNamespaces());
+    }
+    catch (NUMLConstructorException*)
+    {
+      object = new CompositeDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
+    }
+    catch ( ... )
+    {
+      object = new CompositeDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
+    }
 
-	  if (object) mItems.push_back(object);
+    if (object) mItems.push_back(object);
   }
   else if (name == "atomicDescription")
   {
-	  this->mContentType = NUML_ATOMICDESCRIPTION;
-	  try
-	  {
-		  object = new AtomicDescription(getNUMLNamespaces());
-	  }
-	  catch (NUMLConstructorException*)
-	  {
-		  object = new AtomicDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
+    this->mContentType = NUML_ATOMICDESCRIPTION;
+    try
+    {
+      object = new AtomicDescription(getNUMLNamespaces());
+    }
+    catch (NUMLConstructorException*)
+    {
+      object = new AtomicDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
 
-	  }
-	  catch ( ... )
-	  {
-		  object = new AtomicDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
+    }
+    catch ( ... )
+    {
+      object = new AtomicDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
 
-	  }
+    }
 
-	  if (object) mItems.push_back(object);
+    if (object) mItems.push_back(object);
   }
   else if (name == "tupleDescription")
   {
-	  this->mContentType = NUML_TUPLEDESCRIPTION;
+    this->mContentType = NUML_TUPLEDESCRIPTION;
 
-	  try
-	  {
-		  object = new TupleDescription(getNUMLNamespaces());
-	  }
-	  catch (NUMLConstructorException*)
-	  {
-		  object = new TupleDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
+    try
+    {
+      object = new TupleDescription(getNUMLNamespaces());
+    }
+    catch (NUMLConstructorException*)
+    {
+      object = new TupleDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
 
-	  }
-	  catch ( ... )
-	  {
-		  object = new TupleDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
+    }
+    catch ( ... )
+    {
+      object = new TupleDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
 
-	  }
+    }
 
-	  if (object) mItems.push_back(object);
-	/*  {
-		  if (mTupleDescription.size() != 0)
-		  {
-			  logError(NUMLNotSchemaConformant);
-		  }
-		  object = &mTupleDescription;
-	  }*/
+    if (object) mItems.push_back(object);
+  /*  {
+      if (mTupleDescription.size() != 0)
+      {
+        logError(NUMLNotSchemaConformant);
+      }
+      object = &mTupleDescription;
+    }*/
   }
 
   return object;

@@ -210,14 +210,14 @@ DimensionDescription::getElementPosition () const
 /** @cond doxygen-libnuml-internal */
 
 
-void DimensionDescription::writeXMLNS(XMLOutputStream& stream) const
+void DimensionDescription::writeXMLNS(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
   if (getNUMLDocument() != NULL)
   {
     NMBase::writeXMLNS(stream);
   }
 
-  XMLNamespaces* ns = getNamespaces();
+  LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces* ns = getNamespaces();
 
   if (ns != NULL)
   {
@@ -225,7 +225,7 @@ void DimensionDescription::writeXMLNS(XMLOutputStream& stream) const
   }
   else
   {
-    XMLNamespaces ns; 
+    LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces ns;
     ns.add(NUML_XMLNS_L1V1);
     stream << ns;
   }
@@ -234,18 +234,45 @@ void DimensionDescription::writeXMLNS(XMLOutputStream& stream) const
 /** @endcond doxygen-libnuml-internal */
 
 
+const std::string& 
+DimensionDescription::getId() const
+{
+  return mId;
+}
+
+int 
+DimensionDescription::setId(const std::string& id)
+{
+  mId = id;
+  return LIBNUML_OPERATION_SUCCESS;
+}
+
+const std::string& 
+DimensionDescription::getName() const
+{
+  return mName;
+}
+
+int 
+DimensionDescription::setName(const std::string& name)
+{
+  mName = name;
+  return LIBNUML_OPERATION_SUCCESS;
+}
+
+
 /** @cond doxygen-libnuml-internal */
 /*
  * @return the NUML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
  */
 NMBase*
-DimensionDescription::createObject (XMLInputStream& stream)
+DimensionDescription::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 {
 
   //const string& name   = stream.peek().getName();
 
-  const XMLToken& element = stream.peek();
+  const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLToken& element = stream.peek();
   const string& name = element.getName();
   NMBase*        object = 0;
 

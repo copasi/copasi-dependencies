@@ -388,7 +388,7 @@ NUMLDocument::setLevelAndVersion (unsigned int level, unsigned int version,
   }
   if (numlDecl)
   {
-    XMLNamespaces * copyNamespaces = mNUMLNamespaces->getNamespaces()->clone();
+    LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * copyNamespaces = mNUMLNamespaces->getNamespaces()->clone();
     mNUMLNamespaces->getNamespaces()->clear();
     for (int i = 0; i < copyNamespaces->getLength(); i++)
     {
@@ -418,7 +418,7 @@ NUMLDocument::setLevelAndVersion (unsigned int level, unsigned int version,
  * XMLInputStream or NULL if the token was not recognized.
  */
 NMBase*
-NUMLDocument::createObject (XMLInputStream& stream)
+NUMLDocument::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 {
 	const string& name   = stream.peek().getName();
 	NMBase*        object = 0;
@@ -627,7 +627,7 @@ NUMLDocument::getElementPosition () const
 /**
   * @return the Namespaces associated with this NUML object
   */
-XMLNamespaces* 
+LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces*
 NUMLDocument::getNamespaces() const
 {
   return mNUMLNamespaces->getNamespaces();
@@ -652,7 +652,7 @@ NUMLDocument::getErrorLog ()
  * parents implementation of this method as well.
  */
 void
-NUMLDocument::readAttributes (const XMLAttributes& attributes)
+NUMLDocument::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes)
 {
   NMBase::readAttributes(attributes);
   std::vector<std::string> expectedAttributes;
@@ -747,11 +747,11 @@ NUMLDocument::readAttributes (const XMLAttributes& attributes)
  * of this method as well.
  */
 void
-NUMLDocument::writeAttributes (XMLOutputStream& stream) const
+NUMLDocument::writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
   if (mNUMLNamespaces->getNamespaces() == 0)
   {
-     XMLNamespaces xmlns;
+     LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces xmlns;
 
      if (mLevel == 1)
      {
@@ -781,7 +781,7 @@ NUMLDocument::writeAttributes (XMLOutputStream& stream) const
  * implementation of this method as well.
  */
 void
-NUMLDocument::writeElements (XMLOutputStream& stream) const
+NUMLDocument::writeElements (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
   NMBase::writeElements(stream);
   if (mOntologyTerms.size()!=0)mOntologyTerms.write(stream);
@@ -1083,7 +1083,7 @@ NUMLDocument_getDefaultVersion ()
  * @return pointer to the XMLNamespaces_t structure associated with this NUML object
  */
 LIBNUML_EXTERN
-const XMLNamespaces_t *
+const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces_t *
 NUMLDocument_getNamespaces(NUMLDocument_t *d)
 {
   return d->getNamespaces();

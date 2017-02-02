@@ -95,7 +95,7 @@ int
 OntologyTerm::setId (const std::string& sid)
 {
 
-  if (!(SyntaxChecker::isValidSBMLSId(sid)))
+  if (!(LIBSBML_CPP_NAMESPACE_QUALIFIER SyntaxChecker::isValidSBMLSId(sid)))
   {
     return LIBNUML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -221,7 +221,7 @@ OntologyTerm::getElementName () const
  * parents implementation of this method as well.
  */
 void
-OntologyTerm::readAttributes (const XMLAttributes& attributes)
+OntologyTerm::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes)
 {
 	NMBase::readAttributes(attributes);
 
@@ -255,7 +255,7 @@ OntologyTerm::readAttributes (const XMLAttributes& attributes)
 	{
 		logEmptyString(id, level, version, "<ontologyTerm>");
 	}
-	if (!SyntaxChecker::isValidSBMLSId(mId)) logError(NUMLInvalidIdSyntax);
+  if (!LIBSBML_CPP_NAMESPACE_QUALIFIER SyntaxChecker::isValidSBMLSId(mId)) logError(NUMLInvalidIdSyntax);
 
 	attributes.readInto("term", mTerm);
 	attributes.readInto("sourceTermId", mSourceTermId);
@@ -271,7 +271,7 @@ OntologyTerm::readAttributes (const XMLAttributes& attributes)
  * of this method as well.
  */
 void
-OntologyTerm::writeAttributes (XMLOutputStream& stream) const
+OntologyTerm::writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
   NMBase::writeAttributes(stream);
 
@@ -422,7 +422,7 @@ OntologyTerms::getElementPosition () const
  * XMLInputStream or NULL if the token was not recognized.
  */
 NMBase*
-OntologyTerms::createObject (XMLInputStream& stream)
+OntologyTerms::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 {
   const string& name   = stream.peek().getName();
   NMBase*        object = 0;

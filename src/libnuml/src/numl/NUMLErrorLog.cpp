@@ -56,9 +56,9 @@ NUMLErrorLog::NUMLErrorLog ()
 /**
  * Used by the Destructor to delete each item in mErrors.
  */
-struct Delete : public unary_function<XMLError*, void>
+struct Delete : public unary_function<LIBSBML_CPP_NAMESPACE_QUALIFIER XMLError*, void>
 {
-  void operator() (XMLError* error) { delete error; }
+  void operator() (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLError* error) { delete error; }
 };
 
 
@@ -144,9 +144,9 @@ NUMLErrorLog::add (const std::list<NUMLError>& errors)
 class MatchErrorId
 {
 public:
-  MatchErrorId(const unsigned int theId) : idToFind(theId) {};
+  MatchErrorId(const unsigned int theId) : idToFind(theId) {}
 
-  bool operator() (XMLError* e) const
+  bool operator() (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLError* e) const
   {
     return e->getErrorId() == idToFind;
   };
@@ -177,7 +177,7 @@ NUMLErrorLog::remove (const unsigned int errorId)
   //  Item 33: Be wary of remove-like algorithms on containers of pointers. 143)
   //
   //
-  vector<XMLError*>::iterator delIter;
+  vector<LIBSBML_CPP_NAMESPACE_QUALIFIER XMLError*>::iterator delIter;
 
   // finds an item with the given errorId (the first item will be found if 
   // there are two or more items with the same Id)  
@@ -200,9 +200,9 @@ NUMLErrorLog::remove (const unsigned int errorId)
 class MatchSeverity
 {
 public:
-  MatchSeverity(const unsigned int s) : severity(s) {};
+  MatchSeverity(const unsigned int s) : severity(s) {}
 
-  bool operator() (XMLError* e) const
+  bool operator() (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLError* e) const
   {
     return e->getSeverity() == severity;
   };

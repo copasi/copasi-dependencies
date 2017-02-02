@@ -30,13 +30,13 @@
 //#include <numl/common/operationReturnValues.h>
 
 
-#ifdef __cplusplus
 #include <numl/NMBase.h>
 #include <numl/NUMLList.h>
 #include <numl/NUMLTypes.h>
 #include <string>
 #include <sstream>
 
+#ifdef __cplusplus
 LIBNUML_CPP_NAMESPACE_BEGIN
 
 class LIBNUML_EXTERN AtomicValue : public NMBase {
@@ -173,7 +173,7 @@ public:
 	/**
 	 * Writes (serializes) this NUML object character value by writing it to XMLOutputStream.
 	 */
-	void writeChars(XMLOutputStream& stream) const;
+  void writeChars(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
 	/** @endcond doxygen-libnuml-internal */
 
 	/** @cond doxygen-libnuml-internal */
@@ -209,8 +209,8 @@ protected:
 	* XMLInputStream or NULL if the token was not recognized.
 	*/
 	//virtual NMBase* createObject (XMLInputStream& stream);
-	virtual void readAttributes(const XMLAttributes & attributes);
-	virtual void writeAttributes(XMLOutputStream & stream) const;
+  virtual void readAttributes(const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes & attributes);
+  virtual void writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream & stream) const;
 
 
 	std::string  mValue;

@@ -389,9 +389,9 @@ NUMLList::getElementName () const
  */
 struct Write : public unary_function<NMBase*, void>
 {
-  XMLOutputStream& stream;
+  LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream;
 
-  Write (XMLOutputStream& s) : stream(s) { }
+  Write (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& s) : stream(s) { }
   void operator() (NMBase* sbrbase) { sbrbase->write(stream); }
 };
 
@@ -403,7 +403,7 @@ struct Write : public unary_function<NMBase*, void>
  * implementation of this method as well.
  */
 void
-NUMLList::writeElements (XMLOutputStream& stream) const
+NUMLList::writeElements (LIBSBML_CPP_NAMESPACE_QUALIFIER  XMLOutputStream& stream) const
 {
   NMBase::writeElements(stream);
   for_each( mItems.begin(), mItems.end(), Write(stream) );
@@ -417,7 +417,7 @@ NUMLList::writeElements (XMLOutputStream& stream) const
  * parents implementation of this method as well.
  */
 void
-NUMLList::readAttributes (const XMLAttributes& attributes)
+NUMLList::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER  XMLAttributes& attributes)
 {
   NMBase::readAttributes(attributes);
 
@@ -448,7 +448,7 @@ NUMLList::readAttributes (const XMLAttributes& attributes)
 }
 
 void
-NUMLList::writeAttributes (XMLOutputStream& stream) const
+NUMLList::writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER  XMLOutputStream& stream) const
 {
   NMBase::writeAttributes(stream);
 

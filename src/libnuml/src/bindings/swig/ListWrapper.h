@@ -47,6 +47,7 @@
 #include <sbml/util/List.h>
 #include <numl/common/extern.h>
 
+LIBSBML_CPP_NAMESPACE_USE
 LIBNUML_CPP_NAMESPACE_USE
 
 /**

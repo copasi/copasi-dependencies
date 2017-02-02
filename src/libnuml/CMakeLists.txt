@@ -60,8 +60,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt")
 endif()
 
 set(LIBNUML_VERSION_NUMERIC "${LIBNUML_VERSION_MAJOR}${LIBNUML_VERSION_MINOR}${LIBNUML_VERSION_PATCH}${LIBNUML_VERSION_RELEASE}")
-set(PACKAGE_VERSION "${LIBNUML_VERSION_MAJOR}.${LIBNUML_VERSION_MINOR}.${LIBNUML_VERSION_PATCH}${LIBNUML_VERSION_RELEASE}")
+set(LIBNUML_VERSION "${LIBNUML_VERSION_MAJOR}.${LIBNUML_VERSION_MINOR}.${LIBNUML_VERSION_PATCH}${LIBNUML_VERSION_RELEASE}")
 set(PACKAGE_NAME "libNUML")
+
+set(PACKAGE_CONFIG_DIR lib/cmake CACHE PATH
+    "Path into which the cmake config files should be installed")
+
+
+# PACKAGE_VERSION gets overridden by using other packages, so setting
+# the PROJECT_VERSION, which will be used when exporting targets in
+# src/CMakeLists.txt
+set(PROJECT_VERSION ${LIBNUML_VERSION})
 
 # add make dist and make check target as they are already familiar for
 # everyone using the gnumake build
@@ -206,50 +215,72 @@ if(WITH_CPP_NAMESPACE)
     add_definitions(-DLIBNUML_USE_CPP_NAMESPACE)
 endif()
 
+
+if (SWIG_EXECUTABLE AND NOT EXISTS "${SWIG_EXECUTABLE}")
+unset(SWIG_EXECUTABLE CACHE )
+unset(SWIG_DIR CACHE )
+unset(SWIG_VERSION CACHE )
+endif()
+
 if(WITH_SWIG)
     find_program(SWIG_EXECUTABLE
-        NAMES swig
-        PATHS
-		      c:/swigwin-2.0.7
-		      c:/swigwin-2.0.4
-              c:/swigwin-2.0.2
-              c:/swigwin-2.0.1
-              c:/swigwin-2.0.0
-              /usr/local/bin
-              /opt/local/bin
-              /usr/bin
-        DOC "The file name of the swig executable."
-        )
+      NAMES swig
+      PATHS
+        c:/swigwin-3.0.10
+        c:/swigwin-3.0.9
+        c:/swigwin-3.0.8
+        c:/swigwin-3.0.7
+        c:/swigwin-3.0.6
+        c:/swigwin-3.0.5
+        c:/swigwin-3.0.2
+        c:/swigwin-3.0.0
+        c:/swigwin-2.0.12
+        c:/swigwin-2.0.11
+        c:/swigwin-2.0.10
+        c:/swigwin-2.0.9
+        c:/swigwin-2.0.8
+        c:/swigwin-2.0.7
+        c:/swigwin-2.0.4
+        c:/swigwin-2.0.2
+        c:/swigwin-2.0.1
+        c:/swigwin-2.0.0
+        /usr/local/bin
+        /opt/local/bin
+        /usr/bin
+      DOC "The file name of the swig executable."
+      )
     set(SWIG_EXTRA_ARGS)
 endif(WITH_SWIG)
+
 
 ###############################################################################
 #
 # Locate libsbml
 #
-find_library(LIBSBML_LIBRARY
-    NAMES libsbml-static.lib sbml-static libsbml.lib sbml
-    PATHS /usr/lib /usr/local/lib
-          ${LIBNUML_DEPENDENCY_DIR}/lib
-    DOC "The file name of the sbml library."
-)
 
-find_path(LIBSBML_INCLUDE_DIR
-    NAMES sbml/SBase.h
-    PATHS /usr/include /usr/local/include
-          /usr/include/libxml2
-          /usr/local/include/libxml2
-          ${LIBNUML_DEPENDENCY_DIR}/include
-    DOC "The directory containing the sbml include files."
-)
+
+# Update cmake path variables
+if (LIBNUML_DEPENDENCY_DIR AND EXISTS ${LIBNUML_DEPENDENCY_DIR})
+  set(CMAKE_PREFIX_PATH "${LIBNUML_DEPENDENCY_DIR}/lib/cmake;${CMAKE_PREFIX_PATH}")
+endif()
+
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
+
+
+
+###############################################################################
+#
+# Locate libsbml
+#
+find_package(LIBSBML REQUIRED)
 
 set(LIBSBML_STATIC OFF CACHE BOOL "is libsbml statically compiled")
 if (WIN32 AND NOT CYGWIN)
-if (LIBSBML_LIBRARY AND LIBSBML_LIBRARY MATCHES ".*-static*$")
-set(LIBSBML_STATIC ON CACHE BOOL "is libsbml statically compiled")
-else()
-	option(LIBSBML_STATIC "The LibSBML library was statically compiled" ON)
-endif()
+  if (LIBSBML_LIBRARY AND LIBSBML_LIBRARY MATCHES ".*-static*$")
+    set(LIBSBML_STATIC ON CACHE BOOL "is libsbml statically compiled")
+  else()
+    option(LIBSBML_STATIC "The LibSBML library was statically compiled" ON)
+  endif()
 endif()
 
 if(NOT EXISTS "${LIBSBML_INCLUDE_DIR}/sbml/SBase.h")
@@ -265,55 +296,6 @@ endif()
 set(EXTRA_LIBS "" CACHE STRING "List of additional libraries to link against." )
 set(EXTRA_INCLUDE "" CACHE STRING "List of additional include directories to add." )
 set(EXTRA_DEFS "" CACHE STRING "List of additional flag to add." )
-
-
-###############################################################################
-#
-# Locate zlib
-#
-
-set(ZLIB_INITIAL_VALUE)
-find_library(LIBZ_LIBRARY
-    NAMES zdll.lib z zlib.lib
-    PATHS /usr/lib /usr/local/lib
-          ${LIBNUML_DEPENDENCY_DIR}/lib
-    DOC "The file name of the zip compression library."
-    )
-
-if(EXISTS ${LIBZ_LIBRARY})
-    set(ZLIB_INITIAL_VALUE ON)
-else()
-    set(ZLIB_INITIAL_VALUE OFF)
-endif()
-option(WITH_ZLIB     "Enable the use of zip compression."    ${ZLIB_INITIAL_VALUE} )
-
-if(WITH_ZLIB)
-
-    find_path(LIBZ_INCLUDE_DIR
-        NAMES zlib.h zlib/zlib.h
-        PATHS /usr/include /usr/local/include
-              ${LIBNUML_DEPENDENCY_DIR}/include
-        DOC "The directory containing the zlib include files."
-              )
-
-    add_definitions( -DUSE_ZLIB )
-
-    # make sure that we have a valid zip library
-    check_library_exists("${LIBZ_LIBRARY}" "gzopen" "" LIBZ_FOUND_SYMBOL)
-    if(NOT LIBZ_FOUND_SYMBOL)
-        # this is odd, but on windows this check always fails! must be a
-        # bug in the current cmake version so for now only issue this
-        # warning on linux
-        if(UNIX)
-            message(WARNING "The zlib library does not appear to be valid because it is missing certain required symbols. Please check that ${LIBZ_LIBRARY} is the zlib library. For details about the error, please see ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log")
-        endif()
-    endif()
-
-    if(NOT EXISTS "${LIBZ_INCLUDE_DIR}/zlib.h")
-        message(FATAL_ERROR "The zlib include directory does not appear to be valid. It should contain the file zlib.h, but it does not.")
-    endif()
-
-endif(WITH_ZLIB)
 
 
 ###############################################################################
@@ -471,11 +453,11 @@ if(UNIX)
         set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DLINUX")
     endif(APPLE)
 
-    add_definitions( -DPACKAGE_VERSION=\"${PACKAGE_VERSION}\"  -DPACKAGE_NAME=\"${PROJECT_NAME}\")
-    set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DPACKAGE_VERSION=\"${PACKAGE_VERSION}\"  -DPACKAGE_NAME=\"${PROJECT_NAME}\"")
+    add_definitions( -DPACKAGE_VERSION=\"${LIBNUML_VERSION}\"  -DPACKAGE_NAME=\"${PROJECT_NAME}\")
+    set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DPACKAGE_VERSION=\"${LIBNUML_VERSION}\"  -DPACKAGE_NAME=\"${PROJECT_NAME}\"")
 
 else(UNIX)
-    add_definitions(-DPACKAGE_VERSION=\"${PACKAGE_VERSION}\"  -DPACKAGE_NAME=\"${PROJECT_NAME}\")
+    add_definitions(-DPACKAGE_VERSION=\"${LIBNUML_VERSION}\"  -DPACKAGE_NAME=\"${PROJECT_NAME}\")
 		
     add_definitions(-DWIN32)
     set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DWIN32")
@@ -698,18 +680,16 @@ install(FILES ${DOCUMENTATION_FILES} DESTINATION ${MISC_PREFIX}.)
 
 message(STATUS "
 ----------------------------------------------------------------------
-libNUML version ${PACKAGE_VERSION}
+libNUML version ${LIBNUML_VERSION}
 ----------------------------------------------------------------------
 
    More information and the latest version are available online at
-   http://code.google.com/p/numl/
+   https://github.com/NuML/NuML
 
    Please report problems using the issue tracker at
-   http://code.google.com/p/numl/issue-tracker
+   https://github.com/NuML/NuML/issues
 
-   To contact the developers directly, email joseph.dada@manchester.ac.uk
-
-   Configured on host "$ENV{COMPUTERNAME}" ${HOSTNAME}
+   Configured on host $ENV{COMPUTERNAME} ${HOSTNAME}
      host type                     = ${CMAKE_SYSTEM_NAME}
      host operating system         = ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_VERSION}
      host CPU architecture         = ${CMAKE_SYSTEM_PROCESSOR}

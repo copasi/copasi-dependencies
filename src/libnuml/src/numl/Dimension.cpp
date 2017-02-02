@@ -86,6 +86,8 @@ Dimension::clone () const
 	return new Dimension(*this);
 }
 
+NUMLTypeCode_t Dimension::getTypeCode() const { return NUML_DIMENSION; }
+
 
 /*
  * @return the NUMLTypeCode_t of NUML objects contained in this Dimension or
@@ -245,11 +247,11 @@ Dimension::getElementPosition () const
  * XMLInputStream or NULL if the token was not recognized.
  */
 NMBase*
-Dimension::createObject (XMLInputStream& stream)
+Dimension::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 {
 	//const string& name   = stream.peek().getName();
 
-	const XMLToken& element = stream.peek();
+  const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLToken& element = stream.peek();
 	const string& name = element.getName();
 	NMBase*        object = 0;
 

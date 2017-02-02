@@ -44,9 +44,11 @@
 #include <numl/NMBase.h>
 #include <numl/NUMLList.h>
 
-#ifdef __cplusplus
 
 #include <string>
+
+#ifdef __cplusplus
+
 LIBNUML_CPP_NAMESPACE_BEGIN
 
 class CompositeValue;
@@ -145,7 +147,7 @@ public:
 	*
 	* @see getElementName()
 	*/
-	virtual NUMLTypeCode_t getTypeCode () const { return NUML_DIMENSION; };
+  virtual NUMLTypeCode_t getTypeCode () const;
 
 
 	/**
@@ -344,7 +346,7 @@ protected:
 	* @return the NUML object corresponding to next XMLToken in the
 	* XMLInputStream or NULL if the token was not recognized.
 	*/
-	virtual NMBase* createObject (XMLInputStream& stream);
+  virtual NMBase* createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
 	CompositeValue mCompositeValue;
 
 	enum DimensionType { Unknown, CompositeValueType, TupleType, AtomicValueType };

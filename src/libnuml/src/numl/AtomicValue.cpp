@@ -77,7 +77,7 @@ AtomicValue::accept (NUMLVisitor& v) const
 NUMLTypeCode_t
 AtomicValue::getTypeCode () const
 {
-	return NUML_ATOMICVALUE;
+  return NUML_ATOMICVALUE;
 }
 
 /*
@@ -86,8 +86,8 @@ AtomicValue::getTypeCode () const
 const string&
 AtomicValue::getElementName () const
 {
-	static const string atomicValue  = "atomicValue";
-	return atomicValue;
+  static const string atomicValue  = "atomicValue";
+  return atomicValue;
 }
 
 /*
@@ -96,7 +96,7 @@ AtomicValue::getElementName () const
 const string&
 AtomicValue::getValue () const{
 
-	return mValue;
+  return mValue;
 }
 
 /*
@@ -105,11 +105,11 @@ AtomicValue::getValue () const{
 double
 AtomicValue::getDoubleValue () {
 
-	double value = 0.0;
-	stringstream isreal;
-	isreal.str(mValue);
-	isreal >> value;
-	return value;
+  double value = 0.0;
+  stringstream isreal;
+  isreal.str(mValue);
+  isreal >> value;
+  return value;
 }
 
 /*
@@ -133,12 +133,12 @@ AtomicValue::clone () const
 }
 
 AtomicValue::AtomicValue() {
-	// TODO Auto-generated constructor stub
+  // TODO Auto-generated constructor stub
 
 }
 
 AtomicValue::~AtomicValue() {
-	// TODO Auto-generated destructor stub
+  // TODO Auto-generated destructor stub
 }
 
 /*
@@ -148,35 +148,35 @@ AtomicValue::~AtomicValue() {
 /*NMBase*
 AtomicValue::createObject (XMLInputStream& stream)
 {
-	const XMLToken  element  = stream.peek();
-	const string& name = element.getName();
-	NMBase*        object = 0;
+  const XMLToken  element  = stream.peek();
+  const string& name = element.getName();
+  NMBase*        object = 0;
 
 
-	if (name == "atomicValue")
-	{
-		stream.next();
-		mValue = stream.next().getCharacters();
-		try
-		{
-			object = new AtomicValue(getNUMLNamespaces());
-			//	static_cast<AtomicValue*>(object)->setValue(mValue);
+  if (name == "atomicValue")
+  {
+    stream.next();
+    mValue = stream.next().getCharacters();
+    try
+    {
+      object = new AtomicValue(getNUMLNamespaces());
+      //	static_cast<AtomicValue*>(object)->setValue(mValue);
 
-		}
-		catch (NUMLConstructorException*)
-		{
-			object = new AtomicValue(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
-			//	static_cast<AtomicValue*>(object)->setValue(mValue);
+    }
+    catch (NUMLConstructorException*)
+    {
+      object = new AtomicValue(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
+      //	static_cast<AtomicValue*>(object)->setValue(mValue);
 
-		}
-		catch ( ... )
-		{
-			object = new AtomicValue(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
-			//	static_cast<AtomicValue*>(object)->setValue(mValue);
-		}
-	}
+    }
+    catch ( ... )
+    {
+      object = new AtomicValue(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
+      //	static_cast<AtomicValue*>(object)->setValue(mValue);
+    }
+  }
 
-	return object;
+  return object;
 }*/
 
 /** @cond doxygen-libnuml-internal */
@@ -186,9 +186,9 @@ AtomicValue::createObject (XMLInputStream& stream)
  * parents implementation of this method as well.
  */
 void
-AtomicValue::readAttributes (const XMLAttributes& attributes)
+AtomicValue::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes)
 {
-	NMBase::readAttributes(attributes);
+  NMBase::readAttributes(attributes);
 }
 /** @endcond doxygen-libnuml-internal */
 
@@ -199,7 +199,7 @@ AtomicValue::readAttributes (const XMLAttributes& attributes)
  * of this method as well.
  */
 void
-AtomicValue::writeAttributes (XMLOutputStream& stream) const
+AtomicValue::writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
   NMBase::writeAttributes(stream);
 
@@ -212,21 +212,21 @@ AtomicValue::writeAttributes (XMLOutputStream& stream) const
 /** @endcond doxygen-libnuml-internal */
 
 void
-AtomicValue::writeChars(XMLOutputStream& stream) const
+AtomicValue::writeChars(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
-	stream << mValue;
+  stream << mValue;
 }
 
 /*void
 AtomicValue::write(XMLOutputStream& stream) const
 {
-	//NMBase::writeElements(stream);
-	stream.startElement( getElementName() );
-	//writeAttributes( stream );
-	stream <<mValue;
+  //NMBase::writeElements(stream);
+  stream.startElement( getElementName() );
+  //writeAttributes( stream );
+  stream <<mValue;
 //	writeChars  ( stream );
-	//writeElements  ( stream );
-	stream.endElement( getElementName() );
+  //writeElements  ( stream );
+  stream.endElement( getElementName() );
 }*/
 
 /** @cond doxygen-libnuml-internal */
@@ -238,7 +238,7 @@ AtomicValue::write(XMLOutputStream& stream) const
 /*void
 AtomicValue::writeElements (XMLOutputStream& stream) const
 {
-	//NMBase::writeElements(stream);
+  //NMBase::writeElements(stream);
 //	stream << mValue;
 
 }*/

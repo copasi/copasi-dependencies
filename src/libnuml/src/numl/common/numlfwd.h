@@ -54,7 +54,7 @@
 #ifndef numlfwd_h
 #define numlfwd_h
 
-
+#include <sbml/common/libsbml-namespace.h>
 #include <numl/common/libnuml-namespace.h>
 #include <numl/common/libnuml-config.h>
 
@@ -190,6 +190,21 @@ typedef CLASS_OR_STRUCT NUMLWriter                NUMLWriter_t;
 typedef CLASS_OR_STRUCT NUMLError                 NUMLError_t;
 
 /**
+ * @var typedef class NUMLNamespaces NUMLNamespaces_t
+ * @copydoc NUMLNamespaces
+ */
+typedef CLASS_OR_STRUCT NUMLNamespaces             NUMLNamespaces_t;
+
+/**
+ * @var typedef class NUMLList NUMLList_t
+ * @copydoc NUMLList
+ */
+typedef CLASS_OR_STRUCT NUMLList                      NUMLList_t;
+
+LIBNUML_CPP_NAMESPACE_END
+
+LIBSBML_CPP_NAMESPACE_BEGIN
+/**
  * @var typedef class ASTNode ASTNode_t
  * @copydoc ASTNode
  */
@@ -200,12 +215,6 @@ typedef CLASS_OR_STRUCT ASTNode                   ASTNode_t;
  * @copydoc List
  */
 typedef CLASS_OR_STRUCT List                      List_t;
-
-/**
- * @var typedef class NUMLList NUMLList_t
- * @copydoc NUMLList
- */
-typedef CLASS_OR_STRUCT NUMLList                      NUMLList_t;
 
 /**
  * @var typedef class XMLError XMLError_t
@@ -289,14 +298,7 @@ typedef CLASS_OR_STRUCT CVTerm              CVTerm_t;
  */
 typedef CLASS_OR_STRUCT ModelHistory              ModelHistory_t;
 
-/**
- * @var typedef class NUMLNamespaces NUMLNamespaces_t
- * @copydoc NUMLNamespaces
- */
-typedef CLASS_OR_STRUCT NUMLNamespaces             NUMLNamespaces_t;
-
-LIBNUML_CPP_NAMESPACE_END
-
+LIBSBML_CPP_NAMESPACE_END
 #undef CLASS_OR_STRUCT
 
 #endif  /* numlfwd_h  */

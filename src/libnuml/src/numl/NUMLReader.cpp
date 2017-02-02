@@ -25,15 +25,13 @@
 #include <sbml/xml/XMLError.h>
 #include <sbml/xml/XMLErrorLog.h>
 #include <sbml/xml/XMLInputStream.h>
+#include <sbml/SBMLReader.h>
 
 #include <numl/NUMLErrorLog.h>
 #include <numl/NUMLVisitor.h>
 #include <numl/NUMLDocument.h>
 #include <numl/NUMLError.h>
 #include <numl/NUMLReader.h>
-
-#include <sbml/compress/CompressCommon.h>
-#include <sbml/compress/InputDecompressor.h>
 
 /** @cond doxygen-ignored */
 
@@ -140,7 +138,7 @@ NUMLReader::readNUMLFromString (const std::string& xml)
 bool 
 NUMLReader::hasZlib()
 {
-  return LIBNUML_CPP_NAMESPACE ::hasZlib();
+  return LIBSBML_CPP_NAMESPACE_QUALIFIER SBMLReader::hasZlib();
 }
 
 
@@ -153,7 +151,7 @@ NUMLReader::hasZlib()
 bool 
 NUMLReader::hasBzip2()
 {
-  return LIBNUML_CPP_NAMESPACE ::hasBzip2();
+  return LIBSBML_CPP_NAMESPACE_QUALIFIER SBMLReader::hasBzip2();
 }
 
 
@@ -163,24 +161,24 @@ isCriticalError(const unsigned int errorId)
 {
   switch (errorId)
   {
-  case InternalXMLParserError:
-  case UnrecognizedXMLParserCode:
-  case XMLTranscoderError:
-  case BadlyFormedXML:
-  case InvalidXMLConstruct:
-  case UnclosedXMLToken:
-  case XMLTagMismatch:
-  case BadXMLPrefix:
-  case MissingXMLAttributeValue:
-  case BadXMLComment:
-  case XMLUnexpectedEOF:
-  case UninterpretableXMLContent:
-  case BadXMLDocumentStructure:
-  case InvalidAfterXMLContent:
-  case XMLExpectedQuotedString:
-  case XMLEmptyValueNotPermitted:
-  case MissingXMLElements:
-  case BadXMLDeclLocation:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER  InternalXMLParserError:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER  UnrecognizedXMLParserCode:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER  XMLTranscoderError:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER BadlyFormedXML:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER InvalidXMLConstruct:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER UnclosedXMLToken:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER XMLTagMismatch:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER BadXMLPrefix:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER MissingXMLAttributeValue:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER BadXMLComment:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER XMLUnexpectedEOF:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER UninterpretableXMLContent:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER BadXMLDocumentStructure:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER InvalidAfterXMLContent:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER XMLExpectedQuotedString:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER XMLEmptyValueNotPermitted:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER MissingXMLElements:
+  case LIBSBML_CPP_NAMESPACE_QUALIFIER BadXMLDeclLocation:
     return true;
 
   default:
@@ -199,13 +197,13 @@ NUMLReader::readInternal (const char* content, bool isFile)
 {
   NUMLDocument* d = new NUMLDocument();
 
-  if (isFile && content && (util_file_exists(content) == false))
+  if (isFile && content && (LIBSBML_CPP_NAMESPACE_QUALIFIER  util_file_exists(content) == false))
   {
-    d->getErrorLog()->logError(XMLFileUnreadable);
+    d->getErrorLog()->logError(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLFileUnreadable);
   }
   else
   {
-    XMLInputStream stream(content, isFile, "", d->getErrorLog());
+    LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream stream(content, isFile, "", d->getErrorLog());
 
     d->read(stream);
     
@@ -244,20 +242,20 @@ NUMLReader::readInternal (const char* content, bool isFile)
 
       if (stream.getEncoding() == "")
       {
-        d->getErrorLog()->logError(MissingXMLEncoding);
+        d->getErrorLog()->logError(LIBSBML_CPP_NAMESPACE_QUALIFIER MissingXMLEncoding);
       }
-      else if (strcmp_insensitive(stream.getEncoding().c_str(), "UTF-8") != 0)
+      else if (LIBSBML_CPP_NAMESPACE_QUALIFIER strcmp_insensitive(stream.getEncoding().c_str(), "UTF-8") != 0)
       {
         d->getErrorLog()->logError(NUMLNotUTF8);
       }
 
       if (stream.getVersion() == "")
       {
-        d->getErrorLog()->logError(BadXMLDecl);
+        d->getErrorLog()->logError(LIBSBML_CPP_NAMESPACE_QUALIFIER BadXMLDecl);
       }
-      else if (strcmp_insensitive(stream.getVersion().c_str(), "1.0") != 0)
+      else if (LIBSBML_CPP_NAMESPACE_QUALIFIER strcmp_insensitive(stream.getVersion().c_str(), "1.0") != 0)
       {
-        d->getErrorLog()->logError(BadXMLDecl);
+        d->getErrorLog()->logError(LIBSBML_CPP_NAMESPACE_QUALIFIER BadXMLDecl);
       }
 
       if(d->getOntologyTerms() ==0)

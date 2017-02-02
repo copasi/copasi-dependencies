@@ -52,7 +52,7 @@
  *
  * A version string of the form "1.2.3".
  */
-#define LIBNUML_DOTTED_VERSION	"@PACKAGE_VERSION@"
+#define LIBNUML_DOTTED_VERSION	"@LIBNUML_VERSION@"
 
 
 /**

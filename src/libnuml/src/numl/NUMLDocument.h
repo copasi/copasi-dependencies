@@ -37,19 +37,21 @@
 #include <numl/ResultComponent.h>
 
 
-#ifdef __cplusplus
+
 
 #include <string>
 #include <algorithm>
 #include <iosfwd>
 #include <time.h>
 
+#ifdef __cplusplus
+
+
 LIBNUML_CPP_NAMESPACE_BEGIN
 
 class OntologyTerm;
 class ResultComponent;
 class NUMLVisitor;
-class XMLError;
 
 
 /** @cond doxygen-libnuml-internal */
@@ -434,7 +436,7 @@ public:
    * 
    * @return the XML Namespaces associated with this NUML object
    */
-  virtual XMLNamespaces* getNamespaces() const;
+  virtual LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces* getNamespaces() const;
 
 
   /** @cond doxygen-libnuml-internal */
@@ -451,7 +453,7 @@ public:
    * NUML objects as XML elements.  Be sure to call your parents
    * implementation of this method as well.
    */
-  virtual void writeElements (XMLOutputStream& stream) const;
+  virtual void writeElements (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
 
   /** @endcond doxygen-libnuml-internal */
 
@@ -462,7 +464,7 @@ protected:
    * @return the NUML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */
-  virtual NMBase* createObject (XMLInputStream& stream);
+  virtual NMBase* createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
 
 
   /**
@@ -471,7 +473,7 @@ protected:
    * parents implementation of this method as well.
    */
   virtual
-  void readAttributes (const XMLAttributes& attributes);
+  void readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes);
 
 
   /**
@@ -479,7 +481,7 @@ protected:
    * to the XMLOutputStream.  Be sure to call your parents implementation
    * of this method as well.
    */
-  virtual void writeAttributes (XMLOutputStream& stream) const;
+  virtual void writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
 
   /*
    * Predicate returning true if the errors encountered are not ignorable.
@@ -648,7 +650,7 @@ unsigned int
 NUMLDocument_getDefaultVersion (void);
 
 LIBNUML_EXTERN
-const XMLNamespaces_t *
+const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces_t *
 NUMLDocument_getNamespaces(NUMLDocument_t *d);
 
 END_C_DECLS

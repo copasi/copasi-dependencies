@@ -36,6 +36,7 @@
 
 #include <sbml/compress/CompressCommon.h>
 #include <sbml/compress/OutputCompressor.h>
+#include <sbml/SBMLWriter.h>
 
 /** @cond doxygen-ignored */
 
@@ -135,12 +136,12 @@ NUMLWriter::writeNUML (const NUMLDocument* d, const std::string& filename)
     // open a gzip file
     else if ( string::npos != filename.find(".gz", filename.length() - 3) )
     {
-     stream = OutputCompressor::openGzipOStream(filename);
+     stream = LIBSBML_CPP_NAMESPACE_QUALIFIER OutputCompressor::openGzipOStream(filename);
     }
     // open a bz2 file
     else if ( string::npos != filename.find(".bz2", filename.length() - 4) )
     {
-      stream = OutputCompressor::openBzip2OStream(filename);
+      stream = LIBSBML_CPP_NAMESPACE_QUALIFIER OutputCompressor::openBzip2OStream(filename);
     }
     // open a zip file
     else if ( string::npos != filename.find(".zip", filename.length() - 4) )
@@ -167,31 +168,31 @@ NUMLWriter::writeNUML (const NUMLDocument* d, const std::string& filename)
       }
 
       
-      stream = OutputCompressor::openZipOStream(filename, filenameinzip);
+      stream = LIBSBML_CPP_NAMESPACE_QUALIFIER OutputCompressor::openZipOStream(filename, filenameinzip);
     }
     else
     {
       stream = new(std::nothrow) std::ofstream(filename.c_str());
     }
   }
-  catch ( ZlibNotLinked& /*zlib*/)
+  catch ( LIBSBML_CPP_NAMESPACE_QUALIFIER ZlibNotLinked& /*zlib*/)
   {
     // libNUML is not linked with zlib.
-    XMLErrorLog *log = (const_cast<NUMLDocument *>(d))->getErrorLog();
+    LIBSBML_CPP_NAMESPACE_QUALIFIER XMLErrorLog *log = (const_cast<NUMLDocument *>(d))->getErrorLog();
     std::ostringstream oss;
     oss << "Tried to write " << filename << ". Writing a gzip/zip file is not enabled because "
         << "underlying libNUML is not linked with zlib.";
-    log->add(XMLError( XMLFileUnwritable, oss.str(), 0, 0) );
+    log->add(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLError( LIBSBML_CPP_NAMESPACE_QUALIFIER XMLFileUnwritable, oss.str(), 0, 0) );
     return false;
   } 
-  catch ( Bzip2NotLinked& /*bz2*/)
+  catch ( LIBSBML_CPP_NAMESPACE_QUALIFIER Bzip2NotLinked& /*bz2*/)
   {
     // libNUML is not linked with bzip2.
-    XMLErrorLog *log = (const_cast<NUMLDocument *>(d))->getErrorLog();
+    LIBSBML_CPP_NAMESPACE_QUALIFIER XMLErrorLog *log = (const_cast<NUMLDocument *>(d))->getErrorLog();
     std::ostringstream oss;
     oss << "Tried to write " << filename << ". Writing a bzip2 file is not enabled because "
         << "underlying libNUML is not linked with bzip2.";
-    log->add(XMLError( XMLFileUnwritable, oss.str(), 0, 0) );
+    log->add(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLError( LIBSBML_CPP_NAMESPACE_QUALIFIER XMLFileUnwritable, oss.str(), 0, 0) );
     return false;
   } 
 
@@ -199,7 +200,7 @@ NUMLWriter::writeNUML (const NUMLDocument* d, const std::string& filename)
   if ( stream == NULL || stream->fail() || stream->bad())
   {
     NUMLErrorLog *log = (const_cast<NUMLDocument *>(d))->getErrorLog();
-    log->logError(XMLFileUnwritable);
+    log->logError(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLFileUnwritable);
     return false;
   }
 
@@ -225,7 +226,7 @@ NUMLWriter::writeNUML (const NUMLDocument* d, std::ostream& stream)
   try
   {
     stream.exceptions(ios_base::badbit | ios_base::failbit | ios_base::eofbit);
-    XMLOutputStream xos(stream, "UTF-8", true, mProgramName, 
+    LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream xos(stream, "UTF-8", true, mProgramName,
                                                mProgramVersion);
     d->write(xos);
     stream << endl;
@@ -235,7 +236,7 @@ NUMLWriter::writeNUML (const NUMLDocument* d, std::ostream& stream)
   catch (ios_base::failure&)
   {
     NUMLErrorLog *log = (const_cast<NUMLDocument *>(d))->getErrorLog();
-    log->logError(XMLFileOperationError);
+    log->logError(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLFileOperationError);
   }
 
   return result;
@@ -257,7 +258,7 @@ NUMLWriter::writeToString (const NUMLDocument* d)
   ostringstream stream;
   writeNUML(d, stream);
 
-  return safe_strdup( stream.str().c_str() );
+  return LIBSBML_CPP_NAMESPACE_QUALIFIER safe_strdup( stream.str().c_str() );
 }
 
 
@@ -270,7 +271,7 @@ NUMLWriter::writeToString (const NUMLDocument* d)
 bool 
 NUMLWriter::hasZlib()
 {
-  return LIBNUML_CPP_NAMESPACE ::hasZlib();
+  return LIBSBML_CPP_NAMESPACE_QUALIFIER SBMLWriter::hasZlib();
 }
 
 
@@ -283,7 +284,7 @@ NUMLWriter::hasZlib()
 bool 
 NUMLWriter::hasBzip2()
 {
-  return LIBNUML_CPP_NAMESPACE ::hasBzip2();
+  return LIBSBML_CPP_NAMESPACE_QUALIFIER SBMLWriter::hasBzip2();
 }
 
 

@@ -159,7 +159,7 @@ public:
    *
    * @return the XML namespaces of this NUMLNamespaces object.
    */
-  XMLNamespaces * getNamespaces();
+  LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * getNamespaces();
 
 
   /**
@@ -168,7 +168,7 @@ public:
    * 
    * @param xmlns the XML namespaces to be added.
    */
-  void addNamespaces(XMLNamespaces * xmlns);
+  void addNamespaces(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * xmlns);
 
 
   /** @cond doxygen-libnuml-internal */
@@ -178,7 +178,7 @@ public:
   void setVersion(unsigned int version);
 
 
-  void setNamespaces(XMLNamespaces * xmlns);
+  void setNamespaces(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * xmlns);
   /** @endcond doxygen-libnuml-internal */
 
 protected:  
@@ -186,7 +186,7 @@ protected:
 
   unsigned int    mLevel;
   unsigned int    mVersion;
-  XMLNamespaces * mNamespaces;
+  LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * mNamespaces;
 
   /** @endcond doxygen-libnuml-internal */
 };
@@ -221,7 +221,7 @@ NUMLNamespaces_getVersion(NUMLNamespaces_t *numlns);
 
 
 LIBNUML_EXTERN
-XMLNamespaces_t *
+LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces_t *
 NUMLNamespaces_getNamespaces(NUMLNamespaces_t *numlns);
 
 
@@ -233,7 +233,7 @@ NUMLNamespaces_getNUMLNamespaceURI(unsigned int level, unsigned int version);
 LIBNUML_EXTERN
 void
 NUMLNamespaces_addNamespaces(NUMLNamespaces_t *numlns,
-                             XMLNamespaces_t * xmlns);
+                             LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces_t * xmlns);
 
 
 END_C_DECLS

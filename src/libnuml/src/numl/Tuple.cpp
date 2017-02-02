@@ -165,7 +165,7 @@ Tuple::createAtomicValue ()
  * XMLInputStream or NULL if the token was not recognized.
  */
 NMBase*
-Tuple::createObject (XMLInputStream& stream)
+Tuple::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 {
   const string& name   = stream.peek().getName();
  // NMBase*        object = 0;
@@ -205,7 +205,7 @@ Tuple::createObject (XMLInputStream& stream)
  * parents implementation of this method as well.
  */
 void
-Tuple::readAttributes (const XMLAttributes& attributes)
+Tuple::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes)
 {
 	NUMLList::readAttributes(attributes);
 	//no attributes for Tuple
@@ -218,7 +218,7 @@ Tuple::readAttributes (const XMLAttributes& attributes)
  * to the XMLOutputStream.  Be sure to call your parents implementation
  * of this method as well.
  */
-void Tuple::writeAttributes(XMLOutputStream& stream) const
+void Tuple::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
 	NUMLList::writeAttributes(stream);
 	//no attributes for Tuple
@@ -241,7 +241,7 @@ Tuple::writeElements (XMLOutputStream& stream) const
 //}
 
 void
-Tuple::write(XMLOutputStream& stream) const
+Tuple::write(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
  // NUMLList::writeElements(stream);
 //  mAtomicValue->writeElements(stream);

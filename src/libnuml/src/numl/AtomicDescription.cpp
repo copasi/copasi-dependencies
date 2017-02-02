@@ -37,8 +37,8 @@ using namespace std;
 
 LIBNUML_CPP_NAMESPACE_BEGIN
 
-AtomicDescription::AtomicDescription (unsigned int level, unsigned int version) :
-   NMBase ( level, version )
+AtomicDescription::AtomicDescription (unsigned int level, unsigned int version) 
+  : NMBase ( level, version )
   , mId                 ( ""   )
   , mName               ( ""   )
   , mOntologyTerm       ( ""   )
@@ -59,6 +59,21 @@ AtomicDescription::AtomicDescription (NUMLNamespaces *numlns) :
 {
   if (!hasValidLevelVersionNamespaceCombination())
     throw NUMLConstructorException();
+}
+
+
+
+const std::string&
+AtomicDescription::getId() const
+{
+  return mId;
+}
+
+int
+AtomicDescription::setId(const std::string& id)
+{
+  mId = id;
+  return LIBNUML_OPERATION_SUCCESS;
 }
 
 /*
@@ -83,7 +98,7 @@ AtomicDescription::accept (NUMLVisitor& v) const
 NUMLTypeCode_t
 AtomicDescription::getTypeCode () const
 {
-	return NUML_ATOMICDESCRIPTION;
+  return NUML_ATOMICDESCRIPTION;
 }
 
 
@@ -93,32 +108,32 @@ AtomicDescription::getTypeCode () const
 const string&
 AtomicDescription::getElementName () const
 {
-	static const string atomicDesc  = "atomicDescription";
-	return atomicDesc;
+  static const string atomicDesc  = "atomicDescription";
+  return atomicDesc;
 }
 
 /*
  * Sets the name attribute of this NUML object to a copy of name.
  */
 int AtomicDescription::setName(const std::string& name) {
-	mName = name;
-	return LIBNUML_OPERATION_SUCCESS;
+  mName = name;
+  return LIBNUML_OPERATION_SUCCESS;
 }
 
 /*
  * Sets the valueType attribute of this NUML object to a copy of valueType.
  */
 int AtomicDescription::setValueType(const std::string& valueType) {
-	mValueType = valueType;
-	return LIBNUML_OPERATION_SUCCESS;
+  mValueType = valueType;
+  return LIBNUML_OPERATION_SUCCESS;
 }
 
 /*
  * Sets the ontologyTerm attribute of this NUML object to a copy of ontologyTerm.
  */
 int AtomicDescription::setOntologyTerm(const std::string& ontologyTerm) {
-	mOntologyTerm = ontologyTerm;
-	return LIBNUML_OPERATION_SUCCESS;
+  mOntologyTerm = ontologyTerm;
+  return LIBNUML_OPERATION_SUCCESS;
 
 }
 
@@ -129,7 +144,7 @@ int AtomicDescription::setOntologyTerm(const std::string& ontologyTerm) {
 const string&
 AtomicDescription::getValueType () const{
 
-	return mValueType;
+  return mValueType;
 }
 
 
@@ -139,7 +154,7 @@ AtomicDescription::getValueType () const{
 const string&
 AtomicDescription::getOntologyTerm () const{
 
-	return mOntologyTerm;
+  return mOntologyTerm;
 }
 /*
  * @return the value held by atomicDescription.
@@ -147,7 +162,7 @@ AtomicDescription::getOntologyTerm () const{
 const string&
 AtomicDescription::getName () const{
 
-	return mName;
+  return mName;
 }
 
 /*
@@ -159,13 +174,13 @@ AtomicDescription::clone () const
   return new AtomicDescription(*this);
 }
 
-AtomicDescription::AtomicDescription() {
-	// TODO Auto-generated constructor stub
+AtomicDescription::AtomicDescription() 
+{
 
 }
 
-AtomicDescription::~AtomicDescription() {
-	// TODO Auto-generated destructor stub
+AtomicDescription::~AtomicDescription() 
+{
 }
 
 /** @cond doxygen-libnuml-internal */
@@ -175,37 +190,37 @@ AtomicDescription::~AtomicDescription() {
  * parents implementation of this method as well.
  */
 void
-AtomicDescription::readAttributes (const XMLAttributes& attributes)
+AtomicDescription::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes)
 {
-	NMBase::readAttributes(attributes);
+  NMBase::readAttributes(attributes);
 
-	const unsigned int level   = NMBase::getLevel  ();
-	const unsigned int version = NMBase::getVersion();
+  const unsigned int level   = NMBase::getLevel  ();
+  const unsigned int version = NMBase::getVersion();
 
-	std::vector<std::string> expectedAttributes;
-	expectedAttributes.clear();
-	expectedAttributes.push_back("metaid");
-	expectedAttributes.push_back("id");
-	expectedAttributes.push_back("name");
-	expectedAttributes.push_back("ontologyTerm");
-	expectedAttributes.push_back("valueType");
+  std::vector<std::string> expectedAttributes;
+  expectedAttributes.clear();
+  expectedAttributes.push_back("metaid");
+  expectedAttributes.push_back("id");
+  expectedAttributes.push_back("name");
+  expectedAttributes.push_back("ontologyTerm");
+  expectedAttributes.push_back("valueType");
 
-	// check that all attributes are expected
-	for (int i = 0; i < attributes.getLength(); i++)
-	{
-		std::vector<std::string>::const_iterator end = expectedAttributes.end();
-		std::vector<std::string>::const_iterator begin = expectedAttributes.begin();
+  // check that all attributes are expected
+  for (int i = 0; i < attributes.getLength(); i++)
+  {
+    std::vector<std::string>::const_iterator end = expectedAttributes.end();
+    std::vector<std::string>::const_iterator begin = expectedAttributes.begin();
 
-		std::string name = attributes.getName(i);
-		if (std::find(begin, end, name) == end)
-		{
-			logUnknownAttribute(name, level, version, "<atomicDescription>");
-		}
-	}
-	attributes.readInto("id", mId);
-	attributes.readInto("name", mName);
-	attributes.readInto("ontologyTerm", mOntologyTerm);
-	attributes.readInto("valueType", mValueType);
+    std::string name = attributes.getName(i);
+    if (std::find(begin, end, name) == end)
+    {
+      logUnknownAttribute(name, level, version, "<atomicDescription>");
+    }
+  }
+  attributes.readInto("id", mId);
+  attributes.readInto("name", mName);
+  attributes.readInto("ontologyTerm", mOntologyTerm);
+  attributes.readInto("valueType", mValueType);
 
 }
 /** @endcond doxygen-libnuml-internal */
@@ -216,17 +231,17 @@ AtomicDescription::readAttributes (const XMLAttributes& attributes)
  * to the XMLOutputStream.  Be sure to call your parents implementation
  * of this method as well.
  */
-void AtomicDescription::writeAttributes(XMLOutputStream& stream) const
+void AtomicDescription::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
-	NMBase::writeAttributes(stream);
+  NMBase::writeAttributes(stream);
 
-	//const unsigned int level = getLevel();
-	//const unsigned int version = getVersion();
+  //const unsigned int level = getLevel();
+  //const unsigned int version = getVersion();
 
-	stream.writeAttribute("id", mId);
-	stream.writeAttribute("name", mName);
-	stream.writeAttribute("ontologyTerm", mOntologyTerm);
-	stream.writeAttribute("valueType", mValueType);
+  stream.writeAttribute("id", mId);
+  stream.writeAttribute("name", mName);
+  stream.writeAttribute("ontologyTerm", mOntologyTerm);
+  stream.writeAttribute("valueType", mValueType);
 
 }
 /** @endcond doxygen-libnuml-internal */

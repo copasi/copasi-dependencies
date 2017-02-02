@@ -28,7 +28,7 @@
 #include <numl/common/extern.h>
 #include <numl/common/numlfwd.h>
 
-#ifdef __cplusplus
+
 
 //#include <numl/NUMLVisitor.h>
 #include <numl/NMBase.h>
@@ -36,6 +36,7 @@
 
 #include <numl/NUMLList.h>
 
+#ifdef __cplusplus
 LIBNUML_CPP_NAMESPACE_BEGIN
 
 /*
@@ -269,7 +270,7 @@ public:
 	 * XMLAttributes set into their specific fields.  Be sure to call your
 	 * parents implementation of this method as well.
 	 */
-	virtual void readAttributes(const XMLAttributes& attributes);
+  virtual void readAttributes(const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes);
 
 
 	/**
@@ -277,7 +278,7 @@ public:
 	* to the XMLOutputStream.  Be sure to call your parents implementation
 	* of this method as well.
 	*/
-	virtual void writeAttributes (XMLOutputStream& stream) const;
+  virtual void writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
 
 protected:
 
@@ -490,7 +491,7 @@ protected:
 	* @return the NUML object corresponding to next XMLToken in the
 	* XMLInputStream or NULL if the token was not recognized.
 	*/
-	virtual NMBase* createObject (XMLInputStream& stream);
+  virtual NMBase* createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
 
 	/** @endcond doxygen-libnuml-internal */
 };

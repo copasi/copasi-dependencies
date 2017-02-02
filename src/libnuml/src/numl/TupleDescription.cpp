@@ -53,13 +53,28 @@ TupleDescription::TupleDescription (NUMLNamespaces *numlns) :
 }
 
 TupleDescription::TupleDescription() {
-	// TODO Auto-generated constructor stub
+  // TODO Auto-generated constructor stub
 
 }
 
 TupleDescription::~TupleDescription() {
-	// TODO Auto-generated destructor stub
+  // TODO Auto-generated destructor stub
 }
+
+
+const std::string&
+TupleDescription::getId() const
+{
+  return mId;
+}
+
+int
+TupleDescription::setId(const std::string& id)
+{
+  mId = id;
+  return LIBNUML_OPERATION_SUCCESS;
+}
+
 
 /*
  * @return a (deep) copy of this TupleDescription.
@@ -95,8 +110,8 @@ NMBase::getAnnotationString ()
 const string&
 TupleDescription::getElementName () const
 {
-	static const string tuple  = "tupleDescription";
-	return tuple;
+  static const string tuple  = "tupleDescription";
+  return tuple;
 }
 
 /** @cond doxygen-libnuml-internal */
@@ -140,23 +155,23 @@ TupleDescription::removeAtomicDescription (unsigned int n)
 AtomicDescription*
 TupleDescription::createAtomicDescription ()
 {
-	AtomicDescription* aDescription = 0;
+  AtomicDescription* aDescription = 0;
 
-	try
-	{
-		aDescription = new AtomicDescription(getNUMLNamespaces());
-	}
-	catch (...)
-	{
-		/* here we do not create a default object as the level/version must
-		 * match the parent object
-		 *
-		 * so do nothing
-		 */
-	}
+  try
+  {
+    aDescription = new AtomicDescription(getNUMLNamespaces());
+  }
+  catch (...)
+  {
+    /* here we do not create a default object as the level/version must
+     * match the parent object
+     *
+     * so do nothing
+     */
+  }
 
-	if(aDescription) this->appendAndOwn(aDescription);
-	return aDescription;
+  if(aDescription) this->appendAndOwn(aDescription);
+  return aDescription;
 }
 
 /** @cond doxygen-libnuml-internal */
@@ -166,35 +181,35 @@ TupleDescription::createAtomicDescription ()
  * parents implementation of this method as well.
  */
 void
-TupleDescription::readAttributes (const XMLAttributes& attributes)
+TupleDescription::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes)
 {
-	NMBase::readAttributes(attributes);
+  NMBase::readAttributes(attributes);
 
-	const unsigned int level   = NMBase::getLevel  ();
-	const unsigned int version = NMBase::getVersion();
+  const unsigned int level   = NMBase::getLevel  ();
+  const unsigned int version = NMBase::getVersion();
 
-	std::vector<std::string> expectedAttributes;
-	expectedAttributes.clear();
-	expectedAttributes.push_back("metaid");
-	expectedAttributes.push_back("id");
-	expectedAttributes.push_back("name");
-	expectedAttributes.push_back("ontologyTerm");
+  std::vector<std::string> expectedAttributes;
+  expectedAttributes.clear();
+  expectedAttributes.push_back("metaid");
+  expectedAttributes.push_back("id");
+  expectedAttributes.push_back("name");
+  expectedAttributes.push_back("ontologyTerm");
 
-	// check that all attributes are expected
-	for (int i = 0; i < attributes.getLength(); i++)
-	{
-		std::vector<std::string>::const_iterator end = expectedAttributes.end();
-		std::vector<std::string>::const_iterator begin = expectedAttributes.begin();
+  // check that all attributes are expected
+  for (int i = 0; i < attributes.getLength(); i++)
+  {
+    std::vector<std::string>::const_iterator end = expectedAttributes.end();
+    std::vector<std::string>::const_iterator begin = expectedAttributes.begin();
 
-		std::string name = attributes.getName(i);
-		if (std::find(begin, end, name) == end)
-		{
-			logUnknownAttribute(name, level, version, "<atomicDescription>");
-		}
-	}
-	attributes.readInto("id", mId);
-	attributes.readInto("name", mName);
-	attributes.readInto("ontologyTerm", mOntologyTerm);
+    std::string name = attributes.getName(i);
+    if (std::find(begin, end, name) == end)
+    {
+      logUnknownAttribute(name, level, version, "<atomicDescription>");
+    }
+  }
+  attributes.readInto("id", mId);
+  attributes.readInto("name", mName);
+  attributes.readInto("ontologyTerm", mOntologyTerm);
 
 }
 /** @endcond doxygen-libnuml-internal */
@@ -206,13 +221,13 @@ TupleDescription::readAttributes (const XMLAttributes& attributes)
  * of this method as well.
  */
 void
-TupleDescription::writeAttributes (XMLOutputStream& stream) const
+TupleDescription::writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
-	NMBase::writeAttributes(stream);
+  NMBase::writeAttributes(stream);
 
-	stream.writeAttribute("id", mId);
-	stream.writeAttribute("name", mName);
-	stream.writeAttribute("ontologyTerm", mOntologyTerm);
+  stream.writeAttribute("id", mId);
+  stream.writeAttribute("name", mName);
+  stream.writeAttribute("ontologyTerm", mOntologyTerm);
 }
 /** @endcond doxygen-libnuml-internal */
 
@@ -222,7 +237,7 @@ TupleDescription::writeAttributes (XMLOutputStream& stream) const
  * XMLInputStream or NULL if the token was not recognized.
  */
 NMBase*
-TupleDescription::createObject (XMLInputStream& stream)
+TupleDescription::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 {
   const string& name   = stream.peek().getName();
   AtomicDescription *aDescription = NULL;
@@ -230,20 +245,20 @@ TupleDescription::createObject (XMLInputStream& stream)
   if (name == "atomicDescription")
   {
 
-	  try
-	  {
-		  aDescription = new AtomicDescription(getNUMLNamespaces());
-	  }
-	  catch (NUMLConstructorException*)
-	  {
-		  aDescription = new AtomicDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
-	  }
-	  catch ( ... )
-	  {
-		  aDescription = new AtomicDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
-	  }
+    try
+    {
+      aDescription = new AtomicDescription(getNUMLNamespaces());
+    }
+    catch (NUMLConstructorException*)
+    {
+      aDescription = new AtomicDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
+    }
+    catch ( ... )
+    {
+      aDescription = new AtomicDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
+    }
 
-	  if (aDescription) mItems.push_back(aDescription);
+    if (aDescription) mItems.push_back(aDescription);
   }
 
   return aDescription;
@@ -253,7 +268,7 @@ TupleDescription::createObject (XMLInputStream& stream)
 /** @cond doxygen-libnuml-internal */
 
 void
-TupleDescription::write(XMLOutputStream& stream) const
+TupleDescription::write(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
  // NUMLList::writeElements(stream);
 //  mAtomicDescription->writeElements(stream);

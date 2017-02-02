@@ -42,12 +42,13 @@
 #include <numl/common/numlfwd.h>
 
 
-#ifdef __cplusplus
+
 
 
 #include <iosfwd>
 #include <string>
 
+#ifdef __cplusplus
 LIBNUML_CPP_NAMESPACE_BEGIN
 
 class NUMLDocument;

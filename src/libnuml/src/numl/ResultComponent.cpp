@@ -264,7 +264,7 @@ ResultComponent::getDimensionDescription ()
  * parents implementation of this method as well.
  */
 void
-ResultComponent::readAttributes (const XMLAttributes& attributes)
+ResultComponent::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes)
 {
 	NMBase::readAttributes(attributes);
 
@@ -296,7 +296,7 @@ ResultComponent::readAttributes (const XMLAttributes& attributes)
 	{
 		logEmptyString(id, level, version, "<resultComponent>");
 	}
-	if (!SyntaxChecker::isValidSBMLSId(mId)) logError(NUMLInvalidIdSyntax);
+  if (!LIBSBML_CPP_NAMESPACE_QUALIFIER SyntaxChecker::isValidSBMLSId(mId)) logError(NUMLInvalidIdSyntax);
 
 }
 
@@ -309,7 +309,7 @@ ResultComponent::readAttributes (const XMLAttributes& attributes)
  * of this method as well.
  */
 void
-ResultComponent::writeAttributes (XMLOutputStream& stream) const
+ResultComponent::writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
   NMBase::writeAttributes(stream);
 
@@ -324,7 +324,7 @@ ResultComponent::writeAttributes (XMLOutputStream& stream) const
  * implementation of this method as well.
  */
 void
-ResultComponent::writeElements (XMLOutputStream& stream) const
+ResultComponent::writeElements (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
   NMBase::writeElements(stream);
   if (mDimensionDescription.size()!=0){
@@ -345,7 +345,7 @@ ResultComponent::writeElements (XMLOutputStream& stream) const
  * XMLInputStream or NULL if the token was not recognized.
  */
 NMBase*
-ResultComponent::createObject (XMLInputStream& stream)
+ResultComponent::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 {
 	const string& name   = stream.peek().getName();
 	NMBase*        object = 0;
@@ -389,7 +389,7 @@ int
 ResultComponent::setId (const std::string& sid)
 {
 
-  if (!(SyntaxChecker::isValidSBMLSId(sid)))
+  if (!(LIBSBML_CPP_NAMESPACE_QUALIFIER SyntaxChecker::isValidSBMLSId(sid)))
   {
     return LIBNUML_INVALID_ATTRIBUTE_VALUE;
   }
@@ -533,7 +533,7 @@ ResultComponents::getElementPosition () const
  * XMLInputStream or NULL if the token was not recognized.
  */
 NMBase*
-ResultComponents::createObject (XMLInputStream& stream)
+ResultComponents::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 {
   const string& name   = stream.peek().getName();
   NMBase*        object = 0;

@@ -36,7 +36,7 @@ NUMLNamespaces::NUMLNamespaces(unsigned int level, unsigned int version)
 {
   mLevel = level;
   mVersion = version;
-  mNamespaces = new XMLNamespaces();
+  mNamespaces = new LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces();
 
   mNamespaces->add(NUML_XMLNS_L1);
 }
@@ -57,7 +57,7 @@ NUMLNamespaces::NUMLNamespaces(const NUMLNamespaces& orig) :
 {
   if(orig.mNamespaces)
     this->mNamespaces = 
-           new XMLNamespaces(*const_cast<NUMLNamespaces&>(orig).mNamespaces);
+           new LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces(*const_cast<NUMLNamespaces&>(orig).mNamespaces);
   else
     this->mNamespaces = 0;
 }
@@ -77,7 +77,7 @@ NUMLNamespaces::operator=(const NUMLNamespaces& orig)
     delete this->mNamespaces;
     if(orig.mNamespaces)
       this->mNamespaces = 
-            new XMLNamespaces(*const_cast<NUMLNamespaces&>(orig).mNamespaces);
+            new LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces(*const_cast<NUMLNamespaces&>(orig).mNamespaces);
     else
       this->mNamespaces = 0;
   }
@@ -119,14 +119,14 @@ NUMLNamespaces::getVersion()
 }
 
 
-XMLNamespaces * 
+LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces *
 NUMLNamespaces::getNamespaces()
 {
   return mNamespaces;
 }
 
 void
-NUMLNamespaces::addNamespaces(XMLNamespaces * xmlns)
+NUMLNamespaces::addNamespaces(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * xmlns)
 {
   if (xmlns == NULL)
     return;
@@ -159,7 +159,7 @@ NUMLNamespaces::setVersion(unsigned int version)
 
 
 void 
-NUMLNamespaces::setNamespaces(XMLNamespaces * xmlns)
+NUMLNamespaces::setNamespaces(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * xmlns)
 {
   delete mNamespaces;
   if (xmlns)
@@ -253,7 +253,7 @@ NUMLNamespaces_getVersion(NUMLNamespaces_t *numlns)
  * @return the XMLNamespaces_t structure of this NUMLNamespaces_t structure.
  */
 LIBNUML_EXTERN
-XMLNamespaces_t *
+LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces_t *
 NUMLNamespaces_getNamespaces(NUMLNamespaces_t *numlns)
 {
   return numlns->getNamespaces();
@@ -288,7 +288,7 @@ NUMLNamespaces_getNUMLNamespaceURI(unsigned int level, unsigned int version)
 LIBNUML_EXTERN
 void
 NUMLNamespaces_addNamespaces(NUMLNamespaces_t *numlns,
-                             XMLNamespaces_t * xmlns)
+                             LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces_t * xmlns)
 {
   numlns->addNamespaces(xmlns);
 }
