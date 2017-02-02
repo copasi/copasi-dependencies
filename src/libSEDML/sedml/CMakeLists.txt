@@ -44,11 +44,11 @@ check_library_exists(m sqrt "" HAVE_LIBM)
 
 # generate configuration for this system
 configure_file(
-	${CMAKE_CURRENT_SOURCE_DIR}/common/libsedml-config-common.h.cmake
-	"${CMAKE_CURRENT_BINARY_DIR}/common/libsedml-config-common.h"
-	)
+  ${CMAKE_CURRENT_SOURCE_DIR}/common/libsedml-config-common.h.cmake
+  "${CMAKE_CURRENT_BINARY_DIR}/common/libsedml-config-common.h"
+  )
 
-# Replace: @PACKAGE_VERSION@ and @LIBSEDML_VERSION_NUMERIC@
+# Replace: @LIBSEDML_VERSION@ and @LIBSEDML_VERSION_NUMERIC@
 configure_file (
   "${CMAKE_CURRENT_SOURCE_DIR}/common/libsedml-version.h.cmake"
   "${CMAKE_CURRENT_BINARY_DIR}/common/libsedml-version.h"
@@ -71,8 +71,8 @@ configure_file (
 #
 foreach(dir annotation common compress conversion extension math units util validator xml  )
 
-	file(GLOB header_files "${CMAKE_CURRENT_SOURCE_DIR}/${dir}/*.h")
-	install(FILES ${header_files} DESTINATION include/sedml/${dir})
+  file(GLOB header_files "${CMAKE_CURRENT_SOURCE_DIR}/${dir}/*.h")
+  install(FILES ${header_files} DESTINATION include/sedml/${dir})
 
 endforeach(dir)
 
@@ -92,9 +92,10 @@ install(FILES
 # specify include directories
 #
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(BEFORE ${LIBSBML_INCLUDE_DIR})
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/..)
 include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/..)
+include_directories(BEFORE ${LIBSBML_INCLUDE_DIR})
+include_directories(BEFORE ${LIBNUML_INCLUDE_DIR})
 
 if (EXTRA_DEFS)
 add_definitions(${EXTRA_DEFS})
@@ -107,23 +108,23 @@ endif()
 
 foreach (directory common sedml )
 
-	set(dir ${directory})
+  set(dir ${directory})
 
-	if ("${directory}" STREQUAL "sedml")
-		set(dir ".")
-	endif()
+  if ("${directory}" STREQUAL "sedml")
+    set(dir ".")
+  endif()
 
 
-	file(GLOB temp
-			${dir}/*.cpp
-			${dir}/*.c
-			${dir}/*.h)
+  file(GLOB temp
+      ${dir}/*.cpp
+      ${dir}/*.c
+      ${dir}/*.h)
 
-	# create source group for IDEs
-	source_group(${directory} FILES ${temp})
+  # create source group for IDEs
+  source_group(${directory} FILES ${temp})
 
-	# add to libsbml sources
-	set(LIBSEDML_SOURCES ${LIBSEDML_SOURCES} ${temp})
+  # add to libsbml sources
+  set(LIBSEDML_SOURCES ${LIBSEDML_SOURCES} ${temp})
 
 endforeach()
 
@@ -133,19 +134,19 @@ endforeach()
 #
 if (MSVC)
 if (WITH_STATIC_RUNTIME)
-	foreach(flag_var
-		CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-		CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO
-		CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-		CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO)
+  foreach(flag_var
+    CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+    CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO
+    CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
+    CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO)
 
-		if(${flag_var} MATCHES "/MD")
-			string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-		endif(${flag_var} MATCHES "/MD")
+    if(${flag_var} MATCHES "/MD")
+      string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+    endif(${flag_var} MATCHES "/MD")
 
 
-	endforeach(flag_var)
-	add_definitions( -D_MT)
+  endforeach(flag_var)
+  add_definitions( -D_MT)
 endif(WITH_STATIC_RUNTIME)
 endif(MSVC)
 
@@ -154,7 +155,17 @@ endif(MSVC)
 # Build library
 #
 
-if (NOT LIBSEDML_SKIP_SHARED_LIBRARY)
+# used to create CMake config files for projects using this library
+if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
+include(CMakePackageConfigHelpers)
+endif()
+
+SET (INCLUDE_DESTINATION)
+if (${CMAKE_VERSION} VERSION_GREATER "2.8.11")
+  set(INCLUDE_DESTINATION INCLUDES DESTINATION include)
+endif()
+
+if (LIBSEDML_SHARED_VERSION OR NOT LIBSEDML_SKIP_SHARED_LIBRARY)
 
 add_library (${LIBSEDML_LIBRARY} SHARED ${LIBSEDML_SOURCES} )
 
@@ -165,26 +176,62 @@ if (LIBSEDML_SHARED_VERSION)
                       VERSION ${LIBSEDML_VERSION_MAJOR}.${LIBSEDML_VERSION_MINOR}.${LIBSEDML_VERSION_PATCH})
 endif()
 
-target_link_libraries(${LIBSEDML_LIBRARY} ${LIBSBML_LIBRARY} ${EXTRA_LIBS})
+target_link_libraries(${LIBSEDML_LIBRARY} ${LIBSBML_LIBRARY_NAME} ${LIBNUML_LIBRARY} ${EXTRA_LIBS})
 
-INSTALL(TARGETS ${LIBSEDML_LIBRARY}
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+# Create the exported target
+INSTALL(TARGETS ${LIBSEDML_LIBRARY} 
+  EXPORT ${LIBSEDML_LIBRARY}-config
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ${INCLUDE_DESTINATION}
   )
 
+# and install the exported target configuration
+install(EXPORT ${LIBSEDML_LIBRARY}-config 
+  DESTINATION ${PACKAGE_CONFIG_DIR}
+)
+
+if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
+
+  WRITE_BASIC_PACKAGE_VERSION_FILE(
+     ${CMAKE_CURRENT_BINARY_DIR}/${LIBSEDML_LIBRARY}-config-version.cmake 
+     COMPATIBILITY AnyNewerVersion
+  )
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${LIBSEDML_LIBRARY}-config-version.cmake
+      DESTINATION ${PACKAGE_CONFIG_DIR})
+  
+endif()
 endif()
 
 add_library (${LIBSEDML_LIBRARY}-static STATIC ${LIBSEDML_SOURCES} )
 if (WIN32 AND NOT CYGWIN)
-	# don't decorate static library 
-	set_target_properties(${LIBSEDML_LIBRARY}-static PROPERTIES COMPILE_DEFINITIONS "LIBSEDML_STATIC=1")
+  # don't decorate static library 
+  set_target_properties(${LIBSEDML_LIBRARY}-static PROPERTIES COMPILE_DEFINITIONS "LIBLAX_STATIC=1;LIBSEDML_STATIC=1")
 endif(WIN32 AND NOT CYGWIN)
 
-target_link_libraries(${LIBSEDML_LIBRARY}-static ${LIBSBML_LIBRARY} ${EXTRA_LIBS})
+target_link_libraries(${LIBSEDML_LIBRARY}-static ${LIBSBML_LIBRARY_NAME} ${LIBNUML_LIBRARY} ${EXTRA_LIBS})
 
-INSTALL(TARGETS ${LIBSEDML_LIBRARY}-static
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+# Create the exported target for the static library
+INSTALL(TARGETS ${LIBSEDML_LIBRARY}-static 
+  EXPORT ${LIBSEDML_LIBRARY}-static-config
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ${INCLUDE_DESTINATION}
+)
+
+# and install the exported target configuration
+install(EXPORT ${LIBSEDML_LIBRARY}-static-config 
+        DESTINATION ${PACKAGE_CONFIG_DIR}
+)
+if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
+  WRITE_BASIC_PACKAGE_VERSION_FILE(
+    ${CMAKE_CURRENT_BINARY_DIR}/${LIBSEDML_LIBRARY}-static-config-version.cmake 
+    COMPATIBILITY AnyNewerVersion
   )
+  install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/${LIBSEDML_LIBRARY}-static-config-version.cmake
+    DESTINATION ${PACKAGE_CONFIG_DIR}
+  )
+endif()

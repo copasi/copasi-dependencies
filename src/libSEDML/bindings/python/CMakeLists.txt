@@ -35,8 +35,12 @@
 
 find_package(SWIG REQUIRED)
 include(${SWIG_USE_FILE})
-include(FindPythonLibs)
-include(FindPythonInterp)
+find_package(PythonInterp)
+
+# specify that the same python library should be found 
+# as the one the selected interpreter uses
+set (Python_ADDITIONAL_VERSIONS ${PYTHON_VERSION_STRING})
+find_package(PythonLibs)
 
 
 ####################################################################
@@ -66,7 +70,10 @@ if (LIBSEDML_REMOVE_WRAPPERS)
 endif(LIBSEDML_REMOVE_WRAPPERS)
 
 
-set(SWIG_EXTRA_FLAGS -DSWIGEXPORT -DLIBSBML_CPP_NAMESPACE_BEGIN -DLIBSBML_CPP_NAMESPACE_END)
+set(SWIG_EXTRA_FLAGS -DSWIGEXPORT 
+  -DLIBSBML_CPP_NAMESPACE_BEGIN -DLIBSBML_CPP_NAMESPACE_END -DLIBSBML_CPP_NAMESPACE_QUALIFIER -DLIBSBML_CPP_NAMESPACE_USE
+  -DLIBNUML_CPP_NAMESPACE_BEGIN -DLIBNUML_CPP_NAMESPACE_END -DLIBNUML_CPP_NAMESPACE_QUALIFIER -DLIBNUML_CPP_NAMESPACE_USE
+)
 if(NOT UNIX)
   set(SWIG_EXTRA_FLAGS ${SWIG_EXTRA_FLAGS} -DSWIGWIN -DSWIG_CSHARP_NO_WSTRING_HELPER )
 endif()
@@ -81,14 +88,23 @@ ADD_CUSTOM_COMMAND(
       -I${CMAKE_CURRENT_SOURCE_DIR}/../../sedml
       -I${CMAKE_CURRENT_SOURCE_DIR}
       -I${LIBSBML_INCLUDE_DIR}/
+      -I${LIBNUML_INCLUDE_DIR}/
       -c++
       -python    
       ${SWIG_EXTRA_FLAGS}     
       ${SWIG_EXTRA_ARGS}     
       -o ${CMAKE_CURRENT_BINARY_DIR}/libsedml_wrap.cpp 
       ${CMAKE_CURRENT_SOURCE_DIR}/libsedml.i
+      
+      
+  COMMAND "${CMAKE_COMMAND}"
+  ARGS  -DCUR_BIN_DIRECTORY=\"${CMAKE_CURRENT_BINARY_DIR}\"
+        -DVERSION=\"${LIBSEDML_VERSION}\"
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/add_version.cmake"
+        
+      
   DEPENDS local.i local.cpp local-contrib.i
-    COMMENT "Swig Python source") 
+  COMMENT "Swig Python source") 
 
 add_custom_target(binding_python_swig ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libsedml_wrap.cpp)
   
@@ -100,6 +116,7 @@ add_custom_target(binding_python_swig ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/li
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../swig)
 include_directories(${LIBSBML_INCLUDE_DIR})
+include_directories(BEFORE ${LIBNUML_INCLUDE_DIR})
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/../../)
 add_definitions(-DLIBSEDML_STATIC)
@@ -131,14 +148,16 @@ else()
 endif()
 
 
-if(APPLE)
+if(APPLE OR UNIX)
   option (PYTHON_USE_DYNAMIC_LOOKUP
   "Do not actually link against the python library, instead use the undefined lookup mechanism, that ." OFF)
   mark_as_advanced(PYTHON_USE_DYNAMIC_LOOKUP)
-endif(APPLE)
+endif(APPLE OR UNIX)
 
-if (APPLE AND PYTHON_USE_DYNAMIC_LOOKUP)
-  set_target_properties (binding_python_lib PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+if (PYTHON_USE_DYNAMIC_LOOKUP)
+  if (APPLE)
+    set_target_properties (binding_python_lib PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+  endif()
   target_link_libraries(binding_python_lib ${LIBSEDML_LIBRARY}-static)
 else()
   target_link_libraries(binding_python_lib ${LIBSEDML_LIBRARY}-static ${PYTHON_LIBRARIES})

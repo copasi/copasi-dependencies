@@ -48,6 +48,7 @@
 #include <sedml/common/libsedml-namespace.h>
 #include <sedml/common/libsedml-config.h>
 
+#include <numl/common/libnuml-namespace.h>
 
 #ifdef __cplusplus
 /**
@@ -327,7 +328,32 @@ typedef CLASS_OR_STRUCT SedCurve                     SedCurve_t;
  */
 typedef CLASS_OR_STRUCT SedDataSet                     SedDataSet_t;
 
+/**
+* @var typedef class SedDataDescription SedDataDescription_t
+* @copydoc SedDataDescription
+*/
+typedef CLASS_OR_STRUCT SedDataDescription                     SedDataDescription_t;
+
+/**
+* @var typedef class SedDataSource SedDataSource_t
+* @copydoc SedDataSource
+*/
+typedef CLASS_OR_STRUCT SedDataSource                     SedDataSource_t;
+
+/**
+* @var typedef class SedSlice SedSlice_t
+* @copydoc SedSlice
+*/
+typedef CLASS_OR_STRUCT SedSlice                     SedSlice_t;
+
+
 LIBSEDML_CPP_NAMESPACE_END
+
+LIBNUML_CPP_NAMESPACE_BEGIN
+
+typedef CLASS_OR_STRUCT DimensionDescription                     DimensionDescription_t;
+
+LIBNUML_CPP_NAMESPACE_END
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 

@@ -80,8 +80,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt")
 endif()
 
 MATH(EXPR LIBSEDML_VERSION_NUMERIC "${LIBSEDML_VERSION_MAJOR} * 10000 + ${LIBSEDML_VERSION_MINOR} * 100 + ${LIBSEDML_VERSION_PATCH}" )
-set(PACKAGE_VERSION "${LIBSEDML_VERSION_MAJOR}.${LIBSEDML_VERSION_MINOR}.${LIBSEDML_VERSION_PATCH}${LIBSEDML_VERSION_RELEASE}")
+set(LIBSEDML_VERSION "${LIBSEDML_VERSION_MAJOR}.${LIBSEDML_VERSION_MINOR}.${LIBSEDML_VERSION_PATCH}${LIBSEDML_VERSION_RELEASE}")
 set(PACKAGE_NAME "libSEDML")
+
+
+set(PACKAGE_CONFIG_DIR lib/cmake CACHE PATH
+    "Path into which the cmake config files should be installed")
+
+# PACKAGE_VERSION gets overridden by using other packages, so setting
+# the PROJECT_VERSION, which will be used when exporting targets in
+# src/CMakeLists.txt
+set(PROJECT_VERSION ${LIBSEDML_VERSION})
 
 # add make dist and make check target as they are already familiar for
 # everyone using the gnumake build
@@ -217,6 +226,14 @@ if("${LIBSEDML_DEPENDENCY_DIR}" STREQUAL "")
 endif()
 
 
+# Update cmake path variables
+if (LIBSEDML_DEPENDENCY_DIR AND EXISTS ${LIBSEDML_DEPENDENCY_DIR})
+  set(CMAKE_PREFIX_PATH "${LIBSEDML_DEPENDENCY_DIR}/lib/cmake;${CMAKE_PREFIX_PATH}")
+endif()
+
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
+
+
 ###############################################################################
 #
 # If WITH_SWIG is selected, we need to find swig
@@ -228,10 +245,21 @@ if(WITH_CPP_NAMESPACE)
     set (LIBSEDML_USE_CPP_NAMESPACE 1)
 endif()
 
+if (SWIG_EXECUTABLE AND NOT EXISTS "${SWIG_EXECUTABLE}")
+unset(SWIG_EXECUTABLE CACHE )
+unset(SWIG_DIR CACHE )
+unset(SWIG_VERSION CACHE )
+endif()
+
 if(WITH_SWIG)
     find_program(SWIG_EXECUTABLE
       NAMES swig
       PATHS
+        c:/swigwin-3.0.10
+        c:/swigwin-3.0.9
+        c:/swigwin-3.0.8
+        c:/swigwin-3.0.7
+        c:/swigwin-3.0.6
         c:/swigwin-3.0.5
         c:/swigwin-3.0.2
         c:/swigwin-3.0.0
@@ -255,24 +283,35 @@ endif(WITH_SWIG)
 
 ###############################################################################
 #
+# Need some variables set up, such as the name for the libSEDML
+# library and the Path and file separator characters. The
+# MISC_PREFIX variable will cause libsbml bindings, examples and
+# documentation to be installed in PREFIX/${MISC_PREFIX}.
+#
+
+set( MISC_PREFIX )
+if(UNIX OR CYGWIN OR MINGW)
+    set(PATH_SEP "/")
+    set(FILE_SEP ":")
+    set( MISC_PREFIX "share/libsedml/" )
+    set(LIBSEDML_LIBRARY sedml)
+else()
+    set( MISC_PREFIX "" )
+    set(PATH_SEP "\\")
+    set(FILE_SEP ";")
+    if(MINGW)
+        set(LIBSEDML_LIBRARY sedml)
+    else()
+        set(LIBSEDML_LIBRARY libsedml)
+    endif()
+endif()
+
+###############################################################################
+#
 # Locate libsbml
 #
-find_library(LIBSBML_LIBRARY
-    NAMES libsbml-static.lib sbml-static libsbml.lib sbml
-    PATHS ${LIBSEDML_DEPENDENCY_DIR}/lib
-    /usr/local/lib          
-          /usr/lib 
-    DOC "The file name of the sbml library."
-)
-
-find_path(LIBSBML_INCLUDE_DIR
-    NAMES sbml/SBase.h
-    PATHS 
-          ${LIBSEDML_DEPENDENCY_DIR}/include
-    /usr/local/include
-          /usr/include 
-    DOC "The directory containing the sbml include files."
-)
+find_package(LIBSBML REQUIRED)
+find_package(LIBNUML REQUIRED)
 
 set(LIBSBML_STATIC OFF CACHE BOOL "is libsbml statically compiled")
 if (WIN32 AND NOT CYGWIN)
@@ -283,12 +322,15 @@ if (WIN32 AND NOT CYGWIN)
   endif()
 endif()
 
-if(NOT EXISTS "${LIBSBML_INCLUDE_DIR}/sbml/SBase.h")
-    message(FATAL_ERROR 
-"The include directory specified for sbml appears to be invalid.  It should contain the 
-file sbml/SBase.h, but it does not. Please specify the LIBSBML_INCLUDE_DIR variable."
-)
+set(LIBNUML_STATIC OFF CACHE BOOL "is libnuml statically compiled")
+if (WIN32 AND NOT CYGWIN)
+  if (LIBNUML_LIBRARY AND LIBNUML_LIBRARY MATCHES ".*-static*$")
+    set(LIBNUML_STATIC ON CACHE BOOL "is libnuml statically compiled")
+  else()
+    option(LIBNUML_STATIC "The LibNUML library was statically compiled" ON)
+  endif()
 endif()
+
 
 
 ###############################################################################
@@ -356,9 +398,11 @@ endif(WITH_ZLIB)
 #
 
 if(WITH_CSHARP)
+   FILE(TO_CMAKE_PATH "$ENV{WINDIR}" windir)
     find_program(CSHARP_COMPILER
-        NAMES gmcs csc
-        PATHS C:/Windows/Microsoft.NET/Framework/v2.0.50727/ /usr/bin /usr/local/bin
+        NAMES gmcs csc mcs
+        PATHS ${windir}/Microsoft.NET/Framework/v2.0.50727/ 
+              /usr/bin /usr/local/bin
         DOC "The file name of the C# compiler."
         )
     if(UNIX)
@@ -411,30 +455,7 @@ if(WITH_CHECK)
 endif(WITH_CHECK)
 
 
-###############################################################################
-#
-# Need some variables set up, such as the name for the libSEDML
-# library and the Path and file separator characters. The
-# MISC_PREFIX variable will cause libsbml bindings, examples and
-# documentation to be installed in PREFIX/${MISC_PREFIX}.
-#
 
-set( MISC_PREFIX )
-if(UNIX OR CYGWIN)
-    set(PATH_SEP "/")
-    set(FILE_SEP ":")
-    set( MISC_PREFIX "share/libsedml/" )
-    set(LIBSEDML_LIBRARY sedml)
-else()
-    set( MISC_PREFIX "" )
-    set(PATH_SEP "\\")
-    set(FILE_SEP ";")
-    if(MINGW)
-        set(LIBSEDML_LIBRARY sedml)
-    else()
-        set(LIBSEDML_LIBRARY libsedml)
-    endif()
-endif()
 
 # On some Linux  (64bit) systems (64bit) the libraries should be installed into lib64 rather
 # than lib. It will default to 'lib' but can be overwritten.
@@ -513,11 +534,11 @@ if(UNIX)
         set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DLINUX")
     endif(APPLE)
 
-    add_definitions( -DPACKAGE_VERSION=\"${PACKAGE_VERSION}\"  -DPACKAGE_NAME=\"${PROJECT_NAME}\")
-    set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DPACKAGE_VERSION=\"${PACKAGE_VERSION}\"  -DPACKAGE_NAME=\"${PROJECT_NAME}\"")
+    add_definitions( -DPACKAGE_VERSION=\"${LIBSEDML_VERSION}\"  -DPACKAGE_NAME=\"${PROJECT_NAME}\")
+    set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DPACKAGE_VERSION=\"${LIBSEDML_VERSION}\"  -DPACKAGE_NAME=\"${PROJECT_NAME}\"")
 
 else(UNIX)
-    add_definitions(-DPACKAGE_VERSION=\"${PACKAGE_VERSION}\"  -DPACKAGE_NAME=\"${PROJECT_NAME}\")
+    add_definitions(-DPACKAGE_VERSION=\"${LIBSEDML_VERSION}\"  -DPACKAGE_NAME=\"${PROJECT_NAME}\")
     
     add_definitions(-DWIN32)
     set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DWIN32")
@@ -528,6 +549,14 @@ else(UNIX)
   else()
       add_definitions(-DLIBSBML_EXPORTS -DLIBLAX_EXPORTS)
       set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DLIBSBML_EXPORTS -DLIBLAX_EXPORTS")
+  endif()
+
+  if (LIBNUML_STATIC)
+      add_definitions(-DLIBNUML_STATIC)
+      set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DLIBNUML_STATIC")
+  else()
+      add_definitions(-DLIBNUML_EXPORTS)
+      set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DLIBNUML_EXPORTS")
   endif()
   
     if(MSVC OR USING_INTEL)
@@ -746,7 +775,7 @@ endif()
 
 message(STATUS "
 ----------------------------------------------------------------------
-libSEDML version ${PACKAGE_VERSION}
+libSEDML version ${PROJECT_VERSION}
 ----------------------------------------------------------------------
 
    More information and the latest version are available online at
@@ -773,6 +802,10 @@ libSEDML version ${PACKAGE_VERSION}
    SBML library configuration:
      SBML library                  = ${LIBSBML_LIBRARY}
      SBML include                  = -I${LIBSBML_INCLUDE_DIR}
+
+   NUML library configuration:
+     NUML library                  = ${LIBNUML_LIBRARY}
+     NUML include                  = -I${LIBNUML_INCLUDE_DIR}
 
   Other libSEDML configuration settings:
      Installation $prefix          = ${CMAKE_INSTALL_PREFIX}")
