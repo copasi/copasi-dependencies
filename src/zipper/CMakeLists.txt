@@ -280,16 +280,12 @@ if (CYGWIN AND NOT WITH_QT_FILESYSTEM)
 add_definitions(-D__APPLE__)
 endif()
 
-if (NOT MINIZIP_DIR)
-set (MINIZIP_DIR ${CMAKE_CURRENT_SOURCE_DIR}/minizip)
-endif()
-
 
 include_directories(BEFORE ${LIBZ_INCLUDE_DIR})
 include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR})
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/zipper)
-include_directories(BEFORE ${MINIZIP_DIR})
+include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/minizip)
 
 # allow definition of extra include dirs
 if (EXTRA_INCLUDE_DIRS)
@@ -297,28 +293,29 @@ include_directories(${EXTRA_INCLUDE_DIRS})
 endif()
 
 file(GLOB MINIZIP_SOURCES 
-  ${MINIZIP_DIR}/*.c
-  ${MINIZIP_DIR}/*.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/minizip/*.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/minizip/*.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/minizip/aes/*.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/minizip/aes/*.h
 )
 
-FILE(COPY ${MINIZIP_DIR}/zip.h
-          ${MINIZIP_DIR}/unzip.h
-          ${MINIZIP_DIR}/ioapi_mem.h
+FILE(COPY ${CMAKE_CURRENT_SOURCE_DIR}/minizip/zip.h
+          ${CMAKE_CURRENT_SOURCE_DIR}/minizip/unzip.h
+          ${CMAKE_CURRENT_SOURCE_DIR}/minizip/ioapi_mem.h
      DESTINATION
           ${CMAKE_CURRENT_BINARY_DIR}/zipper
 )
 
 list(REMOVE_ITEM MINIZIP_SOURCES
-  ${MINIZIP_DIR}/minizip.c
-  ${MINIZIP_DIR}/miniunz.c
+${CMAKE_CURRENT_SOURCE_DIR}/minizip/minizip.c
+${CMAKE_CURRENT_SOURCE_DIR}/minizip/miniunz.c
 )
 
 if(UNIX AND NOT CYGWIN)
   list(REMOVE_ITEM MINIZIP_SOURCES
-  ${MINIZIP_DIR}/iowin32.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/minizip/iowin32.c
   )
 endif()
-
 source_group(minizip FILES ${MINIZIP_SOURCES})
 
 
