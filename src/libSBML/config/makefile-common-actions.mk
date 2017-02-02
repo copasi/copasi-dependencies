@@ -1,6 +1,6 @@
 ## Filename    : makefile-common-actions.mk
 ## Description : Makefile include file containing common actions
-## Author(s)   : SBML Team <sbml-team@caltech.edu>
+## Author(s)   : SBML Team <sbml-team@googlegroups.com>
 ## Organization: California Institute of Technology
 ## Created     : 2004-06-17
 ##
@@ -8,7 +8,7 @@
 ## This file is part of libSBML.  Please visit http://sbml.org for more
 ## information about SBML, and the latest version of libSBML.
 ##
-## Copyright (C) 2013-2016 jointly by the following organizations:
+## Copyright (C) 2013-2017 jointly by the following organizations:
 ##     1. California Institute of Technology, Pasadena, CA, USA
 ##     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 ##     3. University of Heidelberg, Heidelberg, Germany

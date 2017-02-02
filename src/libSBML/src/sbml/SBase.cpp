@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -3239,6 +3239,60 @@ SBase::unsetAttribute(const std::string& attributeName)
   return value;
 }
 
+SBase* 
+SBase::createObject(const std::string& objectName)
+{
+  return NULL;
+}
+
+  /** @cond doxygenLibsbmlInternal */
+
+unsigned int
+  SBase::getNumObjects(const std::string& objectName)
+{
+  return 0;
+}
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+SBase* 
+SBase::getObject(const std::string& objectName, unsigned int index)
+{
+  return NULL;
+}
+
+  /** @endcond */
+     /** @cond doxygenLibsbmlInternal */
+
+int
+SBase::setMath(const ASTNode* math)
+{
+  return LIBSBML_UNEXPECTED_ATTRIBUTE;
+}
+
+int
+SBase::setMessage (const std::string& message, bool addXHTMLMarkup)
+{
+  return LIBSBML_UNEXPECTED_ATTRIBUTE;
+}
+
+std::string 
+SBase::getMessageString () const
+{
+  return mEmptyString;
+}
+
+
+const ASTNode*
+SBase::getMath() const
+{
+  return NULL;
+}
+
+
+  /** @endcond */
 
 /*
  * @return the version of package to which this SBML object

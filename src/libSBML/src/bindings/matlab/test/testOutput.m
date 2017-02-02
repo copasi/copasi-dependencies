@@ -8,7 +8,7 @@ function fail = testOutput(outdir, in_installer, fbcEnabled)
 % This file is part of SBMLToolbox.  Please visit http://sbml.org for more
 % information about SBML, and the latest version of SBMLToolbox.
 %
-% Copyright (C) 2013-2016 jointly by the following organizations:
+% Copyright (C) 2013-2017 jointly by the following organizations:
 %     1. California Institute of Technology, Pasadena, CA, USA
 %     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 %     3. University of Heidelberg, Heidelberg, Germany
@@ -63,6 +63,8 @@ for i=1:length(files)
     %do nothing
   elseif (fbcEnabled == 0 && strcmp(files(i).name, 'fbc.xml'))
     % do nothing
+  elseif (fbcEnabled == 0 && strcmp(files(i).name, 'fbcV2.xml'))
+    % do nothing
   else
     model = [];
     model = TranslateSBML(['test-data', filesep, files(i).name]);
@@ -96,7 +98,7 @@ test = test + 2;
 m = [];
 [v, mess] = isSBML_Model(m);
 
-expected = sprintf('Invalid Model structure\n%s\n', '');
+expected = sprintf('Invalid Model structure');
 if v ~= 0 || ~strcmp(mess, expected)
   invalidFail = invalidFail + 1;
   disp('empty [] failed');
@@ -113,7 +115,7 @@ test = test + 2;
 m = struct();
 [v, mess] = isSBML_Model(m);
 
-expected = sprintf('missing typecode field');
+expected = sprintf('model missing typecode field');
 if v ~= 0 || ~strcmp(mess, expected)
   invalidFail = invalidFail + 1;
   disp('empty structure failed');
@@ -173,6 +175,7 @@ expected_files = { ...
 'l2v4-all.xml', ...
 'l2v5-all.xml', ...
 'l3v1core.xml', ...
+'math_no_arguments.xml', ...
 'nestedPiecewise.xml', ...
 'none.xml', ...
 'notes_annotations.xml', ...

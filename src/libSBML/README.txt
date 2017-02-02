@@ -21,7 +21,7 @@
                         http://sbml.org/Forums
 
     To contact the core libSBML developers directly, send email to
-		       libsbml-team@caltech.edu
+		       libsbml-team@googlegroups.com
 
    ,---------------------------------------------------------------.
   | Table of contents                                               |
@@ -336,7 +336,7 @@ software included in and used by the libSBML distribution.
 
 The majority of the libSBML source code is copyrighted as follows:
 
-* Copyright (C) 2013-2016 jointly by the following organizations:
+* Copyright (C) 2013-2017 jointly by the following organizations:
   1. California Institute of Technology, Pasadena, CA, USA
   2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
   3. University of Heidelberg, Heidelberg, Germany

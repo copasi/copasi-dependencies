@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1812,6 +1812,73 @@ UnitDefinition::unsetAttribute(const std::string& attributeName)
 }
 
 /** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Creates and returns an new "elementName" object in this UnitDefinition.
+ */
+SBase*
+UnitDefinition::createObject(const std::string& elementName)
+{
+  SBase* obj = NULL;
+
+  if (elementName == "unit")
+  {
+    return createUnit();
+  }
+
+  return obj;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the number of "elementName" in this UnitDefinition.
+ */
+unsigned int
+UnitDefinition::getNumObjects(const std::string& elementName)
+{
+  unsigned int n = 0;
+
+  if (elementName == "unit")
+  {
+    return getNumUnits();
+  }
+
+  return n;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the nth object of "objectName" in this UnitDefinition.
+ */
+SBase*
+UnitDefinition::getObject(const std::string& elementName, unsigned int index)
+{
+  SBase* obj = NULL;
+
+  if (elementName == "unit")
+  {
+    return getUnit(index);
+  }
+
+  return obj;
+}
+
+/** @endcond */
+
 
 
 /* @cond doxygenLibsbmlInternal */

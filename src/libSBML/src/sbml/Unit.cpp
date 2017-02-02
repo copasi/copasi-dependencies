@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1085,6 +1085,11 @@ Unit::getAttribute(const std::string& attributeName, double& value) const
     value = getOffset();
     return_value = LIBSBML_OPERATION_SUCCESS;
   }
+  else if (attributeName == "kind")
+  {
+    value = getKind();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
 
   return return_value;
 }
@@ -1121,6 +1126,10 @@ Unit::getAttribute(const std::string& attributeName, std::string& value) const
 {
   int return_value = SBase::getAttribute(attributeName, value);
 
+  if (attributeName == "kind")
+  {
+    value = UnitKind_toString(getKind());
+  }
   return return_value;
 }
 
@@ -1138,6 +1147,10 @@ Unit::getAttribute(const std::string& attributeName, const char* value) const
 {
   int return_value = SBase::getAttribute(attributeName, value);
 
+  if (attributeName == "kind")
+  {
+    value = UnitKind_toString(getKind());
+  }
   return return_value;
 }
 
@@ -1218,6 +1231,10 @@ Unit::setAttribute(const std::string& attributeName, int value)
   {
     return_value = setExponent(value);
   }
+  else if (attributeName == "kind")
+  {
+    return_value = setKind((UnitKind_t)(value));
+  }
 
   return return_value;
 }
@@ -1283,6 +1300,10 @@ Unit::setAttribute(const std::string& attributeName, const std::string& value)
 {
   int return_value = SBase::setAttribute(attributeName, value);
 
+  if (attributeName == "kind")
+  {
+    return_value = setKind(UnitKind_forName(value.c_str()));
+  }
   return return_value;
 }
 

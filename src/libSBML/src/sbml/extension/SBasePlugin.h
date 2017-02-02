@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -699,6 +699,136 @@ public:
   const SBMLExtension* getSBMLExtension() const;
 
   /** @endcond */
+
+  #ifndef SWIG
+   /** @cond doxygenLibsbmlInternal */
+
+  // ------------------------------------------------------------------
+  //
+  //  functions to faciliate matlab binding
+
+   virtual int getAttribute(const std::string& attributeName, double& value) const;
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual int getAttribute(const std::string& attributeName, bool& value) const;
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual int getAttribute(const std::string& attributeName, int& value) const;
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual int getAttribute(const std::string& attributeName, unsigned int& value) const;
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual int getAttribute(const std::string& attributeName, std::string& value) const;
+
+  /** @endcond */
+
+   virtual int getAttribute(const std::string& attributeName, const char * value) const;
+
+
+   virtual bool isSetAttribute(const std::string& attributeName) const;
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual int setAttribute(const std::string& attributeName, double value);
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual int setAttribute(const std::string& attributeName, bool value);
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual int setAttribute(const std::string& attributeName, int value);
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual int setAttribute(const std::string& attributeName, unsigned int value);
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual int setAttribute(const std::string& attributeName, const std::string& value);
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual int setAttribute(const std::string& attributeName, const char* value);
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual int unsetAttribute(const std::string& attributeName);
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual SBase* createObject(const std::string& objectName);
+
+  /** @endcond */
+
+     /** @cond doxygenLibsbmlInternal */
+
+   //virtual int setMath(const ASTNode* math);
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Returns the number of "elementName" in this FbcModelPlugin.
+   *
+   * @param elementName, the name of the element to get number of.
+   *
+   * unsigned int number of elements.
+   */
+  virtual unsigned int getNumObjects(const std::string& elementName);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Returns the nth object of "objectName" in this FbcModelPlugin.
+   *
+   * @param elementName, the name of the element to get number of.
+   *
+   * @param index, unsigned int teh index of teh object to retrieve.
+   *
+   * pointer to the object.
+   */
+  virtual SBase* getObject(const std::string& elementName, unsigned int index);
+
+  /** @endcond */
+
+
+#endif
+
 
 protected:
   /** @cond doxygenLibsbmlInternal */

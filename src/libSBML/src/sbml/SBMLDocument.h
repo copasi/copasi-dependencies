@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -500,7 +500,20 @@ public:
    */
   Model* getModel ();
 
+#ifndef SWIG
 
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual unsigned int getNumObjects(const std::string& objectName);
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual SBase* getObject(const std::string& objectName, unsigned int index);
+
+  /** @endcond */
+#endif
   /**
    * Returns the first child element found that has the given @p id in the
    * model-wide SId namespace, or @c NULL if no such object is found.

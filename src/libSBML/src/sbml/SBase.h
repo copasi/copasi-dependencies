@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -2473,6 +2473,44 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    virtual int unsetAttribute(const std::string& attributeName);
 
   /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual SBase* createObject(const std::string& objectName);
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual unsigned int getNumObjects(const std::string& objectName);
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual SBase* getObject(const std::string& objectName, unsigned int index);
+
+  /** @endcond */
+
+     /** @cond doxygenLibsbmlInternal */
+
+   virtual int setMath(const ASTNode* math);
+
+  /** @endcond */
+
+     /** @cond doxygenLibsbmlInternal */
+
+  virtual int setMessage (const std::string& message, bool addXHTMLMarkup = false);
+
+  /** @endcond */
+
+       /** @cond doxygenLibsbmlInternal */
+
+   virtual const ASTNode* getMath() const;
+
+  /** @endcond */
+
+  virtual std::string getMessageString () const;
 #endif
 
   /** @cond doxygenLibsbmlInternal */

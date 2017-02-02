@@ -1,7 +1,7 @@
 dnl
 dnl Filename    : java.m4
 dnl Description : Autoconf macro to check for existence of Java
-dnl Author(s)   : SBML Team <sbml-team@caltech.edu>
+dnl Author(s)   : SBML Team <sbml-team@googlegroups.com>
 dnl Organization: California Institute of Technology
 dnl Created     : 2004-07-07
 dnl
@@ -9,7 +9,7 @@ dnl <!-------------------------------------------------------------------------
 dnl This file is part of libSBML.  Please visit http://sbml.org for more
 dnl information about SBML, and the latest version of libSBML.
 dnl
-dnl Copyright (C) 2013-2016 jointly by the following organizations:
+dnl Copyright (C) 2013-2017 jointly by the following organizations:
 dnl     1. California Institute of Technology, Pasadena, CA, USA
 dnl     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 dnl     3. University of Heidelberg, Heidelberg, Germany
@@ -659,7 +659,7 @@ on your system before proceeding further.
 
 If you are certain that you have a properly configured and installed Java
 JDK on your system, please use the libSBML issue tracker to file a report
-that this problem has occurred, or else email libsbml-team@caltech.edu
+that this problem has occurred, or else email libsbml-team@googlegroups.com
 directly, and please include the file "config.log".  (The file should have
 been left at the top level of your libSBML source code directory.)  We will
 attempt to debug the problem and improve 'configure' for future releases.

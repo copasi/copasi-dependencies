@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -4185,6 +4185,319 @@ Model::unsetAttribute(const std::string& attributeName)
 
 /** @endcond */
 
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Creates and returns an new "elementName" object in this Model.
+ */
+SBase*
+Model::createObject(const std::string& elementName)
+{
+  SBase* obj = NULL;
+
+  if (elementName == "functionDefinition")
+  {
+    return createFunctionDefinition();
+  }
+  else if (elementName == "unitDefinition")
+  {
+    return createUnitDefinition();
+  }
+  else if (elementName == "compartment")
+  {
+    return createCompartment();
+  }
+  else if (elementName == "species")
+  {
+    return createSpecies();
+  }
+  else if (elementName == "parameter")
+  {
+    return createParameter();
+  }
+  else if (elementName == "initialAssignment")
+  {
+    return createInitialAssignment();
+  }
+  else if (elementName == "constraint")
+  {
+    return createConstraint();
+  }
+  else if (elementName == "reaction")
+  {
+    return createReaction();
+  }
+  else if (elementName == "event")
+  {
+    return createEvent();
+  }
+  else if (elementName == "assignmentRule")
+  {
+    return createAssignmentRule();
+  }
+  else if (elementName == "parameterAssignmentRule")
+  {
+    AssignmentRule *ar = createAssignmentRule();
+    ar->setL1TypeCode(SBML_PARAMETER_RULE);
+    return ar;
+  }
+  else if (elementName == "speciesAssignmentRule")
+  {
+    AssignmentRule *ar = createAssignmentRule();
+    ar->setL1TypeCode(SBML_SPECIES_CONCENTRATION_RULE);
+    return ar;
+  }
+  else if (elementName == "compartmentAssignmentRule")
+  {
+    AssignmentRule *ar = createAssignmentRule();
+    ar->setL1TypeCode(SBML_COMPARTMENT_VOLUME_RULE);
+    return ar;
+  }
+  else if (elementName == "parameterRateRule")
+  {
+    RateRule *ar = createRateRule();
+    ar->setL1TypeCode(SBML_PARAMETER_RULE);
+    return ar;
+  }
+  else if (elementName == "speciesRateRule")
+  {
+    RateRule *ar = createRateRule();
+    ar->setL1TypeCode(SBML_SPECIES_CONCENTRATION_RULE);
+    return ar;
+  }
+  else if (elementName == "compartmentRateRule")
+  {
+    RateRule *ar = createRateRule();
+    ar->setL1TypeCode(SBML_COMPARTMENT_VOLUME_RULE);
+    return ar;
+  }
+  else if (elementName == "rateRule")
+  {
+    return createRateRule();
+  }
+  else if (elementName == "algebraicRule")
+  {
+    return createAlgebraicRule();
+  }
+  else if (elementName == "compartmentType")
+  {
+    return createCompartmentType();
+  }
+  else if (elementName == "speciesType")
+  {
+    return createSpeciesType();
+  }
+
+  return obj;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the number of "elementName" in this Model.
+ */
+unsigned int
+Model::getNumObjects(const std::string& elementName)
+{
+  unsigned int n = 0;
+
+  if (elementName == "functionDefinition")
+  {
+    return getNumFunctionDefinitions();
+  }
+  else if (elementName == "unitDefinition")
+  {
+    return getNumUnitDefinitions();
+  }
+  else if (elementName == "compartment")
+  {
+    return getNumCompartments();
+  }
+  else if (elementName == "species")
+  {
+    return getNumSpecies();
+  }
+  else if (elementName == "parameter")
+  {
+    return getNumParameters();
+  }
+  else if (elementName == "initialAssignment")
+  {
+    return getNumInitialAssignments();
+  }
+  else if (elementName == "constraint")
+  {
+    return getNumConstraints();
+  }
+  else if (elementName == "reaction")
+  {
+    return getNumReactions();
+  }
+  else if (elementName == "event")
+  {
+    return getNumEvents();
+  }
+  else if (elementName == "rule")
+  {
+    return getNumRules();
+  }
+  else if (elementName == "assignmentRule")
+  {
+    return getNumRules();
+  }
+  else if (elementName == "parameterAssignmentRule")
+  {
+    return getNumRules();
+  }
+  else if (elementName == "speciesAssignmentRule")
+  {
+    return getNumRules();
+  }
+  else if (elementName == "compartmentAssignmentRule")
+  {
+    return getNumRules();
+  }
+  else if (elementName == "parameterRateRule")
+  {
+    return getNumRules();
+  }
+  else if (elementName == "speciesRateRule")
+  {
+    return getNumRules();
+  }
+  else if (elementName == "compartmentRateRule")
+  {
+    return getNumRules();
+  }
+  else if (elementName == "rateRule")
+  {
+    return getNumRules();
+  }
+  else if (elementName == "algebraicRule")
+  {
+    return getNumRules();
+  }
+  else if (elementName == "compartmentType")
+  {
+    return getNumCompartmentTypes();
+  }
+  else if (elementName == "speciesType")
+  {
+    return getNumSpeciesTypes();
+  }
+
+  return n;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the nth object of "objectName" in this Model.
+ */
+SBase*
+Model::getObject(const std::string& elementName, unsigned int index)
+{
+  SBase* obj = NULL;
+
+  if (elementName == "functionDefinition")
+  {
+    return getFunctionDefinition(index);
+  }
+  else if (elementName == "unitDefinition")
+  {
+    return getUnitDefinition(index);
+  }
+  else if (elementName == "compartment")
+  {
+    return getCompartment(index);
+  }
+  else if (elementName == "species")
+  {
+    return getSpecies(index);
+  }
+  else if (elementName == "parameter")
+  {
+    return getParameter(index);
+  }
+  else if (elementName == "initialAssignment")
+  {
+    return getInitialAssignment(index);
+  }
+  else if (elementName == "constraint")
+  {
+    return getConstraint(index);
+  }
+  else if (elementName == "reaction")
+  {
+    return getReaction(index);
+  }
+  else if (elementName == "event")
+  {
+    return getEvent(index);
+  }
+  else if (elementName == "rule")
+  {
+    return getRule(index);
+  }
+  else if (elementName == "assignmentRule")
+  {
+    return getRule(index);
+  }
+  else if (elementName == "parameterAssignmentRule")
+  {
+    return getRule(index);
+  }
+  else if (elementName == "speciesAssignmentRule")
+  {
+    return getRule(index);
+  }
+  else if (elementName == "compartmentAssignmentRule")
+  {
+    return getRule(index);
+  }
+  else if (elementName == "parameterRateRule")
+  {
+    return getRule(index);
+  }
+  else if (elementName == "speciesRateRule")
+  {
+    return getRule(index);
+  }
+  else if (elementName == "compartmentRateRule")
+  {
+    return getRule(index);
+  }
+  else if (elementName == "rateRule")
+ {
+    return getRule(index);
+  }
+  else if (elementName == "algebraicRule")
+  {
+    return getRule(index);
+  }
+  else if (elementName == "compartmentType")
+  {
+    return getCompartmentType(index);
+  }
+  else if (elementName == "speciesType")
+  {
+    return getSpeciesType(index);
+  }
+
+  return obj;
+}
+
+/** @endcond */
 
 
 

@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -210,7 +210,11 @@ int
 AssignmentRule::getAttribute(const std::string& attributeName,
                              std::string& value) const
 {
-  int return_value = Rule::getAttribute(attributeName, value);
+  int return_value = LIBSBML_OPERATION_FAILED;
+  if (getLevel() > 1)
+  {
+    return_value = Rule::getAttribute(attributeName, value);
+  }
 
   if (return_value == LIBSBML_OPERATION_SUCCESS)
   {
@@ -221,6 +225,17 @@ AssignmentRule::getAttribute(const std::string& attributeName,
   {
     value = getVariable();
     return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    int l1type = getL1TypeCode();
+    if ((attributeName == "name" && l1type == SBML_PARAMETER_RULE) 
+      || (attributeName == "compartment" && l1type == SBML_COMPARTMENT_VOLUME_RULE) 
+      || (attributeName == "species" && l1type == SBML_SPECIES_CONCENTRATION_RULE))
+    {
+      value = getVariable();
+      return_value = LIBSBML_OPERATION_SUCCESS;
+    }
   }
 
   return return_value;
@@ -239,7 +254,11 @@ int
 AssignmentRule::getAttribute(const std::string& attributeName,
                              const char* value) const
 {
-  int return_value = Rule::getAttribute(attributeName, value);
+  int return_value = LIBSBML_OPERATION_FAILED;
+  if (getLevel() > 1)
+  {
+    return_value = Rule::getAttribute(attributeName, value);
+  }
 
   if (return_value == LIBSBML_OPERATION_SUCCESS)
   {
@@ -250,6 +269,17 @@ AssignmentRule::getAttribute(const std::string& attributeName,
   {
     value = getVariable().c_str();
     return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    int l1type = getL1TypeCode();
+    if ((attributeName == "name" && l1type == SBML_PARAMETER_RULE) 
+      || (attributeName == "compartment" && l1type == SBML_COMPARTMENT_VOLUME_RULE) 
+      || (attributeName == "species" && l1type == SBML_SPECIES_CONCENTRATION_RULE))
+    {
+      value = getVariable().c_str();
+      return_value = LIBSBML_OPERATION_SUCCESS;
+    }
   }
 
   return return_value;
@@ -268,11 +298,25 @@ AssignmentRule::getAttribute(const std::string& attributeName,
 bool
 AssignmentRule::isSetAttribute(const std::string& attributeName) const
 {
-  bool value = Rule::isSetAttribute(attributeName);
+  bool value = false;
+  if (getLevel() > 1)
+  {
+    value = Rule::isSetAttribute(attributeName);
+  }
 
   if (attributeName == "variable")
   {
     value = isSetVariable();
+  }
+  else
+  {
+    int l1type = getL1TypeCode();
+    if ((attributeName == "name" && l1type == SBML_PARAMETER_RULE) 
+      || (attributeName == "compartment" && l1type == SBML_COMPARTMENT_VOLUME_RULE) 
+      || (attributeName == "species" && l1type == SBML_SPECIES_CONCENTRATION_RULE))
+    {
+      value = isSetVariable();
+    }
   }
 
   return value;
@@ -360,11 +404,25 @@ int
 AssignmentRule::setAttribute(const std::string& attributeName,
                              const std::string& value)
 {
-  int return_value = Rule::setAttribute(attributeName, value);
+  int return_value = LIBSBML_OPERATION_FAILED;
+  if (getLevel() > 1)
+  {
+    return_value = Rule::setAttribute(attributeName, value);
+  }
 
-  if (attributeName == "variable")
+  if (attributeName == "variable" )
   {
     return_value = setVariable(value);
+  }
+  else
+  {
+    int l1type = getL1TypeCode();
+    if ((attributeName == "name" && l1type == SBML_PARAMETER_RULE) 
+      || (attributeName == "compartment" && l1type == SBML_COMPARTMENT_VOLUME_RULE) 
+      || (attributeName == "species" && l1type == SBML_SPECIES_CONCENTRATION_RULE))
+    {
+      return_value = setVariable(value);
+    }
   }
 
   return return_value;
@@ -383,11 +441,25 @@ int
 AssignmentRule::setAttribute(const std::string& attributeName,
                              const char* value)
 {
-  int return_value = Rule::setAttribute(attributeName, value);
+  int return_value = LIBSBML_OPERATION_FAILED;
+  if (getLevel() > 1)
+  {
+    return_value = Rule::setAttribute(attributeName, value);
+  }
 
   if (attributeName == "variable")
   {
     return_value = setVariable(value);
+  }
+  else
+  {
+    int l1type = getL1TypeCode();
+    if ((attributeName == "name" && l1type == SBML_PARAMETER_RULE) 
+      || (attributeName == "compartment" && l1type == SBML_COMPARTMENT_VOLUME_RULE) 
+      || (attributeName == "species" && l1type == SBML_SPECIES_CONCENTRATION_RULE))
+    {
+        return_value = setVariable(value);
+    }
   }
 
   return return_value;
@@ -405,14 +477,28 @@ AssignmentRule::setAttribute(const std::string& attributeName,
 int
 AssignmentRule::unsetAttribute(const std::string& attributeName)
 {
-  int value = Rule::unsetAttribute(attributeName);
+  int return_value = LIBSBML_OPERATION_FAILED;
+  if (getLevel() > 1)
+  {
+    return_value = Rule::unsetAttribute(attributeName);
+  }
 
   if (attributeName == "variable")
   {
-    value = unsetVariable();
+    return_value = unsetVariable();
+  }
+  else
+  {
+    int l1type = getL1TypeCode();
+    if ((attributeName == "name" && l1type == SBML_PARAMETER_RULE) 
+      || (attributeName == "compartment" && l1type == SBML_COMPARTMENT_VOLUME_RULE) 
+      || (attributeName == "species" && l1type == SBML_SPECIES_CONCENTRATION_RULE))
+    {
+      return_value = unsetVariable();
+    }
   }
 
-  return value;
+  return return_value;
 }
 
 /** @endcond */

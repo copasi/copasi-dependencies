@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -549,6 +549,321 @@ FbcOr::enablePackageInternal(const std::string& pkgURI,
   /** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this FbcOr.
+ */
+int
+FbcOr::getAttribute(const std::string& attributeName, bool& value) const
+{
+  int return_value = FbcAssociation::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this FbcOr.
+ */
+int
+FbcOr::getAttribute(const std::string& attributeName, int& value) const
+{
+  int return_value = FbcAssociation::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this FbcOr.
+ */
+int
+FbcOr::getAttribute(const std::string& attributeName, double& value) const
+{
+  int return_value = FbcAssociation::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this FbcOr.
+ */
+int
+FbcOr::getAttribute(const std::string& attributeName,
+                    unsigned int& value) const
+{
+  int return_value = FbcAssociation::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this FbcOr.
+ */
+int
+FbcOr::getAttribute(const std::string& attributeName,
+                    std::string& value) const
+{
+  int return_value = FbcAssociation::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this FbcOr.
+ */
+int
+FbcOr::getAttribute(const std::string& attributeName, const char* value) const
+{
+  int return_value = FbcAssociation::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this FbcOr's attribute "attributeName" is
+ * set.
+ */
+bool
+FbcOr::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = FbcAssociation::isSetAttribute(attributeName);
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this FbcOr.
+ */
+int
+FbcOr::setAttribute(const std::string& attributeName, bool value)
+{
+  int return_value = FbcAssociation::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this FbcOr.
+ */
+int
+FbcOr::setAttribute(const std::string& attributeName, int value)
+{
+  int return_value = FbcAssociation::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this FbcOr.
+ */
+int
+FbcOr::setAttribute(const std::string& attributeName, double value)
+{
+  int return_value = FbcAssociation::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this FbcOr.
+ */
+int
+FbcOr::setAttribute(const std::string& attributeName, unsigned int value)
+{
+  int return_value = FbcAssociation::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this FbcOr.
+ */
+int
+FbcOr::setAttribute(const std::string& attributeName,
+                    const std::string& value)
+{
+  int return_value = FbcAssociation::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this FbcOr.
+ */
+int
+FbcOr::setAttribute(const std::string& attributeName, const char* value)
+{
+  int return_value = FbcAssociation::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Unsets the value of the "attributeName" attribute of this FbcOr.
+ */
+int
+FbcOr::unsetAttribute(const std::string& attributeName)
+{
+  int value = FbcAssociation::unsetAttribute(attributeName);
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Creates and returns an new "elementName" object in this FbcOr.
+ */
+SBase*
+FbcOr::createObject(const std::string& elementName)
+{
+  FbcAssociation* obj = NULL;
+
+  if (elementName == "and")
+  {
+    return createAnd();
+  }
+  else if (elementName == "or")
+  {
+    return createOr();
+  }
+  else if (elementName == "geneProductRef")
+  {
+    return createGeneProductRef();
+  }
+
+  return obj;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the number of "elementName" in this FbcOr.
+ */
+unsigned int
+FbcOr::getNumObjects(const std::string& elementName)
+{
+  unsigned int n = 0;
+
+  if (elementName == "association" || elementName == "and"
+    || elementName == "or" || elementName == "geneProductRef")
+  {
+    return getNumAssociations();
+  }
+
+  return n;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the nth object of "objectName" in this FbcOr.
+ */
+SBase*
+FbcOr::getObject(const std::string& elementName, unsigned int index)
+{
+  FbcAssociation* obj = NULL;
+
+  if (elementName == "association" || elementName == "and"
+    || elementName == "or" || elementName == "geneProductRef")
+  {
+    return getAssociation(index);
+  }
+
+  return obj;
+}
+
+/** @endcond */
   /** @cond doxygenLibsbmlInternal */
 
 /*

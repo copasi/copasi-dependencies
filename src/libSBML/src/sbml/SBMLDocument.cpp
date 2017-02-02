@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -365,6 +365,50 @@ SBMLDocument::getModel ()
   return mModel;
 }
 
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the number of "elementName" in this Reaction.
+ */
+unsigned int
+SBMLDocument::getNumObjects(const std::string& elementName)
+{
+  unsigned int n = 0;
+
+  if (elementName == "model")
+  {
+    if (isSetModel())
+    {
+      return 1;
+    }
+  }
+
+  return n;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the nth object of "objectName" in this Reaction.
+ */
+SBase*
+SBMLDocument::getObject(const std::string& elementName, unsigned int index)
+{
+  SBase* obj = NULL;
+
+  if (elementName == "model")
+  {
+    return getModel();
+  }
+
+  return obj;
+}
+
+/** @endcond */
 
 SBase* 
 SBMLDocument::getElementBySId(const std::string& id)
@@ -515,6 +559,7 @@ void
 SBMLDocument::setInvalidLevel()
 {
   mLevel = 0;
+  mVersion = 0;
 }
 
 /** @endcond */

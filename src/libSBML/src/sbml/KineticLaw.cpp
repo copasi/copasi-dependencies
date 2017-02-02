@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1455,6 +1455,83 @@ KineticLaw::unsetAttribute(const std::string& attributeName)
 
 
 
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Creates and returns an new "elementName" object in this KineticLaw.
+ */
+SBase*
+KineticLaw::createObject(const std::string& elementName)
+{
+  SBase* obj = NULL;
+
+  if (elementName == "localParameter")
+  {
+    return createLocalParameter();
+  }
+  else if (elementName == "parameter")
+  {
+    return createParameter();
+  }
+
+
+  return obj;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the number of "elementName" in this KineticLaw.
+ */
+unsigned int
+KineticLaw::getNumObjects(const std::string& elementName)
+{
+  unsigned int n = 0;
+
+  if (elementName == "localParameter")
+  {
+    return getNumLocalParameters();
+  }
+  else if (elementName == "parameter")
+  {
+    return getNumParameters();
+  }
+
+
+  return n;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the nth object of "objectName" in this KineticLaw.
+ */
+SBase*
+KineticLaw::getObject(const std::string& elementName, unsigned int index)
+{
+  SBase* obj = NULL;
+
+  if (elementName == "localParameter")
+  {
+    return getLocalParameter(index);
+  }
+  else if (elementName == "parameter")
+  {
+    return getParameter(index);
+  }
+
+  return obj;
+}
+
+/** @endcond */
 
 
 void

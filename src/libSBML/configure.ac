@@ -1,13 +1,13 @@
 dnl
 dnl Filename    : configure.ac
 dnl Description : Run this file through autoconf to produce `configure'
-dnl Author(s)   : SBML Team <sbml-team@caltech.edu>
+dnl Author(s)   : SBML Team <sbml-team@googlegroups.com>
 dnl 
 dnl <!-------------------------------------------------------------------------
 dnl This file is part of libSBML.  Please visit http://sbml.org for more
 dnl information about SBML, and the latest version of libSBML.
 dnl
-dnl Copyright (C) 2013-2016 jointly by the following organizations:
+dnl Copyright (C) 2013-2017 jointly by the following organizations:
 dnl     1. California Institute of Technology, Pasadena, CA, USA
 dnl     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 dnl     3. University of Heidelberg, Heidelberg, Germany
@@ -44,13 +44,13 @@ AC_PREREQ([2.62])
 
 AC_INIT([libSBML],
         [LIBSBML_VERSION],
-        [libsbml-team@caltech.edu],
+        [libsbml-team@googlegroups.com],
         [libsbml],
         [http://sbml.org/Software/libSBML])
 
 AC_CONFIG_AUX_DIR(config)
 
-AC_REVISION($Revision: 23579 $)
+AC_REVISION($Revision: 23776 $)
 
 AC_CONFIG_SRCDIR(src/Makefile.in)
 
@@ -761,7 +761,7 @@ echo ""
 echo "Please report problems using the issue tracker at"
 echo "http://sbml.org/software/libsbml/issue-tracker"
 echo ""
-echo "To contact the developers directly, email libsbml-team@caltech.edu"
+echo "To contact the developers directly, email libsbml-team@googlegroups.com"
 echo ""
 echo "Configured on host \"`hostname`\""
 echo "  host type                     = $HOST_TYPE"

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1893,8 +1893,110 @@ Reaction::unsetAttribute(const std::string& attributeName)
 
 
 
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Creates and returns an new "elementName" object in this Reaction.
+ */
+SBase*
+Reaction::createObject(const std::string& elementName)
+{
+  SBase* obj = NULL;
+
+  if (elementName == "kineticLaw")
+  {
+    return createKineticLaw();
+  }
+  else if (elementName == "product")
+  {
+    return createProduct();
+  }
+  else if (elementName == "reactant")
+  {
+    return createReactant();
+  }
+  else if (elementName == "modifier")
+  {
+    return createModifier();
+  }
+
+  return obj;
+}
+
+/** @endcond */
+
+
 
 /** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the number of "elementName" in this Reaction.
+ */
+unsigned int
+Reaction::getNumObjects(const std::string& elementName)
+{
+  unsigned int n = 0;
+
+  if (elementName == "kineticLaw")
+  {
+    if (isSetKineticLaw())
+    {
+      return 1;
+    }
+  }
+  else if (elementName == "reactant")
+  {
+    return getNumReactants();
+  }
+  else if (elementName == "product")
+  {
+    return getNumProducts();
+  }
+  else if (elementName == "modifier")
+  {
+    return getNumModifiers();
+  }
+
+  return n;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the nth object of "objectName" in this Reaction.
+ */
+SBase*
+Reaction::getObject(const std::string& elementName, unsigned int index)
+{
+  SBase* obj = NULL;
+
+  if (elementName == "kineticLaw")
+  {
+    return getKineticLaw();
+  }
+  else if (elementName == "reactant")
+  {
+    return getReactant(index);
+  }
+  else if (elementName == "product")
+  {
+    return getProduct(index);
+  }
+  else if (elementName == "modifier")
+  {
+    return getModifier(index);
+  }
+
+  return obj;
+}
+
+/** @endcond */
+
+
 /**
  * Subclasses should override this method to get the list of
  * expected attributes.

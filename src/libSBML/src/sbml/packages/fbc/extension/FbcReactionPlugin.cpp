@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -621,8 +621,393 @@ FbcReactionPlugin::enablePackageInternal(const std::string& pkgURI,
 }
 /** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this FbcReactionPlugin.
+ */
+int
+FbcReactionPlugin::getAttribute(const std::string& attributeName,
+                                bool& value) const
+{
+  int return_value = SBasePlugin::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
 
 /** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this FbcReactionPlugin.
+ */
+int
+FbcReactionPlugin::getAttribute(const std::string& attributeName,
+                                int& value) const
+{
+  int return_value = SBasePlugin::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this FbcReactionPlugin.
+ */
+int
+FbcReactionPlugin::getAttribute(const std::string& attributeName,
+                                double& value) const
+{
+  int return_value = SBasePlugin::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this FbcReactionPlugin.
+ */
+int
+FbcReactionPlugin::getAttribute(const std::string& attributeName,
+                                unsigned int& value) const
+{
+  int return_value = SBasePlugin::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this FbcReactionPlugin.
+ */
+int
+FbcReactionPlugin::getAttribute(const std::string& attributeName,
+                                std::string& value) const
+{
+  int return_value = SBasePlugin::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "lowerFluxBound")
+  {
+    value = getLowerFluxBound();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "upperFluxBound")
+  {
+    value = getUpperFluxBound();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this FbcReactionPlugin.
+ */
+int
+FbcReactionPlugin::getAttribute(const std::string& attributeName,
+                                const char* value) const
+{
+  int return_value = SBasePlugin::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "lowerFluxBound")
+  {
+    value = getLowerFluxBound().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "upperFluxBound")
+  {
+    value = getUpperFluxBound().c_str();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this FbcReactionPlugin's attribute
+ * "attributeName" is set.
+ */
+bool
+FbcReactionPlugin::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = SBasePlugin::isSetAttribute(attributeName);
+
+  if (attributeName == "lowerFluxBound")
+  {
+    value = isSetLowerFluxBound();
+  }
+  else if (attributeName == "upperFluxBound")
+  {
+    value = isSetUpperFluxBound();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this FbcReactionPlugin.
+ */
+int
+FbcReactionPlugin::setAttribute(const std::string& attributeName, bool value)
+{
+  int return_value = SBasePlugin::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this FbcReactionPlugin.
+ */
+int
+FbcReactionPlugin::setAttribute(const std::string& attributeName, int value)
+{
+  int return_value = SBasePlugin::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this FbcReactionPlugin.
+ */
+int
+FbcReactionPlugin::setAttribute(const std::string& attributeName,
+                                double value)
+{
+  int return_value = SBasePlugin::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this FbcReactionPlugin.
+ */
+int
+FbcReactionPlugin::setAttribute(const std::string& attributeName,
+                                unsigned int value)
+{
+  int return_value = SBasePlugin::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this FbcReactionPlugin.
+ */
+int
+FbcReactionPlugin::setAttribute(const std::string& attributeName,
+                                const std::string& value)
+{
+  int return_value = SBasePlugin::setAttribute(attributeName, value);
+
+  if (attributeName == "lowerFluxBound")
+  {
+    return_value = setLowerFluxBound(value);
+  }
+  else if (attributeName == "upperFluxBound")
+  {
+    return_value = setUpperFluxBound(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this FbcReactionPlugin.
+ */
+int
+FbcReactionPlugin::setAttribute(const std::string& attributeName,
+                                const char* value)
+{
+  int return_value = SBasePlugin::setAttribute(attributeName, value);
+
+  if (attributeName == "lowerFluxBound")
+  {
+    return_value = setLowerFluxBound(value);
+  }
+  else if (attributeName == "upperFluxBound")
+  {
+    return_value = setUpperFluxBound(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Unsets the value of the "attributeName" attribute of this FbcReactionPlugin.
+ */
+int
+FbcReactionPlugin::unsetAttribute(const std::string& attributeName)
+{
+  int value = SBasePlugin::unsetAttribute(attributeName);
+
+  if (attributeName == "lowerFluxBound")
+  {
+    value = unsetLowerFluxBound();
+  }
+  else if (attributeName == "upperFluxBound")
+  {
+    value = unsetUpperFluxBound();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Creates and returns an new "elementName" object in this FbcReactionPlugin.
+ */
+SBase*
+FbcReactionPlugin::createObject(const std::string& elementName)
+{
+  SBase* obj = NULL;
+
+  if (elementName == "geneProductAssociation")
+  {
+    return createGeneProductAssociation();
+  }
+
+  return obj;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the number of "elementName" in this FbcReactionPlugin.
+ */
+unsigned int
+FbcReactionPlugin::getNumObjects(const std::string& elementName)
+{
+  unsigned int n = 0;
+
+  if (elementName == "geneProductAssociation")
+  {
+    if (isSetGeneProductAssociation())
+    {
+      return 1;
+    }
+  }
+
+  return n;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the nth object of "objectName" in this FbcReactionPlugin.
+ */
+SBase*
+FbcReactionPlugin::getObject(const std::string& elementName,
+                             unsigned int index)
+{
+  SBase* obj = NULL;
+
+  if (elementName == "geneProductAssociation")
+  {
+    return getGeneProductAssociation();
+  }
+
+  return obj;
+}
+
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+
 /*
  * Accept the SBMLVisitor.
  */

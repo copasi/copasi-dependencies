@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -816,6 +816,129 @@ SBasePlugin::getSBMLExtension() const
 /** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
+
+  // ------------------------------------------------------------------
+  //
+  //  functions to faciliate matlab binding
+
+int 
+SBasePlugin::getAttribute(const std::string& attributeName, double& value) const
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+
+
+int 
+SBasePlugin::getAttribute(const std::string& attributeName, bool& value) const
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+
+
+int 
+SBasePlugin::getAttribute(const std::string& attributeName, int& value) const
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+
+
+int 
+SBasePlugin::getAttribute(const std::string& attributeName, unsigned int& value) const
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+
+
+int 
+SBasePlugin::getAttribute(const std::string& attributeName, std::string& value) const
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+
+
+int 
+SBasePlugin::getAttribute(const std::string& attributeName, const char * value) const
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+
+
+bool 
+SBasePlugin::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = false;
+  return value;
+}
+
+
+int 
+SBasePlugin::setAttribute(const std::string& attributeName, double value)
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+
+
+int 
+SBasePlugin::setAttribute(const std::string& attributeName, bool value)
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+
+
+int 
+SBasePlugin::setAttribute(const std::string& attributeName, int value)
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+
+
+int 
+SBasePlugin::setAttribute(const std::string& attributeName, unsigned int value)
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+
+
+int 
+SBasePlugin::setAttribute(const std::string& attributeName, const std::string& value)
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+
+
+int 
+SBasePlugin::setAttribute(const std::string& attributeName, const char * value)
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+
+
+int 
+SBasePlugin::unsetAttribute(const std::string& attributeName)
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+
+SBase* 
+SBasePlugin::createObject(const std::string& objectName)
+{
+  return NULL;
+}
+
+unsigned int 
+SBasePlugin::getNumObjects(const std::string& elementName)
+{
+  return 0;
+}
+
+SBase* 
+SBasePlugin::getObject(const std::string& elementName, unsigned int index)
+{
+  return NULL;
+}
+
+  /** @endcond */
 
 
 #endif /* __cplusplus */
