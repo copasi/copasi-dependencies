@@ -4,7 +4,7 @@
 DIRECTORY=$(cd `dirname $0` && pwd)
 
 if [ $# = 0 ]; then
-  ToBeBuild="expat raptor clapack MML qwt qwtplot3d SBW libSBML libSEDML zlib libCombine"
+  ToBeBuild="expat raptor clapack MML qwt qwtplot3d SBW libSBML libnuml libSEDML zlib libCombine"
 else
   while [ _${1} != _ ]; do
     ToBeBuild="$ToBeBuild ${1}"
@@ -174,6 +174,25 @@ case $1 in
         $DIRECTORY/src/libSBML
     $MAKE -j 4
     $MAKE install
+    ;;
+
+  libnuml)
+    # build libnuml
+    mkdir -p $DIRECTORY/tmp/libnuml
+    cd $DIRECTORY/tmp/libnuml
+    $CMAKE ${COPASI_CMAKE_OPTIONS} \
+        -DLIBSBML_STATIC=ON \
+        -DLIBNUML_SHARED_VERSION=OFF \
+        -DLIBNUML_SKIP_SHARED_LIBRARY=ON \
+        -DLIBSBML_INCLUDE_DIR=$DIRECTORY/bin/include \
+        -DLIBSBML_LIBRARY=$DIRECTORY/bin/lib/libsbml-static.a \
+        -DLIBNUML_DEPENDENCY_DIR=$DIRECTORY/bin \
+        -DEXTRA_LIBS=$DIRECTORY/bin/lib/libexpat.a \
+        -DWITH_ZLIB=OFF \
+        $DIRECTORY/src/libnuml
+    $MAKE -j 4
+    $MAKE install
+    [ -e $DIRECTORY/bin/lib/libnuml*.so ] && rm $DIRECTORY/bin/lib/libnuml*.so
     ;;
 
   libSEDML)
