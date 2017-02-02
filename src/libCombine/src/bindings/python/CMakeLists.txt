@@ -35,8 +35,12 @@
 
 find_package(SWIG REQUIRED)
 include(${SWIG_USE_FILE})
-include(FindPythonLibs)
-include(FindPythonInterp)
+find_package(PythonInterp)
+
+# specify that the same python library should be found 
+# as the one the selected interpreter uses
+set (Python_ADDITIONAL_VERSIONS ${PYTHON_VERSION_STRING})
+find_package(PythonLibs)
 
 
 ####################################################################
@@ -88,6 +92,12 @@ ADD_CUSTOM_COMMAND(
       ${SWIG_EXTRA_ARGS}     
       -o ${CMAKE_CURRENT_BINARY_DIR}/libcombine_wrap.cpp 
       ${CMAKE_CURRENT_SOURCE_DIR}/libcombine.i
+
+  COMMAND "${CMAKE_COMMAND}"
+  ARGS  -DCUR_BIN_DIRECTORY=\"${CMAKE_CURRENT_BINARY_DIR}\"
+        -DVERSION=\"${LIBCOMBINE_VERSION}\"
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/add_version.cmake"
+
   DEPENDS local.i local.cpp local-contrib.i
     COMMENT "Swig Python source") 
 
@@ -133,14 +143,16 @@ else()
 endif()
 
 
-if(APPLE)
+if(APPLE OR UNIX)
   option (PYTHON_USE_DYNAMIC_LOOKUP
   "Do not actually link against the python library, instead use the undefined lookup mechanism, that ." OFF)
   mark_as_advanced(PYTHON_USE_DYNAMIC_LOOKUP)
-endif(APPLE)
+endif(APPLE OR UNIX)
 
-if (APPLE AND PYTHON_USE_DYNAMIC_LOOKUP)
-  set_target_properties (binding_python_lib PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+if (PYTHON_USE_DYNAMIC_LOOKUP)
+  if (APPLE)
+    set_target_properties (binding_python_lib PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+  endif()
   target_link_libraries(binding_python_lib ${LIBCOMBINE_LIBRARY}-static)
 else()
   target_link_libraries(binding_python_lib ${LIBCOMBINE_LIBRARY}-static ${PYTHON_LIBRARIES})
