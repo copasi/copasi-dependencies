@@ -81,6 +81,7 @@ case $1 in
     CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" $MAKE install
     # delete shared library just in case
     [ -e $DIRECTORY/bin/lib/libexpat*so ] && rm $DIRECTORY/bin/lib/libexpat*so
+    [ -e $DIRECTORY/bin/lib64 ] && mv $DIRECTORY/bin/lib64/libexpat* $DIRECTORY/bin/lib
     ;;
 
   raptor)
@@ -96,6 +97,7 @@ case $1 in
         --prefix=$DIRECTORY/bin
     CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" $MAKE -j 4 
     CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" $MAKE install
+    [ -e $DIRECTORY/bin/lib64 ] && mv $DIRECTORY/bin/lib64/libraptor* $DIRECTORY/bin/lib
     ;;
 
   clapack)
