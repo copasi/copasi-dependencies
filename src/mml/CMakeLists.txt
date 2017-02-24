@@ -41,17 +41,19 @@ endif()
 set(SOURCES qtmmlwidget.cpp)
 set(HEADERS qtmmlwidget.h)
 
-find_package(Qt4 4.7.0 REQUIRED QtCore QtOpenGL QtXml)
+include(${CMAKE_CURRENT_SOURCE_DIR}/ChooseQtVersion.cmake)
+QT_FIND_MODULES(Core OpenGL Xml)
 
-include(${QT_USE_FILE})
-add_definitions(${QT_DEFINITIONS})
+if (Qt5_FOUND)
+  qt5_wrap_cpp(HEADERS_MOC ${HEADERS})
+  set(QTVERSION 5)
+elseif(Qt4_FOUND OR QT4_FOUND)
+  qt4_wrap_cpp(HEADERS_MOC ${HEADERS})
+endif()
 
-include_directories(BEFORE ${QT_QTGUI_INCLUDE_DIR})
-include_directories(BEFORE ${QT_QTGUI_INCLUDE_DIR}/..)
 
-add_library(mml STATIC ${SOURCES} ${HEADERS})
-
-target_link_libraries(mml ${QT_LIBRARIES} )
+add_library(mml STATIC ${SOURCES} ${HEADERS} ${HEADERS_MOC})
+QT_BIND_TO_TARGET(mml)
 
 install(FILES ${HEADERS} DESTINATION include)
 INSTALL(TARGETS mml 

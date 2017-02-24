@@ -57,12 +57,12 @@
  **
  ****************************************************************************/
 
-#include <QtGui/QApplication>
-#include <QtCore/QString>
-#include <QtCore/QMap>
-#include <QtGui/QDesktopWidget>
-#include <QtGui/QPainter>
-#include <QtGui/QPaintEvent>
+#include <QApplication>
+#include <QString>
+#include <QMap>
+#include <QDesktopWidget>
+#include <QPainter>
+#include <QPaintEvent>
 
 #include <iostream>
 #include "qtmmlwidget.h"
@@ -3427,7 +3427,7 @@ MmlNode *MmlDocument::domToMml(const QDomNode &dom_node, bool *ok, QString *erro
   QDomNamedNodeMap dom_attr = dom_node.attributes();
   MmlAttributeMap mml_attr;
 
-  for (unsigned i = 0; i < dom_attr.length(); ++i)
+  for (unsigned i = 0; i < (unsigned)dom_attr.length(); ++i)
     {
       QDomNode attr_node = dom_attr.item(i);
       Q_ASSERT(!attr_node.nodeName().isNull());
@@ -5702,7 +5702,11 @@ void QtMmlWidget::paintEvent(QPaintEvent *e)
   QPainter p(this);
 
   if (e->rect().intersects(contentsRect()))
+#if QT_VERSION >= 0x050000
+    p.setClipRegion(e->region().intersected(contentsRect()));
+#else
     p.setClipRegion(e->region().intersect(contentsRect()));
+#endif
 
   QSize s = m_doc->size();
   int x = (width() - s.width()) / 2;
