@@ -154,22 +154,21 @@ include_directories( ${ZLIB_INCLUDE_DIRS})
 
 endif(ZLIB_FOUND)
  
-find_package(Qt4 4.7.0 REQUIRED QtCore QtOpenGL QtXml)
+include(${CMAKE_CURRENT_SOURCE_DIR}/ChooseQtVersion.cmake)
+QT_FIND_MODULES(Core Gui OpenGL Xml)
 
-include(${QT_USE_FILE})
-add_definitions(${QT_DEFINITIONS})
+if (Qt5_FOUND)
+  qt5_wrap_cpp(MOC_FILES ${MOC_HEADERS})
+  set(QTVERSION 5)
+elseif(Qt4_FOUND OR QT4_FOUND)
+  qt4_wrap_cpp(MOC_FILES ${MOC_HEADERS})
+endif()
 
-
-qt4_wrap_cpp (MOC_FILES ${MOC_HEADERS})
 set(SOURCES ${SOURCES} ${MOC_FILES})
 
 
-include_directories(BEFORE ${QT_QTGUI_INCLUDE_DIR})
-include_directories(BEFORE ${QT_QTGUI_INCLUDE_DIR}/..)
-
 add_library(qwtplot3d STATIC ${SOURCES} ${HEADERS})
-
-target_link_libraries(qwtplot3d ${QT_LIBRARIES} )
+QT_BIND_TO_TARGET(qwtplot3d)
 
 if (ZLIB_FOUND)
 target_link_libraries(qwtplot3d ${ZLIB_LIBRARIES})
