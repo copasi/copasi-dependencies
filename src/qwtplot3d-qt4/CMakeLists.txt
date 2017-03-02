@@ -5,8 +5,6 @@
 cmake_minimum_required (VERSION 2.6)
 project (qwtplot3d)
 
-find_package(ZLIB)
-
 include_directories("${PROJECT_SOURCE_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}/include")
 
@@ -147,12 +145,16 @@ set(SOURCES
 		3rdparty/gl2ps/gl2ps.c
 )
  
+option(WITH_ZLIB "Add support for compressed ps export." OFF)
+if (WITH_ZLIB)
+find_package(ZLIB)
 if (ZLIB_FOUND)
 
 add_definitions(-DGL2PS_HAVE_ZLIB)
 include_directories( ${ZLIB_INCLUDE_DIRS})
 
 endif(ZLIB_FOUND)
+endif()
  
 include(${CMAKE_CURRENT_SOURCE_DIR}/ChooseQtVersion.cmake)
 QT_FIND_MODULES(Core Gui OpenGL Xml)
