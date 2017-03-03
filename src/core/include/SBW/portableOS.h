@@ -72,7 +72,9 @@
 
 #if defined(WIN32) && !defined(SBW_STRICT_INCLUDES)
 #include <winsock2.h>
-#define WIN32_LEAN_AND_MEAN
+# ifndef WIN32_LEAN_AND_MEAN
+# define WIN32_LEAN_AND_MEAN
+# endif // WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #if  _MSC_VER >= 1400
 #pragma comment(lib,"user32.lib")
@@ -105,12 +107,12 @@
  */
 #define TRACE(x) \
 {\
-	std::ostringstream out;\
+  std::ostringstream out;\
 \
-	out << x << "\n";\
-	SystemsBiologyWorkbench::SBWDebug::trace(out.str().c_str(), __FILE__, __LINE__);\
-	std::cout << x << "\n";\
-	std::cout.flush();\
+  out << x << "\n";\
+  SystemsBiologyWorkbench::SBWDebug::trace(out.str().c_str(), __FILE__, __LINE__);\
+  std::cout << x << "\n";\
+  std::cout.flush();\
 }
 
 #else
@@ -128,47 +130,47 @@ class SBWOS
 {
 public:
 #ifdef WIN32
-	SBW_API	static void windowsExtractCommandLine(int *argc, char ***argv);
+  SBW_API	static void windowsExtractCommandLine(int *argc, char ***argv);
 #endif // WIN32
 
-	SBW_API	static void startProcess(char *commandLine, bool bWait = false);
+  SBW_API	static void startProcess(char *commandLine, bool bWait = false);
 
-	static void ThrowError();
-	static void ThrowError(int error);
+  static void ThrowError();
+  static void ThrowError(int error);
 
-	/**
-	 * returns the character used to seperate paths to JAR files in a string.
-	 * (This is not actually the standard separator character under Linux, but this
-	 * method is only used for breaking up lists of JAR files.)
-	 * @return path seperator character.
-	 */
-	static char PathSeparator() { return ';'; }
+  /**
+   * returns the character used to seperate paths to JAR files in a string.
+   * (This is not actually the standard separator character under Linux, but this
+   * method is only used for breaking up lists of JAR files.)
+   * @return path seperator character.
+   */
+  static char PathSeparator() { return ';'; }
 
-	/**
-	 * returns the directory seperator character in file and directory paths.
-	 * @return directory seperator character.
-	 */
-	static char DirectorySeparator()
-	{
+  /**
+   * returns the directory seperator character in file and directory paths.
+   * @return directory seperator character.
+   */
+  static char DirectorySeparator()
+  {
 #ifdef WIN32
-		return '\\' ;
+    return '\\' ;
 #else
-		return '/' ;
+    return '/' ;
 #endif
-	}
+  }
 
-	/**
-	 * returns the file suffix for dynamic libraries on this OS
-	 * @return the file suffix for dynamic libraries on this OS
-	 */
+  /**
+   * returns the file suffix for dynamic libraries on this OS
+   * @return the file suffix for dynamic libraries on this OS
+   */
     static const char *DynamicLibraryExt()
-	{
+  {
 #ifdef WIN32
-		return "dll" ;
+    return "dll" ;
 #else
-		return "so" ;
+    return "so" ;
 #endif
-	}
+  }
 
 };
 
@@ -181,47 +183,47 @@ public:
 class SBWOSLibrary
 {
 public:
-	SBWOSLibrary(const char *szLibrary)
+  SBWOSLibrary(const char *szLibrary)
 #ifdef WIN32
-	{
-		char *str = strdup(szLibrary);
-		char *szup = strupr(str);
-		m_handle = LoadLibrary(szup);
-		//char buffer[1000];
-		//sprintf(buffer, "loaded %s with handle %d", szLibrary, m_handle);
+  {
+    char *str = strdup(szLibrary);
+    char *szup = strupr(str);
+    m_handle = LoadLibrary(szup);
+    //char buffer[1000];
+    //sprintf(buffer, "loaded %s with handle %d", szLibrary, m_handle);
         //MessageBox(NULL, buffer, "In SBWOSLibrary", MB_OK);
-		free(str);
-		if (m_handle == NULL)
-			SBWOS::ThrowError();
-	}
+    free(str);
+    if (m_handle == NULL)
+      SBWOS::ThrowError();
+  }
 #endif
 
-	~SBWOSLibrary()
+  ~SBWOSLibrary()
 #ifdef WIN32
-	{
-		//char buffer[1000];
-		//sprintf(buffer, "about to free library with handle %d", m_handle);
+  {
+    //char buffer[1000];
+    //sprintf(buffer, "about to free library with handle %d", m_handle);
         //MessageBox(NULL, buffer, "In SBWOSLibrary", MB_OK);
-		//FreeLibrary(m_handle);
-	}
+    //FreeLibrary(m_handle);
+  }
 #endif
 
-	void *getFunction(char *szFunction)
+  void *getFunction(char *szFunction)
 #ifdef WIN32
-	{
-		FARPROC pFunction = GetProcAddress(m_handle, szFunction);
+  {
+    FARPROC pFunction = GetProcAddress(m_handle, szFunction);
 
-		if (pFunction == NULL)
-			SBWOS::ThrowError();
+    if (pFunction == NULL)
+      SBWOS::ThrowError();
 
-		return (void *)pFunction ;
-	}
+    return (void *)pFunction ;
+  }
 #endif
 
 private:
 
 #ifdef WIN32
-	HINSTANCE m_handle ;
+  HINSTANCE m_handle ;
 #endif
 };
 
@@ -244,19 +246,19 @@ class SBWDebug
 {
 public:
 
-	// empty inline for release configuration
+  // empty inline for release configuration
 #ifndef _DEBUG
-	SBW_API static void trace(const char *, const char *, int)
-	{}
+  SBW_API static void trace(const char *, const char *, int)
+  {}
 #else
-	SBW_API static void trace(const char *x, const char *file, int line);
+  SBW_API static void trace(const char *x, const char *file, int line);
 #endif
 
-	SBW_API static void setTraceMode(bool mode = true);
+  SBW_API static void setTraceMode(bool mode = true);
 
 private:
-	static bool traceOn;
-	static SBWOSMutex traceMutex ;
+  static bool traceOn;
+  static SBWOSMutex traceMutex ;
 };
 
 } // SystemsBiologyWorkbench

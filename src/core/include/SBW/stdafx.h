@@ -77,12 +77,13 @@
 #include <SBW/sbwdefs.h>
 
 // Insert your headers here
-#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
-#ifdef LINUX
-#else
-#include <winsock2.h>
-#include <windows.h>
+#ifdef WIN32
+# ifndef WIN32_LEAN_AND_MEAN
+# define WIN32_LEAN_AND_MEAN
+# endif // WIN32_LEAN_AND_MEAN
+# include <winsock2.h>
+# include <windows.h>
 #endif
 
 #endif // !defined(AFX_STDAFX_H__ED562058_FDAD_4065_9A71_5635CA6D8553__INCLUDED_)
