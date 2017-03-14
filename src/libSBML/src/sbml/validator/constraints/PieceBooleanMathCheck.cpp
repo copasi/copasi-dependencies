@@ -127,7 +127,7 @@ PieceBooleanMathCheck::checkMath (const Model& m, const ASTNode& node, const SBa
   * If not, an error message is logged.
   */
 void 
-PieceBooleanMathCheck::checkPiece (const Model&, const ASTNode& node, 
+PieceBooleanMathCheck::checkPiece (const Model& m, const ASTNode& node, 
                                         const SBase & sb)
 {
   unsigned int numChildren = node.getNumChildren();
@@ -155,7 +155,9 @@ PieceBooleanMathCheck::checkPiece (const Model&, const ASTNode& node,
     
     if (child != NULL)
     {
-      if (!child->returnsBoolean())
+      // need to pass the model here in case we have used a functionDefinition
+      // as the piece child
+      if (!child->returnsBoolean(&m))
       {
         logMathConflict(node, sb);
       }
@@ -197,7 +199,7 @@ PieceBooleanMathCheck::getMessage (const ASTNode& node, const SBase& object)
     }
     break;
   }
-  msg << "uses a piecewise function that does not return a boolean.";
+  msg << "uses a piecewise function that does not return a Boolean.";
   safe_free(formula);
 
   return msg.str();

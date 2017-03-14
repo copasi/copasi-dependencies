@@ -88,9 +88,9 @@ public:
   };
 
 
-	virtual bool filter(const SBase* element)
+  virtual bool filter(const SBase* element)
   {
-	  // return in case we don't have a valid element
+    // return in case we don't have a valid element
     if (element == NULL)
     {
         return false;
@@ -1682,6 +1682,76 @@ Model::dealWithModelUnits(bool strict)
 }
 
 void
+dealWithSpeciesReference(Model & m, SpeciesReference * sr, unsigned int& idCount)
+{
+  if (sr->isSetStoichiometry() == false)
+  {
+    if (sr->isSetId() == false)
+    {
+      createNoValueStoichMath(m, *sr, idCount);
+      idCount++;
+    }
+    else
+    {
+      // id is set it could be used by initialAssignment
+      // used by rule
+      // not used
+      if (m.getRule(sr->getId()) != NULL)
+      {
+        //assignmentRule
+        if (m.getRule(sr->getId())->getTypeCode() == SBML_ASSIGNMENT_RULE)
+        {
+          useStoichMath(m, *sr, true);
+        }
+        else if (m.getRule(sr->getId())->getTypeCode() == SBML_RATE_RULE)
+        {
+          createParameterAsRateRule(m, *sr, *(m.getRule(sr->getId())), idCount);
+          idCount++;
+        }
+      }
+      else if (m.getInitialAssignment(sr->getId()) != NULL)
+      {
+        useStoichMath(m, *sr, false);
+      }
+      else
+      {
+        createNoValueStoichMath(m, *sr, idCount);
+        idCount++;
+      }
+    }
+  }
+  else
+  {
+    // stoichiometry is set
+    if (sr->isSetId())
+    {
+      // id is set it could be used by initialAssignment
+      // used by rule
+      // not used
+      if (m.getRule(sr->getId()) != NULL)
+      {
+        //assignmentRule
+        if (m.getRule(sr->getId())->getTypeCode() == SBML_ASSIGNMENT_RULE)
+        {
+          useStoichMath(m, *sr, true);
+        }
+        else if (m.getRule(sr->getId())->getTypeCode() == SBML_RATE_RULE)
+        {
+          createParameterAsRateRule(m, *sr, *(m.getRule(sr->getId())), idCount);
+          idCount++;
+        }
+      }
+      else if (m.getInitialAssignment(sr->getId()) != NULL)
+      {
+        useStoichMath(m, *sr, false);
+      }
+    }
+    // no id set - do not need to do anything
+  }
+}
+
+
+void
 Model::dealWithStoichiometry()
 {
   unsigned int idCount = 0;
@@ -1693,141 +1763,16 @@ Model::dealWithStoichiometry()
     for (j = 0; j < r->getNumReactants(); j++)
     {
       SpeciesReference *sr = r->getReactant(j);
-      if (sr->isSetStoichiometry() == false)
-      {
-        if (sr->isSetId() == false)
-        {
-          createNoValueStoichMath(*this, *sr, idCount);
-          idCount++;
-        }
-        else
-        {
-          // id is set it could be used by initialAssignment
-          // used by rule
-          // not used
-          if (getInitialAssignment(sr->getId()) != NULL)
-          {
-            useStoichMath(*this, *sr, false);
-          }
-          else if (getRule(sr->getId()) != NULL)
-          {
-            //assignmentRule
-            if (getRule(sr->getId())->getTypeCode() == SBML_ASSIGNMENT_RULE)
-            {  
-              useStoichMath(*this, *sr, true);
-            }
-            else if (getRule(sr->getId())->getTypeCode() == SBML_RATE_RULE)
-            {
-              createParameterAsRateRule(*this, *sr, *(getRule(sr->getId())), idCount);
-              idCount++;
-            }
-          }
-          else
-          {
-            createNoValueStoichMath(*this, *sr, idCount);
-            idCount++;
-          }
-        }
-      }
-      else
-      {
-        // stoichiometry is set
-        if (sr->isSetId())
-        {
-          // id is set it could be used by initialAssignment
-          // used by rule
-          // not used
-          if (getInitialAssignment(sr->getId()) != NULL)
-          {
-            useStoichMath(*this, *sr, false);
-          }
-          else if (getRule(sr->getId()) != NULL)
-          {
-            //assignmentRule
-            if (getRule(sr->getId())->getTypeCode() == SBML_ASSIGNMENT_RULE)
-            {            
-              useStoichMath(*this, *sr, true);
-            }
-            else if (getRule(sr->getId())->getTypeCode() == SBML_RATE_RULE)
-            {
-              createParameterAsRateRule(*this, *sr, *(getRule(sr->getId())), idCount);
-              idCount++;
-            }
-          }
-        }
-        // no id set - do not need to do anything
-      }
+      dealWithSpeciesReference(*this, sr, idCount);
     }
     for (j = 0; j < r->getNumProducts(); j++)
     {
       SpeciesReference *sr = r->getProduct(j);
-      if (sr->isSetStoichiometry() == false)
-      {
-        if (sr->isSetId() == false)
-        {
-          createNoValueStoichMath(*this, *sr, idCount);
-          idCount++;
-        }
-        else
-        {
-          // id is set it could be used by initialAssignment
-          // used by rule
-          // not used
-          if (getInitialAssignment(sr->getId()) != NULL)
-          {
-            useStoichMath(*this, *sr, false);
-          }
-          else if (getRule(sr->getId()) != NULL)
-          {
-            //assignmentRule
-            if (getRule(sr->getId())->getTypeCode() == SBML_ASSIGNMENT_RULE)
-            {  
-              useStoichMath(*this, *sr, true);
-            }
-            else if (getRule(sr->getId())->getTypeCode() == SBML_RATE_RULE)
-            {
-              createParameterAsRateRule(*this, *sr, *(getRule(sr->getId())), idCount);
-              idCount++;
-            }
-          }
-          else
-          {
-            createNoValueStoichMath(*this, *sr, idCount);
-            idCount++;
-          }
-        }
-      }
-      else
-      {
-        // stoichiometry is set
-        if (sr->isSetId())
-        {
-          // id is set it could be used by initialAssignment
-          // used by rule
-          // not used
-          if (getInitialAssignment(sr->getId()) != NULL)
-          {
-            useStoichMath(*this, *sr, false);
-          }
-          else if (getRule(sr->getId()) != NULL)
-          {
-            //assignmentRule
-            if (getRule(sr->getId())->getTypeCode() == SBML_ASSIGNMENT_RULE)
-            {            
-              useStoichMath(*this, *sr, true);
-            }
-            else if (getRule(sr->getId())->getTypeCode() == SBML_RATE_RULE)
-            {
-              createParameterAsRateRule(*this, *sr, *(getRule(sr->getId())), idCount);
-              idCount++;
-            }
-          }
-        }
-        // no id set - do not need to do anything
-      }
+      dealWithSpeciesReference(*this, sr, idCount);
     }
   }
 }
+
 
 void
 createNoValueStoichMath(Model & m, SpeciesReference & sr, unsigned int idCount)
@@ -1870,6 +1815,10 @@ createParameterAsRateRule(Model &m, SpeciesReference &sr, Rule &rr,
   Parameter *p = m.createParameter();
   p->setId(id);
   p->setConstant(false);
+  if (sr.isSetStoichiometry())
+  {
+    p->setValue(sr.getStoichiometry());
+  }
 
   rr.setVariable(id);
   
@@ -1880,23 +1829,45 @@ createParameterAsRateRule(Model &m, SpeciesReference &sr, Rule &rr,
     sm->setMath(ast);
     delete ast;
   }
+
+  // we might have an initial assignment that pointed to the SpeciesReference
+  // if we do it now needs to point to the parameter
+  InitialAssignment *ia = m.getInitialAssignment(sr.getId());
+  if (ia != NULL)
+  {
+    ia->setSymbol(id);
+  }
 }
 
 void
 useStoichMath(Model & m, SpeciesReference &sr, bool isRule)
 {
-  // use stoichiometryMath instead
-  StoichiometryMath *sm = sr.createStoichiometryMath();
-  if (sm != NULL)
+  // if we are oming from l3v2 we might not have math set
+  // in which case merely remove rule/ia
+  if (isRule)
   {
-    if (isRule == true)
+    if (m.getRule(sr.getId())->isSetMath())
     {
+      StoichiometryMath *sm = sr.createStoichiometryMath();
       sm->setMath(m.getRule(sr.getId())->getMath());
       delete m.removeRule(sr.getId());
+
     }
     else
     {
+      delete m.removeRule(sr.getId());
+    }
+  }
+  else
+  {
+    if (m.getInitialAssignment(sr.getId())->isSetMath())
+    {
+      StoichiometryMath *sm = sr.createStoichiometryMath();
       sm->setMath(m.getInitialAssignment(sr.getId())->getMath());
+      delete m.removeInitialAssignment(sr.getId());
+    }
+    else
+    {
       delete m.removeInitialAssignment(sr.getId());
     }
   }

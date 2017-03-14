@@ -1218,6 +1218,11 @@ SBase::setMetaId (const std::string& metaid)
   else if (metaid.empty())
   {
     mMetaId.erase();
+    // force any annotation to synchronize
+    if (isSetAnnotation())
+    {
+      mCVTermsChanged = true;
+    }
     return LIBSBML_OPERATION_SUCCESS;
   }
   else if (!(SyntaxChecker::isValidXMLID(metaid)))
@@ -1227,6 +1232,11 @@ SBase::setMetaId (const std::string& metaid)
   else
   {
     mMetaId = metaid;
+    // force any annotation to synchronize
+    if (isSetAnnotation())
+    {
+      mCVTermsChanged = true;
+    }
     return LIBSBML_OPERATION_SUCCESS;
   }
 }
@@ -3007,7 +3017,21 @@ SBase::getVersion () const
     return SBMLDocument::getDefaultVersion();
 }
 
-  // ------------------------------------------------------------------
+/*
+* @return the SBML version of this SBML object.
+*/
+unsigned int
+SBase::getObjectVersion() const
+{
+  if (mSBMLNamespaces != NULL)
+    return mSBMLNamespaces->getVersion();
+  else if (mSBML != NULL)
+    return mSBML->mVersion;
+  else
+    return SBMLDocument::getDefaultVersion();
+}
+
+// ------------------------------------------------------------------
   //
   //  functions to faciliate matlab binding
 
@@ -5834,10 +5858,19 @@ SBase::writeAttributes (XMLOutputStream& stream) const
   }
 
   // only write for l3v2 and above
+  // but do not write for an l3v1 package
   if (level == 3 && version > 1)
   {
-    stream.writeAttribute("id", mId);
-    stream.writeAttribute("name", mName);
+    if (getPackageName().empty() || getPackageName() == "core")
+    {
+      stream.writeAttribute("id", mId);
+      stream.writeAttribute("name", mName);
+    }
+    else if (getObjectVersion() > 1)
+    {
+      stream.writeAttribute("id", mId);
+      stream.writeAttribute("name", mName);
+    }
   }
 }
 

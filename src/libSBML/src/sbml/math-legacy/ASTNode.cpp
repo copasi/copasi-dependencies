@@ -118,7 +118,12 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 #define ASTNodeType_isNumber(t) \
   (ASTNodeType_isInteger(t) || ASTNodeType_isReal(t))
 
-/**
+ /**
+ * ASTNodeType predicate
+ */
+#define ASTNodeType_isConstantNumber(t) \
+  (t == AST_CONSTANT_E || t == AST_CONSTANT_PI || t == AST_NAME_AVOGADRO)
+ /**
  * ASTNodeType predicate
  */
 #define ASTNodeType_isOperator(t) \
@@ -1526,8 +1531,8 @@ ASTNode::returnsBoolean (const Model* givenModel /*=NULL*/) const
 
       if (fd != NULL && fd->isSetMath())
       {
-        return (fd->getMath()->getRightChild() != NULL ? 
-          fd->getMath()->getRightChild()->returnsBoolean() : false);
+        return (fd->getBody() != NULL ? 
+          fd->getBody()->returnsBoolean() : false);
       }
       else
       {
@@ -1567,10 +1572,30 @@ ASTNode::isConstant () const
 
 
 /*
- * @return true if this ASTNode is a function in SBML L1, L2 (MathML)
- * (everything from abs() to tanh()) or user-defined, false otherwise.
+ * @return true if this ASTNode is a MathML constant number 
+ *(pi, exponentiale), false otherwise.
  */
 LIBSBML_EXTERN
+bool 
+ASTNode::isConstantNumber() const
+{
+  return ASTNodeType_isConstantNumber(mType);
+}
+
+
+/*
+* @return true if this ASTNode is a MathML constant number
+*(pi, exponentiale), false otherwise.
+*/
+LIBSBML_EXTERN
+bool
+ASTNode::isCSymbolFunction() const
+{
+  return (mType == AST_FUNCTION_DELAY || mType == AST_FUNCTION_RATE_OF);
+}
+
+
+
 bool
 ASTNode::isFunction () const
 {
@@ -1850,6 +1875,13 @@ ASTNode::isUPlus () const
   }
 
   return uplus;
+}
+
+LIBSBML_EXTERN
+bool
+ASTNode::isUserFunction() const
+{
+  return (mType == AST_FUNCTION);
 }
 
 LIBSBML_EXTERN
@@ -2805,7 +2837,7 @@ LIBSBML_EXTERN
 void *
 ASTNode::getUserData() const
 {
-	return this->mUserData;
+  return this->mUserData;
 }
 
 
@@ -2813,7 +2845,7 @@ LIBSBML_EXTERN
 int
 ASTNode::setUserData(void *userData)
 {
-	this->mUserData = userData;
+  this->mUserData = userData;
  
   // allow userData to be set to NULL
   if (userData == NULL)
@@ -3082,7 +3114,7 @@ LIBSBML_EXTERN
 int
 ASTNode_addChild (ASTNode_t *node, ASTNode_t *child)
 {
-	if (node == NULL) return LIBSBML_INVALID_OBJECT;
+  if (node == NULL) return LIBSBML_INVALID_OBJECT;
   return static_cast<ASTNode*>(node)->addChild
                                     ( static_cast<ASTNode*>(child) );
 }
@@ -3347,6 +3379,15 @@ ASTNode_isConstant (const ASTNode_t *node)
 {
   if (node == NULL) return (int) false;
   return (int) static_cast<const ASTNode*>(node)->isConstant();
+}
+
+
+LIBSBML_EXTERN
+int
+ASTNode_isConstantNumber(const ASTNode_t *node)
+{
+  if (node == NULL) return (int)false;
+  return (int) static_cast<const ASTNode*>(node)->isConstantNumber();
 }
 
 

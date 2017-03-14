@@ -130,14 +130,18 @@ LogicalArgsMathCheck::checkMath (const Model& m, const ASTNode& node, const SBas
   * If not, an error message is logged.
   */
 void 
-LogicalArgsMathCheck::checkMathFromLogical (const Model&, const ASTNode& node, 
+LogicalArgsMathCheck::checkMathFromLogical (const Model&m, const ASTNode& node, 
                                                 const SBase & sb)
 {
   unsigned int n;
   
   for (n = 0; n < node.getNumChildren(); n++)
   {
-    if (!node.getChild(n)->isBoolean())
+    if (node.getChild(n)->isUserFunction())
+    {
+      checkMath(m, *(node.getChild(n)), sb);
+    }
+    else if (!node.getChild(n)->isBoolean())
     {
       logMathConflict(node, sb);
     }
@@ -178,7 +182,7 @@ LogicalArgsMathCheck::getMessage (const ASTNode& node, const SBase& object)
     }
     break;
   }
-  msg << "uses an argument to a logical operator that is not boolean.";
+  msg << "uses an argument to a logical operator that is not Boolean.";
   safe_free(formula);
 
   return msg.str();

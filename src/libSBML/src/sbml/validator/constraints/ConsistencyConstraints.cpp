@@ -346,6 +346,7 @@ START_CONSTRAINT (20305, FunctionDefinition, fd)
 
   inv_or( fd.getBody()->isBoolean() );
   inv_or( fd.getBody()->isNumber()  );
+  inv_or(fd.getBody()->isConstantNumber());
   inv_or( fd.getBody()->isFunction());
   inv_or( fd.getBody()->isOperator());
   inv_or( specialCase);
@@ -1716,7 +1717,7 @@ START_CONSTRAINT (21001, Constraint, c)
   char* formula = SBML_formulaToString(c.getMath());
   msg = "The <constraint> with the formula '";
   msg += formula;
-  msg += "' returns a value that is not boolean.";
+  msg += "' returns a value that is not Boolean.";
   safe_free(formula);
 
   inv( m.isBoolean( c.getMath() ) );
@@ -1813,6 +1814,26 @@ START_CONSTRAINT (21113, SpeciesReference, sr)
     "'stoichiometry' and a <stoichiometryMath> element. ";
 
   inv( !sr.isSetStoichiometry() );
+}
+END_CONSTRAINT
+
+
+START_CONSTRAINT(99131, SpeciesReference, sr)
+{
+  pre(sr.getLevel() == 2);
+
+  /* doesnt apply if the SpeciesReference is a modifier */
+  pre(!sr.isModifier());
+  pre(sr.isSetStoichiometryMath());
+
+  std::string rnId = (sr.getAncestorOfType(SBML_REACTION) != NULL) ?
+    sr.getAncestorOfType(SBML_REACTION)->getId() : std::string("");
+
+  msg = "In <reaction> with id '" + rnId + "' the <speciesReference> "
+    "with species '" + sr.getSpecies() + "' has a <stoichiometryMath> element "
+    "with no <math> element.";
+
+  inv(sr.getStoichiometryMath()->isSetMath());
 }
 END_CONSTRAINT
 
@@ -1980,7 +2001,29 @@ START_CONSTRAINT (99129, KineticLaw, kl)
    */
   bool fail = false;
   bool logFailure = false;
-  while (t->type != TT_END)
+
+  /* okay so we hit an example where the model used a formula where
+  *  the name of the formula mirrored a comp/species/parameter
+  * so the type code checking below just accepted it
+  */
+  const ASTNode* math = kl.getMath();
+  if (math != NULL)
+  {
+    const char* name = math->getName();
+    if (name != NULL) {
+      if (math->isCSymbolFunction() ||
+        (math->isUserFunction() &&
+          (m.getCompartment(name) != NULL ||
+            m.getSpecies(name) != NULL ||
+            m.getParameter(name) != NULL)))
+      {
+        fail = true;
+        logFailure = true;
+      }
+    }
+  }
+
+  while (!logFailure && t->type != TT_END)
   {
     if (t->type == TT_NAME)
     {
@@ -2081,9 +2124,32 @@ START_CONSTRAINT (99129, AssignmentRule, ar)
    * of the model or the name of a function in which case 
    * need to check whether it is defined
    */
+
   bool fail = false;
   bool logFailure = false;
-  while (t->type != TT_END)
+
+  /* okay so we hit an example where the model used a formula where
+  *  the name of the formula mirrored a comp/species/parameter
+  * so the type code checking below just accepted it
+  */
+  const ASTNode* math = ar.getMath();
+  if (math != NULL)
+  {
+    const char* name = math->getName();
+    if (name != NULL) {
+      if (math->isCSymbolFunction() ||
+        (math->isUserFunction() &&
+          (m.getCompartment(name) != NULL ||
+            m.getSpecies(name) != NULL ||
+            m.getParameter(name) != NULL)))
+      {
+        fail = true;
+        logFailure = true;
+      }
+    }
+  }
+
+  while (!logFailure && t->type != TT_END)
   {
     if (t->type == TT_NAME)
     {
@@ -2184,7 +2250,29 @@ START_CONSTRAINT (99129, RateRule, rr)
    */
   bool fail = false;
   bool logFailure = false;
-  while (t->type != TT_END)
+
+  /* okay so we hit an example where the model used a formula where
+  *  the name of the formula mirrored a comp/species/parameter
+  * so the type code checking below just accepted it
+  */
+  const ASTNode* math = rr.getMath();
+  if (math != NULL)
+  {
+    const char* name = math->getName();
+    if (name != NULL) {
+      if (math->isCSymbolFunction() ||
+        (math->isUserFunction() &&
+          (m.getCompartment(name) != NULL ||
+            m.getSpecies(name) != NULL ||
+            m.getParameter(name) != NULL)))
+      {
+        fail = true;
+        logFailure = true;
+      }
+    }
+  }
+
+  while (!logFailure && t->type != TT_END)
   {
     if (t->type == TT_NAME)
     {
@@ -2348,7 +2436,7 @@ START_CONSTRAINT (21202, Trigger, t)
     t.getAncestorOfType(SBML_EVENT)->getId() : std::string("");
 
   msg = "The <trigger> element of the <event> with id '" + id + "' "
-    "returns a value that is not boolean. ";
+    "returns a value that is not Boolean. ";
 
   inv( m.isBoolean( t.getMath() ) );
 }
@@ -2536,19 +2624,22 @@ START_CONSTRAINT (21212, EventAssignment, ea)
   const Compartment* c = m.getCompartment(id);
   const Species*     s = m.getSpecies    (id);
   const Parameter*   p = m.getParameter  (id);
+  const SpeciesReference * sr = m.getSpeciesReference(id);
 
-  pre( c || s || p );
+  pre( c || s || p || sr);
 
   msg = "The";
   if (c) msg += " compartment with id '";
   else if (s) msg += " species with id '";
   else if (p) msg += " parameter with id '";
+  else if (sr) msg += " speciesReference with id '";
   msg += id;
   msg += "' should have a constant value of 'false'.";
 
   inv_or( c && c->getConstant() == false );
   inv_or( s && s->getConstant() == false );
   inv_or( p && p->getConstant() == false );
+  inv_or( sr && sr->getConstant() == false);
 }
 END_CONSTRAINT
 

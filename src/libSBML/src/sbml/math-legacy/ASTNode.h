@@ -259,6 +259,9 @@ typedef enum
   , AST_FUNCTION_REM
   , AST_LOGICAL_IMPLIES
 
+  /* generic to facilitate non sbml libraries*/
+  , AST_CSYMBOL_FUNCTION = 400
+
 
   , AST_UNKNOWN /*!< Unknown node:  will not produce any MathML */
 } ASTNodeType_t;
@@ -966,6 +969,28 @@ int (*ASTNodePredicate) (const ASTNode_t *node);
 
 
   /**
+  * Returns @c true (non-zero) if this node represents a MathML
+  * constant with numeric value(e.g., @c Pi).
+  *
+  * @return @c true if this ASTNode is a MathML constant, @c false otherwise.
+  *
+  * @note this function will also return @c true for @sbmlconstant{AST_NAME_AVOGADRO, ASTNodeType_t} in SBML Level&nbsp;3.
+  */
+
+  LIBSBML_EXTERN
+  bool isConstantNumber() const;
+
+  /**
+  * Returns @c true (non-zero) if this node represents a MathML
+  * csymbol representing a function.
+  *
+  * @return @c true if this ASTNode is a MathML csymbol function, @c false otherwise.
+  */
+
+  LIBSBML_EXTERN
+  bool isCSymbolFunction() const;
+
+  /**
    * Returns @c true (non-zero) if this node represents a
    * MathML function (e.g., <code>abs()</code>), or an SBML Level&nbsp;1
    * function, or a user-defined function.
@@ -1189,6 +1214,16 @@ int (*ASTNodePredicate) (const ASTNode_t *node);
    */
   LIBSBML_EXTERN
   bool isUPlus () const;
+
+
+  /**
+  * Returns @c true (non-zero) if this node represents a
+  * MathML user-defined function.
+  *
+  * @return @c true if this ASTNode is a user-defined function, @c false otherwise.
+  */
+  LIBSBML_EXTERN
+  bool isUserFunction() const;
 
 
   /**
@@ -2799,6 +2834,22 @@ ASTNode_returnsBooleanForModel (const ASTNode_t *node, const Model_t* model);
 LIBSBML_EXTERN
 int
 ASTNode_isConstant (const ASTNode_t * node);
+
+
+/**
+* Returns true if the given node represents a MathML constant.
+*
+* Examples of constants in this context are @c Pi, @c true, etc.
+*
+* @param node the node
+*
+* @return @c 1 if @p node is a MathML constant, @c 0 otherwise.
+*
+* @memberof ASTNode_t
+*/
+LIBSBML_EXTERN
+int
+ASTNode_isConstantNumber(const ASTNode_t * node);
 
 
 /**

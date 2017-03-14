@@ -531,32 +531,32 @@ static const sbmlErrorTableEntry errorTable[] =
   //10212
   {
     PiecewiseNeedsConsistentTypes,
-    "Terms in a <piecewise> expression must have consistent data types",
-    LIBSBML_CAT_MATHML_CONSISTENCY,
-    LIBSBML_SEV_NOT_APPLICABLE,
-    LIBSBML_SEV_NOT_APPLICABLE,
-    LIBSBML_SEV_GENERAL_WARNING,
-    LIBSBML_SEV_ERROR,
-    LIBSBML_SEV_ERROR,
-    LIBSBML_SEV_ERROR,
-    LIBSBML_SEV_ERROR,
-    LIBSBML_SEV_ERROR,
-    LIBSBML_SEV_NOT_APPLICABLE,
-    "The types of values within <piecewise> operators must all be "
-    "consistent: the set of expressions that make up the first arguments of "
-    "the <piece> and <otherwise> operators within the same <piecewise> "
-    "operator should all return values of the same type.",
-    {"",
-     "",
-     "L2V2 Section 3.5.8",
-     "L2V3 Section 3.4.9",
-     "L2V4 Section 3.4.9",
-     "L2V5 Section 3.4.10",
-     "L3V1 Section 3.4.9",
-     "L3V2 Section 3.4.11"}
+      "Terms in a <piecewise> expression must have consistent data types",
+      LIBSBML_CAT_MATHML_CONSISTENCY,
+      LIBSBML_SEV_NOT_APPLICABLE,
+      LIBSBML_SEV_NOT_APPLICABLE,
+      LIBSBML_SEV_GENERAL_WARNING,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_NOT_APPLICABLE,
+      "The types of values within <piecewise> operators must all be "
+      "consistent: the set of expressions that make up the first arguments of "
+      "the <piece> and <otherwise> operators within the same <piecewise> "
+      "operator should all return values of the same type.",
+      { "",
+       "",
+       "L2V2 Section 3.5.8",
+       "L2V3 Section 3.4.9",
+       "L2V4 Section 3.4.9",
+       "L2V5 Section 3.4.10",
+       "L3V1 Section 3.4.9",
+       "L3V2 Section 3.4.11" }
   },
 
-  //10213
+    //10213
   {
     PieceNeedsBoolean,
     "The second argument of a <piece> expression must yield a Boolean value",
@@ -582,7 +582,7 @@ static const sbmlErrorTableEntry errorTable[] =
      ""}
   },
 
-  //10214
+      //10214
   {
     ApplyCiMustBeUserFunction,
     "A <ci> element in this context must refer to a function definition",
@@ -610,14 +610,14 @@ static const sbmlErrorTableEntry errorTable[] =
      "L3V2 Section 4.3.2"}
   },
 
-  //10215
+      //10215
   {
     ApplyCiMustBeModelComponent,
     "A <ci> element in this context must refer to a model component",
     LIBSBML_CAT_MATHML_CONSISTENCY,
     LIBSBML_SEV_NOT_APPLICABLE,
     LIBSBML_SEV_NOT_APPLICABLE,
-    LIBSBML_SEV_GENERAL_WARNING,
+    LIBSBML_SEV_WARNING,
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
@@ -626,9 +626,12 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_ERROR,
     "Outside of a <functionDefinition>, if a <ci> element is not the first "
     "element within a MathML <apply>, then the <ci>'s value can only be "
-    "chosen from the set of identifiers of <species>, <compartment>, "
-    "<parameter>, <reaction>, or (in Level 3) <speciesReference> objects defined in the SBML model. (In L2V1, the "
-    "<ci>'s value can't be chosen from the identifiers of <reaction> objects). ",
+    "chosen from the set of identifiers of (in L2V1) <species>, <compartment>, "
+    "or <parameter> objects; (in L2V2-L2V5), <species>, <compartment>, <parameter> "
+    "or <reaction> objects; (in L3V1) <species>, <compartment>, <parameter>, "
+    "<reaction> or <speciesReference> objects and (in L3V2) <species>, "
+    "<compartment>, <parameter>, <reaction>, <speciesReference> objects or "
+    "L3 package objects with defined mathematical meaning. ",
     {"",
      "",
      "L2V2 Section 3.5.4",
@@ -8194,7 +8197,8 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
     "A <speciesReference> containing a non-integer or non-rational "
-    "<stoichiometryMath> subelement cannot be represented in SBML Level 1.",
+    "<stoichiometryMath> subelement (or in Level3 whose stoichiometry is assigned by "
+     "non-integer or non-rational math) cannot be represented in SBML Level 1.",
     {"",
      "",
      "",
@@ -10073,7 +10077,7 @@ static const sbmlErrorTableEntry errorTable[] =
   //98006
   {
     BooleanNumericDiscrepancy,
-    "Interchangeable boolean/numeric only allowed in L3V2.",
+    "Interchangeable Boolean/numeric only allowed in L3V2.",
     LIBSBML_CAT_SBML_COMPATIBILITY,
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
@@ -10085,7 +10089,7 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_NOT_APPLICABLE,
     "SBML Level 3 Version 2 relaxed the restrictions on where a math "
-    "expression should return a boolean or a numeric result.",
+    "expression should return a Boolean or a numeric result.",
     {"",
      "",
      "",
@@ -10099,7 +10103,7 @@ static const sbmlErrorTableEntry errorTable[] =
   //98007
   {
     IdNameSBaseInL3V2,
-    "Interchangeable boolean/numeric only allowed in L3V2.",
+    "Interchangeable Boolean/numeric only allowed in L3V2.",
     LIBSBML_CAT_SBML_COMPATIBILITY,
     LIBSBML_SEV_WARNING,
     LIBSBML_SEV_WARNING,
@@ -10486,6 +10490,34 @@ static const sbmlErrorTableEntry errorTable[] =
      "L3V1 Section 4.2.6",
      "L3V2 Section 4.2.6"}
   },
+
+      
+  //99131
+  {
+    StoichiometryMathMissingMath,
+    "StoichiometryMath missing Math",
+      LIBSBML_CAT_GENERAL_CONSISTENCY,
+      LIBSBML_SEV_NOT_APPLICABLE,
+      LIBSBML_SEV_NOT_APPLICABLE,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_NOT_APPLICABLE,
+      LIBSBML_SEV_NOT_APPLICABLE,
+      "The <stoichiometryMath> element must contain a <math> element.",
+      { "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "" }
+  },
+
+
 
   //99206
   {
@@ -11996,7 +12028,8 @@ static const sbmlErrorTableEntry errorTable[] =
    },
 
 
-/* Explanation about 99994 and 99995:
+
+      /* Explanation about 99994 and 99995:
 
 If SBase::readAttributes function finds an attribute it does not know about
 in a namespace it does not recognize, it stores the attribute BUT.  If it
