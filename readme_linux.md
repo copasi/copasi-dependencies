@@ -127,12 +127,13 @@ Compiling then completed as before with:
 A run of `~/copasi/bin/CopasiUI` verifies that it works. 
 
 ## Fedora 19 (Beta)
-Fedora 18 wouldn't start in my VM, so I took 19 beta from a netinstall. 
+Fedora 18 wouldn't start in my VM, so I took 19 beta from a netinstall.
+This has been tested for releases up to Fedora 27 
 
 ### Prerequisites
 At the bare minimum the following dependencies are needed: 
 	
-	yum install git cmake gcc-c++ mesa-libGL-devel mesa-libGLU-devel
+	yum install git cmake gcc-c++ mesa-libGL-devel mesa-libGLU-devel byacc
 
 for CopasiUI additionally needed are: 
 
