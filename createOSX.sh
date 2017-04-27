@@ -194,7 +194,7 @@ case $1 in
       $DIRECTORY/src/libSEDML
     make -j
     make install
-    [ -e $DIRECTORY/bin/lib/libsedml*.dylib ] && rm $DIRECTORY/bin/lib/libsedml*.dylib
+    [ -e $DIRECTORY/bin/lib/libsedml.dylib ] && rm $DIRECTORY/bin/lib/libsedml*.dylib
     ;;
 
   zlib)
@@ -228,7 +228,7 @@ case $1 in
         $DIRECTORY/src/libCombine
     make -j 4
     make install
-    [ -e $DIRECTORY/bin/lib/libCombine*.dylib ] && rm $DIRECTORY/bin/lib/libCombine*.dylib
+    [ -e $DIRECTORY/bin/lib/libCombine.dylib ] && rm $DIRECTORY/bin/lib/libCombine*.dylib
     ;;
 esac
 }
