@@ -3,7 +3,7 @@ SET BASE_DIR=%~dp0
 Setlocal EnableDelayedExpansion
 
 IF "%1"=="" (
-  SET TO_BE_BUILD=expat raptor clapack SBW libSBML libnuml libSEDML MML qwt qwtplot3d 
+  SET TO_BE_BUILD=expat raptor clapack SBW libSBML libnuml libSEDML mml qwt qwtplot3d 
 ) ELSE (
   SET TO_BE_BUILD=%*
 )
