@@ -196,6 +196,8 @@ private:
 
   void dealWithAvogadroSymbol(ASTNode* math);
 
+  void dealWithRateOfSymbol(ASTNode* math);
+
   bool determineStatus(const std::string& name, unsigned int index);
 
   void reportReadError(const std::string& type, const std::string& name, 
@@ -207,6 +209,12 @@ private:
   bool isValidSBMLAttribute(const std::string& name, SBase* base = NULL);
 
   mxArray* getNamespacesStructure();
+
+  mxArray* getCVTermsStructure(SBase* base);
+
+  void addCVTerms(const std::string& name, unsigned int index);
+
+  void freeMemory();
 
 protected:
 
@@ -238,10 +246,12 @@ public:
   const std::string& getDelaySymbol() { return mDelaySymbol; } ;
   const std::string& getTimeSymbol() { return mTimeSymbol; } ;
   const std::string& getAvogadroSymbol() { return mAvogadroSymbol; } ;
+  const std::string& getRateOfSymbol() { return mRateOfSymbol; } ;
 
   void setDelaySymbol(const std::string& symbol) { mDelaySymbol = symbol; } ;
   void setAvogadroSymbol(const std::string& symbol) { mAvogadroSymbol = symbol; } ;
   void setTimeSymbol(const std::string& symbol) { mTimeSymbol = symbol; } ;
+  void setRateOfSymbol(const std::string& symbol) { mRateOfSymbol = symbol; } ;
 
   SBMLNamespaces* getNamespaces() { return mSBMLns; };
 
@@ -266,6 +276,7 @@ protected:
   std::string mDelaySymbol;
   std::string mTimeSymbol;
   std::string mAvogadroSymbol;
+  std::string mRateOfSymbol;
 
   SBMLNamespaces *mSBMLns;
 
@@ -278,11 +289,15 @@ protected:
 ///////////////////////////////////////////////////////////////////////////////
 
 // global variables
-extern mxArray * mxModel[2];
+extern mxArray * mxModel[3];
+extern bool freeMemory;
 extern ModelDetails * details;
 
 extern IdList reqdPkgPrefixes;
 extern IdList unreqdPkgPrefixes;
+
+extern bool fbcUsingId;
+extern bool fbcAddGeneProducts;
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -290,17 +305,16 @@ extern IdList unreqdPkgPrefixes;
 
 void FreeMem(void)
 {
-#ifndef USE_OCTAVE
   /* destroy arrays created */
   mxDestroyArray(mxModel[0]);
   mxDestroyArray(mxModel[1]);
-#endif
+  mxDestroyArray(mxModel[2]);
 }
 
 void
-reportError(const std::string&id, const std::string& message, bool freeMem = true)
+reportError(const std::string&id, const std::string& message)
 {
-  if (freeMem)
+  if (freeMemory)
   {
     FreeMem();
   }
@@ -473,6 +487,14 @@ StructureFields::~StructureFields()
 }
 
 void
+StructureFields::freeMemory()
+{
+  mxDestroyArray(mxFieldnames);
+  mxDestroyArray(mxDefaultValues);
+  mxDestroyArray(mxValueTypes);
+}
+
+void
 StructureFields::determineTypeCode()
 {
   if (!sbmlTC.empty()) return;
@@ -577,6 +599,7 @@ StructureFields::getFieldname(unsigned int i, const std::string& id)
     reportError(id, "Failed in GetFieldname");
   }
   const std::string f = std::string(fieldname); 
+  mxFree(fieldname);
   return f;
 }
 
@@ -591,6 +614,7 @@ StructureFields::getDefaultValue(unsigned int i, const std::string& id)
     reportError(id, "Failed in GetDefaultValue");
   }
   const std::string f = std::string(fieldname); 
+  mxFree(fieldname);
   return f;
 }
 
@@ -616,9 +640,12 @@ StructureFields::getValueType(unsigned int i, const std::string& id)
   char * fieldname = (char *) mxCalloc(nBuflen, sizeof(char));
   if (mxGetString(mxName, (char *) fieldname, (mwSize)(nBuflen)) != 0)
   {
+    mxFree(fieldname);
     reportError(id, "Failed in GetValueType");
   }
-  return getFieldType(fieldname); 
+  FieldType_t ft = getFieldType(fieldname); 
+  mxFree(fieldname);
+  return ft;
 }
 
 bool
@@ -683,6 +710,7 @@ StructureFields::createStructure(const std::string& functionId, SBase* base,
   }
 
   mxStructure = mxCreateStructArray(2, dims, n, (const char**)(field_names));
+  safe_free(field_names);
 
   for (unsigned int i = 0; i < total_no; i++)
   {
@@ -723,11 +751,16 @@ StructureFields::populateStructure(const std::string& functionId, SBase* base, u
       {
         mxSetField(mxStructure, index, fieldname.c_str(), getNamespacesStructure());
       }
+      else if (fieldname == "cvterms")
+      {
+        mxSetField(mxStructure, index, fieldname.c_str(), getCVTermsStructure(base));
+      }
       else
       {
         StructureFields *sf = new StructureFields(attName);
         sf->createStructure(functionId + ":" + fieldname, base, usePlugin, prefix);
-        mxSetField(mxStructure, index, fieldname.c_str(), sf->getStructure());
+        mxSetField(mxStructure, index, fieldname.c_str(), mxDuplicateArray(sf->getStructure()));
+        delete sf;
       }
     }
     else if (anomalousMathStructures(fieldname, type))
@@ -809,6 +842,124 @@ StructureFields::getNamespacesStructure()
   }
 
   return mxNSReturn;
+}
+
+mxArray*
+  createCVTermStructure(int num)
+{
+  mxArray* mxCVTermReturn;
+  mwSize dims[2] = {1, num};
+
+  /* fields within a cvterm structure */
+  const int nNoFields = 4;
+  const char *field_names[] = {
+    "qualifierType",
+    "qualifier", 
+    "resources",
+    "cvterms"
+  };
+
+  mxCVTermReturn = mxCreateStructArray(2, dims, nNoFields, field_names);
+
+  return mxCVTermReturn;
+}
+
+
+
+void
+  addCVTerm (mxArray* mxCVTermReturn, int i, CVTerm* cv)
+{
+  const char * pacQualifier = NULL;
+  const char * pacQualifierType = NULL;
+  mxArray* mxResources = NULL;
+
+  if (cv->getQualifierType() == BIOLOGICAL_QUALIFIER)
+  {
+    std::string bq = "biological";
+    pacQualifierType = (char*)(safe_malloc((bq.size() * sizeof(char))+ 1));
+    pacQualifierType = safe_strdup(bq.c_str());
+
+    size_t s = sizeof((const char *)(BiolQualifierType_toString(cv->getBiologicalQualifierType()))) * sizeof(char);
+    pacQualifier = (char*)(safe_malloc(s + 1));
+    pacQualifier = safe_strdup(BiolQualifierType_toString(cv->getBiologicalQualifierType()));
+  }
+  else if  (cv->getQualifierType() == MODEL_QUALIFIER)
+  {
+    std::string bq = "model";
+    pacQualifierType = (char*)(safe_malloc((bq.size() * sizeof(char))+ 1));
+    pacQualifierType = safe_strdup(bq.c_str());
+
+    size_t s = sizeof((const char *)(ModelQualifierType_toString(cv->getModelQualifierType()))) * sizeof(char);
+    pacQualifier = (char*)(safe_malloc(s + 1));
+    pacQualifier = safe_strdup(ModelQualifierType_toString(cv->getModelQualifierType()));
+  }
+  else
+  {
+    std::string bq = "unknown";
+    pacQualifierType = (char*)(safe_malloc((bq.size() * sizeof(char))+ 1));
+    pacQualifierType = safe_strdup(bq.c_str());
+
+    pacQualifier = (char*)(safe_malloc((bq.size() * sizeof(char))+ 1));
+    pacQualifier = safe_strdup(bq.c_str());
+
+  }
+  mwSize num = cv->getNumResources(); 
+  std::string fieldname;
+
+  char **resources = (char**)(safe_malloc(num * sizeof(char*)));
+  for (unsigned int j = 0; j < num; j++)
+  {
+    fieldname = cv->getResourceURI(j);
+    size_t s = (fieldname.size() * sizeof(char)) + 1;
+    resources[j] = (char*)(safe_malloc(s));
+    resources[j] = safe_strdup(fieldname.c_str());
+  }
+
+  mxResources = mxCreateCellMatrix(1, num);
+  for (unsigned int j = 0; j < num; j++)
+  {
+    mxSetCell(mxResources, j, mxCreateString(resources[j]));
+  }
+
+  mxSetField(mxCVTermReturn, i, "qualifierType", mxCreateString(pacQualifierType)); 
+  mxSetField(mxCVTermReturn, i, "qualifier", mxCreateString(pacQualifier)); 
+  mxSetField(mxCVTermReturn, i, "resources",   mxResources); 
+
+  unsigned int numNested = cv->getNumNestedCVTerms();
+  if (cv->getNumNestedCVTerms() > 0)
+  {
+    mxArray* mxNested = createCVTermStructure(numNested);
+    for (unsigned int j = 0; j < numNested; j++)
+    {
+      addCVTerm(mxNested, j, cv->getNestedCVTerm(j));
+    }
+    mxSetField(mxCVTermReturn, i, "cvterms",   mxNested); 
+  }
+
+  safe_free((void*)(pacQualifier));
+  safe_free((void*)(pacQualifierType));
+  safe_free(resources);
+}
+
+
+mxArray* 
+StructureFields::getCVTermsStructure(SBase* base)
+{
+  mxArray* mxCVTermReturn = NULL;
+  
+  int n = base->getNumCVTerms();
+  if (n > 0)
+  {
+    mxCVTermReturn = createCVTermStructure(n);
+  }
+
+  for (int i = 0; i < n; i++)
+  {
+    CVTerm * cv = base->getCVTerm(i);
+    addCVTerm(mxCVTermReturn, i, cv);
+  }
+
+  return mxCVTermReturn;
 }
 
 
@@ -896,7 +1047,7 @@ StructureFields::getStringValue(const std::string& functionId, SBase* base,
 
     else if (fieldname == "association")
     {
-      value = FbcAssociation_toInfix(static_cast<FbcAssociation*>(base));
+      value = static_cast<FbcAssociation*>(base)->toInfix(fbcUsingId);//FbcAssociation_toInfix(static_cast<FbcAssociation*>(base));
     }
 #endif
 
@@ -937,6 +1088,17 @@ StructureFields::getStringValue(const std::string& functionId, SBase* base,
     if (!details->getTimeSymbol().empty())
     {
       value = details->getTimeSymbol();
+    }
+    else
+    {
+      value = getDefaultValue(fieldIndex, functionId);
+    }
+  }
+  else if (fieldname == "rateOf_symbol")
+  {
+    if (!details->getRateOfSymbol().empty())
+    {
+      value = details->getRateOfSymbol();
     }
     else
     {
@@ -1115,6 +1277,7 @@ StructureFields::getMathString(SBase* base)
   char * formula = SBML_formulaToString(ast);
   char * matlab = GetMatlabFormula(formula, sbmlTC);
   std::string math = std::string(matlab);
+  mxFree(matlab);
   return math;
 
 }
@@ -1158,6 +1321,8 @@ StructureFields::GetMatlabFormula(char * pacFormula, std::string object)
 void
 StructureFields::lookForCSymbols(ASTNode* math)
 {
+  if (math == NULL) return;
+
   unsigned int nChild = math->getNumChildren();
   ASTNodeType_t type;
 
@@ -1182,6 +1347,10 @@ StructureFields::lookForCSymbols(ASTNode* math)
     {
       dealWithDelaySymbol(math);
     }
+    else if (type == AST_FUNCTION_RATE_OF)
+    {
+      dealWithRateOfSymbol(math);
+    }
   }
 
   for (unsigned int i = 0; i < nChild; i++)
@@ -1194,6 +1363,7 @@ StructureFields::lookForCSymbols(ASTNode* math)
 void 
 StructureFields::dealWithAvogadroSymbol(ASTNode* math)
 {
+  if (math == NULL) return;
   if (details->getAvogadroSymbol().empty())
   {
     details->setAvogadroSymbol(math->getName());
@@ -1207,6 +1377,7 @@ StructureFields::dealWithAvogadroSymbol(ASTNode* math)
 void 
 StructureFields::dealWithTimeSymbol(ASTNode* math)
 {
+  if (math == NULL) return;
   if (details->getTimeSymbol().empty())
   {
     details->setTimeSymbol(math->getName());
@@ -1220,6 +1391,7 @@ StructureFields::dealWithTimeSymbol(ASTNode* math)
 void 
 StructureFields::dealWithDelaySymbol(ASTNode* math)
 {
+  if (math == NULL) return;
   if (details->getDelaySymbol().empty())
   {
     details->setDelaySymbol(math->getName());
@@ -1227,6 +1399,20 @@ StructureFields::dealWithDelaySymbol(ASTNode* math)
   else
   {
     math->setName(details->getDelaySymbol().c_str());
+  }
+}
+
+void 
+StructureFields::dealWithRateOfSymbol(ASTNode* math)
+{
+  if (math == NULL) return;
+  if (details->getRateOfSymbol().empty())
+  {
+    details->setRateOfSymbol(math->getName());
+  }
+  else
+  {
+    math->setName(details->getRateOfSymbol().c_str());
   }
 }
 
@@ -1275,7 +1461,14 @@ StructureFields::addAttributes(const std::string& functionId, unsigned int index
     type = getValueType(i, functionId);
     if (type == TYPE_ELEMENT)
     {
-      addChildElement(fieldname, index);
+      if (fieldname == "cvterms")
+      {
+        addCVTerms(fieldname, index);
+      }
+      else 
+      {
+       addChildElement(fieldname, index);
+      }
     }
     else if (anomalousMathStructures(fieldname, type))
     {
@@ -1289,6 +1482,75 @@ StructureFields::addAttributes(const std::string& functionId, unsigned int index
   }
 }
 
+CVTerm *
+  getCVTerm(mxArray* mxCVTerms, unsigned int i)
+{
+  CVTerm *cv;
+  std::string qualType = StructureFields::readString(mxCVTerms, "qualifierType", i);
+  std::string qual = StructureFields::readString(mxCVTerms, "qualifier", i);
+  if (qualType == "biological")
+  {
+    cv = new CVTerm(BIOLOGICAL_QUALIFIER);
+    cv->setBiologicalQualifierType(qual);
+  }
+  else if (qualType == "model")
+  {
+    cv = new CVTerm(MODEL_QUALIFIER);
+    cv->setModelQualifierType(qual);
+  }
+  else
+  {
+    cv = new CVTerm();
+  }
+
+  mxArray* mxResources = mxGetField(mxCVTerms, i, "resources");
+  size_t numRes = mxGetNumberOfElements(mxResources);
+
+  for (unsigned int j = 0; j < numRes; j++)
+  {
+    mxArray* mxField = mxGetCell(mxResources, j);
+    char *value = mxArrayToString(mxField);
+    if (value != NULL)
+    {
+      cv->addResource(std::string(value));
+    }
+  }
+
+  mxArray* mxNestedCV = mxGetField(mxCVTerms, i, "cvterms");
+  if (mxNestedCV != NULL)
+  {
+    size_t numNested = mxGetNumberOfElements(mxNestedCV);
+
+    for (unsigned int n = 0; n < numNested; n++)
+    {
+      CVTerm *nested = getCVTerm(mxNestedCV, n);
+      cv->addNestedCVTerm(nested);
+      delete nested;
+    }
+  }
+
+  return cv;
+}
+
+void
+StructureFields::addCVTerms(const std::string& name, unsigned int index)
+{
+  mxArray* mxCVTerms = mxGetField(mxStructure, index, "cvterms");
+  if (mxCVTerms == NULL)
+    return;
+
+	size_t numCV = mxGetNumberOfElements(mxCVTerms);
+
+  for (unsigned int i = 0; i < numCV; i++)
+  {
+    CVTerm *cv = getCVTerm(mxCVTerms, i);
+    if (!mSBase->isSetMetaId())
+      mSBase->setMetaId("temp");
+    mSBase->addCVTerm(cv);
+    delete cv;
+  }
+
+}
 
 void
 StructureFields::addChildElement(const std::string& name, unsigned int index)
@@ -1311,17 +1573,17 @@ StructureFields::addChildElement(const std::string& name, unsigned int index)
     // hack for rules - since a list of rules contains assignmentRule etc..
     if (name == "rule")
     {
-      pChild = mSBase->createObject(getRuleType(mxChild, i));
+      pChild = mSBase->createChildObject(getRuleType(mxChild, i));
     }
     else 
     {
       if (usePlugin)
       {
-        pChild = mSBase->getPlugin(prefix)->createObject(attName);
+        pChild = mSBase->getPlugin(prefix)->createChildObject(attName);
       }
       else
       {
-        pChild = mSBase->createObject(attName);
+        pChild = mSBase->createChildObject(attName);
       }
     }
 
@@ -1331,6 +1593,8 @@ StructureFields::addChildElement(const std::string& name, unsigned int index)
 
       std::string id = std::string("OutputSBML:addChildElement:") + sf->getTypeCode();
       sf->addAttributes(id, i, n);
+
+      sf->freeMemory();
     }
   }
 }
@@ -1361,7 +1625,7 @@ StructureFields::addAnomalousChild(const std::string& fieldname, unsigned int in
 
   if (!value.empty())
   {
-    SBase *pChild = mSBase->createObject(fieldname);
+    SBase *pChild = mSBase->createChildObject(fieldname);
     if (pChild != NULL)
     {
       std::string value = readString(fieldname, 0, 0);
@@ -1376,9 +1640,11 @@ StructureFields::getMathChild(const std::string& value)
 {
   /* convert MATLAB formula to MathML infix */
   char * cvalue = convertMathFormula(value);
-  const ASTNode *ast = SBML_parseFormula(cvalue);
+  L3ParserSettings settings;
+  settings.setParseLog(L3P_PARSE_LOG_AS_LN);
+  const ASTNode *ast = SBML_parseL3FormulaWithSettings(cvalue, &settings);
   adjustForCSymbols(const_cast<ASTNode*>(ast));
-
+  mxFree(cvalue);
   return ast;
 }
 
@@ -1396,6 +1662,10 @@ StructureFields::adjustForCSymbols(ASTNode * math)
     {
       math->setType(AST_FUNCTION_DELAY);
     }
+    else if (math->getName() == details->getRateOfSymbol())
+    {
+      math->setType(AST_FUNCTION_RATE_OF);
+    }  
   }
   else if (math->getType() == AST_NAME)
   {
@@ -1680,7 +1950,7 @@ StructureFields::convertMathFormula(const std::string& pacFormula)
 
   /* get the formula returned */
   nBuflen = (mxGetM(mxOutput[0])*mxGetN(mxOutput[0])+1);
-  formula = (char *) safe_calloc(nBuflen, sizeof(char));
+  formula = (char *) mxCalloc(nBuflen, sizeof(char));
   nStatus = mxGetString(mxOutput[0], (char *) formula, (mwSize)(nBuflen));
 
   if (nStatus != 0)
@@ -1706,9 +1976,17 @@ StructureFields::readInt(const std::string& name, unsigned int index, unsigned i
   mxField = mxGetField(mxStructure, index, name.c_str());
   if (mxField != NULL)
   {
-    if (!mxIsEmpty(mxField) && mxIsNumeric(mxField))
+    if (!mxIsEmpty(mxField)) 
     {
-      value = (int)(mxGetScalar(mxField));
+      if (mxIsNumeric(mxField))
+      {
+        value = (int)(mxGetScalar(mxField));
+        nStatus = 0;
+      }
+    }
+    else
+    {
+      value = 0;
       nStatus = 0;
     }
 
@@ -1732,9 +2010,17 @@ StructureFields::readInt(mxArray* mxArray1, const std::string& name, unsigned in
   mxField = mxGetField(mxArray1, index, name.c_str());
   if (mxField != NULL)
   {
-    if (!mxIsEmpty(mxField) && mxIsNumeric(mxField))
+    if (!mxIsEmpty(mxField)) 
     {
-      value = (int)(mxGetScalar(mxField));
+      if (mxIsNumeric(mxField))
+      {
+        value = (int)(mxGetScalar(mxField));
+        nStatus = 0;
+      }
+    }
+    else
+    {
+      value = 0;
       nStatus = 0;
     }
 
@@ -1758,9 +2044,17 @@ StructureFields::readDouble(const std::string& name, unsigned int index, unsigne
   mxField = mxGetField(mxStructure, index, name.c_str());
   if (mxField != NULL)
   {
-    if (!mxIsEmpty(mxField) && mxIsNumeric(mxField))
+    if (!mxIsEmpty(mxField))
     {
-      value = mxGetScalar(mxField);
+      if (mxIsNumeric(mxField))
+      {
+        value = mxGetScalar(mxField);
+        nStatus = 0;
+      }
+    }
+    else
+    {
+      value = util_NaN();
       nStatus = 0;
     }
 
@@ -1836,9 +2130,17 @@ StructureFields::readUint(const std::string& name, unsigned int index, unsigned 
   mxField = mxGetField(mxStructure, index, name.c_str());
   if (mxField != NULL)
   {
-    if (!mxIsEmpty(mxField) && mxIsNumeric(mxField))
+    if (!mxIsEmpty(mxField)) 
     {
-      value = (unsigned int)(mxGetScalar(mxField));
+      if (mxIsNumeric(mxField))
+      {
+        value = (unsigned int)(mxGetScalar(mxField));
+        nStatus = 0;
+      }
+    }
+    else
+    {
+      value = 0;
       nStatus = 0;
     }
 
@@ -1864,9 +2166,17 @@ StructureFields::readUint(mxArray* mxArray1, const std::string& name,
   mxField = mxGetField(mxArray1, index, name.c_str());
   if (mxField != NULL)
   {
-    if (!mxIsEmpty(mxField) && mxIsNumeric(mxField))
+    if (!mxIsEmpty(mxField)) 
     {
-      value = (unsigned int)(mxGetScalar(mxField));
+      if (mxIsNumeric(mxField))
+      {
+        value = (unsigned int)(mxGetScalar(mxField));
+        nStatus = 0;
+      }
+    }
+    else
+    {
+      value = 0;
       nStatus = 0;
     }
 
@@ -1883,9 +2193,16 @@ bool
 StructureFields::determineStatus(const std::string& name, unsigned int index)
 {
   bool setStatus = true;
+  mxArray * mxField;
+  // if the field itself is empty then it is clearly not set
+  mxField = mxGetField(mxStructure, index, name.c_str());
+  if (mxIsEmpty(mxField))
+  {
+    return false;
+  }
+
   // want to know whether there is an isSetXYZ field coming from matlab
   // and if so what is its value
-  mxArray * mxField;
   unsigned int value = 0;
   int nStatus = 1;
   const char * cname = name.c_str();

@@ -405,7 +405,7 @@ InSpeciesTypeBond::writeElements (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -420,7 +420,7 @@ InSpeciesTypeBond::accept (SBMLVisitor& v) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -435,7 +435,7 @@ InSpeciesTypeBond::setSBMLDocument (SBMLDocument* d)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -451,7 +451,7 @@ InSpeciesTypeBond::enablePackageInternal(const std::string& pkgURI,
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -471,7 +471,7 @@ InSpeciesTypeBond::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -635,23 +635,24 @@ InSpeciesTypeBond::readAttributes (const XMLAttributes& attributes,
     }
     else if (SyntaxChecker::isValidSBMLSId(mBindingSite2) == false && getErrorLog() != NULL)
     {
-      getErrorLog()->logError(InvalidIdSyntax, getLevel(), getVersion(), 
-        "The syntax of the attribute bindingSite2='" + mBindingSite2 + "' does not conform.");
+      std::string details = "The syntax of the attribute bindingSite2='" + mBindingSite2 + "' does not conform.";
+      getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+        getPackageVersion(), sbmlLevel, sbmlVersion, details,
+        getLine(), getColumn());
     }
   }
   else
   {
-    std::string details = "The syntax of the attribute bindingSite2='" + mBindingSite2 + "' does not conform.";
-    getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
-               getPackageVersion(), sbmlLevel, sbmlVersion, details,
-               getLine(), getColumn());
-
+    std::string message = "Multi attribute 'bindingSite2' is missing.";
+    getErrorLog()->logPackageError("multi", MultiInSptBnd_AllowedMultiAtts,
+      getPackageVersion(), sbmlLevel, sbmlVersion, message,
+      getLine(), getColumn());
   }
 
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -681,7 +682,7 @@ InSpeciesTypeBond::writeAttributes (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 /*
@@ -845,7 +846,7 @@ ListOfInSpeciesTypeBonds::createObject(XMLInputStream& stream)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -873,7 +874,7 @@ ListOfInSpeciesTypeBonds::writeXMLNS(XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 /*

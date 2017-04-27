@@ -43,12 +43,16 @@
 #include <locale.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#if defined CYGWIN
+#include <cstdlib>
+#endif
 
 #include <sbml/common/common.h>
 #include <sbml/common/libsbml-package.h>
 
 #include <sbml/util/List.h>
 #include <sbml/util/util.h>
+
 
 #include <math.h>
 #ifdef __cplusplus
@@ -124,7 +128,7 @@ c_locale_vsnprintf (char *str, size_t size, const char *format, va_list ap)
   result = vsnprintf(str, size, format, ap);
 
   setlocale(LC_ALL, locale);
-  free(locale);
+  safe_free(locale);
   
   return result;
 }
@@ -143,7 +147,7 @@ c_locale_strtod (const char *nptr, char **endptr)
   result = strtod(nptr, endptr);
 
   setlocale(LC_ALL, locale);
-  free(locale);
+  safe_free(locale);
 
   return result;
 }
@@ -188,10 +192,11 @@ safe_strcat (const char *str1, const char *str2)
   
   len1    = (int)strlen(str1);
   len2    = (int)strlen(str2);
-  concat = (char *) safe_malloc( (size_t) len1 + (size_t)len2 + 1 );
+  concat = (char *) safe_malloc( (size_t) len1 + (size_t)len2 + 2 );
 
 
   strncpy(concat, str1, (size_t)len1 + 1);
+  concat[len1 + 1] = '\0';
   strncat(concat, str2, (size_t)len2);
 
   return concat;
@@ -492,7 +497,7 @@ util_freeArray (void ** objects, int length)
   {
     util_free(objects[i]);
   }
-  free(objects);
+  safe_free(objects);
 
 }
 

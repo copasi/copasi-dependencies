@@ -998,7 +998,7 @@ UnitDefinition::reorder(UnitDefinition *ud)
   for (n = 0; n < numUnits; n++)
   {
     unit = (Unit *)(units->get(n));
-    int value = unit->getKind();
+    int value = (int)(unit->getKind());
     indexArray[n] = value;
     initialIndexArray[n] = value;
   }
@@ -1822,7 +1822,7 @@ UnitDefinition::unsetAttribute(const std::string& attributeName)
  * Creates and returns an new "elementName" object in this UnitDefinition.
  */
 SBase*
-UnitDefinition::createObject(const std::string& elementName)
+UnitDefinition::createChildObject(const std::string& elementName)
 {
   SBase* obj = NULL;
 

@@ -114,6 +114,16 @@ SubListOfSpeciesFeatures::getId() const
 
 
 /*
+ * Returns the value of the "name" attribute of this SubListOfSpeciesFeatures.
+ */
+const std::string&
+SubListOfSpeciesFeatures::getName() const
+{
+  return mName;
+}
+
+
+/*
  * Returns true/false if id is set.
  */
 bool
@@ -121,6 +131,17 @@ SubListOfSpeciesFeatures::isSetId() const
 {
   return (mId.empty() == false);
 }
+
+
+/*
+ * Returns true/false if name is set.
+ */
+bool
+SubListOfSpeciesFeatures::isSetName() const
+{
+  return (mName.empty() == false);
+}
+
 
 /*
  * Sets id and returns value indicating success.
@@ -130,6 +151,18 @@ SubListOfSpeciesFeatures::setId(const std::string& id)
 {
   return SyntaxChecker::checkAndSetSId(id, mId);
 }
+
+
+/*
+ * Sets name and returns value indicating success.
+ */
+int
+SubListOfSpeciesFeatures::setName(const std::string& name)
+{
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
 
 /*
  * Unsets id and returns value indicating success.
@@ -148,6 +181,26 @@ SubListOfSpeciesFeatures::unsetId()
     return LIBSBML_OPERATION_FAILED;
   }
 }
+
+
+/*
+ * Unsets name and returns value indicating success.
+ */
+int
+SubListOfSpeciesFeatures::unsetName()
+{
+  mName.erase();
+
+  if (mName.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
 
 /*
  * Returns the value of the "component" attribute of this SubListOfSpeciesFeatures.
@@ -371,7 +424,7 @@ SubListOfSpeciesFeatures::getElementName () const
 int
 SubListOfSpeciesFeatures::getTypeCode () const
 {
-  return SBML_LIST_OF;
+  return SBML_MULTI_SUBLIST_OF_SPECIES_FEATURES;
 }
 
 
@@ -408,7 +461,7 @@ SubListOfSpeciesFeatures::createObject(XMLInputStream& stream)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -436,7 +489,7 @@ SubListOfSpeciesFeatures::writeXMLNS(XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
 void
@@ -445,6 +498,7 @@ SubListOfSpeciesFeatures::addExpectedAttributes(ExpectedAttributes& attributes)
   SBase::addExpectedAttributes(attributes);
 
   attributes.add("id");
+  attributes.add("name");
   attributes.add("relation");
   attributes.add("component");
 
@@ -514,12 +568,28 @@ SubListOfSpeciesFeatures::readAttributes (const XMLAttributes& attributes,
   }
 
 
+   //
+   // name string   ( use = "optional" )
+   //
+   assigned = attributes.readInto("name", mName);
+
+   if (assigned == true)
+   {
+     // check string is not empty
+
+     if (mName.empty() == true)
+     {
+       logEmptyString(mName, getLevel(), getVersion(), "<SubListOfSpeciesFeatures>");
+     }
+   }
+
+
   //
-  // relation string   ( use = "optional" )
+  // relation string   ( required )
   //
   std::string relation;
   assigned = attributes.readInto("relation", relation,
-                                   getErrorLog(), false);
+                                   getErrorLog(), true);
 
   if (assigned == true)
   {
@@ -540,6 +610,13 @@ SubListOfSpeciesFeatures::readAttributes (const XMLAttributes& attributes,
                        getLine(), getColumn());
        }
     }
+  }
+  else {
+	    std::string message = "Multi attribute 'relation' is missing.";
+	    getErrorLog()->logPackageError("multi", MultiSubLofSpeFtrs_AllowedMultiAtts,
+	                   getPackageVersion(), sbmlLevel, sbmlVersion, message,
+	                   getLine(), getColumn());
+
   }
 
   assigned = attributes.readInto("component", mComponent);
@@ -582,6 +659,7 @@ SubListOfSpeciesFeatures::writeAttributes (XMLOutputStream& stream) const
 /** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * write elements
  */
@@ -590,18 +668,43 @@ SubListOfSpeciesFeatures::writeElements (XMLOutputStream& stream) const
 {
   ListOf::writeElements(stream);
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
+/*
+* Accepts the given SBMLVisitor.
+*/
+bool
+SubListOfSpeciesFeatures::accept (SBMLVisitor& v) const
+{
+	v.visit(*this);
+
+	// SpeciesFeature
+	for(unsigned int i = 0; i < getNumSpeciesFeatures(); i++)
+	{
+	  get(i)->accept(v);
+	}
+
+	v.leave(*this);
+
+	return true;
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
 void
 SubListOfSpeciesFeatures::connectToChild()
 {
 
 }
+/** @endcond */
+
 
 unsigned int
 SubListOfSpeciesFeatures::getNumSpeciesFeatures() const
 {
-  return mItems.size();
+  return static_cast<unsigned int>( mItems.size() );
 }
 
 

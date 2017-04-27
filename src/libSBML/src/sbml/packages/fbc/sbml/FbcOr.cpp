@@ -270,17 +270,17 @@ FbcOr::getNumAssociations() const
 
 
 std::string 
-FbcOr::toInfix() const
+FbcOr::toInfix(bool usingId) const
 {
   if (mAssociations.size() == 0) return "";
 
   stringstream str;
   str << "(";
-  str << mAssociations.get(0)->toInfix();
+  str << mAssociations.get(0)->toInfix(usingId);
   for (size_t pos = 1; pos < mAssociations.size(); ++pos)
   {
     str << " or ";
-    str << mAssociations.get((unsigned int)pos)->toInfix();
+    str << mAssociations.get((unsigned int)pos)->toInfix(usingId);
   }
   str << ")";
   return str.str();
@@ -797,7 +797,7 @@ FbcOr::unsetAttribute(const std::string& attributeName)
  * Creates and returns an new "elementName" object in this FbcOr.
  */
 SBase*
-FbcOr::createObject(const std::string& elementName)
+FbcOr::createChildObject(const std::string& elementName)
 {
   FbcAssociation* obj = NULL;
 

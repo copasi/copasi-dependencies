@@ -39,27 +39,31 @@
 #include <matrix.h>
 #endif
 
+// global variables
+bool fbcUsingId;
+bool fbcAddGeneProducts;
+
 /* determine whether we are in octave or matlab */
 unsigned int
 determinePlatform()
 {
   unsigned int usingOctave = 0;
-  mxArray * mxOctave;
+  mxArray * mxOctave[1];
 
-  mexCallMATLAB(1, &mxOctave, 0, NULL, "isoctave");
+  mexCallMATLAB(1, mxOctave, 0, NULL, "isoctave");
 
-  size_t nBuflen = (mxGetM(mxOctave)*mxGetN(mxOctave)+1);
+  size_t nBuflen = (mxGetM(mxOctave[0])*mxGetN(mxOctave[0])+1);
   char * pacTempString1 = (char *)(safe_calloc(nBuflen, sizeof(char)));
-  int nStatus = mxGetString(mxOctave, pacTempString1, (mwSize)(nBuflen));
+  int nStatus = mxGetString(mxOctave[0], pacTempString1, (mwSize)(nBuflen));
 
   if (nStatus != 0)
   {
     reportError("OutputSBML:platformDetection", 
-      "Could not determine platform", false);
+      "Could not determine platform");
   }
 
   safe_free(pacTempString1);
-  mxDestroyArray(mxOctave);
+  mxDestroyArray(mxOctave[0]);
 
   return usingOctave;
 }
@@ -77,7 +81,7 @@ answerYesToQuestion(const std::string& question)
   mxDestroyArray(mxPrompt[1]);
 
   size_t nBufferLen = (mxGetM(mxReply[0])*mxGetN(mxReply[0])+1);
-  pacReply = (char *) mxCalloc(nBufferLen, sizeof(char));
+  pacReply = (char *) (safe_calloc(nBufferLen, sizeof(char)));
   mxGetString(mxReply[0], pacReply, (mwSize)(nBufferLen));
   mxDestroyArray(mxReply[0]);
 
@@ -85,6 +89,7 @@ answerYesToQuestion(const std::string& question)
   {
     answer = true;
   }
+  safe_free(pacReply);
 
   return answer;
 }
@@ -100,19 +105,49 @@ validateNumberOfInputsForOutput(int nrhs, const mxArray *prhs[], unsigned int us
   {
     reportError("OutputSBML:inputArgs", 
       "Must supply at least the model as an input argument\n"
-      "USAGE: OutputSBML(SBMLModel, (filename), (exclusiveFlag))", false);
+      "USAGE: OutputSBML(SBMLModel, (filename), (exclusiveFlag), (applyUserValidation), (fbcGeneProductOptions))");
   }
   if (usingOctave == 1 && nrhs < 2)
   {
     reportError("OutputSBML:Octave:needFilename", 
       "Octave requires the filename to be specified\n"
-      "USAGE: OutputSBML(SBMLModel, filename, (exclusiveFlag))", false);
+      "USAGE: OutputSBML(SBMLModel, (filename), (exclusiveFlag), (applyUserValidation), (fbcGeneProductOptions))");
   }
-  if (nrhs > 4)
+  if (nrhs > 5)
   {
     reportError("OutputSBML:inputArguments", "Too many input arguments\n"
-      "USAGE: OutputSBML(SBMLModel, (filename), (exclusiveFlag))", false);
+      "USAGE: OutputSBML(SBMLModel, (filename), (exclusiveFlag), (applyUserValidation), (fbcGeneProductOptions))");
   }
+
+  if (nrhs > 1 && ((mxIsChar(prhs[1]) != 1) || (mxGetM(prhs[1]) != 1)))
+  {
+    reportError("OutputSBML:inputArguments:invalidFilename", 
+      "Second argument must be a filename\n"
+      "USAGE: OutputSBML(SBMLModel, (filename), (exclusiveFlag), (applyUserValidation), (fbcGeneProductOptions))");
+  }
+  if (nrhs > 2 && !mxIsNumeric(prhs[2]))
+  {
+    reportError("OutputSBML:inputArguments:exclusiveFlag", 
+      "exclusiveFlag is an optional argument but must be a number\n"
+      "USAGE: OutputSBML(SBMLModel, (filename), (exclusiveFlag), (applyUserValidation), (fbcGeneProductOptions))");
+  }
+
+  if (nrhs > 3 && !mxIsNumeric(prhs[3]))
+  {
+    reportError("OutputSBML:inputArguments:applyUserValidation", 
+      "applyUserValidation is an optional argument but must be a number\n"
+      "USAGE: OutputSBML(SBMLModel, (filename), (exclusiveFlag), (applyUserValidation), (fbcGeneProductOptions))");
+  }
+
+  if (nrhs > 4 && (!mxIsNumeric(prhs[4]) || (mxGetM(prhs[4]) != 1) || (mxGetN(prhs[4]) != 2)))
+  {
+    reportError("OutputSBML:inputArguments:fbcGeneProductOptions", 
+      "fbcGeneProductOptions is an optional argument but must be an array with two numbers\n"
+      "USAGE: OutputSBML(SBMLModel, (filename), (exclusiveFlag), (applyUserValidation), (fbcGeneProductOptions))");
+  }
+
+
+
 }
 
 void
@@ -121,7 +156,7 @@ validateNumberOfOutputsForOutput(int nlhs)
   if (nlhs > 0)
   {
     reportError("OutputSBML:outputArguments", "Too many output arguments\n"
-      "USAGE: OutputSBML(SBMLModel, (filename), (exclusiveFlag))", false);
+      "USAGE: OutputSBML(SBMLModel, (filename), (exclusiveFlag))");
   }
 }
 
@@ -129,30 +164,81 @@ void
 populateModelArray(int nrhs, const mxArray *prhs[])
 {
   mxModel[0] = mxDuplicateArray(prhs[0]);
-  mexMakeArrayPersistent(mxModel[0]);
-  mexAtExit(FreeMem);
 
   /**
+  * note second argument may be the filename
+  *
   * we now have the option of a third argument that indicates that we
   * want the structure to ONLY contain expected fields or not
+  *
+  * and a fourth argument that tells us whether to apply user
+  * specific validation
+  *
+  * and a fifth argument saying whether to use ids/lebels in fbc
   */
-  if (nrhs > 2)
+  if (nrhs > 4)
   {
-    mxModel[1] = (mxArray *)prhs[2];
+    mxModel[1] = mxDuplicateArray(prhs[2]);
+    mxModel[2] = mxDuplicateArray(prhs[3]);
+    double *pr = mxGetPr(prhs[4]); 
+  
+    if (*pr == 0)
+    {
+      fbcUsingId = false;
+    }
+    else
+    {
+      fbcUsingId = true;
+    }
+    pr++;
+    if (*pr == 0)
+    {
+      fbcAddGeneProducts = false;
+    }
+    else
+    {
+      fbcAddGeneProducts = true;
+    }
+  }
+  else if (nrhs > 3)
+  {
+    mxModel[1] = mxDuplicateArray(prhs[2]);
+    mxModel[2] = mxDuplicateArray(prhs[3]);
+    fbcUsingId = false;
+    fbcAddGeneProducts = true;
   }  
+  else if ( nrhs > 2)
+  {
+    mxModel[1] = mxDuplicateArray(prhs[2]);
+    mxModel[2] = mxCreateDoubleScalar(0);
+    fbcUsingId = false;
+    fbcAddGeneProducts = true;
+  }
   else
   {
     mxModel[1] = mxCreateDoubleScalar(1);
+    mxModel[2] = mxCreateDoubleScalar(0);
+    fbcUsingId = false;
+    fbcAddGeneProducts = true;
   }
+  mexMakeArrayPersistent(mxModel[0]);
+  mexMakeArrayPersistent(mxModel[1]);
+  mexMakeArrayPersistent(mxModel[2]);
+  
+  // we have made persistent memory - need to free it is we exit prematurely
+  freeMemory = true;
+
+  mexAtExit(FreeMem);
 }
 
 void 
 validateModel()
 {
   mxArray * mxCheckStructure[2];
-  int nStatus = mexCallMATLAB(2, mxCheckStructure, 2, mxModel, "isSBML_Model");
+  int nStatus = mexCallMATLAB(2, mxCheckStructure, 3, mxModel, "isSBML_Model");
 
-  if ((nStatus != 0) || (mxIsLogicalScalarTrue(mxCheckStructure[0]) != 1))
+  int value = (int)(mxGetScalar(mxCheckStructure[0]));
+  if ((nStatus != 0) || (value != 1))
   {
     /* there are errors - use the pacTempString1 char * to list these to the user */
     size_t nBuflen = (mxGetM(mxCheckStructure[1])*mxGetN(mxCheckStructure[1])+1);
@@ -163,14 +249,14 @@ validateModel()
     {
       errMsg << "\nFirst input must be a valid MATLAB_SBML Structure\n\n" <<
         "Errors reported: " << pacTempString1 << "\nUSAGE: OutputSBML(SBMLModel"
-        << ", (filename), (exclusiveFlag))";
-      reportError("OutputSBML:inputArguments:invalidModelSupplied", errMsg.str(), false);
+        << ", (filename), (exclusiveFlag), (applyUserValidation))";
+      reportError("OutputSBML:inputArguments:invalidModelSupplied", errMsg.str());
     }
     else
     {
       errMsg << "\nFirst input must be a valid MATLAB_SBML Structure\n\n" <<
-        "\nUSAGE: OutputSBML(SBMLModel, (filename), (exclusiveFlag))";
-      reportError("OutputSBML:inputArguments:invalidStructureSupplied", errMsg.str(), false);
+        "\nUSAGE: OutputSBML(SBMLModel, (filename), (exclusiveFlag), (applyUserValidation))";
+      reportError("OutputSBML:inputArguments:invalidStructureSupplied", errMsg.str());
     } 
     safe_free(pacTempString1);
   }
@@ -226,11 +312,11 @@ void
 validateNumberOfInputsForTranslate(int nrhs, const mxArray *prhs[], 
                                    unsigned int usingOctave)
 {
-  if (nrhs > 3)
+  if (nrhs > 4)
   {
     reportError("TranslateSBML:inputArguments", "Too many input arguments\n"
       "USAGE: [model, (errors), (version)] = "
-      "TranslateSBML((filename), (validateFlag), (verboseFlag))");
+      "TranslateSBML((filename), (validateFlag), (verboseFlag), (fbcGeneProductOptions))");
   }
 
   if (nrhs > 0 && ((mxIsChar(prhs[0]) != 1) || (mxGetM(prhs[0]) != 1)))
@@ -238,14 +324,14 @@ validateNumberOfInputsForTranslate(int nrhs, const mxArray *prhs[],
     reportError("TranslateSBML:inputArguments:invalidFilename", 
       "First argument must be a filename\n"
       "USAGE: [model, (errors), (version)] = "
-      "TranslateSBML((filename), (validateFlag), (verboseFlag))");
+      "TranslateSBML((filename), (validateFlag), (verboseFlag), (fbcGeneProductOptions))");
   }
   if (nrhs > 1 && !mxIsNumeric(prhs[1]))
   {
     reportError("TranslateSBML:inputArguments:validateFlag", 
       "validateFlag is an optional argument but must be a number\n"
       "USAGE: [model, (errors), (version)] = "
-      "TranslateSBML((filename), (validateFlag), (verboseFlag))");
+      "TranslateSBML((filename), (validateFlag), (verboseFlag), (fbcGeneProductOptions))");
   }
 
   if (nrhs > 2 && !mxIsNumeric(prhs[2]))
@@ -253,7 +339,15 @@ validateNumberOfInputsForTranslate(int nrhs, const mxArray *prhs[],
     reportError("TranslateSBML:inputArguments:verboseFlag", 
       "verboseFlag is an optional argument but must be a number\n"
       "USAGE: [model, (errors), (version)] = "
-      "TranslateSBML((filename), (validateFlag), (verboseFlag))");
+      "TranslateSBML((filename), (validateFlag), (verboseFlag), (fbcGeneProductOptions))");
+  }
+
+  if (nrhs > 3 && (!mxIsNumeric(prhs[3]) || (mxGetM(prhs[3]) != 1) || (mxGetN(prhs[3]) != 2)))
+  {
+    reportError("TranslateSBML:inputArguments:fbcGeneProductOptions", 
+      "fbcGeneProductOptions is an optional argument but must be an array with two numbers\n"
+      "USAGE: [model, (errors), (version)] = "
+      "TranslateSBML((filename), (validateFlag), (verboseFlag), (fbcGeneProductOptions))");
   }
 
   if (usingOctave && nrhs == 0)
@@ -299,12 +393,13 @@ checkFileExists(FILE_CHAR filename)
     {
       char * msgTxt = NULL;
 #if USE_FILE_WCHAR
-      msgTxt = (char *) mxCalloc(wcslen(filename)+35, sizeof(char));
+      msgTxt = (char *) safe_calloc(wcslen(filename)+35, sizeof(char));
 #else
-      msgTxt = (char *) mxCalloc(strlen(filename)+35, sizeof(char));
+      msgTxt = (char *) safe_calloc(strlen(filename)+35, sizeof(char));
 #endif
       sprintf(msgTxt, "File %s does not exist on this path", filename);
       reportError("TranslateSBML:inputArguments:filename", msgTxt);
+      safe_free(msgTxt);
     }
     else
     {
@@ -356,6 +451,32 @@ getFilename(int nrhs, const mxArray* prhs[], unsigned int& validateFlag,
       verboseFlag = (int) mxGetScalar(prhs[2]);   
     }
 
+    /* a fourth argument is an array indicating whether to use geneProduct 
+    * labels or ids for expressing the association 
+    * and whether to add missing geneProducts when parsing the association
+    */
+    if (nrhs > 3)
+    {
+      double *pr = mxGetPr(prhs[3]); 
+  
+      if (*pr == 0)
+      {
+        fbcUsingId = false;
+      }
+      else
+      {
+        fbcUsingId = true;
+      }
+      pr++;
+      if (*pr == 0)
+      {
+        fbcAddGeneProducts = false;
+      }
+      else
+      {
+        fbcAddGeneProducts = true;
+      }
+    }
   }
   else
   {
@@ -364,6 +485,8 @@ getFilename(int nrhs, const mxArray* prhs[], unsigned int& validateFlag,
     {
       validateFlag = 1;
     }
+    fbcUsingId = false;
+    fbcAddGeneProducts = true;
   }
 
   return filename;

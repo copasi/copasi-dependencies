@@ -28,6 +28,7 @@
 #include <sbml/packages/multi/extension/MultiSBMLDocumentPlugin.h>
 #include <sbml/packages/multi/validator/MultiConsistencyValidator.h>
 #include <sbml/packages/multi/validator/MultiIdentifierConsistencyValidator.h>
+#include <sbml/packages/multi/validator/MultiMathMLConsistencyValidator.h>
 #include <sbml/packages/multi/validator/MultiSBMLError.h>
 
 
@@ -37,21 +38,25 @@
 
 using namespace std;
 
-/** @endcond doxygenLibsbmlInternal */
+/** @endcond */
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
+/** @cond doxygenLibsbmlInternal */
 MultiSBMLDocumentPlugin::MultiSBMLDocumentPlugin (const string &uri, 
                               const string &prefix, MultiPkgNamespaces *multins)
   : SBMLDocumentPlugin(uri,prefix, multins)
 {
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 MultiSBMLDocumentPlugin::MultiSBMLDocumentPlugin(const MultiSBMLDocumentPlugin& orig)
   : SBMLDocumentPlugin(orig)
 {
 }
+/** @endcond */
 
 
 MultiSBMLDocumentPlugin& 
@@ -121,16 +126,19 @@ MultiSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
   }
 }
 
-/** @endcond doxygenLibsbmlInternal*/
+/** @endcond*/
 
 
+/** @cond doxygenLibsbmlInternal */
 bool
 MultiSBMLDocumentPlugin::isCompFlatteningImplemented() const
 {
   return false;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 unsigned int 
 MultiSBMLDocumentPlugin::checkConsistency()
 {
@@ -145,10 +153,12 @@ MultiSBMLDocumentPlugin::checkConsistency()
   /* determine which validators to run */
   bool id    = ((applicableValidators & 0x01) == 0x01);
   bool sbml  = ((applicableValidators & 0x02) == 0x02);
+  bool math = ((applicableValidators & 0x08) == 0x08);
   /* LIST OTHERS HERE */
 
   MultiIdentifierConsistencyValidator id_validator;
   MultiConsistencyValidator validator;
+  MultiMathMLConsistencyValidator math_validator;
   /* LIST OTHERS HERE */
 
   if (id)
@@ -159,6 +169,22 @@ MultiSBMLDocumentPlugin::checkConsistency()
     if (nerrors > 0) 
     {
       log->add(id_validator.getFailures() );
+      /* only want to bail if errors not warnings */
+      if (log->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) > 0)
+      {
+        return total_errors;
+      }
+    }
+  }
+
+  if (math)
+  {
+    math_validator.init();
+    nerrors = math_validator.validate(*doc);
+    total_errors += nerrors;
+    if (nerrors > 0)
+    {
+      log->add(math_validator.getFailures());
       /* only want to bail if errors not warnings */
       if (log->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) > 0)
       {
@@ -188,6 +214,7 @@ MultiSBMLDocumentPlugin::checkConsistency()
 
   return total_errors;  
 }
+/** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END
 

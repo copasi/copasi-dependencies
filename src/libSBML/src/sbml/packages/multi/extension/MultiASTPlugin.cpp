@@ -29,6 +29,12 @@
 
 #include <sbml/packages/multi/extension/MultiASTPlugin.h>
 
+#ifndef LIBSBML_USE_LEGACY_MATH
+
+#else
+#include <sbml/math/ASTNode.h>
+#endif
+
 #include <iostream>
 using namespace std;
 
@@ -95,6 +101,7 @@ MultiASTPlugin::clone () const
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  *
  */
@@ -103,81 +110,31 @@ MultiASTPlugin::createObject(XMLInputStream& stream)
 {
   MultiASTPlugin*        object = 0;
 
-  //const std::string&   name   = stream.peek().getName();
-  //const XMLNamespaces& xmlns  = stream.peek().getNamespaces();
-  //const std::string&   prefix = stream.peek().getPrefix();
-
-  //const std::string& targetPrefix = (xmlns.hasURI(mURI)) ? xmlns.getPrefix(mURI) : mPrefix;
-  //
-  //if (prefix == targetPrefix)
-  //{
-    //if ( name == "math" ) 
-    //{
-    //  object = mMath;
-    //
-    //}          
-  //}    
 
   return object;
 }
+/** @endcond */
+
 
 bool
 MultiASTPlugin::read(XMLInputStream& stream, const std::string& reqd_prefix,
                                             const XMLToken& currentElement)
 {
   bool read = false;
-  //const XMLToken element = stream.peek();
-  //const string&  name = element.getName();
-  //
-  //if (name == "ci")
-  //{
-  //  mMath = new MultiASTPlugin();
-  //  read = mMath->read(stream);
-  //}
     
   return read;
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  *
  */
 void
 MultiASTPlugin::writeElements (XMLOutputStream& stream) const
 {
-  //if (isSetMath() == true)
-  //{
-  //  mMath->write(stream);
-  //}
-  //if (getNumMultiitativeSpecies() > 0)
-  //{
-  //  mMultiitativeSpecies.write(stream);
-  //}    
-  //if (getNumTransitions() > 0)
-  //{
-  //  mTransitions.write(stream);
-  //}    
 }
-
-
-/* default for components that have no required elements */
-//bool
-//MultiASTPlugin::hasRequiredElements() const
-//{
-//  bool allPresent = true;
-//
-//  if (mMultiitativeSpecies.size() < 1)
-//  {
-//    allPresent = false;    
-//  }
-//  if (mTransitions.size() < 1)
-//  {
-//    allPresent = false;    
-//  }
-//  return allPresent;
-//}
-//
-//
+/** @endcond */
 
 
 /*
@@ -185,15 +142,29 @@ MultiASTPlugin::writeElements (XMLOutputStream& stream) const
  * this object and child elements (if any).
  * (Creates a child-parent relationship by this plugin object)
  */
+#ifndef LIBSBML_USE_LEGACY_MATH
+
+/** @cond doxygenLibsbmlInternal */
 void
 MultiASTPlugin::connectToParent (ASTBase* astbase)
 {
   ASTBasePlugin::connectToParent(astbase);
 
 }
+/** @endcond */
+
+#else
+
+void
+MultiASTPlugin::connectToParent(ASTNode* astbase)
+{
+  ASTBasePlugin::connectToParent(astbase);
+
+}
+#endif
 
 
-/*
+/** @cond doxygenLibsbmlInternal *//*
  * Enables/Disables the given package with child elements in this plugin
  * object (if any).
  */
@@ -202,69 +173,88 @@ MultiASTPlugin::enablePackageInternal(const std::string& pkgURI,
                                         const std::string& pkgPrefix, bool flag)
 {
 }
+/** @endcond */
 
-  
+
+/** @cond doxygenLibsbmlInternal */
 const std::string& 
 MultiASTPlugin::getSpeciesReference() const
 {
   return mSpeciesReference;
 }
+/** @endcond */
 
-  
-bool 
+
+/** @cond doxygenLibsbmlInternal */
+bool
 MultiASTPlugin::isSetSpeciesReference() const
 {
   return (mSpeciesReference.empty() != true);
 }
+/** @endcond */
 
-  
-int 
+
+/** @cond doxygenLibsbmlInternal */
+int
 MultiASTPlugin::setSpeciesReference(const std::string& speciesReference)
 {
   mSpeciesReference = speciesReference;
   return LIBSBML_OPERATION_SUCCESS;
 
 }
+/** @endcond */
 
 
-int 
+/** @cond doxygenLibsbmlInternal */
+int
 MultiASTPlugin::unsetSpeciesReference()
 {
   mSpeciesReference = "";
   return LIBSBML_OPERATION_SUCCESS;
 }
+/** @endcond */
 
 
-const std::string& 
+/** @cond doxygenLibsbmlInternal */
+const std::string&
 MultiASTPlugin::getRepresentationType() const
 {
   return mRepresentationType;
 }
+/** @endcond */
 
-  
-bool 
+
+/** @cond doxygenLibsbmlInternal */
+bool
 MultiASTPlugin::isSetRepresentationType() const
 {
   return (mRepresentationType.empty() != true);
 }
+/** @endcond */
 
-  
-int 
+
+/** @cond doxygenLibsbmlInternal */
+int
 MultiASTPlugin::setRepresentationType(const std::string& representationType)
 {
   mRepresentationType = representationType;
   return LIBSBML_OPERATION_SUCCESS;
 
 }
+/** @endcond */
 
+
+/** @cond doxygenLibsbmlInternal */
 int 
 MultiASTPlugin::unsetRepresentationType()
 {
   mRepresentationType = "";
   return LIBSBML_OPERATION_SUCCESS;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 void
 MultiASTPlugin::addExpectedAttributes(ExpectedAttributes& attributes, 
                                      XMLInputStream& stream, int type)
@@ -276,9 +266,11 @@ MultiASTPlugin::addExpectedAttributes(ExpectedAttributes& attributes,
     attributes.add("representationType");
   }
 }
+/** @endcond */
 
 
-bool 
+/** @cond doxygenLibsbmlInternal */
+bool
 MultiASTPlugin::readAttributes(const XMLAttributes& attributes,
                        const ExpectedAttributes& expectedAttributes,
                                XMLInputStream& stream, const XMLToken& element,
@@ -320,8 +312,10 @@ MultiASTPlugin::readAttributes(const XMLAttributes& attributes,
     return read;
   }
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 void
 MultiASTPlugin::writeAttributes(XMLOutputStream& stream, int type) const
 {
@@ -338,8 +332,10 @@ MultiASTPlugin::writeAttributes(XMLOutputStream& stream, int type) const
       stream.writeAttribute("representationType", getPrefix(), getRepresentationType());
   }
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the prefix bound to this element.
  */
@@ -356,7 +352,10 @@ MultiASTPlugin::getPrefix() const
     return mPrefix;
   }
 }
+/** @endcond */
 
+
+/** @cond doxygenLibsbmlInternal */
 void
 MultiASTPlugin::writeXMLNS(XMLOutputStream& stream) const
 {
@@ -365,6 +364,8 @@ MultiASTPlugin::writeXMLNS(XMLOutputStream& stream) const
   if (hasAttributesSet() == true)
     stream.writeAttribute(getPrefix(), "xmlns", getURI());
 }
+/** @endcond */
+
 
 #define GET_NUM_CHILDREN(result,node) \
 {\
@@ -393,6 +394,7 @@ MultiASTPlugin::writeXMLNS(XMLOutputStream& stream) const
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 void 
 MultiASTPlugin::renameSIdRefs(const std::string& oldid, const std::string& newid)
 {
@@ -400,8 +402,10 @@ MultiASTPlugin::renameSIdRefs(const std::string& oldid, const std::string& newid
     mSpeciesReference = newid;
   }
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 bool
 MultiASTPlugin::hasAttributesSet() const
 {
@@ -420,7 +424,7 @@ MultiASTPlugin::hasAttributesSet() const
     unsigned int i = 0;
 
     //ASTNode* node = dynamic_cast<ASTNode*>(mParentASTNode);
-
+#ifndef LIBSBML_USE_LEGACY_MATH
     size_t numChildren;
     GET_NUM_CHILDREN(numChildren,mParentASTNode);
     while (hasAttributes == false && i < numChildren)
@@ -438,10 +442,29 @@ MultiASTPlugin::hasAttributesSet() const
       }
       i++;
     }
+#else
+    size_t numChildren = mParentASTNode->getNumChildren();
+    while (hasAttributes == false && i < numChildren)
+    {
+      ASTNode* ast = mParentASTNode->getChild(i);
+      if (ast != NULL)
+      {
+        //MultiASTPlugin* mp =
+        //  dynamic_cast<MultiASTPlugin*>(ast->getPlugin("multi"));
+        //if (mp != NULL)
+        //{
+        //  hasAttributes = mp->hasAttributesSet();
+        //}
+      }
+      i++;
+    }
+
+#endif
   }
 
   return hasAttributes;
 }
+/** @endcond */
 
 LIBSBML_CPP_NAMESPACE_END
 

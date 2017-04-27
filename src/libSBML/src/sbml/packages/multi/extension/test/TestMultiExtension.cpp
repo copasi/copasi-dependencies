@@ -267,8 +267,9 @@ START_TEST(test_MultiExtension_typecode)
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_SPECIES_TYPE), "MultiSpeciesType") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_BINDING_SITE_SPECIES_TYPE), "BindingSiteSpeciesType") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_INTRA_SPECIES_REACTION), "IntraSpeciesReaction") == 0);
+  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_SUBLIST_OF_SPECIES_FEATURES), "SubListOfSpeciesFeatures") == 0);
   fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_POSSIBLE_SPECIES_FEATURE_VALUE-1), "(Unknown SBML Multi Type)") == 0);
-  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_INTRA_SPECIES_REACTION+1), "(Unknown SBML Multi Type)") == 0);
+  fail_unless(strcmp(sbext->getStringFromTypeCode(SBML_MULTI_SUBLIST_OF_SPECIES_FEATURES+1), "(Unknown SBML Multi Type)") == 0);
 
   delete sbext;
 }
@@ -289,8 +290,9 @@ START_TEST(test_MultiExtension_SBMLtypecode)
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_SPECIES_TYPE   ,"multi"), "MultiSpeciesType") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_BINDING_SITE_SPECIES_TYPE    ,"multi"), "BindingSiteSpeciesType") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_INTRA_SPECIES_REACTION   ,"multi"), "IntraSpeciesReaction") == 0);
+  fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_SUBLIST_OF_SPECIES_FEATURES   ,"multi"), "SubListOfSpeciesFeatures") == 0);
   fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_POSSIBLE_SPECIES_FEATURE_VALUE - 1   ,"multi"), "(Unknown SBML Multi Type)") == 0);
-  fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_INTRA_SPECIES_REACTION + 1  ,"multi"), "(Unknown SBML Multi Type)") == 0);
+  fail_unless(strcmp(SBMLTypeCode_toString(SBML_MULTI_SUBLIST_OF_SPECIES_FEATURES + 1  ,"multi"), "(Unknown SBML Multi Type)") == 0);
 }
 END_TEST
 

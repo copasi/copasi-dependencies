@@ -7,6 +7,9 @@ function [valid, message] = isSBML_Model(varargin)
 % 2. extensions_allowed (optional) =
 %   - 0, structures should contain ONLY required fields
 %   - 1, structures may contain additional fields (default)
+%3. applyUserValidation (optional) = 
+%   - 0, no further validation (default)
+%   - 1, run the applyUserValidation function as part of validation
 %
 % Returns
 %
@@ -54,20 +57,26 @@ if (nargin < 1)
 elseif (nargin == 1)
   SBMLStructure = varargin{1};
   extensions_allowed = 1;
+  userValidation = 0;
 elseif (nargin == 2)
   SBMLStructure = varargin{1};
   extensions_allowed = varargin{2};
+  userValidation = 0;
+elseif (nargin == 3)
+  SBMLStructure = varargin{1};
+  extensions_allowed = varargin{2};
+  userValidation = varargin{3};
 else
   error('too many arguments to isSBML_Model');
 end;
      
 if ~isempty(SBMLStructure)
-  if isfield(SBMLStructure, 'SBML_level')
+  if isfield(SBMLStructure, 'SBML_level') && ~isempty(SBMLStructure.SBML_level)
     level = SBMLStructure.SBML_level;
   else
     level = 3;
   end;
-  if isfield(SBMLStructure, 'SBML_version')
+  if isfield(SBMLStructure, 'SBML_version') && ~isempty(SBMLStructure.SBML_version)
     version = SBMLStructure.SBML_version;
   else
     version = 1;
@@ -83,19 +92,29 @@ num = length(supported);
 packages = cell(1, num);
 pkgVersion = zeros(1, num);
 
+valid = 1;
 % identify packages
 for i=1:length(supported)
     vers = strcat(supported{i}, '_version');
     if isfield(SBMLStructure, vers)
-        pkgCount = pkgCount + 1;
-        packages{pkgCount} = supported{i};
-        pkgVersion(pkgCount) = SBMLStructure.(vers);
+        if isempty(SBMLStructure.(vers))
+          valid = 0;
+          message = sprintf('Missing %s value', vers);
+        else
+            pkgCount = pkgCount + 1;
+            packages{pkgCount} = supported{i};
+            pkgVersion(pkgCount) = SBMLStructure.(vers);
+        end;
     end;
 end;
 
+if (valid == 1)
+    [valid, message] = isSBML_Struct('model', SBMLStructure, level, version, packages, pkgVersion, extensions_allowed);
 
-[valid, message] = isSBML_Struct('model', SBMLStructure, level, version, packages, pkgVersion, extensions_allowed);
-
+    if (valid == 1 && userValidation == 1)
+        [valid, message] = applyUserValidation(SBMLStructure, level, version, packages, pkgVersion);
+    end;
+end;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [valid, message] = isSBML_Struct(typecode, SBMLStructure, level, version, packages, pkgVersion, extensions_allowed)
 
@@ -182,7 +201,10 @@ index = 1;
 while (valid == 1 && index <= numFields)
     field = char(SBMLfieldnames(index));
 	valid = isfield(SBMLStructure, field);
-    if (valid == 0)
+    if (strcmp(char(field), 'cvterms')==1)
+        % do nothing
+        valid = 1;
+    elseif (valid == 0)
 		message = sprintf('%s field missing', field);
     else
         mess = '';
@@ -190,11 +212,13 @@ while (valid == 1 && index <= numFields)
             value = getfield(SBMLStructure, field);
             if (strcmp(types{index}, 'structure') ~= 1)
                 correctType = getCorrectType(types{index});
-                valid = isa(value, correctType);
+                % need to deal with matlab number types 
+                valid = isValidType(value, correctType);
+%                valid = isa(value, correctType);
             else
                 for i=1:length(value)
                     if (valid == 1)
-                        if (strcmp(char(field), 'namespaces') ~= 1)
+                        if (strcmp(char(field), 'namespaces') ~= 1 && strcmp(char(field), 'cvterms')~=1)
                             [valid, mess] = isSBML_Struct(field, value(i), level, version, packages, pkgVersion, extensions_allowed);
                         end;
                     end;
@@ -296,5 +320,15 @@ elseif (isnumeric(number))
     end;
 end;
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function valid = isValidType(value, correctType)
+if (isempty(value))
+    valid = 1;
+else
+    valid = isIntegralNumber(value);
 
+    if (~valid)
+        valid = isa(value, correctType);
+    end;
+end;
 

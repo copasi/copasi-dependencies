@@ -118,6 +118,26 @@ SpeciesTypeComponentMapInProduct::~SpeciesTypeComponentMapInProduct ()
 
 
 /*
+ * Returns the value of the "id" attribute of this SpeciesTypeComponentMapInProduct.
+ */
+const std::string&
+SpeciesTypeComponentMapInProduct::getId() const
+{
+  return mId;
+}
+
+
+/*
+ * Returns the value of the "name" attribute of this SpeciesTypeComponentMapInProduct.
+ */
+const std::string&
+SpeciesTypeComponentMapInProduct::getName() const
+{
+  return mName;
+}
+
+
+/*
  * Returns the value of the "reactant" attribute of this SpeciesTypeComponentMapInProduct.
  */
 const std::string&
@@ -148,6 +168,26 @@ SpeciesTypeComponentMapInProduct::getProductComponent() const
 
 
 /*
+ * Returns true/false if id is set.
+ */
+bool
+SpeciesTypeComponentMapInProduct::isSetId() const
+{
+  return (mId.empty() == false);
+}
+
+
+/*
+ * Returns true/false if name is set.
+ */
+bool
+SpeciesTypeComponentMapInProduct::isSetName() const
+{
+  return (mName.empty() == false);
+}
+
+
+/*
  * Returns true/false if reactant is set.
  */
 bool
@@ -174,6 +214,27 @@ bool
 SpeciesTypeComponentMapInProduct::isSetProductComponent() const
 {
   return (mProductComponent.empty() == false);
+}
+
+
+/*
+ * Sets id and returns value indicating success.
+ */
+int
+SpeciesTypeComponentMapInProduct::setId(const std::string& id)
+{
+  return SyntaxChecker::checkAndSetSId(id, mId);
+}
+
+
+/*
+ * Sets name and returns value indicating success.
+ */
+int
+SpeciesTypeComponentMapInProduct::setName(const std::string& name)
+{
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -227,6 +288,44 @@ SpeciesTypeComponentMapInProduct::setProductComponent(const std::string& product
   {
     mProductComponent = productComponent;
     return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
+/*
+ * Unsets id and returns value indicating success.
+ */
+int
+SpeciesTypeComponentMapInProduct::unsetId()
+{
+  mId.erase();
+
+  if (mId.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
+/*
+ * Unsets name and returns value indicating success.
+ */
+int
+SpeciesTypeComponentMapInProduct::unsetName()
+{
+  mName.erase();
+
+  if (mName.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
   }
 }
 
@@ -371,7 +470,7 @@ SpeciesTypeComponentMapInProduct::writeElements (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -386,7 +485,7 @@ SpeciesTypeComponentMapInProduct::accept (SBMLVisitor& v) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -401,7 +500,7 @@ SpeciesTypeComponentMapInProduct::setSBMLDocument (SBMLDocument* d)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -417,7 +516,7 @@ SpeciesTypeComponentMapInProduct::enablePackageInternal(const std::string& pkgUR
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -436,7 +535,7 @@ SpeciesTypeComponentMapInProduct::addExpectedAttributes(ExpectedAttributes& attr
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -517,6 +616,43 @@ SpeciesTypeComponentMapInProduct::readAttributes (const XMLAttributes& attribute
   }
 
   bool assigned = false;
+
+  //
+  // id SId  ( use = "optional" )
+  //
+  assigned = attributes.readInto("id", mId);
+
+   if (assigned == true)
+  {
+    // check string is not empty and correct syntax
+
+    if (mId.empty() == true)
+    {
+      logEmptyString(mId, getLevel(), getVersion(), "<SpeciesTypeComponentMapInProduct>");
+    }
+    else if (SyntaxChecker::isValidSBMLSId(mId) == false && getErrorLog() != NULL)
+    {
+        std::string details = "The syntax of the attribute id='" + mId + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
+    }
+  }
+
+  //
+  // name string   ( use = "optional" )
+  //
+  assigned = attributes.readInto("name", mName);
+
+  if (assigned == true)
+  {
+    // check string is not empty
+
+    if (mName.empty() == true)
+    {
+      logEmptyString(mName, getLevel(), getVersion(), "<SpeciesTypeComponentMapInProduct>");
+    }
+  }
 
   //
   // reactant SIdRef   ( use = "required" )
@@ -607,7 +743,7 @@ SpeciesTypeComponentMapInProduct::readAttributes (const XMLAttributes& attribute
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -634,7 +770,7 @@ SpeciesTypeComponentMapInProduct::writeAttributes (XMLOutputStream& stream) cons
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 /*
@@ -798,7 +934,7 @@ ListOfSpeciesTypeComponentMapInProducts::createObject(XMLInputStream& stream)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -826,7 +962,7 @@ ListOfSpeciesTypeComponentMapInProducts::writeXMLNS(XMLOutputStream& stream) con
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 /**
@@ -868,6 +1004,34 @@ SpeciesTypeComponentMapInProduct_clone(SpeciesTypeComponentMapInProduct_t * stcm
   {
     return NULL;
   }
+}
+
+
+/**
+ *
+ */
+LIBSBML_EXTERN
+char *
+SpeciesTypeComponentMapInProduct_getId(SpeciesTypeComponentMapInProduct_t * cr)
+{
+  if (cr == NULL)
+    return NULL;
+
+  return cr->getId().empty() ? NULL : safe_strdup(cr->getId().c_str());
+}
+
+
+/**
+ *
+ */
+LIBSBML_EXTERN
+char *
+SpeciesTypeComponentMapInProduct_getName(SpeciesTypeComponentMapInProduct_t * cr)
+{
+  if (cr == NULL)
+    return NULL;
+
+  return cr->getName().empty() ? NULL : safe_strdup(cr->getName().c_str());
 }
 
 
@@ -914,6 +1078,28 @@ SpeciesTypeComponentMapInProduct_getProductComponent(SpeciesTypeComponentMapInPr
 
 
 /**
+ *
+ */
+LIBSBML_EXTERN
+int
+SpeciesTypeComponentMapInProduct_isSetId(SpeciesTypeComponentMapInProduct_t * cr)
+{
+  return (cr != NULL) ? static_cast<int>(cr->isSetId()) : 0;
+}
+
+
+/**
+ *
+ */
+LIBSBML_EXTERN
+int
+SpeciesTypeComponentMapInProduct_isSetName(SpeciesTypeComponentMapInProduct_t * cr)
+{
+  return (cr != NULL) ? static_cast<int>(cr->isSetName()) : 0;
+}
+
+
+/**
  * 
  */
 LIBSBML_EXTERN
@@ -947,6 +1133,28 @@ SpeciesTypeComponentMapInProduct_isSetProductComponent(SpeciesTypeComponentMapIn
 
 
 /**
+ *
+ */
+LIBSBML_EXTERN
+int
+SpeciesTypeComponentMapInProduct_setId(SpeciesTypeComponentMapInProduct_t * cr, const char * id)
+{
+  return (cr != NULL) ? cr->setId(id) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/**
+ *
+ */
+LIBSBML_EXTERN
+int
+SpeciesTypeComponentMapInProduct_setName(SpeciesTypeComponentMapInProduct_t * cr, const char * name)
+{
+  return (cr != NULL) ? cr->setName(name) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/**
  * 
  */
 LIBSBML_EXTERN
@@ -976,6 +1184,28 @@ int
 SpeciesTypeComponentMapInProduct_setProductComponent(SpeciesTypeComponentMapInProduct_t * stcmip, const char * productComponent)
 {
   return (stcmip != NULL) ? stcmip->setProductComponent(productComponent) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/**
+ *
+ */
+LIBSBML_EXTERN
+int
+SpeciesTypeComponentMapInProduct_unsetId(SpeciesTypeComponentMapInProduct_t * cr)
+{
+  return (cr != NULL) ? cr->unsetId() : LIBSBML_INVALID_OBJECT;
+}
+
+
+/**
+ *
+ */
+LIBSBML_EXTERN
+int
+SpeciesTypeComponentMapInProduct_unsetName(SpeciesTypeComponentMapInProduct_t * cr)
+{
+  return (cr != NULL) ? cr->unsetName() : LIBSBML_INVALID_OBJECT;
 }
 
 

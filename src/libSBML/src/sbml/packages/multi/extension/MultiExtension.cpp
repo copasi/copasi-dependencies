@@ -139,6 +139,7 @@ const char * SBML_MULTI_TYPECODE_STRINGS[] =
   , "MultiSpeciesType"
   , "BindingSiteSpeciesType"
   , "IntraSpeciesReaction"
+  , "SubListOfSpeciesFeatures"
 };
 
 
@@ -220,7 +221,7 @@ MultiExtension::getURI(unsigned int sbmlLevel,
 {
   if (sbmlLevel == 3)
   {
-    if (sbmlVersion == 1)
+    if (sbmlVersion == 1 || sbmlVersion == 2)
     {
       if (pkgVersion == 1)
       {
@@ -303,7 +304,7 @@ const char*
 MultiExtension::getStringFromTypeCode(int typeCode) const
 {
   int min = SBML_MULTI_POSSIBLE_SPECIES_FEATURE_VALUE;
-  int max = SBML_MULTI_INTRA_SPECIES_REACTION;
+  int max = SBML_MULTI_SUBLIST_OF_SPECIES_FEATURES;
 
   if ( typeCode < min || typeCode > max)
   {
@@ -314,6 +315,7 @@ MultiExtension::getStringFromTypeCode(int typeCode) const
 }
 
 
+/** @cond doxygenLibsbmlInternal */
 /*
  * Initialization function of multi extension module which is automatically invoked
  * by SBMLExtensionRegister class before main() function invoked. 
@@ -395,9 +397,9 @@ MultiExtension::init()
     std::cerr << "[Error] MultiExtension::init() failed." << std::endl;
   }
 }
+/** @endcond */
 
-
-  /** @cond doxygenLibsbmlInternal */
+/** @cond doxygenLibsbmlInternal */
 
 /*
  * Return error table entry. 
@@ -407,12 +409,10 @@ MultiExtension::getErrorTable(unsigned int index) const
 {
   return multiErrorTable[index];
 }
+/** @endcond */
 
-  /** @endcond doxygenLibsbmlInternal */
 
-
-  /** @cond doxygenLibsbmlInternal */
-
+/** @cond doxygenLibsbmlInternal */
 /*
  * Return error table index for this id. 
  */
@@ -434,12 +434,10 @@ MultiExtension::getErrorTableIndex(unsigned int errorId) const
 
   return index;
 }
+/** @endcond */
 
-  /** @endcond doxygenLibsbmlInternal */
 
-
-  /** @cond doxygenLibsbmlInternal */
-
+/** @cond doxygenLibsbmlInternal */
 /*
  * Return error offset. 
  */
@@ -448,8 +446,7 @@ MultiExtension::getErrorIdOffset() const
 {
   return 7000000;
 }
-
-  /** @endcond doxygenLibsbmlInternal */
+/** @endcond */
 
 
 

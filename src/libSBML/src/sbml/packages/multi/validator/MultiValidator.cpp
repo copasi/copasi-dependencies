@@ -39,7 +39,7 @@
 
 using namespace std;
 
-/** @endcond doxygenLibsbmlInternal */
+/** @endcond */
 
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -151,6 +151,8 @@ struct MultiValidatorConstraints
   ConstraintSet<MultiSpeciesType>      mMultiSpeciesType;
   ConstraintSet<Compartment>           mCompartment;
   ConstraintSet<Species>           	   mSpecies;
+  ConstraintSet<SubListOfSpeciesFeatures> mSubListOfSpeciesFeatures;
+  ConstraintSet<SpeciesReference>      mSpeciesReference;
   map<VConstraint*, bool> ptrMap;
 
   ~MultiValidatorConstraints();
@@ -275,6 +277,17 @@ MultiValidatorConstraints::add(VConstraint* c)
     mSpecies.add(static_cast<TConstraint<Species>*>(c));
     return;
   }
+  if (dynamic_cast<TConstraint<SubListOfSpeciesFeatures>*>(c) != NULL)
+  {
+    mSubListOfSpeciesFeatures.add(static_cast<TConstraint<SubListOfSpeciesFeatures>*>(c));
+    return;
+  }
+
+  if (dynamic_cast<TConstraint<SpeciesReference>*>(c) != NULL)
+  {
+    mSpeciesReference.add(static_cast<TConstraint<SpeciesReference>*>(c));
+    return;
+  }
 
 }
 
@@ -387,6 +400,17 @@ public:
     v.mMultiConstraints->mSpecies.applyTo(m, x);
     return !v.mMultiConstraints->mSpecies.empty();
   }
+  bool visit(const SubListOfSpeciesFeatures &x)
+  {
+    v.mMultiConstraints->mSubListOfSpeciesFeatures.applyTo(m, x);
+    return !v.mMultiConstraints->mSubListOfSpeciesFeatures.empty();
+  }
+
+  bool visit(const SpeciesReference &x)
+  {
+    v.mMultiConstraints->mSpeciesReference.applyTo(m, x);
+    return !v.mMultiConstraints->mSpeciesReference.empty();
+  }
   //  bool visit (const Reaction &x)
   //  {
   //    v.mMultiConstraints->mReactions.applyTo(m, x);
@@ -408,7 +432,7 @@ public:
 
     const ListOf* list = dynamic_cast<const ListOf*>(&x);
 
-    if (list != NULL)
+    if (list != NULL && code != SBML_MULTI_SUBLIST_OF_SPECIES_FEATURES)
     {
       return SBMLVisitor::visit(x);
     }
@@ -457,6 +481,10 @@ public:
       else if (code == SBML_MULTI_SPECIES_TYPE || code == SBML_MULTI_BINDING_SITE_SPECIES_TYPE)
       {
         return visit((const MultiSpeciesType&)x);
+      }
+      else if (code == SBML_MULTI_SUBLIST_OF_SPECIES_FEATURES)
+      {
+        return visit((const SubListOfSpeciesFeatures&)x);
       }
       else
       {

@@ -56,6 +56,8 @@ try
   if (FbcEnabled == 1)
     Totalfail = Totalfail + testReadFromFileFbc1(install);
     Totalfail = Totalfail + testReadFromFileFbc2(install);
+    Totalfail = Totalfail + testReadWriteGeneProductIds(install);
+    Totalfail = Totalfail + testReadWriteGeneProducts(install, 'Out-test1');
   end;
   if (install == 0)
     Totalfail = Totalfail + testReadFlags(install);
@@ -65,6 +67,9 @@ try
   if (install == 0)
     Totalfail = Totalfail + testOutput('Out-test1', 0, FbcEnabled);
     Totalfail = Totalfail + testVersionInformation(FbcEnabled);
+    Totalfail = Totalfail + testMissingOutput('Out-test1', 0, FbcEnabled);    
+    Totalfail = Totalfail + testCVTerms('Out-test1', 0, FbcEnabled);
+
   end;
 
 catch exception

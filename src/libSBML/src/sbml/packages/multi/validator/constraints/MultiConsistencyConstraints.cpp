@@ -49,11 +49,11 @@ LIBSBML_CPP_NAMESPACE_USE
 
 static const SpeciesTypeComponentIndex * __getSpeciesTypeComponentIndexFromComponentId(const Model & model, const std::string & componentId)
 {
-	const SpeciesTypeComponentIndex * stci = NULL;
-	const MultiModelPlugin * mPlugin =
+  const SpeciesTypeComponentIndex * stci = NULL;
+  const MultiModelPlugin * mPlugin =
       dynamic_cast<const MultiModelPlugin*>(model.getPlugin("multi"));
-	if (mPlugin != 0) {
-		for (unsigned int i = 0; stci == NULL && i < mPlugin->getNumMultiSpeciesTypes(); i++) {
+  if (mPlugin != 0) {
+    for (unsigned int i = 0; stci == NULL && i < mPlugin->getNumMultiSpeciesTypes(); i++) {
           const MultiSpeciesType * speciesType = mPlugin->getMultiSpeciesType(i);
           if (speciesType) {
               stci = speciesType->getSpeciesTypeComponentIndex(componentId);
@@ -65,106 +65,106 @@ static const SpeciesTypeComponentIndex * __getSpeciesTypeComponentIndexFromCompo
 
 static const SpeciesTypeInstance * __getSpeciesTypeInstanceFromComponentId(const Model & model, const std::string & componentId)
 {
-	const SpeciesTypeInstance * sti = NULL;
-	const MultiModelPlugin * mPlugin =
+  const SpeciesTypeInstance * sti = NULL;
+  const MultiModelPlugin * mPlugin =
       dynamic_cast<const MultiModelPlugin*>(model.getPlugin("multi"));
-	if (mPlugin != 0) {
-		const SpeciesTypeComponentIndex * stci = __getSpeciesTypeComponentIndexFromComponentId(model, componentId);
-		if (stci) {
-			std::string nextComponentId = stci->getComponent();
+  if (mPlugin != 0) {
+    const SpeciesTypeComponentIndex * stci = __getSpeciesTypeComponentIndexFromComponentId(model, componentId);
+    if (stci) {
+      std::string nextComponentId = stci->getComponent();
 
-			sti = __getSpeciesTypeInstanceFromComponentId(model, nextComponentId); // recursive
-		}
+      sti = __getSpeciesTypeInstanceFromComponentId(model, nextComponentId); // recursive
+    }
 
-		if (!sti) {
-			for (unsigned int i = 0; sti == NULL && i < mPlugin->getNumMultiSpeciesTypes(); i++) {
-	          const MultiSpeciesType * speciesType = mPlugin->getMultiSpeciesType(i);
-	          if (speciesType) {
-	              sti = speciesType->getSpeciesTypeInstance(componentId);
-	          }
-			}
-		}
+    if (!sti) {
+      for (unsigned int i = 0; sti == NULL && i < mPlugin->getNumMultiSpeciesTypes(); i++) {
+            const MultiSpeciesType * speciesType = mPlugin->getMultiSpeciesType(i);
+            if (speciesType) {
+                sti = speciesType->getSpeciesTypeInstance(componentId);
+            }
+      }
+    }
   }
   return sti;
 }
 
 static const MultiSpeciesType* __getSpeciesTypeFromComponentId(const Model & model, const std::string & componentId)
 {
-	const MultiSpeciesType * st = NULL;
-	const MultiModelPlugin * mPlugin =
+  const MultiSpeciesType * st = NULL;
+  const MultiModelPlugin * mPlugin =
       dynamic_cast<const MultiModelPlugin*>(model.getPlugin("multi"));
 
-	if (mPlugin != 0) {
+  if (mPlugin != 0) {
 
-		const SpeciesTypeComponentIndex * stci = __getSpeciesTypeComponentIndexFromComponentId(model, componentId);
-		if (stci) {
-			std::string nextComponentId = stci->getComponent();
+    const SpeciesTypeComponentIndex * stci = __getSpeciesTypeComponentIndexFromComponentId(model, componentId);
+    if (stci) {
+      std::string nextComponentId = stci->getComponent();
 
-			st = __getSpeciesTypeFromComponentId(model, nextComponentId); // recursive
-		}
+      st = __getSpeciesTypeFromComponentId(model, nextComponentId); // recursive
+    }
 
-		if (!st) {
-			std::string stId = componentId;
-			const SpeciesTypeInstance * sti = __getSpeciesTypeInstanceFromComponentId(model, componentId);
-			if (sti != NULL) {
-				stId = sti->getSpeciesType();
-			}
+    if (!st) {
+      std::string stId = componentId;
+      const SpeciesTypeInstance * sti = __getSpeciesTypeInstanceFromComponentId(model, componentId);
+      if (sti != NULL) {
+        stId = sti->getSpeciesType();
+      }
 
-			if (mPlugin != 0) {
-				st = mPlugin->getMultiSpeciesType(stId);
-			}
-		}
-	}
+      if (mPlugin != 0) {
+        st = mPlugin->getMultiSpeciesType(stId);
+      }
+    }
+  }
 
-	return st;
+  return st;
 }
 
 static const SpeciesFeatureType* __getSpeciesTypeFromComponent(const Model & model, const std::string & speciesTypeId,
-		const std::string & speciesFeatureId)
+    const std::string & speciesFeatureId)
 {
-	const SpeciesFeatureType * sft = NULL;
-	bool good = true;
+  const SpeciesFeatureType * sft = NULL;
+  bool good = true;
 
-	const MultiModelPlugin * modelPlugin =
-			dynamic_cast<const MultiModelPlugin*>(model.getPlugin("multi"));
+  const MultiModelPlugin * modelPlugin =
+      dynamic_cast<const MultiModelPlugin*>(model.getPlugin("multi"));
 
-	if (modelPlugin == 0)
-	{
-		good = false;
-	}
+  if (modelPlugin == 0)
+  {
+    good = false;
+  }
 
-	const MultiSpeciesType * speciesType = 0;
-	if (good)
-	{
-		speciesType = modelPlugin->getMultiSpeciesType(speciesTypeId);
-	}
+  const MultiSpeciesType * speciesType = 0;
+  if (good)
+  {
+    speciesType = modelPlugin->getMultiSpeciesType(speciesTypeId);
+  }
 
-	if (speciesType == 0)
-	{
-		good = false;
-	}
+  if (speciesType == 0)
+  {
+    good = false;
+  }
 
-	if (good)
-	{
-		sft = speciesType->getSpeciesFeatureType(speciesFeatureId);
+  if (good)
+  {
+    sft = speciesType->getSpeciesFeatureType(speciesFeatureId);
 
-		if (sft == NULL) {
-			for (unsigned int i = 0;
-					good && sft == NULL
-							&& i < speciesType->getNumSpeciesTypeInstances(); i++)
-			{
-				const SpeciesTypeInstance * speciesTypeInstance =
-						speciesType->getSpeciesTypeInstance(i);
-				std::string refSpeciesTypeId =
-						speciesTypeInstance->getSpeciesType();
+    if (sft == NULL) {
+      for (unsigned int i = 0;
+          good && sft == NULL
+              && i < speciesType->getNumSpeciesTypeInstances(); i++)
+      {
+        const SpeciesTypeInstance * speciesTypeInstance =
+            speciesType->getSpeciesTypeInstance(i);
+        std::string refSpeciesTypeId =
+            speciesTypeInstance->getSpeciesType();
 
-				sft = __getSpeciesTypeFromComponent(model, refSpeciesTypeId, speciesFeatureId);
-			}
+        sft = __getSpeciesTypeFromComponent(model, refSpeciesTypeId, speciesFeatureId);
+      }
 
-		}
-	}
+    }
+  }
 
-	return sft;
+  return sft;
 }
 
 static bool __isSpeciesTypeComponent(const Model & model, const std::string & componentId)
@@ -173,8 +173,8 @@ static bool __isSpeciesTypeComponent(const Model & model, const std::string & co
   const MultiModelPlugin * mPlugin =
       dynamic_cast<const MultiModelPlugin*>(model.getPlugin("multi"));
   if (mPlugin != 0) {
-	  const MultiSpeciesType * st = mPlugin->getMultiSpeciesType(componentId);
-	  found = (st != NULL);
+    const MultiSpeciesType * st = mPlugin->getMultiSpeciesType(componentId);
+    found = (st != NULL);
 
       for (unsigned int i = 0; !found && i < mPlugin->getNumMultiSpeciesTypes(); i++) {
           const MultiSpeciesType * speciesType = mPlugin->getMultiSpeciesType(i);
@@ -299,6 +299,65 @@ static bool __isSpeciesFeature(const Model & model, const std::string & speciesI
         return isSpeciesFeature;
 }
 
+static bool __isReferencedByChildCompartment(const Compartment * compartment, const std::string & compartmentId)
+{
+  bool isReferenced = false;
+
+  const Model * model = compartment->getModel();
+
+  const MultiCompartmentPlugin * mCompartmentPlugin =
+      dynamic_cast<const MultiCompartmentPlugin *>(compartment->getPlugin("multi"));
+
+  if (mCompartmentPlugin != NULL) {
+    for (unsigned i = 0; !isReferenced && i < mCompartmentPlugin->getNumCompartmentReferences(); i++) {
+      const CompartmentReference * cr = mCompartmentPlugin->getCompartmentReference(i);
+      isReferenced = (compartmentId == cr->getCompartment());
+      if (!isReferenced) {
+        const Compartment * childCompartment = model->getCompartment(cr->getCompartment());
+        if (childCompartment != NULL) {
+          isReferenced = __isReferencedByChildCompartment(childCompartment, compartmentId);
+        }
+      }
+    }
+  }
+
+  return isReferenced;
+}
+
+
+//static const Compartment * __getParentCompartment(const Compartment * compartment)
+//{
+//	const Compartment * parentCompartment = NULL;
+//
+//	const Model * model = compartment->getModel();
+//
+//	if (model == NULL) {
+//		return parentCompartment; // NULL
+//	}
+//
+//	const ListOfCompartments * listOfCompartments = model->getListOfCompartments();
+//
+//	for (unsigned int i = 0; parentCompartment == NULL && i < model->getNumCompartments(); i++) {
+//		const Compartment * c = model->getCompartment(i);
+//		if (c != compartment) {
+//			const MultiCompartmentPlugin * mPlugin =
+//					dynamic_cast<const MultiCompartmentPlugin *> (compartment->getPlugin("multi"));
+//			if (mPlugin != NULL) {
+//				const ListOfCompartmentReferences * listCompartmentReferences =
+//						mPlugin->getListOfCompartmentReferences();
+//				for (unsigned int j = 0; parentCompartment == NULL && j < mPlugin->getNumCompartmentReferences(); j++) {
+//					const CompartmentReference * cr = mPlugin->getCompartmentReference(j);
+//					if (cr->getCompartment() == compartment->getId()) {
+//						parentCompartment = c;
+//					}
+//				}
+//			}
+//		}
+//	}
+//
+//	return parentCompartment;
+//}
+
 //static bool __isBindingSiteSpeciesTypeComponent(const Model & model, const std::string & componentId)
 //{
 //  bool found = false;
@@ -331,26 +390,31 @@ static bool __isSpeciesFeature(const Model & model, const std::string & speciesI
 
 // MultiNSUndeclared                     = 7010101 - inexplicitly checked at read when creating plugin at 'SBMLDocument::readAttributes()'
 // MultiElementNotInNs                   = 7010102 - inexplicitly checked at read when creating plugin at 'SBMLDocument::readAttributes()'
-// MultiSBML_RequiredAttMissing          = 7010103 - caught at read at 'MultiSBMLDocumentPlugin::readAttributes()'
-// MultiSBML_RequiredAttMustBeBoolean    = 7010104 - caught at read at 'MultiSBMLDocumentPlugin::readAttributes()'
-// MultiSBML_RequiredAttMustBeTrue       = 7010105 - caught at read at 'MultiSBMLDocumentPlugin::readAttributes()'
+
+// SK renumbered from 70101nn to 70201nn
+
+// MultiSBML_RequiredAttMissing          = 7020101 - caught at read at 'MultiSBMLDocumentPlugin::readAttributes()'
+// MultiSBML_RequiredAttMustBeBoolean    = 7020102 - caught at read at 'MultiSBMLDocumentPlugin::readAttributes()'
+// MultiSBML_RequiredAttMustBeTrue       = 7020103 - caught at read at 'MultiSBMLDocumentPlugin::readAttributes()'
 
 //************************************
 // Rules for extended Model objects
 
-// MultiLofStps_OnlyOne                  = 7020101 - caught at read at 'MultiModelPlugin::createObject()'
-// MultiLofStps_NoEmpty                  = 7020102 - caught at read at 'SBase::checkListOfPopulated()', TODO: need update if core is revised.
-// MultiLofStps_AllowedAtts              = 7020103 - caught at read at 'MultiSpeciesType::readAttributes()'
-// MultiLofStps_AllowedElts              = 7020104 - caught at read at 'SBase::logUnknownElement()'
+// SK renumbered from 70201nn to 70202nn
+// MultiLofStps_OnlyOne                  = 7020201 - caught at read at 'MultiModelPlugin::createObject()'
+// MultiLofStps_NoEmpty                  = 7020202 - caught at read at 'SBase::checkListOfPopulated()', TODO: need update if core is revised.
+// MultiLofStps_AllowedAtts              = 7020203 - caught at read at 'MultiSpeciesType::readAttributes()'
+// MultiLofStps_AllowedElts              = 7020204 - caught at read at 'SBase::logUnknownElement()'
 
 //************************************
 // Rules for extended Compartment objects
 
-// MultiExCpa_AllowedMultiAtts           = 7020201 - caught at read at 'MultiCompartmentPlugin::readAttributes()'
-// MultiExCpa_IsTypeAtt_Invalid          = 7020202 - caught at read at 'MultiCompartmentPlugin::readAttributes()'
-// MultiExCpa_IsTypeAtt_Required         = 7020203 - caught at read at 'MultiCompartmentPlugin::readAttributes()'
+// SK renumbered from 70202nn to 70203nn
+// MultiExCpa_AllowedMultiAtts           = 7020301 - caught at read at 'MultiCompartmentPlugin::readAttributes()'
+// MultiExCpa_IsTypeAtt_Invalid          = 7020302 - caught at read at 'MultiCompartmentPlugin::readAttributes()'
+// MultiExCpa_IsTypeAtt_Required         = 7020303 - caught at read at 'MultiCompartmentPlugin::readAttributes()'
 
-// MultiExCpa_IsTypeAtt_SameAsParent     = 7020204
+// MultiExCpa_IsTypeAtt_SameAsParent     = 7020304
 /* !< Extended Compartment: 'isType' attribute, if referenced, must be same as that of the containing compartment */
 
 START_CONSTRAINT (MultiExCpa_IsTypeAtt_SameAsParent, Compartment, compartment)
@@ -369,17 +433,17 @@ START_CONSTRAINT (MultiExCpa_IsTypeAtt_SameAsParent, Compartment, compartment)
       const Compartment * referencedCompartment = m.getCompartment(referencedCompartmentId);
 
       if (referencedCompartment) {
-		  const MultiCompartmentPlugin * referencedCompPlug =
-			dynamic_cast<const MultiCompartmentPlugin*>(referencedCompartment->getPlugin("multi"));
-		  bool referencedCompartmentIsType = referencedCompPlug->isSetIsType() && referencedCompPlug->getIsType();
+      const MultiCompartmentPlugin * referencedCompPlug =
+      dynamic_cast<const MultiCompartmentPlugin*>(referencedCompartment->getPlugin("multi"));
+      bool referencedCompartmentIsType = referencedCompPlug->isSetIsType() && referencedCompPlug->getIsType();
 
-		  inv(parentCompartmentIsType == referencedCompartmentIsType);
+      inv(parentCompartmentIsType == referencedCompartmentIsType);
       }
   }
 }
 END_CONSTRAINT
 
-// MultiExCpa_CpaTypAtt_Restrict         = 7020205
+// MultiExCpa_CpaTypAtt_Restrict         = 7020305
 /*!< Extended Compartment: Compartment type can not reference another compartment type */
 
 START_CONSTRAINT (MultiExCpa_CpaTypAtt_Restrict, Compartment, compartment)
@@ -396,57 +460,69 @@ START_CONSTRAINT (MultiExCpa_CpaTypAtt_Restrict, Compartment, compartment)
 }
 END_CONSTRAINT
 
-// MultiLofCpaRefs_OnlyOne               = 7020206 - caught at read at 'MultiCompartmentPlugin::createObject()'
-// MultiLofCpaRefs_NoEmpty               = 7020207 - caught at read at 'SBase::checkListOfPopulated()', TODO: need update if core is revised.
-// MultiLofCpaRefs_AllowedAtts           = 7020208 - caught at read at 'CompartmentReference::readAttributes()'
-// MultiLofCpaRefs_AllowedElts           = 7020209 - caught at read at 'SBase::logUnknownElement()'
+// MultiLofCpaRefs_OnlyOne               = 7020306 - caught at read at 'MultiCompartmentPlugin::createObject()'
+// MultiLofCpaRefs_NoEmpty               = 7020307 - caught at read at 'SBase::checkListOfPopulated()', TODO: need update if core is revised.
+// MultiLofCpaRefs_AllowedAtts           = 7020308 - caught at read at 'CompartmentReference::readAttributes()'
+// MultiLofCpaRefs_AllowedElts           = 7020309 - caught at read at 'SBase::logUnknownElement()'
 
 //************************************
-// Rules for CompartmentReference objects
-
-// MultiCpaRef_AllowedCoreAtts           = 7020301 - caught at read at 'CompartmentReference::readAttributes()'
-// MultiCpaRef_AllowedCoreElts           = 7020302 - caught at read at 'SBase::logUnknownElement()'
-// MultiCpaRef_AllowedMultiAtts          = 7020303 - caught at read at 'CompartmentReference::readAttributes()'
-
-// MultiCpaRef_CompartmentAtt_Ref        = 7020304
-/*!< CompartmentReference: 'compartment' must be the 'id' of a compartment */
-
-START_CONSTRAINT (MultiCpaRef_CompartmentAtt_Ref, CompartmentReference, compartmentReference)
-{
-  std::string compartmentId = compartmentReference.getCompartment();
-  inv(m.getCompartment(compartmentId) != 0);
-}
-END_CONSTRAINT
-
-// MultiCpaRef_IdRequiredOrOptional      = 7020305
-/*!< CompartmentReference: 'multi:id' is required when referencing the same compartment */
-
-START_CONSTRAINT (MultiCpaRef_IdRequiredOrOptional, Compartment, compartment)
-{
-  const MultiCompartmentPlugin * compPlug =
-	    dynamic_cast<const MultiCompartmentPlugin*>(compartment.getPlugin("multi"));
-
-  pre (compPlug != 0);
-
-  const ListOfCompartmentReferences * listOfCompartmentReferences = compPlug->getListOfCompartmentReferences();
-
-  for (unsigned int i = 0; i < listOfCompartmentReferences->size(); i++) {
-      const CompartmentReference * compartmentReference = listOfCompartmentReferences->get(i);
-      std::string compartmentId = compartmentReference->getCompartment();
-
-      for (unsigned int j = i + 1; j < listOfCompartmentReferences->size(); j++) {
-          const CompartmentReference * anotherCompartmentReference = listOfCompartmentReferences->get(j);
-          std::string anotherCompartmentId = anotherCompartmentReference->getCompartment();
-
-          if (compartmentId == anotherCompartmentId) {
-              inv(compartmentReference->isSetId() == true);
-              inv(anotherCompartmentReference->isSetId() == true);
-          }
-      }
-  }
-}
-END_CONSTRAINT
-
+// SK moved block to preserve numbering
+//// Rules for CompartmentReference objects
+//
+//// MultiCpaRef_AllowedCoreAtts           = 7020301 - caught at read at 'CompartmentReference::readAttributes()'
+//// MultiCpaRef_AllowedCoreElts           = 7020302 - caught at read at 'SBase::logUnknownElement()'
+//// MultiCpaRef_AllowedMultiAtts          = 7020303 - caught at read at 'CompartmentReference::readAttributes()'
+//
+//// MultiCpaRef_CompartmentAtt_Ref        = 7020304
+///*!< CompartmentReference: 'compartment' must be the 'id' of a compartment */
+//
+//START_CONSTRAINT (MultiCpaRef_CompartmentAtt_Ref, CompartmentReference, compartmentReference)
+//{
+//  std::string compartmentId = compartmentReference.getCompartment();
+//  inv(m.getCompartment(compartmentId) != 0);
+//}
+//END_CONSTRAINT
+//
+//// MultiCpaRef_IdRequiredOrOptional      = 7020305
+///*!< CompartmentReference: 'multi:id' is required when referencing the same compartment */
+//
+//START_CONSTRAINT (MultiCpaRef_IdRequiredOrOptional, Compartment, compartment)
+//{
+//  const MultiCompartmentPlugin * compPlug =
+//      dynamic_cast<const MultiCompartmentPlugin*>(compartment.getPlugin("multi"));
+//
+//  pre (compPlug != 0);
+//
+//  const ListOfCompartmentReferences * listOfCompartmentReferences = compPlug->getListOfCompartmentReferences();
+//
+//  for (unsigned int i = 0; i < listOfCompartmentReferences->size(); i++) {
+//      const CompartmentReference * compartmentReference = listOfCompartmentReferences->get(i);
+//      std::string compartmentId = compartmentReference->getCompartment();
+//
+//      for (unsigned int j = i + 1; j < listOfCompartmentReferences->size(); j++) {
+//          const CompartmentReference * anotherCompartmentReference = listOfCompartmentReferences->get(j);
+//          std::string anotherCompartmentId = anotherCompartmentReference->getCompartment();
+//
+//          if (compartmentId == anotherCompartmentId) {
+//              inv(compartmentReference->isSetId() == true);
+//              inv(anotherCompartmentReference->isSetId() == true);
+//          }
+//      }
+//  }
+//}
+//END_CONSTRAINT
+//
+//// MultiCpaRef_NoReferenceToAnyParent      = 7020306
+///*!< CompartmentReference: A compartmentReference cannot reference any parent compartment */
+//START_CONSTRAINT (MultiCpaRef_NoReferenceToAnyParent, Compartment, compartment)
+//{
+//	const string & compartmentId = compartment.getId();
+//	bool hasCircularReference = __isReferencedByChildCompartment(&compartment, compartmentId);
+//	inv(hasCircularReference == false);
+//}
+//END_CONSTRAINT
+//
+//
 //************************************
 // Rules for SpeciesType objects
 
@@ -488,9 +564,9 @@ END_CONSTRAINT
 
 START_CONSTRAINT (MultiBstSpt_Restrict, MultiSpeciesType, speciesType)
 {
-	if (speciesType.getTypeCode() == SBML_MULTI_BINDING_SITE_SPECIES_TYPE) {
-		inv(speciesType.getNumSpeciesTypeInstances() == 0);
-	}
+  if (speciesType.getTypeCode() == SBML_MULTI_BINDING_SITE_SPECIES_TYPE) {
+    inv(speciesType.getNumSpeciesTypeInstances() == 0);
+  }
 }
 END_CONSTRAINT
 
@@ -507,7 +583,7 @@ END_CONSTRAINT
 
 START_CONSTRAINT (MultiSpeFtrTyp_RestrictElt, SpeciesFeatureType, speciesFeatureType)
 {
-  inv(speciesFeatureType.getNumPossibleSpeciesFeatureValues() > 0);
+//  inv(speciesFeatureType.getNumPossibleSpeciesFeatureValues() > 0);
 }
 END_CONSTRAINT
 
@@ -697,18 +773,117 @@ END_CONSTRAINT
 
 START_CONSTRAINT (MultiSubLofSpeFtrs_CpoAtt_Ref, SubListOfSpeciesFeatures, subListOfSpeciesFeatures)
 {
-  const MultiModelPlugin * mPlugin =
+	const MultiModelPlugin * mPlugin =
       dynamic_cast<const MultiModelPlugin*>(m.getPlugin("multi"));
 
   pre (mPlugin != 0);
 
-  std::string subLofSpeFtrsComponentId = subListOfSpeciesFeatures.getComponent();
+  bool valid = !subListOfSpeciesFeatures.isSetComponent();
 
-  const MultiSpeciesType * st = __getSpeciesTypeFromComponentId(m, subLofSpeFtrsComponentId);
+  if (!valid) {
 
-  inv(st != NULL);
+	  std::string subLofSpeFtrsComponentId = subListOfSpeciesFeatures.getComponent();
+
+	  const MultiSpeciesType * st = __getSpeciesTypeFromComponentId(m, subLofSpeFtrsComponentId);
+
+	  valid = (st != NULL);
+  }
+
+  inv(valid);
 }
 END_CONSTRAINT
+
+// MultiExSpe_RestrictSpeciesTypeAtt     = 7021213
+/*!< Extended Species: SpeciesType attribute must have value of the id of a speciesType */
+
+START_CONSTRAINT (MultiExSpe_ReqSpt_LofOutBsts, Species, species)
+{
+  const MultiSpeciesPlugin * speciesPlugin =
+      dynamic_cast<const MultiSpeciesPlugin*>(species.getPlugin("multi"));
+
+  pre (speciesPlugin != 0);
+
+  if (speciesPlugin->getListOfOutwardBindingSites()->size() > 0) {
+      inv (speciesPlugin->isSetSpeciesType());
+  }
+}
+END_CONSTRAINT
+
+
+// MultiExSpe_ReqSpt_LofSpeFtrs     = 7021214
+/*!< Extended Species: SpeciesType attribute must have value of the id of a speciesType */
+
+START_CONSTRAINT (MultiExSpe_ReqSpt_LofSpeFtrs, Species, species)
+{
+	const MultiSpeciesPlugin * speciesPlugin =
+	      dynamic_cast<const MultiSpeciesPlugin*>(species.getPlugin("multi"));
+
+	  pre (speciesPlugin != 0);
+
+	  if (speciesPlugin->getListOfSpeciesFeatures()->size() > 0) {
+	      inv (speciesPlugin->isSetSpeciesType());
+	  }
+}
+END_CONSTRAINT
+
+
+// MultiSubLofSpeFtrs_RelationAndOcc     = 7021215
+/*!< SubListOfSpeciesFeatures: 'relation' can only be 'and' when referencing a speciesFeatureType with occur > 1  */
+
+START_CONSTRAINT (MultiSubLofSpeFtrs_RelationAndOcc, SubListOfSpeciesFeatures, subListOfSpeciesFeatures)
+{
+	bool valid = true;
+
+	if (subListOfSpeciesFeatures.isSetRelation() &&
+		subListOfSpeciesFeatures.getRelation() != MULTI_RELATION_AND)
+	{
+		unsigned i;
+		for (i = 0; valid && i < subListOfSpeciesFeatures.getNumSpeciesFeatures(); i++) {
+			const SpeciesFeature * spf = subListOfSpeciesFeatures.get(i);
+			std::string sftId = spf->getSpeciesFeatureType();
+			std::string componentId = spf->getComponent();
+			std::string stId = componentId;
+			if (componentId.empty()) {
+				const SBase * parent = subListOfSpeciesFeatures.getParentSBMLObject();
+				if (dynamic_cast<const ListOfSpeciesFeatures *>(parent)) {
+					parent = parent->getParentSBMLObject();
+
+					const Species * sp =
+							dynamic_cast<const Species *> (parent);
+
+					if (sp != NULL) {
+						const MultiSpeciesPlugin * speciesPlugin =
+						      dynamic_cast<const MultiSpeciesPlugin*>(sp->getPlugin("multi"));
+						if (speciesPlugin != NULL) {
+							stId = speciesPlugin->getSpeciesType();
+						}
+					}
+				}
+			}
+
+			const SpeciesFeatureType* sft = __getSpeciesTypeFromComponent(m, stId, sftId);
+
+			if (sft && sft->getOccur() > 1) {
+				valid = false;
+			}
+		}
+	}
+
+	inv(valid);
+}
+END_CONSTRAINT
+
+
+// MultiSubLofSpeFtrs_RelationAndOcc     = 7021216
+/*!< SubListOfSpeciesFeatures: must have at least two 'speciesFeatures'  */
+
+START_CONSTRAINT (MultiSubLofSpeFtrs_TwoSpeFtrs, SubListOfSpeciesFeatures, subListOfSpeciesFeatures)
+{
+	inv(subListOfSpeciesFeatures.getNumSpeciesFeatures() > 1);
+}
+END_CONSTRAINT
+
+
 
 //************************************
 // Rules for OutwardBindingSite objects
@@ -732,7 +907,7 @@ START_CONSTRAINT (MultiOutBst_CpoAtt_Ref, OutwardBindingSite, outwardBindingSite
 
   const MultiSpeciesType * st = __getSpeciesTypeFromComponentId(m, bstComponentId);
   const BindingSiteSpeciesType * bst =
-		  dynamic_cast<const BindingSiteSpeciesType*>(st);
+      dynamic_cast<const BindingSiteSpeciesType*>(st);
 
   inv(bst != NULL);
 }
@@ -756,7 +931,7 @@ START_CONSTRAINT (MultiOutBst_NotInBond, OutwardBindingSite, outwardBindingSite)
   pre (species != 0);
 
   const MultiSpeciesPlugin * spPlugin =
-		  dynamic_cast<const MultiSpeciesPlugin *>(species->getPlugin("multi"));
+      dynamic_cast<const MultiSpeciesPlugin *>(species->getPlugin("multi"));
   pre (spPlugin != 0);
 
   std::string stId = spPlugin->getSpeciesType();
@@ -766,12 +941,12 @@ START_CONSTRAINT (MultiOutBst_NotInBond, OutwardBindingSite, outwardBindingSite)
 
   bool found = false;
   for (unsigned int i = 0; !found && i < st->getNumInSpeciesTypeBonds(); i++) {
-	const InSpeciesTypeBond * inSpeciesTypeBond = st->getInSpeciesTypeBond(i);
-	std::string bst1 = inSpeciesTypeBond->getBindingSite1();
-	inv(bst1 != bstComponentId);
+  const InSpeciesTypeBond * inSpeciesTypeBond = st->getInSpeciesTypeBond(i);
+  std::string bst1 = inSpeciesTypeBond->getBindingSite1();
+  inv(bst1 != bstComponentId);
 
-	std::string bst2 = inSpeciesTypeBond->getBindingSite2();
-	inv(bst2 != bstComponentId);
+  std::string bst2 = inSpeciesTypeBond->getBindingSite2();
+  inv(bst2 != bstComponentId);
   }
 }
 END_CONSTRAINT
@@ -881,7 +1056,8 @@ END_CONSTRAINT
 
 START_CONSTRAINT (MultiSpeFtr_RestrictElts, SpeciesFeature, speciesFeature)
 {
-  inv (speciesFeature.getNumSpeciesFeatureValues() > 0);
+ // pre(m.getLevel() == 2);
+ // inv (speciesFeature.getNumSpeciesFeatureValues() > 0);
 }
 END_CONSTRAINT
 
@@ -912,22 +1088,22 @@ START_CONSTRAINT (MultiSpeFtrVal_ValAtt_Ref, SpeciesFeatureValue, speciesFeature
   const SBase * sbaseListOfSpeciesFeatureValues = speciesFeatureValue.getParentSBMLObject();
   const SBase * sbaseSpeciesFeature = NULL;
   if (sbaseListOfSpeciesFeatureValues) {
-	  sbaseSpeciesFeature = sbaseListOfSpeciesFeatureValues->getParentSBMLObject();
+    sbaseSpeciesFeature = sbaseListOfSpeciesFeatureValues->getParentSBMLObject();
   }
 
   // speciesFeature
   const SpeciesFeature * speciesFeature =
-		  dynamic_cast<const SpeciesFeature *> (sbaseSpeciesFeature);
+      dynamic_cast<const SpeciesFeature *> (sbaseSpeciesFeature);
 
   const SBase * sbaseListOfSpeciesFeatures = NULL;
   if (speciesFeature) {
-	  sftId = speciesFeature->getSpeciesFeatureType();
-	  sbaseListOfSpeciesFeatures = sbaseSpeciesFeature->getParentSBMLObject();
+    sftId = speciesFeature->getSpeciesFeatureType();
+    sbaseListOfSpeciesFeatures = sbaseSpeciesFeature->getParentSBMLObject();
   }
 
   const SBase * sbaseSpecies = NULL;
   if (sbaseListOfSpeciesFeatures) {
-	  sbaseSpecies = sbaseListOfSpeciesFeatures->getParentSBMLObject();
+    sbaseSpecies = sbaseListOfSpeciesFeatures->getParentSBMLObject();
   }
 
   bool found = false;
@@ -940,16 +1116,19 @@ START_CONSTRAINT (MultiSpeFtrVal_ValAtt_Ref, SpeciesFeatureValue, speciesFeature
 
   if (species) {
     const MultiSpeciesPlugin * spPlugin =
-    		dynamic_cast<const MultiSpeciesPlugin*>(species->getPlugin("multi"));
+        dynamic_cast<const MultiSpeciesPlugin*>(species->getPlugin("multi"));
     if (spPlugin) {
-		std::string sptId = spPlugin->getSpeciesType();
+      // if the speciesType is not set we will not find the reference
+      // and may log a false error
+      pre(spPlugin->isSetSpeciesType());
+      std::string sptId = spPlugin->getSpeciesType();
 
-		const SpeciesFeatureType * sft = __getSpeciesTypeFromComponent(m, sptId, sftId);
+      const SpeciesFeatureType * sft = __getSpeciesTypeFromComponent(m, sptId, sftId);
 
-		if (sft) {
-			const PossibleSpeciesFeatureValue * psfv = sft->getPossibleSpeciesFeatureValue(sfv_value);
-			found = (psfv != NULL);
-		}
+      if (sft) {
+        const PossibleSpeciesFeatureValue * psfv = sft->getPossibleSpeciesFeatureValue(sfv_value);
+        found = (psfv != NULL);
+      }
     }
   }
 
@@ -971,11 +1150,11 @@ END_CONSTRAINT
 // MultiExSplSpeRef_CpaRefAtt_Ref        = 7021702
 /* !< Extended SimpleSpeciesReference: 'compartmentReference' must be the 'id' of a compartmentReference */
 
-START_CONSTRAINT (MultiExSplSpeRef_CpaRefAtt_Ref, SimpleSpeciesReference, simpleSpeciesReference)
+START_CONSTRAINT (MultiExSplSpeRef_CpaRefAtt_Ref, SpeciesReference, simpleSpeciesReference)
 {
 
   const MultiSimpleSpeciesReferencePlugin * simpleSpeciesRefPlugin =
-      dynamic_cast<const MultiSimpleSpeciesReferencePlugin*>(m.getPlugin("multi"));
+      dynamic_cast<const MultiSimpleSpeciesReferencePlugin*>(simpleSpeciesReference.getPlugin("multi"));
 
   pre (simpleSpeciesRefPlugin != 0);
 
@@ -1021,30 +1200,30 @@ END_CONSTRAINT
 
 START_CONSTRAINT (MultiSptCpoMapInPro_RctAtt_Ref, SpeciesTypeComponentMapInProduct, speciesTypeComponentMapInProduct)
 {
-	std::string reactantId = speciesTypeComponentMapInProduct.getReactant();
+  std::string reactantId = speciesTypeComponentMapInProduct.getReactant();
 
-	const SBase * sbaseListOfSpeciesTypeComponentMapsInProduct = speciesTypeComponentMapInProduct.getParentSBMLObject();
-	pre(sbaseListOfSpeciesTypeComponentMapsInProduct != NULL);
+  const SBase * sbaseListOfSpeciesTypeComponentMapsInProduct = speciesTypeComponentMapInProduct.getParentSBMLObject();
+  pre(sbaseListOfSpeciesTypeComponentMapsInProduct != NULL);
 
-	const SBase * sbaseSpeciesReference = sbaseListOfSpeciesTypeComponentMapsInProduct->getParentSBMLObject();
-	pre(sbaseSpeciesReference != NULL);
+  const SBase * sbaseSpeciesReference = sbaseListOfSpeciesTypeComponentMapsInProduct->getParentSBMLObject();
+  pre(sbaseSpeciesReference != NULL);
 
-	const SBase * sbaseListOfSpeciesReferences = sbaseSpeciesReference->getParentSBMLObject();
-	pre (sbaseListOfSpeciesReferences != NULL);
+  const SBase * sbaseListOfSpeciesReferences = sbaseSpeciesReference->getParentSBMLObject();
+  pre (sbaseListOfSpeciesReferences != NULL);
 
-	const SBase * sbaseReaction = sbaseListOfSpeciesReferences->getParentSBMLObject();
-	const Reaction * reaction = dynamic_cast<const Reaction *> (sbaseReaction);
-	pre (reaction != NULL);
+  const SBase * sbaseReaction = sbaseListOfSpeciesReferences->getParentSBMLObject();
+  const Reaction * reaction = dynamic_cast<const Reaction *> (sbaseReaction);
+  pre (reaction != NULL);
 
-	bool found = false;
-	for (unsigned int i = 0; !found && i < reaction->getNumReactants(); i++) {
-		const SpeciesReference * sRef = reaction->getReactant(i);
-		if (sRef != 0 && sRef->isSetId() && sRef->getId() == reactantId) {
-			found = true;
-		}
-	}
+  bool found = false;
+  for (unsigned int i = 0; !found && i < reaction->getNumReactants(); i++) {
+    const SpeciesReference * sRef = reaction->getReactant(i);
+    if (sRef != 0 && sRef->isSetId() && sRef->getId() == reactantId) {
+      found = true;
+    }
+  }
 
-	inv(found == true);
+  inv(found == true);
 }
 END_CONSTRAINT
 
@@ -1053,51 +1232,51 @@ END_CONSTRAINT
 
 START_CONSTRAINT (MultiSptCpoMapInPro_RctCpoAtt_Ref, SpeciesTypeComponentMapInProduct, speciesTypeComponentMapInProduct)
 {
-	std::string reactantId = speciesTypeComponentMapInProduct.getReactant();
-	std::string reactantComponentId = speciesTypeComponentMapInProduct.getReactantComponent();
+  std::string reactantId = speciesTypeComponentMapInProduct.getReactant();
+  std::string reactantComponentId = speciesTypeComponentMapInProduct.getReactantComponent();
 
-	const SBase * sbaseListOfSpeciesTypeComponentMapsInProduct = speciesTypeComponentMapInProduct.getParentSBMLObject();
-	pre (sbaseListOfSpeciesTypeComponentMapsInProduct != NULL);
+  const SBase * sbaseListOfSpeciesTypeComponentMapsInProduct = speciesTypeComponentMapInProduct.getParentSBMLObject();
+  pre (sbaseListOfSpeciesTypeComponentMapsInProduct != NULL);
 
-	// parent of map list -- speciesReference
-	const SBase * sbaseSpeciesReference = sbaseListOfSpeciesTypeComponentMapsInProduct->getParentSBMLObject();
-	pre (sbaseSpeciesReference != NULL);
+  // parent of map list -- speciesReference
+  const SBase * sbaseSpeciesReference = sbaseListOfSpeciesTypeComponentMapsInProduct->getParentSBMLObject();
+  pre (sbaseSpeciesReference != NULL);
 
-	// parent of speciesReference -- list
-	const SBase * sbaseListOfSpeciesReferences = sbaseSpeciesReference->getParentSBMLObject();
-	pre(sbaseListOfSpeciesReferences != NULL);
+  // parent of speciesReference -- list
+  const SBase * sbaseListOfSpeciesReferences = sbaseSpeciesReference->getParentSBMLObject();
+  pre(sbaseListOfSpeciesReferences != NULL);
 
-	const SBase * sbaseReaction = sbaseListOfSpeciesReferences->getParentSBMLObject();
-	const Reaction * reaction = dynamic_cast<const Reaction *> (sbaseReaction);
-	pre (reaction != NULL);
+  const SBase * sbaseReaction = sbaseListOfSpeciesReferences->getParentSBMLObject();
+  const Reaction * reaction = dynamic_cast<const Reaction *> (sbaseReaction);
+  pre (reaction != NULL);
 
-	// scan reactants
-	bool foundReactant = false;
-	bool good = false;
-	for (unsigned int i = 0; !foundReactant && i < reaction->getNumReactants(); i++) {
-		const SpeciesReference * sRef = reaction->getReactant(i);
+  // scan reactants
+  bool foundReactant = false;
+  bool good = false;
+  for (unsigned int i = 0; !foundReactant && i < reaction->getNumReactants(); i++) {
+    const SpeciesReference * sRef = reaction->getReactant(i);
 
-		// reactant found
-		if (sRef != 0 && sRef->isSetId() && sRef->getId() == reactantId) {
-			foundReactant = true;
+    // reactant found
+    if (sRef != 0 && sRef->isSetId() && sRef->getId() == reactantId) {
+      foundReactant = true;
 
-			// species
-			const std::string speciesId = sRef->getSpecies();
-			const Species * species = m.getSpecies(speciesId);
-			pre (species != NULL);
+      // species
+      const std::string speciesId = sRef->getSpecies();
+      const Species * species = m.getSpecies(speciesId);
+      pre (species != NULL);
 
-			const MultiSpeciesPlugin * speciesPlugin =
-						dynamic_cast<const MultiSpeciesPlugin*>(species->getPlugin("multi"));
-			pre (speciesPlugin != NULL);
+      const MultiSpeciesPlugin * speciesPlugin =
+            dynamic_cast<const MultiSpeciesPlugin*>(species->getPlugin("multi"));
+      pre (speciesPlugin != NULL);
 
-			std::string speciesTypeId = speciesPlugin->getSpeciesType();
-			good = __isSpeciesTypeComponent(m, speciesTypeId, reactantComponentId);
-		}
-	}
+      std::string speciesTypeId = speciesPlugin->getSpeciesType();
+      good = __isSpeciesTypeComponent(m, speciesTypeId, reactantComponentId);
+    }
+  }
 
-	if (foundReactant) {
-		inv(good == true);
-	}
+  if (foundReactant) {
+    inv(good == true);
+  }
 }
 END_CONSTRAINT
 
@@ -1106,49 +1285,110 @@ END_CONSTRAINT
 
 START_CONSTRAINT (MultiSptCpoMapInPro_ProCpoAtt_Ref, SpeciesTypeComponentMapInProduct, speciesTypeComponentMapInProduct)
 {
-	std::string productComponentId = speciesTypeComponentMapInProduct.getProductComponent();
+  std::string productComponentId = speciesTypeComponentMapInProduct.getProductComponent();
 
-	// must have model extended
-	const MultiModelPlugin * modelPlugin =
-			dynamic_cast<const MultiModelPlugin*>(m.getPlugin("multi"));
-	pre (modelPlugin != NULL);
+  // must have model extended
+  const MultiModelPlugin * modelPlugin =
+      dynamic_cast<const MultiModelPlugin*>(m.getPlugin("multi"));
+  pre (modelPlugin != NULL);
 
-	// parent of map -- list
-	const SBase * sbaseListOfSpeciesTypeComponentMapsInProduct = speciesTypeComponentMapInProduct.getParentSBMLObject();
-	pre (sbaseListOfSpeciesTypeComponentMapsInProduct != NULL);
+  // parent of map -- list
+  const SBase * sbaseListOfSpeciesTypeComponentMapsInProduct = speciesTypeComponentMapInProduct.getParentSBMLObject();
+  pre (sbaseListOfSpeciesTypeComponentMapsInProduct != NULL);
 
-	// parent of map list -- speciesReference
-	const SBase * sbaseSpeciesReference = sbaseListOfSpeciesTypeComponentMapsInProduct->getParentSBMLObject();
-	const SpeciesReference * speciesReference =
-				dynamic_cast<const SpeciesReference*> (sbaseSpeciesReference);
-	pre (speciesReference != NULL);
+  // parent of map list -- speciesReference
+  const SBase * sbaseSpeciesReference = sbaseListOfSpeciesTypeComponentMapsInProduct->getParentSBMLObject();
+  const SpeciesReference * speciesReference =
+        dynamic_cast<const SpeciesReference*> (sbaseSpeciesReference);
+  pre (speciesReference != NULL);
 
-	std::string speciesId = speciesReference->getSpecies();
-	const Species * species = m.getSpecies(speciesId);
-	pre (species != NULL);
+  std::string speciesId = speciesReference->getSpecies();
+  const Species * species = m.getSpecies(speciesId);
+  pre (species != NULL);
 
-	const MultiSpeciesPlugin * speciesPlugin =
-			dynamic_cast<const MultiSpeciesPlugin*>(species->getPlugin("multi"));
-	pre (speciesPlugin != NULL);
-	std::string speciesTypeId = speciesPlugin->getSpeciesType();
-	inv( __isSpeciesTypeComponent(m, speciesTypeId, productComponentId));
+  const MultiSpeciesPlugin * speciesPlugin =
+      dynamic_cast<const MultiSpeciesPlugin*>(species->getPlugin("multi"));
+  pre (speciesPlugin != NULL);
+  std::string speciesTypeId = speciesPlugin->getSpeciesType();
+  inv( __isSpeciesTypeComponent(m, speciesTypeId, productComponentId));
 }
 END_CONSTRAINT
+
+//************************************
+// SK moved from 7020301
+// Rules for CompartmentReference objects
+
+// MultiCpaRef_AllowedCoreAtts           = 7022001 - caught at read at 'CompartmentReference::readAttributes()'
+// MultiCpaRef_AllowedCoreElts           = 7022002 - caught at read at 'SBase::logUnknownElement()'
+// MultiCpaRef_AllowedMultiAtts          = 7022003 - caught at read at 'CompartmentReference::readAttributes()'
+
+// MultiCpaRef_CompartmentAtt_Ref        = 7022004
+/*!< CompartmentReference: 'compartment' must be the 'id' of a compartment */
+
+START_CONSTRAINT(MultiCpaRef_CompartmentAtt_Ref, CompartmentReference, compartmentReference)
+{
+  std::string compartmentId = compartmentReference.getCompartment();
+  inv(m.getCompartment(compartmentId) != 0);
+}
+END_CONSTRAINT
+
+// MultiCpaRef_IdRequiredOrOptional      = 7022005
+/*!< CompartmentReference: 'multi:id' is required when referencing the same compartment */
+
+START_CONSTRAINT(MultiCpaRef_IdRequiredOrOptional, Compartment, compartment)
+{
+  const MultiCompartmentPlugin * compPlug =
+    dynamic_cast<const MultiCompartmentPlugin*>(compartment.getPlugin("multi"));
+
+  pre(compPlug != 0);
+
+  const ListOfCompartmentReferences * listOfCompartmentReferences = compPlug->getListOfCompartmentReferences();
+
+  for (unsigned int i = 0; i < listOfCompartmentReferences->size(); i++) {
+    const CompartmentReference * compartmentReference = listOfCompartmentReferences->get(i);
+    std::string compartmentId = compartmentReference->getCompartment();
+
+    for (unsigned int j = i + 1; j < listOfCompartmentReferences->size(); j++) {
+      const CompartmentReference * anotherCompartmentReference = listOfCompartmentReferences->get(j);
+      std::string anotherCompartmentId = anotherCompartmentReference->getCompartment();
+
+      if (compartmentId == anotherCompartmentId) {
+        inv(compartmentReference->isSetId() == true);
+        inv(anotherCompartmentReference->isSetId() == true);
+      }
+    }
+  }
+}
+END_CONSTRAINT
+
+// MultiCpaRef_NoReferenceToAnyParent      = 7022006
+/*!< CompartmentReference: A compartmentReference cannot reference any parent compartment */
+START_CONSTRAINT(MultiCpaRef_NoReferenceToAnyParent, Compartment, compartment)
+{
+  const string & compartmentId = compartment.getId();
+  bool hasCircularReference = __isReferencedByChildCompartment(&compartment, compartmentId);
+  inv(hasCircularReference == false);
+}
+END_CONSTRAINT
+
+
 
 
 //************************************
 // Rules for extended ci elements in Math objects
 
-// MultiMathCi_AllowedMultiAtts          = 7022101 - caught at read and report error code 10201
+//SK Moved to MathML consistency validator
 
-// MultiMathCi_SpeRefAtt_Ref             = 7022102
-/*!< Math ci element: 'speciesReference' must be the 'id' of a speciesReference */
-EXTERN_CONSTRAINT (MultiMathCi_SpeRefAtt_Ref, MultiMathCiCheckSpeciesReference)
-
-// MultiMathCi_RepTypAtt_Ref             = 7022103
-/*!< Math ci element: 'representationType' must be a value of the Multi data type 'RepresentationType' */
-EXTERN_CONSTRAINT (MultiMathCi_RepTypAtt_Ref, MultiMathCiCheckRepresentationType)
-
-  /** @endcond doxygenLibsbmlInternal */
+//// MultiMathCi_AllowedMultiAtts          = 7022101 - caught at read and report error code 10201
+//
+//// MultiMathCi_SpeRefAtt_Ref             = 7022102
+///*!< Math ci element: 'speciesReference' must be the 'id' of a speciesReference */
+//EXTERN_CONSTRAINT (MultiMathCi_SpeRefAtt_Ref, MultiMathCiCheckSpeciesReference)
+//
+//// MultiMathCi_RepTypAtt_Ref             = 7022103
+///*!< Math ci element: 'representationType' must be a value of the Multi data type 'RepresentationType' */
+//EXTERN_CONSTRAINT (MultiMathCi_RepTypAtt_Ref, MultiMathCiCheckRepresentationType)
+//
+  /** @endcond */
 
 

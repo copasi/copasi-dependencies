@@ -38,6 +38,15 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
 
+/**
+* @enum MultiSBMLErrorCode_t
+* Codes for all SBML-level errors and warnings from the 'multi' package.
+*
+* These are distinguished from other SBML error codes
+* by having a number between 7000000 and 7099999.
+*
+* @copydetails doc_sbml_error_code_ranges
+*/
 typedef enum
 {
   MultiUnknownError                 	= 7010100 /*!< Unknown error from multi */
@@ -45,77 +54,98 @@ typedef enum
   // General rules about the Multi package
 , MultiNSUndeclared                     = 7010101 /*!< The Multi ns is not correctly declared */
 , MultiElementNotInNs                   = 7010102 /*!< Element not in Multi namespace */
-, MultiSBML_RequiredAttMissing          = 7010103 /*!< The 'multi:required' attribute is required on <code>&lt;sbml&gt;</code> */
-, MultiSBML_RequiredAttMustBeBoolean    = 7010104 /*!< The 'multi:required' attribute must be Boolean */
-, MultiSBML_RequiredAttMustBeTrue       = 7010105 /*!< The 'multi:required' attribute must be 'true' */
 
+// General rules about MathML content in the Multi package
+, MultiMathCi_AllowedMultiAtts          = 7010201 /*!< Math ci element: Allowed Multi attributes */
+, MultiMathCi_SpeRefAtt_Ref             = 7010202 /*!< Math ci element: 'speciesReference' must be the 'id' of a speciesReference within the same reaction */
+, MultiMathCi_RepTypAtt_Ref             = 7010203 /*!< Math ci element: 'representationType' must be a value of the Multi data type 'RepresentationType' */
+
+// SK changed numbers from 7010103 to 7020101 etc
+//, MultiSBML_RequiredAttMissing          = 7010103 /*!< The 'multi:required' attribute is required on <code>&lt;sbml&gt;</code> */
+//, MultiSBML_RequiredAttMustBeBoolean    = 7010104 /*!< The 'multi:required' attribute must be Boolean */
+//, MultiSBML_RequiredAttMustBeTrue       = 7010105 /*!< The 'multi:required' attribute must be 'true' */
+//
   // General rules about identifiers
-, MultiDupClaId			        = 7010301 /*!< Duplicate 'id' attribute value */
+, MultiDupClaId			                    = 7010301 /*!< Duplicate 'id' attribute value */
 , MultiInvSIdSyn                        = 7010302 /*!< Invalid SId syntax */
 , MultiInvNamSyn                       	= 7010303 /*!< Invalid name syntax */
 
   // scoping rules for identifiers, sec 3.28
-, MultiUnqId_SptIns                     = 7010401 /*!< SpeciesTypeInstance must have unique ids within the parent speciesType */
-, MultiUnqId_SptCpoInd       		= 7010402 /*!< SpeciesTypeComponentIndex must have unique ids within the parent speciesType */
-, MultiUnqId_InSptBnd               	= 7010403 /*!< InSpeciesTypeBond must have unique ids within the parent speciesType */
-, MultiUnqId_Sft                        = 7010404 /*!< SpeciesFeatureType must have unique ids within the parent speciesType */
-, MultiUnqId_SubListOfSfs               = 7010405 /*!< SubListOfSpeciesFeatures must have unique ids within a species */
-, MultiUnqId_SpeFtr                  	= 7010406 /*!< SpeciesFeature must have unique ids within a species */
-, MultiUnqId_CpaRef           		= 7010408 /*!< CompartmentReference must have unique ids within a compartment */
+// SK - renumbered 7010304-7010310
+, MultiUnqId_SptIns                     = 7010304 /*!< SpeciesTypeInstance must have unique ids within the parent speciesType */
+, MultiUnqId_SptCpoInd       		        = 7010305 /*!< SpeciesTypeComponentIndex must have unique ids within the parent speciesType */
+, MultiUnqId_InSptBnd               	  = 7010306 /*!< InSpeciesTypeBond must have unique ids within the parent speciesType */
+, MultiUnqId_Sft                        = 7010307 /*!< SpeciesFeatureType must have unique ids within the parent speciesType */
+, MultiUnqId_SubListOfSfs               = 7010308 /*!< SubListOfSpeciesFeatures must have unique ids within a species */
+, MultiUnqId_SpeFtr                   	= 7010309 /*!< SpeciesFeature must have unique ids within a species */
+, MultiUnqId_CpaRef                 		= 7010310 /*!< CompartmentReference must have unique ids within a compartment */
+
+
+//SK - syntax rules could be reported but currently default to core 10302
+//SK renumbered 7010311 - 7010329
 
   // SIdRef under SpeciesType
-, MultiInvSIdRefSyn_Spt_CpaAtt		= 7010501 /*!< Invalid SIdRef syntax: 'compartment' attribute of SpeciesType */
-, MultiInvSIdRefSyn_PslSpeFtrVal_NumAtt	= 7010502 /*!< Invalid SIdRef syntax: 'numericValue' attribute of PossibleSpeciesFeatureValue */
-, MultiInvSIdRefSyn_SptIns_SptAtt	= 7010503 /*!< Invalid SIdRef syntax: 'speciesType' attribute of SpeciesTypeInstance */
-, MultiInvSIdRefSyn_SptIns_CpaRefAtt	= 7010504 /*!< Invalid SIdRef syntax: 'compartmentReference' attribute of SpeciesTypeInstance */
-, MultiInvSIdRefSyn_SptCpoInd_CpoAtt	= 7010505 /*!< Invalid SIdRef syntax: 'component' attribute of SpeciesTypeComponentIndex */
-, MultiInvSIdRefSyn_SptCpoInd_ParAtt 	= 7010506 /*!< Invalid SIdRef syntax: 'identifyingParent' attribute of SpeciesTypeComponentIndex */
-, MultiInvSIdRefSyn_InSptBnd_Bst1Att	= 7010508 /*!< Invalid SIdRef syntax: 'bindingSite1' attribute of InSpeciesTypeBond */
-, MultiInvSIdRefSyn_InSptBnd_Bst2Att	= 7010509 /*!< Invalid SIdRef syntax: 'bindingSite2' attribute of InSpeciesTypeBond */
+, MultiInvSIdRefSyn_Spt_CpaAtt	      	= 7010311 /*!< Invalid SIdRef syntax: 'compartment' attribute of SpeciesType */
+, MultiInvSIdRefSyn_PslSpeFtrVal_NumAtt	= 7010312 /*!< Invalid SIdRef syntax: 'numericValue' attribute of PossibleSpeciesFeatureValue */
+, MultiInvSIdRefSyn_SptIns_SptAtt	      = 7010313 /*!< Invalid SIdRef syntax: 'speciesType' attribute of SpeciesTypeInstance */
+, MultiInvSIdRefSyn_SptIns_CpaRefAtt	  = 7010314 /*!< Invalid SIdRef syntax: 'compartmentReference' attribute of SpeciesTypeInstance */
+, MultiInvSIdRefSyn_SptCpoInd_CpoAtt	  = 7010315 /*!< Invalid SIdRef syntax: 'component' attribute of SpeciesTypeComponentIndex */
+, MultiInvSIdRefSyn_SptCpoInd_ParAtt 	  = 7010316 /*!< Invalid SIdRef syntax: 'identifyingParent' attribute of SpeciesTypeComponentIndex */
+, MultiInvSIdRefSyn_InSptBnd_Bst1Att	  = 7010317 /*!< Invalid SIdRef syntax: 'bindingSite1' attribute of InSpeciesTypeBond */
+, MultiInvSIdRefSyn_InSptBnd_Bst2Att	  = 7010318 /*!< Invalid SIdRef syntax: 'bindingSite2' attribute of InSpeciesTypeBond */
 
   // SIdRef under Species
-, MultiInvSIdRefSyn_Spe_SptAtt		= 7010601 /*!< Invalid SIdRef syntax: 'speciesType' attribute of extended Species */
-, MultiInvSIdRefSyn_OutBst_CpoAtt	= 7010602 /*!< Invalid SIdRef syntax: 'component' attribute of OutwardBindingSite */
-, MultiInvSIdRefSyn_SpeFtr_SpeFtrTypAtt	= 7010603 /*!< Invalid SIdRef syntax: 'speciesFeatureType' attribute of SpeciesFeature */
-, MultiInvSIdRefSyn_SpeFtr_CpoAtt 	= 7010604 /*!< Invalid SIdRef syntax: 'component' attribute of SpeciesFeature */
-, MultiInvSIdRefSyn_SpeFtrVal_ValAtt 	= 7010605 /*!< Invalid SIdRef syntax: 'value' attribute of SpeciesFeatureValue */
+, MultiInvSIdRefSyn_Spe_SptAtt		      = 7010319 /*!< Invalid SIdRef syntax: 'speciesType' attribute of extended Species */
+, MultiInvSIdRefSyn_OutBst_CpoAtt	      = 7010320 /*!< Invalid SIdRef syntax: 'component' attribute of OutwardBindingSite */
+, MultiInvSIdRefSyn_SpeFtr_SpeFtrTypAtt	= 7010321 /*!< Invalid SIdRef syntax: 'speciesFeatureType' attribute of SpeciesFeature */
+, MultiInvSIdRefSyn_SpeFtr_CpoAtt 	    = 7010322 /*!< Invalid SIdRef syntax: 'component' attribute of SpeciesFeature */
+, MultiInvSIdRefSyn_SpeFtrVal_ValAtt 	  = 7010323 /*!< Invalid SIdRef syntax: 'value' attribute of SpeciesFeatureValue */
 
   // SIdRef under Reaction
-, MultiInvSIdRefSyn_SplSpeRef_CompRefAtt = 7010701 /*!< Invalid SIdRef syntax: 'compartmentReference' attribute of extended SimpleSpeciesReference */
-, MultiInvSIdRefSyn_StpCpoMapInPro_RctAtt = 7010702 /*!< Invalid SIdRef syntax: 'reactant' attribute of SpeciesTypeComponentMapInProduct */
-, MultiInvSIdRefSyn_StpCpoMapInPro_RctCpoAtt = 7010703 /*!< Invalid SIdRef syntax: 'reactantComponent' attribute of SpeciesTypeComponentMapInProduct */
-, MultiInvSIdRefSyn_StpCpoMapInPro_ProCpoAtt = 7010704 /*!< Invalid SIdRef syntax: 'productComponent' attribute of SpeciesTypeComponentMapInProduct */
+, MultiInvSIdRefSyn_SplSpeRef_CompRefAtt     = 7010324 /*!< Invalid SIdRef syntax: 'compartmentReference' attribute of extended SimpleSpeciesReference */
+, MultiInvSIdRefSyn_StpCpoMapInPro_RctAtt    = 7010325 /*!< Invalid SIdRef syntax: 'reactant' attribute of SpeciesTypeComponentMapInProduct */
+, MultiInvSIdRefSyn_StpCpoMapInPro_RctCpoAtt = 7010326 /*!< Invalid SIdRef syntax: 'reactantComponent' attribute of SpeciesTypeComponentMapInProduct */
+, MultiInvSIdRefSyn_StpCpoMapInPro_ProCpoAtt = 7010327 /*!< Invalid SIdRef syntax: 'productComponent' attribute of SpeciesTypeComponentMapInProduct */
 
   // SIdRef under Compartment
-, MultiInvSIdRefSyn_Cpa_CpaTypAtt 	= 7010801 /*!< Invalid SIdRef syntax: 'compartmentType' attribute of extended Compartment */
-, MultiInvSIdRefSyn_CpaRef_CpaAtt 	= 7010802 /*!< Invalid SIdRef syntax: 'compartment' attribute of CompartmentReference */
-
+, MultiInvSIdRefSyn_Cpa_CpaTypAtt 	= 7010328 /*!< Invalid SIdRef syntax: 'compartmentType' attribute of extended Compartment */
+, MultiInvSIdRefSyn_CpaRef_CpaAtt 	= 7010329 /*!< Invalid SIdRef syntax: 'compartment' attribute of CompartmentReference */
 
 // Rules by class, 702****
 
+// Rules for extended sbml objects
+// SK changed numbers from 7010103 to 7020101 etc
+, MultiSBML_RequiredAttMissing = 7020101 /*!< The 'multi:required' attribute is required on <code>&lt;sbml&gt;</code> */
+, MultiSBML_RequiredAttMustBeBoolean = 7020102 /*!< The 'multi:required' attribute must be Boolean */
+, MultiSBML_RequiredAttMustBeTrue = 7020103 /*!< The 'multi:required' attribute must be 'true' */
+
 // Rules for extended Model objects
-, MultiLofStps_OnlyOne       		= 7020101 /*!< ListOfSpeciesTypes: Only one object allowed in a model */
-, MultiLofStps_NoEmpty          	= 7020102 /*!< ListOfSpeciesTypes: Must not be empty */
-, MultiLofStps_AllowedAtts  		= 7020103 /*!< ListOfSpeciesTypes: Allowed attributes */
-, MultiLofStps_AllowedElts  		= 7020104 /*!< ListOfSpeciesTypes: Allowed elements */
+// SK changed numbers from 70201nn to 70202nn
+, MultiLofStps_OnlyOne       		= 7020201 /*!< ListOfSpeciesTypes: Only one object allowed in a model */
+, MultiLofStps_NoEmpty          	= 7020202 /*!< ListOfSpeciesTypes: Must not be empty */
+, MultiLofStps_AllowedAtts  		= 7020203 /*!< ListOfSpeciesTypes: Allowed attributes */
+, MultiLofStps_AllowedElts  		= 7020204 /*!< ListOfSpeciesTypes: Allowed elements */
 
 // Rules for extended Compartment objects
-, MultiExCpa_AllowedMultiAtts           = 7020201 /*!< Extended Compartment: Allowed Multi attributes */
-, MultiExCpa_IsTypeAtt_Invalid          = 7020202 /*!< Extended Compartment: Invalid boolean syntax of 'isType' attribute */
-, MultiExCpa_IsTypeAtt_Required         = 7020203 /*!< Extended Compartment: 'isType' attribute is requried */
-, MultiExCpa_IsTypeAtt_SameAsParent     = 7020204 /*!< Extended Compartment: 'isType' attribute, if referenced, must be same as that of the containing compartment */
-, MultiExCpa_CpaTypAtt_Restrict  	= 7020205 /*!< Extended Compartment: Compartment type can not reference another compartment type */
-, MultiLofCpaRefs_OnlyOne     		= 7020206 /*!< ListOfCompartmentReferences: Only one object allowed in a compartment */
-, MultiLofCpaRefs_NoEmpty         	= 7020207 /*!< ListOfCompartmentReferences: Must not be empty */
-, MultiLofCpaRefs_AllowedAtts 		= 7020208 /*!< ListOfCompartmentReferences: Allowed attributes */
-, MultiLofCpaRefs_AllowedElts 		= 7020209 /*!< ListOfCompartmentReferences: Allowed elements */
+// SK changed numbers from 70202nn - 70203nn
+, MultiExCpa_AllowedMultiAtts           = 7020301 /*!< Extended Compartment: Allowed Multi attributes */
+, MultiExCpa_IsTypeAtt_Invalid          = 7020302 /*!< Extended Compartment: Invalid boolean syntax of 'isType' attribute */
+, MultiExCpa_IsTypeAtt_Required         = 7020303 /*!< Extended Compartment: 'isType' attribute is requried */
+, MultiExCpa_IsTypeAtt_SameAsParent     = 7020304 /*!< Extended Compartment: 'isType' attribute, if referenced, must be same as that of the containing compartment */
+, MultiExCpa_CpaTypAtt_Restrict  	      = 7020305 /*!< Extended Compartment: Compartment type can not reference another compartment type */
+, MultiLofCpaRefs_OnlyOne     		      = 7020306 /*!< ListOfCompartmentReferences: Only one object allowed in a compartment */
+, MultiLofCpaRefs_NoEmpty         	    = 7020307 /*!< ListOfCompartmentReferences: Must not be empty */
+, MultiLofCpaRefs_AllowedAtts 		      = 7020308 /*!< ListOfCompartmentReferences: Allowed attributes */
+, MultiLofCpaRefs_AllowedElts 		      = 7020309 /*!< ListOfCompartmentReferences: Allowed elements */
 
-// Rules for CompartmentReference objects
-, MultiCpaRef_AllowedCoreAtts  		= 7020301 /*!< CompartmentReference: Allowed SBML core attributes  */
-, MultiCpaRef_AllowedCoreElts 		= 7020302 /*!< CompartmentReference: Allowed SBML core elements */
-, MultiCpaRef_AllowedMultiAtts 		= 7020303 /*!< CompartmentReference: Allowed Multi attributes */
-, MultiCpaRef_CompartmentAtt_Ref        = 7020304 /*!< CompartmentReference: 'compartment' must be the 'id' of a compartment */
-, MultiCpaRef_IdRequiredOrOptional      = 7020305 /*!< CompartmentReference: 'multi:id' is required when referencing the same compartment */
+// SK moved block to end to preserve numbers after this
+//// Rules for CompartmentReference objects
+//, MultiCpaRef_AllowedCoreAtts  		= 7020301 /*!< CompartmentReference: Allowed SBML core attributes  */
+//, MultiCpaRef_AllowedCoreElts 		= 7020302 /*!< CompartmentReference: Allowed SBML core elements */
+//, MultiCpaRef_AllowedMultiAtts 		= 7020303 /*!< CompartmentReference: Allowed Multi attributes */
+//, MultiCpaRef_CompartmentAtt_Ref        = 7020304 /*!< CompartmentReference: 'compartment' must be the 'id' of a compartment */
+//, MultiCpaRef_IdRequiredOrOptional      = 7020305 /*!< CompartmentReference: 'multi:id' is required when referencing the same compartment */
+//, MultiCpaRef_NoReferenceToAnyParent    = 7020306 /*!< CompartmentReference: A compartmentReference cannot reference any parent compartment */
 
 // Rules for SpeciesType objects
 , MultiSpt_AllowedCoreAtts  		= 7020401 /*!< SpeciesType: Allowed SBML core attributes */
@@ -123,16 +153,16 @@ typedef enum
 , MultiSpt_AllowedMultiAtts 		= 7020403 /*!< SpeciesType: Allowed Multi attributes */
 , MultiSpt_CompartmentAtt_Ref 		= 7020404 /*!< SpeciesType: 'compartment' must be the 'id' of a compartment */
 , MultiSpt_ListOfDefs_NoEmpty 		= 7020405 /*!< SpeciesType: ListOf- subobjects must not be empty */
-, MultiLofSpeFtrTyps_onlyOne            = 7020406 /*!< ListOfSpeciesFeatureTypes: Only one <listOfSpeciesFeatureTypes> is allowed in a <speciesType> */
+, MultiLofSpeFtrTyps_onlyOne            = 7020406 /*!< ListOfSpeciesFeatureTypes: Only one &lt;listOfSpeciesFeatureTypes&gt; is allowed in a &lt;speciesType&gt; */
 , MultiLofSpeFtrTyps_Elts               = 7020407 /*!< ListOfSpeciesFeatureTypes: Only allow speciesFeatureType elements */
 , MultiLofSpeFtrTyps_AllowedAtts 	= 7020408 /*!< ListOfSpeciesFeatureTypes: Allowed attributes */
-, MultiLofSptInss_onlyOne               = 7020409 /*!< ListOfSpeciesTypeInstances: Only one <listOfSpeciesTypeInstances> is allowed in a <speciesType> */
+, MultiLofSptInss_onlyOne               = 7020409 /*!< ListOfSpeciesTypeInstances: Only one &lt;listOfSpeciesTypeInstances&gt; is allowed in a &lt;speciesType&gt; */
 , MultiLofSptInss_Elts       		= 7020410 /*!< ListOfSpeciesTypeInstances: Only allow speciesTypeInstance elements */
 , MultiLofSptInss_AllowedAtts 	        = 7020411 /*!< ListOfSpeciesTypeInstances: Allowed attributes */
-, MultiLofSptCpoInds_onlyOne            = 7020412 /*!< ListOfSpeciesTypeComponentIndexes: Only one <listOfSpeciesTypeComponentIndexes> is allowed in a <speciesType> */
+, MultiLofSptCpoInds_onlyOne            = 7020412 /*!< ListOfSpeciesTypeComponentIndexes: Only one &lt;listOfSpeciesTypeComponentIndexes&gt; is allowed in a &lt;speciesType&gt; */
 , MultiLofSptCpoInds_Elts	        = 7020413 /*!< ListOfSpeciesTypeComponentIndexes: Only allow speciesTypeComponentIndex elements */
 , MultiLofSptCpoInds_AllowedAtts	= 7020414 /*!< ListOfSpeciesTypeComponentIndexes: Allowed attributes */
-, MultiLofInSptBnds_onlyOne             = 7020415 /*!< ListOfInSpeciesTypeBonds: Only one <listOfInSpeciesTypeBonds> is allowed in a <speciesType> */
+, MultiLofInSptBnds_onlyOne             = 7020415 /*!< ListOfInSpeciesTypeBonds: Only one &lt;listOfInSpeciesTypeBonds&gt; is allowed in a &lt;speciesType&gt; */
 , MultiLofInSptBnds_Elts   		= 7020416 /*!< ListOfInSpeciesTypeBonds: Only allow inSpeciesTypeBond elements */
 , MultiLofInSptBnds_AllowedAtts         = 7020417 /*!< ListOfInSpeciesTypeBonds: Allowed attributes */
 
@@ -191,6 +221,14 @@ typedef enum
 , MultiSubLofSpeFtrs_AllowedElts 	= 7021211 /*!< SubListOfSpeciesFeatures: Allowed elements */
 , MultiSubLofSpeFtrs_CpoAtt_Ref		= 7021212 /*!< SubListOfSpeciesFeatures: 'component' must be the 'id' of a 'SpeciesType' component */
 
+// added from 1.1.rc5
+, MultiExSpe_ReqSpt_LofOutBsts		= 7021213 /*!< Extended Species: 'speciesType' is required when it has a 'listOfOutwardBindingSites' */
+// added from 1.1.rc5
+, MultiExSpe_ReqSpt_LofSpeFtrs		= 7021214 /*!< Extended Species: 'speciesType' is required when it has a 'listOfSpeciesFeatures'  */
+// added from 1.1.rc5
+, MultiSubLofSpeFtrs_RelationAndOcc	= 7021215 /*!< SubListOfSpeciesFeatures: 'relation' can only be 'and' when referencing a speciesFeatureType with occur > 1  */
+// added from 1.1.rc5
+, MultiSubLofSpeFtrs_TwoSpeFtrs		= 7021216 /*!< SubListOfSpeciesFeatures: must have at least two 'speciesFeatures'  */
 
 // Rules for OutwardBindingSite objects
 , MultiOutBst_AllowedCoreAtts  		= 7021301 /*!< OutwardBindingSite: Allowed SBML core attributes */
@@ -239,10 +277,20 @@ typedef enum
 , MultiSptCpoMapInPro_RctCpoAtt_Ref	= 7021905 /*!< SpeciesTypeComponentMapInProduct: 'reactantComponent' must be the 'id' of a reactant component */
 , MultiSptCpoMapInPro_ProCpoAtt_Ref	= 7021906 /*!< SpeciesTypeComponentMapInProduct: 'productComponent' must be the 'id' of a product component */
 
+// SK moved from 7020301 to preserve numbers
+ // Rules for CompartmentReference objects
+  , MultiCpaRef_AllowedCoreAtts = 7022001 /*!< CompartmentReference: Allowed SBML core attributes  */
+  , MultiCpaRef_AllowedCoreElts = 7022002 /*!< CompartmentReference: Allowed SBML core elements */
+  , MultiCpaRef_AllowedMultiAtts = 7022003 /*!< CompartmentReference: Allowed Multi attributes */
+  , MultiCpaRef_CompartmentAtt_Ref = 7022004 /*!< CompartmentReference: 'compartment' must be the 'id' of a compartment */
+  , MultiCpaRef_IdRequiredOrOptional = 7022005 /*!< CompartmentReference: 'multi:id' is required when referencing the same compartment */
+  , MultiCpaRef_NoReferenceToAnyParent = 7022006 /*!< CompartmentReference: A compartmentReference cannot reference any parent compartment */
+
 // Rules for extended ci elements in Math objects
-, MultiMathCi_AllowedMultiAtts  	= 7022101 /*!< Math ci element: Allowed Multi attributes */
-, MultiMathCi_SpeRefAtt_Ref		= 7022102 /*!< Math ci element: 'speciesReference' must be the 'id' of a speciesReference within the same reaction */
-, MultiMathCi_RepTypAtt_Ref	        = 7022103 /*!< Math ci element: 'representationType' must be a value of the Multi data type 'RepresentationType' */
+// SK: moved to numbers 7010201 - 7010203
+//, MultiMathCi_AllowedMultiAtts  	= 7022101 /*!< Math ci element: Allowed Multi attributes */
+//, MultiMathCi_SpeRefAtt_Ref		= 7022102 /*!< Math ci element: 'speciesReference' must be the 'id' of a speciesReference within the same reaction */
+//, MultiMathCi_RepTypAtt_Ref	        = 7022103 /*!< Math ci element: 'representationType' must be a value of the Multi data type 'RepresentationType' */
 
 }  MultiSBMLErrorCode_t;
 

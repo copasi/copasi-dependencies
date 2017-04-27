@@ -7,7 +7,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2016 jointly by the following organizations:
+# Copyright (C) 2013-2017 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -44,15 +44,15 @@ if (ENABLE_MULTI)
   list(APPEND SWIG_EXTRA_ARGS -DUSE_MULTI)
   list(APPEND SWIG_SWIGDOCDEFINES --define USE_MULTI)
   
-  if (LIBSBML_USE_LEGACY_MATH)
-  
-    message(FATAL_ERROR 
-	  "\nThe multi-package extends ASTNodes and thus cannot be used with the old "
-	  "AST classes. Please set LIBSBML_USE_LEGACY_MATH to OFF or disable the multi "
-	  "package.\n\n"
-	)
-  
-  endif(LIBSBML_USE_LEGACY_MATH)
+#  if (LIBSBML_USE_LEGACY_MATH)
+#  
+#    message(FATAL_ERROR 
+#	  "\nThe multi-package extends ASTNodes and thus cannot be used with the old "
+#	  "AST classes. Please set LIBSBML_USE_LEGACY_MATH to OFF or disable the multi "
+#	  "package.\n\n"
+#	)
+# 
+#  endif(LIBSBML_USE_LEGACY_MATH)
   
 endif(ENABLE_MULTI)
 

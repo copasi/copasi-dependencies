@@ -112,6 +112,26 @@ OutwardBindingSite::~OutwardBindingSite ()
 
 
 /*
+ * Returns the value of the "id" attribute of this OutwardBindingSite.
+ */
+const std::string&
+OutwardBindingSite::getId() const
+{
+  return mId;
+}
+
+
+/*
+ * Returns the value of the "name" attribute of this OutwardBindingSite.
+ */
+const std::string&
+OutwardBindingSite::getName() const
+{
+  return mName;
+}
+
+
+/*
  * Returns the value of the "bindingStatus" attribute of this OutwardBindingSite.
  */
 BindingStatus_t
@@ -132,6 +152,26 @@ OutwardBindingSite::getComponent() const
 
 
 /*
+ * Returns true/false if id is set.
+ */
+bool
+OutwardBindingSite::isSetId() const
+{
+  return (mId.empty() == false);
+}
+
+
+/*
+ * Returns true/false if name is set.
+ */
+bool
+OutwardBindingSite::isSetName() const
+{
+  return (mName.empty() == false);
+}
+
+
+/*
  * Returns true/false if bindingStatus is set.
  */
 bool
@@ -148,6 +188,27 @@ bool
 OutwardBindingSite::isSetComponent() const
 {
   return (mComponent.empty() == false);
+}
+
+
+/*
+ * Sets id and returns value indicating success.
+ */
+int
+OutwardBindingSite::setId(const std::string& id)
+{
+  return SyntaxChecker::checkAndSetSId(id, mId);
+}
+
+
+/*
+ * Sets name and returns value indicating success.
+ */
+int
+OutwardBindingSite::setName(const std::string& name)
+{
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -184,6 +245,44 @@ OutwardBindingSite::setComponent(const std::string& component)
   {
     mComponent = component;
     return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
+/*
+ * Unsets id and returns value indicating success.
+ */
+int
+OutwardBindingSite::unsetId()
+{
+  mId.erase();
+
+  if (mId.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
+/*
+ * Unsets name and returns value indicating success.
+ */
+int
+OutwardBindingSite::unsetName()
+{
+  mName.erase();
+
+  if (mName.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
   }
 }
 
@@ -286,7 +385,7 @@ OutwardBindingSite::writeElements (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -301,7 +400,7 @@ OutwardBindingSite::accept (SBMLVisitor& v) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -316,7 +415,7 @@ OutwardBindingSite::setSBMLDocument (SBMLDocument* d)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -332,7 +431,7 @@ OutwardBindingSite::enablePackageInternal(const std::string& pkgURI,
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -345,12 +444,14 @@ OutwardBindingSite::addExpectedAttributes(ExpectedAttributes& attributes)
 {
   SBase::addExpectedAttributes(attributes);
 
+  attributes.add("id");
+  attributes.add("name");
   attributes.add("bindingStatus");
   attributes.add("component");
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -433,6 +534,44 @@ OutwardBindingSite::readAttributes (const XMLAttributes& attributes,
   bool assigned = false;
 
   //
+  // id SId  ( use = "optional" )
+  //
+  assigned = attributes.readInto("id", mId);
+
+   if (assigned == true)
+  {
+    // check string is not empty and correct syntax
+
+    if (mId.empty() == true)
+    {
+      logEmptyString(mId, getLevel(), getVersion(), "<OutwardBindingSite>");
+    }
+    else if (SyntaxChecker::isValidSBMLSId(mId) == false && getErrorLog() != NULL)
+    {
+        std::string details = "The syntax of the attribute id='" + mId + "' does not conform.";
+        getErrorLog()->logPackageError("multi", MultiInvSIdSyn,
+                   getPackageVersion(), sbmlLevel, sbmlVersion, details,
+                   getLine(), getColumn());
+    }
+  }
+
+  //
+  // name string   ( use = "optional" )
+  //
+  assigned = attributes.readInto("name", mName);
+
+  if (assigned == true)
+  {
+    // check string is not empty
+
+    if (mName.empty() == true)
+    {
+      logEmptyString(mName, getLevel(), getVersion(), "<OutwardBindingSite>");
+    }
+  }
+
+
+  //
   // component SIdRef   ( use = "required" )
   //
   assigned = attributes.readInto("component", mComponent);
@@ -492,7 +631,7 @@ OutwardBindingSite::readAttributes (const XMLAttributes& attributes,
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -517,7 +656,7 @@ OutwardBindingSite::writeAttributes (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 /*
@@ -681,7 +820,7 @@ ListOfOutwardBindingSites::createObject(XMLInputStream& stream)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -709,7 +848,7 @@ ListOfOutwardBindingSites::writeXMLNS(XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 /**
@@ -755,6 +894,34 @@ OutwardBindingSite_clone(OutwardBindingSite_t * obs)
 
 
 /**
+ *
+ */
+LIBSBML_EXTERN
+char *
+OutwardBindingSite_getId(OutwardBindingSite_t * cr)
+{
+  if (cr == NULL)
+    return NULL;
+
+  return cr->getId().empty() ? NULL : safe_strdup(cr->getId().c_str());
+}
+
+
+/**
+ *
+ */
+LIBSBML_EXTERN
+char *
+OutwardBindingSite_getName(OutwardBindingSite_t * cr)
+{
+  if (cr == NULL)
+    return NULL;
+
+  return cr->getName().empty() ? NULL : safe_strdup(cr->getName().c_str());
+}
+
+
+/**
  * 
  */
 LIBSBML_EXTERN
@@ -783,6 +950,28 @@ OutwardBindingSite_getComponent(OutwardBindingSite_t * obs)
 
 
 /**
+ *
+ */
+LIBSBML_EXTERN
+int
+OutwardBindingSite_isSetId(OutwardBindingSite_t * cr)
+{
+  return (cr != NULL) ? static_cast<int>(cr->isSetId()) : 0;
+}
+
+
+/**
+ *
+ */
+LIBSBML_EXTERN
+int
+OutwardBindingSite_isSetName(OutwardBindingSite_t * cr)
+{
+  return (cr != NULL) ? static_cast<int>(cr->isSetName()) : 0;
+}
+
+
+/**
  * 
  */
 LIBSBML_EXTERN
@@ -805,6 +994,28 @@ OutwardBindingSite_isSetComponent(OutwardBindingSite_t * obs)
 
 
 /**
+ *
+ */
+LIBSBML_EXTERN
+int
+OutwardBindingSite_setId(OutwardBindingSite_t * cr, const char * id)
+{
+  return (cr != NULL) ? cr->setId(id) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/**
+ *
+ */
+LIBSBML_EXTERN
+int
+OutwardBindingSite_setName(OutwardBindingSite_t * cr, const char * name)
+{
+  return (cr != NULL) ? cr->setName(name) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/**
  * 
  */
 LIBSBML_EXTERN
@@ -823,6 +1034,28 @@ int
 OutwardBindingSite_setComponent(OutwardBindingSite_t * obs, const char * component)
 {
   return (obs != NULL) ? obs->setComponent(component) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/**
+ *
+ */
+LIBSBML_EXTERN
+int
+OutwardBindingSite_unsetId(OutwardBindingSite_t * cr)
+{
+  return (cr != NULL) ? cr->unsetId() : LIBSBML_INVALID_OBJECT;
+}
+
+
+/**
+ *
+ */
+LIBSBML_EXTERN
+int
+OutwardBindingSite_unsetName(OutwardBindingSite_t * cr)
+{
+  return (cr != NULL) ? cr->unsetName() : LIBSBML_INVALID_OBJECT;
 }
 
 

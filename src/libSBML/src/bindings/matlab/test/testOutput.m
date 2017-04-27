@@ -69,6 +69,8 @@ for i=1:length(files)
     model = [];
     model = TranslateSBML(['test-data', filesep, files(i).name]);
     if (~isempty(model))
+        disp(sprintf('Printing  %s', files(i).name));
+        
       if (in_installer == 1)
         OutputSBML(model, [outdir, filesep, files(i).name], in_installer);
       else
@@ -82,6 +84,44 @@ for i=1:length(files)
     end;
   end;
 end;
+
+if (fbcEnabled)
+    % test new arguments to Translate/Output
+    filename = ['test-data', filesep, 'fbcV2Labels.xml'];
+    outfile = [outdir, filesep, 'fbcV2Labels.xml'];
+    outfile1 = [outdir, filesep, 'fbcV2Labels-ids.xml'];
+    outfile2 = [outdir, filesep, 'fbcV2Labels-explicit.xml'];
+    model = TranslateSBML(filename);
+    if (~isempty(model))
+        disp(sprintf('Printing  %s', filename));
+        OutputSBML(model, outfile);
+    end;
+    test = test + 1;
+    if (compareFiles(filename, outfile))
+        disp(sprintf('Output of %s failed', outfile));
+        fail = fail + 1;
+    end;
+    model = TranslateSBML(filename, 0, 0, [1,0]);
+    if (~isempty(model))
+        disp(sprintf('Printing  %s', outfile1));
+        OutputSBML(model, outfile1, 0, 0, [1,0]);
+    end;
+    test = test + 1;
+    if (compareFiles(filename, outfile1))
+        disp(sprintf('Output of %s failed', outfile1));
+        fail = fail + 1;
+    end;
+    model = TranslateSBML(filename, 0, 0, [0,1]);
+    if (~isempty(model))
+        disp(sprintf('Printing  %s', outfile2));
+        OutputSBML(model, outfile2, 0, 0, [0,1]);
+    end;
+    test = test + 1;
+    if (compareFiles(filename, outfile2))
+        disp(sprintf('Output of %s failed', outfile2));
+        fail = fail + 1;
+    end;
+end; % fbc enabled
 
 disp ('************************************');
 disp('Overall tests:');
@@ -154,6 +194,8 @@ expected_files = { ...
 'fatal.xml', ...
 'fbc.xml', ...
 'fbcV2.xml', ...
+'fbcL3V2V1.xml', ...
+'fbcL3V2V2.xml', ...
 'funcDefsWithInitialAssignments.xml', ...
 'functionDefinition.xml', ...
 'initialAssignments.xml', ...
@@ -182,8 +224,13 @@ expected_files = { ...
 'piecewise.xml', ...
 'rateRules.xml', ...
 'readerror.xml', ...
-'test-greek.xml' ...
-};
+'test-greek.xml', ...
+ 'l3v2core.xml', ...
+ 'l3v2-no-model.xml', ...
+ 'l3v2-empty-math.xml', ...
+ 'l3v2-empty-event.xml', ...
+ 'l3v2-newmath.xml', ...
+ };
 
 if sum(ismember(expected_files, filename)) == 1
   isExpected = 1;

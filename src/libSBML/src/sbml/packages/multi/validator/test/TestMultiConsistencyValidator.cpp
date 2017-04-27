@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -35,7 +35,7 @@
 
 #include <sbml/packages/multi/validator/MultiIdentifierConsistencyValidator.h>
 #include <sbml/packages/multi/validator/MultiConsistencyValidator.h>
-//#include <sbml/packages/multi/validator/MultiUnitConsistencyValidator.h>
+#include <sbml/packages/multi/validator/MultiMathMLConsistencyValidator.h>
 
 #ifdef LIBSBML_USE_VLD
   #include <vld.h>
@@ -82,6 +82,19 @@ runIdTest (const TestFile& file)
 }
 
 
+bool
+runMathTest(const TestFile& file)
+{
+  MultiMathMLConsistencyValidator validator;
+  TestValidator        tester(validator);
+
+
+  validator.init();
+
+  return tester.test(file);
+}
+
+
 ///*
 // * @return true if the Validator behaved as expected when validating
 // * TestFile, false otherwise.
@@ -115,8 +128,8 @@ runTests ( const string& msg,
   cout << msg << "." << endl;
 
   set<TestFile> files    = TestFile::getFilesIn(directory, begin, end, library);
-  unsigned int  passes   = count_if(files.begin(), files.end(), tester);
-  unsigned int  failures = files.size() - passes;
+  unsigned int  passes   = static_cast<unsigned int>( count_if(files.begin(), files.end(), tester) );
+  unsigned int  failures = static_cast<unsigned int>( files.size() ) - passes;
   double        percent  = (static_cast<double>(passes) / files.size()) * 100;
 
   cout << static_cast<int>(percent) << "%: Checks: " << files.size();
@@ -167,6 +180,10 @@ main (int argc, char* argv[])
   cout << "using test data from           : " << testDataDir << endl;
   cout << endl;
 
+
+  testThisDataDir = testDataDir + "/" + "mathml-constraints";
+  failed += runTests("Testing MathML Consistency Constraints (10200 - 10299)",
+    testThisDataDir, 0, 0, runMathTest, library);
 
   testThisDataDir = testDataDir + "/" + "general-constraints";
   failed += runTests( "Testing General XML Consistency Constraints (20000 - 29999)",

@@ -70,31 +70,31 @@ EXTERN_CONSTRAINT( MultiDupClaId, UniqueMultiComponentIds )
 //************************************
 // scoping rules for identifiers, sec 3.28
 
-// MultiUnqId_SptIns                     = 7010401
+// MultiUnqId_SptIns                     =  7010304 - SK renumbered from 7010401
 /*!< SpeciesTypeInstance must have unique ids within the parent speciesType */
 EXTERN_CONSTRAINT( MultiUnqId_SptIns, UniqueSpeciesTypeInstanceIdsWithinMultiSpeciesType )
 
-// MultiUnqId_SptCpoInd                  = 7010402
+// MultiUnqId_SptCpoInd                  = 7010305 - SK renumbered from 7010402
 /*!< SpeciesTypeComponentIndex must have unique ids within the parent speciesType */
 EXTERN_CONSTRAINT( MultiUnqId_SptCpoInd, UniqueSpeciesTypeComponentIndexIdsWithinMultiSpeciesType )
 
-// MultiUnqId_InSptBnd                   = 7010403
+// MultiUnqId_InSptBnd                   = 7010306 - SK renumbered from 7010403
 /*!< InSpeciesTypeBond must have unique ids within the parent speciesType */
 EXTERN_CONSTRAINT( MultiUnqId_InSptBnd, UniqueInSpeciesTypeBondIdsWithinMultiSpeciesType )
 
-// MultiUnqId_Sft                        = 7010404
+// MultiUnqId_Sft                        = 7010307 - SK renumbered from 7010404
 /*!< SpeciesFeatureType must have unique ids within the parent speciesType */
 EXTERN_CONSTRAINT( MultiUnqId_Sft, UniqueSpeciesFeatureTypeIdsWithinMultiSpeciesType )
 
-// MultiUnqId_PblSpecFtrVal              = 7010405 // add at v1.0.6
+// MultiUnqId_PblSpecFtrVal              = 7010308 - SK renumbered from 7010405 // add at v1.0.6
 /*!< PossibleSpeciesFeatureValue must have unique ids within the parent speciesFeatureType */
 EXTERN_CONSTRAINT( MultiUnqId_SubListOfSfs, UniqueSubListOfSpeciesFeaturesIdsWithinSpecies )
 
-// MultiUnqId_SpeFtr                     = 7010406
+// MultiUnqId_SpeFtr                     = 7010309 - SK renumbered from 7010406
 /*!< SpeciesFeature must have unique ids within a species */
 EXTERN_CONSTRAINT( MultiUnqId_SpeFtr, UniqueSpeciesFeatureIdsWithinSpecies )
 
-// MultiUnqId_CpaRef                     = 7010408
+// MultiUnqId_CpaRef                     = 7010310 - SK renumbered from 7010408
 /*!< CompartmentReference must have unique ids within a compartment */
 EXTERN_CONSTRAINT( MultiUnqId_CpaRef, UniqueCompartmentReferenceIdsWithinCompartment )
 
@@ -107,40 +107,40 @@ EXTERN_CONSTRAINT( MultiUnqId_CpaRef, UniqueCompartmentReferenceIdsWithinCompart
 //************************************
 // SIdRef under SpeciesType
 
-// MultiInvSIdRefSyn_Spt_CpaAtt          = 7010501 /*!< Invalid SIdRef syntax: 'compartment' attribute of SpeciesType */
-// MultiInvSIdRefSyn_PslSpeFtrVal_NumAtt = 7010502 /*!< Invalid SIdRef syntax: 'numericValue' attribute of PossibleSpeciesFeatureValue */
-// MultiInvSIdRefSyn_SptIns_SptAtt       = 7010503 /*!< Invalid SIdRef syntax: 'speciesType' attribute // peciesTypeInstance */
-// MultiInvSIdRefSyn_SptIns_CpaRefAtt    = 7010504 /*!< Invalid SIdRef syntax: 'compartmentReference' attribute of SpeciesTypeInstance */
-// MultiInvSIdRefSyn_SptCpoInd_CpoAtt    = 7010505 /*!< Invalid SIdRef syntax: 'component' attribute of SpeciesTypeComponentIndex */
-// MultiInvSIdRefSyn_SptCpoInd_ParAtt    = 7010506 /*!< Invalid SIdRef syntax: 'identifyingParent' attribute of SpeciesTypeComponentIndex */
-// MultiInvSIdRefSyn_InSptBnd_Bst1Att    = 7010508 /*!< Invalid SIdRef syntax: 'bindingSite1' attribute of InSpeciesTypeBond */
-// MultiInvSIdRefSyn_InSptBnd_Bst2Att    = 7010509 /*!< Invalid SIdRef syntax: 'bindingSite2' attribute of InSpeciesTypeBond */
+// MultiInvSIdRefSyn_Spt_CpaAtt          = 7010311 - SK renumbered from 7010501 /*!< Invalid SIdRef syntax: 'compartment' attribute of SpeciesType */
+// MultiInvSIdRefSyn_PslSpeFtrVal_NumAtt = 7010312 - SK renumbered from 7010502 /*!< Invalid SIdRef syntax: 'numericValue' attribute of PossibleSpeciesFeatureValue */
+// MultiInvSIdRefSyn_SptIns_SptAtt       = 7010313 - SK renumbered from 7010503 /*!< Invalid SIdRef syntax: 'speciesType' attribute // peciesTypeInstance */
+// MultiInvSIdRefSyn_SptIns_CpaRefAtt    = 7010314 - SK renumbered from 7010504 /*!< Invalid SIdRef syntax: 'compartmentReference' attribute of SpeciesTypeInstance */
+// MultiInvSIdRefSyn_SptCpoInd_CpoAtt    = 7010315 - SK renumbered from 7010505 /*!< Invalid SIdRef syntax: 'component' attribute of SpeciesTypeComponentIndex */
+// MultiInvSIdRefSyn_SptCpoInd_ParAtt    = 7010316 - SK renumbered from 7010506 /*!< Invalid SIdRef syntax: 'identifyingParent' attribute of SpeciesTypeComponentIndex */
+// MultiInvSIdRefSyn_InSptBnd_Bst1Att    = 7010317 - SK renumbered from 7010508 /*!< Invalid SIdRef syntax: 'bindingSite1' attribute of InSpeciesTypeBond */
+// MultiInvSIdRefSyn_InSptBnd_Bst2Att    = 7010318 - SK renumbered from 7010509 /*!< Invalid SIdRef syntax: 'bindingSite2' attribute of InSpeciesTypeBond */
 
 //************************************
 // SIdRef under Species
 
-// MultiInvSIdRefSyn_Spe_SptAtt          = 7010601 /*!< Invalid SIdRef syntax: 'speciesType' attribute of extended Species */
-// MultiInvSIdRefSyn_OutBst_CpoAtt       = 7010602 /*!< Invalid SIdRef syntax: 'component' attribute of OutwardBindingSite */
-// MultiInvSIdRefSyn_SpeFtr_SpeFtrTypAtt = 7010603 /*!< Invalid SIdRef syntax: 'speciesFeatureType' attribute of SpeciesFeature */
-// MultiInvSIdRefSyn_SpeFtr_CpoAtt       = 7010604 /*!< Invalid SIdRef syntax: 'component' attribute of SpeciesFeature */
-// MultiInvSIdRefSyn_SpeFtrVal_ValAtt    = 7010605 /*!< Invalid SIdRef syntax: 'value' attribute of SpeciesFeatureValue */
+// MultiInvSIdRefSyn_Spe_SptAtt          = 7010319 - SK renumbered from 7010601 /*!< Invalid SIdRef syntax: 'speciesType' attribute of extended Species */
+// MultiInvSIdRefSyn_OutBst_CpoAtt       = 7010320 - SK renumbered from 7010602 /*!< Invalid SIdRef syntax: 'component' attribute of OutwardBindingSite */
+// MultiInvSIdRefSyn_SpeFtr_SpeFtrTypAtt = 7010321 - SK renumbered from 7010603 /*!< Invalid SIdRef syntax: 'speciesFeatureType' attribute of SpeciesFeature */
+// MultiInvSIdRefSyn_SpeFtr_CpoAtt       = 7010322 - SK renumbered from 7010604 /*!< Invalid SIdRef syntax: 'component' attribute of SpeciesFeature */
+// MultiInvSIdRefSyn_SpeFtrVal_ValAtt    = 7010323 - SK renumbered from 7010605 /*!< Invalid SIdRef syntax: 'value' attribute of SpeciesFeatureValue */
 
 //************************************
 // SIdRef under Reaction
 
-// MultiInvSIdRefSyn_SplSpeRef_CompRefAtt = 7010701 /*!< Invalid SIdRef syntax: 'compartmentReference' attribute of extended SimpleSpeciesReference */
-// MultiInvSIdRefSyn_StpCpoMapInPro_RctAtt = 7010702 /*!< Invalid SIdRef syntax: 'reactant' attribute of SpeciesTypeComponentMapInProduct */
-// MultiInvSIdRefSyn_StpCpoMapInPro_RctCpoAtt = 7010703 /*!< Invalid SIdRef syntax: 'reactantComponent' attribute of SpeciesTypeComponentMapInProduct */
-// MultiInvSIdRefSyn_StpCpoMapInPro_ProCpoAtt = 7010704 /*!< Invalid SIdRef syntax: 'productComponent' attribute of SpeciesTypeComponentMapInProduct */
+// MultiInvSIdRefSyn_SplSpeRef_CompRefAtt = 7010324 - SK renumbered from 7010701 /*!< Invalid SIdRef syntax: 'compartmentReference' attribute of extended SimpleSpeciesReference */
+// MultiInvSIdRefSyn_StpCpoMapInPro_RctAtt = 7010325 - SK renumbered from 7010702 /*!< Invalid SIdRef syntax: 'reactant' attribute of SpeciesTypeComponentMapInProduct */
+// MultiInvSIdRefSyn_StpCpoMapInPro_RctCpoAtt = 7010326 - SK renumbered from 7010703 /*!< Invalid SIdRef syntax: 'reactantComponent' attribute of SpeciesTypeComponentMapInProduct */
+// MultiInvSIdRefSyn_StpCpoMapInPro_ProCpoAtt = 7010327 - SK renumbered from 7010704 /*!< Invalid SIdRef syntax: 'productComponent' attribute of SpeciesTypeComponentMapInProduct */
 
 //************************************
 // SIdRef under Compartment
 
-// MultiInvSIdRefSyn_Cpa_CpaTypAtt       = 7010801 /*!< Invalid SIdRef syntax: 'compartmentType' attribute of extended Compartment */
-// MultiInvSIdRefSyn_CpaRef_CpaAtt       = 7010802 /*!< Invalid SIdRef syntax: 'compartment' attribute of CompartmentReference */
+// MultiInvSIdRefSyn_Cpa_CpaTypAtt       = 7010328 - SK renumbered from 7010801 /*!< Invalid SIdRef syntax: 'compartmentType' attribute of extended Compartment */
+// MultiInvSIdRefSyn_CpaRef_CpaAtt       = 7010329 - SK renumbered from 7010802 /*!< Invalid SIdRef syntax: 'compartment' attribute of CompartmentReference */
 
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 

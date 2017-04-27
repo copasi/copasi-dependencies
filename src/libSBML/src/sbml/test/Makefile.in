@@ -59,6 +59,7 @@ test_sources =                   \
   TestAlgebraicRule.c            \
   TestAncestor.cpp               \
   TestAssignmentRule.c           \
+  TestAttributeFunctions.cpp     \
   TestCompartment.c              \
   TestCompartmentType.c          \
   TestCompartmentType_newSetters.c   \
@@ -119,7 +120,6 @@ test_sources =                   \
   TestReadFromFileL3V2_2.cpp     \
   TestReadFromFileL3V2_3.cpp     \
   TestReadFromFileL3V2_4.cpp     \
-  TestReadFromFileL3V2_5.cpp     \
   TestReadFromFileL3V2_5.cpp     \
   TestReadFromFileL3V2_6.cpp     \
   TestSBMLConvertFromL3V2.cpp    \

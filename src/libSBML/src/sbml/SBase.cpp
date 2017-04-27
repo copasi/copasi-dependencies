@@ -3023,32 +3023,34 @@ SBase::getVersion () const
 unsigned int
 SBase::getObjectVersion() const
 {
-  if (mSBMLNamespaces != NULL)
-    return mSBMLNamespaces->getVersion();
-  else if (mSBML != NULL)
-    return mSBML->mVersion;
-  else
-    return SBMLDocument::getDefaultVersion();
+  // FIX_ME: This needs careful thinking through but since for the moment
+  // a package object cannot be more than L3V1
+  return 1;
 }
 
 // ------------------------------------------------------------------
   //
   //  functions to faciliate matlab binding
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::getAttribute(const std::string& attributeName, double& value) const
 {
   return LIBSBML_OPERATION_FAILED;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::getAttribute(const std::string& attributeName, bool& value) const
 {
   return LIBSBML_OPERATION_FAILED;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::getAttribute(const std::string& attributeName, int& value) const
 {
@@ -3059,15 +3061,19 @@ SBase::getAttribute(const std::string& attributeName, int& value) const
   }
   return LIBSBML_OPERATION_FAILED;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::getAttribute(const std::string& attributeName, unsigned int& value) const
 {
   return LIBSBML_OPERATION_FAILED;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::getAttribute(const std::string& attributeName, std::string& value) const
 {
@@ -3095,8 +3101,10 @@ SBase::getAttribute(const std::string& attributeName, std::string& value) const
 
   return LIBSBML_OPERATION_FAILED;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::getAttribute(const std::string& attributeName, const char * value) const
 {
@@ -3124,8 +3132,10 @@ SBase::getAttribute(const std::string& attributeName, const char * value) const
 
   return LIBSBML_OPERATION_FAILED;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 bool 
 SBase::isSetAttribute(const std::string& attributeName) const
 {
@@ -3150,22 +3160,28 @@ SBase::isSetAttribute(const std::string& attributeName) const
 
   return value;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::setAttribute(const std::string& attributeName, double value)
 {
   return LIBSBML_OPERATION_FAILED;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::setAttribute(const std::string& attributeName, bool value)
 {
   return LIBSBML_OPERATION_FAILED;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::setAttribute(const std::string& attributeName, int value)
 {
@@ -3178,15 +3194,19 @@ SBase::setAttribute(const std::string& attributeName, int value)
 
   return return_value;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::setAttribute(const std::string& attributeName, unsigned int value)
 {
   return LIBSBML_OPERATION_FAILED;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::setAttribute(const std::string& attributeName, const std::string& value)
 {
@@ -3211,8 +3231,10 @@ SBase::setAttribute(const std::string& attributeName, const std::string& value)
 
   return return_value;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::setAttribute(const std::string& attributeName, const char * value)
 {
@@ -3236,8 +3258,10 @@ SBase::setAttribute(const std::string& attributeName, const char * value)
 
   return return_value;
 }
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 int 
 SBase::unsetAttribute(const std::string& attributeName)
 {
@@ -3262,12 +3286,15 @@ SBase::unsetAttribute(const std::string& attributeName)
 
   return value;
 }
+/** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
 SBase* 
-SBase::createObject(const std::string& objectName)
+SBase::createChildObject(const std::string& elementName)
 {
   return NULL;
 }
+/** @endcond */
 
   /** @cond doxygenLibsbmlInternal */
 
@@ -3679,6 +3706,15 @@ SBase::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPr
       {
         SBaseExtensionPoint extPoint(getPackageName(), getTypeCode(), getElementName());
         const SBasePluginCreatorBase* sbPluginCreator = sbmlext->getSBasePluginCreator(extPoint);
+        // trully awful hack for the case where we are adding a plugin to a modelDefinition
+        // since these do not have plugins the plugin creator is NULL
+        // we have to force it to realise it is also a core model
+        if (sbPluginCreator == NULL && getPackageName() == "comp" && getElementName() == "modelDefinition")
+        {
+          SBaseExtensionPoint extPoint("core", SBML_MODEL, "model");
+          sbPluginCreator = sbmlext->getSBasePluginCreator(extPoint);
+
+        }
         if (sbPluginCreator)
         {
           SBasePlugin* entity = sbPluginCreator->createPlugin(pkgURI, pkgPrefix, getNamespaces());

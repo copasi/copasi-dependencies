@@ -528,7 +528,7 @@ SpeciesFeatureType::writeElements (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -551,7 +551,7 @@ SpeciesFeatureType::accept (SBMLVisitor& v) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -567,7 +567,7 @@ SpeciesFeatureType::setSBMLDocument (SBMLDocument* d)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -582,7 +582,7 @@ SpeciesFeatureType::connectToChild()
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -599,7 +599,7 @@ SpeciesFeatureType::enablePackageInternal(const std::string& pkgURI,
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -617,6 +617,17 @@ SpeciesFeatureType::createObject(XMLInputStream& stream)
 
   if (name == "listOfPossibleSpeciesFeatureValues")
   {
+    if (mPossibleSpeciesFeatureValues.size() != 0)
+    {
+      getErrorLog()->logPackageError("multi", MultiSpeFtrTyp_RestrictElt,
+        getPackageVersion(), getLevel(), getVersion(),
+        "<" + getPrefix() + "speciesFeatureType> may only have one <" + getPrefix()
+        + "listOfPossibleSpeciesFeatureValues>",
+        stream.peek().getLine(),
+        stream.peek().getColumn());
+
+    }
+
     object = &mPossibleSpeciesFeatureValues;
   }
 
@@ -625,7 +636,7 @@ SpeciesFeatureType::createObject(XMLInputStream& stream)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -644,7 +655,7 @@ SpeciesFeatureType::addExpectedAttributes(ExpectedAttributes& attributes)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -782,9 +793,9 @@ SpeciesFeatureType::readAttributes (const XMLAttributes& attributes,
     if (getErrorLog() != NULL)
     {
       if (getErrorLog()->getNumErrors() == numErrs + 1 &&
-              getErrorLog()->contains(numErrs))
+              getErrorLog()->contains(XMLAttributeTypeMismatch))
       {
-        std::string details = getErrorLog()->getError(XMLAttributeTypeMismatch)->getMessage();
+        std::string details = getErrorLog()->getError(numErrs)->getMessage();
         getErrorLog()->remove(XMLAttributeTypeMismatch);
         getErrorLog()->logPackageError("multi", MultiSpeFtrTyp_OccAtt_Ref,
                      getPackageVersion(), sbmlLevel, sbmlVersion, details,
@@ -802,7 +813,7 @@ SpeciesFeatureType::readAttributes (const XMLAttributes& attributes,
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -829,7 +840,7 @@ SpeciesFeatureType::writeAttributes (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 /*
@@ -993,7 +1004,7 @@ ListOfSpeciesFeatureTypes::createObject(XMLInputStream& stream)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -1021,7 +1032,7 @@ ListOfSpeciesFeatureTypes::writeXMLNS(XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 /**

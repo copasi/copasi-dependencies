@@ -4193,7 +4193,7 @@ Model::unsetAttribute(const std::string& attributeName)
  * Creates and returns an new "elementName" object in this Model.
  */
 SBase*
-Model::createObject(const std::string& elementName)
+Model::createChildObject(const std::string& elementName)
 {
   SBase* obj = NULL;
 
@@ -6628,6 +6628,7 @@ Model::createLocalParameterUnitsData(KineticLaw * kl,
     std::string units = lp->getUnits();
     if (units.empty() == false)
     {
+      char * charUnits = safe_strdup(units.c_str());
       fud->setContainsParametersWithUndeclaredUnits(false);
 
       if (UnitKind_isValidUnitKindString(units.c_str(), 
@@ -6643,7 +6644,7 @@ Model::createLocalParameterUnitsData(KineticLaw * kl,
             SBMLDocument::getDefaultVersion());
         }
         Unit * unit = ud->createUnit();
-        unit->setKind(UnitKind_forName(units.c_str()));
+        unit->setKind(UnitKind_forName(charUnits));
         unit->initDefaults();
       }
       else
@@ -6670,6 +6671,7 @@ Model::createLocalParameterUnitsData(KineticLaw * kl,
         }
       }
 
+      safe_free(charUnits);
       fud->setUnitDefinition(ud);
       fud->setCanIgnoreUndeclaredUnits(false);
     }

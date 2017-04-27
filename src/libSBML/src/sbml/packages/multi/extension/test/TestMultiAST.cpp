@@ -94,7 +94,7 @@ START_TEST (test_multi_write_ci)
   fail_unless(model != NULL);
 
   const ASTNode* math = 
-    doc->getModel()->getReaction(0)->getKineticLaw()->getMath();
+    docfromString->getModel()->getReaction(0)->getKineticLaw()->getMath();
 
   fail_unless(math != NULL);
 

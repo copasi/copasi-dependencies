@@ -254,7 +254,7 @@ public:
   *
   * @return the association as infix string.
   */
-  virtual std::string toInfix() const;
+  virtual std::string toInfix(bool usingId=false) const;
 
   /**
    * Creates a new FbcAnd object, adds it to this FbcOr's
@@ -718,7 +718,7 @@ public:
    *
    * pointer to the element created.
    */
-  virtual SBase* createObject(const std::string& elementName);
+  virtual SBase* createChildObject(const std::string& elementName);
 
   /** @endcond */
 

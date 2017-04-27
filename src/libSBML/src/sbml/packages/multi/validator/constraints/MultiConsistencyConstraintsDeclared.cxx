@@ -10,7 +10,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -39,11 +39,15 @@ addConstraint(new VConstraintCompartmentMultiExCpa_IsTypeAtt_SameAsParent(*this)
 // MultiExCpa_CpaTypAtt_Restrict         = 7020205
 addConstraint(new VConstraintCompartmentMultiExCpa_CpaTypAtt_Restrict(*this));
 
-// MultiCpaRef_CompartmentAtt_Ref        = 7020304
-addConstraint(new VConstraintCompartmentReferenceMultiCpaRef_CompartmentAtt_Ref(*this));
-
-// MultiCpaRef_IdRequiredOrOptional      = 7020305
-addConstraint(new VConstraintCompartmentMultiCpaRef_IdRequiredOrOptional(*this));
+// SK renumbered to 7022004 ...
+//// MultiCpaRef_CompartmentAtt_Ref        = 7020304
+//addConstraint(new VConstraintCompartmentReferenceMultiCpaRef_CompartmentAtt_Ref(*this));
+//
+//// MultiCpaRef_IdRequiredOrOptional      = 7020305
+//addConstraint(new VConstraintCompartmentMultiCpaRef_IdRequiredOrOptional(*this));
+//
+//// MultiCpaRef_IdRequiredOrOptional      = 7020306
+//addConstraint(new VConstraintCompartmentMultiCpaRef_NoReferenceToAnyParent(*this));
 
 // MultiSpt_CompartmentAtt_Ref           = 7020404
 addConstraint(new VConstraintMultiSpeciesTypeMultiSpt_CompartmentAtt_Ref(*this));
@@ -84,6 +88,18 @@ addConstraint(new VConstraintSpeciesMultiExSpe_RestrictSpeciesTypeAtt(*this));
 // MultiSubLofSpeFtrs_CpoAtt_Ref         = 7021212
 addConstraint(new VConstraintSubListOfSpeciesFeaturesMultiSubLofSpeFtrs_CpoAtt_Ref(*this));
 
+// MultiExSpe_ReqSpt_LofOutBsts         = 7021213
+addConstraint(new VConstraintSpeciesMultiExSpe_ReqSpt_LofOutBsts (*this));
+
+// MultiExSpe_ReqSpt_LofSpeFtrs         = 7021214
+addConstraint(new VConstraintSpeciesMultiExSpe_ReqSpt_LofSpeFtrs (*this));
+
+// MultiSubLofSpeFtrs_RelationAndOcc    = 7021215
+addConstraint(new VConstraintSubListOfSpeciesFeaturesMultiSubLofSpeFtrs_RelationAndOcc (*this));
+
+// MultiSubLofSpeFtrs_RelationAndOcc    = 7021216
+addConstraint(new VConstraintSubListOfSpeciesFeaturesMultiSubLofSpeFtrs_TwoSpeFtrs (*this));
+
 // MultiOutBst_CpoAtt_Ref                = 7021305
 addConstraint(new VConstraintOutwardBindingSiteMultiOutBst_CpoAtt_Ref(*this));
 
@@ -106,7 +122,7 @@ addConstraint(new VConstraintSpeciesFeatureMultiSpeFtr_RestrictElts(*this));
 addConstraint(new VConstraintSpeciesFeatureValueMultiSpeFtrVal_ValAtt_Ref(*this));
 
 // MultiExSplSpeRef_CpaRefAtt_Ref        = 7021702
-addConstraint(new VConstraintSimpleSpeciesReferenceMultiExSplSpeRef_CpaRefAtt_Ref(*this));
+addConstraint(new VConstraintSpeciesReferenceMultiExSplSpeRef_CpaRefAtt_Ref(*this));
 
 // MultiSptCpoMapInPro_RctAtt_Ref        = 7021904
 addConstraint(new VConstraintSpeciesTypeComponentMapInProductMultiSptCpoMapInPro_RctAtt_Ref(*this));
@@ -117,11 +133,23 @@ addConstraint(new VConstraintSpeciesTypeComponentMapInProductMultiSptCpoMapInPro
 // MultiSptCpoMapInPro_ProCpoAtt_Ref     = 7021906
 addConstraint(new VConstraintSpeciesTypeComponentMapInProductMultiSptCpoMapInPro_ProCpoAtt_Ref(*this));
 
-// MultiMathCi_SpeRefAtt_Ref             = 7022102
-addConstraint(new MultiMathCiCheckSpeciesReference(MultiMathCi_SpeRefAtt_Ref, *this));
 
-// MultiMathCi_RepTypAtt_Ref             = 7022103
-addConstraint(new MultiMathCiCheckRepresentationType(MultiMathCi_RepTypAtt_Ref, *this));
+// SK renumbered from 7020304 ...
+// MultiCpaRef_CompartmentAtt_Ref        = 7022004
+addConstraint(new VConstraintCompartmentReferenceMultiCpaRef_CompartmentAtt_Ref(*this));
+
+// MultiCpaRef_IdRequiredOrOptional      = 7022005
+addConstraint(new VConstraintCompartmentMultiCpaRef_IdRequiredOrOptional(*this));
+
+// MultiCpaRef_IdRequiredOrOptional      = 7022006
+addConstraint(new VConstraintCompartmentMultiCpaRef_NoReferenceToAnyParent(*this));
+
+// moved to MathML consistency check
+//// MultiMathCi_SpeRefAtt_Ref             = 7022102
+//addConstraint(new MultiMathCiCheckSpeciesReference(MultiMathCi_SpeRefAtt_Ref, *this));
+//
+//// MultiMathCi_RepTypAtt_Ref             = 7022103
+//addConstraint(new MultiMathCiCheckRepresentationType(MultiMathCi_RepTypAtt_Ref, *this));
 
 
 

@@ -127,6 +127,16 @@ SpeciesTypeComponentIndex::getId() const
 
 
 /*
+ * Returns the value of the "name" attribute of this SpeciesTypeComponentIndex.
+ */
+const std::string&
+SpeciesTypeComponentIndex::getName() const
+{
+  return mName;
+}
+
+
+/*
  * Returns the value of the "component" attribute of this SpeciesTypeComponentIndex.
  */
 const std::string&
@@ -157,6 +167,16 @@ SpeciesTypeComponentIndex::isSetId() const
 
 
 /*
+ * Returns true/false if name is set.
+ */
+bool
+SpeciesTypeComponentIndex::isSetName() const
+{
+  return (mName.empty() == false);
+}
+
+
+/*
  * Returns true/false if component is set.
  */
 bool
@@ -183,6 +203,17 @@ int
 SpeciesTypeComponentIndex::setId(const std::string& id)
 {
   return SyntaxChecker::checkAndSetSId(id, mId);
+}
+
+
+/*
+ * Sets name and returns value indicating success.
+ */
+int
+SpeciesTypeComponentIndex::setName(const std::string& name)
+{
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 
@@ -231,6 +262,25 @@ SpeciesTypeComponentIndex::unsetId()
   mId.erase();
 
   if (mId.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
+/*
+ * Unsets name and returns value indicating success.
+ */
+int
+SpeciesTypeComponentIndex::unsetName()
+{
+  mName.erase();
+
+  if (mName.empty() == true)
   {
     return LIBSBML_OPERATION_SUCCESS;
   }
@@ -352,7 +402,7 @@ SpeciesTypeComponentIndex::writeElements (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -369,7 +419,7 @@ SpeciesTypeComponentIndex::accept (SBMLVisitor& v) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -384,7 +434,7 @@ SpeciesTypeComponentIndex::setSBMLDocument (SBMLDocument* d)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -400,7 +450,7 @@ SpeciesTypeComponentIndex::enablePackageInternal(const std::string& pkgURI,
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -422,7 +472,7 @@ SpeciesTypeComponentIndex::createObject(XMLInputStream& stream)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -436,12 +486,13 @@ SpeciesTypeComponentIndex::addExpectedAttributes(ExpectedAttributes& attributes)
   SBase::addExpectedAttributes(attributes);
 
   attributes.add("id");
+  attributes.add("name");
   attributes.add("component");
   attributes.add("identifyingParent");
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -553,6 +604,22 @@ SpeciesTypeComponentIndex::readAttributes (const XMLAttributes& attributes,
                    getLine(), getColumn());
   }
 
+   //
+   // name string   ( use = "optional" )
+   //
+   assigned = attributes.readInto("name", mName);
+
+   if (assigned == true)
+   {
+     // check string is not empty
+
+     if (mName.empty() == true)
+     {
+       logEmptyString(mName, getLevel(), getVersion(), "<SpeciesTypeComponentIndex>");
+     }
+   }
+
+
   //
   // component SIdRef   ( use = "required" )
   //
@@ -607,7 +674,7 @@ SpeciesTypeComponentIndex::readAttributes (const XMLAttributes& attributes,
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -634,7 +701,7 @@ SpeciesTypeComponentIndex::writeAttributes (XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 /*
@@ -798,7 +865,7 @@ ListOfSpeciesTypeComponentIndexes::createObject(XMLInputStream& stream)
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -826,7 +893,7 @@ ListOfSpeciesTypeComponentIndexes::writeXMLNS(XMLOutputStream& stream) const
 }
 
 
-  /** @endcond doxygenLibsbmlInternal */
+  /** @endcond */
 
 
 /**
@@ -886,6 +953,20 @@ SpeciesTypeComponentIndex_getId(SpeciesTypeComponentIndex_t * stci)
 
 
 /**
+ *
+ */
+LIBSBML_EXTERN
+char *
+SpeciesTypeComponentIndex_getName(SpeciesTypeComponentIndex_t * cr)
+{
+  if (cr == NULL)
+    return NULL;
+
+  return cr->getName().empty() ? NULL : safe_strdup(cr->getName().c_str());
+}
+
+
+/**
  * 
  */
 LIBSBML_EXTERN
@@ -925,6 +1006,17 @@ SpeciesTypeComponentIndex_isSetId(SpeciesTypeComponentIndex_t * stci)
 
 
 /**
+ *
+ */
+LIBSBML_EXTERN
+int
+SpeciesTypeComponentIndex_isSetName(SpeciesTypeComponentIndex_t * cr)
+{
+  return (cr != NULL) ? static_cast<int>(cr->isSetName()) : 0;
+}
+
+
+/**
  * 
  */
 LIBSBML_EXTERN
@@ -958,6 +1050,17 @@ SpeciesTypeComponentIndex_setId(SpeciesTypeComponentIndex_t * stci, const char *
 
 
 /**
+ *
+ */
+LIBSBML_EXTERN
+int
+SpeciesTypeComponentIndex_setName(SpeciesTypeComponentIndex_t * cr, const char * name)
+{
+  return (cr != NULL) ? cr->setName(name) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/**
  * 
  */
 LIBSBML_EXTERN
@@ -987,6 +1090,17 @@ int
 SpeciesTypeComponentIndex_unsetId(SpeciesTypeComponentIndex_t * stci)
 {
   return (stci != NULL) ? stci->unsetId() : LIBSBML_INVALID_OBJECT;
+}
+
+
+/**
+ *
+ */
+LIBSBML_EXTERN
+int
+SpeciesTypeComponentIndex_unsetName(SpeciesTypeComponentIndex_t * cr)
+{
+  return (cr != NULL) ? cr->unsetName() : LIBSBML_INVALID_OBJECT;
 }
 
 
