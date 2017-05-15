@@ -59,33 +59,24 @@ case $1 in
 
   expat)
     # build expat
-    cd $DIRECTORY/src/expat
-    chmod +x configure
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" ./configure \
-        --with-pic \
-        --enable-shared=no \
-        --prefix=$DIRECTORY/bin
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" $MAKE -j 4
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" $MAKE install
-    # delete shared library just in case
-    [ -e $DIRECTORY/bin/lib/libexpat*so ] && rm $DIRECTORY/bin/lib/libexpat*so
-    [ -e $DIRECTORY/bin/lib64 ] && mv $DIRECTORY/bin/lib64/libexpat* $DIRECTORY/bin/lib
+    mkdir -p $DIRECTORY/tmp/expat
+    cd $DIRECTORY/tmp/expat
+    $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
+        -DBUILD_shared=OFF \
+        $DIRECTORY/src/expat
+    $MAKE -j 4
+    $MAKE install
     ;;
 
   raptor)
     # build raptor
-    cd $DIRECTORY/src/raptor
-    chmod +x configure
-    chmod +x install-sh
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" ./configure \
-        --with-xml-parser=expat \
-        --with-www=none \
-        --enable-shared=no \
-        --with-pic \
-        --prefix=$DIRECTORY/bin
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" $MAKE -j 4 
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" $MAKE install
-    [ -e $DIRECTORY/bin/lib64 ] && mv $DIRECTORY/bin/lib64/libraptor* $DIRECTORY/bin/lib
+    mkdir -p $DIRECTORY/tmp/raptor
+    cd $DIRECTORY/tmp/raptor
+    $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
+        -DBUILD_shared=OFF \
+        $DIRECTORY/src/raptor
+    $MAKE -j 4
+    $MAKE install
     ;;
 
   clapack)
