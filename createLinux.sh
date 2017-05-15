@@ -4,7 +4,7 @@
 DIRECTORY=$(cd `dirname $0` && pwd)
 
 if [ $# = 0 ]; then
-  ToBeBuild="expat raptor clapack MML qwt qwtplot3d SBW libSBML libnuml libSEDML zlib libCombine"
+  ToBeBuild="expat raptor clapack MML qwt qwt-6 qwtplot3d SBW libSBML libnuml libSEDML zlib libCombine"
 else
   while [ _${1} != _ ]; do
     ToBeBuild="$ToBeBuild ${1}"
@@ -15,26 +15,14 @@ fi
 #Default Values:
 BUILD_TYPE=${BUILD_TYPE:="Release"}
 CMAKE=${CMAKE:="cmake"}
-QMAKESPEC=${QMAKESPEC:="linux-g++"}
-export QMAKESPEC
 
 MAKE=${MAKE:="gmake"}
 command -v $MAKE >/dev/null 2>&1 || { MAKE=make; }
 
-if [ "x${QTDIR}" != "x" ]; then
-  QMAKE="${QTDIR}/bin/qmake"
-else
-  QMAKE=${QMAKE:="qmake-qt4"}
-fi
-
-command -v $QMAKE >/dev/null 2>&1 || { QMAKE=qmake; }
-command -v $QMAKE >/dev/null 2>&1 || { echo >&2 "qmake cannot be found, please update the qmake variable."; }
 
 # echo ${BUILD_TYPE}
 # echo ${CMAKE}
-# echo ${QMAKESPEC}
 # echo ${MAKE}
-# echo ${QMAKE}
 
 [ -d $DIRECTORY/tmp ] || mkdir $DIRECTORY/tmp
 [ -d $DIRECTORY/bin ] || mkdir $DIRECTORY/bin
@@ -127,6 +115,16 @@ case $1 in
     cd $DIRECTORY/tmp/qwt 
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         $DIRECTORY/src/qwt
+    make -j 4
+    make install
+    ;;
+
+  qwt-6)
+    #build qwt 
+    mkdir $DIRECTORY/tmp/qwt-6 
+    cd $DIRECTORY/tmp/qwt-6
+    $CMAKE ${COPASI_CMAKE_OPTIONS} \
+        $DIRECTORY/src/qwt-6
     make -j 4
     make install
     ;;
