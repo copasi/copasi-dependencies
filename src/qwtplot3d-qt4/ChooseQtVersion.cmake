@@ -22,7 +22,7 @@ else ()
   set(QT_FIND_MODE REQUIRED)
 endif()
   
-macro(QT_FIND_MODULES _target)
+macro(QT_FIND_MODULES)
   # Local variables
   set(_modules_qt4)
   set(_modules_qt5)
@@ -55,11 +55,11 @@ macro(QT_FIND_MODULES _target)
   endif (NOT (Qt5_FOUND OR Qt4_FOUND OR QT4_FOUND))
 
   if (Qt5_FOUND)
-    message(STATUS "Found Qt5")
+    message(STATUS "Using Qt5")
   endif (Qt5_FOUND)
 
   if (Qt4_FOUND OR QT4_FOUND)
-    message(STATUS "Found Qt4")
+    message(STATUS "Using Qt4")
   endif (Qt4_FOUND OR QT4_FOUND)
 endmacro(QT_FIND_MODULES)
 
