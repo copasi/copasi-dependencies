@@ -4,7 +4,7 @@
 DIRECTORY=$(cd `dirname $0` && pwd)
 
 if [ $# = 0 ]; then
-  ToBeBuild="expat raptor clapack MML qwt qwt-6 qwtplot3d SBW libSBML libnuml libSEDML zlib libCombine"
+  ToBeBuild="expat raptor clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
 else
   while [ _${1} != _ ]; do
     ToBeBuild="$ToBeBuild ${1}"
@@ -14,6 +14,7 @@ fi
  
 #Default Values:
 BUILD_TYPE=${BUILD_TYPE:="Release"}
+SELECT_QT=${SELECT_QT:="Any"}
 CMAKE=${CMAKE:="cmake"}
 
 MAKE=${MAKE:="gmake"}
@@ -33,7 +34,7 @@ command -v $MAKE >/dev/null 2>&1 || { MAKE=make; }
 COPASI_COMMON_CMAKE_OPTIONS="${COPASI_COMMON_CMAKE_OPTIONS} -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin"
 COPASI_COMMON_CMAKE_OPTIONS="${COPASI_COMMON_CMAKE_OPTIONS} -DEXTRA_INCLUDE_DIRS=$DIRECTORY/bin/include"
 
-COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DPREFER_QT5=ON"
+COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DSELECT_QT=${SELECT_QT}"
 COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} ${COPASI_COMMON_CMAKE_OPTIONS}"
 
 COPASI_CXXFLAGS="${CXXFLAGS} ${COPASI_CXXFLAGS} -I$DIRECTORY/bin/include"
@@ -93,9 +94,9 @@ case $1 in
   MML)
     #build MML
     mkdir -p $DIRECTORY/tmp/mml 
-    cd $DIRECTORY/tmp/mml 
+    cd $DIRECTORY/tmp/mml
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
-        $DIRECTORY/src/mml
+           $DIRECTORY/src/mml
     $MAKE -j 4
     $MAKE install
     ;;
