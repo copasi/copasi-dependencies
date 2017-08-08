@@ -71,9 +71,6 @@ public class"
 
 LIBNUML_CPP_NAMESPACE_USE
 
-#ifdef USE_LAYOUT
-#include "../swig/layout.h"
-#endif /* USE_LAYOUT */
 #include "local.cpp"
 %}
 
@@ -385,6 +382,11 @@ LIBNUML_CPP_NAMESPACE_USE
 
 
 
+%ignore ASTBasePlugin;
+%ignore Model;
+%ignore List::begin;
+%ignore List::end;
+
 /**
  * Wrap these files.
  */
@@ -394,13 +396,27 @@ LIBNUML_CPP_NAMESPACE_USE
 %include numl/common/libnuml-version.h
 %include numl/common/operationReturnValues.h
 
+%include numl/NUMLNamespaces.h
 %include numl/NUMLReader.h
 %include numl/NUMLWriter.h
 %include numl/NUMLTypeCodes.h
-%include <numl/NMBase.h>
+%include numl/NMBase.h
+
+// list
+%include <sbml/util/List.h>
+
+// annotations
+%include <sbml/annotation/CVTerm.h>
+%include <sbml/annotation/Date.h>
+%include <sbml/annotation/ModelHistory.h>
+%include <sbml/annotation/ModelCreator.h>
+%include <sbml/annotation/RDFAnnotation.h>
+%include <sbml/annotation/RDFAnnotationParser.h>
+
 
 %include <numl/NUMLDocument.h>
 %include <sbml/xml/XMLError.h>
+%include <sbml/SBMLNamespaces.h>
 
 %include <numl/NUMLList.h>
 

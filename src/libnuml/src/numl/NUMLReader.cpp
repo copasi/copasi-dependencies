@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML.
@@ -33,11 +26,7 @@
 #include <numl/NUMLError.h>
 #include <numl/NUMLReader.h>
 
-/** @cond doxygen-ignored */
-
 using namespace std;
-
-/** @endcond doxygen-ignored */
 
 LIBNUML_CPP_NAMESPACE_BEGIN
 
@@ -155,7 +144,6 @@ NUMLReader::hasBzip2()
 }
 
 
-/** @cond doxygen-libnuml-internal */
 static bool
 isCriticalError(const unsigned int errorId)
 {
@@ -185,10 +173,9 @@ isCriticalError(const unsigned int errorId)
     return false;
   }
 }
-/** @endcond doxygen-libnuml-internal */
 
 
-/** @cond doxygen-libnuml-internal */
+
 /*
  * Used by readNUML() and readNUMLFromString().
  */
@@ -199,6 +186,7 @@ NUMLReader::readInternal (const char* content, bool isFile)
 
   if (isFile && content && (LIBSBML_CPP_NAMESPACE_QUALIFIER  util_file_exists(content) == false))
   {
+    if(d->getErrorLog() != NULL)
     d->getErrorLog()->logError(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLFileUnreadable);
   }
   else
@@ -217,6 +205,7 @@ NUMLReader::readInternal (const char* content, bool isFile)
 
   ///TODO    d->setModel(NULL);
 
+      if(d->getErrorLog() != NULL)
       for (unsigned int i = 0; i < d->getNumErrors(); ++i)
       {
         if (isCriticalError(d->getError(i)->getErrorId()))
@@ -234,7 +223,7 @@ NUMLReader::readInternal (const char* content, bool isFile)
         }
       }
     }
-    else
+    else if(d->getErrorLog() != NULL)
     {
       // Low-level XML errors will have been caught in the first read,
       // before we even attempt to interpret the content as NUML.  Here
@@ -276,10 +265,8 @@ NUMLReader::readInternal (const char* content, bool isFile)
   }
   return d;
 }
-/** @endcond doxygen-libnuml-internal */
 
 
-/** @cond doxygen-c-only */
 
 
 /**
@@ -541,4 +528,4 @@ readNUMLFromString (const char *xml)
 
 LIBNUML_CPP_NAMESPACE_END
 
-/** @endcond doxygen-c-only */
+

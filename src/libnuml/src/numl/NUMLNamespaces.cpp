@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -24,11 +17,7 @@
 
 #include <numl/NUMLNamespaces.h>
 
-/** @cond doxygen-ignored */
-
 using namespace std;
-
-/** @endcond doxygen-ignored */
 
 LIBNUML_CPP_NAMESPACE_BEGIN
 
@@ -143,8 +132,7 @@ NUMLNamespaces::addNamespaces(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * xm
   }
 }
 
-/** @cond doxygen-libnuml-internal */
-void 
+void
 NUMLNamespaces::setLevel(unsigned int level)
 {
   mLevel = level;
@@ -167,8 +155,6 @@ NUMLNamespaces::setNamespaces(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * xm
   else
     mNamespaces = NULL;
 }
-/** @endcond doxygen-libnuml-internal */
-/** @cond doxygen-c-only */
 
 /**
  * Creates a new NUMLNamespaces_t structure corresponding to the given NUML
@@ -293,6 +279,6 @@ NUMLNamespaces_addNamespaces(NUMLNamespaces_t *numlns,
   numlns->addNamespaces(xmlns);
 }
 
-/** @endcond doxygen-c-only */
+
 LIBNUML_CPP_NAMESPACE_END
 

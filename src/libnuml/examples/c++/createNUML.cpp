@@ -34,6 +34,7 @@ LIBNUML_CPP_NAMESPACE_USE
 //
 NUMLDocument* createExampleTwoDimensionNuMLDoc();            /* Two Dimensions Document */
 NUMLDocument* createExampleOneDimensionNuMLDoc();               /* One Dimension Document */
+NUMLDocument* createExample52();
 
 //
 // Helper functions for validating and writing the NUML documents created.
@@ -80,6 +81,12 @@ main (int argc, char *argv[])
     numlDoc = createExampleTwoDimensionNuMLDoc();
     writeExampleNUML(numlDoc, "twoDimensionDoc.xml");
     delete numlDoc;
+
+    // example 52
+    numlDoc = createExample52();
+    writeExampleNUML(numlDoc, "example52");
+    delete numlDoc;
+
 
   }
   catch (std::bad_alloc& e)
@@ -238,6 +245,45 @@ NUMLDocument* createExampleTwoDimensionNuMLDoc()
 	aValue->setValue("0.0984913");
 
   return numlDoc;
+}
+
+NUMLDocument* createExample52()
+{
+  NUMLDocument* doc = new NUMLDocument();
+  ResultComponent* r = doc->createResultComponent();
+  r->setId("main_fitting_result");
+  DimensionDescription* d = r->getDimensionDescription();
+
+  TupleDescription* t = d->createTupleDescription();
+  t->setName("Main");
+
+  AtomicDescription* a = t->createAtomicDescription();
+  a->setName( "Objective Value");
+  a->setValueType("float");
+
+  a = t->createAtomicDescription();
+  a->setName( "Root Mean Square");
+  a->setValueType("float");
+
+  a = t->createAtomicDescription();
+  a->setName( "Standard Deviation");
+  a->setValueType("float");
+
+  Dimension* dim = r->getDimension();
+
+  Tuple* tuple = dim->createTuple();
+
+  AtomicValue* val = tuple->createAtomicValue();
+  val->setValue("12.5015");
+
+  val = tuple->createAtomicValue();
+  val->setValue("0.158123");
+
+  val = tuple->createAtomicValue();
+  val->setValue("0.159242");
+
+
+  return doc;
 }
 
 /**

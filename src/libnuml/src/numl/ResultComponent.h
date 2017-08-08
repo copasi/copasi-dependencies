@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -21,6 +14,12 @@
 * Joseph O. Dada, The University of Manchester - initial API and implementation
 * ****************************************************************************
 **/
+
+/**
+ * @class ResultComponent
+ * @brief stores the result component
+ */
+
 
 #ifndef RESULTCOMPONENT_H_
 #define RESULTCOMPONENT_H_
@@ -103,7 +102,6 @@ public:
 	*/
 	const std::string& getId () const;
 
-	/** @cond doxygen-libnuml-internal */
 	/*
 	 *
 	 * Sets the value of the "id" attribute of this NUML object.
@@ -123,8 +121,6 @@ public:
 	 * case-sensitive manner.  In addition, there are a few conditions for
 	 * the uniqueness of identifiers in an NUML model.  Please consult the
 	 * NUML specifications for the exact formulations.
-	 *
-	 * @htmlinclude libnuml-comment-set-methods.html
 	 *
 	 * @param id the striclass ResultComponents;ng to use as the identifier of this object
 	 *
@@ -146,23 +142,21 @@ public:
 	*/
 	//	virtual XMLNamespaces* getNamespaces() const ;
 
-	/** @cond doxygen-libnuml-internal */
 	/**
 	* Sets the parent NUMLDocument of this NUML object.
 	*
 	* @param d the NUMLDocument object to use
 	*/
-	//	virtual void setNUMLDocument (NUMLDocument* d);
-	/** @endcond doxygen-libnuml-internal */
+	virtual void setNUMLDocument (NUMLDocument* d);
 
 
-	/** @cond doxygen-libnuml-internal */
+
 	/**
 	* Sets the parent NUML object of this NUML object.
 	*
 	* @param sb the NUML object to use
 	*/
-	//	virtual void setParentNUMLObject (NMBase* sb);
+	virtual void setParentNUMLObject (NMBase* sb);
 
 	/**
 	 * Returns the libNUML type code for this %NUML object.
@@ -242,6 +236,30 @@ public:
 	* @see addCompositeValue(const CompositeValue *compValue)
 	*/
 	CompositeValue* createCompositeValue ();
+
+  /**
+   * creates a new tupledescription and adds it to the dimensiondescription
+   * @return the created tuple description
+   */
+  TupleDescription* createTupleDescription();
+
+  /**
+   * creates a new tuple and adds it to the dimension
+   * @return the created tuple
+   */
+  Tuple* createTuple();
+
+  /**
+   * creates a new atomic description and adds it to the dimensiondescription
+   * @return the created atomic description
+   */
+  AtomicDescription* createAtomicDescription();
+
+  /**
+   * creates a new atomic value and adds it to the dimension
+   * @return the created atomic value
+   */
+  AtomicValue* createAtomicValue();
 
 	/**
 	* Get the DimensionDescription object in this ResultComponent.
@@ -464,7 +482,6 @@ public:
 	virtual ResultComponent* remove (const std::string& sid);
 
 
-	/** @cond doxygen-libnuml-internal */
 
 	/**
 	* Get the ordinal position of this element in the containing object
@@ -481,11 +498,9 @@ public:
 	*/
 	virtual int getElementPosition () const;
 
-	/** @endcond doxygen-libnuml-internal */
-
+	
 
 protected:
-	/** @cond doxygen-libnuml-internal */
 
 	/**
 	* @return the NUML object corresponding to next XMLToken in the
@@ -493,7 +508,7 @@ protected:
 	*/
   virtual NMBase* createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
 
-	/** @endcond doxygen-libnuml-internal */
+
 };
 
 LIBNUML_CPP_NAMESPACE_END

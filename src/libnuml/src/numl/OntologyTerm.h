@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -21,6 +14,12 @@
 * Joseph O. Dada, The University of Manchester - initial API and implementation
 * ****************************************************************************
 **/
+
+/**
+ * @class OntologyTerm
+ * @brief ontology terms store information about what individual elements represents
+ */
+
 
 #ifndef ONTOLOGYTERM_H_
 #define ONTOLOGYTERM_H_
@@ -144,7 +143,6 @@ public:
 
 	virtual ~OntologyTerm();
 
-	/** @cond doxygen-libnuml-internal */
 	/*
 	 *
 	 * Sets the value of the "id" attribute of this NUML object.
@@ -165,8 +163,6 @@ public:
 	 * the uniqueness of identifiers in an NUML model.  Please consult the
 	 * NUML specifications for the exact formulations.
 	 *
-	 * @htmlinclude libnuml-comment-set-methods.html
-	 *
 	 * @param id the string to use as the identifier of this object
 	 *
 	 * @return integer value indicating success/failure of the
@@ -178,14 +174,11 @@ public:
 	 */
 	int setId (const std::string& sid);
 
-	/** @cond doxygen-libnuml-internal */
 
 	/**
 	* Sets the value of the "term" attribute of this NUML object.
 	*
 	* The string in @p term is copied.
-	*
-	* @htmlinclude libnuml-comment-set-methods.html
 	*
 	* @param term the new term for the object
 	*
@@ -198,13 +191,10 @@ public:
 	*/
 	int setTerm (const std::string& term);
 
-	/** @cond doxygen-libnuml-internal */
 	/**
 	* Sets the value of the "sourceTermId" attribute of this NUML object.
 	*
 	* The string in @p sourceTermId is copied.
-	*
-	* @htmlinclude libnuml-comment-set-methods.html
 	*
 	* @param sourceTermId the new sourceTermId for the object
 	*
@@ -217,13 +207,10 @@ public:
 	 */
 	int setSourceTermId(const std::string& sourceTermId);
 
-	/** @cond doxygen-libnuml-internal */
 	/**
 	 * Sets the value of the "ontologyURI" attribute of this NUML object.
 	 *
 	 * The string in @p ontologyURI is copied.
-	 *
-	 * @htmlinclude libnuml-comment-set-methods.html
 	 *
 	 * @param ontologyURI the new ontologyURI for the object
 	 *
@@ -302,7 +289,6 @@ protected:
 	friend class IdentifierConsistencyValidator;
 	friend class InternalConsistencyValidator;
 
-	/** @endcond doxygen-libnuml-internal */
 };
 
 //structure for recognised ontologies
@@ -464,7 +450,6 @@ public:
 	virtual OntologyTerm* remove (const std::string& sid);
 
 
-	/** @cond doxygen-libnuml-internal */
 
 	/**
 	* Get the ordinal position of this element in the containing object
@@ -481,11 +466,10 @@ public:
 	*/
 	virtual int getElementPosition () const;
 
-	/** @endcond doxygen-libnuml-internal */
+
 
 
 protected:
-	/** @cond doxygen-libnuml-internal */
 
 	/**
 	* @return the NUML object corresponding to next XMLToken in the
@@ -493,7 +477,7 @@ protected:
 	*/
   virtual NMBase* createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
 
-	/** @endcond doxygen-libnuml-internal */
+
 };
 
 

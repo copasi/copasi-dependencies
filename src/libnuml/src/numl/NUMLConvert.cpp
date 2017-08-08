@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML.
@@ -28,7 +21,6 @@
 #include <numl/common/numlfwd.h>
 
 LIBNUML_CPP_NAMESPACE_BEGIN
-/** @cond doxygen-libnuml-internal **/
 
 //bool
 //Model::remove(XMLNode& ann)
@@ -207,7 +199,6 @@ Model::removeDuplicateTopLevelAnnotations()
   }
 }*/
 
-/** @endcond doxygen-libnuml-internal **/
 
 LIBNUML_CPP_NAMESPACE_END
 

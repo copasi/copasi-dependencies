@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -29,13 +22,17 @@
 
 #include <numl/NUMLDocument.h>
 #include <numl/CompositeValue.h>
+#include <numl/AtomicValue.h>
+#include <numl/Tuple.h>
+#include <numl/common/operationReturnValues.h>
+
 
 using namespace std;
 
 LIBNUML_CPP_NAMESPACE_BEGIN
 
 CompositeValue::CompositeValue (unsigned int level, unsigned int version) :
-   NUMLList ( level, version )
+   Dimension ( level, version )
 {
   if (!hasValidLevelVersionNamespaceCombination())
     throw NUMLConstructorException();
@@ -43,7 +40,7 @@ CompositeValue::CompositeValue (unsigned int level, unsigned int version) :
 
 
 CompositeValue::CompositeValue (NUMLNamespaces *numlns) :
-    NUMLList                  ( numlns )
+    Dimension                  ( numlns )
 {
   if (!hasValidLevelVersionNamespaceCombination())
     throw NUMLConstructorException();
@@ -213,7 +210,7 @@ CompositeValue::isContentCompositeValue () const
 {
 	if(this->mContentType == NUML_COMPOSITEVALUE)
 		return true;
-	else return false;
+	return false;
 }
 
 /*
@@ -225,7 +222,7 @@ CompositeValue::isContentTuple () const
 {
 	if(this->mContentType == NUML_TUPLE)
 		return true;
-	else return false;
+	return false;
 }
 
 /*
@@ -237,7 +234,7 @@ CompositeValue::isContentAtomicValue () const
 {
 	if(this->mContentType == NUML_ATOMICVALUE)
 		return true;
-	else return false;
+	return false;
 }
 
 /* return nth item in list */
@@ -245,7 +242,7 @@ CompositeValue *
 CompositeValue::getCompositeValue(unsigned int n) {
 	if(this->getTypeCode() == NUML_COMPOSITEVALUE)
 	return static_cast<CompositeValue*>(NUMLList::get(n));
-	else return NULL;
+	return NULL;
 }
 
 /* return nth AtomicValue from CompositeValue list, note that only
@@ -258,7 +255,7 @@ CompositeValue::getAtomicValue() {
 	{
 		return static_cast<AtomicValue*>(NUMLList::get(0));
 	}
-	else return NULL;
+	return NULL;
 }
 
 /* return nth Tuple from CompositeValue list, note that only
@@ -271,7 +268,7 @@ CompositeValue::getTuple() {
 	{
 		return static_cast<Tuple*>(NUMLList::get(0));
 	}
-	else return NULL;
+	return NULL;
 }
 
 
@@ -283,7 +280,7 @@ CompositeValue::get(unsigned int n) const
 	{
    return static_cast<const CompositeValue*>(NUMLList::get(n));
 	}
-	else return NULL;
+	return NULL;
 }
 
 /* return nth item in list */
@@ -293,7 +290,8 @@ CompositeValue *CompositeValue::get(unsigned int n)
 	{
 		return static_cast<CompositeValue*>(NUMLList::get(n));
 	}
-	else return NULL;
+
+  return NULL;
 }
 
 
@@ -341,7 +339,6 @@ CompositeValue::getDescription () const
   return mDescription;
 }
 
-/** @cond doxygen-libnuml-internal */
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
@@ -377,9 +374,6 @@ CompositeValue::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttribu
 	attributes.readInto("description", mDescription);
 }
 
-/** @endcond doxygen-libnuml-internal */
-
-/** @cond doxygen-libnuml-internal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -396,7 +390,6 @@ CompositeValue::writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream
   stream.writeAttribute("indexValue", mIndexValue);
   stream.writeAttribute("description", mDescription);
 }
-/** @endcond doxygen-libnuml-internal */
 
 /*
  * Creates a new CompositeValue inside this CompositeValue, add to its list and returns it.
@@ -474,7 +467,6 @@ CompositeValue::createAtomicValue ()
 
 
 
-/** @cond doxygen-libnuml-internal */
 /*
  * @return the NUML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -501,7 +493,7 @@ CompositeValue::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& st
 		  object = new CompositeValue(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
 	  }
 
-	 if (object) mItems.push_back(object);
+	 if (object) appendAndOwn(object);
 
   }
   else if (name == "atomicValue")
@@ -529,7 +521,7 @@ CompositeValue::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& st
 		  static_cast<AtomicValue*>(object)->setValue(value);
 	  }
 
-	 if (object) mItems.push_back(object);
+	 if (object) appendAndOwn(object);
   }
   else if (name == "tuple")
   {
@@ -551,7 +543,7 @@ CompositeValue::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& st
 	 		  object = new Tuple(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
 	 	  }
 
-	 	 if (object) mItems.push_back(object);
+	 	 if (object) appendAndOwn(object);
 	/*  {
 		  if (mTuple.size() != 0)
 		  {

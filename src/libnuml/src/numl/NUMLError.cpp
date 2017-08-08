@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML.
@@ -32,15 +25,12 @@
 #include <numl/NUMLErrorTable.h>
 
 
-/** @cond doxygen-ignored */
 
 using namespace std;
 
-/** @endcond doxygen-ignored */
 
 LIBNUML_CPP_NAMESPACE_BEGIN
 
-/** @cond doxygen-libnuml-internal **/
 /**
  * Helper function for NUMLError().  Takes an index, NUML level and version,
  * and returns the appropriate field for the severity code out of the
@@ -137,7 +127,6 @@ std::string NUMLError::stringForCategory(unsigned int code) const
   return XMLError::stringForCategory(code);
 }
 
-/** @endcond doxygen-libnuml-internal **/
 
 
 NUMLError::NUMLError (  const unsigned int errorId
@@ -271,7 +260,6 @@ NUMLError::NUMLError(const NUMLError& orig) :
 {}
 
 
-/** @cond doxygen-libnuml-internal **/
 /*
  * clone function
  */
@@ -280,10 +268,8 @@ NUMLError::clone() const
 {
   return new NUMLError(*this);
 }
-/** @endcond doxygen-libnuml-internal **/
 
 
-/** @cond doxygen-libnuml-internal **/
 /*
  * Outputs this NUMLError to stream in the following format (and followed by
  * a newline):
@@ -299,5 +285,4 @@ NUMLError::print(ostream& s) const
     << getMessage() << endl;
 }
 
-/** @endcond doxygen-libnuml-internal **/
 LIBNUML_CPP_NAMESPACE_END

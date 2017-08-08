@@ -103,12 +103,12 @@ struct swig_type_info* GetDowncastSwigType (NMBase* sb)
     	  else if(name=="tuple"){
     		  return SWIGTYPE_p_Tuple;
     	  }
-    	 /* else if(name=="atomicDescription"){
+    	  else if(name=="atomicDescription"){
     		  return SWIGTYPE_p_AtomicDescription;
     	  }
     	  else if(name=="atomicValue"){
     		  return SWIGTYPE_p_AtomicValue;
-    	  }*/
+    	  }
     	  return SWIGTYPE_p_NUMLList;
 
       default:

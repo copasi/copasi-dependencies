@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -33,6 +26,7 @@
 
 
 #include <numl/NUMLDocument.h>
+#include <numl/common/operationReturnValues.h>
 
 #include <numl/NUMLVisitor.h>
 #include <numl/NUMLError.h>
@@ -173,15 +167,12 @@ OntologyTerm::getOntologyURI () const
   return mOntologyURI;
 }
 
-/** @cond doxygen-libnuml-internal */
-
 /* constructor for validators */
 OntologyTerm::OntologyTerm() :
   NMBase()
 {
 }
 
-/** @endcond doxygen-libnuml-internal */
 
 /*
  * Destroys this OntologyTerm.
@@ -214,7 +205,6 @@ OntologyTerm::getElementName () const
 }
 
 
-/** @cond doxygen-libnuml-internal */
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
@@ -262,9 +252,7 @@ OntologyTerm::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttribute
 	attributes.readInto("ontologyURI", mOntologyURI);
 }
 
-/** @endcond doxygen-libnuml-internal */
 
-/** @cond doxygen-libnuml-internal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -284,7 +272,6 @@ OntologyTerm::writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& 
   stream.writeAttribute("ontologyURI", mOntologyURI);
 
 }
-/** @endcond doxygen-libnuml-internal */
 
 
 
@@ -403,7 +390,6 @@ OntologyTerms::remove (const std::string& sid)
   return static_cast <OntologyTerm*> (item);
 }
 
-/** @cond doxygen-libnuml-internal */
 /*
  * @return the ordinal position of the element with respect to its siblings
  * or -1 (default) to indicate the position is not significant.
@@ -413,10 +399,8 @@ OntologyTerms::getElementPosition () const
 {
   return 1;
 }
-/** @endcond doxygen-libnuml-internal */
 
 
-/** @cond doxygen-libnuml-internal */
 /*
  * @return the NUML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -447,6 +431,5 @@ OntologyTerms::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& str
 
   return object;
 }
-/** @endcond doxygen-libnuml-internal */
 
 LIBNUML_CPP_NAMESPACE_END

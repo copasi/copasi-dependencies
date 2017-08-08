@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -22,15 +15,20 @@
 * ****************************************************************************
 **/
 
+/**
+ * @class AtomicValue
+ * @brief This class stores the atomic values
+ */
+
+
 #ifndef ATOMICVALUE_H_
 #define ATOMICVALUE_H_
 
 #include <numl/common/extern.h>
 #include <numl/common/numlfwd.h>
-//#include <numl/common/operationReturnValues.h>
 
 
-#include <numl/NMBase.h>
+#include <numl/Dimension.h>
 #include <numl/NUMLList.h>
 #include <numl/NUMLTypes.h>
 #include <string>
@@ -39,7 +37,7 @@
 #ifdef __cplusplus
 LIBNUML_CPP_NAMESPACE_BEGIN
 
-class LIBNUML_EXTERN AtomicValue : public NMBase {
+class LIBNUML_EXTERN AtomicValue : public Dimension {
 
 public:
 
@@ -147,14 +145,10 @@ public:
 	virtual double getDoubleValue ();
 
 
-	/** @cond doxygen-libnuml-internal */
-
 	/**
 	* Sets the value of the "value" attribute of this NUML object.
 	*
 	* The string in @p value is copied.
-	*
-	* @htmlinclude libnuml-comment-set-methods.html
 	*
 	* @param value the new value for the object
 	*
@@ -169,14 +163,11 @@ public:
 	* @return a (deep) copy of this AtomicValue.
 	*/
 
-	/** @cond doxygen-libnuml-internal */
 	/**
 	 * Writes (serializes) this NUML object character value by writing it to XMLOutputStream.
 	 */
   void writeChars(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
-	/** @endcond doxygen-libnuml-internal */
 
-	/** @cond doxygen-libnuml-internal */
 	/**
 	 * Subclasses should override this method to write out their contained
 	 * NUML objects as XML elements.  Be sure to call your parents
@@ -184,7 +175,6 @@ public:
 	 *
 	 */
 	//virtual void write(XMLOutputStream& stream) const;
-	/** @endcond doxygen-libnuml-internal */
 
 //	virtual void write(XMLOutputStream& stream) const;
 
@@ -193,7 +183,6 @@ public:
 	virtual ~AtomicValue();
 
 protected:
-	/** @cond doxygen-libnuml-internal */
 
 	/* this is a constructor that takes no arguments and
 	 * only exists because the validator code needs it

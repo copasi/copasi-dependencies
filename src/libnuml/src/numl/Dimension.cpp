@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -24,6 +17,10 @@
 
 #include <numl/NUMLDocument.h>
 #include <numl/Dimension.h>
+
+#include <numl/AtomicValue.h>
+#include <numl/CompositeValue.h>
+#include <numl/Tuple.h>
 
 using namespace std;
 
@@ -44,15 +41,12 @@ Dimension::Dimension (NUMLNamespaces *numlns) :
     throw NUMLConstructorException();
 }
 
-/** @cond doxygen-libnuml-internal */
 
 /* constructor for validators */
 Dimension::Dimension() :
   NUMLList()
 {
 }
-
-/** @endcond doxygen-libnuml-internal */
 
 /*
  * Destroys this Dimension.
@@ -86,6 +80,95 @@ Dimension::clone () const
 	return new Dimension(*this);
 }
 
+
+/**
+ * Creates a new CompositeValue and add it to Dimension's list inside this ResultComponent and return it.
+ *
+ * @return the CompositeValue object created
+ *
+ * @see addCompositeValue(const CompositeValue *compValue)
+ */
+CompositeValue*
+Dimension::createCompositeValue ()
+{
+  CompositeValue* value = 0;
+
+  try
+  {
+    value = new CompositeValue(getNUMLNamespaces());
+  }
+  catch (...)
+  {
+    /* here we do not create a default object as the level/version must
+     * match the parent object
+     *
+     * so do nothing
+     */
+  }
+
+
+  if (value) appendAndOwn(value);
+
+  return value;
+}
+
+/**
+ * creates a new tuple and adds it to the dimension
+ * @return the created tuple
+ */
+Tuple*
+Dimension::createTuple()
+{
+  Tuple* value = 0;
+
+  try
+  {
+    value = new Tuple(getNUMLNamespaces());
+  }
+  catch (...)
+  {
+    /* here we do not create a default object as the level/version must
+     * match the parent object
+     *
+     * so do nothing
+     */
+  }
+
+
+  if (value) appendAndOwn(value);
+
+  return value;
+}
+
+/**
+ * creates a new atomic value and adds it to the dimension
+ * @return the created atomic value
+ */
+AtomicValue*
+Dimension::createAtomicValue()
+{
+  AtomicValue* value = 0;
+
+  try
+  {
+    value = new AtomicValue(getNUMLNamespaces());
+  }
+  catch (...)
+  {
+    /* here we do not create a default object as the level/version must
+     * match the parent object
+     *
+     * so do nothing
+     */
+  }
+
+
+  if (value) appendAndOwn(value);
+
+  return value;
+}
+
+
 NUMLTypeCode_t Dimension::getTypeCode() const { return NUML_DIMENSION; }
 
 
@@ -118,45 +201,19 @@ Dimension::getElementName () const
 	return name;
 }
 
-
 /* return nth item in list */
-/*CompositeValue *
+Dimension *
 Dimension::get(unsigned int n)
 {
-	return static_cast<CompositeValue*>(NUMLList::get(n));
+	return static_cast<Dimension*>(NUMLList::get(n));
 }
-*/
+
 
 /* return nth item in list */
-/*const CompositeValue *
+const Dimension *
 Dimension::get(unsigned int n) const
 {
-	return static_cast<const CompositeValue*>(NUMLList::get(n));
-}*/
-
-/* return nth item in list */
-CompositeValue *
-Dimension::get(unsigned int n)
-{
-	return static_cast<CompositeValue*>(NUMLList::get(n));
-}
-
-
-/* return nth item in list */
-const CompositeValue *
-Dimension::get(unsigned int n) const
-{
-	return static_cast<const CompositeValue*>(NUMLList::get(n));
-}
-
-/*
- * @return the CompositeValue in this Dimension or NULL if no such
- * CompositeValue exists.
- */
-CompositeValue*
-Dimension::getCompositeValue()
-{
-	return 0; //&mCompositeValue;
+	return static_cast<const Dimension*>(NUMLList::get(n));
 }
 
 /**
@@ -168,18 +225,9 @@ struct IdEqS : public unary_function<NMBase*, bool>
 
 	IdEqS (const string& id) : id(id) { }
 	bool operator() (NMBase* sb)
-    		{ return static_cast <CompositeValue *> (sb)->getId() == id; }
+    		{ return static_cast <Dimension *> (sb)->getId() == id; }
 };
 
-
-/* return all the items */
-/*Dimension*
-Dimension::getDimension()
-{
-  //return &mDimension;
-   return static_cast<Dimension*>(this);
-//	return this;
-}*/
 
 /* return item by id */
 CompositeValue*
@@ -202,15 +250,15 @@ Dimension::get (const std::string& sid) const
 
 
 /* Removes the nth item from this list */
-CompositeValue*
+Dimension*
 Dimension::remove (unsigned int n)
 {
-	return static_cast<CompositeValue*>(NUMLList::remove(n));
+	return static_cast<Dimension*>(NUMLList::remove(n));
 }
 
 
 /* Removes item in this list by id */
-CompositeValue*
+Dimension*
 Dimension::remove (const std::string& sid)
 {
 	NMBase* item = 0;
@@ -224,11 +272,10 @@ Dimension::remove (const std::string& sid)
 		mItems.erase(result);
 	}
 
-	return static_cast <CompositeValue*> (item);
+	return static_cast <Dimension*> (item);
 }
 
 
-/** @cond doxygen-libnuml-internal */
 /*
  * @return the ordinal position of the element with respect to its siblings
  * or -1 (default) to indicate the position is not significant.
@@ -238,10 +285,7 @@ Dimension::getElementPosition () const
 {
 	return 0;
 }
-/** @endcond doxygen-libnuml-internal */
 
-
-/** @cond doxygen-libnuml-internal */
 /*
  * @return the NUML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -257,44 +301,54 @@ Dimension::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream)
 
 	if (name == "compositeValue") // && element.isStart())
 	{
-	//	while(name == "compositeValue" && element.isEndFor(element)){}
-		try
+
+    try
 		{
-		//	object = &mCompositeValue;
 			object = new CompositeValue(getNUMLNamespaces());
 		}
 		catch (NUMLConstructorException*)
 		{
-		//	object = new CompositeValue(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
 		}
 		catch ( ... )
 		{
-		//	object = new CompositeValue(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
 		}
-		if (object) mItems.push_back(object);
+		if (object) appendAndOwn(object);
 
-		/*{
-				  if (mCompositeValue.size() != 0)
-				  {
-					  logError(NUMLNotSchemaConformant);
-				  }
-				  object = &mCompositeValue;
-			  }*/
 
 	}
 	else if(name == "tuple")
 	{
+    try
+    {
+      object = new Tuple(getNUMLNamespaces());
+    }
+    catch (NUMLConstructorException*)
+    {
+    }
+    catch ( ... )
+    {
+    }
+    if (object) appendAndOwn(object);
 
 	}else if(name == "atomicValue")
 	{
+    try
+    {
+      object = new AtomicValue(getNUMLNamespaces());
+    }
+    catch (NUMLConstructorException*)
+    {
+    }
+    catch ( ... )
+    {
+    }
+    if (object) appendAndOwn(object);
 
 	}
 
 	return object;
 }
-/** @endcond doxygen-libnuml-internal */
 
-/** @cond doxygen-libnuml-internal */
 /*
  * Subclasses should override this method to write out their contained
  * NUML objects as XML elements.  Be sure to call your parents
@@ -305,7 +359,6 @@ Dimension::writeElements (XMLOutputStream& stream) const
 {
   NUMLList::writeElements(stream);
 }*/
-/** @endcond doxygen-libnuml-internal */
 
 
 LIBNUML_CPP_NAMESPACE_END

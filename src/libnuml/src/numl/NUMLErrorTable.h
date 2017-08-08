@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML.
@@ -20,7 +13,8 @@
 * Contributors:
 * Joseph O. Dada, The University of Manchester - initial API and implementation
 * ****************************************************************************
-**/
+*/
+
 
 #include <string>
 #include <iostream>
@@ -31,8 +25,6 @@
 
 
 LIBNUML_CPP_NAMESPACE_BEGIN
-
-/** @cond doxygen-libnuml-internal */
 
 typedef struct {
   const char * ref_l1;
@@ -266,4 +258,4 @@ static const numlErrorTableEntry errorTable[] =
 
 LIBNUML_CPP_NAMESPACE_END
 
-/** @endcond doxygen-libnuml-internal */
+

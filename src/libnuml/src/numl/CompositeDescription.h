@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -22,6 +15,12 @@
 * ****************************************************************************
 **/
 
+/**
+ * @class CompositeDescription
+ * @brief this class stores the component descriptions
+ */
+
+
 #ifndef COMPOSITEDESCRIPTION_H_
 #define COMPOSITEDESCRIPTION_H_
 
@@ -33,8 +32,9 @@
 #include <sbml/xml/XMLInputStream.h>
 #include <sbml/xml/XMLOutputStream.h>
 
-#include <numl/TupleDescription.h>
-#include <numl/AtomicDescription.h>
+//#include <numl/TupleDescription.h>
+//#include <numl/AtomicDescription.h>
+#include <numl/DimensionDescription.h>
 
 
 #include <numl/NMBase.h>
@@ -54,7 +54,7 @@ class NUMLDocument;
 /*
  *
  */
-class LIBNUML_EXTERN CompositeDescription : public NUMLList
+class LIBNUML_EXTERN CompositeDescription : public DimensionDescription
 {
 
 public:
@@ -184,8 +184,6 @@ public:
   *
   * The string in @p name is copied.
   *
-  * @htmlinclude libnuml-comment-set-methods.html
-  *
   * @param name the new name for the object
   *
   * @return integer value indicating success/failure of the
@@ -202,8 +200,6 @@ public:
   *
   * The string in @p indexType is copied.
   *
-  * @htmlinclude libnuml-comment-set-methods.html
-  *
   * @param indexType the new indexType for the object
   *
   * @return integer value indicating success/failure of the
@@ -215,14 +211,11 @@ public:
   */
   int setIndexType (const std::string& indexType);
 
-  /** @cond doxygen-libnuml-internal */
 
   /**
   * Sets the value of the "ontologyTerm" attribute of this NUML object.
   *
   * The string in @p ontologyTerm is copied.
-  *
-  * @htmlinclude libnuml-comment-set-methods.html
   *
   * @param ontologyTerm the new ontologyTerm for the object
   *
@@ -394,7 +387,6 @@ public:
 
 
 protected:
-  /** @cond doxygen-libnuml-internal */
 
   /**
   * @return the NUML object corresponding to next XMLToken in the
@@ -416,7 +408,7 @@ protected:
 
 
 
-  /** @endcond doxygen-libnuml-internal */
+  
 };
 LIBNUML_CPP_NAMESPACE_END
 

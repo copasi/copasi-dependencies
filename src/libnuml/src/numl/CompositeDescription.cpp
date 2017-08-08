@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -21,15 +14,19 @@
 * Joseph O. Dada, The University of Manchester - initial API and implementation
 * ****************************************************************************
 **/
-#include <numl/NUMLDocument.h>
+
 #include <numl/CompositeDescription.h>
+#include <numl/AtomicDescription.h>
+#include <numl/TupleDescription.h>
+#include <numl/NUMLDocument.h>
+#include <numl/common/operationReturnValues.h>
 
 using namespace std;
 
 LIBNUML_CPP_NAMESPACE_BEGIN
 
 CompositeDescription::CompositeDescription (unsigned int level, unsigned int version) :
-   NUMLList ( level, version )
+   DimensionDescription ( level, version )
 {
   if (!hasValidLevelVersionNamespaceCombination())
     throw NUMLConstructorException();
@@ -37,7 +34,7 @@ CompositeDescription::CompositeDescription (unsigned int level, unsigned int ver
 
 
 CompositeDescription::CompositeDescription (NUMLNamespaces *numlns) :
-    NUMLList                  ( numlns )
+    DimensionDescription                  ( numlns )
 {
   if (!hasValidLevelVersionNamespaceCombination())
     throw NUMLConstructorException();
@@ -65,8 +62,6 @@ CompositeDescription::setId(const std::string& id)
   mId = id;
   return LIBNUML_OPERATION_SUCCESS;
 }
-
-/*
 
 /*
  * @return a (deep) copy of this CompositeDescription.
@@ -282,7 +277,6 @@ CompositeDescription::getOntologyTerm () const
   return mOntologyTerm;
 }
 
-/** @cond doxygen-libnuml-internal */
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
@@ -322,9 +316,7 @@ CompositeDescription::readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLA
   attributes.readInto("indexType", mIndexType);
 
 }
-/** @endcond doxygen-libnuml-internal */
 
-/** @cond doxygen-libnuml-internal */
 /*
  * Subclasses should override this method to write their XML attributes
  * to the XMLOutputStream.  Be sure to call your parents implementation
@@ -340,7 +332,6 @@ CompositeDescription::writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutput
   stream.writeAttribute("ontologyTerm", mOntologyTerm);
   stream.writeAttribute("indexType", mIndexType);
 }
-/** @endcond doxygen-libnuml-internal */
 
 /*
  * Creates a new CompositeDescription inside this CompositeDescription, add to its list and returns it.
@@ -422,7 +413,6 @@ CompositeDescription::createAtomicDescription ()
   return aDescription;
 }
 
-/** @cond doxygen-libnuml-internal */
 /*
  * @return the NUML object corresponding to next XMLToken in the
  * XMLInputStream or NULL if the token was not recognized.
@@ -449,7 +439,7 @@ CompositeDescription::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStre
       object = new CompositeDescription(NUMLDocument::getDefaultLevel(), NUMLDocument::getDefaultVersion());
     }
 
-    if (object) mItems.push_back(object);
+    if (object) appendAndOwn(object);
   }
   else if (name == "atomicDescription")
   {
@@ -469,7 +459,7 @@ CompositeDescription::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStre
 
     }
 
-    if (object) mItems.push_back(object);
+    if (object) appendAndOwn(object);
   }
   else if (name == "tupleDescription")
   {
@@ -490,7 +480,7 @@ CompositeDescription::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStre
 
     }
 
-    if (object) mItems.push_back(object);
+    if (object) appendAndOwn(object);
   /*  {
       if (mTupleDescription.size() != 0)
       {
@@ -502,6 +492,5 @@ CompositeDescription::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStre
 
   return object;
 }
-/** @endcond doxygen-libnuml-internal */
 
 LIBNUML_CPP_NAMESPACE_END

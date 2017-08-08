@@ -1,26 +1,25 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
-* information about NUML, and the latest version of libNUML. 
+* information about NUML, and the latest version of libNUML.
 * Copyright (c) 2013 The University of Manchester.
-* 
+*
 * This library is free software; you can redistribute it and/or modify it
 * under the terms of the GNU Lesser General Public License as published
-* by the Free Software Foundation.  A copy of the license agreement is 
-* provided in the file named "LICENSE.txt" included with this software 
-* distribution and also available online as http://www.gnu.org/licenses/lgpl.html 
-* 
+* by the Free Software Foundation.  A copy of the license agreement is
+* provided in the file named "LICENSE.txt" included with this software
+* distribution and also available online as http://www.gnu.org/licenses/lgpl.html
+*
 * Contributors:
 * Joseph O. Dada, The University of Manchester - initial API and implementation
 * ****************************************************************************
-**/
+*/
+
+/**
+ * @class NUMLDocument
+ * @brief This represents the numl document that contains all information
+ */
+
 
 #ifndef NUMLDocument_h
 #define NUMLDocument_h
@@ -54,7 +53,6 @@ class ResultComponent;
 class NUMLVisitor;
 
 
-/** @cond doxygen-libnuml-internal */
 /* Internal constants for setting/unsetting particular consistency checks. */
 
 #ifndef IdCheckON
@@ -103,14 +101,13 @@ class NUMLVisitor;
 #define AllChecksON       0x7f;
 #endif
 
-/** @endcond doxygen-libnuml-internal */
 
 
 class LIBNUML_EXTERN NUMLDocument: public NMBase
 {
 public:
 
-  /**
+    /**
    * The default NUML Level of new NUMLDocument objects.
    *
    * This "default level" corresponds to the most recent NUML specification
@@ -120,13 +117,13 @@ public:
    * time of the construction of an NUMLDocument instance.
    *
    * @return an integer indicating the most recent NUML specification Level
-   * 
+   *
    * @see getDefaultVersion()
    */
-  static unsigned int getDefaultLevel ();
+    static unsigned int getDefaultLevel ();
 
 
-  /**
+    /**
    * The default Version of new NUMLDocument objects.
    *
    * This "default version" corresponds to the most recent NUML Version
@@ -141,10 +138,10 @@ public:
    *
    * @see getDefaultLevel()
    */
-  static unsigned int getDefaultVersion ();
+    static unsigned int getDefaultVersion ();
 
 
-  /**
+    /**
    * Creates a new NUMLDocument, optionally with given values for the NUML
    * Level and Version.
    *
@@ -183,39 +180,39 @@ public:
    * other variants of this method near where this one appears in the
    * documentation.
    */
-  NUMLDocument (unsigned int level = 0, unsigned int version = 0);
+    NUMLDocument (unsigned int level = 0, unsigned int version = 0);
 
 
-  /**
+    /**
    * Destroys this NUMLDocument.
    */
-  virtual ~NUMLDocument ();
+    virtual ~NUMLDocument ();
 
 
-  /**
+    /**
    * Copy constructor; creates a copy of this NUMLDocument.
    */
-  NUMLDocument (const NUMLDocument& rhs);
+    NUMLDocument (const NUMLDocument& rhs);
 
 
-  /**
+    /**
    * Accepts the given NUMLVisitor for this instance of NUMLDocument.
    *
    * @param v the NUMLVisitor instance to be used.
    *
    * @return the result of calling <code>v.visit()</code>.
    */
-  virtual bool accept (NUMLVisitor& v) const;
+    virtual bool accept (NUMLVisitor& v) const;
 
 
-  /**
+    /**
    * Creates and returns a deep copy of this NUMLDocument.
-   * 
+   *
    * @return a (deep) copy of this NUMLDocument.
    */
-  virtual NUMLDocument* clone () const;
+    virtual NUMLDocument* clone () const;
 
-  /**
+    /**
      * Get a the number of ontologyTerm objects in this NUMLDocument.
      *
      * @return the number of ontologyTerms in the NUMLDocument.
@@ -223,7 +220,7 @@ public:
      */
     unsigned int getNumOntologyTerms () const;
 
-  /**
+    /**
          * Returns the OntologyTerms object stored in this NUMLDocument.
          *
          * It is important to note that this method <em>does not create</em> a
@@ -236,10 +233,10 @@ public:
          *
          * @see createOntologyTerm()
          */
-        OntologyTerms* getOntologyTerms ();
+    OntologyTerms* getOntologyTerms ();
 
 
-  /**
+    /**
      * Returns the OntologyTerms object stored in this NUMLDocument.
      *
      * It is important to note that this method <em>does not create</em> a
@@ -283,7 +280,7 @@ public:
         *
         * @see createResultComponent()
         */
-       const ResultComponents* getResultComponents () const;
+    const ResultComponents* getResultComponents () const;
 
     /**
    * Get a the number of resultComponent objects in this NUMLDocument.
@@ -291,25 +288,29 @@ public:
    * @return the number of resultComponents in the NUMLDocument.
    *
    */
-  unsigned int getNumResultComponents() const;
+    unsigned int getNumResultComponents() const;
 
+    /**
+     * @return the reult component with given index
+     */
+    ResultComponent* getResultComponent (unsigned int index);
 
-  /**
+    /**
    * Sets the NUML Level and Version of this NUMLDocument instance,
    * attempting to convert the model as needed.
    *
    */
-  bool setLevelAndVersion (unsigned int level, unsigned int version,
-                           bool strict = true);
+    bool setLevelAndVersion (unsigned int level, unsigned int version,
+                             bool strict = true);
 
-  OntologyTerm* createOntologyTerm ();
+    OntologyTerm* createOntologyTerm ();
 
-  ResultComponent* createResultComponent ();
+    ResultComponent* createResultComponent ();
 
- // OntologyTerm* createOntologyTerm (const std::string& sid = ""); // will be removed later
+    // OntologyTerm* createOntologyTerm (const std::string& sid = ""); // will be removed later
 
 
-  /**
+    /**
   * Returns the nth error or warning encountered during parsing,
   * consistency checking, or attempted translation of this model.
   *
@@ -324,19 +325,19 @@ public:
    *
    * @see NUMLDocument::getNumErrors()
    */
-  const NUMLError* getError (unsigned int n) const;
+    const NUMLError* getError (unsigned int n) const;
 
 
-  /**
+    /**
    * Returns the number of errors or warnings mencountered during parsing,
    * consistency checking, or attempted translation of this model.
    *
    * @return the number of errors or warnings encountered
    */
-  unsigned int getNumErrors () const;
+    unsigned int getNumErrors () const;
 
 
-  /**
+    /**
    * Prints to the given output stream all the errors or warnings
    * encountered during parsing, consistency checking, or attempted
    * translation of this model.
@@ -362,13 +363,11 @@ public:
    * other variants of this method near where this one appears in the
    * documentation.
    */
-  void printErrors (std::ostream& stream = std::cerr) const;
+    void printErrors (std::ostream& stream = std::cerr) const;
 
 
-  /** @endcond doxygen-libnuml-internal */
 
 
-    /** @cond doxygen-libnuml-internal */
 
     /*
      * Sets the parent NUML object of this NUML object.
@@ -377,20 +376,17 @@ public:
      */
     virtual void setParentNUMLObject (NMBase* sb);
 
-    /** @endcond doxygen-libnuml-internal */
 
-  /** @cond doxygen-libnuml-internal */
-  /**
+    /**
    * No-op; it is provided for consistency with the method available on
    * other libNUML object classes but has no effect on NUMLDocument.
    */
-  virtual void setNUMLDocument (NUMLDocument* d);
+    virtual void setNUMLDocument (NUMLDocument* d);
 
-  /** @endcond doxygen-libnuml-internal */
 
-  /**
+    /**
    * Returns the libNUML type code for this %NUML object.
-   * 
+   *
    * @if clike LibNUML attaches an identifying code to every
    * kind of NUML object.  These are known as <em>NUML type codes</em>.
    * The set of possible type codes is defined in the enumeration
@@ -407,115 +403,111 @@ public:
    *
    * @see NUMLDocument::getElementName()
    */
-  virtual NUMLTypeCode_t getTypeCode () const;
+    virtual NUMLTypeCode_t getTypeCode () const;
 
 
-  /**
+    /**
    * Returns the XML element name of this object, which for NUMLDocument,
    * is always @c "numl".
-   * 
+   *
    * @return the name of this element, i.e., @c "numl".
    */
-  virtual const std::string& getElementName () const;
+    virtual const std::string& getElementName () const;
 
 
-  /**
-   * Returns the list of errors or warnings logged during parsing, 
+    /**
+   * Returns the list of errors or warnings logged during parsing,
    * consistency checking, or attempted translation of this model.
-   * 
+   *
    * @return the NUMLErrorLog used for this NUMLDocument
-   * 
+   *
    * @see NUMLDocument::getNumErrors()
    */
-  NUMLErrorLog* getErrorLog ();
+    NUMLErrorLog* getErrorLog ();
 
 
-  /**
+    /**
    * Returns a list of XML Namespaces associated with the XML content
    * of this NUML document.
-   * 
+   *
    * @return the XML Namespaces associated with this NUML object
    */
-  virtual LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces* getNamespaces() const;
+    virtual LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces* getNamespaces() const;
 
 
-  /** @cond doxygen-libnuml-internal */
 
-  /**
+    /**
    * @return the ordinal position of the element with respect to its
    * siblings or -1 (default) to indicate the position is not significant.
    */
-  int getElementPosition () const;
+    int getElementPosition () const;
 
 
-  /**
+    /**
    * Subclasses should override this method to write out their contained
    * NUML objects as XML elements.  Be sure to call your parents
    * implementation of this method as well.
    */
-  virtual void writeElements (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
+    virtual void writeElements (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
 
-  /** @endcond doxygen-libnuml-internal */
 
 protected:
-  /** @cond doxygen-libnuml-internal */
 
-  /**
+    /**
    * @return the NUML object corresponding to next XMLToken in the
    * XMLInputStream or NULL if the token was not recognized.
    */
-  virtual NMBase* createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
+    virtual NMBase* createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
 
 
-  /**
+    /**
    * Subclasses should override this method to read values from the given
    * XMLAttributes set into their specific fields.  Be sure to call your
    * parents implementation of this method as well.
    */
-  virtual
-  void readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes);
+    virtual
+    void readAttributes (const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLAttributes& attributes);
 
 
-  /**
+    /**
    * Subclasses should override this method to write their XML attributes
    * to the XMLOutputStream.  Be sure to call your parents implementation
    * of this method as well.
    */
-  virtual void writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
+    virtual void writeAttributes (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
 
-  /*
+    /*
    * Predicate returning true if the errors encountered are not ignorable.
    */
-  bool conversion_errors(unsigned int errors);
+    bool conversion_errors(unsigned int errors);
 
-  /*
+    /*
    * Predicate returning true if model has strict unit consistency.
    */
-  bool hasStrictUnits();
+    bool hasStrictUnits();
 
-  /*
+    /*
    * Predicate returning true if model has strict sbo consistency.
    */
-  bool hasStrictSBO();
+    bool hasStrictSBO();
 
 
-  int mLevel;
-  int mVersion;
+    int mLevel;
+    int mVersion;
 
-  OntologyTerms mOntologyTerms;
-  ResultComponents mResultComponents;
-
-
-  NUMLErrorLog mErrorLog;
-
-  unsigned char mApplicableValidators;
-  unsigned char mApplicableValidatorsForConversion;
+    OntologyTerms mOntologyTerms;
+    ResultComponents mResultComponents;
 
 
-  friend class NMBase;
-  friend class NUMLReader;
+    NUMLErrorLog mErrorLog;
 
-  /** @endcond doxygen-libnuml-internal */
+    unsigned char mApplicableValidators;
+    unsigned char mApplicableValidatorsForConversion;
+
+
+    friend class NMBase;
+    friend class NUMLReader;
+
 };
 
 LIBNUML_CPP_NAMESPACE_END
@@ -568,27 +560,27 @@ NUMLDocument_getVersion (const NUMLDocument_t *d);
 LIBNUML_EXTERN
 int
 NUMLDocument_setLevelAndVersion (  NUMLDocument_t *d
-                                 , unsigned int    level
-                                 , unsigned int    version );
+                                   , unsigned int    level
+                                   , unsigned int    version );
 
 
 LIBNUML_EXTERN
 int
 NUMLDocument_setLevelAndVersionStrict (  NUMLDocument_t *d
-                                       , unsigned int    level
-                                       , unsigned int    version );
+                                         , unsigned int    level
+                                         , unsigned int    version );
 
 LIBNUML_EXTERN
 void
 NUMLDocument_setConsistencyChecks(NUMLDocument_t *d,
-                                     NUMLErrorCategory_t category,
-                                     int apply);
+                                  NUMLErrorCategory_t category,
+                                  int apply);
 
 LIBNUML_EXTERN
 void
 NUMLDocument_setConsistencyChecksForConversion(NUMLDocument_t *d,
-                                     NUMLErrorCategory_t category,
-                                     int apply);
+                                               NUMLErrorCategory_t category,
+                                               int apply);
 
 LIBNUML_EXTERN
 unsigned int
@@ -601,27 +593,27 @@ NUMLDocument_checkInternalConsistency (NUMLDocument_t *d);
 
 
 LIBNUML_EXTERN
-unsigned int 
+unsigned int
 NUMLDocument_checkL1Compatibility (NUMLDocument_t *d);
 
 
 LIBNUML_EXTERN
-unsigned int 
+unsigned int
 NUMLDocument_checkL2v1Compatibility (NUMLDocument_t *d);
 
 
 LIBNUML_EXTERN
-unsigned int 
+unsigned int
 NUMLDocument_checkL2v2Compatibility (NUMLDocument_t *d);
 
 
 LIBNUML_EXTERN
-unsigned int 
+unsigned int
 NUMLDocument_checkL2v3Compatibility (NUMLDocument_t *d);
 
 
 LIBNUML_EXTERN
-unsigned int 
+unsigned int
 NUMLDocument_checkL2v4Compatibility (NUMLDocument_t *d);
 
 

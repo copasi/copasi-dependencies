@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev::			$:	Revision of last commit
-* $Author::			$:	Author of last commit
-* $Date::			$:	Date of last commit
-* $HeadURL::		$
-* $Id::				$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML.
@@ -301,7 +294,6 @@ struct SetParentNUMLObject : public unary_function<NMBase*, void>
   void operator() (NMBase* sbase) { sbase->setParentNUMLObject(sb); }
 };
 
-/** @cond doxygen-libnuml-internal */
 
 /*
  * Sets the parent NUMLDocument of this NUML object.
@@ -347,7 +339,7 @@ NUMLList::getItemTypeCode () const
 }*/
 
 
-/** @endcond doxygen-libnuml-internal */
+
 
 
 /*
@@ -396,7 +388,6 @@ struct Write : public unary_function<NMBase*, void>
 };
 
 
-/** @cond doxygen-libnuml-internal */
 /*
  * Subclasses should override this method to write out their contained
  * NUML objects as XML elements.  Be sure to call your parents
@@ -408,9 +399,8 @@ NUMLList::writeElements (LIBSBML_CPP_NAMESPACE_QUALIFIER  XMLOutputStream& strea
   NMBase::writeElements(stream);
   for_each( mItems.begin(), mItems.end(), Write(stream) );
 }
-/** @endcond doxygen-libnuml-internal */
 
-/** @cond doxygen-libnuml-internal */
+
 /*
  * Subclasses should override this method to read values from the given
  * XMLAttributes set into their specific fields.  Be sure to call your
@@ -604,7 +594,7 @@ NUMLList_getItemTypeCode (const NUMLList_t *lo)
   return lo->getItemTypeCode();
 }
 
-/** @endcond doxygen-c-only */
+
 
 
 LIBNUML_CPP_NAMESPACE_END

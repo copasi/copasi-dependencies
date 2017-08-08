@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -21,6 +14,12 @@
 * Joseph O. Dada, The University of Manchester - initial API and implementation
 * ****************************************************************************
 **/
+
+/**
+ * @class NUMLError
+ * @brief contains all error information collected
+ */
+
 
 #ifndef NUMLError_h
 #define NUMLError_h
@@ -142,7 +141,6 @@ typedef enum
  * check whether the error represents a low-level XML problem or an
  * NUML problem.
  *
- * @see #XMLErrorCategory_t
  */
 typedef enum 
 {
@@ -196,7 +194,6 @@ typedef enum
  */
 typedef enum
 {
-  /** @cond doxygen-libnuml-internal **/
 
   /* The following are used internally in NUMLErrorTable, but publicly,
    * we only report one of the 4 XMLError_Severity values.  Translation
@@ -225,7 +222,6 @@ typedef enum
      * for errors that have relevance to some
      * versions of NUML but not others. */
 
-  /** @endcond doxygen-libnuml-internal **/
 } NUMLErrorSeverity_t;
 
 END_C_DECLS
@@ -367,14 +363,12 @@ public:
   NUMLError(const NUMLError& orig);
 
 
-#ifndef SWIG
-
-  /** @cond doxygen-libnuml-internal **/
-
   /**
    * clone function
    */
   virtual NUMLError* clone() const;
+
+#ifndef SWIG
 
   /**
    * Outputs this NUMLError to stream in the following format (and followed
@@ -386,17 +380,15 @@ public:
    */
   virtual void print(std::ostream& stream) const;
 
-  /** @endcond doxygen-libnuml-internal **/
 
 #endif  /* !SWIG */
 
 protected:
-  /** @cond doxygen-libnuml-internal **/
-
+  
   virtual std::string stringForSeverity(unsigned int code) const;
   virtual std::string stringForCategory(unsigned int code) const;
 
-  /** @endcond doxygen-libnuml-internal **/
+  
 };
 
 LIBNUML_CPP_NAMESPACE_END

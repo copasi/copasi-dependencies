@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -20,7 +13,13 @@
 * Contributors:
 * Joseph O. Dada, The University of Manchester - initial API and implementation
 * ****************************************************************************
-**/
+*/
+
+/**
+ * @class NUMLErrorLog
+ * @brief the error log containing all errors / warnings encountered
+ */
+
 
 #ifndef NUMLErrorLog_h
 #define NUMLErrorLog_h
@@ -80,8 +79,6 @@ public:
    */
   unsigned int getNumFailsWithSeverity(unsigned int severity);
 
-
-  /** @cond doxygen-libnuml-internal */
 
   /**
    * Creates a new, empty NUMLErrorLog.
@@ -169,7 +166,6 @@ public:
   void remove (const unsigned int errorId);
 
 
-  /** @endcond doxygen-libnuml-internal */
 };
 
 LIBNUML_CPP_NAMESPACE_END

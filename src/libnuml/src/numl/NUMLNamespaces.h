@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -21,6 +14,12 @@
 * Joseph O. Dada, The University of Manchester - initial API and implementation
 * ****************************************************************************
 **/
+
+/**
+ * @class NUMLNamespaces
+ * @brief namespace class
+ */
+
 
 #ifndef NUMLNamespaces_h
 #define NUMLNamespaces_h
@@ -39,10 +38,10 @@
 
 LIBNUML_CPP_NAMESPACE_BEGIN
 
-#define NUML_DEFAULT_LEVEL   1
-#define NUML_DEFAULT_VERSION 1
-#define NUML_XMLNS_L1        "http://www.numl.org/numl/level1/version1"
-#define NUML_XMLNS_L1V1      "http://www.numl.org/numl/level1/version1"
+const unsigned int NUML_DEFAULT_LEVEL = 1;
+const unsigned int NUML_DEFAULT_VERSION = 1;
+const char* const  NUML_XMLNS_L1 = "http://www.numl.org/numl/level1/version1";
+const char* const  NUML_XMLNS_L1V1 = "http://www.numl.org/numl/level1/version1";
 
 class LIBNUML_EXTERN NUMLNamespaces
 {
@@ -171,7 +170,6 @@ public:
   void addNamespaces(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * xmlns);
 
 
-  /** @cond doxygen-libnuml-internal */
   void setLevel(unsigned int level);
 
 
@@ -179,16 +177,13 @@ public:
 
 
   void setNamespaces(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * xmlns);
-  /** @endcond doxygen-libnuml-internal */
 
 protected:  
-  /** @cond doxygen-libnuml-internal */
 
   unsigned int    mLevel;
   unsigned int    mVersion;
   LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * mNamespaces;
 
-  /** @endcond doxygen-libnuml-internal */
 };
 
 LIBNUML_CPP_NAMESPACE_END

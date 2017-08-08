@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML.
@@ -33,15 +26,11 @@
 #include <numl/NUMLErrorLog.h>
 
 
-/** @cond doxygen-ignored */
 
 using namespace std;
 
-/** @endcond doxygen-ignored */
-
 LIBNUML_CPP_NAMESPACE_BEGIN
 
-/** @cond doxygen-libnuml-internal */
 /** Most of the methods are internal.  A few visible ones are at the end. */
 
 
@@ -212,8 +201,6 @@ private:
 };
 
 
-
-/** @endcond doxygen-libnuml-internal */
 
 
 /**

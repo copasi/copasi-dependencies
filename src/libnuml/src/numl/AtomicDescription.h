@@ -1,11 +1,4 @@
 /*
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -22,6 +15,11 @@
 * ****************************************************************************
 */
 
+/**
+* @class AtomicDescription
+* @brief This class stores the atomic description
+*/
+
 #ifndef ATOMICDESCRIPTION_H_
 #define ATOMICDESCRIPTION_H_
 
@@ -31,6 +29,7 @@
 
 #include <numl/NMBase.h>
 #include <numl/NUMLList.h>
+#include <numl/DimensionDescription.h>
 #include <string>
 #include <sstream>
 
@@ -40,7 +39,7 @@
 #ifdef __cplusplus
 LIBNUML_CPP_NAMESPACE_BEGIN
 
-class LIBNUML_EXTERN AtomicDescription : public NMBase {
+class LIBNUML_EXTERN AtomicDescription : public DimensionDescription {
 
 public:
 
@@ -155,15 +154,11 @@ public:
   */
   virtual const std::string& getName () const;
 
-  /** @cond doxygen-libnuml-internal */
-
 
   /**
   * Sets the ontologyTerm of the "ontologyTerm" attribute of this NUML object.
   *
   * The string in @p ontologyTerm is copied.
-  *
-  * @htmlinclude libnuml-comment-set-methods.html
   *
   * @param ontologyTerm the new ontologyTerm for the object
   *
@@ -177,8 +172,6 @@ public:
   *
   * The string in @p valueType is copied.
   *
-  * @htmlinclude libnuml-comment-set-methods.html
-  *
   * @param valueType the new valueType for the object
   *
   * @return integer value indicating success/failure of the
@@ -191,8 +184,6 @@ public:
   *
   * The string in @p name is copied.
   *
-  * @htmlinclude libnuml-comment-set-methods.html
-  *
   * @param name the new name for the object
   *
   * @return integer value indicating success/failure of the
@@ -200,7 +191,16 @@ public:
   */
   int setName (const std::string& name);
 
+  /**
+   * @return the id of this element
+   */
   virtual const std::string& getId() const;
+
+  /**
+   * set the id of this element
+   * @param id the id to set
+   * @return success code
+   */
   virtual int setId(const std::string& id);
 
   /**
@@ -213,8 +213,6 @@ public:
   virtual ~AtomicDescription();
 
 protected:
-  /** @cond doxygen-libnuml-internal */
-
   /* this is a constructor that takes no arguments and
    * only exists because the validator code needs it
    */

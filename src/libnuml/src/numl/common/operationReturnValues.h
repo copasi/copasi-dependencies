@@ -123,6 +123,31 @@ typedef enum
      * involved.  This error is typically returned by the XML interface layer
      * of libNUML, when a calling program attempts to construct or manipulate
      * XML in an invalid way.  */
+  , LIBNUML_DUPLICATE_ANNOTATION_NS = -11
+  /*!< There already exists a top level annotation with the same namespace as
+   * annoation being appended.  This error is
+   * typically returned in situations where the appendAnnotation function
+   * is being used to add an annotation that has a namespace that is already
+   * present in the existing annotation. */
+  , LIBNUML_ANNOTATION_NAME_NOT_FOUND = -12
+  /*!< The existing annotation does not have a top-level element with
+   * the given name. This error is
+   * typically returned in situations where the
+   * replaceTopLevelAnnotationElement function or
+   * the removeTopLevelAnnotationElement function
+   * is being used to replace or remove an annotation with a name that does
+   * not match the name of any top-level element that is already
+   * present in the existing annotation. */
+  , LIBNUML_ANNOTATION_NS_NOT_FOUND = -13
+  /*!< The existing annotation does not have a top-level element with
+   * the given namespace. This error is
+   * typically returned in situations where the
+   * replaceTopLevelAnnotationElement function or
+   * the removeTopLevelAnnotationElement function
+   * is being used to replace or remove an annotation with a namespace that does
+   * not match the namespace of any top-level element that is already
+   * present in the existing annotation. */
+
 
 } NUMLOperationReturnValues_t;
 

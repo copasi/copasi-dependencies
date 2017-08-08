@@ -48,6 +48,7 @@
 
 #include <numl/NUMLTypes.h>
 
+#include <sbml/util/List.h>
 #include "ListWrapper.h"
 
 #include <sbml/xml/XMLError.h>
@@ -63,12 +64,9 @@
 #include <sbml/xml/XMLErrorLog.h>
 
 #include <sbml/math/ASTNode.h>
-//#include <sbml/xml/XMLParser.h>
-//#include <sbml/xml/XMLHandler.h>
-//#include <sbml/xml/XMLTokenizer.h>
 
-//#include <numl/annotation/CVTerm.h>
-//#include <numl/annotation/ModelHistory.h>
+#include <sbml/annotation/CVTerm.h>
+#include <sbml/annotation/ModelHistory.h>
 #include <sbml/annotation/RDFAnnotation.h>
 
 

@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML.
@@ -21,11 +14,11 @@
 * Joseph O. Dada, The University of Manchester - initial API and implementation
 * ****************************************************************************
 *
-*
+*/
+
+/**
 * @class NUMLWriter
 * @brief Methods for writing NUML to files and text strings.
-*
-* @htmlinclude libnuml-not-numl-warning.html
 *
 * The NUMLWriter class is the converse of NUMLReader, and provides the
 * main interface for serializing NUML models into XML and writing the
@@ -221,12 +214,10 @@ public:
 
 
  protected:
-  /** @cond doxygen-libnuml-internal */
 
   std::string mProgramName;
   std::string mProgramVersion;
 
-  /** @endcond doxygen-libnuml-internal */
 };
 
 LIBNUML_CPP_NAMESPACE_END

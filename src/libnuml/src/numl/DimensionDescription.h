@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -20,7 +13,13 @@
 * Contributors:
 * Joseph O. Dada, The University of Manchester - initial API and implementation
 * ****************************************************************************
-**/
+*/
+
+/**
+ * @class DimensionDescription
+ * @brief This class stores the dimension description
+ */
+
 
 #ifndef DIMENSIONDESCRIPTION_H_
 #define DIMENSIONDESCRIPTION_H_
@@ -34,9 +33,9 @@
 #include <sbml/xml/XMLOutputStream.h>
 
 
-#include <numl/AtomicDescription.h>
-#include <numl/CompositeDescription.h>
-#include <numl/TupleDescription.h>
+//#include <numl/AtomicDescription.h>
+//#include <numl/CompositeDescription.h>
+//#include <numl/TupleDescription.h>
 
 #include <numl/NUMLVisitor.h>
 #include <numl/NUMLError.h>
@@ -50,6 +49,9 @@
 LIBNUML_CPP_NAMESPACE_BEGIN
 
 class NUMLDocument;
+class AtomicDescription;
+class TupleDescription;
+class CompositeDescription;
 /*
  *
  */
@@ -127,23 +129,43 @@ public:
   */
   //	virtual XMLNamespaces* getNamespaces() const ;
 
-  /** @cond doxygen-libnuml-internal */
   /**
   * Sets the parent NUMLDocument of this NUML object.
   *
   * @param d the NUMLDocument object to use
   */
 //		virtual void setNUMLDocument (NUMLDocument* d);
-  /** @endcond doxygen-libnuml-internal */
 
 
-  /** @cond doxygen-libnuml-internal */
+
   /**
-  * Sets the parent NUML object of this NUML object.
-  *
-  * @param sb the NUML object to use
-  */
+   * Sets the parent NUML object of this NUML object.
+   *
+   * @param sb the NUML object to use
+   */
   //	virtual void setParentNUMLObject (NMBase* sb);
+
+  /**
+   * Creates a new CompositeDescription and add it to DimensionDescription's list inside this ResultComponent and return it.
+   *
+   * @return the CompositeDescription object created
+   *
+   * @see addCompositeDescription(const CompositeDescription *compDesc)
+   */
+  CompositeDescription* createCompositeDescription();
+
+  /**
+   * creates a new tupledescription and adds it to the dimensiondescription
+   * @return the created tuple description
+   */
+  TupleDescription* createTupleDescription();
+
+  /**
+   * creates a new atomic description and adds it to the dimensiondescription
+   * @return the created atomic description
+   */
+  AtomicDescription* createAtomicDescription();
+
 
   /**
   * Returns the XML element name of this object, which for DimensionDescription, is
@@ -218,7 +240,7 @@ public:
   *
   * @see size()
   */
-  virtual CompositeDescription * get(unsigned int n);
+  virtual DimensionDescription * get(unsigned int n);
 
 
   /**
@@ -230,26 +252,23 @@ public:
   *
   * @see size()
   */
-  virtual const CompositeDescription * get(unsigned int n) const;
+  virtual const DimensionDescription * get(unsigned int n) const;
 
   /**
-  * Get all the DimensionDescription.
+  * Get a CompositeDescription from the DimensionDescription
+  * based on its identifier.
   *
+  * @param sid a string representing the identifier
+  * of the CompositeDescription to get.
   *
-  * @return this DimensionDescription.
+  * @return CompositeDescription in this DimensionDescription
+  * with the given id or NULL if no such
+  * CompositeDescription exists.
   *
+  * @see get(unsigned int n)
   * @see size()
   */
-  //virtual DimensionDescription * getCompositeDescription();
-
-  /**
-  * Get all the CompositeDescription.
-  *
-  *
-  * @return this CompositeDescription.
-  *
-  */
-  virtual CompositeDescription* getCompositeDescription();
+  virtual DimensionDescription* get (const std::string& sid);
 
 
   /**
@@ -266,24 +285,7 @@ public:
   * @see get(unsigned int n)
   * @see size()
   */
-  virtual CompositeDescription* get (const std::string& sid);
-
-
-  /**
-  * Get a CompositeDescription from the DimensionDescription
-  * based on its identifier.
-  *
-  * @param sid a string representing the identifier
-  * of the CompositeDescription to get.
-  *
-  * @return CompositeDescription in this DimensionDescription
-  * with the given id or NULL if no such
-  * CompositeDescription exists.
-  *
-  * @see get(unsigned int n)
-  * @see size()
-  */
-  virtual const CompositeDescription* get (const std::string& sid) const;
+  virtual const DimensionDescription* get (const std::string& sid) const;
 
   virtual const std::string& getId() const;
   virtual int setId(const std::string& id);
@@ -301,7 +303,7 @@ public:
   *
   * @see size()
   */
-  virtual CompositeDescription* remove (unsigned int n);
+  virtual DimensionDescription* remove (unsigned int n);
 
 
   /**
@@ -316,10 +318,8 @@ public:
   * @return the item removed.  As mentioned above, the caller owns the
   * returned item.
   */
-  virtual CompositeDescription* remove (const std::string& sid);
+  virtual DimensionDescription* remove (const std::string& sid);
 
-
-  /** @cond doxygen-libnuml-internal */
 
   /**
   * Get the ordinal position of this element in the containing object
@@ -336,14 +336,12 @@ public:
   */
   virtual int getElementPosition () const;
 
-  /** @endcond doxygen-libnuml-internal */
 
   virtual ~DimensionDescription();
 
 
 protected:
-  /** @cond doxygen-libsbml-internal */
-
+  
   /**
   * @return the SBML object corresponding to next XMLToken in the
   * XMLInputStream or NULL if the token was not recognized.

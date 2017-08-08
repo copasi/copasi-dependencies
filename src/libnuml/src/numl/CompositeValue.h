@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -20,28 +13,40 @@
 * Contributors:
 * Joseph O. Dada, The University of Manchester - initial API and implementation
 * ****************************************************************************
-**/
+*/
+
+/**
+ * @class CompositeValue
+ * @brief This class stores the composite values
+ */
+
 
 #ifndef COMPOSITEVALUES_H_
 #define COMPOSITEVALUES_H_
 
-#include <numl/Tuple.h>
-#include <numl/AtomicValue.h>
+#include <numl/common/extern.h>
+#include <numl/common/numlfwd.h>
+
+//#include <numl/Tuple.h>
+//#include <numl/AtomicValue.h>
 
 
 
 #include <numl/NMBase.h>
 #include <numl/NUMLList.h>
+#include <numl/Dimension.h>
 
 #ifdef __cplusplus
 LIBNUML_CPP_NAMESPACE_BEGIN
 
 //class CompositeValue;
 class NUMLDocument;
+class Tuple;
+class AtomicValue;
 /*
  *
  */
-class LIBNUML_EXTERN CompositeValue : public NUMLList
+class LIBNUML_EXTERN CompositeValue : public Dimension
 {
 public:
 
@@ -146,8 +151,6 @@ public:
 	*
 	* The string in @p indexValue is copied.
 	*
-	* @htmlinclude libnuml-comment-set-methods.html
-	*
 	* @param indexValue the new indexValue for the object
 	*
 	* @return integer value indicating success/failure of the
@@ -159,13 +162,10 @@ public:
 	*/
 	int setIndexValue (const std::string& indexValue);
 
-	/** @cond doxygen-libnuml-internal */
 	/**
 	* Sets the value of the "description" attribute of this NUML object.
 	*
 	* The string in @p description is copied.
-	*
-	* @htmlinclude libnuml-comment-set-methods.html
 	*
 	* @param description the new description for the object
 	*
@@ -399,8 +399,7 @@ public:
 
 
 protected:
-	/** @cond doxygen-libnuml-internal */
-
+	
 	/**
 	* @return the NUML object corresponding to next XMLToken in the
 	* XMLInputStream or NULL if the token was not recognized.
@@ -410,8 +409,6 @@ protected:
 	std::string mDescription;
 	NUMLTypeCode_t mContentType;
 
-
-	/** @endcond doxygen-libnuml-internal */
 };
 
 

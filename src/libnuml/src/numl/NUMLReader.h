@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -20,7 +13,13 @@
 * Contributors:
 * Joseph O. Dada, The University of Manchester - initial API and implementation
 * ****************************************************************************
-**/
+*/
+
+/**
+ * @class NUMLReader
+ * @brief The reader class implementing reading NuML documents from file / string
+ */
+
 
 #ifndef NUMLReader_h
 #define NUMLReader_h
@@ -276,8 +275,6 @@ public:
 
 
 protected:
-  /** @cond doxygen-libnuml-internal */
-
   /**
    * Used by readNUML() and readNUMLFromString().
    *
@@ -295,7 +292,6 @@ protected:
    */
   NUMLDocument* readInternal (const char* content, bool isFile = true);
 
-  /** @endcond doxygen-libnuml-internal */
 };
 
 LIBNUML_CPP_NAMESPACE_END

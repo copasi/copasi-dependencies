@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -22,6 +15,12 @@
 * ****************************************************************************
 **/
 
+/**
+ * @class NMBase
+ * @brief This is the base class for all numl objects
+ */
+
+
 #ifndef NMBase_h
 #define NMBase_h
 
@@ -30,8 +29,6 @@
 #include <numl/common/numlfwd.h>
 #include <sbml/util/List.h>
 #include <numl/NUMLTypeCodes.h>
-//#include <numl/annotation/RDFAnnotation.h>
-//#include <numl/annotation/CVTerm.h>
 #include <numl/NUMLNamespaces.h>
 #include <sbml/SyntaxChecker.h> //change from numl
 #include <numl/NUMLVisitor.h>
@@ -60,7 +57,6 @@ class NUMLErrorLog;
 //class NUMLVisitor;
 class NUMLDocument;
 
-/** @cond doxygen-libnuml-internal */
 class NUMLConstructorException : public std::invalid_argument
 {
 public:
@@ -69,7 +65,6 @@ public:
   NUMLConstructorException ();
 
 };
-/** @endcond doxygen-libnuml-internal */
 
 
 class LIBNUML_EXTERN NMBase
@@ -158,7 +153,6 @@ public:
   std::string& getMetaId ();
 
 
-  /** @cond doxygen-libnuml-internal */
   /*
    * NOTE: THIS IS FOR BACKWARD COMPATABILITY REASONS
    *
@@ -167,10 +161,8 @@ public:
    * @return the id of this NUML object.
    */
   virtual const std::string& getId () const;
-  /** @endcond doxygen-libnuml-internal */
 
 
-  /** @cond doxygen-libnuml-internal */
   /*
    * NOTE: THIS IS FOR BACKWARD COMPATABILITY REASONS
    *
@@ -329,8 +321,6 @@ public:
    * component for purposes such as referencing that component from
    * metadata placed within "annotation" subelements.
    *  
-   * @htmlinclude libnuml-comment-set-methods.html
-   *
    * @return @c true if the "metaid" attribute of this NUML object has been
    * set, @c false otherwise.
    *
@@ -339,22 +329,17 @@ public:
    */
   bool isSetMetaId () const;
 
-  /** @endcond doxygen-libnuml-internal */
 
 
-  /** @cond doxygen-libnuml-internal */
   /*
    * NOTE: THIS IS FOR BACKWARD COMPATABILITY REASONS
    * Predicate returning @c true or @c false depending on whether this
    * object's "name" attribute has been set.
    *
-   * @htmlinclude libnuml-comment-set-methods.html
-   * 
    * @return @c true if the "name" attribute of this NUML object has been
    * set, @c false otherwise.
    */
   bool isSetName () const;
-  /** @endcond doxygen-libnuml-internal */
 
   /**
    * Sets the value of the "metaid" attribute of this object.
@@ -369,8 +354,6 @@ public:
    * <a href="http://www.w3.org/TR/REC-xml/#id">XML ID</a>'s in XML
    * portions of a model that are not defined by NUML, such as in the
    * application-specific content of the "annotation" subelement.
-   *
-   * @htmlinclude libnuml-comment-set-methods.html
    *
    * @param metaid the identifier string to use as the value of the
    * "metaid" attribute
@@ -388,7 +371,6 @@ public:
    */
   int setMetaId (const std::string& metaid);
 
-  /** @cond doxygen-libnuml-internal */
     /*
      * NOTE: THIS IS FOR BACKWARD COMPATABILITY REASONS
      *
@@ -396,7 +378,7 @@ public:
      * of @p id.
      *
      * The string @p sid is copied.  Note that NUML has strict requirements
-     * for the syntax of identifiers.  @htmlinclude id-syntax.html
+     * for the syntax of identifiers.
      *
      * @param sid the string to use as the identifier of this object
      *
@@ -406,19 +388,14 @@ public:
      * @li @link OperationReturnValues_t#LIBNUML_INVALID_ATTRIBUTE_VALUE LIBNUML_INVALID_ATTRIBUTE_VALUE @endlink
      */
      virtual int setId (const std::string& sid);
-    /** @endcond */
-
-  /** @endcond doxygen-libnuml-internal */
 
 
-  /** @cond doxygen-libnuml-internal */
+
   /*
    * NOTE: THIS IS FOR BACKWARD COMPATABILITY REASONS
    * Sets the value of the "name" attribute of this NUML object.
    *
    * The string in @p name is copied.
-   *
-   * @htmlinclude libnuml-comment-set-methods.html
    *
    * @param name the new name for the object
    *
@@ -431,17 +408,14 @@ public:
    */
  // TODO int setName (const std::string& name);
 
-  /** @cond doxygen-libnuml-internal */
   /**
    * Sets the parent NUMLDocument of this NUML object.
    *
    * @param d the NUMLDocument object to use
    */
   virtual void setNUMLDocument (NUMLDocument* d);
-  /** @endcond doxygen-libnuml-internal */
 
 
-  /** @cond doxygen-libnuml-internal */
   /**
    * Sets the parent NUML object of this NUML object.
    *
@@ -481,8 +455,6 @@ public:
    * component for purposes such as referencing that component from
    * metadata placed within "annotation" subelements.
    *  
-   * @htmlinclude libnuml-comment-set-methods.html
-   *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
@@ -496,8 +468,6 @@ public:
 #if 0
   /**
    * Unsets the value of the "id" attribute of this NUML object.
-   *
-   * @htmlinclude libnuml-comment-set-methods.html
    *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
@@ -513,8 +483,6 @@ public:
   /**
    * Unsets the value of the "name" attribute of this NUML object.
    *
-   * @htmlinclude libnuml-comment-set-methods.html
-   *
    * @return integer value indicating success/failure of the
    * function.  @if clike The value is drawn from the
    * enumeration #OperationReturnValues_t. @endif The possible values
@@ -525,24 +493,6 @@ public:
    */
   int unsetName ();
 #endif
-
-  /**
-  * Returns a list of CVTerm objects in the annotations of this NUML
-  * object.
-  *
-  * @return the list of CVTerms for this NUML object.
-  */
-  LIBSBML_CPP_NAMESPACE_QUALIFIER List* getCVTerms();
-
-
-  /**
-  * Returns a list of CVTerm objects in the annotations of this NUML
-  * object.
-  *
-  * @return the list of CVTerms for this NUML object.
-  */
-  LIBSBML_CPP_NAMESPACE_QUALIFIER List* getCVTerms()  const;
-
 
   /**
    * Returns the NUML Level of the overall NUML document.
@@ -636,23 +586,18 @@ public:
   char* toNUML ();
 
 
-  /** @cond doxygen-libnuml-internal */
   /**
    * Reads (initializes) this NUML object by reading from XMLInputStream.
    */
   void read (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stream);
-  /** @endcond doxygen-libnuml-internal */
 
 
-  /** @cond doxygen-libnuml-internal */
   /**
    * Writes (serializes) this NUML object by writing it to XMLOutputStream.
    */
   void write (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
-  /** @endcond doxygen-libnuml-internal */
 
 
-  /** @cond doxygen-libnuml-internal */
   /**
    * Subclasses should override this method to write out their contained
    * NUML objects as XML elements.  Be sure to call your parents
@@ -664,37 +609,53 @@ public:
    *   ...
    */
   virtual void writeElements (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
-  /** @endcond doxygen-libnuml-internal */
 
 
-  /** @cond doxygen-libnuml-internal */
   /* function returns true if component has all the required
    * attributes
    * needs to be overloaded for each component
    */
   virtual bool hasRequiredAttributes() const ;
-  /** @endcond doxygen-libnuml-internal */
 
 
-  /** @cond doxygen-libnuml-internal */
   /* function returns true if component has all the required
    * elements
    * needs to be overloaded for each component
    */
   virtual bool hasRequiredElements() const ;
-  /** @endcond doxygen-libnuml-internal */
 
 
-  /** @cond doxygen-libnuml-internal */
   /* sets the NUMLnamespaces - internal use only*/
   void setNUMLNamespaces(NUMLNamespaces * numlns);
-  /** @endcond doxygen-libnuml-internal */
 
 
-  /** @cond doxygen-libnuml-internal */
   /* gets the NUMLnamespaces - internal use only*/
   NUMLNamespaces * getNUMLNamespaces() const;
-  /** @endcond doxygen-libnuml-internal */
+
+  void syncAnnotation();
+  bool isSetNotes() const;
+  bool isSetAnnotation() const;
+  virtual int setAnnotation(const XMLNode* annotation);
+  virtual int setAnnotation(const std::string& annotation);
+  virtual int appendAnnotation(const XMLNode* annotation);
+  virtual int appendAnnotation(const std::string& annotation);
+  int removeTopLevelAnnotationElement(const std::string elementName,
+                                      const std::string elementURI = "");
+  int replaceTopLevelAnnotationElement(const XMLNode* annotation);
+  int replaceTopLevelAnnotationElement(const std::string& annotation);
+  int setNotes(const XMLNode* notes);
+  int setNotes(const std::string& notes, bool addXHTMLMarkup = false);
+  int appendNotes(const XMLNode* notes);
+  int appendNotes(const std::string& notes);
+  int unsetNotes();
+  int unsetAnnotation();
+
+  XMLNode* getNotes() const;
+  std::string getNotesString() const;
+  XMLNode* getAnnotation() const;
+  std::string getAnnotationString() const;
+
+
 
 protected:
 
@@ -707,7 +668,6 @@ protected:
    */
   virtual void writeXMLNS(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
 
-  /** @cond doxygen-libnuml-internal */
 
   /**
    * Only subclasses may create NMBase objects.
@@ -944,9 +904,6 @@ protected:
   /* store the parent NUML object */
   NMBase* mParentNUMLObject;
 
-  /* storing annotations */
-   LIBSBML_CPP_NAMESPACE_QUALIFIER List * mCVTerms;
-
   /* flag that allows object to know its been deleted
    * for OS where the memory is still readable after a delete
    */
@@ -954,12 +911,10 @@ protected:
 
   std::string mEmptyString;
 
-  /** @endcond doxygen-libnuml-internal */
-
+  
 
 private:
-  /** @cond doxygen-libnuml-internal */
-
+  
   /**
    * Stores the location (line and column) and any XML namespaces (for
    * roundtripping) declared on this NUML (XML) element.
@@ -980,7 +935,7 @@ private:
 
   bool getHasBeenDeleted();
 
-  /** @endcond doxygen-libnuml-internal */
+
 };
 
 LIBNUML_CPP_NAMESPACE_END

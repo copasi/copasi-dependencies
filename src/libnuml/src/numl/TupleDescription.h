@@ -1,11 +1,4 @@
-/**
-* Begin svn Header
-* $Rev$:	Revision of last commit
-* $Author$:	Author of last commit
-* $Date$:	Date of last commit
-* $HeadURL$
-* $Id$
-* End svn Header
+/*
 * ****************************************************************************
 * This file is part of libNUML.  Please visit http://code.google.com/p/numl/for more
 * information about NUML, and the latest version of libNUML. 
@@ -22,6 +15,12 @@
 * ****************************************************************************
 **/
 
+/**
+ * @class TupleDescription
+ * @brief stores the tuple description
+ */
+
+
 #ifndef TUPLEDESCRIPTION_H_
 #define TUPLEDESCRIPTION_H_
 
@@ -32,7 +31,7 @@
 
 #include <numl/NMBase.h>
 #include <numl/NUMLList.h>
-#include <numl/AtomicDescription.h>
+#include <numl/DimensionDescription.h>
 #include <vector>
 
 
@@ -42,7 +41,7 @@ LIBNUML_CPP_NAMESPACE_BEGIN
 class AtomicDescription;
 class NUMLVisitor;
 
-class LIBNUML_EXTERN TupleDescription : public NUMLList
+class LIBNUML_EXTERN TupleDescription : public DimensionDescription
 {
 
 public:
@@ -148,8 +147,7 @@ public:
   */
   virtual NUMLTypeCode_t getItemTypeCode () const;
 
-  /** @cond doxygen-libnuml-internal */
-
+  
   /**
   * Get the ordinal position of this element in the containing object
   * (which in this case is the Model object).
@@ -174,7 +172,6 @@ public:
   */
   virtual const std::string& getElementName () const;
 
-  /** @endcond doxygen-libnuml-internal */
 
 
   /**
@@ -227,7 +224,6 @@ public:
   virtual void write(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const;
 
 protected:
-  /** @cond doxygen-libnuml-internal */
 
   /**
   * @return the NUML object corresponding to next XMLToken in the
@@ -242,8 +238,6 @@ protected:
   std::string  mName;
   std::string  mOntologyTerm;
 
-
-  /** @endcond doxygen-libnuml-internal */
 };
 LIBNUML_CPP_NAMESPACE_END
 

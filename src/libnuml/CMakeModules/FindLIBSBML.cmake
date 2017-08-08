@@ -43,8 +43,8 @@ else()
 find_path(LIBSBML_INCLUDE_DIR sbml/SBase.h
     PATHS $ENV{LIBSBML_DIR}/include
           $ENV{LIBSBML_DIR}
-          ${LIBSEDML_DEPENDENCY_DIR}
-          ${LIBSEDML_DEPENDENCY_DIR}/include
+          ${LIBNUML_DEPENDENCY_DIR}
+          ${LIBNUML_DEPENDENCY_DIR}/include
           ~/Library/Frameworks
           /Library/Frameworks
           /sw/include        # Fink
@@ -71,8 +71,8 @@ find_library(LIBSBML_LIBRARY
           libsbml
     PATHS $ENV{LIBSBML_DIR}/lib
           $ENV{LIBSBML_DIR}
-          ${LIBSEDML_DEPENDENCY_DIR}
-          ${LIBSEDML_DEPENDENCY_DIR}/lib
+          ${LIBNUML_DEPENDENCY_DIR}
+          ${LIBNUML_DEPENDENCY_DIR}/lib
           ~/Library/Frameworks
           /Library/Frameworks
           /sw/lib        # Fink
