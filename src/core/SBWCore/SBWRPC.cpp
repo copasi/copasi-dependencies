@@ -260,7 +260,6 @@ void SBWRPC::send(Integer moduleTo, Integer service, Integer method, DataBlockWr
  */
 void SBWRPC::transmit(Integer moduleTo, unsigned char *message, int length)
 {
-	if (this == NULL) return;
 	if (moduleTo == getModuleId())
 	{
 		DataBlockReader reader(message, length, false);

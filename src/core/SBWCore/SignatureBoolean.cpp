@@ -122,7 +122,7 @@ void sbwSignatureBoolean::write1DArray(DataBlockWriter writer, Integer size, va_
 	}
 
 	writer.add(size, array);
-	delete array;
+	delete[] array;
 }
 
 /**

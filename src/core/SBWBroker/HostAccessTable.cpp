@@ -1,6 +1,6 @@
 #include "HostAccessTable.h"
 #include <string>
-
+#include <cstdlib>
 #include "SBW/SBWApplicationException.h"
 
 using namespace SystemsBiologyWorkbench::Broker;
