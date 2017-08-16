@@ -371,7 +371,7 @@ public class InitialAssignment : SBase {
    *
    * @return an ASTNode, the value of the 'math' subelement of this
    * InitialAssignment, or @c null if the math is not set.
-   */ public
+   */ public new
  ASTNode getMath() {
     IntPtr cPtr = libsbmlPINVOKE.InitialAssignment_getMath(swigCPtr);
     ASTNode ret = (cPtr == IntPtr.Zero) ? null : new ASTNode(cPtr, false);
@@ -458,7 +458,7 @@ public class InitialAssignment : SBase {
  * returned by this function are:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   */ public
+   */ public new
  int setMath(ASTNode math) {
     int ret = libsbmlPINVOKE.InitialAssignment_setMath(swigCPtr, ASTNode.getCPtr(math));
     return ret;

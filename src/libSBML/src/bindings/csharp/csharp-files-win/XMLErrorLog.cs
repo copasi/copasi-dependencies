@@ -474,6 +474,17 @@ public class XMLErrorLog : IDisposable {
     libsbmlPINVOKE.XMLErrorLog_changeErrorSeverity__SWIG_1(swigCPtr, originalSeverity, targetSeverity);
   }
 
+  
+/**
+  * Returns @c true if XMLErrorLog contains an errorId
+  *
+  * @param errorId the error identifier of the error to be found.
+  */ public
+ bool contains(long errorId) {
+    bool ret = libsbmlPINVOKE.XMLErrorLog_contains(swigCPtr, errorId);
+    return ret;
+  }
+
 }
 
 }

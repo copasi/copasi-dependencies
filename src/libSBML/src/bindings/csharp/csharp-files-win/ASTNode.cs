@@ -1284,6 +1284,24 @@ getChild( getNumChildren() - 1 );
 
   
 /**
+  * Returns @c true if this node represents a MathML
+  * constant numeric.
+  *
+  * Examples of MathML constants include such things as pi.
+  *
+  * @return @c true if this ASTNode is a MathML constant, @c false
+  * otherwise.
+  *
+  * @note This function will also return @c true for nodes of type
+  * @link libsbml#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink in SBML Level&nbsp;3.
+  */ public new
+ bool isConstantNumber() {
+    bool ret = libsbmlPINVOKE.ASTNode_isConstantNumber(swigCPtr);
+    return ret;
+  }
+
+  
+/**
    * Returns @c true if this node represents a function.
    *
    * The three types of functions in SBML are MathML functions (e.g.,
@@ -2461,6 +2479,10 @@ setValue(value, 0);
         ASTBasePlugin ret = (ASTBasePlugin) libsbml.DowncastASTBasePlugin(libsbmlPINVOKE.ASTNode_getPlugin__SWIG_2(swigCPtr, n), false);
         return ret;
 }
+
+  
+/** */ /* libsbml-internal */ public new
+ long getNumPlugins() { return (long)libsbmlPINVOKE.ASTNode_getNumPlugins(swigCPtr); }
 
   
 /** */ /* libsbml-internal */ public

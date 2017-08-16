@@ -3207,7 +3207,7 @@ class SBase(_object):
         'message' structure.  Developers are urged to consult the appropriate
         SBML specification document for the Level and Version of their model
         for more in-depth explanations of using 'notes' in SBML.  The SBML
-        Level 2 and  3 specifications have considerable detail about how
+        Level 2 and 3 specifications have considerable detail about how
         'notes' element content must be structured.
 
         The 'notes' element content returned by this method will be in XML
@@ -3256,7 +3256,7 @@ class SBase(_object):
         'message' structure.  Developers are urged to consult the appropriate
         SBML specification document for the Level and Version of their model
         for more in-depth explanations of using 'notes' in SBML.  The SBML
-        Level 2 and  3 specifications have considerable detail about how
+        Level 2 and 3 specifications have considerable detail about how
         'notes' element content must be structured.
 
         For an alternative method of accessing the notes, see getNotes(),
@@ -3881,7 +3881,7 @@ class SBase(_object):
         method SyntaxChecker.hasExpectedXHTMLSyntax(); however, readers are
         urged to consult the appropriate SBML specification document for the
         Level and Version of their model for more in-depth explanations.  The
-        SBML Level 2 and  3 specifications have considerable detail about how
+        SBML Level 2 and 3 specifications have considerable detail about how
         'notes' element content must be structured.
 
         Returns True if a 'notes' subelement exists, False otherwise.
@@ -4400,7 +4400,7 @@ class SBase(_object):
         method SyntaxChecker.hasExpectedXHTMLSyntax(); however, readers are
         urged to consult the appropriate SBML specification document for the
         Level and Version of their model for more in-depth explanations.  The
-        SBML Level 2 and  3 specifications have considerable detail about how
+        SBML Level 2 and 3 specifications have considerable detail about how
         'notes' element content must be structured.
 
         The following code illustrates a very simple way of setting the notes
@@ -4478,7 +4478,7 @@ class SBase(_object):
         method SyntaxChecker.hasExpectedXHTMLSyntax(); however, readers are
         urged to consult the appropriate SBML specification document for the
         Level and Version of their model for more in-depth explanations.  The
-        SBML Level 2 and  3 specifications have considerable detail about how
+        SBML Level 2 and 3 specifications have considerable detail about how
         'notes' element content must be structured.
 
         Parameter 'notes' is an XML string that is to appended to the content
@@ -4828,7 +4828,7 @@ class SBase(_object):
         method SyntaxChecker.hasExpectedXHTMLSyntax(); however, readers are
         urged to consult the appropriate SBML specification document for the
         Level and Version of their model for more in-depth explanations.  The
-        SBML Level 2 and  3 specifications have considerable detail about how
+        SBML Level 2 and 3 specifications have considerable detail about how
         'notes' element content must be structured.
 
         Returns integer value indicating success/failure of the function.
@@ -5175,6 +5175,26 @@ class SBase(_object):
 
         """
         return _libsbml.SBase_getVersion(self)
+
+    def getObjectVersion(self):
+        """
+        getObjectVersion(SBase self) -> unsigned int
+
+        Returns the Version within the SBML Level of the actual object.
+
+        LibSBML uses the class SBMLDocument as a top-level container for
+        storing SBML content and data associated with it (such as warnings and
+        error messages).  An SBML model in libSBML is contained inside an
+        SBMLDocument object.  SBMLDocument corresponds roughly to the class
+        SBML defined in the SBML Level 3 and Level 2 specifications, but it
+        does not have a direct correspondence in SBML Level 1.  (But, it is
+        created by libSBML no matter whether the model is Level 1, Level 2 or
+        Level 3.)
+
+        Returns the SBML version of this SBML object.
+
+        """
+        return _libsbml.SBase_getObjectVersion(self)
 
     def getPackageVersion(self):
         """
@@ -6047,7 +6067,7 @@ class SBase(_object):
         if (self.this == rhs.this): return False
       return True
 
-    def getListOfAllElements(self):
+    def getListOfAllElements(self, *args):
       """
       getListOfAllElements(self) -> SBaseList
 
@@ -6057,10 +6077,10 @@ class SBase(_object):
 
 
       """
-      return _libsbml.SBase_getListOfAllElements(self)
+      return _libsbml.SBase_getListOfAllElements(self, *args)
 
 
-    def getListOfAllElementsFromPlugins(self):
+    def getListOfAllElementsFromPlugins(self, *args):
       """
       getListOfAllElementsFromPlugins(self) -> SBaseList
 
@@ -6070,7 +6090,7 @@ class SBase(_object):
 
 
       """
-      return _libsbml.SBase_getListOfAllElementsFromPlugins(self)
+      return _libsbml.SBase_getListOfAllElementsFromPlugins(self, *args)
 
 
 SBase_swigregister = _libsbml.SBase_swigregister
@@ -6730,7 +6750,7 @@ class Model(SBase):
     All of the lists are optional, but if a given list container is
     present within the model, the list must not be empty; that is, it must
     have length one or more.  The following are the components and lists
-    permitted in different Levels and Versions of SBML in version 5.13.0
+    permitted in different Levels and Versions of SBML in version 5.15.2
     of libSBML:
 
     * In SBML Level 1, the components are: UnitDefinition, Compartment,
@@ -6848,7 +6868,7 @@ class Model(SBase):
     ======================================================================
 
     To make it easier for applications to do whatever they need, libSBML
-    version 5.13.0 is relatively lax when it comes to enforcing
+    version 5.15.2 is relatively lax when it comes to enforcing
     correctness and completeness of models during model construction and
     editing. Essentially, libSBML will not in most cases check
     automatically that a model's components have valid attribute values,
@@ -11495,7 +11515,7 @@ class SBMLDocument(SBase):
         The default SBML Level of new SBMLDocument objects.
 
         This 'default Level' corresponds to the most recent SBML
-        specification Level available at the time libSBML version 5.13.0 was
+        specification Level available at the time libSBML version 5.15.2 was
         released.  The default Level is used by SBMLDocument if no Level is
         explicitly specified at the time of the construction of an
         SBMLDocument instance.
@@ -11528,7 +11548,7 @@ class SBMLDocument(SBase):
 
         This 'default Version' corresponds to the most recent Version within
         the most recent Level of SBML available at the time libSBML version
-        5.13.0 was released.  The default Version is used by SBMLDocument if
+        5.15.2 was released.  The default Version is used by SBMLDocument if
         no Version is explicitly specified at the time of the construction of
         an SBMLDocument instance.
 
@@ -12918,7 +12938,7 @@ def SBMLDocument_getDefaultLevel():
     The default SBML Level of new SBMLDocument objects.
 
     This 'default Level' corresponds to the most recent SBML
-    specification Level available at the time libSBML version 5.13.0 was
+    specification Level available at the time libSBML version 5.15.2 was
     released.  The default Level is used by SBMLDocument if no Level is
     explicitly specified at the time of the construction of an
     SBMLDocument instance.
@@ -12949,7 +12969,7 @@ def SBMLDocument_getDefaultVersion():
 
     This 'default Version' corresponds to the most recent Version within
     the most recent Level of SBML available at the time libSBML version
-    5.13.0 was released.  The default Version is used by SBMLDocument if
+    5.15.2 was released.  The default Version is used by SBMLDocument if
     no Version is explicitly specified at the time of the construction of
     an SBMLDocument instance.
 
@@ -28109,7 +28129,7 @@ class Rule(SBase):
 
         The returned value can be any of a number of different strings,
         depending on the SBML Level in use and the kind of Rule object this
-        is.  The rules as of libSBML version 5.13.0 are the following:
+        is.  The rules as of libSBML version 5.15.2 are the following:
 
         * (Level 2 and 3) RateRule: returns 'rateRule'
 
@@ -28648,6 +28668,14 @@ class AlgebraicRule(Rule):
     the rates of reactions lacking kinetic laws are simply undefined, and
     not determined by the algebraic rule.)
 
+    In SBML Level 2 and Level 3 Version 1, the 'math' subelement of the
+    AlgebraicRule is required.  In SBML Level 3 Version 2, this rule is
+    relaxed, and the subelement is optional.  If an AlgebraicRule with no
+    'math' child is present in the model, no additional mathematical
+    constraints on the model are added by the rule.  This may represent a
+    situation where the model itself is unfinished, or the missing
+    information may be provided by an SBML Level 3 package.
+
     Finally, any symbol that appears as the target of a rateOf csymbol
     (AST_FUNCTION_RATE_OF, introduced in  SBML Level 3 Version 2) may  not
     be determined by an AlgebraicRule. This is because the rateOf  csymbol
@@ -28999,7 +29027,7 @@ class AssignmentRule(Rule):
     in SBML Level 3) or must (in SBML releases prior to Level 2 version 4)
     be the same as the units defined for the parameter.
 
-    * (For SBML Level 3 Version  2 only) In the case of  an object from an
+    * (For SBML Level 3 Version 2 only) In the case of  an object from an
     SBML Level 3 package, an AssignmentRule sets  the referenced object's
     value (as defined by that package) to the  value of the formula in
     math. The unit of measurement associated  with the value produced by
@@ -29425,7 +29453,7 @@ class RateRule(Rule):
     SBML releases prior to Level 2 version 4) be the Parameter object's
     'unit' attribute value divided by the model-wide unit of time.
 
-    * (For SBML Level 3 Version  2 only) In the case of  an object from an
+    * (For SBML Level 3 Version 2 only) In the case of  an object from an
     SBML Level 3 package, a RateRule sets the rate  of change of the
     referenced object's value (as defined by that package)  to the value
     of the formula in 'math'.  The unit of measurement associated  with
@@ -30593,7 +30621,7 @@ class Reaction(SBase):
     The Reaction object class has another boolean attribute called 'fast'.
     This attribute is optional in SBML Level 2, with a default of False;
     it is mandatory in SBML Level 3 (with no default value).   In SBML
-    Level 3 Version  2, a value of True for the 'fast' attribute is
+    Level 3 Version 2, a value of True for the 'fast' attribute is
     deprecated in favor of all reactions having a 'fast' value  of False.
     It is used to indicate that a reaction occurs on a vastly faster time
     scale than others in a system.  Readers are directed to the SBML Level
@@ -35543,6 +35571,15 @@ class ListOfSpeciesReferences(ListOf):
         """
         return _libsbml.ListOfSpeciesReferences_remove(self, *args)
 
+    def getType(self):
+        """
+        getType(ListOfSpeciesReferences self) -> unsigned int
+
+        Internal implementation method.
+
+        """
+        return _libsbml.ListOfSpeciesReferences_getType(self)
+
     __swig_destroy__ = _libsbml.delete_ListOfSpeciesReferences
     __del__ = lambda self : None;
 ListOfSpeciesReferences_swigregister = _libsbml.ListOfSpeciesReferences_swigregister
@@ -37832,7 +37869,7 @@ class EventAssignment(SBase):
     Level 3) or must (in previous Versions of Level 2) be identical to the
     units defined for the parameter.
 
-    * (For SBML Level 3 Version  2 only) In the case of  an object from an
+    * (For SBML Level 3 Version 2 only) In the case of  an object from an
     SBML Level 3 package, an EventAssignment sets  the referenced object's
     value (as defined by that package) to the  value of the formula in
     'math'. The unit of measurement associated  with the value produced by
@@ -39551,7 +39588,7 @@ class Delay(SBase):
         with SBML Level 2 Version 2, the units of that time are calculated
         based on the mathematical expression and the model quantities
         referenced by <ci> elements used within that expression.  (In SBML
-        Level  2 Version 1, there exists an attribute on Event called
+        Level 2 Version 1, there exists an attribute on Event called
         'timeUnits'.  This attribute can be used to set the units of the Delay
         expression explicitly.)  The method Delay.getDerivedUnitDefinition()
         returns what libSBML computes the units to be, to the extent that
@@ -39598,7 +39635,7 @@ class Delay(SBase):
         with SBML Level 2 Version 2, the units of that time are calculated
         based on the mathematical expression and the model quantities
         referenced by <ci> elements used within that expression.  (In SBML
-        Level  2 Version 1, there exists an attribute on Event called
+        Level 2 Version 1, there exists an attribute on Event called
         'timeUnits'.  This attribute can be used to set the units of the Delay
         expression explicitly.)  The method Delay.getDerivedUnitDefinition()
         returns what libSBML computes the units to be, to the extent that
@@ -42243,7 +42280,7 @@ class SyntaxChecker(_object):
         'message' structure.  Developers are urged to consult the appropriate
         SBML specification document for the Level and Version of their model
         for more in-depth explanations of using 'notes' in SBML.  The SBML
-        Level 2 and  3 specifications have considerable detail about how
+        Level 2 and 3 specifications have considerable detail about how
         'notes' element content must be structured.
 
         An aspect of XHTML validity is that the content is declared to be in
@@ -42617,7 +42654,7 @@ def SyntaxChecker_hasExpectedXHTMLSyntax(*args):
     'message' structure.  Developers are urged to consult the appropriate
     SBML specification document for the Level and Version of their model
     for more in-depth explanations of using 'notes' in SBML.  The SBML
-    Level 2 and  3 specifications have considerable detail about how
+    Level 2 and 3 specifications have considerable detail about how
     'notes' element content must be structured.
 
     An aspect of XHTML validity is that the content is declared to be in
@@ -44007,6 +44044,12 @@ class SBMLTransforms(_object):
 
     if _newclass:clearComponentValues = staticmethod(clearComponentValues)
     __swig_getmethods__["clearComponentValues"] = lambda x: clearComponentValues
+    def nodeContainsId(*args):
+        """nodeContainsId(ASTNode node, IdList ids) -> bool"""
+        return _libsbml.SBMLTransforms_nodeContainsId(*args)
+
+    if _newclass:nodeContainsId = staticmethod(nodeContainsId)
+    __swig_getmethods__["nodeContainsId"] = lambda x: nodeContainsId
     def __init__(self): 
         """__init__(SBMLTransforms self) -> SBMLTransforms"""
         this = _libsbml.new_SBMLTransforms()
@@ -44061,6 +44104,10 @@ def SBMLTransforms_mapComponentValues(*args):
 def SBMLTransforms_clearComponentValues():
   """SBMLTransforms_clearComponentValues()"""
   return _libsbml.SBMLTransforms_clearComponentValues()
+
+def SBMLTransforms_nodeContainsId(*args):
+  """SBMLTransforms_nodeContainsId(ASTNode node, IdList ids) -> bool"""
+  return _libsbml.SBMLTransforms_nodeContainsId(*args)
 
 CNV_TYPE_BOOL = _libsbml.CNV_TYPE_BOOL
 CNV_TYPE_DOUBLE = _libsbml.CNV_TYPE_DOUBLE
@@ -44606,7 +44653,7 @@ class ConversionProperties(_object):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.13.0:
+    provided by libSBML 5.15.2:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -45198,7 +45245,7 @@ class SBMLConverter(_object):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.13.0:
+    provided by libSBML 5.15.2:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -45708,7 +45755,7 @@ class SBMLFunctionDefinitionConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.13.0:
+    provided by libSBML 5.15.2:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -45964,7 +46011,7 @@ class SBMLIdConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.13.0:
+    provided by libSBML 5.15.2:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -46197,7 +46244,7 @@ class SBMLInferUnitsConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.13.0:
+    provided by libSBML 5.15.2:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -46445,7 +46492,7 @@ class SBMLInitialAssignmentConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.13.0:
+    provided by libSBML 5.15.2:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -46701,7 +46748,7 @@ class SBMLLevelVersionConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.13.0:
+    provided by libSBML 5.15.2:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -46891,6 +46938,39 @@ def SBMLLevelVersionConverter_init():
     """
   return _libsbml.SBMLLevelVersionConverter_init()
 
+class MathFilter(ElementFilter):
+    """Proxy of C++ MathFilter class"""
+    __swig_setmethods__ = {}
+    for _s in [ElementFilter]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, MathFilter, name, value)
+    __swig_getmethods__ = {}
+    for _s in [ElementFilter]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, MathFilter, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        """
+        __init__(MathFilter self) -> MathFilter
+
+        Internal implementation method.
+
+        """
+        this = _libsbml.new_MathFilter()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _libsbml.delete_MathFilter
+    __del__ = lambda self : None;
+    def filter(self, *args):
+        """
+        filter(MathFilter self, SBase element) -> bool
+
+        Internal implementation method.
+
+        """
+        return _libsbml.MathFilter_filter(self, *args)
+
+MathFilter_swigregister = _libsbml.MathFilter_swigregister
+MathFilter_swigregister(MathFilter)
+
 class SBMLLevel1Version1Converter(SBMLConverter):
     """
     Whole-document SBML Level/Version converter.
@@ -47004,7 +47084,7 @@ class SBMLLevel1Version1Converter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.13.0:
+    provided by libSBML 5.15.2:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -47247,7 +47327,7 @@ class SBMLLocalParameterConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.13.0:
+    provided by libSBML 5.15.2:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -47480,7 +47560,7 @@ class SBMLReactionConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.13.0:
+    provided by libSBML 5.15.2:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -47781,7 +47861,7 @@ class SBMLRuleConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.13.0:
+    provided by libSBML 5.15.2:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -48026,7 +48106,7 @@ class SBMLStripPackageConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.13.0:
+    provided by libSBML 5.15.2:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -48290,7 +48370,7 @@ class SBMLUnitsConverter(SBMLConverter):
 
     LibSBML provides a number of built-in converters; by convention, their
     names end in Converter. The following are the built-in converters
-    provided by libSBML 5.13.0:
+    provided by libSBML 5.15.2:
 
     @copydetails doc_list_of_libsbml_converters
 
@@ -51069,6 +51149,31 @@ class XMLToken(_object):
         """
         return _libsbml.XMLToken_getCharacters(self)
 
+    def setCharacters(self, *args):
+        """
+        setCharacters(XMLToken self, string chars) -> int
+
+        Sets the characters for this XMLToken
+
+        This method only makes sense for XMLToken objects that contains text.
+        If this method is called on a token that represents an XML start or
+        end tag, it will return the code LIBSBML_OPERATION_FAILED.
+
+        Parameter 'chars' is string, characters to append to the text of this
+        token.
+
+        Returns integer value indicating success/failure of the function.
+        The possible values returned by this function are:
+
+        * LIBSBML_OPERATION_SUCCESS
+
+        * LIBSBML_OPERATION_FAILED
+
+        See also isText(), isElement().
+
+        """
+        return _libsbml.XMLToken_setCharacters(self, *args)
+
     def append(self, *args):
         """
         append(XMLToken self, string chars) -> int
@@ -53465,7 +53570,7 @@ class XMLError(_object):
     Each XMLError object also contains a category code; its value may be
     retrieved using the method XMLError.getCategory().  Category values
     are drawn from a set of constants whose names begin with the
-    characters LIBSBML_CAT_, described below.  Categories are used by
+    characters LIBSBML_CAT_, described below. Categories are used by
     libSBML to provide more information to calling programs about the
     nature of a given error.
 
@@ -54498,6 +54603,17 @@ class XMLErrorLog(_object):
         """
         return _libsbml.XMLErrorLog_changeErrorSeverity(self, *args)
 
+    def contains(self, *args):
+        """
+        contains(XMLErrorLog self, unsigned int const errorId) -> bool
+
+        Returns True if XMLErrorLog contains an errorId
+
+        Parameter 'errorId' is the error identifier of the error to be found.
+
+        """
+        return _libsbml.XMLErrorLog_contains(self, *args)
+
     def __eq__(self, rhs):
       if ((self is None) and (rhs is None)): return True
       if ((self is None) or  (rhs is None)): return False
@@ -55118,6 +55234,7 @@ IdNameSBaseInL3V2 = _libsbml.IdNameSBaseInL3V2
 MissingParticipantsNotSupported = _libsbml.MissingParticipantsNotSupported
 ConvertibleMathInitialAssignment = _libsbml.ConvertibleMathInitialAssignment
 FastReactionsNotSupported = _libsbml.FastReactionsNotSupported
+SpeciesRefIdInMathMLNotSupported = _libsbml.SpeciesRefIdInMathMLNotSupported
 InvalidSBMLLevelVersion = _libsbml.InvalidSBMLLevelVersion
 AnnotationNotesNotAllowedLevel1 = _libsbml.AnnotationNotesNotAllowedLevel1
 InvalidRuleOrdering = _libsbml.InvalidRuleOrdering
@@ -55128,6 +55245,7 @@ SubsUnitsAllowedInKL = _libsbml.SubsUnitsAllowedInKL
 TimeUnitsAllowedInKL = _libsbml.TimeUnitsAllowedInKL
 FormulaInLevel1KL = _libsbml.FormulaInLevel1KL
 L3SubstanceUnitsOnModel = _libsbml.L3SubstanceUnitsOnModel
+StoichiometryMathMissingMath = _libsbml.StoichiometryMathMissingMath
 TimeUnitsRemoved = _libsbml.TimeUnitsRemoved
 BadMathML = _libsbml.BadMathML
 FailedMathMLReadOfDouble = _libsbml.FailedMathMLReadOfDouble
@@ -55336,831 +55454,936 @@ class SBMLError(XMLError):
     If the name of a code does not begin with one of the package nicknames
     (Layout, Fbc, Comp, Qual, etc.), then it is a code from libSBML core.
 
-      +----------------------------------------+------------------------------------------------------------------------------------------------------+-------+-------+-------+-------+-------+-------+-------+
-      |Enumerator                              |Meaning                                                                                               |L1 V1  |L1 V2  |L2 V1  |L2 V2  |L2 V3  |L2 V4  |L3 V1  |
-      +----------------------------------------+------------------------------------------------------------------------------------------------------+-------+-------+-------+-------+-------+-------+-------+
-      |XMLUnknownError                         |Unknown error                                                                                         |       |       |       |       |       |       |       |
-      |XMLOutOfMemory                          |Out of memory                                                                                         |       |       |       |       |       |       |       |
-      |XMLFileUnreadable                       |File unreadable                                                                                       |       |       |       |       |       |       |       |
-      |XMLFileUnwritable                       |File unwritable                                                                                       |       |       |       |       |       |       |       |
-      |XMLFileOperationError                   |File operation error                                                                                  |       |       |       |       |       |       |       |
-      |XMLNetworkAccessError                   |Network access error                                                                                  |       |       |       |       |       |       |       |
-      |InternalXMLParserError                  |Internal XML parser error                                                                             |       |       |       |       |       |       |       |
-      |UnrecognizedXMLParserCode               |Unrecognized XML parser code                                                                          |       |       |       |       |       |       |       |
-      |XMLTranscoderError                      |Transcoder error                                                                                      |       |       |       |       |       |       |       |
-      |MissingXMLDecl                          |Missing XML declaration                                                                               |       |       |       |       |       |       |       |
-      |MissingXMLEncoding                      |Missing XML encoding attribute                                                                        |       |       |       |       |       |       |       |
-      |BadXMLDecl                              |Bad XML declaration                                                                                   |       |       |       |       |       |       |       |
-      |BadXMLDOCTYPE                           |Bad XML DOCTYPE                                                                                       |       |       |       |       |       |       |       |
-      |InvalidCharInXML                        |Invalid character                                                                                     |       |       |       |       |       |       |       |
-      |BadlyFormedXML                          |Badly formed XML                                                                                      |       |       |       |       |       |       |       |
-      |UnclosedXMLToken                        |Unclosed token                                                                                        |       |       |       |       |       |       |       |
-      |InvalidXMLConstruct                     |Invalid XML construct                                                                                 |       |       |       |       |       |       |       |
-      |XMLTagMismatch                          |XML tag mismatch                                                                                      |       |       |       |       |       |       |       |
-      |DuplicateXMLAttribute                   |Duplicate attribute                                                                                   |       |       |       |       |       |       |       |
-      |UndefinedXMLEntity                      |Undefined XML entity                                                                                  |       |       |       |       |       |       |       |
-      |BadProcessingInstruction                |Bad XML processing instruction                                                                        |       |       |       |       |       |       |       |
-      |BadXMLPrefix                            |Bad XML prefix                                                                                        |       |       |       |       |       |       |       |
-      |BadXMLPrefixValue                       |Bad XML prefix value                                                                                  |       |       |       |       |       |       |       |
-      |MissingXMLRequiredAttribute             |Missing required attribute                                                                            |       |       |       |       |       |       |       |
-      |XMLAttributeTypeMismatch                |Attribute type mismatch                                                                               |       |       |       |       |       |       |       |
-      |XMLBadUTF8Content                       |Bad UTF8 content                                                                                      |       |       |       |       |       |       |       |
-      |MissingXMLAttributeValue                |Missing attribute value                                                                               |       |       |       |       |       |       |       |
-      |BadXMLAttributeValue                    |Bad attribute value                                                                                   |       |       |       |       |       |       |       |
-      |BadXMLAttribute                         |Bad XML attribute                                                                                     |       |       |       |       |       |       |       |
-      |UnrecognizedXMLElement                  |Unrecognized XML element                                                                              |       |       |       |       |       |       |       |
-      |BadXMLComment                           |Bad XML comment                                                                                       |       |       |       |       |       |       |       |
-      |BadXMLDeclLocation                      |Bad XML declaration location                                                                          |       |       |       |       |       |       |       |
-      |XMLUnexpectedEOF                        |Unexpected EOF                                                                                        |       |       |       |       |       |       |       |
-      |BadXMLIDValue                           |Bad XML ID value                                                                                      |       |       |       |       |       |       |       |
-      |BadXMLIDRef                             |Bad XML IDREF                                                                                         |       |       |       |       |       |       |       |
-      |UninterpretableXMLContent               |Uninterpretable XML content                                                                           |       |       |       |       |       |       |       |
-      |BadXMLDocumentStructure                 |Bad XML document structure                                                                            |       |       |       |       |       |       |       |
-      |InvalidAfterXMLContent                  |Invalid content after XML content                                                                     |       |       |       |       |       |       |       |
-      |XMLExpectedQuotedString                 |Expected quoted string                                                                                |       |       |       |       |       |       |       |
-      |XMLEmptyValueNotPermitted               |Empty value not permitted                                                                             |       |       |       |       |       |       |       |
-      |XMLBadNumber                            |Bad number                                                                                            |       |       |       |       |       |       |       |
-      |XMLBadColon                             |Colon character not permitted                                                                         |       |       |       |       |       |       |       |
-      |MissingXMLElements                      |Missing XML elements                                                                                  |       |       |       |       |       |       |       |
-      |XMLContentEmpty                         |Empty XML content                                                                                     |       |       |       |       |       |       |       |
-      |UnknownError                            |Encountered unknown internal libSBML error                                                            |       |       |       |       |       |       |       |
-      |NotUTF8                                 |File does not use UTF-8 encoding                                                                      |       |       |       |       |       |       |       |
-      |UnrecognizedElement                     |Encountered unrecognized element                                                                      |       |       |       |       |       |       |       |
-      |NotSchemaConformant                     |Document does not conform to the SBML XML schema                                                      |       |       |       |       |       |       |       |
-      |L3NotSchemaConformant                   |Document is not well-formed XML                                                                       |       |       |       |       |       |       |       |
-      |InvalidMathElement                      |Invalid MathML                                                                                        |       |       |       |       |       |       |       |
-      |DisallowedMathMLSymbol                  |Disallowed MathML symbol found                                                                        |       |       |       |       |       |       |       |
-      |DisallowedMathMLEncodingUse             |Use of the MathML 'encoding' attribute is not allowed on this element                                 |       |       |       |       |       |       |       |
-      |DisallowedDefinitionURLUse              |Use of the MathML 'definitionURL' attribute is not allowed on this element                            |       |       |       |       |       |       |       |
-      |BadCsymbolDefinitionURLValue            |Invalid <csymbol> 'definitionURL' attribute value                                                     |       |       |       |       |       |       |       |
-      |DisallowedMathTypeAttributeUse          |Use of the MathML 'type' attribute is not allowed on this element                                     |       |       |       |       |       |       |       |
-      |DisallowedMathTypeAttributeValue        |Disallowed MathML 'type' attribute value                                                              |       |       |       |       |       |       |       |
-      |LambdaOnlyAllowedInFunctionDef          |Use of <lambda> not permitted outside of FunctionDefinition objects                                   |       |       |       |       |       |       |       |
-      |BooleanOpsNeedBooleanArgs               |Non-Boolean argument given to Boolean operator                                                        |       |       |       |       |       |       |       |
-      |NumericOpsNeedNumericArgs               |Non-numerical argument given to numerical operator                                                    |       |       |       |       |       |       |       |
-      |ArgsToEqNeedSameType                    |Arguments to <eq> and <neq> must have the same data types                                             |       |       |       |       |       |       |       |
-      |PiecewiseNeedsConsistentTypes           |Terms in a  expression must have consistent data types                                                |       |       |       |       |       |       |       |
-      |PieceNeedsBoolean                       |The second argument of a  expression must yield a Boolean value                                       |       |       |       |       |       |       |       |
-      |ApplyCiMustBeUserFunction               |A <ci> element in this context must refer to a function definition                                    |       |       |       |       |       |       |       |
-      |ApplyCiMustBeModelComponent             |A <ci> element in this context must refer to a model component                                        |       |       |       |       |       |       |       |
-      |KineticLawParametersAreLocalOnly        |Cannot use a KineticLaw local parameter outside of its local scope                                    |       |       |       |       |       |       |       |
-      |MathResultMustBeNumeric                 |A formula's result in this context must be a numerical value                                          |       |       |       |       |       |       |       |
-      |OpsNeedCorrectNumberOfArgs              |Incorrect number of arguments given to MathML operator                                                |       |       |       |       |       |       |       |
-      |InvalidNoArgsPassedToFunctionDef        |Incorrect number of arguments given to function invocation                                            |       |       |       |       |       |       |       |
-      |DisallowedMathUnitsUse                  |Attribute 'units' is only permitted on <cn> elements                                                  |       |       |       |       |       |       |       |
-      |InvalidUnitsValue                       |Invalid value given for the 'units' attribute                                                         |       |       |       |       |       |       |       |
-      |DuplicateComponentId                    |Duplicate 'id' attribute value                                                                        |       |       |       |       |       |       |       |
-      |DuplicateUnitDefinitionId               |Duplicate unit definition 'id' attribute value                                                        |       |       |       |       |       |       |       |
-      |DuplicateLocalParameterId               |Duplicate local parameter 'id' attribute value                                                        |       |       |       |       |       |       |       |
-      |MultipleAssignmentOrRateRules           |Multiple rules for the same variable are not allowed                                                  |       |       |       |       |       |       |       |
-      |MultipleEventAssignmentsForId           |Multiple event assignments for the same variable are not allowed                                      |       |       |       |       |       |       |       |
-      |EventAndAssignmentRuleForId             |An event assignment and an assignment rule must not have the same value for 'variable'                |       |       |       |       |       |       |       |
-      |DuplicateMetaId                         |Duplicate 'metaid' attribute value                                                                    |       |       |       |       |       |       |       |
-      |InvalidSBOTermSyntax                    |Invalid syntax for an 'sboTerm' attribute value                                                       |       |       |       |       |       |       |       |
-      |InvalidMetaidSyntax                     |Invalid syntax for a 'metaid' attribute value                                                         |       |       |       |       |       |       |       |
-      |InvalidIdSyntax                         |Invalid syntax for an 'id' attribute value                                                            |       |       |       |       |       |       |       |
-      |InvalidUnitIdSyntax                     |Invalid syntax for the identifier of a unit                                                           |       |       |       |       |       |       |       |
-      |InvalidNameSyntax                       |Invalid syntax for a 'name' attribute value                                                           |       |       |       |       |       |       |       |
-      |MissingAnnotationNamespace              |Missing declaration of the XML namespace for the annotation                                           |       |       |       |       |       |       |       |
-      |DuplicateAnnotationNamespaces           |Multiple annotations using the same XML namespace                                                     |       |       |       |       |       |       |       |
-      |SBMLNamespaceInAnnotation               |The SBML XML namespace cannot be used in an Annotation object                                         |       |       |       |       |       |       |       |
-      |MultipleAnnotations                     |Only one Annotation object is permitted under a given SBML object                                     |       |       |       |       |       |       |       |
-      |InconsistentArgUnits                    |The units of the function call's arguments are not consistent with its definition                     |       |       |       |       |       |       |       |
-      |InconsistentKineticLawUnitsL3           |The kinetic law's units are inconsistent with those of other kinetic laws in the model                |       |       |       |       |       |       |       |
-      |AssignRuleCompartmentMismatch           |Mismatched units in assignment rule for compartment                                                   |       |       |       |       |       |       |       |
-      |AssignRuleSpeciesMismatch               |Mismatched units in assignment rule for species                                                       |       |       |       |       |       |       |       |
-      |AssignRuleParameterMismatch             |Mismatched units in assignment rule for parameter                                                     |       |       |       |       |       |       |       |
-      |AssignRuleStoichiometryMismatch         |Mismatched units in assignment rule for stoichiometry                                                 |       |       |       |       |       |       |       |
-      |InitAssignCompartmenMismatch            |Mismatched units in initial assignment to compartment                                                 |       |       |       |       |       |       |       |
-      |InitAssignSpeciesMismatch               |Mismatched units in initial assignment to species                                                     |       |       |       |       |       |       |       |
-      |InitAssignParameterMismatch             |Mismatched units in initial assignment to parameter                                                   |       |       |       |       |       |       |       |
-      |InitAssignStoichiometryMismatch         |Mismatched units in initial assignment to stoichiometry                                               |       |       |       |       |       |       |       |
-      |RateRuleCompartmentMismatch             |Mismatched units in rate rule for compartment                                                         |       |       |       |       |       |       |       |
-      |RateRuleSpeciesMismatch                 |Mismatched units in rate rule for species                                                             |       |       |       |       |       |       |       |
-      |RateRuleParameterMismatch               |Mismatched units in rate rule for parameter                                                           |       |       |       |       |       |       |       |
-      |RateRuleStoichiometryMismatch           |Mismatched units in rate rule for stoichiometry                                                       |       |       |       |       |       |       |       |
-      |KineticLawNotSubstancePerTime           |The units of the kinetic law are not 'substance'/'time'                                               |       |       |       |       |       |       |       |
-      |SpeciesInvalidExtentUnits               |The species' units are not consistent with units of extent                                            |       |       |       |       |       |       |       |
-      |DelayUnitsNotTime                       |The units of the delay expression are not units of time                                               |       |       |       |       |       |       |       |
-      |EventAssignCompartmentMismatch          |Mismatched units in event assignment for compartment                                                  |       |       |       |       |       |       |       |
-      |EventAssignSpeciesMismatch              |Mismatched units in event assignment for species                                                      |       |       |       |       |       |       |       |
-      |EventAssignParameterMismatch            |Mismatched units in event assignment for parameter                                                    |       |       |       |       |       |       |       |
-      |EventAssignStoichiometryMismatch        |Mismatched units in event assignment for stoichiometry                                                |       |       |       |       |       |       |       |
-      |PriorityUnitsNotDimensionless           |The units of a priority expression must be 'dimensionless'                                            |       |       |       |       |       |       |       |
-      |OverdeterminedSystem                    |The model is overdetermined                                                                           |       |       |       |       |       |       |       |
-      |InvalidModelSBOTerm                     |Invalid 'sboTerm' attribute value for a Model object                                                  |       |       |       |       |       |       |       |
-      |InvalidFunctionDefSBOTerm               |Invalid 'sboTerm' attribute value for a FunctionDefinition object                                     |       |       |       |       |       |       |       |
-      |InvalidParameterSBOTerm                 |Invalid 'sboTerm' attribute value for a Parameter object                                              |       |       |       |       |       |       |       |
-      |InvalidInitAssignSBOTerm                |Invalid 'sboTerm' attribute value for an InitialAssignment object                                     |       |       |       |       |       |       |       |
-      |InvalidRuleSBOTerm                      |Invalid 'sboTerm' attribute value for a Rule object                                                   |       |       |       |       |       |       |       |
-      |InvalidConstraintSBOTerm                |Invalid 'sboTerm' attribute value for a Constraint object                                             |       |       |       |       |       |       |       |
-      |InvalidReactionSBOTerm                  |Invalid 'sboTerm' attribute value for a Reaction object                                               |       |       |       |       |       |       |       |
-      |InvalidSpeciesReferenceSBOTerm          |Invalid 'sboTerm' attribute value for a SpeciesReference object                                       |       |       |       |       |       |       |       |
-      |InvalidKineticLawSBOTerm                |Invalid 'sboTerm' attribute value for a KineticLaw object                                             |       |       |       |       |       |       |       |
-      |InvalidEventSBOTerm                     |Invalid 'sboTerm' attribute value for an Event object                                                 |       |       |       |       |       |       |       |
-      |InvalidEventAssignmentSBOTerm           |Invalid 'sboTerm' attribute value for an EventAssignment object                                       |       |       |       |       |       |       |       |
-      |InvalidCompartmentSBOTerm               |Invalid 'sboTerm' attribute value for a Compartment object                                            |       |       |       |       |       |       |       |
-      |InvalidSpeciesSBOTerm                   |Invalid 'sboTerm' attribute value for a Species object                                                |       |       |       |       |       |       |       |
-      |InvalidCompartmentTypeSBOTerm           |Invalid 'sboTerm' attribute value for a CompartmentType object                                        |       |       |       |       |       |       |       |
-      |InvalidSpeciesTypeSBOTerm               |Invalid 'sboTerm' attribute value for a SpeciesType object                                            |       |       |       |       |       |       |       |
-      |InvalidTriggerSBOTerm                   |Invalid 'sboTerm' attribute value for an Event Trigger object                                         |       |       |       |       |       |       |       |
-      |InvalidDelaySBOTerm                     |Invalid 'sboTerm' attribute value for an Event Delay object                                           |       |       |       |       |       |       |       |
-      |NotesNotInXHTMLNamespace                |Notes must be placed in the XHTML XML namespace                                                       |       |       |       |       |       |       |       |
-      |NotesContainsXMLDecl                    |XML declarations are not permitted in Notes objects                                                   |       |       |       |       |       |       |       |
-      |NotesContainsDOCTYPE                    |XML DOCTYPE elements are not permitted in Notes objects                                               |       |       |       |       |       |       |       |
-      |InvalidNotesContent                     |Invalid notes content found                                                                           |       |       |       |       |       |       |       |
-      |OnlyOneNotesElementAllowed              |Only one Notes subobject is permitted on a given SBML object                                          |       |       |       |       |       |       |       |
-      |InvalidNamespaceOnSBML                  |Invalid XML namespace for the SBML container element                                                  |       |       |       |       |       |       |       |
-      |MissingOrInconsistentLevel              |Missing or inconsistent value for the 'level' attribute                                               |       |       |       |       |       |       |       |
-      |MissingOrInconsistentVersion            |Missing or inconsistent value for the 'version' attribute                                             |       |       |       |       |       |       |       |
-      |PackageNSMustMatch                      |Inconsistent or invalid SBML Level/Version for the package namespace declaration                      |       |       |       |       |       |       |       |
-      |LevelPositiveInteger                    |The 'level' attribute must have a positive integer value                                              |       |       |       |       |       |       |       |
-      |VersionPositiveInteger                  |The 'version' attribute must have a positive integer value                                            |       |       |       |       |       |       |       |
-      |AllowedAttributesOnSBML                 |Invalid attribute found on the SBML container element                                                 |       |       |       |       |       |       |       |
-      |L3PackageOnLowerSBML                    |An L3 package ns found on the SBML container element                                                  |       |       |       |       |       |       |       |
-      |MissingModel                            |No model definition found                                                                             |       |       |       |       |       |       |       |
-      |IncorrectOrderInModel                   |Incorrect ordering of components within the Model object                                              |       |       |       |       |       |       |       |
-      |EmptyListElement                        |Empty ListOf___ object found                                                                          |       |       |       |       |       |       |       |
-      |NeedCompartmentIfHaveSpecies            |The presence of a species requires a compartment                                                      |       |       |       |       |       |       |       |
-      |OneOfEachListOf                         |Only one of each kind of ListOf___ object is allowed inside a Model object                            |       |       |       |       |       |       |       |
-      |OnlyFuncDefsInListOfFuncDefs            |Only FunctionDefinition, Notes and Annotation objects are allowed in ListOfFunctionDefinitions        |       |       |       |       |       |       |       |
-      |OnlyUnitDefsInListOfUnitDefs            |Only UnitDefinition, Notes and Annotation objects are allowed in ListOfUnitDefinitions objects        |       |       |       |       |       |       |       |
-      |OnlyCompartmentsInListOfCompartments    |Only Compartment, Notes and Annotation objects are allowed in ListOfCompartments objects              |       |       |       |       |       |       |       |
-      |OnlySpeciesInListOfSpecies              |Only Species, Notes and Annotation objects are allowed in ListOfSpecies objects                       |       |       |       |       |       |       |       |
-      |OnlyParametersInListOfParameters        |Only Parameter, Notes and Annotation objects are allowed in ListOfParameters objects                  |       |       |       |       |       |       |       |
-      |OnlyInitAssignsInListOfInitAssigns      |Only InitialAssignment, Notes and Annotation objects are allowed in ListOfInitialAssignments objects  |       |       |       |       |       |       |       |
-      |OnlyRulesInListOfRules                  |Only Rule, Notes and Annotation objects are allowed in ListOfRules objects                            |       |       |       |       |       |       |       |
-      |OnlyConstraintsInListOfConstraints      |Only Constraint, Notes and Annotation objects are allowed in ListOfConstraints objects                |       |       |       |       |       |       |       |
-      |OnlyReactionsInListOfReactions          |Only Reaction, Notes and Annotation objects are allowed in ListOfReactions objects                    |       |       |       |       |       |       |       |
-      |OnlyEventsInListOfEvents                |Only Event, Notes and Annotation objects are allowed in ListOfEvents objects                          |       |       |       |       |       |       |       |
-      |L3ConversionFactorOnModel               |A 'conversionFactor' attribute value must reference a Parameter object                                |       |       |       |       |       |       |       |
-      |L3TimeUnitsOnModel                      |Invalid 'timeUnits' attribute value                                                                   |       |       |       |       |       |       |       |
-      |L3VolumeUnitsOnModel                    |Invalid 'volumeUnits' attribute value                                                                 |       |       |       |       |       |       |       |
-      |L3AreaUnitsOnModel                      |Invalid 'areaUnits' attribute value                                                                   |       |       |       |       |       |       |       |
-      |L3LengthUnitsOnModel                    |Invalid 'lengthUnits' attribute value                                                                 |       |       |       |       |       |       |       |
-      |L3ExtentUnitsOnModel                    |Invalid 'extentUnits' attribute value                                                                 |       |       |       |       |       |       |       |
-      |AllowedAttributesOnModel                |Invalid attribute found on the Model object                                                           |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfFuncs          |Invalid attribute found on the ListOfFunctionDefinitions object                                       |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfUnitDefs       |Invalid attribute found on the ListOfUnitDefinitions object                                           |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfComps          |Invalid attribute found on the ListOfCompartments object                                              |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfSpecies        |Invalid attribute found on the ListOfSpecies object                                                   |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfParams         |Invalid attribute found on the ListOfParameters object                                                |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfInitAssign     |Invalid attribute found on the ListOfInitialAssignments object                                        |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfRules          |Invalid attribute found on the ListOfRules object                                                     |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfConstraints    |Invalid attribute found on the ListOfConstraints object                                               |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfReactions      |Invalid attribute found on the ListOfReactions object                                                 |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfEvents         |Invalid attribute found on the ListOfEvents object                                                    |       |       |       |       |       |       |       |
-      |FunctionDefMathNotLambda                |Invalid expression found in the function definition                                                   |       |       |       |       |       |       |       |
-      |InvalidApplyCiInLambda                  |Invalid forward reference in the MathML <apply><ci>...</ci></apply> expression                        |       |       |       |       |       |       |       |
-      |RecursiveFunctionDefinition             |Recursive function definitions are not permitted                                                      |       |       |       |       |       |       |       |
-      |InvalidCiInLambda                       |Invalid <ci> reference found inside the <lambda> mathematical formula                                 |       |       |       |       |       |       |       |
-      |InvalidFunctionDefReturnType            |A function's return type must be either a number or a Boolean                                         |       |       |       |       |       |       |       |
-      |OneMathElementPerFunc                   |A FunctionDefinition object must contain one <math> element                                           |       |       |       |       |       |       |       |
-      |AllowedAttributesOnFunc                 |Invalid attribute found on the FunctionDefinition object                                              |       |       |       |       |       |       |       |
-      |InvalidUnitDefId                        |Invalid 'id' attribute value for a UnitDefinition object                                              |       |       |       |       |       |       |       |
-      |InvalidSubstanceRedefinition            |Invalid redefinition of built-in type 'substance'                                                     |       |       |       |       |       |       |       |
-      |InvalidLengthRedefinition               |Invalid redefinition of built-in type 'length'                                                        |       |       |       |       |       |       |       |
-      |InvalidAreaRedefinition                 |Invalid redefinition of built-in type name 'area'                                                     |       |       |       |       |       |       |       |
-      |InvalidTimeRedefinition                 |Invalid redefinition of built-in type name 'time'                                                     |       |       |       |       |       |       |       |
-      |InvalidVolumeRedefinition               |Invalid redefinition of built-in type name 'volume'                                                   |       |       |       |       |       |       |       |
-      |VolumeLitreDefExponentNotOne            |Must use 'exponent'=1 when defining 'volume' in terms of litres                                       |       |       |       |       |       |       |       |
-      |VolumeMetreDefExponentNot3              |Must use 'exponent'=3 when defining 'volume' in terms of metres                                       |       |       |       |       |       |       |       |
-      |EmptyListOfUnits                        |An empty list of Unit objects is not permitted in a UnitDefinition object                             |       |       |       |       |       |       |       |
-      |InvalidUnitKind                         |Invalid value for the 'kind' attribute of a UnitDefinition object                                     |       |       |       |       |       |       |       |
-      |OffsetNoLongerValid                     |Unit attribute 'offset' is not supported in this Level+Version of SBML                                |       |       |       |       |       |       |       |
-      |CelsiusNoLongerValid                    |Unit name 'Celsius' is not defined in this Level+Version of SBML                                      |       |       |       |       |       |       |       |
-      |EmptyUnitListElement                    |A ListOfUnits object must not be empty                                                                |       |       |       |       |       |       |       |
-      |OneListOfUnitsPerUnitDef                |At most one ListOfUnits object is allowed inside a UnitDefinition object                              |       |       |       |       |       |       |       |
-      |OnlyUnitsInListOfUnits                  |Only Unit, Notes and Annotation objects are allowed in ListOfUnits objects                            |       |       |       |       |       |       |       |
-      |AllowedAttributesOnUnitDefinition       |Invalid attribute found on the UnitDefinition object                                                  |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfUnits          |Invalid attribute found on the ListOfUnits object                                                     |       |       |       |       |       |       |       |
-      |AllowedAttributesOnUnit                 |Invalid attribute found on the Unit object                                                            |       |       |       |       |       |       |       |
-      |ZeroDimensionalCompartmentSize          |Invalid use of the 'size' attribute for a zero-dimensional compartment                                |       |       |       |       |       |       |       |
-      |ZeroDimensionalCompartmentUnits         |Invalid use of the 'units' attribute for a zero-dimensional compartment                               |       |       |       |       |       |       |       |
-      |ZeroDimensionalCompartmentConst         |Zero-dimensional compartments must be defined to be constant                                          |       |       |       |       |       |       |       |
-      |UndefinedOutsideCompartment             |Invalid value for the 'outside' attribute of a Compartment object                                     |       |       |       |       |       |       |       |
-      |RecursiveCompartmentContainment         |Recursive nesting of compartments via the 'outside' attribute is not permitted                        |       |       |       |       |       |       |       |
-      |ZeroDCompartmentContainment             |Invalid nesting of zero-dimensional compartments                                                      |       |       |       |       |       |       |       |
-      |Invalid1DCompartmentUnits               |Invalid value for the 'units' attribute of a one-dimensional compartment                              |       |       |       |       |       |       |       |
-      |Invalid2DCompartmentUnits               |Invalid value for the 'units' attribute of a two-dimensional compartment                              |       |       |       |       |       |       |       |
-      |Invalid3DCompartmentUnits               |Invalid value for the 'units' attribute of a three-dimensional compartment                            |       |       |       |       |       |       |       |
-      |InvalidCompartmentTypeRef               |Invalid value for the 'compartmentType' attribute of a compartment                                    |       |       |       |       |       |       |       |
-      |OneDimensionalCompartmentUnits          |No units defined for 1-D compartment                                                                  |       |       |       |       |       |       |       |
-      |TwoDimensionalCompartmentUnits          |No units defined for 2-D compartment                                                                  |       |       |       |       |       |       |       |
-      |ThreeDimensionalCompartmentUnits        |No units defined for 3-D Compartment object                                                           |       |       |       |       |       |       |       |
-      |AllowedAttributesOnCompartment          |Invalid attribute found on Compartment object                                                         |       |       |       |       |       |       |       |
-      |NoUnitsOnCompartment                    |No units defined for Compartment object                                                               |       |       |       |       |       |       |       |
-      |InvalidSpeciesCompartmentRef            |Invalid value found for Species 'compartment' attribute                                               |       |       |       |       |       |       |       |
-      |HasOnlySubsNoSpatialUnits               |Attribute 'spatialSizeUnits' must not be set if 'hasOnlySubstanceUnits'='true'                        |       |       |       |       |       |       |       |
-      |NoSpatialUnitsInZeroD                   |Attribute 'spatialSizeUnits' must not be set if the compartment is zero-dimensional                   |       |       |       |       |       |       |       |
-      |NoConcentrationInZeroD                  |Attribute 'initialConcentration' must not be set if the compartment is zero-dimensional               |       |       |       |       |       |       |       |
-      |SpatialUnitsInOneD                      |Invalid value for 'spatialSizeUnits' attribute of a one-dimensional compartment                       |       |       |       |       |       |       |       |
-      |SpatialUnitsInTwoD                      |Invalid value for the 'spatialSizeUnits' attribute of a two-dimensional compartment                   |       |       |       |       |       |       |       |
-      |SpatialUnitsInThreeD                    |Invalid value for the 'spatialSizeUnits' attribute of a three-dimensional compartment                 |       |       |       |       |       |       |       |
-      |InvalidSpeciesSusbstanceUnits           |Invalid value for a Species 'units' attribute                                                         |       |       |       |       |       |       |       |
-      |BothAmountAndConcentrationSet           |Cannot set both 'initialConcentration' and 'initialAmount' attributes simultaneously                  |       |       |       |       |       |       |       |
-      |NonBoundarySpeciesAssignedAndUsed       |Cannot use a non-boundary species in both reactions and rules simultaneously                          |       |       |       |       |       |       |       |
-      |NonConstantSpeciesUsed                  |Cannot use a constant, non-boundary species as a reactant or product                                  |       |       |       |       |       |       |       |
-      |InvalidSpeciesTypeRef                   |Invalid value for the 'speciesType' attribute of a species                                            |       |       |       |       |       |       |       |
-      |MultSpeciesSameTypeInCompartment        |Cannot have multiple species of the same species type in the same compartment                         |       |       |       |       |       |       |       |
-      |MissingSpeciesCompartment               |Missing value for the 'compartment' attribute                                                         |       |       |       |       |       |       |       |
-      |SpatialSizeUnitsRemoved                 |Attribute 'spatialSizeUnits' is not supported in this Level+Version of SBML                           |       |       |       |       |       |       |       |
-      |SubstanceUnitsOnSpecies                 |No substance units defined for the species                                                            |       |       |       |       |       |       |       |
-      |ConversionFactorOnSpecies               |Invalid value for the 'conversionFactor' attribute                                                    |       |       |       |       |       |       |       |
-      |AllowedAttributesOnSpecies              |Invalid attribute found on Species object                                                             |       |       |       |       |       |       |       |
-      |InvalidParameterUnits                   |Invalid value for the 'units' attribute of a Parameter object                                         |       |       |       |       |       |       |       |
-      |ParameterUnits                          |No units defined for the parameter                                                                    |       |       |       |       |       |       |       |
-      |ConversionFactorMustConstant            |A conversion factor must reference a Parameter object declared to be a constant                       |       |       |       |       |       |       |       |
-      |AllowedAttributesOnParameter            |Invalid attribute found on Parameter object                                                           |       |       |       |       |       |       |       |
-      |InvalidInitAssignSymbol                 |Invalid value for the 'symbol' attribute of an InitialAssignment object                               |       |       |       |       |       |       |       |
-      |MultipleInitAssignments                 |Multiple initial assignments for the same 'symbol' value are not allowed                              |       |       |       |       |       |       |       |
-      |InitAssignmentAndRuleForSameId          |Cannot set a value using both an initial assignment and an assignment rule simultaneously             |       |       |       |       |       |       |       |
-      |OneMathElementPerInitialAssign          |An InitialAssignment object must contain one <math> element                                           |       |       |       |       |       |       |       |
-      |AllowedAttributesOnInitialAssign        |Invalid attribute found on an InitialAssignment object                                                |       |       |       |       |       |       |       |
-      |InvalidAssignRuleVariable               |Invalid value for the 'variable' attribute of an AssignmentRule object                                |       |       |       |       |       |       |       |
-      |InvalidRateRuleVariable                 |Invalid value for the 'variable' attribute of a RateRule object                                       |       |       |       |       |       |       |       |
-      |AssignmentToConstantEntity              |An assignment rule cannot assign an entity declared to be constant                                    |       |       |       |       |       |       |       |
-      |RateRuleForConstantEntity               |A rate rule cannot assign an entity declared to be constant                                           |       |       |       |       |       |       |       |
-      |CircularRuleDependency                  |Circular dependencies involving rules and reactions are not permitted                                 |       |       |       |       |       |       |       |
-      |OneMathElementPerRule                   |A rule object must contain one <math> element                                                         |       |       |       |       |       |       |       |
-      |AllowedAttributesOnAssignRule           |Invalid attribute found on an AssignmentRule object                                                   |       |       |       |       |       |       |       |
-      |AllowedAttributesOnRateRule             |Invalid attribute found on a RateRule object                                                          |       |       |       |       |       |       |       |
-      |AllowedAttributesOnAlgRule              |Invalid attribute found on an AlgebraicRule object                                                    |       |       |       |       |       |       |       |
-      |ConstraintMathNotBoolean                |A Constraint object's <math> must evaluate to a Boolean value                                         |       |       |       |       |       |       |       |
-      |IncorrectOrderInConstraint              |Subobjects inside the Constraint object are not in the prescribed order                               |       |       |       |       |       |       |       |
-      |ConstraintNotInXHTMLNamespace           |A Constraint's Message subobject must be in the XHTML XML namespace                                   |       |       |       |       |       |       |       |
-      |ConstraintContainsXMLDecl               |XML declarations are not permitted within Constraint's Message objects                                |       |       |       |       |       |       |       |
-      |ConstraintContainsDOCTYPE               |XML DOCTYPE elements are not permitted within Constraint's Message objects                            |       |       |       |       |       |       |       |
-      |InvalidConstraintContent                |Invalid content for a Constraint object's Message object                                              |       |       |       |       |       |       |       |
-      |OneMathElementPerConstraint             |A Constraint object must contain one <math> element                                                   |       |       |       |       |       |       |       |
-      |OneMessageElementPerConstraint          |A Constraint object must contain one Message subobject                                                |       |       |       |       |       |       |       |
-      |AllowedAttributesOnConstraint           |Invalid attribute found on Constraint object                                                          |       |       |       |       |       |       |       |
-      |NoReactantsOrProducts                   |Cannot have a reaction with neither reactants nor products                                            |       |       |       |       |       |       |       |
-      |IncorrectOrderInReaction                |Subobjects inside the Reaction object are not in the prescribed order                                 |       |       |       |       |       |       |       |
-      |EmptyListInReaction                     |Reaction components, if present, cannot be empty                                                      |       |       |       |       |       |       |       |
-      |InvalidReactantsProductsList            |Invalid object found in the list of reactants or products                                             |       |       |       |       |       |       |       |
-      |InvalidModifiersList                    |Invalid object found in the list of modifiers                                                         |       |       |       |       |       |       |       |
-      |OneSubElementPerReaction                |A Reaction object can only contain one of each allowed type of object                                 |       |       |       |       |       |       |       |
-      |CompartmentOnReaction                   |Invalid value for the Reaction 'compartment' attribute                                                |       |       |       |       |       |       |       |
-      |AllowedAttributesOnReaction             |Invalid attribute for a Reaction object                                                               |       |       |       |       |       |       |       |
-      |InvalidSpeciesReference                 |Invalid 'species' attribute value in SpeciesReference object                                          |       |       |       |       |       |       |       |
-      |BothStoichiometryAndMath                |The 'stoichiometry' attribute and StoichiometryMath subobject are mutually exclusive                  |       |       |       |       |       |       |       |
-      |AllowedAttributesOnSpeciesReference     |Invalid attribute found on the SpeciesReference object                                                |       |       |       |       |       |       |       |
-      |AllowedAttributesOnModifier             |Invalid attribute found on the ModifierSpeciesReference object                                        |       |       |       |       |       |       |       |
-      |UndeclaredSpeciesRef                    |Unknown species referenced in the kinetic law <math> formula                                          |       |       |       |       |       |       |       |
-      |IncorrectOrderInKineticLaw              |Incorrect ordering of components in the KineticLaw object                                             |       |       |       |       |       |       |       |
-      |EmptyListInKineticLaw                   |The list of parameters, if present, cannot be empty                                                   |       |       |       |       |       |       |       |
-      |NonConstantLocalParameter               |Parameters local to a KineticLaw object must have a 'constant' attribute value of 'true'              |       |       |       |       |       |       |       |
-      |SubsUnitsNoLongerValid                  |Attribute 'substanceUnits' is not supported in this Level+Version of SBML                             |       |       |       |       |       |       |       |
-      |TimeUnitsNoLongerValid                  |Attribute 'timeUnits' is not supported in this Level+Version of SBML                                  |       |       |       |       |       |       |       |
-      |OneListOfPerKineticLaw                  |Only one ListOfLocalParameters object is permitted within a KineticLaw object                         |       |       |       |       |       |       |       |
-      |OnlyLocalParamsInListOfLocalParams      |Only LocalParameter, Notes and Annotation objects are allowed in ListOfLocalParameter objects         |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfLocalParam     |Invalid attribute found on the ListOfLocalParameters object                                           |       |       |       |       |       |       |       |
-      |OneMathPerKineticLaw                    |Only one <math> element is allowed in a KineticLaw object                                             |       |       |       |       |       |       |       |
-      |UndeclaredSpeciesInStoichMath           |Unknown species referenced in the StoichiometryMath object's <math> formula                           |       |       |       |       |       |       |       |
-      |AllowedAttributesOnKineticLaw           |Invalid attribute found on the KineticLaw object                                                      |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfSpeciesRef     |Invalid attribute found on the ListOfSpeciesReferences object                                         |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfMods           |Invalid attribute found on the ListOfModifiers object                                                 |       |       |       |       |       |       |       |
-      |AllowedAttributesOnLocalParameter       |Invalid attribute found on the LocalParameter object                                                  |       |       |       |       |       |       |       |
-      |MissingTriggerInEvent                   |The Event object is missing a Trigger subobject                                                       |       |       |       |       |       |       |       |
-      |TriggerMathNotBoolean                   |A Trigger object's <math> expression must evaluate to a Boolean value                                 |       |       |       |       |       |       |       |
-      |MissingEventAssignment                  |The Event object is missing an EventAssignment subobject                                              |       |       |       |       |       |       |       |
-      |TimeUnitsEvent                          |Units referenced by 'timeUnits' attribute are not compatible with units of time                       |       |       |       |       |       |       |       |
-      |IncorrectOrderInEvent                   |Incorrect ordering of components in Event object                                                      |       |       |       |       |       |       |       |
-      |ValuesFromTriggerTimeNeedDelay          |Attribute 'useValuesFromTriggerTime'='false', but the Event object does not define a delay            |       |       |       |       |       |       |       |
-      |DelayNeedsValuesFromTriggerTime         |The use of a Delay object requires the Event attribute 'useValuesFromTriggerTime'                     |       |       |       |       |       |       |       |
-      |OneMathPerTrigger                       |A Trigger object must have one <math> element                                                         |       |       |       |       |       |       |       |
-      |OneMathPerDelay                         |A Delay object must have one <math> element                                                           |       |       |       |       |       |       |       |
-      |InvalidEventAssignmentVariable          |Invalid 'variable' attribute value in Event object                                                    |       |       |       |       |       |       |       |
-      |EventAssignmentForConstantEntity        |An EventAssignment object cannot assign to a component having attribute 'constant'='true'             |       |       |       |       |       |       |       |
-      |OneMathPerEventAssignment               |An EventAssignment object must have one <math> element                                                |       |       |       |       |       |       |       |
-      |AllowedAttributesOnEventAssignment      |Invalid attribute found on the EventAssignment object                                                 |       |       |       |       |       |       |       |
-      |OnlyOneDelayPerEvent                    |An Event object can only have one Delay subobject                                                     |       |       |       |       |       |       |       |
-      |OneListOfEventAssignmentsPerEvent       |An Event object can only have one ListOfEventAssignments subobject                                    |       |       |       |       |       |       |       |
-      |OnlyEventAssignInListOfEventAssign      |Only EventAssignment, Notes and Annotation objects are allowed in ListOfEventAssignments              |       |       |       |       |       |       |       |
-      |AllowedAttributesOnListOfEventAssign    |Invalid attribute found on the ListOfEventAssignments object                                          |       |       |       |       |       |       |       |
-      |AllowedAttributesOnEvent                |Invalid attribute found on the Event object                                                           |       |       |       |       |       |       |       |
-      |AllowedAttributesOnTrigger              |Invalid attribute found on the Trigger object                                                         |       |       |       |       |       |       |       |
-      |AllowedAttributesOnDelay                |Invalid attribute found on the Delay object                                                           |       |       |       |       |       |       |       |
-      |PersistentNotBoolean                    |The Trigger attribute 'persistent' must evaluate to a Boolean value                                   |       |       |       |       |       |       |       |
-      |InitialValueNotBoolean                  |The Trigger attribute 'initialValue' must evaluate to a Boolean value                                 |       |       |       |       |       |       |       |
-      |OnlyOnePriorityPerEvent                 |An Event object can only have one Priority subobject                                                  |       |       |       |       |       |       |       |
-      |OneMathPerPriority                      |A Priority object must have one <math> element                                                        |       |       |       |       |       |       |       |
-      |AllowedAttributesOnPriority             |Invalid attribute found on the Priority object                                                        |       |       |       |       |       |       |       |
-      |CompartmentShouldHaveSize               |It's best to define a size for every compartment in a model                                           |       |       |       |       |       |       |       |
-      |SpeciesShouldHaveValue                  |It's best to define an initial amount or initial concentration for every species in a model           |       |       |       |       |       |       |       |
-      |ParameterShouldHaveUnits                |It's best to declare units for every parameter in a model                                             |       |       |       |       |       |       |       |
-      |LocalParameterShadowsId                 |Local parameters defined within a kinetic law shadow global object symbols                            |       |       |       |       |       |       |       |
-      |CannotConvertToL1V1                     |Cannot convert to SBML Level 1 Version 1                                                              |       |       |       |       |       |       |       |
-      |NoEventsInL1                            |SBML Level 1 does not support events                                                                  |       |       |       |       |       |       |       |
-      |NoFunctionDefinitionsInL1               |SBML Level 1 does not support function definitions                                                    |       |       |       |       |       |       |       |
-      |NoConstraintsInL1                       |SBML Level 1 does not support constraints                                                             |       |       |       |       |       |       |       |
-      |NoInitialAssignmentsInL1                |SBML Level 1 does not support initial assignments                                                     |       |       |       |       |       |       |       |
-      |NoSpeciesTypesInL1                      |SBML Level 1 does not support species types                                                           |       |       |       |       |       |       |       |
-      |NoCompartmentTypeInL1                   |SBML Level 1 does not support compartment types                                                       |       |       |       |       |       |       |       |
-      |NoNon3DCompartmentsInL1                 |SBML Level 1 only supports three-dimensional compartments                                             |       |       |       |       |       |       |       |
-      |NoFancyStoichiometryMathInL1            |SBML Level 1 does not support non-integer nor non-rational stoichiometry formulas                     |       |       |       |       |       |       |       |
-      |NoNonIntegerStoichiometryInL1           |SBML Level 1 does not support non-integer 'stoichiometry' attribute values                            |       |       |       |       |       |       |       |
-      |NoUnitMultipliersOrOffsetsInL1          |SBML Level 1 does not support multipliers or offsets in unit definitions                              |       |       |       |       |       |       |       |
-      |SpeciesCompartmentRequiredInL1          |In SBML Level 1, a value for 'compartment' is mandatory in species definitions                        |       |       |       |       |       |       |       |
-      |NoSpeciesSpatialSizeUnitsInL1           |SBML Level 1 does not support species 'spatialSizeUnits' settings                                     |       |       |       |       |       |       |       |
-      |NoSBOTermsInL1                          |SBML Level 1 does not support the 'sboTerm' attribute                                                 |       |       |       |       |       |       |       |
-      |StrictUnitsRequiredInL1                 |SBML Level 1 requires strict unit consistency                                                         |       |       |       |       |       |       |       |
-      |ConversionFactorNotInL1                 |SBML Level 1 does not support the 'conversionFactor' attribute                                        |       |       |       |       |       |       |       |
-      |CompartmentNotOnL1Reaction              |SBML Level 1 does not support the 'compartment' attribute on Reaction objects                         |       |       |       |       |       |       |       |
-      |ExtentUnitsNotSubstance                 |Units of extent must be compatible with units of substance                                            |       |       |       |       |       |       |       |
-      |GlobalUnitsNotDeclared                  |Global units must be refer to unit kind or unitDefinition.                                            |       |       |       |       |       |       |       |
-      |HasOnlySubstanceUnitsNotinL1            |The concept of hasOnlySubstanceUnits was not available in SBML Level 1.                               |       |       |       |       |       |       |       |
-      |AvogadroNotSupported                    |Avogadro not supported in Levels 2 and 1.                                                             |       |       |       |       |       |       |       |
-      |NoConstraintsInL2v1                     |SBML Level 2 Version 1 does not support Constraint objects                                            |       |       |       |       |       |       |       |
-      |NoInitialAssignmentsInL2v1              |SBML Level 2 Version 1 does not support InitialAssignment objects                                     |       |       |       |       |       |       |       |
-      |NoSpeciesTypeInL2v1                     |SBML Level 2 Version 1 does not support SpeciesType objects                                           |       |       |       |       |       |       |       |
-      |NoCompartmentTypeInL2v1                 |SBML Level 2 Version 1 does not support CompartmentType objects                                       |       |       |       |       |       |       |       |
-      |NoSBOTermsInL2v1                        |SBML Level 2 Version 1 does not support the 'sboTerm' attribute                                       |       |       |       |       |       |       |       |
-      |NoIdOnSpeciesReferenceInL2v1            |SBML Level 2 Version 1 does not support the 'id' attribute on SpeciesReference objects                |       |       |       |       |       |       |       |
-      |NoDelayedEventAssignmentInL2v1          |SBML Level 2 Version 1 does not support the 'useValuesFromTriggerTime' attribute                      |       |       |       |       |       |       |       |
-      |StrictUnitsRequiredInL2v1               |SBML Level 2 Version 1 requires strict unit consistency                                               |       |       |       |       |       |       |       |
-      |IntegerSpatialDimensions                |SBML Level 2 Version 1 requires that compartments have spatial dimensions of 0-3                      |       |       |       |       |       |       |       |
-      |StoichiometryMathNotYetSupported        |Conversion to StoichiometryMath objects not yet supported                                             |       |       |       |       |       |       |       |
-      |PriorityLostFromL3                      |SBML Level 2 Version 1 does not support priorities on Event objects                                   |       |       |       |       |       |       |       |
-      |NonPersistentNotSupported               |SBML Level 2 Version 1 does not support the 'persistent' attribute on Trigger objects                 |       |       |       |       |       |       |       |
-      |InitialValueFalseEventNotSupported      |SBML Level 2 Version 1 does not support the 'initialValue' attribute on Trigger objects               |       |       |       |       |       |       |       |
-      |SBOTermNotUniversalInL2v2               |The 'sboTerm' attribute is invalid for this component in SBML Level 2 Version 2                       |       |       |       |       |       |       |       |
-      |NoUnitOffsetInL2v2                      |This Level+Version of SBML does not support the 'offset' attribute on Unit objects                    |       |       |       |       |       |       |       |
-      |NoKineticLawTimeUnitsInL2v2             |This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects           |       |       |       |       |       |       |       |
-      |NoKineticLawSubstanceUnitsInL2v2        |This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects      |       |       |       |       |       |       |       |
-      |NoDelayedEventAssignmentInL2v2          |This Level+Version of SBML does not support the 'useValuesFromTriggerTime' attribute                  |       |       |       |       |       |       |       |
-      |ModelSBOBranchChangedBeyondL2v2         |The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version         |       |       |       |       |       |       |       |
-      |StrictUnitsRequiredInL2v2               |SBML Level 2 Version 2 requires strict unit consistency                                               |       |       |       |       |       |       |       |
-      |StrictSBORequiredInL2v2                 |SBML Level 2 Version 2 requires strict SBO term consistency                                           |       |       |       |       |       |       |       |
-      |DuplicateAnnotationInvalidInL2v2        |Duplicate top-level annotations are invalid in SBML Level 2 Version 2                                 |       |       |       |       |       |       |       |
-      |NoUnitOffsetInL2v3                      |This Level+Version of SBML does not support the 'offset' attribute on Unit objects                    |       |       |       |       |       |       |       |
-      |NoKineticLawTimeUnitsInL2v3             |This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects           |       |       |       |       |       |       |       |
-      |NoKineticLawSubstanceUnitsInL2v3        |This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects      |       |       |       |       |       |       |       |
-      |NoSpeciesSpatialSizeUnitsInL2v3         |This Level+Version of SBML does not support the 'spatialSizeUnit' attribute on Species objects        |       |       |       |       |       |       |       |
-      |NoEventTimeUnitsInL2v3                  |This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects                |       |       |       |       |       |       |       |
-      |NoDelayedEventAssignmentInL2v3          |This Level+Version of SBML does not support the 'useValuesFromTriggerTime' attribute                  |       |       |       |       |       |       |       |
-      |ModelSBOBranchChangedBeyondL2v3         |The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version         |       |       |       |       |       |       |       |
-      |StrictUnitsRequiredInL2v3               |SBML Level 2 Version 3 requires strict unit consistency                                               |       |       |       |       |       |       |       |
-      |StrictSBORequiredInL2v3                 |SBML Level 2 Version 3 requires strict SBO term consistency                                           |       |       |       |       |       |       |       |
-      |DuplicateAnnotationInvalidInL2v3        |Duplicate top-level annotations are invalid in SBML Level 2 Version 3                                 |       |       |       |       |       |       |       |
-      |NoUnitOffsetInL2v4                      |This Level+Version of SBML does not support the 'offset' attribute on Unit objects                    |       |       |       |       |       |       |       |
-      |NoKineticLawTimeUnitsInL2v4             |This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects           |       |       |       |       |       |       |       |
-      |NoKineticLawSubstanceUnitsInL2v4        |This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects      |       |       |       |       |       |       |       |
-      |NoSpeciesSpatialSizeUnitsInL2v4         |This Level+Version of SBML does not support the 'spatialSizeUnit' attribute on Species objects        |       |       |       |       |       |       |       |
-      |NoEventTimeUnitsInL2v4                  |This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects                |       |       |       |       |       |       |       |
-      |ModelSBOBranchChangedInL2v4             |The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version         |       |       |       |       |       |       |       |
-      |DuplicateAnnotationInvalidInL2v4        |Duplicate top-level annotations are invalid in SBML Level 2 Version 4                                 |       |       |       |       |       |       |       |
-      |NoSpeciesTypeInL3v1                     |SBML Level 3 Version 1 does not support SpeciesType objects                                           |       |       |       |       |       |       |       |
-      |NoCompartmentTypeInL3v1                 |SBML Level 3 Version 1 does not support CompartmentType objects                                       |       |       |       |       |       |       |       |
-      |NoUnitOffsetInL3v1                      |This Level+Version of SBML does not support the 'offset' attribute on Unit objects                    |       |       |       |       |       |       |       |
-      |NoKineticLawTimeUnitsInL3v1             |This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects           |       |       |       |       |       |       |       |
-      |NoKineticLawSubstanceUnitsInL3v1        |This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects      |       |       |       |       |       |       |       |
-      |NoSpeciesSpatialSizeUnitsInL3v1         |This Level+Version of SBML does not support the 'spatialSizeUnit' attribute on Species objects        |       |       |       |       |       |       |       |
-      |NoEventTimeUnitsInL3v1                  |This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects                |       |       |       |       |       |       |       |
-      |ModelSBOBranchChangedInL3v1             |The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version         |       |       |       |       |       |       |       |
-      |DuplicateAnnotationInvalidInL3v1        |Duplicate top-level annotations are invalid in SBML Level 3 Version 1                                 |       |       |       |       |       |       |       |
-      |NoCompartmentOutsideInL3v1              |This Level+Version of SBML does not support the 'outside' attribute on Compartment objects            |       |       |       |       |       |       |       |
-      |NoStoichiometryMathInL3v1               |This Level+Version of SBML does not support the StoichiometryMath object                              |       |       |       |       |       |       |       |
-      |InvalidSBMLLevelVersion                 |Unknown Level+Version combination of SBML                                                             |       |       |       |       |       |       |       |
-      |AnnotationNotesNotAllowedLevel1         |Annotation objects on the SBML container element are not permitted in SBML Level 1                    |       |       |       |       |       |       |       |
-      |InvalidRuleOrdering                     |Invalid ordering of rules                                                                             |       |       |       |       |       |       |       |
-      |RequiredPackagePresent                  |The SBML document requires an SBML Level 3 package unavailable in this software                       |       |       |       |       |       |       |       |
-      |UnrequiredPackagePresent                |The SBML document uses an SBML Level 3 package unavailable in this software                           |       |       |       |       |       |       |       |
-      |PackageRequiredShouldBeFalse            |This package expects required to be false                                                             |       |       |       |       |       |       |       |
-      |SubsUnitsAllowedInKL                    |Disallowed value for attribute 'substanceUnits' on KineticLaw object                                  |       |       |       |       |       |       |       |
-      |TimeUnitsAllowedInKL                    |Disallowed value for attribute 'timeUnits' on KineticLaw object                                       |       |       |       |       |       |       |       |
-      |FormulaInLevel1KL                       |Only predefined functions are allowed in SBML Level 1 formulas                                        |       |       |       |       |       |       |       |
-      |L3SubstanceUnitsOnModel                 |Invalid 'substanceUnits' attribute value                                                              |       |       |       |       |       |       |       |
-      |TimeUnitsRemoved                        |This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects                |       |       |       |       |       |       |       |
-      |BadMathML                               |Invalid MathML expression                                                                             |       |       |       |       |       |       |       |
-      |FailedMathMLReadOfDouble                |Missing or invalid floating-point number in MathML expression                                         |       |       |       |       |       |       |       |
-      |FailedMathMLReadOfInteger               |Missing or invalid integer in MathML expression                                                       |       |       |       |       |       |       |       |
-      |FailedMathMLReadOfExponential           |Missing or invalid exponential expression in MathML                                                   |       |       |       |       |       |       |       |
-      |FailedMathMLReadOfRational              |Missing or invalid rational expression in MathML                                                      |       |       |       |       |       |       |       |
-      |BadMathMLNodeType                       |Invalid MathML element                                                                                |       |       |       |       |       |       |       |
-      |InvalidMathMLAttribute                  |Invalid MathML attribute                                                                              |       |       |       |       |       |       |       |
-      |NoTimeSymbolInFunctionDef               |Use of <csymbol> for 'time' not allowed within FunctionDefinition objects                             |       |       |       |       |       |       |       |
-      |NoBodyInFunctionDef                     |There must be a <lambda> body within the <math> element of a FunctionDefinition object                |       |       |       |       |       |       |       |
-      |DanglingUnitSIdRef                      |Units must refer to valid unit or unitDefinition                                                      |       |       |       |       |       |       |       |
-      |RDFMissingAboutTag                      |RDF missing the <about> tag                                                                           |       |       |       |       |       |       |       |
-      |RDFEmptyAboutTag                        |RDF empty <about> tag                                                                                 |       |       |       |       |       |       |       |
-      |RDFAboutTagNotMetaid                    |RDF <about> tag is not metaid                                                                         |       |       |       |       |       |       |       |
-      |RDFNotCompleteModelHistory              |RDF does not contain valid ModelHistory                                                               |       |       |       |       |       |       |       |
-      |RDFNotModelHistory                      |RDF does not result in a ModelHistory                                                                 |       |       |       |       |       |       |       |
-      |AnnotationNotElement                    |Annotation must contain element                                                                       |       |       |       |       |       |       |       |
-      |UndeclaredUnits                         |Missing unit declarations on parameters or literal numbers in expression                              |       |       |       |       |       |       |       |
-      |UndeclaredTimeUnitsL3                   |Unable to verify consistency of units: the unit of time has not been declared                         |       |       |       |       |       |       |       |
-      |UndeclaredExtentUnitsL3                 |Unable to verify consistency of units: the units of reaction extent have not been declared            |       |       |       |       |       |       |       |
-      |UndeclaredObjectUnitsL3                 |Unable to verify consistency of units: encountered a model entity with no declared units              |       |       |       |       |       |       |       |
-      |UnrecognisedSBOTerm                     |Unrecognized 'sboTerm' attribute value                                                                |       |       |       |       |       |       |       |
-      |ObseleteSBOTerm                         |Obsolete 'sboTerm' attribute value                                                                    |       |       |       |       |       |       |       |
-      |IncorrectCompartmentSpatialDimensions   |In SBML Level 1, only three-dimensional compartments are allowed                                      |       |       |       |       |       |       |       |
-      |CompartmentTypeNotValidAttribute        |CompartmentType objects are not available in this Level+Version of SBML                               |       |       |       |       |       |       |       |
-      |ConstantNotValidAttribute               |This Level+Version of SBML does not support the 'constant' attribute on this component                |       |       |       |       |       |       |       |
-      |MetaIdNotValidAttribute                 |Attribute 'metaid' is not available in SBML Level 1                                                   |       |       |       |       |       |       |       |
-      |SBOTermNotValidAttributeBeforeL2V3      |The 'sboTerm' attribute is not available on this component before SBML Level 2 Version 3              |       |       |       |       |       |       |       |
-      |InvalidL1CompartmentUnits               |Invalid units for a compartment in SBML Level 1                                                       |       |       |       |       |       |       |       |
-      |L1V1CompartmentVolumeReqd               |In SBML Level 1, a compartment's volume must be specified                                             |       |       |       |       |       |       |       |
-      |CompartmentTypeNotValidComponent        |CompartmentType objects are not available in this Level+Version of SBML                               |       |       |       |       |       |       |       |
-      |ConstraintNotValidComponent             |Constraint objects are not available in this Level+Version of SBML                                    |       |       |       |       |       |       |       |
-      |EventNotValidComponent                  |Event objects are not available in this Level+Version of SBML                                         |       |       |       |       |       |       |       |
-      |SBOTermNotValidAttributeBeforeL2V2      |The 'sboTerm' attribute is invalid for this component before Level 2 Version 2                        |       |       |       |       |       |       |       |
-      |FuncDefNotValidComponent                |FunctionDefinition objects are not available in this Level+Version of SBML                            |       |       |       |       |       |       |       |
-      |InitialAssignNotValidComponent          |InitialAssignment objects are not available in this Level+Version of SBML                             |       |       |       |       |       |       |       |
-      |VariableNotValidAttribute               |Attribute 'variable' is not available on this component in this Level+Version of SBML                 |       |       |       |       |       |       |       |
-      |UnitsNotValidAttribute                  |Attribute 'units' is not available on this component in this Level+Version of SBML                    |       |       |       |       |       |       |       |
-      |ConstantSpeciesNotValidAttribute        |Attribute 'constant' is not available on Species objects in SBML Level 1                              |       |       |       |       |       |       |       |
-      |SpatialSizeUnitsNotValidAttribute       |Attribute 'spatialSizeUnits' is not available on Species objects in SBML Level 1                      |       |       |       |       |       |       |       |
-      |SpeciesTypeNotValidAttribute            |Attribute 'speciesType' is not available on Species objects in SBML Level 1                           |       |       |       |       |       |       |       |
-      |HasOnlySubsUnitsNotValidAttribute       |Attribute 'hasOnlySubstanceUnits' is not available on Species objects in SBML Level 1                 |       |       |       |       |       |       |       |
-      |IdNotValidAttribute                     |Attribute 'id' is not available on SpeciesReference objects in SBML Level 1                           |       |       |       |       |       |       |       |
-      |NameNotValidAttribute                   |Attribute 'name' is not available on SpeciesReference objects in SBML Level 1                         |       |       |       |       |       |       |       |
-      |SpeciesTypeNotValidComponent            |The SpeciesType object is not supported in SBML Level 1                                               |       |       |       |       |       |       |       |
-      |StoichiometryMathNotValidComponent      |The StoichiometryMath object is not supported in SBML Level 1                                         |       |       |       |       |       |       |       |
-      |MultiplierNotValidAttribute             |Attribute 'multiplier' on Unit objects is not supported in SBML Level 1                               |       |       |       |       |       |       |       |
-      |OffsetNotValidAttribute                 |Attribute 'offset' on Unit objects is only available in SBML Level 2 Version 1                        |       |       |       |       |       |       |       |
-      |L3SpatialDimensionsUnset                |No value given for 'spatialDimensions' attribute; assuming a value of 3                               |       |       |       |       |       |       |       |
-      |PackageConversionNotSupported           |Conversion of SBML Level 3 package constructs is not yet supported                                    |       |       |       |       |       |       |       |
-      |InvalidTargetLevelVersion               |The requested SBML Level/Version combination is not known to exist                                    |       |       |       |       |       |       |       |
-      |L3NotSupported                          |SBML Level 3 is not yet supported                                                                     |       |       |       |       |       |       |       |
-      |CompUnknown                             |                                                                                                      |       |       |       |       |       |       |       |
-      |CompNSUndeclared                        |The comp ns is not correctly declared                                                                 |       |       |       |       |       |       |       |
-      |CompElementNotInNs                      |Element not in comp namespace                                                                         |       |       |       |       |       |       |       |
-      |CompDuplicateComponentId                |Duplicate 'id' attribute value                                                                        |       |       |       |       |       |       |       |
-      |CompUniqueModelIds                      |Model and ExternalModelDefinitions must have unique ids                                               |       |       |       |       |       |       |       |
-      |CompUniquePortIds                       |Ports must have unique ids                                                                            |       |       |       |       |       |       |       |
-      |CompInvalidSIdSyntax                    |Invalid SId syntax                                                                                    |       |       |       |       |       |       |       |
-      |CompInvalidSubmodelRefSyntax            |Invalid submodelRef syntax                                                                            |       |       |       |       |       |       |       |
-      |CompInvalidDeletionSyntax               |Invalid deletion syntax                                                                               |       |       |       |       |       |       |       |
-      |CompInvalidConversionFactorSyntax       |Invalid conversionFactor syntax                                                                       |       |       |       |       |       |       |       |
-      |CompInvalidNameSyntax                   |Invalid name syntax                                                                                   |       |       |       |       |       |       |       |
-      |CompReplacedUnitsShouldMatch            |Units of replaced elements should match replacement units.                                            |       |       |       |       |       |       |       |
-      |CompOneListOfReplacedElements           |Only one <listOfReplacedElements> allowed.                                                            |       |       |       |       |       |       |       |
-      |CompLOReplaceElementsAllowedElements    |Allowed children of <listOfReplacedElements>                                                          |       |       |       |       |       |       |       |
-      |CompLOReplacedElementsAllowedAttribs    |Allowed <listOfReplacedElements> attributes                                                           |       |       |       |       |       |       |       |
-      |CompEmptyLOReplacedElements             |<listOfReplacedElements> must not be empty                                                            |       |       |       |       |       |       |       |
-      |CompOneReplacedByElement                |Only one <replacedBy> object allowed.                                                                 |       |       |       |       |       |       |       |
-      |CompAttributeRequiredMissing            |Required comp:required attribute on <sbml>                                                            |       |       |       |       |       |       |       |
-      |CompAttributeRequiredMustBeBoolean      |The comp:required attribute must be Boolean                                                           |       |       |       |       |       |       |       |
-      |CompRequiredTrueIfElementsRemain        |The comp:required attribute must be 'true' if math changes                                            |       |       |       |       |       |       |       |
-      |CompRequiredFalseIfAllElementsReplaced  |The comp:required attribute must be 'false' if math does not change                                   |       |       |       |       |       |       |       |
-      |CompOneListOfModelDefinitions           |Only one <listOfModelDefinitions> allowed.                                                            |       |       |       |       |       |       |       |
-      |CompEmptyLOModelDefs                    |<listOfModelDefinitions> and <listOfExternalModelDefinitions> must not be empty                       |       |       |       |       |       |       |       |
-      |CompLOModelDefsAllowedElements          |Only <modelDefinitions> in <listOfModelDefinitions>                                                   |       |       |       |       |       |       |       |
-      |CompLOExtModelDefsAllowedElements       |Only <externalModelDefinitions> in <listOfExternalModelDefinitions>                                   |       |       |       |       |       |       |       |
-      |CompLOModelDefsAllowedAttributes        |Allowed <listOfModelDefinitions> attributes                                                           |       |       |       |       |       |       |       |
-      |CompLOExtModDefsAllowedAttributes       |Allowed <listOfExternalModelDefinitions> attributes                                                   |       |       |       |       |       |       |       |
-      |CompOneListOfExtModelDefinitions        |Only one <listOfExternalModelDefinitions> allowed.                                                    |       |       |       |       |       |       |       |
-      |CompAttributeRequiredMustBeTrue         |The comp:required attribute must be 'true'                                                            |       |       |       |       |       |       |       |
-      |CompExtModDefAllowedCoreAttributes      |Allowed <externalModelDefinitions> core attributes                                                    |       |       |       |       |       |       |       |
-      |CompExtModDefAllowedElements            |Allowed <externalModelDefinitions> elements                                                           |       |       |       |       |       |       |       |
-      |CompExtModDefAllowedAttributes          |Allowed <externalModelDefinitions> attributes                                                         |       |       |       |       |       |       |       |
-      |CompReferenceMustBeL3                   |External models must be L3                                                                            |       |       |       |       |       |       |       |
-      |CompModReferenceMustIdOfModel           |'modelRef' must be the 'id' of a model in the 'source' document                                       |       |       |       |       |       |       |       |
-      |CompExtModMd5DoesNotMatch               |MD5 checksum does not match the 'source' document                                                     |       |       |       |       |       |       |       |
-      |CompInvalidSourceSyntax                 |The 'comp:source' attribute must be of type 'anyURI'                                                  |       |       |       |       |       |       |       |
-      |CompInvalidModelRefSyntax               |The 'comp:modelRef' attribute must have the syntax of 'SId'                                           |       |       |       |       |       |       |       |
-      |CompInvalidMD5Syntax                    |The 'comp:md5' attribute must have the syntax of 'string'                                             |       |       |       |       |       |       |       |
-      |CompCircularExternalModelReference      |Circular reference in <externalModelDefinition>                                                       |       |       |       |       |       |       |       |
-      |CompOneListOfOnModel                    |Only one <listOfSubmodels> and one <listOfPorts> allowed                                              |       |       |       |       |       |       |       |
-      |CompNoEmptyListOfOnModel                |No empty listOf elements allowed                                                                      |       |       |       |       |       |       |       |
-      |CompLOSubmodelsAllowedElements          |Allowed elements on <listOfSubmodels>                                                                 |       |       |       |       |       |       |       |
-      |CompLOPortsAllowedElements              |Allowed elements on <listOfPorts>                                                                     |       |       |       |       |       |       |       |
-      |CompLOSubmodelsAllowedAttributes        |Allowed attributes on <listOfSubmodels>                                                               |       |       |       |       |       |       |       |
-      |CompLOPortsAllowedAttributes            |Allowed attributes on <listOfPorts>                                                                   |       |       |       |       |       |       |       |
-      |CompSubmodelAllowedCoreAttributes       |Allowed core attributes on <submodel>                                                                 |       |       |       |       |       |       |       |
-      |CompSubmodelAllowedElements             |Allowed elements on <submodel>                                                                        |       |       |       |       |       |       |       |
-      |CompOneListOfDeletionOnSubmodel         |Only one <listOfDeletions> on a <submodel> allowed                                                    |       |       |       |       |       |       |       |
-      |CompSubmodelNoEmptyLODeletions          |No empty listOfDeletions elements allowed                                                             |       |       |       |       |       |       |       |
-      |CompLODeletionsAllowedElements          |Allowed elements on <listOfDeletions>                                                                 |       |       |       |       |       |       |       |
-      |CompLODeletionAllowedAttributes         |Allowed <listOfDeletions> attributes                                                                  |       |       |       |       |       |       |       |
-      |CompSubmodelAllowedAttributes           |Allowed <submodel> attributes                                                                         |       |       |       |       |       |       |       |
-      |CompModReferenceSyntax                  |'comp:modelRef' must conform to SId syntax                                                            |       |       |       |       |       |       |       |
-      |CompInvalidTimeConvFactorSyntax         |'comp:timeConversionFactor' must conform to SId syntax                                                |       |       |       |       |       |       |       |
-      |CompInvalidExtentConvFactorSyntax       |'comp:extentConversionFactor' must conform to SId syntax                                              |       |       |       |       |       |       |       |
-      |CompSubmodelMustReferenceModel          |The 'comp:modelRef' attribute must reference a model                                                  |       |       |       |       |       |       |       |
-      |CompSubmodelCannotReferenceSelf         |The 'comp:modelRef' attribute cannot reference own model                                              |       |       |       |       |       |       |       |
-      |CompModCannotCircularlyReferenceSelf    |<model> may not reference <submodel> that references itself.                                          |       |       |       |       |       |       |       |
-      |CompTimeConversionMustBeParameter       |The 'comp:timeConversionFactor' must reference a parameter                                            |       |       |       |       |       |       |       |
-      |CompExtentConversionMustBeParameter     |The 'comp:extentConversionFactor' must reference a parameter                                          |       |       |       |       |       |       |       |
-      |CompPortRefMustReferencePort            |The 'comp:portRef' attribute must be the 'id' of a                                                    |       |       |       |       |       |       |       |
-      |CompIdRefMustReferenceObject            |The 'comp:idRef' attribute must be the 'id' of a model element                                        |       |       |       |       |       |       |       |
-      |CompUnitRefMustReferenceUnitDef         |The 'comp:unitRef' attribute must be the 'id' of a UnitDefinition                                     |       |       |       |       |       |       |       |
-      |CompMetaIdRefMustReferenceObject        |The 'comp:metaIdRef' attribute must be the 'metaid' of an object                                      |       |       |       |       |       |       |       |
-      |CompParentOfSBRefChildMustBeSubmodel    |If <sBaseRef> has a child <sBaseRef> its parent must be a <submodel>                                  |       |       |       |       |       |       |       |
-      |CompInvalidPortRefSyntax                |The 'comp:portRef' attribute must have the syntax of an SBML SId                                      |       |       |       |       |       |       |       |
-      |CompInvalidIdRefSyntax                  |The 'comp:idRef' attribute must have the syntax of an SBML SId                                        |       |       |       |       |       |       |       |
-      |CompInvalidUnitRefSyntax                |The 'comp:unitRef' attribute must have the syntax of an SBML SId                                      |       |       |       |       |       |       |       |
-      |CompInvalidMetaIdRefSyntax              |The 'comp:metaIdRef' attribute must have the syntax of an XML ID                                      |       |       |       |       |       |       |       |
-      |CompOneSBaseRefOnly                     |Only one <sbaseRef>                                                                                   |       |       |       |       |       |       |       |
-      |CompDeprecatedSBaseRefSpelling          |The spelling 'sbaseRef' is deprecated                                                                 |       |       |       |       |       |       |       |
-      |CompSBaseRefMustReferenceObject         |An SBaseRef must reference an object.                                                                 |       |       |       |       |       |       |       |
-      |CompSBaseRefMustReferenceOnlyOneObject  |An SBaseRef must reference only one other object.                                                     |       |       |       |       |       |       |       |
-      |CompNoMultipleReferences                |Objects may not be referenced by mutiple SBaseRef constructs.                                         |       |       |       |       |       |       |       |
-      |CompPortMustReferenceObject             |Port must reference an object                                                                         |       |       |       |       |       |       |       |
-      |CompPortMustReferenceOnlyOneObject      |Port must reference only one other object.                                                            |       |       |       |       |       |       |       |
-      |CompPortAllowedAttributes               |Allowed attributes on a Port                                                                          |       |       |       |       |       |       |       |
-      |CompPortReferencesUnique                |Port definitions must be unique.                                                                      |       |       |       |       |       |       |       |
-      |CompDeletionMustReferenceObject         |Deletion must reference an object                                                                     |       |       |       |       |       |       |       |
-      |CompDeletionMustReferOnlyOneObject      |Deletion must reference only one other object.                                                        |       |       |       |       |       |       |       |
-      |CompDeletionAllowedAttributes           |Allowed attributes on a Deletion                                                                      |       |       |       |       |       |       |       |
-      |CompReplacedElementMustRefObject        |ReplacedElement must reference an object                                                              |       |       |       |       |       |       |       |
-      |CompReplacedElementMustRefOnlyOne       |ReplacedElement must reference only one other object.                                                 |       |       |       |       |       |       |       |
-      |CompReplacedElementAllowedAttributes    |Allowed attributes on <replacedElement>                                                               |       |       |       |       |       |       |       |
-      |CompReplacedElementSubModelRef          |The 'comp:submodelRef' attribute must point to a <submodel>                                           |       |       |       |       |       |       |       |
-      |CompReplacedElementDeletionRef          |The 'comp:deletion' attribute must point to a <deletion>                                              |       |       |       |       |       |       |       |
-      |CompReplacedElementConvFactorRef        |The 'comp:conversionFactor attribute must point to a                                                  |       |       |       |       |       |       |       |
-      |CompReplacedElementSameReference        |No <replacedElement> refer to same object                                                             |       |       |       |       |       |       |       |
-      |CompReplacedElementNoDelAndConvFact     |No <replacedElement> with deletion and conversionfactor                                               |       |       |       |       |       |       |       |
-      |CompReplacedByMustRefObject             |ReplacedBy must reference an object                                                                   |       |       |       |       |       |       |       |
-      |CompReplacedByMustRefOnlyOne            |ReplacedBy must reference only one other object.                                                      |       |       |       |       |       |       |       |
-      |CompReplacedByAllowedAttributes         |Allowed attributes on <replacedBy>                                                                    |       |       |       |       |       |       |       |
-      |CompReplacedBySubModelRef               |The 'comp:submodelRef' attribute must point to a <submodel>                                           |       |       |       |       |       |       |       |
-      |CompMustReplaceSameClass                |Replaced classes must match.                                                                          |       |       |       |       |       |       |       |
-      |CompMustReplaceIDs                      |Replaced IDs must be replaced with IDs.                                                               |       |       |       |       |       |       |       |
-      |CompMustReplaceMetaIDs                  |Replaced metaids must be replaced with metaids.                                                       |       |       |       |       |       |       |       |
-      |CompMustReplacePackageIDs               |Replaced package IDs must be replaced with package IDs.                                               |       |       |       |       |       |       |       |
-      |CompUnresolvedReference                 |Unresolved reference.                                                                                 |       |       |       |       |       |       |       |
-      |CompNoModelInReference                  |No model in referenced document.                                                                      |       |       |       |       |       |       |       |
-      |CompExtModDefBad                        |Referenced <externalModelDefinition> unresolvable.                                                    |       |       |       |       |       |       |       |
-      |CompModelFlatteningFailed               |Model failed to flatten.                                                                              |       |       |       |       |       |       |       |
-      |CompFlatModelNotValid                   |Flat model not valid.                                                                                 |       |       |       |       |       |       |       |
-      |CompLineNumbersUnreliable               |Line numbers unreliable.                                                                              |       |       |       |       |       |       |       |
-      |CompFlatteningNotRecognisedReqd         |Flattening not implemented for required package.                                                      |       |       |       |       |       |       |       |
-      |CompFlatteningNotRecognisedNotReqd      |Flattening not implemented for unrequired package.                                                    |       |       |       |       |       |       |       |
-      |CompFlatteningNotImplementedNotReqd     |Flattening not implemented for unrequired package.                                                    |       |       |       |       |       |       |       |
-      |CompFlatteningNotImplementedReqd        |Flattening not implemented for required package.                                                      |       |       |       |       |       |       |       |
-      |CompFlatteningWarning                   |Flattening reference may come from package.                                                           |       |       |       |       |       |       |       |
-      |CompDeprecatedDeleteFunction            |The performDeletions functions is deprecated.                                                         |       |       |       |       |       |       |       |
-      |CompDeprecatedReplaceFunction           |The performReplacementsAndConversions fuctions is deprecated.                                         |       |       |       |       |       |       |       |
-      |CompDeletedReplacement                  |Element deleted before a subelement could be replaced.                                                |       |       |       |       |       |       |       |
-      |CompIdRefMayReferenceUnknownPackage     |The 'comp:idRef' attribute must be the 'id' of a model element                                        |       |       |       |       |       |       |       |
-      |CompMetaIdRefMayReferenceUnknownPkg     |The 'comp:metaIdRef' attribute must be the 'metaid' of a model element                                |       |       |       |       |       |       |       |
-      |FbcUnknown                              |                                                                                                      |       |       |       |       |       |       |       |
-      |FbcNSUndeclared                         |The fbc ns is not correctly declared                                                                  |       |       |       |       |       |       |       |
-      |FbcElementNotInNs                       |Element not in fbc namespace                                                                          |       |       |       |       |       |       |       |
-      |FbcDuplicateComponentId                 |Duplicate 'id' attribute value                                                                        |       |       |       |       |       |       |       |
-      |FbcSBMLSIdSyntax                        |Invalid 'id' attribute                                                                                |       |       |       |       |       |       |       |
-      |FbcAttributeRequiredMissing             |Required fbc:required attribute on <sbml>                                                             |       |       |       |       |       |       |       |
-      |FbcAttributeRequiredMustBeBoolean       |The fbc:required attribute must be Boolean                                                            |       |       |       |       |       |       |       |
-      |FbcRequiredFalse                        |The fbc:required attribute must be 'false'                                                            |       |       |       |       |       |       |       |
-      |FbcOnlyOneEachListOf                    |One of each list of allowed                                                                           |       |       |       |       |       |       |       |
-      |FbcNoEmptyListOfs                       |ListOf elements cannot be empty                                                                       |       |       |       |       |       |       |       |
-      |FbcLOFluxBoundsAllowedElements          |Allowed elements on ListOfFluxBounds                                                                  |       |       |       |       |       |       |       |
-      |FbcLOObjectivesAllowedElements          |Allowed elements on ListOfObjectives                                                                  |       |       |       |       |       |       |       |
-      |FbcLOFluxBoundsAllowedAttributes        |Allowed attributes on ListOfFluxBounds                                                                |       |       |       |       |       |       |       |
-      |FbcLOObjectivesAllowedAttributes        |Allowed attributes on ListOfObjectives                                                                |       |       |       |       |       |       |       |
-      |FbcActiveObjectiveSyntax                |Type of activeObjective attribute                                                                     |       |       |       |       |       |       |       |
-      |FbcActiveObjectiveRefersObjective       |ActiveObjective must reference Objective                                                              |       |       |       |       |       |       |       |
-      |FbcSpeciesAllowedL3Attributes           |Species allowed attributes                                                                            |       |       |       |       |       |       |       |
-      |FbcSpeciesChargeMustBeInteger           |Charge must be integer                                                                                |       |       |       |       |       |       |       |
-      |FbcSpeciesFormulaMustBeString           |Chemical formula must be string                                                                       |       |       |       |       |       |       |       |
-      |FbcFluxBoundAllowedL3Attributes         |<fluxBound> may only have 'metaId' and 'sboTerm' from L3 namespace                                    |       |       |       |       |       |       |       |
-      |FbcFluxBoundAllowedElements             |<fluxBound> may only have <notes> and <annotations> from L3 Core                                      |       |       |       |       |       |       |       |
-      |FbcFluxBoundRequiredAttributes          |Invalid attribute found on <fluxBound> object                                                         |       |       |       |       |       |       |       |
-      |FbcFluxBoundRectionMustBeSIdRef         |Datatype for 'fbc:reaction' must be SIdRef                                                            |       |       |       |       |       |       |       |
-      |FbcFluxBoundNameMustBeString            |The attribute 'fbc:name' must be of the data type string                                              |       |       |       |       |       |       |       |
-      |FbcFluxBoundOperationMustBeEnum         |The attribute 'fbc:operation' must be of data type FbcOperation                                       |       |       |       |       |       |       |       |
-      |FbcFluxBoundValueMustBeDouble           |The attribute 'fbc:value' must be of the data type double                                             |       |       |       |       |       |       |       |
-      |FbcFluxBoundReactionMustExist           |'fbc:reaction' must refer to valid reaction                                                           |       |       |       |       |       |       |       |
-      |FbcFluxBoundsForReactionConflict        |Conflicting set of FluxBounds for a reaction                                                          |       |       |       |       |       |       |       |
-      |FbcObjectiveAllowedL3Attributes         |<objective> may only have 'metaId' and 'sboTerm' from L3 namespace                                    |       |       |       |       |       |       |       |
-      |FbcObjectiveAllowedElements             |<objective> may only have <notes> and <annotations> from L3 Core                                      |       |       |       |       |       |       |       |
-      |FbcObjectiveRequiredAttributes          |Invalid attribute found on <objective> object                                                         |       |       |       |       |       |       |       |
-      |FbcObjectiveNameMustBeString            |The attribute 'fbc:name' must be of the data type string                                              |       |       |       |       |       |       |       |
-      |FbcObjectiveTypeMustBeEnum              |The attribute 'fbc:type' must be of data type FbcType.                                                |       |       |       |       |       |       |       |
-      |FbcObjectiveOneListOfObjectives         |An <objective> must have one <listOfFluxObjectives>.                                                  |       |       |       |       |       |       |       |
-      |FbcObjectiveLOFluxObjMustNotBeEmpty     |<listOfFluxObjectives> subobject must not be empty                                                    |       |       |       |       |       |       |       |
-      |FbcObjectiveLOFluxObjOnlyFluxObj        |Invalid element found in <listOfFluxObjectives>                                                       |       |       |       |       |       |       |       |
-      |FbcObjectiveLOFluxObjAllowedAttribs     |<listOfFluxObjectives> may only have 'metaId' and 'sboTerm' from L3 core                              |       |       |       |       |       |       |       |
-      |FbcFluxObjectAllowedL3Attributes        |<fluxObjective> may only have 'metaId' and 'sboTerm' from L3 namespace                                |       |       |       |       |       |       |       |
-      |FbcFluxObjectAllowedElements            |<fluxObjective> may only have <notes> and <annotations> from L3 Core                                  |       |       |       |       |       |       |       |
-      |FbcFluxObjectRequiredAttributes         |Invalid attribute found on <fluxObjective> object                                                     |       |       |       |       |       |       |       |
-      |FbcFluxObjectNameMustBeString           |The attribute 'fbc:name' must be of the data type string                                              |       |       |       |       |       |       |       |
-      |FbcFluxObjectReactionMustBeSIdRef       |Datatype for 'fbc:reaction' must be SIdRef                                                            |       |       |       |       |       |       |       |
-      |FbcFluxObjectReactionMustExist          |'fbc:reaction' must refer to valid reaction                                                           |       |       |       |       |       |       |       |
-      |FbcFluxObjectCoefficientMustBeDouble    |The attribute 'fbc:coefficient' must be of the data type double                                       |       |       |       |       |       |       |       |
-      |QualUnknown                             |                                                                                                      |       |       |       |       |       |       |       |
-      |QualNSUndeclared                        |The qual ns is not correctly declared                                                                 |       |       |       |       |       |       |       |
-      |QualElementNotInNs                      |Element not in qual namespace                                                                         |       |       |       |       |       |       |       |
-      |QualFunctionTermBool                    |FunctionTerm should return boolean                                                                    |       |       |       |       |       |       |       |
-      |QualMathCSymbolDisallowed               |CSymbol time or delay not allowed                                                                     |       |       |       |       |       |       |       |
-      |QualDuplicateComponentId                |Duplicate 'id' attribute value                                                                        |       |       |       |       |       |       |       |
-      |QualAttributeRequiredMissing            |Required qual:required attribute on <sbml>                                                            |       |       |       |       |       |       |       |
-      |QualAttributeRequiredMustBeBoolean      |The qual:required attribute must be Boolean                                                           |       |       |       |       |       |       |       |
-      |QualRequiredTrueIfTransitions           |The qual:required attribute must be 'true' if math changes                                            |       |       |       |       |       |       |       |
-      |QualOneListOfTransOrQS                  |Only one <listOfTransitions> or <listOfQualitativeSpeciesgt; allowed.                                 |       |       |       |       |       |       |       |
-      |QualEmptyLONotAllowed                   |Empty <listOfTransitions> or <listOfQualitativeSpeciesgt; not allowed.                                |       |       |       |       |       |       |       |
-      |QualLOTransitiondAllowedElements        |Elements allowed on <listOfTransitions>.                                                              |       |       |       |       |       |       |       |
-      |QualLOQualSpeciesAllowedElements        |Elements allowed on <listOfTransitions>.                                                              |       |       |       |       |       |       |       |
-      |QualLOQualSpeciesAllowedAttributes      |Attributes allowed on <listOfQualitativeSpeciesgt;.                                                   |       |       |       |       |       |       |       |
-      |QualLOTransitionsAllowedAttributes      |Attributes allowed on <listOfTransitions>.                                                            |       |       |       |       |       |       |       |
-      |QualQualSpeciesAllowedCoreAttributes    |Core attributes allowed on <qualitativeSpeciesgt;.                                                    |       |       |       |       |       |       |       |
-      |QualQualSpeciesAllowedElements          |Elements allowed on <qualitativeSpeciesgt;.                                                           |       |       |       |       |       |       |       |
-      |QualQualSpeciesAllowedAttributes        |Attributes allowed on <qualitativeSpeciesgt;.                                                         |       |       |       |       |       |       |       |
-      |QualConstantMustBeBool                  |Attribute 'constant' on <qualitativeSpeciesgt; must be boolean.                                       |       |       |       |       |       |       |       |
-      |QualNameMustBeString                    |Attribute 'name' on <qualitativeSpeciesgt; must be string.                                            |       |       |       |       |       |       |       |
-      |QualInitialLevelMustBeInt               |Attribute 'initialLevel' on <qualitativeSpeciesgt; must be integer.                                   |       |       |       |       |       |       |       |
-      |QualMaxLevelMustBeInt                   |Attribute 'maxLevel' on <qualitativeSpeciesgt; must be integer.                                       |       |       |       |       |       |       |       |
-      |QualCompartmentMustReferExisting        |Attribute 'compartment' on <qualitativeSpeciesgt; must reference compartment.                         |       |       |       |       |       |       |       |
-      |QualInitialLevelCannotExceedMax         |Attribute 'initialLevel' on <qualitativeSpeciesgt; cannot exceed maxLevel.                            |       |       |       |       |       |       |       |
-      |QualConstantQSCannotBeOutput            |Constant <qualitativeSpeciesgt; cannot be an Output.                                                  |       |       |       |       |       |       |       |
-      |QualQSAssignedOnlyOnce                  |A <qualitativeSpeciesgt; can only be assigned once.                                                   |       |       |       |       |       |       |       |
-      |QualInitalLevelNotNegative              |Attribute 'initialLevel' on <qualitativeSpeciesgt; cannot be negative.                                |       |       |       |       |       |       |       |
-      |QualMaxLevelNotNegative                 |Attribute 'maxLevel' on <qualitativeSpeciesgt; cannot be negative.                                    |       |       |       |       |       |       |       |
-      |QualTransitionAllowedCoreAttributes     |Core attributes allowed on <transition>.                                                              |       |       |       |       |       |       |       |
-      |QualTransitionAllowedElements           |Elements allowed on <transition>.                                                                     |       |       |       |       |       |       |       |
-      |QualTransitionAllowedAttributes         |Attributes allowed on <transition>.                                                                   |       |       |       |       |       |       |       |
-      |QualTransitionNameMustBeString          |Attribute 'name' on <transition> must be string.                                                      |       |       |       |       |       |       |       |
-      |QualTransitionLOElements                |ListOf elements on <transition>.                                                                      |       |       |       |       |       |       |       |
-      |QualTransitionEmptyLOElements           |ListOf elements on <transition> not empty.                                                            |       |       |       |       |       |       |       |
-      |QualTransitionLOInputElements           |Elements on <listOfInputs>.                                                                           |       |       |       |       |       |       |       |
-      |QualTransitionLOOutputElements          |Elements on <listOfOutputs>.                                                                          |       |       |       |       |       |       |       |
-      |QualTransitionLOFuncTermElements        |Elements on <listOfFunctionTerms>.                                                                    |       |       |       |       |       |       |       |
-      |QualTransitionLOInputAttributes         |Attributes allowed on <listOfInputs>.                                                                 |       |       |       |       |       |       |       |
-      |QualTransitionLOOutputAttributes        |Attributes allowed on <listOfOutputs>.                                                                |       |       |       |       |       |       |       |
-      |QualTransitionLOFuncTermAttributes      |Attributes allowed on <listOfFunctionTerms>.                                                          |       |       |       |       |       |       |       |
-      |QualTransitionLOFuncTermExceedMax       |<listOfFunctionTerms> cannot make qualitativeSpecies exceed maxLevel.                                 |       |       |       |       |       |       |       |
-      |QualTransitionLOFuncTermNegative        |<listOfFunctionTerms> cannot make qualitativeSpecies negative.                                        |       |       |       |       |       |       |       |
-      |QualInputAllowedCoreAttributes          |Core attributes allowed on <input>.                                                                   |       |       |       |       |       |       |       |
-      |QualInputAllowedElements                |Elements allowed on <input>.                                                                          |       |       |       |       |       |       |       |
-      |QualInputAllowedAttributes              |Attributes allowed on <input>.                                                                        |       |       |       |       |       |       |       |
-      |QualInputNameMustBeString               |Attribute 'name' on <input> must be string.                                                           |       |       |       |       |       |       |       |
-      |QualInputSignMustBeSignEnum             |Attribute 'sign' on <input> must be enum.                                                             |       |       |       |       |       |       |       |
-      |QualInputTransEffectMustBeInputEffect   |Attribute 'transitionEffect' on <input> must be enum.                                                 |       |       |       |       |       |       |       |
-      |QualInputThreshMustBeInteger            |Attribute 'thresholdLevel' on <input> must be non negative integer.                                   |       |       |       |       |       |       |       |
-      |QualInputQSMustBeExistingQS             |Attribute 'qualitativeSpecies' on <input> must refer to existing                                      |       |       |       |       |       |       |       |
-      |QualInputConstantCannotBeConsumed       |Constant <input> cannot be consumed.                                                                  |       |       |       |       |       |       |       |
-      |QualInputThreshMustBeNonNegative        |Attribute 'thresholdLevel' on <input> must be non negative integer.                                   |       |       |       |       |       |       |       |
-      |QualOutputAllowedCoreAttributes         |Core attributes allowed on <output>.                                                                  |       |       |       |       |       |       |       |
-      |QualOutputAllowedElements               |Elements allowed on <output>.                                                                         |       |       |       |       |       |       |       |
-      |QualOutputAllowedAttributes             |Attributes allowed on <output>.                                                                       |       |       |       |       |       |       |       |
-      |QualOutputNameMustBeString              |Attribute 'name' on <output> must be string.                                                          |       |       |       |       |       |       |       |
-      |QualOutputTransEffectMustBeOutput       |Attribute 'transitionEffect' on <output> must be enum.                                                |       |       |       |       |       |       |       |
-      |QualOutputLevelMustBeInteger            |Attribute 'outputLevel' on <output> must be non negative integer.                                     |       |       |       |       |       |       |       |
-      |QualOutputQSMustBeExistingQS            |Attribute 'qualitativeSpecies' on <output> must refer to existing                                     |       |       |       |       |       |       |       |
-      |QualOutputConstantMustBeFalse           |Constant 'qualitativeSpecies' cannot be <output>                                                      |       |       |       |       |       |       |       |
-      |QualOutputProductionMustHaveLevel       |<output> being produced must have level                                                               |       |       |       |       |       |       |       |
-      |QualOutputLevelMustBeNonNegative        |Attribute 'outputLevel' on <output> must be non negative integer.                                     |       |       |       |       |       |       |       |
-      |QualDefaultTermAllowedCoreAttributes    |Core attributes allowed on <defaultTerm>.                                                             |       |       |       |       |       |       |       |
-      |QualDefaultTermAllowedElements          |Elements allowed on <defaultTerm>.                                                                    |       |       |       |       |       |       |       |
-      |QualDefaultTermAllowedAttributes        |Attributes allowed on <defaultTerm>.                                                                  |       |       |       |       |       |       |       |
-      |QualDefaultTermResultMustBeInteger      |Attribute 'resultLevel' on <defaultTerm> must be non negative integer.                                |       |       |       |       |       |       |       |
-      |QualDefaultTermResultMustBeNonNeg       |Attribute 'resultLevel' on <defaultTerm> must be non negative integer.                                |       |       |       |       |       |       |       |
-      |QualFuncTermAllowedCoreAttributes       |Core attributes allowed on <functionTerm>.                                                            |       |       |       |       |       |       |       |
-      |QualFuncTermAllowedElements             |Elements allowed on <functionTerm>.                                                                   |       |       |       |       |       |       |       |
-      |QualFuncTermAllowedAttributes           |Attributes allowed on <functionTerm>.                                                                 |       |       |       |       |       |       |       |
-      |QualFuncTermOnlyOneMath                 |Only one <math> on <functionTerm>.                                                                    |       |       |       |       |       |       |       |
-      |QualFuncTermResultMustBeInteger         |Attribute 'resultLevel' on <functionTerm> must be non negative integer.                               |       |       |       |       |       |       |       |
-      |QualFuncTermResultMustBeNonNeg          |Attribute 'resultLevel' on <functionTerm> must be non negative integer.                               |       |       |       |       |       |       |       |
-      |LayoutUnknownError                      |                                                                                                      |       |       |       |       |       |       |       |
-      |LayoutNSUndeclared                      |The layout ns is not correctly declared                                                               |       |       |       |       |       |       |       |
-      |LayoutElementNotInNs                    |Element not in layout namespace                                                                       |       |       |       |       |       |       |       |
-      |LayoutDuplicateComponentId              |Duplicate 'id' attribute value                                                                        |       |       |       |       |       |       |       |
-      |LayoutSIdSyntax                         |'id' attribute incorrect syntax                                                                       |       |       |       |       |       |       |       |
-      |LayoutXsiTypeAllowedLocations           |'xsi:type' allowed locations                                                                          |       |       |       |       |       |       |       |
-      |LayoutXsiTypeSyntax                     |'xsi:type' attribute incorrect syntax                                                                 |       |       |       |       |       |       |       |
-      |LayoutAttributeRequiredMissing          |Required layout:required attribute on <sbml>                                                          |       |       |       |       |       |       |       |
-      |LayoutAttributeRequiredMustBeBoolean    |The layout:required attribute must be Boolean                                                         |       |       |       |       |       |       |       |
-      |LayoutRequiredFalse                     |The layout:required attribute must be 'false'                                                         |       |       |       |       |       |       |       |
-      |LayoutOnlyOneLOLayouts                  |Only one listOfLayouts on <model>                                                                     |       |       |       |       |       |       |       |
-      |LayoutLOLayoutsNotEmpty                 |ListOf elements cannot be empty                                                                       |       |       |       |       |       |       |       |
-      |LayoutLOLayoutsAllowedElements          |Allowed elements on ListOfLayouts                                                                     |       |       |       |       |       |       |       |
-      |LayoutLOLayoutsAllowedAttributes        |Allowed attributes on ListOfLayouts                                                                   |       |       |       |       |       |       |       |
-      |LayoutLayoutAllowedElements             |Allowed elements on Layout                                                                            |       |       |       |       |       |       |       |
-      |LayoutLayoutAllowedCoreAttributes       |Allowed core attributes on Layout                                                                     |       |       |       |       |       |       |       |
-      |LayoutOnlyOneEachListOf                 |Only one each listOf on <layout>                                                                      |       |       |       |       |       |       |       |
-      |LayoutNoEmptyListOfs                    |ListOf elements cannot be empty                                                                       |       |       |       |       |       |       |       |
-      |LayoutLayoutAllowedAttributes           |<layout> must have 'id' and may have 'name'                                                           |       |       |       |       |       |       |       |
-      |LayoutLayoutNameMustBeString            |'name' must be string                                                                                 |       |       |       |       |       |       |       |
-      |LayoutLOCompGlyphAllowedAttributes      |Attributes allowed on <listOfCompartmentGlyphs>.                                                      |       |       |       |       |       |       |       |
-      |LayoutLOCompGlyphAllowedElements        |Elements allowed on <listOfCompartmentGlyphs>.                                                        |       |       |       |       |       |       |       |
-      |LayoutLOSpeciesGlyphAllowedAttributes   |Attributes allowed on <listOfSpeciesGlyphs>.                                                          |       |       |       |       |       |       |       |
-      |LayoutLOSpeciesGlyphAllowedElements     |Elements allowed on <listOfSpeciesGlyphs>.                                                            |       |       |       |       |       |       |       |
-      |LayoutLORnGlyphAllowedAttributes        |Attributes allowed on <listOfReactionGlyphs>.                                                         |       |       |       |       |       |       |       |
-      |LayoutLORnGlyphAllowedElements          |Elements allowed on <listOfReactionGlyphs>.                                                           |       |       |       |       |       |       |       |
-      |LayoutLOAddGOAllowedAttribut            |Attributes allowed on <listOfAdditionalGraphicalObjectGlyphs>.                                        |       |       |       |       |       |       |       |
-      |LayoutLOAddGOAllowedElements            |Elements allowed on <listOfAdditionalGraphicalObjectGlyphs>.                                          |       |       |       |       |       |       |       |
-      |LayoutLayoutMustHaveDimensions          |Layout must have <dimensions>.                                                                        |       |       |       |       |       |       |       |
-      |LayoutLOTextGlyphAllowedAttributes      |Attributes allowed on <listOfTextGlyphs>.                                                             |       |       |       |       |       |       |       |
-      |LayoutLOTextGlyphAllowedElements        |Elements allowed on <listOfTextGlyphs>.                                                               |       |       |       |       |       |       |       |
-      |LayoutGOAllowedCoreElements             |Core elements allowed on <graphicalObject>.                                                           |       |       |       |       |       |       |       |
-      |LayoutGOAllowedCoreAttributes           |Core attributes allowed on <graphicalObject>.                                                         |       |       |       |       |       |       |       |
-      |LayoutGOAllowedElements                 |Layout elements allowed on <graphicalObject>.                                                         |       |       |       |       |       |       |       |
-      |LayoutGOAllowedAttributes               |Layout attributes allowed on <graphicalObject>.                                                       |       |       |       |       |       |       |       |
-      |LayoutGOMetaIdRefMustBeIDREF            |Layout 'metIdRef' must be IDREF.                                                                      |       |       |       |       |       |       |       |
-      |LayoutGOMetaIdRefMustReferenceObject    |Layout 'metIdRef' must reference existing object.                                                     |       |       |       |       |       |       |       |
-      |LayoutGOMustContainBoundingBox          |A <graphicalObject> must contain a <boundingBox>.                                                     |       |       |       |       |       |       |       |
-      |LayoutCGAllowedCoreElements             |Core elements allowed on <compartmentGlyph>.                                                          |       |       |       |       |       |       |       |
-      |LayoutCGAllowedCoreAttributes           |Core attributes allowed on <compartmentGlyph>.                                                        |       |       |       |       |       |       |       |
-      |LayoutCGAllowedElements                 |Layout elements allowed on <compartmentGlyph>.                                                        |       |       |       |       |       |       |       |
-      |LayoutCGAllowedAttributes               |Layout attributes allowed on <compartmentGlyph>.                                                      |       |       |       |       |       |       |       |
-      |LayoutCGMetaIdRefMustBeIDREF            |Layout 'metIdRef' must be IDREF.                                                                      |       |       |       |       |       |       |       |
-      |LayoutCGMetaIdRefMustReferenceObject    |Layout 'metIdRef' must reference existing object.                                                     |       |       |       |       |       |       |       |
-      |LayoutCGCompartmentSyntax               |CompartmentGlyph 'compartment' must have SIdRef syntax.                                               |       |       |       |       |       |       |       |
-      |LayoutCGCompartmentMustRefComp          |CompartmentGlyph compartment must reference existing compartment.                                     |       |       |       |       |       |       |       |
-      |LayoutCGNoDuplicateReferences           |CompartmentGlyph cannot reference two objects.                                                        |       |       |       |       |       |       |       |
-      |LayoutCGOrderMustBeDouble               |CompartmentGlyph order must be double.                                                                |       |       |       |       |       |       |       |
-      |LayoutSGAllowedCoreElements             |Core elements allowed on <speciesGlyph>.                                                              |       |       |       |       |       |       |       |
-      |LayoutSGAllowedCoreAttributes           |Core attributes allowed on <speciesGlyph>.                                                            |       |       |       |       |       |       |       |
-      |LayoutSGAllowedElements                 |Layout elements allowed on <speciesGlyph>.                                                            |       |       |       |       |       |       |       |
-      |LayoutSGAllowedAttributes               |Layout attributes allowed on <speciesGlyph>.                                                          |       |       |       |       |       |       |       |
-      |LayoutSGMetaIdRefMustBeIDREF            |Layout 'metIdRef' must be IDREF.                                                                      |       |       |       |       |       |       |       |
-      |LayoutSGMetaIdRefMustReferenceObject    |Layout 'metIdRef' must reference existing object.                                                     |       |       |       |       |       |       |       |
-      |LayoutSGSpeciesSyntax                   |SpeciesGlyph 'species' must have SIdRef syntax.                                                       |       |       |       |       |       |       |       |
-      |LayoutSGSpeciesMustRefSpecies           |SpeciesGlyph species must reference existing species.                                                 |       |       |       |       |       |       |       |
-      |LayoutSGNoDuplicateReferences           |SpeciesGlyph cannot reference two objects.                                                            |       |       |       |       |       |       |       |
-      |LayoutRGAllowedCoreElements             |Core elements allowed on <reactionGlyph>.                                                             |       |       |       |       |       |       |       |
-      |LayoutRGAllowedCoreAttributes           |Core attributes allowed on <reactionGlyph>.                                                           |       |       |       |       |       |       |       |
-      |LayoutRGAllowedElements                 |Layout elements allowed on <reactionGlyph>.                                                           |       |       |       |       |       |       |       |
-      |LayoutRGAllowedAttributes               |Layout attributes allowed on <reactionGlyph>.                                                         |       |       |       |       |       |       |       |
-      |LayoutRGMetaIdRefMustBeIDREF            |Layout 'metIdRef' must be IDREF.                                                                      |       |       |       |       |       |       |       |
-      |LayoutRGMetaIdRefMustReferenceObject    |Layout 'metIdRef' must reference existing object.                                                     |       |       |       |       |       |       |       |
-      |LayoutRGReactionSyntax                  |ReactionGlyph 'reaction' must have SIdRef syntax.                                                     |       |       |       |       |       |       |       |
-      |LayoutRGReactionMustRefReaction         |ReactionGlyph reaction must reference existing reaction.                                              |       |       |       |       |       |       |       |
-      |LayoutRGNoDuplicateReferences           |ReactionGlyph cannot reference two objects.                                                           |       |       |       |       |       |       |       |
-      |LayoutLOSpeciesRefGlyphAllowedElements  |Allowed elements on ListOfSpeciesReferenceGlyphs                                                      |       |       |       |       |       |       |       |
-      |LayoutLOSpeciesRefGlyphAllowedAttribs   |Allowed attributes on ListOfSpeciesReferenceGlyphs                                                    |       |       |       |       |       |       |       |
-      |LayoutLOSpeciesRefGlyphNotEmpty         |ListOfSpeciesReferenceGlyphs not empty                                                                |       |       |       |       |       |       |       |
-      |LayoutGGAllowedCoreElements             |Core elements allowed on <generalGlyph>.                                                              |       |       |       |       |       |       |       |
-      |LayoutGGAllowedCoreAttributes           |Core attributes allowed on <generalGlyph>.                                                            |       |       |       |       |       |       |       |
-      |LayoutGGAllowedElements                 |Layout elements allowed on <generalGlyph>.                                                            |       |       |       |       |       |       |       |
-      |LayoutGGAllowedAttributes               |Layout attributes allowed on <generalGlyph>.                                                          |       |       |       |       |       |       |       |
-      |LayoutGGMetaIdRefMustBeIDREF            |Layout 'metIdRef' must be IDREF.                                                                      |       |       |       |       |       |       |       |
-      |LayoutGGMetaIdRefMustReferenceObject    |Layout 'metIdRef' must reference existing object.                                                     |       |       |       |       |       |       |       |
-      |LayoutGGReferenceSyntax                 |GeneralGlyph 'reference' must have SIdRef syntax.                                                     |       |       |       |       |       |       |       |
-      |LayoutGGReferenceMustRefObject          |GeneralGlyph 'reference' must reference existing element.                                             |       |       |       |       |       |       |       |
-      |LayoutGGNoDuplicateReferences           |GeneralGlyph cannot reference two objects.                                                            |       |       |       |       |       |       |       |
-      |LayoutLOReferenceGlyphAllowedElements   |Allowed elements on ListOfReferenceGlyphs                                                             |       |       |       |       |       |       |       |
-      |LayoutLOReferenceGlyphAllowedAttribs    |Allowed attributes on ListOfReferenceGlyphs                                                           |       |       |       |       |       |       |       |
-      |LayoutLOSubGlyphAllowedElements         |                                                                                                      |       |       |       |       |       |       |       |
-      |LayoutLOSubGlyphAllowedAttribs          |Allowed attributes on ListOfSubGlyphs                                                                 |       |       |       |       |       |       |       |
-      |LayoutTGAllowedCoreElements             |Core elements allowed on <textGlyph>.                                                                 |       |       |       |       |       |       |       |
-      |LayoutTGAllowedCoreAttributes           |Core attributes allowed on <textGlyph>.                                                               |       |       |       |       |       |       |       |
-      |LayoutTGAllowedElements                 |Layout elements allowed on <textGlyph>.                                                               |       |       |       |       |       |       |       |
-      |LayoutTGAllowedAttributes               |Layout attributes allowed on <textGlyph>.                                                             |       |       |       |       |       |       |       |
-      |LayoutTGMetaIdRefMustBeIDREF            |Layout 'metIdRef' must be IDREF.                                                                      |       |       |       |       |       |       |       |
-      |LayoutTGMetaIdRefMustReferenceObject    |Layout 'metIdRef' must reference existing object.                                                     |       |       |       |       |       |       |       |
-      |LayoutTGOriginOfTextSyntax              |TextGlyph 'originOfText' must have SIdRef syntax.                                                     |       |       |       |       |       |       |       |
-      |LayoutTGOriginOfTextMustRefObject       |TextGlyph 'originOfText' must reference existing element.                                             |       |       |       |       |       |       |       |
-      |LayoutTGNoDuplicateReferences           |TextGlyph cannot reference two objects.                                                               |       |       |       |       |       |       |       |
-      |LayoutTGGraphicalObjectSyntax           |TextGlyph 'graphicalObject' must have SIdRef syntax.                                                  |       |       |       |       |       |       |       |
-      |LayoutTGGraphicalObjectMustRefObject    |TextGlyph 'graphicalObject' must reference existing element.                                          |       |       |       |       |       |       |       |
-      |LayoutTGTextMustBeString                |TextGlyph 'text' must be string.                                                                      |       |       |       |       |       |       |       |
-      |LayoutSRGAllowedCoreElements            |Core elements allowed on <speciesReferenceGlyph>.                                                     |       |       |       |       |       |       |       |
-      |LayoutSRGAllowedCoreAttributes          |Core attributes allowed on <speciesReferenceGlyph>.                                                   |       |       |       |       |       |       |       |
-      |LayoutSRGAllowedElements                |Layout elements allowed on <speciesReferenceGlyph>.                                                   |       |       |       |       |       |       |       |
-      |LayoutSRGAllowedAttributes              |Layout attributes allowed on <speciesReferenceGlyph>.                                                 |       |       |       |       |       |       |       |
-      |LayoutSRGMetaIdRefMustBeIDREF           |Layout 'metIdRef' must be IDREF.                                                                      |       |       |       |       |       |       |       |
-      |LayoutSRGMetaIdRefMustReferenceObject   |Layout 'metIdRef' must reference existing object.                                                     |       |       |       |       |       |       |       |
-      |LayoutSRGSpeciesReferenceSyntax         |SpeciesReferenceGlyph 'speciesReference' must have SIdRef syntax.                                     |       |       |       |       |       |       |       |
-      |LayoutSRGSpeciesRefMustRefObject        |SpeciesReferenceGlyph 'speciesReference' must reference existing element.                             |       |       |       |       |       |       |       |
-      |LayoutSRGNoDuplicateReferences          |SpeciesReferenceGlyph cannot reference two objects.                                                   |       |       |       |       |       |       |       |
-      |LayoutSRGSpeciesGlyphSyntax             |SpeciesReferenceGlyph 'speciesGlyph' must have SIdRef syntax.                                         |       |       |       |       |       |       |       |
-      |LayoutSRGSpeciesGlyphMustRefObject      |SpeciesReferenceGlyph 'speciesGlyph' must reference existing element.                                 |       |       |       |       |       |       |       |
-      |LayoutSRGRoleSyntax                     |SpeciesReferenceGlyph 'role' must be string from enumeration.                                         |       |       |       |       |       |       |       |
-      |LayoutREFGAllowedCoreElements           |Core elements allowed on <referenceGlyph>.                                                            |       |       |       |       |       |       |       |
-      |LayoutREFGAllowedCoreAttributes         |Core attributes allowed on <referenceGlyph>.                                                          |       |       |       |       |       |       |       |
-      |LayoutREFGAllowedElements               |Layout elements allowed on <referenceGlyph>.                                                          |       |       |       |       |       |       |       |
-      |LayoutREFGAllowedAttributes             |Layout attributes allowed on <referenceGlyph>.                                                        |       |       |       |       |       |       |       |
-      |LayoutREFGMetaIdRefMustBeIDREF          |Layout 'metIdRef' must be IDREF.                                                                      |       |       |       |       |       |       |       |
-      |LayoutREFGMetaIdRefMustReferenceObject  |Layout 'metIdRef' must reference existing object.                                                     |       |       |       |       |       |       |       |
-      |LayoutREFGReferenceSyntax               |ReferenceGlyph 'reference' must have SIdRef syntax.                                                   |       |       |       |       |       |       |       |
-      |LayoutREFGReferenceMustRefObject        |ReferenceGlyph 'reference' must reference existing element.                                           |       |       |       |       |       |       |       |
-      |LayoutREFGNoDuplicateReferences         |ReferenceGlyph cannot reference two objects.                                                          |       |       |       |       |       |       |       |
-      |LayoutREFGGlyphSyntax                   |ReferenceGlyph 'glyph' must have SIdRef syntax.                                                       |       |       |       |       |       |       |       |
-      |LayoutREFGGlyphMustRefObject            |ReferenceGlyph 'glyph' must reference existing element.                                               |       |       |       |       |       |       |       |
-      |LayoutREFGRoleSyntax                    |ReferenceGlyph 'role' must be string.                                                                 |       |       |       |       |       |       |       |
-      |LayoutPointAllowedCoreElements          |Core elements allowed on  .                                                                           |       |       |       |       |       |       |       |
-      |LayoutPointAllowedCoreAttributes        |Core attributes allowed on  .                                                                         |       |       |       |       |       |       |       |
-      |LayoutPointAllowedAttributes            |Layout attributes allowed on  .                                                                       |       |       |       |       |       |       |       |
-      |LayoutPointAttributesMustBeDouble       |Layout 'x', 'y' and 'z' must be double.                                                               |       |       |       |       |       |       |       |
-      |LayoutBBoxAllowedCoreElements           |Core elements allowed on <boundingBox>.                                                               |       |       |       |       |       |       |       |
-      |LayoutBBoxAllowedCoreAttributes         |Core attributes allowed on <boundingBox>.                                                             |       |       |       |       |       |       |       |
-      |LayoutBBoxAllowedElements               |Layout elements allowed on <boundingBox>.                                                             |       |       |       |       |       |       |       |
-      |LayoutBBoxAllowedAttributes             |Layout attributes allowed on <boundingBox>.                                                           |       |       |       |       |       |       |       |
-      |LayoutBBoxConsistent3DDefinition        |Layout consistent dimensions on a <boundingBox>                                                       |       |       |       |       |       |       |       |
-      |LayoutCurveAllowedCoreElements          |Core elements allowed on <curve>.                                                                     |       |       |       |       |       |       |       |
-      |LayoutCurveAllowedCoreAttributes        |Core attributes allowed on <curve>.                                                                   |       |       |       |       |       |       |       |
-      |LayoutCurveAllowedElements              |Layout elements allowed on <curve>.                                                                   |       |       |       |       |       |       |       |
-      |LayoutCurveAllowedAttributes            |Layout attributes allowed on <curve>.                                                                 |       |       |       |       |       |       |       |
-      |LayoutLOCurveSegsAllowedAttributes      |Allowed attributes on ListOfCurveSegments                                                             |       |       |       |       |       |       |       |
-      |LayoutLOCurveSegsAllowedElements        |Allowed elements on ListOfCurveSegments                                                               |       |       |       |       |       |       |       |
-      |LayoutLOCurveSegsNotEmpty               |No empty ListOfCurveSegments                                                                          |       |       |       |       |       |       |       |
-      |LayoutLSegAllowedCoreElements           |Core elements allowed on <lineSegment>.                                                               |       |       |       |       |       |       |       |
-      |LayoutLSegAllowedCoreAttributes         |Core attributes allowed on <lineSegment>.                                                             |       |       |       |       |       |       |       |
-      |LayoutLSegAllowedElements               |Layout elements allowed on <lineSegment>.                                                             |       |       |       |       |       |       |       |
-      |LayoutLSegAllowedAttributes             |Layout attributes allowed on <lineSegment>.                                                           |       |       |       |       |       |       |       |
-      |LayoutCBezAllowedCoreElements           |Core elements allowed on <cubicBezier>.                                                               |       |       |       |       |       |       |       |
-      |LayoutCBezAllowedCoreAttributes         |Core attributes allowed on <cubicBezier>.                                                             |       |       |       |       |       |       |       |
-      |LayoutCBezAllowedElements               |Layout elements allowed on <cubicBezier>.                                                             |       |       |       |       |       |       |       |
-      |LayoutCBezAllowedAttributes             |Layout attributes allowed on <cubicBezier>.                                                           |       |       |       |       |       |       |       |
-      |LayoutDimsAllowedCoreElements           |Core elements allowed on <dimensions>.                                                                |       |       |       |       |       |       |       |
-      |LayoutDimsAllowedCoreAttributes         |Core attributes allowed on <dimensions>.                                                              |       |       |       |       |       |       |       |
-      |LayoutDimsAllowedAttributes             |Layout attributes allowed on <dimensions>.                                                            |       |       |       |       |       |       |       |
-      |LayoutDimsAttributesMustBeDouble        |Layout 'width', 'height' and 'depth' must be double.                                                  |       |       |       |       |       |       |       |
-      +----------------------------------------+------------------------------------------------------------------------------------------------------+-------+-------+-------+-------+-------+-------+-------+
+      +-------------------------------------------+------------------------------------------------------------------------------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+
+      |Enumerator                                 |Meaning                                                                                               |L1 V1  |L1 V2  |L2 V1  |L2 V2  |L2 V3  |L2 V4  |L3 V1  |L3 V2  |
+      +-------------------------------------------+------------------------------------------------------------------------------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+
+      |XMLUnknownError                            |Unknown error                                                                                         |       |       |       |       |       |       |       |       |
+      |XMLOutOfMemory                             |Out of memory                                                                                         |       |       |       |       |       |       |       |       |
+      |XMLFileUnreadable                          |File unreadable                                                                                       |       |       |       |       |       |       |       |       |
+      |XMLFileUnwritable                          |File unwritable                                                                                       |       |       |       |       |       |       |       |       |
+      |XMLFileOperationError                      |File operation error                                                                                  |       |       |       |       |       |       |       |       |
+      |XMLNetworkAccessError                      |Network access error                                                                                  |       |       |       |       |       |       |       |       |
+      |InternalXMLParserError                     |Internal XML parser error                                                                             |       |       |       |       |       |       |       |       |
+      |UnrecognizedXMLParserCode                  |Unrecognized XML parser code                                                                          |       |       |       |       |       |       |       |       |
+      |XMLTranscoderError                         |Transcoder error                                                                                      |       |       |       |       |       |       |       |       |
+      |MissingXMLDecl                             |Missing XML declaration                                                                               |       |       |       |       |       |       |       |       |
+      |MissingXMLEncoding                         |Missing XML encoding attribute                                                                        |       |       |       |       |       |       |       |       |
+      |BadXMLDecl                                 |Bad XML declaration                                                                                   |       |       |       |       |       |       |       |       |
+      |BadXMLDOCTYPE                              |Bad XML DOCTYPE                                                                                       |       |       |       |       |       |       |       |       |
+      |InvalidCharInXML                           |Invalid character                                                                                     |       |       |       |       |       |       |       |       |
+      |BadlyFormedXML                             |Badly formed XML                                                                                      |       |       |       |       |       |       |       |       |
+      |UnclosedXMLToken                           |Unclosed token                                                                                        |       |       |       |       |       |       |       |       |
+      |InvalidXMLConstruct                        |Invalid XML construct                                                                                 |       |       |       |       |       |       |       |       |
+      |XMLTagMismatch                             |XML tag mismatch                                                                                      |       |       |       |       |       |       |       |       |
+      |DuplicateXMLAttribute                      |Duplicate attribute                                                                                   |       |       |       |       |       |       |       |       |
+      |UndefinedXMLEntity                         |Undefined XML entity                                                                                  |       |       |       |       |       |       |       |       |
+      |BadProcessingInstruction                   |Bad XML processing instruction                                                                        |       |       |       |       |       |       |       |       |
+      |BadXMLPrefix                               |Bad XML prefix                                                                                        |       |       |       |       |       |       |       |       |
+      |BadXMLPrefixValue                          |Bad XML prefix value                                                                                  |       |       |       |       |       |       |       |       |
+      |MissingXMLRequiredAttribute                |Missing required attribute                                                                            |       |       |       |       |       |       |       |       |
+      |XMLAttributeTypeMismatch                   |Attribute type mismatch                                                                               |       |       |       |       |       |       |       |       |
+      |XMLBadUTF8Content                          |Bad UTF8 content                                                                                      |       |       |       |       |       |       |       |       |
+      |MissingXMLAttributeValue                   |Missing attribute value                                                                               |       |       |       |       |       |       |       |       |
+      |BadXMLAttributeValue                       |Bad attribute value                                                                                   |       |       |       |       |       |       |       |       |
+      |BadXMLAttribute                            |Bad XML attribute                                                                                     |       |       |       |       |       |       |       |       |
+      |UnrecognizedXMLElement                     |Unrecognized XML element                                                                              |       |       |       |       |       |       |       |       |
+      |BadXMLComment                              |Bad XML comment                                                                                       |       |       |       |       |       |       |       |       |
+      |BadXMLDeclLocation                         |Bad XML declaration location                                                                          |       |       |       |       |       |       |       |       |
+      |XMLUnexpectedEOF                           |Unexpected EOF                                                                                        |       |       |       |       |       |       |       |       |
+      |BadXMLIDValue                              |Bad XML ID value                                                                                      |       |       |       |       |       |       |       |       |
+      |BadXMLIDRef                                |Bad XML IDREF                                                                                         |       |       |       |       |       |       |       |       |
+      |UninterpretableXMLContent                  |Uninterpretable XML content                                                                           |       |       |       |       |       |       |       |       |
+      |BadXMLDocumentStructure                    |Bad XML document structure                                                                            |       |       |       |       |       |       |       |       |
+      |InvalidAfterXMLContent                     |Invalid content after XML content                                                                     |       |       |       |       |       |       |       |       |
+      |XMLExpectedQuotedString                    |Expected quoted string                                                                                |       |       |       |       |       |       |       |       |
+      |XMLEmptyValueNotPermitted                  |Empty value not permitted                                                                             |       |       |       |       |       |       |       |       |
+      |XMLBadNumber                               |Bad number                                                                                            |       |       |       |       |       |       |       |       |
+      |XMLBadColon                                |Colon character not permitted                                                                         |       |       |       |       |       |       |       |       |
+      |MissingXMLElements                         |Missing XML elements                                                                                  |       |       |       |       |       |       |       |       |
+      |XMLContentEmpty                            |Empty XML content                                                                                     |       |       |       |       |       |       |       |       |
+      |UnknownError                               |Encountered unknown internal libSBML error                                                            |       |       |       |       |       |       |       |       |
+      |NotUTF8                                    |File does not use UTF-8 encoding                                                                      |       |       |       |       |       |       |       |       |
+      |UnrecognizedElement                        |Encountered unrecognized element                                                                      |       |       |       |       |       |       |       |       |
+      |NotSchemaConformant                        |Document does not conform to the SBML XML schema                                                      |       |       |       |       |       |       |       |       |
+      |L3NotSchemaConformant                      |Document is not well-formed XML                                                                       |       |       |       |       |       |       |       |       |
+      |InvalidMathElement                         |Invalid MathML                                                                                        |       |       |       |       |       |       |       |       |
+      |DisallowedMathMLSymbol                     |Disallowed MathML symbol found                                                                        |       |       |       |       |       |       |       |       |
+      |DisallowedMathMLEncodingUse                |Use of the MathML 'encoding' attribute is not allowed on this element                                 |       |       |       |       |       |       |       |       |
+      |DisallowedDefinitionURLUse                 |Use of the MathML 'definitionURL' attribute is not allowed on this element                            |       |       |       |       |       |       |       |       |
+      |BadCsymbolDefinitionURLValue               |Invalid <csymbol> 'definitionURL' attribute value                                                     |       |       |       |       |       |       |       |       |
+      |DisallowedMathTypeAttributeUse             |Use of the MathML 'type' attribute is not allowed on this element                                     |       |       |       |       |       |       |       |       |
+      |DisallowedMathTypeAttributeValue           |Disallowed MathML 'type' attribute value                                                              |       |       |       |       |       |       |       |       |
+      |LambdaOnlyAllowedInFunctionDef             |Use of <lambda> not permitted outside of FunctionDefinition objects                                   |       |       |       |       |       |       |       |       |
+      |BooleanOpsNeedBooleanArgs                  |Non-Boolean argument given to Boolean operator                                                        |       |       |       |       |       |       |       |       |
+      |NumericOpsNeedNumericArgs                  |Non-numerical argument given to numerical operator                                                    |       |       |       |       |       |       |       |       |
+      |ArgsToEqNeedSameType                       |Arguments to <eq> and <neq> must have the same data types                                             |       |       |       |       |       |       |       |       |
+      |PiecewiseNeedsConsistentTypes              |Terms in a  expression must have consistent data types                                                |       |       |       |       |       |       |       |       |
+      |PieceNeedsBoolean                          |The second argument of a  expression must yield a Boolean value                                       |       |       |       |       |       |       |       |       |
+      |ApplyCiMustBeUserFunction                  |A <ci> element in this context must refer to a function definition                                    |       |       |       |       |       |       |       |       |
+      |ApplyCiMustBeModelComponent                |A <ci> element in this context must refer to a model component                                        |       |       |       |       |       |       |       |       |
+      |KineticLawParametersAreLocalOnly           |Cannot use a KineticLaw local parameter outside of its local scope                                    |       |       |       |       |       |       |       |       |
+      |MathResultMustBeNumeric                    |A formula's result in this context must be a numerical value                                          |       |       |       |       |       |       |       |       |
+      |OpsNeedCorrectNumberOfArgs                 |Incorrect number of arguments given to MathML operator                                                |       |       |       |       |       |       |       |       |
+      |InvalidNoArgsPassedToFunctionDef           |Incorrect number of arguments given to function invocation                                            |       |       |       |       |       |       |       |       |
+      |DisallowedMathUnitsUse                     |Attribute 'units' is only permitted on <cn> elements                                                  |       |       |       |       |       |       |       |       |
+      |InvalidUnitsValue                          |Invalid value given for the 'units' attribute                                                         |       |       |       |       |       |       |       |       |
+      |CiCannotReference0DCompartment             |A <ci> element cannot reference a 0D compartment                                                      |       |       |       |       |       |       |       |       |
+      |RateOfTargetMustBeCi                       |A 'rateOf' <csymbol> must target only a single <ci> element                                           |       |       |       |       |       |       |       |       |
+      |RateOfTargetCannotBeAssigned               |The target of a 'rateOf' <csymbol> cannot be assigned                                                 |       |       |       |       |       |       |       |       |
+      |RateOfSpeciesTargetCompartmentNot          |Compartments of non-substance <species> referenced by 'rateOf' must not vary                          |       |       |       |       |       |       |       |       |
+      |DuplicateComponentId                       |Duplicate 'id' attribute value                                                                        |       |       |       |       |       |       |       |       |
+      |DuplicateUnitDefinitionId                  |Duplicate unit definition 'id' attribute value                                                        |       |       |       |       |       |       |       |       |
+      |DuplicateLocalParameterId                  |Duplicate local parameter 'id' attribute value                                                        |       |       |       |       |       |       |       |       |
+      |MultipleAssignmentOrRateRules              |Multiple rules for the same variable are not allowed                                                  |       |       |       |       |       |       |       |       |
+      |MultipleEventAssignmentsForId              |Multiple event assignments for the same variable are not allowed                                      |       |       |       |       |       |       |       |       |
+      |EventAndAssignmentRuleForId                |An event assignment and an assignment rule must not have the same value for 'variable'                |       |       |       |       |       |       |       |       |
+      |DuplicateMetaId                            |Duplicate 'metaid' attribute value                                                                    |       |       |       |       |       |       |       |       |
+      |InvalidSBOTermSyntax                       |Invalid syntax for an 'sboTerm' attribute value                                                       |       |       |       |       |       |       |       |       |
+      |InvalidMetaidSyntax                        |Invalid syntax for a 'metaid' attribute value                                                         |       |       |       |       |       |       |       |       |
+      |InvalidIdSyntax                            |Invalid syntax for an 'id' attribute value                                                            |       |       |       |       |       |       |       |       |
+      |InvalidUnitIdSyntax                        |Invalid syntax for the identifier of a unit                                                           |       |       |       |       |       |       |       |       |
+      |InvalidNameSyntax                          |Invalid syntax for a 'name' attribute value                                                           |       |       |       |       |       |       |       |       |
+      |DanglingUnitReference                      |Dangling reference to a unit.                                                                         |       |       |       |       |       |       |       |       |
+      |MissingAnnotationNamespace                 |Missing declaration of the XML namespace for the annotation                                           |       |       |       |       |       |       |       |       |
+      |DuplicateAnnotationNamespaces              |Multiple annotations using the same XML namespace                                                     |       |       |       |       |       |       |       |       |
+      |SBMLNamespaceInAnnotation                  |The SBML XML namespace cannot be used in an Annotation object                                         |       |       |       |       |       |       |       |       |
+      |MultipleAnnotations                        |Only one Annotation object is permitted under a given SBML object                                     |       |       |       |       |       |       |       |       |
+      |InconsistentArgUnits                       |The units of the function call's arguments are not consistent with its definition                     |       |       |       |       |       |       |       |       |
+      |InconsistentKineticLawUnitsL3              |The kinetic law's units are inconsistent with those of other kinetic laws in the model                |       |       |       |       |       |       |       |       |
+      |AssignRuleCompartmentMismatch              |Mismatched units in assignment rule for compartment                                                   |       |       |       |       |       |       |       |       |
+      |AssignRuleSpeciesMismatch                  |Mismatched units in assignment rule for species                                                       |       |       |       |       |       |       |       |       |
+      |AssignRuleParameterMismatch                |Mismatched units in assignment rule for parameter                                                     |       |       |       |       |       |       |       |       |
+      |AssignRuleStoichiometryMismatch            |Mismatched units in assignment rule for stoichiometry                                                 |       |       |       |       |       |       |       |       |
+      |InitAssignCompartmenMismatch               |Mismatched units in initial assignment to compartment                                                 |       |       |       |       |       |       |       |       |
+      |InitAssignSpeciesMismatch                  |Mismatched units in initial assignment to species                                                     |       |       |       |       |       |       |       |       |
+      |InitAssignParameterMismatch                |Mismatched units in initial assignment to parameter                                                   |       |       |       |       |       |       |       |       |
+      |InitAssignStoichiometryMismatch            |Mismatched units in initial assignment to stoichiometry                                               |       |       |       |       |       |       |       |       |
+      |RateRuleCompartmentMismatch                |Mismatched units in rate rule for compartment                                                         |       |       |       |       |       |       |       |       |
+      |RateRuleSpeciesMismatch                    |Mismatched units in rate rule for species                                                             |       |       |       |       |       |       |       |       |
+      |RateRuleParameterMismatch                  |Mismatched units in rate rule for parameter                                                           |       |       |       |       |       |       |       |       |
+      |RateRuleStoichiometryMismatch              |Mismatched units in rate rule for stoichiometry                                                       |       |       |       |       |       |       |       |       |
+      |KineticLawNotSubstancePerTime              |The units of the kinetic law are not 'substance'/'time'                                               |       |       |       |       |       |       |       |       |
+      |SpeciesInvalidExtentUnits                  |The species' units are not consistent with units of extent                                            |       |       |       |       |       |       |       |       |
+      |DelayUnitsNotTime                          |The units of the delay expression are not units of time                                               |       |       |       |       |       |       |       |       |
+      |EventAssignCompartmentMismatch             |Mismatched units in event assignment for compartment                                                  |       |       |       |       |       |       |       |       |
+      |EventAssignSpeciesMismatch                 |Mismatched units in event assignment for species                                                      |       |       |       |       |       |       |       |       |
+      |EventAssignParameterMismatch               |Mismatched units in event assignment for parameter                                                    |       |       |       |       |       |       |       |       |
+      |EventAssignStoichiometryMismatch           |Mismatched units in event assignment for stoichiometry                                                |       |       |       |       |       |       |       |       |
+      |PriorityUnitsNotDimensionless              |The units of a priority expression must be 'dimensionless'                                            |       |       |       |       |       |       |       |       |
+      |OverdeterminedSystem                       |The model is overdetermined                                                                           |       |       |       |       |       |       |       |       |
+      |InvalidModelSBOTerm                        |Invalid 'sboTerm' attribute value for a Model object                                                  |       |       |       |       |       |       |       |       |
+      |InvalidFunctionDefSBOTerm                  |Invalid 'sboTerm' attribute value for a FunctionDefinition object                                     |       |       |       |       |       |       |       |       |
+      |InvalidParameterSBOTerm                    |Invalid 'sboTerm' attribute value for a Parameter object                                              |       |       |       |       |       |       |       |       |
+      |InvalidInitAssignSBOTerm                   |Invalid 'sboTerm' attribute value for an InitialAssignment object                                     |       |       |       |       |       |       |       |       |
+      |InvalidRuleSBOTerm                         |Invalid 'sboTerm' attribute value for a Rule object                                                   |       |       |       |       |       |       |       |       |
+      |InvalidConstraintSBOTerm                   |Invalid 'sboTerm' attribute value for a Constraint object                                             |       |       |       |       |       |       |       |       |
+      |InvalidReactionSBOTerm                     |Invalid 'sboTerm' attribute value for a Reaction object                                               |       |       |       |       |       |       |       |       |
+      |InvalidSpeciesReferenceSBOTerm             |Invalid 'sboTerm' attribute value for a SpeciesReference object                                       |       |       |       |       |       |       |       |       |
+      |InvalidKineticLawSBOTerm                   |Invalid 'sboTerm' attribute value for a KineticLaw object                                             |       |       |       |       |       |       |       |       |
+      |InvalidEventSBOTerm                        |Invalid 'sboTerm' attribute value for an Event object                                                 |       |       |       |       |       |       |       |       |
+      |InvalidEventAssignmentSBOTerm              |Invalid 'sboTerm' attribute value for an EventAssignment object                                       |       |       |       |       |       |       |       |       |
+      |InvalidCompartmentSBOTerm                  |Invalid 'sboTerm' attribute value for a Compartment object                                            |       |       |       |       |       |       |       |       |
+      |InvalidSpeciesSBOTerm                      |Invalid 'sboTerm' attribute value for a Species object                                                |       |       |       |       |       |       |       |       |
+      |InvalidCompartmentTypeSBOTerm              |Invalid 'sboTerm' attribute value for a CompartmentType object                                        |       |       |       |       |       |       |       |       |
+      |InvalidSpeciesTypeSBOTerm                  |Invalid 'sboTerm' attribute value for a SpeciesType object                                            |       |       |       |       |       |       |       |       |
+      |InvalidTriggerSBOTerm                      |Invalid 'sboTerm' attribute value for an Event Trigger object                                         |       |       |       |       |       |       |       |       |
+      |InvalidDelaySBOTerm                        |Invalid 'sboTerm' attribute value for an Event Delay object                                           |       |       |       |       |       |       |       |       |
+      |InvalidLocalParameterSBOTerm               |Invalid 'sboTerm' attribute value for a LocalParameter object                                         |       |       |       |       |       |       |       |       |
+      |InvalidSBMLElementSBOTerm                  |Invalid 'sboTerm' attribute value for the <sbml> element                                              |       |       |       |       |       |       |       |       |
+      |NotesNotInXHTMLNamespace                   |Notes must be placed in the XHTML XML namespace                                                       |       |       |       |       |       |       |       |       |
+      |NotesContainsXMLDecl                       |XML declarations are not permitted in Notes objects                                                   |       |       |       |       |       |       |       |       |
+      |NotesContainsDOCTYPE                       |XML DOCTYPE elements are not permitted in Notes objects                                               |       |       |       |       |       |       |       |       |
+      |InvalidNotesContent                        |Invalid notes content found                                                                           |       |       |       |       |       |       |       |       |
+      |OnlyOneNotesElementAllowed                 |Only one Notes subobject is permitted on a given SBML object                                          |       |       |       |       |       |       |       |       |
+      |InvalidNamespaceOnSBML                     |Invalid XML namespace for the SBML container element                                                  |       |       |       |       |       |       |       |       |
+      |MissingOrInconsistentLevel                 |Missing or inconsistent value for the 'level' attribute                                               |       |       |       |       |       |       |       |       |
+      |MissingOrInconsistentVersion               |Missing or inconsistent value for the 'version' attribute                                             |       |       |       |       |       |       |       |       |
+      |PackageNSMustMatch                         |Inconsistent or invalid SBML Level/Version for the package namespace declaration                      |       |       |       |       |       |       |       |       |
+      |LevelPositiveInteger                       |The 'level' attribute must have a positive integer value                                              |       |       |       |       |       |       |       |       |
+      |VersionPositiveInteger                     |The 'version' attribute must have a positive integer value                                            |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnSBML                    |Invalid attribute found on the SBML container element                                                 |       |       |       |       |       |       |       |       |
+      |L3PackageOnLowerSBML                       |An L3 package ns found on the SBML container element                                                  |       |       |       |       |       |       |       |       |
+      |MissingModel                               |No model definition found                                                                             |       |       |       |       |       |       |       |       |
+      |IncorrectOrderInModel                      |Incorrect ordering of components within the Model object                                              |       |       |       |       |       |       |       |       |
+      |EmptyListElement                           |Empty ListOf___ object found                                                                          |       |       |       |       |       |       |       |       |
+      |NeedCompartmentIfHaveSpecies               |The presence of a species requires a compartment                                                      |       |       |       |       |       |       |       |       |
+      |OneOfEachListOf                            |Only one of each kind of ListOf___ object is allowed inside a Model object                            |       |       |       |       |       |       |       |       |
+      |OnlyFuncDefsInListOfFuncDefs               |Only FunctionDefinition, Notes and Annotation objects are allowed in ListOfFunctionDefinitions        |       |       |       |       |       |       |       |       |
+      |OnlyUnitDefsInListOfUnitDefs               |Only UnitDefinition, Notes and Annotation objects are allowed in ListOfUnitDefinitions objects        |       |       |       |       |       |       |       |       |
+      |OnlyCompartmentsInListOfCompartments       |Only Compartment, Notes and Annotation objects are allowed in ListOfCompartments objects              |       |       |       |       |       |       |       |       |
+      |OnlySpeciesInListOfSpecies                 |Only Species, Notes and Annotation objects are allowed in ListOfSpecies objects                       |       |       |       |       |       |       |       |       |
+      |OnlyParametersInListOfParameters           |Only Parameter, Notes and Annotation objects are allowed in ListOfParameters objects                  |       |       |       |       |       |       |       |       |
+      |OnlyInitAssignsInListOfInitAssigns         |Only InitialAssignment, Notes and Annotation objects are allowed in ListOfInitialAssignments objects  |       |       |       |       |       |       |       |       |
+      |OnlyRulesInListOfRules                     |Only Rule, Notes and Annotation objects are allowed in ListOfRules objects                            |       |       |       |       |       |       |       |       |
+      |OnlyConstraintsInListOfConstraints         |Only Constraint, Notes and Annotation objects are allowed in ListOfConstraints objects                |       |       |       |       |       |       |       |       |
+      |OnlyReactionsInListOfReactions             |Only Reaction, Notes and Annotation objects are allowed in ListOfReactions objects                    |       |       |       |       |       |       |       |       |
+      |OnlyEventsInListOfEvents                   |Only Event, Notes and Annotation objects are allowed in ListOfEvents objects                          |       |       |       |       |       |       |       |       |
+      |L3ConversionFactorOnModel                  |A 'conversionFactor' attribute value must reference a Parameter object                                |       |       |       |       |       |       |       |       |
+      |L3TimeUnitsOnModel                         |Invalid 'timeUnits' attribute value                                                                   |       |       |       |       |       |       |       |       |
+      |L3VolumeUnitsOnModel                       |Invalid 'volumeUnits' attribute value                                                                 |       |       |       |       |       |       |       |       |
+      |L3AreaUnitsOnModel                         |Invalid 'areaUnits' attribute value                                                                   |       |       |       |       |       |       |       |       |
+      |L3LengthUnitsOnModel                       |Invalid 'lengthUnits' attribute value                                                                 |       |       |       |       |       |       |       |       |
+      |L3ExtentUnitsOnModel                       |Invalid 'extentUnits' attribute value                                                                 |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnModel                   |Invalid attribute found on the Model object                                                           |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfFuncs             |Invalid attribute found on the ListOfFunctionDefinitions object                                       |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfUnitDefs          |Invalid attribute found on the ListOfUnitDefinitions object                                           |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfComps             |Invalid attribute found on the ListOfCompartments object                                              |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfSpecies           |Invalid attribute found on the ListOfSpecies object                                                   |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfParams            |Invalid attribute found on the ListOfParameters object                                                |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfInitAssign        |Invalid attribute found on the ListOfInitialAssignments object                                        |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfRules             |Invalid attribute found on the ListOfRules object                                                     |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfConstraints       |Invalid attribute found on the ListOfConstraints object                                               |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfReactions         |Invalid attribute found on the ListOfReactions object                                                 |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfEvents            |Invalid attribute found on the ListOfEvents object                                                    |       |       |       |       |       |       |       |       |
+      |L3V2SubstanceUnitsOnModel                  |Invalid 'substanceUnits' attribute value                                                              |       |       |       |       |       |       |       |       |
+      |FunctionDefMathNotLambda                   |Invalid expression found in the function definition                                                   |       |       |       |       |       |       |       |       |
+      |InvalidApplyCiInLambda                     |Invalid forward reference in the MathML <apply><ci>...</ci></apply> expression                        |       |       |       |       |       |       |       |       |
+      |RecursiveFunctionDefinition                |Recursive function definitions are not permitted                                                      |       |       |       |       |       |       |       |       |
+      |InvalidCiInLambda                          |Invalid <ci> reference found inside the <lambda> mathematical formula                                 |       |       |       |       |       |       |       |       |
+      |InvalidFunctionDefReturnType               |A function's return type must be either a number or a Boolean                                         |       |       |       |       |       |       |       |       |
+      |OneMathElementPerFunc                      |A FunctionDefinition object may contain one <math> element                                            |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnFunc                    |Invalid attribute found on the FunctionDefinition object                                              |       |       |       |       |       |       |       |       |
+      |InvalidUnitDefId                           |Invalid 'id' attribute value for a UnitDefinition object                                              |       |       |       |       |       |       |       |       |
+      |InvalidSubstanceRedefinition               |Invalid redefinition of built-in type 'substance'                                                     |       |       |       |       |       |       |       |       |
+      |InvalidLengthRedefinition                  |Invalid redefinition of built-in type 'length'                                                        |       |       |       |       |       |       |       |       |
+      |InvalidAreaRedefinition                    |Invalid redefinition of built-in type name 'area'                                                     |       |       |       |       |       |       |       |       |
+      |InvalidTimeRedefinition                    |Invalid redefinition of built-in type name 'time'                                                     |       |       |       |       |       |       |       |       |
+      |InvalidVolumeRedefinition                  |Invalid redefinition of built-in type name 'volume'                                                   |       |       |       |       |       |       |       |       |
+      |VolumeLitreDefExponentNotOne               |Must use 'exponent'=1 when defining 'volume' in terms of litres                                       |       |       |       |       |       |       |       |       |
+      |VolumeMetreDefExponentNot3                 |Must use 'exponent'=3 when defining 'volume' in terms of metres                                       |       |       |       |       |       |       |       |       |
+      |EmptyListOfUnits                           |An empty list of Unit objects is not permitted in a UnitDefinition object                             |       |       |       |       |       |       |       |       |
+      |InvalidUnitKind                            |Invalid value for the 'kind' attribute of a UnitDefinition object                                     |       |       |       |       |       |       |       |       |
+      |OffsetNoLongerValid                        |Unit attribute 'offset' is not supported in this Level+Version of SBML                                |       |       |       |       |       |       |       |       |
+      |CelsiusNoLongerValid                       |Unit name 'Celsius' is not defined in this Level+Version of SBML                                      |       |       |       |       |       |       |       |       |
+      |EmptyUnitListElement                       |A ListOfUnits object must not be empty                                                                |       |       |       |       |       |       |       |       |
+      |OneListOfUnitsPerUnitDef                   |At most one ListOfUnits object is allowed inside a UnitDefinition object                              |       |       |       |       |       |       |       |       |
+      |OnlyUnitsInListOfUnits                     |Only Unit, Notes and Annotation objects are allowed in ListOfUnits objects                            |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnUnitDefinition          |Invalid attribute found on the UnitDefinition object                                                  |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfUnits             |Invalid attribute found on the ListOfUnits object                                                     |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnUnit                    |Invalid attribute found on the Unit object                                                            |       |       |       |       |       |       |       |       |
+      |ZeroDimensionalCompartmentSize             |Invalid use of the 'size' attribute for a zero-dimensional compartment                                |       |       |       |       |       |       |       |       |
+      |ZeroDimensionalCompartmentUnits            |Invalid use of the 'units' attribute for a zero-dimensional compartment                               |       |       |       |       |       |       |       |       |
+      |ZeroDimensionalCompartmentConst            |Zero-dimensional compartments must be defined to be constant                                          |       |       |       |       |       |       |       |       |
+      |UndefinedOutsideCompartment                |Invalid value for the 'outside' attribute of a Compartment object                                     |       |       |       |       |       |       |       |       |
+      |RecursiveCompartmentContainment            |Recursive nesting of compartments via the 'outside' attribute is not permitted                        |       |       |       |       |       |       |       |       |
+      |ZeroDCompartmentContainment                |Invalid nesting of zero-dimensional compartments                                                      |       |       |       |       |       |       |       |       |
+      |Invalid1DCompartmentUnits                  |Invalid value for the 'units' attribute of a one-dimensional compartment                              |       |       |       |       |       |       |       |       |
+      |Invalid2DCompartmentUnits                  |Invalid value for the 'units' attribute of a two-dimensional compartment                              |       |       |       |       |       |       |       |       |
+      |Invalid3DCompartmentUnits                  |Invalid value for the 'units' attribute of a three-dimensional compartment                            |       |       |       |       |       |       |       |       |
+      |InvalidCompartmentTypeRef                  |Invalid value for the 'compartmentType' attribute of a compartment                                    |       |       |       |       |       |       |       |       |
+      |OneDimensionalCompartmentUnits             |No units defined for 1-D compartment                                                                  |       |       |       |       |       |       |       |       |
+      |TwoDimensionalCompartmentUnits             |No units defined for 2-D compartment                                                                  |       |       |       |       |       |       |       |       |
+      |ThreeDimensionalCompartmentUnits           |No units defined for 3-D Compartment object                                                           |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnCompartment             |Invalid attribute found on Compartment object                                                         |       |       |       |       |       |       |       |       |
+      |NoUnitsOnCompartment                       |No units defined for Compartment object                                                               |       |       |       |       |       |       |       |       |
+      |InvalidSpeciesCompartmentRef               |Invalid value found for Species 'compartment' attribute                                               |       |       |       |       |       |       |       |       |
+      |HasOnlySubsNoSpatialUnits                  |Attribute 'spatialSizeUnits' must not be set if 'hasOnlySubstanceUnits'='true'                        |       |       |       |       |       |       |       |       |
+      |NoSpatialUnitsInZeroD                      |Attribute 'spatialSizeUnits' must not be set if the compartment is zero-dimensional                   |       |       |       |       |       |       |       |       |
+      |NoConcentrationInZeroD                     |Attribute 'initialConcentration' must not be set if the compartment is zero-dimensional               |       |       |       |       |       |       |       |       |
+      |SpatialUnitsInOneD                         |Invalid value for 'spatialSizeUnits' attribute of a one-dimensional compartment                       |       |       |       |       |       |       |       |       |
+      |SpatialUnitsInTwoD                         |Invalid value for the 'spatialSizeUnits' attribute of a two-dimensional compartment                   |       |       |       |       |       |       |       |       |
+      |SpatialUnitsInThreeD                       |Invalid value for the 'spatialSizeUnits' attribute of a three-dimensional compartment                 |       |       |       |       |       |       |       |       |
+      |InvalidSpeciesSusbstanceUnits              |Invalid value for a Species 'units' attribute                                                         |       |       |       |       |       |       |       |       |
+      |BothAmountAndConcentrationSet              |Cannot set both 'initialConcentration' and 'initialAmount' attributes simultaneously                  |       |       |       |       |       |       |       |       |
+      |NonBoundarySpeciesAssignedAndUsed          |Cannot use a non-boundary species in both reactions and rules simultaneously                          |       |       |       |       |       |       |       |       |
+      |NonConstantSpeciesUsed                     |Cannot use a constant, non-boundary species as a reactant or product                                  |       |       |       |       |       |       |       |       |
+      |InvalidSpeciesTypeRef                      |Invalid value for the 'speciesType' attribute of a species                                            |       |       |       |       |       |       |       |       |
+      |MultSpeciesSameTypeInCompartment           |Cannot have multiple species of the same species type in the same compartment                         |       |       |       |       |       |       |       |       |
+      |MissingSpeciesCompartment                  |Missing value for the 'compartment' attribute                                                         |       |       |       |       |       |       |       |       |
+      |SpatialSizeUnitsRemoved                    |Attribute 'spatialSizeUnits' is not supported in this Level+Version of SBML                           |       |       |       |       |       |       |       |       |
+      |SubstanceUnitsOnSpecies                    |No substance units defined for the species                                                            |       |       |       |       |       |       |       |       |
+      |ConversionFactorOnSpecies                  |Invalid value for the 'conversionFactor' attribute                                                    |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnSpecies                 |Invalid attribute found on Species object                                                             |       |       |       |       |       |       |       |       |
+      |InvalidParameterUnits                      |Invalid value for the 'units' attribute of a Parameter object                                         |       |       |       |       |       |       |       |       |
+      |ParameterUnits                             |No units defined for the parameter                                                                    |       |       |       |       |       |       |       |       |
+      |ConversionFactorMustConstant               |A conversion factor must reference a Parameter object declared to be a constant                       |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnParameter               |Invalid attribute found on Parameter object                                                           |       |       |       |       |       |       |       |       |
+      |InvalidInitAssignSymbol                    |Invalid value for the 'symbol' attribute of an InitialAssignment object                               |       |       |       |       |       |       |       |       |
+      |MultipleInitAssignments                    |Multiple initial assignments for the same 'symbol' value are not allowed                              |       |       |       |       |       |       |       |       |
+      |InitAssignmentAndRuleForSameId             |Cannot set a value using both an initial assignment and an assignment rule simultaneously             |       |       |       |       |       |       |       |       |
+      |OneMathElementPerInitialAssign             |An InitialAssignment object may contain one <math> element                                            |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnInitialAssign           |Invalid attribute found on an InitialAssignment object                                                |       |       |       |       |       |       |       |       |
+      |InitAssignmentCannotRef0DComp              |InitialAssignment cannot reference 0D compartment                                                     |       |       |       |       |       |       |       |       |
+      |InvalidAssignRuleVariable                  |Invalid value for the 'variable' attribute of an AssignmentRule object                                |       |       |       |       |       |       |       |       |
+      |InvalidRateRuleVariable                    |Invalid value for the 'variable' attribute of a RateRule object                                       |       |       |       |       |       |       |       |       |
+      |AssignmentToConstantEntity                 |An assignment rule cannot assign an entity declared to be constant                                    |       |       |       |       |       |       |       |       |
+      |RateRuleForConstantEntity                  |A rate rule cannot assign an entity declared to be constant                                           |       |       |       |       |       |       |       |       |
+      |CircularRuleDependency                     |Circular dependencies involving rules and reactions are not permitted                                 |       |       |       |       |       |       |       |       |
+      |OneMathElementPerRule                      |A rule object may contain one <math> element                                                          |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnAssignRule              |Invalid attribute found on an AssignmentRule object                                                   |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnRateRule                |Invalid attribute found on a RateRule object                                                          |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnAlgRule                 |Invalid attribute found on an AlgebraicRule object                                                    |       |       |       |       |       |       |       |       |
+      |RuleCannotRef0DComp                        |Rule cannot reference 0D compartment                                                                  |       |       |       |       |       |       |       |       |
+      |CircularDependencyRateOf                   |Circular dependencies are not permitted in RateRule and KineticLaw objects                            |       |       |       |       |       |       |       |       |
+      |ConstraintMathNotBoolean                   |A Constraint object's <math> must evaluate to a Boolean value                                         |       |       |       |       |       |       |       |       |
+      |IncorrectOrderInConstraint                 |Subobjects inside the Constraint object are not in the prescribed order                               |       |       |       |       |       |       |       |       |
+      |ConstraintNotInXHTMLNamespace              |A Constraint's Message subobject must be in the XHTML XML namespace                                   |       |       |       |       |       |       |       |       |
+      |ConstraintContainsXMLDecl                  |XML declarations are not permitted within Constraint's Message objects                                |       |       |       |       |       |       |       |       |
+      |ConstraintContainsDOCTYPE                  |XML DOCTYPE elements are not permitted within Constraint's Message objects                            |       |       |       |       |       |       |       |       |
+      |InvalidConstraintContent                   |Invalid content for a Constraint object's Message object                                              |       |       |       |       |       |       |       |       |
+      |OneMathElementPerConstraint                |A Constraint object may contain one <math> element                                                    |       |       |       |       |       |       |       |       |
+      |OneMessageElementPerConstraint             |A Constraint object can only have one Message subobject                                               |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnConstraint              |Invalid attribute found on Constraint object                                                          |       |       |       |       |       |       |       |       |
+      |NoReactantsOrProducts                      |Cannot have a reaction with neither reactants nor products                                            |       |       |       |       |       |       |       |       |
+      |IncorrectOrderInReaction                   |Subobjects inside the Reaction object are not in the prescribed order                                 |       |       |       |       |       |       |       |       |
+      |EmptyListInReaction                        |Reaction components, if present, cannot be empty                                                      |       |       |       |       |       |       |       |       |
+      |InvalidReactantsProductsList               |Invalid object found in the list of reactants or products                                             |       |       |       |       |       |       |       |       |
+      |InvalidModifiersList                       |Invalid object found in the list of modifiers                                                         |       |       |       |       |       |       |       |       |
+      |OneSubElementPerReaction                   |A Reaction object can only contain one of each allowed type of object                                 |       |       |       |       |       |       |       |       |
+      |CompartmentOnReaction                      |Invalid value for the Reaction 'compartment' attribute                                                |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnReaction                |Invalid attribute for a Reaction object                                                               |       |       |       |       |       |       |       |       |
+      |InvalidSpeciesReference                    |Invalid 'species' attribute value in SpeciesReference object                                          |       |       |       |       |       |       |       |       |
+      |BothStoichiometryAndMath                   |The 'stoichiometry' attribute and StoichiometryMath subobject are mutually exclusive                  |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnSpeciesReference        |Invalid attribute found on the SpeciesReference object                                                |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnModifier                |Invalid attribute found on the ModifierSpeciesReference object                                        |       |       |       |       |       |       |       |       |
+      |UndeclaredSpeciesRef                       |Unknown species referenced in the kinetic law <math> formula                                          |       |       |       |       |       |       |       |       |
+      |IncorrectOrderInKineticLaw                 |Incorrect ordering of components in the KineticLaw object                                             |       |       |       |       |       |       |       |       |
+      |EmptyListInKineticLaw                      |The list of parameters, if present, cannot be empty                                                   |       |       |       |       |       |       |       |       |
+      |NonConstantLocalParameter                  |Parameters local to a KineticLaw object must have a 'constant' attribute value of 'true'              |       |       |       |       |       |       |       |       |
+      |SubsUnitsNoLongerValid                     |Attribute 'substanceUnits' is not supported in this Level+Version of SBML                             |       |       |       |       |       |       |       |       |
+      |TimeUnitsNoLongerValid                     |Attribute 'timeUnits' is not supported in this Level+Version of SBML                                  |       |       |       |       |       |       |       |       |
+      |OneListOfPerKineticLaw                     |Only one ListOfLocalParameters object is permitted within a KineticLaw object                         |       |       |       |       |       |       |       |       |
+      |OnlyLocalParamsInListOfLocalParams         |Only LocalParameter, Notes and Annotation objects are allowed in ListOfLocalParameter objects         |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfLocalParam        |Invalid attribute found on the ListOfLocalParameters object                                           |       |       |       |       |       |       |       |       |
+      |OneMathPerKineticLaw                       |Only one <math> element is allowed in a KineticLaw object                                             |       |       |       |       |       |       |       |       |
+      |UndeclaredSpeciesInStoichMath              |Unknown species referenced in the StoichiometryMath object's <math> formula                           |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnKineticLaw              |Invalid attribute found on the KineticLaw object                                                      |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfSpeciesRef        |Invalid attribute found on the ListOfSpeciesReferences object                                         |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfMods              |Invalid attribute found on the ListOfModifiers object                                                 |       |       |       |       |       |       |       |       |
+      |L3V2FastDeprecated                         |Fast attribute deprecated                                                                             |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnLocalParameter          |Invalid attribute found on the LocalParameter object                                                  |       |       |       |       |       |       |       |       |
+      |LocalParameterShadowsSpecies               |Invalid attribute found on the LocalParameter object                                                  |       |       |       |       |       |       |       |       |
+      |MissingTriggerInEvent                      |The Event object is missing a Trigger subobject                                                       |       |       |       |       |       |       |       |       |
+      |TriggerMathNotBoolean                      |A Trigger object's <math> expression must evaluate to a Boolean value                                 |       |       |       |       |       |       |       |       |
+      |MissingEventAssignment                     |The Event object is missing an EventAssignment subobject                                              |       |       |       |       |       |       |       |       |
+      |TimeUnitsEvent                             |Units referenced by 'timeUnits' attribute are not compatible with units of time                       |       |       |       |       |       |       |       |       |
+      |IncorrectOrderInEvent                      |Incorrect ordering of components in Event object                                                      |       |       |       |       |       |       |       |       |
+      |ValuesFromTriggerTimeNeedDelay             |Attribute 'useValuesFromTriggerTime'='false', but the Event object does not define a delay            |       |       |       |       |       |       |       |       |
+      |DelayNeedsValuesFromTriggerTime            |The use of a Delay object requires the Event attribute 'useValuesFromTriggerTime'                     |       |       |       |       |       |       |       |       |
+      |OneMathPerTrigger                          |A Trigger object may have one <math> element                                                          |       |       |       |       |       |       |       |       |
+      |OneMathPerDelay                            |A Delay object may have one <math> element                                                            |       |       |       |       |       |       |       |       |
+      |InvalidEventAssignmentVariable             |Invalid 'variable' attribute value in Event object                                                    |       |       |       |       |       |       |       |       |
+      |EventAssignmentForConstantEntity           |An EventAssignment object cannot assign to a component having attribute 'constant'='true'             |       |       |       |       |       |       |       |       |
+      |OneMathPerEventAssignment                  |An EventAssignment object may have one <math> element                                                 |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnEventAssignment         |Invalid attribute found on the EventAssignment object                                                 |       |       |       |       |       |       |       |       |
+      |OnlyOneDelayPerEvent                       |An Event object can only have one Delay subobject                                                     |       |       |       |       |       |       |       |       |
+      |OneListOfEventAssignmentsPerEvent          |An Event object can only have one ListOfEventAssignments subobject                                    |       |       |       |       |       |       |       |       |
+      |OnlyEventAssignInListOfEventAssign         |Only EventAssignment, Notes and Annotation objects are allowed in ListOfEventAssignments              |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnListOfEventAssign       |Invalid attribute found on the ListOfEventAssignments object                                          |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnEvent                   |Invalid attribute found on the Event object                                                           |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnTrigger                 |Invalid attribute found on the Trigger object                                                         |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnDelay                   |Invalid attribute found on the Delay object                                                           |       |       |       |       |       |       |       |       |
+      |PersistentNotBoolean                       |The Trigger attribute 'persistent' must evaluate to a Boolean value                                   |       |       |       |       |       |       |       |       |
+      |InitialValueNotBoolean                     |The Trigger attribute 'initialValue' must evaluate to a Boolean value                                 |       |       |       |       |       |       |       |       |
+      |OnlyOnePriorityPerEvent                    |An Event object can only have one Priority subobject                                                  |       |       |       |       |       |       |       |       |
+      |OneMathPerPriority                         |A Priority object may have one <math> element                                                         |       |       |       |       |       |       |       |       |
+      |AllowedAttributesOnPriority                |Invalid attribute found on the Priority object                                                        |       |       |       |       |       |       |       |       |
+      |CompartmentShouldHaveSize                  |It's best to define a size for every compartment in a model                                           |       |       |       |       |       |       |       |       |
+      |SpeciesShouldHaveValue                     |It's best to define an initial amount or initial concentration for every species in a model           |       |       |       |       |       |       |       |       |
+      |ParameterShouldHaveUnits                   |It's best to declare units for every parameter in a model                                             |       |       |       |       |       |       |       |       |
+      |ParameterShouldHaveValue                   |It's best to declare values for every parameter in a model                                            |       |       |       |       |       |       |       |       |
+      |LocalParameterShadowsId                    |Local parameters defined within a kinetic law shadow global object symbols                            |       |       |       |       |       |       |       |       |
+      |CannotConvertToL1V1                        |Cannot convert to SBML Level 1 Version 1                                                              |       |       |       |       |       |       |       |       |
+      |NoEventsInL1                               |SBML Level 1 does not support events                                                                  |       |       |       |       |       |       |       |       |
+      |NoFunctionDefinitionsInL1                  |SBML Level 1 does not support function definitions                                                    |       |       |       |       |       |       |       |       |
+      |NoConstraintsInL1                          |SBML Level 1 does not support constraints                                                             |       |       |       |       |       |       |       |       |
+      |NoInitialAssignmentsInL1                   |SBML Level 1 does not support initial assignments                                                     |       |       |       |       |       |       |       |       |
+      |NoSpeciesTypesInL1                         |SBML Level 1 does not support species types                                                           |       |       |       |       |       |       |       |       |
+      |NoCompartmentTypeInL1                      |SBML Level 1 does not support compartment types                                                       |       |       |       |       |       |       |       |       |
+      |NoNon3DCompartmentsInL1                    |SBML Level 1 only supports three-dimensional compartments                                             |       |       |       |       |       |       |       |       |
+      |NoFancyStoichiometryMathInL1               |SBML Level 1 does not support non-integer nor non-rational stoichiometry formulas                     |       |       |       |       |       |       |       |       |
+      |NoNonIntegerStoichiometryInL1              |SBML Level 1 does not support non-integer 'stoichiometry' attribute values                            |       |       |       |       |       |       |       |       |
+      |NoUnitMultipliersOrOffsetsInL1             |SBML Level 1 does not support multipliers or offsets in unit definitions                              |       |       |       |       |       |       |       |       |
+      |SpeciesCompartmentRequiredInL1             |In SBML Level 1, a value for 'compartment' is mandatory in species definitions                        |       |       |       |       |       |       |       |       |
+      |NoSpeciesSpatialSizeUnitsInL1              |SBML Level 1 does not support species 'spatialSizeUnits' settings                                     |       |       |       |       |       |       |       |       |
+      |NoSBOTermsInL1                             |SBML Level 1 does not support the 'sboTerm' attribute                                                 |       |       |       |       |       |       |       |       |
+      |StrictUnitsRequiredInL1                    |SBML Level 1 requires strict unit consistency                                                         |       |       |       |       |       |       |       |       |
+      |ConversionFactorNotInL1                    |SBML Level 1 does not support the 'conversionFactor' attribute                                        |       |       |       |       |       |       |       |       |
+      |CompartmentNotOnL1Reaction                 |SBML Level 1 does not support the 'compartment' attribute on Reaction objects                         |       |       |       |       |       |       |       |       |
+      |ExtentUnitsNotSubstance                    |Units of extent must be compatible with units of substance                                            |       |       |       |       |       |       |       |       |
+      |GlobalUnitsNotDeclared                     |Global units must be refer to unit kind or unitDefinition                                             |       |       |       |       |       |       |       |       |
+      |HasOnlySubstanceUnitsNotinL1               |The concept of hasOnlySubstanceUnits was not available in SBML Level 1                                |       |       |       |       |       |       |       |       |
+      |AvogadroNotSupported                       |Avogadro not supported in Levels 2 and 1                                                              |       |       |       |       |       |       |       |       |
+      |NoConstraintsInL2v1                        |SBML Level 2 Version 1 does not support Constraint objects                                            |       |       |       |       |       |       |       |       |
+      |NoInitialAssignmentsInL2v1                 |SBML Level 2 Version 1 does not support InitialAssignment objects                                     |       |       |       |       |       |       |       |       |
+      |NoSpeciesTypeInL2v1                        |SBML Level 2 Version 1 does not support SpeciesType objects                                           |       |       |       |       |       |       |       |       |
+      |NoCompartmentTypeInL2v1                    |SBML Level 2 Version 1 does not support CompartmentType objects                                       |       |       |       |       |       |       |       |       |
+      |NoSBOTermsInL2v1                           |SBML Level 2 Version 1 does not support the 'sboTerm' attribute                                       |       |       |       |       |       |       |       |       |
+      |NoIdOnSpeciesReferenceInL2v1               |SBML Level 2 Version 1 does not support the 'id' attribute on SpeciesReference objects                |       |       |       |       |       |       |       |       |
+      |NoDelayedEventAssignmentInL2v1             |SBML Level 2 Version 1 does not support the 'useValuesFromTriggerTime' attribute                      |       |       |       |       |       |       |       |       |
+      |StrictUnitsRequiredInL2v1                  |SBML Level 2 Version 1 requires strict unit consistency                                               |       |       |       |       |       |       |       |       |
+      |IntegerSpatialDimensions                   |SBML Level 2 Version 1 requires that compartments have spatial dimensions of 0-3                      |       |       |       |       |       |       |       |       |
+      |StoichiometryMathNotYetSupported           |Conversion to StoichiometryMath objects not yet supported                                             |       |       |       |       |       |       |       |       |
+      |PriorityLostFromL3                         |SBML Level 2 Version 1 does not support priorities on Event objects                                   |       |       |       |       |       |       |       |       |
+      |NonPersistentNotSupported                  |SBML Level 2 Version 1 does not support the 'persistent' attribute on Trigger objects                 |       |       |       |       |       |       |       |       |
+      |InitialValueFalseEventNotSupported         |SBML Level 2 Version 1 does not support the 'initialValue' attribute on Trigger objects               |       |       |       |       |       |       |       |       |
+      |SBOTermNotUniversalInL2v2                  |The 'sboTerm' attribute is invalid for this component in SBML Level 2 Version 2                       |       |       |       |       |       |       |       |       |
+      |NoUnitOffsetInL2v2                         |This Level+Version of SBML does not support the 'offset' attribute on Unit objects                    |       |       |       |       |       |       |       |       |
+      |NoKineticLawTimeUnitsInL2v2                |This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects           |       |       |       |       |       |       |       |       |
+      |NoKineticLawSubstanceUnitsInL2v2           |This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects      |       |       |       |       |       |       |       |       |
+      |NoDelayedEventAssignmentInL2v2             |This Level+Version of SBML does not support the 'useValuesFromTriggerTime' attribute                  |       |       |       |       |       |       |       |       |
+      |ModelSBOBranchChangedBeyondL2v2            |The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version         |       |       |       |       |       |       |       |       |
+      |StrictUnitsRequiredInL2v2                  |SBML Level 2 Version 2 requires strict unit consistency                                               |       |       |       |       |       |       |       |       |
+      |StrictSBORequiredInL2v2                    |SBML Level 2 Version 2 requires strict SBO term consistency                                           |       |       |       |       |       |       |       |       |
+      |DuplicateAnnotationInvalidInL2v2           |Duplicate top-level annotations are invalid in SBML Level 2 Version 2                                 |       |       |       |       |       |       |       |       |
+      |NoUnitOffsetInL2v3                         |This Level+Version of SBML does not support the 'offset' attribute on Unit objects                    |       |       |       |       |       |       |       |       |
+      |NoKineticLawTimeUnitsInL2v3                |This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects           |       |       |       |       |       |       |       |       |
+      |NoKineticLawSubstanceUnitsInL2v3           |This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects      |       |       |       |       |       |       |       |       |
+      |NoSpeciesSpatialSizeUnitsInL2v3            |This Level+Version of SBML does not support the 'spatialSizeUnit' attribute on Species objects        |       |       |       |       |       |       |       |       |
+      |NoEventTimeUnitsInL2v3                     |This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects                |       |       |       |       |       |       |       |       |
+      |NoDelayedEventAssignmentInL2v3             |This Level+Version of SBML does not support the 'useValuesFromTriggerTime' attribute                  |       |       |       |       |       |       |       |       |
+      |ModelSBOBranchChangedBeyondL2v3            |The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version         |       |       |       |       |       |       |       |       |
+      |StrictUnitsRequiredInL2v3                  |SBML Level 2 Version 3 requires strict unit consistency                                               |       |       |       |       |       |       |       |       |
+      |StrictSBORequiredInL2v3                    |SBML Level 2 Version 3 requires strict SBO term consistency                                           |       |       |       |       |       |       |       |       |
+      |DuplicateAnnotationInvalidInL2v3           |Duplicate top-level annotations are invalid in SBML Level 2 Version 3                                 |       |       |       |       |       |       |       |       |
+      |NoUnitOffsetInL2v4                         |This Level+Version of SBML does not support the 'offset' attribute on Unit objects                    |       |       |       |       |       |       |       |       |
+      |NoKineticLawTimeUnitsInL2v4                |This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects           |       |       |       |       |       |       |       |       |
+      |NoKineticLawSubstanceUnitsInL2v4           |This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects      |       |       |       |       |       |       |       |       |
+      |NoSpeciesSpatialSizeUnitsInL2v4            |This Level+Version of SBML does not support the 'spatialSizeUnit' attribute on Species objects        |       |       |       |       |       |       |       |       |
+      |NoEventTimeUnitsInL2v4                     |This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects                |       |       |       |       |       |       |       |       |
+      |ModelSBOBranchChangedInL2v4                |The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version         |       |       |       |       |       |       |       |       |
+      |DuplicateAnnotationInvalidInL2v4           |Duplicate top-level annotations are invalid in SBML Level 2 Version 4                                 |       |       |       |       |       |       |       |       |
+      |NoSpeciesTypeInL3v1                        |SBML Level 3 Version 1 does not support SpeciesType objects                                           |       |       |       |       |       |       |       |       |
+      |NoCompartmentTypeInL3v1                    |SBML Level 3 Version 1 does not support CompartmentType objects                                       |       |       |       |       |       |       |       |       |
+      |NoUnitOffsetInL3v1                         |This Level+Version of SBML does not support the 'offset' attribute on Unit objects                    |       |       |       |       |       |       |       |       |
+      |NoKineticLawTimeUnitsInL3v1                |This Level+Version of SBML does not support the 'timeUnits' attribute on KineticLaw objects           |       |       |       |       |       |       |       |       |
+      |NoKineticLawSubstanceUnitsInL3v1           |This Level+Version of SBML does not support the 'substanceUnits' attribute on KineticLaw objects      |       |       |       |       |       |       |       |       |
+      |NoSpeciesSpatialSizeUnitsInL3v1            |This Level+Version of SBML does not support the 'spatialSizeUnit' attribute on Species objects        |       |       |       |       |       |       |       |       |
+      |NoEventTimeUnitsInL3v1                     |This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects                |       |       |       |       |       |       |       |       |
+      |ModelSBOBranchChangedInL3v1                |The allowable 'sboTerm' attribute values for Model objects differ for this SBML Level+Version         |       |       |       |       |       |       |       |       |
+      |DuplicateAnnotationInvalidInL3v1           |Duplicate top-level annotations are invalid in SBML Level 3 Version 1                                 |       |       |       |       |       |       |       |       |
+      |NoCompartmentOutsideInL3v1                 |This Level+Version of SBML does not support the 'outside' attribute on Compartment objects            |       |       |       |       |       |       |       |       |
+      |NoStoichiometryMathInL3v1                  |This Level+Version of SBML does not support the StoichiometryMath object                              |       |       |       |       |       |       |       |       |
+      |DoubleExponentNotSupported                 |Exponent of type double not supported in Levels 2 and 1.                                              |       |       |       |       |       |       |       |       |
+      |MathMLElementNotSupported                  |This MathML element is only permitted in L3V2                                                         |       |       |       |       |       |       |       |       |
+      |EmptyListOfElementNotSupported             |Empty 'ListOf' element is only permitted in L3V2                                                      |       |       |       |       |       |       |       |       |
+      |MissingMathElementNotSupported             |Missing <math> element is only permitted in L3V2                                                      |       |       |       |       |       |       |       |       |
+      |MissingTriggerElementNotSupported          |missing <trigger> element is only permitted in L3V2                                                   |       |       |       |       |       |       |       |       |
+      |BooleanNumericDiscrepancy                  |Interchange of Boolean and numeric values only permitted in L3V2                                      |       |       |       |       |       |       |       |       |
+      |IdNameSBaseInL3V2                          |Conversion will lose attributes only available in L3V2 and higher                                     |       |       |       |       |       |       |       |       |
+      |MissingParticipantsNotSupported            |Omission of both <listOfReactants> and <listOfProducts> is only valid in L3V2                         |       |       |       |       |       |       |       |       |
+      |ConvertibleMathInitialAssignment           |Some L3V2-specific MathML elements are not permitted in InitialAssignment objects                     |       |       |       |       |       |       |       |       |
+      |FastReactionsNotSupported                  |Conversion of reactions employing the 'fast' attribute is not supported                               |       |       |       |       |       |       |       |       |
+      |InvalidSBMLLevelVersion                    |Unknown Level+Version combination of SBML                                                             |       |       |       |       |       |       |       |       |
+      |AnnotationNotesNotAllowedLevel1            |Annotation objects on the SBML container element are not permitted in SBML Level 1                    |       |       |       |       |       |       |       |       |
+      |InvalidRuleOrdering                        |Invalid ordering of rules                                                                             |       |       |       |       |       |       |       |       |
+      |RequiredPackagePresent                     |The SBML document requires an SBML Level 3 package unavailable in this software                       |       |       |       |       |       |       |       |       |
+      |UnrequiredPackagePresent                   |The SBML document uses an SBML Level 3 package unavailable in this software                           |       |       |       |       |       |       |       |       |
+      |PackageRequiredShouldBeFalse               |This package expects required to be false                                                             |       |       |       |       |       |       |       |       |
+      |SubsUnitsAllowedInKL                       |Disallowed value for attribute 'substanceUnits' on KineticLaw object                                  |       |       |       |       |       |       |       |       |
+      |TimeUnitsAllowedInKL                       |Disallowed value for attribute 'timeUnits' on KineticLaw object                                       |       |       |       |       |       |       |       |       |
+      |FormulaInLevel1KL                          |Only predefined functions are allowed in SBML Level 1 formulas                                        |       |       |       |       |       |       |       |       |
+      |L3SubstanceUnitsOnModel                    |Invalid 'substanceUnits' attribute value                                                              |       |       |       |       |       |       |       |       |
+      |StoichiometryMathMissingMath               |The <stoichiometryMath> element must contain a <math> element                                         |       |       |       |       |       |       |       |       |
+      |TimeUnitsRemoved                           |This Level+Version of SBML does not support the 'timeUnits' attribute on Event objects                |       |       |       |       |       |       |       |       |
+      |BadMathML                                  |Invalid MathML expression                                                                             |       |       |       |       |       |       |       |       |
+      |FailedMathMLReadOfDouble                   |Missing or invalid floating-point number in MathML expression                                         |       |       |       |       |       |       |       |       |
+      |FailedMathMLReadOfInteger                  |Missing or invalid integer in MathML expression                                                       |       |       |       |       |       |       |       |       |
+      |FailedMathMLReadOfExponential              |Missing or invalid exponential expression in MathML                                                   |       |       |       |       |       |       |       |       |
+      |FailedMathMLReadOfRational                 |Missing or invalid rational expression in MathML                                                      |       |       |       |       |       |       |       |       |
+      |BadMathMLNodeType                          |Invalid MathML element                                                                                |       |       |       |       |       |       |       |       |
+      |InvalidMathMLAttribute                     |Invalid MathML attribute                                                                              |       |       |       |       |       |       |       |       |
+      |NoTimeSymbolInFunctionDef                  |Use of <csymbol> for 'time' not allowed within FunctionDefinition objects                             |       |       |       |       |       |       |       |       |
+      |NoBodyInFunctionDef                        |There must be a <lambda> body within the <math> element of a FunctionDefinition object                |       |       |       |       |       |       |       |       |
+      |DanglingUnitSIdRef                         |Units must refer to valid unit or unitDefinition                                                      |       |       |       |       |       |       |       |       |
+      |RDFMissingAboutTag                         |RDF missing the <about> tag                                                                           |       |       |       |       |       |       |       |       |
+      |RDFEmptyAboutTag                           |RDF empty <about> tag                                                                                 |       |       |       |       |       |       |       |       |
+      |RDFAboutTagNotMetaid                       |RDF <about> tag is not metaid                                                                         |       |       |       |       |       |       |       |       |
+      |RDFNotCompleteModelHistory                 |RDF does not contain valid ModelHistory                                                               |       |       |       |       |       |       |       |       |
+      |RDFNotModelHistory                         |RDF does not result in a ModelHistory                                                                 |       |       |       |       |       |       |       |       |
+      |AnnotationNotElement                       |Annotation must contain element                                                                       |       |       |       |       |       |       |       |       |
+      |NestedAnnotationNotAllowed                 |Nested annotations not allowed                                                                        |       |       |       |       |       |       |       |       |
+      |UndeclaredUnits                            |Missing unit declarations on parameters or literal numbers in expression                              |       |       |       |       |       |       |       |       |
+      |UndeclaredTimeUnitsL3                      |Unable to verify consistency of units: the unit of time has not been declared                         |       |       |       |       |       |       |       |       |
+      |UndeclaredExtentUnitsL3                    |Unable to verify consistency of units: the units of reaction extent have not been declared            |       |       |       |       |       |       |       |       |
+      |UndeclaredObjectUnitsL3                    |Unable to verify consistency of units: encountered a model entity with no declared units              |       |       |       |       |       |       |       |       |
+      |CannotVerifyUnitsObjectNoMath              |Unable to verify consistency of units: encountered an object with no <math> element                   |       |       |       |       |       |       |       |       |
+      |UnrecognisedSBOTerm                        |Unrecognized 'sboTerm' attribute value                                                                |       |       |       |       |       |       |       |       |
+      |ObseleteSBOTerm                            |Obsolete 'sboTerm' attribute value                                                                    |       |       |       |       |       |       |       |       |
+      |IncorrectCompartmentSpatialDimensions      |In SBML Level 1, only three-dimensional compartments are allowed                                      |       |       |       |       |       |       |       |       |
+      |CompartmentTypeNotValidAttribute           |CompartmentType objects are not available in this Level+Version of SBML                               |       |       |       |       |       |       |       |       |
+      |ConstantNotValidAttribute                  |This Level+Version of SBML does not support the 'constant' attribute on this component                |       |       |       |       |       |       |       |       |
+      |MetaIdNotValidAttribute                    |Attribute 'metaid' is not available in SBML Level 1                                                   |       |       |       |       |       |       |       |       |
+      |SBOTermNotValidAttributeBeforeL2V3         |The 'sboTerm' attribute is not available on this component before SBML Level 2 Version 3              |       |       |       |       |       |       |       |       |
+      |InvalidL1CompartmentUnits                  |Invalid units for a compartment in SBML Level 1                                                       |       |       |       |       |       |       |       |       |
+      |L1V1CompartmentVolumeReqd                  |In SBML Level 1, a compartment's volume must be specified                                             |       |       |       |       |       |       |       |       |
+      |CompartmentTypeNotValidComponent           |CompartmentType objects are not available in this Level+Version of SBML                               |       |       |       |       |       |       |       |       |
+      |ConstraintNotValidComponent                |Constraint objects are not available in this Level+Version of SBML                                    |       |       |       |       |       |       |       |       |
+      |EventNotValidComponent                     |Event objects are not available in this Level+Version of SBML                                         |       |       |       |       |       |       |       |       |
+      |SBOTermNotValidAttributeBeforeL2V2         |The 'sboTerm' attribute is invalid for this component before Level 2 Version 2                        |       |       |       |       |       |       |       |       |
+      |FuncDefNotValidComponent                   |FunctionDefinition objects are not available in this Level+Version of SBML                            |       |       |       |       |       |       |       |       |
+      |InitialAssignNotValidComponent             |InitialAssignment objects are not available in this Level+Version of SBML                             |       |       |       |       |       |       |       |       |
+      |VariableNotValidAttribute                  |Attribute 'variable' is not available on this component in this Level+Version of SBML                 |       |       |       |       |       |       |       |       |
+      |UnitsNotValidAttribute                     |Attribute 'units' is not available on this component in this Level+Version of SBML                    |       |       |       |       |       |       |       |       |
+      |ConstantSpeciesNotValidAttribute           |Attribute 'constant' is not available on Species objects in SBML Level 1                              |       |       |       |       |       |       |       |       |
+      |SpatialSizeUnitsNotValidAttribute          |Attribute 'spatialSizeUnits' is not available on Species objects in SBML Level 1                      |       |       |       |       |       |       |       |       |
+      |SpeciesTypeNotValidAttribute               |Attribute 'speciesType' is not available on Species objects in SBML Level 1                           |       |       |       |       |       |       |       |       |
+      |HasOnlySubsUnitsNotValidAttribute          |Attribute 'hasOnlySubstanceUnits' is not available on Species objects in SBML Level 1                 |       |       |       |       |       |       |       |       |
+      |IdNotValidAttribute                        |Attribute 'id' is not available on SpeciesReference objects in SBML Level 1                           |       |       |       |       |       |       |       |       |
+      |NameNotValidAttribute                      |Attribute 'name' is not available on SpeciesReference objects in SBML Level 1                         |       |       |       |       |       |       |       |       |
+      |SpeciesTypeNotValidComponent               |The SpeciesType object is not supported in SBML Level 1                                               |       |       |       |       |       |       |       |       |
+      |StoichiometryMathNotValidComponent         |The StoichiometryMath object is not supported in SBML Level 1                                         |       |       |       |       |       |       |       |       |
+      |MultiplierNotValidAttribute                |Attribute 'multiplier' on Unit objects is not supported in SBML Level 1                               |       |       |       |       |       |       |       |       |
+      |OffsetNotValidAttribute                    |Attribute 'offset' on Unit objects is only available in SBML Level 2 Version 1                        |       |       |       |       |       |       |       |       |
+      |L3SpatialDimensionsUnset                   |No value given for 'spatialDimensions' attribute; assuming a value of 3                               |       |       |       |       |       |       |       |       |
+      |PackageConversionNotSupported              |Conversion of SBML Level 3 package constructs is not yet supported                                    |       |       |       |       |       |       |       |       |
+      |InvalidTargetLevelVersion                  |The requested SBML Level/Version combination is not known to exist                                    |       |       |       |       |       |       |       |       |
+      |L3NotSupported                             |SBML Level 3 is not yet supported                                                                     |       |       |       |       |       |       |       |       |
+      |CompUnknown                                |                                                                                                      |       |       |       |       |       |       |       |       |
+      |CompNSUndeclared                           |The comp ns is not correctly declared                                                                 |       |       |       |       |       |       |       |       |
+      |CompElementNotInNs                         |Element not in comp namespace                                                                         |       |       |       |       |       |       |       |       |
+      |CompDuplicateComponentId                   |Duplicate 'id' attribute value                                                                        |       |       |       |       |       |       |       |       |
+      |CompUniqueModelIds                         |Model and ExternalModelDefinitions must have unique ids                                               |       |       |       |       |       |       |       |       |
+      |CompUniquePortIds                          |Ports must have unique ids                                                                            |       |       |       |       |       |       |       |       |
+      |CompInvalidSIdSyntax                       |Invalid SId syntax                                                                                    |       |       |       |       |       |       |       |       |
+      |CompInvalidSubmodelRefSyntax               |Invalid submodelRef syntax                                                                            |       |       |       |       |       |       |       |       |
+      |CompInvalidDeletionSyntax                  |Invalid deletion syntax                                                                               |       |       |       |       |       |       |       |       |
+      |CompInvalidConversionFactorSyntax          |Invalid conversionFactor syntax                                                                       |       |       |       |       |       |       |       |       |
+      |CompInvalidNameSyntax                      |Invalid name syntax                                                                                   |       |       |       |       |       |       |       |       |
+      |CompReplacedUnitsShouldMatch               |Units of replaced elements should match replacement units.                                            |       |       |       |       |       |       |       |       |
+      |CompOneListOfReplacedElements              |Only one <listOfReplacedElements> allowed.                                                            |       |       |       |       |       |       |       |       |
+      |CompLOReplaceElementsAllowedElements       |Allowed children of <listOfReplacedElements>                                                          |       |       |       |       |       |       |       |       |
+      |CompLOReplacedElementsAllowedAttribs       |Allowed <listOfReplacedElements> attributes                                                           |       |       |       |       |       |       |       |       |
+      |CompEmptyLOReplacedElements                |<listOfReplacedElements> must not be empty                                                            |       |       |       |       |       |       |       |       |
+      |CompOneReplacedByElement                   |Only one <replacedBy> object allowed.                                                                 |       |       |       |       |       |       |       |       |
+      |CompAttributeRequiredMissing               |Required comp:required attribute on <sbml>                                                            |       |       |       |       |       |       |       |       |
+      |CompAttributeRequiredMustBeBoolean         |The comp:required attribute must be Boolean                                                           |       |       |       |       |       |       |       |       |
+      |CompRequiredTrueIfElementsRemain           |The comp:required attribute must be 'true' if math changes                                            |       |       |       |       |       |       |       |       |
+      |CompRequiredFalseIfAllElementsReplaced     |The comp:required attribute must be 'false' if math does not change                                   |       |       |       |       |       |       |       |       |
+      |CompOneListOfModelDefinitions              |Only one <listOfModelDefinitions> allowed.                                                            |       |       |       |       |       |       |       |       |
+      |CompEmptyLOModelDefs                       |<listOfModelDefinitions> and <listOfExternalModelDefinitions> must not be empty                       |       |       |       |       |       |       |       |       |
+      |CompLOModelDefsAllowedElements             |Only <modelDefinitions> in <listOfModelDefinitions>                                                   |       |       |       |       |       |       |       |       |
+      |CompLOExtModelDefsAllowedElements          |Only <externalModelDefinitions> in <listOfExternalModelDefinitions>                                   |       |       |       |       |       |       |       |       |
+      |CompLOModelDefsAllowedAttributes           |Allowed <listOfModelDefinitions> attributes                                                           |       |       |       |       |       |       |       |       |
+      |CompLOExtModDefsAllowedAttributes          |Allowed <listOfExternalModelDefinitions> attributes                                                   |       |       |       |       |       |       |       |       |
+      |CompOneListOfExtModelDefinitions           |Only one <listOfExternalModelDefinitions> allowed.                                                    |       |       |       |       |       |       |       |       |
+      |CompAttributeRequiredMustBeTrue            |The comp:required attribute must be 'true'                                                            |       |       |       |       |       |       |       |       |
+      |CompExtModDefAllowedCoreAttributes         |Allowed <externalModelDefinitions> core attributes                                                    |       |       |       |       |       |       |       |       |
+      |CompExtModDefAllowedElements               |Allowed <externalModelDefinitions> elements                                                           |       |       |       |       |       |       |       |       |
+      |CompExtModDefAllowedAttributes             |Allowed <externalModelDefinitions> attributes                                                         |       |       |       |       |       |       |       |       |
+      |CompReferenceMustBeL3                      |External models must be L3                                                                            |       |       |       |       |       |       |       |       |
+      |CompModReferenceMustIdOfModel              |'modelRef' must be the 'id' of a model in the 'source' document                                       |       |       |       |       |       |       |       |       |
+      |CompExtModMd5DoesNotMatch                  |MD5 checksum does not match the 'source' document                                                     |       |       |       |       |       |       |       |       |
+      |CompInvalidSourceSyntax                    |The 'comp:source' attribute must be of type 'anyURI'                                                  |       |       |       |       |       |       |       |       |
+      |CompInvalidModelRefSyntax                  |The 'comp:modelRef' attribute must have the syntax of 'SId'                                           |       |       |       |       |       |       |       |       |
+      |CompInvalidMD5Syntax                       |The 'comp:md5' attribute must have the syntax of 'string'                                             |       |       |       |       |       |       |       |       |
+      |CompCircularExternalModelReference         |Circular reference in <externalModelDefinition>                                                       |       |       |       |       |       |       |       |       |
+      |CompOneListOfOnModel                       |Only one <listOfSubmodels> and one <listOfPorts> allowed                                              |       |       |       |       |       |       |       |       |
+      |CompNoEmptyListOfOnModel                   |No empty listOf elements allowed                                                                      |       |       |       |       |       |       |       |       |
+      |CompLOSubmodelsAllowedElements             |Allowed elements on <listOfSubmodels>                                                                 |       |       |       |       |       |       |       |       |
+      |CompLOPortsAllowedElements                 |Allowed elements on <listOfPorts>                                                                     |       |       |       |       |       |       |       |       |
+      |CompLOSubmodelsAllowedAttributes           |Allowed attributes on <listOfSubmodels>                                                               |       |       |       |       |       |       |       |       |
+      |CompLOPortsAllowedAttributes               |Allowed attributes on <listOfPorts>                                                                   |       |       |       |       |       |       |       |       |
+      |CompSubmodelAllowedCoreAttributes          |Allowed core attributes on <submodel>                                                                 |       |       |       |       |       |       |       |       |
+      |CompSubmodelAllowedElements                |Allowed elements on <submodel>                                                                        |       |       |       |       |       |       |       |       |
+      |CompOneListOfDeletionOnSubmodel            |Only one <listOfDeletions> on a <submodel> allowed                                                    |       |       |       |       |       |       |       |       |
+      |CompSubmodelNoEmptyLODeletions             |No empty listOfDeletions elements allowed                                                             |       |       |       |       |       |       |       |       |
+      |CompLODeletionsAllowedElements             |Allowed elements on <listOfDeletions>                                                                 |       |       |       |       |       |       |       |       |
+      |CompLODeletionAllowedAttributes            |Allowed <listOfDeletions> attributes                                                                  |       |       |       |       |       |       |       |       |
+      |CompSubmodelAllowedAttributes              |Allowed <submodel> attributes                                                                         |       |       |       |       |       |       |       |       |
+      |CompModReferenceSyntax                     |'comp:modelRef' must conform to SId syntax                                                            |       |       |       |       |       |       |       |       |
+      |CompInvalidTimeConvFactorSyntax            |'comp:timeConversionFactor' must conform to SId syntax                                                |       |       |       |       |       |       |       |       |
+      |CompInvalidExtentConvFactorSyntax          |'comp:extentConversionFactor' must conform to SId syntax                                              |       |       |       |       |       |       |       |       |
+      |CompSubmodelMustReferenceModel             |The 'comp:modelRef' attribute must reference a model                                                  |       |       |       |       |       |       |       |       |
+      |CompSubmodelCannotReferenceSelf            |The 'comp:modelRef' attribute cannot reference own model                                              |       |       |       |       |       |       |       |       |
+      |CompModCannotCircularlyReferenceSelf       |<model> may not reference <submodel> that references itself.                                          |       |       |       |       |       |       |       |       |
+      |CompTimeConversionMustBeParameter          |The 'comp:timeConversionFactor' must reference a parameter                                            |       |       |       |       |       |       |       |       |
+      |CompExtentConversionMustBeParameter        |The 'comp:extentConversionFactor' must reference a parameter                                          |       |       |       |       |       |       |       |       |
+      |CompPortRefMustReferencePort               |The 'comp:portRef' attribute must be the 'id' of a                                                    |       |       |       |       |       |       |       |       |
+      |CompIdRefMustReferenceObject               |The 'comp:idRef' attribute must be the 'id' of a model element                                        |       |       |       |       |       |       |       |       |
+      |CompUnitRefMustReferenceUnitDef            |The 'comp:unitRef' attribute must be the 'id' of a UnitDefinition                                     |       |       |       |       |       |       |       |       |
+      |CompMetaIdRefMustReferenceObject           |The 'comp:metaIdRef' attribute must be the 'metaid' of an object                                      |       |       |       |       |       |       |       |       |
+      |CompParentOfSBRefChildMustBeSubmodel       |If <sBaseRef> has a child <sBaseRef> its parent must be a <submodel>                                  |       |       |       |       |       |       |       |       |
+      |CompInvalidPortRefSyntax                   |The 'comp:portRef' attribute must have the syntax of an SBML SId                                      |       |       |       |       |       |       |       |       |
+      |CompInvalidIdRefSyntax                     |The 'comp:idRef' attribute must have the syntax of an SBML SId                                        |       |       |       |       |       |       |       |       |
+      |CompInvalidUnitRefSyntax                   |The 'comp:unitRef' attribute must have the syntax of an SBML SId                                      |       |       |       |       |       |       |       |       |
+      |CompInvalidMetaIdRefSyntax                 |The 'comp:metaIdRef' attribute must have the syntax of an XML ID                                      |       |       |       |       |       |       |       |       |
+      |CompOneSBaseRefOnly                        |Only one <sbaseRef>                                                                                   |       |       |       |       |       |       |       |       |
+      |CompDeprecatedSBaseRefSpelling             |The spelling 'sbaseRef' is deprecated                                                                 |       |       |       |       |       |       |       |       |
+      |CompSBaseRefMustReferenceObject            |An SBaseRef must reference an object.                                                                 |       |       |       |       |       |       |       |       |
+      |CompSBaseRefMustReferenceOnlyOneObject     |An SBaseRef must reference only one other object.                                                     |       |       |       |       |       |       |       |       |
+      |CompNoMultipleReferences                   |Objects may not be referenced by mutiple SBaseRef constructs.                                         |       |       |       |       |       |       |       |       |
+      |CompPortMustReferenceObject                |Port must reference an object                                                                         |       |       |       |       |       |       |       |       |
+      |CompPortMustReferenceOnlyOneObject         |Port must reference only one other object.                                                            |       |       |       |       |       |       |       |       |
+      |CompPortAllowedAttributes                  |Allowed attributes on a Port                                                                          |       |       |       |       |       |       |       |       |
+      |CompPortReferencesUnique                   |Port definitions must be unique.                                                                      |       |       |       |       |       |       |       |       |
+      |CompDeletionMustReferenceObject            |Deletion must reference an object                                                                     |       |       |       |       |       |       |       |       |
+      |CompDeletionMustReferOnlyOneObject         |Deletion must reference only one other object.                                                        |       |       |       |       |       |       |       |       |
+      |CompDeletionAllowedAttributes              |Allowed attributes on a Deletion                                                                      |       |       |       |       |       |       |       |       |
+      |CompReplacedElementMustRefObject           |ReplacedElement must reference an object                                                              |       |       |       |       |       |       |       |       |
+      |CompReplacedElementMustRefOnlyOne          |ReplacedElement must reference only one other object.                                                 |       |       |       |       |       |       |       |       |
+      |CompReplacedElementAllowedAttributes       |Allowed attributes on <replacedElement>                                                               |       |       |       |       |       |       |       |       |
+      |CompReplacedElementSubModelRef             |The 'comp:submodelRef' attribute must point to a <submodel>                                           |       |       |       |       |       |       |       |       |
+      |CompReplacedElementDeletionRef             |The 'comp:deletion' attribute must point to a <deletion>                                              |       |       |       |       |       |       |       |       |
+      |CompReplacedElementConvFactorRef           |The 'comp:conversionFactor attribute must point to a                                                  |       |       |       |       |       |       |       |       |
+      |CompReplacedElementSameReference           |No <replacedElement> refer to same object                                                             |       |       |       |       |       |       |       |       |
+      |CompReplacedElementNoDelAndConvFact        |No <replacedElement> with deletion and conversionfactor                                               |       |       |       |       |       |       |       |       |
+      |CompReplacedByMustRefObject                |ReplacedBy must reference an object                                                                   |       |       |       |       |       |       |       |       |
+      |CompReplacedByMustRefOnlyOne               |ReplacedBy must reference only one other object.                                                      |       |       |       |       |       |       |       |       |
+      |CompReplacedByAllowedAttributes            |Allowed attributes on <replacedBy>                                                                    |       |       |       |       |       |       |       |       |
+      |CompReplacedBySubModelRef                  |The 'comp:submodelRef' attribute must point to a <submodel>                                           |       |       |       |       |       |       |       |       |
+      |CompMustReplaceSameClass                   |Replaced classes must match.                                                                          |       |       |       |       |       |       |       |       |
+      |CompMustReplaceIDs                         |Replaced IDs must be replaced with IDs.                                                               |       |       |       |       |       |       |       |       |
+      |CompMustReplaceMetaIDs                     |Replaced metaids must be replaced with metaids.                                                       |       |       |       |       |       |       |       |       |
+      |CompMustReplacePackageIDs                  |Replaced package IDs must be replaced with package IDs.                                               |       |       |       |       |       |       |       |       |
+      |CompUnresolvedReference                    |Unresolved reference.                                                                                 |       |       |       |       |       |       |       |       |
+      |CompNoModelInReference                     |No model in referenced document.                                                                      |       |       |       |       |       |       |       |       |
+      |CompExtModDefBad                           |Referenced <externalModelDefinition> unresolvable.                                                    |       |       |       |       |       |       |       |       |
+      |CompModelFlatteningFailed                  |Model failed to flatten.                                                                              |       |       |       |       |       |       |       |       |
+      |CompFlatModelNotValid                      |Flat model not valid.                                                                                 |       |       |       |       |       |       |       |       |
+      |CompLineNumbersUnreliable                  |Line numbers unreliable.                                                                              |       |       |       |       |       |       |       |       |
+      |CompFlatteningNotRecognisedReqd            |Flattening not implemented for required package.                                                      |       |       |       |       |       |       |       |       |
+      |CompFlatteningNotRecognisedNotReqd         |Flattening not implemented for unrequired package.                                                    |       |       |       |       |       |       |       |       |
+      |CompFlatteningNotImplementedNotReqd        |Flattening not implemented for unrequired package.                                                    |       |       |       |       |       |       |       |       |
+      |CompFlatteningNotImplementedReqd           |Flattening not implemented for required package.                                                      |       |       |       |       |       |       |       |       |
+      |CompFlatteningWarning                      |Flattening reference may come from package.                                                           |       |       |       |       |       |       |       |       |
+      |CompDeprecatedDeleteFunction               |The performDeletions functions is deprecated.                                                         |       |       |       |       |       |       |       |       |
+      |CompDeprecatedReplaceFunction              |The performReplacementsAndConversions fuctions is deprecated.                                         |       |       |       |       |       |       |       |       |
+      |CompDeletedReplacement                     |Element deleted before a subelement could be replaced.                                                |       |       |       |       |       |       |       |       |
+      |CompIdRefMayReferenceUnknownPackage        |The 'comp:idRef' attribute must be the 'id' of a model element                                        |       |       |       |       |       |       |       |       |
+      |CompMetaIdRefMayReferenceUnknownPkg        |The 'comp:metaIdRef' attribute must be the 'metaid' of a model element                                |       |       |       |       |       |       |       |       |
+      |FbcUnknown                                 |                                                                                                      |       |       |       |       |       |       |       |       |
+      |FbcNSUndeclared                            |The fbc ns is not correctly declared                                                                  |       |       |       |       |       |       |       |       |
+      |FbcElementNotInNs                          |Element not in fbc namespace                                                                          |       |       |       |       |       |       |       |       |
+      |FbcDuplicateComponentId                    |Duplicate 'id' attribute value                                                                        |       |       |       |       |       |       |       |       |
+      |FbcSBMLSIdSyntax                           |Invalid 'id' attribute                                                                                |       |       |       |       |       |       |       |       |
+      |FbcAttributeRequiredMissing                |Required fbc:required attribute on <sbml>                                                             |       |       |       |       |       |       |       |       |
+      |FbcAttributeRequiredMustBeBoolean          |The fbc:required attribute must be Boolean                                                            |       |       |       |       |       |       |       |       |
+      |FbcRequiredFalse                           |The fbc:required attribute must be 'false'                                                            |       |       |       |       |       |       |       |       |
+      |FbcOnlyOneEachListOf                       |One of each list of allowed                                                                           |       |       |       |       |       |       |       |       |
+      |FbcNoEmptyListOfs                          |ListOf elements cannot be empty                                                                       |       |       |       |       |       |       |       |       |
+      |FbcLOFluxBoundsAllowedElements             |Allowed elements on ListOfFluxBounds                                                                  |       |       |       |       |       |       |       |       |
+      |FbcLOObjectivesAllowedElements             |Allowed elements on ListOfObjectives                                                                  |       |       |       |       |       |       |       |       |
+      |FbcLOFluxBoundsAllowedAttributes           |Allowed attributes on ListOfFluxBounds                                                                |       |       |       |       |       |       |       |       |
+      |FbcLOObjectivesAllowedAttributes           |Allowed attributes on ListOfObjectives                                                                |       |       |       |       |       |       |       |       |
+      |FbcActiveObjectiveSyntax                   |Type of activeObjective attribute                                                                     |       |       |       |       |       |       |       |       |
+      |FbcActiveObjectiveRefersObjective          |ActiveObjective must reference Objective                                                              |       |       |       |       |       |       |       |       |
+      |FbcModelMustHaveStrict                     |'Strict' attribute required on <model>                                                                |       |       |       |       |       |       |       |       |
+      |FbcModelStrictMustBeBoolean                |'Strict' attribute must be Boolean                                                                    |       |       |       |       |       |       |       |       |
+      |FbcLOGeneProductsAllowedElements           |Allowed elements on ListOfGeneProducts                                                                |       |       |       |       |       |       |       |       |
+      |FbcLOGeneProductsAllowedAttributes         |Allowed attributes on ListOfGeneProducts                                                              |       |       |       |       |       |       |       |       |
+      |FbcSpeciesAllowedL3Attributes              |Species allowed attributes                                                                            |       |       |       |       |       |       |       |       |
+      |FbcSpeciesChargeMustBeInteger              |Charge must be integer                                                                                |       |       |       |       |       |       |       |       |
+      |FbcSpeciesFormulaMustBeString              |Chemical formula must be string                                                                       |       |       |       |       |       |       |       |       |
+      |FbcFluxBoundAllowedL3Attributes            |<fluxBound> may only have 'metaId' and 'sboTerm' from L3 namespace                                    |       |       |       |       |       |       |       |       |
+      |FbcFluxBoundAllowedElements                |<fluxBound> may only have <notes> and <annotations> from L3 Core                                      |       |       |       |       |       |       |       |       |
+      |FbcFluxBoundRequiredAttributes             |Invalid attribute found on <fluxBound> object                                                         |       |       |       |       |       |       |       |       |
+      |FbcFluxBoundRectionMustBeSIdRef            |Datatype for 'fbc:reaction' must be SIdRef                                                            |       |       |       |       |       |       |       |       |
+      |FbcFluxBoundNameMustBeString               |The attribute 'fbc:name' must be of the data type string                                              |       |       |       |       |       |       |       |       |
+      |FbcFluxBoundOperationMustBeEnum            |The attribute 'fbc:operation' must be of data type FbcOperation                                       |       |       |       |       |       |       |       |       |
+      |FbcFluxBoundValueMustBeDouble              |The attribute 'fbc:value' must be of the data type double                                             |       |       |       |       |       |       |       |       |
+      |FbcFluxBoundReactionMustExist              |'fbc:reaction' must refer to valid reaction                                                           |       |       |       |       |       |       |       |       |
+      |FbcFluxBoundsForReactionConflict           |Conflicting set of FluxBounds for a reaction                                                          |       |       |       |       |       |       |       |       |
+      |FbcObjectiveAllowedL3Attributes            |<objective> may only have 'metaId' and 'sboTerm' from L3 namespace                                    |       |       |       |       |       |       |       |       |
+      |FbcObjectiveAllowedElements                |<objective> may only have <notes> and <annotations> from L3 Core                                      |       |       |       |       |       |       |       |       |
+      |FbcObjectiveRequiredAttributes             |Invalid attribute found on <objective> object                                                         |       |       |       |       |       |       |       |       |
+      |FbcObjectiveNameMustBeString               |The attribute 'fbc:name' must be of the data type string                                              |       |       |       |       |       |       |       |       |
+      |FbcObjectiveTypeMustBeEnum                 |The attribute 'fbc:type' must be of data type FbcType.                                                |       |       |       |       |       |       |       |       |
+      |FbcObjectiveOneListOfObjectives            |An <objective> must have one <listOfFluxObjectives>.                                                  |       |       |       |       |       |       |       |       |
+      |FbcObjectiveLOFluxObjMustNotBeEmpty        |<listOfFluxObjectives> subobject must not be empty                                                    |       |       |       |       |       |       |       |       |
+      |FbcObjectiveLOFluxObjOnlyFluxObj           |Invalid element found in <listOfFluxObjectives>                                                       |       |       |       |       |       |       |       |       |
+      |FbcObjectiveLOFluxObjAllowedAttribs        |<listOfFluxObjectives> may only have 'metaId' and 'sboTerm' from L3 core                              |       |       |       |       |       |       |       |       |
+      |FbcFluxObjectAllowedL3Attributes           |<fluxObjective> may only have 'metaId' and 'sboTerm' from L3 namespace                                |       |       |       |       |       |       |       |       |
+      |FbcFluxObjectAllowedElements               |<fluxObjective> may only have <notes> and <annotations> from L3 Core                                  |       |       |       |       |       |       |       |       |
+      |FbcFluxObjectRequiredAttributes            |Invalid attribute found on <fluxObjective> object                                                     |       |       |       |       |       |       |       |       |
+      |FbcFluxObjectNameMustBeString              |The attribute 'fbc:name' must be of the data type string                                              |       |       |       |       |       |       |       |       |
+      |FbcFluxObjectReactionMustBeSIdRef          |Datatype for 'fbc:reaction' must be SIdRef                                                            |       |       |       |       |       |       |       |       |
+      |FbcFluxObjectReactionMustExist             |'fbc:reaction' must refer to valid reaction                                                           |       |       |       |       |       |       |       |       |
+      |FbcFluxObjectCoefficientMustBeDouble       |The attribute 'fbc:coefficient' must be of the data type double                                       |       |       |       |       |       |       |       |       |
+      |FbcFluxObjectCoefficientWhenStrict         |The 'fbc:coefficient' must be declared when strict                                                    |       |       |       |       |       |       |       |       |
+      |FbcReactionOnlyOneGeneProdAss              |One GeneProductAssociation in a Reaction                                                              |       |       |       |       |       |       |       |       |
+      |FbcReactionAllowedAttributes               |Fbc attributes on a Reaction                                                                          |       |       |       |       |       |       |       |       |
+      |FbcReactionLwrBoundSIdRef                  |LowerBound must be SIdRef                                                                             |       |       |       |       |       |       |       |       |
+      |FbcReactionUpBoundSIdRef                   |UpperBound must be SIdRef                                                                             |       |       |       |       |       |       |       |       |
+      |FbcReactionLwrBoundRefExists               |LowerBound must point to Parameter                                                                    |       |       |       |       |       |       |       |       |
+      |FbcReactionUpBoundRefExists                |UpperBound must point to Parameter                                                                    |       |       |       |       |       |       |       |       |
+      |FbcReactionMustHaveBoundsStrict            |Reaction must have bounds when strict                                                                 |       |       |       |       |       |       |       |       |
+      |FbcReactionConstantBoundsStrict            |Reaction bounds constant when strict                                                                  |       |       |       |       |       |       |       |       |
+      |FbcReactionBoundsMustHaveValuesStrict      |Reaction bounds must have values when strict                                                          |       |       |       |       |       |       |       |       |
+      |FbcReactionBoundsNotAssignedStrict         |Reaction bounds not assigned when strict                                                              |       |       |       |       |       |       |       |       |
+      |FbcReactionLwrBoundNotInfStrict            |LowerBound cannot be INF when strict                                                                  |       |       |       |       |       |       |       |       |
+      |FbcReactionUpBoundNotNegInfStrict          |UpperBound cannot be -INF when strict                                                                 |       |       |       |       |       |       |       |       |
+      |FbcReactionLwrLessThanUpStrict             |LowerBound less than upperBound when strict                                                           |       |       |       |       |       |       |       |       |
+      |FbcSpeciesReferenceConstantStrict          |SpeciesReferences must be constant when strict                                                        |       |       |       |       |       |       |       |       |
+      |FbcSpeciesRefsStoichMustBeRealStrict       |Stoichiometry of SpeciesReferences must be real valued when strict                                    |       |       |       |       |       |       |       |       |
+      |FbcSpeciesRefNotAssignedStrict             |SpeciesReference not target of InitialAssignment when strict                                          |       |       |       |       |       |       |       |       |
+      |FbcGeneProdAssocAllowedCoreAttribs         |Allowed core attributes on <GeneProductAssociation>                                                   |       |       |       |       |       |       |       |       |
+      |FbcGeneProdAssocAllowedCoreElements        |Allowed core elements on <GeneProductAssociation>                                                     |       |       |       |       |       |       |       |       |
+      |FbcGeneProdAssocAllowedAttribs             |Allowed fbc attributes on <GeneProductAssociation>                                                    |       |       |       |       |       |       |       |       |
+      |FbcGeneProdAssocIdSyntax                   |'fbc:id' must have SId syntax                                                                         |       |       |       |       |       |       |       |       |
+      |FbcGeneProdAssocContainsOneElement         |<GeneProductAssociation> must contain one concrete object                                             |       |       |       |       |       |       |       |       |
+      |FbcGeneProdAssocNameMustBeString           |'fbc:name' must be string                                                                             |       |       |       |       |       |       |       |       |
+      |FbcGeneProdRefAllowedCoreAttribs           |Allowed core attributes on <GeneProductRef>                                                           |       |       |       |       |       |       |       |       |
+      |FbcGeneProdRefAllowedCoreElements          |Allowed core elements on <GeneProductRef>                                                             |       |       |       |       |       |       |       |       |
+      |FbcGeneProdRefAllowedAttribs               |Allowed fbc attributes on <GeneProductRef>                                                            |       |       |       |       |       |       |       |       |
+      |FbcGeneProdRefGeneProductSIdRef            |'fbc:geneProduct' must be SIdRef                                                                      |       |       |       |       |       |       |       |       |
+      |FbcGeneProdRefGeneProductExists            |'fbc:geneProduct' must point to existing <GeneProduct>                                                |       |       |       |       |       |       |       |       |
+      |FbcAndAllowedCoreAttributes                |Allowed core attributes on <And>                                                                      |       |       |       |       |       |       |       |       |
+      |FbcAndAllowedCoreElements                  |Allowed core attributes on <And>                                                                      |       |       |       |       |       |       |       |       |
+      |FbcAndTwoChildren                          |<And> must have at least two child elements                                                           |       |       |       |       |       |       |       |       |
+      |FbcOrAllowedCoreAttributes                 |Allowed core attributes on <Or>                                                                       |       |       |       |       |       |       |       |       |
+      |FbcOrAllowedCoreElements                   |Allowed core elements on <Or>                                                                         |       |       |       |       |       |       |       |       |
+      |FbcOrTwoChildren                           |<Or> must have at least two child elements                                                            |       |       |       |       |       |       |       |       |
+      |FbcGeneProductAllowedCoreAttributes        |Allowed core attributes on <GeneProduct>                                                              |       |       |       |       |       |       |       |       |
+      |FbcGeneProductAllowedCoreElements          |Allowed core elements on <GeneProduct>                                                                |       |       |       |       |       |       |       |       |
+      |FbcGeneProductAllowedAttributes            |Allowed fbc attributes on <GeneProduct>                                                               |       |       |       |       |       |       |       |       |
+      |FbcGeneProductLabelMustBeString            |'fbc:label' must be string                                                                            |       |       |       |       |       |       |       |       |
+      |FbcGeneProductLabelMustBeUnique            |'fbc:label' must be unique                                                                            |       |       |       |       |       |       |       |       |
+      |FbcGeneProductNameMustBeString             |'fbc:name' must be string                                                                             |       |       |       |       |       |       |       |       |
+      |FbcGeneProductAssocSpeciesMustExist        |'fbc:associatedSpecies' must point to existing <species>                                              |       |       |       |       |       |       |       |       |
+      |QualUnknown                                |                                                                                                      |       |       |       |       |       |       |       |       |
+      |QualNSUndeclared                           |The qual ns is not correctly declared                                                                 |       |       |       |       |       |       |       |       |
+      |QualElementNotInNs                         |Element not in qual namespace                                                                         |       |       |       |       |       |       |       |       |
+      |QualFunctionTermBool                       |FunctionTerm should return Boolean                                                                    |       |       |       |       |       |       |       |       |
+      |QualMathCSymbolDisallowed                  |CSymbol time or delay not allowed                                                                     |       |       |       |       |       |       |       |       |
+      |QualDuplicateComponentId                   |Duplicate 'id' attribute value                                                                        |       |       |       |       |       |       |       |       |
+      |QualAttributeRequiredMissing               |Required qual:required attribute on <sbml>                                                            |       |       |       |       |       |       |       |       |
+      |QualAttributeRequiredMustBeBoolean         |The qual:required attribute must be Boolean                                                           |       |       |       |       |       |       |       |       |
+      |QualRequiredTrueIfTransitions              |The qual:required attribute must be 'true' if math changes                                            |       |       |       |       |       |       |       |       |
+      |QualOneListOfTransOrQS                     |Only one <listOfTransitions> or <listOfQualitativeSpeciesgt; allowed.                                 |       |       |       |       |       |       |       |       |
+      |QualEmptyLONotAllowed                      |Empty <listOfTransitions> or <listOfQualitativeSpeciesgt; not allowed.                                |       |       |       |       |       |       |       |       |
+      |QualLOTransitiondAllowedElements           |Elements allowed on <listOfTransitions>.                                                              |       |       |       |       |       |       |       |       |
+      |QualLOQualSpeciesAllowedElements           |Elements allowed on <listOfTransitions>.                                                              |       |       |       |       |       |       |       |       |
+      |QualLOQualSpeciesAllowedAttributes         |Attributes allowed on <listOfQualitativeSpeciesgt;.                                                   |       |       |       |       |       |       |       |       |
+      |QualLOTransitionsAllowedAttributes         |Attributes allowed on <listOfTransitions>.                                                            |       |       |       |       |       |       |       |       |
+      |QualQualSpeciesAllowedCoreAttributes       |Core attributes allowed on <qualitativeSpeciesgt;.                                                    |       |       |       |       |       |       |       |       |
+      |QualQualSpeciesAllowedElements             |Elements allowed on <qualitativeSpeciesgt;.                                                           |       |       |       |       |       |       |       |       |
+      |QualQualSpeciesAllowedAttributes           |Attributes allowed on <qualitativeSpeciesgt;.                                                         |       |       |       |       |       |       |       |       |
+      |QualConstantMustBeBool                     |Attribute 'constant' on <qualitativeSpeciesgt; must be Boolean.                                       |       |       |       |       |       |       |       |       |
+      |QualNameMustBeString                       |Attribute 'name' on <qualitativeSpeciesgt; must be string.                                            |       |       |       |       |       |       |       |       |
+      |QualInitialLevelMustBeInt                  |Attribute 'initialLevel' on <qualitativeSpeciesgt; must be integer.                                   |       |       |       |       |       |       |       |       |
+      |QualMaxLevelMustBeInt                      |Attribute 'maxLevel' on <qualitativeSpeciesgt; must be integer.                                       |       |       |       |       |       |       |       |       |
+      |QualCompartmentMustReferExisting           |Attribute 'compartment' on <qualitativeSpeciesgt; must reference compartment.                         |       |       |       |       |       |       |       |       |
+      |QualInitialLevelCannotExceedMax            |Attribute 'initialLevel' on <qualitativeSpeciesgt; cannot exceed maxLevel.                            |       |       |       |       |       |       |       |       |
+      |QualConstantQSCannotBeOutput               |Constant <qualitativeSpeciesgt; cannot be an Output.                                                  |       |       |       |       |       |       |       |       |
+      |QualQSAssignedOnlyOnce                     |A <qualitativeSpeciesgt; can only be assigned once.                                                   |       |       |       |       |       |       |       |       |
+      |QualInitalLevelNotNegative                 |Attribute 'initialLevel' on <qualitativeSpeciesgt; cannot be negative.                                |       |       |       |       |       |       |       |       |
+      |QualMaxLevelNotNegative                    |Attribute 'maxLevel' on <qualitativeSpeciesgt; cannot be negative.                                    |       |       |       |       |       |       |       |       |
+      |QualTransitionAllowedCoreAttributes        |Core attributes allowed on <transition>.                                                              |       |       |       |       |       |       |       |       |
+      |QualTransitionAllowedElements              |Elements allowed on <transition>.                                                                     |       |       |       |       |       |       |       |       |
+      |QualTransitionAllowedAttributes            |Attributes allowed on <transition>.                                                                   |       |       |       |       |       |       |       |       |
+      |QualTransitionNameMustBeString             |Attribute 'name' on <transition> must be string.                                                      |       |       |       |       |       |       |       |       |
+      |QualTransitionLOElements                   |ListOf elements on <transition>.                                                                      |       |       |       |       |       |       |       |       |
+      |QualTransitionEmptyLOElements              |ListOf elements on <transition> not empty.                                                            |       |       |       |       |       |       |       |       |
+      |QualTransitionLOInputElements              |Elements on <listOfInputs>.                                                                           |       |       |       |       |       |       |       |       |
+      |QualTransitionLOOutputElements             |Elements on <listOfOutputs>.                                                                          |       |       |       |       |       |       |       |       |
+      |QualTransitionLOFuncTermElements           |Elements on <listOfFunctionTerms>.                                                                    |       |       |       |       |       |       |       |       |
+      |QualTransitionLOInputAttributes            |Attributes allowed on <listOfInputs>.                                                                 |       |       |       |       |       |       |       |       |
+      |QualTransitionLOOutputAttributes           |Attributes allowed on <listOfOutputs>.                                                                |       |       |       |       |       |       |       |       |
+      |QualTransitionLOFuncTermAttributes         |Attributes allowed on <listOfFunctionTerms>.                                                          |       |       |       |       |       |       |       |       |
+      |QualTransitionLOFuncTermExceedMax          |<listOfFunctionTerms> cannot make qualitativeSpecies exceed maxLevel.                                 |       |       |       |       |       |       |       |       |
+      |QualTransitionLOFuncTermNegative           |<listOfFunctionTerms> cannot make qualitativeSpecies negative.                                        |       |       |       |       |       |       |       |       |
+      |QualInputAllowedCoreAttributes             |Core attributes allowed on <input>.                                                                   |       |       |       |       |       |       |       |       |
+      |QualInputAllowedElements                   |Elements allowed on <input>.                                                                          |       |       |       |       |       |       |       |       |
+      |QualInputAllowedAttributes                 |Attributes allowed on <input>.                                                                        |       |       |       |       |       |       |       |       |
+      |QualInputNameMustBeString                  |Attribute 'name' on <input> must be string.                                                           |       |       |       |       |       |       |       |       |
+      |QualInputSignMustBeSignEnum                |Attribute 'sign' on <input> must be enum.                                                             |       |       |       |       |       |       |       |       |
+      |QualInputTransEffectMustBeInputEffect      |Attribute 'transitionEffect' on <input> must be enum.                                                 |       |       |       |       |       |       |       |       |
+      |QualInputThreshMustBeInteger               |Attribute 'thresholdLevel' on <input> must be non negative integer.                                   |       |       |       |       |       |       |       |       |
+      |QualInputQSMustBeExistingQS                |Attribute 'qualitativeSpecies' on <input> must refer to existing                                      |       |       |       |       |       |       |       |       |
+      |QualInputConstantCannotBeConsumed          |Constant <input> cannot be consumed.                                                                  |       |       |       |       |       |       |       |       |
+      |QualInputThreshMustBeNonNegative           |Attribute 'thresholdLevel' on <input> must be non negative integer.                                   |       |       |       |       |       |       |       |       |
+      |QualOutputAllowedCoreAttributes            |Core attributes allowed on <output>.                                                                  |       |       |       |       |       |       |       |       |
+      |QualOutputAllowedElements                  |Elements allowed on <output>.                                                                         |       |       |       |       |       |       |       |       |
+      |QualOutputAllowedAttributes                |Attributes allowed on <output>.                                                                       |       |       |       |       |       |       |       |       |
+      |QualOutputNameMustBeString                 |Attribute 'name' on <output> must be string.                                                          |       |       |       |       |       |       |       |       |
+      |QualOutputTransEffectMustBeOutput          |Attribute 'transitionEffect' on <output> must be enum.                                                |       |       |       |       |       |       |       |       |
+      |QualOutputLevelMustBeInteger               |Attribute 'outputLevel' on <output> must be non negative integer.                                     |       |       |       |       |       |       |       |       |
+      |QualOutputQSMustBeExistingQS               |Attribute 'qualitativeSpecies' on <output> must refer to existing                                     |       |       |       |       |       |       |       |       |
+      |QualOutputConstantMustBeFalse              |Constant 'qualitativeSpecies' cannot be <output>                                                      |       |       |       |       |       |       |       |       |
+      |QualOutputProductionMustHaveLevel          |<output> being produced must have level                                                               |       |       |       |       |       |       |       |       |
+      |QualOutputLevelMustBeNonNegative           |Attribute 'outputLevel' on <output> must be non negative integer.                                     |       |       |       |       |       |       |       |       |
+      |QualDefaultTermAllowedCoreAttributes       |Core attributes allowed on <defaultTerm>.                                                             |       |       |       |       |       |       |       |       |
+      |QualDefaultTermAllowedElements             |Elements allowed on <defaultTerm>.                                                                    |       |       |       |       |       |       |       |       |
+      |QualDefaultTermAllowedAttributes           |Attributes allowed on <defaultTerm>.                                                                  |       |       |       |       |       |       |       |       |
+      |QualDefaultTermResultMustBeInteger         |Attribute 'resultLevel' on <defaultTerm> must be non negative integer.                                |       |       |       |       |       |       |       |       |
+      |QualDefaultTermResultMustBeNonNeg          |Attribute 'resultLevel' on <defaultTerm> must be non negative integer.                                |       |       |       |       |       |       |       |       |
+      |QualFuncTermAllowedCoreAttributes          |Core attributes allowed on <functionTerm>.                                                            |       |       |       |       |       |       |       |       |
+      |QualFuncTermAllowedElements                |Elements allowed on <functionTerm>.                                                                   |       |       |       |       |       |       |       |       |
+      |QualFuncTermAllowedAttributes              |Attributes allowed on <functionTerm>.                                                                 |       |       |       |       |       |       |       |       |
+      |QualFuncTermOnlyOneMath                    |Only one <math> on <functionTerm>.                                                                    |       |       |       |       |       |       |       |       |
+      |QualFuncTermResultMustBeInteger            |Attribute 'resultLevel' on <functionTerm> must be non negative integer.                               |       |       |       |       |       |       |       |       |
+      |QualFuncTermResultMustBeNonNeg             |Attribute 'resultLevel' on <functionTerm> must be non negative integer.                               |       |       |       |       |       |       |       |       |
+      |GroupsUnknown                              |                                                                                                      |       |       |       |       |       |       |       |       |
+      |GroupsNSUndeclared                         |The Groups namespace is not correctly declared.                                                       |       |       |       |       |       |       |       |       |
+      |GroupsElementNotInNs                       |Element not in Groups namespace                                                                       |       |       |       |       |       |       |       |       |
+      |GroupsDuplicateComponentId                 |Duplicate 'id' attribute value                                                                        |       |       |       |       |       |       |       |       |
+      |GroupsIdSyntaxRule                         |Invalid SId syntax                                                                                    |       |       |       |       |       |       |       |       |
+      |GroupsAttributeRequiredMissing             |Required groups:required attribute on <sbml>                                                          |       |       |       |       |       |       |       |       |
+      |GroupsAttributeRequiredMustBeBoolean       |The groups:required attribute must be Boolean                                                         |       |       |       |       |       |       |       |       |
+      |GroupsAttributeRequiredMustHaveValue       |The groups:required attribute must be 'false'                                                         |       |       |       |       |       |       |       |       |
+      |GroupsModelAllowedElements                 |Elements allowed on <model>.                                                                          |       |       |       |       |       |       |       |       |
+      |GroupsModelEmptyLOElements                 |No Empty ListOf elements allowed on <Modelgt;.                                                        |       |       |       |       |       |       |       |       |
+      |GroupsModelLOGroupsAllowedCoreElements     |Core elements allowed on <model>.                                                                     |       |       |       |       |       |       |       |       |
+      |GroupsModelLOGroupsAllowedCoreAttributes   |Core attributes allowed on <model>.                                                                   |       |       |       |       |       |       |       |       |
+      |GroupsGroupAllowedCoreAttributes           |Core attributes allowed on <group>.                                                                   |       |       |       |       |       |       |       |       |
+      |GroupsGroupAllowedCoreElements             |Core elements allowed on <group>.                                                                     |       |       |       |       |       |       |       |       |
+      |GroupsGroupAllowedAttributes               |Attributes allowed on <group>.                                                                        |       |       |       |       |       |       |       |       |
+      |GroupsGroupAllowedElements                 |Elements allowed on <group>.                                                                          |       |       |       |       |       |       |       |       |
+      |GroupsGroupKindMustBeGroupKindEnum         |Kind attribute must be GroupKindEnum.                                                                 |       |       |       |       |       |       |       |       |
+      |GroupsGroupNameMustBeString                |Name attribute must be String.                                                                        |       |       |       |       |       |       |       |       |
+      |GroupsGroupEmptyLOElements                 |No Empty ListOf elements allowed on <group>.                                                          |       |       |       |       |       |       |       |       |
+      |GroupsGroupLOMembersAllowedCoreElements    |Core elements allowed on <listOfMembers>.                                                             |       |       |       |       |       |       |       |       |
+      |GroupsGroupLOMembersAllowedCoreAttributes  |Core attributes allowed on <listOfMembers>.                                                           |       |       |       |       |       |       |       |       |
+      |GroupsGroupLOMembersAllowedAttributes      |Attributes allowed on <listOfMembers>.                                                                |       |       |       |       |       |       |       |       |
+      |GroupsLOMembersNameMustBeString            |Name attribute must be String.                                                                        |       |       |       |       |       |       |       |       |
+      |GroupsLOMembersConsistentReferences        |Consistent references by multiple <member> objects.                                                   |       |       |       |       |       |       |       |       |
+      |GroupsNotCircularReferences                |Circular references by multiple <member> objects.                                                     |       |       |       |       |       |       |       |       |
+      |GroupsMemberAllowedCoreAttributes          |Core attributes allowed on <member>.                                                                  |       |       |       |       |       |       |       |       |
+      |GroupsMemberAllowedCoreElements            |Core elements allowed on <member>.                                                                    |       |       |       |       |       |       |       |       |
+      |GroupsMemberAllowedAttributes              |Attributes allowed on <member>.                                                                       |       |       |       |       |       |       |       |       |
+      |GroupsMemberNameMustBeString               |Name attribute must be String.                                                                        |       |       |       |       |       |       |       |       |
+      |GroupsMemberIdRefMustBeSBase               |Attribute 'idRef' must point to SBase object.                                                         |       |       |       |       |       |       |       |       |
+      |GroupsMemberMetaIdRefMustBeSBase           |Attribute 'metaIdRef' must point to SBase object.                                                     |       |       |       |       |       |       |       |       |
+      |GroupsMemberIdRefMustBeSId                 |Attribute 'idRef' must be type 'SId'.                                                                 |       |       |       |       |       |       |       |       |
+      |GroupsMemberMetaIdRefMustBeID              |Attribute 'metaIdRef' must be type 'ID'.                                                              |       |       |       |       |       |       |       |       |
+      |LayoutUnknownError                         |                                                                                                      |       |       |       |       |       |       |       |       |
+      |LayoutNSUndeclared                         |The layout ns is not correctly declared                                                               |       |       |       |       |       |       |       |       |
+      |LayoutElementNotInNs                       |Element not in layout namespace                                                                       |       |       |       |       |       |       |       |       |
+      |LayoutDuplicateComponentId                 |Duplicate 'id' attribute value                                                                        |       |       |       |       |       |       |       |       |
+      |LayoutSIdSyntax                            |'id' attribute incorrect syntax                                                                       |       |       |       |       |       |       |       |       |
+      |LayoutXsiTypeAllowedLocations              |'xsi:type' allowed locations                                                                          |       |       |       |       |       |       |       |       |
+      |LayoutXsiTypeSyntax                        |'xsi:type' attribute incorrect syntax                                                                 |       |       |       |       |       |       |       |       |
+      |LayoutAttributeRequiredMissing             |Required layout:required attribute on <sbml>                                                          |       |       |       |       |       |       |       |       |
+      |LayoutAttributeRequiredMustBeBoolean       |The layout:required attribute must be Boolean                                                         |       |       |       |       |       |       |       |       |
+      |LayoutRequiredFalse                        |The layout:required attribute must be 'false'                                                         |       |       |       |       |       |       |       |       |
+      |LayoutOnlyOneLOLayouts                     |Only one listOfLayouts on <model>                                                                     |       |       |       |       |       |       |       |       |
+      |LayoutLOLayoutsNotEmpty                    |ListOf elements cannot be empty                                                                       |       |       |       |       |       |       |       |       |
+      |LayoutLOLayoutsAllowedElements             |Allowed elements on ListOfLayouts                                                                     |       |       |       |       |       |       |       |       |
+      |LayoutLOLayoutsAllowedAttributes           |Allowed attributes on ListOfLayouts                                                                   |       |       |       |       |       |       |       |       |
+      |LayoutLayoutAllowedElements                |Allowed elements on Layout                                                                            |       |       |       |       |       |       |       |       |
+      |LayoutLayoutAllowedCoreAttributes          |Allowed core attributes on Layout                                                                     |       |       |       |       |       |       |       |       |
+      |LayoutOnlyOneEachListOf                    |Only one each listOf on <layout>                                                                      |       |       |       |       |       |       |       |       |
+      |LayoutNoEmptyListOfs                       |ListOf elements cannot be empty                                                                       |       |       |       |       |       |       |       |       |
+      |LayoutLayoutAllowedAttributes              |<layout> must have 'id' and may have 'name'                                                           |       |       |       |       |       |       |       |       |
+      |LayoutLayoutNameMustBeString               |'name' must be string                                                                                 |       |       |       |       |       |       |       |       |
+      |LayoutLOCompGlyphAllowedAttributes         |Attributes allowed on <listOfCompartmentGlyphs>.                                                      |       |       |       |       |       |       |       |       |
+      |LayoutLOCompGlyphAllowedElements           |Elements allowed on <listOfCompartmentGlyphs>.                                                        |       |       |       |       |       |       |       |       |
+      |LayoutLOSpeciesGlyphAllowedAttributes      |Attributes allowed on <listOfSpeciesGlyphs>.                                                          |       |       |       |       |       |       |       |       |
+      |LayoutLOSpeciesGlyphAllowedElements        |Elements allowed on <listOfSpeciesGlyphs>.                                                            |       |       |       |       |       |       |       |       |
+      |LayoutLORnGlyphAllowedAttributes           |Attributes allowed on <listOfReactionGlyphs>.                                                         |       |       |       |       |       |       |       |       |
+      |LayoutLORnGlyphAllowedElements             |Elements allowed on <listOfReactionGlyphs>.                                                           |       |       |       |       |       |       |       |       |
+      |LayoutLOAddGOAllowedAttribut               |Attributes allowed on <listOfAdditionalGraphicalObjectGlyphs>.                                        |       |       |       |       |       |       |       |       |
+      |LayoutLOAddGOAllowedElements               |Elements allowed on <listOfAdditionalGraphicalObjectGlyphs>.                                          |       |       |       |       |       |       |       |       |
+      |LayoutLayoutMustHaveDimensions             |Layout must have <dimensions>.                                                                        |       |       |       |       |       |       |       |       |
+      |LayoutLOTextGlyphAllowedAttributes         |Attributes allowed on <listOfTextGlyphs>.                                                             |       |       |       |       |       |       |       |       |
+      |LayoutLOTextGlyphAllowedElements           |Elements allowed on <listOfTextGlyphs>.                                                               |       |       |       |       |       |       |       |       |
+      |LayoutGOAllowedCoreElements                |Core elements allowed on <graphicalObject>.                                                           |       |       |       |       |       |       |       |       |
+      |LayoutGOAllowedCoreAttributes              |Core attributes allowed on <graphicalObject>.                                                         |       |       |       |       |       |       |       |       |
+      |LayoutGOAllowedElements                    |Layout elements allowed on <graphicalObject>.                                                         |       |       |       |       |       |       |       |       |
+      |LayoutGOAllowedAttributes                  |Layout attributes allowed on <graphicalObject>.                                                       |       |       |       |       |       |       |       |       |
+      |LayoutGOMetaIdRefMustBeIDREF               |Layout 'metaidRef' must be IDREF.                                                                     |       |       |       |       |       |       |       |       |
+      |LayoutGOMetaIdRefMustReferenceObject       |Layout 'metaidRef' must reference existing object.                                                    |       |       |       |       |       |       |       |       |
+      |LayoutGOMustContainBoundingBox             |A <graphicalObject> must contain a <boundingBox>.                                                     |       |       |       |       |       |       |       |       |
+      |LayoutCGAllowedCoreElements                |Core elements allowed on <compartmentGlyph>.                                                          |       |       |       |       |       |       |       |       |
+      |LayoutCGAllowedCoreAttributes              |Core attributes allowed on <compartmentGlyph>.                                                        |       |       |       |       |       |       |       |       |
+      |LayoutCGAllowedElements                    |Layout elements allowed on <compartmentGlyph>.                                                        |       |       |       |       |       |       |       |       |
+      |LayoutCGAllowedAttributes                  |Layout attributes allowed on <compartmentGlyph>.                                                      |       |       |       |       |       |       |       |       |
+      |LayoutCGMetaIdRefMustBeIDREF               |Layout 'metaidRef' must be IDREF.                                                                     |       |       |       |       |       |       |       |       |
+      |LayoutCGMetaIdRefMustReferenceObject       |Layout 'metaidRef' must reference existing object.                                                    |       |       |       |       |       |       |       |       |
+      |LayoutCGCompartmentSyntax                  |CompartmentGlyph 'compartment' must have SIdRef syntax.                                               |       |       |       |       |       |       |       |       |
+      |LayoutCGCompartmentMustRefComp             |CompartmentGlyph compartment must reference existing compartment.                                     |       |       |       |       |       |       |       |       |
+      |LayoutCGNoDuplicateReferences              |CompartmentGlyph cannot reference two objects.                                                        |       |       |       |       |       |       |       |       |
+      |LayoutCGOrderMustBeDouble                  |CompartmentGlyph order must be double.                                                                |       |       |       |       |       |       |       |       |
+      |LayoutSGAllowedCoreElements                |Core elements allowed on <speciesGlyph>.                                                              |       |       |       |       |       |       |       |       |
+      |LayoutSGAllowedCoreAttributes              |Core attributes allowed on <speciesGlyph>.                                                            |       |       |       |       |       |       |       |       |
+      |LayoutSGAllowedElements                    |Layout elements allowed on <speciesGlyph>.                                                            |       |       |       |       |       |       |       |       |
+      |LayoutSGAllowedAttributes                  |Layout attributes allowed on <speciesGlyph>.                                                          |       |       |       |       |       |       |       |       |
+      |LayoutSGMetaIdRefMustBeIDREF               |Layout 'metaidRef' must be IDREF.                                                                     |       |       |       |       |       |       |       |       |
+      |LayoutSGMetaIdRefMustReferenceObject       |Layout 'metaidRef' must reference existing object.                                                    |       |       |       |       |       |       |       |       |
+      |LayoutSGSpeciesSyntax                      |SpeciesGlyph 'species' must have SIdRef syntax.                                                       |       |       |       |       |       |       |       |       |
+      |LayoutSGSpeciesMustRefSpecies              |SpeciesGlyph species must reference existing species.                                                 |       |       |       |       |       |       |       |       |
+      |LayoutSGNoDuplicateReferences              |SpeciesGlyph cannot reference two objects.                                                            |       |       |       |       |       |       |       |       |
+      |LayoutRGAllowedCoreElements                |Core elements allowed on <reactionGlyph>.                                                             |       |       |       |       |       |       |       |       |
+      |LayoutRGAllowedCoreAttributes              |Core attributes allowed on <reactionGlyph>.                                                           |       |       |       |       |       |       |       |       |
+      |LayoutRGAllowedElements                    |Layout elements allowed on <reactionGlyph>.                                                           |       |       |       |       |       |       |       |       |
+      |LayoutRGAllowedAttributes                  |Layout attributes allowed on <reactionGlyph>.                                                         |       |       |       |       |       |       |       |       |
+      |LayoutRGMetaIdRefMustBeIDREF               |Layout 'metaidRef' must be IDREF.                                                                     |       |       |       |       |       |       |       |       |
+      |LayoutRGMetaIdRefMustReferenceObject       |Layout 'metaidRef' must reference existing object.                                                    |       |       |       |       |       |       |       |       |
+      |LayoutRGReactionSyntax                     |ReactionGlyph 'reaction' must have SIdRef syntax.                                                     |       |       |       |       |       |       |       |       |
+      |LayoutRGReactionMustRefReaction            |ReactionGlyph reaction must reference existing reaction.                                              |       |       |       |       |       |       |       |       |
+      |LayoutRGNoDuplicateReferences              |ReactionGlyph cannot reference two objects.                                                           |       |       |       |       |       |       |       |       |
+      |LayoutLOSpeciesRefGlyphAllowedElements     |Allowed elements on ListOfSpeciesReferenceGlyphs                                                      |       |       |       |       |       |       |       |       |
+      |LayoutLOSpeciesRefGlyphAllowedAttribs      |Allowed attributes on ListOfSpeciesReferenceGlyphs                                                    |       |       |       |       |       |       |       |       |
+      |LayoutLOSpeciesRefGlyphNotEmpty            |ListOfSpeciesReferenceGlyphs not empty                                                                |       |       |       |       |       |       |       |       |
+      |LayoutGGAllowedCoreElements                |Core elements allowed on <generalGlyph>.                                                              |       |       |       |       |       |       |       |       |
+      |LayoutGGAllowedCoreAttributes              |Core attributes allowed on <generalGlyph>.                                                            |       |       |       |       |       |       |       |       |
+      |LayoutGGAllowedElements                    |Layout elements allowed on <generalGlyph>.                                                            |       |       |       |       |       |       |       |       |
+      |LayoutGGAllowedAttributes                  |Layout attributes allowed on <generalGlyph>.                                                          |       |       |       |       |       |       |       |       |
+      |LayoutGGMetaIdRefMustBeIDREF               |Layout 'metaidRef' must be IDREF.                                                                     |       |       |       |       |       |       |       |       |
+      |LayoutGGMetaIdRefMustReferenceObject       |Layout 'metaidRef' must reference existing object.                                                    |       |       |       |       |       |       |       |       |
+      |LayoutGGReferenceSyntax                    |GeneralGlyph 'reference' must have SIdRef syntax.                                                     |       |       |       |       |       |       |       |       |
+      |LayoutGGReferenceMustRefObject             |GeneralGlyph 'reference' must reference existing element.                                             |       |       |       |       |       |       |       |       |
+      |LayoutGGNoDuplicateReferences              |GeneralGlyph cannot reference two objects.                                                            |       |       |       |       |       |       |       |       |
+      |LayoutLOReferenceGlyphAllowedElements      |Allowed elements on ListOfReferenceGlyphs                                                             |       |       |       |       |       |       |       |       |
+      |LayoutLOReferenceGlyphAllowedAttribs       |Allowed attributes on ListOfReferenceGlyphs                                                           |       |       |       |       |       |       |       |       |
+      |LayoutLOSubGlyphAllowedElements            |                                                                                                      |       |       |       |       |       |       |       |       |
+      |LayoutLOSubGlyphAllowedAttribs             |Allowed attributes on ListOfSubGlyphs                                                                 |       |       |       |       |       |       |       |       |
+      |LayoutTGAllowedCoreElements                |Core elements allowed on <textGlyph>.                                                                 |       |       |       |       |       |       |       |       |
+      |LayoutTGAllowedCoreAttributes              |Core attributes allowed on <textGlyph>.                                                               |       |       |       |       |       |       |       |       |
+      |LayoutTGAllowedElements                    |Layout elements allowed on <textGlyph>.                                                               |       |       |       |       |       |       |       |       |
+      |LayoutTGAllowedAttributes                  |Layout attributes allowed on <textGlyph>.                                                             |       |       |       |       |       |       |       |       |
+      |LayoutTGMetaIdRefMustBeIDREF               |Layout 'metaidRef' must be IDREF.                                                                     |       |       |       |       |       |       |       |       |
+      |LayoutTGMetaIdRefMustReferenceObject       |Layout 'metaidRef' must reference existing object.                                                    |       |       |       |       |       |       |       |       |
+      |LayoutTGOriginOfTextSyntax                 |TextGlyph 'originOfText' must have SIdRef syntax.                                                     |       |       |       |       |       |       |       |       |
+      |LayoutTGOriginOfTextMustRefObject          |TextGlyph 'originOfText' must reference existing element.                                             |       |       |       |       |       |       |       |       |
+      |LayoutTGNoDuplicateReferences              |TextGlyph cannot reference two objects.                                                               |       |       |       |       |       |       |       |       |
+      |LayoutTGGraphicalObjectSyntax              |TextGlyph 'graphicalObject' must have SIdRef syntax.                                                  |       |       |       |       |       |       |       |       |
+      |LayoutTGGraphicalObjectMustRefObject       |TextGlyph 'graphicalObject' must reference existing element.                                          |       |       |       |       |       |       |       |       |
+      |LayoutTGTextMustBeString                   |TextGlyph 'text' must be string.                                                                      |       |       |       |       |       |       |       |       |
+      |LayoutSRGAllowedCoreElements               |Core elements allowed on <speciesReferenceGlyph>.                                                     |       |       |       |       |       |       |       |       |
+      |LayoutSRGAllowedCoreAttributes             |Core attributes allowed on <speciesReferenceGlyph>.                                                   |       |       |       |       |       |       |       |       |
+      |LayoutSRGAllowedElements                   |Layout elements allowed on <speciesReferenceGlyph>.                                                   |       |       |       |       |       |       |       |       |
+      |LayoutSRGAllowedAttributes                 |Layout attributes allowed on <speciesReferenceGlyph>.                                                 |       |       |       |       |       |       |       |       |
+      |LayoutSRGMetaIdRefMustBeIDREF              |Layout 'metaidRef' must be IDREF.                                                                     |       |       |       |       |       |       |       |       |
+      |LayoutSRGMetaIdRefMustReferenceObject      |Layout 'metaidRef' must reference existing object.                                                    |       |       |       |       |       |       |       |       |
+      |LayoutSRGSpeciesReferenceSyntax            |SpeciesReferenceGlyph 'speciesReference' must have SIdRef syntax.                                     |       |       |       |       |       |       |       |       |
+      |LayoutSRGSpeciesRefMustRefObject           |SpeciesReferenceGlyph 'speciesReference' must reference existing element.                             |       |       |       |       |       |       |       |       |
+      |LayoutSRGNoDuplicateReferences             |SpeciesReferenceGlyph cannot reference two objects.                                                   |       |       |       |       |       |       |       |       |
+      |LayoutSRGSpeciesGlyphSyntax                |SpeciesReferenceGlyph 'speciesGlyph' must have SIdRef syntax.                                         |       |       |       |       |       |       |       |       |
+      |LayoutSRGSpeciesGlyphMustRefObject         |SpeciesReferenceGlyph 'speciesGlyph' must reference existing element.                                 |       |       |       |       |       |       |       |       |
+      |LayoutSRGRoleSyntax                        |SpeciesReferenceGlyph 'role' must be string from enumeration.                                         |       |       |       |       |       |       |       |       |
+      |LayoutREFGAllowedCoreElements              |Core elements allowed on <referenceGlyph>.                                                            |       |       |       |       |       |       |       |       |
+      |LayoutREFGAllowedCoreAttributes            |Core attributes allowed on <referenceGlyph>.                                                          |       |       |       |       |       |       |       |       |
+      |LayoutREFGAllowedElements                  |Layout elements allowed on <referenceGlyph>.                                                          |       |       |       |       |       |       |       |       |
+      |LayoutREFGAllowedAttributes                |Layout attributes allowed on <referenceGlyph>.                                                        |       |       |       |       |       |       |       |       |
+      |LayoutREFGMetaIdRefMustBeIDREF             |Layout 'metaidRef' must be IDREF.                                                                     |       |       |       |       |       |       |       |       |
+      |LayoutREFGMetaIdRefMustReferenceObject     |Layout 'metaidRef' must reference existing object.                                                    |       |       |       |       |       |       |       |       |
+      |LayoutREFGReferenceSyntax                  |ReferenceGlyph 'reference' must have SIdRef syntax.                                                   |       |       |       |       |       |       |       |       |
+      |LayoutREFGReferenceMustRefObject           |ReferenceGlyph 'reference' must reference existing element.                                           |       |       |       |       |       |       |       |       |
+      |LayoutREFGNoDuplicateReferences            |ReferenceGlyph cannot reference two objects.                                                          |       |       |       |       |       |       |       |       |
+      |LayoutREFGGlyphSyntax                      |ReferenceGlyph 'glyph' must have SIdRef syntax.                                                       |       |       |       |       |       |       |       |       |
+      |LayoutREFGGlyphMustRefObject               |ReferenceGlyph 'glyph' must reference existing element.                                               |       |       |       |       |       |       |       |       |
+      |LayoutREFGRoleSyntax                       |ReferenceGlyph 'role' must be string.                                                                 |       |       |       |       |       |       |       |       |
+      |LayoutPointAllowedCoreElements             |Core elements allowed on  .                                                                           |       |       |       |       |       |       |       |       |
+      |LayoutPointAllowedCoreAttributes           |Core attributes allowed on  .                                                                         |       |       |       |       |       |       |       |       |
+      |LayoutPointAllowedAttributes               |Layout attributes allowed on  .                                                                       |       |       |       |       |       |       |       |       |
+      |LayoutPointAttributesMustBeDouble          |Layout 'x', 'y' and 'z' must be double.                                                               |       |       |       |       |       |       |       |       |
+      |LayoutBBoxAllowedCoreElements              |Core elements allowed on <boundingBox>.                                                               |       |       |       |       |       |       |       |       |
+      |LayoutBBoxAllowedCoreAttributes            |Core attributes allowed on <boundingBox>.                                                             |       |       |       |       |       |       |       |       |
+      |LayoutBBoxAllowedElements                  |Layout elements allowed on <boundingBox>.                                                             |       |       |       |       |       |       |       |       |
+      |LayoutBBoxAllowedAttributes                |Layout attributes allowed on <boundingBox>.                                                           |       |       |       |       |       |       |       |       |
+      |LayoutBBoxConsistent3DDefinition           |Layout consistent dimensions on a <boundingBox>                                                       |       |       |       |       |       |       |       |       |
+      |LayoutCurveAllowedCoreElements             |Core elements allowed on <curve>.                                                                     |       |       |       |       |       |       |       |       |
+      |LayoutCurveAllowedCoreAttributes           |Core attributes allowed on <curve>.                                                                   |       |       |       |       |       |       |       |       |
+      |LayoutCurveAllowedElements                 |Layout elements allowed on <curve>.                                                                   |       |       |       |       |       |       |       |       |
+      |LayoutCurveAllowedAttributes               |Layout attributes allowed on <curve>.                                                                 |       |       |       |       |       |       |       |       |
+      |LayoutLOCurveSegsAllowedAttributes         |Allowed attributes on ListOfCurveSegments                                                             |       |       |       |       |       |       |       |       |
+      |LayoutLOCurveSegsAllowedElements           |Allowed elements on ListOfCurveSegments                                                               |       |       |       |       |       |       |       |       |
+      |LayoutLOCurveSegsNotEmpty                  |No empty ListOfCurveSegments                                                                          |       |       |       |       |       |       |       |       |
+      |LayoutLSegAllowedCoreElements              |Core elements allowed on <lineSegment>.                                                               |       |       |       |       |       |       |       |       |
+      |LayoutLSegAllowedCoreAttributes            |Core attributes allowed on <lineSegment>.                                                             |       |       |       |       |       |       |       |       |
+      |LayoutLSegAllowedElements                  |Layout elements allowed on <lineSegment>.                                                             |       |       |       |       |       |       |       |       |
+      |LayoutLSegAllowedAttributes                |Layout attributes allowed on <lineSegment>.                                                           |       |       |       |       |       |       |       |       |
+      |LayoutCBezAllowedCoreElements              |Core elements allowed on <cubicBezier>.                                                               |       |       |       |       |       |       |       |       |
+      |LayoutCBezAllowedCoreAttributes            |Core attributes allowed on <cubicBezier>.                                                             |       |       |       |       |       |       |       |       |
+      |LayoutCBezAllowedElements                  |Layout elements allowed on <cubicBezier>.                                                             |       |       |       |       |       |       |       |       |
+      |LayoutCBezAllowedAttributes                |Layout attributes allowed on <cubicBezier>.                                                           |       |       |       |       |       |       |       |       |
+      |LayoutDimsAllowedCoreElements              |Core elements allowed on <dimensions>.                                                                |       |       |       |       |       |       |       |       |
+      |LayoutDimsAllowedCoreAttributes            |Core attributes allowed on <dimensions>.                                                              |       |       |       |       |       |       |       |       |
+      |LayoutDimsAllowedAttributes                |Layout attributes allowed on <dimensions>.                                                            |       |       |       |       |       |       |       |       |
+      |LayoutDimsAttributesMustBeDouble           |Layout 'width', 'height' and 'depth' must be double.                                                  |       |       |       |       |       |       |       |       |
+      +-------------------------------------------+------------------------------------------------------------------------------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+
 
     Category codes associated with SBMLError objects
     ......................................................................
@@ -56202,7 +56425,7 @@ class SBMLError(XMLError):
     with SBMLError objects
     ......................................................................
 
-    In libSBML version 5.13.0 there are no additional severity codes
+    In libSBML version 5.15.2 there are no additional severity codes
     beyond those defined by XMLError. They are implemented as static
     integer constants defined in the interface class libsbml, and have
     names beginning with LIBSBML_SEV_.
@@ -58704,6 +58927,24 @@ class ModelCreator(_object):
         """
         return _libsbml.ModelCreator_usingFNVcard4(self)
 
+    def usingSingleName(self):
+        """
+        usingSingleName(ModelCreator self) -> bool
+
+        Internal implementation method.
+
+        """
+        return _libsbml.ModelCreator_usingSingleName(self)
+
+    def setUseSingleName(self, *args):
+        """
+        setUseSingleName(ModelCreator self, bool flag)
+
+        Internal implementation method.
+
+        """
+        return _libsbml.ModelCreator_setUseSingleName(self, *args)
+
     __metaclass__ = AutoProperty
 
     def __eq__(self, rhs):
@@ -58940,7 +59181,7 @@ class ModelHistory(_object):
       Get the List of Date objects in this ModelHistory.
 
       Returns the DateList for this ModelHistory.
-            
+
 
       """
       return _libsbml.ModelHistory_getListModifiedDates(self)
@@ -59033,11 +59274,11 @@ class ModelHistory(_object):
       """
       getListCreators(self) -> ModelCreatorList
 
-      Get the List of ModelCreator objects in this 
+      Get the List of ModelCreator objects in this
       ModelHistory.
 
       Returns the ModelCreatorList for this ModelHistory.
-            
+
 
       """
       return _libsbml.ModelHistory_getListCreators(self)
@@ -60570,7 +60811,7 @@ class SBasePlugin(_object):
         if (self.this == rhs.this): return False
       return True
 
-    def getListOfAllElements(self):
+    def getListOfAllElements(self, *args):
       """
       getListOfAllElements(self) -> SBaseList
 
@@ -60580,7 +60821,7 @@ class SBasePlugin(_object):
 
 
       """
-      return _libsbml.SBasePlugin_getListOfAllElements(self)
+      return _libsbml.SBasePlugin_getListOfAllElements(self, *args)
 
 
 SBasePlugin_swigregister = _libsbml.SBasePlugin_swigregister
@@ -61868,6 +62109,7 @@ AST_FUNCTION_QUOTIENT = _libsbml.AST_FUNCTION_QUOTIENT
 AST_FUNCTION_RATE_OF = _libsbml.AST_FUNCTION_RATE_OF
 AST_FUNCTION_REM = _libsbml.AST_FUNCTION_REM
 AST_LOGICAL_IMPLIES = _libsbml.AST_LOGICAL_IMPLIES
+AST_CSYMBOL_FUNCTION = _libsbml.AST_CSYMBOL_FUNCTION
 AST_UNKNOWN = _libsbml.AST_UNKNOWN
 AST_ORIGINATES_IN_PACKAGE = _libsbml.AST_ORIGINATES_IN_PACKAGE
 AST_TYPECODE_BASE = _libsbml.AST_TYPECODE_BASE
@@ -62469,7 +62711,10 @@ class ASTBase(_object):
         return _libsbml.ASTBase_getFunction(self)
 
     def addPlugin(self, *args):
-        """addPlugin(ASTBase self, ASTBasePlugin plugin)"""
+        """
+        addPlugin(ASTBase self, ASTBasePlugin plugin)
+        addPlugin(ASTBase self, string package)
+        """
         return _libsbml.ASTBase_addPlugin(self, *args)
 
     def getPlugin(self, *args):
@@ -63740,6 +63985,24 @@ class ASTNode(ASTBase):
         """
         return _libsbml.ASTNode_isConstant(self)
 
+    def isConstantNumber(self):
+        """
+        isConstantNumber(ASTNode self) -> bool
+
+        Returns True if this node represents a MathML constant numeric.
+
+        Examples of MathML constants include such things as pi.
+
+        Returns True if this ASTNode is a MathML constant, False otherwise.
+
+        Note:
+
+        This function will also return True for nodes of type
+        AST_NAME_AVOGADRO in SBML Level 3.
+
+        """
+        return _libsbml.ASTNode_isConstantNumber(self)
+
     def isFunction(self):
         """
         isFunction(ASTNode self) -> bool
@@ -64900,6 +65163,15 @@ class ASTNode(ASTBase):
         """
         return _libsbml.ASTNode_getPlugin(self, *args)
 
+    def getNumPlugins(self):
+        """
+        getNumPlugins(ASTNode self) -> unsigned int
+
+        Internal implementation method.
+
+        """
+        return _libsbml.ASTNode_getNumPlugins(self)
+
     def getNumPiece(self):
         """
         getNumPiece(ASTNode self) -> unsigned int
@@ -65210,7 +65482,7 @@ def formulaToL3String(*args):
 
     * The Boolean function symbols &&, ||, !, and != may be used.
 
-    * The modulo operation is allowed as the symbol @ and will produce
+    * The modulo operation is allowed as the symbol % and will produce
     a  function in the corresponding MathML output.
 
     * All inverse trigonometric functions may be defined in the infix
@@ -65658,7 +65930,7 @@ def parseL3Formula(*args):
 
     * The Boolean function symbols &&, ||, !, and != may be used.
 
-    * The modulo operation is allowed as the symbol @ and will produce
+    * The modulo operation is allowed as the symbol % and will produce
     a  function in the corresponding MathML output.
 
     * All inverse trigonometric functions may be defined in the infix
@@ -66061,7 +66333,7 @@ def getDefaultL3ParserSettings():
 
     * The Boolean function symbols &&, ||, !, and != may be used.
 
-    * The modulo operation is allowed as the symbol @ and will produce
+    * The modulo operation is allowed as the symbol % and will produce
     a  function in the corresponding MathML output.
 
     * All inverse trigonometric functions may be defined in the infix
@@ -66338,6 +66610,10 @@ L3P_AVOGADRO_IS_CSYMBOL = _libsbml.L3P_AVOGADRO_IS_CSYMBOL
 L3P_AVOGADRO_IS_NAME = _libsbml.L3P_AVOGADRO_IS_NAME
 L3P_COMPARE_BUILTINS_CASE_INSENSITIVE = _libsbml.L3P_COMPARE_BUILTINS_CASE_INSENSITIVE
 L3P_COMPARE_BUILTINS_CASE_SENSITIVE = _libsbml.L3P_COMPARE_BUILTINS_CASE_SENSITIVE
+L3P_MODULO_IS_REM = _libsbml.L3P_MODULO_IS_REM
+L3P_MODULO_IS_PIECEWISE = _libsbml.L3P_MODULO_IS_PIECEWISE
+L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY = _libsbml.L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY
+L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC = _libsbml.L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC
 INFIX_SYNTAX_NAMED_SQUARE_BRACKETS = _libsbml.INFIX_SYNTAX_NAMED_SQUARE_BRACKETS
 INFIX_SYNTAX_CURLY_BRACES = _libsbml.INFIX_SYNTAX_CURLY_BRACES
 INFIX_SYNTAX_CURLY_BRACES_SEMICOLON = _libsbml.INFIX_SYNTAX_CURLY_BRACES_SEMICOLON
@@ -66438,6 +66714,11 @@ class L3ParserSettings(_object):
         """
         __init__(L3ParserSettings self) -> L3ParserSettings
         __init__(L3ParserSettings self, Model model, ParseLogType_t parselog, bool collapseminus, bool parseunits, bool avocsymbol, 
+            bool caseSensitive=False, SBMLNamespaces sbmlns=None, bool moduloL3v2=False, 
+            bool l3v2functions=False) -> L3ParserSettings
+        __init__(L3ParserSettings self, Model model, ParseLogType_t parselog, bool collapseminus, bool parseunits, bool avocsymbol, 
+            bool caseSensitive=False, SBMLNamespaces sbmlns=None, bool moduloL3v2=False) -> L3ParserSettings
+        __init__(L3ParserSettings self, Model model, ParseLogType_t parselog, bool collapseminus, bool parseunits, bool avocsymbol, 
             bool caseSensitive=False, SBMLNamespaces sbmlns=None) -> L3ParserSettings
         __init__(L3ParserSettings self, Model model, ParseLogType_t parselog, bool collapseminus, bool parseunits, bool avocsymbol, 
             bool caseSensitive=False) -> L3ParserSettings
@@ -66450,9 +66731,50 @@ class L3ParserSettings(_object):
         ______________________________________________________________________
         Method variant with the following signature:
 
+        L3ParserSettings()
+
+        Creates a new L3ParserSettings object with default values.
+
+        This is the default constructor for the L3ParserSettings object.  It
+        sets the stored Model object to None and sets the following field
+        values in the L3ParserSettings object:
+
+        * parseunits ('parse units') is set to L3P_PARSE_UNITS.
+
+        * collapseminus ('collapse minus') is set to
+        L3P_EXPAND_UNARY_MINUS.
+
+        * parselog ('parse log') is set to L3P_PARSE_LOG_AS_LOG10.
+
+        * avocsymbol ('Avogadro csymbol') is set to
+        L3P_AVOGADRO_IS_CSYMBOL.
+
+        * caseSensitive ('case sensitive') is set to
+        L3P_COMPARE_BUILTINS_CASE_INSENSITIVE.
+
+        * moduloL3v2 ('modulo l3v2') is set to L3P_MODULO_IS_PIECEWISE.
+
+        * sbmlns ('SBML namespaces') is set to None (which indicates that
+        no syntax extensions due to SBML Level 3 packages will be assumed---
+        the formula parser will only understand the core syntax described in
+        the documentation for parseL3Formula()).
+
+        ______________________________________________________________________
+        Method variant with the following signature:
+
+        L3ParserSettings(L3ParserSettings source)
+
+        Copy constructor.
+
+        Parameter 'source' is the instance to copy.
+
+        ______________________________________________________________________
+        Method variant with the following signature:
+
         L3ParserSettings(Model model, ParseLogType_t parselog, bool
         collapseminus, bool parseunits, bool avocsymbol, bool caseSensitive =
-        false, SBMLNamespaces sbmlns = None)
+        false, SBMLNamespaces sbmlns = None, bool moduloL3v2 = false, bool
+        l3v2functions = false)
 
         Creates a new L3ParserSettings object with specific values for all
         possible settings.
@@ -66499,12 +66821,28 @@ class L3ParserSettings(_object):
         If the flag is set to the value L3P_COMPARE_BUILTINS_CASE_SENSITIVE,
         symbols are interpreted in a case-sensitive manner.
 
+        Parameter 'moduloL3v2' is ('modulo L3v2') a flag that controls how the
+        parser will handle the '' ('modulo') symbol in formulas.  By default,
+        the parser will convert 'a  b' to a piecewise function that properly
+        calculates the remainder of a with respect to be, but the parser can
+        also be set to produce the MathML rem function, should the target of
+        the produced ASTNode be an SBML Level 3 Version 2  document, where the
+        rem function is legal. The possible values of this field are
+        L3P_MODULO_IS_PIECEWISE (to parse '' as a piecewise function) and
+        L3P_MODULO_IS_REM (to parse '' as rem).
+
         Parameter 'sbmlns' is ('SBML namespaces') an SBML namespaces object.
         The namespaces identify the SBML Level 3 packages that can extend the
         syntax understood by the formula parser.  When non-None, the parser
         will interpret additional syntax defined by the packages; for example,
         it may understand vector/array extensions introduced by the SBML Level
         3 Arrays package.
+
+        Parameter 'l3v2functions' is ('parse L3v2 functions directly') is a
+        Boolean flag that controls how to translate certain mathematical
+        functions added in SBML Level 3 Version 2 Core.  The parser can either
+        turn them into specific AST node types, or turn them all into
+        AST_FUNCTION with the name set to the function name in question.
 
         Documentation note: The native C++ implementation of this method
         defines a default argument value. In the documentation generated for
@@ -66521,45 +66859,9 @@ class L3ParserSettings(_object):
         See also getModel(), setModel(), unsetModel(), getParseLog(),
         setParseLog(), getParseUnits(), setParseUnits(),
         getParseCollapseMinus(), setParseCollapseMinus(),
-        getParseAvogadroCsymbol(), setParseAvogadroCsymbol().
-
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        L3ParserSettings()
-
-        Creates a new L3ParserSettings object with default values.
-
-        This is the default constructor for the L3ParserSettings object.  It
-        sets the stored Model object to None and sets the following field
-        values in the L3ParserSettings object:
-
-        * parseunits ('parse units') is set to L3P_PARSE_UNITS.
-
-        * collapseminus ('collapse minus') is set to
-        L3P_EXPAND_UNARY_MINUS.
-
-        * parselog ('parse log') is set to L3P_PARSE_LOG_AS_LOG10.
-
-        * avocsymbol ('Avogadro csymbol') is set to
-        L3P_AVOGADRO_IS_CSYMBOL.
-
-        * caseSensitive ('case sensitive') is set to
-        L3P_COMPARE_BUILTINS_CASE_INSENSITIVE.
-
-        * sbmlns ('SBML namespaces') is set to None (which indicates that
-        no syntax extensions due to SBML Level 3 packages will be assumed---
-        the formula parser will only understand the core syntax described in
-        the documentation for parseL3Formula()).
-
-        ______________________________________________________________________
-        Method variant with the following signature:
-
-        L3ParserSettings(L3ParserSettings source)
-
-        Copy constructor.
-
-        Parameter 'source' is the instance to copy.
+        getParseAvogadroCsymbol(), setParseAvogadroCsymbol(),
+        getParseModuloL3v2(), setParseModuloL3v2(), getParseL3v2Functions(),
+        setParseL3v2Functions().
 
         """
         this = _libsbml.new_L3ParserSettings(*args)
@@ -66953,6 +67255,129 @@ class L3ParserSettings(_object):
 
         """
         return _libsbml.L3ParserSettings_getComparisonCaseSensitivity(self)
+
+    def setParseModuloL3v2(self, *args):
+        """
+        setParseModuloL3v2(L3ParserSettings self, bool modulol3v2)
+
+        Sets the behavior for handling the '' sumbol in mathematical formulas.
+
+        This setting affects whether the '' symbol (modulo) is parsed as a
+        piecewise equation that returns the modulo value of the entries on
+        either side of the symbol, or whether it is parsed as the MathML
+        'rem' function, which was allowed in SBML Level 3 Version 2, but not
+        in previous level/versions.  The latter is more succinct, but  might
+        not be legal SBML for the desired target SBML document.
+
+        This method lets you tell the parser which behavior to use---either
+        parse '' as the 'rem' function or as a piecewise function with the
+        same interpretation.  The two possibilities are represented using the
+        following constants:
+
+        * L3P_MODULO_IS_REM (value = True): use the 'rem' MathML function
+        (AST_FUNCTION_REM).
+
+        * L3P_MODULO_IS_PIECEWISE (value = False): use  a piecewise
+        function (AST_FUNCTION_PIECEWISE) to encode the modulo rule
+        explicitly. Parameter 'modulol3v2' is a boolean value (one of the
+        constants L3P_MODULO_IS_PIECEWISE or L3P_MODULO_IS_REM) indicating how
+        the '' symbol in the input should be handled.
+
+        See also getParseModuloL3v2().
+
+        """
+        return _libsbml.L3ParserSettings_setParseModuloL3v2(self, *args)
+
+    def getParseModuloL3v2(self):
+        """
+        getParseModuloL3v2(L3ParserSettings self) -> bool
+
+        Indicates the current behavior set for handling the '' sumbol in
+        mathematical formulas.
+
+        This setting affects whether the '' symbol (modulo) is parsed as a
+        piecewise equation that returns the modulo value of the entries on
+        either side of the symbol, or whether it is parsed as the MathML
+        'rem' function, which was allowed in SBML Level 3 Version 2, but not
+        in previous level/versions.  The latter is more succinct, but  might
+        not be legal SBML for the desired target SBML document.
+
+        Returns A boolean indicating the behavior currently set.  The possible
+        values are as follows:
+
+        * L3P_MODULO_IS_REM (value = True): use the 'rem' MathML function
+        (AST_FUNCTION_REM).
+
+        * L3P_MODULO_IS_PIECEWISE (value = False): use  a piecewise
+        function (AST_FUNCTION_PIECEWISE) to encode the modulo rule
+        explicitly. See also setParseModuloL3v2().
+
+        """
+        return _libsbml.L3ParserSettings_getParseModuloL3v2(self)
+
+    def setParseL3v2Functions(self, *args):
+        """
+        setParseL3v2Functions(L3ParserSettings self, bool l3v2functions)
+
+        Sets the behavior for handling functions added in SBML L3v2
+
+        This setting affects whether the names of functions added in SBML
+        Level 3 Version 2 are parsed as those added MathML functions, or
+        whether they are added as generic functions with those names (to be
+        used in SBML as function definitions).
+
+        This method lets you tell the parser which behavior to use---either to
+        parse the functions added in L3v2 as their built-in counterparts, or
+        as generic functions with that name (to be defined by SBML as function
+        definitions).  The two possibilities are represented using the
+        following constants:
+
+        * L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY (value = True): parse the
+        strings rateOf, implies, max, min, quotient, and rem as
+        AST_FUNCTION_RATE_OF, AST_LOGICAL_IMPLIES, AST_FUNCTION_MAX,
+        AST_FUNCTION_MIN, AST_FUNCTION_QUOTIENT, and AST_FUNCTION_REM,
+        respectively.
+
+        * L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC (value = False): parse the
+        strings rateOf, implies, max, min, quotient, and rem all as
+        AST_FUNCTION with the appropriate name set. Parameter 'l3v2functions'
+        is a boolean value (one of the constants
+        L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY or
+        L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC) indicating how to interpret those
+        function names.
+
+        See also getParseL3v2Functions().
+
+        """
+        return _libsbml.L3ParserSettings_setParseL3v2Functions(self, *args)
+
+    def getParseL3v2Functions(self):
+        """
+        getParseL3v2Functions(L3ParserSettings self) -> bool
+
+        Indicates the current behavior set for handling the '' sumbol in
+        mathematical formulas.
+
+        This setting affects whether the names of functions added in SBML
+        Level 3 Version 2 are parsed as those added MathML functions, or
+        whether they are added as generic functions with those names (to be
+        used in SBML as function definitions).
+
+        Returns A boolean indicating the behavior currently set.  The possible
+        values are as follows:
+
+        * L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY (value = True): parse the strings
+        rateOf, implies, max, min, quotient, and rem as AST_FUNCTION_RATE_OF,
+        AST_LOGICAL_IMPLIES, AST_FUNCTION_MAX, AST_FUNCTION_MIN,
+        AST_FUNCTION_QUOTIENT, and AST_FUNCTION_REM, respectively.
+
+        * L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC (value = False): parse the
+        strings rateOf, implies, max, min, quotient, and rem all as
+        AST_FUNCTION with the appropriate name set. See also
+        setParseModuloL3v2().
+
+        """
+        return _libsbml.L3ParserSettings_getParseL3v2Functions(self)
 
     def setPlugins(self, *args):
         """

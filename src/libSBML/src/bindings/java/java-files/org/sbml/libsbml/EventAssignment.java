@@ -158,7 +158,7 @@ package org.sbml.libsbml;
  * and Level&nbsp;3) or must (in previous Versions of Level&nbsp;2) be
  * identical to the units defined for the parameter.
  <p>
- * <li> (For SBML Level&nbsp;3 Version &nbsp;2 only) <em>In the case of 
+ * <li> (For SBML Level&nbsp;3 Version&nbsp;2 only) <em>In the case of 
  * an object from an SBML Level&nbsp;3 package</em>, an {@link EventAssignment} sets 
  * the referenced object's value (as defined by that package) to the 
  * value of the formula in 'math'. The unit of measurement associated 

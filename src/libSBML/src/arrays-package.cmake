@@ -34,7 +34,7 @@ include(${LIBSBML_ROOT_SOURCE_DIR}/arrays-package.cmake)
 set(ARRAYS_SOURCES)
 
 # go through all directories: common, extension and sbml
-foreach(dir common extension math sbml validator validator/constraints)
+foreach(dir common extension math sbml util validator validator/constraints)
 
 	# add to include directory
 	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sbml/packages/arrays/${dir})
@@ -81,8 +81,9 @@ SET(LIBSBML_SOURCES ${LIBSBML_SOURCES} ${ARRAYS_SOURCES})
 #
 if(WITH_CHECK)
 
-#	add_subdirectory(sbml/packages/arrays/extension/test)
+	add_subdirectory(sbml/packages/arrays/extension/test)
 	add_subdirectory(sbml/packages/arrays/math/test)
+	add_subdirectory(sbml/packages/arrays/util/test)
 
 endif()
 

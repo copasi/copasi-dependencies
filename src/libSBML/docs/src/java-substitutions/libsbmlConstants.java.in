@@ -236,6 +236,15 @@ public interface libsbmlConstants
 
 
     /**
+     * One of the possible libSBML operation return codes.
+     * <p>
+     * This code has the following meaning: For SBML Level 3 Version 2, use
+     * the IdAttribute functions.
+     */
+    public final static int LIBSBML_USE_ID_ATTRIBUTE_FUNCTION = -16;
+
+
+    /**
      * One of the possible libSBML package operation return codes.
      * <p>
      * This code has the following meaning: the Version of the package
@@ -1618,7 +1627,14 @@ public interface libsbmlConstants
      * One of the possible {@link ASTNode} types.  Each {@link ASTNode} has
      * a type whose value is one of the elements of this enumeration.
      */
-    public final static int AST_UNKNOWN = AST_LOGICAL_IMPLIES + 1;
+    public final static int AST_CSYMBOL_FUNCTION = 400;
+
+
+    /**
+     * One of the possible {@link ASTNode} types.  Each {@link ASTNode} has
+     * a type whose value is one of the elements of this enumeration.
+     */
+    public final static int AST_UNKNOWN = AST_CSYMBOL_FUNCTION + 1;
 
 
     /**
@@ -1672,6 +1688,19 @@ public interface libsbmlConstants
 
 
     /**
+     * Parse the percent ('%') symbol as an expanded 'piecewise' function
+     * (valid in all levels/versions).
+     */
+    public final static boolean L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC = false;
+
+
+    /**
+     * Parse the functions added in l3v2.
+     */
+    public final static boolean L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY = true;
+
+
+    /**
      * Do not recognize units in text-string formulas&mdash;treat them as
      * errors.
      */
@@ -1705,6 +1734,37 @@ public interface libsbmlConstants
      * that string as referencing user-defined functions or values.
      */
     public final static boolean L3P_COMPARE_BUILTINS_CASE_SENSITIVE = true;
+
+
+    /**
+     * One of the settings in L3Parser affects whether the <code>%</code>
+     * symbol (modulo) is parsed as a piecewise equation that returns the
+     * modulo value of the entries on either side of the symbol, or whether
+     * it is parsed as the MathML <code>rem</code> function, which was
+     * allowed in SBML Level&nbsp;3 Version&nbsp;2, but not in previous
+     * Level/Versions.  The latter is more succinct, but might not be legal
+     * SBML for the desired target SBML document.
+     *
+     * This value means use the <code>rem</code> MathML function
+     * (@sbmlconstant{AST_FUNCTION_REM,ASTNodeType_t}).
+     */
+    public final static boolean L3P_MODULO_IS_REM = true;
+
+
+    /**
+     * One of the settings in L3Parser affects whether the <code>%</code>
+     * symbol (modulo) is parsed as a piecewise equation that returns the
+     * modulo value of the entries on either side of the symbol, or whether
+     * it is parsed as the MathML <code>rem</code> function, which was
+     * allowed in SBML Level&nbsp;3 Version&nbsp;2, but not in previous
+     * Level/Versions.  The latter is more succinct, but might not be legal
+     * SBML for the desired target SBML document.
+     *
+     * This value means use a piecewise function
+     * (@sbmlconstant{AST_FUNCTION_PIECEWISE,ASTNodeType_t}) to encode the
+     * modulo rule explicitly.
+     */
+    public final static boolean L3P_MODULO_IS_PIECEWISE = false;
 
 
     // L3ParserGrammarLineType_t
@@ -3052,6 +3112,15 @@ public interface libsbmlConstants
      * documentation for {@link SBMLError} for an explanation of the
      * meaning of this particular error code.
      */
+    public final static int InvalidSBMLElementSBOTerm = 10719;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
     public final static int NotesNotInXHTMLNamespace = 10801;
 
 
@@ -4177,6 +4246,15 @@ public interface libsbmlConstants
      * documentation for {@link SBMLError} for an explanation of the
      * meaning of this particular error code.
      */
+    public final static int CircularDependencyRateOf = 20912;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
     public final static int ConstraintMathNotBoolean = 21001;
 
 
@@ -4511,6 +4589,15 @@ public interface libsbmlConstants
      * meaning of this particular error code.
      */
     public final static int AllowedAttributesOnLocalParameter = 21172;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
+    public final static int LocalParameterShadowsSpecies = 21173;
 
 
     /**
@@ -5446,6 +5533,96 @@ public interface libsbmlConstants
      * documentation for {@link SBMLError} for an explanation of the
      * meaning of this particular error code.
      */
+    public final static int DoubleExponentNotSupported = 98001;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
+    public final static int MathMLElementNotSupported = 98002;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
+    public final static int EmptyListOfElementNotSupported = 98003;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
+    public final static int MissingMathElementNotSupported = 98004;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
+    public final static int MissingTriggerElementNotSupported = 98005;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
+    public final static int BooleanNumericDiscrepancy = 98006;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
+    public final static int IdNameSBaseInL3V2 = 98007;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
+    public final static int MissingParticipantsNotSupported = 98008;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
+    public final static int ConvertibleMathInitialAssignment = 98009;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
+    public final static int FastReactionsNotSupported = 98010;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
     public final static int InvalidSBMLLevelVersion = 99101;
 
 
@@ -5527,6 +5704,15 @@ public interface libsbmlConstants
      * meaning of this particular error code.
      */
     public final static int L3SubstanceUnitsOnModel = 99130;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
+    public final static int StoichiometryMathMissingMath = 99131;
 
 
     /**
@@ -5752,6 +5938,15 @@ public interface libsbmlConstants
      * meaning of this particular error code.
      */
     public final static int UndeclaredObjectUnitsL3 = 99508;
+
+
+    /**
+     * A value in the enumeration of all the SBML error and warning codes
+     * for objects of class {@link SBMLError}.  Please consult the
+     * documentation for {@link SBMLError} for an explanation of the
+     * meaning of this particular error code.
+     */
+    public final static int CannotVerifyUnitsObjectNoMath = 99509;
 
 
     /**
@@ -6235,6 +6430,18 @@ public interface libsbmlConstants
      * Version&nbsp;1.
      */
     public final static int LIBSBML_CAT_SBML_L3V1_COMPAT = LIBSBML_CAT_SBML_L2V4_COMPAT + 1;
+
+
+    /**
+     * Category code for {@link SBMLError} diagnostics.
+     */
+    public final static int LIBSBML_CAT_SBML_L3V2_COMPAT = LIBSBML_CAT_SBML_L3V1_COMPAT + 1;
+
+
+    /**
+     * Category code for {@link SBMLError} diagnostics.
+     */
+    public final static int LIBSBML_CAT_SBML_COMPATIBILITY = LIBSBML_CAT_SBML_L3V2_COMPAT + 1;
 
 
     // SBMLErrorSeverity_t
@@ -12451,5 +12658,203 @@ public interface libsbmlConstants
      * for an explanation of the meaning of this particular error code.
      */
     public final static int QualFuncTermResultMustBeNonNeg = 3020806;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_POSSIBLE_SPECIES_FEATURE_VALUE = 1400;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_SPECIES_FEATURE_VALUE = 1401;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_COMPARTMENT_REFERENCE = 1402;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_SPECIES_TYPE_INSTANCE = 1403;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_IN_SPECIES_TYPE_BOND = 1404;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_OUTWARD_BINDING_SITE = 1405;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_SPECIES_FEATURE_TYPE = 1406;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_SPECIES_TYPE_COMPONENT_INDEX = 1407;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_SPECIES_FEATURE = 1408;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_SPECIES_TYPE_COMPONENT_MAP_IN_PRODUCT = 1409;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_SPECIES_TYPE = 1410;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_BINDING_SITE_SPECIES_TYPE = 1411;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_INTRA_SPECIES_REACTION = 1412;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int SBML_MULTI_SUBLIST_OF_SPECIES_FEATURES = 1413;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int MULTI_RELATION_AND = 0;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int MULTI_RELATION_OR = MULTI_RELATION_AND + 1;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int MULTI_RELATION_NOT = MULTI_RELATION_OR + 1;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int MULTI_RELATION_UNKNOWN = MULTI_RELATION_NOT + 1;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int MULTI_BINDING_STATUS_BOUND = 0;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int MULTI_BINDING_STATUS_EITHER = MULTI_BINDING_STATUS_BOUND + 1;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int MULTI_BINDING_STATUS_UNBOUND = MULTI_BINDING_STATUS_EITHER + 1;
+
+
+    /**
+     * <span class="pkg-marker pkg-color-multi">multi</span> A value in an
+     * enumeration defined by the libSBML &ldquo;multi&rdquo; extension
+     * for objects in the SBML Level&nbsp;3 Multistate, Multicomponent
+     * and Multicompartment Species package.
+     */
+    public final static int MULTI_BINDING_STATUS_UNKNOWN = MULTI_BINDING_STATUS_UNBOUND + 1;
 
 }

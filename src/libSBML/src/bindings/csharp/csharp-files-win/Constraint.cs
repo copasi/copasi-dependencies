@@ -271,7 +271,7 @@ public class Constraint : SBase {
    * Get the message string, if any, associated with this Constraint
    * 
    * @return the message for this Constraint, as a string.
-   */ public
+   */ public new
  string getMessageString() {
     string ret = libsbmlPINVOKE.Constraint_getMessageString(swigCPtr);
     return ret;
@@ -282,7 +282,7 @@ public class Constraint : SBase {
    * Get the mathematical expression of this Constraint
    * 
    * @return the math for this Constraint, as an ASTNode, or @c null if the math is not set.
-   */ public
+   */ public new
  ASTNode getMath() {
     IntPtr cPtr = libsbmlPINVOKE.Constraint_getMath(swigCPtr);
     ASTNode ret = (cPtr == IntPtr.Zero) ? null : new ASTNode(cPtr, false);
@@ -355,7 +355,7 @@ public class Constraint : SBase {
  * returned by this function are:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   */ public
+   */ public new
  int setMessage(string message, bool addXHTMLMarkup) {
     int ret = libsbmlPINVOKE.Constraint_setMessage__SWIG_1(swigCPtr, message, addXHTMLMarkup);
     return ret;
@@ -380,7 +380,7 @@ public class Constraint : SBase {
  * returned by this function are:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   */ public
+   */ public new
  int setMessage(string message) {
     int ret = libsbmlPINVOKE.Constraint_setMessage__SWIG_2(swigCPtr, message);
     return ret;
@@ -401,7 +401,7 @@ public class Constraint : SBase {
  * returned by this function are:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   */ public
+   */ public new
  int setMath(ASTNode math) {
     int ret = libsbmlPINVOKE.Constraint_setMath(swigCPtr, ASTNode.getCPtr(math));
     return ret;

@@ -2640,9 +2640,9 @@ if (doc.getNumErrors() > 0)
     libsbmlPINVOKE.SBML_deleteL3Parser();
   }
 
-  public const string LIBSBML_DOTTED_VERSION = "5.14.0";
-  public const int LIBSBML_VERSION = 51400;
-  public const string LIBSBML_VERSION_STRING = "51400";
+  public const string LIBSBML_DOTTED_VERSION = "5.15.2";
+  public const int LIBSBML_VERSION = 51502;
+  public const string LIBSBML_VERSION_STRING = "51502";
   // OperationReturnValues_t 
   public const int LIBSBML_OPERATION_SUCCESS = 0;
   public const int LIBSBML_INDEX_EXCEEDS_SIZE = -1;
@@ -3207,6 +3207,7 @@ if (doc.getNumErrors() > 0)
   public const int MissingParticipantsNotSupported = 98008;
   public const int ConvertibleMathInitialAssignment = 98009;
   public const int FastReactionsNotSupported = 98010;
+  public const int SpeciesRefIdInMathMLNotSupported = 98011;
   public const int InvalidSBMLLevelVersion = 99101;
   public const int AnnotationNotesNotAllowedLevel1 = 99104;
   public const int InvalidRuleOrdering = 99106;
@@ -3217,6 +3218,7 @@ if (doc.getNumErrors() > 0)
   public const int TimeUnitsAllowedInKL = 99128;
   public const int FormulaInLevel1KL = 99129;
   public const int L3SubstanceUnitsOnModel = 99130;
+  public const int StoichiometryMathMissingMath = 99131;
   public const int TimeUnitsRemoved = 99206;
   public const int BadMathML = 99219;
   public const int FailedMathMLReadOfDouble = 99220;
@@ -3407,7 +3409,8 @@ if (doc.getNumErrors() > 0)
   public const int AST_FUNCTION_RATE_OF = AST_FUNCTION_QUOTIENT + 1;
   public const int AST_FUNCTION_REM = AST_FUNCTION_RATE_OF + 1;
   public const int AST_LOGICAL_IMPLIES = AST_FUNCTION_REM + 1;
-  public const int AST_UNKNOWN = AST_LOGICAL_IMPLIES + 1;
+  public const int AST_CSYMBOL_FUNCTION = 400;
+  public const int AST_UNKNOWN = AST_CSYMBOL_FUNCTION + 1;
   public const int AST_ORIGINATES_IN_PACKAGE = AST_UNKNOWN + 1;
 
   // AST_Class_TypeCode_t 
@@ -3450,6 +3453,10 @@ if (doc.getNumErrors() > 0)
   public const bool L3P_AVOGADRO_IS_NAME = false;
   public const bool L3P_COMPARE_BUILTINS_CASE_INSENSITIVE = false;
   public const bool L3P_COMPARE_BUILTINS_CASE_SENSITIVE = true;
+  public const bool L3P_MODULO_IS_REM = true;
+  public const bool L3P_MODULO_IS_PIECEWISE = false;
+  public const bool L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY = true;
+  public const bool L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC = false;
   // L3ParserGrammarLineType_t 
   public const int INFIX_SYNTAX_NAMED_SQUARE_BRACKETS = 0;
   public const int INFIX_SYNTAX_CURLY_BRACES = INFIX_SYNTAX_NAMED_SQUARE_BRACKETS + 1;

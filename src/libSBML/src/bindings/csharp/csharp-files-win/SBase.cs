@@ -702,7 +702,7 @@ public class SBase : IDisposable {
  * appropriate <a target='_blank'
  * href='http://sbml.org/Documents/Specifications'>SBML specification
  * document</a> for the Level and Version of their model for more in-depth
- * explanations of using 'notes' in SBML.  The SBML Level&nbsp;2 and &nbsp;3
+ * explanations of using 'notes' in SBML.  The SBML Level&nbsp;2 and&nbsp;3
  * specifications have considerable detail about how 'notes' element content
  * must be structured.
  *
@@ -763,7 +763,7 @@ public class SBase : IDisposable {
  * appropriate <a target='_blank'
  * href='http://sbml.org/Documents/Specifications'>SBML specification
  * document</a> for the Level and Version of their model for more in-depth
- * explanations of using 'notes' in SBML.  The SBML Level&nbsp;2 and &nbsp;3
+ * explanations of using 'notes' in SBML.  The SBML Level&nbsp;2 and&nbsp;3
  * specifications have considerable detail about how 'notes' element content
  * must be structured.
  *
@@ -1503,7 +1503,7 @@ public class SBase : IDisposable {
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
-   * in-depth explanations.  The SBML Level&nbsp;2 and &nbsp;3
+   * in-depth explanations.  The SBML Level&nbsp;2 and&nbsp;3
    * specifications have considerable detail about how 'notes' element
    * content must be structured.
    *
@@ -2256,7 +2256,7 @@ public class SBase : IDisposable {
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
-   * in-depth explanations.  The SBML Level&nbsp;2 and &nbsp;3
+   * in-depth explanations.  The SBML Level&nbsp;2 and&nbsp;3
    * specifications have considerable detail about how 'notes' element
    * content must be structured.
    *
@@ -2308,7 +2308,7 @@ public class SBase : IDisposable {
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
-   * in-depth explanations.  The SBML Level&nbsp;2 and &nbsp;3
+   * in-depth explanations.  The SBML Level&nbsp;2 and&nbsp;3
    * specifications have considerable detail about how 'notes' element
    * content must be structured.
    *
@@ -2406,7 +2406,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
-   * in-depth explanations.  The SBML Level&nbsp;2 and &nbsp;3
+   * in-depth explanations.  The SBML Level&nbsp;2 and&nbsp;3
    * specifications have considerable detail about how 'notes' element
    * content must be structured.
    *
@@ -2502,7 +2502,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
-   * in-depth explanations.  The SBML Level&nbsp;2 and &nbsp;3
+   * in-depth explanations.  The SBML Level&nbsp;2 and&nbsp;3
    * specifications have considerable detail about how 'notes' element
    * content must be structured.
    * 
@@ -2553,7 +2553,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
-   * in-depth explanations.  The SBML Level&nbsp;2 and &nbsp;3
+   * in-depth explanations.  The SBML Level&nbsp;2 and&nbsp;3
    * specifications have considerable detail about how 'notes' element
    * content must be structured.
    *
@@ -2966,7 +2966,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * readers are urged to consult the appropriate <a target='_blank'
    * href='http://sbml.org/Documents/Specifications'>SBML specification
    * document</a> for the Level and Version of their model for more
-   * in-depth explanations.  The SBML Level&nbsp;2 and &nbsp;3
+   * in-depth explanations.  The SBML Level&nbsp;2 and&nbsp;3
    * specifications have considerable detail about how 'notes' element
    * content must be structured.
    *
@@ -3445,6 +3445,27 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * @see getNamespaces()
    */ public
  long getVersion() { return (long)libsbmlPINVOKE.SBase_getVersion(swigCPtr); }
+
+  
+/**
+  * Returns the Version within the SBML Level of the actual object.
+  *
+  *
+ * 
+ * LibSBML uses the class SBMLDocument as a top-level container for
+ * storing SBML content and data associated with it (such as warnings and
+ * error messages).  An SBML model in libSBML is contained inside an
+ * SBMLDocument object.  SBMLDocument corresponds roughly to the class
+ * <i>SBML</i> defined in the SBML Level&nbsp;3 and Level&nbsp;2
+ * specifications, but it does not have a direct correspondence in SBML
+ * Level&nbsp;1.  (But, it is created by libSBML no matter whether the
+ * model is Level&nbsp;1, Level&nbsp;2 or Level&nbsp;3.)
+ *
+ *
+  *
+  * @return the SBML version of this SBML object.
+  */ public
+ long getObjectVersion() { return (long)libsbmlPINVOKE.SBase_getObjectVersion(swigCPtr); }
 
   
 /**

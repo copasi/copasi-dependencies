@@ -530,4 +530,14 @@ appears in the documentation.
     libsbmlJNI.XMLErrorLog_changeErrorSeverity__SWIG_1(swigCPtr, this, originalSeverity, targetSeverity);
   }
 
+  
+/**
+  * Returns <code>true</code> if {@link XMLErrorLog} contains an errorId
+  <p>
+  * @param errorId the error identifier of the error to be found.
+  */ public
+ boolean contains(long errorId) {
+    return libsbmlJNI.XMLErrorLog_contains(swigCPtr, this, errorId);
+  }
+
 }

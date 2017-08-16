@@ -3470,6 +3470,18 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBase_getVersion(void * jarg1) {
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBase_getObjectVersion(void * jarg1) {
+  unsigned int jresult ;
+  SBase *arg1 = (SBase *) 0 ;
+  unsigned int result;
+  
+  arg1 = (SBase *)jarg1; 
+  result = (unsigned int)((SBase const *)arg1)->getObjectVersion();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBase_getPackageVersion(void * jarg1) {
   unsigned int jresult ;
   SBase *arg1 = (SBase *) 0 ;
@@ -19868,6 +19880,18 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_ListOfSpeciesReferences_remove__SWIG_1(void
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ListOfSpeciesReferences_getType(void * jarg1) {
+  unsigned int jresult ;
+  ListOfSpeciesReferences *arg1 = (ListOfSpeciesReferences *) 0 ;
+  unsigned int result;
+  
+  arg1 = (ListOfSpeciesReferences *)jarg1; 
+  result = (unsigned int)((ListOfSpeciesReferences const *)arg1)->getType();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_delete_ListOfSpeciesReferences(void * jarg1) {
   ListOfSpeciesReferences *arg1 = (ListOfSpeciesReferences *) 0 ;
   
@@ -23891,6 +23915,24 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SBMLTransforms_clearComponentValues() {
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLTransforms_nodeContainsId(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  IdList *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (ASTNode *)jarg1; 
+  arg2 = (IdList *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "IdList & type is null", 0);
+    return 0;
+  } 
+  result = (bool)SBMLTransforms::nodeContainsId((ASTNode const *)arg1,*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_SBMLTransforms() {
   void * jresult ;
   SBMLTransforms *result = 0 ;
@@ -26108,6 +26150,38 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SBMLLevelVersionConverter_getAddDefau
   
   arg1 = (SBMLLevelVersionConverter *)jarg1; 
   result = (bool)(arg1)->getAddDefaultUnits();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_MathFilter() {
+  void * jresult ;
+  MathFilter *result = 0 ;
+  
+  result = (MathFilter *)new MathFilter();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_MathFilter(void * jarg1) {
+  MathFilter *arg1 = (MathFilter *) 0 ;
+  
+  arg1 = (MathFilter *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_MathFilter_filter(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  MathFilter *arg1 = (MathFilter *) 0 ;
+  SBase *arg2 = (SBase *) 0 ;
+  bool result;
+  
+  arg1 = (MathFilter *)jarg1; 
+  arg2 = (SBase *)jarg2; 
+  result = (bool)(arg1)->filter((SBase const *)arg2);
   jresult = result; 
   return jresult;
 }
@@ -29524,6 +29598,25 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_XMLToken_getCharacters(void * jarg1) {
 }
 
 
+SWIGEXPORT int SWIGSTDCALL CSharp_XMLToken_setCharacters(void * jarg1, char * jarg2) {
+  int jresult ;
+  XMLToken *arg1 = (XMLToken *) 0 ;
+  std::string *arg2 = 0 ;
+  int result;
+  
+  arg1 = (XMLToken *)jarg1; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  result = (int)(arg1)->setCharacters((std::string const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT int SWIGSTDCALL CSharp_XMLToken_append(void * jarg1, char * jarg2) {
   int jresult ;
   XMLToken *arg1 = (XMLToken *) 0 ;
@@ -32723,6 +32816,22 @@ SWIGEXPORT void SWIGSTDCALL CSharp_XMLErrorLog_changeErrorSeverity__SWIG_1(void 
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_XMLErrorLog_contains(void * jarg1, long long jarg2) {
+  unsigned int jresult ;
+  XMLErrorLog *arg1 = (XMLErrorLog *) 0 ;
+  unsigned int arg2 ;
+  bool result;
+  
+  arg1 = (XMLErrorLog *)jarg1; 
+  {
+    arg2 = (unsigned int)jarg2;  
+  }
+  result = (bool)((XMLErrorLog const *)arg1)->contains(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_SBMLErrorLog_getError(void * jarg1, long long jarg2) {
   void * jresult ;
   SBMLErrorLog *arg1 = (SBMLErrorLog *) 0 ;
@@ -35330,6 +35439,28 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ModelCreator_usingFNVcard4(void * jar
   result = (bool)(arg1)->usingFNVcard4();
   jresult = result; 
   return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ModelCreator_usingSingleName(void * jarg1) {
+  unsigned int jresult ;
+  ModelCreator *arg1 = (ModelCreator *) 0 ;
+  bool result;
+  
+  arg1 = (ModelCreator *)jarg1; 
+  result = (bool)(arg1)->usingSingleName();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_ModelCreator_setUseSingleName(void * jarg1, unsigned int jarg2) {
+  ModelCreator *arg1 = (ModelCreator *) 0 ;
+  bool arg2 ;
+  
+  arg1 = (ModelCreator *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  (arg1)->setUseSingleName(arg2);
 }
 
 
@@ -38443,13 +38574,28 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_ASTBase_getFunction(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_ASTBase_addPlugin(void * jarg1, void * jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_ASTBase_addPlugin__SWIG_0(void * jarg1, void * jarg2) {
   ASTBase *arg1 = (ASTBase *) 0 ;
   ASTBasePlugin *arg2 = (ASTBasePlugin *) 0 ;
   
   arg1 = (ASTBase *)jarg1; 
   arg2 = (ASTBasePlugin *)jarg2; 
   (arg1)->addPlugin(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_ASTBase_addPlugin__SWIG_1(void * jarg1, char * jarg2) {
+  ASTBase *arg1 = (ASTBase *) 0 ;
+  std::string *arg2 = 0 ;
+  
+  arg1 = (ASTBase *)jarg1; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return ;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  (arg1)->addPlugin((std::string const &)*arg2);
 }
 
 
@@ -39307,6 +39453,18 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTNode_isConstant(void * jarg1) {
   
   arg1 = (ASTNode *)jarg1; 
   result = (bool)((ASTNode const *)arg1)->isConstant();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTNode_isConstantNumber(void * jarg1) {
+  unsigned int jresult ;
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  bool result;
+  
+  arg1 = (ASTNode *)jarg1; 
+  result = (bool)((ASTNode const *)arg1)->isConstantNumber();
   jresult = result; 
   return jresult;
 }
@@ -40323,6 +40481,18 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_ASTNode_getPlugin__SWIG_2(void * jarg1, lon
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTNode_getNumPlugins(void * jarg1) {
+  unsigned int jresult ;
+  ASTNode *arg1 = (ASTNode *) 0 ;
+  unsigned int result;
+  
+  arg1 = (ASTNode *)jarg1; 
+  result = (unsigned int)((ASTNode const *)arg1)->getNumPlugins();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ASTNode_getNumPiece(void * jarg1) {
   unsigned int jresult ;
   ASTNode *arg1 = (ASTNode *) 0 ;
@@ -40574,7 +40744,61 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_0() {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_1(void * jarg1, int jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5, unsigned int jarg6, void * jarg7) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_1(void * jarg1, int jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5, unsigned int jarg6, void * jarg7, unsigned int jarg8, unsigned int jarg9) {
+  void * jresult ;
+  Model *arg1 = (Model *) 0 ;
+  ParseLogType_t arg2 ;
+  bool arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  bool arg6 ;
+  SBMLNamespaces *arg7 = (SBMLNamespaces *) 0 ;
+  bool arg8 ;
+  bool arg9 ;
+  L3ParserSettings *result = 0 ;
+  
+  arg1 = (Model *)jarg1; 
+  arg2 = (ParseLogType_t)jarg2; 
+  arg3 = jarg3 ? true : false; 
+  arg4 = jarg4 ? true : false; 
+  arg5 = jarg5 ? true : false; 
+  arg6 = jarg6 ? true : false; 
+  arg7 = (SBMLNamespaces *)jarg7; 
+  arg8 = jarg8 ? true : false; 
+  arg9 = jarg9 ? true : false; 
+  result = (L3ParserSettings *)new L3ParserSettings(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_2(void * jarg1, int jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5, unsigned int jarg6, void * jarg7, unsigned int jarg8) {
+  void * jresult ;
+  Model *arg1 = (Model *) 0 ;
+  ParseLogType_t arg2 ;
+  bool arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  bool arg6 ;
+  SBMLNamespaces *arg7 = (SBMLNamespaces *) 0 ;
+  bool arg8 ;
+  L3ParserSettings *result = 0 ;
+  
+  arg1 = (Model *)jarg1; 
+  arg2 = (ParseLogType_t)jarg2; 
+  arg3 = jarg3 ? true : false; 
+  arg4 = jarg4 ? true : false; 
+  arg5 = jarg5 ? true : false; 
+  arg6 = jarg6 ? true : false; 
+  arg7 = (SBMLNamespaces *)jarg7; 
+  arg8 = jarg8 ? true : false; 
+  result = (L3ParserSettings *)new L3ParserSettings(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_3(void * jarg1, int jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5, unsigned int jarg6, void * jarg7) {
   void * jresult ;
   Model *arg1 = (Model *) 0 ;
   ParseLogType_t arg2 ;
@@ -40598,7 +40822,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_1(void * jarg1, 
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_2(void * jarg1, int jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5, unsigned int jarg6) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_4(void * jarg1, int jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5, unsigned int jarg6) {
   void * jresult ;
   Model *arg1 = (Model *) 0 ;
   ParseLogType_t arg2 ;
@@ -40620,7 +40844,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_2(void * jarg1, 
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_3(void * jarg1, int jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_5(void * jarg1, int jarg2, unsigned int jarg3, unsigned int jarg4, unsigned int jarg5) {
   void * jresult ;
   Model *arg1 = (Model *) 0 ;
   ParseLogType_t arg2 ;
@@ -40640,7 +40864,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_3(void * jarg1, 
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_4(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_L3ParserSettings__SWIG_6(void * jarg1) {
   void * jresult ;
   L3ParserSettings *arg1 = 0 ;
   L3ParserSettings *result = 0 ;
@@ -40799,6 +41023,50 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_L3ParserSettings_getComparisonCaseSen
   
   arg1 = (L3ParserSettings *)jarg1; 
   result = (bool)((L3ParserSettings const *)arg1)->getComparisonCaseSensitivity();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_L3ParserSettings_setParseModuloL3v2(void * jarg1, unsigned int jarg2) {
+  L3ParserSettings *arg1 = (L3ParserSettings *) 0 ;
+  bool arg2 ;
+  
+  arg1 = (L3ParserSettings *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  (arg1)->setParseModuloL3v2(arg2);
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_L3ParserSettings_getParseModuloL3v2(void * jarg1) {
+  unsigned int jresult ;
+  L3ParserSettings *arg1 = (L3ParserSettings *) 0 ;
+  bool result;
+  
+  arg1 = (L3ParserSettings *)jarg1; 
+  result = (bool)((L3ParserSettings const *)arg1)->getParseModuloL3v2();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_L3ParserSettings_setParseL3v2Functions(void * jarg1, unsigned int jarg2) {
+  L3ParserSettings *arg1 = (L3ParserSettings *) 0 ;
+  bool arg2 ;
+  
+  arg1 = (L3ParserSettings *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  (arg1)->setParseL3v2Functions(arg2);
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_L3ParserSettings_getParseL3v2Functions(void * jarg1) {
+  unsigned int jresult ;
+  L3ParserSettings *arg1 = (L3ParserSettings *) 0 ;
+  bool result;
+  
+  arg1 = (L3ParserSettings *)jarg1; 
+  result = (bool)((L3ParserSettings const *)arg1)->getParseL3v2Functions();
   jresult = result; 
   return jresult;
 }
@@ -41918,6 +42186,10 @@ SWIGEXPORT SBMLConverter * SWIGSTDCALL CSharp_SBMLInitialAssignmentConverter_SWI
 
 SWIGEXPORT SBMLConverter * SWIGSTDCALL CSharp_SBMLLevelVersionConverter_SWIGUpcast(SBMLLevelVersionConverter *jarg1) {
     return (SBMLConverter *)jarg1;
+}
+
+SWIGEXPORT ElementFilter * SWIGSTDCALL CSharp_MathFilter_SWIGUpcast(MathFilter *jarg1) {
+    return (ElementFilter *)jarg1;
 }
 
 SWIGEXPORT SBMLConverter * SWIGSTDCALL CSharp_SBMLLevel1Version1Converter_SWIGUpcast(SBMLLevel1Version1Converter *jarg1) {

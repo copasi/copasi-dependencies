@@ -117,70 +117,6 @@ allowed to modify it.
 
 =back
 
-=head2 note_fluxbound_v1_only
-
-@par
-@note FluxBound objects are only defined for version&nbsp;1
-of the "Flux Balance Constraints" specification, and are
-replaced in version&nbsp;2 by the "upperFluxBound" and
-"lowerFluxBound" attributes of the FbcReactionPlugin.
-
-=over
-
-
-=back
-
-=head2 note_geneproduct_v2_only
-
-@par
-@note GeneProduct objects are only defined for version&nbsp;2
-of the "Flux Balance Constraints" specification, and have no
-equivalent in version&nbsp;1 of the specification.
-
-=over
-
-
-=back
-
-=head2 note_strict_v2_only
-
-@par
-@note The 'strict' attribute of the FbcModelPlugin is only defined for 
-version&nbsp;2 of the "Flux Balance Constraints" specification, and has no
-equivalent in version&nbsp;1 of the specification.
-
-=over
-
-
-=back
-
-=head2 note_fluxbound_v2_only
-
-@par
-@note The 'upperFluxBound' and 'lowerFluxBound' attributes of the 
-FbcReactionPlugin are only defined for version&nbsp;2 of the "Flux 
-Balance Constraints" specification.  In version&nbsp;1, this information
-was encoded in the FluxBound children of the FbcModelPlugin.
-
-=over
-
-
-=back
-
-=head2 note_geneassociation_not_fbc
-
-@par
-@note GeneAssociation objects are not defined in any version of the
-"Flux Balance Constraints" specification, and can only be used for
-annotation purposes.  Version&nbsp;2 instead defines the 
-GeneProduct and GeneProductAssociation classes to cover the information
-otherwise encoded here.
-
-=over
-
-
-=back
-
 =head2 IdList
 
 @sbmlpackage{core}
@@ -1515,7 +1451,7 @@ utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endi
 readers are urged to consult the appropriate <a target="_blank"
 href="http://sbml.org/Documents/Specifications">SBML specification
 document</a> for the Level and Version of their model for more
-in-depth explanations.  The SBML Level&nbsp;2 and &nbsp;3
+in-depth explanations.  The SBML Level&nbsp;2 and&nbsp;3
 specifications have considerable detail about how "notes" element
 content must be structured.
 @return C<true> if a "notes" subelement exists, C<false> otherwise.
@@ -1853,7 +1789,7 @@ utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode xhtml@endi
 readers are urged to consult the appropriate <a target="_blank"
 href="http://sbml.org/Documents/Specifications">SBML specification
 document</a> for the Level and Version of their model for more
-in-depth explanations.  The SBML Level&nbsp;2 and &nbsp;3
+in-depth explanations.  The SBML Level&nbsp;2 and&nbsp;3
 specifications have considerable detail about how "notes" element
 content must be structured.
 @param notes an XML structure that is to be used as the content of the
@@ -1891,7 +1827,7 @@ utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); ho
 readers are urged to consult the appropriate <a target="_blank"
 href="http://sbml.org/Documents/Specifications">SBML specification
 document</a> for the Level and Version of their model for more
-in-depth explanations.  The SBML Level&nbsp;2 and &nbsp;3
+in-depth explanations.  The SBML Level&nbsp;2 and&nbsp;3
 specifications have considerable detail about how "notes" element
 content must be structured.
 The following code illustrates a very simple way of setting the notes
@@ -1970,7 +1906,7 @@ utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); ho
 readers are urged to consult the appropriate <a target="_blank"
 href="http://sbml.org/Documents/Specifications">SBML specification
 document</a> for the Level and Version of their model for more
-in-depth explanations.  The SBML Level&nbsp;2 and &nbsp;3
+in-depth explanations.  The SBML Level&nbsp;2 and&nbsp;3
 specifications have considerable detail about how "notes" element
 content must be structured.
 @param notes an XML node structure that is to appended to the content
@@ -2007,7 +1943,7 @@ utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); ho
 readers are urged to consult the appropriate <a target="_blank"
 href="http://sbml.org/Documents/Specifications">SBML specification
 document</a> for the Level and Version of their model for more
-in-depth explanations.  The SBML Level&nbsp;2 and &nbsp;3
+in-depth explanations.  The SBML Level&nbsp;2 and&nbsp;3
 specifications have considerable detail about how "notes" element
 content must be structured.
 @param notes an XML string that is to appended to the content of
@@ -2168,7 +2104,7 @@ utility method SyntaxChecker::hasExpectedXHTMLSyntax(@if java XMLNode@endif); ho
 readers are urged to consult the appropriate <a target="_blank"
 href="http://sbml.org/Documents/Specifications">SBML specification
 document</a> for the Level and Version of their model for more
-in-depth explanations.  The SBML Level&nbsp;2 and &nbsp;3
+in-depth explanations.  The SBML Level&nbsp;2 and&nbsp;3
 specifications have considerable detail about how "notes" element
 content must be structured.
 C<opydetails> doc_returns_one_success_code
@@ -2468,6 +2404,13 @@ C<opydetails> doc_what_is_SBMLDocument
 @return the SBML version of this SBML object.
 @see getLevel()
 @see getNamespaces()
+
+
+=item SBase::getObjectVersion
+
+Returns the Version within the SBML Level of the actual object.
+C<opydetails> doc_what_is_SBMLDocument
+@return the SBML version of this SBML object.
 
 
 =item SBase::getPackageVersion
@@ -15429,6 +15372,14 @@ even when a reaction does not contain a KineticLaw
 kinetic law definitions, the model is valid but incomplete; the rates of
 reactions lacking kinetic laws are simply undefined, and not determined by
 the algebraic rule.)
+In SBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1, the "math"
+subelement of the AlgebraicRule is required.  In SBML Level&nbsp;3
+Version&nbsp;2, this rule is relaxed, and the subelement is
+optional.  If an AlgebraicRule with no "math" child is present
+in the model, no additional mathematical constraints on the model are
+added by the rule.  This may represent a situation where the model itself
+is unfinished, or the missing information may be provided by an
+SBML Level&nbsp;3 package.
 Finally, any symbol that appears as the target of a rateOf csymbol 
 (@link ASTNodeType_t#AST_FUNCTION_RATE_OF AST_FUNCTION_RATE_OF@endlink, introduced in 
 SBML Level&nbsp;3 Version&nbsp;2) may 
@@ -15561,7 +15512,7 @@ formula in the "math" subelement I<should> (in SBML Level&nbsp;2
 Version&nbsp;4 and in SBML Level&nbsp;3) or I<must> (in SBML releases
 prior to Level&nbsp;2 version&nbsp;4) be the same as the units defined for
 the parameter.  
-\n=item\n\n(For SBML Level&nbsp;3 Version &nbsp;2 only) <em>In the case of 
+\n=item\n\n(For SBML Level&nbsp;3 Version&nbsp;2 only) <em>In the case of 
 an object from an SBML Level&nbsp;3 package</em>, an AssignmentRule sets 
 the referenced object's value (as defined by that package) to the 
 value of the formula in math. The unit of measurement associated 
@@ -15736,7 +15687,7 @@ formula I<should> (in SBML Level&nbsp;2 Version&nbsp;4 and in SBML
 Level&nbsp;3) or I<must> (in SBML releases prior to Level&nbsp;2
 version&nbsp;4) be the Parameter object's "unit" attribute value divided
 by the model-wide unit of <em>time</em>.  
-\n=item\n\n(For SBML Level&nbsp;3 Version &nbsp;2 only) <em>In the case of 
+\n=item\n\n(For SBML Level&nbsp;3 Version&nbsp;2 only) <em>In the case of 
 an object from an SBML Level&nbsp;3 package</em>, a RateRule sets the rate 
 of change of the referenced object's value (as defined by that package) 
 to the value of the formula in "math".  The unit of measurement associated 
@@ -16296,7 +16247,7 @@ software generating it.
 The Reaction object class has another boolean attribute called "fast".
 This attribute is optional in SBML Level&nbsp;2, with a default of @c
 false; it is mandatory in SBML Level&nbsp;3 (with no default value).  
-In SBML Level&nbsp;3 Version &nbsp;2, a value of C<true> for the "fast"
+In SBML Level&nbsp;3 Version&nbsp;2, a value of C<true> for the "fast"
 attribute is deprecated in favor of all reactions having a "fast" value 
 of C<false>.  It
 is used to indicate that a reaction occurs on a vastly faster time scale
@@ -19015,6 +18966,11 @@ returned item.
 @internal
 
 
+=item ListOfSpeciesReferences::getType
+
+@internal
+
+
 =item ListOfSpeciesReferences::setType
 
 @internal
@@ -20157,7 +20113,7 @@ parameter's value to that determined by the formula in "math".  The
 overall units of the formula should (in SBML Level&nbsp;2 Version&nbsp;4
 and Level&nbsp;3) or must (in previous Versions of Level&nbsp;2) be
 identical to the units defined for the parameter.
-\n=item\n\n(For SBML Level&nbsp;3 Version &nbsp;2 only) <em>In the case of 
+\n=item\n\n(For SBML Level&nbsp;3 Version&nbsp;2 only) <em>In the case of 
 an object from an SBML Level&nbsp;3 package</em>, an EventAssignment sets 
 the referenced object's value (as defined by that package) to the 
 value of the formula in "math". The unit of measurement associated 
@@ -24516,6 +24472,26 @@ otherwise.
 @internal
 
 
+=item SBMLLevelVersionConverter::speciesReferenceIdUsed
+
+@internal
+
+
+=item SBMLLevelVersionConverter::collectSpeciesReferenceIds
+
+@internal
+
+
+=item MathFilter::MathFilter
+
+@internal
+
+
+=item MathFilter::filter
+
+@internal
+
+
 =back
 
 =head2 SBMLLevel1Version1Converter
@@ -27526,6 +27502,20 @@ then this will return an empty string.
 @see isElement()
 
 
+=item XMLToken::setCharacters
+
+Sets the characters for this XMLToken
+This method only makes sense for XMLToken objects that contains text.
+If this method is called on a token that represents an XML start or end
+tag, it will return the code @link   OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink.
+@param chars string, characters to append to the text of this token.
+C<opydetails> doc_returns_success_code
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+@li @link OperationReturnValues_t#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+@see isText()
+@see isElement()
+
+
 =item XMLToken::append
 
 Appends characters to the text content of token.
@@ -28970,7 +28960,7 @@ are suitable for displaying to human users.
 Each XMLError object also contains a category code; its value may be
 retrieved using the method XMLError::getCategory().  Category values
 are drawn from @if clike the enumeration <a class="el" href="#XMLErrorCategory_t">XMLErrorCategory_t</a> described below.@else a
-set of constants whose names begin with the characters C<LIBSBML_CAT_>, described below.@endif@~ &nbsp;Categories
+set of constants whose names begin with the characters C<LIBSBML_CAT_>, described below.@endif@~&nbsp;Categories
 are used by libSBML to provide more information to calling programs about
 the nature of a given error.  
 In addition to category codes, each XMLError object also has a severity
@@ -29852,6 +29842,12 @@ default.
 @see getSeverityOverride()
 @see setSeverityOverride(@if java int@endif)
 @see unsetSeverityOverride()
+
+
+=item XMLErrorLog::contains
+
+Returns C<true> if XMLErrorLog contains an errorId
+@param errorId the error identifier of the error to be found.
 
 
 =back
@@ -32067,6 +32063,16 @@ elements for this object have been defined.
 
 
 =item ModelCreator::usingFNVcard4
+
+@internal
+
+
+=item ModelCreator::usingSingleName
+
+@internal
+
+
+=item ModelCreator::setUseSingleName
 
 @internal
 
@@ -34306,6 +34312,11 @@ this stream buffer.
 @internal
 
 
+=item ASTBase::syncCoreMembersOnlyFrom
+
+@internal
+
+
 =item ASTBase::getNumChildren
 
 @internal
@@ -34972,6 +34983,18 @@ SBMLDocument.
 Returns C<true> if this node represents a MathML
 constant.
 
+Examples of MathML constants include such things as pi.
+@return C<true> if this ASTNode is a MathML constant, C<false>
+otherwise.
+
+@note This function will also return C<true> for nodes of type
+@link ASTNodeType_t#AST_NAME_AVOGADRO AST_NAME_AVOGADRO@endlink in SBML Level&nbsp;3.
+
+
+=item ASTNode::isConstantNumber
+
+Returns C<true> if this node represents a MathML
+constant numeric.
 Examples of MathML constants include such things as pi.
 @return C<true> if this ASTNode is a MathML constant, C<false>
 otherwise.
@@ -35768,6 +35791,11 @@ Returns the MathML C<definitionURL> attribute value as a string.
 @internal
 
 
+=item ASTNode::getNumPlugins
+
+@internal
+
+
 =item ASTNode::getNumPiece
 
 @internal
@@ -36269,6 +36297,8 @@ field values in the L3ParserSettings object:
 @link #L3P_AVOGADRO_IS_CSYMBOL L3P_AVOGADRO_IS_CSYMBOL@endlink.
 @li <em>caseSensitive</em> ("case sensitive") is set to
 @link #L3P_COMPARE_BUILTINS_CASE_INSENSITIVE L3P_COMPARE_BUILTINS_CASE_INSENSITIVE@endlink.
+@li <em>moduloL3v2</em> ("modulo l3v2") is set to
+@link #L3P_MODULO_IS_PIECEWISE L3P_MODULO_IS_PIECEWISE@endlink.
 @li <em>sbmlns</em> ("SBML namespaces") is set to C<NULL> (which
 indicates that no syntax extensions due to SBML Level&nbsp;3 packages
 will be assumed---the formula parser will only understand the
@@ -36320,12 +36350,28 @@ functions such as C<"sin"> will be matched no matter what their case is:
 C<"Sin">, C<"SIN">, etc.  If the flag is set to the value
 @link #L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE@endlink, symbols are
 interpreted in a case-sensitive manner.
+@param moduloL3v2 ("modulo L3v2") a flag that controls how the
+parser will handle the '%' ('modulo') symbol in formulas.  By default, 
+the parser will convert 'a % b' to a piecewise function that properly
+calculates the remainder of a with respect to be, but the parser can
+also be set to produce the MathML C<rem> function, should the target
+of the produced ASTNode be an SBML Level&nbsp;3 Version&nbsp;2 
+document, where the C<rem> function is legal.
+The possible values of this field are
+@link #L3P_MODULO_IS_PIECEWISE L3P_MODULO_IS_PIECEWISE@endlink (to parse '%' as a piecewise function) and
+@link #L3P_MODULO_IS_REM L3P_MODULO_IS_REM@endlink (to parse '%' as C<rem>).
 @param sbmlns ("SBML namespaces") an SBML namespaces object.  The
 namespaces identify the SBML Level&nbsp;3 packages that can extend the
 syntax understood by the formula parser.  When non-C<NULL>, the parser
 will interpret additional syntax defined by the packages; for example,
 it may understand vector/array extensions introduced by the SBML
 Level&nbsp;3 I<Arrays> package.
+@param l3v2functions ("parse L3v2 functions directly") is a Boolean flag
+that controls how to translate certain mathematical functions added in SBML
+Level&nbsp;3 Version&nbsp;2 Core.  The parser can either turn them into
+specific AST node types, or turn them all into
+@link ASTNodeType_t#AST_FUNCTION AST_FUNCTION@endlink with the name set to the
+function name in question.
 @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
 @see getModel()
 @see setModel(@if java Model@endif)
@@ -36338,6 +36384,10 @@ Level&nbsp;3 I<Arrays> package.
 @see setParseCollapseMinus(@if java boolean@endif)
 @see getParseAvogadroCsymbol()
 @see setParseAvogadroCsymbol(@if java boolean@endif)
+@see getParseModuloL3v2()
+@see setParseModuloL3v2(@if java boolean@endif)
+@see getParseL3v2Functions()
+@see setParseL3v2Functions(@if java boolean@endif)
 
 
 =item L3ParserSettings::L3ParserSettings
@@ -36524,6 +36574,63 @@ C<opydetails> doc_case_sensitivity
 C<false> if the parser will recognize built-in functions and
 constants regardless of case,.
 @see setComparisonCaseSensitivity(@if java boolean@endif)
+
+
+=item L3ParserSettings::setParseModuloL3v2
+
+Sets the behavior for handling the '%' sumbol in mathematical
+formulas.
+
+C<opydetails> doc_modulo_l3v2_settings
+This method lets you tell the parser which behavior to use---either
+parse '%' as the 'rem' function or as a piecewise function with the
+same interpretation.  The two possibilities are
+represented using the following constants:
+C<opydetails> doc_modulo_l3v2_values
+@param modulol3v2 a boolean value (one of the constants
+@link #L3P_MODULO_IS_PIECEWISE L3P_MODULO_IS_PIECEWISE@endlink or
+@link #L3P_MODULO_IS_REM L3P_MODULO_IS_REM@endlink)
+indicating how the '%' symbol in the input should be handled.
+@see getParseModuloL3v2()
+
+
+=item L3ParserSettings::getParseModuloL3v2
+
+Indicates the current behavior set for handling the '%' sumbol in 
+mathematical formulas.
+C<opydetails> doc_modulo_l3v2_settings
+@return A boolean indicating the behavior currently set.  The possible
+values are as follows:
+C<opydetails> doc_modulo_l3v2_values
+@see setParseModuloL3v2(@if java boolean@endif)
+
+
+=item L3ParserSettings::setParseL3v2Functions
+
+Sets the behavior for handling functions added in SBML L3v2
+C<opydetails> doc_l3v2_function_settings
+This method lets you tell the parser which behavior to use---either
+to parse the functions added in L3v2 as their built-in counterparts,
+or as generic functions with that name (to be defined by SBML as
+function definitions).  The two possibilities are
+represented using the following constants:
+C<opydetails> doc_l3v2_function_values
+@param l3v2functions a boolean value (one of the constants
+@link #L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY@endlink or
+@link #L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC@endlink)
+indicating how to interpret those function names.
+@see getParseL3v2Functions()
+
+
+=item L3ParserSettings::getParseL3v2Functions
+
+Indicates the current behavior set for handling the '%' sumbol in
+mathematical formulas.
+C<opydetails> doc_l3v2_function_settings
+@return A boolean indicating the behavior currently set.  The possible
+values are as follows:
+C<opydetails> doc_l3v2_function_values
+@see setParseModuloL3v2(@if java boolean@endif)
 
 
 =item L3ParserSettings::setPlugins
@@ -37677,6 +37784,7 @@ sub DESTROY {
 *getModel = *LibSBMLc::SBase_getModel;
 *getLevel = *LibSBMLc::SBase_getLevel;
 *getVersion = *LibSBMLc::SBase_getVersion;
+*getObjectVersion = *LibSBMLc::SBase_getObjectVersion;
 *getPackageVersion = *LibSBMLc::SBase_getPackageVersion;
 *getPackageName = *LibSBMLc::SBase_getPackageName;
 *getTypeCode = *LibSBMLc::SBase_getTypeCode;
@@ -40008,6 +40116,7 @@ sub new {
 *getElementName = *LibSBMLc::ListOfSpeciesReferences_getElementName;
 *get = *LibSBMLc::ListOfSpeciesReferences_get;
 *remove = *LibSBMLc::ListOfSpeciesReferences_remove;
+*getType = *LibSBMLc::ListOfSpeciesReferences_getType;
 sub DESTROY {
     return unless $_[0]->isa('HASH');
     my $self = tied(%{$_[0]});
@@ -40695,6 +40804,7 @@ use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
 *expandL3V2InitialAssignments = *LibSBMLc::SBMLTransforms_expandL3V2InitialAssignments;
 *mapComponentValues = *LibSBMLc::SBMLTransforms_mapComponentValues;
 *clearComponentValues = *LibSBMLc::SBMLTransforms_clearComponentValues;
+*nodeContainsId = *LibSBMLc::SBMLTransforms_nodeContainsId;
 sub new {
     my $pkg = shift;
     my $self = LibSBMLc::new_SBMLTransforms(@_);
@@ -41159,6 +41269,44 @@ sub DESTROY {
 *getTargetVersion = *LibSBMLc::SBMLLevelVersionConverter_getTargetVersion;
 *getValidityFlag = *LibSBMLc::SBMLLevelVersionConverter_getValidityFlag;
 *getAddDefaultUnits = *LibSBMLc::SBMLLevelVersionConverter_getAddDefaultUnits;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : LibSBML::MathFilter ##############
+
+package LibSBML::MathFilter;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( LibSBML::ElementFilter LibSBML );
+%OWNER = ();
+%ITERATORS = ();
+sub new {
+    my $pkg = shift;
+    my $self = LibSBMLc::new_MathFilter(@_);
+    bless $self, $pkg if defined($self);
+}
+
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        LibSBMLc::delete_MathFilter($self);
+        delete $OWNER{$self};
+    }
+}
+
+*filter = *LibSBMLc::MathFilter_filter;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -41722,6 +41870,7 @@ sub new {
 *getPrefix = *LibSBMLc::XMLToken_getPrefix;
 *getURI = *LibSBMLc::XMLToken_getURI;
 *getCharacters = *LibSBMLc::XMLToken_getCharacters;
+*setCharacters = *LibSBMLc::XMLToken_setCharacters;
 *append = *LibSBMLc::XMLToken_append;
 *getColumn = *LibSBMLc::XMLToken_getColumn;
 *getLine = *LibSBMLc::XMLToken_getLine;
@@ -42119,6 +42268,7 @@ sub DESTROY {
 *getSeverityOverride = *LibSBMLc::XMLErrorLog_getSeverityOverride;
 *setSeverityOverride = *LibSBMLc::XMLErrorLog_setSeverityOverride;
 *changeErrorSeverity = *LibSBMLc::XMLErrorLog_changeErrorSeverity;
+*contains = *LibSBMLc::XMLErrorLog_contains;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -42386,6 +42536,8 @@ sub new {
 *hasBeenModified = *LibSBMLc::ModelCreator_hasBeenModified;
 *resetModifiedFlags = *LibSBMLc::ModelCreator_resetModifiedFlags;
 *usingFNVcard4 = *LibSBMLc::ModelCreator_usingFNVcard4;
+*usingSingleName = *LibSBMLc::ModelCreator_usingSingleName;
+*setUseSingleName = *LibSBMLc::ModelCreator_setUseSingleName;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -43000,6 +43152,7 @@ sub DESTROY {
 *isBoolean = *LibSBMLc::ASTNode_isBoolean;
 *returnsBoolean = *LibSBMLc::ASTNode_returnsBoolean;
 *isConstant = *LibSBMLc::ASTNode_isConstant;
+*isConstantNumber = *LibSBMLc::ASTNode_isConstantNumber;
 *isFunction = *LibSBMLc::ASTNode_isFunction;
 *isInfinity = *LibSBMLc::ASTNode_isInfinity;
 *isInteger = *LibSBMLc::ASTNode_isInteger;
@@ -43066,6 +43219,7 @@ sub DESTROY {
 *getTypeCode = *LibSBMLc::ASTNode_getTypeCode;
 *getPackageName = *LibSBMLc::ASTNode_getPackageName;
 *getPlugin = *LibSBMLc::ASTNode_getPlugin;
+*getNumPlugins = *LibSBMLc::ASTNode_getNumPlugins;
 *getNumPiece = *LibSBMLc::ASTNode_getNumPiece;
 sub getListOfNodes {
   my $lox = LibSBMLc::ASTNode_getListOfNodes(@_);
@@ -43164,6 +43318,10 @@ sub DESTROY {
 *getParseAvogadroCsymbol = *LibSBMLc::L3ParserSettings_getParseAvogadroCsymbol;
 *setComparisonCaseSensitivity = *LibSBMLc::L3ParserSettings_setComparisonCaseSensitivity;
 *getComparisonCaseSensitivity = *LibSBMLc::L3ParserSettings_getComparisonCaseSensitivity;
+*setParseModuloL3v2 = *LibSBMLc::L3ParserSettings_setParseModuloL3v2;
+*getParseModuloL3v2 = *LibSBMLc::L3ParserSettings_getParseModuloL3v2;
+*setParseL3v2Functions = *LibSBMLc::L3ParserSettings_setParseL3v2Functions;
+*getParseL3v2Functions = *LibSBMLc::L3ParserSettings_getParseL3v2Functions;
 *setPlugins = *LibSBMLc::L3ParserSettings_setPlugins;
 *visitPackageInfixSyntax = *LibSBMLc::L3ParserSettings_visitPackageInfixSyntax;
 sub DISOWN {
@@ -43821,6 +43979,7 @@ package LibSBML;
 *MissingParticipantsNotSupported = *LibSBMLc::MissingParticipantsNotSupported;
 *ConvertibleMathInitialAssignment = *LibSBMLc::ConvertibleMathInitialAssignment;
 *FastReactionsNotSupported = *LibSBMLc::FastReactionsNotSupported;
+*SpeciesRefIdInMathMLNotSupported = *LibSBMLc::SpeciesRefIdInMathMLNotSupported;
 *InvalidSBMLLevelVersion = *LibSBMLc::InvalidSBMLLevelVersion;
 *AnnotationNotesNotAllowedLevel1 = *LibSBMLc::AnnotationNotesNotAllowedLevel1;
 *InvalidRuleOrdering = *LibSBMLc::InvalidRuleOrdering;
@@ -43831,6 +43990,7 @@ package LibSBML;
 *TimeUnitsAllowedInKL = *LibSBMLc::TimeUnitsAllowedInKL;
 *FormulaInLevel1KL = *LibSBMLc::FormulaInLevel1KL;
 *L3SubstanceUnitsOnModel = *LibSBMLc::L3SubstanceUnitsOnModel;
+*StoichiometryMathMissingMath = *LibSBMLc::StoichiometryMathMissingMath;
 *TimeUnitsRemoved = *LibSBMLc::TimeUnitsRemoved;
 *BadMathML = *LibSBMLc::BadMathML;
 *FailedMathMLReadOfDouble = *LibSBMLc::FailedMathMLReadOfDouble;
@@ -44009,6 +44169,7 @@ package LibSBML;
 *AST_FUNCTION_RATE_OF = *LibSBMLc::AST_FUNCTION_RATE_OF;
 *AST_FUNCTION_REM = *LibSBMLc::AST_FUNCTION_REM;
 *AST_LOGICAL_IMPLIES = *LibSBMLc::AST_LOGICAL_IMPLIES;
+*AST_CSYMBOL_FUNCTION = *LibSBMLc::AST_CSYMBOL_FUNCTION;
 *AST_UNKNOWN = *LibSBMLc::AST_UNKNOWN;
 *AST_ORIGINATES_IN_PACKAGE = *LibSBMLc::AST_ORIGINATES_IN_PACKAGE;
 *AST_TYPECODE_BASE = *LibSBMLc::AST_TYPECODE_BASE;
@@ -44047,6 +44208,10 @@ package LibSBML;
 *L3P_AVOGADRO_IS_NAME = *LibSBMLc::L3P_AVOGADRO_IS_NAME;
 *L3P_COMPARE_BUILTINS_CASE_INSENSITIVE = *LibSBMLc::L3P_COMPARE_BUILTINS_CASE_INSENSITIVE;
 *L3P_COMPARE_BUILTINS_CASE_SENSITIVE = *LibSBMLc::L3P_COMPARE_BUILTINS_CASE_SENSITIVE;
+*L3P_MODULO_IS_REM = *LibSBMLc::L3P_MODULO_IS_REM;
+*L3P_MODULO_IS_PIECEWISE = *LibSBMLc::L3P_MODULO_IS_PIECEWISE;
+*L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY = *LibSBMLc::L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY;
+*L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC = *LibSBMLc::L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC;
 *INFIX_SYNTAX_NAMED_SQUARE_BRACKETS = *LibSBMLc::INFIX_SYNTAX_NAMED_SQUARE_BRACKETS;
 *INFIX_SYNTAX_CURLY_BRACES = *LibSBMLc::INFIX_SYNTAX_CURLY_BRACES;
 *INFIX_SYNTAX_CURLY_BRACES_SEMICOLON = *LibSBMLc::INFIX_SYNTAX_CURLY_BRACES_SEMICOLON;

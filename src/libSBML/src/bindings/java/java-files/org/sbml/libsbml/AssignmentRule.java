@@ -66,7 +66,7 @@ package org.sbml.libsbml;
  * prior to Level&nbsp;2 version&nbsp;4) be the same as the units defined for
  * the parameter.  
  <p>
- * <li> (For SBML Level&nbsp;3 Version &nbsp;2 only) <em>In the case of 
+ * <li> (For SBML Level&nbsp;3 Version&nbsp;2 only) <em>In the case of 
  * an object from an SBML Level&nbsp;3 package</em>, an {@link AssignmentRule} sets 
  * the referenced object's value (as defined by that package) to the 
  * value of the formula in math. The unit of measurement associated 

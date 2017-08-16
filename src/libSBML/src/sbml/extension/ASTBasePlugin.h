@@ -495,7 +495,6 @@ LIBSBML_CPP_NAMESPACE_END
 #endif  /* !SWIG */
 
 #else
-  
 #include <sbml/common/sbmlfwd.h>
 //#include <sbml/SBMLTypeCodes.h>
 //#include <sbml/SBMLErrorLog.h>

@@ -74,7 +74,7 @@ distfiles =                      \
 		applyUserValidation.m    \
         buildSBML.m              \
 		getDefaultValues.m       \
-		getStructureFields.m     \
+		getStructureFieldnames.m     \
 		getValueType.m           \
         isSBML_Model.m           \
         installSBML.m            \
@@ -306,6 +306,67 @@ uninstall-convertformula:
 	  echo rm $$target; \
 	  rm $$target; \
 	fi;
+
+install-addlevelversion:
+	$(INSTALL_SH) -m 644 addLevelVersion.m "$(DESTDIR)$(LIBDIR)"
+
+uninstall-addlevelversion:
+	@target="$(DESTDIR)$(LIBDIR)/addLevelVersion.m"; \
+	if test -f $$target ; then \
+	  echo rm $$target; \
+	  rm $$target; \
+	fi;
+
+install-applyuservalidation:
+	$(INSTALL_SH) -m 644 applyUserValidation.m "$(DESTDIR)$(LIBDIR)"
+
+uninstall-applyuservalidation:
+	@target="$(DESTDIR)$(LIBDIR)/applyUserValidation.m"; \
+	if test -f $$target ; then \
+	  echo rm $$target; \
+	  rm $$target; \
+	fi;
+
+install-getdefaultvalues:
+	$(INSTALL_SH) -m 644 getDefaultValues.m "$(DESTDIR)$(LIBDIR)"
+
+uninstall-getdefaultvalues:
+	@target="$(DESTDIR)$(LIBDIR)/getDefaultValues.m"; \
+	if test -f $$target ; then \
+	  echo rm $$target; \
+	  rm $$target; \
+	fi;
+
+install-getstructurefieldnames:
+	$(INSTALL_SH) -m 644 getStructureFieldnames.m "$(DESTDIR)$(LIBDIR)"
+
+uninstall-getstructurefieldnames:
+	@target="$(DESTDIR)$(LIBDIR)/getStructureFieldnames.m"; \
+	if test -f $$target ; then \
+	  echo rm $$target; \
+	  rm $$target; \
+	fi;
+
+install-getvaluetype:
+	$(INSTALL_SH) -m 644 getValueType.m "$(DESTDIR)$(LIBDIR)"
+
+uninstall-getvaluetype:
+	@target="$(DESTDIR)$(LIBDIR)/getValueType.m"; \
+	if test -f $$target ; then \
+	  echo rm $$target; \
+	  rm $$target; \
+	fi;
+
+install-isenabled:
+	$(INSTALL_SH) -m 644 isEnabled.m "$(DESTDIR)$(LIBDIR)"
+
+uninstall-isenabled:
+	@target="$(DESTDIR)$(LIBDIR)/isEnabled.m"; \
+	if test -f $$target ; then \
+	  echo rm $$target; \
+	  rm $$target; \
+	fi;
+
 
 
 

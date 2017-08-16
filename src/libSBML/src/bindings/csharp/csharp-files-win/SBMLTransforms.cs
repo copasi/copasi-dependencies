@@ -125,6 +125,12 @@ public class SBMLTransforms : IDisposable {
     libsbmlPINVOKE.SBMLTransforms_clearComponentValues();
   }
 
+  public static bool nodeContainsId(ASTNode node, IdList ids) {
+    bool ret = libsbmlPINVOKE.SBMLTransforms_nodeContainsId(ASTNode.getCPtr(node), IdList.getCPtr(ids));
+    if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public SBMLTransforms() : this(libsbmlPINVOKE.new_SBMLTransforms(), true) {
   }
 

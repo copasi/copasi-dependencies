@@ -166,7 +166,7 @@ namespace libsbmlcs {
  * and Level&nbsp;3) or must (in previous Versions of Level&nbsp;2) be
  * identical to the units defined for the parameter.
  *
- * <li> (For SBML Level&nbsp;3 Version &nbsp;2 only) <em>In the case of 
+ * <li> (For SBML Level&nbsp;3 Version&nbsp;2 only) <em>In the case of 
  * an object from an SBML Level&nbsp;3 package</em>, an EventAssignment sets 
  * the referenced object's value (as defined by that package) to the 
  * value of the formula in 'math'. The unit of measurement associated 
@@ -369,7 +369,7 @@ public class EventAssignment : SBase {
    * 
    * @return the top ASTNode of an abstract syntax tree representing the
    * mathematical formula in this EventAssignment, or @c null if the math is not set.
-   */ public
+   */ public new
  ASTNode getMath() {
     IntPtr cPtr = libsbmlPINVOKE.EventAssignment_getMath(swigCPtr);
     ASTNode ret = (cPtr == IntPtr.Zero) ? null : new ASTNode(cPtr, false);
@@ -456,7 +456,7 @@ public class EventAssignment : SBase {
  * returned by this function are:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   */ public
+   */ public new
  int setMath(ASTNode math) {
     int ret = libsbmlPINVOKE.EventAssignment_setMath(swigCPtr, ASTNode.getCPtr(math));
     return ret;

@@ -1,37 +1,40 @@
 /**
- * @file:   SpatialExtensionTypes.h
- * @brief:  Implementation of the SpatialExtensionTypes class
- * @author: SBMLTeam
+ * @file SpatialExtensionTypes.h
+ * @brief Definition of SpatialExtensionTypes.
+ * @author SBMLTeam
  *
  * <!--------------------------------------------------------------------------
- * This file is part of libSBML.  Please visit http://sbml.org for more
+ * This file is part of libSBML. Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
- *     1. California Institute of Technology, Pasadena, CA, USA
- *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
- *     3. University of Heidelberg, Heidelberg, Germany
+ * Copyright (C) 2013-2017 jointly by the following organizations:
+ * 1. California Institute of Technology, Pasadena, CA, USA
+ * 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ * 3. University of Heidelberg, Heidelberg, Germany
  *
  * Copyright (C) 2009-2013 jointly by the following organizations:
- *     1. California Institute of Technology, Pasadena, CA, USA
- *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
+ * 1. California Institute of Technology, Pasadena, CA, USA
+ * 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *
  * Copyright (C) 2006-2008 by the California Institute of Technology,
- *     Pasadena, CA, USA 
+ * Pasadena, CA, USA
  *
  * Copyright (C) 2002-2005 jointly by the following organizations:
- *     1. California Institute of Technology, Pasadena, CA, USA
- *     2. Japan Science and Technology Agency, Japan
+ * 1. California Institute of Technology, Pasadena, CA, USA
+ * 2. Japan Science and Technology Agency, Japan
  *
  * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation.  A copy of the license agreement is provided
- * in the file named "LICENSE.txt" included with this software distribution
- * and also available online as http://sbml.org/software/libsbml/license.html
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation. A copy of the license agreement is provided in the
+ * file named "LICENSE.txt" included with this software distribution and also
+ * available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
  */
-#ifndef SpatialExtensionTypes_H
-#define SpatialExtensionTypes_H
+
+
+#ifndef SpatialExtensionTypes_H__
+#define SpatialExtensionTypes_H__
+
 
 #include <sbml/packages/spatial/common/spatialfwd.h>
 
@@ -66,19 +69,19 @@
 #include <sbml/packages/spatial/sbml/CSGRotation.h>
 #include <sbml/packages/spatial/sbml/CSGScale.h>
 #include <sbml/packages/spatial/sbml/CSGHomogeneousTransformation.h>
-#include <sbml/packages/spatial/sbml/TransformationComponents.h>
+#include <sbml/packages/spatial/sbml/TransformationComponent.h>
 #include <sbml/packages/spatial/sbml/CSGPrimitive.h>
-#include <sbml/packages/spatial/sbml/CSGPseudoPrimitive.h>
 #include <sbml/packages/spatial/sbml/CSGSetOperator.h>
 #include <sbml/packages/spatial/sbml/SpatialSymbolReference.h>
 #include <sbml/packages/spatial/sbml/DiffusionCoefficient.h>
 #include <sbml/packages/spatial/sbml/AdvectionCoefficient.h>
 #include <sbml/packages/spatial/sbml/BoundaryCondition.h>
 #include <sbml/packages/spatial/sbml/Geometry.h>
-#include <sbml/packages/spatial/sbml/CoordinateReference.h>
 #include <sbml/packages/spatial/sbml/MixedGeometry.h>
 #include <sbml/packages/spatial/sbml/OrdinalMapping.h>
 #include <sbml/packages/spatial/sbml/SpatialPoints.h>
 
-#endif  /* SpatialExtensionTypes_H */
+
+#endif /* !SpatialExtensionTypes_H__ */
+
 

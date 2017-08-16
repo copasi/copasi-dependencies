@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -68,6 +68,11 @@ void SampledField::getUncompressed(int *outputSamples);
 
     SBasePlugin sbp = new SBasePlugin(cPtr, false);
     SBase sb = sbp.getParentSBMLObject();
+    
+    if (sb is Model)
+    {
+      return new SpatialModelPlugin(cPtr, owner);
+    }
 
     switch( sb.getTypeCode() )
     {
@@ -148,10 +153,6 @@ void SampledField::getUncompressed(int *outputSamples);
         {
           return new ListOfCSGNodes(cPtr, owner);
         }
-        else if (name == "listOfCoordinateReferences")
-        {
-          return new ListOfCoordinateReferences(cPtr, owner);
-        }
         else if (name == "listOfOrdinalMappings")
         {
           return new ListOfOrdinalMappings(cPtr, owner);
@@ -228,14 +229,11 @@ void SampledField::getUncompressed(int *outputSamples);
       case (int) libsbml.SBML_SPATIAL_CSGHOMOGENEOUSTRANSFORMATION:
         return new CSGHomogeneousTransformation(cPtr, owner);
 
-      case (int) libsbml.SBML_SPATIAL_TRANSFORMATIONCOMPONENTS:
-        return new TransformationComponents(cPtr, owner);
+      case (int) libsbml.SBML_SPATIAL_TRANSFORMATIONCOMPONENT:
+        return new TransformationComponent(cPtr, owner);
 
       case (int) libsbml.SBML_SPATIAL_CSGPRIMITIVE:
         return new CSGPrimitive(cPtr, owner);
-
-      case (int) libsbml.SBML_SPATIAL_CSGPSEUDOPRIMITIVE:
-        return new CSGPseudoPrimitive(cPtr, owner);
 
       case (int) libsbml.SBML_SPATIAL_CSGSETOPERATOR:
         return new CSGSetOperator(cPtr, owner);
@@ -254,9 +252,6 @@ void SampledField::getUncompressed(int *outputSamples);
 
       case (int) libsbml.SBML_SPATIAL_GEOMETRY:
         return new Geometry(cPtr, owner);
-
-      case (int) libsbml.SBML_SPATIAL_COORDINATEREFERENCE:
-        return new CoordinateReference(cPtr, owner);
 
       case (int) libsbml.SBML_SPATIAL_MIXEDGEOMETRY:
         return new MixedGeometry(cPtr, owner);
@@ -298,16 +293,14 @@ COVARIANT_RTYPE_CLONE(CSGTranslation)
 COVARIANT_RTYPE_CLONE(CSGRotation)
 COVARIANT_RTYPE_CLONE(CSGScale)
 COVARIANT_RTYPE_CLONE(CSGHomogeneousTransformation)
-COVARIANT_RTYPE_CLONE(TransformationComponents)
+COVARIANT_RTYPE_CLONE(TransformationComponent)
 COVARIANT_RTYPE_CLONE(CSGPrimitive)
-COVARIANT_RTYPE_CLONE(CSGPseudoPrimitive)
 COVARIANT_RTYPE_CLONE(CSGSetOperator)
 COVARIANT_RTYPE_CLONE(SpatialSymbolReference)
 COVARIANT_RTYPE_CLONE(DiffusionCoefficient)
 COVARIANT_RTYPE_CLONE(AdvectionCoefficient)
 COVARIANT_RTYPE_CLONE(BoundaryCondition)
 COVARIANT_RTYPE_CLONE(Geometry)
-COVARIANT_RTYPE_CLONE(CoordinateReference)
 COVARIANT_RTYPE_CLONE(MixedGeometry)
 COVARIANT_RTYPE_CLONE(OrdinalMapping)
 COVARIANT_RTYPE_CLONE(SpatialPoints)
@@ -323,7 +316,6 @@ COVARIANT_RTYPE_CLONE(ListOfAnalyticVolumes)
 COVARIANT_RTYPE_CLONE(ListOfParametricObjects)
 COVARIANT_RTYPE_CLONE(ListOfCSGObjects)
 COVARIANT_RTYPE_CLONE(ListOfCSGNodes)
-COVARIANT_RTYPE_CLONE(ListOfCoordinateReferences)
 COVARIANT_RTYPE_CLONE(ListOfOrdinalMappings)
 
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(DomainType)
@@ -338,7 +330,6 @@ COVARIANT_RTYPE_LISTOF_GET_REMOVE(AnalyticVolume)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(ParametricObject)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(CSGObject)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(CSGNode)
-COVARIANT_RTYPE_LISTOF_GET_REMOVE(CoordinateReference)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(OrdinalMapping)
 
 SBMLCONSTRUCTOR_EXCEPTION(SpatialPkgNamespaces)
@@ -365,16 +356,14 @@ SBMLCONSTRUCTOR_EXCEPTION(CSGTranslation)
 SBMLCONSTRUCTOR_EXCEPTION(CSGRotation)
 SBMLCONSTRUCTOR_EXCEPTION(CSGScale)
 SBMLCONSTRUCTOR_EXCEPTION(CSGHomogeneousTransformation)
-SBMLCONSTRUCTOR_EXCEPTION(TransformationComponents)
+SBMLCONSTRUCTOR_EXCEPTION(TransformationComponent)
 SBMLCONSTRUCTOR_EXCEPTION(CSGPrimitive)
-SBMLCONSTRUCTOR_EXCEPTION(CSGPseudoPrimitive)
 SBMLCONSTRUCTOR_EXCEPTION(CSGSetOperator)
 SBMLCONSTRUCTOR_EXCEPTION(SpatialSymbolReference)
 SBMLCONSTRUCTOR_EXCEPTION(DiffusionCoefficient)
 SBMLCONSTRUCTOR_EXCEPTION(AdvectionCoefficient)
 SBMLCONSTRUCTOR_EXCEPTION(BoundaryCondition)
 SBMLCONSTRUCTOR_EXCEPTION(Geometry)
-SBMLCONSTRUCTOR_EXCEPTION(CoordinateReference)
 SBMLCONSTRUCTOR_EXCEPTION(MixedGeometry)
 SBMLCONSTRUCTOR_EXCEPTION(OrdinalMapping)
 SBMLCONSTRUCTOR_EXCEPTION(SpatialPoints)
@@ -390,7 +379,6 @@ SBMLCONSTRUCTOR_EXCEPTION(ListOfAnalyticVolumes)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfParametricObjects)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfCSGObjects)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfCSGNodes)
-SBMLCONSTRUCTOR_EXCEPTION(ListOfCoordinateReferences)
 SBMLCONSTRUCTOR_EXCEPTION(ListOfOrdinalMappings)
 
 //

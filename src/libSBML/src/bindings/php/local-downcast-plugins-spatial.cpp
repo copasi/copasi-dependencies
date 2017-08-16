@@ -1,7 +1,7 @@
 #ifdef USE_SPATIAL
 if (pkgName == "spatial")
 {
-  if (sb->getTypeCode() == SBML_MODEL)
+  if (sb->getTypeCode() == SBML_MODEL || dynamic_cast<Model*>(sb) != NULL)
   {
     return SWIGTYPE_p_SpatialModelPlugin;
   }

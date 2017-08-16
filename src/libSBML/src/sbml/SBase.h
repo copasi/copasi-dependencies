@@ -2492,6 +2492,18 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
 
   /** @cond doxygenLibsbmlInternal */
 
+   virtual int addChildObject(const std::string& elementName, const SBase* element);
+
+   /** @endcond */
+
+   /** @cond doxygenLibsbmlInternal */
+
+   virtual SBase* removeChildObject(const std::string& elementName, const std::string& id);
+
+   /** @endcond */
+
+   /** @cond doxygenLibsbmlInternal */
+
    virtual unsigned int getNumObjects(const std::string& objectName);
 
   /** @endcond */
@@ -2520,7 +2532,17 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
 
   /** @endcond */
 
-  virtual std::string getMessageString () const;
+  /** @cond doxygenLibsbmlInternal */
+
+   virtual bool isSetMath() const;
+
+   /** @endcond */
+
+   /** @cond doxygenLibsbmlInternal */
+   virtual std::string getMessageString () const;
+
+   /** @endcond */
+
 #endif
 
   /** @cond doxygenLibsbmlInternal */

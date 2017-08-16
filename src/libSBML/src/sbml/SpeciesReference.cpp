@@ -930,6 +930,44 @@ SpeciesReference::createChildObject(const std::string& elementName)
 
 /** @endcond */
 
+/*
+* Adds an new "elementName" object in this SpeciesReference.
+*/
+int
+SpeciesReference::addChildObject(const std::string& elementName, const SBase* element)
+{
+  if (elementName == "stoichiometryMath" && element->getTypeCode() == SBML_STOICHIOMETRY_MATH)
+  {
+    return setStoichiometryMath((const StoichiometryMath*)(element));
+  }
+
+  return LIBSBML_OPERATION_FAILED;
+}
+
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+* Adds an new "elementName" object in this SpeciesReference.
+*/
+SBase*
+SpeciesReference::removeChildObject(const std::string& elementName, const std::string& id)
+{
+
+  if (elementName == "stoichiometryMath")
+  {
+    StoichiometryMath* t = getStoichiometryMath();
+    if (unsetStoichiometryMath() == LIBSBML_OPERATION_SUCCESS)
+      return t;
+  }
+  return NULL;
+}
+
+/** @endcond */
+
+
 /** @cond doxygenLibsbmlInternal */
 
 /*
@@ -1190,9 +1228,9 @@ SpeciesReference::readOtherXML (XMLInputStream& stream)
  //     for (int n = 0; n < element.getNamespaces().getLength(); n++)
  //     {
  //       if (!strcmp(element.getNamespaces().getURI(n).c_str(),
-	//	    "http://www.w3.org/1998/Math/MathML"))
+  //	    "http://www.w3.org/1998/Math/MathML"))
  //       {
-	//  found = true;
+  //  found = true;
  //         break;
  //       }
  //     }
@@ -1202,12 +1240,12 @@ SpeciesReference::readOtherXML (XMLInputStream& stream)
  //     /* check for implicit declaration */
  //     for (int n = 0; n < mSBML->getNamespaces()->getLength(); n++)
  //     {
-	//if (!strcmp(mSBML->getNamespaces()->getURI(n).c_str(),
-	//	    "http://www.w3.org/1998/Math/MathML"))
-	//{
-	//  found = true;
-	//  break;
-	//}
+  //if (!strcmp(mSBML->getNamespaces()->getURI(n).c_str(),
+  //	    "http://www.w3.org/1998/Math/MathML"))
+  //{
+  //  found = true;
+  //  break;
+  //}
  //     }
  //   }
 
@@ -1246,8 +1284,8 @@ SpeciesReference::readOtherXML (XMLInputStream& stream)
       if (getLevel() < 3) 
       {
         logError(NotSchemaConformant, getLevel(), getVersion(),
-	        "Only one <annotation> element is permitted inside a "
-	        "particular containing element.");
+          "Only one <annotation> element is permitted inside a "
+          "particular containing element.");
       }
       else
       {
@@ -1746,6 +1784,33 @@ ListOfSpeciesReferences::setType (SpeciesType type)
 }
 /** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
+/*
+* gets type of this ListOfSpeciesReferences.
+*/
+unsigned int
+ListOfSpeciesReferences::getType() const
+{
+  switch (mType)
+  {
+  case Unknown:
+    return 0;
+    break;
+  case Reactant:
+    return 1;
+    break;
+  case Product:
+    return 2; 
+    break;
+  case Modifier:
+    return 3;
+    break;
+  default:
+    return 0;
+    break;
+  }
+}
+/** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
 /*

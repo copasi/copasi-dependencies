@@ -473,7 +473,12 @@ public class ASTBase : IDisposable {
 }
 
   public virtual void addPlugin(ASTBasePlugin plugin) {
-    libsbmlPINVOKE.ASTBase_addPlugin(swigCPtr, ASTBasePlugin.getCPtr(plugin));
+    libsbmlPINVOKE.ASTBase_addPlugin__SWIG_0(swigCPtr, ASTBasePlugin.getCPtr(plugin));
+  }
+
+  public virtual void addPlugin(string package) {
+    libsbmlPINVOKE.ASTBase_addPlugin__SWIG_1(swigCPtr, package);
+    if (libsbmlPINVOKE.SWIGPendingException.Pending) throw libsbmlPINVOKE.SWIGPendingException.Retrieve();
   }
 
   

@@ -300,7 +300,7 @@ public class Delay : SBase {
    * as an AST.
    * 
    * @return the math of this Delay, or @c null if the math is not set.
-   */ public
+   */ public new
  ASTNode getMath() {
     IntPtr cPtr = libsbmlPINVOKE.Delay_getMath(swigCPtr);
     ASTNode ret = (cPtr == IntPtr.Zero) ? null : new ASTNode(cPtr, false);
@@ -333,7 +333,7 @@ public class Delay : SBase {
  * returned by this function are:
  * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
-   */ public
+   */ public new
  int setMath(ASTNode math) {
     int ret = libsbmlPINVOKE.Delay_setMath(swigCPtr, ASTNode.getCPtr(math));
     return ret;
@@ -350,7 +350,7 @@ public class Delay : SBase {
  * with SBML Level&nbsp;2 Version&nbsp;2, the units of that time are
  * calculated based on the mathematical expression and the model quantities
  * referenced by <code>&lt;ci&gt;</code> elements used within that
- * expression.  (In SBML Level &nbsp;2 Version&nbsp;1, there exists an
+ * expression.  (In SBML Level&nbsp;2 Version&nbsp;1, there exists an
  * attribute on Event called 'timeUnits'.  This attribute can be used to set
  * the units of the Delay expression explicitly.)  The method
  * Delay::getDerivedUnitDefinition() returns what libSBML computes the units
@@ -404,7 +404,7 @@ public class Delay : SBase {
  * with SBML Level&nbsp;2 Version&nbsp;2, the units of that time are
  * calculated based on the mathematical expression and the model quantities
  * referenced by <code>&lt;ci&gt;</code> elements used within that
- * expression.  (In SBML Level &nbsp;2 Version&nbsp;1, there exists an
+ * expression.  (In SBML Level&nbsp;2 Version&nbsp;1, there exists an
  * attribute on Event called 'timeUnits'.  This attribute can be used to set
  * the units of the Delay expression explicitly.)  The method
  * Delay::getDerivedUnitDefinition() returns what libSBML computes the units

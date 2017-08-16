@@ -1905,6 +1905,32 @@ appears in the documentation.
 
   
 /**
+  * Sets the characters for this {@link XMLToken}
+  <p>
+  * This method only makes sense for {@link XMLToken} objects that contains text.
+  * If this method is called on a token that represents an XML start or end
+  * tag, it will return the code {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}.
+  <p>
+  * @param chars string, characters to append to the text of this token.
+  <p>
+  * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+  * <ul>
+  * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+  * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+  *
+  * </ul> <p>
+  * @see #isText()
+  * @see #isElement()
+  */ public
+ int setCharacters(String chars) {
+    return libsbmlJNI.XMLToken_setCharacters(swigCPtr, this, chars);
+  }
+
+  
+/**
    * Appends characters to the text content of token.
    <p>
    * This method only makes sense for {@link XMLToken} objects that contains text.

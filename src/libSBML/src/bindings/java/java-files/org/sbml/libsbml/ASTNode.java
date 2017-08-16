@@ -1326,6 +1326,23 @@ used to define a number with value <code>10</code> and unit of measurement
 
   
 /**
+  * Returns <code>true</code> if this node represents a MathML
+  * constant numeric.
+  <p>
+  * Examples of MathML constants include such things as pi.
+  <p>
+  * @return <code>true</code> if this {@link ASTNode} is a MathML constant, <code>false</code>
+  * otherwise.
+  <p>
+  * @note This function will also return <code>true</code> for nodes of type
+  * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} in SBML Level&nbsp;3.
+  */ public
+ boolean isConstantNumber() {
+    return libsbmlJNI.ASTNode_isConstantNumber(swigCPtr, this);
+  }
+
+  
+/**
    * Returns <code>true</code> if this node represents a function.
    <p>
    * The three types of functions in SBML are MathML functions (e.g.,
@@ -2486,6 +2503,12 @@ used to define a number with value <code>10</code> and unit of measurement
  ASTBasePlugin getPlugin(long n) {
   return libsbml.DowncastASTBasePlugin(libsbmlJNI.ASTNode_getPlugin__SWIG_2(swigCPtr, this, n), false);
 }
+
+  
+/** * @internal */ public
+ long getNumPlugins() {
+    return libsbmlJNI.ASTNode_getNumPlugins(swigCPtr, this);
+  }
 
   
 /** * @internal */ public

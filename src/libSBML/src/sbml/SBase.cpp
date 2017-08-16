@@ -3296,7 +3296,23 @@ SBase::createChildObject(const std::string& elementName)
 }
 /** @endcond */
 
-  /** @cond doxygenLibsbmlInternal */
+/** @cond doxygenLibsbmlInternal */
+int
+SBase::addChildObject(const std::string& elementName, const SBase* element)
+{
+  return LIBSBML_OPERATION_FAILED;
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+SBase*
+SBase::removeChildObject(const std::string& elementName, const std::string& id)
+{
+  return NULL;
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
 
 unsigned int
   SBase::getNumObjects(const std::string& objectName)
@@ -3343,7 +3359,14 @@ SBase::getMath() const
 }
 
 
-  /** @endcond */
+bool
+SBase::isSetMath() const
+{
+  return getMath() != NULL;
+}
+
+
+/** @endcond */
 
 /*
  * @return the version of package to which this SBML object
@@ -6533,8 +6556,25 @@ SBase::checkListOfPopulated(SBase* object)
       }
 
       logError(error, getLevel(), getVersion());
+    } 
+    /*
+     * If there is a non-empty Parameter list in a kinetic law and we are in L3
+     * report UnrecognisedElement.
+     */ 
+    else if (this->getTypeCode() == SBML_KINETIC_LAW && 
+             getLevel()          == 3)
+    {
+        int tc = static_cast<ListOf*>(object)->getItemTypeCode();
+        SBMLErrorCode_t error = UnrecognizedElement;
+        if (tc == SBML_PARAMETER) {
+            error = UnrecognizedElement;
+            std::string msg = "SBML Level 3 replaced the <parameter> ";
+            msg += "within a <kineticLaw> with <localParameter>.";
+            logError(error, getLevel(), getVersion(), msg);
+            }
     }
   }
+
   else if (object->getTypeCode() == SBML_KINETIC_LAW)
   {
     /*

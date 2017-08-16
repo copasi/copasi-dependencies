@@ -344,6 +344,10 @@ public class ListOfSpeciesReferences : ListOf {
 	return ret;
 }
 
+  
+/** */ /* libsbml-internal */ public
+ long getType() { return (long)libsbmlPINVOKE.ListOfSpeciesReferences_getType(swigCPtr); }
+
 }
 
 }

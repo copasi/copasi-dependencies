@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -102,8 +102,9 @@ main (void)
 
   setTestDataDirectory();
 
-  SRunner *runner = srunner_create( create_suite_NewASTNode() );
+  //SRunner *runner = srunner_create(create_suite_ArrayInfixWriting() );
 
+  SRunner *runner = srunner_create(create_suite_NewASTNode());
   srunner_add_suite( runner, create_suite_ArrayInfixWriting     () );
   srunner_add_suite( runner, create_suite_ArrayInfixParsing     () );
   srunner_add_suite( runner, create_suite_NewReadMathML         () );

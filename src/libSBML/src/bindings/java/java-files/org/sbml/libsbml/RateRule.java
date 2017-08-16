@@ -57,7 +57,7 @@ package org.sbml.libsbml;
  * version&nbsp;4) be the {@link Parameter} object's 'unit' attribute value divided
  * by the model-wide unit of <em>time</em>.  
  <p>
- * <li> (For SBML Level&nbsp;3 Version &nbsp;2 only) <em>In the case of 
+ * <li> (For SBML Level&nbsp;3 Version&nbsp;2 only) <em>In the case of 
  * an object from an SBML Level&nbsp;3 package</em>, a {@link RateRule} sets the rate 
  * of change of the referenced object's value (as defined by that package) 
  * to the value of the formula in 'math'.  The unit of measurement associated 

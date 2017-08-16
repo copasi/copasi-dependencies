@@ -53,10 +53,6 @@ else if (pkgName == "spatial")
       {
         return SWIGTYPE_p_ListOfCSGNodes;
       }
-      else if (name == "listOfCoordinateReferences")
-      {
-        return SWIGTYPE_p_ListOfCoordinateReferences;
-      }
       else if (name == "listOfOrdinalMappings")
       {
         return SWIGTYPE_p_ListOfOrdinalMappings;
@@ -133,14 +129,11 @@ else if (pkgName == "spatial")
     case SBML_SPATIAL_CSGHOMOGENEOUSTRANSFORMATION:
       return SWIGTYPE_p_CSGHomogeneousTransformation;
 
-    case SBML_SPATIAL_TRANSFORMATIONCOMPONENTS:
-      return SWIGTYPE_p_TransformationComponents;
+    case SBML_SPATIAL_TRANSFORMATIONCOMPONENT:
+      return SWIGTYPE_p_TransformationComponent;
 
     case SBML_SPATIAL_CSGPRIMITIVE:
       return SWIGTYPE_p_CSGPrimitive;
-
-    case SBML_SPATIAL_CSGPSEUDOPRIMITIVE:
-      return SWIGTYPE_p_CSGPseudoPrimitive;
 
     case SBML_SPATIAL_CSGSETOPERATOR:
       return SWIGTYPE_p_CSGSetOperator;
@@ -159,9 +152,6 @@ else if (pkgName == "spatial")
 
     case SBML_SPATIAL_GEOMETRY:
       return SWIGTYPE_p_Geometry;
-
-    case SBML_SPATIAL_COORDINATEREFERENCE:
-      return SWIGTYPE_p_CoordinateReference;
 
     case SBML_SPATIAL_MIXEDGEOMETRY:
       return SWIGTYPE_p_MixedGeometry;

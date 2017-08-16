@@ -327,7 +327,7 @@ public class Delay extends SBase {
  * with SBML Level&nbsp;2 Version&nbsp;2, the units of that time are
  * calculated based on the mathematical expression and the model quantities
  * referenced by <code>&lt;ci&gt;</code> elements used within that
- * expression.  (In SBML Level &nbsp;2 Version&nbsp;1, there exists an
+ * expression.  (In SBML Level&nbsp;2 Version&nbsp;1, there exists an
  * attribute on {@link Event} called 'timeUnits'.  This attribute can be used to set
  * the units of the {@link Delay} expression explicitly.)  The method
  * {@link Delay#getDerivedUnitDefinition()} returns what libSBML computes the units
@@ -374,7 +374,7 @@ public class Delay extends SBase {
  * with SBML Level&nbsp;2 Version&nbsp;2, the units of that time are
  * calculated based on the mathematical expression and the model quantities
  * referenced by <code>&lt;ci&gt;</code> elements used within that
- * expression.  (In SBML Level &nbsp;2 Version&nbsp;1, there exists an
+ * expression.  (In SBML Level&nbsp;2 Version&nbsp;1, there exists an
  * attribute on {@link Event} called 'timeUnits'.  This attribute can be used to set
  * the units of the {@link Delay} expression explicitly.)  The method
  * {@link Delay#getDerivedUnitDefinition()} returns what libSBML computes the units

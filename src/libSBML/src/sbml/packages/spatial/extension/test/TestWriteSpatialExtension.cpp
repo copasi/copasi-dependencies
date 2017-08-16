@@ -1116,25 +1116,22 @@ START_TEST(test_write_csg)
   SpatialModelPlugin* mplug = dynamic_cast<SpatialModelPlugin*>(mod->getPlugin("spatial"));
   fail_unless(mplug != NULL);
   Geometry* geom = mplug->createGeometry();
-  CSGeometry* csGeometry = geom->createCsGeometry();
+  CSGeometry* csGeometry = geom->createCSGeometry();
   fail_unless(csGeometry->setId("cs1") == LIBSBML_OPERATION_SUCCESS);
-  CSGObject* csObj = csGeometry->createCsgObject();
+  CSGObject* csObj = csGeometry->createCSGObject();
   fail_unless(csObj->setId("csObj1") == LIBSBML_OPERATION_SUCCESS);
-  CSGPrimitive* csgPrim = csObj->createCsgPrimitive();
+  CSGPrimitive* csgPrim = csObj->createCSGPrimitive();
   fail_unless(csgPrim->setId("circle1") == LIBSBML_OPERATION_SUCCESS);
   fail_unless(csgPrim->setPrimitiveType("circle") == LIBSBML_OPERATION_SUCCESS);
 
-  CSGObject* csObj2 = csGeometry->createCsgObject();
+  CSGObject* csObj2 = csGeometry->createCSGObject();
   fail_unless(csObj->setId("csObj2") == LIBSBML_OPERATION_SUCCESS);
-  CSGHomogeneousTransformation* trans = csObj2->createCsgHomogeneousTransformation();
-  CSGPseudoPrimitive* pseudo = trans->createCsgPseudoPrimitive();
-  pseudo->setId("pseudo1");
-  pseudo->setCsgObjectRef("csObj1");
-  TransformationComponents* forward = trans->createForwardTransformation();
+  CSGHomogeneousTransformation* trans = csObj2->createCSGHomogeneousTransformation();
+  TransformationComponent* forward = trans->createForwardTransformation();
   double test1[] = { 0.1, 0.0, 1.0, 2.0, 3.0 };
   double test2[] = { 3.0, 2.0, 1.0, 0.0, 0.1 };
   fail_unless(forward->setComponents(test1, 5) == LIBSBML_OPERATION_SUCCESS);
-  TransformationComponents* back = trans->createReverseTransformation();
+  TransformationComponent* back = trans->createReverseTransformation();
   fail_unless(back->setComponents(test2, 5) == LIBSBML_OPERATION_SUCCESS);
   std::string test = writeSBMLToStdString(&doc);
 

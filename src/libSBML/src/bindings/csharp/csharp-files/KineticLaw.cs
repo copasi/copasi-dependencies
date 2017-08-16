@@ -325,7 +325,7 @@ public class KineticLaw : SBase {
    * or null if the math is not set.
    *
    * @see getFormula()
-   */ public
+   */ public new
  ASTNode getMath() {
     IntPtr cPtr = libsbmlPINVOKE.KineticLaw_getMath(swigCPtr);
     ASTNode ret = (cPtr == IntPtr.Zero) ? null : new ASTNode(cPtr, false);
@@ -508,7 +508,7 @@ public class KineticLaw : SBase {
    * @li @link libsbml#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT@endlink
    *
    * @see setFormula(string formula)
-   */ public
+   */ public new
  int setMath(ASTNode math) {
     int ret = libsbmlPINVOKE.KineticLaw_setMath(swigCPtr, ASTNode.getCPtr(math));
     return ret;

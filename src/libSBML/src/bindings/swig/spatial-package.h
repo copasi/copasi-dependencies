@@ -30,19 +30,30 @@
 #include <sbml/packages/spatial/sbml/CSGRotation.h>
 #include <sbml/packages/spatial/sbml/CSGScale.h>
 #include <sbml/packages/spatial/sbml/CSGHomogeneousTransformation.h>
-#include <sbml/packages/spatial/sbml/TransformationComponents.h>
+#include <sbml/packages/spatial/sbml/TransformationComponent.h>
 #include <sbml/packages/spatial/sbml/CSGPrimitive.h>
-#include <sbml/packages/spatial/sbml/CSGPseudoPrimitive.h>
 #include <sbml/packages/spatial/sbml/CSGSetOperator.h>
 #include <sbml/packages/spatial/sbml/SpatialSymbolReference.h>
 #include <sbml/packages/spatial/sbml/DiffusionCoefficient.h>
 #include <sbml/packages/spatial/sbml/AdvectionCoefficient.h>
 #include <sbml/packages/spatial/sbml/BoundaryCondition.h>
 #include <sbml/packages/spatial/sbml/Geometry.h>
-#include <sbml/packages/spatial/sbml/CoordinateReference.h>
 #include <sbml/packages/spatial/sbml/MixedGeometry.h>
 #include <sbml/packages/spatial/sbml/OrdinalMapping.h>
 #include <sbml/packages/spatial/sbml/SpatialPoints.h>
+#include <sbml/packages/spatial/sbml/ListOfDomainTypes.h>
+#include <sbml/packages/spatial/sbml/ListOfDomains.h>
+#include <sbml/packages/spatial/sbml/ListOfInteriorPoints.h>
+#include <sbml/packages/spatial/sbml/ListOfAdjacentDomains.h>
+#include <sbml/packages/spatial/sbml/ListOfGeometryDefinitions.h>
+#include <sbml/packages/spatial/sbml/ListOfCoordinateComponents.h>
+#include <sbml/packages/spatial/sbml/ListOfSampledFields.h>
+#include <sbml/packages/spatial/sbml/ListOfSampledVolumes.h>
+#include <sbml/packages/spatial/sbml/ListOfAnalyticVolumes.h>
+#include <sbml/packages/spatial/sbml/ListOfParametricObjects.h>
+#include <sbml/packages/spatial/sbml/ListOfCSGObjects.h>
+#include <sbml/packages/spatial/sbml/ListOfCSGNodes.h>
+#include <sbml/packages/spatial/sbml/ListOfOrdinalMappings.h>
 
 #endif // USE_SPATIAL 
 

@@ -1669,6 +1669,32 @@ public class XMLToken : IDisposable {
 
   
 /**
+  * Sets the characters for this XMLToken
+  *
+  * This method only makes sense for XMLToken objects that contains text.
+  * If this method is called on a token that represents an XML start or end
+  * tag, it will return the code @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink.
+  *
+  * @param chars string, characters to append to the text of this token.
+  *
+  *
+ * @return integer value indicating success/failure of the
+ * function.  @if clike The value is drawn from the
+ * enumeration #OperationReturnValues_t. @endif The possible values
+ * returned by this function are:
+ * @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
+  * @li @link libsbml#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED@endlink
+  *
+  * @see isText()
+  * @see isElement()
+  */ public
+ int setCharacters(string chars) {
+    int ret = libsbmlPINVOKE.XMLToken_setCharacters(swigCPtr, chars);
+    return ret;
+  }
+
+  
+/**
    * Appends characters to the text content of token.
    *
    * This method only makes sense for XMLToken objects that contains text.

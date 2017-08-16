@@ -50,7 +50,7 @@ defined in SBML.
  * Each {@link XMLError} object also contains a category code; its value may be
  * retrieved using the method {@link XMLError#getCategory()}.  Category values
  * are drawn from a
- * set of constants whose names begin with the characters <code>LIBSBML_CAT_</code>, described below. &nbsp;Categories
+ * set of constants whose names begin with the characters <code>LIBSBML_CAT_</code>, described below.&nbsp;Categories
  * are used by libSBML to provide more information to calling programs about
  * the nature of a given error.  
  <p>

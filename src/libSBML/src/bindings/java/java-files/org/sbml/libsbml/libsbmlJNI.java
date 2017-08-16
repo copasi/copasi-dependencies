@@ -204,6 +204,7 @@ public class libsbmlJNI {
   public final static native long SBase_getModel(long jarg1, SBase jarg1_);
   public final static native long SBase_getLevel(long jarg1, SBase jarg1_);
   public final static native long SBase_getVersion(long jarg1, SBase jarg1_);
+  public final static native long SBase_getObjectVersion(long jarg1, SBase jarg1_);
   public final static native long SBase_getPackageVersion(long jarg1, SBase jarg1_);
   public final static native String SBase_getPackageName(long jarg1, SBase jarg1_);
   public final static native int SBase_getTypeCode(long jarg1, SBase jarg1_);
@@ -1324,6 +1325,7 @@ public class libsbmlJNI {
   public final static native long ListOfSpeciesReferences_get__SWIG_2(long jarg1, ListOfSpeciesReferences jarg1_, String jarg2);
   public final static native long ListOfSpeciesReferences_remove__SWIG_0(long jarg1, ListOfSpeciesReferences jarg1_, long jarg2);
   public final static native long ListOfSpeciesReferences_remove__SWIG_1(long jarg1, ListOfSpeciesReferences jarg1_, String jarg2);
+  public final static native long ListOfSpeciesReferences_getType(long jarg1, ListOfSpeciesReferences jarg1_);
   public final static native void delete_ListOfSpeciesReferences(long jarg1);
   public final static native long new_ModifierSpeciesReference__SWIG_0(long jarg1, long jarg2) throws org.sbml.libsbml.SBMLConstructorException;
   public final static native long new_ModifierSpeciesReference__SWIG_1(long jarg1, SBMLNamespaces jarg1_) throws org.sbml.libsbml.SBMLConstructorException;
@@ -1587,6 +1589,7 @@ public class libsbmlJNI {
   public final static native boolean SBMLTransforms_expandL3V2InitialAssignments(long jarg1, Model jarg1_);
   public final static native long SBMLTransforms_mapComponentValues(long jarg1, Model jarg1_);
   public final static native void SBMLTransforms_clearComponentValues();
+  public final static native boolean SBMLTransforms_nodeContainsId(long jarg1, ASTNode jarg1_, long jarg2, IdList jarg2_);
   public final static native long new_SBMLTransforms();
   public final static native void delete_SBMLTransforms(long jarg1);
   public final static native long new_SBMLConstructorException__SWIG_0();
@@ -1741,6 +1744,9 @@ public class libsbmlJNI {
   public final static native long SBMLLevelVersionConverter_getTargetVersion(long jarg1, SBMLLevelVersionConverter jarg1_);
   public final static native boolean SBMLLevelVersionConverter_getValidityFlag(long jarg1, SBMLLevelVersionConverter jarg1_);
   public final static native boolean SBMLLevelVersionConverter_getAddDefaultUnits(long jarg1, SBMLLevelVersionConverter jarg1_);
+  public final static native long new_MathFilter();
+  public final static native void delete_MathFilter(long jarg1);
+  public final static native boolean MathFilter_filter(long jarg1, MathFilter jarg1_, long jarg2, SBase jarg2_);
   public final static native void SBMLLevel1Version1Converter_init();
   public final static native long new_SBMLLevel1Version1Converter__SWIG_0();
   public final static native long new_SBMLLevel1Version1Converter__SWIG_1(long jarg1, SBMLLevel1Version1Converter jarg1_);
@@ -1955,6 +1961,7 @@ public class libsbmlJNI {
   public final static native String XMLToken_getPrefix(long jarg1, XMLToken jarg1_);
   public final static native String XMLToken_getURI(long jarg1, XMLToken jarg1_);
   public final static native String XMLToken_getCharacters(long jarg1, XMLToken jarg1_);
+  public final static native int XMLToken_setCharacters(long jarg1, XMLToken jarg1_, String jarg2);
   public final static native int XMLToken_append(long jarg1, XMLToken jarg1_, String jarg2);
   public final static native long XMLToken_getColumn(long jarg1, XMLToken jarg1_);
   public final static native long XMLToken_getLine(long jarg1, XMLToken jarg1_);
@@ -2141,6 +2148,7 @@ public class libsbmlJNI {
   public final static native void XMLErrorLog_setSeverityOverride(long jarg1, XMLErrorLog jarg1_, int jarg2);
   public final static native void XMLErrorLog_changeErrorSeverity__SWIG_0(long jarg1, XMLErrorLog jarg1_, int jarg2, int jarg3, String jarg4);
   public final static native void XMLErrorLog_changeErrorSeverity__SWIG_1(long jarg1, XMLErrorLog jarg1_, int jarg2, int jarg3);
+  public final static native boolean XMLErrorLog_contains(long jarg1, XMLErrorLog jarg1_, long jarg2);
   public final static native long SBMLErrorLog_getError(long jarg1, SBMLErrorLog jarg1_, long jarg2);
   public final static native long SBMLErrorLog_getErrorWithSeverity(long jarg1, SBMLErrorLog jarg1_, long jarg2, long jarg3);
   public final static native long SBMLErrorLog_getNumFailsWithSeverity__SWIG_0(long jarg1, SBMLErrorLog jarg1_, long jarg2);
@@ -2285,6 +2293,8 @@ public class libsbmlJNI {
   public final static native boolean ModelCreator_hasBeenModified(long jarg1, ModelCreator jarg1_);
   public final static native void ModelCreator_resetModifiedFlags(long jarg1, ModelCreator jarg1_);
   public final static native boolean ModelCreator_usingFNVcard4(long jarg1, ModelCreator jarg1_);
+  public final static native boolean ModelCreator_usingSingleName(long jarg1, ModelCreator jarg1_);
+  public final static native void ModelCreator_setUseSingleName(long jarg1, ModelCreator jarg1_, boolean jarg2);
   public final static native long new_ModelHistory__SWIG_0();
   public final static native void delete_ModelHistory(long jarg1);
   public final static native long new_ModelHistory__SWIG_1(long jarg1, ModelHistory jarg1_);
@@ -2508,7 +2518,8 @@ public class libsbmlJNI {
   public final static native int ASTBase_unsetStyle(long jarg1, ASTBase jarg1_);
   public final static native int ASTBase_unsetParentSBMLObject(long jarg1, ASTBase jarg1_);
   public final static native long ASTBase_getFunction(long jarg1, ASTBase jarg1_);
-  public final static native void ASTBase_addPlugin(long jarg1, ASTBase jarg1_, long jarg2, ASTBasePlugin jarg2_);
+  public final static native void ASTBase_addPlugin__SWIG_0(long jarg1, ASTBase jarg1_, long jarg2, ASTBasePlugin jarg2_);
+  public final static native void ASTBase_addPlugin__SWIG_1(long jarg1, ASTBase jarg1_, String jarg2);
   public final static native long ASTBase_getPlugin__SWIG_0(long jarg1, ASTBase jarg1_, String jarg2);
   public final static native long ASTBase_getPlugin__SWIG_2(long jarg1, ASTBase jarg1_, long jarg2);
   public final static native long ASTBase_getNumPlugins(long jarg1, ASTBase jarg1_);
@@ -2574,6 +2585,7 @@ public class libsbmlJNI {
   public final static native boolean ASTNode_returnsBoolean__SWIG_0(long jarg1, ASTNode jarg1_, long jarg2, Model jarg2_);
   public final static native boolean ASTNode_returnsBoolean__SWIG_1(long jarg1, ASTNode jarg1_);
   public final static native boolean ASTNode_isConstant(long jarg1, ASTNode jarg1_);
+  public final static native boolean ASTNode_isConstantNumber(long jarg1, ASTNode jarg1_);
   public final static native boolean ASTNode_isFunction(long jarg1, ASTNode jarg1_);
   public final static native boolean ASTNode_isInfinity(long jarg1, ASTNode jarg1_);
   public final static native boolean ASTNode_isInteger(long jarg1, ASTNode jarg1_);
@@ -2647,6 +2659,7 @@ public class libsbmlJNI {
   public final static native String ASTNode_getPackageName(long jarg1, ASTNode jarg1_);
   public final static native long ASTNode_getPlugin__SWIG_0(long jarg1, ASTNode jarg1_, String jarg2);
   public final static native long ASTNode_getPlugin__SWIG_2(long jarg1, ASTNode jarg1_, long jarg2);
+  public final static native long ASTNode_getNumPlugins(long jarg1, ASTNode jarg1_);
   public final static native long ASTNode_getNumPiece(long jarg1, ASTNode jarg1_);
   public final static native long ASTNode_getListOfNodes(long jarg1, ASTNode jarg1_);
   public final static native long new_MathML__SWIG_0(long jarg1, SBMLNamespaces jarg1_);
@@ -2668,10 +2681,12 @@ public class libsbmlJNI {
   public final static native String getLastParseL3Error();
   public final static native void SBML_deleteL3Parser();
   public final static native long new_L3ParserSettings__SWIG_0();
-  public final static native long new_L3ParserSettings__SWIG_1(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5, boolean jarg6, long jarg7, SBMLNamespaces jarg7_);
-  public final static native long new_L3ParserSettings__SWIG_2(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5, boolean jarg6);
-  public final static native long new_L3ParserSettings__SWIG_3(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5);
-  public final static native long new_L3ParserSettings__SWIG_4(long jarg1, L3ParserSettings jarg1_);
+  public final static native long new_L3ParserSettings__SWIG_1(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5, boolean jarg6, long jarg7, SBMLNamespaces jarg7_, boolean jarg8, boolean jarg9);
+  public final static native long new_L3ParserSettings__SWIG_2(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5, boolean jarg6, long jarg7, SBMLNamespaces jarg7_, boolean jarg8);
+  public final static native long new_L3ParserSettings__SWIG_3(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5, boolean jarg6, long jarg7, SBMLNamespaces jarg7_);
+  public final static native long new_L3ParserSettings__SWIG_4(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5, boolean jarg6);
+  public final static native long new_L3ParserSettings__SWIG_5(long jarg1, Model jarg1_, int jarg2, boolean jarg3, boolean jarg4, boolean jarg5);
+  public final static native long new_L3ParserSettings__SWIG_6(long jarg1, L3ParserSettings jarg1_);
   public final static native void delete_L3ParserSettings(long jarg1);
   public final static native void L3ParserSettings_setModel(long jarg1, L3ParserSettings jarg1_, long jarg2, Model jarg2_);
   public final static native long L3ParserSettings_getModel(long jarg1, L3ParserSettings jarg1_);
@@ -2686,6 +2701,10 @@ public class libsbmlJNI {
   public final static native boolean L3ParserSettings_getParseAvogadroCsymbol(long jarg1, L3ParserSettings jarg1_);
   public final static native void L3ParserSettings_setComparisonCaseSensitivity(long jarg1, L3ParserSettings jarg1_, boolean jarg2);
   public final static native boolean L3ParserSettings_getComparisonCaseSensitivity(long jarg1, L3ParserSettings jarg1_);
+  public final static native void L3ParserSettings_setParseModuloL3v2(long jarg1, L3ParserSettings jarg1_, boolean jarg2);
+  public final static native boolean L3ParserSettings_getParseModuloL3v2(long jarg1, L3ParserSettings jarg1_);
+  public final static native void L3ParserSettings_setParseL3v2Functions(long jarg1, L3ParserSettings jarg1_, boolean jarg2);
+  public final static native boolean L3ParserSettings_getParseL3v2Functions(long jarg1, L3ParserSettings jarg1_);
   public final static native void L3ParserSettings_setPlugins(long jarg1, L3ParserSettings jarg1_, long jarg2, SBMLNamespaces jarg2_);
   public final static native void L3ParserSettings_visitPackageInfixSyntax(long jarg1, L3ParserSettings jarg1_, long jarg2, ASTNode jarg2_, long jarg3, ASTNode jarg3_, long jarg4);
   public final static native void delete_ASTBasePlugin(long jarg1);
@@ -2797,6 +2816,7 @@ public class libsbmlJNI {
   public final static native long SBMLInferUnitsConverter_SWIGUpcast(long jarg1);
   public final static native long SBMLInitialAssignmentConverter_SWIGUpcast(long jarg1);
   public final static native long SBMLLevelVersionConverter_SWIGUpcast(long jarg1);
+  public final static native long MathFilter_SWIGUpcast(long jarg1);
   public final static native long SBMLLevel1Version1Converter_SWIGUpcast(long jarg1);
   public final static native long SBMLLocalParameterConverter_SWIGUpcast(long jarg1);
   public final static native long SBMLReactionConverter_SWIGUpcast(long jarg1);

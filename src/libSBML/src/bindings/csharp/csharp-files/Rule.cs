@@ -294,7 +294,7 @@ public class Rule : SBase {
    * of all Levels of SBML.
    *
    * @see getFormula()
-   */ public
+   */ public new
  ASTNode getMath() {
     IntPtr cPtr = libsbmlPINVOKE.Rule_getMath(swigCPtr);
     ASTNode ret = (cPtr == IntPtr.Zero) ? null : new ASTNode(cPtr, false);
@@ -493,7 +493,7 @@ public class Rule : SBase {
    * of all Levels of SBML.
    *
    * @see setFormula(string formula)
-   */ public
+   */ public new
  int setMath(ASTNode math) {
     int ret = libsbmlPINVOKE.Rule_setMath(swigCPtr, ASTNode.getCPtr(math));
     return ret;

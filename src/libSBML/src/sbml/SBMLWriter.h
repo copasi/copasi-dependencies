@@ -196,21 +196,6 @@ public:
   bool writeSBML (const SBMLDocument* d, const std::string& filename);
 
 
-#ifndef SWIG
-  /**
-   * opens a stream for the given filename and returns a pointer to it. 
-   *
-   * @param filename the filename to open. If this filename contains the extension
-   *        .gz, .bz2 or .zip the function will attempt to open a compression stream
-   *
-   * @param log optional error log to log errors on in case the stream could not be opened
-   *
-   * @return a pointer to the output stream if successful, NULL otherwise
-   *
-   */
-  static std::ostream* openStreamForFilename(const std::string &filename, XMLErrorLog* log = NULL);
-#endif
-
   /**
    * Writes the given SBML document to the output stream.
    *

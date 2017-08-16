@@ -334,7 +334,7 @@ public class StoichiometryMath : SBase {
  * documentation for more information about the differences between SBML
  * Level&nbsp;2 and&nbsp;3 with respect to stoichiometries.
  *
-   */ public
+   */ public new
  ASTNode getMath() {
     IntPtr cPtr = libsbmlPINVOKE.StoichiometryMath_getMath(swigCPtr);
     ASTNode ret = (cPtr == IntPtr.Zero) ? null : new ASTNode(cPtr, false);
@@ -388,7 +388,7 @@ public class StoichiometryMath : SBase {
  * documentation for more information about the differences between SBML
  * Level&nbsp;2 and&nbsp;3 with respect to stoichiometries.
  *
-   */ public
+   */ public new
  int setMath(ASTNode math) {
     int ret = libsbmlPINVOKE.StoichiometryMath_setMath(swigCPtr, ASTNode.getCPtr(math));
     return ret;

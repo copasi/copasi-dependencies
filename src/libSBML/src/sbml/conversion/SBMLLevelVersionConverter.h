@@ -100,6 +100,9 @@
 #include <sbml/validator/L3v1CompatibilityValidator.h>
 #include <sbml/validator/InternalConsistencyValidator.h>
 
+#include <sbml/util/ElementFilter.h>
+#include <sbml/util/IdList.h>
+
 
 #ifdef __cplusplus
 
@@ -277,8 +280,28 @@ private:
 
   bool has_fatal_errors(unsigned int level, unsigned int version);
 
+  // functions to check we have not used a speciesReference id in math when converting
+  // to levels/versions that have no speciesReference ids
+  bool speciesReferenceIdUsed();
+
+  IdList* collectSpeciesReferenceIds();
+
   /** @endcond */
 };
+
+/** @cond doxygenLibsbmlInternal */
+class LIBSBML_EXTERN MathFilter : public ElementFilter
+{
+public:
+  MathFilter();
+
+  virtual ~MathFilter();
+
+  virtual bool filter(const SBase* element);
+};
+
+
+/** @endcond */
 
 
 LIBSBML_CPP_NAMESPACE_END

@@ -590,6 +590,19 @@ public class ModelCreator : IDisposable {
     return ret;
   }
 
+  
+/** */ /* libsbml-internal */ public
+ bool usingSingleName() {
+    bool ret = libsbmlPINVOKE.ModelCreator_usingSingleName(swigCPtr);
+    return ret;
+  }
+
+  
+/** */ /* libsbml-internal */ public
+ void setUseSingleName(bool flag) {
+    libsbmlPINVOKE.ModelCreator_setUseSingleName(swigCPtr, flag);
+  }
+
 }
 
 }

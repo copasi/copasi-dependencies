@@ -9,9 +9,9 @@
 package org.sbml.libsbml;
 
 public interface libsbmlConstants {
-  public final static String LIBSBML_DOTTED_VERSION = "5.14.0";
-  public final static int LIBSBML_VERSION = 51400;
-  public final static String LIBSBML_VERSION_STRING = "51400";
+  public final static String LIBSBML_DOTTED_VERSION = "5.15.2";
+  public final static int LIBSBML_VERSION = 51502;
+  public final static String LIBSBML_VERSION_STRING = "51502";
   // OperationReturnValues_t 
   public final static int LIBSBML_OPERATION_SUCCESS = 0;
   public final static int LIBSBML_INDEX_EXCEEDS_SIZE = -1;
@@ -576,6 +576,7 @@ public interface libsbmlConstants {
   public final static int MissingParticipantsNotSupported = 98008;
   public final static int ConvertibleMathInitialAssignment = 98009;
   public final static int FastReactionsNotSupported = 98010;
+  public final static int SpeciesRefIdInMathMLNotSupported = 98011;
   public final static int InvalidSBMLLevelVersion = 99101;
   public final static int AnnotationNotesNotAllowedLevel1 = 99104;
   public final static int InvalidRuleOrdering = 99106;
@@ -586,6 +587,7 @@ public interface libsbmlConstants {
   public final static int TimeUnitsAllowedInKL = 99128;
   public final static int FormulaInLevel1KL = 99129;
   public final static int L3SubstanceUnitsOnModel = 99130;
+  public final static int StoichiometryMathMissingMath = 99131;
   public final static int TimeUnitsRemoved = 99206;
   public final static int BadMathML = 99219;
   public final static int FailedMathMLReadOfDouble = 99220;
@@ -776,7 +778,8 @@ public interface libsbmlConstants {
   public final static int AST_FUNCTION_RATE_OF = AST_FUNCTION_QUOTIENT + 1;
   public final static int AST_FUNCTION_REM = AST_FUNCTION_RATE_OF + 1;
   public final static int AST_LOGICAL_IMPLIES = AST_FUNCTION_REM + 1;
-  public final static int AST_UNKNOWN = AST_LOGICAL_IMPLIES + 1;
+  public final static int AST_CSYMBOL_FUNCTION = 400;
+  public final static int AST_UNKNOWN = AST_CSYMBOL_FUNCTION + 1;
   public final static int AST_ORIGINATES_IN_PACKAGE = AST_UNKNOWN + 1;
 
   // AST_Class_TypeCode_t 
@@ -819,6 +822,10 @@ public interface libsbmlConstants {
   public final static boolean L3P_AVOGADRO_IS_NAME = false;
   public final static boolean L3P_COMPARE_BUILTINS_CASE_INSENSITIVE = false;
   public final static boolean L3P_COMPARE_BUILTINS_CASE_SENSITIVE = true;
+  public final static boolean L3P_MODULO_IS_REM = true;
+  public final static boolean L3P_MODULO_IS_PIECEWISE = false;
+  public final static boolean L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY = true;
+  public final static boolean L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC = false;
   // L3ParserGrammarLineType_t 
   public final static int INFIX_SYNTAX_NAMED_SQUARE_BRACKETS = 0;
   public final static int INFIX_SYNTAX_CURLY_BRACES = INFIX_SYNTAX_NAMED_SQUARE_BRACKETS + 1;

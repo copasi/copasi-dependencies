@@ -112,6 +112,10 @@ public class SBMLTransforms {
     libsbmlJNI.SBMLTransforms_clearComponentValues();
   }
 
+  public static boolean nodeContainsId(ASTNode node, IdList ids) {
+    return libsbmlJNI.SBMLTransforms_nodeContainsId(ASTNode.getCPtr(node), node, IdList.getCPtr(ids), ids);
+  }
+
   public SBMLTransforms() {
     this(libsbmlJNI.new_SBMLTransforms(), true);
   }

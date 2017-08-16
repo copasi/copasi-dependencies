@@ -394,7 +394,11 @@ public class ASTBase {
 }
 
   public void addPlugin(ASTBasePlugin plugin) {
-    libsbmlJNI.ASTBase_addPlugin(swigCPtr, this, ASTBasePlugin.getCPtr(plugin), plugin);
+    libsbmlJNI.ASTBase_addPlugin__SWIG_0(swigCPtr, this, ASTBasePlugin.getCPtr(plugin), plugin);
+  }
+
+  public void addPlugin(String arg0) {
+    libsbmlJNI.ASTBase_addPlugin__SWIG_1(swigCPtr, this, arg0);
   }
 
   

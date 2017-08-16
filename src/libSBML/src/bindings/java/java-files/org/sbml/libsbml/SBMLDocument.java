@@ -247,7 +247,7 @@ public class SBMLDocument extends SBase {
    <p>
    * <p>
  * This 'default Level' corresponds to the most recent SBML specification
- * Level available at the time libSBML version 5.14.0 was released.  The default Level is used by
+ * Level available at the time libSBML version 5.15.2 was released.  The default Level is used by
  * {@link SBMLDocument} if no Level is explicitly specified at the time of the
  * construction of an {@link SBMLDocument} instance.
    <p>
@@ -268,7 +268,7 @@ public class SBMLDocument extends SBase {
    * <p>
  * This 'default Version' corresponds to the most recent Version within the
  * most recent Level of SBML available at the time libSBML version
- * 5.14.0 was released.  The default Version is
+ * 5.15.2 was released.  The default Version is
  * used by {@link SBMLDocument} if no Version is explicitly specified at the time of
  * the construction of an {@link SBMLDocument} instance. 
    <p>

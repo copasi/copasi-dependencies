@@ -295,4 +295,10 @@ public class ListOfSpeciesReferences extends ListOf {
   return (SimpleSpeciesReference) libsbml.DowncastSBase(libsbmlJNI.ListOfSpeciesReferences_remove__SWIG_1(swigCPtr, this, sid), true);
 }
 
+  
+/** * @internal */ public
+ long getType() {
+    return libsbmlJNI.ListOfSpeciesReferences_getType(swigCPtr, this);
+  }
+
 }

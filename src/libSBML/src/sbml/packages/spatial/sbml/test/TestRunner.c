@@ -10,7 +10,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2013-2017 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -53,7 +53,7 @@ BEGIN_C_DECLS
 Suite *create_suite_PolygonObject (void);
 Suite *create_suite_ParametricObject (void);
 Suite *create_suite_SampledField(void);
-Suite *create_suite_TransformationComponents (void);
+Suite *create_suite_TransformationComponent (void);
 Suite *create_suite_CopyAndClone (void);
 
 END_C_DECLS
@@ -97,7 +97,7 @@ main (int argc, char* argv[])
   SRunner *runner = srunner_create(create_suite_ParametricObject());
   srunner_add_suite(runner, create_suite_ParametricObject());
   srunner_add_suite(runner, create_suite_SampledField());
-  srunner_add_suite(runner, create_suite_TransformationComponents());
+  srunner_add_suite(runner, create_suite_TransformationComponent());
   srunner_add_suite(runner, create_suite_CopyAndClone());
 
   if (argc > 1 && !strcmp(argv[1], "-nofork"))

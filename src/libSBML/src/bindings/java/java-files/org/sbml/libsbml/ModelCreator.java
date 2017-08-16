@@ -587,4 +587,16 @@ public class ModelCreator {
     return libsbmlJNI.ModelCreator_usingFNVcard4(swigCPtr, this);
   }
 
+  
+/** * @internal */ public
+ boolean usingSingleName() {
+    return libsbmlJNI.ModelCreator_usingSingleName(swigCPtr, this);
+  }
+
+  
+/** * @internal */ public
+ void setUseSingleName(boolean flag) {
+    libsbmlJNI.ModelCreator_setUseSingleName(swigCPtr, this, flag);
+  }
+
 }
