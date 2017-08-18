@@ -18,7 +18,8 @@ extern "C" {
 #define RAPTOR_XML_EXPAT 1
 #define HAVE_EXPAT_H 1
 
-#define HAVE_STRICMP 1
+//#define HAVE_STRICMP 1
+#define HAVE_STRCASECMP 1
 #define XMLCALL
 
 /*#define HAVE_C99_VSNPRINTF */
