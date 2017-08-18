@@ -61,6 +61,8 @@ if (WIN32 AND NOT CYGWIN)
 add_definitions( -DWIN32 )
 else()
 add_definitions( -DHAVE_CONFIG_H )
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/raptor_config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/src/raptor_config.h)
+include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/src)
 endif()
 
 
