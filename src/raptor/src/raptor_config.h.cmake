@@ -20,6 +20,12 @@ extern "C" {
 
 #cmakedefine HAVE_STRICMP 1
 #cmakedefine HAVE_STRCASECMP 1
+#cmakedefine HAVE_UNISTD_H 1
+
+#if HAVE_UNISTD_H
+#include <unistd.h>
+#endif 
+
 #define XMLCALL
 
 /*#define HAVE_C99_VSNPRINTF */

@@ -75,6 +75,7 @@ add_definitions( -DHAVE_CONFIG_H )
 check_include_files (expat.h HAVE_EXPAT_H)
 check_include_files (stdlib.h HAVE_STDLIB_H)
 check_include_files (getopt.h HAVE_GETOPT_H)
+check_include_files (unistd.h HAVE_UNISTD_H)
 check_symbol_exists (stricmp string.h HAVE_STRICMP)
 check_symbol_exists (strcasecmp string.h HAVE_STRCASECMP)
 
