@@ -10,16 +10,22 @@ extern "C" {
 #endif
 
 /* getopt is not in standard win32 C library - define if we have it */
-/* #define HAVE_GETOPT_H 1 */
+#cmakedefine HAVE_GETOPT_H 1
 
-#define HAVE_STDLIB_H 1
+#cmakedefine HAVE_STDLIB_H 1
 
 /* For using expat on win32 */
 #define RAPTOR_XML_EXPAT 1
-#define HAVE_EXPAT_H 1
+#cmakedefine HAVE_EXPAT_H 1
 
-//#define HAVE_STRICMP 1
-#define HAVE_STRCASECMP 1
+#cmakedefine HAVE_STRICMP 1
+#cmakedefine HAVE_STRCASECMP 1
+#cmakedefine HAVE_UNISTD_H 1
+
+#if HAVE_UNISTD_H
+#include <unistd.h>
+#endif 
+
 #define XMLCALL
 
 /*#define HAVE_C99_VSNPRINTF */
@@ -28,9 +34,6 @@ extern "C" {
 #ifndef R_OK
 #define R_OK 4
 #endif
-
-/* __func__ doesn't exist in Visual Studio 6 */
-#define __func__ ""
 
 /* 
  * Defines that come from config.h

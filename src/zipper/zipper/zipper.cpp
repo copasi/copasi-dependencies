@@ -1,7 +1,7 @@
 #include "zipper.h"
 #include "defs.h"
 #include "tools.h"
-
+#include <ctime>
 #include <fstream>
 #include <stdexcept>
 
@@ -96,7 +96,20 @@ namespace zipper {
 			int err = ZIP_OK;
 			unsigned long crcFile = 0;
 
+			std::time_t t = std::time(NULL);
+			std::tm* tm= std::gmtime(&t);
 			zip_fileinfo zi;
+			zi.tmz_date.tm_sec = tm->tm_sec;
+			zi.tmz_date.tm_min = tm->tm_min;
+			zi.tmz_date.tm_hour = tm->tm_hour;
+			zi.tmz_date.tm_mday = tm->tm_mday;
+			zi.tmz_date.tm_mon = tm->tm_mon;
+			zi.tmz_date.tm_year = tm->tm_year;
+
+			zi.dosDate = 0;
+			zi.internal_fa = 0;
+			zi.external_fa = 0;
+
 			size_t size_read;
 
 			std::vector<char> buff;

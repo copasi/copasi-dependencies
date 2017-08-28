@@ -30,9 +30,13 @@
 #include <string>
 #include <map>
 
+using namespace std;
+
 LIBSBML_CPP_NAMESPACE_USE
 
 BEGIN_C_DECLS
+
+extern char *TestDataDirectory;
 
 const char *TEST_L2_MODEL=
 "<?xml version='1.0' encoding='utf-8'?>"
@@ -6730,6 +6734,51 @@ START_TEST(test_RenderReading_read_model_with_object_role)
 
 }
 END_TEST
+
+START_TEST(test_RenderReading_read_L2_model_annotation_with_polygon_curve)
+{
+  string filename(TestDataDirectory);
+  filename += "simplenode.xml";
+  // read document
+  SBMLDocument* doc = readSBMLFromFile(filename.c_str());
+  Model* model = doc->getModel();
+  fail_unless(model != NULL);
+
+  LayoutModelPlugin* mPlug = dynamic_cast<LayoutModelPlugin*>(model->getPlugin("layout"));
+  fail_unless(mPlug != NULL);
+
+  fail_unless(mPlug->getNumLayouts() > 0);
+
+  Layout* layout = mPlug->getLayout(0);
+
+  RenderLayoutPlugin* rPlug = dynamic_cast<RenderLayoutPlugin*>(layout->getPlugin("render"));
+  fail_unless(rPlug != NULL);
+  fail_unless(rPlug->getNumLocalRenderInformationObjects() > 0);
+
+  LocalRenderInformation* info = rPlug->getRenderInformation(0);
+  fail_unless(info != NULL);
+  fail_unless(info->getNumStyles() > 0);
+  LocalStyle* style = info->getStyle(0);
+  fail_unless(style != NULL);
+  fail_unless(style->getGroup() != NULL);
+  fail_unless(style->getGroup()->getNumElements() > 0);
+
+  Polygon* poly = dynamic_cast<Polygon*> (style->getGroup()->getElement(0));
+  fail_unless(poly != NULL);
+  fail_unless(poly->getNumElements() > 0);
+
+  std::string representation = poly->toSBML();
+  RenderPoint* last = poly->getElement(poly->getNumElements() - 1);
+  fail_unless(last != NULL);
+
+  fail_unless(dynamic_cast<RenderCubicBezier*>(last) != NULL);
+
+  delete doc;
+
+}
+END_TEST
+
+
 Suite *
 create_suite_RenderReading (void)
 {
@@ -6746,6 +6795,7 @@ create_suite_RenderReading (void)
   tcase_add_test( tcase, test_RenderReading_read_model_1                );
   tcase_add_test( tcase, test_RenderReading_read_L3_model_1             );
   tcase_add_test( tcase, test_RenderReading_read_L3_model_annotation    );
+  tcase_add_test( tcase, test_RenderReading_read_L2_model_annotation_with_polygon_curve);
 
   suite_add_tcase(suite, tcase);
 
