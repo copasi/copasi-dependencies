@@ -150,8 +150,9 @@ Polygon::Polygon(const XMLNode& node, unsigned int l2version)
                     unsigned int j,jMax=child2->getNumChildren();
                     bool startSet=false;
                     bool endSet=false;
+                    bool endIsBezier = false;
                     RenderPoint start(renderns);
-                    RenderPoint end(renderns);
+                    RenderPoint* end = new RenderPoint(renderns);
                     for(j=0;j<jMax;++j)
                     {
                         const XMLNode* child3=&child2->getChild(j);
@@ -165,8 +166,37 @@ Polygon::Polygon(const XMLNode& node, unsigned int l2version)
                         // add the basepoints and the endpoint
                         else if(childName3=="end")
                         {
-                            end=RenderPoint(*child3);
+                          delete end; 
+                            end=new RenderPoint(*child3);
                             endSet=true;
+
+                            if (jMax > 2)
+                            {
+                              RelAbsVector x = end->x();
+                              RelAbsVector y = end->y();
+                              RelAbsVector z = end->z();
+
+                              delete end;
+                              RenderCubicBezier* cend = new RenderCubicBezier(renderns);
+                              cend->setX(x);
+                              cend->setY(y);
+                              cend->setZ(z);
+
+                              RenderPoint* basePoint1 = new RenderPoint(child2->getChild("basePoint1"));
+                              cend->setBasePoint1(basePoint1->x(), basePoint1->y(), basePoint1->z());
+                              delete basePoint1;
+                              
+                              RenderPoint* basePoint2 = new RenderPoint(child2->getChild("basePoint2"));
+                              cend->setBasePoint2(basePoint2->x(), basePoint2->y(), basePoint2->z());
+                              delete basePoint2;
+
+                              end = cend;
+                              endIsBezier = true;
+
+
+
+                            }
+
                         }
                     }
                     if(!startSet || !endSet)
@@ -181,7 +211,8 @@ Polygon::Polygon(const XMLNode& node, unsigned int l2version)
                         this->mListOfElements.appendAndOwn(new RenderPoint(start));
                     }
                     // add the end point
-                    this->mListOfElements.appendAndOwn(new RenderPoint(end));
+                    this->mListOfElements.appendAndOwn(end);                    
+
                 }
                 else if(childName2=="annotation")
                 {

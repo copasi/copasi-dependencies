@@ -389,8 +389,8 @@ START_TEST ( test_Polygon_read_old_style )
   fail_unless( pP->z().getRelativeValue() < 1e-9);
   pP=c.getElement(1);
   fail_unless( pP != NULL );
-  fail_unless( pP->getTypeCode() == SBML_RENDER_POINT );
-  fail_unless( dynamic_cast<const RenderCubicBezier*>(pP) == NULL);
+  fail_unless( pP->getTypeCode() == SBML_RENDER_CUBICBEZIER );
+  fail_unless( dynamic_cast<const RenderCubicBezier*>(pP) != NULL);
   fail_unless( fabs((pP->x().getAbsoluteValue() - 24.05357) / 24.05357) < 1e-9);
   fail_unless( pP->x().getRelativeValue() < 1e-9);
   fail_unless( fabs((pP->y().getAbsoluteValue() - 15.83928) / 15.83928) < 1e-9);
@@ -399,8 +399,8 @@ START_TEST ( test_Polygon_read_old_style )
   fail_unless( pP->z().getRelativeValue() < 1e-9);
   pP=c.getElement(2);
   fail_unless( pP != NULL );
-  fail_unless( pP->getTypeCode() == SBML_RENDER_POINT );
-  fail_unless( dynamic_cast<const RenderCubicBezier*>(pP) == NULL);
+  fail_unless(pP->getTypeCode() == SBML_RENDER_CUBICBEZIER);
+  fail_unless(dynamic_cast<const RenderCubicBezier*>(pP) != NULL);
   fail_unless( fabs((pP->x().getAbsoluteValue() - 45.57142) / 45.57142) < 1e-9);
   fail_unless( pP->x().getRelativeValue() < 1e-9);
   fail_unless( fabs((pP->y().getAbsoluteValue() - 7.17856) / 7.17856) < 1e-9);
@@ -419,8 +419,8 @@ START_TEST ( test_Polygon_read_old_style )
   fail_unless( pP->z().getRelativeValue() < 1e-9);
   pP=c.getElement(4);
   fail_unless( pP != NULL );
-  fail_unless( pP->getTypeCode() == SBML_RENDER_POINT );
-  fail_unless( dynamic_cast<const RenderCubicBezier*>(pP) == NULL);
+  fail_unless(pP->getTypeCode() == SBML_RENDER_CUBICBEZIER);
+  fail_unless(dynamic_cast<const RenderCubicBezier*>(pP) != NULL);
   fail_unless( fabs((pP->x().getAbsoluteValue() - 23.42856) / 23.42856) < 1e-9);
   fail_unless( pP->x().getRelativeValue() < 1e-9);
   fail_unless( fabs((pP->y().getAbsoluteValue() - 9.32142) / 9.32142) < 1e-9);
@@ -429,8 +429,8 @@ START_TEST ( test_Polygon_read_old_style )
   fail_unless( pP->z().getRelativeValue() < 1e-9);
   pP=c.getElement(5);
   fail_unless( pP != NULL );
-  fail_unless( pP->getTypeCode() == SBML_RENDER_POINT );
-  fail_unless( dynamic_cast<const RenderCubicBezier*>(pP) == NULL);
+  fail_unless(pP->getTypeCode() == SBML_RENDER_CUBICBEZIER);
+  fail_unless(dynamic_cast<const RenderCubicBezier*>(pP) != NULL);
   fail_unless( fabs((pP->x().getAbsoluteValue() - 7.5357) / 7.5357) < 1e-9);
   fail_unless( pP->x().getRelativeValue() < 1e-9);
   fail_unless( fabs((pP->y().getAbsoluteValue() - 2.71428) / 2.71428) < 1e-9);
