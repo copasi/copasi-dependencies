@@ -1,6 +1,8 @@
 #include "zipper.h"
 #include "defs.h"
 #include "tools.h"
+#include "CDirEntry.h"
+
 #include <ctime>
 #include <fstream>
 #include <stdexcept>
@@ -277,7 +279,7 @@ namespace zipper {
 			for (; it != files.end(); ++it)
 			{
 				std::ifstream input(it->c_str(), std::ios::binary);
-				std::string nameInZip = it->substr(it->find(folderName), it->size());
+				std::string nameInZip = it->substr(it->rfind(folderName + CDirEntry::Separator), it->size());
 				add(input, nameInZip, flags);
 				input.close();
 			}

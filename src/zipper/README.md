@@ -1,31 +1,49 @@
-# Zipper
-C++ wrapper around minizip compression library using the latest C++11.
+![Zipper](https://github.com/sebastiandev/zipper/blob/master/logo.png)
 
-Zipper's goal is to bring the power and simplicity of minizip to a more object oriented/c++ user friendly library.
-It was born out of the necessity of a compression library that would be reliable, simple and flexible. By flexibility I mean supporting all kinds of inputs and outputs but specifically been able to compress into memory instead of been restricted to file compression only, and using data from memory instead of just files as well.
+C++ wrapper around minizip compression library
 
-#### Features:
+**Zipper**'s goal is to bring the power and simplicity of minizip to a more object oriented/c++ user friendly library.
+It was born out of the necessity of a compression library that would be reliable, simple and flexible. 
+By flexibility I mean supporting all kinds of inputs and outputs, but specifically been able to compress into memory instead of been restricted to file compression only, and using data from memory instead of just files as well.
+
+### Features:
 - [x] Create zip in memory
 - [x] Allow files, vector and generic streams as input to zip
 - [x] File mappings for replacing strategies (overwrite if exists or use alternative name from mapping)
-- [ ] Password protected zip
+- [x] Password protected zip
+- [x] Multi platform
 
 
-#### Configuration
-Zipper depends on minizip and zlib. Minizip is used as a submodule, thus it is compiled with the solution. Zlib is expected to be found at ZLIBROOT. 
+### Getting Started
+
+In order to use and compile zipper you need to have [zlib](http://www.zlib.net) source files.
+**Zipper** depends on minizip as well but since it is used as a submodule, you get it when cloning
+the repo and it gets compiled with the project.
+
+*Note*: For windows users, zlib is expected to be found at ZLIBROOT.
+
+#### Download dependencies
+
+```shell
+sudo apt-get install zlib-dev  # for ubuntu
+
+sudo dnf install zlib-devel  # for fedora
+sudo dnf install gcc-c++  # for fedora
 ```
-ZLIBROOT = c:\Projects\zlib-1.2.8\
 
-Ex: c:\Projects\zlib-1.2.8\
-                      |_ include\
-                      |_ lib\
+#### Compiling
+The preferred way is to create a folder for the compilation output to avoid polluting the root folder
+
+```shell
+git clone --recursive https://github.com/sebastiandev/zipper.git  # to get zipper and minizip submodule
+cd zipper
+mkdir build
+cd build
+cmake ../
+make
 ```
-Compilation produces zipper.lib
 
-So far its been tested and focused on Windows using Visual Studio 2013
-
-
-#### Usage:
+### Usage:
 
 There are two classes available Zipper and Unzipper. They behave in the same manner regarding constructors and storage parameters. (for a complete example take a look at the [tests](https://github.com/sebastiandev/zipper/blob/develop/test/file_zip_test.cpp ) using the awesome BDD's from Catch library )
 
