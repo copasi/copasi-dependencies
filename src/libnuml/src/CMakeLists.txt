@@ -68,6 +68,10 @@ install(FILES
 #
 # specify include directories
 #
+if (EXTRA_INCLUDE_DIRS)
+  include_directories(BEFORE ${EXTRA_INCLUDE_DIRS})
+endif(EXTRA_INCLUDE_DIRS)
+
 include_directories(BEFORE ${LIBSBML_INCLUDE_DIR})
 include_directories(BEFORE ${CMAKE_SOURCE_DIR})
 include_directories(BEFORE ${CMAKE_BINARY_DIR})
@@ -168,6 +172,7 @@ if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
 
   WRITE_BASIC_PACKAGE_VERSION_FILE(
     ${CMAKE_CURRENT_BINARY_DIR}/${LIBNUML_LIBRARY}-config-version.cmake 
+    VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
   )
   

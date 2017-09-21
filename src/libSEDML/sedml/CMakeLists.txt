@@ -97,6 +97,10 @@ include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/..)
 include_directories(BEFORE ${LIBSBML_INCLUDE_DIR})
 include_directories(BEFORE ${LIBNUML_INCLUDE_DIR})
 
+if (EXTRA_INCLUDE_DIRS)
+include_directories(BEFORE ${EXTRA_INCLUDE_DIRS})
+endif(EXTRA_INCLUDE_DIRS)
+
 if (EXTRA_DEFS)
 add_definitions(${EXTRA_DEFS})
 endif()

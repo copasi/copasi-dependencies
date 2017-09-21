@@ -1042,13 +1042,14 @@ void
 Text::write (XMLOutputStream& stream) const
 {
     
-  stream.startElement( getElementName() );
+  stream.startElement( getElementName(), getPrefix());
 
+  writeXMLNS(stream);
   writeAttributes( stream );
   // in addition to attributes we need to write the characters
   stream << this->getText();
 
-  stream.endElement( getElementName() );
+  stream.endElement( getElementName(), getPrefix());
 }
 /** @endcond */
 
