@@ -461,7 +461,7 @@ SBWThread::~SBWThread()
 #if defined(WIN32)
 		if (thread != NULL)
 #elif defined(HAVE_LIBPTHREAD)
-		if (threadId > 0)
+		if (threadId != 0)
 #endif
 		{
 			throw new
