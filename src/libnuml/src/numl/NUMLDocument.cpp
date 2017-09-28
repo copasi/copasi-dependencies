@@ -431,6 +431,10 @@ NUMLDocument::createObject (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream& stre
             }
             object = &mResultComponents;
         }
+    else if (name == "resultComponent")
+    {
+      object = createResultComponent();
+    }
 
     return object;
 }
@@ -765,8 +769,19 @@ void
 NUMLDocument::writeElements (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream) const
 {
   NMBase::writeElements(stream);
-  if (mOntologyTerms.size()!=0)mOntologyTerms.write(stream);
-  if (mResultComponents.size()!=0)mResultComponents.write(stream);
+  
+  if (mOntologyTerms.size()!=0)
+    mOntologyTerms.write(stream);
+
+  // instead of writing a resultcomponents element that does not
+  // exist, write the individual components
+  for (unsigned int i = 0;i  < mResultComponents.size(); ++i)  
+  {
+    mResultComponents.get(i)->write(stream);  
+  }
+
+  //if (mResultComponents.size() > 0)
+  //  mResultComponents.write(stream);
 }
 
 

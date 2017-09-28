@@ -44,7 +44,7 @@
 #ifndef LIBNUML_VERSION_H
 #define LIBNUML_VERSION_H 
 
-#include "extern.h"
+#include <numl/common/extern.h>
 
 
 /**

@@ -91,17 +91,22 @@ add_custom_target(binding_python_swig ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/li
 # Build native library
 #
 
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../swig)
 include_directories(${LIBSBML_INCLUDE_DIR})
-include_directories(BEFORE ${CMAKE_SOURCE_DIR}/src)
-include_directories(BEFORE ${CMAKE_SOURCE_DIR})
-include_directories(BEFORE ${CMAKE_BINARY_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/src/numl)
+include_directories(${CMAKE_SOURCE_DIR})
 add_definitions(-DLIBNUML_STATIC)
 include_directories(${PYTHON_INCLUDE_DIRS})
 if (EXTRA_INCLUDE_DIRS) 
  include_directories(${EXTRA_INCLUDE_DIRS})
 endif(EXTRA_INCLUDE_DIRS)
+
+include_directories(BEFORE ${CMAKE_BINARY_DIR})
+include_directories(BEFORE ${CMAKE_BINARY_DIR}/src)
+include_directories(BEFORE ${CMAKE_BINARY_DIR}/src/numl)
 
 if (MSVC)
   # the build fails when compiled with packages as the object file is too 
@@ -125,7 +130,22 @@ else()
 	endif()
 endif()
 
-target_link_libraries(binding_python_lib ${LIBNUML_LIBRARY}-static ${PYTHON_LIBRARIES})
+
+if(APPLE OR UNIX)
+    option (PYTHON_USE_DYNAMIC_LOOKUP
+    "Do not actually link against the python library, instead use the undefined lookup mechanism, that ." OFF)
+    mark_as_advanced(PYTHON_USE_DYNAMIC_LOOKUP)
+endif(APPLE OR UNIX)
+
+if (PYTHON_USE_DYNAMIC_LOOKUP)
+    if (APPLE)
+        set_target_properties (binding_python_lib PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+    endif()
+    target_link_libraries(binding_python_lib ${LIBNUML_LIBRARY}-static)
+else()                                          
+    target_link_libraries(binding_python_lib ${LIBNUML_LIBRARY}-static ${PYTHON_LIBRARIES})
+endif()
+
 
 # 
 # Determine the python installation directory
