@@ -66,13 +66,12 @@ find_package(EXPAT REQUIRED)
 include_directories(BEFORE ${EXPAT_INCLUDE_DIR})
 
 
-add_definitions(-DXML_STATIC -DRAPTOR_STATIC -DRAPTOR_V2_EXPERIMENTAL -DHAVE_ERRNO_H -DRAPTOR_INTERNAL -DLIBRDFA_IN_RAPTOR)
+add_definitions(-DXML_STATIC -DRAPTOR_STATIC -DRAPTOR_V2_EXPERIMENTAL -DHAVE_ERRNO_H -DRAPTOR_INTERNAL -DLIBRDFA_IN_RAPTOR -DHAVE_EXPAT_H)
 
 if (WIN32 AND NOT CYGWIN)
 add_definitions( -DWIN32 )
 else()
 add_definitions( -DHAVE_CONFIG_H )
-check_include_files (expat.h HAVE_EXPAT_H)
 check_include_files (stdlib.h HAVE_STDLIB_H)
 check_include_files (getopt.h HAVE_GETOPT_H)
 check_include_files (unistd.h HAVE_UNISTD_H)
