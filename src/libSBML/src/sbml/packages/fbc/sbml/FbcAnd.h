@@ -199,7 +199,7 @@ public:
    * of the FbcAssociation to get.
    *
    * @return the FbcAssociation in the ListOfFbcAssociations
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * FbcAssociation exists.
    *
    * @see getAssociation(unsigned int n)
@@ -217,7 +217,7 @@ public:
    * of the FbcAssociation to get.
    *
    * @return the FbcAssociation in the ListOfFbcAssociations
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * FbcAssociation exists.
    *
    * @see getAssociation(unsigned int n)
@@ -751,7 +751,7 @@ public:
    *
    * @param elementName, the name of the element to get number of.
    *
-   * @param index, unsigned int teh index of teh object to retrieve.
+   * @param index, unsigned int the index of the object to retrieve.
    *
    * @return pointer to the object.
    */
@@ -827,13 +827,16 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new FbcAnd_t structure using the given SBML @p level and
- * @p version values.
+ * @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML level to assign to this
  * FbcAnd_t structure.
  *
  * @param version an unsigned int, the SBML version to assign to this
  * FbcAnd_t structure.
+ *
+ * @param pkgVersion an unsigned int, the version of the package to assign
+ * to this FbcAnd_t structure.
  *
  * @returns the newly-created FbcAnd_t structure, or a null pointer if
  * an error occurred during construction.
@@ -875,66 +878,96 @@ FbcAnd_t *
 FbcAnd_clone(FbcAnd_t * fa);
 
 
+/**
+* @memberof FbcAnd_t
+*/
 LIBSBML_EXTERN
 int
 FbcAnd_addAssociation(FbcAnd_t * fa, FbcAssociation_t * association);
 
 
+/**
+* @memberof FbcAnd_t
+*/
 LIBSBML_EXTERN
 FbcAnd_t *
 FbcAnd_createAnd(FbcAnd_t * fa);
 
 
+/**
+* @memberof FbcAnd_t
+*/
 LIBSBML_EXTERN
 FbcOr_t *
 FbcAnd_createOr(FbcAnd_t * fa);
 
 
+/**
+* @memberof FbcAnd_t
+*/
 LIBSBML_EXTERN
 GeneProductRef_t *
 FbcAnd_createGeneProductRef(FbcAnd_t * fa);
 
 
+/**
+* @memberof FbcAnd_t
+*/
 LIBSBML_EXTERN
 ListOf_t *
 FbcAnd_getListOfFbcAssociations(FbcAnd_t * fa) ;
 
 
+/**
+* @memberof FbcAnd_t
+*/
 LIBSBML_EXTERN
 FbcAssociation_t *
 FbcAnd_getAssociation(FbcAnd_t * fa, unsigned int n);
 
 
+/**
+* @memberof FbcAnd_t
+*/
 LIBSBML_EXTERN
 FbcAssociation_t *
 FbcAnd_getAssociationById(FbcAnd_t * fa, const char * sid);
 
 
+/**
+* @memberof FbcAnd_t
+*/
 LIBSBML_EXTERN
 unsigned int
 FbcAnd_getNumAssociations(FbcAnd_t * fa);
 
 
+/**
+* @memberof FbcAnd_t
+*/
 LIBSBML_EXTERN
 FbcAssociation_t *
 FbcAnd_removeAssociation(FbcAnd_t * fa, unsigned int n);
 
 
+/**
+* @memberof FbcAnd_t
+*/
 LIBSBML_EXTERN
 FbcAssociation_t *
 FbcAnd_removeAssociationById(FbcAnd_t * fa, const char * sid);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * attributes of the given FbcAnd_t structure have been set.
  *
  * @param fa the FbcAnd_t structure to check.
  *
- * @return @c 1 if all the required attributes for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required attributes for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
- * @member of FbcAnd_t
+ * @memberof FbcAnd_t
  */
 LIBSBML_EXTERN
 int
@@ -942,15 +975,15 @@ FbcAnd_hasRequiredAttributes(const FbcAnd_t * fa);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * sub-elements of the given FbcAnd_t structure have been set.
  *
  * @param fa the FbcAnd_t structure to check.
  *
- * @return @c 1 if all the required sub-elements for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required sub-elements for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
- * @member of FbcAnd_t
+ * @memberof FbcAnd_t
  */
 LIBSBML_EXTERN
 int

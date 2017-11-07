@@ -506,7 +506,7 @@ public:
    *
    * @param n the index number of the SpeciesTypeComponentIndex to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -519,7 +519,7 @@ public:
    *
    * @param n the index number of the SpeciesTypeComponentIndex to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -532,7 +532,7 @@ public:
    * @param sid a string representing the identifier
    * of the SpeciesTypeComponentIndex to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)   *
    * @see size()
@@ -546,7 +546,7 @@ public:
    * @param sid a string representing the identifier
    * of the SpeciesTypeComponentIndex to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)   *
    * @see size()
@@ -560,7 +560,7 @@ public:
    *
    * @param n the index of the SpeciesTypeComponentIndex to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    *
    * @see size()
@@ -574,7 +574,7 @@ public:
    *
    * @param sid the identifier of the SpeciesTypeComponentIndex to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    */
   virtual SpeciesTypeComponentIndex* remove(const std::string& sid);
@@ -583,8 +583,8 @@ public:
   /**
    * Returns the XML element name of this object.
    *
-   * @return the name of this element, i.e. @c
-   * "listOfSpeciesTypeComponentIndexes".
+   * @return the name of this element, i.e.
+   * @c "listOfSpeciesTypeComponentIndexes".
    */
   virtual const std::string& getElementName () const;
 
@@ -658,137 +658,239 @@ LIBSBML_CPP_NAMESPACE_END
 LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeComponentIndex_t *
 SpeciesTypeComponentIndex_create(unsigned int level, unsigned int version,
                                  unsigned int pkgVersion);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 void
 SpeciesTypeComponentIndex_free(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeComponentIndex_t *
 SpeciesTypeComponentIndex_clone(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesTypeComponentIndex_getId(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesTypeComponentIndex_getName(SpeciesTypeComponentIndex_t * cr);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesTypeComponentIndex_getComponent(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 unsigned int
 SpeciesTypeComponentIndex_getOccur(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesTypeComponentIndex_getIdentifyingParent(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_isSetId(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_isSetName(SpeciesTypeComponentIndex_t * cr);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_isSetComponent(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_isSetOccur(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_isSetIdentifyingParent(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_setId(SpeciesTypeComponentIndex_t * stci, const char * id);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_setName(SpeciesTypeComponentIndex_t * cr, const char * name);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_setComponent(SpeciesTypeComponentIndex_t * stci, const char * component);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_setOccur(SpeciesTypeComponentIndex_t * stci, unsigned int occur);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_setIdentifyingParent(SpeciesTypeComponentIndex_t * stci, const char * identifyingParent);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_unsetId(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_unsetName(SpeciesTypeComponentIndex_t * cr);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_unsetComponent(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_unsetOccur(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_unsetIdentifyingParent(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_hasRequiredAttributes(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof SpeciesTypeComponentIndex_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_hasRequiredElements(SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* Return the structure indicated by the given @p sid.
+*
+* @param lo the ListOf_t structure to use.
+*
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure for the given variable, or @c NULL if no such
+* object exists in the list.
+*
+* @memberof ListOfSpeciesTypeComponentIndexes_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeComponentIndex_t *
 ListOfSpeciesTypeComponentIndexes_getById(ListOf_t * lo, const char * sid);
 
 
+/**
+* Removes the structure with the given @p sid
+* from the given list and returns a pointer to it.
+*
+* The caller owns the returned structure and is responsible for deleting it.
+*
+* @param lo the ListOf_t structure.
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure removed.  As mentioned above, the
+* caller owns the returned structure. @c NULL is returned if no
+* structure with the "id" attribute exists in the given list.
+*
+* @memberof ListOfSpeciesTypeComponentIndexes_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeComponentIndex_t *
 ListOfSpeciesTypeComponentIndexes_removeById(ListOf_t * lo, const char * sid);

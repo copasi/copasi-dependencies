@@ -220,7 +220,7 @@ UnitDefinition::isSetName () const
 
 
 /*
- * Sets the id of this SBML object to a copy of sid.
+ * Sets the id of this SBML object to a copy of @p sid.
  */
 int
 UnitDefinition::setId (const std::string& sid)
@@ -307,7 +307,7 @@ UnitDefinition::unsetName ()
 
 /*
  * @return true if this UnitDefinition is a variant of the built-in type
- * area. i.e. square metres with only abritrary variations in scale,
+ * area. i.e. square metres with only arbitrary variations in scale,
  * or multiplier values, false otherwise.
  */
 bool
@@ -344,7 +344,7 @@ UnitDefinition::isVariantOfArea (bool relaxed) const
 
 /*
  * @return true if this UnitDefinition is a variant of the built-in type
- * length. i.e. metres with only abritrary variations in scale,
+ * length. i.e. metres with only arbitrary variations in scale,
  * or multiplier values, false otherwise.
  */
 bool
@@ -381,7 +381,7 @@ UnitDefinition::isVariantOfLength (bool relaxed) const
 
 /*
  * @return true if this UnitDefinition is a variant of the built-in type
- * substance. i.e. moles or items with only abritrary variations in
+ * substance. i.e. moles or items with only arbitrary variations in
  * scale or multiplier values, false otherwise.
  */
 bool
@@ -446,7 +446,7 @@ UnitDefinition::isVariantOfSubstance (bool relaxed) const
 
 /*
  * @return true if this UnitDefinition is a variant of the built-in type
- * time. i.e. seconds with only abritrary variations in scale,
+ * time. i.e. seconds with only arbitrary variations in scale,
  * or multiplier values, false otherwise.
  */
 bool
@@ -483,7 +483,7 @@ UnitDefinition::isVariantOfTime (bool relaxed) const
 
 /*
  * @return true if this UnitDefinition is a variant of the built-in type
- * volume. i.e. litre or cubic metre with only abritrary variations in
+ * volume. i.e. litre or cubic metre with only arbitrary variations in
  * scale or multiplier values, false otherwise.
  */
 bool
@@ -525,7 +525,7 @@ UnitDefinition::isVariantOfVolume (bool relaxed) const
 
 /*
  * @return true if this UnitDefinition is a variant of dimensionless.
- * i.e. dimensionless with only abritrary variations in scale,
+ * i.e. dimensionless with only arbitrary variations in scale,
  * or multiplier values, false otherwise.
  */
 bool
@@ -560,7 +560,7 @@ UnitDefinition::isVariantOfDimensionless (bool relaxed) const
 
 /*
  * @return true if this UnitDefinition is a variant of mass. ie gram or
- * kilogram with only abritrary variations in scale or multiplier
+ * kilogram with only arbitrary variations in scale or multiplier
  * values, false otherwise.
  */
 bool
@@ -1811,13 +1811,11 @@ UnitDefinition::unsetAttribute(const std::string& attributeName)
 
   return value;
 }
-
 /** @endcond */
 
 
 
 /** @cond doxygenLibsbmlInternal */
-
 /*
  * Creates and returns an new "elementName" object in this UnitDefinition.
  */
@@ -1833,9 +1831,9 @@ UnitDefinition::createChildObject(const std::string& elementName)
 
   return obj;
 }
-
 /** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
 /*
 * Adds an new "elementName" object in this UnitDefinition.
 */
@@ -1849,12 +1847,10 @@ UnitDefinition::addChildObject(const std::string& elementName, const SBase* elem
 
   return LIBSBML_OPERATION_FAILED;
 }
-
 /** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
-
 /*
 * Adds an new "elementName" object in this UnitDefinition.
 */

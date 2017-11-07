@@ -497,7 +497,7 @@ public:
 
 
   /**
-   * Returns the deletion with the given index.
+   * Returns the deletion with the given @p index.
    * If the index is invalid, @c NULL is returned.
    *
    * @param n the index number of the Deletion to get.
@@ -508,7 +508,7 @@ public:
 
 
   /**
-   * Returns the deletion with the given index.
+   * Returns the deletion with the given @p index.
    * If the index is invalid, @c NULL is returned.
    *
    * @param n the index number of the Deletion to get.
@@ -544,7 +544,7 @@ public:
    * Adds a copy of the given Deletion object to the list of deletions.
    *
    * @param deletion the Deletion object to be added to the list of
-   * deletions.  Fails if the added deletion is NULL, does not match the
+   * deletions.  Fails if the added deletion is @c NULL, does not match the
    * level/version/package of the parent object, or cannot be added to the
    * list of deletions.
    *
@@ -577,7 +577,7 @@ public:
 
 
   /**
-   * Removes the deletion with the given index from the Submodel.
+   * Removes the deletion with the given @p index from the Submodel.
    * A pointer to the deletion that was removed is returned.
    * If no deletion has been removed, @c NULL is returned.
    *
@@ -585,7 +585,7 @@ public:
    *
    * @return the Deletion object removed.  As mentioned above, 
    * the caller owns the returned object. @c NULL is returned if 
-   * the given index is out of range.
+   * the given @p index is out of range.
    */
   Deletion* removeDeletion(unsigned int index);
 
@@ -703,7 +703,7 @@ public:
    * Create and return an SBML object of this class, if present.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase* createObject (XMLInputStream& stream);
   /** @endcond */
@@ -910,13 +910,13 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new Submodel_t structure using the given SBML @p level
- * and @p version values.
+ * and @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML Level to assign to this
  * Submodel_t.
  * @param version an unsigned int, the SBML Version to assign to this
  * Submodel_t.
- * @param pkgVersion an unsigned int, the SBML 'Qual' package Version to assign to this
+ * @param pkgVersion an unsigned int, the SBML 'comp' package Version to assign to this
  * Submodel_t.
  *
  * @return a pointer to the newly created Submodel_t structure.
@@ -1040,13 +1040,13 @@ Submodel_getExtentConversionFactor(Submodel_t * s);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Submodel_t structure's identifier is set.
  *
  * @param s the Submodel_t structure to query.
  * 
- * @return @c non-zero (true) if the "id" attribute of the given
- * Submodel_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "id" attribute of the given
+ * Submodel_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Submodel_t
  */
@@ -1056,13 +1056,13 @@ Submodel_isSetId(Submodel_t * s);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Submodel_t structure's name is set.
  *
  * @param s the Submodel_t structure to query.
  * 
- * @return @c non-zero (true) if the "name" attribute of the given
- * Submodel_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "name" attribute of the given
+ * Submodel_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Submodel_t
  */
@@ -1072,13 +1072,13 @@ Submodel_isSetName(Submodel_t * s);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Submodel_t structure's modelRef is set.
  *
  * @param s the Submodel_t structure to query.
  * 
- * @return @c non-zero (true) if the "modelRef" attribute of the given
- * Submodel_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "modelRef" attribute of the given
+ * Submodel_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Submodel_t
  */
@@ -1102,13 +1102,13 @@ Submodel_isSetSubstanceConversionFactor(Submodel_t * s);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Submodel_t structure's timeConversionFactor is set.
  *
  * @param s the Submodel_t structure to query.
  * 
- * @return @c non-zero (true) if the "timeConversionFactor" attribute of the given
- * Submodel_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "timeConversionFactor" attribute of the given
+ * Submodel_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Submodel_t
  */
@@ -1118,13 +1118,13 @@ Submodel_isSetTimeConversionFactor(Submodel_t * s);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Submodel_t structure's extentConversionFactor is set.
  *
  * @param s the Submodel_t structure to query.
  * 
- * @return @c non-zero (true) if the "extentConversionFactor" attribute of the given
- * Submodel_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "extentConversionFactor" attribute of the given
+ * Submodel_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Submodel_t
  */
@@ -1136,7 +1136,7 @@ Submodel_isSetExtentConversionFactor(Submodel_t * s);
 /**
  * Assigns the identifier of an Submodel_t structure.
  *
- * This makes a copy of the string passed in the param @p sid.
+ * This makes a copy of the string passed in the parameter @p sid.
  *
  * @param s the Submodel_t structure to set.
  * @param sid the string to use as the identifier.
@@ -1145,7 +1145,7 @@ Submodel_isSetExtentConversionFactor(Submodel_t * s);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof Submodel_t
@@ -1392,7 +1392,7 @@ Submodel_createDeletion(Submodel_t * s);
  *
  * @param s the Submodel_t structure to use.
  *
- * @return the list of CHILDTYPEs for the given Submodel_t.
+ * @return the list of Deletion_t structures for the given Submodel_t.
  *
  * @memberof Submodel_t
  */
@@ -1423,10 +1423,10 @@ Submodel_getDeletion(Submodel_t * s, unsigned int n);
  * @param s the Submodel_t structure to use.
  *
  * @param sid a string, the identifier of the
- * Deletion_t is being sought.
+ * Deletion_t being sought.
  *
  * @return the Deletion_t for the given variable, or @c NULL if no such
- * Deletion_t exits.
+ * Deletion_t exists.
  *
  * @memberof Submodel_t
  */
@@ -1454,7 +1454,7 @@ Submodel_getNumDeletions(Submodel_t * s);
  * Removes the nth Deletion_t structure from the given Submodel_t structure and
  * returns a pointer to it.
  *
- * * The caller owns the returned structure and is responsible for deleting it.
+ * The caller owns the returned structure and is responsible for deleting it.
  *
  * @param s the Submodel_t structure.
  * @param n the integer index of the Deletion_t sought.
@@ -1474,7 +1474,7 @@ Submodel_removeDeletion(Submodel_t * s, unsigned int n);
  * Removes the Deletion_t structure with the given @p sid
  * from the given Submodel_t structure and returns a pointer to it.
  *
- * * The caller owns the returned structure and is responsible for deleting it.
+ * The caller owns the returned structure and is responsible for deleting it.
  *
  * @param s the Submodel_t structure.
  * @param sid the string of the "id" attribute of the Deletion_t sought.
@@ -1496,6 +1496,8 @@ Submodel_removeDeletionById(Submodel_t * s, const char * sid);
   * have been set.
   *
   * @note The required attributes for a Submodel_t structure are:
+  * @li id
+  * @li modelRef
   *
  * @memberof Submodel_t
  */
@@ -1509,7 +1511,7 @@ Submodel_hasRequiredAttributes(Submodel_t * s);
   * all the required elements for the given Submodel_t structure
   * have been set.
   *
-  * @note The required elements for an Submodel_t structure are:
+  * @note A Submodel_t structure has no required child elements.
   *
  * @memberof Submodel_t
  */
@@ -1524,12 +1526,12 @@ Submodel_hasRequiredElements(Submodel_t * s);
  * @param lo the ListOf_t structure to use.
  *
  * @param sid a string, the identifier of the
- * Submodel_t is being sought.
+ * Submodel_t being sought.
  *
  * @return the Submodel_t for the given variable, or @c NULL if no such
- * Submodel_t exits.
+ * Submodel_t exists.
  *
- * @memberof Submodel_t
+ * @memberof ListOfSubmodels_t
  */
 LIBSBML_EXTERN
 Submodel_t *
@@ -1549,7 +1551,7 @@ ListOfSubmodels_getById(ListOf_t * lo, const char * sid);
  * caller owns the returned structure. @c NULL is returned if no Submodel_t
  * structure with the "id" attribute exists in the given ListOf_t structure.
  *
- * @memberof Submodel_t
+ * @memberof ListOfSubmodels_t
  */
 LIBSBML_EXTERN
 Submodel_t *

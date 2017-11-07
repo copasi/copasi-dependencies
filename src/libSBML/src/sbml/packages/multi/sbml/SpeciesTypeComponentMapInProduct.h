@@ -388,8 +388,8 @@ public:
   /**
    * Returns the XML element name of this object.
    *
-   * @return the name of this element, i.e. @c
-   * "speciesTypeComponentMapInProduct".
+   * @return the name of this element, i.e.
+   * @c "speciesTypeComponentMapInProduct".
    */
   virtual const std::string& getElementName () const;
 
@@ -547,7 +547,7 @@ public:
    *
    * @param n the index number of the SpeciesTypeComponentMapInProduct to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -560,7 +560,7 @@ public:
    *
    * @param n the index number of the SpeciesTypeComponentMapInProduct to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -574,7 +574,7 @@ public:
    * @param sid a string representing the identifier
    * of the SpeciesTypeComponentMapInProduct to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)
    * @see size()
@@ -589,7 +589,7 @@ public:
    * @param sid a string representing the identifier
    * of the SpeciesTypeComponentMapInProduct to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)
    * @see size()
@@ -603,7 +603,7 @@ public:
    *
    * @param n the index of the SpeciesTypeComponentMapInProduct to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    *
    * @see size()
@@ -617,7 +617,7 @@ public:
    *
    * @param sid the identifier of the SpeciesTypeComponentMapInProduct to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    */
   virtual SpeciesTypeComponentMapInProduct* remove(const std::string& sid);
@@ -626,8 +626,8 @@ public:
   /**
    * Returns the XML element name of this object.
    *
-   * @return the name of this element, i.e. @c
-   * "listOfSpeciesTypeComponentMapInProducts".
+   * @return the name of this element, i.e.
+   * @c "listOfSpeciesTypeComponentMapInProducts".
    */
   virtual const std::string& getElementName () const;
 
@@ -701,137 +701,239 @@ LIBSBML_CPP_NAMESPACE_END
 LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeComponentMapInProduct_t *
 SpeciesTypeComponentMapInProduct_create(unsigned int level, unsigned int version,
                                         unsigned int pkgVersion);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 void
 SpeciesTypeComponentMapInProduct_free(SpeciesTypeComponentMapInProduct_t * stcmip);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeComponentMapInProduct_t *
 SpeciesTypeComponentMapInProduct_clone(SpeciesTypeComponentMapInProduct_t * stcmip);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesTypeComponentMapInProduct_getId(SpeciesTypeComponentMapInProduct_t * cr);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesTypeComponentMapInProduct_getName(SpeciesTypeComponentMapInProduct_t * cr);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesTypeComponentMapInProduct_getReactant(SpeciesTypeComponentMapInProduct_t * stcmip);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesTypeComponentMapInProduct_getReactantComponent(SpeciesTypeComponentMapInProduct_t * stcmip);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesTypeComponentMapInProduct_getProductComponent(SpeciesTypeComponentMapInProduct_t * stcmip);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_isSetId(SpeciesTypeComponentMapInProduct_t * cr);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_isSetName(SpeciesTypeComponentMapInProduct_t * cr);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_isSetReactant(SpeciesTypeComponentMapInProduct_t * stcmip);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_isSetReactantComponent(SpeciesTypeComponentMapInProduct_t * stcmip);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_isSetProductComponent(SpeciesTypeComponentMapInProduct_t * stcmip);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_setId(SpeciesTypeComponentMapInProduct_t * cr, const char * id);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_setName(SpeciesTypeComponentMapInProduct_t * cr, const char * name);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_setReactant(SpeciesTypeComponentMapInProduct_t * stcmip, const char * reactant);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_setReactantComponent(SpeciesTypeComponentMapInProduct_t * stcmip, const char * reactantComponent);
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_setProductComponent(SpeciesTypeComponentMapInProduct_t * stcmip, const char * productComponent);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_unsetId(SpeciesTypeComponentMapInProduct_t * cr);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_unsetName(SpeciesTypeComponentMapInProduct_t * cr);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_unsetReactant(SpeciesTypeComponentMapInProduct_t * stcmip);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_unsetReactantComponent(SpeciesTypeComponentMapInProduct_t * stcmip);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_unsetProductComponent(SpeciesTypeComponentMapInProduct_t * stcmip);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_hasRequiredAttributes(SpeciesTypeComponentMapInProduct_t * stcmip);
 
 
+/**
+* @memberof SpeciesTypeComponentMapInProduct_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentMapInProduct_hasRequiredElements(SpeciesTypeComponentMapInProduct_t * stcmip);
 
 
+/**
+* Return the structure indicated by the given @p sid.
+*
+* @param lo the ListOf_t structure to use.
+*
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure for the given variable, or @c NULL if no such
+* object exists in the list.
+*
+* @memberof ListOfSpeciesTypeComponentMapInProducts_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeComponentMapInProduct_t *
 ListOfSpeciesTypeComponentMapInProducts_getById(ListOf_t * lo, const char * sid);
 
 
+/**
+* Removes the structure with the given @p sid
+* from the given list and returns a pointer to it.
+*
+* The caller owns the returned structure and is responsible for deleting it.
+*
+* @param lo the ListOf_t structure.
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure removed.  As mentioned above, the
+* caller owns the returned structure. @c NULL is returned if no
+* structure with the "id" attribute exists in the given list.
+*
+* @memberof ListOfSpeciesTypeComponentMapInProducts_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeComponentMapInProduct_t *
 ListOfSpeciesTypeComponentMapInProducts_removeById(ListOf_t * lo, const char * sid);

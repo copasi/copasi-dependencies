@@ -217,7 +217,7 @@ public:
    * XMLInputStream if they have their specific elements.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase* createObject (XMLInputStream& stream);
 
@@ -416,7 +416,7 @@ public:
    * of the FluxBound to get.
    * 
    * @return FluxBound in the ListOfFluxBounds with the given @p sid
-   * or NULL if no such FluxBound exists.
+   * or @c NULL if no such FluxBound exists.
    *
    * @see getFluxBound(unsigned int n)
    * @see getListOfFluxBounds()
@@ -433,7 +433,7 @@ public:
    * of the FluxBound to get.
    * 
    * @return FluxBound in the ListOfFluxBounds with the given @p sid 
-   * or NULL if no such FluxBound exists.
+   * or @c NULL if no such FluxBound exists.
    *
    * @see getFluxBound(unsigned int n)
    * @see getListOfFluxBounds()
@@ -580,7 +580,7 @@ public:
    * of the Objective to get.
    *
    * @return the Objective in the ListOfObjectives
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * Objective exists.
    *
    * @see getObjective(unsigned int n)
@@ -598,7 +598,7 @@ public:
    * of the Objective to get.
    *
    * @return the Objective in the ListOfObjectives
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * Objective exists.
    *
    * @see getObjective(unsigned int n)
@@ -676,7 +676,7 @@ public:
    * Returns the current active objective. 
    *
    * @return the Objective pointed to by the 'activeObjective' 
-   * attribute, or NULL if no such Objective can be found.
+   * attribute, or @c NULL if no such Objective can be found.
    */
   Objective* getActiveObjective();
 
@@ -684,7 +684,7 @@ public:
    * Returns the current active objective. 
    *
    * @return the Objective pointed to by the 'activeObjective' 
-   * attribute, or NULL if no such Objective can be found.
+   * attribute, or @c NULL if no such Objective can be found.
    */
   const Objective *getActiveObjective() const;
   
@@ -772,7 +772,7 @@ public:
    * of the GeneProduct to get.
    *
    * @return the GeneProduct in the ListOfGeneProducts
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * GeneProduct exists.
    *
    * @see getGeneProduct(unsigned int n)
@@ -791,7 +791,7 @@ public:
   * of the GeneProduct to get.
   *
   * @return the GeneProduct in the ListOfGeneProducts
-  * with the given label or NULL if no such
+  * with the given label or @c NULL if no such
   * GeneProduct exists.
   *
   * @see getGeneProduct(unsigned int n)
@@ -811,7 +811,7 @@ public:
    * of the GeneProduct to get.
    *
    * @return the GeneProduct in the ListOfGeneProducts
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * GeneProduct exists.
    *
    * @see getGeneProduct(unsigned int n)
@@ -945,7 +945,7 @@ public:
    * of the GeneAssociation annotation to get.
    * 
    * @return GeneAssociation annotation in the ListOfGeneAssociations with the given @p sid
-   * or NULL if no such GeneAssociation annotation exists.
+   * or @c NULL if no such GeneAssociation annotation exists.
    *
    * @see getGeneAssociation(unsigned int n)
    * @see getListOfGeneAssociations()
@@ -961,7 +961,7 @@ public:
    * of the GeneAssociation annotation to get.
    * 
    * @return GeneAssociation annotation in the ListOfGeneAssociations with the given @p sid 
-   * or NULL if no such GeneAssociation annotation exists.
+   * or @c NULL if no such GeneAssociation annotation exists.
    *
    * @see getGeneAssociation(unsigned int n)
    * @see getListOfGeneAssociations()
@@ -1348,7 +1348,7 @@ public:
    *
    * @param elementName, the name of the element to get number of.
    *
-   * @param index, unsigned int teh index of teh object to retrieve.
+   * @param index, unsigned int the index of the object to retrieve.
    *
    * @return pointer to the object.
    */
@@ -1650,7 +1650,7 @@ FbcModelPlugin_getStrict(SBasePlugin_t * fmp);
  * @copydetails doc_note_strict_v2_only
  *
  * @param fmp the FbcModelPlugin_t structure to set.
- * @param activeObjective the activeObjective to assign to the given FbcModelPlugin_t's "activeObjective" attribute.
+ * @param strict bool value of the "strict" attribute to be set.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}

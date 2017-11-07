@@ -113,6 +113,7 @@ namespace TestLibSBMLCSharp
             }
 
             testCreateSBML();
+            testMathML();
             testCovariantReturnTypes();
 
             // 
@@ -136,6 +137,36 @@ namespace TestLibSBMLCSharp
             Environment.Exit(0);
         }
 
+        static void testMathML()
+        {
+          string mathml = "<?xml version='1.0' encoding='UTF-8'?>\n" + 
+              "<math xmlns='http://www.w3.org/1998/Math/MathML'>\n" + 
+              "<apply>\n" + 
+              "	<divide />\n" + 
+              "	<ci>LacIbNormalized</ci>\n" + 
+              "	<apply>\n" + 
+              "		<csymbol definitionURL='http://sed-ml.org/#max' encoding='text'>max\n" + 
+              "		</csymbol>\n" + 
+              "		<ci>LacIbNormalized</ci>\n" + 
+              "	</apply>\n" + 
+              "</apply>\n" + 
+              "</math>\n";
+          ASTNode node = libsbml.readMathMLFromString(mathml);
+          if (node == null)
+          {
+            ERR("[testMathML] Error: couldn't read mathml string.");
+            return;
+          }
+          
+          string infix = libsbml.formulaToL3String(node);
+          if (infix  == null)
+          {
+            ERR("[testMathML] Error: couldn't create infix.");
+            return;
+          }
+          
+        }
+        
         static void testCovariantReturnTypes()
         {
           //

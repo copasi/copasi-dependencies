@@ -47,6 +47,11 @@ using namespace std;
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 
+
+
+#ifdef __cplusplus
+
+
 // -------------------------------------------
 // Apply<T>
 // -------------------------------------------
@@ -110,7 +115,7 @@ public:
 
 
   /*
-   * Returns @c true if the ConstraintSet is empty, @c false otherwise
+   * Returns true if the ConstraintSet is empty, false otherwise
    */
   bool
   empty() const
@@ -359,6 +364,11 @@ GroupsValidator::validate(const std::string& filename)
   delete d;
   return numErrors;
 }
+
+
+
+
+#endif /* __cplusplus */
 
 
 

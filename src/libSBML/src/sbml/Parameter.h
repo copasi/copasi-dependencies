@@ -66,8 +66,8 @@
  * <li> In SBML Level&nbsp;2, the value assigned to the parameter's "units"
  * attribute must be chosen from one of the following possibilities: one of
  * the base unit identifiers defined in SBML; one of the built-in unit
- * identifiers @c "substance", @c "time", @c "volume", @c "area" or @c
- * "length"; or the identifier of a new unit defined in the list of unit
+ * identifiers @c "substance", @c "time", @c "volume", @c "area" or
+ * @c "length"; or the identifier of a new unit defined in the list of unit
  * definitions in the enclosing Model structure.  There are no constraints
  * on the units that can be chosen from these sets.  There are no default
  * units for parameters.
@@ -614,8 +614,8 @@ public:
    * identifier.  It does this by constructing an appropriate
    * UnitDefinition.  For SBML Level&nbsp;2 models, it will do this even
    * when the value of the "units" attribute is one of the predefined SBML
-   * units @c "substance", @c "volume", @c "area", @c "length" or @c
-   * "time".  Callers may find this useful in conjunction with the helper
+   * units @c "substance", @c "volume", @c "area", @c "length" or
+   * @c "time".  Callers may find this useful in conjunction with the helper
    * methods provided by the UnitDefinition class for comparing different
    * UnitDefinition objects.
    *
@@ -1311,13 +1311,7 @@ BEGIN_C_DECLS
  *
  * @return a pointer to the newly created Parameter_t structure.
  *
- * @note Once a Parameter_t has been added to an SBMLDocument_t, the @p
- * level and @p version for the document @em override those used to create
- * the Parameter_t.  Despite this, the ability to supply the values at
- * creation time is an important aid to creating valid SBML.  Knowledge of
- * the intended SBML Level and Version  determine whether it is valid to
- * assign a particular value to an attribute, or whether it is valid to add
- * a structure to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof Parameter_t
  */
@@ -1335,13 +1329,7 @@ Parameter_create (unsigned int level, unsigned int version);
  *
  * @return a pointer to the newly created Parameter_t structure.
  *
- * @note Once a Parameter_t has been added to an SBMLDocument_t, the
- * @p sbmlns namespaces for the document @em override those used to create
- * the Parameter_t.  Despite this, the ability to supply the values at creation time
- * is an important aid to creating valid SBML.  Knowledge of the intended SBML
- * Level and Version determine whether it is valid to assign a particular value
- * to an attribute, or whether it is valid to add a structure to an existing
- * SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof Parameter_t
  */
@@ -1382,7 +1370,7 @@ Parameter_clone (const Parameter_t *p);
  * The exact results depends on the %SBML Level and Version in use.  The
  * cases are currently the following:
  * 
- * @li (%SBML Level 2 only) constant = 1 (true)
+ * @li (%SBML Level 2 only) constant = @c true
  *
  * @param p the Parameter_t structure to initialize.
  *
@@ -1467,13 +1455,13 @@ Parameter_getUnits (const Parameter_t *p);
 
 
 /**
- * Takes a Parameter_t structure and returns zero or nonzero, depending
+ * Takes a Parameter_t structure and returns @c 1 (true) or @c 0 (false), depending
  * on the value of the parameter's "constant" attribute.
  *
  * @param p the Parameter_t whose constant value is sought.
  *
- * @return the value of the "constant" attribute, with nonzero meaning
- * true and zero meaning false.
+ * @return the value of the "constant" attribute, with @c nonzero meaning
+ * true and @c zero meaning false.
  *
  * @memberof Parameter_t
  */
@@ -1483,13 +1471,13 @@ Parameter_getConstant (const Parameter_t *p);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Parameter_t structure's identifier is set.
  *
  * @param p the Parameter_t structure to query.
  * 
- * @return @c non-zero (true) if the "id" attribute of the given
- * Parameter_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "id" attribute of the given
+ * Parameter_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Parameter_t
  */
@@ -1499,13 +1487,13 @@ Parameter_isSetId (const Parameter_t *p);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Parameter_t structure's name is set.
  *
  * @param p the Parameter_t structure to query.
  * 
- * @return @c non-zero (true) if the "name" attribute of the given
- * Parameter_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "name" attribute of the given
+ * Parameter_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Parameter_t
  */
@@ -1515,13 +1503,13 @@ Parameter_isSetName (const Parameter_t *p);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Parameter_t structure's value is set.
  * 
  * @param p the Parameter_t structure to query.
  * 
- * @return @c non-zero (true) if the "value" attribute of the given
- * Parameter_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "value" attribute of the given
+ * Parameter_t structure is set, @c 0 (false) otherwise.
  *
  * @note In SBML Level 1 Version 1, a Parameter_t value is required and
  * therefore <em>should always be set</em>.  In Level 1 Version 2 and
@@ -1535,13 +1523,13 @@ Parameter_isSetValue (const Parameter_t *p);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Parameter_t structure's units have been set.
  *
  * @param p the Parameter_t structure to query.
  * 
- * @return @c non-zero (true) if the "units" attribute of the given
- * Parameter_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "units" attribute of the given
+ * Parameter_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Parameter_t
  */
@@ -1551,13 +1539,13 @@ Parameter_isSetUnits (const Parameter_t *p);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Parameter_t structure's constant attribute have been set.
  *
  * @param p the Parameter_t structure to query.
  * 
- * @return @c non-zero (true) if the "constant" attribute of the given
- * Parameter_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "constant" attribute of the given
+ * Parameter_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Parameter_t
  */
@@ -1569,7 +1557,7 @@ Parameter_isSetConstant (const Parameter_t *p);
 /**
  * Assigns the identifier of a Parameter_t structure.
  *
- * This makes a copy of the string passed in the param @p sid.
+ * This makes a copy of the string passed in the parameter @p sid.
  *
  * @param p the Parameter_t structure to set.
  * @param sid the string to use as the identifier.
@@ -1578,7 +1566,7 @@ Parameter_isSetConstant (const Parameter_t *p);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof Parameter_t
@@ -1616,8 +1604,9 @@ Parameter_setName (Parameter_t *p, const char *name);
  * @param p the Parameter_t structure to set.
  * @param value the @c double value to use.
  *
- * @copydetails doc_returns_one_success_code
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof Parameter_t
  */
@@ -1653,7 +1642,7 @@ Parameter_setUnits (Parameter_t *p, const char *units);
  *
  * @param p the Parameter_t structure to set.
  * @param value the value to assign as the "constant" attribute
- * of the parameter, either zero for false or nonzero for true.
+ * of the parameter, either @c zero for false or @c nonzero for true.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1710,8 +1699,9 @@ Parameter_unsetConstant (Parameter_t *c);
  *
  * @param p the Parameter_t structure whose value is to be unset.
  *
- * @copydetails doc_returns_one_success_code
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof Parameter_t
  */
@@ -1757,7 +1747,7 @@ Parameter_getDerivedUnitDefinition(Parameter_t *p);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether
  * all the required attributes for this Parameter_t structure
  * have been set.
  *
@@ -1767,8 +1757,8 @@ Parameter_getDerivedUnitDefinition(Parameter_t *p);
  *
  * @param p the Parameter_t structure to check.
  *
- * @return @c true if all the required
- * attributes for this structure have been defined, @c false otherwise.
+ * @return @c 1 (true) if all the required
+ * attributes for this structure have been defined, @c 0 (false) otherwise.
  *
  * @memberof Parameter_t
  */

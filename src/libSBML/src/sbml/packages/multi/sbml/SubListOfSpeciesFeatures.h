@@ -33,11 +33,15 @@
  * MultiSpeciesPlugin object).  Listed alongside its sibling SpeciesFeature
  * objects, it allows the user to define a set of two or more SpeciesFeature
  * elements that have a logical relationship with each other.  This
- * relationship is defined by the "relation" attribute, which is of type
- * @if java {@link Relation_t} @else@link Relation_t Relation_t@endlink@endif,
- * and can be "and", "or", "not".  (An "unknown" option is provided here for
- * incomplete models, but cannot be used in a valid SBML document.)  If any
- * SpeciesFeature involved in a SubListOfSpeciesFeatures references a
+ * relationship is defined by the "relation" attribute, which is an
+ * enumeration of values representing "and", "or", "not".  (An "unknown"
+ * option is provided here for incomplete models, but cannot be used in a
+ * valid SBML document.)  The following constants represent the values:
+ * @sbmlconstant{MULTI_RELATION_AND, Relation_t},
+ * @sbmlconstant{MULTI_RELATION_OR, Relation_t},
+ * @sbmlconstant{MULTI_RELATION_NOT, Relation_t}, and
+ * @sbmlconstant{MULTI_RELATION_UNKNOWN, Relation_t}.
+ * If any SpeciesFeature involved in a SubListOfSpeciesFeatures references a
  * SpeciesFeatureType with an "occur" attribute greater than 1, the
  * SubListOfSpeciesFeatures can only have the value "and" for its relation
  * attribute.
@@ -50,7 +54,7 @@
 #include <sbml/common/sbmlfwd.h>
 #include <sbml/packages/multi/common/multifwd.h>
 
- /**
+/**
  * @enum  Relation_t
  * @brief Enumeration of possible relations between the children of a
  * SubListOfSpeciesFeatures in the libSBML "multi" package implementation.
@@ -286,7 +290,7 @@ public:
    *
    * @param n the index number of the SpeciesFeature to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -298,7 +302,7 @@ public:
    *
    * @param n the index number of the SpeciesFeature to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -311,7 +315,7 @@ public:
    * @param sid a string representing the identifier
    * of the SpeciesFeature to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)   *
    * @see size()
@@ -325,7 +329,7 @@ public:
    * @param sid a string representing the identifier
    * of the SpeciesFeature to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)   *
    * @see size()
@@ -339,7 +343,7 @@ public:
    *
    * @param n the index of the SpeciesFeature to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    *
    * @see size()
@@ -352,7 +356,7 @@ public:
    *
    * @param sid the identifier of the SpeciesFeature to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    */
   virtual SpeciesFeature* remove(const std::string& sid);
@@ -551,27 +555,51 @@ protected:
 
 };
 
+LIBSBML_CPP_NAMESPACE_END
+
+#endif  /*  __cplusplus  */
+
+LIBSBML_CPP_NAMESPACE_BEGIN
+BEGIN_C_DECLS
+
+#ifndef SWIG
+
+#endif  /*  !SWIG  */
+
+/**
+* @memberof SubListOfSpeciesFeatures_t
+*/
 LIBSBML_EXTERN
 int
 SubListOfSpeciesFeatures_isValidRelation(Relation_t relation);
 
 
+/**
+* @memberof SubListOfSpeciesFeatures_t
+*/
 LIBSBML_EXTERN
 int
 SubListOfSpeciesFeatures_isValidRelationString(const char* s);
 
-
+/**
+* @memberof SubListOfSpeciesFeatures_t
+*/
 LIBSBML_EXTERN
 const char*
 Relation_toString(Relation_t relation);
 
 
+/**
+* @memberof SubListOfSpeciesFeatures_t
+*/
 LIBSBML_EXTERN
 Relation_t
 Relation_fromString(const char* s);
 
+END_C_DECLS
 LIBSBML_CPP_NAMESPACE_END
 
-#endif  /*  __cplusplus  */
+
+
 
 #endif /* SubListOfSpeciesFeatures_H__ */

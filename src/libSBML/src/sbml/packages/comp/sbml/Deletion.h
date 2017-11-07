@@ -342,13 +342,13 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new Deletion_t structure using the given SBML @p level
- * and @p version values.
+ * and @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML Level to assign to this
  * Deletion_t.
  * @param version an unsigned int, the SBML Version to assign to this
  * Deletion_t.
- * @param pkgVersion an unsigned int, the SBML 'Qual' package Version to assign to this
+ * @param pkgVersion an unsigned int, the SBML 'comp' package Version to assign to this
  * Deletion_t.
  *
  * @return a pointer to the newly created Deletion_t structure.
@@ -416,13 +416,13 @@ Deletion_getName(Deletion_t * d);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Deletion_t structure's identifier is set.
  *
  * @param d the Deletion_t structure to query.
  * 
- * @return @c non-zero (true) if the "id" attribute of the given
- * Deletion_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "id" attribute of the given
+ * Deletion_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Deletion_t
  */
@@ -432,13 +432,13 @@ Deletion_isSetId(Deletion_t * d);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Deletion_t structure's name is set.
  *
  * @param d the Deletion_t structure to query.
  * 
- * @return @c non-zero (true) if the "name" attribute of the given
- * Deletion_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "name" attribute of the given
+ * Deletion_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Deletion_t
  */
@@ -450,7 +450,7 @@ Deletion_isSetName(Deletion_t * d);
 /**
  * Assigns the identifier of an Deletion_t structure.
  *
- * This makes a copy of the string passed in the param @p sid.
+ * This makes a copy of the string passed in the parameter @p sid.
  *
  * @param d the Deletion_t structure to set.
  * @param sid the string to use as the identifier.
@@ -459,7 +459,7 @@ Deletion_isSetName(Deletion_t * d);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof Deletion_t
@@ -526,8 +526,8 @@ Deletion_unsetName(Deletion_t * d);
   * all the required attributes for the given Deletion_t structure
   * have been set.
   *
-  * @note The required attributes for a Deletion_t structure are:
-  * @li useValuesfromTriggerTime ( L3 onwards )
+  * @note The required attributes for a Deletion_t structure are
+  * that it uses exactly one attribute to refer to its target.
   *
  * @memberof Deletion_t
  */
@@ -542,12 +542,12 @@ Deletion_hasRequiredAttributes(Deletion_t * d);
  * @param lo the ListOf_t structure to use.
  *
  * @param sid a string, the identifier of the
- * Deletion_t is being sought.
+ * Deletion_t being sought.
  *
  * @return the Deletion_t for the given variable, or @c NULL if no such
- * Deletion_t exits.
+ * Deletion_t exists.
  *
- * @memberof Deletion_t
+ * @memberof ListOfDeletions_t
  */
 LIBSBML_EXTERN
 Deletion_t *
@@ -567,7 +567,7 @@ ListOfDeletions_getById(ListOf_t * lo, const char * sid);
  * caller owns the returned structure. @c NULL is returned if no Deletion_t
  * structure with the "id" attribute exists in the given ListOf_t structure.
  *
- * @memberof Deletion_t
+ * @memberof ListOfDeletions_t
  */
 LIBSBML_EXTERN
 Deletion_t *

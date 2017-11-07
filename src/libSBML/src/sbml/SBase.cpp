@@ -3416,16 +3416,7 @@ SBase::getPackageName () const
 
 
 /*
- * @return the typecode (int) of this SBML object or SBML_UNKNOWN
- * (default).
- *
- * This method MAY return the typecode of this SBML object or it MAY
- * return SBML_UNKNOWN.  That is, subclasses of SBase are not required to
- * implement this method to return a typecode.  This method is meant
- * primarily for the LibSBML C interface where class and subclass
- * information is not readily available.
- *
- * @see getElementName()
+ * @return the typecode (int) of this SBML object.
  */
 int
 SBase::getTypeCode () const
@@ -3578,12 +3569,6 @@ SBase::disablePackage(const std::string& pkgURI, const std::string& prefix)
 
 /*
  * Enables/Disables the given package with this object.
- *
- * @copydetails doc_returns_success_code
- * @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS @endlink
- * @li LIBSBML_PKG_UNKNOWN
- * @li LIBSBML_PKG_VERSION_MISMATCH
- * @li LIBSBML_PKG_CONFLICTED_VERSION
  */
 int
 SBase::enablePackage(const std::string& pkgURI, const std::string& prefix, bool flag)
@@ -3853,8 +3838,8 @@ SBase::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPr
  *
  * @param pkgURI the URI of the package.
  *
- * @return @c true if the given package is enabled with this object, @c
- * false otherwise.
+ * @return @c true if the given package is enabled with this object,
+ * @c false otherwise.
  */
 bool
 SBase::isPackageURIEnabled(const std::string& pkgURI) const
@@ -3874,8 +3859,8 @@ SBase::isPackageURIEnabled(const std::string& pkgURI) const
  *
  * @param pkgURI the URI of the package.
  *
- * @return @c true if the given package is enabled with this object, @c
- * false otherwise.
+ * @return @c true if the given package is enabled with this object,
+ * @c false otherwise.
  */
 bool
 SBase::isPkgURIEnabled(const std::string& pkgURI) const
@@ -3890,8 +3875,8 @@ SBase::isPkgURIEnabled(const std::string& pkgURI) const
  *
  * @param pkgName the URI of the package.
  *
- * @return @c true if the given package is enabled with this object, @c
- * false otherwise.
+ * @return @c true if the given package is enabled with this object,
+ * @c false otherwise.
  */
 bool
 SBase::isPackageEnabled(const std::string& pkgName) const
@@ -3911,8 +3896,8 @@ SBase::isPackageEnabled(const std::string& pkgName) const
  *
  * @param pkgName the URI of the package.
  *
- * @return @c true if the given package is enabled with this object, @c
- * false otherwise.
+ * @return @c true if the given package is enabled with this object,
+ * @c false otherwise.
  */
 bool
 SBase::isPkgEnabled(const std::string& pkgName) const
@@ -5624,7 +5609,7 @@ SBase::readAttributes (const XMLAttributes& attributes,
   }
 
   // for l3v2 a document should only have sbo terms from modelling framework
-  // this is impossible to catch in teh validation framework which does not work
+  // this is impossible to catch in the validation framework which does not work
   // on a document level - so we will need to catch it here
   if (isSetSBOTerm() && getTypeCode() == SBML_DOCUMENT)
   {
@@ -7841,6 +7826,15 @@ SBase_getElementName (const SBase_t *sb)
 {
   return (sb != NULL && !(sb->getElementName().empty())) ?
     sb->getElementName().c_str() : NULL;
+}
+
+
+LIBSBML_EXTERN
+char *
+SBase_getPackageName(const SBaseExtensionPoint_t *sb)
+{
+  if (sb == NULL) return NULL;
+  return safe_strdup(sb->getPackageName().c_str());
 }
 
 

@@ -280,7 +280,7 @@ BEGIN_C_DECLS
  * @param sbmlns the namespaces.
  *
  * @return a new SBMLDocumentPlugin_t structure with the given package
- * uri, prefix and SBMLNamespaces. Or null in case a NULL uri or prefix
+ * uri, prefix and SBMLNamespaces, or @c NULL in case a NULL uri or prefix
  * was given.
  *
  * @memberof SBMLDocumentPlugin_t
@@ -319,6 +319,7 @@ LIBSBML_EXTERN
 SBMLDocumentPlugin_t*
 SBMLDocumentPlugin_clone(SBMLDocumentPlugin_t* plugin);
 
+/** @cond doxygenLibsbmlInternal */
 /**
  * Subclasses should override this method to get the list of
  * expected attributes if they have their specific attributes.
@@ -358,6 +359,7 @@ int
 SBMLDocumentPlugin_readAttributes(SBMLDocumentPlugin_t* plugin,
       const XMLAttributes_t* attributes,
       const ExpectedAttributes_t* expectedAttributes);
+/** @endcond*/
 
 /**
  * Subclasses must override this method to write their XML attributes
@@ -380,14 +382,14 @@ SBMLDocumentPlugin_writeAttributes(SBMLDocumentPlugin_t* plugin,
 
 /**
  * Returns the value of "required" attribute of corresponding
- * package in the SBMLDocument_t element. The value is true (1) if the
- * package is required, or false (0) otherwise.
+ * package in the SBMLDocument_t element. The value is @c 1 (true) if the
+ * package is required, or @c 0 (false) otherwise.
  *
  * @param plugin the SBMLDocumentPlugin_t structure.
  *
  * @return the value of "required" attribute of corresponding
- * package in the SBMLDocument_t element. The value is true (1) if the
- * package is required, or false (0) otherwise. If the plugin is invalid
+ * package in the SBMLDocument_t element. The value is @c 1 (true) if the
+ * package is required, or @c 0 (false) otherwise. If the plugin is invalid
  * LIBSBML_INVALID_OBJECT will be returned.
  *
  * @memberof SBMLDocumentPlugin_t
@@ -399,15 +401,15 @@ SBMLDocumentPlugin_getRequired(SBMLDocumentPlugin_t* plugin);
 
 /**
  * Sets the value of "required" attribute of corresponding
- * package in the SBMLDocument_t element. The value is true (1) if the
- * package is required, or false (0) otherwise.
+ * package in the SBMLDocument_t element. The value is @c 1 (true) if the
+ * package is required, or @c 0 (false) otherwise.
  *
  * @param plugin the SBMLDocumentPlugin_t structure.
  * @param required the new value for the "required" attribute.
  *
  * @return the value of "required" attribute of corresponding
- * package in the SBMLDocument_t element. The value is true (1) if the
- * package is required, or false (0) otherwise. If the plugin is invalid
+ * package in the SBMLDocument_t element. The value is @c 1 (true) if the
+ * package is required, or @c 0 (false) otherwise. If the plugin is invalid
  * LIBSBML_INVALID_OBJECT will be returned.
  *
  * @memberof SBMLDocumentPlugin_t
@@ -418,13 +420,13 @@ SBMLDocumentPlugin_setRequired(SBMLDocumentPlugin_t* plugin, int required);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * SBMLDocumentPlugin_t structure's "required" attribute is set.
  *
  * @param plugin the SBMLDocumentPlugin_t structure to query.
  *
- * @return @c non-zero (true) if the "required" attribute of the given
- * SBMLDocumentPlugin_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "required" attribute of the given
+ * SBMLDocumentPlugin_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof SBMLDocumentPlugin_t
  */

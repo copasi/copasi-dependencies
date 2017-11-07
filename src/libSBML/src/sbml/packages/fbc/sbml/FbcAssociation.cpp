@@ -47,6 +47,8 @@
 using namespace std;
 
 
+#ifdef __cplusplus
+
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 
@@ -1208,6 +1210,9 @@ ListOfFbcAssociations::isValidTypeForList(SBase * item)
     return code == getItemTypeCode() || code == SBML_FBC_AND || code == SBML_FBC_OR || code == SBML_FBC_GENEPRODUCTREF ;
 }
 
+LIBSBML_CPP_NAMESPACE_END
+
+#endif /* __cplusplus */
 
 LIBSBML_EXTERN
 FbcAssociation_t *
@@ -1299,7 +1304,5 @@ FbcAssociation_parseFbcInfixAssociation(const char * infix, SBasePlugin_t* plugi
 
 
 
-
-LIBSBML_CPP_NAMESPACE_END
 
 

@@ -401,7 +401,7 @@ protected:
   virtual bool hasPackageOnlyInfixSyntax() const;
 
   /**
-   * Get the precedence of this package function, or -1 if unknown
+   * Get the precedence of this package function, or @c -1 if unknown
    */
   virtual int getL3PackageInfixPrecedence() const;
 
@@ -442,7 +442,7 @@ protected:
    * The user input a string of the form "name(...)", and we want to know if
    * 'name' is recognized by a package as being a particular function.  We already
    * know that it is not used in the Model as a FunctionDefinition.  Should do
-   * caseless string comparison.  Return the type of the function, or AST_UNKNOWN
+   * caseless string comparison.  Return the type of the function, or @sbmlconstant{AST_UNKNOWN, ASTNodeType_t}
    * if nothing found.
    */
   virtual int getPackageFunctionFor(const std::string& name) const;
@@ -847,7 +847,7 @@ protected:
   virtual bool hasPackageOnlyInfixSyntax() const;
 
   /**
-  * Get the precedence of this package function, or -1 if unknown
+  * Get the precedence of this package function, or @c -1 if unknown
   */
   virtual int getL3PackageInfixPrecedence() const;
 
@@ -888,7 +888,7 @@ protected:
   * The user input a string of the form "name(...)", and we want to know if
   * 'name' is recognized by a package as being a particular function.  We already
   * know that it is not used in the Model as a FunctionDefinition.  Should do
-  * caseless string comparison.  Return the type of the function, or AST_UNKNOWN
+  * caseless string comparison.  Return the type of the function, or @sbmlconstant{AST_UNKNOWN, ASTNodeType_t}
   * if nothing found.
   */
   virtual int getPackageFunctionFor(const std::string& name) const;

@@ -106,8 +106,6 @@ protected:
 
   /** @cond doxygenLibsbmlInternal */
 
-//  std::string mId;
-//  std::string mName;
 
   /** @endcond */
 
@@ -126,7 +124,7 @@ public:
    * @param pkgVersion an unsigned int, the SBML Groups Version to assign to
    * this ListOfMembers.
    *
-   * @copydetails doc_note_setting_lv
+   * @copydetails doc_note_setting_lv_pkg
    */
   ListOfMembers(unsigned int level = GroupsExtension::getDefaultLevel(),
                 unsigned int version = GroupsExtension::getDefaultVersion(),
@@ -141,7 +139,7 @@ public:
    *
    * @param groupsns the GroupsPkgNamespaces object.
    *
-   * @copydetails doc_note_setting_lv
+   * @copydetails doc_note_setting_lv_pkg
    */
   ListOfMembers(GroupsPkgNamespaces *groupsns);
 
@@ -182,7 +180,7 @@ public:
    *
    * @return the value of the "id" attribute of this ListOfMembers as a string.
    */
-  const std::string& getId() const;
+  virtual const std::string& getId() const;
 
 
   /**
@@ -191,7 +189,7 @@ public:
    * @return the value of the "name" attribute of this ListOfMembers as a
    * string.
    */
-  const std::string& getName() const;
+  virtual const std::string& getName() const;
 
 
   /**
@@ -200,7 +198,7 @@ public:
    * @return @c true if this ListOfMembers's "id" attribute has been set,
    * otherwise @c false is returned.
    */
-  bool isSetId() const;
+  virtual bool isSetId() const;
 
 
   /**
@@ -210,7 +208,7 @@ public:
    * @return @c true if this ListOfMembers's "name" attribute has been set,
    * otherwise @c false is returned.
    */
-  bool isSetName() const;
+  virtual bool isSetName() const;
 
 
   /**
@@ -222,8 +220,11 @@ public:
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
    * OperationReturnValues_t}
+   *
+   * Calling this function with @p id = @c NULL or an empty string is
+   * equivalent to calling unsetId().
    */
-  int setId(const std::string& id);
+  virtual int setId(const std::string& id);
 
 
   /**
@@ -231,12 +232,13 @@ public:
    *
    * @param name std::string& value of the "name" attribute to be set.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
+   *
+   * Calling this function with @p name = @c NULL or an empty string is
+   * equivalent to calling unsetName().
    */
-  int setName(const std::string& name);
+  virtual int setName(const std::string& name);
 
 
   /**
@@ -246,7 +248,7 @@ public:
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
-  int unsetId();
+  virtual int unsetId();
 
 
   /**
@@ -256,18 +258,24 @@ public:
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
-  int unsetName();
+  virtual int unsetName();
 
 
   /**
    * Get a Member from the ListOfMembers.
    *
-   * @param n an unsigned int representing the index of the Member to
-   * retrieve.
+   * @param n an unsigned int representing the index of the Member to retrieve.
    *
    * @return the nth Member in this ListOfMembers.
    *
-   * @see size()
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addMember(const Member* object)
+   * @see createMember()
+   * @see get(const std::string& sid)
+   * @see getNumMembers()
+   * @see remove(const std::string& sid)
+   * @see remove(unsigned int n)
    */
   virtual Member* get(unsigned int n);
 
@@ -275,12 +283,18 @@ public:
   /**
    * Get a Member from the ListOfMembers.
    *
-   * @param n an unsigned int representing the index of the Member to
-   * retrieve.
+   * @param n an unsigned int representing the index of the Member to retrieve.
    *
    * @return the nth Member in this ListOfMembers.
    *
-   * @see size()
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addMember(const Member* object)
+   * @see createMember()
+   * @see get(const std::string& sid)
+   * @see getNumMembers()
+   * @see remove(const std::string& sid)
+   * @see remove(unsigned int n)
    */
   virtual const Member* get(unsigned int n) const;
 
@@ -290,10 +304,17 @@ public:
    *
    * @param sid a string representing the identifier of the Member to retrieve.
    *
-   * @return the Member in this ListOfMembers with the given id or NULL if no
-   * such Member exists.
+   * @return the Member in this ListOfMembers with the given @p sid or @c NULL
+   * if no such Member exists.
    *
-   * @see size()
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addMember(const Member* object)
+   * @see createMember()
+   * @see get(unsigned int n)
+   * @see getNumMembers()
+   * @see remove(const std::string& sid)
+   * @see remove(unsigned int n)
    */
   virtual Member* get(const std::string& sid);
 
@@ -303,10 +324,17 @@ public:
    *
    * @param sid a string representing the identifier of the Member to retrieve.
    *
-   * @return the Member in this ListOfMembers with the given id or NULL if no
-   * such Member exists.
+   * @return the Member in this ListOfMembers with the given @p sid or @c NULL
+   * if no such Member exists.
    *
-   * @see size()
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addMember(const Member* object)
+   * @see createMember()
+   * @see get(unsigned int n)
+   * @see getNumMembers()
+   * @see remove(const std::string& sid)
+   * @see remove(unsigned int n)
    */
   virtual const Member* get(const std::string& sid) const;
 
@@ -319,10 +347,14 @@ public:
    *
    * @return a pointer to the nth Member in this ListOfMembers.
    *
-   * @see size()
+   * @copydetails doc_returned_owned_pointer
    *
-   * @note the caller owns the returned object and is responsible for deleting
-   * it.
+   * @see addMember(const Member* object)
+   * @see createMember()
+   * @see get(const std::string& sid)
+   * @see get(unsigned int n)
+   * @see getNumMembers()
+   * @see remove(const std::string& sid)
    */
   virtual Member* remove(unsigned int n);
 
@@ -336,8 +368,14 @@ public:
    * @return the Member in this ListOfMembers based on the identifier or NULL
    * if no such Member exists.
    *
-   * @note the caller owns the returned object and is responsible for deleting
-   * it.
+   * @copydetails doc_returned_owned_pointer
+   *
+   * @see addMember(const Member* object)
+   * @see createMember()
+   * @see get(const std::string& sid)
+   * @see get(unsigned int n)
+   * @see getNumMembers()
+   * @see remove(unsigned int n)
    */
   virtual Member* remove(const std::string& sid);
 
@@ -350,10 +388,20 @@ public:
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_LEVEL_MISMATCH, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_VERSION_MISMATCH, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_PKG_VERSION_MISMATCH, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_DUPLICATE_OBJECT_ID, OperationReturnValues_t}
    *
    * @copydetails doc_note_object_is_copied
    *
    * @see createMember()
+   * @see get(const std::string& sid)
+   * @see get(unsigned int n)
+   * @see getNumMembers()
+   * @see remove(const std::string& sid)
+   * @see remove(unsigned int n)
    */
   int addMember(const Member* m);
 
@@ -362,6 +410,14 @@ public:
    * Get the number of Member objects in this ListOfMembers.
    *
    * @return the number of Member objects in this ListOfMembers.
+   *
+   *
+   * @see addMember(const Member* object)
+   * @see createMember()
+   * @see get(const std::string& sid)
+   * @see get(unsigned int n)
+   * @see remove(const std::string& sid)
+   * @see remove(unsigned int n)
    */
   unsigned int getNumMembers() const;
 
@@ -372,31 +428,44 @@ public:
    *
    * @return a new Member object instance.
    *
-   * @see addMember(const Member* m)
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addMember(const Member* object)
+   * @see get(const std::string& sid)
+   * @see get(unsigned int n)
+   * @see getNumMembers()
+   * @see remove(const std::string& sid)
+   * @see remove(unsigned int n)
    */
   Member* createMember();
 
 
   /**
-   * Get a Member from the ListOfMembers based on the IdRef to which it refers.
+   * Get a Member from the ListOfMembers based on the element to which it
+   * refers.
    *
-   * @param sid a string representing the idRef attribute of the Member object
-   * to retrieve.
+   * @param sid a string representing the "idRef" attribute of the Member
+   * object to retrieve.
    *
    * @return the first Member in this ListOfMembers based on the given idRef
    * attribute or NULL if no such Member exists.
+   *
+   * @copydetails doc_returned_unowned_pointer
    */
   const Member* getByIdRef(const std::string& sid) const;
 
 
   /**
-   * Get a Member from the ListOfMembers based on the IdRef to which it refers.
+   * Get a Member from the ListOfMembers based on the element to which it
+   * refers.
    *
-   * @param sid a string representing the idRef attribute of the Member object
-   * to retrieve.
+   * @param sid a string representing the "idRef" attribute of the Member
+   * object to retrieve.
    *
    * @return the first Member in this ListOfMembers based on the given idRef
    * attribute or NULL if no such Member exists.
+   *
+   * @copydetails doc_returned_unowned_pointer
    */
   Member* getByIdRef(const std::string& sid);
 
@@ -417,7 +486,6 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   *
    * @sbmlconstant{SBML_LIST_OF, SBMLTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
@@ -432,7 +500,6 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML typecode for the objects contained in this ListOfMembers:
-   *
    * @sbmlconstant{SBML_GROUPS_MEMBER, SBMLGroupsTypeCode_t}
    *
    * @copydetails doc_warning_typecodes_not_unique
@@ -449,11 +516,18 @@ public:
    *
    * @return @c true to indicate that all the required attributes of this
    * ListOfMembers have been set, otherwise @c false is returned.
-   *
-   *
-   * @note The required attributes for the ListOfMembers object are:
    */
   virtual bool hasRequiredAttributes() const;
+
+
+
+
+  #ifndef SWIG
+
+
+
+
+  #endif /* !SWIG */
 
 
 protected:
@@ -549,10 +623,12 @@ BEGIN_C_DECLS
  * @return the value of the "id" attribute of this ListOf_t as a pointer to a
  * string.
  *
- * @memberof Member_t
+ * @copydetails doc_returned_owned_char
+ *
+ * @memberof ListOfMembers_t
  */
 LIBSBML_EXTERN
-const char *
+char *
 ListOfMembers_getId(const ListOf_t * lo);
 
 
@@ -564,22 +640,24 @@ ListOfMembers_getId(const ListOf_t * lo);
  * @return the value of the "name" attribute of this ListOf_t as a pointer to a
  * string.
  *
- * @memberof Member_t
+ * @copydetails doc_returned_owned_char
+ *
+ * @memberof ListOfMembers_t
  */
 LIBSBML_EXTERN
-const char *
+char *
 ListOfMembers_getName(const ListOf_t * lo);
 
 
 /**
- * Predicate returning @c 1 if this ListOf_t's "id" attribute is set.
+ * Predicate returning @c 1 (true) if this ListOf_t's "id" attribute is set.
  *
  * @param lo the ListOf_t structure.
  *
- * @return @c 1 if this ListOf_t's "id" attribute has been set, otherwise @c 0
- * is returned.
+ * @return @c 1 (true) if this ListOf_t's "id" attribute has been set,
+ * otherwise @c 0 (false) is returned.
  *
- * @memberof Member_t
+ * @memberof ListOfMembers_t
  */
 LIBSBML_EXTERN
 int
@@ -587,14 +665,14 @@ ListOfMembers_isSetId(const ListOf_t * lo);
 
 
 /**
- * Predicate returning @c 1 if this ListOf_t's "name" attribute is set.
+ * Predicate returning @c 1 (true) if this ListOf_t's "name" attribute is set.
  *
  * @param lo the ListOf_t structure.
  *
- * @return @c 1 if this ListOf_t's "name" attribute has been set, otherwise @c
- * 0 is returned.
+ * @return @c 1 (true) if this ListOf_t's "name" attribute has been set,
+ * otherwise @c 0 (false) is returned.
  *
- * @memberof Member_t
+ * @memberof ListOfMembers_t
  */
 LIBSBML_EXTERN
 int
@@ -611,8 +689,12 @@ ListOfMembers_isSetName(const ListOf_t * lo);
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @memberof Member_t
+ * Calling this function with @p id = @c NULL or an empty string is equivalent
+ * to calling ListOfMembers_unsetId().
+ *
+ * @memberof ListOfMembers_t
  */
 LIBSBML_EXTERN
 int
@@ -628,9 +710,12 @@ ListOfMembers_setId(ListOf_t * lo, const char * id);
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
- * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @memberof Member_t
+ * Calling this function with @p name = @c NULL or an empty string is
+ * equivalent to calling ListOfMembers_unsetName().
+ *
+ * @memberof ListOfMembers_t
  */
 LIBSBML_EXTERN
 int
@@ -645,8 +730,9 @@ ListOfMembers_setName(ListOf_t * lo, const char * name);
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @memberof Member_t
+ * @memberof ListOfMembers_t
  */
 LIBSBML_EXTERN
 int
@@ -661,8 +747,9 @@ ListOfMembers_unsetId(ListOf_t * lo);
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @memberof Member_t
+ * @memberof ListOfMembers_t
  */
 LIBSBML_EXTERN
 int
@@ -674,15 +761,16 @@ ListOfMembers_unsetName(ListOf_t * lo);
  *
  * @param lo the ListOf_t structure to search.
  *
- * @param n an unsigned int representing the index of the Member_t to
- * retrieve.
+ * @param n an unsigned int representing the index of the Member_t to retrieve.
  *
  * @return the nth Member_t in this ListOf_t.
  *
- * @memberof Member_t
+ * @copydetails doc_returned_unowned_pointer
+ *
+ * @memberof ListOfMembers_t
  */
 LIBSBML_EXTERN
-const Member_t*
+Member_t*
 ListOfMembers_getMember(ListOf_t* lo, unsigned int n);
 
 
@@ -693,13 +781,15 @@ ListOfMembers_getMember(ListOf_t* lo, unsigned int n);
  *
  * @param sid a string representing the identifier of the Member_t to retrieve.
  *
- * @return the Member_t in this ListOf_t with the given id or NULL if no such
- * Member_t exists.
+ * @return the Member_t in this ListOf_t with the given @p sid or @c NULL if no
+ * such Member_t exists.
  *
- * @memberof Member_t
+ * @copydetails doc_returned_unowned_pointer
+ *
+ * @memberof ListOfMembers_t
  */
 LIBSBML_EXTERN
-const Member_t*
+Member_t*
 ListOfMembers_getById(ListOf_t* lo, const char *sid);
 
 
@@ -712,7 +802,9 @@ ListOfMembers_getById(ListOf_t* lo, const char *sid);
  *
  * @return a pointer to the nth Member_t in this ListOf_t.
  *
- * @memberof Member_t
+ * @copydetails doc_returned_owned_pointer
+ *
+ * @memberof ListOfMembers_t
  */
 LIBSBML_EXTERN
 Member_t*
@@ -730,7 +822,9 @@ ListOfMembers_remove(ListOf_t* lo, unsigned int n);
  * @return the Member_t in this ListOf_t based on the identifier or NULL if no
  * such Member_t exists.
  *
- * @memberof Member_t
+ * @copydetails doc_returned_owned_pointer
+ *
+ * @memberof ListOfMembers_t
  */
 LIBSBML_EXTERN
 Member_t*
@@ -755,3 +849,5 @@ LIBSBML_CPP_NAMESPACE_END
 
 
 #endif /* !ListOfMembers_H__ */
+
+

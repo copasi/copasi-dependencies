@@ -548,7 +548,7 @@ public:
    * of the OutwardBindingSite to get.
    *
    * @return OutwardBindingSite in this ListOfOutwardBindingSites
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * OutwardBindingSite exists.
    *
    * @see get(unsigned int n)   *
@@ -565,7 +565,7 @@ public:
    * of the OutwardBindingSite to get.
    *
    * @return OutwardBindingSite in this ListOfOutwardBindingSites
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * OutwardBindingSite exists.
    *
    * @see get(unsigned int n)   *
@@ -618,8 +618,8 @@ public:
    * @if clike LibSBML attaches an identifying code to every kind of SBML
    * object.  These are known as <em>SBML type codes</em>.  The set of
    * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
+   * The names of the type codes all begin with the characters
+   * @c SBML_. @endif@if java LibSBML attaches an identifying code to every
    * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
    * other languages, the set of type codes is stored in an enumeration; in
    * the Java language interface for libSBML, the type codes are defined as
@@ -652,8 +652,8 @@ public:
    * @if clike LibSBML attaches an identifying code to every kind of SBML
    * object.  These are known as <em>SBML type codes</em>.  The set of
    * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
+   * The names of the type codes all begin with the characters
+   * @c SBML_. @endif@if java LibSBML attaches an identifying code to every
    * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
    * other languages, the set of type codes is stored in an enumeration; in
    * the Java language interface for libSBML, the type codes are defined as
@@ -730,122 +730,215 @@ LIBSBML_CPP_NAMESPACE_END
 LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 OutwardBindingSite_t *
 OutwardBindingSite_create(unsigned int level, unsigned int version,
                           unsigned int pkgVersion);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 void
 OutwardBindingSite_free(OutwardBindingSite_t * obs);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 OutwardBindingSite_t *
 OutwardBindingSite_clone(OutwardBindingSite_t * obs);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 char *
 OutwardBindingSite_getId(OutwardBindingSite_t * cr);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 char *
 OutwardBindingSite_getName(OutwardBindingSite_t * cr);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 BindingStatus_t
 OutwardBindingSite_getBindingStatus(OutwardBindingSite_t * obs);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 char *
 OutwardBindingSite_getComponent(OutwardBindingSite_t * obs);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int
 OutwardBindingSite_isSetId(OutwardBindingSite_t * cr);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int
 OutwardBindingSite_isSetName(OutwardBindingSite_t * cr);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int
 OutwardBindingSite_isSetBindingStatus(OutwardBindingSite_t * obs);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int
 OutwardBindingSite_isSetComponent(OutwardBindingSite_t * obs);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int
 OutwardBindingSite_setId(OutwardBindingSite_t * cr, const char * id);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int
 OutwardBindingSite_setName(OutwardBindingSite_t * cr, const char * name);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int
 OutwardBindingSite_setBindingStatus(OutwardBindingSite_t * obs, 
                                     BindingStatus_t bindingStatus);
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int
 OutwardBindingSite_setComponent(OutwardBindingSite_t * obs, const char * component);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int
 OutwardBindingSite_unsetId(OutwardBindingSite_t * cr);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int
 OutwardBindingSite_unsetName(OutwardBindingSite_t * cr);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int
 OutwardBindingSite_unsetBindingStatus(OutwardBindingSite_t * obs);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int
 OutwardBindingSite_unsetComponent(OutwardBindingSite_t * obs);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int
 OutwardBindingSite_hasRequiredAttributes(OutwardBindingSite_t * obs);
 
 
+/**
+* Return the structure indicated by the given @p sid.
+*
+* @param lo the ListOf_t structure to use.
+*
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure for the given variable, or @c NULL if no such
+* object exists in the list.
+*
+* @memberof ListOfOutwardBindingSites_t
+*/
 LIBSBML_EXTERN
 OutwardBindingSite_t *
 ListOfOutwardBindingSites_getById(ListOf_t * lo, const char * sid);
 
 
+/**
+* Removes the structure with the given @p sid
+* from the given list and returns a pointer to it.
+*
+* The caller owns the returned structure and is responsible for deleting it.
+*
+* @param lo the ListOf_t structure.
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure removed.  As mentioned above, the
+* caller owns the returned structure. @c NULL is returned if no
+* structure with the "id" attribute exists in the given list.
+*
+* @memberof ListOfOutwardBindingSites_t
+*/
 LIBSBML_EXTERN
 OutwardBindingSite_t *
 ListOfOutwardBindingSites_removeById(ListOf_t * lo, const char * sid);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int 
 OutwardBindingSite_isValidBindingStatus(BindingStatus_t bindigStatus);
 
 
+/**
+* @memberof OutwardBindingSite_t
+*/
 LIBSBML_EXTERN
 int 
 OutwardBindingSite_isValidBindingStatusString(const char* s);

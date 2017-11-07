@@ -65,7 +65,7 @@ static const packageErrorTableEntry groupsErrorTable[] =
     "To conform to the Groups Package specification for SBML Level 3 Version 1, "
     "an SBML document must declare "
     "'http://www.sbml.org/sbml/level3/version1/groups/version1' as the "
-    "XMLNamespaceto use for elements of this package.",
+    "XMLNamespace to use for elements of this package.",
     { "L3V1 Groups V1 Section 3.1"
     }
   },
@@ -236,7 +236,7 @@ static const packageErrorTableEntry groupsErrorTable[] =
 
   // 4020305
   { GroupsGroupKindMustBeGroupKindEnum,
-    "Kind attribute must be GroupKindEnum.",
+    "The 'kind' attribute must be GroupKindEnum.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'groups:kind' of a <group> object must conform "
@@ -249,7 +249,7 @@ static const packageErrorTableEntry groupsErrorTable[] =
 
   // 4020306
   { GroupsGroupNameMustBeString,
-    "Name attribute must be String.",
+    "The 'name' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The attribute 'groups:name' on a <group> must have a value of data type "
@@ -307,7 +307,7 @@ static const packageErrorTableEntry groupsErrorTable[] =
 
   // 4020311
   { GroupsLOMembersNameMustBeString,
-    "Name attribute must be String.",
+    "The 'name' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The attribute 'groups:name' on a <listOfMembers> must have a value of data "
@@ -386,7 +386,7 @@ static const packageErrorTableEntry groupsErrorTable[] =
 
   // 4020404
   { GroupsMemberNameMustBeString,
-    "Name attribute must be String.",
+    "The 'name' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The attribute 'groups:name' on a <member> must have a value of data type "
@@ -397,24 +397,24 @@ static const packageErrorTableEntry groupsErrorTable[] =
 
   // 4020405
   { GroupsMemberIdRefMustBeSBase,
-    "Attribute 'idRef' must point to SBase object.",
+    "The attribute 'idRef' must point to SBase object.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'groups:idRef' of a <member> object must be the "
-    "identifier of an existing <SBase> object defined in the enclosing <model> "
-    "object.",
-    { "L3V1 Groups V1 Section 3.5"
+    "identifier of an existing object derived from the 'SBase' class and "
+    "defined in the enclosing <model> object.",
+    { "L3V1 Groups V1 Section"
     }
   },
 
   // 4020406
   { GroupsMemberMetaIdRefMustBeSBase,
-    "Attribute 'metaIdRef' must point to SBase object.",
+    "The attribute 'metaIdRef' must point to SBase object.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
-    "The value of the attribute 'groups:metaIdRef' of a <member> object must be the "
-    "'metaid' of an existing <SBase> object defined in the enclosing <model> "
-    "object.",
+    "The value of the attribute 'groups:metaIdRef' of a <member> object must be "
+    "the 'metaid' of an existing 'SBase' object defined in the enclosing "
+    "<model> object.",
     { "L3V1 Groups V1 Section 3.5"
     }
   },

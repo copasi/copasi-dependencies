@@ -169,7 +169,7 @@ t->value.real = 1.2;
 t->exponent   = 3;
 @endverbatim
  * 
- * When the @c type has a value of @c TT_UNKNOWN, the field @c ch will
+ * When the @c type has a value of @sbmlconstant{TT_UNKNOWN, TokenType_t}, the field @c ch will
  * contain the unrecognized character.  When the type is @c TT_END, the
  * field @c ch will contain @c '\\0'.  For all others, the @c value.ch will
  * contain the corresponding character.
@@ -311,8 +311,8 @@ Token_free (Token_t *t);
 /**
  * Returns the value of this token as a (long) integer.
  *
- * This function should be called only when the token's type is @c
- * TT_INTEGER.  If the type is @c TT_REAL or @c TT_REAL_E, the function
+ * This function should be called only when the token's type is
+ * @c TT_INTEGER.  If the type is @c TT_REAL or @c TT_REAL_E, the function
  * will cope by truncating the number's fractional part.
  *
  * @param t the token to be parsed into an integer.

@@ -69,8 +69,8 @@
  * <li> In SBML Level&nbsp;2, the value assigned to the parameter's "units"
  * attribute must be chosen from one of the following possibilities: one of
  * the base unit identifiers defined in SBML; one of the built-in unit
- * identifiers @c "substance", @c "time", @c "volume", @c "area" or @c
- * "length"; or the identifier of a new unit defined in the list of unit
+ * identifiers @c "substance", @c "time", @c "volume", @c "area" or
+ * @c "length"; or the identifier of a new unit defined in the list of unit
  * definitions in the enclosing Model structure.  There are no constraints
  * on the units that can be chosen from these sets.  There are no default
  * units for local parameters.
@@ -136,8 +136,8 @@
  * identifier.  It does this by constructing an appropriate
  * UnitDefinition.  For SBML Level&nbsp;2 models, it will do this even
  * when the value of the "units" attribute is one of the predefined SBML
- * units @c "substance", @c "volume", @c "area", @c "length" or @c
- * "time".  Callers may find this useful in conjunction with the helper
+ * units @c "substance", @c "volume", @c "area", @c "length" or
+ * @c "time".  Callers may find this useful in conjunction with the helper
  * methods provided by the UnitDefinition class for comparing different
  * UnitDefinition objects.
  *
@@ -923,13 +923,7 @@ BEGIN_C_DECLS
  *
  * @return a pointer to the newly created LocalParameter_t structure.
  *
- * @note Once a LocalParameter_t has been added to an SBMLDocument_t, the @p
- * level and @p version for the document @em override those used to create
- * the LocalParameter_t.  Despite this, the ability to supply the values at
- * creation time is an important aid to creating valid SBML.  Knowledge of
- * the intended SBML Level and Version  determine whether it is valid to
- * assign a particular value to an attribute, or whether it is valid to add
- * a structure to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof LocalParameter_t
  */
@@ -947,13 +941,7 @@ LocalParameter_create (unsigned int level, unsigned int version);
  *
  * @return a pointer to the newly created LocalParameter_t structure.
  *
- * @note Once a LocalParameter_t has been added to an SBMLDocument_t, the
- * @p sbmlns namespaces for the document @em override those used to create
- * the LocalParameter_t.  Despite this, the ability to supply the values at creation time
- * is an important aid to creating valid SBML.  Knowledge of the intended SBML
- * Level and Version determine whether it is valid to assign a particular value
- * to an attribute, or whether it is valid to add a structure to an existing
- * SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof LocalParameter_t
  */
@@ -1078,7 +1066,7 @@ LocalParameter_getUnits (const LocalParameter_t *p);
  *
  * @param p the LocalParameter_t to ignore.
  *
- * @return @c non-zero (true).
+ * @return @c 1 (true), or @c 0 (false) if @p p is @c NULL.
  *
  * @memberof LocalParameter_t
  */
@@ -1088,13 +1076,13 @@ LocalParameter_getConstant (const LocalParameter_t *p);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * LocalParameter_t structure's identifier is set.
  *
  * @param p the LocalParameter_t structure to query.
  * 
- * @return @c non-zero (true) if the "id" attribute of the given
- * LocalParameter_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "id" attribute of the given
+ * LocalParameter_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof LocalParameter_t
  */
@@ -1104,13 +1092,13 @@ LocalParameter_isSetId (const LocalParameter_t *p);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * LocalParameter_t structure's name is set.
  *
  * @param p the LocalParameter_t structure to query.
  * 
- * @return @c non-zero (true) if the "name" attribute of the given
- * LocalParameter_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "name" attribute of the given
+ * LocalParameter_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof LocalParameter_t
  */
@@ -1120,17 +1108,13 @@ LocalParameter_isSetName (const LocalParameter_t *p);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * LocalParameter_t structure's value is set.
  * 
  * @param p the LocalParameter_t structure to query.
  * 
- * @return @c non-zero (true) if the "value" attribute of the given
- * LocalParameter_t structure is set, zero (false) otherwise.
- *
- * @note In SBML Level 1 Version 1, a LocalParameter_t value is required and
- * therefore <em>should always be set</em>.  In Level 1 Version 2 and
- * later, the value is optional, and as such, may or may not be set.
+ * @return @c 1 (true) if the "value" attribute of the given
+ * LocalParameter_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof LocalParameter_t
  */
@@ -1140,13 +1124,13 @@ LocalParameter_isSetValue (const LocalParameter_t *p);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * LocalParameter_t structure's units have been set.
  *
  * @param p the LocalParameter_t structure to query.
  * 
- * @return @c non-zero (true) if the "units" attribute of the given
- * LocalParameter_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "units" attribute of the given
+ * LocalParameter_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof LocalParameter_t
  */
@@ -1158,7 +1142,7 @@ LocalParameter_isSetUnits (const LocalParameter_t *p);
 /**
  * Assigns the identifier of a LocalParameter_t structure.
  *
- * This makes a copy of the string passed in the param @p sid.
+ * This makes a copy of the string passed in the parameter @p sid.
  *
  * @param p the LocalParameter_t structure to set.
  * @param sid the string to use as the identifier.
@@ -1167,7 +1151,7 @@ LocalParameter_isSetUnits (const LocalParameter_t *p);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof LocalParameter_t
@@ -1205,8 +1189,9 @@ LocalParameter_setName (LocalParameter_t *p, const char *name);
  * @param p the LocalParameter_t structure to set.
  * @param value the @c double value to use.
  *
- * @copydetails doc_returns_one_success_code
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof LocalParameter_t
  */
@@ -1238,13 +1223,16 @@ LocalParameter_setUnits (LocalParameter_t *p, const char *units);
 
 /**
  * Because LocalParameter_t structures don't have a 'constant' attribute, this function always
- * returns @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}.
+ * returns @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}, or 
+ * @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t} if
+ * @p p is @c NULL.
  *
  * @param p the LocalParameter_t structure to leave unchanged.
- * @param value the boolean value to ignore.
+ * @param value the integer value to ignore.
  *
- * @copydetails doc_returns_one_success_code
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof LocalParameter_t
  */
@@ -1272,15 +1260,11 @@ LocalParameter_unsetName (LocalParameter_t *p);
 /**
  * Unsets the value of this LocalParameter_t structure.
  *
- * In SBML Level 1 Version 1, a parameter is required to have a value and
- * therefore this attribute <em>should always be set</em>.  In Level 1
- * Version 2 and beyond, a value is optional, and as such, may or may not be
- * set.
- *
  * @param p the LocalParameter_t structure whose value is to be unset.
  *
- * @copydetails doc_returns_one_success_code
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof LocalParameter_t
  */
@@ -1307,12 +1291,15 @@ LocalParameter_unsetUnits (LocalParameter_t *p);
 
 /**
  * Because LocalParameter_t structures don't have a 'constant' attribute, this function always
- * returns @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}.
+ * returns @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}, 
+ * or @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t} if
+ * @p p is @c NULL.
  *
  * @param p the LocalParameter_t structure to leave unchanged.
  *
- * @copydetails doc_returns_one_success_code
+ * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof LocalParameter_t
  */
@@ -1322,7 +1309,7 @@ LocalParameter_unsetConstant (LocalParameter_t *p);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether
  * all the required attributes for this LocalParameter object
  * have been set.
  *
@@ -1331,8 +1318,8 @@ LocalParameter_unsetConstant (LocalParameter_t *p);
  * The required attributes for a LocalParameter object are:
  * @li id (name in L1)
  *
- * @return @c 1 if all the required attributes for this object have been
- * defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required attributes for this object have been
+ * defined, @c 0 (false) otherwise.
  *
  * @memberof LocalParameter_t
  */

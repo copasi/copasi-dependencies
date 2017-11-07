@@ -407,8 +407,8 @@ public:
    * Sets the attribute "variable" of this EventAssignment to a copy of
    * the given identifier string.
    *
-   * @param sid the identifier of a Compartment, Species or (global)
-   * Parameter defined in this model.
+   * @param sid the identifier of an element defined in this model that
+   * can vary over time.
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1061,8 +1061,8 @@ public:
   /**
    * Returns the XML element name of this object.
    *
-   * For ListOfEventAssignments, the XML element name is @c
-   * "listOfEventAssignments".
+   * For ListOfEventAssignments, the XML element name is
+   * @c "listOfEventAssignments".
    * 
    * @return the name of this element, i.e., @c "listOfEventAssignments".
    */
@@ -1144,8 +1144,8 @@ public:
    * identifier.
    *
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier @p sid, then @c
-   * NULL is returned.
+   * If none of the items in this list have the identifier @p sid, then
+   * @c NULL is returned.
    *
    * @param sid the identifier of the item to remove.
    *
@@ -1218,13 +1218,7 @@ BEGIN_C_DECLS
  *
  * @return a pointer to the newly created EventAssignment_t structure.
  *
- * @note Once a EventAssignment_t has been added to an SBMLDocument_t, the @p
- * level and @p version for the document @em override those used to create
- * the EventAssignment_t.  Despite this, the ability to supply the values at
- * creation time is an important aid to creating valid SBML.  Knowledge of
- * the intended SBML Level and Version  determine whether it is valid to
- * assign a particular value to an attribute, or whether it is valid to add
- * a structure to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof EventAssignment_t
  */
@@ -1242,13 +1236,7 @@ EventAssignment_create (unsigned int level, unsigned int version);
  *
  * @return a pointer to the newly created EventAssignment_t structure.
  *
- * @note Once a EventAssignment_t has been added to an SBMLDocument_t, the
- * @p sbmlns namespaces for the document @em override those used to create
- * the EventAssignment_t.  Despite this, the ability to supply the values at 
- * creation time is an important aid to creating valid SBML.  Knowledge of the 
- * intended SBML Level and Version determine whether it is valid to assign a 
- * particular value to an attribute, or whether it is valid to add a structure to 
- * an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof EventAssignment_t
  */
@@ -1335,8 +1323,8 @@ EventAssignment_getMath (const EventAssignment_t *ea);
  *
  * @param ea the EventAssignment_t structure to query.
  * 
- * @return nonzero (for true) if the "variable" attribute of @p ea
- * is set, zero (0) otherwise.
+ * @return @c 1 (true) if the "variable" attribute of @p ea
+ * is set, @c 0 (false) otherwise.
  *
  * @memberof EventAssignment_t
  */
@@ -1351,8 +1339,8 @@ EventAssignment_isSetVariable (const EventAssignment_t *ea);
  *
  * @param ea the EventAssignment_t structure to query.
  * 
- * @return nonzero (for true) if the "variable" attribute of @p ea
- * is set, zero (0) otherwise.
+ * @return @c 1 (true) if the "variable" attribute of @p ea
+ * is set, @c 0 (false) otherwise.
  *
  * @memberof EventAssignment_t
  */
@@ -1366,14 +1354,14 @@ EventAssignment_isSetMath (const EventAssignment_t *ea);
  * to a copy of the given identifier string.
  *
  * @param ea the EventAssignment_t to set.
- * @param sid the identifier of a Compartment_t, Species_t or (global)
- * Parameter_t defined in this model.
+ * @param sid the identifier of an element defined in this model that
+ * can vary over time.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "variable" attribute.
  *
  * @memberof EventAssignment_t
@@ -1447,15 +1435,15 @@ EventAssignment_getDerivedUnitDefinition(EventAssignment_t *ea);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether 
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether 
  * the math expression of this EventAssignment_t contains
  * parameters/numbers with undeclared units.
  * 
- * @return @c true if the math expression of this EventAssignment_t
+ * @return @c 1 (true) if the math expression of this EventAssignment_t
  * includes parameters/numbers 
- * with undeclared units, @c false otherwise.
+ * with undeclared units, @c 0 (false) otherwise.
  *
- * @note a return value of @c true indicates that the UnitDefinition_t
+ * @note a return value of @c 1 (true) indicates that the UnitDefinition_t
  * returned by the getDerivedUnitDefinition function may not 
  * accurately represent the units of the expression.
  *

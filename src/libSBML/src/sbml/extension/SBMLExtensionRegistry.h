@@ -443,8 +443,8 @@ SBMLExtensionRegistry_addExtension(const SBMLExtension_t* extension);
  *
  * @param package the URI or name of the package extension.
  *
- * @return a clone of the SBMLExtension_t structure with the given package URI or name.
- * Or NULL in case of an invalid package name.
+ * @return a clone of the SBMLExtension_t structure with the given package URI or name,
+ * or @c NULL in case of an invalid package name.
  *
  * @note The returned extension is to be freed (i.e.: deleted) by the caller!
  *
@@ -503,13 +503,13 @@ SBMLExtensionRegistry_getSBasePluginCreatorsByURI(const char* uri, int* length);
 
 
 /**
- * Checks if the extension with the given URI is enabled (true) or
- * disabled (false)
+ * Checks if the extension with the given URI is enabled (@c 1, true) or
+ * disabled (@c 0, false)
  *
  * @param uri the URI of the target package.
  *
- * @return false (0) will be returned if the given package is disabled
- * or not registered, otherwise true (1) will be returned.
+ * @return @c 0 (false) will be returned if the given package is disabled
+ * or not registered, otherwise @c 1 (true) will be returned.
  *
  * @memberof SBMLExtensionRegistry_t
  */
@@ -521,11 +521,11 @@ SBMLExtensionRegistry_isEnabled(const char* uri);
  * Enable/disable the package with the given uri.
  *
  * @param uri the URI of the target package.
- * @param isEnabled the bool value corresponding to enabled (true/1) or
- * disabled (false/0).
+ * @param isEnabled the bool value corresponding to enabled (@c nonzero, true) or
+ * disabled (@c zero, false).
  *
- * @return false (0) will be returned if the given bool value is false
- * or the given package is not registered, otherwise true (1) will be
+ * @return @c 0 (false) will be returned if the given bool value is false
+ * or the given package is not registered, otherwise @c 1 (true) will be
  * returned.
  *
  * @memberof SBMLExtensionRegistry_t
@@ -536,13 +536,13 @@ SBMLExtensionRegistry_setEnabled(const char* uri, int isEnabled);
 
 
 /**
- * Checks if the extension with the given URI is registered (true/1)
- * or not (false/0)
+ * Checks if the extension with the given URI is registered (@c 1, true)
+ * or not (@c 0, false)
  *
  * @param uri the URI of the target package.
  *
- * @return true (1) will be returned if the package with the given URI
- * is registered, otherwise false (0) will be returned.
+ * @return @c 1 (true) will be returned if the package with the given URI
+ * is registered, otherwise @c 0 (false) will be returned.
  *
  * @memberof SBMLExtensionRegistry_t
  */
@@ -565,8 +565,8 @@ int
 SBMLExtensionRegistry_getNumExtensions(const SBaseExtensionPoint_t* extPoint);
 
 /**
- * Returns a list of registered packages (such as 'layout', 'fbc' or 'comp')
- * the list contains char* strings and has to be freed by the caller.
+ * Returns a list of registered packages (such as 'layout', 'fbc' or 'comp').
+ * The list contains char* strings and has to be freed by the caller.
  *
  * @return the names of the registered packages in a list
  *
@@ -593,7 +593,7 @@ SBMLExtensionRegistry_getNumRegisteredPackages();
  *
  * @param index zero based index of the package name to return.
  *
- * @return the package name with the given index or NULL
+ * @return the package name with the given index or @c NULL
  *
  * @memberof SBMLExtensionRegistry_t
  */

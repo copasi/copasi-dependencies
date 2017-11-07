@@ -892,8 +892,8 @@ public:
   /**
    * Returns the XML element name of this object.
    *
-   * For ListOfFunctionDefinitions, the XML element name is @c
-   * "listOfFunctionDefinitions".
+   * For ListOfFunctionDefinitions, the XML element name is
+   * @c "listOfFunctionDefinitions".
    * 
    * @return the name of this element, i.e., @c "listOfFunctionDefinitions".
    */
@@ -975,8 +975,8 @@ public:
    * Removes item in this ListOfFunctionDefinitions items with the given identifier.
    *
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier @p sid, then @c
-   * NULL is returned.
+   * If none of the items in this list have the identifier @p sid, then
+   * @c NULL is returned.
    *
    * @param sid the identifier of the item to remove.
    *
@@ -1040,13 +1040,7 @@ BEGIN_C_DECLS
  *
  * @return a pointer to the newly created FunctionDefinition_t structure.
  *
- * @note Once a FunctionDefinition_t has been added to an SBMLDocument_t, the @p
- * level and @p version for the document @em override those used to create
- * the FunctionDefinition_t.  Despite this, the ability to supply the values at
- * creation time is an important aid to creating valid SBML.  Knowledge of
- * the intended SBML Level and Version  determine whether it is valid to
- * assign a particular value to an attribute, or whether it is valid to add
- * a structure to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof FunctionDefinition_t
  */
@@ -1064,13 +1058,7 @@ FunctionDefinition_create (unsigned int level, unsigned int version);
  *
  * @return a pointer to the newly created FunctionDefinition_t structure.
  *
- * @note Once a FunctionDefinition_t has been added to an SBMLDocument_t, the
- * @p sbmlns namespaces for the document @em override those used to create
- * the FunctionDefinition_t.  Despite this, the ability to supply the values at 
- * creation time is an important aid to creating valid SBML.  Knowledge of the 
- * intended SBML Level and Version determine whether it is valid to assign a 
- * particular value to an attribute, or whether it is valid to add a structure to 
- * an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof FunctionDefinition_t
  */
@@ -1166,13 +1154,13 @@ FunctionDefinition_getMath (const FunctionDefinition_t *fd);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FunctionDefinition_t structure's "id" attribute is set.
  *
  * @param fd the FunctionDefinition_t structure.
  *
- * @return nonzero if the "id" attribute of the FunctionDefinition_t
- * structure is set, zero (0) otherwise.
+ * @return @c 1 (true) if the "id" attribute of the FunctionDefinition_t
+ * structure is set, @c 0 (false) otherwise.
  *
  * @memberof FunctionDefinition_t
  */
@@ -1182,13 +1170,13 @@ FunctionDefinition_isSetId (const FunctionDefinition_t *fd);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FunctionDefinition_t structure's "name" attribute is set.
  *
  * @param fd the FunctionDefinition_t structure.
  *
- * @return nonzero if the "name" attribute of the FunctionDefinition_t
- * structure is set, zero (0) otherwise.
+ * @return @c 1 (true) if the "name" attribute of the FunctionDefinition_t
+ * structure is set, @c 0 (false) otherwise.
  *
  * @memberof FunctionDefinition_t
  */
@@ -1198,13 +1186,13 @@ FunctionDefinition_isSetName (const FunctionDefinition_t *fd);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FunctionDefinition_t structure's "math" subelement is set.
  *
  * @param fd the FunctionDefinition_t structure.
  *
- * @return nonzero if the mathematical expression of this
- * FunctionDefinition_t is set, zero (0) otherwise.
+ * @return @c 1 (true) if the mathematical expression of this
+ * FunctionDefinition_t is set, @c 0 (false) otherwise.
  *
  * @memberof FunctionDefinition_t
  */
@@ -1224,7 +1212,7 @@ FunctionDefinition_isSetMath (const FunctionDefinition_t *fd);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof FunctionDefinition_t
@@ -1344,13 +1332,13 @@ FunctionDefinition_getBody (const FunctionDefinition_t *fd);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FunctionDefinition_t structure's "math" subelement has a body.
  *
  * @param fd the FunctionDefinition_t structure.
  *
- * @return nonzero if the body of this
- * FunctionDefinition_t is set, zero (0) otherwise.
+ * @return @c 1 (true) if the body of this
+ * FunctionDefinition_t is set, @c 0 (false) otherwise.
  *
  * @memberof FunctionDefinition_t
  */

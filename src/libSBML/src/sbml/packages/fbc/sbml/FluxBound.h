@@ -771,7 +771,7 @@ protected:
    * Create and return an SBML object of this class, if present.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase*
   createObject (XMLInputStream& stream);
@@ -948,8 +948,8 @@ public:
    * Removes item in this ListOfFluxBounds items with the given identifier.
    *
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier @p sid, then @c
-   * NULL is returned.
+   * If none of the items in this list have the identifier @p sid, then
+   * @c NULL is returned.
    *
    * @param sid the identifier of the item to remove.
    *
@@ -991,7 +991,7 @@ protected:
    * Create and return an SBML object of this class, if present.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase* createObject (XMLInputStream& stream);
 
@@ -1012,13 +1012,13 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new FluxBound_t structure using the given SBML @p level
- * and @p version values.
+ * and @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML Level to assign to this
  * FluxBound_t.
  * @param version an unsigned int, the SBML Version to assign to this
  * FluxBound_t.
- * @param pkgVersion an unsigned int, the SBML 'Qual' package Version to assign to this
+ * @param pkgVersion an unsigned int, the SBML 'fbc' package Version to assign to this
  * FluxBound_t.
  *
  * @return a pointer to the newly created FluxBound_t structure.
@@ -1045,13 +1045,13 @@ FluxBound_getId(FluxBound_t * fb);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FluxBound_t structure's identifier is set.
  *
  * @param fb the FluxBound_t structure to query.
  *
- * @return @c non-zero (true) if the "id" attribute of the given
- * FluxBound_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "id" attribute of the given
+ * FluxBound_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof FluxBound_t
  */
@@ -1063,7 +1063,7 @@ FluxBound_isSetId(FluxBound_t * fb);
 /**
  * Assigns the identifier of an FluxBound_t structure.
  *
- * This makes a copy of the string passed in the param @p sid.
+ * This makes a copy of the string passed in the parameter @p sid.
  *
  * @param fb the FluxBound_t structure to set.
  * @param sid the string to use as the identifier.
@@ -1072,7 +1072,7 @@ FluxBound_isSetId(FluxBound_t * fb);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof FluxBound_t
@@ -1112,13 +1112,13 @@ FluxBound_getName(FluxBound_t * fb);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FluxBound_t structure's name is set.
  *
  * @param fb the FluxBound_t structure to query.
  *
- * @return @c non-zero (true) if the "name" attribute of the given
- * FluxBound_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "name" attribute of the given
+ * FluxBound_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof FluxBound_t
  */
@@ -1178,13 +1178,13 @@ FluxBound_getReaction(FluxBound_t * fb);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FluxBound_t structure's reaction is set.
  *
  * @param fb the FluxBound_t structure to query.
  *
- * @return @c non-zero (true) if the "reaction" attribute of the given
- * FluxBound_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "reaction" attribute of the given
+ * FluxBound_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof FluxBound_t
  */
@@ -1244,13 +1244,13 @@ FluxBound_getOperation(FluxBound_t * fb);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FluxBound_t structure's operation is set.
  *
  * @param fb the FluxBound_t structure to query.
  *
- * @return @c non-zero (true) if the "operation" attribute of the given
- * FluxBound_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "operation" attribute of the given
+ * FluxBound_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof FluxBound_t
  */
@@ -1310,13 +1310,13 @@ FluxBound_getValue(FluxBound_t * fb);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FluxBound_t structure's value is set.
  *
  * @param fb the FluxBound_t structure to query.
  *
- * @return @c non-zero (true) if the "value" attribute of the given
- * FluxBound_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "value" attribute of the given
+ * FluxBound_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof FluxBound_t
  */
@@ -1365,7 +1365,8 @@ FluxBound_unsetValue(FluxBound_t * fb);
  * @param type the FluxBoundOperation_t enumeration to convert.
  *
  * @return A string corresponding to the given effect:  "lessEqual",
- * "greaterEqual", "equal", or @c NULL if the value is FLUXBOUND_OPERATION_UNKNOWN
+ * "greaterEqual", "equal", or @c NULL if the value is 
+ * @sbmlconstant{FLUXBOUND_OPERATION_UNKNOWN, FluxBoundOperation_t}
  * or another invalid enumeration value.
  *
  * @note In an earlier version of this specification, "less" and "greater" were
@@ -1382,15 +1383,17 @@ FluxBoundOperation_toString(FluxBoundOperation_t type);
 
 /**
  * Returns the FluxBoundOperation_t enumeration corresponding to
- * the given string, or FLUXBOUND_OPERATION_UNKNOWN if there is
+ * the given string, or 
+ * @sbmlconstant{FLUXBOUND_OPERATION_UNKNOWN, FluxBoundOperation_t}
+ * if there is
  * no such match.  The matching is case-sensitive:  "lessEqual" will
- * return FLUXBOUND_OPERATION_LESS_EQUAL, but "lessequal" will return
- * FLUXBOUND_OPERATION_UNKNOWN.
+ * return  @sbmlconstant{FLUXBOUND_OPERATION_LESS_EQUAL, FluxBoundOperation_t}, but "lessequal" will return
+ * @sbmlconstant{FLUXBOUND_OPERATION_UNKNOWN, FluxBoundOperation_t}.
  *
- * @param s the string to convert to an FluxBoundOperation_t.
+ * @param s the string to convert to a FluxBoundOperation_t.
  *
  * @return The corresponding FluxBoundOperation_t, or
- * FLUXBOUND_OPERATION_UNKNOWN if no match found.
+ * @sbmlconstant{FLUXBOUND_OPERATION_UNKNOWN, FluxBoundOperation_t} if no match found.
  *
  * @note In an earlier version of this specification, "less" and "greater" were
  * options that were dropped in the final version of the specification.
@@ -1405,16 +1408,19 @@ FluxBoundOperation_fromString(const char* s);
 
 
 /**
- * Predicate returning @c true (non-zero) or @c false (zero) depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FluxBoundOperation_t is valid.
  *
  * @param type the FluxBoundOperation_t enumeration to query.
  *
- * @return @c non-zero (true) if the FluxBoundOperation_t is
- * FLUXBOUND_OPERATION_LESS_EQUAL, FLUXBOUND_OPERATION_GREATER_EQUAL,
- * FLUXBOUND_OPERATION_LESS, FLUXBOUND_OPERATION_GREATER, or
- * FLUXBOUND_OPERATION_EQUAL;
- * zero (false) otherwise (including FLUXBOUND_OPERATION_UNKNOWN).
+ * @return @c 1 (true) if the FluxBoundOperation_t is
+ * @sbmlconstant{FLUXBOUND_OPERATION_LESS_EQUAL, FluxBoundOperation_t}, 
+ * @sbmlconstant{FLUXBOUND_OPERATION_GREATER_EQUAL, FluxBoundOperation_t},
+ * @sbmlconstant{FLUXBOUND_OPERATION_LESS, FluxBoundOperation_t}, 
+ * @sbmlconstant{FLUXBOUND_OPERATION_GREATER, FluxBoundOperation_t}, or
+ * @sbmlconstant{FLUXBOUND_OPERATION_EQUAL, FluxBoundOperation_t};
+ * @c 0 (false) otherwise (including
+ * @sbmlconstant{FLUXBOUND_OPERATION_UNKNOWN, FluxBoundOperation_t}).
  *
  * @note In an earlier version of this specification, "less" and "greater" were
  * options that were dropped in the final version of the specification.
@@ -1429,15 +1435,15 @@ FluxBoundOperation_isValidFluxBoundOperation(FluxBoundOperation_t type);
 
 
 /**
- * Predicate returning @c true (non-zero) or @c false (zero) depending
+ * Predicate returning @c 1 (true) or @c 0 (false) depending
  * on whether the given string is a valid FluxBoundOperation_t.
- * The matching is case-sensitive:  "lessEqual" will return @c true, but
- * "lessequal" will return @c false.
+ * The matching is case-sensitive:  "lessEqual" will return @c 1 (true), but
+ * "lessequal" will return @c 0 (false).
  *
  * @param s the string to query.
  *
- * @return @c non-zero (true) if the string is
- * "lessEqual", "greaterEqual", "less", "greater", or "equal"; zero (false) otherwise.
+ * @return @c 1 (true) if the string is
+ * "lessEqual", "greaterEqual", "less", "greater", or "equal"; @c 0 (false) otherwise.
  *
  * @note In an earlier version of this specification, "less" and "greater" were
  * options that were dropped in the final version of the specification.

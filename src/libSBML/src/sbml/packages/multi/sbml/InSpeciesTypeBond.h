@@ -505,7 +505,7 @@ public:
    * of the InSpeciesTypeBond to get.
    *
    * @return InSpeciesTypeBond in this ListOfInSpeciesTypeBonds
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * InSpeciesTypeBond exists.
    *
    * @see get(unsigned int n)   *
@@ -522,7 +522,7 @@ public:
    * of the InSpeciesTypeBond to get.
    *
    * @return InSpeciesTypeBond in this ListOfInSpeciesTypeBonds
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * InSpeciesTypeBond exists.
    *
    * @see get(unsigned int n)   *
@@ -575,8 +575,8 @@ public:
    * @if clike LibSBML attaches an identifying code to every kind of SBML
    * object.  These are known as <em>SBML type codes</em>.  The set of
    * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
+   * The names of the type codes all begin with the characters
+   * @c SBML_. @endif@if java LibSBML attaches an identifying code to every
    * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
    * other languages, the set of type codes is stored in an enumeration; in
    * the Java language interface for libSBML, the type codes are defined as
@@ -609,8 +609,8 @@ public:
    * @if clike LibSBML attaches an identifying code to every kind of SBML
    * object.  These are known as <em>SBML type codes</em>.  The set of
    * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
+   * The names of the type codes all begin with the characters
+   * @c SBML_. @endif@if java LibSBML attaches an identifying code to every
    * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
    * other languages, the set of type codes is stored in an enumeration; in
    * the Java language interface for libSBML, the type codes are defined as
@@ -674,112 +674,199 @@ LIBSBML_CPP_NAMESPACE_END
 LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 InSpeciesTypeBond_t *
 InSpeciesTypeBond_create(unsigned int level, unsigned int version,
                          unsigned int pkgVersion);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 void
 InSpeciesTypeBond_free(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 InSpeciesTypeBond_t *
 InSpeciesTypeBond_clone(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 char *
 InSpeciesTypeBond_getId(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 char *
 InSpeciesTypeBond_getName(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 char *
 InSpeciesTypeBond_getBindingSite1(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 char *
 InSpeciesTypeBond_getBindingSite2(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 int
 InSpeciesTypeBond_isSetId(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 int
 InSpeciesTypeBond_isSetName(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 int
 InSpeciesTypeBond_isSetBindingSite1(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 int
 InSpeciesTypeBond_isSetBindingSite2(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 int
 InSpeciesTypeBond_setId(InSpeciesTypeBond_t * istb, const char * id);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 int
 InSpeciesTypeBond_setName(InSpeciesTypeBond_t * istb, const char * name);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 int
 InSpeciesTypeBond_setBindingSite1(InSpeciesTypeBond_t * istb, const char * bindingSite1);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 int
 InSpeciesTypeBond_setBindingSite2(InSpeciesTypeBond_t * istb, const char * bindingSite2);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 int
 InSpeciesTypeBond_unsetId(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 int
 InSpeciesTypeBond_unsetName(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 int
 InSpeciesTypeBond_unsetBindingSite1(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 int
 InSpeciesTypeBond_unsetBindingSite2(InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof InSpeciesTypeBond_t
+*/
 LIBSBML_EXTERN
 int
 InSpeciesTypeBond_hasRequiredAttributes(InSpeciesTypeBond_t * istb);
 
 
+/**
+* Return the structure indicated by the given @p sid.
+*
+* @param lo the ListOf_t structure to use.
+*
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure for the given variable, or @c NULL if no such
+* object exists in the list.
+*
+* @memberof ListOfInSpeciesTypeBonds_t
+*/
 LIBSBML_EXTERN
 InSpeciesTypeBond_t *
 ListOfInSpeciesTypeBonds_getById(ListOf_t * lo, const char * sid);
 
 
+/**
+* Removes the structure with the given @p sid
+* from the given list and returns a pointer to it.
+*
+* The caller owns the returned structure and is responsible for deleting it.
+*
+* @param lo the ListOf_t structure.
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure removed.  As mentioned above, the
+* caller owns the returned structure. @c NULL is returned if no
+* structure with the "id" attribute exists in the given list.
+*
+* @memberof ListOfInSpeciesTypeBonds_t
+*/
 LIBSBML_EXTERN
 InSpeciesTypeBond_t *
 ListOfInSpeciesTypeBonds_removeById(ListOf_t * lo, const char * sid);

@@ -148,7 +148,9 @@ public:
    *
    * @return the nth Group in this ListOfGroups.
    *
-   * @see addGroup(const Group* g)
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see get(const std::string& sid)
    * @see getNumGroups()
@@ -165,7 +167,9 @@ public:
    *
    * @return the nth Group in this ListOfGroups.
    *
-   * @see addGroup(const Group* g)
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see get(const std::string& sid)
    * @see getNumGroups()
@@ -180,10 +184,12 @@ public:
    *
    * @param sid a string representing the identifier of the Group to retrieve.
    *
-   * @return the Group in this ListOfGroups with the given id or NULL if no
-   * such Group exists.
+   * @return the Group in this ListOfGroups with the given @p sid or @c NULL if
+   * no such Group exists.
    *
-   * @see addGroup(const Group* g)
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see get(unsigned int n)
    * @see getNumGroups()
@@ -198,16 +204,17 @@ public:
    *
    * @param sid a string representing the identifier of the Group to retrieve.
    *
-   * @return the Group in this ListOfGroups with the given id or NULL if no
-   * such Group exists.
+   * @return the Group in this ListOfGroups with the given @p sid or @c NULL if
+   * no such Group exists.
    *
-   * @see addGroup(const Group* g)
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see get(unsigned int n)
    * @see getNumGroups()
    * @see remove(const std::string& sid)
    * @see remove(unsigned int n)
-   * @see getNumGroups()
    */
   virtual const Group* get(const std::string& sid) const;
 
@@ -219,10 +226,9 @@ public:
    *
    * @return a pointer to the nth Group in this ListOfGroups.
    *
-   * @note The caller owns the returned object and is responsible for deleting
-   * it.
+   * @copydetails doc_returned_owned_pointer
    *
-   * @see addGroup(const Group* g)
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see get(const std::string& sid)
    * @see get(unsigned int n)
@@ -241,10 +247,9 @@ public:
    * @return the Group in this ListOfGroups based on the identifier or NULL if
    * no such Group exists.
    *
-   * @note The caller owns the returned object and is responsible for deleting
-   * it.
+   * @copydetails doc_returned_owned_pointer
    *
-   * @see addGroup(const Group* g)
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see get(const std::string& sid)
    * @see get(unsigned int n)
@@ -265,7 +270,8 @@ public:
    * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_LEVEL_MISMATCH, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_VERSION_MISMATCH, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_NAMESPACES_MISMATCH, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_PKG_VERSION_MISMATCH, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_DUPLICATE_OBJECT_ID, OperationReturnValues_t}
    *
    * @copydetails doc_note_object_is_copied
    *
@@ -284,6 +290,8 @@ public:
    *
    * @return the number of Group objects in this ListOfGroups.
    *
+   *
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see get(const std::string& sid)
    * @see get(unsigned int n)
@@ -299,6 +307,9 @@ public:
    *
    * @return a new Group object instance.
    *
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addGroup(const Group* object)
    * @see get(const std::string& sid)
    * @see get(unsigned int n)
    * @see getNumGroups()
@@ -346,6 +357,16 @@ public:
    * @see getPackageName()
    */
   virtual int getItemTypeCode() const;
+
+
+
+
+  #ifndef SWIG
+
+
+
+
+  #endif /* !SWIG */
 
 
 protected:
@@ -408,10 +429,12 @@ BEGIN_C_DECLS
  *
  * @return the nth Group_t in this ListOf_t.
  *
- * @memberof Group_t
+ * @copydetails doc_returned_unowned_pointer
+ *
+ * @memberof ListOfGroups_t
  */
 LIBSBML_EXTERN
-const Group_t*
+Group_t*
 ListOfGroups_getGroup(ListOf_t* lo, unsigned int n);
 
 
@@ -422,13 +445,15 @@ ListOfGroups_getGroup(ListOf_t* lo, unsigned int n);
  *
  * @param sid a string representing the identifier of the Group_t to retrieve.
  *
- * @return the Group_t in this ListOf_t with the given id or NULL if no such
- * Group_t exists.
+ * @return the Group_t in this ListOf_t with the given @p sid or @c NULL if no
+ * such Group_t exists.
  *
- * @memberof Group_t
+ * @copydetails doc_returned_unowned_pointer
+ *
+ * @memberof ListOfGroups_t
  */
 LIBSBML_EXTERN
-const Group_t*
+Group_t*
 ListOfGroups_getById(ListOf_t* lo, const char *sid);
 
 
@@ -441,7 +466,9 @@ ListOfGroups_getById(ListOf_t* lo, const char *sid);
  *
  * @return a pointer to the nth Group_t in this ListOf_t.
  *
- * @memberof Group_t
+ * @copydetails doc_returned_owned_pointer
+ *
+ * @memberof ListOfGroups_t
  */
 LIBSBML_EXTERN
 Group_t*
@@ -459,7 +486,9 @@ ListOfGroups_remove(ListOf_t* lo, unsigned int n);
  * @return the Group_t in this ListOf_t based on the identifier or NULL if no
  * such Group_t exists.
  *
- * @memberof Group_t
+ * @copydetails doc_returned_owned_pointer
+ *
+ * @memberof ListOfGroups_t
  */
 LIBSBML_EXTERN
 Group_t*
@@ -484,3 +513,5 @@ LIBSBML_CPP_NAMESPACE_END
 
 
 #endif /* !ListOfGroups_H__ */
+
+

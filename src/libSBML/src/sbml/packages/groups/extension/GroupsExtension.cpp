@@ -376,6 +376,7 @@ GroupsExtension::init()
 
 
   std::vector<std::string> packageURIs;
+
   packageURIs.push_back(getXmlnsL3V1V1());
 
   SBaseExtensionPoint sbmldocExtPoint("core", SBML_DOCUMENT);
@@ -411,6 +412,7 @@ const char* SBML_GROUP_KIND_STRINGS[] =
 
 
 /*
+ * Returns the string version of the provided #GroupKind_t enumeration.
  */
 LIBSBML_EXTERN
 const char*
@@ -429,6 +431,8 @@ GroupKind_toString(GroupKind_t gk)
 
 
 /*
+ * Returns the #GroupKind_t enumeration corresponding to the given string or
+ * @sbmlconstant{GROUP_KIND_UNKNOWN, GroupKind_t} if there is no such match.
  */
 LIBSBML_EXTERN
 GroupKind_t
@@ -451,6 +455,8 @@ GroupKind_fromString(const char* code)
 
 
 /*
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the
+ * given #GroupKind_t is valid.
  */
 LIBSBML_EXTERN
 int
@@ -471,6 +477,8 @@ GroupKind_isValid(GroupKind_t gk)
 
 
 /*
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the
+ * given string is a valid #GroupKind_t.
  */
 LIBSBML_EXTERN
 int

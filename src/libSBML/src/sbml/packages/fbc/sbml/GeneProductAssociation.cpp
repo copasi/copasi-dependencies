@@ -47,6 +47,8 @@
 using namespace std;
 
 
+#ifdef __cplusplus
+
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 
@@ -494,8 +496,10 @@ GeneProductAssociation::accept (SBMLVisitor& v) const
   v.visit(*this);
 
 /* VISIT CHILDREN */
-  mAssociation->accept(v);
-
+  if (mAssociation != NULL)
+  {
+    mAssociation->accept(v);
+  }
   v.leave(*this);
 
   return true;
@@ -1327,5 +1331,8 @@ GeneProductAssociation_hasRequiredElements(const GeneProductAssociation_t * gpa)
 
 
 LIBSBML_CPP_NAMESPACE_END
+
+#endif /* __cplusplus */
+
 
 

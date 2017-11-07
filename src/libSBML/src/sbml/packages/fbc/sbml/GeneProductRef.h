@@ -704,13 +704,16 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new GeneProductRef_t structure using the given SBML @p level and
- * @p version values.
+ * @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML level to assign to this
  * GeneProductRef_t structure.
  *
  * @param version an unsigned int, the SBML version to assign to this
  * GeneProductRef_t structure.
+ *
+ * @param pkgVersion an unsigned int, the version of the package to assign
+ * to this GeneProductRef_t structure.
  *
  * @returns the newly-created GeneProductRef_t structure, or a null pointer if
  * an error occurred during construction.
@@ -760,7 +763,7 @@ GeneProductRef_clone(GeneProductRef_t * gpr);
  *
  * @return the id of this structure.
  *
- * @member of GeneProductRef_t
+ * @memberof GeneProductRef_t
  */
 LIBSBML_EXTERN
 const char *
@@ -775,7 +778,7 @@ GeneProductRef_getId(const GeneProductRef_t * gpr);
  *
  * @return the geneProduct of this structure.
  *
- * @member of GeneProductRef_t
+ * @memberof GeneProductRef_t
  */
 LIBSBML_EXTERN
 const char *
@@ -790,7 +793,7 @@ GeneProductRef_getGeneProduct(const GeneProductRef_t * gpr);
  *
  * @return the name of this structure.
  *
- * @member of GeneProductRef_t
+ * @memberof GeneProductRef_t
  */
 LIBSBML_EXTERN
 const char *
@@ -798,15 +801,15 @@ GeneProductRef_getName(const GeneProductRef_t * gpr);
 
 
 /**
- * Predicate returning @c 1 if the given GeneProductRef_t structure's "id"
+ * Predicate returning @c 1 (true) if the given GeneProductRef_t structure's "id"
  * is set.
  *
  * @param gpr the GeneProductRef_t structure.
  *
- * @return @c 1 if the "id" of this GeneProductRef_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "id" of this GeneProductRef_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of GeneProductRef_t
+ * @memberof GeneProductRef_t
  */
 LIBSBML_EXTERN
 int
@@ -814,15 +817,15 @@ GeneProductRef_isSetId(const GeneProductRef_t * gpr);
 
 
 /**
- * Predicate returning @c 1 if the given GeneProductRef_t structure's "geneProduct"
+ * Predicate returning @c 1 (true) if the given GeneProductRef_t structure's "geneProduct"
  * is set.
  *
  * @param gpr the GeneProductRef_t structure.
  *
- * @return @c 1 if the "geneProduct" of this GeneProductRef_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "geneProduct" of this GeneProductRef_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of GeneProductRef_t
+ * @memberof GeneProductRef_t
  */
 LIBSBML_EXTERN
 int
@@ -830,15 +833,15 @@ GeneProductRef_isSetGeneProduct(const GeneProductRef_t * gpr);
 
 
 /**
- * Predicate returning @c 1 if the given GeneProductRef_t structure's "name"
+ * Predicate returning @c 1 (true) if the given GeneProductRef_t structure's "name"
  * is set.
  *
  * @param gpr the GeneProductRef_t structure.
  *
- * @return @c 1 if the "name" of this GeneProductRef_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "name" of this GeneProductRef_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of GeneProductRef_t
+ * @memberof GeneProductRef_t
  */
 LIBSBML_EXTERN
 int
@@ -848,8 +851,8 @@ GeneProductRef_isSetName(const GeneProductRef_t * gpr);
 /**
  * Sets the "id" attribute of the given GeneProductRef_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs GeneProductRef_unsetId() instead.
+ * This function copies the string given in @p id.  If the string is
+ * a null pointer, this function is equivalent to calling GeneProductRef_unsetId().
  *
  * @param gpr the GeneProductRef_t structure.
  *
@@ -861,10 +864,10 @@ GeneProductRef_isSetName(const GeneProductRef_t * gpr);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
+ * @note Using this function with a null pointer for @p id is equivalent to
+ * unsetting the value of the "id" attribute.
  * 
- * @member of GeneProductRef_t
+ * @memberof GeneProductRef_t
  */
 LIBSBML_EXTERN
 int
@@ -874,8 +877,8 @@ GeneProductRef_setId(GeneProductRef_t * gpr, const char * id);
 /**
  * Sets the "geneProduct" attribute of the given GeneProductRef_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs GeneProductRef_unsetGeneProduct() instead.
+ * This function copies the string given in @p geneProduct.  If the string is
+ * a null pointer, this function is equivalent to calling GeneProductRef_unsetGeneProduct().
  *
  * @param gpr the GeneProductRef_t structure.
  *
@@ -887,10 +890,10 @@ GeneProductRef_setId(GeneProductRef_t * gpr, const char * id);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
+ * @note Using this function with a null pointer for @p geneProduct is equivalent to
+ * unsetting the value of the "geneProduct" attribute.
  * 
- * @member of GeneProductRef_t
+ * @memberof GeneProductRef_t
  */
 LIBSBML_EXTERN
 int
@@ -900,8 +903,8 @@ GeneProductRef_setGeneProduct(GeneProductRef_t * gpr, const char * geneProduct);
 /**
  * Sets the "name" attribute of the given GeneProductRef_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs GeneProductRef_unsetName() instead.
+ * This function copies the string given in @p name.  If the string is
+ * a null pointer, this function is equivalent to calling GeneProductRef_unsetName().
  *
  * @param gpr the GeneProductRef_t structure.
  *
@@ -916,7 +919,7 @@ GeneProductRef_setGeneProduct(GeneProductRef_t * gpr, const char * geneProduct);
  * @note Using this function with a null pointer for @p name is equivalent to
  * unsetting the value of the "name" attribute.
  * 
- * @member of GeneProductRef_t
+ * @memberof GeneProductRef_t
  */
 LIBSBML_EXTERN
 int
@@ -934,7 +937,7 @@ GeneProductRef_setName(GeneProductRef_t * gpr, const char * name);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of GeneProductRef_t
+ * @memberof GeneProductRef_t
  */
 LIBSBML_EXTERN
 int
@@ -952,7 +955,7 @@ GeneProductRef_unsetId(GeneProductRef_t * gpr);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of GeneProductRef_t
+ * @memberof GeneProductRef_t
  */
 LIBSBML_EXTERN
 int
@@ -970,7 +973,7 @@ GeneProductRef_unsetGeneProduct(GeneProductRef_t * gpr);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of GeneProductRef_t
+ * @memberof GeneProductRef_t
  */
 LIBSBML_EXTERN
 int
@@ -978,15 +981,15 @@ GeneProductRef_unsetName(GeneProductRef_t * gpr);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * attributes of the given GeneProductRef_t structure have been set.
  *
  * @param gpr the GeneProductRef_t structure to check.
  *
- * @return @c 1 if all the required attributes for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required attributes for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
- * @member of GeneProductRef_t
+ * @memberof GeneProductRef_t
  */
 LIBSBML_EXTERN
 int

@@ -31,99 +31,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class Member
- * @sbmlbrief{groups} A member of a Group.
- *
- * Member class objects are used to define what constitutes a "group" in the
- * SBML Level&nbsp;3 Group package.  Member objects reference other SBML
- * components in an SBML document.  A Member has four optional attributes:
- * "id" and "name", which identify the element, and "idRef" and "metaIdRef"
- * which reference the identifiers of other elements.
- *
- * There must be exactly one (and only one) method used to reference another
- * element: either "idRef" or "metaIdRef" may be defined, but not both.
- * (Multiple attributes are needed to account for the different types of
- * identifiers that a given object may have.) The referenced object
- * (including, potentially, another Group object) is thus made a member of
- * the Group in which the Member object is contained.
- *
- * Since Member is derived from SBase, which provides both the ability to
- * attach SBO terms as well as MIRIAM annotations, the semantics of a given
- * member in a model can be made more precise by reference to external
- * controlled vocabularies and ontologies.
- *
- * @section member-membership-rules Membership in a Group object
- *
- * If an SBML element is referenced by a Group's child Member (directly or
- * indirectly), it is considered to be a member of that Group.  If the same
- * element is referenced by multiple Member objects, this is equivalent to
- * including it just once.  (It is considered best practice to avoid this,
- * but does not make for an invalid SBML document.)
- *
- * Children of referenced elements are not considered to be members of the
- * Group: a KineticLaw of a referenced Reaction is not itself a Group
- * member. Even the membership of so-called SBML container classes (e.g.,
- * ListOfSpecies, ListOfCompartments, etc.) does not imply inclusion of
- * children as members of the Group. The sole exception to this rule is the
- * handling of ListOfMembers class.
- *
- * Please refer to the description of the Group class for more information
- * about groups, members, and the semantics of group membership.
- *
- * @see Group
- * @see ListOfGroups
- * @see ListOfMembers
- */
-
-/**
- * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
- * The following text is used as common documentation blocks copied multiple
- * times elsewhere in this file.  The use of @class is a hack needed because
- * Doxygen's @copydetails command has limited functionality.  Symbols
- * beginning with "doc_" are marked as ignored in our Doxygen configuration.
- * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  -->
- *
- * @class doc_group_member_sidref
- *
- * @par
- * The attributes "idRef" and "metaIdRef" on Member are used to reference the
- * identifiers of other components in a model in order to include them as
- * members of a Group.  There must be exactly one (and only one) method used
- * to reference another element: either "idRef" or "metaIdRef" may be
- * defined, but not both.  The value must be the identifier of an object
- * elsewhere in the Model.  (Object identifiers are usually set by attributes
- * named "id"; thus, the "idRef" value will usually be the "id" value of an
- * object in the Model.)  An example value of "idRef" might be the identifier
- * of a species in the model, or the identifier of a Group object.  The
- * namespace in which the <code>SId</code> value is to be found is the
- * <code>SId</code> namespace of the Model to which the Group belongs.
- * Conversely, elements with "id" values that are not part of the SId
- * namespace may @em not be referenced by this "idRef" attribute.  In SBML
- * Level&nbsp;3, this includes the Unit and LocalParameter
- * objects.
- *
- * <!-- ------------------------------------------------------------------- -->
- * @class doc_group_member_metaidref
- *
- * @par
- * The attributes "idRef" and "metaIdRef" on Member are used to reference the
- * identifiers of other components in a model in order to include them as
- * members of a Group.  There must be exactly one (and only one) method used
- * to reference another element: either "idRef" or "metaIdRef" may be
- * defined, but not both.  The "metaIdRef" attribute takes a value of type
- * <code>IDREF</code>.  This attribute is used to refer to a "metaid"
- * attribute value on any other object in the Model, for cases where the
- * object being referenced does not have an identifier in the Model SId
- * namespace.  (This is the case with, for example, units and rules in SBML
- * Level&nbsp;3 Version&nbsp;1.)  Since meta identifiers are optional
- * attributes of SBase, all SBML objects have the potential to have a meta
- * identifier value, including most elements from other SBML packages.
- *
- * Note that even if used in conjunction with the SBML Level&nbsp;3
- * Hierarchical %Model Composition package, this attribute is not allowed to
- * reference elements that reside within other Model objects in the same SBML
- * Document.  Referenced elements must be normal members of the parent Model
- * containing the Member object, and submodel elements may be normally
- * accessed by creating replacements.
+ * @sbmlbrief{groups} TODO:Definition of the Member class.
  */
 
 
@@ -155,8 +63,6 @@ protected:
 
   /** @cond doxygenLibsbmlInternal */
 
-//  std::string mId;
-//  std::string mName;
   std::string mIdRef;
   std::string mMetaIdRef;
 
@@ -231,7 +137,7 @@ public:
    *
    * @return the value of the "id" attribute of this Member as a string.
    */
-  const std::string& getId() const;
+  virtual const std::string& getId() const;
 
 
   /**
@@ -239,13 +145,11 @@ public:
    *
    * @return the value of the "name" attribute of this Member as a string.
    */
-  const std::string& getName() const;
+  virtual const std::string& getName() const;
 
 
   /**
    * Returns the value of the "idRef" attribute of this Member.
-   *
-   * @copydetails doc_group_member_sidref
    *
    * @return the value of the "idRef" attribute of this Member as a string.
    */
@@ -255,8 +159,6 @@ public:
   /**
    * Returns the value of the "metaIdRef" attribute of this Member.
    *
-   * @copydetails doc_group_member_metaidref
-   *
    * @return the value of the "metaIdRef" attribute of this Member as a string.
    */
   const std::string& getMetaIdRef() const;
@@ -265,10 +167,10 @@ public:
   /**
    * Predicate returning @c true if this Member's "id" attribute is set.
    *
-   * @return @c true if this Member's "id" attribute has been set, otherwise @c
-   * false is returned.
+   * @return @c true if this Member's "id" attribute has been set, otherwise
+   * @c false is returned.
    */
-  bool isSetId() const;
+  virtual bool isSetId() const;
 
 
   /**
@@ -277,13 +179,11 @@ public:
    * @return @c true if this Member's "name" attribute has been set, otherwise
    * @c false is returned.
    */
-  bool isSetName() const;
+  virtual bool isSetName() const;
 
 
   /**
    * Predicate returning @c true if this Member's "idRef" attribute is set.
-   *
-   * @copydetails doc_group_member_sidref
    *
    * @return @c true if this Member's "idRef" attribute has been set, otherwise
    * @c false is returned.
@@ -293,8 +193,6 @@ public:
 
   /**
    * Predicate returning @c true if this Member's "metaIdRef" attribute is set.
-   *
-   * @copydetails doc_group_member_metaidref
    *
    * @return @c true if this Member's "metaIdRef" attribute has been set,
    * otherwise @c false is returned.
@@ -309,9 +207,13 @@ public:
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
+   * OperationReturnValues_t}
+   *
+   * Calling this function with @p id = @c NULL or an empty string is
+   * equivalent to calling unsetId().
    */
-  int setId(const std::string& id);
+  virtual int setId(const std::string& id);
 
 
   /**
@@ -319,22 +221,24 @@ public:
    *
    * @param name std::string& value of the "name" attribute to be set.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   *
+   * Calling this function with @p name = @c NULL or an empty string is
+   * equivalent to calling unsetName().
    */
-  int setName(const std::string& name);
+  virtual int setName(const std::string& name);
 
 
   /**
    * Sets the value of the "idRef" attribute of this Member.
    *
-   * @copydetails doc_group_member_sidref
-   *
    * @param idRef std::string& value of the "idRef" attribute to be set.
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
+   * OperationReturnValues_t}
    */
   int setIdRef(const std::string& idRef);
 
@@ -342,12 +246,10 @@ public:
   /**
    * Sets the value of the "metaIdRef" attribute of this Member.
    *
-   * @copydetails doc_group_member_metaidref
-   *
    * @param metaIdRef std::string& value of the "metaIdRef" attribute to be
    * set.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */
   int setMetaIdRef(const std::string& metaIdRef);
@@ -360,7 +262,7 @@ public:
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
-  int unsetId();
+  virtual int unsetId();
 
 
   /**
@@ -370,13 +272,11 @@ public:
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
-  int unsetName();
+  virtual int unsetName();
 
 
   /**
    * Unsets the value of the "idRef" attribute of this Member.
-   *
-   * @copydetails doc_group_member_sidref
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -387,8 +287,6 @@ public:
 
   /**
    * Unsets the value of the "metaIdRef" attribute of this Member.
-   *
-   * @copydetails doc_group_member_metaidref
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -436,9 +334,6 @@ public:
    *
    * @return @c true to indicate that all the required attributes of this
    * Member have been set, otherwise @c false is returned.
-   *
-   *
-   * @note The required attributes for the Member object are:
    */
   virtual bool hasRequiredAttributes() const;
 
@@ -487,6 +382,286 @@ public:
                                      bool flag);
 
   /** @endcond */
+
+
+
+
+  #ifndef SWIG
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Gets the value of the "attributeName" attribute of this Member.
+   *
+   * @param attributeName, the name of the attribute to retrieve.
+   *
+   * @param value, the address of the value to record.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int getAttribute(const std::string& attributeName, bool& value)
+    const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Gets the value of the "attributeName" attribute of this Member.
+   *
+   * @param attributeName, the name of the attribute to retrieve.
+   *
+   * @param value, the address of the value to record.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int getAttribute(const std::string& attributeName, int& value) const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Gets the value of the "attributeName" attribute of this Member.
+   *
+   * @param attributeName, the name of the attribute to retrieve.
+   *
+   * @param value, the address of the value to record.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int getAttribute(const std::string& attributeName,
+                           double& value) const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Gets the value of the "attributeName" attribute of this Member.
+   *
+   * @param attributeName, the name of the attribute to retrieve.
+   *
+   * @param value, the address of the value to record.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int getAttribute(const std::string& attributeName,
+                           unsigned int& value) const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Gets the value of the "attributeName" attribute of this Member.
+   *
+   * @param attributeName, the name of the attribute to retrieve.
+   *
+   * @param value, the address of the value to record.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int getAttribute(const std::string& attributeName,
+                           std::string& value) const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Gets the value of the "attributeName" attribute of this Member.
+   *
+   * @param attributeName, the name of the attribute to retrieve.
+   *
+   * @param value, the address of the value to record.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int getAttribute(const std::string& attributeName,
+                           const char* value) const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Predicate returning @c true if this Member's attribute "attributeName" is
+   * set.
+   *
+   * @param attributeName, the name of the attribute to query.
+   *
+   * @return @c true if this Member's attribute "attributeName" has been set,
+   * otherwise @c false is returned.
+   */
+  virtual bool isSetAttribute(const std::string& attributeName) const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the value of the "attributeName" attribute of this Member.
+   *
+   * @param attributeName, the name of the attribute to set.
+   *
+   * @param value, the value of the attribute to set.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int setAttribute(const std::string& attributeName, bool value);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the value of the "attributeName" attribute of this Member.
+   *
+   * @param attributeName, the name of the attribute to set.
+   *
+   * @param value, the value of the attribute to set.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int setAttribute(const std::string& attributeName, int value);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the value of the "attributeName" attribute of this Member.
+   *
+   * @param attributeName, the name of the attribute to set.
+   *
+   * @param value, the value of the attribute to set.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int setAttribute(const std::string& attributeName, double value);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the value of the "attributeName" attribute of this Member.
+   *
+   * @param attributeName, the name of the attribute to set.
+   *
+   * @param value, the value of the attribute to set.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int setAttribute(const std::string& attributeName,
+                           unsigned int value);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the value of the "attributeName" attribute of this Member.
+   *
+   * @param attributeName, the name of the attribute to set.
+   *
+   * @param value, the value of the attribute to set.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int setAttribute(const std::string& attributeName,
+                           const std::string& value);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the value of the "attributeName" attribute of this Member.
+   *
+   * @param attributeName, the name of the attribute to set.
+   *
+   * @param value, the value of the attribute to set.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int setAttribute(const std::string& attributeName, const char*
+    value);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Unsets the value of the "attributeName" attribute of this Member.
+   *
+   * @param attributeName, the name of the attribute to query.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int unsetAttribute(const std::string& attributeName);
+
+  /** @endcond */
+
+
+
+
+  #endif /* !SWIG */
 
   /** @cond doxygenLibsbmlInternal */
 
@@ -575,14 +750,15 @@ BEGIN_C_DECLS
  *
  * @copydetails doc_note_setting_lv_pkg
  *
+ * @copydetails doc_returned_owned_pointer
+ *
  * @memberof Member_t
  */
 LIBSBML_EXTERN
 Member_t *
-Member_create(unsigned int level = GroupsExtension::getDefaultLevel(),
-              unsigned int version = GroupsExtension::getDefaultVersion(),
-              unsigned int pkgVersion =
-                GroupsExtension::getDefaultPackageVersion());
+Member_create(unsigned int level,
+              unsigned int version,
+              unsigned int pkgVersion);
 
 
 /**
@@ -591,6 +767,8 @@ Member_create(unsigned int level = GroupsExtension::getDefaultLevel(),
  * @param m the Member_t structure.
  *
  * @return a (deep) copy of this Member_t object.
+ *
+ * @copydetails doc_returned_owned_pointer
  *
  * @memberof Member_t
  */
@@ -619,10 +797,12 @@ Member_free(Member_t* m);
  * @return the value of the "id" attribute of this Member_t as a pointer to a
  * string.
  *
+ * @copydetails doc_returned_owned_char
+ *
  * @memberof Member_t
  */
 LIBSBML_EXTERN
-const char *
+char *
 Member_getId(const Member_t * m);
 
 
@@ -634,10 +814,12 @@ Member_getId(const Member_t * m);
  * @return the value of the "name" attribute of this Member_t as a pointer to a
  * string.
  *
+ * @copydetails doc_returned_owned_char
+ *
  * @memberof Member_t
  */
 LIBSBML_EXTERN
-const char *
+char *
 Member_getName(const Member_t * m);
 
 
@@ -649,10 +831,12 @@ Member_getName(const Member_t * m);
  * @return the value of the "idRef" attribute of this Member_t as a pointer to
  * a string.
  *
+ * @copydetails doc_returned_owned_char
+ *
  * @memberof Member_t
  */
 LIBSBML_EXTERN
-const char *
+char *
 Member_getIdRef(const Member_t * m);
 
 
@@ -664,20 +848,22 @@ Member_getIdRef(const Member_t * m);
  * @return the value of the "metaIdRef" attribute of this Member_t as a pointer
  * to a string.
  *
+ * @copydetails doc_returned_owned_char
+ *
  * @memberof Member_t
  */
 LIBSBML_EXTERN
-const char *
+char *
 Member_getMetaIdRef(const Member_t * m);
 
 
 /**
- * Predicate returning @c 1 if this Member_t's "id" attribute is set.
+ * Predicate returning @c 1 (true) if this Member_t's "id" attribute is set.
  *
  * @param m the Member_t structure.
  *
- * @return @c 1 if this Member_t's "id" attribute has been set, otherwise @c 0
- * is returned.
+ * @return @c 1 (true) if this Member_t's "id" attribute has been set,
+ * otherwise @c 0 (false) is returned.
  *
  * @memberof Member_t
  */
@@ -687,12 +873,12 @@ Member_isSetId(const Member_t * m);
 
 
 /**
- * Predicate returning @c 1 if this Member_t's "name" attribute is set.
+ * Predicate returning @c 1 (true) if this Member_t's "name" attribute is set.
  *
  * @param m the Member_t structure.
  *
- * @return @c 1 if this Member_t's "name" attribute has been set, otherwise @c
- * 0 is returned.
+ * @return @c 1 (true) if this Member_t's "name" attribute has been set,
+ * otherwise @c 0 (false) is returned.
  *
  * @memberof Member_t
  */
@@ -702,12 +888,12 @@ Member_isSetName(const Member_t * m);
 
 
 /**
- * Predicate returning @c 1 if this Member_t's "idRef" attribute is set.
+ * Predicate returning @c 1 (true) if this Member_t's "idRef" attribute is set.
  *
  * @param m the Member_t structure.
  *
- * @return @c 1 if this Member_t's "idRef" attribute has been set, otherwise @c
- * 0 is returned.
+ * @return @c 1 (true) if this Member_t's "idRef" attribute has been set,
+ * otherwise @c 0 (false) is returned.
  *
  * @memberof Member_t
  */
@@ -717,12 +903,13 @@ Member_isSetIdRef(const Member_t * m);
 
 
 /**
- * Predicate returning @c 1 if this Member_t's "metaIdRef" attribute is set.
+ * Predicate returning @c 1 (true) if this Member_t's "metaIdRef" attribute is
+ * set.
  *
  * @param m the Member_t structure.
  *
- * @return @c 1 if this Member_t's "metaIdRef" attribute has been set,
- * otherwise @c 0 is returned.
+ * @return @c 1 (true) if this Member_t's "metaIdRef" attribute has been set,
+ * otherwise @c 0 (false) is returned.
  *
  * @memberof Member_t
  */
@@ -741,6 +928,10 @@ Member_isSetMetaIdRef(const Member_t * m);
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * Calling this function with @p id = @c NULL or an empty string is equivalent
+ * to calling Member_unsetId().
  *
  * @memberof Member_t
  */
@@ -758,7 +949,10 @@ Member_setId(Member_t * m, const char * id);
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
- * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * Calling this function with @p name = @c NULL or an empty string is
+ * equivalent to calling Member_unsetName().
  *
  * @memberof Member_t
  */
@@ -777,6 +971,7 @@ Member_setName(Member_t * m, const char * name);
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof Member_t
  */
@@ -795,6 +990,7 @@ Member_setIdRef(Member_t * m, const char * idRef);
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof Member_t
  */
@@ -811,6 +1007,7 @@ Member_setMetaIdRef(Member_t * m, const char * metaIdRef);
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof Member_t
  */
@@ -827,6 +1024,7 @@ Member_unsetId(Member_t * m);
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof Member_t
  */
@@ -843,6 +1041,7 @@ Member_unsetName(Member_t * m);
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof Member_t
  */
@@ -859,6 +1058,7 @@ Member_unsetIdRef(Member_t * m);
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @memberof Member_t
  */
@@ -868,16 +1068,13 @@ Member_unsetMetaIdRef(Member_t * m);
 
 
 /**
- * Predicate returning @c 1 if all the required attributes for this Member_t
- * object have been set.
+ * Predicate returning @c 1 (true) if all the required attributes for this
+ * Member_t object have been set.
  *
  * @param m the Member_t structure.
  *
- * @return @c 1 to indicate that all the required attributes of this Member_t
- * have been set, otherwise @c 0 is returned.
- *
- *
- * @note The required attributes for the Member_t object are:
+ * @return @c 1 (true) to indicate that all the required attributes of this
+ * Member_t have been set, otherwise @c 0 (false) is returned.
  *
  * @memberof Member_t
  */

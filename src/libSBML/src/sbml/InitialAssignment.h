@@ -397,8 +397,8 @@ public:
   /**
    * Sets the "symbol" attribute value of this InitialAssignment.
    *
-   * @param sid the identifier of a Species, Compartment or Parameter
-   * object defined elsewhere in this Model.
+   * @param sid the identifier of an element defined in this model whose
+   * value can be set.
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1039,8 +1039,8 @@ public:
   /**
    * Returns the XML element name of this object.
    *
-   * For ListOfInitialAssignments, the XML element name is @c
-   * "listOfInitialAssignments".
+   * For ListOfInitialAssignments, the XML element name is
+   * @c "listOfInitialAssignments".
    * 
    * @return the name of this element, i.e., @c "listOfInitialAssignments".
    */
@@ -1122,8 +1122,8 @@ public:
    * Removes item in this ListOfInitialAssignments items with the given identifier.
    *
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier @p sid, then @c
-   * NULL is returned.
+   * If none of the items in this list have the identifier @p sid, then
+   * @c NULL is returned.
    *
    * @param sid the identifier of the item to remove.
    *
@@ -1202,13 +1202,7 @@ BEGIN_C_DECLS
  *
  * @return a pointer to the newly created InitialAssignment_t structure.
  *
- * @note Once a InitialAssignment_t has been added to an SBMLDocument_t, the @p
- * level and @p version for the document @em override those used to create
- * the InitialAssignment_t.  Despite this, the ability to supply the values at
- * creation time is an important aid to creating valid SBML.  Knowledge of
- * the intended SBML Level and Version  determine whether it is valid to
- * assign a particular value to an attribute, or whether it is valid to add
- * a structure to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof InitialAssignment_t
  */
@@ -1226,13 +1220,7 @@ InitialAssignment_create (unsigned int level, unsigned int version);
  *
  * @return a pointer to the newly created InitialAssignment_t structure.
  *
- * @note Once a InitialAssignment_t has been added to an SBMLDocument_t, the
- * @p sbmlns namespaces for the document @em override those used to create
- * the InitialAssignment_t.  Despite this, the ability to supply the values at 
- * creation time is an important aid to creating valid SBML.  Knowledge of the 
- * intended SBML Level and Version determine whether it is valid to assign a 
- * particular value to an attribute, or whether it is valid to add a structure to 
- * an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof InitialAssignment_t
  */
@@ -1314,13 +1302,13 @@ InitialAssignment_getMath (const InitialAssignment_t *ia);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether this
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether this
  * InitialAssignment_t's "symbol" attribute is set.
  *
  * @param ia the InitialAssignment_t structure.
  * 
- * @return nonzero if the "symbol" attribute of this InitialAssignment_t
- * is set, zero (0) otherwise.
+ * @return @c 1 (true) if the "symbol" attribute of this InitialAssignment_t
+ * is set, @c 0 (false) otherwise.
  *
  * @memberof InitialAssignment_t
  */
@@ -1330,13 +1318,13 @@ InitialAssignment_isSetSymbol (const InitialAssignment_t *ia);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether this
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether this
  * InitialAssignment_t's "math" subelement contains a value.
  *
  * @param ia the InitialAssignment_t structure.
  * 
- * @return nonzero if the "math" for this InitialAssignment_t is set,
- * zero (0) otherwise.
+ * @return @c 1 (true) if the "math" for this InitialAssignment_t is set,
+ * @c 0 (false) otherwise.
  *
  * @memberof InitialAssignment_t
  */
@@ -1350,14 +1338,14 @@ InitialAssignment_isSetMath (const InitialAssignment_t *ia);
  *
  * @param ia the InitialAssignment_t structure.
  *
- * @param sid the identifier of a Species_t, Compartment_t or Parameter_t
- * structure defined elsewhere in this Model_t.
+ * @param sid the identifier of an element defined in this model whose
+ * value can be set.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "symbol" attribute.
  *
  * @memberof InitialAssignment_t
@@ -1432,15 +1420,15 @@ InitialAssignment_getDerivedUnitDefinition(InitialAssignment_t *ia);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether 
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether 
  * the math expression of this InitialAssignment_t contains
  * parameters/numbers with undeclared units.
  * 
- * @return @c true if the math expression of this InitialAssignment_t
+ * @return @c 1 (true) if the math expression of this InitialAssignment_t
  * includes parameters/numbers 
- * with undeclared units, @c false otherwise.
+ * with undeclared units, @c 0 (false) otherwise.
  *
- * @note a return value of @c true indicates that the UnitDefinition_t
+ * @note a return value of @c 1 (true) indicates that the UnitDefinition_t
  * returned by the getDerivedUnitDefinition function may not 
  * accurately represent the units of the expression.
  *
@@ -1453,13 +1441,14 @@ int
 InitialAssignment_containsUndeclaredUnits(InitialAssignment_t *ia);
 
 /**
- * Returns the InitialAssignment_t structure having a given identifier.
+ * Despite its name, returns the InitialAssignment_t structure with the 
+ * "symbol" attribute matching the given identifier.
  *
  * @param lo the ListOfInitialAssignments_t structure to search.
- * @param sid the "id" attribute value being sought.
+ * @param sid the "symbol" attribute value being sought.
  *
- * @return item in the @p lo ListOfInitialAssignments with the given @p sid or a
- * null pointer if no such item exists.
+ * @return item in the @p lo ListOfInitialAssignments whose "symbol" attribute 
+ * matches the given @p sid or @c NULL if no such item exists.
  *
  * @see ListOf_t
  *
@@ -1471,15 +1460,16 @@ ListOfInitialAssignments_getById (ListOf_t *lo, const char *sid);
 
 
 /**
- * Removes a InitialAssignment_t structure based on its identifier.
+ * Despite its name, removes a InitialAssignment_t structure with the 
+ * "symbol" attribute matching the given identifier.
  *
  * The caller owns the returned item and is responsible for deleting it.
  *
  * @param lo the list of InitialAssignment_t structures to search.
- * @param sid the "id" attribute value of the structure to remove.
+ * @param sid the "symbol" attribute value of the structure to remove.
  *
- * @return The InitialAssignment_t structure removed, or a null pointer if no such
- * item exists in @p lo.
+ * @return The InitialAssignment_t structure removed whose "symbol" attribute 
+ * matches the given @p sid or @c NULL if no such item exists.
  *
  * @see ListOf_t
  *

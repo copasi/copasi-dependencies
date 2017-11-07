@@ -685,7 +685,7 @@ AssignmentRule_getMath(const AssignmentRule_t * ar);
 
 /**
  * @note SBML Level 1 uses a text-string format for mathematical formulas.
- * SBML Level 2 uses MathML, an XML format for representing mathematical
+ * Other levels of SBML use MathML, an XML format for representing mathematical
  * expressions.  LibSBML provides an Abstract Syntax Tree API for working
  * with mathematical expressions; this API is more powerful than working
  * with formulas directly in text form, and ASTs can be translated into
@@ -704,13 +704,13 @@ AssignmentRule_getFormula (const AssignmentRule_t *r);
 
 
 /**
- * Predicate returning @c 1 if the given AssignmentRule_t structure's "variable"
+ * Predicate returning @c 1 (true) if the given AssignmentRule_t structure's "variable"
  * is set.
  *
  * @param ar the AssignmentRule_t structure.
  *
- * @return @c 1 if the "variable" of this AssignmentRule_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "variable" of this AssignmentRule_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof AssignmentRule_t
  */
@@ -720,13 +720,13 @@ AssignmentRule_isSetVariable(const AssignmentRule_t * ar);
 
 
 /**
- * Predicate returning @c 1 if the given AssignmentRule_t structure's "math"
+ * Predicate returning @c 1 (true) if the given AssignmentRule_t structure's "math"
  * is set.
  *
  * @param ar the AssignmentRule_t structure.
  *
- * @return @c 1 if the "math" of this AssignmentRule_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "math" of this AssignmentRule_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof AssignmentRule_t
  */
@@ -736,8 +736,8 @@ AssignmentRule_isSetMath(const AssignmentRule_t * ar);
 
 
 /**
- * @return true (non-zero) if the formula (or equivalently the math) for
- * this AssignmentRule_t is set, false (0) otherwise.
+ * @return @c 1 (true) if the formula (or equivalently the math) for
+ * this AssignmentRule_t is set, @c 0 (false) otherwise.
  *
  * @memberof AssignmentRule_t
  */
@@ -749,8 +749,8 @@ AssignmentRule_isSetFormula (const AssignmentRule_t *r);
 /**
  * Sets the "variable" attribute of the given AssignmentRule_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs AssignmentRule_unsetVariable() instead.
+ * This function copies the string given in @p variable.  If the string is
+ * a null pointer, this function is equivalent to calling AssignmentRule_unsetVariable().
  *
  * @param ar the AssignmentRule_t structure.
  *
@@ -762,8 +762,8 @@ AssignmentRule_isSetFormula (const AssignmentRule_t *r);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
+ * @note Using this function with a null pointer for @p variable is equivalent to
+ * unsetting the value of the "variable" attribute.
  * 
  * @memberof AssignmentRule_t
  */
@@ -799,7 +799,7 @@ AssignmentRule_setMath(AssignmentRule_t * ar, const ASTNode_t* math);
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @note SBML Level 1 uses a text-string format for mathematical formulas.
- * SBML Level 2 uses MathML, an XML format for representing mathematical
+ * Other levels of SBML use MathML, an XML format for representing mathematical
  * expressions.  LibSBML provides an Abstract Syntax Tree API for working
  * with mathematical expressions; this API is more powerful than working
  * with formulas directly in text form, and ASTs can be translated into
@@ -835,13 +835,13 @@ AssignmentRule_unsetVariable(AssignmentRule_t * ar);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * attributes of the given AssignmentRule_t structure have been set.
  *
  * @param ar the AssignmentRule_t structure to check.
  *
- * @return @c 1 if all the required attributes for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required attributes for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
  * @memberof AssignmentRule_t
  */
@@ -851,13 +851,13 @@ AssignmentRule_hasRequiredAttributes(const AssignmentRule_t * ar);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * sub-elements of the given AssignmentRule_t structure have been set.
  *
  * @param ar the AssignmentRule_t structure to check.
  *
- * @return @c 1 if all the required sub-elements for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required sub-elements for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
  * @memberof AssignmentRule_t
  */

@@ -522,13 +522,13 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new ExternalModelDefinition_t structure using the given SBML @p level
- * and @p version values.
+ * and @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML Level to assign to this
  * ExternalModelDefinition_t.
  * @param version an unsigned int, the SBML Version to assign to this
  * ExternalModelDefinition_t.
- * @param pkgVersion an unsigned int, the SBML 'Qual' package Version to assign to this
+ * @param pkgVersion an unsigned int, the SBML 'comp' package Version to assign to this
  * ExternalModelDefinition_t.
  *
  * @return a pointer to the newly created ExternalModelDefinition_t structure.
@@ -624,13 +624,13 @@ ExternalModelDefinition_getModelRef(ExternalModelDefinition_t * emd);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * ExternalModelDefinition_t structure's identifier is set.
  *
  * @param emd the ExternalModelDefinition_t structure to query.
  * 
- * @return @c non-zero (true) if the "id" attribute of the given
- * ExternalModelDefinition_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "id" attribute of the given
+ * ExternalModelDefinition_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof ExternalModelDefinition_t
  */
@@ -640,13 +640,13 @@ ExternalModelDefinition_isSetId(ExternalModelDefinition_t * emd);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * ExternalModelDefinition_t structure's source is set.
  *
  * @param emd the ExternalModelDefinition_t structure to query.
  * 
- * @return @c non-zero (true) if the "source" attribute of the given
- * ExternalModelDefinition_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "source" attribute of the given
+ * ExternalModelDefinition_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof ExternalModelDefinition_t
  */
@@ -656,13 +656,13 @@ ExternalModelDefinition_isSetSource(ExternalModelDefinition_t * emd);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * ExternalModelDefinition_t structure's name is set.
  *
  * @param emd the ExternalModelDefinition_t structure to query.
  * 
- * @return @c non-zero (true) if the "name" attribute of the given
- * ExternalModelDefinition_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "name" attribute of the given
+ * ExternalModelDefinition_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof ExternalModelDefinition_t
  */
@@ -672,13 +672,13 @@ ExternalModelDefinition_isSetName(ExternalModelDefinition_t * emd);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * ExternalModelDefinition_t structure's modelRef is set.
  *
  * @param emd the ExternalModelDefinition_t structure to query.
  * 
- * @return @c non-zero (true) if the "modelRef" attribute of the given
- * ExternalModelDefinition_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "modelRef" attribute of the given
+ * ExternalModelDefinition_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof ExternalModelDefinition_t
  */
@@ -690,7 +690,7 @@ ExternalModelDefinition_isSetModelRef(ExternalModelDefinition_t * emd);
 /**
  * Assigns the identifier of an ExternalModelDefinition_t structure.
  *
- * This makes a copy of the string passed in the param @p sid.
+ * This makes a copy of the string passed in the parameter @p sid.
  *
  * @param emd the ExternalModelDefinition_t structure to set.
  * @param sid the string to use as the identifier.
@@ -699,7 +699,7 @@ ExternalModelDefinition_isSetModelRef(ExternalModelDefinition_t * emd);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof ExternalModelDefinition_t
@@ -839,7 +839,8 @@ ExternalModelDefinition_unsetModelRef(ExternalModelDefinition_t * emd);
   * have been set.
   *
   * @note The required attributes for a ExternalModelDefinition_t structure are:
-  * @li useValuesfromTriggerTime ( L3 onwards )
+  * @li id
+  * @li source
   *
  * @memberof ExternalModelDefinition_t
  */
@@ -854,12 +855,12 @@ ExternalModelDefinition_hasRequiredAttributes(ExternalModelDefinition_t * emd);
  * @param lo the ListOf_t structure to use.
  *
  * @param sid a string, the identifier of the
- * ExternalModelDefinition_t is being sought.
+ * ExternalModelDefinition_t being sought.
  *
  * @return the ExternalModelDefinition_t for the given variable, or @c NULL if no such
- * ExternalModelDefinition_t exits.
+ * ExternalModelDefinition_t exists.
  *
- * @memberof ExternalModelDefinition_t
+ * @memberof ListOfExternalModelDefinitions_t
  */
 LIBSBML_EXTERN
 ExternalModelDefinition_t *
@@ -879,7 +880,7 @@ ListOfExternalModelDefinitions_getById(ListOf_t * lo, const char * sid);
  * caller owns the returned structure. @c NULL is returned if no ExternalModelDefinition_t
  * structure with the "id" attribute exists in the given ListOf_t structure.
  *
- * @memberof ExternalModelDefinition_t
+ * @memberof ListOfExternalModelDefinitions_t
  */
 LIBSBML_EXTERN
 ExternalModelDefinition_t *

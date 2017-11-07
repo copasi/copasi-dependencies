@@ -47,6 +47,22 @@
  * GeneProduct object.
  *
  * @copydetails doc_note_fbcv2_annotation_replacement
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class ListOfGeneProducts
+ * @sbmlbrief{fbc} A list of GeneProduct objects.
+ *
+ * The ListOfGeneProducts is a container for the SBML extended Model
+ * that lists all the possible GeneProduct elements in the model.  These
+ * GeneProduct elements are referenced in the GeneProductAssociation child
+ * of an extended Reaction.
+ *
+ * @copydetails doc_what_is_listof
+ *
+ * @see GeneProduct
+ * @see FbcModelPlugin
+ *
+ * @copydetails doc_note_fbcv2_annotation_replacement
  */
 
 #ifndef GeneProduct_H__
@@ -711,22 +727,6 @@ protected:
 };
 
 
-/**
- * @class ListOfGeneProducts
- * @sbmlbrief{fbc} A list of GeneProduct objects.
- *
- * The ListOfGeneProducts is a container for the SBML extended Model
- * that lists all the possible GeneProduct elements in the model.  These
- * GeneProduct elements are referenced in the GeneProductAssociation child
- * of an extended Reaction.
- *
- * @copydetails doc_what_is_listof
- *
- * @see GeneProduct
- * @see FbcModelPlugin
- *
- * @copydetails doc_note_fbcv2_annotation_replacement
- */
 class LIBSBML_EXTERN ListOfGeneProducts : public ListOf
 {
 
@@ -802,7 +802,7 @@ public:
    * @param sid a string representing the identifier of the GeneProduct to
    * get.
    *
-   * @return GeneProduct in this ListOfGeneProducts with the given id or NULL
+   * @return GeneProduct in this ListOfGeneProducts with the given id or @c NULL
    * if no such GeneProduct exists.
    *
    * @see get(unsigned int n)
@@ -817,7 +817,7 @@ public:
    * @param sid a string representing the identifier of the GeneProduct to
    * get.
    *
-   * @return GeneProduct in this ListOfGeneProducts with the given id or NULL
+   * @return GeneProduct in this ListOfGeneProducts with the given id or @c NULL
    * if no such GeneProduct exists.
    *
    * @see get(unsigned int n)
@@ -889,8 +889,8 @@ public:
   /**
    * Returns the XML element name of this object.
    *
-   * For ListOfGeneProducts, the XML element name is always @c
-   * "listOfGeneProducts".
+   * For ListOfGeneProducts, the XML element name is always
+   * @c "listOfGeneProducts".
    *
    * @return the name of this element, i.e. @c "listOfGeneProducts".
    */
@@ -963,13 +963,16 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new GeneProduct_t structure using the given SBML @p level and
- * @p version values.
+ * @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML level to assign to this
  * GeneProduct_t structure.
  *
  * @param version an unsigned int, the SBML version to assign to this
  * GeneProduct_t structure.
+ *
+ * @param pkgVersion an unsigned int, the version of the package to assign
+ * to this GeneProduct_t structure.
  *
  * @returns the newly-created GeneProduct_t structure, or a null pointer if
  * an error occurred during construction.
@@ -1019,7 +1022,7 @@ GeneProduct_clone(GeneProduct_t * gp);
  *
  * @return the id of this structure.
  *
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 const char *
@@ -1034,7 +1037,7 @@ GeneProduct_getId(const GeneProduct_t * gp);
  *
  * @return the name of this structure.
  *
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 const char *
@@ -1049,7 +1052,7 @@ GeneProduct_getName(const GeneProduct_t * gp);
  *
  * @return the label of this structure.
  *
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 const char *
@@ -1064,7 +1067,7 @@ GeneProduct_getLabel(const GeneProduct_t * gp);
  *
  * @return the associatedSpecies of this structure.
  *
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 const char *
@@ -1072,15 +1075,15 @@ GeneProduct_getAssociatedSpecies(const GeneProduct_t * gp);
 
 
 /**
- * Predicate returning @c 1 if the given GeneProduct_t structure's "id"
+ * Predicate returning @c 1 (true) if the given GeneProduct_t structure's "id"
  * is set.
  *
  * @param gp the GeneProduct_t structure.
  *
- * @return @c 1 if the "id" of this GeneProduct_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "id" of this GeneProduct_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 int
@@ -1088,15 +1091,15 @@ GeneProduct_isSetId(const GeneProduct_t * gp);
 
 
 /**
- * Predicate returning @c 1 if the given GeneProduct_t structure's "name"
+ * Predicate returning @c 1 (true) if the given GeneProduct_t structure's "name"
  * is set.
  *
  * @param gp the GeneProduct_t structure.
  *
- * @return @c 1 if the "name" of this GeneProduct_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "name" of this GeneProduct_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 int
@@ -1104,15 +1107,15 @@ GeneProduct_isSetName(const GeneProduct_t * gp);
 
 
 /**
- * Predicate returning @c 1 if the given GeneProduct_t structure's "label"
+ * Predicate returning @c 1 (true) if the given GeneProduct_t structure's "label"
  * is set.
  *
  * @param gp the GeneProduct_t structure.
  *
- * @return @c 1 if the "label" of this GeneProduct_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "label" of this GeneProduct_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 int
@@ -1120,15 +1123,15 @@ GeneProduct_isSetLabel(const GeneProduct_t * gp);
 
 
 /**
- * Predicate returning @c 1 if the given GeneProduct_t structure's "associatedSpecies"
+ * Predicate returning @c 1 (true) if the given GeneProduct_t structure's "associatedSpecies"
  * is set.
  *
  * @param gp the GeneProduct_t structure.
  *
- * @return @c 1 if the "associatedSpecies" of this GeneProduct_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "associatedSpecies" of this GeneProduct_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 int
@@ -1138,8 +1141,8 @@ GeneProduct_isSetAssociatedSpecies(const GeneProduct_t * gp);
 /**
  * Sets the "id" attribute of the given GeneProduct_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs GeneProduct_unsetId() instead.
+ * This function copies the string given in @p id.  If the string is
+ * a null pointer, this function is equivalent to calling GeneProduct_unsetId().
  *
  * @param gp the GeneProduct_t structure.
  *
@@ -1151,10 +1154,10 @@ GeneProduct_isSetAssociatedSpecies(const GeneProduct_t * gp);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
+ * @note Using this function with a null pointer for @p id is equivalent to
+ * unsetting the value of the "id" attribute.
  * 
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 int
@@ -1164,8 +1167,8 @@ GeneProduct_setId(GeneProduct_t * gp, const char * id);
 /**
  * Sets the "name" attribute of the given GeneProduct_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs GeneProduct_unsetName() instead.
+ * This function copies the string given in @p name.  If the string is
+ * a null pointer, this function is equivalent to calling GeneProduct_unsetName().
  *
  * @param gp the GeneProduct_t structure.
  *
@@ -1180,7 +1183,7 @@ GeneProduct_setId(GeneProduct_t * gp, const char * id);
  * @note Using this function with a null pointer for @p name is equivalent to
  * unsetting the value of the "name" attribute.
  * 
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 int
@@ -1190,8 +1193,8 @@ GeneProduct_setName(GeneProduct_t * gp, const char * name);
 /**
  * Sets the "label" attribute of the given GeneProduct_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs GeneProduct_unsetLabel() instead.
+ * This function copies the string given in @p label.  If the string is
+ * a null pointer, this function is equivalent to calling GeneProduct_unsetLabel().
  *
  * @param gp the GeneProduct_t structure.
  *
@@ -1203,10 +1206,10 @@ GeneProduct_setName(GeneProduct_t * gp, const char * name);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
+ * @note Using this function with a null pointer for @p label is equivalent to
+ * unsetting the value of the "label" attribute.
  * 
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 int
@@ -1216,8 +1219,8 @@ GeneProduct_setLabel(GeneProduct_t * gp, const char * label);
 /**
  * Sets the "associatedSpecies" attribute of the given GeneProduct_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs GeneProduct_unsetAssociatedSpecies() instead.
+ * This function copies the string given in @p associatedSpecies.  If the string is
+ * a null pointer, this function is equivalent to calling GeneProduct_unsetAssociatedSpecies().
  *
  * @param gp the GeneProduct_t structure.
  *
@@ -1229,10 +1232,10 @@ GeneProduct_setLabel(GeneProduct_t * gp, const char * label);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
+ * @note Using this function with a null pointer for @p associatedSpecies is equivalent to
+ * unsetting the value of the "associatedSpecies" attribute.
  * 
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 int
@@ -1250,7 +1253,7 @@ GeneProduct_setAssociatedSpecies(GeneProduct_t * gp, const char * associatedSpec
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 int
@@ -1268,7 +1271,7 @@ GeneProduct_unsetId(GeneProduct_t * gp);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 int
@@ -1286,7 +1289,7 @@ GeneProduct_unsetName(GeneProduct_t * gp);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 int
@@ -1304,7 +1307,7 @@ GeneProduct_unsetLabel(GeneProduct_t * gp);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 int
@@ -1312,26 +1315,53 @@ GeneProduct_unsetAssociatedSpecies(GeneProduct_t * gp);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * attributes of the given GeneProduct_t structure have been set.
  *
  * @param gp the GeneProduct_t structure to check.
  *
- * @return @c 1 if all the required attributes for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required attributes for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
- * @member of GeneProduct_t
+ * @memberof GeneProduct_t
  */
 LIBSBML_EXTERN
 int
 GeneProduct_hasRequiredAttributes(const GeneProduct_t * gp);
 
 
+/**
+* Return the structure indicated by the given @p sid.
+*
+* @param lo the ListOf_t structure to use.
+*
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure for the given variable, or @c NULL if no such
+* object exists in the list.
+*
+* @memberof ListOfGeneProducts_t
+*/
 LIBSBML_EXTERN
 GeneProduct_t *
 ListOfGeneProducts_getById(ListOf_t * lo, const char * sid);
 
 
+/**
+* Removes the structure with the given @p sid
+* from the given ListOf_t structure and returns a pointer to it.
+*
+* * The caller owns the returned structure and is responsible for deleting it.
+*
+* @param lo the ListOf_t structure.
+* @param sid the string of the "id" attribute of the sought structure.
+*
+* @return the structure removed.  As mentioned above, the
+* caller owns the returned structure. @c NULL is returned if no
+* structure with the "id" attribute exists in the given ListOf_t structure.
+*
+* @memberof ListOfGeneProducts_t
+*/
 LIBSBML_EXTERN
 GeneProduct_t *
 ListOfGeneProducts_removeById(ListOf_t * lo, const char * sid);

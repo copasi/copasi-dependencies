@@ -203,8 +203,8 @@ public:
    * Removes item in this ListOfReferenceGlyphs items with the given identifier.
    *
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier @p sid, then @c
-   * NULL is returned.
+   * If none of the items in this list have the identifier @p sid, then
+   * @c NULL is returned.
    *
    * @param sid the identifier of the item to remove.
    *
@@ -226,7 +226,7 @@ protected:
    * Create and return an SBML object of this class, if present.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase* createObject (XMLInputStream& stream);
   /** @endcond */
@@ -378,25 +378,25 @@ public:
   ListOfGraphicalObjects* getListOfSubGlyphs ();
        
   /**
-   * Returns the reference glyph with the given index.
+   * Returns the reference glyph with the given @p index.
    * If the index is invalid, @c NULL is returned.
    */
   const ReferenceGlyph* getReferenceGlyph (unsigned int index) const;
 
   /**
-   * Returns the reference glyph with the given index.
+   * Returns the reference glyph with the given @p index.
    * If the index is invalid, @c NULL is returned.
    */
   ReferenceGlyph* getReferenceGlyph (unsigned int index) ;
 
   /**
-   * Returns the sub glyph with the given index.
+   * Returns the sub glyph with the given @p index.
    * If the index is invalid, @c NULL is returned.
    */
   const GraphicalObject* getSubGlyph (unsigned int index) const;
 
   /**
-   * Returns the sub glyph with the given index.
+   * Returns the sub glyph with the given @p index.
    * If the index is invalid, @c NULL is returned.
    */
   GraphicalObject* getSubGlyph (unsigned int index) ;
@@ -471,7 +471,7 @@ public:
    CubicBezier* createCubicBezier();
 
   /**
-   * Remove the reference glyph with the given index.
+   * Remove the reference glyph with the given @p index.
    * A pointer to the object is returned. If no object has been removed, NULL
    * is returned.
    */
@@ -479,7 +479,7 @@ public:
   removeReferenceGlyph(unsigned int index);
 
   /**
-   * Remove the subglyph with the given index.
+   * Remove the subglyph with the given @p index.
    * A pointer to the object is returned. If no object has been removed, NULL
    * is returned.
    */
@@ -633,7 +633,7 @@ protected:
    * Create and return an SBML object of this class, if present.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase*
   createObject (XMLInputStream& stream);
@@ -714,7 +714,6 @@ GeneralGlyph_createFrom (const GeneralGlyph_t *temp);
 /**
  * Creates a new GeneralGlyph_t with the given @p sid
  *
- * @param gg the GeneralGlyph_t structure.
  * @param sid the id of the created SpeciesGlyph_t.
  *
  * @memberof GeneralGlyph_t
@@ -727,7 +726,6 @@ GeneralGlyph_createWith (const char *sid);
 /**
  * Creates a new GeneralGlyph_t referencing the given element.
  *
- * @param gg the GeneralGlyph_t structure.
  * @param sid the id of the created SpeciesGlyph_t.
  * @param referenceId the referenceId of the created SpeciesGlyph_t.
  *
@@ -776,8 +774,8 @@ GeneralGlyph_getReferenceId (const GeneralGlyph_t *gg);
 
 
 /**
- * Returns 0 if the reference element has not been set for this glyph and
- * 1 otherwise.
+ * Returns @c 0 (false) if the reference element has not been set for this glyph and
+ * @c 1 (true) otherwise.
  *
  * @param gg the GeneralGlyph_t structure.
  *
@@ -793,6 +791,7 @@ GeneralGlyph_isSetReferenceId (const GeneralGlyph_t *gg);
  * ReferenceGlyph_t's.
  *
  * @param gg the GeneralGlyph_t structure.
+ * @param srg the ReferenceGlyph_t structure to add.
  *
  * @memberof GeneralGlyph_t
  */
@@ -814,9 +813,10 @@ GeneralGlyph_getNumReferenceGlyphs (const GeneralGlyph_t *gg);
 
 
 /**
- * Returns the pointer to the ReferenceGlyph_t's for the given index.
+ * Returns the pointer to the ReferenceGlyph_t's for the given @p index.
  *
  * @param gg the GeneralGlyph_t structure.
+ * @param index the index of the ReferenceGlyph_t structure to return.
  *
  * @memberof GeneralGlyph_t
  */
@@ -839,10 +839,11 @@ GeneralGlyph_getListOfReferenceGlyphs (GeneralGlyph_t *gg);
 
 
 /**
- * Removes the reference glyph with the given index.  If the index
+ * Removes the reference glyph with the given @p index.  If the index
  * is invalid, nothing is removed.
  *
  * @param gg the GeneralGlyph_t structure.
+ * @param index the index of the ReferenceGlyph_t structure to remove.
  *
  * @memberof GeneralGlyph_t
  */
@@ -867,6 +868,7 @@ GeneralGlyph_initDefaults (GeneralGlyph_t *gg);
  * Sets the curve for the reaction glyph.
  *
  * @param gg the GeneralGlyph_t structure.
+ * @param c the Curve_t structure to use.
  *
  * @memberof GeneralGlyph_t
  */
@@ -956,11 +958,12 @@ GeneralGlyph_createCubicBezier (GeneralGlyph_t *gg);
 
 
 /**
- * Remove the reference glyph with the given index.
+ * Remove the reference glyph with the given @p index.
  * A pointer to the structure is returned. If no structure has been removed, NULL
  * is returned.
  *
  * @param gg the GeneralGlyph_t structure.
+ * @param index the index of the ReferenceGlyph_t structure to remove.
  *
  * @memberof GeneralGlyph_t
  */
@@ -975,6 +978,7 @@ GeneralGlyph_removeReferenceGlyph(GeneralGlyph_t* gg, unsigned int index);
  * is returned.
  *
  * @param gg the GeneralGlyph_t structure.
+ * @param id the id of the ReferenceGlyph_t structure to remove.
  *
  * @memberof GeneralGlyph_t
  */
@@ -989,6 +993,7 @@ GeneralGlyph_removeReferenceGlyphWithId(GeneralGlyph_t* gg, const char* id);
  * id, UINT_MAX from limits.h is returned.
  *
  * @param gg the GeneralGlyph_t structure.
+ * @param id the id of the ReferenceGlyph_t to search for.
  *
  * @memberof GeneralGlyph_t
  */

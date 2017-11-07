@@ -338,7 +338,7 @@ public:
    * of the SpeciesFeatureType to get.
    *
    * @return the SpeciesFeatureType in the ListOfSpeciesFeatureTypes with the
-   * given id, or NULL if no such SpeciesFeatureType exists.
+   * given id, or @c NULL if no such SpeciesFeatureType exists.
    *
    * @see getSpeciesFeatureType(unsigned int n)
    * @see getNumSpeciesFeatureTypes()
@@ -354,7 +354,7 @@ public:
    * of the SpeciesFeatureType to get.
    *
    * @return the SpeciesFeatureType in the ListOfSpeciesFeatureTypes with the
-   * given id, or NULL if no such SpeciesFeatureType exists.
+   * given id, or @c NULL if no such SpeciesFeatureType exists.
    *
    * @see getSpeciesFeatureType(unsigned int n)
    * @see getNumSpeciesFeatureTypes()
@@ -400,7 +400,7 @@ public:
    *
    * @param n the index of the SpeciesFeatureType to remove.
    *
-   * @return the SpeciesFeatureType object removed, or NULL if the given
+   * @return the SpeciesFeatureType object removed, or @c NULL if the given
    * index @p n is out of range.  Note that the caller owns the returned
    * object and is responsible for deleting it.
    *
@@ -415,7 +415,7 @@ public:
    *
    * @param sid the identifier of the SpeciesFeatureType to remove.
    *
-   * @return the SpeciesFeatureType removed, or NULL if none have the
+   * @return the SpeciesFeatureType removed, or @c NULL if none have the
    * identifier @p sid.  Note that the caller owns the returned item and is
    * responsible for deleting it.
    */
@@ -449,7 +449,7 @@ public:
    * @param n the index number of the SpeciesTypeInstance to get.
    *
    * @return the nth SpeciesTypeInstance object in the
-   * ListOfSpeciesTypeInstances, or NULL if the given index is out of range.
+   * ListOfSpeciesTypeInstances, or @c NULL if the given index is out of range.
    *
    * @see getNumSpeciesTypeInstances()
    */
@@ -463,7 +463,7 @@ public:
    * @param n the index number of the SpeciesTypeInstance to get.
    *
    * @return the nth SpeciesTypeInstance object in the
-   * ListOfSpeciesTypeInstances, or NULL if the given index is out of range.
+   * ListOfSpeciesTypeInstances, or @c NULL if the given index is out of range.
    *
    * @see getNumSpeciesTypeInstances()
    */
@@ -478,7 +478,7 @@ public:
    * of the SpeciesTypeInstance to get.
    *
    * @return the SpeciesTypeInstance in the ListOfSpeciesTypeInstances with
-   * the given id, or NULL if no such SpeciesTypeInstance exists.
+   * the given id, or @c NULL if no such SpeciesTypeInstance exists.
    *
    * @see getSpeciesTypeInstance(unsigned int n)
    * @see getNumSpeciesTypeInstances()
@@ -494,7 +494,7 @@ public:
    * of the SpeciesTypeInstance to get.
    *
    * @return the SpeciesTypeInstance in the ListOfSpeciesTypeInstances with
-   * the given id, or NULL if no such SpeciesTypeInstance exists.
+   * the given id, or @c NULL if no such SpeciesTypeInstance exists.
    *
    * @see getSpeciesTypeInstance(unsigned int n)
    * @see getNumSpeciesTypeInstances()
@@ -539,7 +539,7 @@ public:
    *
    * @param n the index of the SpeciesTypeInstance to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    *
    * @see getNumSpeciesTypeInstances()
@@ -553,7 +553,7 @@ public:
    *
    * @param sid the identifier of the SpeciesTypeInstance to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    */
   SpeciesTypeInstance* removeSpeciesTypeInstance(const std::string& sid);
@@ -584,7 +584,7 @@ public:
    * @param n the index number of the SpeciesTypeComponentIndex to get from
    * the ListOfSpeciesTypeComponentIndexes.
    *
-   * @return the nth object in the ListOfSpeciesTypeComponentIndexes, or NULL
+   * @return the nth object in the ListOfSpeciesTypeComponentIndexes, or @c NULL
    * if the index @p n is out of range.
    *
    * @see getNumSpeciesTypeComponentIndexes()
@@ -599,7 +599,7 @@ public:
    * @param n the index number of the SpeciesTypeComponentIndex to get from
    * the ListOfSpeciesTypeComponentIndexes.
    *
-   * @return the nth object in the ListOfSpeciesTypeComponentIndexes, or NULL
+   * @return the nth object in the ListOfSpeciesTypeComponentIndexes, or @c NULL
    * if the index @p n is out of range.
    *
    * @see getNumSpeciesTypeComponentIndexes()
@@ -614,7 +614,7 @@ public:
    * SpeciesTypeComponentIndex to get from the
    * ListOfSpeciesTypeComponentIndexes.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see getSpeciesTypeComponentIndex(unsigned int n)
    * @see getNumSpeciesTypeComponentIndexes()
@@ -629,7 +629,7 @@ public:
    * SpeciesTypeComponentIndex to get from the
    * ListOfSpeciesTypeComponentIndexes.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see getSpeciesTypeComponentIndex(unsigned int n)
    * @see getNumSpeciesTypeComponentIndexes()
@@ -680,7 +680,7 @@ public:
    *
    * @param n the index of the SpeciesTypeComponentIndex to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    *
    * @see getNumSpeciesTypeComponentIndexes()
@@ -694,7 +694,7 @@ public:
    *
    * @param sid the identifier to search for.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    *
    * @see getNumSpeciesTypeComponentIndexes()
@@ -723,7 +723,7 @@ public:
    *
    * @param n the index number of the InSpeciesTypeBond to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see getNumInSpeciesTypeBonds()
    */
@@ -735,7 +735,7 @@ public:
    *
    * @param n the index number of the InSpeciesTypeBond to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see getNumInSpeciesTypeBonds()
    */
@@ -748,7 +748,7 @@ public:
    * @param sid a string representing the identifier of the InSpeciesTypeBond
    * to get from this ListOfInSpeciesTypeBonds.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    *
    * @see getInSpeciesTypeBond(unsigned int n)
@@ -763,7 +763,7 @@ public:
    * @param sid a string representing the identifier of the InSpeciesTypeBond
    * to get from this ListOfInSpeciesTypeBonds.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    *
    * @see getInSpeciesTypeBond(unsigned int n)
@@ -811,7 +811,7 @@ public:
    *
    * @param n the index of the InSpeciesTypeBond to remove.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see getNumInSpeciesTypeBonds()
    */
@@ -824,7 +824,7 @@ public:
    * @param sid the identifier of the InSpeciesTypeBond to remove from
    * the ListOfInSpeciesTypeBonds within this MultiSpeciesType object.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    */
   InSpeciesTypeBond* removeInSpeciesTypeBond(const std::string& sid);
@@ -1043,7 +1043,7 @@ public:
    *
    * @param n the index number of the MultiSpeciesType to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -1055,7 +1055,7 @@ public:
    *
    * @param n the index number of the MultiSpeciesType to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -1068,7 +1068,7 @@ public:
    * @param sid a string representing the identifier of the MultiSpeciesType
    * to get from this ListOfMultiSpeciesTypes.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)   *
    * @see size()
@@ -1082,7 +1082,7 @@ public:
    * @param sid a string representing the identifier of the MultiSpeciesType
    * to get from this ListOfMultiSpeciesTypes.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)   *
    * @see size()
@@ -1095,7 +1095,7 @@ public:
    *
    * @param n the index of the MultiSpeciesType to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    *
    * @see size()
@@ -1108,7 +1108,7 @@ public:
    *
    * @param sid the identifier of the MultiSpeciesType to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    */
   virtual MultiSpeciesType* remove(const std::string& sid);
@@ -1197,263 +1197,431 @@ LIBSBML_CPP_NAMESPACE_END
 LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 MultiSpeciesType_t *
 MultiSpeciesType_create(unsigned int level, unsigned int version,
                         unsigned int pkgVersion);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 void
 MultiSpeciesType_free(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 MultiSpeciesType_t *
 MultiSpeciesType_clone(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 char *
 MultiSpeciesType_getId(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 char *
 MultiSpeciesType_getName(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 char *
 MultiSpeciesType_getCompartment(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_isSetId(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_isSetName(MultiSpeciesType_t * mst);
 
 
-
-
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_isSetCompartment(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_setId(MultiSpeciesType_t * mst, const char * id);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_setName(MultiSpeciesType_t * mst, const char * name);
 
 
-
-
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_setCompartment(MultiSpeciesType_t * mst, const char * compartment);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_unsetId(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_unsetName(MultiSpeciesType_t * mst);
 
 
-
-
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_unsetCompartment(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_addSpeciesFeatureType(MultiSpeciesType_t * mst, SpeciesFeatureType_t * sft);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureType_t *
 MultiSpeciesType_createSpeciesFeatureType(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 ListOf_t *
 MultiSpeciesType_getListOfSpeciesFeatureTypes(MultiSpeciesType_t * mst) ;
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureType_t *
 MultiSpeciesType_getSpeciesFeatureType(MultiSpeciesType_t * mst, unsigned int n);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureType_t *
 MultiSpeciesType_getSpeciesFeatureTypeById(MultiSpeciesType_t * mst, const char * sid);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 unsigned int
 MultiSpeciesType_getNumSpeciesFeatureTypes(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureType_t *
 MultiSpeciesType_removeSpeciesFeatureType(MultiSpeciesType_t * mst, unsigned int n);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureType_t *
 MultiSpeciesType_removeSpeciesFeatureTypeById(MultiSpeciesType_t * mst, const char * sid);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_addSpeciesTypeInstance(MultiSpeciesType_t * mst, SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeInstance_t *
 MultiSpeciesType_createSpeciesTypeInstance(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 ListOf_t *
 MultiSpeciesType_getListOfSpeciesTypeInstances(MultiSpeciesType_t * mst) ;
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeInstance_t *
 MultiSpeciesType_getSpeciesTypeInstance(MultiSpeciesType_t * mst, unsigned int n);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeInstance_t *
 MultiSpeciesType_getSpeciesTypeInstanceById(MultiSpeciesType_t * mst, const char * sid);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 unsigned int
 MultiSpeciesType_getNumSpeciesTypeInstances(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeInstance_t *
 MultiSpeciesType_removeSpeciesTypeInstance(MultiSpeciesType_t * mst, unsigned int n);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeInstance_t *
 MultiSpeciesType_removeSpeciesTypeInstanceById(MultiSpeciesType_t * mst, const char * sid);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_addSpeciesTypeComponentIndex(MultiSpeciesType_t * mst, SpeciesTypeComponentIndex_t * stci);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeComponentIndex_t *
 MultiSpeciesType_createSpeciesTypeComponentIndex(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 ListOf_t *
 MultiSpeciesType_getListOfSpeciesTypeComponentIndexes(MultiSpeciesType_t * mst) ;
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeComponentIndex_t *
 MultiSpeciesType_getSpeciesTypeComponentIndex(MultiSpeciesType_t * mst, unsigned int n);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeComponentIndex_t *
 MultiSpeciesType_getSpeciesTypeComponentIndexById(MultiSpeciesType_t * mst, const char * sid);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 unsigned int
 MultiSpeciesType_getNumSpeciesTypeComponentIndexes(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeComponentIndex_t *
 MultiSpeciesType_removeSpeciesTypeComponentIndex(MultiSpeciesType_t * mst, unsigned int n);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeComponentIndex_t *
 MultiSpeciesType_removeSpeciesTypeComponentIndexById(MultiSpeciesType_t * mst, const char * sid);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_addInSpeciesTypeBond(MultiSpeciesType_t * mst, InSpeciesTypeBond_t * istb);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 InSpeciesTypeBond_t *
 MultiSpeciesType_createInSpeciesTypeBond(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 ListOf_t *
 MultiSpeciesType_getListOfInSpeciesTypeBonds(MultiSpeciesType_t * mst) ;
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 InSpeciesTypeBond_t *
 MultiSpeciesType_getInSpeciesTypeBond(MultiSpeciesType_t * mst, unsigned int n);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 InSpeciesTypeBond_t *
 MultiSpeciesType_getInSpeciesTypeBondById(MultiSpeciesType_t * mst, const char * sid);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 unsigned int
 MultiSpeciesType_getNumInSpeciesTypeBonds(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 InSpeciesTypeBond_t *
 MultiSpeciesType_removeInSpeciesTypeBond(MultiSpeciesType_t * mst, unsigned int n);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 InSpeciesTypeBond_t *
 MultiSpeciesType_removeInSpeciesTypeBondById(MultiSpeciesType_t * mst, const char * sid);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_hasRequiredAttributes(MultiSpeciesType_t * mst);
 
 
+/**
+* @memberof MultiSpeciesType_t
+*/
 LIBSBML_EXTERN
 int
 MultiSpeciesType_hasRequiredElements(MultiSpeciesType_t * mst);
 
 
+/**
+* Return the structure indicated by the given @p sid.
+*
+* @param lo the ListOf_t structure to use.
+*
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure for the given variable, or @c NULL if no such
+* object exists in the list.
+*
+* @memberof ListOfMultiSpeciesTypes_t
+*/
 LIBSBML_EXTERN
 MultiSpeciesType_t *
 ListOfMultiSpeciesTypes_getById(ListOf_t * lo, const char * sid);
 
 
+/**
+* Removes the structure with the given @p sid
+* from the given list and returns a pointer to it.
+*
+* The caller owns the returned structure and is responsible for deleting it.
+*
+* @param lo the ListOf_t structure.
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure removed.  As mentioned above, the
+* caller owns the returned structure. @c NULL is returned if no
+* structure with the "id" attribute exists in the given list.
+*
+* @memberof ListOfMultiSpeciesTypes_t
+*/
 LIBSBML_EXTERN
 MultiSpeciesType_t *
 ListOfMultiSpeciesTypes_removeById(ListOf_t * lo, const char * sid);

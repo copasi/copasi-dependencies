@@ -116,8 +116,8 @@
  * <ul>
  *
  * <li> The "id" of a UnitDefinition must @em not contain a value from the
- * list of SBML's predefined base unit names (i.e., the strings @c gram, @c
- * litre, etc.).  In SBML Level&nbsp;3, this list consists of the
+ * list of SBML's predefined base unit names (i.e., the strings @c gram,
+ * @c litre, etc.).  In SBML Level&nbsp;3, this list consists of the
  * following:
  * 
  * @copydetails doc_base_units
@@ -143,8 +143,8 @@
  *   @htmlinclude predefined-units.html
  *
  * Also, SBML Level&nbsp;2 imposes two limitations on redefining the
- * predefined unit @c substance, @c volume, @c area, @c length, and @c
- * time: (1) The UnitDefinition of a predefined SBML unit can only contain
+ * predefined unit @c substance, @c volume, @c area, @c length, and
+ * @c time: (1) The UnitDefinition of a predefined SBML unit can only contain
  * a single Unit object within it.  (2) The value of the "kind" attribute
  * in a Unit instance must be drawn from one of the values in the second
  * column of the table above.
@@ -459,7 +459,7 @@ public:
    * variant of the predefined unit identifier @c "area".
    *
    * @return @c true if this UnitDefinition is a variant of the predefined
-   * unit @c area, meaning square metres with only abritrary variations
+   * unit @c area, meaning square metres with only arbitrary variations
    * in scale or multiplier values; @c false otherwise.
    */
   bool isVariantOfArea (bool relaxed = false) const;
@@ -470,7 +470,7 @@ public:
    * variant of the predefined unit identifier @c "length".
    *
    * @return @c true if this UnitDefinition is a variant of the predefined
-   * unit @c length, meaning metres with only abritrary variations in scale
+   * unit @c length, meaning metres with only arbitrary variations in scale
    * or multiplier values; @c false otherwise.
    */
   bool isVariantOfLength (bool relaxed = false) const;
@@ -482,7 +482,7 @@ public:
    *
    * @return @c true if this UnitDefinition is a variant of the predefined
    * unit @c substance, meaning moles or items (and grams or kilograms from
-   * SBML Level&nbsp;2 Version&nbsp;2 onwards) with only abritrary variations
+   * SBML Level&nbsp;2 Version&nbsp;2 onwards) with only arbitrary variations
    * in scale or multiplier values; @c false otherwise.
    */
   bool isVariantOfSubstance (bool relaxed = false) const;
@@ -493,7 +493,7 @@ public:
    * variant of the predefined unit identifier @c "time".
    *
    * @return @c true if this UnitDefinition is a variant of the predefined
-   * unit @c time, meaning seconds with only abritrary variations in scale or
+   * unit @c time, meaning seconds with only arbitrary variations in scale or
    * multiplier values; @c false otherwise.
    */
   bool isVariantOfTime (bool relaxed = false) const;
@@ -504,7 +504,7 @@ public:
    * variant of the predefined unit identifier @c "volume".
    *
    * @return @c true if this UnitDefinition is a variant of the predefined
-   * unit @c volume, meaning litre or cubic metre with only abritrary
+   * unit @c volume, meaning litre or cubic metre with only arbitrary
    * variations in scale or multiplier values; @c false otherwise.
    */
   bool isVariantOfVolume (bool relaxed = false) const;
@@ -514,8 +514,8 @@ public:
    * Convenience function for testing if a given unit definition is a
    * variant of the unit @c "dimensionless".
    *
-   * @return @c true if this UnitDefinition is a variant of @c
-   * dimensionless, meaning dimensionless with only abritrary variations in
+   * @return @c true if this UnitDefinition is a variant of
+   * @c dimensionless, meaning dimensionless with only arbitrary variations in
    * scale or multiplier values; @c false otherwise.
    */
   bool isVariantOfDimensionless (bool relaxed = false) const;
@@ -526,7 +526,7 @@ public:
    * variant of the predefined unit identifier @c "mass".
    *
    * @return @c true if this UnitDefinition is a variant of mass units,
-   * meaning gram or kilogram with only abritrary variations in scale or
+   * meaning gram or kilogram with only arbitrary variations in scale or
    * multiplier values; @c false otherwise.
    */
   bool isVariantOfMass (bool relaxed = false) const;
@@ -778,8 +778,8 @@ public:
    * @param ud1 the first UnitDefinition object to compare.
    * @param ud2 the second UnitDefinition object to compare.
    *
-   * @return @c true if all the Unit objects in ud1 are identical to the
-   * Unit objects of ud2, @c false otherwise.
+   * @return @c true if all the Unit objects in @p ud1 are identical to the
+   * Unit objects of @p ud2, @c false otherwise.
    *
    * @copydetails doc_note_static_methods
    *
@@ -805,8 +805,8 @@ public:
    * 
    * @param ud2 the second UnitDefinition object to compare.
    *
-   * @return @c true if all the Unit objects in ud1 are equivalent
-   * to the Unit objects in ud2, @c false otherwise.
+   * @return @c true if all the Unit objects in @p ud1 are equivalent
+   * to the Unit objects in @p ud2, @c false otherwise.
    *
    * @copydetails doc_note_static_methods
    *
@@ -1277,7 +1277,7 @@ public:
    *
    * @param elementName, the name of the element to get number of.
    *
-   * @param index, unsigned int teh index of teh object to retrieve.
+   * @param index, unsigned int the index of the object to retrieve.
    *
    * @return pointer to the object.
    */
@@ -1426,8 +1426,8 @@ public:
   /**
    * Returns the XML element name of this object.
    *
-   * For ListOfUnitDefinitions, the XML element name is @c
-   * "listOfUnitDefinitions".
+   * For ListOfUnitDefinitions, the XML element name is
+   * @c "listOfUnitDefinitions".
    * 
    * @return the name of this element, i.e., @c "listOfUnitDefinitions".
    */
@@ -1525,8 +1525,8 @@ public:
    * Removes item in this ListOfUnitDefinitions items with the given identifier.
    *
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier @p sid, then @c
-   * NULL is returned.
+   * If none of the items in this list have the identifier @p sid, then
+   * @c NULL is returned.
    *
    * @param sid the identifier of the item to remove.
    *
@@ -1561,7 +1561,7 @@ protected:
    * Create and return a listOfUnitDefinitions object, if present.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase* createObject (XMLInputStream& stream);
 
@@ -1592,13 +1592,7 @@ BEGIN_C_DECLS
  * 
  * @return a pointer to the newly created UnitDefinition_t structure.
  *
- * @note Once a UnitDefinition_t has been added to an SBMLDocument_t, the @p 
- * level and @p version for the document @em override those used to create 
- * the UnitDefinition_t.  Despite this, the ability to supply the values at 
- * creation time is an important aid to creating valid SBML.  Knowledge of 
- * the intended SBML Level and Version  determine whether it is valid to 
- * assign a particular value to an attribute, or whether it is valid to add 
- * a structure to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof UnitDefinition_t
  */
@@ -1616,13 +1610,7 @@ UnitDefinition_create (unsigned int level, unsigned int version);
  *
  * @return a pointer to the newly created UnitDefinition_t structure.
  *
- * @note Once a UnitDefinition_t has been added to an SBMLDocument_t, the
- * @p sbmlns namespaces for the document @em override those used to create
- * the UnitDefinition_t.  Despite this, the ability to supply the values at
- * creation time is an important aid to creating valid SBML.  Knowledge of
- * the intended SBML Level and Version determine whether it is valid to assign
- * a particular value to an attribute, or whether it is valid to add a structure
- * to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof UnitDefinition_t
  */
@@ -1705,8 +1693,8 @@ UnitDefinition_getName (const UnitDefinition_t *ud);
  *
  * @param ud the UnitDefinition_t to query.
  *
- * @return nonzero (true) if the "id" attribute of the given
- * UnitDefinition_t is set, zero (0) otherwise.
+ * @return @c 1 (true) if the "id" attribute of the given
+ * UnitDefinition_t is set, @c 0 (false) otherwise.
  *
  * @memberof UnitDefinition_t
  */
@@ -1721,8 +1709,8 @@ UnitDefinition_isSetId (const UnitDefinition_t *ud);
  *
  * @param ud the UnitDefinition_t to query.
  *
- * @return nonzero (true) if the "name" attribute of the given
- * UnitDefinition_t is set, zero (0) otherwise.
+ * @return @c 1 (true) if the "name" attribute of the given
+ * UnitDefinition_t is set, @c 0 (false) otherwise.
  *
  * @memberof UnitDefinition_t
  */
@@ -1737,9 +1725,9 @@ UnitDefinition_isSetName (const UnitDefinition_t *ud);
  * 
  * @param ud the UnitDefinition_t to query.
  *
- * @return @c true if the UnitDefinition_t structure @p ud is a variant of
- * the built-in unit @c area, meaning square metres with only abritrary
- * variations in scale or multiplier values; @c false otherwise.
+ * @return @c 1 (true) if the UnitDefinition_t structure @p ud is a variant of
+ * the built-in unit @c area, meaning square metres with only arbitrary
+ * variations in scale or multiplier values; @c 0 (false) otherwise.
  *
  * @memberof UnitDefinition_t
  */
@@ -1754,9 +1742,9 @@ UnitDefinition_isVariantOfArea (const UnitDefinition_t *ud);
  *
  * @param ud the UnitDefinition_t to query.
  *
- * @return @c true if this UnitDefinition_t is a variant of the built-in
- * unit @c length, meaning metres with only abritrary variations in scale
- * or multiplier values; @c false otherwise.
+ * @return @c 1 (true) if this UnitDefinition_t is a variant of the built-in
+ * unit @c length, meaning metres with only arbitrary variations in scale
+ * or multiplier values; @c 0 (false) otherwise.
  *
  * @memberof UnitDefinition_t
  */
@@ -1771,9 +1759,9 @@ UnitDefinition_isVariantOfLength (const UnitDefinition_t *ud);
  *
  * @param ud the UnitDefinition_t to query.
  *
- * @return @c true if this UnitDefinition_t is a variant of the built-in
- * unit substance, meaning moles or items with only abritrary variations
- * in scale or multiplier values; @c false otherwise.
+ * @return @c 1 (true) if this UnitDefinition_t is a variant of the built-in
+ * unit substance, meaning moles or items with only arbitrary variations
+ * in scale or multiplier values; @c 0 (false) otherwise.
  *
  * @memberof UnitDefinition_t
  */
@@ -1788,9 +1776,9 @@ UnitDefinition_isVariantOfSubstance (const UnitDefinition_t *ud);
  *
  * @param ud the UnitDefinition_t to query.
  *
- * @return @c true if this UnitDefinition_t is a variant of the built-in
- * unit time, meaning seconds with only abritrary variations in scale or
- * multiplier values; @c false otherwise.
+ * @return @c 1 (true) if this UnitDefinition_t is a variant of the built-in
+ * unit time, meaning seconds with only arbitrary variations in scale or
+ * multiplier values; @c 0 (false) otherwise.
  *
  * @memberof UnitDefinition_t
  */
@@ -1805,9 +1793,9 @@ UnitDefinition_isVariantOfTime (const UnitDefinition_t *ud);
  *
  * @param ud the UnitDefinition_t to query.
  *
- * @return @c true if this UnitDefinition_t is a variant of the built-in
- * unit volume, meaning litre or cubic metre with only abritrary
- * variations in scale or multiplier values; @c false otherwise.
+ * @return @c 1 (true) if this UnitDefinition_t is a variant of the built-in
+ * unit volume, meaning litre or cubic metre with only arbitrary
+ * variations in scale or multiplier values; @c 0 (false) otherwise.
  *
  * @memberof UnitDefinition_t
  */
@@ -1822,9 +1810,9 @@ UnitDefinition_isVariantOfVolume (const UnitDefinition_t *ud);
  *
  * @param ud the UnitDefinition_t to query.
  *
- * @return @c true if this UnitDefinition_t is a variant of dimensionless,
- * meaning dimensionless with only abritrary variations in scale or
- * multiplier values; @c false otherwise.
+ * @return @c 1 (true) if this UnitDefinition_t is a variant of dimensionless,
+ * meaning dimensionless with only arbitrary variations in scale or
+ * multiplier values; @c 0 (false) otherwise.
  *
  * @memberof UnitDefinition_t
  */
@@ -1839,9 +1827,9 @@ UnitDefinition_isVariantOfDimensionless (const UnitDefinition_t *ud);
  *
  * @param ud the UnitDefinition_t to query.
  *
- * @return @c true if this UnitDefinition_t is a variant of mass, meaning
- * gram or kilogram with only abritrary variations in scale or multiplier
- * values; @c false otherwise.
+ * @return @c 1 (true) if this UnitDefinition_t is a variant of mass, meaning
+ * gram or kilogram with only arbitrary variations in scale or multiplier
+ * values; @c 0 (false) otherwise.
  *
  * @memberof UnitDefinition_t
  */
@@ -1857,10 +1845,10 @@ UnitDefinition_isVariantOfMass (const UnitDefinition_t *ud);
  *
  * @param ud the UnitDefinition_t to query.
  *
- * @return @c true if this UnitDefinition_t is a variant of the built-in
+ * @return @c 1 (true) if this UnitDefinition_t is a variant of the built-in
  * unit substance per built-in unit time, meaning it contains two units
  * one of which is a variant of substance and the other is a variant of
- * time which an exponent of -1; @c false otherwise.
+ * time which an exponent of -1; @c 0 (false) otherwise.
  *
  * @memberof UnitDefinition_t
  */
@@ -1880,7 +1868,7 @@ UnitDefinition_isVariantOfSubstancePerTime (const UnitDefinition_t *ud);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof UnitDefinition_t
@@ -1957,7 +1945,8 @@ UnitDefinition_addUnit (UnitDefinition_t *ud, const Unit_t *u);
  * @note It is worth emphasizing that the attribute "kind" value of a
  * Unit_t is a required attribute for a valid Unit_t definition.  The
  * UnitDefinition_createUnit() method does not assign a valid kind to the
- * constructed unit (instead, it sets the "kind" to UNIT_KIND_INVALID).
+ * constructed unit (instead, it sets the "kind" to 
+ * @sbmlconstant{UNIT_KIND_INVALID, UnitKind_t}).
  * Callers are cautioned to set the newly-constructed Unit's kind using
  * UnitDefinition_setKind() soon after calling this method.
  *
@@ -2037,10 +2026,8 @@ UnitDefinition_getNumUnits (const UnitDefinition_t *ud);
 
 
 /** 
- * Simplifies the @param ud UnitDefinition_t such that any given kind of Unit_t structure
- * occurs only once in the ListOfUnits.
- *
- * For example, the following definition,
+ * Simplifies the @p ud UnitDefinition_t such that any given kind of Unit_t structure
+ * occurs only once in the ListOfUnits.  For example, the following definition,
  * @verbatim
  <unitDefinition>
   <listOfUnits>
@@ -2067,8 +2054,8 @@ void
 UnitDefinition_simplify(UnitDefinition_t * ud);
 
 /** 
- * Alphabetically orders the Unit_t structures within the list of Unit_t's of a
- * @param ud UnitDefinition_t.
+ * Alphabetically orders the Unit_t structures within the list of Unit_t's of
+ * a @p ud UnitDefinition_t.
  *
  * @param ud the UnitDefinition_t structure whose units are to be reordered.
  *
@@ -2094,7 +2081,7 @@ UnitDefinition_t *
 UnitDefinition_convertToSI(UnitDefinition_t * ud);
 
 /**
- * Predicate returning @c true if two
+ * Predicate returning @c 1 (true) if two
  * UnitDefinition_t structures are identical.
  *
  * For the purposes of performing this comparison, two UnitDefinition_t
@@ -2108,8 +2095,8 @@ UnitDefinition_convertToSI(UnitDefinition_t * ud);
  * @param ud1 the first UnitDefinition_t structure to compare.
  * @param ud2 the second UnitDefinition_t structure to compare.
  *
- * @return @c true if all the Unit_t structures in ud1 are identical to the
- * Unit_t structures of ud2, @c false otherwise.
+ * @return @c 1 (true) if all the Unit_t structures in @p ud1 are identical to the
+ * Unit_t structures of @p ud2, @c 0 (false) otherwise.
  *
  * @copydetails doc_note_static_methods
  *
@@ -2124,22 +2111,22 @@ UnitDefinition_areIdentical(UnitDefinition_t * ud1, UnitDefinition_t * ud2);
 
 
 /**
- * Predicate returning @c true if two
+ * Predicate returning @c 1 (true) if two
  * UnitDefinition_t structures are equivalent.
  *
  * For the purposes of performing this comparison, two UnitDefinition_t
  * structures are considered equivalent when they contain @em equivalent
  * list of Unit_t structures.  Unit_t structures are in turn considered equivalent
  * if they satisfy the predicate
- * Unit::areEquivalent(@if java Unit, %Unit@endif).
+ * Unit_areEquivalent(@if java Unit, %Unit@endif).
  * The predicate tests a subset of the_t structures's attributes.
  *
  * @param ud1 the first UnitDefinition_t structure to compare.
  * 
  * @param ud2 the second UnitDefinition_t structure to compare.
  *
- * @return @c true if all the Unit_t structures in ud1 are equivalent
- * to the Unit_t structures in ud2, @c false otherwise.
+ * @return @c 1 (true) if all the Unit_t structures in @p ud1 are equivalent
+ * to the Unit_t structures in @p ud2, @c 0 (false) otherwise.
  *
  * @see UnitDefinition_areIdentical()
  * @see Unit_areEquivalent()
@@ -2191,8 +2178,7 @@ UnitDefinition_divide(UnitDefinition_t * ud1, UnitDefinition_t * ud2);
 
 /** 
  * Expresses the given definition in a plain-text form.
- *
- * For example, an @param ud of the form:
+ * For example, a @p ud of the form:
  * @verbatim
  <unitDefinition>
   <listOfUnits>
@@ -2203,15 +2189,16 @@ UnitDefinition_divide(UnitDefinition_t * ud1, UnitDefinition_t * ud2);
  @endverbatim
  * will return the string <code>"metre (exponent = 1, multiplier = 1,
  * scale = 0) second (exponent = -2, multiplier = 1, scale = 0)"</code> if
- * @param compact is @c false, or 
- * the string <code>"(1 metre)^1 (1 second)^-2"</code> if @param compact is 
+ * @p compact is @c false, or 
+ * the string <code>"(1 metre)^1 (1 second)^-2"</code> if @p compact is 
  * @c true.  This method may
  * be useful for printing unit information to human users, or in
  * debugging software, or other situations.
  *
  * @param ud the UnitDefinition_t structure
- * @param compact boolean indicating whether the compact form
- * should be used.
+ * @param compact integer indicating whether the compact form
+ * should be used,
+ * with @c nonzero indicating @c true, and @c zero indicating @c false.
  *
  * @return a string expressing the unit definition defined by the given
  * UnitDefinition_t structure @p ud.

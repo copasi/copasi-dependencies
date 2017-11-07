@@ -819,7 +819,7 @@ public:
    * of the FluxObjective to get.
    *
    * @return FluxObjective in this ListOfFluxObjectives
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * FluxObjective exists.
    *
    * @see get(unsigned int n)   *
@@ -836,7 +836,7 @@ public:
    * of the FluxObjective to get.
    *
    * @return FluxObjective in this ListOfFluxObjectives
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * FluxObjective exists.
    *
    * @see get(unsigned int n)   *
@@ -985,13 +985,16 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new FluxObjective_t structure using the given SBML @p level and
- * @p version values.
+ * @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML level to assign to this
  * FluxObjective_t structure.
  *
  * @param version an unsigned int, the SBML version to assign to this
  * FluxObjective_t structure.
+ *
+ * @param pkgVersion an unsigned int, the version of the package to assign
+ * to this FluxObjective_t structure.
  *
  * @returns the newly-created FluxObjective_t structure, or a null pointer if
  * an error occurred during construction.
@@ -1041,7 +1044,7 @@ FluxObjective_clone(FluxObjective_t * fo);
  *
  * @return the id of this structure.
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 const char *
@@ -1056,7 +1059,7 @@ FluxObjective_getId(const FluxObjective_t * fo);
  *
  * @return the name of this structure.
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 const char *
@@ -1071,7 +1074,7 @@ FluxObjective_getName(const FluxObjective_t * fo);
  *
  * @return the reaction of this structure.
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 const char *
@@ -1086,7 +1089,7 @@ FluxObjective_getReaction(const FluxObjective_t * fo);
  *
  * @return the coefficient of this structure.
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 double
@@ -1094,15 +1097,15 @@ FluxObjective_getCoefficient(const FluxObjective_t * fo);
 
 
 /**
- * Predicate returning @c 1 if the given FluxObjective_t structure's "id"
+ * Predicate returning @c 1 (true) if the given FluxObjective_t structure's "id"
  * is set.
  *
  * @param fo the FluxObjective_t structure.
  *
- * @return @c 1 if the "id" of this FluxObjective_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "id" of this FluxObjective_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 int
@@ -1115,10 +1118,10 @@ FluxObjective_isSetId(const FluxObjective_t * fo);
  *
  * @param fo the FluxObjective_t structure.
  *
- * @return @c 1 if the "name" of this FluxObjective_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "name" of this FluxObjective_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 int
@@ -1126,15 +1129,15 @@ FluxObjective_isSetName(const FluxObjective_t * fo);
 
 
 /**
- * Predicate returning @c 1 if the given FluxObjective_t structure's "reaction"
+ * Predicate returning @c 1 (true) if the given FluxObjective_t structure's "reaction"
  * is set.
  *
  * @param fo the FluxObjective_t structure.
  *
- * @return @c 1 if the "reaction" of this FluxObjective_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "reaction" of this FluxObjective_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 int
@@ -1142,15 +1145,15 @@ FluxObjective_isSetReaction(const FluxObjective_t * fo);
 
 
 /**
- * Predicate returning @c 1 if the given FluxObjective_t structure's "coefficient"
+ * Predicate returning @c 1 (true) if the given FluxObjective_t structure's "coefficient"
  * is set.
  *
  * @param fo the FluxObjective_t structure.
  *
- * @return @c 1 if the "coefficient" of this FluxObjective_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "coefficient" of this FluxObjective_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 int
@@ -1160,8 +1163,8 @@ FluxObjective_isSetCoefficient(const FluxObjective_t * fo);
 /**
  * Sets the "id" attribute of the given FluxObjective_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs FluxObjective_unsetId() instead.
+ * This function copies the string given in @p id.  If the string is
+ * a null pointer, this function is equivalent to calling FluxObjective_unsetId().
  *
  * @param fo the FluxObjective_t structure.
  *
@@ -1173,10 +1176,10 @@ FluxObjective_isSetCoefficient(const FluxObjective_t * fo);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
+ * @note Using this function with a null pointer for @p id is equivalent to
+ * unsetting the value of the "id" attribute.
  * 
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 int
@@ -1186,8 +1189,8 @@ FluxObjective_setId(FluxObjective_t * fo, const char * id);
 /**
  * Sets the "name" attribute of the given FluxObjective_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs FluxObjective_unsetName() instead.
+ * This function copies the string given in @p name.  If the string is
+ * a null pointer, this function is equivalent to calling FluxObjective_unsetName().
  *
  * @param fo the FluxObjective_t structure.
  *
@@ -1202,7 +1205,7 @@ FluxObjective_setId(FluxObjective_t * fo, const char * id);
  * @note Using this function with a null pointer for @p name is equivalent to
  * unsetting the value of the "name" attribute.
  * 
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 int
@@ -1212,8 +1215,8 @@ FluxObjective_setName(FluxObjective_t * fo, const char * name);
 /**
  * Sets the "reaction" attribute of the given FluxObjective_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs FluxObjective_unsetReaction() instead.
+ * This function copies the string given in @p reaction.  If the string is
+ * a null pointer, this function is equivalent to calling FluxObjective_unsetReaction().
  *
  * @param fo the FluxObjective_t structure.
  *
@@ -1225,10 +1228,10 @@ FluxObjective_setName(FluxObjective_t * fo, const char * name);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
+ * @note Using this function with a null pointer for @p reaction is equivalent to
+ * unsetting the value of the "reaction" attribute.
  * 
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 int
@@ -1248,7 +1251,7 @@ FluxObjective_setReaction(FluxObjective_t * fo, const char * reaction);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 int
@@ -1266,7 +1269,7 @@ FluxObjective_setCoefficient(FluxObjective_t * fo, double coefficient);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 int
@@ -1284,7 +1287,7 @@ FluxObjective_unsetId(FluxObjective_t * fo);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 int
@@ -1302,7 +1305,7 @@ FluxObjective_unsetName(FluxObjective_t * fo);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 int
@@ -1320,7 +1323,7 @@ FluxObjective_unsetReaction(FluxObjective_t * fo);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 int
@@ -1328,26 +1331,53 @@ FluxObjective_unsetCoefficient(FluxObjective_t * fo);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * attributes of the given FluxObjective_t structure have been set.
  *
  * @param fo the FluxObjective_t structure to check.
  *
- * @return @c 1 if all the required attributes for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required attributes for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
- * @member of FluxObjective_t
+ * @memberof FluxObjective_t
  */
 LIBSBML_EXTERN
 int
 FluxObjective_hasRequiredAttributes(const FluxObjective_t * fo);
 
 
+/**
+* Return the structure indicated by the given @p sid.
+*
+* @param lo the ListOf_t structure to use.
+*
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure for the given variable, or @c NULL if no such
+* object exists in the list.
+*
+* @memberof FluxObjective_t
+*/
 LIBSBML_EXTERN
 FluxObjective_t *
 ListOfFluxObjectives_getById(ListOf_t * lo, const char * sid);
 
 
+/**
+* Removes the structure with the given @p sid
+* from the given ListOf_t structure and returns a pointer to it.
+*
+* * The caller owns the returned structure and is responsible for deleting it.
+*
+* @param lo the ListOf_t structure.
+* @param sid the string of the "id" attribute of the sought structure.
+*
+* @return the structure removed.  As mentioned above, the
+* caller owns the returned structure. @c NULL is returned if no
+* structure with the "id" attribute exists in the given ListOf_t structure.
+*
+* @memberof FluxObjective_t
+*/
 LIBSBML_EXTERN
 FluxObjective_t *
 ListOfFluxObjectives_removeById(ListOf_t * lo, const char * sid);

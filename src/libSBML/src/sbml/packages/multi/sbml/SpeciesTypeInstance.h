@@ -504,7 +504,7 @@ public:
    *
    * @param n the index number of the SpeciesTypeInstance to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -517,7 +517,7 @@ public:
    *
    * @param n the index number of the SpeciesTypeInstance to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -530,7 +530,7 @@ public:
    * @param sid a string representing the identifier of the
    * SpeciesTypeInstance to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)   *
    * @see size()
@@ -544,7 +544,7 @@ public:
    * @param sid a string representing the identifier of the
    * SpeciesTypeInstance to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)   *
    * @see size()
@@ -558,7 +558,7 @@ public:
    *
    * @param n the index of the SpeciesTypeInstance to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    *
    * @see size()
@@ -571,7 +571,7 @@ public:
    *
    * @param sid the identifier of the SpeciesTypeInstance to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    */
   virtual SpeciesTypeInstance* remove(const std::string& sid);
@@ -654,112 +654,199 @@ LIBSBML_CPP_NAMESPACE_END
 LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeInstance_t *
 SpeciesTypeInstance_create(unsigned int level, unsigned int version,
                            unsigned int pkgVersion);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 void
 SpeciesTypeInstance_free(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeInstance_t *
 SpeciesTypeInstance_clone(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesTypeInstance_getId(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesTypeInstance_getName(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesTypeInstance_getSpeciesType(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesTypeInstance_getCompartmentReference(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_isSetId(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_isSetName(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_isSetSpeciesType(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_isSetCompartmentReference(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_setId(SpeciesTypeInstance_t * sti, const char * id);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_setName(SpeciesTypeInstance_t * sti, const char * name);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_setSpeciesType(SpeciesTypeInstance_t * sti, const char * speciesType);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_setCompartmentReference(SpeciesTypeInstance_t * sti, const char * compartmentReference);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_unsetId(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_unsetName(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_unsetSpeciesType(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_unsetCompartmentReference(SpeciesTypeInstance_t * sti);
 
 
+/**
+* @memberof SpeciesTypeInstance_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesTypeInstance_hasRequiredAttributes(SpeciesTypeInstance_t * sti);
 
 
+/**
+* Return the structure indicated by the given @p sid.
+*
+* @param lo the ListOf_t structure to use.
+*
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure for the given variable, or @c NULL if no such
+* object exists in the list.
+*
+* @memberof ListOfSpeciesTypeInstances_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeInstance_t *
 ListOfSpeciesTypeInstances_getById(ListOf_t * lo, const char * sid);
 
 
+/**
+* Removes the structure with the given @p sid
+* from the given list and returns a pointer to it.
+*
+* The caller owns the returned structure and is responsible for deleting it.
+*
+* @param lo the ListOf_t structure.
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure removed.  As mentioned above, the
+* caller owns the returned structure. @c NULL is returned if no
+* structure with the "id" attribute exists in the given list.
+*
+* @memberof ListOfSpeciesTypeInstances_t
+*/
 LIBSBML_EXTERN
 SpeciesTypeInstance_t *
 ListOfSpeciesTypeInstances_removeById(ListOf_t * lo, const char * sid);

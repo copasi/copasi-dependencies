@@ -263,7 +263,7 @@ protected:
    * Create and return an SBML object of this class, if present.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase*
   createObject (XMLInputStream& stream);
@@ -397,8 +397,8 @@ const char *
 CompartmentGlyph_getCompartmentId (const CompartmentGlyph_t *cg);
 
 /**
- * Returns 0 if the reference compartment has not been set for this glyph
- * and 1 otherwise.
+ * Returns @c 0 (false) if the reference compartment has not been set for this glyph
+ * and @c 1 (true) otherwise.
  *
  * @param cg the CompartmentGlyph_t structure.
  *
@@ -443,7 +443,7 @@ int
 CompartmentGlyph_unsetOrder (CompartmentGlyph_t *cg);
 
 /**
- * Returns true if the compartment order has been set
+ * Returns @c 1 (true) if the compartment order has been set
  *
  * @param cg the CompartmentGlyph_t structure.
  *

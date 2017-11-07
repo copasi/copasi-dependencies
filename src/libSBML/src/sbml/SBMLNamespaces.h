@@ -487,7 +487,7 @@ else
    *
    * @note XML namespaces of a non-registered package extensions are not
    * added (just ignored) by this function. @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t} will be returned if the given
-   * xmlns is null.
+   * xmlns is @c NULL.
    */
   int addPackageNamespaces(const XMLNamespaces* xmlns);
 
@@ -550,7 +550,7 @@ else
    *
    * @note XML namespaces of a non-registered package extensions are not
    * added (just ignored) by this function. @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t} will be returned if the given
-   * xmlns is null.
+   * xmlns is @c NULL.
    */
   int addPkgNamespaces(const XMLNamespaces* xmlns);
 
@@ -710,7 +710,7 @@ SBMLNamespaces_getVersion(SBMLNamespaces_t *sbmlns);
 
 
 /**
- * Get the SBML Version of this SBMLNamespaces_t structure.
+ * Get the XML Namespaces list of this SBMLNamespaces_t structure.
  *
  * @param sbmlns the SBMLNamespaces_t structure to query.
  *

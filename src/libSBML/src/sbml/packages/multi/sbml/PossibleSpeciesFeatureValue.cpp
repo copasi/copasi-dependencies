@@ -34,6 +34,8 @@
 using namespace std;
 
 
+#ifdef __cplusplus
+
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 
@@ -968,9 +970,6 @@ PossibleSpeciesFeatureValue_hasRequiredAttributes(PossibleSpeciesFeatureValue_t 
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 PossibleSpeciesFeatureValue_t *
 ListOfPossibleSpeciesFeatureValues_getById(ListOf_t * lo, const char * sid)
@@ -999,5 +998,7 @@ ListOfPossibleSpeciesFeatureValues_removeById(ListOf_t * lo, const char * sid)
 
 
 LIBSBML_CPP_NAMESPACE_END
+
+#endif /*__cplusplus */
 
 

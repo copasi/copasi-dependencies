@@ -301,10 +301,12 @@ public:
   * C2&quot;</code> and have the method work out the correct XML structure.
   *
   * @param association string representation of the association to be set.
+  * @param usingId
+  * @param addMissingGP
   *
   * @param usingId If @c true, this method assumes that the infix
-  * string @p association uses the identifiers of GeneProduct objects.  If @c
-  * false (the default), the method assumes that the string uses the label
+  * string @p association uses the identifiers of GeneProduct objects.  If
+  * @c false (the default), the method assumes that the string uses the label
   * attributes of GeneProduct objects.
   *
   * @param addMissingGP If @c true (the default), then while
@@ -791,7 +793,7 @@ public:
    *
    * @param elementName, the name of the element to get number of.
    *
-   * @param index, unsigned int teh index of teh object to retrieve.
+   * @param index, unsigned int the index of the object to retrieve.
    *
    * @return pointer to the object.
    */
@@ -869,13 +871,16 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new GeneProductAssociation_t structure using the given SBML @p level and
- * @p version values.
+ * @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML level to assign to this
  * GeneProductAssociation_t structure.
  *
  * @param version an unsigned int, the SBML version to assign to this
  * GeneProductAssociation_t structure.
+ *
+ * @param pkgVersion an unsigned int, the version of the package to assign
+ * to this GeneProductAssociation_t structure.
  *
  * @returns the newly-created GeneProductAssociation_t structure, or a null pointer if
  * an error occurred during construction.
@@ -925,7 +930,7 @@ GeneProductAssociation_clone(GeneProductAssociation_t * gpa);
  *
  * @return the id of this structure.
  *
- * @member of GeneProductAssociation_t
+ * @memberof GeneProductAssociation_t
  */
 LIBSBML_EXTERN
 const char *
@@ -940,7 +945,7 @@ GeneProductAssociation_getId(const GeneProductAssociation_t * gpa);
  *
  * @return the name of this structure.
  *
- * @member of GeneProductAssociation_t
+ * @memberof GeneProductAssociation_t
  */
 LIBSBML_EXTERN
 const char *
@@ -968,15 +973,15 @@ GeneProductAssociation_createGeneProductRef(GeneProductAssociation_t * gpa);
 
 
 /**
- * Predicate returning @c 1 if the given GeneProductAssociation_t structure's
+ * Predicate returning @c 1 (true) if the given GeneProductAssociation_t structure's
  * "id" is set.
  *
  * @param gpa the GeneProductAssociation_t structure.
  *
- * @return @c 1 if the "id" of this GeneProductAssociation_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "id" of this GeneProductAssociation_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of GeneProductAssociation_t
+ * @memberof GeneProductAssociation_t
  */
 LIBSBML_EXTERN
 int
@@ -984,15 +989,15 @@ GeneProductAssociation_isSetId(const GeneProductAssociation_t * gpa);
 
 
 /**
- * Predicate returning @c 1 if the given GeneProductAssociation_t structure's "name"
+ * Predicate returning @c 1 (true) if the given GeneProductAssociation_t structure's "name"
  * is set.
  *
  * @param gpa the GeneProductAssociation_t structure.
  *
- * @return @c 1 if the "name" of this GeneProductAssociation_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "name" of this GeneProductAssociation_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of GeneProductAssociation_t
+ * @memberof GeneProductAssociation_t
  */
 LIBSBML_EXTERN
 int
@@ -1000,15 +1005,15 @@ GeneProductAssociation_isSetName(const GeneProductAssociation_t * gpa);
 
 
 /**
- * Predicate returning @c 1 if the given GeneProductAssociation_t structure's "association"
+ * Predicate returning @c 1 (true) if the given GeneProductAssociation_t structure's "association"
  * is set.
  *
  * @param gpa the GeneProductAssociation_t structure.
  *
- * @return @c 1 if the "association" of this GeneProductAssociation_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "association" of this GeneProductAssociation_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of GeneProductAssociation_t
+ * @memberof GeneProductAssociation_t
  */
 LIBSBML_EXTERN
 int
@@ -1018,8 +1023,8 @@ GeneProductAssociation_isSetAssociation(const GeneProductAssociation_t * gpa);
 /**
  * Sets the "id" attribute of the given GeneProductAssociation_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs GeneProductAssociation_unsetId() instead.
+ * This function copies the string given in @p id.  If the string is
+ * a null pointer, this function is equivalent to calling GeneProductAssociation_unsetId().
  *
  * @param gpa the GeneProductAssociation_t structure.
  *
@@ -1031,10 +1036,10 @@ GeneProductAssociation_isSetAssociation(const GeneProductAssociation_t * gpa);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
+ * @note Using this function with a null pointer for @p id is equivalent to
+ * unsetting the value of the "id" attribute.
  * 
- * @member of GeneProductAssociation_t
+ * @memberof GeneProductAssociation_t
  */
 LIBSBML_EXTERN
 int
@@ -1044,8 +1049,8 @@ GeneProductAssociation_setId(GeneProductAssociation_t * gpa, const char * id);
 /**
  * Sets the "name" attribute of the given GeneProductAssociation_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs GeneProductAssociation_unsetName() instead.
+ * This function copies the string given in @p name.  If the string is
+ * a null pointer, this function is equivalent to calling GeneProductAssociation_unsetName().
  *
  * @param gpa the GeneProductAssociation_t structure.
  *
@@ -1060,7 +1065,7 @@ GeneProductAssociation_setId(GeneProductAssociation_t * gpa, const char * id);
  * @note Using this function with a null pointer for @p name is equivalent to
  * unsetting the value of the "name" attribute.
  * 
- * @member of GeneProductAssociation_t
+ * @memberof GeneProductAssociation_t
  */
 LIBSBML_EXTERN
 int
@@ -1083,7 +1088,7 @@ GeneProductAssociation_setAssociation(GeneProductAssociation_t * gpa, FbcAssocia
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of GeneProductAssociation_t
+ * @memberof GeneProductAssociation_t
  */
 LIBSBML_EXTERN
 int
@@ -1101,7 +1106,7 @@ GeneProductAssociation_unsetId(GeneProductAssociation_t * gpa);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of GeneProductAssociation_t
+ * @memberof GeneProductAssociation_t
  */
 LIBSBML_EXTERN
 int
@@ -1109,15 +1114,15 @@ GeneProductAssociation_unsetName(GeneProductAssociation_t * gpa);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * attributes of the given GeneProductAssociation_t structure have been set.
  *
  * @param gpa the GeneProductAssociation_t structure to check.
  *
- * @return @c 1 if all the required attributes for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required attributes for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
- * @member of GeneProductAssociation_t
+ * @memberof GeneProductAssociation_t
  */
 LIBSBML_EXTERN
 int
@@ -1125,15 +1130,15 @@ GeneProductAssociation_hasRequiredAttributes(const GeneProductAssociation_t * gp
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * sub-elements of the given GeneProductAssociation_t structure have been set.
  *
  * @param gpa the GeneProductAssociation_t structure to check.
  *
- * @return @c 1 if all the required sub-elements for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required sub-elements for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
- * @member of GeneProductAssociation_t
+ * @memberof GeneProductAssociation_t
  */
 LIBSBML_EXTERN
 int

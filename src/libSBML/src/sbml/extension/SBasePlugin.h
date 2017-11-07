@@ -56,9 +56,9 @@
 
 
 #include <sbml/common/sbmlfwd.h>
+#include <sbml/SBase.h>
 #include <sbml/SBMLTypeCodes.h>
 #include <sbml/SBMLErrorLog.h>
-#include <sbml/SBase.h>
 #include <sbml/SBMLDocument.h>
 
 #include <sbml/extension/SBMLExtension.h>
@@ -206,7 +206,7 @@ public:
    * XMLInputStream if they have their specific elements.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase* createObject (XMLInputStream& stream);
   /** @endcond */
@@ -818,7 +818,7 @@ public:
    *
    * @param elementName, the name of the element to get number of.
    *
-   * @param index, unsigned int teh index of teh object to retrieve.
+   * @param index, unsigned int the index of the object to retrieve.
    *
    * @return pointer to the object.
    */
@@ -1034,7 +1034,7 @@ SBasePlugin_free(SBasePlugin_t* plugin);
  * @param stream the XMLInputStream_t structure to read from.
  *
  * @return the SBML structure corresponding to next XMLToken in the
- * XMLInputStream_t or NULL if the token was not recognized or plugin or stream
+ * XMLInputStream_t or @c NULL if the token was not recognized or plugin or stream
  * were NULL.
  *
  * @memberof SBasePlugin_t
@@ -1046,15 +1046,16 @@ SBasePlugin_createObject(SBasePlugin_t* plugin, XMLInputStream_t* stream);
 /**
  * Subclasses should override this method to read (and store) XHTML,
  * MathML, etc. directly from the XMLInputStream_t if the target elements
- * can't be parsed by SBase::readAnnotation() and/or SBase::readNotes()
+ * can't be parsed by SBase::readAnnotation() and/or SBase_readNotes()
  * functions
  *
  * @param plugin the SBasePlugin_t structure.
  * @param parentObject the SBase_t structure that will store the annotation.
  * @param stream the XMLInputStream_t structure to read from.
  *
- * @return @c true (1) if the subclass read from the stream, @c false (0) otherwise.
- * If an invalid plugin or stream was provided LIBSBML_INVALID_OBJECT is returned.
+ * @return @c 1 (true) if the subclass read from the stream, @c 0 (false) otherwise.
+ * If an invalid plugin or stream was provided 
+ * @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t} is returned.
  *
  * @memberof SBasePlugin_t
  */
@@ -1087,9 +1088,9 @@ SBasePlugin_writeElements(SBasePlugin_t* plugin, XMLInputStream_t* stream);
  *
  * @param plugin the SBasePlugin_t structure.
  *
- * @return @c true (1) if this plugin structure has all the required elements,
- * otherwise @c false (0) will be returned. If an invalid plugin
- * was provided LIBSBML_INVALID_OBJECT is returned.
+ * @return @c 1 (true) if this plugin structure has all the required elements,
+ * otherwise @c 0 (false) will be returned. If an invalid plugin
+ * was provided @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t} is returned.
  *
  * @memberof SBasePlugin_t
  */
@@ -1097,6 +1098,7 @@ LIBSBML_EXTERN
 int
 SBasePlugin_hasRequiredElements(SBasePlugin_t* plugin);
 
+/** @cond doxygenLibsbmlInternal */
 /**
  * Subclasses should override this method to get the list of
  * expected attributes if they have their specific attributes.
@@ -1136,6 +1138,7 @@ int
 SBasePlugin_readAttributes(SBasePlugin_t* plugin,
         XMLAttributes_t* attributes,
         ExpectedAttributes_t* expectedAttributes);
+/** @endcond*/
 
 /**
  * Subclasses must override this method to write their XML attributes
@@ -1163,9 +1166,9 @@ SBasePlugin_writeAttributes(SBasePlugin_t* plugin,
  *
  * @param plugin the SBasePlugin_t structure.
  *
- * @return @c true (1) if this plugin structure has all the required attributes,
- * otherwise @c false (0) will be returned. If an invalid plugin
- * was provided LIBSBML_INVALID_OBJECT is returned.
+ * @return @c 1 (true) if this plugin structure has all the required attributes,
+ * otherwise @c 0 (false) will be returned. If an invalid plugin
+ * was provided @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t} is returned.
  *
  * @memberof SBasePlugin_t
  */
@@ -1204,7 +1207,6 @@ SBasePlugin_writeXMLNS(SBasePlugin_t* plugin, XMLOutputStream_t* stream);
  * @param d the SBMLDocument_t structure to use.
  *
  * @see SBasePlugin_connectToParent
- * @see SBasePlugin_enablePackageInternal
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1224,14 +1226,13 @@ SBasePlugin_setSBMLDocument(SBasePlugin_t* plugin, SBMLDocument_t* d);
  * This function is called when this structure is created by
  * the parent element.
  * Subclasses must override this this function if they have one
- * or more child elements. Also, SBasePlugin::connectToParent()
+ * or more child elements. Also, SBasePlugin_connectToParent()
  * must be called in the overridden function.
  *
  * @param plugin the SBasePlugin_t structure.
  * @param sbase the SBase_t structure to use.
  *
  * @see SBasePlugin_setSBMLDocument
- * @see SBasePlugin_enablePackageInternal
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1243,11 +1244,10 @@ LIBSBML_EXTERN
 int
 SBasePlugin_connectToParent(SBasePlugin_t* plugin, SBase_t* sbase);
 
+/** @cond doxygenLibsbmlInternal */
 /**
  * Enables/Disables the given package with child elements in this plugin
  * structure (if any).
- * (This is an internal implementation invoked from
- *  SBase::enablePackageInternal() function)
  *
  * Subclasses which contain one or more SBase derived elements should
  * override this function if elements defined in them can be extended by
@@ -1271,13 +1271,14 @@ LIBSBML_EXTERN
 int
 SBasePlugin_enablePackageInternal(SBasePlugin_t* plugin,
         const char* pkgURI, const char* pkgPrefix, int flag);
+/** @endcond */
 
 /**
  * Returns the parent SBMLDocument of this plugin structure.
  *
  * @param plugin the SBasePlugin_t structure.
  *
- * @return the parent SBMLDocument_t structure of this plugin structure or NULL if
+ * @return the parent SBMLDocument_t structure of this plugin structure or @c NULL if
  * no document is set, or the plugin structure is invalid.
  *
  * @memberof SBasePlugin_t
@@ -1292,7 +1293,7 @@ SBasePlugin_getSBMLDocument(SBasePlugin_t* plugin);
  * @param plugin the SBasePlugin_t structure.
  *
  * @return the parent SBase_t structure to which this plugin structure is connected
- * or NULL if sbase structure is set, or the plugin structure is invalid.
+ * or @c NULL if sbase structure is set, or the plugin structure is invalid.
  *
  * @memberof SBasePlugin_t
  */

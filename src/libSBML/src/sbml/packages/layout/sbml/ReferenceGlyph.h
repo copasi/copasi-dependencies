@@ -355,7 +355,7 @@ protected:
    * Create and return an SBML object of this class, if present.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase*
   createObject (XMLInputStream& stream);
@@ -489,8 +489,8 @@ const char *
 ReferenceGlyph_getReferenceId(const ReferenceGlyph_t *rg);
 
 /**
- * Returns 0 if the reference reference has not been set for this
- * glyph and 1 otherwise.
+ * Returns @c 0 (false) if the reference reference has not been set for this
+ * glyph and @c 1 (true) otherwise.
  *
  * @param rg the ReferenceGlyph_t structure.
  *
@@ -525,8 +525,8 @@ const char *
 ReferenceGlyph_getGlyphId (const ReferenceGlyph_t *rg);
 
 /**
- * Returns 0 if the reference has not been set for this
- * glyph and 1 otherwise.
+ * Returns @c 0 (false) if the reference has not been set for this
+ * glyph and @c 1 (true) otherwise.
  *
  * @param rg the ReferenceGlyph_t structure.
  *
@@ -656,7 +656,7 @@ ReferenceGlyph_t *
 ReferenceGlyph_clone (const ReferenceGlyph_t *rg);
 
 /**
- * Returns non-zero if the id is set
+ * Returns @c 1 (true) if the id is set
  *
  * @param rg the ReferenceGlyph_t structure.
  *

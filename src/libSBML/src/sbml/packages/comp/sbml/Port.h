@@ -379,13 +379,13 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new Port_t structure using the given SBML @p level
- * and @p version values.
+ * and @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML Level to assign to this
  * Port_t.
  * @param version an unsigned int, the SBML Version to assign to this
  * Port_t.
- * @param pkgVersion an unsigned int, the SBML 'Qual' package Version to assign to this
+ * @param pkgVersion an unsigned int, the SBML 'comp' package Version to assign to this
  * Port_t.
  *
  * @return a pointer to the newly created Port_t structure.
@@ -453,13 +453,13 @@ Port_getName(Port_t * p);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Port_t structure's identifier is set.
  *
  * @param p the Port_t structure to query.
  * 
- * @return @c non-zero (true) if the "id" attribute of the given
- * Port_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "id" attribute of the given
+ * Port_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Port_t
  */
@@ -469,13 +469,13 @@ Port_isSetId(Port_t * p);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Port_t structure's name is set.
  *
  * @param p the Port_t structure to query.
  * 
- * @return @c non-zero (true) if the "name" attribute of the given
- * Port_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "name" attribute of the given
+ * Port_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Port_t
  */
@@ -487,7 +487,7 @@ Port_isSetName(Port_t * p);
 /**
  * Assigns the identifier of an Port_t structure.
  *
- * This makes a copy of the string passed in the param @p sid.
+ * This makes a copy of the string passed in the parameter @p sid.
  *
  * @param p the Port_t structure to set.
  * @param sid the string to use as the identifier.
@@ -496,7 +496,7 @@ Port_isSetName(Port_t * p);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof Port_t
@@ -563,8 +563,9 @@ Port_unsetName(Port_t * p);
   * all the required attributes for the given Port_t structure
   * have been set.
   *
-  * @note The required attributes for a Port_t structure are:
-  * @li useValuesfromTriggerTime ( L3 onwards )
+  * @note The required attributes for a Port_t structure are
+  * that it uses exactly one attribute to refer to its target,
+  * and that 'id' is set.
   *
  * @memberof Port_t
  */
@@ -579,12 +580,12 @@ Port_hasRequiredAttributes(Port_t * p);
  * @param lo the ListOf_t structure to use.
  *
  * @param sid a string, the identifier of the
- * Port_t is being sought.
+ * Port_t being sought.
  *
  * @return the Port_t for the given variable, or @c NULL if no such
- * Port_t exits.
+ * Port_t exists.
  *
- * @memberof Port_t
+ * @memberof ListOfPorts_t
  */
 LIBSBML_EXTERN
 Port_t *
@@ -604,7 +605,7 @@ ListOfPorts_getById(ListOf_t * lo, const char * sid);
  * caller owns the returned structure. @c NULL is returned if no Port_t
  * structure with the "id" attribute exists in the given ListOf_t structure.
  *
- * @memberof Port_t
+ * @memberof ListOfPorts_t
  */
 LIBSBML_EXTERN
 Port_t *

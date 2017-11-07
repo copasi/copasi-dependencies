@@ -619,13 +619,13 @@ ModifierSpeciesReference_getSpecies(const ModifierSpeciesReference_t * msr);
 
 
 /**
- * Predicate returning @c 1 if the given ModifierSpeciesReference_t structure's "id"
+ * Predicate returning @c 1 (true) if the given ModifierSpeciesReference_t structure's "id"
  * is set.
  *
  * @param msr the ModifierSpeciesReference_t structure.
  *
- * @return @c 1 if the "id" of this ModifierSpeciesReference_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "id" of this ModifierSpeciesReference_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof ModifierSpeciesReference_t
  */
@@ -635,13 +635,13 @@ ModifierSpeciesReference_isSetId(const ModifierSpeciesReference_t * msr);
 
 
 /**
- * Predicate returning @c 1 if the given ModifierSpeciesReference_t structure's "name"
+ * Predicate returning @c 1 (true) if the given ModifierSpeciesReference_t structure's "name"
  * is set.
  *
  * @param msr the ModifierSpeciesReference_t structure.
  *
- * @return @c 1 if the "name" of this ModifierSpeciesReference_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "name" of this ModifierSpeciesReference_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof ModifierSpeciesReference_t
  */
@@ -651,13 +651,13 @@ ModifierSpeciesReference_isSetName(const ModifierSpeciesReference_t * msr);
 
 
 /**
- * Predicate returning @c 1 if the given ModifierSpeciesReference_t structure's "species"
+ * Predicate returning @c 1 (true) if the given ModifierSpeciesReference_t structure's "species"
  * is set.
  *
  * @param msr the ModifierSpeciesReference_t structure.
  *
- * @return @c 1 if the "species" of this ModifierSpeciesReference_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "species" of this ModifierSpeciesReference_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof ModifierSpeciesReference_t
  */
@@ -669,8 +669,8 @@ ModifierSpeciesReference_isSetSpecies(const ModifierSpeciesReference_t * msr);
 /**
  * Sets the "id" attribute of the given ModifierSpeciesReference_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs ModifierSpeciesReference_unsetId() instead.
+ * This function copies the string given in @p id.  If the string is
+ * a null pointer, this function is equivalent to calling ModifierSpeciesReference_unsetId().
  *
  * @param msr the ModifierSpeciesReference_t structure.
  *
@@ -682,8 +682,8 @@ ModifierSpeciesReference_isSetSpecies(const ModifierSpeciesReference_t * msr);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
+ * @note Using this function with a null pointer for @p id is equivalent to
+ * unsetting the value of the "id" attribute.
  * 
  * @memberof ModifierSpeciesReference_t
  */
@@ -695,8 +695,8 @@ ModifierSpeciesReference_setId(ModifierSpeciesReference_t * msr, const char * id
 /**
  * Sets the "name" attribute of the given ModifierSpeciesReference_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs ModifierSpeciesReference_unsetName() instead.
+ * This function copies the string given in @p name.  If the string is
+ * a null pointer, this function is equivalent to calling ModifierSpeciesReference_unsetName().
  *
  * @param msr the ModifierSpeciesReference_t structure.
  *
@@ -721,8 +721,8 @@ ModifierSpeciesReference_setName(ModifierSpeciesReference_t * msr, const char * 
 /**
  * Sets the "species" attribute of the given ModifierSpeciesReference_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs ModifierSpeciesReference_unsetSpecies() instead.
+ * This function copies the string given in @p species.  If the string is
+ * a null pointer, this function is equivalent to calling ModifierSpeciesReference_unsetSpecies().
  *
  * @param msr the ModifierSpeciesReference_t structure.
  *
@@ -734,8 +734,8 @@ ModifierSpeciesReference_setName(ModifierSpeciesReference_t * msr, const char * 
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
+ * @note Using this function with a null pointer for @p species is equivalent to
+ * unsetting the value of the "species" attribute.
  * 
  * @memberof ModifierSpeciesReference_t
  */
@@ -799,13 +799,13 @@ ModifierSpeciesReference_unsetSpecies(ModifierSpeciesReference_t * msr);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * attributes of the given ModifierSpeciesReference_t structure have been set.
  *
  * @param msr the ModifierSpeciesReference_t structure to check.
  *
- * @return @c 1 if all the required attributes for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required attributes for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
  * @memberof ModifierSpeciesReference_t
  */

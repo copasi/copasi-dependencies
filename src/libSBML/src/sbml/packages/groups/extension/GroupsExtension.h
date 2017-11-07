@@ -35,12 +35,12 @@
  *
  * @htmlinclude not-sbml-warning.html
  *
- * This is the Groups package extension of the SBMLExtension class that
- * every libSBML plug-in must implement in order to implement an
- * SBML Level&nbsp;3 package.
+ * This is the Groups package extension of the SBMLExtension class that is used
+ * to facilitate libSBML plug-ins in the implementation of an SBMLLevel&nbsp;3
+ * package.
  *
  * @class GroupsPkgNamespaces
- * @sbmlbrief{groups} SBMLNamespaces extension for the package.
+ * @sbmlbrief{groups} SBMLNamespaces extension.
  *
  * @htmlinclude not-sbml-warning.html
  */
@@ -179,12 +179,6 @@ public:
    * Returns a string representing the SBML XML namespace of this SBML
    * Level&nbsp;3 package.
    *
-   * The namespace URI constructed by this method corresponds to the
-   * combination of the Level and Version of SBML, and the Version of the SBML
-   * Level&nbsp;3 package. (At the time of this writing, the only SBML Level
-   * that supports packages is Level&nbsp;3, so the value of @p sbmlLevel must
-   * necessarily always be <code>3</code>.)
-   *
    * @param sbmlLevel the level of SBML.
    *
    * @param sbmlVersion the version of SBML.
@@ -192,6 +186,12 @@ public:
    * @param pkgVersion the version of this package.
    *
    * @return a string representing the name of this package ("groups").
+   *
+   * The namespace URI constructed by this method corresponds to the
+   * combination of the Level and Version of SBML, and the Version of the SBML
+   * Level&nbsp;3 package. (At the time of this writing, the only SBML Level
+   * that supports packages is Level&nbsp;3, so the value of @p sbmlLevel is
+   * necessarily always <code>3</code>.)
    */
   virtual const std::string& getURI(unsigned int sbmlLevel,
                                     unsigned int sbmlVersion,
@@ -231,7 +231,8 @@ public:
    * the "groups" package.
    *
    * @return the version of the SBML Level&nbsp;3 package for the given URI of
-   * this package, or @c 0 if the given URI is invalid, or for a different package.
+   * this package, or @c 0 if the given URI is invalid, or for a different
+   * package.
    */
   virtual unsigned int getPackageVersion(const std::string& uri) const;
 
@@ -251,8 +252,8 @@ public:
 
 
   /**
-   * Returns a string describing the type code of the &ldquo;groups&rdquo;
-   * package.
+   * Takes a type code of the &ldquo;groups&rdquo; package and returns a string
+   * describing the code.
    *
    * @param typeCode a libSBML type code defined by the libSBML extension
    * implementing support for the SBML Level&nbsp;3 &ldquo;groups&rdquo;
@@ -376,11 +377,19 @@ typedef enum
 
 /**
  * @enum GroupKind_t
- * @brief Enumeration of values permitted as the value of the "kind"
- * attribute on Group objects.
+ * @brief Enumeration of values permitted as the value of the "kind" attribute
+ * on Group objects.
  *
+ * @if conly
+ * @see Group_getKind()
+ * @see Group_setKind()
+ * @elseif java
  * @see Group::getKind()
- * @see Group::setKind(@if java long kind@endif)
+ * @see Group::setKind(long)
+ * @else
+ * @see Group::getKind()
+ * @see Group::setKind()
+ * @endif
  */
 typedef enum
 {
@@ -392,6 +401,22 @@ typedef enum
 
 
 /**
+ * Returns the string version of the provided enumeration value.
+ *
+ * @param gk the enumeration value to convert.
+ *
+ * @return A string corresponding to the given type:
+ * "classification",
+ * "partonomy",
+ * "collection",
+ * or @c NULL if the value is @sbmlconstant{GROUP_KIND_UNKNOWN, GroupKind_t} or
+ * another invalid enumeration value.
+ *
+ * @copydetails doc_returned_unowned_char
+ *
+ * @if conly
+ * @memberof Group_t
+ * @endif
  */
 LIBSBML_EXTERN
 const char*
@@ -399,6 +424,21 @@ GroupKind_toString(GroupKind_t gk);
 
 
 /**
+ * Returns the enumeration value corresponding to the given string or
+ * @sbmlconstant{GROUP_KIND_UNKNOWN, GroupKind_t} if there is no such match.
+ *
+ * @param code the string to convert to an enumeration value.
+ *
+ * @return the corresponding value, or @sbmlconstant{GROUP_KIND_UNKNOWN,
+ * GroupKind_t} if no match is found.
+ *
+ * @note The matching is case-sensitive: "classification" will return
+ * @sbmlconstant{GROUP_KIND_CLASSIFICATION, GroupKind_t}, but "Classification"
+ * will return @sbmlconstant{GROUP_KIND_UNKNOWN, GroupKind_t}.
+ *
+ * @if conly
+ * @memberof Group_t
+ * @endif
  */
 LIBSBML_EXTERN
 GroupKind_t
@@ -406,6 +446,21 @@ GroupKind_fromString(const char* code);
 
 
 /**
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the
+ * given enumeration value is valid.
+ *
+ * @param gk the enumeration value to query.
+ *
+ * @return @c 1 (true) if the value is
+ * @sbmlconstant{GROUP_KIND_CLASSIFICATION, GroupKind_t},
+ * @sbmlconstant{GROUP_KIND_PARTONOMY, GroupKind_t}, or
+ * @sbmlconstant{GROUP_KIND_COLLECTION, GroupKind_t};
+ * @c 0 (false) otherwise (including @sbmlconstant{GROUP_KIND_UNKNOWN,
+ * GroupKind_t}).
+ *
+ * @if conly
+ * @memberof Group_t
+ * @endif
  */
 LIBSBML_EXTERN
 int
@@ -413,6 +468,23 @@ GroupKind_isValid(GroupKind_t gk);
 
 
 /**
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the
+ * given string is a valid enumeration value.
+ *
+ * @param code the string to query.
+ *
+ * @return @c 1 (true) if the string is
+ * "classification",
+ * "partonomy", or
+ * "collection";
+ * @c 0 (false) otherwise.
+ *
+ * @note The matching is case-sensitive: "classification" will return @c 1
+ * (true), but "Classification" will return @c 0 (false).
+ *
+ * @if conly
+ * @memberof Group_t
+ * @endif
  */
 LIBSBML_EXTERN
 int

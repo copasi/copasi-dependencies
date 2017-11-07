@@ -144,6 +144,28 @@ file(COPY
     "${CMAKE_CURRENT_SOURCE_DIR}/../../../docs/src/utilities/generate-converters-list.py"
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+
+
+
+
+# Normally in Python 2 only ascii strings are accepted as input to 
+# libSBML functions SWIG >= 3.0.8 allows one to change this behaviour
+# such that both ascii and utf-8 strings can be input. This enables
+# this behaviour or prints a warning if Swig version is too old.
+if (SWIG_FOUND AND PYTHON_VERSION_STRING VERSION_LESS 3.0)
+  if (SWIG_VERSION VERSION_GREATER "3.0.7")
+    list(APPEND SWIG_EXTRA_ARGS -DUSE_SWIG_PYTHON_2_UNICODE)
+    # message(STATUS SWIG_VERSION "${SWIG_VERSION}")
+  else()
+    message(WARNING 
+"Python ${PYTHON_VERSION_STRING} detected and SWIG version ${SWIG_VERSION}
+ < 3.0.8, I cannot enable SWIG_PYTHON_2_UNICODE libSBML Python 
+ bindings only accept strings as arugments. Please upgrade Swig to a
+ version greater than 3.0.8 to enable unicode input in Python 2. See 
+ http://www.swig.org/Doc3.0/Python.html for more details.)")
+  endif()
+endif()
+
 ####################################################################
 #
 # Swig bindings
@@ -226,9 +248,14 @@ add_custom_command(
     ARGS  -E rename pydoc.i pydoc-normal.i 
 
     COMMAND "${CMAKE_COMMAND}"
-    ARGS  -DCUR_BIN_DIRECTORY=\"${CMAKE_CURRENT_BINARY_DIR}\"
-        -DVERSION=\"${LIBSBML_DOTTED_VERSION}\"
-        -P "${CMAKE_CURRENT_SOURCE_DIR}/add_version.cmake"
+    ARGS -DCUR_BIN_DIRECTORY=\"${CMAKE_CURRENT_BINARY_DIR}\"
+         -DVERSION=\"${LIBSBML_DOTTED_VERSION}\"
+         -P "${CMAKE_CURRENT_SOURCE_DIR}/add_version.cmake"
+
+    COMMAND "${CMAKE_COMMAND}"
+    ARGS -DBIN_DIRECTORY=\"${CMAKE_CURRENT_BINARY_DIR}\"
+         -DSRC_DIRECTORY=\"${CMAKE_CURRENT_SOURCE_DIR}\"
+         -P "${CMAKE_CURRENT_SOURCE_DIR}/patch-python.cmake"
 
     MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/libsbml.i
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
@@ -244,6 +271,7 @@ add_custom_target(binding_python_swig ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/li
 #
 # Build native library
 #
+
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../swig)
@@ -429,7 +457,6 @@ if(WITH_CHECK)
     if (CMAKE_VERSION VERSION_LESS 3.0)
         message(STATUS "Python example tests check version: ${CMAKE_VERSION} < 3.0, skipping.")
     else()
-
         add_test(NAME test_python_addCVTerms
             COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/addCVTerms.py
             ${CMAKE_SOURCE_DIR}/examples/sample-models/from-spec/level-3/enzymekinetics.xml
@@ -618,7 +645,18 @@ if(WITH_CHECK)
             ${CMAKE_SOURCE_DIR}/examples/sample-models/from-spec/level-3/enzymekinetics.xml
         )
         ADJUST_PYTHONPATH(test_python_validateSBML)    
-       
+
+        # Enable only when swig is the correct version
+
+        if (SWIG_VERSION VERSION_GREATER "3.0.7")
+         add_test(NAME test_python_stringInput
+             COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/stringInput.py
+             ${CMAKE_SOURCE_DIR}/examples/sample-models/from-spec/level-3/enzymekinetics.xml
+         )
+         ADJUST_PYTHONPATH(test_python_stringInput)
+        endif()
+
+
     endif()
 
 endif()

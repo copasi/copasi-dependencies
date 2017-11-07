@@ -46,6 +46,39 @@
  * @see FbcAnd
  * @see FbcOr
  * @see GeneProductRef
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class ListOfFbcAssociations
+ * @sbmlbrief{fbc} A list of FbcAssociation objects.
+ *
+ * @htmlinclude not-sbml-warning.html
+ *
+ * The ListOfFbcAssociations is a container of FbcAssociation objects for the
+ * FbcAnd and FbcOr classes.  Unlike the ListOf___ classes in SBML, the
+ * ListOfFbcAssociations is not a class that appears in the &ldquo;fbc&rdquo;
+ * Version&nbsp;2 specification, and instead is used internally in libSBML as
+ * a convenience class to store arbitrary numbers of FbcAssociation objects.
+ * Also unlike other ListOf___ classes, the FbcAnd and FbcOr classes require
+ * at least two child FbcAssociation objects, so valid ListOfFbcAssociations
+ * libsbml objects will always contain two or more children.  These children
+ * will have element names associated with their derived class, not the base
+ * FbcAssociation class: <code>&lt;fbc:and&gt;</code>,
+ * <code>&lt;fbc:or&gt;</code>, and <code>&lt;fbc:geneProductRef&gt;</code>.
+ *
+ * @copydetails doc_note_fbcv2_annotation_replacement
+ *
+ * @warning It is important to be clear that <em>ListOfFbcAssociations is not
+ * written out in the XML output produced by libSBML</em>&mdash;the
+ * constructs only exist in software to enable software applications to
+ * manipulate FbcAssociation objects in a way that mirrors how other lists of
+ * components in SBML are manipulated.  ListOfFbcAssociations is abstracted
+ * away when an SBML &ldquo;fbc&rdquo; model file is actually written out in
+ * the final XML form.
+ *
+ * @see FbcAssociation
+ * @see FbcAnd
+ * @see FbcOr
+ * @see GeneProductRef
  */
 
 #ifndef FbcAssociation_H__
@@ -621,39 +654,6 @@ protected:
 
 };
 
-/**
- * @class ListOfFbcAssociations
- * @sbmlbrief{fbc} A list of FbcAssociation objects.
- *
- * @htmlinclude not-sbml-warning.html
- *
- * The ListOfFbcAssociations is a container of FbcAssociation objects for the
- * FbcAnd and FbcOr classes.  Unlike the ListOf___ classes in SBML, the
- * ListOfFbcAssociations is not a class that appears in the &ldquo;fbc&rdquo;
- * Version&nbsp;2 specification, and instead is used internally in libSBML as
- * a convenience class to store arbitrary numbers of FbcAssociation objects.
- * Also unlike other ListOf___ classes, the FbcAnd and FbcOr classes require
- * at least two child FbcAssociation objects, so valid ListOfFbcAssociations
- * libsbml objects will always contain two or more children.  These children
- * will have element names associated with their derived class, not the base
- * FbcAssociation class: <code>&lt;fbc:and&gt;</code>,
- * <code>&lt;fbc:or&gt;</code>, and <code>&lt;fbc:geneProductRef&gt;</code>.
- *
- * @copydetails doc_note_fbcv2_annotation_replacement
- *
- * @warning It is important to be clear that <em>ListOfFbcAssociations is not
- * written out in the XML output produced by libSBML</em>&mdash;the
- * constructs only exist in software to enable software applications to
- * manipulate FbcAssociation objects in a way that mirrors how other lists of
- * components in SBML are manipulated.  ListOfFbcAssociations is abstracted
- * away when an SBML &ldquo;fbc&rdquo; model file is actually written out in
- * the final XML form.
- *
- * @see FbcAssociation
- * @see FbcAnd
- * @see FbcOr
- * @see GeneProductRef
- */
 class LIBSBML_EXTERN ListOfFbcAssociations : public ListOf
 {
 
@@ -734,7 +734,7 @@ public:
    * get.
    *
    * @return FbcAssociation in this ListOfFbcAssociations with the given id
-   * or NULL if no such FbcAssociation exists.
+   * or @c NULL if no such FbcAssociation exists.
    *
    * @see get(unsigned int n)
    * @see size()
@@ -750,7 +750,7 @@ public:
    * get.
    *
    * @return FbcAssociation in this ListOfFbcAssociations with the given id
-   * or NULL if no such FbcAssociation exists.
+   * or @c NULL if no such FbcAssociation exists.
    *
    * @see get(unsigned int n)
    * @see size()
@@ -941,13 +941,16 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new FbcAssociation_t structure using the given SBML @p level and
- * @p version values.
+ * @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML level to assign to this
  * FbcAssociation_t structure.
  *
  * @param version an unsigned int, the SBML version to assign to this
  * FbcAssociation_t structure.
+ *
+ * @param pkgVersion an unsigned int, the version of the package to assign
+ * to this FbcAssociation_t structure.
  *
  * @returns the newly-created FbcAssociation_t structure, or a null pointer if
  * an error occurred during construction.
@@ -990,15 +993,15 @@ FbcAssociation_clone(FbcAssociation_t * fa);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * attributes of the given FbcAssociation_t structure have been set.
  *
  * @param fa the FbcAssociation_t structure to check.
  *
- * @return @c 1 if all the required attributes for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required attributes for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
- * @member of FbcAssociation_t
+ * @memberof FbcAssociation_t
  */
 LIBSBML_EXTERN
 int
@@ -1006,20 +1009,53 @@ FbcAssociation_hasRequiredAttributes(const FbcAssociation_t * fa);
 
 
 
+/**
+* Return the structure indicated by the given @p sid.
+*
+* @param lo the ListOf_t structure to use.
+*
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure for the given variable, or @c NULL if no such
+* object exists in the list.
+*
+* @memberof ListOfFbcAssociations_t
+*/
 LIBSBML_EXTERN
 FbcAssociation_t *
 ListOfFbcAssociations_getById(ListOf_t * lo, const char * sid);
 
 
+/**
+* Removes the structure with the given @p sid
+* from the given ListOf_t structure and returns a pointer to it.
+*
+* * The caller owns the returned structure and is responsible for deleting it.
+*
+* @param lo the ListOf_t structure.
+* @param sid the string of the "id" attribute of the sought structure.
+*
+* @return the structure removed.  As mentioned above, the
+* caller owns the returned structure. @c NULL is returned if no 
+* structure with the "id" attribute exists in the given ListOf_t structure.
+*
+* @memberof ListOfFbcAssociations_t
+*/
 LIBSBML_EXTERN
 FbcAssociation_t *
 ListOfFbcAssociations_removeById(ListOf_t * lo, const char * sid);
 
 
+/**
+* @memberof FbcAssociation_t
+*/
 LIBSBML_EXTERN
 char *
 FbcAssociation_toInfix(const FbcAssociation_t * fa);
 
+/**
+* @memberof FbcAssociation_t
+*/
 LIBSBML_EXTERN
 FbcAssociation_t*
 FbcAssociation_parseFbcInfixAssociation(const char * infix, SBasePlugin_t* plugin);

@@ -214,7 +214,7 @@ SBasePluginCreator_createPlugin(SBasePluginCreatorBase_t* creator,
 /**
  * Frees the given SBasePluginCreatorBase_t structure
  * 
- * @param plugin the SBasePluginCreatorBase_t structure to be freed.
+ * @param creator the SBasePluginCreatorBase_t structure to be freed.
  * 
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -314,12 +314,13 @@ const SBaseExtensionPoint_t*
 SBasePluginCreator_getTargetExtensionPoint(SBasePluginCreatorBase_t* creator);
 
 /**
- * Returns true (1), if a package with the given namespace is supported. 
+ * Returns @c 1 (true) if a package with the given namespace is supported. 
  * 
  * @param creator the SBasePluginCreatorBase_t structure.
  * @param uri the package uri to test.
  * 
- * @return true (1), if a package with the given namespace is supported.
+ * @return @c 1 (true) if a package with the given namespace is supported,
+ * @c 0 (false) otherwise.
  *
  * @memberof SBasePlugin_t
  */

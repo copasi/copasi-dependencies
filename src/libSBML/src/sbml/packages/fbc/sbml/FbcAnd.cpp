@@ -45,6 +45,8 @@
 using namespace std;
 
 
+#ifdef __cplusplus
+
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 
@@ -212,15 +214,6 @@ FbcAnd::getAssociation(const std::string& sid) const
 
 /*
  * Adds a copy the given "FbcAssociation" to this FbcAnd.
- *
- * @param fa; the FbcAssociation object to add
- *
- * @return integer value indicating success/failure of the
- * function.  @if clike The value is drawn from the
- * enumeration #OperationReturnValues_t. @endif The possible values
- * returned by this function are:
- * @li LIBSBML_OPERATION_SUCCESS
- * @li LIBSBML_INVALID_ATTRIBUTE_VALUE
  */
 int
 FbcAnd::addAssociation(const FbcAssociation* fa)
@@ -965,6 +958,10 @@ FbcAnd::writeAttributes (XMLOutputStream& stream) const
 
   /** @endcond doxygenLibsbmlInternal */
 
+LIBSBML_CPP_NAMESPACE_END
+
+#endif /* __cplusplus */
+
 
 LIBSBML_EXTERN
 FbcAnd_t *
@@ -1087,6 +1084,5 @@ FbcAnd_hasRequiredElements(const FbcAnd_t * fa)
 
 
 
-LIBSBML_CPP_NAMESPACE_END
 
 

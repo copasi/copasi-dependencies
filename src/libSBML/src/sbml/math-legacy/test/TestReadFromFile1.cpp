@@ -271,6 +271,8 @@ START_TEST(test_read_MathML_fromStream)
 
   std::string result = writeMathMLToStdString(node);
 
+  char* infix = SBML_formulaToString(node);
+
   fail_unless(node != NULL);
   fail_unless(log.getNumErrors() == 0);
 
@@ -278,6 +280,25 @@ START_TEST(test_read_MathML_fromStream)
 
   
   delete node;
+
+  {
+  std::string mathml = "<?xml version='1.0' encoding='UTF-8'?>\n" 
+    "<math xmlns='http://www.w3.org/1998/Math/MathML'>\n" 
+    "<apply>\n" 
+    "	<divide />\n" 
+    "	<ci>LacIbNormalized</ci>\n" 
+    "	<apply>\n" 
+    "		<csymbol definitionURL='http://sed-ml.org/#max' encoding='text'>max\n" 
+    "		</csymbol>\n" 
+    "		<ci>LacIbNormalized</ci>\n" 
+    "	</apply>\n" 
+    "</apply>\n" 
+    "</math>\n";
+  ASTNode* node = readMathMLFromString(mathml.c_str());
+  fail_unless(node != NULL);
+  char* infix = SBML_formulaToL3String(node);
+  fail_unless(infix != NULL);
+  }
 
 }
 END_TEST

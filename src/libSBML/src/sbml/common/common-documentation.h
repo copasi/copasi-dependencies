@@ -170,8 +170,8 @@
  * and does @em not depend on the actual presence or absence of particular
  * package constructs in a given SBML document: in other words, if the
  * package specification defines any construct that can change the model's
- * meaning, the value of the "required" attribute must always be set to @c
- * true in any SBML document that uses the package.
+ * meaning, the value of the "required" attribute must always be set to
+ * @c true in any SBML document that uses the package.
  *
  * The XML namespace declaration for an SBML Level&nbsp;3 package is an
  * indication that a model makes use of features defined by that package,
@@ -512,7 +512,10 @@
  * static integer constants in the interface class
  * @link libsbmlcs.libsbml@endlink.@endif@~  Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>@if conly SBase_getPackageName()
+ * @else SBase::getPackageName()
+ * @endif</code>
  * method on the object.
  *
  * <!-- ------------------------------------------------------------------- -->
@@ -716,8 +719,8 @@
  * @li If the node is a lambda expression, its type will be
  * @sbmlconstant{AST_LAMBDA, ASTNodeType_t}.
  *
- * @li If the node is a predefined constant (@c "ExponentialE", @c "Pi", @c
- * "True" or @c "False"), then the node's type will be
+ * @li If the node is a predefined constant (@c "ExponentialE", @c "Pi",
+ * @c "True" or @c "False"), then the node's type will be
  * @sbmlconstant{AST_CONSTANT_E, ASTNodeType_t},
  * @sbmlconstant{AST_CONSTANT_PI, ASTNodeType_t},
  * @sbmlconstant{AST_CONSTANT_TRUE, ASTNodeType_t}, or
@@ -731,12 +734,12 @@
  * the fact that @c time is a single variable, whereas @c delay is actually a
  * function taking arguments.)
  *
- * @li (Level&nbsp;3 only) If the node is the special MathML csymbol @c
- * avogadro, the value of the node will be
+ * @li (Level&nbsp;3 only) If the node is the special MathML csymbol
+ * @c avogadro, the value of the node will be
  * @sbmlconstant{AST_NAME_AVOGADRO, ASTNodeType_t}.
  *
- * @li (Level&nbsp;3 Version&nbsp;2+ only) If the node is the special MathML csymbol @c
- * rateOf, the value of the node will be
+ * @li (Level&nbsp;3 Version&nbsp;2+ only) If the node is the special MathML
+ * csymbol @c rateOf, the value of the node will be
  * @sbmlconstant{AST_FUNCTION_RATE_OF, ASTNodeType_t}.
  *
  * @li (Level&nbsp;3 Version&nbsp;2+ only) If the node is a MathML 
@@ -766,8 +769,8 @@
  * @c pi, @c exponentiale), @c false otherwise.
  * @li <code>bool @link ASTNode::isBoolean() isBoolean()@endlink</code>
  * returns @c true if this AST node returns a boolean value (by being either a
- * logical operator, a relational operator, or the constant @c true or @c
- * false).
+ * logical operator, a relational operator, or the constant @c true or
+ * @c false).
  * @li <code>bool @link ASTNode::isFunction() isFunction()@endlink</code>
  * returns @c true if this AST node is a function (i.e., a MathML defined
  * function such as @c exp or else a function defined by a FunctionDefinition
@@ -785,13 +788,13 @@
  * that its type is @c AST_FUNCTION_LOG and it has two children, the first of
  * which is an integer equal to 10.
  * @li <code>bool @link ASTNode::isLogical() isLogical()@endlink</code>
- * returns @c true if this AST node is a logical operator (@c and, @c or, @c
- * not, @c xor).
- * @li <code>bool @link ASTNode::isName() isName()@endlink</code> returns @c
- * true if this AST node is a user-defined name or (in SBML Levels&nbsp;2
+ * returns @c true if this AST node is a logical operator (@c and, @c or,
+ * @c not, @c xor).
+ * @li <code>bool @link ASTNode::isName() isName()@endlink</code> returns
+ * @c true if this AST node is a user-defined name or (in SBML Levels&nbsp;2
  * and&nbsp;3) one of the two special @c csymbol constructs "delay" or "time".
- * @li <code>bool @link ASTNode::isNaN() isNaN()@endlink</code> returns @c
- * true if this AST node has the special IEEE 754 value "not a number" (NaN).
+ * @li <code>bool @link ASTNode::isNaN() isNaN()@endlink</code> returns
+ * @c true if this AST node has the special IEEE 754 value "not a number" (NaN).
  * @li <code>bool @link ASTNode::isNegInfinity() isNegInfinity()
  * @endlink</code> returns @c true if this AST node has the special IEEE 754
  * value of negative infinity.
@@ -802,13 +805,13 @@
  * @li <code>bool @link ASTNode::isRational() isRational()@endlink</code>
  * returns @c true if this AST node is a rational number having a numerator
  * and a denominator.
- * @li <code>bool @link ASTNode::isReal() isReal()@endlink</code> returns @c
- * true if this AST node is a real number (specifically, @c AST_REAL_E or
+ * @li <code>bool @link ASTNode::isReal() isReal()@endlink</code> returns
+ * @c true if this AST node is a real number (specifically, @c AST_REAL_E or
  * @c AST_RATIONAL).
  * @li <code>bool @link ASTNode::isRelational() isRelational()@endlink</code>
  * returns @c true if this AST node is a relational operator.
- * @li <code>bool @link ASTNode::isSqrt() isSqrt()@endlink</code> returns @c
- * true if this AST node is the square-root operator
+ * @li <code>bool @link ASTNode::isSqrt() isSqrt()@endlink</code> returns
+ * @c true if this AST node is the square-root operator
  * @li <code>bool @link ASTNode::isUMinus() isUMinus()@endlink</code> returns
  * @c true if this AST node is a unary minus.
  * @li <code>bool @link ASTNode::isUnknown() isUnknown()@endlink</code>
@@ -868,56 +871,56 @@
  * @li <code>ASTNodeType_t ASTNode_getType()</code>
  * returns the type of this AST node.
  * @li <code>bool ASTNode_isConstant()</code>
- * returns @c 1 if this AST node is a MathML constant (@c true, @c false,
- * @c pi, @c exponentiale), @c 0 otherwise.
+ * returns @c 1 (true) if this AST node is a MathML constant (@c true, @c false,
+ * @c pi, @c exponentiale), @c 0 (false) otherwise.
  * @li <code>bool ASTNode_isBoolean()</code>
- * returns @c 1 if this AST node returns a boolean value (by being either a
- * logical operator, a relational operator, or the constant @c true or @c
- * false).
+ * returns @c 1 (true) if this AST node returns a boolean value (by being either a
+ * logical operator, a relational operator, or the constant @c true or
+ * @c false).
  * @li <code>bool ASTNode_isFunction()</code>
- * returns @c 1 if this AST node is a function (i.e., a MathML defined
+ * returns @c 1 (true) if this AST node is a function (i.e., a MathML defined
  * function such as @c exp or else a function defined by a FunctionDefinition
  * in the Model).
  * @li <code>bool ASTNode_isInfinity()</code>
- * returns @c 1 if this AST node is the special IEEE 754 value infinity.
+ * returns @c 1 (true) if this AST node is the special IEEE 754 value infinity.
  * @li <code>bool ASTNode_isInteger()</code>
- * returns @c 1 if this AST node is holding an integer value.
+ * returns @c 1 (true) if this AST node is holding an integer value.
  * @li <code>bool ASTNode_isNumber()</code> returns
- * @c 1 if this AST node is holding any number.
+ * @c 1 (true) if this AST node is holding any number.
  * @li <code>bool ASTNode_isLambda()</code> returns
- * @c 1 if this AST node is a MathML @c lambda construct.
+ * @c 1 (true) if this AST node is a MathML @c lambda construct.
  * @li <code>bool ASTNode_isLog10()</code> returns
- * @c 1 if this AST node represents the @c log10 function, specifically,
+ * @c 1 (true) if this AST node represents the @c log10 function, specifically,
  * that its type is @c AST_FUNCTION_LOG and it has two children, the first of
  * which is an integer equal to 10.
  * @li <code>bool ASTNode_isLogical()</code>
- * returns @c 1 if this AST node is a logical operator (@c and, @c or, @c
- * not, @c xor).
- * @li <code>bool ASTNode_isName()</code> returns @c
- * true if this AST node is a user-defined name or (in SBML Levels&nbsp;2
+ * returns @c 1 (true) if this AST node is a logical operator (@c and, @c or,
+ * @c not, @c xor).
+ * @li <code>bool ASTNode_isName()</code> returns
+ * @c true if this AST node is a user-defined name or (in SBML Levels&nbsp;2
  * and&nbsp;3) one of the two special @c csymbol constructs "delay" or "time".
- * @li <code>bool ASTNode_isNaN()</code> returns @c
- * true if this AST node has the special IEEE 754 value "not a number" (NaN).
- * @li <code>bool ASTNode_isNegInfinity()</code> returns @c 1 if this AST node has the special IEEE 754
+ * @li <code>bool ASTNode_isNaN()</code> returns
+ * @c true if this AST node has the special IEEE 754 value "not a number" (NaN).
+ * @li <code>bool ASTNode_isNegInfinity()</code> returns @c 1 (true) if this AST node has the special IEEE 754
  * value of negative infinity.
  * @li <code>bool ASTNode_isOperator()</code>
- * returns @c 1 if this AST node is an operator (e.g., @c +, @c -, etc.)
+ * returns @c 1 (true) if this AST node is an operator (e.g., @c +, @c -, etc.)
  * @li <code>bool ASTNode_isPiecewise()</code>
- * returns @c 1 if this AST node is the MathML @c piecewise function.
+ * returns @c 1 (true) if this AST node is the MathML @c piecewise function.
  * @li <code>bool ASTNode_isRational()</code>
- * returns @c 1 if this AST node is a rational number having a numerator
+ * returns @c 1 (true) if this AST node is a rational number having a numerator
  * and a denominator.
- * @li <code>bool ASTNode_isReal()</code> returns @c
- * true if this AST node is a real number (specifically, @c AST_REAL_E or
+ * @li <code>bool ASTNode_isReal()</code> returns
+ * @c true if this AST node is a real number (specifically, @c AST_REAL_E or
  * @c AST_RATIONAL).
  * @li <code>bool ASTNode_isRelational()</code>
- * returns @c 1 if this AST node is a relational operator.
- * @li <code>bool ASTNode_isSqrt()</code> returns @c
- * true if this AST node is the square-root operator
+ * returns @c 1 (true) if this AST node is a relational operator.
+ * @li <code>bool ASTNode_isSqrt()</code> returns
+ * @c true if this AST node is the square-root operator
  * @li <code>bool ASTNode_isUMinus()</code> returns
- * @c 1 if this AST node is a unary minus.
+ * @c 1 (true) if this AST node is a unary minus.
  * @li <code>bool ASTNode_isUnknown()</code>
- * returns @c 1 if this AST node's type is unknown.
+ * returns @c 1 (true) if this AST node's type is unknown.
  * @endif
  *
  * Programs manipulating AST node structures should check the type of a given
@@ -963,9 +966,9 @@
  * @if cpp
  * @li <code>void @link ASTNode::setCharacter(char value) setCharacter(char
  * value)@endlink</code> sets the value of this ASTNode to the given
- * character <code>value</code>.  If character is one of @c +, @c -, @c *, @c
- * / or @c ^, the node type will be to the appropriate operator type.  For all
- * other characters, the node type will be set to @c AST_UNKNOWN.
+ * character <code>value</code>.  If character is one of @c +, @c -, @c *,
+ * @c / or @c ^, the node type will be to the appropriate operator type.  For all
+ * other characters, the node type will be set to @sbmlconstant{AST_UNKNOWN, ASTNodeType_t}.
  * @li <code>void @link ASTNode::setName(const char *name) setName(const char
  * *name)@endlink</code> sets the value of this AST node to the given
  * <code>name</code>.  The node type will be set (to @c AST_NAME) <em>only
@@ -993,9 +996,9 @@
  * @endif
  * @if python
  * @li @link libsbml.ASTNode.setCharacter() ASTNode.setCharacter(char)@endlink sets the value of
- * this ASTNode to the given character.  If character is one of @c +, @c -, @c
- * *, @c / or @c ^, the node type will be to the appropriate operator type.
- * For all other characters, the node type will be set to @c AST_UNKNOWN.
+ * this ASTNode to the given character.  If character is one of @c +, @c -,
+ * @c *, @c / or @c ^, the node type will be to the appropriate operator type.
+ * For all other characters, the node type will be set to @sbmlconstant{AST_UNKNOWN, ASTNodeType_t}.
  * @li @link libsbml.ASTNode.setName() ASTNode.setName(string)@endlink sets the value of
  * this AST node to the given name.  The node type will be set (to @c AST_NAME)
  * <em>only if</em> the AST node was previously an operator
@@ -1016,10 +1019,10 @@
  * @endif
  * @if conly
  * @li <code>void ASTNode_setCharacter(ASTNode_t *node, char value)</code> sets the value of this
- * ASTNode to the given character <code>value</code>.  If character is one of @c
- * +, @c -, @c *, @c / or @c ^, the node type will be to the appropriate
- * operator type.  For all other characters, the node type will be set to @c
- * AST_UNKNOWN.
+ * ASTNode to the given character <code>value</code>.  If character is one of
+ * @c +, @c -, @c *, @c / or @c ^, the node type will be to the appropriate
+ * operator type.  For all other characters, the node type will be set to
+ * @c AST_UNKNOWN.
  * @li <code>void ASTNode_setName(ASTNode_t *node, const char *name)</code> sets the value of
  * this AST node to the given <code>name</code>.  The node type will be set (to
  * @c AST_NAME) <em>only if</em> the AST node was previously an operator
@@ -1029,8 +1032,8 @@
  * to the given integer <code>value</code>.
  * @li <code>void ASTNode_setRational(ASTNode_t *node, long numerator, long denominator)</code> sets
  * the value of this ASTNode to the given rational <code>value</code> in two
- * parts: the numerator and denominator.  The node type is set to @c
- * AST_RATIONAL.
+ * parts: the numerator and denominator.  The node type is set to
+ * @c AST_RATIONAL.
  * @li <code>void ASTNode_setReal(ASTNode_t *node, double value)</code> sets the value of this
  * ASTNode to the given real (double) <code>value</code> and sets the node type
  * to @c AST_REAL.
@@ -1046,7 +1049,7 @@
  * @li <code>ASTNode* @link ASTNode::ASTNode(ASTNodeType_t type)
  * ASTNode(ASTNodeType_t type)@endlink</code> creates a new ASTNode object
  * and returns a pointer to it.  The returned node will have the given
- * <code>type</code>, or a type of @c AST_UNKNOWN if no argument
+ * <code>type</code>, or a type of @sbmlconstant{AST_UNKNOWN, ASTNodeType_t} if no argument
  * <code>type</code> is explicitly given or the type code is unrecognized.
  * @li <code>unsigned int @link ASTNode::getNumChildren() getNumChildren()
  * @endlink</code> returns the number of children of this AST node or
@@ -1078,7 +1081,7 @@
  * @if python
  * @li <code>ASTNode</code> @link libsbml.ASTNode(long) ASTNode(long)@endlink creates a new ASTNode object
  * and returns a pointer to it.  The returned node will have the type
- * identified by the code passed as the argument, or a type of @c AST_UNKNOWN if
+ * identified by the code passed as the argument, or a type of @sbmlconstant{AST_UNKNOWN, ASTNodeType_t} if
  * no type is explicitly given or the type code is unrecognized.
  * @li <code>unsigned int</code> @link libsbml.ASTNode.getNumChildren() ASTNode.getNumChildren()@endlink returns the number
  * of children of this AST node or 0 is this node has no children.
@@ -1099,13 +1102,13 @@
  * children of this ASTNode with the children of @c that ASTNode.
  * @li @link libsbml.ASTNode.setType() ASTNode.setType(long)@endlink
  * sets the type of this ASTNode to the type identified by the
- * type code passed as argument, or to @c AST_UNKNOWN if the type
+ * type code passed as argument, or to @sbmlconstant{AST_UNKNOWN, ASTNodeType_t} if the type
  * is unrecognized.
  * @endif
  * @if conly
  * @li <code>ASTNode_t* ASTNode_createWithType(ASTNodeType_t type)</code> creates a new
  * ASTNode object and returns a pointer to it.  The returned node will have the
- * given <code>type</code>, or a type of @c AST_UNKNOWN if no argument
+ * given <code>type</code>, or a type of @sbmlconstant{AST_UNKNOWN, ASTNodeType_t} if no argument
  * <code>type</code> is explicitly given or the type code is unrecognized.
  * @li <code>unsigned int ASTNode_getNumChildren(const ASTNode_t *node)</code> returns the number of
  * children of this AST node or <code>0</code> is this node has no children.
@@ -1138,7 +1141,7 @@
  * libSBML using a method designed for this purpose:
  *
  * @if cpp
- * @li <code>ASTNode_t* @sbmlfunction{readMathMLFromString, String}</code> reads raw
+ * @li <code>ASTNode_t* readMathMLFromString() </code> reads raw
  * MathML from a text string, constructs an AST from it, then returns the root
  * ASTNode of the resulting expression tree.
  * @endif
@@ -1148,7 +1151,7 @@
  * ASTNode of the resulting expression tree.
  * @endif
  * @if conly
- * @li <code>ASTNode_t* @sbmlfunction{readMathMLFromString, String}</code> reads raw
+ * @li <code>ASTNode_t* readMathMLFromString() </code> reads raw
  * MathML from a text string, constructs an AST from it, then returns the root
  * ASTNode_t of the resulting expression tree.
  * @endif
@@ -1157,7 +1160,7 @@
  * the following method:
  *
  * @if cpp
- * @li <code>char* @sbmlfunction{writeMathMLToString, ASTNode}</code> writes an
+ * @li <code>char* writeMathMLToString() </code> writes an
  * AST to a string.  The caller owns the character string returned and should free
  * it after it is no longer needed.
  * @endif
@@ -1167,7 +1170,7 @@
  * after it is no longer needed.
  * @endif
  * @if conly
- * @li <code>char* @sbmlfunction{writeMathMLToString, ASTNode}</code> writes an
+ * @li <code>char* writeMathMLToString() </code> writes an
  * AST to a string.  The caller owns the character string returned and should free
  * it after it is no longer needed.
  * @endif
@@ -1279,12 +1282,14 @@
  * and <span class="code" style="background-color: #edd">unit</span>
  * is optional.
  *
- * @li The Boolean function symbols @c &&, @c ||, @c !, and @c != may be
- * used.
+ * @li The Boolean function symbols @c && (@em and), @c || (@em or), @c ! (@em not),
+ * and @c != (@em not @em equals) may be used.
  *
  * @li The @em modulo operation is allowed as the symbol @c @% and will
  * produce a <code>&lt;piecewise&gt;</code> function in the corresponding
- * MathML output.
+ * MathML output by default, or can produce the MathML function @c rem, 
+ * depending on the L3ParserSettings object (see 
+ * L3ParserSettings_setParseModuloL3v2() ).
  *
  * @li All inverse trigonometric functions may be defined in the infix either
  * using @c arc as a prefix or simply @c a; in other words, both @c arccsc
@@ -1328,6 +1333,19 @@
  *
  * <li style="margin-bottom: 0.5em"> The string @c avogadro can be parsed as
  * a MathML @em csymbol or as an identifier.
+ *
+ * <li style="margin-bottom: 0.5em"> The string @% can be parsed either as a 
+ * piecewise function or as the 'rem' function:  <code>a @% b</code> will either
+ * become
+ *
+ * <code>piecewise(a - b*ceil(a/b), xor((a < 0), (b < 0)), a - b*floor(a/b))</code>
+ *
+ * or 
+ *
+ * <code>rem(a, b)</code>.  
+ *
+ * The latter is simpler, but the <code>rem</code> MathML is only allowed 
+ * as of SBML Level&nbsp;3 Version&nbsp;2.</li>
  *
  * <li style="margin-bottom: 0.5em"> A Model object may optionally be
  * provided to the parser using the variant function call
@@ -1438,8 +1456,8 @@
  * &quot;<code>log</code>&quot; is interpreted as the base&nbsp;10 logarithm,
  * and @em not as the natural logarithm.  However, you can change the
  * interpretation to be base-10 log, natural log, or as an error; since the
- * name "log" by itself is ambiguous, you require that the parser uses @c
- * log10 or @c ln instead, which are more clear.  Please refer to
+ * name "log" by itself is ambiguous, you require that the parser uses
+ * @c log10 or @c ln instead, which are more clear.  Please refer to
  * @sbmlfunction{parseL3FormulaWithSettings, String\,
  * L3ParserSettings}.
  *
@@ -2039,8 +2057,8 @@ void example (SBase sb)
  * @subsection converter-example Example of invoking an SBML converter
  *
  * The following code fragment illustrates an example using
- * SBMLReactionConverter, which is invoked using the option string @c
- * "replaceReactions":
+ * SBMLReactionConverter, which is invoked using the option string
+ * @c "replaceReactions":
  *
  * @if cpp
  * @code{.cpp}
@@ -3572,8 +3590,8 @@ if (lmp != null)
  * is given an "sboTerm" attribute value, that SBO term applies to the two
  * species and the group, not to the three child species members of the
  * second group.  (Note also that in such a case, the parent group's "kind"
- * attribute value would almost certainly be @c "collection" or @c
- * "partonomy", and not @c "classification", as two species and a group are
+ * attribute value would almost certainly be @c "collection" or
+ * @c "partonomy", and not @c "classification", as two species and a group are
  * very unlikely to be classified as the same thing.)  In contrast, in the
  * situation where a parent group includes two Species plus a ListOfMembers
  * which contains three other Species, the parent group's ListOfMembers
@@ -3600,17 +3618,17 @@ if (lmp != null)
  * to produce a warning.
  *
  * <!-- ------------------------------------------------------------------- -->
- * @class doc_fast_attribute_deprecated
+ * @class doc_fast_attribute_removed
  *
  * @par
- * In SBML Level&nbsp;3 Version&nbsp;2, values of @c true
- * for the "fast" attribute were deprecated, and in future
- * versions of the specification, the attribute itself will
- * be removed.  Users should be aware that even for previous
- * levels/versions of the specification, the "fast" attribute
- * has never achieved widespread support, and many software
+ * In SBML Level&nbsp;3 Version&nbsp;2, the "fast" attribute was 
+ * removed.  All reactions are assumed to be equivalent to reactions
+ * in previous levels/versions that have a "fast" attribute value
+ * of @c false.  Users should be aware that even for previous
+ * levels/versions of the specification, "fast" attribute values of
+ * @c true never achieved widespread support, and many software
  * packages may ignore it.  To achieve the same or similar 
- * effects as setting the fast attribute to "true" for a given 
+ * effects as setting the fast attribute to @c true for a given 
  * reaction, the KineticLaw attribute should be constructed to 
  * produce a value in the desired time scale, or else the 
  * reaction could be replaced with an AssignmentRule or 
@@ -3654,6 +3672,84 @@ if (lmp != null)
  * annotation purposes.  Version&nbsp;2 instead defines the 
  * GeneProduct and GeneProductAssociation classes to cover the information
  * otherwise encoded here.
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class doc_sbo_terms
+ *
+ * @par
+ * Beginning with SBML Level 2 Version 2, objects derived from SBase have
+ * an optional attribute named "sboTerm" for supporting the use of the
+ * Systems Biology Ontology.  In SBML proper, the data type of the
+ * attribute is a string of the form "SBO:NNNNNNN", where "NNNNNNN" is a
+ * seven digit integer number; libSBML simplifies the representation by
+ * only storing the "NNNNNNN" integer portion.  Thus, in libSBML, the
+ * "sboTerm" attribute on SBase has data type @c int, and SBO identifiers
+ * are stored simply as integers.
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class doc_sbo_terms_addendum
+ *
+ * @par
+ * SBO terms are a type of optional annotation, and each different class
+ * of SBML object derived from SBase imposes its own requirements about
+ * the values permitted for "sboTerm". More details can be found in SBML
+ * specifications for Level&nbsp;2 Version&nbsp;2 and above.
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class doc_returned_unowned_pointer
+ *
+ * @par
+ * The pointer that is returned by this function is not owned by the caller,
+ * but may be queried and modified.  Any changes made will be reflected in any
+ * resulting SBML document containing the pointer's parent.
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class doc_returned_unowned_char
+ *
+ * @par
+ * The string returned by this function is a pointer to a string literal
+ * defined in the libsbml library, and may not be modified or deleted.
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class doc_returned_owned_pointer
+ *
+ * @par
+ * The pointer that is returned by this function is owned by the caller,
+ * who is responsible for deleting it.  Any changes made to the element
+ * will not be reflected in any resulting SBML document unless the element
+ * is added to an SBML Document.  Even in this case, the element's deletion is
+ * still the responsibility of the caller with two exceptions: if it is used
+ * as the "disownedItem" in the @if conly ListOf_appendAndOwn() or 
+ * ListOf_insertAndOwn() @elseif java
+ * ListOf::appendAndOwn(SBase) or ListOf::insertAndOwn(int, SBase) @else 
+ * ListOf::appendAndOwn() or ListOf::insertAndOwn() @endif
+ * functions.  All other functions in libsbml add a copy of the element, 
+ * and do not transfer ownership of the pointer.
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class doc_returned_owned_char
+ *
+ * @par
+ * The string returned by this function is owned by the caller,
+ * who is responsible for deleting it.  Any changes made to the string will
+ * not be reflected in any resulting SBML document unless the string
+ * is added to an SBML Document.  Even in this case, the string should be
+ * deleted, as adding a string to an SBML Document adds a copy of the string,
+ * and does not transfer ownership of that string.
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class doc_use_param_in_l2
+ *
+ * @par
+ * This function should be used for SBML Level&nbsp;1 and Level&nbsp;2 documents, 
+ * as the equivalent constructs in Level&nbsp;3 are LocalParameter objects instead.
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class doc_use_localparam_in_l3
+ *
+ * @par
+ * This function should be used for SBML Level&nbsp;3 documents, as the equivalent 
+ * constructs in Level&nbsp;2 and Level&nbsp;1 are Parameter objects instead.
  *
  * <!-- ------------------------------------------------------------------- -->
  */

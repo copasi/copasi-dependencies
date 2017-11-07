@@ -216,7 +216,7 @@ protected:
    * Create and return an SBML object of this class, if present.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase*
   createObject (XMLInputStream& stream);
@@ -351,8 +351,8 @@ const char *
 SpeciesGlyph_getSpeciesId (const SpeciesGlyph_t *sg);
 
 /**
- * Returns 0 if the  id of the associated species is the empty string.
- * otherwise.
+ * Returns @c 0 (false) if the id of the associated species is the empty string,
+ * @c 1 (true) otherwise.
  * 
  * @param sg the SpeciesGlyph_t structure.
  *

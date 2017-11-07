@@ -69,7 +69,7 @@ SBML_formulaToString (const ASTNode_t *tree)
 
 
 /**
- * @return true (non-zero) if the given ASTNode is to formatted as a
+ * @return @c 1 (true) if the given ASTNode is to formatted as a
  * function.
  */
 int
@@ -85,8 +85,8 @@ FormulaFormatter_isFunction (const ASTNode_t *node)
 
 
 /**
- * @return true (non-zero) if the given child ASTNode should be grouped
- * (with parenthesis), false (0) otherwise.
+ * @return @c 1 (true) if the given child ASTNode should be grouped
+ * (with parenthesis), @c 0 (false) otherwise.
  *
  * A node should be group if it is not an argument to a function and
  * either:

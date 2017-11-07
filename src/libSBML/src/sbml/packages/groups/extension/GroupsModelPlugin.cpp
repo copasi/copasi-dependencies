@@ -49,7 +49,7 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new GroupsModelPlugin using the given uri, prefix and package
+ * Creates a new GroupsModelPlugin using the given URI, prefix and package
  * namespace.
  */
 GroupsModelPlugin::GroupsModelPlugin(const std::string& uri,
@@ -369,6 +369,365 @@ GroupsModelPlugin::enablePackageInternal(const std::string& pkgURI,
 /** @endcond */
 
 
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::getAttribute(const std::string& attributeName,
+                                bool& value) const
+{
+  int return_value = SBasePlugin::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::getAttribute(const std::string& attributeName,
+                                int& value) const
+{
+  int return_value = SBasePlugin::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::getAttribute(const std::string& attributeName,
+                                double& value) const
+{
+  int return_value = SBasePlugin::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::getAttribute(const std::string& attributeName,
+                                unsigned int& value) const
+{
+  int return_value = SBasePlugin::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::getAttribute(const std::string& attributeName,
+                                std::string& value) const
+{
+  int return_value = SBasePlugin::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::getAttribute(const std::string& attributeName,
+                                const char* value) const
+{
+  int return_value = SBasePlugin::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this GroupsModelPlugin's attribute
+ * "attributeName" is set.
+ */
+bool
+GroupsModelPlugin::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = SBasePlugin::isSetAttribute(attributeName);
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::setAttribute(const std::string& attributeName, bool value)
+{
+  int return_value = SBasePlugin::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::setAttribute(const std::string& attributeName, int value)
+{
+  int return_value = SBasePlugin::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::setAttribute(const std::string& attributeName,
+                                double value)
+{
+  int return_value = SBasePlugin::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::setAttribute(const std::string& attributeName,
+                                unsigned int value)
+{
+  int return_value = SBasePlugin::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::setAttribute(const std::string& attributeName,
+                                const std::string& value)
+{
+  int return_value = SBasePlugin::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::setAttribute(const std::string& attributeName,
+                                const char* value)
+{
+  int return_value = SBasePlugin::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Unsets the value of the "attributeName" attribute of this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::unsetAttribute(const std::string& attributeName)
+{
+  int value = SBasePlugin::unsetAttribute(attributeName);
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Creates and returns an new "elementName" object in this GroupsModelPlugin.
+ */
+SBase*
+GroupsModelPlugin::createChildObject(const std::string& elementName)
+{
+  SBase* obj = NULL;
+
+  if (elementName == "group")
+  {
+    return createGroup();
+  }
+
+  return obj;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Adds a new "elementName" object to this GroupsModelPlugin.
+ */
+int
+GroupsModelPlugin::addChildObject(const std::string& elementName,
+                                  const SBase* element)
+{
+  if (elementName == "group" && element->getTypeCode() == SBML_GROUPS_GROUP)
+  {
+    return addGroup((const Group*)(element));
+  }
+
+  return LIBSBML_OPERATION_FAILED;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Removes and returns the new "elementName" object with the given id in this
+ * GroupsModelPlugin.
+ */
+SBase*
+GroupsModelPlugin::removeChildObject(const std::string& elementName,
+                                     const std::string& id)
+{
+  if (elementName == "group")
+  {
+    return removeGroup(id);
+  }
+
+  return NULL;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the number of "elementName" in this GroupsModelPlugin.
+ */
+unsigned int
+GroupsModelPlugin::getNumObjects(const std::string& elementName)
+{
+  unsigned int n = 0;
+
+  if (elementName == "group")
+  {
+    return getNumGroups();
+  }
+
+  return n;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Returns the nth object of "objectName" in this GroupsModelPlugin.
+ */
+SBase*
+GroupsModelPlugin::getObject(const std::string& elementName,
+                             unsigned int index)
+{
+  SBase* obj = NULL;
+
+  if (elementName == "group")
+  {
+    return getGroup(index);
+  }
+
+  return obj;
+}
+
+/** @endcond */
+
+
 /*
  * Returns the first child element that has the given @p id in the model-wide
  * SId namespace, or @c NULL if no such object is found.
@@ -497,16 +856,28 @@ GroupsModelPlugin::createObject(XMLInputStream& stream)
   SBase* obj = NULL;
 
   const std::string& name = stream.peek().getName();
+  const XMLNamespaces& xmlns = stream.peek().getNamespaces();
+  const std::string& prefix = stream.peek().getPrefix();
 
-  if (name == "listOfGroups")
+  const std::string& targetPrefix = (xmlns.hasURI(mURI)) ?
+    xmlns.getPrefix(mURI) : mPrefix;
+
+  if (prefix == targetPrefix)
   {
-    if (mGroups.size() != 0)
+    if (name == "listOfGroups")
     {
-      getErrorLog()->logPackageError("groups", GroupsModelAllowedElements,
-        getPackageVersion(), getLevel(), getVersion());
-    }
+      if (mGroups.size() != 0)
+      {
+        getErrorLog()->logPackageError("groups", GroupsModelAllowedElements,
+          getPackageVersion(), getLevel(), getVersion());
+      }
 
-    obj = &mGroups;
+      obj = &mGroups;
+      if (targetPrefix.empty())
+      {
+        mGroups.getSBMLDocument()->enableDefaultNS(mURI, true);
+      }
+    }
   }
 
   connectToChild();
@@ -590,7 +961,7 @@ GroupsModelPlugin::copyInformationToNestedLists()
 
 
 /*
- * Returns a ListOf_t* containing Group_t objects from this
+ * Returns a ListOf_t * containing Group_t objects from this
  * GroupsModelPlugin_t.
  */
 LIBSBML_EXTERN
@@ -605,7 +976,7 @@ GroupsModelPlugin_getListOfGroups(GroupsModelPlugin_t* gmp)
  * Get a Group_t from the GroupsModelPlugin_t.
  */
 LIBSBML_EXTERN
-const Group_t*
+Group_t*
 GroupsModelPlugin_getGroup(GroupsModelPlugin_t* gmp, unsigned int n)
 {
   return (gmp != NULL) ? gmp->getGroup(n) : NULL;
@@ -616,7 +987,7 @@ GroupsModelPlugin_getGroup(GroupsModelPlugin_t* gmp, unsigned int n)
  * Get a Group_t from the GroupsModelPlugin_t based on its identifier.
  */
 LIBSBML_EXTERN
-const Group_t*
+Group_t*
 GroupsModelPlugin_getGroupById(GroupsModelPlugin_t* gmp, const char *sid)
 {
   return (gmp != NULL && sid != NULL) ? gmp->getGroup(sid) : NULL;

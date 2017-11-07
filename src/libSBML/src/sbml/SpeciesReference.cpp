@@ -364,9 +364,23 @@ SpeciesReference::setStoichiometryMath (const StoichiometryMath* math)
 int
 SpeciesReference::setDenominator (int value)
 {
-  mDenominator = value;
-  mExplicitlySetDenominator = true;
-  return LIBSBML_OPERATION_SUCCESS;
+  // this attribute was removed in l2 but we were able to capture it
+  // by creating a stoichiometryMath element for the speciesReference
+  // however stoichiometryMath was removed in l3 and so would require
+  // an initialAssignment which would only work if the SpeciesReference
+  // was already placed within a model
+  // so we return unexpected attribute in L3
+  if (getLevel() < 3)
+  {
+    mDenominator = value;
+    mExplicitlySetDenominator = true;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    mDenominator = value;
+    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+  }
 }
 
 
@@ -930,6 +944,7 @@ SpeciesReference::createChildObject(const std::string& elementName)
 
 /** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
 /*
 * Adds an new "elementName" object in this SpeciesReference.
 */
@@ -1597,6 +1612,24 @@ void
 SpeciesReference::syncAnnotation ()
 {
   SBase::syncAnnotation();
+}
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+bool 
+SpeciesReference::isExplicitlySetStoichiometry() const 
+{
+  return mExplicitlySetStoichiometry;
+}
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+bool 
+SpeciesReference::isExplicitlySetDenominator() const 
+{
+  return mExplicitlySetDenominator;
 }
 /** @endcond */
 

@@ -36,8 +36,17 @@
  * Each FunctionTerm is associated with a result and with a Boolean function
  * inside a Math element that can be used to set the conditions under which
  * this term is selected.
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class ListOfFunctionTerms
+ * @sbmlbrief{qual} A list of FunctionTerm objects.
+ *
+ * The ListOfFunctionTerms is a container for the FunctionTerms of a Transition.
+ *
+ * @copydetails doc_what_is_listof
+ *
+ * @see Input
  */
-
 
 #ifndef FunctionTerm_H__
 #define FunctionTerm_H__
@@ -639,17 +648,6 @@ protected:
 
 };
 
-/**
- *
- * @class ListOfFunctionTerms
- * @sbmlbrief{qual} A list of FunctionTerm objects.
- * 
- * The ListOfFunctionTerms is a container for the FunctionTerms of a Transition.
- * 
- * @copydetails doc_what_is_listof
- *
- * @see Input
- */
 class LIBSBML_EXTERN ListOfFunctionTerms : public ListOf
 {
 
@@ -744,7 +742,7 @@ public:
    * of the FunctionTerm to get.
    *
    * @return FunctionTerm in this ListOfFunctionTerms
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * FunctionTerm exists.
    *
    * @see get(unsigned int n)   *
@@ -761,7 +759,7 @@ public:
    * of the FunctionTerm to get.
    *
    * @return FunctionTerm in this ListOfFunctionTerms
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * FunctionTerm exists.
    *
    * @see get(unsigned int n)   *
@@ -956,7 +954,7 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new FunctionTerm_t structure using the given SBML @p level
- * and @p version values.
+ * and @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML Level to assign to this
  * FunctionTerm_t.
@@ -1016,13 +1014,13 @@ FunctionTerm_getResultLevel(FunctionTerm_t * ft);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FunctionTerm_t structure's resultLevel is set.
  *
  * @param ft the FunctionTerm_t structure to query.
  * 
- * @return @c non-zero (true) if the "resultLevel" attribute of the given
- * FunctionTerm_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "resultLevel" attribute of the given
+ * FunctionTerm_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof FunctionTerm_t
  */
@@ -1071,8 +1069,6 @@ FunctionTerm_unsetResultLevel(FunctionTerm_t * ft);
   * all the required attributes for the given FunctionTerm_t structure
   * have been set.
   *
-  * @note The required attributes for a FunctionTerm_t structure are:
-  *
  * @memberof FunctionTerm_t
  */
 LIBSBML_EXTERN
@@ -1101,10 +1097,10 @@ FunctionTerm_hasRequiredElements(FunctionTerm_t * ft);
  * @param lo the ListOf_t structure to use.
  *
  * @param sid a string, the identifier of the
- * FunctionTerm_t is being sought.
+ * FunctionTerm_t being sought.
  *
  * @return the FunctionTerm_t for the given variable, or @c NULL if no such
- * FunctionTerm_t exits.
+ * FunctionTerm_t exists.
  *
  * @memberof FunctionTerm_t
  */
@@ -1126,7 +1122,7 @@ ListOfFunctionTerms_getById(ListOf_t * lo, const char * sid);
  * caller owns the returned structure. @c NULL is returned if no FunctionTerm_t
  * structure with the "id" attribute exists in the given ListOf_t structure.
  *
- * @memberof FunctionTerm_t
+ * @memberof ListOfFunctionTerms_t
  */
 LIBSBML_EXTERN
 FunctionTerm_t *

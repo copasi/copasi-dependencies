@@ -174,11 +174,11 @@ public:
 
   
   /**
-   * Returns the ConversionOption object for the given index.
+   * Returns the ConversionOption object for the given @p index.
    *
    * @param index the index for the option.
    *
-   * @return the option with the given index.
+   * @return the option with the given @p index.
    */
   virtual ConversionOption* getOption(int index) const;
 
@@ -455,7 +455,8 @@ ConversionProperties_clone(const ConversionProperties_t* cp);
  * @param cp the conversion properties.
  * @param key the key for the option.
  *
- * @return the boolean value of the option with the given key to be freed by the caller, or @c NULL.
+ * @return the boolean value of the option as an integer (@c 1 = true; 
+ * @c 0 = false or @c NULL) with the given key to be freed by the caller.
  *
  * @memberof ConversionProperties_t
  */
@@ -585,7 +586,7 @@ ConversionProperties_getTargetNamespaces(const ConversionProperties_t* cp);
  * @param cp the conversion properties.
  * @param key the key for the option.
  *
- * @return @c 1 if the option exists, @c 0 otherwise.
+ * @return @c 1 (true) if the option exists, @c 0 (false) otherwise.
  *
  * @memberof ConversionProperties_t
  */
@@ -598,8 +599,8 @@ ConversionProperties_hasOption(const ConversionProperties_t* cp, const char* key
  *
  * @param cp the conversion properties.
  *
- * @return @c 1 if the target namespace has been set, @c 0
- * otherwise.
+ * @return @c 1 (true) if the target namespace has been set,
+ * @c 0 (false) otherwise.
  *
  * @memberof ConversionProperties_t
  */
@@ -624,7 +625,8 @@ ConversionProperties_setTargetNamespaces(ConversionProperties_t* cp, SBMLNamespa
  *
  * @param cp the conversion properties.
  * @param key the key for the option.
- * @param value the new value for the option.
+ * @param value the new value for the option,
+ * with @c nonzero indicating @c true, and @c zero indicating @c false.
  *
  * @memberof ConversionProperties_t
  */
@@ -715,7 +717,7 @@ ConversionProperties_addOptionWithKey(ConversionProperties_t* cp, const char* ke
  * @param key the key for the option to remove.
  *
  * @return the removed conversion option (needs to be freed by the caller), 
- * or NULL, if no option with the given key exists
+ * or @c NULL, if no option with the given key exists
  * 
  * @memberof ConversionProperties_t
  */

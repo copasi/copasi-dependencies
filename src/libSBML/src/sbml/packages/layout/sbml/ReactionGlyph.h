@@ -209,8 +209,8 @@ public:
    * Removes item in this ListOfSpeciesReferenceGlyphs items with the given identifier.
    *
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier @p sid, then @c
-   * NULL is returned.
+   * If none of the items in this list have the identifier @p sid, then
+   * @c NULL is returned.
    *
    * @param sid the identifier of the item to remove.
    *
@@ -232,7 +232,7 @@ protected:
    * Create and return an SBML object of this class, if present.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase* createObject (XMLInputStream& stream);
   /** @endcond */
@@ -355,13 +355,13 @@ public:
   ListOfSpeciesReferenceGlyphs* getListOfSpeciesReferenceGlyphs ();
        
   /**
-   * Returns the species reference glyph with the given index.
+   * Returns the species reference glyph with the given @p index.
    * If the index is invalid, @c NULL is returned.
    */
   const SpeciesReferenceGlyph* getSpeciesReferenceGlyph (unsigned int index) const;
 
   /**
-   * Returns the species reference glyph with the given index.
+   * Returns the species reference glyph with the given @p index.
    * If the index is invalid, @c NULL is returned.
    */
   SpeciesReferenceGlyph* getSpeciesReferenceGlyph (unsigned int index) ;
@@ -444,7 +444,7 @@ public:
    CubicBezier* createCubicBezier();
 
   /**
-   * Remove the species reference glyph with the given index.
+   * Remove the species reference glyph with the given @p index.
    * A pointer to the object is returned. If no object has been removed, NULL
    * is returned.
    */
@@ -581,7 +581,7 @@ protected:
    * Create and return an SBML object of this class, if present.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase*
   createObject (XMLInputStream& stream);
@@ -729,8 +729,8 @@ const char *
 ReactionGlyph_getReactionId (const ReactionGlyph_t *rg);
 
 /**
- * Returns 0 if the reference reaction has not been set for this glyph and
- * 1 otherwise.
+ * Returns @c 0 (false) if the reference reaction has not been set for this glyph and
+ * @c 1 (true) otherwise.
  *
  * @param rg the ReactionGlyph_t structure.
  *
@@ -766,7 +766,7 @@ unsigned int
 ReactionGlyph_getNumSpeciesReferenceGlyphs (const ReactionGlyph_t *rg);
 
 /**
- * Returns the pointer to the SpeciesReferenceGlyph_t's for the given index.
+ * Returns the pointer to the SpeciesReferenceGlyph_t for the given @p index.
  *
  * @param rg the ReactionGlyph_t structure.
  * @param index the index of the SpeciesReferenceGlyph_t to return.
@@ -789,20 +789,6 @@ ReactionGlyph_getSpeciesReferenceGlyph (ReactionGlyph_t *rg,
 LIBSBML_EXTERN
 ListOf_t *
 ReactionGlyph_getListOfSpeciesReferenceGlyphs (ReactionGlyph_t *rg);
-
-/**
- * Removes the species reference glyph with the given index.  If the index
- * is invalid, nothing is removed.
- *
- * @param rg the ReactionGlyph_t structure.
- * @param index the index of the SpeciesReferenceGlyph_t to remove.
- *
- * @memberof ReactionGlyph_t
- */
-LIBSBML_EXTERN
-SpeciesReferenceGlyph_t *
-ReactionGlyph_removeSpeciesReferenceGlyph (ReactionGlyph_t *rg,
-                                           unsigned int index);
 
 /**
  * Calls initDefaults from GraphicalObject.
@@ -839,7 +825,7 @@ Curve_t *
 ReactionGlyph_getCurve (ReactionGlyph_t *rg);
 
 /**
- * Returns true if the Curve_t has one or more LineSegment.
+ * Returns @c 1 (true) if the Curve_t has one or more LineSegment.
  *
  * @param rg the ReactionGlyph_t structure.
  *
@@ -902,7 +888,7 @@ CubicBezier_t *
 ReactionGlyph_createCubicBezier (ReactionGlyph_t *rg);
 
 /**
- * Remove the species reference glyph with the given index.
+ * Remove the species reference glyph with the given @p index.
  * A pointer to the structure is returned. If no structure has been removed, NULL
  * is returned.
  *

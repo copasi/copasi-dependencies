@@ -332,7 +332,7 @@ public:
    * text-string form.
    * 
    * @return the ASTNode representation of the mathematical formula, 
-   * or NULL if the math is not set.
+   * or @c NULL if the math is not set.
    *
    * @see getFormula()
    */
@@ -528,6 +528,7 @@ public:
   /**
    * Adds a copy of the given Parameter object to the list of local
    * parameters in this KineticLaw.
+   * @copydetails doc_use_param_in_l2
    *
    * @param p the Parameter to add.
    *
@@ -549,6 +550,7 @@ public:
   /**
    * Adds a copy of the given LocalParameter object to the list of local
    * parameters in this KineticLaw.
+   * @copydetails doc_use_localparam_in_l3
    *
    * @param p the LocalParameter to add.
    *
@@ -569,7 +571,8 @@ public:
 
   /**
    * Creates a new Parameter object, adds it to this KineticLaw's list of
-   * local parameters, and returns the Parameter object created.
+   * parameters, and returns the Parameter object created.
+   * @copydetails doc_use_param_in_l2
    *
    * @return a new Parameter object instance.
    *
@@ -581,6 +584,7 @@ public:
   /**
    * Creates a new LocalParameter object, adds it to this KineticLaw's list
    * of local parameters, and returns the LocalParameter object created.
+   * @copydetails doc_use_localparam_in_l3
    *
    * @return a new LocalParameter object instance.
    *
@@ -590,16 +594,18 @@ public:
 
 
   /**
-   * Returns the list of local parameters in this KineticLaw object.
-   * 
+   * Returns the list of parameters in this KineticLaw object.
+   * @copydetails doc_use_param_in_l2
+   *
    * @return the list of Parameters for this KineticLaw.
    */
   const ListOfParameters* getListOfParameters () const;
 
 
   /**
-   * Returns the list of local parameters in this KineticLaw object.
-   * 
+   * Returns the list of parameters in this KineticLaw object.
+   * @copydetails doc_use_param_in_l2
+   *
    * @return the list of Parameters for this KineticLaw.
    */
   ListOfParameters* getListOfParameters ();
@@ -607,7 +613,8 @@ public:
 
   /**
    * Returns the list of local parameters in this KineticLaw object.
-   * 
+   * @copydetails doc_use_localparam_in_l3
+   *
    * @return the list of LocalParameters for this KineticLaw.
    */
   const ListOfLocalParameters* getListOfLocalParameters () const;
@@ -615,15 +622,17 @@ public:
 
   /**
    * Returns the list of local parameters in this KineticLaw object.
-   * 
+   * @copydetails doc_use_localparam_in_l3
+   *
    * @return the list of LocalParameters for this KineticLaw.
    */
   ListOfLocalParameters* getListOfLocalParameters ();
 
 
   /**
-   * Returns the nth Parameter object in the list of local parameters in
+   * Returns the nth Parameter object in the list of parameters in
    * this KineticLaw instance.
+   * @copydetails doc_use_param_in_l2
    *
    * @param n the index of the Parameter object sought.
    * 
@@ -633,8 +642,9 @@ public:
 
 
   /**
-   * Returns the nth Parameter object in the list of local parameters in
+   * Returns the nth Parameter object in the list of parameters in
    * this KineticLaw instance.
+   * @copydetails doc_use_param_in_l2
    *
    * @param n the index of the Parameter object sought.
    * 
@@ -646,6 +656,7 @@ public:
   /**
    * Returns the nth LocalParameter object in the list of local parameters in
    * this KineticLaw instance.
+   * @copydetails doc_use_localparam_in_l3
    *
    * @param n the index of the LocalParameter object sought.
    * 
@@ -657,6 +668,7 @@ public:
   /**
    * Returns the nth LocalParameter object in the list of local parameters in
    * this KineticLaw instance.
+   * @copydetails doc_use_localparam_in_l3
    *
    * @param n the index of the LocalParameter object sought.
    * 
@@ -666,7 +678,8 @@ public:
 
 
   /**
-   * Returns a local parameter based on its identifier.
+   * Returns a parameter based on its identifier.
+   * @copydetails doc_use_param_in_l2
    *
    * @param sid the identifier of the Parameter being sought.
    * 
@@ -677,7 +690,8 @@ public:
 
 
   /**
-   * Returns a local parameter based on its identifier.
+   * Returns a parameter based on its identifier.
+   * @copydetails doc_use_param_in_l2
    *
    * @param sid the identifier of the Parameter being sought.
    * 
@@ -689,6 +703,7 @@ public:
 
   /**
    * Returns a local parameter based on its identifier.
+   * @copydetails doc_use_localparam_in_l3
    *
    * @param sid the identifier of the LocalParameter being sought.
    * 
@@ -700,6 +715,7 @@ public:
 
   /**
    * Returns a local parameter based on its identifier.
+   * @copydetails doc_use_localparam_in_l3
    *
    * @param sid the identifier of the LocalParameter being sought.
    * 
@@ -710,8 +726,9 @@ public:
 
 
   /**
-   * Returns the number of local parameters in this KineticLaw instance.
-   * 
+   * Returns the number of parameters in this KineticLaw instance.
+   * @copydetails doc_use_param_in_l2
+   *
    * @return the number of Parameters in this KineticLaw.
    */
   unsigned int getNumParameters () const;
@@ -719,7 +736,8 @@ public:
 
   /**
    * Returns the number of local parameters in this KineticLaw instance.
-   * 
+   * @copydetails doc_use_localparam_in_l3
+   *
    * @return the number of LocalParameters in this KineticLaw.
    */
   unsigned int getNumLocalParameters () const;
@@ -798,8 +816,9 @@ public:
 
 
   /**
-   * Removes the nth Parameter object in the list of local parameters 
+   * Removes the nth Parameter object in the list of parameters 
    * in this KineticLaw instance and returns a pointer to it.
+   * @copydetails doc_use_param_in_l2
    *
    * The caller owns the returned object and is responsible for deleting it.
    *
@@ -815,6 +834,7 @@ public:
   /**
    * Removes the nth LocalParameter object in the list of local parameters 
    * in this KineticLaw instance and returns a pointer to it.
+   * @copydetails doc_use_localparam_in_l3
    *
    * The caller owns the returned object and is responsible for deleting it.
    *
@@ -829,7 +849,8 @@ public:
 
   /**
    * Removes a Parameter object with the given identifier in the list of
-   * local parameters in this KineticLaw instance and returns a pointer to it.
+   * parameters in this KineticLaw instance and returns a pointer to it.
+   * @copydetails doc_use_param_in_l2
    *
    * The caller owns the returned object and is responsible for deleting it.
    *
@@ -845,6 +866,7 @@ public:
   /**
    * Removes a LocalParameter object with the given identifier in the list of
    * local parameters in this KineticLaw instance and returns a pointer to it.
+   * @copydetails doc_use_localparam_in_l3
    *
    * The caller owns the returned object and is responsible for deleting it.
    *
@@ -1369,7 +1391,7 @@ public:
    *
    * @param elementName, the name of the element to get number of.
    *
-   * @param index, unsigned int teh index of teh object to retrieve.
+   * @param index, unsigned int the index of the object to retrieve.
    *
    * @return pointer to the object.
    */
@@ -1491,13 +1513,7 @@ BEGIN_C_DECLS
  *
  * @return a pointer to the newly created KineticLaw_t structure.
  *
- * @note Once a KineticLaw_t has been added to an SBMLDocument_t, the @p
- * level and @p version for the document @em override those used to create
- * the KineticLaw_t.  Despite this, the ability to supply the values at
- * creation time is an important aid to creating valid SBML.  Knowledge of
- * the intended SBML Level and Version  determine whether it is valid to
- * assign a particular value to an attribute, or whether it is valid to add
- * a structure to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof KineticLaw_t
  */
@@ -1515,13 +1531,7 @@ KineticLaw_create (unsigned int level, unsigned int version);
  *
  * @return a pointer to the newly created KineticLaw_t structure.
  *
- * @note Once a KineticLaw_t has been added to an SBMLDocument_t, the
- * @p sbmlns namespaces for the document @em override those used to create
- * the KineticLaw_t.  Despite this, the ability to supply the values at creation time
- * is an important aid to creating valid SBML.  Knowledge of the intended SBML
- * Level and Version determine whether it is valid to assign a particular value
- * to an attribute, or whether it is valid to add a structure to an existing
- * SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof KineticLaw_t
  */
@@ -1586,7 +1596,7 @@ KineticLaw_getNamespaces(KineticLaw_t *kl);
  * @see KineticLaw_getMath().
  *
  * @note SBML Level 1 uses a text-string format for mathematical formulas.
- * SBML Level 2 uses MathML, an XML format for representing mathematical
+ * Other levels of SBML use MathML, an XML format for representing mathematical
  * expressions.  LibSBML provides an Abstract Syntax Tree API for working
  * with mathematical expressions; this API is more powerful than working
  * with formulas directly in text form, and ASTs can be translated into
@@ -1663,7 +1673,7 @@ KineticLaw_getSubstanceUnits (const KineticLaw_t *kl);
 
 
 /**
- * Predicate returning nonzero (for true) or zero (for false) depending on
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on
  * whether the "formula" attribute of the given KineticLaw_t structure is
  * set.
  *
@@ -1672,12 +1682,12 @@ KineticLaw_getSubstanceUnits (const KineticLaw_t *kl);
  *
  * @param kl the KineticLaw_t structure.
  * 
- * @return nonzero (meaning true) if the formula (or equivalently the
+ * @return @c 1 (true) if the formula (or equivalently the
  * "math" subelement) of the given KineticLaw_t structure is set,
- * zero (meaning false) otherwise.
+ * @c 0 (false) otherwise.
  *
  * @note SBML Level 1 uses a text-string format for mathematical formulas.
- * SBML Level 2 uses MathML, an XML format for representing mathematical
+ * Other levels of SBML use MathML, an XML format for representing mathematical
  * expressions.  LibSBML provides an Abstract Syntax Tree API for working
  * with mathematical expressions; this API is more powerful than working
  * with formulas directly in text form, and ASTs can be translated into
@@ -1695,7 +1705,7 @@ KineticLaw_isSetFormula (const KineticLaw_t *kl);
 
 
 /**
- * Predicate returning nonzero (for true) or zero (for false) depending on
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on
  * whether the "math" subelement of the given KineticLaw_t structure is
  * set.
  *
@@ -1705,8 +1715,8 @@ KineticLaw_isSetFormula (const KineticLaw_t *kl);
  *
  * @param kl the KineticLaw_t structure.
  * 
- * @return nonzero (meaning true) if the "math" subelement of the given
- * KineticLaw_t structure is set, zero (meaning false) otherwise.
+ * @return @c 1 (true) if the "math" subelement of the given
+ * KineticLaw_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof KineticLaw_t
  */
@@ -1716,14 +1726,14 @@ KineticLaw_isSetMath (const KineticLaw_t *kl);
 
 
 /**
- * Predicate returning nonzero (for true) or zero (for false) depending on
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on
  * whether the "timeUnits" attribute of the given KineticLaw_t structure is
  * set.
  *
  * @param kl the KineticLaw_t structure.
  * 
- * @return nonzero (meaning true) if the "timeUnits" attribute of the given
- * KineticLaw_t structure is set, zero (meaning false) otherwise.
+ * @return @c 1 (true) if the "timeUnits" attribute of the given
+ * KineticLaw_t structure is set, @c 0 (false) otherwise.
  *
  * @warning In SBML Level 2 Version 2, the "timeUnits" and "substanceUnits"
  * attributes were removed.  For compatibility with new versions of SBML,
@@ -1737,14 +1747,14 @@ KineticLaw_isSetTimeUnits (const KineticLaw_t *kl);
 
 
 /**
- * Predicate returning nonzero (for true) or zero (for false) depending on
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on
  * whether the "timeUnits" attribute of the given KineticLaw_t structure is
  * set.
  *
  * @param kl the KineticLaw_t structure.
  * 
- * @return nonzero (meaning true) if the "timeUnits" attribute of the given
- * KineticLaw_t structure is set, zero (meaning false) otherwise.
+ * @return @c 1 (true) if the "timeUnits" attribute of the given
+ * KineticLaw_t structure is set, @c 0 (false) otherwise.
  *
  * @warning In SBML Level 2 Version 2, the "timeUnits" and "substanceUnits"
  * attributes were removed.  For compatibility with new versions of SBML,
@@ -1772,7 +1782,7 @@ KineticLaw_isSetSubstanceUnits (const KineticLaw_t *kl);
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @note SBML Level 1 uses a text-string format for mathematical formulas.
- * SBML Level 2 uses MathML, an XML format for representing mathematical
+ * Other levels of SBML use MathML, an XML format for representing mathematical
  * expressions.  LibSBML provides an Abstract Syntax Tree API for working
  * with mathematical expressions; this API is more powerful than working
  * with formulas directly in text form, and ASTs can be translated into
@@ -1825,7 +1835,7 @@ KineticLaw_setMath (KineticLaw_t *kl, const ASTNode_t *math);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "timeUnits" attribute.
  *
  * @warning In SBML Level 2 Version 2, the "timeUnits" and "substanceUnits"
@@ -1853,7 +1863,7 @@ KineticLaw_setTimeUnits (KineticLaw_t *kl, const char *sid);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_UNEXPECTED_ATTRIBUTE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "substanceUnits" attribute.
  *
  * @warning In SBML Level 2 Version 2, the "timeUnits" and "substanceUnits"
@@ -1932,6 +1942,7 @@ KineticLaw_addParameter (KineticLaw_t *kl, const Parameter_t *p);
 /**
  * Adds a copy of the given LocalParameter_t structure to the list of local
  * parameters in the given KineticLaw_t structure.
+ * @copydetails doc_use_localparam_in_l3
  *
  * @param kl the KineticLaw_t structure.
  *
@@ -1953,12 +1964,16 @@ KineticLaw_addLocalParameter (KineticLaw_t *kl, const LocalParameter_t *p);
 
 /**
  * Creates a new Parameter_t structure, adds it to the given KineticLaw_t
- * structures's list of local parameters, and returns a pointer to the
+ * structures's list of parameters, and returns a pointer to the
  * Parameter_t created.
+ * @copydetails doc_use_param_in_l2
  *
  * @param kl the KineticLaw_t structure.
  *
- * @return a pointer to a Parameter_t structure
+ * @return a pointer to a Parameter_t structure, or @c NULL if @p kl is @c NULL,
+ * or if its namepace indicates it is an SBML Level&nbsp;3 object.
+ *
+ * @see KineticLaw_createLocalParameter()
  *
  * @memberof KineticLaw_t
  */
@@ -1970,11 +1985,15 @@ KineticLaw_createParameter (KineticLaw_t *kl);
 /**
  * Creates a new LocalParameter_t structure, adds it to the given KineticLaw_t
  * structures's list of local parameters, and returns a pointer to the
- * Parameter_t created.
+ * LocalParameter_t created.
+ * @copydetails doc_use_localparam_in_l3
  *
  * @param kl the KineticLaw_t structure.
  *
- * @return a pointer to a LocalParameter_t structure
+ * @return a pointer to a LocalParameter_t structure, or @c NULL if @p kl is @c NULL,
+ * or if its namepace indicates it is an SBML Level&nbsp;1 or 2 object.
+ *
+ * @see KineticLaw_createParameter()
  *
  * @memberof KineticLaw_t
  */
@@ -1984,8 +2003,9 @@ KineticLaw_createLocalParameter (KineticLaw_t *kl);
 
 
 /**
- * Get the list of local parameters defined for the given KineticLaw_t
+ * Get the list of parameters defined for the given KineticLaw_t
  * structure.
+ * @copydetails doc_use_param_in_l2
  *
  * @param kl the KineticLaw_t structure.
  * 
@@ -2001,6 +2021,7 @@ KineticLaw_getListOfParameters (KineticLaw_t *kl);
 /**
  * Get the list of local parameters defined for the given KineticLaw_t
  * structure.
+ * @copydetails doc_use_localparam_in_l3
  *
  * @param kl the KineticLaw_t structure.
  * 
@@ -2014,11 +2035,12 @@ KineticLaw_getListOfLocalParameters (KineticLaw_t *kl);
 
 
 /**
- * Get the nth parameter in the list of local parameters in the
+ * Get the nth parameter in the list of parameters in the
  * given KineticLaw_t structure.
  *
  * Callers should first find out how many parameters are in the list by
  * calling KineticLaw_getNumParameters().
+ * @copydetails doc_use_param_in_l2
  *
  * @param kl the KineticLaw_t structure.
  *
@@ -2041,6 +2063,7 @@ KineticLaw_getParameter (KineticLaw_t *kl, unsigned int n);
  *
  * Callers should first find out how many parameters are in the list by
  * calling KineticLaw_getNumLocalParameters().
+ * @copydetails doc_use_localparam_in_l3
  *
  * @param kl the KineticLaw_t structure.
  *
@@ -2060,6 +2083,7 @@ KineticLaw_getLocalParameter (KineticLaw_t *kl, unsigned int n);
 /**
  * Get a parameter with identifier "id" out of the list of local
  * parameters defined for the given KineticLaw_t structure.
+ * @copydetails doc_use_param_in_l2
  *
  * @param kl the KineticLaw_t structure.
  *
@@ -2078,6 +2102,7 @@ KineticLaw_getParameterById (KineticLaw_t *kl, const char *sid);
 /**
  * Get a parameter with identifier "id" out of the list of local
  * parameters defined for the given KineticLaw_t structure.
+ * @copydetails doc_use_localparam_in_l3
  *
  * @param kl the KineticLaw_t structure.
  *
@@ -2094,8 +2119,9 @@ KineticLaw_getLocalParameterById (KineticLaw_t *kl, const char *sid);
 
 
 /**
- * Get the number of local parameters defined in the given KineticLaw_t
+ * Get the number of parameters defined in the given KineticLaw_t
  * structure.
+ * @copydetails doc_use_param_in_l2
  *
  * @param kl the KineticLaw_t structure.
  * 
@@ -2112,6 +2138,7 @@ KineticLaw_getNumParameters (const KineticLaw_t *kl);
 /**
  * Get the number of local parameters defined in the given KineticLaw_t
  * structure.
+ * @copydetails doc_use_localparam_in_l3
  *
  * @param kl the KineticLaw_t structure.
  * 
@@ -2175,10 +2202,11 @@ KineticLaw_containsUndeclaredUnits(KineticLaw_t *kl);
 
 
 /**
- * Removes the nth Parameter_t structure from the list of local parameters
+ * Removes the nth Parameter_t structure from the list of parameters
  * in this KineticLaw_t structure and returns a pointer to it.
  *
  * The caller owns the returned structure and is responsible for deleting it.
+ * @copydetails doc_use_param_in_l2
  *
  * @param kl the KineticLaw_t structure.
  * @param n the integer index of the Parameter_t sought.
@@ -2199,6 +2227,7 @@ KineticLaw_removeParameter (KineticLaw_t *kl, unsigned int n);
  * in this KineticLaw_t structure and returns a pointer to it.
  *
  * The caller owns the returned structure and is responsible for deleting it.
+ * @copydetails doc_use_localparam_in_l3
  *
  * @param kl the KineticLaw_t structure.
  * @param n the integer index of the LocalParameter_t sought.
@@ -2216,10 +2245,11 @@ KineticLaw_removeLocalParameter (KineticLaw_t *kl, unsigned int n);
 
 /**
  * Removes the Parameter_t structure with the given "id" attribute
- * from the list of local parameters in this KineticLaw_t structure and 
+ * from the list of parameters in this KineticLaw_t structure and 
  * returns a pointer to it.
  *
  * The caller owns the returned structure and is responsible for deleting it.
+ * @copydetails doc_use_param_in_l2
  *
  * @param kl the KineticLaw_t structure.
  * @param sid the string of the "id" attribute of the Parameter_t sought.
@@ -2241,6 +2271,7 @@ KineticLaw_removeParameterById (KineticLaw_t *kl, const char *sid);
  * returns a pointer to it.
  *
  * The caller owns the returned structure and is responsible for deleting it.
+ * @copydetails doc_use_localparam_in_l3
  *
  * @param kl the KineticLaw_t structure.
  * @param sid the string of the "id" attribute of the LocalParameter_t sought.

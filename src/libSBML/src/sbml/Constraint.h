@@ -676,6 +676,15 @@ public:
 
   #endif /* !SWIG */
 
+  /** @cond doxygenLibsbmlInternal */
+  /*
+  * Function to set/get an identifier for unit checking
+  */
+  std::string getInternalId() const;
+  void setInternalId(std::string id);
+
+  /** @endcond */
+
 
 protected:
   /** @cond doxygenLibsbmlInternal */
@@ -720,6 +729,8 @@ protected:
 
   ASTNode* mMath;
   XMLNode* mMessage;
+  /* internal id used by unit checking */
+  std::string mInternalId;
 
   /* the validator classes need to be friends to access the 
    * protected constructor that takes no arguments
@@ -905,13 +916,7 @@ BEGIN_C_DECLS
  *
  * @return a pointer to the newly created Constraint_t structure.
  *
- * @note Once a Constraint_t has been added to an SBMLDocument_t, the @p
- * level and @p version for the document @em override those used to create
- * the Constraint_t.  Despite this, the ability to supply the values at
- * creation time is an important aid to creating valid SBML.  Knowledge of
- * the intended SBML Level and Version  determine whether it is valid to
- * assign a particular value to an attribute, or whether it is valid to add
- * a structure to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof Constraint_t
  */
@@ -929,13 +934,7 @@ Constraint_create (unsigned int level, unsigned int version);
  *
  * @return a pointer to the newly created Constraint_t structure.
  *
- * @note Once a Constraint_t has been added to an SBMLDocument_t, the
- * @p sbmlns namespaces for the document @em override those used to create
- * the Constraint_t.  Despite this, the ability to supply the values at creation 
- * time is an important aid to creating valid SBML.  Knowledge of the intended 
- * SBML Level and Version determine whether it is valid to assign a particular 
- * value to an attribute, or whether it is valid to add a structure to an existing
- * SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof Constraint_t
  */
@@ -1030,13 +1029,13 @@ Constraint_getMath (const Constraint_t *c);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether a
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether a
  * message is defined for this Constraint_t.
  *
  * @param c the Constraint_t structure.
  * 
- * @return a nonzero integer if the "message" subelement for this
- * Constraint_t is set, zero (0) otherwise.
+ * @return @c 1 (true) if the "message" subelement for this
+ * Constraint_t is set, @c 0 (false) otherwise.
  *
  * @memberof Constraint_t
  */
@@ -1046,13 +1045,13 @@ Constraint_isSetMessage (const Constraint_t *c);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether a
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether a
  * mathematical formula is defined for this Constraint_t.
  *
  * @param c the Constraint_t structure.
  * 
- * @return a nonzero integer if the "math" subelement for this Constraint_t
- * is set, zero (0) otherwise.
+ * @return @return @c 1 (true) if the "math" subelement for this Constraint_t
+ * is set, @c 0 (false) otherwise.
  *
  * @memberof Constraint_t
  */

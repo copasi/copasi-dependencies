@@ -593,8 +593,8 @@ ModelCreator_getName(ModelCreator_t *mc);
  *
  * @param mc the ModelCreator_t structure to be queried.
  *
- * @return @c true (non-zero) if the familyName of this 
- * ModelCreator_t structure is set, @c false (0) otherwise.
+ * @return @c 1 (true) if the familyName of this 
+ * ModelCreator_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof ModelCreator_t
  */
@@ -608,8 +608,8 @@ ModelCreator_isSetFamilyName(ModelCreator_t *mc);
  *
  * @param mc the ModelCreator_t structure to be queried.
  *
- * @return @c true (non-zero) if the givenName of this 
- * ModelCreator_t structure is set, @c false (0) otherwise.
+ * @return @c 1 (true) if the givenName of this 
+ * ModelCreator_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof ModelCreator_t
  */
@@ -623,8 +623,8 @@ ModelCreator_isSetGivenName(ModelCreator_t *mc);
  *
  * @param mc the ModelCreator_t structure to be queried.
  *
- * @return @c true (non-zero) if the email of this 
- * ModelCreator_t structure is set, @c false (0) otherwise.
+ * @return @c 1 (true) if the email of this 
+ * ModelCreator_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof ModelCreator_t
  */
@@ -636,12 +636,12 @@ ModelCreator_isSetEmail(ModelCreator_t *mc);
  * Predicate indicating whether this
  * ModelCreator_t's organization is set.
  *
- * @note This function is an alias of ModelCretor_isSetOrganization().
+ * @note This function is an alias of ModelCreator_isSetOrganization().
  *
  * @param mc the ModelCreator_t structure to be queried.
  *
- * @return @c true (non-zero) if the organization of this 
- * ModelCreator_t structure is set, @c false (0) otherwise.
+ * @return @c 1 (true) if the organization of this 
+ * ModelCreator_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof ModelCreator_t
  */
@@ -655,8 +655,8 @@ ModelCreator_isSetOrganisation(ModelCreator_t *mc);
  *
  * @param mc the ModelCreator_t structure to be queried.
  *
- * @return @c true (non-zero) if the organization of this 
- * ModelCreator_t structure is set, @c false (0) otherwise.
+ * @return @c 1 (true) if the organization of this 
+ * ModelCreator_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof ModelCreator_t
  */
@@ -670,8 +670,8 @@ ModelCreator_isSetOrganization(ModelCreator_t *mc);
  *
  * @param mc the ModelCreator_t structure to be queried
  *
- * @return true (non-zero) if the fn of this 
- * ModelCreator_t structure is set, false (0) otherwise.
+ * @return @c 1 (true) if the fn of this 
+ * ModelCreator_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof ModelCreator_t
  */
@@ -736,7 +736,7 @@ ModelCreator_setEmail(ModelCreator_t *mc, const char * email);
  * @param mc the ModelCreator_t structure.
  * @param org a string representing the organisation of the ModelCreator_t.
  *
- * @note This function is an alias of ModelCretor_setOrganization().
+ * @note This function is an alias of ModelCreator_setOrganization().
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -886,9 +886,9 @@ ModelCreator_unsetName(ModelCreator_t *mc);
  *
  * @param mc the ModelCreator_t structure.
  * 
- * @return @c true (1) if this ModelCreator_t has all the required elements,
- * otherwise @c false (0) will be returned. If an invalid ModelHistory_t 
- * was provided LIBSBML_INVALID_OBJECT is returned.
+ * @return @c 1 (true) if this ModelCreator_t has all the required elements,
+ * otherwise @c 0 (false) will be returned, including if an invalid
+ * CVTerm_t was provided.
  *
  * @memberof ModelCreator_t
  */

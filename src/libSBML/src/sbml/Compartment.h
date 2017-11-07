@@ -60,8 +60,8 @@
  * there are no restrictions on the permitted values of the
  * "spatialDimensions" attribute, and there are no default values.  In SBML
  * Level&nbsp;2, the value must be a positive @c integer, and the default
- * value is @c 3; the permissible values in SBML Level&nbsp;2 are @c 3, @c
- * 2, @c 1, and @c 0 (for a point).
+ * value is @c 3; the permissible values in SBML Level&nbsp;2 are @c 3,
+ * @c 2, @c 1, and @c 0 (for a point).
  *
  * Another optional attribute on Compartment is "size", representing the @em
  * initial total size of that compartment in the model.  The "size" attribute
@@ -89,8 +89,8 @@
  * Finally, the Compartment attribute named "constant" is used to
  * indicate whether the compartment's size stays constant after simulation
  * begins.  A value of @c true indicates the compartment's "size" cannot be
- * changed by any other construct except InitialAssignment; a value of @c
- * false indicates the compartment's "size" can be changed by other
+ * changed by any other construct except InitialAssignment; a value of
+ * @c false indicates the compartment's "size" can be changed by other
  * constructs in SBML.  In SBML Level&nbsp;2, there is an additional
  * explicit restriction that if "spatialDimensions"=@c "0", the value
  * cannot be changed by InitialAssignment either.  Further, in
@@ -105,8 +105,8 @@
  * of units allowed as values of the attribute "units", interact with the
  * number of spatial dimensions of the compartment.  The value of the "units"
  * attribute of a Compartment @if conly structure @else object@endif@~ must
- * be one of the base units (see Unit), or the predefined unit identifiers @c
- * volume, @c area, @c length or @c dimensionless, or a new unit defined by a
+ * be one of the base units (see Unit), or the predefined unit identifiers
+ * @c volume, @c area, @c length or @c dimensionless, or a new unit defined by a
  * UnitDefinition @if conly structure @else object@endif@~ in the enclosing
  * Model, subject to the restrictions detailed in the following table:
  *
@@ -449,8 +449,8 @@
  * whole.  In cases where the
  * @if conly Compartment_t structure @else Compartment object@endif@~ has not
  * yet been added to a model, or the model itself is incomplete, unit
- * analysis is not possible, and consequently this method will return @c
- * NULL.
+ * analysis is not possible, and consequently this method will return
+ * @c NULL.
  */
 
 #ifndef Compartment_h
@@ -1026,8 +1026,8 @@ public:
   /**
    * Sets the "units" attribute of this Compartment object.
    *
-   * @param sid the identifier of the defined units to use.  If @p sid is @c
-   * NULL, then this method will return
+   * @param sid the identifier of the defined units to use.  If @p sid is
+   * @c NULL, then this method will return
    * @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}.
    *
    * @copydetails doc_returns_success_code
@@ -1134,8 +1134,8 @@ public:
   /**
    * Unsets the value of the "size" attribute of this Compartment object.
    *
-   * In SBML Level&nbsp;1, a compartment's volume has a default value (@c
-   * 1.0) and therefore <em>should always be set</em>.  Calling this method
+   * In SBML Level&nbsp;1, a compartment's volume has a default value
+   * (@c 1.0) and therefore <em>should always be set</em>.  Calling this method
    * on a Level&nbsp;1 model resets the value to @c 1.0 rather than actually
    * unsetting it.  In Level&nbsp;2, a compartment's "size" is optional with
    * no default value, and unsetting it will result in the compartment having
@@ -2097,7 +2097,7 @@ Compartment_getSpatialDimensionsAsDouble (const Compartment_t *c);
  * @param c the Compartment_t structure.
  *
  * @return the value of the "size" attribute ("volume" in Level 1) of
- * the Compartment_t structure @p c as a float-point number.
+ * the Compartment_t structure @p c as a floating point number.
  *
  * @note This method is identical to Compartment_getVolume().
  *
@@ -2185,8 +2185,8 @@ Compartment_getOutside (const Compartment_t *c);
  *
  * @param c the Compartment_t structure.
  *
- * @return @c 1 if this compartment's size is flagged as being
- * constant, @c 0 otherwise.
+ * @return @c 1 (true) if this compartment's size is flagged as being
+ * constant, @c 0 (false) otherwise.
  *
  * @memberof Compartment_t
  */
@@ -2196,13 +2196,13 @@ Compartment_getConstant (const Compartment_t *c);
 
 
 /**
- * Predicate returning @c 1 if the given Compartment_t structure's "id"
+ * Predicate returning @c 1 (true) if the given Compartment_t structure's "id"
  * attribute is set.
  *
  * @param c the Compartment_t structure.
  *
- * @return @c 1 if the "id" attribute of this Compartment_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "id" attribute of this Compartment_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof Compartment_t
  */
@@ -2212,13 +2212,13 @@ Compartment_isSetId (const Compartment_t *c);
 
 
 /**
- * Predicate returning @c 1 if the given Compartment_t structure's "name"
+ * Predicate returning @c 1 (true) if the given Compartment_t structure's "name"
  * attribute is set.
  *
  * @param c the Compartment_t structure.
  *
- * @return @c 1 if the "name" attribute of this Compartment_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "name" attribute of this Compartment_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof Compartment_t
  */
@@ -2228,13 +2228,13 @@ Compartment_isSetName (const Compartment_t *c);
 
 
 /**
- * Predicate returning @c 1 if the given Compartment_t structure's
+ * Predicate returning @c 1 (true) if the given Compartment_t structure's
  * "compartmentType" attribute is set.
  *
  * @param c the Compartment_t structure.
  *
- * @return @c 1 if the "compartmentType" attribute of this Compartment_t
- * structure is set, @c 0 otherwise.
+ * @return @c 1 (true) if the "compartmentType" attribute of this Compartment_t
+ * structure is set, @c 0 (false) otherwise.
  *
  * @note The "compartmentType" attribute is only available in SBML
  * Level&nbsp;2 Versions&nbsp;2&ndash;4.
@@ -2247,7 +2247,7 @@ Compartment_isSetCompartmentType (const Compartment_t *c);
 
 
 /**
- * Predicate returning @c 1 if the given Compartment_t structure's "size"
+ * Predicate returning @c 1 (true) if the given Compartment_t structure's "size"
  * attribute is set.
  *
  * This method is similar but not identical to Compartment_isSetVolume().
@@ -2258,8 +2258,8 @@ Compartment_isSetCompartmentType (const Compartment_t *c);
  *
  * @param c the Compartment_t structure.
  *
- * @return @c 1 if the "size" attribute ("volume" in Level&nbsp;2) of
- * this Compartment_t structure is set, @c 0 otherwise.
+ * @return @c 1 (true) if the "size" attribute ("volume" in Level&nbsp;2) of
+ * this Compartment_t structure is set, @c 0 (false) otherwise.
  *
  * @see Compartment_isSetVolume()
  * @see Compartment_setSize()
@@ -2272,7 +2272,7 @@ Compartment_isSetSize (const Compartment_t *c);
 
 
 /**
- * Predicate returning @c 1 if the given Compartment_t structures's "volume"
+ * Predicate returning @c 1 (true) if the given Compartment_t structures's "volume"
  * attribute is set.
  *
  * This method is similar but not identical to Compartment_isSetSize().  The
@@ -2282,8 +2282,8 @@ Compartment_isSetSize (const Compartment_t *c);
  *
  * @param c the Compartment_t structure.
  *
- * @return @c 1 if the "volume" attribute ("size" in Level&nbsp;2 and
- * above) of this Compartment_t structure is set, @c 0 otherwise.
+ * @return @c 1 (true) if the "volume" attribute ("size" in Level&nbsp;2 and
+ * above) of this Compartment_t structure is set, @c 0 (false) otherwise.
  *
  * @copydetails doc_note_compartment_volume
  *
@@ -2298,13 +2298,13 @@ Compartment_isSetVolume (const Compartment_t *c);
 
 
 /**
- * Predicate returning @c 1 if the given Compartment_t structure's "units"
+ * Predicate returning @c 1 (true) if the given Compartment_t structure's "units"
  * attribute is set.
  *
  * @param c the Compartment_t structure.
  *
- * @return @c 1 if the "units" attribute of this Compartment_t structure
- * is set, @c 0 otherwise.
+ * @return @c 1 (true) if the "units" attribute of this Compartment_t structure
+ * is set, @c 0 (false) otherwise.
  *
  * @copydetails doc_note_unassigned_unit_are_not_a_default
  *
@@ -2316,13 +2316,13 @@ Compartment_isSetUnits (const Compartment_t *c);
 
 
 /**
- * Predicate returning @c 1 if the given Compartment_t structure's "outside"
+ * Predicate returning @c 1 (true) if the given Compartment_t structure's "outside"
  * attribute is set.
  *
  * @param c the Compartment_t structure.
  *
- * @return @c 1 if the "outside" attribute of this Compartment_t structure
- * is set, @c 0 otherwise.
+ * @return @c 1 (true) if the "outside" attribute of this Compartment_t structure
+ * is set, @c 0 (false) otherwise.
  *
  * @note The "outside" attribute is defined in SBML Level&nbsp;1 and
  * Level&nbsp;2, but does not exist in SBML Level&nbsp;3.
@@ -2335,13 +2335,13 @@ Compartment_isSetOutside (const Compartment_t *c);
 
 
 /**
- * Predicate returning @c 1 if the given Compartment_t structure's
+ * Predicate returning @c 1 (true) if the given Compartment_t structure's
  * "spatialDimensions" attribute is set.
  *
  * @param c the Compartment_t structure.
  *
- * @return @c 1 if the "spatialDimensions" attribute of this Compartment_t
- * structure is set, @c 0 otherwise.
+ * @return @c 1 (true) if the "spatialDimensions" attribute of this Compartment_t
+ * structure is set, @c 0 (false) otherwise.
  *
  * @memberof Compartment_t
  */
@@ -2351,11 +2351,11 @@ Compartment_isSetSpatialDimensions (const Compartment_t *c);
 
 
 /**
- * Predicate returning @c 1 if the given Compartment_t structure's "constant"
+ * Predicate returning @c 1 (true) if the given Compartment_t structure's "constant"
  * attribute is set.
  *
- * @return @c 1 if the "constant" attribute of this Compartment_t
- * structure is set, @c 0 otherwise.
+ * @return @c 1 (true) if the "constant" attribute of this Compartment_t
+ * structure is set, @c 0 (false) otherwise.
  *
  * @memberof Compartment_t
  */
@@ -2394,8 +2394,8 @@ Compartment_setId (Compartment_t *c, const char *sid);
 /**
  * Sets the "name" attribute of the given Compartment_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs Compartment_unsetName() instead.
+ * This function copies the string given in @p name.  If the string is
+ * a null pointer, this function is equivalent to calling Compartment_unsetName().
  *
  * @param c the Compartment_t structure.
  *
@@ -2661,8 +2661,8 @@ Compartment_unsetConstant (Compartment_t *c);
  * Unsets the value of the "size" attribute of the given Compartment_t
  * structure.
  *
- * In SBML Level&nbsp;1, a compartment's volume has a default value (@c
- * 1.0) and therefore <em>should always be set</em>.  Calling this method
+ * In SBML Level&nbsp;1, a compartment's volume has a default value
+ * (@c 1.0) and therefore <em>should always be set</em>.  Calling this method
  * on a Level&nbsp;1 model resets the value to @c 1.0 rather than actually
  * unsetting it.  In Level&nbsp;2, a compartment's "size" is optional with
  * no default value, and unsetting it will result in the compartment having
@@ -2788,7 +2788,7 @@ Compartment_getDerivedUnitDefinition(Compartment_t *c);
 
 
 /**
- * Predicate returning @c 1 or @c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * attributes for the given Compartment_t structure have been set.
  *
  * The required attributes for a Compartment_t structure are:
@@ -2797,8 +2797,8 @@ Compartment_getDerivedUnitDefinition(Compartment_t *c);
  *
  * @param c the Compartment_t structure to check.
  *
- * @return @c true (nonzero) if all the required attributes for this
- * structure have been defined, @c false (zero) otherwise.
+ * @return @c 1 (true) if all the required attributes for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
  * @memberof Compartment_t
  */

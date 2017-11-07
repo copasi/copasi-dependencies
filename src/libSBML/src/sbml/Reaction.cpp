@@ -506,7 +506,7 @@ Reaction::isSetReversible () const
 
 
 /*
- * Sets the id of this SBML object to a copy of sid.
+ * Sets the id of this SBML object to a copy of @p sid.
  */
 int
 Reaction::setId (const std::string& sid)
@@ -633,7 +633,7 @@ Reaction::setFast (bool value)
 
 
 /*
- * Sets the compartment of this SBML object to a copy of sid.
+ * Sets the compartment of this SBML object to a copy of @p sid.
  */
 int
 Reaction::setCompartment (const std::string& sid)
@@ -1458,17 +1458,17 @@ Reaction::hasRequiredAttributes() const
 
   /* required attributes for reaction: 
   * @li id (name in L1)
-  * @li fast (in L3 only)
+  * @li fast (in L3V1 only)
   * @li reversible (in L3 only)
   */
 
   if (!isSetId())
     allPresent = false;
 
-  if (getLevel() > 2 && !isSetFast())
+  if (getLevel() > 2 && !isSetReversible())
     allPresent = false;
 
-  if (getLevel() > 2 && !isSetReversible())
+  if (getLevel() == 3  && getVersion() == 1 && !isSetFast())
     allPresent = false;
 
   return allPresent;

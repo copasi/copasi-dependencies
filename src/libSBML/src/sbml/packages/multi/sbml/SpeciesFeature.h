@@ -386,7 +386,7 @@ public:
    *
    * @param n the index number of the SpeciesFeatureValue to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see getNumSpeciesFeatureValues()
    */
@@ -399,7 +399,7 @@ public:
    *
    * @param n the index number of the SpeciesFeatureValue to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see getNumSpeciesFeatureValues()
    */
@@ -412,7 +412,7 @@ public:
    * @param sid a string representing the identifier of the
    * SpeciesFeatureValue to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see getSpeciesFeatureValue(unsigned int n)
    * @see getNumSpeciesFeatureValues()
@@ -426,7 +426,7 @@ public:
    * @param sid a string representing the identifier of the
    * SpeciesFeatureValue to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see getSpeciesFeatureValue(unsigned int n)
    * @see getNumSpeciesFeatureValues()
@@ -470,7 +470,7 @@ public:
    *
    * @param n the index of the SpeciesFeatureValue to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    *
    * @see getNumSpeciesFeatureValues()
@@ -483,7 +483,7 @@ public:
    *
    * @param sid the identifier of the SpeciesFeatureValue to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    */
   SpeciesFeatureValue* removeSpeciesFeatureValue(const std::string& sid);
@@ -558,7 +558,7 @@ public:
   /**
    * Returns @c true if SpeciesFeature has all the required subelements.
    *
-   * @note The required elements for a SpeciesFeature object are:
+   * @note A SpeciesFeature object has no required subelements.
    *
    * @return a boolean value indicating whether all the required
    * elements for this object have been defined.
@@ -740,7 +740,7 @@ public:
     * of the SpeciesFeature to get.
     *
     * @return SpeciesFeature in this ListOfSpeciesFeatures
-    * with the given id or NULL if no such
+    * with the given id or @c NULL if no such
     * SpeciesFeature exists.
     *
     * @see get(unsigned int n)   *
@@ -757,7 +757,7 @@ public:
     * of the SpeciesFeature to get.
     *
     * @return SpeciesFeature in this ListOfSpeciesFeatures
-    * with the given id or NULL if no such
+    * with the given id or @c NULL if no such
     * SpeciesFeature exists.
     *
     * @see get(unsigned int n)   *
@@ -830,7 +830,7 @@ public:
    * of the SubListOfSpeciesFeatures to get.
    *
    * @return SubListOfSpeciesFeatures in this ListOfSpeciesFeatures
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * SubListOfSpeciesFeatures exists.
    *
    * @see get(unsigned int n)   *
@@ -847,7 +847,7 @@ public:
    * of the SubListOfSpeciesFeatures to get.
    *
    * @return SubListOfSpeciesFeatures in this ListOfSpeciesFeatures
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * SubListOfSpeciesFeatures exists.
    *
    * @see get(unsigned int n)   *
@@ -905,8 +905,8 @@ public:
    * @if clike LibSBML attaches an identifying code to every kind of SBML
    * object.  These are known as <em>SBML type codes</em>.  The set of
    * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
+   * The names of the type codes all begin with the characters
+   * @c SBML_. @endif@if java LibSBML attaches an identifying code to every
    * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
    * other languages, the set of type codes is stored in an enumeration; in
    * the Java language interface for libSBML, the type codes are defined as
@@ -939,8 +939,8 @@ public:
    * @if clike LibSBML attaches an identifying code to every kind of SBML
    * object.  These are known as <em>SBML type codes</em>.  The set of
    * possible type codes is defined in the enumeration #SBMLTypeCode_t.
-   * The names of the type codes all begin with the characters @c
-   * SBML_. @endif@if java LibSBML attaches an identifying code to every
+   * The names of the type codes all begin with the characters
+   * @c SBML_. @endif@if java LibSBML attaches an identifying code to every
    * kind of SBML object.  These are known as <em>SBML type codes</em>.  In
    * other languages, the set of type codes is stored in an enumeration; in
    * the Java language interface for libSBML, the type codes are defined as
@@ -1055,182 +1055,311 @@ LIBSBML_CPP_NAMESPACE_END
 LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 SpeciesFeature_t *
 SpeciesFeature_create(unsigned int level, unsigned int version,
                       unsigned int pkgVersion);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 void
 SpeciesFeature_free(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 SpeciesFeature_t *
 SpeciesFeature_clone(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesFeature_getId(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesFeature_getName(SpeciesFeature_t * cr);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesFeature_getSpeciesFeatureType(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 unsigned int
 SpeciesFeature_getOccur(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesFeature_getComponent(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_isSetId(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_isSetName(SpeciesFeature_t * cr);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_isSetSpeciesFeatureType(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_isSetOccur(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_isSetComponent(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_setId(SpeciesFeature_t * sf, const char * id);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_setName(SpeciesFeature_t * cr, const char * name);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_setSpeciesFeatureType(SpeciesFeature_t * sf, const char * speciesFeatureType);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_setOccur(SpeciesFeature_t * sf, unsigned int occur);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_setComponent(SpeciesFeature_t * sf, const char * component);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_unsetId(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_unsetName(SpeciesFeature_t * cr);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_unsetSpeciesFeatureType(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_unsetOccur(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_unsetComponent(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_addSpeciesFeatureValue(SpeciesFeature_t * sf, SpeciesFeatureValue_t * sfv);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureValue_t *
 SpeciesFeature_createSpeciesFeatureValue(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 ListOf_t *
 SpeciesFeature_getListOfSpeciesFeatureValues(SpeciesFeature_t * sf) ;
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureValue_t *
 SpeciesFeature_getSpeciesFeatureValue(SpeciesFeature_t * sf, unsigned int n);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureValue_t *
 SpeciesFeature_getSpeciesFeatureValueById(SpeciesFeature_t * sf, const char * sid);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 unsigned int
 SpeciesFeature_getNumSpeciesFeatureValues(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureValue_t *
 SpeciesFeature_removeSpeciesFeatureValue(SpeciesFeature_t * sf, unsigned int n);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureValue_t *
 SpeciesFeature_removeSpeciesFeatureValueById(SpeciesFeature_t * sf, const char * sid);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_hasRequiredAttributes(SpeciesFeature_t * sf);
 
 
+/**
+* @memberof SpeciesFeature_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeature_hasRequiredElements(SpeciesFeature_t * sf);
 
 
+/**
+* Return the structure indicated by the given @p sid.
+*
+* @param lo the ListOf_t structure to use.
+*
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure for the given variable, or @c NULL if no such
+* object exists in the list.
+*
+* @memberof ListOfSpeciesFeatures_t
+*/
 LIBSBML_EXTERN
 SpeciesFeature_t *
 ListOfSpeciesFeatures_getById(ListOf_t * lo, const char * sid);
 
 
+/**
+* Removes the structure with the given @p sid
+* from the given list and returns a pointer to it.
+*
+* The caller owns the returned structure and is responsible for deleting it.
+*
+* @param lo the ListOf_t structure.
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure removed.  As mentioned above, the
+* caller owns the returned structure. @c NULL is returned if no
+* structure with the "id" attribute exists in the given list.
+*
+* @memberof ListOfSpeciesFeatures_t
+*/
 LIBSBML_EXTERN
 SpeciesFeature_t *
 ListOfSpeciesFeatures_removeById(ListOf_t * lo, const char * sid);
 
 
+/**
+* @memberof SubListOfSpeciesFeatures_t
+*/
 LIBSBML_EXTERN
 int 
 SubListOfSpeciesFeatures_isValidRelationString(const char* s);

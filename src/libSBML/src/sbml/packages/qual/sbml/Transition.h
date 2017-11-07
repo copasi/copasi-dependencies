@@ -49,7 +49,16 @@
  * In Petri net models, a Transition is interpreted, using the common Petri
  * net semantics, as events that might occur within the system causing tokens
  * to be moved.
- * 
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class ListOfTransitions
+ * @sbmlbrief{qual} A list of Transition objects.
+ *
+ * The ListOfTransitions is a container for the Transition elements of a Model.
+ *
+ * @copydetails doc_what_is_listof
+ *
+ * @see Transition
  */
 
 
@@ -300,7 +309,7 @@ public:
    * of the Input to get.
    *
    * @return the Input in the ListOfInputs
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * Input exists.
    *
    * @see getInput(unsigned int n)
@@ -317,7 +326,7 @@ public:
    * of the Input to get.
    *
    * @return the Input in the ListOfInputs
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * Input exists.
    *
    * @see getInput(unsigned int n)
@@ -335,7 +344,7 @@ public:
    * of the Input to get.
    *
    * @return the first Input in the ListOfInputs
-   * with the given qualitativeSpecies or NULL if no such
+   * with the given qualitativeSpecies or @c NULL if no such
    * Input exists.
    *
    * @see getInput(unsigned int n)
@@ -353,7 +362,7 @@ public:
    * of the Input to get.
    *
    * @return the first Input in the ListOfInputs
-   * with the given qualitativeSpecies or NULL if no such
+   * with the given qualitativeSpecies or @c NULL if no such
    * Input exists.
    *
    * @see getInput(unsigned int n)
@@ -471,7 +480,7 @@ public:
    * of the Output to get.
    *
    * @return the Output in the ListOfOutputs
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * Output exists.
    *
    * @see getOutput(unsigned int n)
@@ -489,7 +498,7 @@ public:
    * of the Output to get.
    *
    * @return the Output in the ListOfOutputs
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * Output exists.
    *
    * @see getOutput(unsigned int n)
@@ -507,7 +516,7 @@ public:
    * of the Output to get.
    *
    * @return the first Output in the ListOfOutputs
-   * with the given qualitativeSpecies or NULL if no such
+   * with the given qualitativeSpecies or @c NULL if no such
    * Output exists.
    *
    * @see getOutput(unsigned int n)
@@ -525,7 +534,7 @@ public:
    * of the Output to get.
    *
    * @return the first Output in the ListOfOutputs
-   * with the given qualitativeSpecies or NULL if no such
+   * with the given qualitativeSpecies or @c NULL if no such
    * Output exists.
    *
    * @see getOutput(unsigned int n)
@@ -643,7 +652,7 @@ public:
    * of the FunctionTerm to get.
    *
    * @return the FunctionTerm in the ListOfFunctionTerms
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * FunctionTerm exists.
    *
    * @see getFunctionTerm(unsigned int n)
@@ -661,7 +670,7 @@ public:
    * of the FunctionTerm to get.
    *
    * @return the FunctionTerm in the ListOfFunctionTerms
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * FunctionTerm exists.
    *
    * @see getFunctionTerm(unsigned int n)
@@ -1226,7 +1235,7 @@ public:
    *
    * @param elementName, the name of the element to get number of.
    *
-   * @param index, unsigned int teh index of teh object to retrieve.
+   * @param index, unsigned int the index of the object to retrieve.
    *
    * @return pointer to the object.
    */
@@ -1282,16 +1291,6 @@ public:
 
 };
 
-/**
- * @class ListOfTransitions
- * @sbmlbrief{qual} A list of Transition objects.
- * 
- * The ListOfTransitions is a container for the Transition elements of a Model.
- * 
- * @copydetails doc_what_is_listof
- *
- * @see Transition
- */
 class LIBSBML_EXTERN ListOfTransitions : public ListOf
 {
 
@@ -1365,7 +1364,7 @@ public:
    * of the Transition to get.
    *
    * @return Transition in this ListOfTransitions
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * Transition exists.
    *
    * @see get(unsigned int n)   *
@@ -1382,7 +1381,7 @@ public:
    * of the Transition to get.
    *
    * @return Transition in this ListOfTransitions
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * Transition exists.
    *
    * @see get(unsigned int n)   *
@@ -1481,7 +1480,7 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new Transition_t structure using the given SBML @p level
- * and @p version values.
+ * and @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML Level to assign to this
  * Transition_t.
@@ -1555,13 +1554,13 @@ Transition_getName(Transition_t * t);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Transition_t structure's identifier is set.
  *
  * @param t the Transition_t structure to query.
  * 
- * @return @c non-zero (true) if the "id" attribute of the given
- * Transition_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "id" attribute of the given
+ * Transition_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Transition_t
  */
@@ -1571,13 +1570,13 @@ Transition_isSetId(Transition_t * t);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Transition_t structure's name is set.
  *
  * @param t the Transition_t structure to query.
  * 
- * @return @c non-zero (true) if the "name" attribute of the given
- * Transition_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "name" attribute of the given
+ * Transition_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Transition_t
  */
@@ -1589,7 +1588,7 @@ Transition_isSetName(Transition_t * t);
 /**
  * Assigns the identifier of an Transition_t structure.
  *
- * This makes a copy of the string passed in the param @p sid.
+ * This makes a copy of the string passed in the parameter @p sid.
  *
  * @param t the Transition_t structure to set.
  * @param sid the string to use as the identifier.
@@ -1598,7 +1597,7 @@ Transition_isSetName(Transition_t * t);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof Transition_t
@@ -1737,10 +1736,10 @@ Transition_getInput(Transition_t * t, unsigned int n);
  * @param t the Transition_t structure to use.
  *
  * @param sid a string, the identifier of the
- * Input_t is being sought.
+ * Input_t being sought.
  *
  * @return the Input_t for the given variable, or @c NULL if no such
- * Input_t exits.
+ * Input_t exists.
  *
  * @memberof Transition_t
  */
@@ -1881,10 +1880,10 @@ Transition_getOutput(Transition_t * t, unsigned int n);
  * @param t the Transition_t structure to use.
  *
  * @param sid a string, the identifier of the
- * Output_t is being sought.
+ * Output_t being sought.
  *
  * @return the Output_t for the given variable, or @c NULL if no such
- * Output_t exits.
+ * Output_t exists.
  *
  * @memberof Transition_t
  */
@@ -2025,10 +2024,10 @@ Transition_getFunctionTerm(Transition_t * t, unsigned int n);
  * @param t the Transition_t structure to use.
  *
  * @param sid a string, the identifier of the
- * FunctionTerm_t is being sought.
+ * FunctionTerm_t being sought.
  *
  * @return the FunctionTerm_t for the given variable, or @c NULL if no such
- * FunctionTerm_t exits.
+ * FunctionTerm_t exists.
  *
  * @memberof Transition_t
  */
@@ -2097,8 +2096,6 @@ Transition_removeFunctionTermById(Transition_t * t, const char * sid);
   * all the required attributes for the given Transition_t structure
   * have been set.
   *
-  * @note The required attributes for a Transition_t structure are:
-  *
  * @memberof Transition_t
  */
 LIBSBML_EXTERN
@@ -2127,12 +2124,12 @@ Transition_hasRequiredElements(Transition_t * t);
  * @param lo the ListOf_t structure to use.
  *
  * @param sid a string, the identifier of the
- * Transition_t is being sought.
+ * Transition_t being sought.
  *
  * @return the Transition_t for the given variable, or @c NULL if no such
- * Transition_t exits.
+ * Transition_t exists.
  *
- * @memberof Transition_t
+ * @memberof ListOfTransitions_t
  */
 LIBSBML_EXTERN
 Transition_t *
@@ -2152,7 +2149,7 @@ ListOfTransitions_getById(ListOf_t * lo, const char * sid);
  * caller owns the returned structure. @c NULL is returned if no Transition_t
  * structure with the "id" attribute exists in the given ListOf_t structure.
  *
- * @memberof Transition_t
+ * @memberof ListOfTransitions_t
  */
 LIBSBML_EXTERN
 Transition_t *

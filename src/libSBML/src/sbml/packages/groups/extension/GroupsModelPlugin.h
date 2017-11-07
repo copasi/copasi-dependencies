@@ -32,21 +32,6 @@
  *
  * @class GroupsModelPlugin
  * @sbmlbrief{groups} Extension of Model.
- *
- * The GroupsModelPlugin class inherits from the SBMLSBasePlugin class, and
- * codifies the extensions to the Model class defined in the SBML
- * Level&nbsp;3 @ref groups (&ldquo;groups&rdquo;) package.  This extension
- * allows a Model to contain an optional ListOfGroups object inside a new
- * element called <code>&lt;listOfGroups&gt;</code>.  This list holds the
- * definition of optional groups defined in the model.
- *
- * A "group" in SBML Level&nbsp;3 provides a mechanism for
- * indicating that components of an SBML model are related in some way.
- * Groups may contain either the same or different types of SBML objects, and
- * groups may be nested if desired. There are no predefined behavioral
- * semantics associated with groups.  All groups in a given model have to be
- * defined as Group objects and included in the ListOfGroups object attached
- * to the Model object containing them.
  */
 
 
@@ -84,16 +69,18 @@ public:
    * Creates a new GroupsModelPlugin using the given URI, prefix and package
    * namespace.
    *
+   * @param uri a string, representing the URI of the SBML Level&nbsp;3 package
+   * implemented by this libSBML package extension.
+   *
+   * @param prefix a string, the XML namespace prefix being used for this
+   * package.
+   *
+   * @param groupsns a pointer to the namesspaces object (GroupsPkgNamespaces)
+   * for this package.
+   *
    * @copydetails doc_what_are_xmlnamespaces
    *
    * @copydetails doc_what_are_sbmlnamespaces
-   *
-   * @param uri the URI of the SBML Level&nbsp;3 package implemented by
-   * this libSBML package extension.
-   *
-   * @param prefix the XML namespace prefix being used for the package.
-   *
-   * @param groupsns the namespaces object for the package.
    */
   GroupsModelPlugin(const std::string& uri,
                     const std::string& prefix,
@@ -111,8 +98,8 @@ public:
   /**
    * Assignment operator for GroupsModelPlugin.
    *
-   * @param rhs the GroupsModelPlugin object whose values are to be used as
-   * the basis of the assignment.
+   * @param rhs the GroupsModelPlugin object whose values are to be used as the
+   * basis of the assignment.
    */
   GroupsModelPlugin& operator=(const GroupsModelPlugin& rhs);
 
@@ -136,13 +123,15 @@ public:
    *
    * @return the ListOfGroups from this GroupsModelPlugin.
    *
-   * @see addGroup(const Group* g)
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see getGroup(const std::string& sid)
    * @see getGroup(unsigned int n)
    * @see getNumGroups()
-   * @see removeGroup(unsigned int n)
    * @see removeGroup(const std::string& sid)
+   * @see removeGroup(unsigned int n)
    */
   const ListOfGroups* getListOfGroups() const;
 
@@ -152,31 +141,34 @@ public:
    *
    * @return the ListOfGroups from this GroupsModelPlugin.
    *
-   * @see addGroup(const Group* g)
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see getGroup(const std::string& sid)
    * @see getGroup(unsigned int n)
    * @see getNumGroups()
-   * @see removeGroup(unsigned int n)
    * @see removeGroup(const std::string& sid)
+   * @see removeGroup(unsigned int n)
    */
   ListOfGroups* getListOfGroups();
 
 
   /**
-   * Returns the nth Group.
+   * Get a Group from the GroupsModelPlugin.
    *
    * @param n an unsigned int representing the index of the Group to retrieve.
    *
    * @return the nth Group in the ListOfGroups within this GroupsModelPlugin.
    *
-   * @see addGroup(const Group* g)
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see getGroup(const std::string& sid)
-   * @see getGroup(unsigned int n)
    * @see getNumGroups()
-   * @see removeGroup(unsigned int n)
    * @see removeGroup(const std::string& sid)
+   * @see removeGroup(unsigned int n)
    */
   Group* getGroup(unsigned int n);
 
@@ -186,16 +178,16 @@ public:
    *
    * @param n an unsigned int representing the index of the Group to retrieve.
    *
-   * @return the nth Group in the ListOfGroups within this GroupsModelPlugin
-   * object.
+   * @return the nth Group in the ListOfGroups within this GroupsModelPlugin.
    *
-   * @see addGroup(const Group* g)
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see getGroup(const std::string& sid)
-   * @see getGroup(unsigned int n)
    * @see getNumGroups()
-   * @see removeGroup(unsigned int n)
    * @see removeGroup(const std::string& sid)
+   * @see removeGroup(unsigned int n)
    */
   const Group* getGroup(unsigned int n) const;
 
@@ -206,15 +198,16 @@ public:
    * @param sid a string representing the identifier of the Group to retrieve.
    *
    * @return the Group in the ListOfGroups within this GroupsModelPlugin with
-   * the given identifier @p sid, or @c NULL if no such Group exists.
+   * the given @p sid or @c NULL if no such Group exists.
    *
-   * @see addGroup(const Group* g)
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addGroup(const Group* object)
    * @see createGroup()
-   * @see getGroup(const std::string& sid)
    * @see getGroup(unsigned int n)
    * @see getNumGroups()
-   * @see removeGroup(unsigned int n)
    * @see removeGroup(const std::string& sid)
+   * @see removeGroup(unsigned int n)
    */
   Group* getGroup(const std::string& sid);
 
@@ -225,14 +218,16 @@ public:
    * @param sid a string representing the identifier of the Group to retrieve.
    *
    * @return the Group in the ListOfGroups within this GroupsModelPlugin with
-   * the given identifier @p sid, or @c NULL if no such Group exists.
+   * the given @p sid or @c NULL if no such Group exists.
    *
-   * @see addGroup(const Group* g)
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see getGroup(unsigned int n)
    * @see getNumGroups()
-   * @see removeGroup(unsigned int n)
    * @see removeGroup(const std::string& sid)
+   * @see removeGroup(unsigned int n)
    */
   const Group* getGroup(const std::string& sid) const;
 
@@ -257,8 +252,8 @@ public:
    * @see getGroup(const std::string& sid)
    * @see getGroup(unsigned int n)
    * @see getNumGroups()
-   * @see removeGroup(unsigned int n)
    * @see removeGroup(const std::string& sid)
+   * @see removeGroup(unsigned int n)
    */
   int addGroup(const Group* g);
 
@@ -268,46 +263,46 @@ public:
    *
    * @return the number of Group objects in this GroupsModelPlugin.
    *
+   *
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see getGroup(const std::string& sid)
    * @see getGroup(unsigned int n)
-   * @see removeGroup(unsigned int n)
    * @see removeGroup(const std::string& sid)
+   * @see removeGroup(unsigned int n)
    */
   unsigned int getNumGroups() const;
 
 
   /**
-   * Creates a new Group object
-   *
-   * This method creates a new Group object, adds it to this
-   * GroupsModelPlugin object, and returns the Group object created.
+   * Creates a new Group object, adds it to this GroupsModelPlugin object and
+   * returns the Group object created.
    *
    * @return a new Group object instance.
    *
-   * @see addGroup(const Group* g)
+   * @copydetails doc_returned_unowned_pointer
+   *
+   * @see addGroup(const Group* object)
    * @see getGroup(const std::string& sid)
    * @see getGroup(unsigned int n)
-   * @see removeGroup(unsigned int n)
+   * @see getNumGroups()
    * @see removeGroup(const std::string& sid)
+   * @see removeGroup(unsigned int n)
    */
   Group* createGroup();
 
 
   /**
-   * Removes the nth Group.
-   *
-   * This removes the nth Group from this GroupsModelPlugin object and
-   * returns a pointer to it.
+   * Removes the nth Group from this GroupsModelPlugin and returns a pointer to
+   * it.
    *
    * @param n an unsigned int representing the index of the Group to remove.
    *
    * @return a pointer to the nth Group in this GroupsModelPlugin.
    *
-   * @note The caller owns the returned object and is responsible for deleting
-   * it.
+   * @copydetails doc_returned_owned_pointer
    *
-   * @see addGroup(const Group* g)
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see getGroup(const std::string& sid)
    * @see getGroup(unsigned int n)
@@ -318,26 +313,25 @@ public:
 
 
   /**
-   * Removes the Group from this GroupsModelPlugin based on its identifier.
-   *
-   * This method removes the Group from this GroupsModelPlugin based on its
-   * identifier, and returns a pointer to it.
+   * Removes the Group from this GroupsModelPlugin based on its identifier and
+   * returns a pointer to it.
    *
    * @param sid a string representing the identifier of the Group to remove.
    *
-   * @return the Group in this GroupsModelPlugin based on the identifier, or
-   * @c @c NULL if no such Group exists.
+   * @return the Group in this GroupsModelPlugin based on the identifier or
+   * NULL if no such Group exists.
    *
-   * @note The caller owns the returned object and is responsible for deleting
-   * it.
+   * @copydetails doc_returned_owned_pointer
    *
-   * @see addGroup(const Group* g)
+   * @see addGroup(const Group* object)
    * @see createGroup()
    * @see getGroup(const std::string& sid)
    * @see getGroup(unsigned int n)
    * @see getNumGroups()
+   * @see removeGroup(unsigned int n)
    */
   Group* removeGroup(const std::string& sid);
+
 
 
   /** @cond doxygenLibsbmlInternal */
@@ -407,28 +401,395 @@ public:
   /** @endcond */
 
 
+
+
+  #ifndef SWIG
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
   /**
-   * Returns the first child element that has the given @p id
+   * Gets the value of the "attributeName" attribute of this GroupsModelPlugin.
    *
-   * This method searches the model-wide SId namespace for the @p id.
+   * @param attributeName, the name of the attribute to retrieve.
+   *
+   * @param value, the address of the value to record.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int getAttribute(const std::string& attributeName, bool& value)
+    const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Gets the value of the "attributeName" attribute of this GroupsModelPlugin.
+   *
+   * @param attributeName, the name of the attribute to retrieve.
+   *
+   * @param value, the address of the value to record.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int getAttribute(const std::string& attributeName, int& value) const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Gets the value of the "attributeName" attribute of this GroupsModelPlugin.
+   *
+   * @param attributeName, the name of the attribute to retrieve.
+   *
+   * @param value, the address of the value to record.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int getAttribute(const std::string& attributeName,
+                           double& value) const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Gets the value of the "attributeName" attribute of this GroupsModelPlugin.
+   *
+   * @param attributeName, the name of the attribute to retrieve.
+   *
+   * @param value, the address of the value to record.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int getAttribute(const std::string& attributeName,
+                           unsigned int& value) const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Gets the value of the "attributeName" attribute of this GroupsModelPlugin.
+   *
+   * @param attributeName, the name of the attribute to retrieve.
+   *
+   * @param value, the address of the value to record.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int getAttribute(const std::string& attributeName,
+                           std::string& value) const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Gets the value of the "attributeName" attribute of this GroupsModelPlugin.
+   *
+   * @param attributeName, the name of the attribute to retrieve.
+   *
+   * @param value, the address of the value to record.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int getAttribute(const std::string& attributeName,
+                           const char* value) const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Predicate returning @c true if this GroupsModelPlugin's attribute
+   * "attributeName" is set.
+   *
+   * @param attributeName, the name of the attribute to query.
+   *
+   * @return @c true if this GroupsModelPlugin's attribute "attributeName" has
+   * been set, otherwise @c false is returned.
+   */
+  virtual bool isSetAttribute(const std::string& attributeName) const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the value of the "attributeName" attribute of this GroupsModelPlugin.
+   *
+   * @param attributeName, the name of the attribute to set.
+   *
+   * @param value, the value of the attribute to set.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int setAttribute(const std::string& attributeName, bool value);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the value of the "attributeName" attribute of this GroupsModelPlugin.
+   *
+   * @param attributeName, the name of the attribute to set.
+   *
+   * @param value, the value of the attribute to set.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int setAttribute(const std::string& attributeName, int value);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the value of the "attributeName" attribute of this GroupsModelPlugin.
+   *
+   * @param attributeName, the name of the attribute to set.
+   *
+   * @param value, the value of the attribute to set.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int setAttribute(const std::string& attributeName, double value);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the value of the "attributeName" attribute of this GroupsModelPlugin.
+   *
+   * @param attributeName, the name of the attribute to set.
+   *
+   * @param value, the value of the attribute to set.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int setAttribute(const std::string& attributeName,
+                           unsigned int value);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the value of the "attributeName" attribute of this GroupsModelPlugin.
+   *
+   * @param attributeName, the name of the attribute to set.
+   *
+   * @param value, the value of the attribute to set.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int setAttribute(const std::string& attributeName,
+                           const std::string& value);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Sets the value of the "attributeName" attribute of this GroupsModelPlugin.
+   *
+   * @param attributeName, the name of the attribute to set.
+   *
+   * @param value, the value of the attribute to set.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int setAttribute(const std::string& attributeName, const char*
+    value);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Unsets the value of the "attributeName" attribute of this
+   * GroupsModelPlugin.
+   *
+   * @param attributeName, the name of the attribute to query.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int unsetAttribute(const std::string& attributeName);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Creates and returns an new "elementName" object in this GroupsModelPlugin.
+   *
+   * @param elementName, the name of the element to create.
+   *
+   * @return pointer to the element created.
+   */
+  virtual SBase* createChildObject(const std::string& elementName);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Adds a new "elementName" object to this GroupsModelPlugin.
+   *
+   * @param elementName, the name of the element to create.
+   *
+   * @param element, pointer to the element to be added.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+   */
+  virtual int addChildObject(const std::string& elementName,
+                             const SBase* element);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Removes and returns the new "elementName" object with the given id in this
+   * GroupsModelPlugin.
+   *
+   * @param elementName, the name of the element to remove.
+   *
+   * @param id, the id of the element to remove.
+   *
+   * @return pointer to the element removed.
+   */
+  virtual SBase* removeChildObject(const std::string& elementName,
+                                   const std::string& id);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Returns the number of "elementName" in this GroupsModelPlugin.
+   *
+   * @param elementName, the name of the element to get number of.
+   *
+   * @return unsigned int number of elements.
+   */
+  virtual unsigned int getNumObjects(const std::string& elementName);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Returns the nth object of "objectName" in this GroupsModelPlugin.
+   *
+   * @param elementName, the name of the element to get number of.
+   *
+   * @param index, unsigned int the index of the object to retrieve.
+   *
+   * @return pointer to the object.
+   */
+  virtual SBase* getObject(const std::string& elementName, unsigned int index);
+
+  /** @endcond */
+
+
+
+
+  #endif /* !SWIG */
+
+
+  /**
+   * Returns the first child element that has the given @p id in the model-wide
+   * SId namespace, or @c NULL if no such object is found.
    *
    * @param id a string representing the id attribute of the object to
    * retrieve.
    *
-   * @return a pointer to the SBase element with the given @p id.  If no such
+   * @return a pointer to the SBase element with the given @p id. If no such
    * object is found, this method returns @c NULL.
    */
   virtual SBase* getElementBySId(const std::string& id);
 
 
   /**
-   * Returns the first child element that has the given @p metaid.
+   * Returns the first child element that has the given @p metaid, or @c NULL
+   * if no such object is found.
    *
    * @param metaid a string representing the metaid attribute of the object to
    * retrieve.
    *
-   * @return a pointer to the SBase element with the given @p metaid.  If
-   * no such object is found, this method returns @c NULL.
+   * @return a pointer to the SBase element with the given @p metaid. If no
+   * such object is found this method returns @c NULL.
    */
   virtual SBase* getElementByMetaId(const std::string& metaid);
 
@@ -437,10 +798,10 @@ public:
    * Returns a List of all child SBase objects, including those nested to an
    * arbitrary depth.
    *
-   * @param filter an ElementFilter that may impose restrictions on the
-   * objects to be retrieved.
+   * @param filter an ElementFilter that may impose restrictions on the objects
+   * to be retrieved.
    *
-   * @return a List pointer of pointers to all SBase child objects with any
+   * @return a List* pointer of pointers to all SBase child objects with any
    * restriction imposed.
    */
   virtual List* getAllElements(ElementFilter * filter = NULL);
@@ -496,8 +857,10 @@ public:
 
 LIBSBML_CPP_NAMESPACE_END
 
-
 #endif /* __cplusplus */
+
+
+
 
 #ifndef SWIG
 
@@ -513,12 +876,22 @@ BEGIN_C_DECLS
 
 
 /**
- * Returns a ListOf_t* containing Group_t objects from this
+ * Returns a ListOf_t * containing Group_t objects from this
  * GroupsModelPlugin_t.
  *
- * @param gmp the GroupsModelPlugin_t structure whose "ListOfGroups" is sought.
+ * @param gmp the GroupsModelPlugin_t structure whose ListOfGroups is sought.
  *
- * @return the "ListOfGroups" from this GroupsModelPlugin_t as a ListOf_t *.
+ * @return the ListOfGroups from this GroupsModelPlugin_t as a ListOf_t *.
+ *
+ * @copydetails doc_returned_unowned_pointer
+ *
+ * @see GroupsModelPlugin_addGroup()
+ * @see GroupsModelPlugin_createGroup()
+ * @see GroupsModelPlugin_getGroup()
+ * @see GroupsModelPlugin_getGroupById()
+ * @see GroupsModelPlugin_getNumGroups()
+ * @see GroupsModelPlugin_removeGroup()
+ * @see GroupsModelPlugin_removeGroupById()
  *
  * @memberof GroupsModelPlugin_t
  */
@@ -536,10 +909,12 @@ GroupsModelPlugin_getListOfGroups(GroupsModelPlugin_t* gmp);
  *
  * @return the nth Group_t in the ListOfGroups within this GroupsModelPlugin.
  *
+ * @copydetails doc_returned_unowned_pointer
+ *
  * @memberof GroupsModelPlugin_t
  */
 LIBSBML_EXTERN
-const Group_t*
+Group_t*
 GroupsModelPlugin_getGroup(GroupsModelPlugin_t* gmp, unsigned int n);
 
 
@@ -551,12 +926,14 @@ GroupsModelPlugin_getGroup(GroupsModelPlugin_t* gmp, unsigned int n);
  * @param sid a string representing the identifier of the Group_t to retrieve.
  *
  * @return the Group_t in the ListOfGroups within this GroupsModelPlugin with
- * the given id or NULL if no such Group_t exists.
+ * the given @p sid or @c NULL if no such Group_t exists.
+ *
+ * @copydetails doc_returned_unowned_pointer
  *
  * @memberof GroupsModelPlugin_t
  */
 LIBSBML_EXTERN
-const Group_t*
+Group_t*
 GroupsModelPlugin_getGroupById(GroupsModelPlugin_t* gmp, const char *sid);
 
 
@@ -571,6 +948,11 @@ GroupsModelPlugin_getGroupById(GroupsModelPlugin_t* gmp, const char *sid);
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_LEVEL_MISMATCH, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_VERSION_MISMATCH, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_PKG_VERSION_MISMATCH, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_DUPLICATE_OBJECT_ID, OperationReturnValues_t}
  *
  * @memberof GroupsModelPlugin_t
  */
@@ -602,6 +984,8 @@ GroupsModelPlugin_getNumGroups(GroupsModelPlugin_t* gmp);
  *
  * @return a new Group_t object instance.
  *
+ * @copydetails doc_returned_unowned_pointer
+ *
  * @memberof GroupsModelPlugin_t
  */
 LIBSBML_EXTERN
@@ -618,6 +1002,8 @@ GroupsModelPlugin_createGroup(GroupsModelPlugin_t* gmp);
  * @param n an unsigned int representing the index of the Group_t to remove.
  *
  * @return a pointer to the nth Group_t in this GroupsModelPlugin_t.
+ *
+ * @copydetails doc_returned_owned_pointer
  *
  * @memberof GroupsModelPlugin_t
  */
@@ -636,6 +1022,8 @@ GroupsModelPlugin_removeGroup(GroupsModelPlugin_t* gmp, unsigned int n);
  *
  * @return the Group_t in this GroupsModelPlugin_t based on the identifier or
  * NULL if no such Group_t exists.
+ *
+ * @copydetails doc_returned_owned_pointer
  *
  * @memberof GroupsModelPlugin_t
  */

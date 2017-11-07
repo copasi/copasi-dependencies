@@ -132,7 +132,7 @@ public:
    * XMLInputStream if they have their specific elements.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual SBase* createObject (XMLInputStream& stream);
 
@@ -709,7 +709,7 @@ public:
    *
    * @param elementName, the name of the element to get number of.
    *
-   * @param index, unsigned int teh index of teh object to retrieve.
+   * @param index, unsigned int the index of the object to retrieve.
    *
    * @return pointer to the object.
    */
@@ -767,13 +767,13 @@ FbcReactionPlugin_getUpperFluxBound(SBasePlugin_t * fbc);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FbcReactionPlugin_t structure's UpperFluxBound is set.
  *
  * @param fbc the FbcReactionPlugin_t structure to query.
  * 
- * @return @c non-zero (true) if the "UpperFluxBound" attribute of the given
- * FbcReactionPlugin_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "UpperFluxBound" attribute of the given
+ * FbcReactionPlugin_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof FbcReactionPlugin_t
  */
@@ -833,13 +833,13 @@ FbcReactionPlugin_getLowerFluxBound(SBasePlugin_t * fbc);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FbcReactionPlugin_t structure's LowerFluxBound is set.
  *
  * @param fbc the FbcReactionPlugin_t structure to query.
  * 
- * @return @c non-zero (true) if the "LowerFluxBound" attribute of the given
- * FbcReactionPlugin_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "LowerFluxBound" attribute of the given
+ * FbcReactionPlugin_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof FbcReactionPlugin_t
  */
@@ -885,13 +885,13 @@ FbcReactionPlugin_unsetUpperFluxBound(SBasePlugin_t * fbc);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * FbcReactionPlugin_t structure's GeneProductAssociation is set.
  *
  * @param fbc the FbcReactionPlugin_t structure to query.
  * 
- * @return @c non-zero (true) if the "geneProductAssopciation" elemen of the given
- * FbcReactionPlugin_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "geneProductAssopciation" elemen of the given
+ * FbcReactionPlugin_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof FbcReactionPlugin_t
  */

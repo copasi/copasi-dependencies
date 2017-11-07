@@ -443,7 +443,7 @@ public:
    *
    * @param n the index number of the PossibleSpeciesFeatureValue to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -456,7 +456,7 @@ public:
    *
    * @param n the index number of the PossibleSpeciesFeatureValue to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -469,7 +469,7 @@ public:
    * @param sid a string representing the identifier of the
    * PossibleSpeciesFeatureValue to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)   *
    * @see size()
@@ -483,7 +483,7 @@ public:
    * @param sid a string representing the identifier of the
    * PossibleSpeciesFeatureValue to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)   *
    * @see size()
@@ -497,7 +497,7 @@ public:
    *
    * @param n the index of the PossibleSpeciesFeatureValue to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    *
    * @see size()
@@ -510,7 +510,7 @@ public:
    *
    * @param sid the identifier of the PossibleSpeciesFeatureValue to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    */
   virtual PossibleSpeciesFeatureValue* remove(const std::string& sid);
@@ -593,92 +593,167 @@ LIBSBML_CPP_NAMESPACE_END
 LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 PossibleSpeciesFeatureValue_t *
 PossibleSpeciesFeatureValue_create(unsigned int level, unsigned int version,
                                    unsigned int pkgVersion);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 void
 PossibleSpeciesFeatureValue_free(PossibleSpeciesFeatureValue_t * psfv);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 PossibleSpeciesFeatureValue_t *
 PossibleSpeciesFeatureValue_clone(PossibleSpeciesFeatureValue_t * psfv);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 char *
 PossibleSpeciesFeatureValue_getId(PossibleSpeciesFeatureValue_t * psfv);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 char *
 PossibleSpeciesFeatureValue_getName(PossibleSpeciesFeatureValue_t * psfv);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 char *
 PossibleSpeciesFeatureValue_getNumericValue(PossibleSpeciesFeatureValue_t * psfv);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 PossibleSpeciesFeatureValue_isSetId(PossibleSpeciesFeatureValue_t * psfv);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 PossibleSpeciesFeatureValue_isSetName(PossibleSpeciesFeatureValue_t * psfv);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 PossibleSpeciesFeatureValue_isSetNumericValue(PossibleSpeciesFeatureValue_t * psfv);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 PossibleSpeciesFeatureValue_setId(PossibleSpeciesFeatureValue_t * psfv, const char * id);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 PossibleSpeciesFeatureValue_setName(PossibleSpeciesFeatureValue_t * psfv, const char * name);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 PossibleSpeciesFeatureValue_setNumericValue(PossibleSpeciesFeatureValue_t * psfv, const char * numericValue);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 PossibleSpeciesFeatureValue_unsetId(PossibleSpeciesFeatureValue_t * psfv);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 PossibleSpeciesFeatureValue_unsetName(PossibleSpeciesFeatureValue_t * psfv);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 PossibleSpeciesFeatureValue_unsetNumericValue(PossibleSpeciesFeatureValue_t * psfv);
 
 
+/**
+* @memberof PossibleSpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 PossibleSpeciesFeatureValue_hasRequiredAttributes(PossibleSpeciesFeatureValue_t * psfv);
 
 
+/**
+* Return the structure indicated by the given @p sid.
+*
+* @param lo the ListOf_t structure to use.
+*
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure for the given variable, or @c NULL if no such
+* object exists in the list.
+*
+* @memberof ListOfPossibleSpeciesFeatureValues_t
+*/
 LIBSBML_EXTERN
 PossibleSpeciesFeatureValue_t *
 ListOfPossibleSpeciesFeatureValues_getById(ListOf_t * lo, const char * sid);
 
 
+/**
+* Removes the structure with the given @p sid
+* from the given list and returns a pointer to it.
+*
+* The caller owns the returned structure and is responsible for deleting it.
+*
+* @param lo the ListOf_t structure.
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure removed.  As mentioned above, the
+* caller owns the returned structure. @c NULL is returned if no
+* structure with the "id" attribute exists in the given list.
+*
+* @memberof ListOfPossibleSpeciesFeatureValues_t
+*/
 LIBSBML_EXTERN
 PossibleSpeciesFeatureValue_t *
 ListOfPossibleSpeciesFeatureValues_removeById(ListOf_t * lo, const char * sid);

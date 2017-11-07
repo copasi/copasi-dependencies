@@ -41,6 +41,16 @@
  * one ListOfOutputs, (that of the Transition defining the evolution of this
  * species). When a Transition has several outputs, it is because the
  * referenced species share the same regulators and the same logical rules.
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class ListOfOutputs
+ * @sbmlbrief{qual} A list of Output objects.
+ *
+ * The ListOfOutputs is a container for the Output elements of a Transition.
+ *
+ * @copydetails doc_what_is_listof
+ *
+ * @see Output
  */
 
 
@@ -756,16 +766,6 @@ protected:
 
 };
 
-/**
- * @class ListOfOutputs
- * @sbmlbrief{qual} A list of Output objects.
- * 
- * The ListOfOutputs is a container for the Output elements of a Transition.
- * 
- * @copydetails doc_what_is_listof
- *
- * @see Output
- */
 class LIBSBML_EXTERN ListOfOutputs : public ListOf
 {
 
@@ -839,7 +839,7 @@ public:
    * of the Output to get.
    *
    * @return Output in this ListOfOutputs
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * Output exists.
    *
    * @see get(unsigned int n)   *
@@ -856,7 +856,7 @@ public:
    * of the Output to get.
    *
    * @return Output in this ListOfOutputs
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * Output exists.
    *
    * @see get(unsigned int n)   *
@@ -873,7 +873,7 @@ public:
    * of the Output to get.
    *
    * @return the first Output in this ListOfOutputs
-   * with the given qualitativeSpecies or NULL if no such
+   * with the given qualitativeSpecies or @c NULL if no such
    * Output exists.
    *
    * @see get(unsigned int n)   *
@@ -890,7 +890,7 @@ public:
    * of the Output to get.
    *
    * @return the first Output in this ListOfOutputs
-   * with the given qualitativeSpecies or NULL if no such
+   * with the given qualitativeSpecies or @c NULL if no such
    * Output exists.
    *
    * @see get(unsigned int n)   *
@@ -989,7 +989,7 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new Output_t structure using the given SBML @p level
- * and @p version values.
+ * and @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML Level to assign to this
  * Output_t.
@@ -1063,12 +1063,12 @@ Output_getQualitativeSpecies(Output_t * o);
 
 
 /**
- * Takes a Output_t structure and returns its transitionEffect as a ENUMTYPE 
+ * Takes a Output_t structure and returns its transitionEffect as a #OutputTransitionEffect_t 
  * (an enumerated value of legal possible values for the attribute).
  *
  * @param o the Output_t whose transitionEffect is sought.
  *
- * @return the transitionEffect of the given Output_t, as a ENUMTYPE
+ * @return the transitionEffect of the given Output_t, as a #OutputTransitionEffect_t
  *
  * @memberof Output_t
  */
@@ -1106,13 +1106,13 @@ Output_getOutputLevel(Output_t * o);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Output_t structure's identifier is set.
  *
  * @param o the Output_t structure to query.
  * 
- * @return @c non-zero (true) if the "id" attribute of the given
- * Output_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "id" attribute of the given
+ * Output_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Output_t
  */
@@ -1122,13 +1122,13 @@ Output_isSetId(Output_t * o);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Output_t structure's qualitativeSpecies is set.
  *
  * @param o the Output_t structure to query.
  * 
- * @return @c non-zero (true) if the "qualitativeSpecies" attribute of the given
- * Output_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "qualitativeSpecies" attribute of the given
+ * Output_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Output_t
  */
@@ -1138,13 +1138,13 @@ Output_isSetQualitativeSpecies(Output_t * o);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Output_t structure's transitionEffect is set.
  *
  * @param o the Output_t structure to query.
  * 
- * @return @c non-zero (true) if the "transitionEffect" attribute of the given
- * Output_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "transitionEffect" attribute of the given
+ * Output_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Output_t
  */
@@ -1154,13 +1154,13 @@ Output_isSetTransitionEffect(Output_t * o);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Output_t structure's name is set.
  *
  * @param o the Output_t structure to query.
  * 
- * @return @c non-zero (true) if the "name" attribute of the given
- * Output_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "name" attribute of the given
+ * Output_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Output_t
  */
@@ -1170,13 +1170,13 @@ Output_isSetName(Output_t * o);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * Output_t structure's outputLevel is set.
  *
  * @param o the Output_t structure to query.
  * 
- * @return @c non-zero (true) if the "outputLevel" attribute of the given
- * Output_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "outputLevel" attribute of the given
+ * Output_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof Output_t
  */
@@ -1188,7 +1188,7 @@ Output_isSetOutputLevel(Output_t * o);
 /**
  * Assigns the identifier of an Output_t structure.
  *
- * This makes a copy of the string passed in the param @p sid.
+ * This makes a copy of the string passed in the parameter @p sid.
  *
  * @param o the Output_t structure to set.
  * @param sid the string to use as the identifier.
@@ -1197,7 +1197,7 @@ Output_isSetOutputLevel(Output_t * o);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof Output_t
@@ -1372,7 +1372,8 @@ Output_unsetOutputLevel(Output_t * o);
   * have been set.
   *
   * @note The required attributes for a Output_t structure are:
-  * @li useValuesfromTriggerTime ( L3 onwards )
+  * @li qualitativeSpecies
+  * @li transitionEffect
   *
  * @memberof Output_t
  */
@@ -1387,12 +1388,12 @@ Output_hasRequiredAttributes(Output_t * o);
  * @param lo the ListOf_t structure to use.
  *
  * @param sid a string, the identifier of the
- * Output_t is being sought.
+ * Output_t being sought.
  *
  * @return the Output_t for the given variable, or @c NULL if no such
- * Output_t exits.
+ * Output_t exists.
  *
- * @memberof Output_t
+ * @memberof ListOfOutputs_t
  */
 LIBSBML_EXTERN
 Output_t *
@@ -1412,19 +1413,20 @@ ListOfOutputs_getById(ListOf_t * lo, const char * sid);
  * caller owns the returned structure. @c NULL is returned if no Output_t
  * structure with the "id" attribute exists in the given ListOf_t structure.
  *
- * @memberof Output_t
+ * @memberof ListOfOutputs_t
  */
 LIBSBML_EXTERN
 Output_t *
 ListOfOutputs_removeById(ListOf_t * lo, const char * sid);
 
 /**
- * Returns the string version of the provided OutputTransitionEffect_t enumeration.
+ * Returns the string version of the provided #OutputTransitionEffect_t enumeration.
  *
- * @param effect the OutputTransitionEffect_t enumeration to convert.
+ * @param effect the #OutputTransitionEffect_t enumeration to convert.
  *
  * @return A string corresponding to the given effect:  "production", 
- * "assignmentLevel", or @c NULL if the value is OUTPUT_TRANSITION_EFFECT_UNKNOWN 
+ * "assignmentLevel", or @c NULL if the value is 
+ * @sbmlconstant{OUTPUT_TRANSITION_EFFECT_UNKNOWN, OutputTransitionEffect_t}
  * or another invalid enumeration value.
  *
  * @memberof Output_t
@@ -1435,16 +1437,17 @@ OutputTransitionEffect_toString(OutputTransitionEffect_t effect);
 
 
 /**
- * Returns the OutputTransitionEffect_t enumeration corresponding to 
- * the given string, or OUTPUT_TRANSITION_EFFECT_UNKNOWN if there is 
+ * Returns the #OutputTransitionEffect_t enumeration corresponding to 
+ * the given string, or @sbmlconstant{OUTPUT_TRANSITION_EFFECT_UNKNOWN, OutputTransitionEffect_t} if there is 
  * no such match.  The matching is case-sensitive:  "production" will 
- * return OUTPUT_TRANSITION_EFFECT_PRODUCTION, but "Production" will return 
- * OUTPUT_TRANSITION_EFFECT_UNKNOWN.
+ * return @sbmlconstant{OUTPUT_TRANSITION_EFFECT_PRODUCTION, OutputTransitionEffect_t}, 
+ * but "Production" will return 
+ * @sbmlconstant{OUTPUT_TRANSITION_EFFECT_UNKNOWN, OutputTransitionEffect_t}.
  *
- * @param s the string to convert to an OutputTransitionEffect_t.
+ * @param s the string to convert to an #OutputTransitionEffect_t.
  *
- * @return The corresponding OutputTransitionEffect_t, or 
- * OUTPUT_TRANSITION_EFFECT_UNKNOWN if no match found.
+ * @return The corresponding #OutputTransitionEffect_t, or 
+ * @sbmlconstant{OUTPUT_TRANSITION_EFFECT_UNKNOWN, OutputTransitionEffect_t} if no match found.
  *
  * @memberof Output_t
  */
@@ -1454,14 +1457,15 @@ OutputTransitionEffect_fromString(const char* s);
 
 
 /**
- * Predicate returning @c true (non-zero) or @c false (zero) depending on whether the given
- * OutputTransitionEffect_t is valid.
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
+ * #OutputTransitionEffect_t is valid.
  *
- * @param effect the OutputTransitionEffect_t enumeration to query.
+ * @param effect the #OutputTransitionEffect_t enumeration to query.
  * 
- * @return @c non-zero (true) if the OutputTransitionEffect_t is
- * OUTPUT_TRANSITION_EFFECT_PRODUCTION or OUTPUT_TRANSITION_EFFECT_ASSIGNMENT_LEVEL,
- * zero (false) otherwise (including OUTPUT_TRANSITION_EFFECT_UNKNOWN).
+ * @return @c 1 (true) if the #OutputTransitionEffect_t is
+ * @sbmlconstant{OUTPUT_TRANSITION_EFFECT_PRODUCTION, OutputTransitionEffect_t} 
+ * or @sbmlconstant{OUTPUT_TRANSITION_EFFECT_ASSIGNMENT_LEVEL, OutputTransitionEffect_t},
+ * @c 0 (false) otherwise (including @sbmlconstant{OUTPUT_TRANSITION_EFFECT_UNKNOWN, OutputTransitionEffect_t}).
  *
  * @memberof Output_t
  */
@@ -1471,15 +1475,15 @@ OutputTransitionEffect_isValidOutputTransitionEffect(OutputTransitionEffect_t ef
 
 
 /**
- * Predicate returning @c true (non-zero) or @c false (zero) depending 
- * on whether the given string is a valid OutputTransitionEffect_t.  
+ * Predicate returning @c 1 (true) or @c 0 (false) depending 
+ * on whether the given string is a valid #OutputTransitionEffect_t.  
  * The matching is case-sensitive:  "production" will return @c true, but 
  * "Production" will return @c false.
  *
  * @param s the string to query.
  * 
- * @return @c non-zero (true) if the string is
- * "production" or "assignmentLevel"; zero (false) otherwise.
+ * @return @c 1 (true) if the string is
+ * "production" or "assignmentLevel"; @c 0 (false) otherwise.
  *
  * @memberof Output_t
  */

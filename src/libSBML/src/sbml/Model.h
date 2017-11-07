@@ -323,8 +323,8 @@ sp.setId("MySpecies");
  * compartments having a "spatialDimensions" attribute value of @c "2", and
  * "lengthUnits" for compartments having a "spatialDimensions" attribute
  * value of @c "1".  The attributes are not applicable to compartments
- * whose "spatialDimensions" attribute values are @em not one of @c "1", @c
- * "2" or @c "3".
+ * whose "spatialDimensions" attribute values are @em not one of @c "1",
+ * @c "2" or @c "3".
  *
  * If a given Compartment object instance does not provide a value for its
  * "units" attribute, then the unit of measurement of that compartment's
@@ -374,8 +374,8 @@ sp.setId("MySpecies");
  * not define separate values for their "conversionFactor" attributes.  The
  * value of this attribute must refer to a Parameter object instance
  * defined in the model.  The Parameter object in question must be a
- * constant; ie it must have its "constant" attribute value set to @c
- * "true".
+ * constant; ie it must have its "constant" attribute value set to
+ * @c "true".
  *
  * If a given Species object definition does not specify a conversion
  * factor via the "conversionFactor" attribute on Species, then the species
@@ -559,8 +559,8 @@ public:
    *
    * @param id string representing the id of the object to find.
    *
-   * @return pointer to the first element found with the given @p id, or @c
-   * NULL if no such object is found.
+   * @return pointer to the first element found with the given @p id, or
+   * @c NULL if no such object is found.
    */
   virtual SBase* getElementBySId(const std::string& id);
 
@@ -1529,8 +1529,8 @@ public:
    * @copydetails doc_how_added_last_reaction_irrelevant
    *
    * @return the SpeciesReference object created.  If a Reaction does not
-   * exist for this model, a new SpeciesReference is @em not created and @c
-   * NULL is returned.
+   * exist for this model, a new SpeciesReference is @em not created and
+   * @c NULL is returned.
    */
   SpeciesReference* createReactant ();
 
@@ -1546,8 +1546,8 @@ public:
    * @copydetails doc_how_added_last_reaction_irrelevant
    *
    * @return the SpeciesReference object created. If a Reaction does not
-   * exist for this model, a new SpeciesReference is @em not created and @c
-   * NULL is returned.
+   * exist for this model, a new SpeciesReference is @em not created and
+   * @c NULL is returned.
    */
   SpeciesReference* createProduct ();
 
@@ -1564,8 +1564,8 @@ public:
    * @copydetails doc_how_added_last_reaction_irrelevant
    *
    * @return the SpeciesReference object created.  If a Reaction does not
-   * exist for this model, a new SpeciesReference is @em not created and @c
-   * NULL is returned.
+   * exist for this model, a new SpeciesReference is @em not created and
+   * @c NULL is returned.
    */
   ModifierSpeciesReference* createModifier ();
 
@@ -2910,6 +2910,8 @@ public:
   void convertFromL3V2 (bool strict = false);
 
   void dealWithFast();
+
+  void dealWithL3Fast(unsigned int targetVersion);
 
   //void convertTimeWith(ASTNode* conversionFactor);
 
@@ -4339,6 +4341,8 @@ protected:
 
   void createInitialAssignmentUnitsData(UnitFormulaFormatter * unitFormatter);
 
+  void createConstraintUnitsData(UnitFormulaFormatter * unitFormatter);
+ 
   void createRuleUnitsData(UnitFormulaFormatter * unitFormatter);
 
   void createReactionUnitsData(UnitFormulaFormatter * unitFormatter);
@@ -4348,7 +4352,10 @@ protected:
   void createDelayUnitsData(UnitFormulaFormatter* unitFormatter, Event * e, 
                             const std::string& eventId);
 
-  void createPriorityUnitsData(UnitFormulaFormatter* unitFormatter, 
+  void createTriggerUnitsData(UnitFormulaFormatter* unitFormatter, Event * e,
+    const std::string& eventId);
+
+  void createPriorityUnitsData(UnitFormulaFormatter* unitFormatter,
                                Priority * p, const std::string& eventId);
 
   void createEventAssignmentUnitsData(UnitFormulaFormatter* unitFormatter, 
@@ -4386,13 +4393,7 @@ BEGIN_C_DECLS
  *
  * @return a pointer to the newly created Model_t structure.
  *
- * @note Once a Model_t has been added to an SBMLDocument_t, the @p
- * level and @p version for the document @em override those used to create
- * the Model_t.  Despite this, the ability to supply the values at
- * creation time is an important aid to creating valid SBML.  Knowledge of
- * the intended SBML Level and Version  determine whether it is valid to
- * assign a particular value to an attribute, or whether it is valid to add
- * a structure to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof Model_t
  */
@@ -4410,13 +4411,7 @@ Model_create (unsigned int level, unsigned int version);
  *
  * @return a pointer to the newly created Model_t structure.
  *
- * @note Once a Model_t has been added to an SBMLDocument_t, the
- * @p sbmlns namespaces for the document @em override those used to create
- * the Model_t.  Despite this, the ability to supply the values at creation time
- * is an important aid to creating valid SBML.  Knowledge of the intended SBML
- * Level and Version determine whether it is valid to assign a particular value
- * to an attribute, or whether it is valid to add a structure to an existing
- * SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof Model_t
  */
@@ -4599,8 +4594,8 @@ Model_getConversionFactor (const Model_t *m);
  *
  * @param m the Model_t structure.
  *
- * @return nonzero if the "id" attribute of this Model_t structure is 
- * set, zero (0) otherwise.
+ * @return @c 1 (true) if the "id" attribute of this Model_t structure is 
+ * set, @c 0 (false) otherwise.
  *
  * @memberof Model_t
  */
@@ -4615,8 +4610,8 @@ Model_isSetId (const Model_t *m);
  *
  * @param m the Model_t structure.
  *
- * @return nonzero if the "name" attribute of this Model_t structure is
- * set, zero (0) otherwise.
+ * @return @c 1 (true) if the "name" attribute of this Model_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof Model_t
  */
@@ -4631,8 +4626,8 @@ Model_isSetName (const Model_t *m);
  *
  * @param m the Model_t structure.
  *
- * @return nonzero if the "substanceUnits" attribute of this Model_t structure is
- * set, zero (0) otherwise.
+ * @return @c 1 (true) if the "substanceUnits" attribute of this Model_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof Model_t
  */
@@ -4647,8 +4642,8 @@ Model_isSetSubstanceUnits (const Model_t *m);
  *
  * @param m the Model_t structure.
  *
- * @return nonzero if the "timeUnits" attribute of this Model_t structure is
- * set, zero (0) otherwise.
+ * @return @c 1 (true) if the "timeUnits" attribute of this Model_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof Model_t
  */
@@ -4663,8 +4658,8 @@ Model_isSetTimeUnits (const Model_t *m);
  *
  * @param m the Model_t structure.
  *
- * @return nonzero if the "volumeUnits" attribute of this Model_t structure is
- * set, zero (0) otherwise.
+ * @return @c 1 (true) if the "volumeUnits" attribute of this Model_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof Model_t
  */
@@ -4679,8 +4674,8 @@ Model_isSetVolumeUnits (const Model_t *m);
  *
  * @param m the Model_t structure.
  *
- * @return nonzero if the "areaUnits" attribute of this Model_t structure is
- * set, zero (0) otherwise.
+ * @return @c 1 (true) if the "areaUnits" attribute of this Model_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof Model_t
  */
@@ -4695,8 +4690,8 @@ Model_isSetAreaUnits (const Model_t *m);
  *
  * @param m the Model_t structure.
  *
- * @return nonzero if the "lengthUnits" attribute of this Model_t structure is
- * set, zero (0) otherwise.
+ * @return @c 1 (true) if the "lengthUnits" attribute of this Model_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof Model_t
  */
@@ -4711,8 +4706,8 @@ Model_isSetLengthUnits (const Model_t *m);
  *
  * @param m the Model_t structure.
  *
- * @return nonzero if the "extentUnits" attribute of this Model_t structure is
- * set, zero (0) otherwise.
+ * @return @c 1 (true) if the "extentUnits" attribute of this Model_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof Model_t
  */
@@ -4727,8 +4722,8 @@ Model_isSetExtentUnits (const Model_t *m);
  *
  * @param m the Model_t structure.
  *
- * @return nonzero if the "conversionFactor" attribute of this Model_t structure is
- * set, zero (0) otherwise.
+ * @return @c 1 (true) if the "conversionFactor" attribute of this Model_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof Model_t
  */
@@ -4749,7 +4744,7 @@ Model_isSetConversionFactor (const Model_t *m);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof Model_t
@@ -5113,8 +5108,8 @@ Model_getModelHistory(Model_t *m);
  *
  * @param m the Model_t structure.
  *
- * @return nonzero if the ModelHistory_t of this Model_t structure is
- * set, zero (0) otherwise.
+ * @return @c 1 (true) if the ModelHistory_t of this Model_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof Model_t
  */
@@ -5734,7 +5729,7 @@ Model_createKineticLawParameter (Model_t *m);
  * Reaction_createKineticLaw() on the Reaction_t structure created by a
  * Model_createReaction().  If a Reaction_t structure does not exist for
  * this model, or the last Reaction_t structure does not contain a
- * KineticLaw_t structure, a new Parameter_t is @em not created and NULL is
+ * KineticLaw_t structure, a new LocalParameter_t is @em not created and NULL is
  * returned instead.
  *
  * @param m the Model_t structure.
@@ -5910,7 +5905,7 @@ Model_getListOfCompartments (Model_t *m);
  *
  * @param m the Model_t structure.
  *
- * @return the list of Specie_t structures.
+ * @return the list of Species_t structures.
  *
  * @memberof Model_t
  */
@@ -6470,12 +6465,12 @@ Model_getNumCompartments (const Model_t *m);
 
 
 /**
- * Get the number of Specie_t structures in the given
+ * Get the number of Species_t structures in the given
  * Model_t structure
  *
  * @param m the Model_t structure.
  *
- * @return an unsigned integer as the count of Specie_t
+ * @return an unsigned integer as the count of Species_t
  * structures in @p m
  *
  * @memberof Model_t
@@ -6595,6 +6590,7 @@ LIBSBML_EXTERN
 unsigned int
 Model_getNumEvents (const Model_t *m);
 
+/** @cond doxygenLibsbmlInternal */
 /**
  * Populates the list of FormulaDataUnits with the units derived 
  * for the model. The list contains elements of class
@@ -6626,22 +6622,25 @@ Model_getNumEvents (const Model_t *m);
 LIBSBML_EXTERN
 void 
 Model_populateListFormulaUnitsData(Model_t *m);
+/** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
 /**
- * Predicate returning @c true or @c false depending on whether 
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether 
  * the list of FormulaUnitsData is populated.
  *
  * @param m the Model_t structure.
  *
- * @return @c true if the list of FormulaUnitsData is populated, 
- * @c false otherwise.
+ * @return @c 1 (true) if the list of FormulaUnitsData is populated, 
+ * @c 0 (false) otherwise.
  *
  * @memberof Model_t
  */
 LIBSBML_EXTERN
 int 
 Model_isPopulatedListFormulaUnitsData(Model_t *m);
+/** @endcond */
 
 
 /**

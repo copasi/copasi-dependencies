@@ -210,7 +210,7 @@ public:
   bool containsUri(const std::string uri) const;
 
   /**
-   * Look up the index of an XML namespace declaration by prefix.
+   * Look up the index of an XML namespace declaration by @p prefix.
    *
    * An XMLNamespaces object stores a list of pairs of namespaces and their
    * prefixes.  If this XMLNamespaces object contains a pair with the given
@@ -543,7 +543,7 @@ XMLNamespaces_clear (XMLNamespaces_t *ns);
  * @param ns the XMLNamespaces_t structure.
  * @param uri a string, uri of the required namespace.
  *
- * @return the index of the given declaration, or -1 if not present.
+ * @return the index of the given declaration, or @c -1 if not present.
  *
  * @memberof XMLNamespaces_t
  */
@@ -553,12 +553,12 @@ XMLNamespaces_getIndex (const XMLNamespaces_t *ns, const char *uri);
 
 
 /**
- * Look up the index of an XML namespace declaration by Prefix.
+ * Look up the index of an XML namespace declaration by @p prefix.
  *
  * @param ns the XMLNamespaces_t structure.
  * @param prefix a string, prefix of the required namespace.
  *
- * @return the index of the given declaration, or -1 if not present.
+ * @return the index of the given declaration, or @c -1 if not present.
  *
  * @memberof XMLNamespaces_t
  */
@@ -649,7 +649,7 @@ XMLNamespaces_getPrefixByURI (const XMLNamespaces_t *ns, const char *uri);
  * An XMLNamespaces structure stores a list of pairs of namespaces and their
  * prefixes.  This method returns the URI of the <code>n</code>th element
  * in that list (if it exists).  Callers should use
- * XMLAttributes::getLength() first to find out how many namespaces are
+ * XMLAttributes_getLength() first to find out how many namespaces are
  * stored in the list.
  *
  * @param ns the XMLNamespaces_t structure.
@@ -693,10 +693,10 @@ XMLNamespaces_getURIByPrefix (const XMLNamespaces_t *ns, const char *prefix);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether 
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether 
  * this XMLNamespaces_t list is empty.
  * 
- * @return @c true if this XMLNamespaces_t list is empty, @c false otherwise.
+ * @return @c 1 (true) if this XMLNamespaces_t list is empty, @c 0 (false) otherwise.
  *
  * @memberof XMLNamespaces_t
  */
@@ -706,11 +706,11 @@ XMLNamespaces_isEmpty (const XMLNamespaces_t *ns);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether 
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether 
  * an XML Namespace with the given URI is contained in this XMLNamespaces_t list.
  * 
- * @return @c true if an XML Namespace with the given URI is contained in this 
- * XMLNamespaces list,  @c false otherwise.
+ * @return @c 1 (true) if an XML Namespace with the given URI is contained in this 
+ * XMLNamespaces list,  @c 0 (false) otherwise.
  *
  * @memberof XMLNamespaces_t
  */
@@ -720,11 +720,11 @@ XMLNamespaces_hasURI(const XMLNamespaces_t *ns, const char* uri);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether 
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether 
  * an XML Namespace the given @p prefix is contained in this XMLNamespaces_t list.
  * 
- * @return @c true if an XML Namespace with the given URI is contained in this 
- * XMLNamespaces list, @c false otherwise.
+ * @return @c 1 (true) if an XML Namespace with the given URI is contained in this 
+ * XMLNamespaces list, @c 0 (false) otherwise.
  *
  * @memberof XMLNamespaces_t
  */
@@ -734,11 +734,11 @@ XMLNamespaces_hasPrefix(const XMLNamespaces_t *ns, const char* prefix);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether
  * an XML Namespace with the given URI is contained in this XMLNamespaces_t list.
  *
- * @return @c true if an XML Namespace with the given uri/prefix pair is contained
- * in this XMLNamespaces_t list,  @c false otherwise.
+ * @return @c 1 (true) if an XML Namespace with the given uri/prefix pair is contained
+ * in this XMLNamespaces_t list,  @c 0 (false) otherwise.
  *
  * @memberof XMLNamespaces_t
  */

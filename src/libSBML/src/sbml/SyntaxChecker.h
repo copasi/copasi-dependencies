@@ -113,8 +113,9 @@ public:
    * @param srcId the string of SId to be set to the dstId.
    * @param dstId the string of SId to be set by the srcId.
    *
-   * @return LIBSBML_OPERATION_SUCCESS if the srcId is valid, otherwise 
-   * LIBSBML_INVALID_ATTRIBUTE_VALUE will be returned.
+   * @return @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+   * if the srcId is valid, otherwise 
+   * @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t} will be returned.
    */
   static int checkAndSetSId(const std::string &srcId, std::string &dstId);
 #endif //SWIG
@@ -361,16 +362,21 @@ BEGIN_C_DECLS
  *
  * @param sid string to be checked for conformance.
  *
- * @return @c true (non-zero) if the string conforms to type SId, 
- * @c false (0) otherwise.
+ * @return @c 1 (true) if the string conforms to type SId, 
+ * @c 0 (false) otherwise.
  *
- * @note The literal representation of SBML type SId consists of strings 
- * of characters restricted to:
- *
- *  - letter ::= 'a'..'z','A'..'Z'
- *  - digit  ::= '0'..'9'
- *  - idChar ::= letter | digit | '_'
- *  - SId    ::= ( letter | '_' ) idChar*
+ * The identifier given by an object's "id" attribute value
+ * is used to identify the object within the SBML model definition.
+ * Other objects can refer to the component using this identifier.  The
+ * data type of "id" is always <code>SId</code> or a type derived
+ * from that, such as <code>UnitSId</code>, depending on the object in
+ * question.  All data types are defined as follows:
+ * <pre style="margin-left: 2em; border: none; font-weight: bold; color: black">
+ *   letter ::= 'a'..'z','A'..'Z'
+ *   digit  ::= '0'..'9'
+ *   idChar ::= letter | digit | '_'
+ *   SId    ::= ( letter | '_' ) idChar*
+ * </pre>
  *
  * @memberof SyntaxChecker_t
  */
@@ -385,14 +391,10 @@ SyntaxChecker_isValidSBMLSId(const char * sid);
  *
  * @param id string to be checked for conformance.
  *
- * @return @c true (non-zero) if the string conforms to type ID, 
- * @c false (0) otherwise.
+ * @return @c 1 (true) if the string conforms to type ID, 
+ * @c 0 (false) otherwise.
  *
- * @note The literal representation of XML 1.0 type ID consists of strings 
- * of characters restricted to:
- *
- *  - NCNameChar ::= letter | digit | '.' | '-' | '_' | ':' | CombiningChar | Extender
- *  - ID ::= ( letter | '_' | ':' ) NCNameChar*
+ * @note @htmlinclude xmlid-syntax.html
  *
  * @memberof SyntaxChecker_t
  */
@@ -407,16 +409,10 @@ SyntaxChecker_isValidXMLID(const char * id);
  *
  * @param units string to be checked for conformance.
  *
- * @return @c true (non-zero) if the string conforms to type UnitSId, 
- * @c false (0) otherwise.
+ * @return @c 1 (true) if the string conforms to type UnitSId, 
+ * @c 0 (false) otherwise.
  *
- * @note The literal representation of SBML type UniySId consists of strings 
- * of characters restricted to:
- *
- *  - letter ::= 'a'..'z','A'..'Z'
- *  - digit  ::= '0'..'9'
- *  - idChar ::= letter | digit | '_'
- *  - UnitSId    ::= ( letter | '_' ) idChar*
+ * @note @htmlinclude unitid-syntax.html
  *
  * @memberof SyntaxChecker_t
  */
@@ -433,8 +429,8 @@ SyntaxChecker_isValidUnitSId(const char * units);
  * @param node the XMLNode_t structure to be checked for conformance.
  * @param sbmlns the SBMLNamespaces_t structure associated with the @p node.
  *
- * @return @c true (non-zero) if the XMLNode_t structure conforms, 
- * @c false (0) otherwise.
+ * @return @c 1 (true) if the XMLNode_t structure conforms, 
+ * @c 0 (false) otherwise.
  *
  * @note the optional SBMLNamespaces_t argument can be used to
  * check for the declaration of the XHTML namespace at the top-level

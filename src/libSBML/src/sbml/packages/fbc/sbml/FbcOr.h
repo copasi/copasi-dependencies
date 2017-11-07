@@ -196,7 +196,7 @@ public:
    * of the Association to get.
    *
    * @return the Association in the ListOfFbcAssociations
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * Association exists.
    *
    * @see getAssociation(unsigned int n)
@@ -214,7 +214,7 @@ public:
    * of the Association to get.
    *
    * @return the Association in the ListOfFbcAssociations
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * Association exists.
    *
    * @see getAssociation(unsigned int n)
@@ -746,7 +746,7 @@ public:
    *
    * @param elementName, the name of the element to get number of.
    *
-   * @param index, unsigned int teh index of teh object to retrieve.
+   * @param index, unsigned int the index of the object to retrieve.
    *
    * @return pointer to the object.
    */
@@ -822,13 +822,16 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new FbcOr_t structure using the given SBML @p level and
- * @p version values.
+ * @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML level to assign to this
  * FbcOr_t structure.
  *
  * @param version an unsigned int, the SBML version to assign to this
  * FbcOr_t structure.
+ *
+ * @param pkgVersion an unsigned int, the version of the package to assign
+ * to this FbcOr_t structure.
  *
  * @returns the newly-created FbcOr_t structure, or a null pointer if
  * an error occurred during construction.
@@ -921,15 +924,15 @@ FbcOr_removeAssociationById(FbcOr_t * fo, const char * sid);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * attributes of the given FbcOr_t structure have been set.
  *
  * @param fo the FbcOr_t structure to check.
  *
- * @return @c 1 if all the required attributes for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required attributes for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
- * @member of FbcOr_t
+ * @memberof FbcOr_t
  */
 LIBSBML_EXTERN
 int
@@ -937,15 +940,15 @@ FbcOr_hasRequiredAttributes(const FbcOr_t * fo);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * sub-elements of the given FbcOr_t structure have been set.
  *
  * @param fo the FbcOr_t structure to check.
  *
- * @return @c 1 if all the required sub-elements for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required sub-elements for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
- * @member of FbcOr_t
+ * @memberof FbcOr_t
  */
 LIBSBML_EXTERN
 int

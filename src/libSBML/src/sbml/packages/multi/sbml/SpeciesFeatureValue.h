@@ -352,7 +352,7 @@ public:
    *
    * @param n the index number of the SpeciesFeatureValue to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -365,7 +365,7 @@ public:
    *
    * @param n the index number of the SpeciesFeatureValue to get.
    *
-   * @return the nth object, or NULL if the index @p is out of range.
+   * @return the nth object, or @c NULL if the index @p is out of range.
    *
    * @see size()
    */
@@ -378,7 +378,7 @@ public:
    * @param sid a string representing the identifier of the
    * SpeciesFeatureValue to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)
    * @see size()
@@ -392,7 +392,7 @@ public:
    * @param sid a string representing the identifier of the
    * SpeciesFeatureValue to get.
    *
-   * @return the object with the given id, or NULL if no such object exists.
+   * @return the object with the given id, or @c NULL if no such object exists.
    *
    * @see get(unsigned int n)
    * @see size()
@@ -406,7 +406,7 @@ public:
 
    * @param n the index of the SpeciesFeatureValue to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    *
    * @see size()
@@ -419,7 +419,7 @@ public:
    *
    * @param sid the identifier of the SpeciesFeatureValue to remove.
    *
-   * @return the object removed, or NULL if no such object exists.  Note that
+   * @return the object removed, or @c NULL if no such object exists.  Note that
    * the caller owns the returned object and is responsible for deleting it.
    */
   virtual SpeciesFeatureValue* remove(const std::string& sid);
@@ -502,52 +502,103 @@ LIBSBML_CPP_NAMESPACE_END
 LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
+/**
+* @memberof SpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureValue_t *
 SpeciesFeatureValue_create(unsigned int level, unsigned int version,
                            unsigned int pkgVersion);
 
 
+/**
+* @memberof SpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 void
 SpeciesFeatureValue_free(SpeciesFeatureValue_t * sfv);
 
 
+/**
+* @memberof SpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureValue_t *
 SpeciesFeatureValue_clone(SpeciesFeatureValue_t * sfv);
 
 
+/**
+* @memberof SpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 char *
 SpeciesFeatureValue_getValue(SpeciesFeatureValue_t * sfv);
 
 
+/**
+* @memberof SpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeatureValue_isSetValue(SpeciesFeatureValue_t * sfv);
 
 
+/**
+* @memberof SpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeatureValue_setValue(SpeciesFeatureValue_t * sfv, const char * value);
 
 
+/**
+* @memberof SpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeatureValue_unsetValue(SpeciesFeatureValue_t * sfv);
 
 
+/**
+* @memberof SpeciesFeatureValue_t
+*/
 LIBSBML_EXTERN
 int
 SpeciesFeatureValue_hasRequiredAttributes(SpeciesFeatureValue_t * sfv);
 
 
+/**
+* Return the structure indicated by the given @p sid.
+*
+* @param lo the ListOf_t structure to use.
+*
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure for the given variable, or @c NULL if no such
+* object exists in the list.
+*
+* @memberof ListOfSpeciesFeatureValues_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureValue_t *
 ListOfSpeciesFeatureValues_getById(ListOf_t * lo, const char * sid);
 
 
+/**
+* Removes the structure with the given @p sid
+* from the given list and returns a pointer to it.
+*
+* The caller owns the returned structure and is responsible for deleting it.
+*
+* @param lo the ListOf_t structure.
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure removed.  As mentioned above, the
+* caller owns the returned structure. @c NULL is returned if no
+* structure with the "id" attribute exists in the given list.
+*
+* @memberof ListOfSpeciesFeatureValues_t
+*/
 LIBSBML_EXTERN
 SpeciesFeatureValue_t *
 ListOfSpeciesFeatureValues_removeById(ListOf_t * lo, const char * sid);

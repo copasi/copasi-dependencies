@@ -690,7 +690,7 @@ Model::isSetConversionFactor () const
 
 
 /*
- * Sets the id of this SBML object to a copy of sid.
+ * Sets the id of this SBML object to a copy of @p sid.
  */
 int
 Model::setId (const std::string& sid)
@@ -5663,6 +5663,7 @@ Model::populateListFormulaUnitsData()
   // for math expressions already evaluated
 
   createInitialAssignmentUnitsData(unitFormatter);
+  createConstraintUnitsData(unitFormatter);
   createRuleUnitsData(unitFormatter);
   createReactionUnitsData(unitFormatter);
   createEventUnitsData(unitFormatter);
@@ -6650,6 +6651,30 @@ Model::createInitialAssignmentUnitsData(UnitFormulaFormatter * unitFormatter)
 
 /** @cond doxygenLibsbmlInternal */
 void
+Model::createConstraintUnitsData(UnitFormulaFormatter * unitFormatter)
+{
+  FormulaUnitsData *fud = NULL;
+  char newId[15];
+  std::string newID;
+
+  for (unsigned int n = 0; n < getNumConstraints(); n++)
+  {
+    Constraint* c = getConstraint(n);
+    sprintf(newId, "constraint_%u", n);
+    newID.assign(newId);
+    c->setInternalId(newID);
+
+    fud = createFormulaUnitsData();
+    fud->setUnitReferenceId(newID);
+    fud->setComponentTypecode(SBML_CONSTRAINT);
+
+    createUnitsDataFromMath(unitFormatter, fud, c->getMath());
+  }
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+void
 Model::createRuleUnitsData(UnitFormulaFormatter * unitFormatter)
 {
   FormulaUnitsData *fud = NULL;
@@ -6859,8 +6884,14 @@ Model::createEventUnitsData(UnitFormulaFormatter * unitFormatter)
     
     /* dont need units returned by trigger formula - 
      * should be boolean
+     * but we might want to check they are defined
      */
-    
+    if (e->isSetTrigger())
+    {
+      createTriggerUnitsData(unitFormatter, e, newID);
+    }
+
+
     /* get units returned by dely */
     if (e->isSetDelay())
     {
@@ -6912,6 +6943,26 @@ Model::createDelayUnitsData(UnitFormulaFormatter* unitFormatter, Event * e,
 }
 /** @endcond */
 
+/** @cond doxygenLibsbmlInternal */
+void
+Model::createTriggerUnitsData(UnitFormulaFormatter* unitFormatter, Event * e,
+  const std::string& eventId)
+{
+  UnitDefinition *ud = NULL;
+  FormulaUnitsData *fud = createFormulaUnitsData();
+
+  Trigger * d = e->getTrigger();
+
+  fud->setUnitReferenceId(eventId);
+  d->setInternalId(eventId);
+
+  fud->setComponentTypecode(SBML_TRIGGER);
+
+  createUnitsDataFromMath(unitFormatter, fud, d->getMath());
+
+  fud->setEventTimeUnitDefinition(NULL);
+}
+/** @endcond */
 /** @cond doxygenLibsbmlInternal */
 void 
 Model::createPriorityUnitsData(UnitFormulaFormatter* unitFormatter, 

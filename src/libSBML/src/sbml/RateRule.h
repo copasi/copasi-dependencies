@@ -653,7 +653,7 @@ RateRule_getMath(const RateRule_t * rr);
 
 /**
  * @note SBML Level 1 uses a text-string format for mathematical formulas.
- * SBML Level 2 uses MathML, an XML format for representing mathematical
+ * Other levels of SBML use MathML, an XML format for representing mathematical
  * expressions.  LibSBML provides an Abstract Syntax Tree API for working
  * with mathematical expressions; this API is more powerful than working
  * with formulas directly in text form, and ASTs can be translated into
@@ -672,13 +672,13 @@ RateRule_getFormula (const RateRule_t *r);
 
 
 /**
- * Predicate returning @c 1 if the given RateRule_t structure's "variable"
+ * Predicate returning @c 1 (true) if the given RateRule_t structure's "variable"
  * is set.
  *
  * @param rr the RateRule_t structure.
  *
- * @return @c 1 if the "variable" of this RateRule_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "variable" of this RateRule_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof RateRule_t
  */
@@ -688,13 +688,13 @@ RateRule_isSetVariable(const RateRule_t * rr);
 
 
 /**
- * Predicate returning @c 1 if the given RateRule_t structure's "math"
+ * Predicate returning @c 1 (true) if the given RateRule_t structure's "math"
  * is set.
  *
  * @param rr the RateRule_t structure.
  *
- * @return @c 1 if the "math" of this RateRule_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "math" of this RateRule_t structure is
+ * set, @c 0 (false) otherwise.
  *
  * @memberof RateRule_t
  */
@@ -704,8 +704,8 @@ RateRule_isSetMath(const RateRule_t * rr);
 
 
 /**
- * @return true (non-zero) if the formula (or equivalently the math) for
- * this RateRule_t is set, false (0) otherwise.
+ * @return @c 1 (true) if the formula (or equivalently the math) for
+ * this RateRule_t is set, @c 0 (false) otherwise.
  *
  * @memberof RateRule_t
  */
@@ -717,8 +717,8 @@ RateRule_isSetFormula (const RateRule_t *r);
 /**
  * Sets the "variable" attribute of the given RateRule_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs RateRule_unsetVariable() instead.
+ * This function copies the string given in @p variable.  If the string is
+ * a null pointer, this function is equivalent to calling RateRule_unsetVariable().
  *
  * @param rr the RateRule_t structure.
  *
@@ -730,8 +730,8 @@ RateRule_isSetFormula (const RateRule_t *r);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
+ * @note Using this function with a null pointer for @p variable is equivalent to
+ * unsetting the value of the "variable" attribute.
  * 
  * @memberof RateRule_t
  */
@@ -767,7 +767,7 @@ RateRule_setMath(RateRule_t * rr, const ASTNode_t* math);
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
  * @note SBML Level 1 uses a text-string format for mathematical formulas.
- * SBML Level 2 uses MathML, an XML format for representing mathematical
+ * Other levels of SBML use MathML, an XML format for representing mathematical
  * expressions.  LibSBML provides an Abstract Syntax Tree API for working
  * with mathematical expressions; this API is more powerful than working
  * with formulas directly in text form, and ASTs can be translated into
@@ -803,13 +803,13 @@ RateRule_unsetVariable(RateRule_t * ar);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * attributes of the given RateRule_t structure have been set.
  *
  * @param rr the RateRule_t structure to check.
  *
- * @return @c 1 if all the required attributes for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required attributes for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
  * @memberof RateRule_t
  */
@@ -819,13 +819,13 @@ RateRule_hasRequiredAttributes(const RateRule_t * rr);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * sub-elements of the given RateRule_t structure have been set.
  *
  * @param rr the RateRule_t structure to check.
  *
- * @return @c 1 if all the required sub-elements for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required sub-elements for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
  * @memberof RateRule_t
  */

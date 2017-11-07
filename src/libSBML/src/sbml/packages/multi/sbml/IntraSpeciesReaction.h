@@ -275,13 +275,16 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new IntraSpeciesReaction_t structure using the given SBML @p level and
- * @p version values.
+ * @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML level to assign to this
  * IntraSpeciesReaction_t structure.
  *
  * @param version an unsigned int, the SBML version to assign to this
  * IntraSpeciesReaction_t structure.
+ *
+ * @param pkgVersion an unsigned int, the version of the package to assign
+ * to this IntraSpeciesReaction_t structure.
  *
  * @returns the newly-created IntraSpeciesReaction_t structure, or a null pointer if
  * an error occurred during construction.
@@ -324,15 +327,15 @@ IntraSpeciesReaction_clone(IntraSpeciesReaction_t * isr);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * attributes of the given IntraSpeciesReaction_t structure have been set.
  *
  * @param isr the IntraSpeciesReaction_t structure to check.
  *
- * @return @c 1 if all the required attributes for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required attributes for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
- * @member of IntraSpeciesReaction_t
+ * @memberof IntraSpeciesReaction_t
  */
 LIBSBML_EXTERN
 int

@@ -449,8 +449,8 @@ public:
    * Removes item in this ListOf items with the given identifier.
    *
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier @p sid, then @c
-   * NULL is returned.
+   * If none of the items in this list have the identifier @p sid, then
+   * @c NULL is returned.
    *
    * @param sid the identifier of the item to remove.
    *
@@ -660,8 +660,6 @@ BEGIN_C_DECLS
  *
  * @copydetails doc_note_bare_listof
  *
- * @copydetails doc_note_setting_lv
- *
  * @memberof ListOf_t
  */
 LIBSBML_EXTERN
@@ -725,7 +723,8 @@ ListOf_append (ListOf_t *lo, const SBase_t *item);
  * Will become a child of the parent list.
  *
  * Unlike ListOf_append(), this function does not copy the @p disownedItem.
- * The given @p lo list will contain the original item.
+ * The given @p lo list will contain the original item, and becomes responsible
+ * for its deletion.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -741,7 +740,7 @@ ListOf_appendAndOwn (ListOf_t *lo, SBase_t *disownedItem);
 
 
 /**
- * Adds clones a list of items from one list to another.
+ * Adds clones of one list of items to another.
  *
  * @param lo the ListOf_t list to which @p list will be appended.
  * @param list the list of items to append to @p lo.
@@ -831,9 +830,9 @@ ListOf_getById (ListOf_t *lo, const char *sid);
 /**
  * Removes all items in this ListOf_t structure.
  *
- * If @p doDelete is true (non-zero), all items in this ListOf_t structure
+ * If @p doDelete is @c nonzero (true), all items in this ListOf_t structure
  * are both deleted and cleared, and thus the caller doesn't have to delete
- * those items.  Otherwise, if @p doDelete is false (zero), all items are
+ * those items.  Otherwise, if @p doDelete is @c 0 (false), all items are
  * only cleared from this ListOf_t structure and the caller is responsible
  * for deleting all items.  (In the latter case, callers are advised to store
  * pointers to all items elsewhere before calling this function.)

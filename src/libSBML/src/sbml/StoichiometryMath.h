@@ -81,8 +81,8 @@
  * stoichiometry found in textbooks.  Examples and more explanations of
  * this are given in the SBML specification.
  * 
- * The following is a simple example of a species reference for species @c
- * "X0", with stoichiometry @c 2, in a list of reactants within a reaction
+ * The following is a simple example of a species reference for species
+ * @c "X0", with stoichiometry @c 2, in a list of reactants within a reaction
  * having the identifier @c "J1":
  * @verbatim
  <model>
@@ -548,8 +548,8 @@ public:
   /*
    * Function to set/get an identifier for unit checking.
    */
-  std::string getInternalId() const { return mInternalId; };
-  void setInternalId(std::string id) { mInternalId = id; };
+  std::string getInternalId() const;
+  void setInternalId(std::string id);
   /** @endcond */
 
 
@@ -648,13 +648,7 @@ BEGIN_C_DECLS
  *
  * @return a pointer to the newly created StoichiometryMath_t structure.
  *
- * @note Once a StoichiometryMath_t has been added to an SBMLDocument_t, the @p
- * level and @p version for the document @em override those used to create
- * the StoichiometryMath_t.  Despite this, the ability to supply the values at
- * creation time is an important aid to creating valid SBML.  Knowledge of
- * the intended SBML Level and Version  determine whether it is valid to
- * assign a particular value to an attribute, or whether it is valid to add
- * a structure to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof StoichiometryMath_t
  */
@@ -672,13 +666,7 @@ StoichiometryMath_create (unsigned int level, unsigned int version);
  *
  * @return a pointer to the newly created StoichiometryMath_t structure.
  *
- * @note Once a StoichiometryMath_t has been added to an SBMLDocument_t, the
- * @p sbmlns namespaces for the document @em override those used to create
- * the StoichiometryMath_t.  Despite this, the ability to supply the values at 
- * creation time is an important aid to creating valid SBML.  Knowledge of the
- * intended SBML Level and Version determine whether it is valid to assign a 
- * particular value to an attribute, or whether it is valid to add a structure 
- * to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof StoichiometryMath_t
  */
@@ -724,7 +712,7 @@ StoichiometryMath_getNamespaces(StoichiometryMath_t *sm);
 
 
 /**
- * @return the stoichMath of this StoichiometryMath_t.
+ * @return the math of this StoichiometryMath_t as an ASTNode_t.
  *
  * @memberof StoichiometryMath_t
  */
@@ -734,8 +722,8 @@ StoichiometryMath_getMath (const StoichiometryMath_t *t);
 
 
 /**
- * @return @c true (non-zero) if the stoichMath (or equivalently the formula) of
- * this StoichiometryMath_t is set, @c false (0) otherwise.
+ * @return @c 1 (true) if the math (or equivalently the formula) of
+ * this StoichiometryMath_t is set, @c 0 (false) otherwise.
  *
  * @memberof StoichiometryMath_t
  */
@@ -770,18 +758,18 @@ StoichiometryMath_setMath (StoichiometryMath_t *t, const ASTNode_t *math);
  * The units are calculated based on the mathematical expression in the
  * StoichiometryMath_t and the model quantities referenced by
  * <code>&lt;ci&gt;</code> elements used within that expression.  The
- * getDerivedUnitDefinition() method returns the calculated units.
+ * StoichiometryMath_getDerivedUnitDefinition() method returns the calculated units.
  * 
  * @warning Note that it is possible the "math" expression in the
  * StoichiometryMath_t contains pure numbers or parameters with undeclared
  * units.  In those cases, it is not possible to calculate the units of
  * the overall expression without making assumptions.  LibSBML does not
- * make assumptions about the units, and getDerivedUnitDefinition() only
- * returns the units as far as it is able to determine them.  For
+ * make assumptions about the units, and StoichiometryMath_getDerivedUnitDefinition()
+ * only returns the units as far as it is able to determine them.  For
  * example, in an expression <em>X + Y</em>, if <em>X</em> has
  * unambiguously-defined units and <em>Y</em> does not, it will return
  * the units of <em>X</em>.  <strong>It is important that callers also
- * invoke the method</strong> containsUndeclaredUnits() <strong>to
+ * invoke the method StoichiometryMath_containsUndeclaredUnits() to
  * determine whether this situation holds</strong>.  Callers may wish to
  * take suitable actions in those scenarios.
  *
@@ -795,19 +783,19 @@ StoichiometryMath_getDerivedUnitDefinition(StoichiometryMath_t *math);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether 
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether 
  * the math expression of this StoichiometryMath_t contains
  * parameters/numbers with undeclared units.
  *
  * @param math the StoichiometryMath_t structure to check.
  * 
- * @return @c true if the math expression of this StoichiometryMath_t
+ * @return @c 1 (true) if the math expression of this StoichiometryMath_t
  * includes parameters/numbers 
- * with undeclared units, @c false otherwise.
+ * with undeclared units, @c 0 (false) otherwise.
  *
- * @note A return value of @c true indicates that the UnitDefinition_t
- * returned by getDerivedUnitDefinition() may not accurately represent
- * the units of the expression.
+ * @note a return value of @c 1 (true) indicates that the UnitDefinition_t
+ * returned by StoichiometryMath_getDerivedUnitDefinition() may not 
+ * accurately represent the units of the expression.
  *
  * @see StoichiometryMath_getDerivedUnitDefinition()
  *

@@ -1662,7 +1662,7 @@ SBMLDocument::isDisabledIgnoredPackage(const std::string& pkgURI)
 bool
 SBMLDocument::hasUnknownPackage(const std::string& pkgURI)
 {
-  // has this package been added to teh list of unknown required attributes
+  // has this package been added to the list of unknown required attributes
   std::string req = mRequiredAttrOfUnknownPkg.getValue("required", pkgURI);
   if (!req.empty()) return true;
 
@@ -2561,6 +2561,14 @@ unsigned int
 SBMLDocument_checkL3v1Compatibility (SBMLDocument_t *d)
 {
   return (d != NULL) ? d->checkL3v1Compatibility() : SBML_INT_MAX;
+}
+
+
+LIBSBML_EXTERN
+unsigned int
+SBMLDocument_checkL3v2Compatibility(SBMLDocument_t *d)
+{
+  return (d != NULL) ? d->checkL3v2Compatibility() : SBML_INT_MAX;
 }
 
 

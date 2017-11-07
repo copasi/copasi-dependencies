@@ -74,7 +74,7 @@ class LIBSBML_EXTERN MultiASTPlugin : public ASTBasePlugin
 public:
 
   /**
-   * Creates a new MultiModelPlugin object using the given parameters.
+   * Creates a new MultiASTPlugin object using the given parameters.
    *
    * @copydetails doc_what_are_xmlnamespaces
    *
@@ -122,7 +122,7 @@ public:
    * XMLInputStream if they have their specific elements.
    *
    * @return the SBML object corresponding to next XMLToken in the
-   * XMLInputStream or NULL if the token was not recognized.
+   * XMLInputStream or @c NULL if the token was not recognized.
    */
   virtual MultiASTPlugin* createObject (XMLInputStream& stream);
   /** @endcond */

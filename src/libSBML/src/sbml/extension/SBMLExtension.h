@@ -761,7 +761,7 @@ SBMLExtension_getSBasePluginCreatorByIndex(SBMLExtension_t* ext,
  * @param ext the SBMLExtension_t structure.
  *
  * @return the number of SBasePlugin_t structures stored in the structure,
- * or LIBSBML_INVALID_OBJECT.
+ * or @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}.
  *
  * @memberof SBMLExtension_t
  */
@@ -776,7 +776,7 @@ SBMLExtension_getNumOfSBasePlugins(SBMLExtension_t* ext);
  * @param ext the SBMLExtension_t structure.
  *
  * @return the number of supported package namespaces (package versions)
- * for this package extension or LIBSBML_INVALID_OBJECT.
+ * for this package extension or @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}.
  *
  * @memberof SBMLExtension_t
  */
@@ -785,14 +785,14 @@ int
 SBMLExtension_getNumOfSupportedPackageURI(SBMLExtension_t* ext);
 
 /**
- * Returns a flag indicating, whether the given URI (package version) is
+ * Returns a flag indicating whether the given URI (package version) is
  * supported by this package extension.
  *
  * @param ext the SBMLExtension_t structure.
  * @param uri the package uri.
  *
- * @return true (1) if the given URI (package version) is supported by this
- * package extension, otherwise false (0) is returned.
+ * @return @c 1 (true) if the given URI (package version) is supported by this
+ * package extension, otherwise @c 0 (false) is returned.
  *
  * @memberof SBMLExtension_t
  */
@@ -807,7 +807,7 @@ SBMLExtension_isSupported(SBMLExtension_t* ext, const char* uri);
  * @param ext the SBMLExtension_t structure.
  * @param index the index of the supported package uri to return.
  *
- * @return the package URI (package version) for the given index or NULL.
+ * @return the package URI (package version) for the given index or @c NULL.
  *
  * @memberof SBMLExtension_t
  */
@@ -836,7 +836,7 @@ SBMLExtension_getName(SBMLExtension_t* ext);
  * @param ext the SBMLExtension_t structure.
  * @param sbmlLevel the level of SBML.
  * @param sbmlVersion the version of SBML.
- * @param pkgVersion the version of package.
+ * @param pkgVersion the version of the package.
  *
  * @return a string of the package URI
  *
@@ -927,10 +927,10 @@ SBMLExtension_getSBMLExtensionNamespaces(SBMLExtension_t* ext, const char* uri);
  * Enable/disable this package.
  *
  * @param ext the SBMLExtension_t structure.
- * @param isEnabled the value to set : true (1) (enabled) or false (0) (disabled).
+ * @param isEnabled the value to set : @c 1 (true; enabled) or @c 0 (false; disabled).
  *
- * @return true (1) if this function call succeeded, otherwise false (0)is returned.
- * If the extension is invalid, LIBSBML_INVALID_OBJECT will be returned.
+ * @return @c 1 (true) if this function call succeeded, otherwise @c 0 (false) is returned.
+ * If the extension is invalid, @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t} will be returned.
  *
  * @memberof SBMLExtension_t
  */
@@ -939,12 +939,12 @@ int
 SBMLExtension_setEnabled(SBMLExtension_t* ext, int isEnabled);
 
 /**
- * Check if this package is enabled (true/1) or disabled (false/0).
+ * Check if this package is enabled or disabled.
  *
  * @param ext the SBMLExtension_t structure.
  *
- * @return true if the package is enabled, otherwise false is returned.
- * If the extension is invalid, LIBSBML_INVALID_OBJECT will be returned.
+ * @return @c 1 (true) if the package is enabled, otherwise @c 0 (false) is returned.
+ * If the extension is invalid, @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t} will be returned.
  *
  * @memberof SBMLExtension_t
  */

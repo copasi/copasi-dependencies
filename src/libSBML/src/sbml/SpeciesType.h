@@ -706,8 +706,8 @@ public:
   /**
    * Returns the XML element name of this object.
    *
-   * For ListOfSpeciesTypes, the XML element name is @c
-   * "listOfSpeciesTypes".
+   * For ListOfSpeciesTypes, the XML element name is
+   * @c "listOfSpeciesTypes".
    * 
    * @return the name of this element, i.e., @c "listOfSpeciesTypes".
    */
@@ -788,8 +788,8 @@ public:
    * Removes item in this ListOfSpeciesTypes items with the given identifier.
    *
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier @p sid, then @c
-   * NULL is returned.
+   * If none of the items in this list have the identifier @p sid, then
+   * @c NULL is returned.
    *
    * @param sid the identifier of the item to remove.
    *
@@ -854,13 +854,7 @@ BEGIN_C_DECLS
  *
  * @return a pointer to the newly created SpeciesType_t structure.
  *
- * @note Once a SpeciesType_t has been added to an SBMLDocument_t, the @p
- * level and @p version for the document @em override those used to create
- * the SpeciesType_t.  Despite this, the ability to supply the values at
- * creation time is an important aid to creating valid SBML.  Knowledge of
- * the intended SBML Level and Version  determine whether it is valid to
- * assign a particular value to an attribute, or whether it is valid to add
- * a structure to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof SpeciesType_t
  */
@@ -878,13 +872,7 @@ SpeciesType_create (unsigned int level, unsigned int version);
  *
  * @return a pointer to the newly created SpeciesType_t structure.
  *
- * @note Once a SpeciesType_t has been added to an SBMLDocument_t, the
- * @p sbmlns namespaces for the document @em override those used to create
- * the SpeciesType_t. Despite this, the ability to supply the values at creation 
- * time is an important aid to creating valid SBML.  Knowledge of the intended 
- * SBML Level and Version determine whether it is valid to assign a particular 
- * value to an attribute, or whether it is valid to add a structure to an existing
- * SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof SpeciesType_t
  */
@@ -964,13 +952,13 @@ SpeciesType_getName (const SpeciesType_t *st);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * SpeciesType_t structure's identifier is set.
  *
  * @param st the SpeciesType_t structure to query.
  * 
- * @return @c non-zero (true) if the "id" field of the given
- * SpeciesType_t is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "id" field of the given
+ * SpeciesType_t is set, @c 0 (false) otherwise.
  *
  * @memberof SpeciesType_t
  */
@@ -980,13 +968,13 @@ SpeciesType_isSetId (const SpeciesType_t *st);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * SpeciesType_t structure's name is set.
  *
  * @param st the SpeciesType_t structure to query.
  * 
- * @return @c non-zero (true) if the "name" field of the given
- * SpeciesType_t is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "name" field of the given
+ * SpeciesType_t is set, @c 0 (false) otherwise.
  *
  * @memberof SpeciesType_t
  */
@@ -1007,7 +995,7 @@ SpeciesType_isSetName (const SpeciesType_t *st);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof SpeciesType_t

@@ -62,6 +62,35 @@
  *
  * @see FluxObjective
  * @see ListOfObjectives
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class ListOfObjectives
+ * @sbmlbrief{fbc} A list of Objective objects.
+ *
+ * The ListOfObjectives is a container for the SBML extended Model
+ * that lists all the possible Objective elements in the model.
+ *
+ * Unlike most other ListOf subclasses in SBML, SBML Level&nbsp;3 @ref fbc
+ * Version&nbsp;2 defines an additional required attribute on
+ * ListOfObjectives: the "activeObjective" attribute.  This attribute is of
+ * type <code>SIdRef</code> and can only refer to the id of an existing
+ * Objective. This required attribute exists so that when multiple
+ * Objective's are included in a single model, the model will always be well
+ * described; i.e., there will be a single, primary objective function which
+ * defines a single optimum and its associated solution space.
+ *
+ * @copydetails doc_what_is_listof
+ *
+ * @see GeneProduct
+ * @see FbcModelPlugin
+ *
+ * @warning The required attribute "activeObjective" on ListOfObjectives is
+ * an additional attribute that is not present on typical ListOf classes.
+ * The introduction of an attribute on ListOf is perfectly legal in SBML, but
+ * uncommon, and software developers may have grown accustomed to ListOf
+ * classes all having the same attributes and no others.  We are belaboring
+ * this point so that developers are more likely to notice the presence of an
+ * additional attribute on ListOfObjectives.
  */
 
 #ifndef Objective_H__
@@ -115,7 +144,6 @@ protected:
 //  std::string   mName;
   ObjectiveType_t   mType;
   ListOfFluxObjectives   mFluxObjectives;
-  bool mIsSetListOfFluxObjectives;
   std::string mTypeString;
   /** @endcond */
 
@@ -367,7 +395,7 @@ public:
    * get.
    *
    * @return the FluxObjective in the ListOfFluxObjectives with the given id
-   * or NULL if no such FluxObjective exists.
+   * or @c NULL if no such FluxObjective exists.
    *
    * @see getFluxObjective(unsigned int n)
    *
@@ -384,7 +412,7 @@ public:
    * get.
    *
    * @return the FluxObjective in the ListOfFluxObjectives with the given id
-   * or NULL if no such FluxObjective exists.
+   * or @c NULL if no such FluxObjective exists.
    *
    * @see getFluxObjective(unsigned int n)
    *
@@ -885,7 +913,7 @@ public:
    *
    * @param elementName, the name of the element to get number of.
    *
-   * @param index, unsigned int teh index of teh object to retrieve.
+   * @param index, unsigned int the index of the object to retrieve.
    *
    * @return pointer to the object.
    */
@@ -944,35 +972,6 @@ protected:
 };
 
 
-/**
- * @class ListOfObjectives
- * @sbmlbrief{fbc} A list of Objective objects.
- *
- * The ListOfObjectives is a container for the SBML extended Model
- * that lists all the possible Objective elements in the model.
- *
- * Unlike most other ListOf subclasses in SBML, SBML Level&nbsp;3 @ref fbc
- * Version&nbsp;2 defines an additional required attribute on
- * ListOfObjectives: the "activeObjective" attribute.  This attribute is of
- * type <code>SIdRef</code> and can only refer to the id of an existing
- * Objective. This required attribute exists so that when multiple
- * Objective's are included in a single model, the model will always be well
- * described; i.e., there will be a single, primary objective function which
- * defines a single optimum and its associated solution space.
- *
- * @copydetails doc_what_is_listof
- *
- * @see GeneProduct
- * @see FbcModelPlugin
- *
- * @warning The required attribute "activeObjective" on ListOfObjectives is
- * an additional attribute that is not present on typical ListOf classes.
- * The introduction of an attribute on ListOf is perfectly legal in SBML, but
- * uncommon, and software developers may have grown accustomed to ListOf
- * classes all having the same attributes and no others.  We are belaboring
- * this point so that developers are more likely to notice the presence of an
- * additional attribute on ListOfObjectives.
- */
 class LIBSBML_EXTERN ListOfObjectives : public ListOf
 {
 
@@ -1064,7 +1063,7 @@ public:
    *
    * @param sid a string representing the identifier of the Objective to get.
    *
-   * @return Objective in this ListOfObjectives with the given id or NULL if
+   * @return Objective in this ListOfObjectives with the given id or @c NULL if
    * no such Objective exists.
    *
    * @see get(unsigned int n)
@@ -1078,7 +1077,7 @@ public:
    *
    * @param sid a string representing the identifier of the Objective to get.
    *
-   * @return Objective in this ListOfObjectives with the given id or NULL if
+   * @return Objective in this ListOfObjectives with the given id or @c NULL if
    * no such Objective exists.
    *
    * @see get(unsigned int n)
@@ -1319,13 +1318,16 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new Objective_t structure using the given SBML @p level and
- * @p version values.
+ * @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML level to assign to this
  * Objective_t structure.
  *
  * @param version an unsigned int, the SBML version to assign to this
  * Objective_t structure.
+ *
+ * @param pkgVersion an unsigned int, the version of the package to assign
+ * to this Objective_t structure.
  *
  * @returns the newly-created Objective_t structure, or a null pointer if
  * an error occurred during construction.
@@ -1375,7 +1377,7 @@ Objective_clone(Objective_t * o);
  *
  * @return the id of this structure.
  *
- * @member of Objective_t
+ * @memberof Objective_t
  */
 LIBSBML_EXTERN
 const char *
@@ -1390,7 +1392,7 @@ Objective_getId(const Objective_t * o);
  *
  * @return the name of this structure.
  *
- * @member of Objective_t
+ * @memberof Objective_t
  */
 LIBSBML_EXTERN
 const char *
@@ -1412,15 +1414,15 @@ Objective_getType(Objective_t * obj);
 
 
 /**
- * Predicate returning @c 1 if the given Objective_t structure's "id"
+ * Predicate returning @c 1 (true) if the given Objective_t structure's "id"
  * is set.
  *
  * @param o the Objective_t structure.
  *
- * @return @c 1 if the "id" of this Objective_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "id" of this Objective_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of Objective_t
+ * @memberof Objective_t
  */
 LIBSBML_EXTERN
 int
@@ -1428,15 +1430,15 @@ Objective_isSetId(const Objective_t * o);
 
 
 /**
- * Predicate returning @c 1 if the given Objective_t structure's "name"
+ * Predicate returning @c 1 (true) if the given Objective_t structure's "name"
  * is set.
  *
  * @param o the Objective_t structure.
  *
- * @return @c 1 if the "name" of this Objective_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "name" of this Objective_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of Objective_t
+ * @memberof Objective_t
  */
 LIBSBML_EXTERN
 int
@@ -1444,15 +1446,15 @@ Objective_isSetName(const Objective_t * o);
 
 
 /**
- * Predicate returning @c 1 if the given Objective_t structure's "type"
+ * Predicate returning @c 1 (true) if the given Objective_t structure's "type"
  * is set.
  *
  * @param o the Objective_t structure.
  *
- * @return @c 1 if the "type" of this Objective_t structure is
- * set, @c 0 otherwise.
+ * @return @c 1 (true) if the "type" of this Objective_t structure is
+ * set, @c 0 (false) otherwise.
  *
- * @member of Objective_t
+ * @memberof Objective_t
  */
 LIBSBML_EXTERN
 int
@@ -1462,8 +1464,8 @@ Objective_isSetType(const Objective_t * o);
 /**
  * Sets the "id" attribute of the given Objective_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs Objective_unsetId() instead.
+ * This function copies the string given in @p id.  If the string is
+ * a null pointer, this function is equivalent to calling Objective_unsetId().
  *
  * @param o the Objective_t structure.
  *
@@ -1475,10 +1477,10 @@ Objective_isSetType(const Objective_t * o);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @note Using this function with a null pointer for @p name is equivalent to
- * unsetting the value of the "name" attribute.
+ * @note Using this function with a null pointer for @p id is equivalent to
+ * unsetting the value of the "id" attribute.
  * 
- * @member of Objective_t
+ * @memberof Objective_t
  */
 LIBSBML_EXTERN
 int
@@ -1488,8 +1490,8 @@ Objective_setId(Objective_t * o, const char * id);
 /**
  * Sets the "name" attribute of the given Objective_t structure.
  *
- * This function copies the string given in @p string.  If the string is
- * a null pointer, this function performs Objective_unsetName() instead.
+ * This function copies the string given in @p name.  If the string is
+ * a null pointer, this function is equivalent to calling Objective_unsetName().
  *
  * @param o the Objective_t structure.
  *
@@ -1504,7 +1506,7 @@ Objective_setId(Objective_t * o, const char * id);
  * @note Using this function with a null pointer for @p name is equivalent to
  * unsetting the value of the "name" attribute.
  * 
- * @member of Objective_t
+ * @memberof Objective_t
  */
 LIBSBML_EXTERN
 int
@@ -1524,7 +1526,7 @@ Objective_setName(Objective_t * o, const char * name);
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of Objective_t
+ * @memberof Objective_t
  */
 LIBSBML_EXTERN
 int
@@ -1542,7 +1544,7 @@ Objective_setType(Objective_t * o, const char* type);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of Objective_t
+ * @memberof Objective_t
  */
 LIBSBML_EXTERN
 int
@@ -1560,7 +1562,7 @@ Objective_unsetId(Objective_t * o);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of Objective_t
+ * @memberof Objective_t
  */
 LIBSBML_EXTERN
 int
@@ -1578,7 +1580,7 @@ Objective_unsetName(Objective_t * o);
  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @member of Objective_t
+ * @memberof Objective_t
  */
 LIBSBML_EXTERN
 int
@@ -1626,15 +1628,15 @@ Objective_removeFluxObjectiveById(Objective_t * o, const char * sid);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * attributes of the given Objective_t structure have been set.
  *
  * @param o the Objective_t structure to check.
  *
- * @return @c 1 if all the required attributes for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required attributes for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
- * @member of Objective_t
+ * @memberof Objective_t
  */
 LIBSBML_EXTERN
 int
@@ -1642,26 +1644,53 @@ Objective_hasRequiredAttributes(const Objective_t * o);
 
 
 /**
- * Predicate returning @c 1 or *c 0 depending on whether all the required
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether all the required
  * sub-elements of the given Objective_t structure have been set.
  *
  * @param o the Objective_t structure to check.
  *
- * @return @c 1 if all the required sub-elements for this
- * structure have been defined, @c 0 otherwise.
+ * @return @c 1 (true) if all the required sub-elements for this
+ * structure have been defined, @c 0 (false) otherwise.
  *
- * @member of Objective_t
+ * @memberof Objective_t
  */
 LIBSBML_EXTERN
 int
 Objective_hasRequiredElements(const Objective_t * o);
 
 
+/**
+* Return the structure indicated by the given @p sid.
+*
+* @param lo the ListOf_t structure to use.
+*
+* @param sid a string matching the "id" attribute of the element sought.
+*
+* @return the structure for the given variable, or @c NULL if no such
+* object exists in the list.
+*
+* @memberof ListOfObjectives_t
+*/
 LIBSBML_EXTERN
 Objective_t *
 ListOfObjectives_getById(ListOf_t * lo, const char * sid);
 
 
+/**
+* Removes the structure with the given @p sid
+* from the given ListOf_t structure and returns a pointer to it.
+*
+* * The caller owns the returned structure and is responsible for deleting it.
+*
+* @param lo the ListOf_t structure.
+* @param sid the string of the "id" attribute of the sought structure.
+*
+* @return the structure removed.  As mentioned above, the
+* caller owns the returned structure. @c NULL is returned if no
+* structure with the "id" attribute exists in the given ListOf_t structure.
+*
+* @memberof ListOfObjectives_t
+*/
 LIBSBML_EXTERN
 Objective_t *
 ListOfObjectives_removeById(ListOf_t * lo, const char * sid);
@@ -1675,7 +1704,8 @@ ListOfObjectives_removeById(ListOf_t * lo, const char * sid);
  * @param type the ObjectiveType_t enumeration to convert.
  *
  * @return A string corresponding to the given effect:  "maximize",
- * "minimize", or @c NULL if the value is OBJECTIVE_TYPE_UNKNOWN
+ * "minimize", or @c NULL if the value is 
+ * @sbmlconstant{OBJECTIVE_TYPE_UNKNOWN, ObjectiveType_t}
  * or another invalid enumeration value.
  *
  * @memberof Objective_t
@@ -1687,15 +1717,15 @@ ObjectiveType_toString(ObjectiveType_t type);
 
 /**
  * Returns the ObjectiveType_t enumeration corresponding to
- * the given string, or OBJECTIVE_TYPE_UNKNOWN if there is
+ * the given string, or @sbmlconstant{OBJECTIVE_TYPE_UNKNOWN, ObjectiveType_t} if there is
  * no such match.  The matching is case-sensitive:  "maximize" will
- * return OBJECTIVE_TYPE_MAXIMIZE, but "Maximize" will return
- * OBJECTIVE_TYPE_UNKNOWN.
+ * return @sbmlconstant{OBJECTIVE_TYPE_MAXIMIZE, ObjectiveType_t}, but "Maximize" will return
+ * @sbmlconstant{OBJECTIVE_TYPE_UNKNOWN, ObjectiveType_t}.
  *
  * @param s the string to convert to an ObjectiveType_t.
  *
  * @return The corresponding ObjectiveType_t, or
- * OBJECTIVE_TYPE_UNKNOWN if no match found.
+ * @sbmlconstant{OBJECTIVE_TYPE_UNKNOWN, ObjectiveType_t} if no match found.
  *
  * @memberof Objective_t
  */
@@ -1705,14 +1735,15 @@ ObjectiveType_fromString(const char* s);
 
 
 /**
- * Predicate returning @c true (non-zero) or @c false (zero) depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * ObjectiveType_t is valid.
  *
  * @param type the ObjectiveType_t enumeration to query.
  *
- * @return @c non-zero (true) if the ObjectiveType_t is
- * OBJECTIVE_TYPE_MAXIMIZE or OBJECTIVE_TYPE_MINIMIZE;
- * zero (false) otherwise (including OBJECTIVE_TYPE_UNKNOWN).
+ * @return @c 1 (true) if the ObjectiveType_t is
+ * @sbmlconstant{OBJECTIVE_TYPE_MAXIMIZE, ObjectiveType_t}
+ * or @sbmlconstant{OBJECTIVE_TYPE_MINIMIZE, ObjectiveType_t};
+ * @c 0 (false) otherwise (including @sbmlconstant{OBJECTIVE_TYPE_UNKNOWN, ObjectiveType_t}).
  *
  * @memberof Objective_t
  */
@@ -1722,15 +1753,15 @@ ObjectiveType_isValidObjectiveType(ObjectiveType_t type);
 
 
 /**
- * Predicate returning @c true (non-zero) or @c false (zero) depending
+ * Predicate returning @c 1 (true) or @c 0 (false) depending
  * on whether the given string is a valid ObjectiveType_t.
  * The matching is case-sensitive:  "maximize" will return @c true, but
  * "Maximize" will return @c false.
  *
  * @param s the string to query.
  *
- * @return @c non-zero (true) if the string is
- * "maximize" or "minimize"; zero (false) otherwise.
+ * @return @c 1 (true) if the string is
+ * "maximize" or "minimize"; @c 0 (false) otherwise.
  *
  * @memberof Objective_t
  */

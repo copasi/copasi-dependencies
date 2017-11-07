@@ -39,6 +39,10 @@
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
 
+#ifdef USE_COMP
+#include <sbml/packages/comp/common/CompExtensionTypes.h>
+#endif
+
 #ifdef __cplusplus
 
 #include <algorithm>
@@ -1043,10 +1047,20 @@ SBMLLevelVersionConverter::performConversion(bool strict, bool strictUnits,
           SBMLTransforms::expandL3V2InitialAssignments(currentModel);
           currentModel->convertFromL3V2(strict);
         }
-        if (currentVersion > 1)
+        currentModel->dealWithL3Fast(targetVersion);
+
+#ifdef USE_COMP
+        CompSBMLDocumentPlugin* compPlug = 
+          static_cast<CompSBMLDocumentPlugin*>(mDocument->getPlugin("comp"));
+        if (compPlug != NULL)
         {
-          currentModel->dealWithFast();
+          for (unsigned int i = 0; i < compPlug->getNumModelDefinitions(); i++)
+          {
+            compPlug->getModelDefinition(i)->dealWithL3Fast(targetVersion);
+          }
         }
+#endif
+        
         conversion = true;
       }
       break;
@@ -1342,7 +1356,7 @@ SBMLLevelVersionConverter::has_fatal_errors(unsigned int level, unsigned int ver
     if (level == 3 && version == 2)
     {
       // there are a coupl of errors that will be logged as general warnings
-      // since they were not in teh relevant spec BUT should still stop a conversion
+      // since they were not in the relevant spec BUT should still stop a conversion
       if (mDocument->getErrorLog()->contains(MathResultMustBeNumeric) ||
         (mDocument->getErrorLog()->contains(PieceNeedsBoolean)) ||
         (mDocument->getErrorLog()->contains(NumericOpsNeedNumericArgs)) ||

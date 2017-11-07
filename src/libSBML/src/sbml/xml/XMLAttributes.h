@@ -330,8 +330,8 @@ public:
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
    * &ndash; this value is returned if any of the arguments are @c NULL.  To
-   * set an empty value for the attribute, use an empty string rather than @c
-   * NULL.
+   * set an empty value for the attribute, use an empty string rather than
+   * @c NULL.
    *
    * @copydetails doc_note_overwrites_existing_values
    *
@@ -802,8 +802,8 @@ public:
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    *
-   * @returns @c true if the attribute was successfully read into value, @c
-   * false otherwise.
+   * @returns @c true if the attribute was successfully read into value,
+   * @c false otherwise.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
@@ -864,8 +864,8 @@ public:
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    *
-   * @returns @c true if the attribute was successfully read into value, @c
-   * false otherwise.
+   * @returns @c true if the attribute was successfully read into value,
+   * @c false otherwise.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
@@ -929,8 +929,8 @@ public:
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    *
-   * @returns @c true if the attribute was successfully read into value, @c
-   * false otherwise.
+   * @returns @c true if the attribute was successfully read into value,
+   * @c false otherwise.
    *
    * @copydetails doc_note_read_methods_and_namespaces 
    *
@@ -995,8 +995,8 @@ public:
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    *
-   * @returns @c true if the attribute was successfully read into value, @c
-   * false otherwise.
+   * @returns @c true if the attribute was successfully read into value,
+   * @c false otherwise.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
@@ -1060,8 +1060,8 @@ public:
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    *
-   * @returns @c true if the attribute was successfully read into value, @c
-   * false otherwise.
+   * @returns @c true if the attribute was successfully read into value,
+   * @c false otherwise.
    *
    * @copydetails doc_note_read_methods_and_namespaces 
    *
@@ -1126,8 +1126,8 @@ public:
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    *
-   * @returns @c true if the attribute was successfully read into value, @c
-   * false otherwise.
+   * @returns @c true if the attribute was successfully read into value,
+   * @c false otherwise.
    *
    * @copydetails doc_note_read_methods_and_namespaces 
    *
@@ -1195,8 +1195,8 @@ public:
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    *
-   * @returns @c true if the attribute was successfully read into value, @c
-   * false otherwise.
+   * @returns @c true if the attribute was successfully read into value,
+   * @c false otherwise.
    *
    * @copydetails doc_note_read_methods_and_namespaces 
    *
@@ -1264,8 +1264,8 @@ public:
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    *
-   * @returns @c true if the attribute was successfully read into value, @c
-   * false otherwise.
+   * @returns @c true if the attribute was successfully read into value,
+   * @c false otherwise.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
@@ -1331,8 +1331,8 @@ public:
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    *
-   * @returns @c true if the attribute was successfully read into value, @c
-   * false otherwise.
+   * @returns @c true if the attribute was successfully read into value,
+   * @c false otherwise.
    *
    * @copydetails doc_note_read_methods_and_namespaces 
    *
@@ -1400,8 +1400,8 @@ public:
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    *
-   * @returns @c true if the attribute was successfully read into value, @c
-   * false otherwise.
+   * @returns @c true if the attribute was successfully read into value,
+   * @c false otherwise.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
@@ -1454,8 +1454,8 @@ public:
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    *
-   * @returns @c true if the attribute was successfully read into value, @c
-   * false otherwise.
+   * @returns @c true if the attribute was successfully read into value,
+   * @c false otherwise.
    *
    * @copydetails doc_note_read_methods_and_namespaces 
    *
@@ -1510,8 +1510,8 @@ public:
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    *
-   * @returns @c true if the attribute was successfully read into value, @c
-   * false otherwise.
+   * @returns @c true if the attribute was successfully read into value,
+   * @c false otherwise.
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
@@ -1609,7 +1609,7 @@ protected:
 
   /**
    * Reads the value for the attribute with the given index into value.
-   * If the attribute was not found or value could be interpreted as a boolean,
+   * If the attribute was not found or value could be interpreted as a Boolean,
    * value is not modified.
    *
    * According to the W3C XML Schema, valid boolean values are: "true",
@@ -1617,7 +1617,7 @@ protected:
    * http://www.w3.org/TR/xmlschema-2/#boolean
    *
    * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
+   * @p required is true, missing attributes are also logged.
    *
    *
    * @param index a int, the index of the attribute.
@@ -1651,7 +1651,7 @@ protected:
    * http://www.w3.org/TR/xmlschema-2/#double
    *
    * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
+   * @p required is true, missing attributes are also logged.
    *
    * @param index a int, the index of the attribute.
    * @param name a string, the name of the attribute
@@ -1678,13 +1678,13 @@ protected:
    * If the attribute was not found or value could be interpreted as a long,
    * value is not modified.
    *
-   * According to the W3C XML Schema valid integers include zero, *all*
-   * positive and *all* negative whole numbers.  For practical purposes, we
+   * According to the W3C XML Schema valid integers include zero, @em all
+   * positive and @em all negative whole numbers.  For practical purposes, we
    * limit values to what can be stored in a long.  For more information,
    * see: http://www.w3.org/TR/xmlschema-2/#integer
    *
    * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
+   * @p required is true, missing attributes are also logged.
    *
    * @param index a int, the index of the attribute.
    * @param name a string, the name of the attribute
@@ -1711,13 +1711,13 @@ protected:
    * If the attribute was not found or value could be interpreted as an integer,
    * value is not modified.
    *
-   * According to the W3C XML Schema valid integers include zero, *all*
-   * positive and *all* negative whole numbers.  For practical purposes, we
+   * According to the W3C XML Schema valid integers include zero, @em all
+   * positive and @em all negative whole numbers.  For practical purposes, we
    * limit values to what can be stored in a int.  For more information,
    * see: http://www.w3.org/TR/xmlschema-2/#integer
    *
    * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
+   * @p required is true, missing attributes are also logged.
    *
    * @param index a int, the index of the attribute.
    * @param name a string, the name of the attribute
@@ -1744,13 +1744,13 @@ protected:
    * If the attribute was not found or value could be interpreted as an
    * unsigned int, value is not modified.
    *
-   * According to the W3C XML Schema valid integers include zero, *all*
-   * positive and *all* negative whole numbers.  For practical purposes, we
+   * According to the W3C XML Schema valid integers include zero, @em all
+   * positive and @em all negative whole numbers.  For practical purposes, we
    * limit values to what can be stored in a unsigned int.  For more
    * information, see: http://www.w3.org/TR/xmlschema-2/#integer
    *
    * If an XMLErrorLog is passed in datatype format errors are logged.  If
-   * required is true, missing attributes are also logged.
+   * @p required is true, missing attributes are also logged.
    *
    * @param index a int, the index of the attribute.
    * @param name a string, the name of the attribute
@@ -1776,7 +1776,7 @@ protected:
    * Reads the value for the attribute with the given index into value.
    * If the attribute was not found, value is not modified.
    *
-   * If an XMLErrorLog is passed in and required is true, missing
+   * If an XMLErrorLog is passed in and @p required is true, missing
    * attributes are logged.
    *
    * @param index a int, the index of the attribute.
@@ -2042,7 +2042,7 @@ XMLAttributes_clear(XMLAttributes_t *xa);
  * @param xa the XMLAttributes_t structure.
  * @param name a string, the local name of the attribute for which the index is being sought.
  *
- * @return the index of an attribute with the given local name, or -1 if not present.
+ * @return the index of an attribute with the given local name, or @c -1 if not present.
  *
  * @memberof XMLAttributes_t
  */
@@ -2059,7 +2059,7 @@ XMLAttributes_getIndex (const XMLAttributes_t *xa, const char *name);
  * @param uri a string, the namespace URI of the attribute.
  *
  * @return the index of an attribute with the given local name and namespace URI,
- * or -1 if not present.
+ * or @c -1 if not present.
  *
  * @memberof XMLAttributes_t
  */
@@ -2075,7 +2075,7 @@ XMLAttributes_getIndexByNS (const XMLAttributes_t *xa, const char *name, const c
  * @param triple an XMLTriple_t, the XML triple of the attribute for which
  *        the index is being sought.
  *
- * @return the index of an attribute with the given XMLTriple_t, or -1 if not present.
+ * @return the index of an attribute with the given XMLTriple_t, or @c -1 if not present.
  *
  * @memberof XMLAttributes_t
  */
@@ -2124,7 +2124,7 @@ XMLAttributes_getNumAttributes (const XMLAttributes_t *xa);
  *
  * @note If index
  * is out of range, an empty string will be returned.
- * Use XMLNamespaces_hasAttribute(...) > 0 to test for attribute existence.
+ * Use XMLAttributes_hasAttribute() != 0 to test for attribute existence.
  * to test for attribute existence.
  * Returned const char* should be freed with safe_free() by the caller.
  *
@@ -2147,7 +2147,7 @@ XMLAttributes_getName (const XMLAttributes_t *xa, int index);
  *
  * @note If index
  * is out of range, an empty string will be returned.
- * Use XMLNamespaces_hasAttribute(...) > 0 to test for attribute existence.
+ * Use XMLAttributes_hasAttribute() != 0 to test for attribute existence.
  * Returned const char* should be freed with safe_free() by the caller.
  *
  * @memberof XMLAttributes_t
@@ -2168,7 +2168,7 @@ XMLAttributes_getPrefix (const XMLAttributes_t *xa, int index);
  *         NULL will be returned if the URI is empty.
  *
  * @note If index is out of range, an empty string will be returned.  Use
- * XMLNamespaces_hasAttribute(...) > 0 to test for attribute existence.
+ * XMLAttributes_hasAttribute() != 0 to test for attribute existence.
  * Returned const char* should be freed with safe_free() by the caller.
  *
  * @memberof XMLAttributes_t
@@ -2190,7 +2190,7 @@ XMLAttributes_getURI (const XMLAttributes_t *xa, int index);
  *
  * @note If index
  * is out of range, NULL will be returned.
- * Use XMLAttributes_hasAttribute(...) > 0 to test for attribute existence.
+ * Use XMLAttributes_hasAttribute() != 0 to test for attribute existence.
  * Returned const char* should be freed with safe_free() by the caller.
  *
  * @memberof XMLAttributes_t
@@ -2211,12 +2211,12 @@ XMLAttributes_getValue (const XMLAttributes_t *xa, int index);
  *
  * @note If an attribute with the
  * given local name does not exist, NULL will be returned.  Use
- * XMLAttributes_hasAttributeWithName(...) > 0 to test for attribute existence.
+ * XMLAttributes_hasAttributeWithName() != 0 to test for attribute existence.
  * A namespace bound to the local name is not checked by this function.
  * Thus, if there are multiple attributes with the given local name and
  * different namespaces, the value of an attribute with the smallest index
  * among those attributes will be returned.
- * XMLAttributes_getValueByNS(...) or XMLAttributes_getValueByTriple(...)
+ * XMLAttributes_getValueByNS() or XMLAttributes_getValueByTriple()
  * should be used to get a value of an attribute with the given local name
  * and namespace.
  * Returned const char* should be freed with safe_free() by the caller.
@@ -2241,7 +2241,7 @@ XMLAttributes_getValueByName (const XMLAttributes_t *xa, const char *name);
  * @note If an attribute with the
  * given local name and namespace URI does not exist, an empty string will be
  * returned.
- * Use XMLAttributes_hasAttributeWithNS(...) to test for attribute existence.
+ * Use XMLAttributes_hasAttributeWithNS() to test for attribute existence.
  * Returned const char* should be freed with safe_free() by the caller.
  *
  * @memberof XMLAttributes_t
@@ -2263,7 +2263,7 @@ LIBLAX_EXTERN
  *
  * @note If an attribute with the
  * given XMLTriple_t does not exist, NULL will be returned.
- * Use XMLAttributes_hasAttributeWithTriple(..) > 0 to test for attribute existence.
+ * Use XMLAttributes_hasAttributeWithTriple() != 0 to test for attribute existence.
  * Returned const char* should be freed with safe_free() by the caller.
  *
  * @memberof XMLAttributes_t
@@ -2273,15 +2273,15 @@ XMLAttributes_getValueByTriple (const XMLAttributes_t *xa, const XMLTriple_t* tr
 
 
 /**
- * Predicate returning @c true or @c false depending on whether
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether
  * an attribute with the given index exists in this XMLAttributes_t
  * structure.
  *
  * @param xa the XMLAttributes_t structure.
  * @param index an integer, the position of the attribute.
  *
- * @return @c non-zero (true) if an attribute with the given index exists
- * in this XMLAttributes_t structure, @c zero (false) otherwise.
+ * @return @c 1 (true) if an attribute with the given index exists
+ * in this XMLAttributes_t structure, @c 0 (false) otherwise.
  *
  * @memberof XMLAttributes_t
  */
@@ -2291,15 +2291,15 @@ XMLAttributes_hasAttribute (const XMLAttributes_t *xa, int index);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether
  * an attribute with the given local name exists in this XMLAttributes_t
  * structure.
  *
  * @param xa the XMLAttributes_t structure.
  * @param name a string, the local name of the attribute.
  *
- * @return @c non-zero (true) if an attribute with the given local name
- * exists in this XMLAttributes_t structure, @c zero (false) otherwise.
+ * @return @c 1 (true) if an attribute with the given local name
+ * exists in this XMLAttributes_t structure, @c 0 (false) otherwise.
  *
  * @memberof XMLAttributes_t
  */
@@ -2309,7 +2309,7 @@ XMLAttributes_hasAttributeWithName (const XMLAttributes_t *xa, const char* name)
 
 
 /**
- * Predicate returning @c true or @c false depending on whether
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether
  * an attribute with the given local name and namespace URI exists in this
  * XMLAttributes_t structure.
  *
@@ -2317,8 +2317,8 @@ XMLAttributes_hasAttributeWithName (const XMLAttributes_t *xa, const char* name)
  * @param name a string, the local name of the attribute.
  * @param uri  a string, the namespace URI of the attribute.
  *
- * @return @c non-zero (true) if an attribute with the given local name
- * and namespace URI exists in this XMLAttributes_t structure, @c zero (false)
+ * @return @c 1 (true) if an attribute with the given local name
+ * and namespace URI exists in this XMLAttributes_t structure, @c 0 (false)
  * otherwise.
  *
  * @memberof XMLAttributes_t
@@ -2329,15 +2329,15 @@ XMLAttributes_hasAttributeWithNS (const XMLAttributes_t *xa, const char* name, c
 
 
 /**
- * Predicate returning @c true or @c false depending on whether
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether
  * an attribute with the given XMLtriple_t exists in this XMLAttributes_t
  * structure.
  *
  * @param xa the XMLAttributes_t structure.
  * @param triple an XMLTriple_t, the XML triple of the attribute.
  *
- * @return @c non-zero (true) if an attribute with the given XMLTriple_t
- * exists in this XMLAttributes_t structure, @c zero (false) otherwise.
+ * @return @c 1 (true) if an attribute with the given XMLTriple_t
+ * exists in this XMLAttributes_t structure, @c 0 (false) otherwise.
  *
  * @memberof XMLAttributes_t
  */
@@ -2347,13 +2347,13 @@ XMLAttributes_hasAttributeWithTriple (const XMLAttributes_t *xa, const XMLTriple
 
 
 /**
- * Predicate returning @c true or @c false depending on whether
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether
  * this XMLAttributes_t structure is empty.
  *
  * @param xa the XMLAttributes_t structure.
  *
- * @return @c non-zero (true) if this XMLAttributes_t structure is empty,
- * @c zero (false) otherwise.
+ * @return @c 1 (true) if this XMLAttributes_t structure is empty,
+ * @c 0 (false) otherwise.
  *
  * @memberof XMLAttributes_t
  */
@@ -2364,7 +2364,7 @@ XMLAttributes_isEmpty (const XMLAttributes_t *xa);
 
 /**
  * Reads the value for the attribute name into value.  If the given local
- * name was not found or value could be interpreted as a boolean, value is
+ * name was not found or value could be interpreted as a Boolean, value is
  * not modified.
  *
  * According to the W3C XML Schema, valid boolean values are: "true",
@@ -2372,19 +2372,21 @@ XMLAttributes_isEmpty (const XMLAttributes_t *xa);
  * http://www.w3.org/TR/xmlschema-2/#boolean
  *
  * If an XMLErrorLog_t is passed in datatype format errors are logged.  If
- * required is true, missing attributes are also logged.
+ * @p required is @c nonzero (true), missing attributes are also logged.
  *
  * @param xa the XMLAttributes_t structure.
  * @param name a string, the local name of the attribute.
- * @param value a boolean, the value of the attribute.
+ * @param value an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true; the value of the attribute.
  * @param log an XMLErrorLog_t, the error log.
- * @param required a boolean, indicating whether the attribute is being sought.
+ * @param required an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true, indicating whether the attribute is being sought.
  *
- * @returns @c non-zero (true) if the attribute was read into value,
- * @c zero (false) otherwise.
+ * @returns @c 1 (true) if the attribute was read into value,
+ * @c 0 (false) otherwise.
  *
  * @note A namespace bound to the given local name is not checked by this
- * function. readIntoBooleanByTriple(...) should be used to read a value for
+ * function. XMLAttributes_readIntoBooleanByTriple() should be used to read a value for
  * an attribute name with a prefix and namespace.
  *
  *
@@ -2401,7 +2403,7 @@ XMLAttributes_readIntoBoolean (XMLAttributes_t *xa,
 
 /**
  * Reads the value for the attribute with the given XMLTriple_t into value.
- * If the XMLTriple_t was not found or value could be interpreted as a boolean,
+ * If the XMLTriple_t was not found or value could be interpreted as a Boolean,
  * value is not modified.
  *
  * According to the W3C XML Schema, valid boolean values are: "true",
@@ -2409,17 +2411,19 @@ XMLAttributes_readIntoBoolean (XMLAttributes_t *xa,
  * http://www.w3.org/TR/xmlschema-2/#boolean
  *
  * If an XMLErrorLog_t is passed in datatype format errors are logged.  If
- * required is true, missing attributes are also logged.
+ * @p required is @c nonzero (true), missing attributes are also logged.
  *
  *
  * @param xa the XMLAttributes_t structure.
  * @param triple an XMLTriple_t, the XML triple of the attribute.
- * @param value a boolean, the value of the attribute.
+ * @param value an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true; the value of the attribute.
  * @param log an XMLErrorLog_t, the error log.
- * @param required a boolean, indicating whether the attribute is being sought.
+ * @param required an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true, indicating whether the attribute is being sought.
  *
- * @returns @c non-zero (true) if the attribute was read into value,
- * @c zero (false) otherwise.
+ * @returns @c 1 (true) if the attribute was read into value,
+ * @c 0 (false) otherwise.
  *
  * @memberof XMLAttributes_t
  */
@@ -2443,20 +2447,21 @@ XMLAttributes_readIntoBooleanByTriple (XMLAttributes_t *xa,
  * http://www.w3.org/TR/xmlschema-2/#double
  *
  * If an XMLErrorLog_t is passed in datatype format errors are logged.  If
- * required is true, missing attributes are also logged.
+ * @p required is @c nonzero (true), missing attributes are also logged.
  *
  *
  * @param xa the XMLAttributes_t structure.
  * @param name a string, the local name of the attribute.
- * @param value a boolean, the value of the attribute.
+ * @param value a double, the value of the attribute.
  * @param log an XMLErrorLog_t, the error log.
- * @param required a boolean, indicating whether the attribute is being sought.
+ * @param required an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true, indicating whether the attribute is being sought.
  *
- * @returns @c non-zero (true) if the attribute was read into value,
- * @c zero (false) otherwise.
+ * @returns @c 1 (true) if the attribute was read into value,
+ * @c 0 (false) otherwise.
  *
  * @note A namespace bound to the given local name is not checked by this
- * function. readIntoDoubleByTriple(...) should be used to read a value for
+ * function. XMLAttributes_readIntoDoubleByTriple() should be used to read a value for
  * an attribute name with a prefix and namespace.
  *
  * @memberof XMLAttributes_t
@@ -2481,17 +2486,18 @@ XMLAttributes_readIntoDouble (XMLAttributes_t *xa,
  * http://www.w3.org/TR/xmlschema-2/#double
  *
  * If an XMLErrorLog_t is passed in datatype format errors are logged.  If
- * required is true, missing attributes are also logged.
+ * @p required is @c nonzero (true), missing attributes are also logged.
  *
  *
  * @param xa the XMLAttributes_t structure.
  * @param triple an XMLTriple_t, the XML triple of the attribute.
- * @param value a boolean, the value of the attribute.
+ * @param value a double, the value of the attribute.
  * @param log an XMLErrorLog_t, the error log.
- * @param required a boolean, indicating whether the attribute is being sought.
+ * @param required an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true, indicating whether the attribute is being sought.
  *
- * @returns @c non-zero (true) if the attribute was read into value,
- * @c zero (false) otherwise.
+ * @returns @c 1 (true) if the attribute was read into value,
+ * @c 0 (false) otherwise.
  *
  * @memberof XMLAttributes_t
  */
@@ -2509,26 +2515,27 @@ XMLAttributes_readIntoDoubleByTriple (XMLAttributes_t *xa,
  * name was not found or value could be interpreted as a long, value is not
  * modified.
  *
- * According to the W3C XML Schema valid integers include zero, *all*
- * positive and *all* negative whole numbers.  For practical purposes, we
+ * According to the W3C XML Schema valid integers include zero, @em all
+ * positive and @em all negative whole numbers.  For practical purposes, we
  * limit values to what can be stored in a long.  For more information,
  * see: http://www.w3.org/TR/xmlschema-2/#integer
  *
  * If an XMLErrorLog_t is passed in datatype format errors are logged.  If
- * required is true, missing attributes are also logged.
+ * @p required is @c nonzero (true), missing attributes are also logged.
  *
  *
  * @param xa the XMLAttributes_t structure.
  * @param name a string, the local name of the attribute.
- * @param value a boolean, the value of the attribute.
+ * @param value a long, the value of the attribute.
  * @param log an XMLErrorLog_t, the error log.
- * @param required a boolean, indicating whether the attribute is being sought.
+ * @param required an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true, indicating whether the attribute is being sought.
  *
- * @returns @c non-zero (true) if the attribute was read into value,
- * @c zero (false) otherwise.
+ * @returns @c 1 (true) if the attribute was read into value,
+ * @c 0 (false) otherwise.
  *
  * @note A namespace bound to the given local name is not checked by this
- * function. readIntoLongByTriple(...) should be used to read a value for
+ * function. XMLAttributes_readIntoLongByTriple() should be used to read a value for
  * an attribute name with a prefix and namespace.
  *
  * @memberof XMLAttributes_t
@@ -2547,23 +2554,24 @@ XMLAttributes_readIntoLong (XMLAttributes_t *xa,
  * If the XMLTriple_t was not found or value could be interpreted as a long,
  * value is not modified.
  *
- * According to the W3C XML Schema valid integers include zero, *all*
- * positive and *all* negative whole numbers.  For practical purposes, we
+ * According to the W3C XML Schema valid integers include zero, @em all
+ * positive and @em all negative whole numbers.  For practical purposes, we
  * limit values to what can be stored in a long.  For more information,
  * see: http://www.w3.org/TR/xmlschema-2/#integer
  *
  * If an XMLErrorLog_t is passed in datatype format errors are logged.  If
- * required is true, missing attributes are also logged.
+ * @p required is @c nonzero (true), missing attributes are also logged.
  *
  *
  * @param xa the XMLAttributes_t structure.
  * @param triple an XMLTriple_t, the XML triple of the attribute.
- * @param value a boolean, the value of the attribute.
+ * @param value a long, the value of the attribute.
  * @param log an XMLErrorLog_t, the error log.
- * @param required a boolean, indicating whether the attribute is being sought.
+ * @param required an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true, indicating whether the attribute is being sought.
  *
- * @returns @c non-zero (true) if the attribute was read into value,
- * @c zero (false) otherwise.
+ * @returns @c 1 (true) if the attribute was read into value,
+ * @c 0 (false) otherwise.
  *
  * @memberof XMLAttributes_t
  */
@@ -2581,26 +2589,27 @@ XMLAttributes_readIntoLongByTriple (XMLAttributes_t *xa,
  * name was not found or value could be interpreted as an integer, value
  * is not modified.
  *
- * According to the W3C XML Schema valid integers include zero, *all*
- * positive and *all* negative whole numbers.  For practical purposes, we
+ * According to the W3C XML Schema valid integers include zero, @em all
+ * positive and @em all negative whole numbers.  For practical purposes, we
  * limit values to what can be stored in a int.  For more information,
  * see: http://www.w3.org/TR/xmlschema-2/#integer
  *
  * If an XMLErrorLog_t is passed in datatype format errors are logged.  If
- * required is true, missing attributes are also logged.
+ * @p required is @c nonzero (true), missing attributes are also logged.
  *
  *
  * @param xa the XMLAttributes_t structure.
  * @param name a string, the local name of the attribute.
- * @param value a boolean, the value of the attribute.
+ * @param value an integer, the value of the attribute.
  * @param log an XMLErrorLog_t, the error log.
- * @param required a boolean, indicating whether the attribute is being sought.
+ * @param required an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true, indicating whether the attribute is being sought.
  *
- * @returns @c non-zero (true) if the attribute was read into value,
- * @c zero (false) otherwise.
+ * @returns @c 1 (true) if the attribute was read into value,
+ * @c 0 (false) otherwise.
  *
  * @note A namespace bound to the given local name is not checked by this
- * function. readIntoIntByTriple(...) should be used to read a value for
+ * function. XMLAttributes_readIntoIntByTriple() should be used to read a value for
  * an attribute name with a prefix and namespace.
  *
  * @memberof XMLAttributes_t
@@ -2619,23 +2628,24 @@ XMLAttributes_readIntoInt (XMLAttributes_t *xa,
  * If the XMLTriple_t was not found or value could be interpreted as an integer,
  * value is not modified.
  *
- * According to the W3C XML Schema valid integers include zero, *all*
- * positive and *all* negative whole numbers.  For practical purposes, we
+ * According to the W3C XML Schema valid integers include zero, @em all
+ * positive and @em all negative whole numbers.  For practical purposes, we
  * limit values to what can be stored in a int.  For more information,
  * see: http://www.w3.org/TR/xmlschema-2/#integer
  *
  * If an XMLErrorLog_t is passed in datatype format errors are logged.  If
- * required is true, missing attributes are also logged.
+ * @p required is @c nonzero (true), missing attributes are also logged.
  *
  *
  * @param xa the XMLAttributes_t structure.
  * @param triple an XMLTriple_t, the XML triple of the attribute.
- * @param value a boolean, the value of the attribute.
+ * @param value an integer, the value of the attribute.
  * @param log an XMLErrorLog_t, the error log.
- * @param required a boolean, indicating whether the attribute is being sought.
+ * @param required an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true, indicating whether the attribute is being sought.
  *
- * @returns @c non-zero (true) if the attribute was read into value,
- * @c zero (false) otherwise.
+ * @returns @c 1 (true) if the attribute was read into value,
+ * @c 0 (false) otherwise.
  *
  * @memberof XMLAttributes_t
  */
@@ -2653,26 +2663,27 @@ XMLAttributes_readIntoIntByTriple (XMLAttributes_t *xa,
  * name was not found or value could be interpreted as an unsigned int,
  * value is not modified.
  *
- * According to the W3C XML Schema valid integers include zero, *all*
- * positive and *all* negative whole numbers.  For practical purposes, we
+ * According to the W3C XML Schema valid integers include zero, @em all
+ * positive and @em all negative whole numbers.  For practical purposes, we
  * limit values to what can be stored in a unsigned int.  For more
  * information, see: http://www.w3.org/TR/xmlschema-2/#integer
  *
  * If an XMLErrorLog_t is passed in datatype format errors are logged.  If
- * required is true, missing attributes are also logged.
+ * @p required is @c nonzero (true), missing attributes are also logged.
  *
  *
  * @param xa the XMLAttributes_t structure.
  * @param name a string, the local name of the attribute.
  * @param value an unsigned int, the value of the attribute.
  * @param log an XMLErrorLog_t, the error log.
- * @param required a boolean, indicating whether the attribute is being sought.
+ * @param required an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true, indicating whether the attribute is being sought.
  *
- * @returns @c non-zero (true) if the attribute was read into value,
- * @c zero (false) otherwise.
+ * @returns @c 1 (true) if the attribute was read into value,
+ * @c 0 (false) otherwise.
  *
  * @note A namespace bound to the given local name is not checked by this
- * function. readIntoUnsignedIntByTriple(...) should be used to read a value for
+ * function. XMLAttributes_readIntoUnsignedIntByTriple() should be used to read a value for
  * an attribute name with a prefix and namespace.
  *
  * @memberof XMLAttributes_t
@@ -2691,23 +2702,24 @@ XMLAttributes_readIntoUnsignedInt (XMLAttributes_t *xa,
  * If the XMLTriple_t was not found or value could be interpreted as an unsigned
  * integer, value is not modified.
  *
- * According to the W3C XML Schema valid integers include zero, *all*
- * positive and *all* negative whole numbers.  For practical purposes, we
+ * According to the W3C XML Schema valid integers include zero, @em all
+ * positive and @em all negative whole numbers.  For practical purposes, we
  * limit values to what can be stored in a unsigned int.  For more
  * information, see: http://www.w3.org/TR/xmlschema-2/#integer
  *
  * If an XMLErrorLog_t is passed in datatype format errors are logged.  If
- * required is true, missing attributes are also logged.
+ * @p required is @c nonzero (true), missing attributes are also logged.
  *
  *
  * @param xa the XMLAttributes_t structure.
  * @param triple an XMLTriple_t, the XML triple of the attribute.
  * @param value an unsigned int, the value of the attribute.
  * @param log an XMLErrorLog_t, the error log.
- * @param required a boolean, indicating whether the attribute is being sought.
+ * @param required an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true, indicating whether the attribute is being sought.
  *
- * @returns @c non-zero (true) if the attribute was read into value,
- * @c zero (false) otherwise.
+ * @returns @c 1 (true) if the attribute was read into value,
+ * @c 0 (false) otherwise.
  *
  * @memberof XMLAttributes_t
  */
@@ -2725,20 +2737,21 @@ XMLAttributes_readIntoUnsignedIntByTriple (XMLAttributes_t *xa,
  * name was not found, value is not modified.
  *
  * If an XMLErrorLog_t is passed in datatype format errors are logged.  If
- * required is true, missing attributes are also logged.
+ * @p required is @c nonzero (true), missing attributes are also logged.
  *
  *
  * @param xa the XMLAttributes_t structure.
  * @param name a string, the local name of the attribute.
  * @param value a string, the value of the attribute.
  * @param log an XMLErrorLog_t, the error log.
- * @param required a boolean, indicating whether the attribute is being sought.
+ * @param required an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true, indicating whether the attribute is being sought.
  *
- * @returns @c non-zero (true) if the attribute was read into value,
- * @c zero (false) otherwise.
+ * @returns @c 1 (true) if the attribute was read into value,
+ * @c 0 (false) otherwise.
  *
  * @note A namespace bound to the given local name is not checked by this
- * function. readIntoStringByTriple(...) should be used to read a value for
+ * function. XMLAttributes_readIntoStringByTriple() should be used to read a value for
  * an attribute name with a prefix and namespace.
  *
  * @memberof XMLAttributes_t
@@ -2757,17 +2770,18 @@ XMLAttributes_readIntoString (XMLAttributes_t *xa,
  * If the XMLTriple_t was not found, value is not modified.
  *
  * If an XMLErrorLog_t is passed in datatype format errors are logged.  If
- * required is true, missing attributes are also logged.
+ * @p required is @c nonzero (true), missing attributes are also logged.
  *
  *
  * @param xa the XMLAttributes_t structure.
  * @param triple an XMLTriple_t, the XML triple of the attribute.
  * @param value a string, the value of the attribute.
  * @param log an XMLErrorLog_t, the error log.
- * @param required a boolean, indicating whether the attribute is being sought.
+ * @param required an integer representing a Boolean, with @c zero (0) = false,
+ * and @c nonzero = true, indicating whether the attribute is being sought.
  *
- * @returns @c non-zero (true) if the attribute was read into value,
- * @c zero (false) otherwise.
+ * @returns @c 1 (true) if the attribute was read into value,
+ * @c 0 (false) otherwise.
  *
  * @memberof XMLAttributes_t
  */

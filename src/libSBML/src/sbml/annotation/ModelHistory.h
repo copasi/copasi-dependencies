@@ -535,8 +535,8 @@ Date_t * ModelHistory_getCreatedDate(ModelHistory_t * mh);
  *
  * @param mh the ModelHistory_t structure to be queried.
  *
- * @return true (non-zero) if the createdDate of this 
- * ModelHistory_t structure is set, false (0) otherwise.
+ * @return @c 1 (true) if the createdDate of this 
+ * ModelHistory_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof ModelHistory_t
  */
@@ -580,8 +580,8 @@ Date_t * ModelHistory_getModifiedDate(ModelHistory_t * mh);
  *
  * @param mh the ModelHistory_t structure to be queried.
  *
- * @return true (non-zero) if the modifiedDate of this 
- * ModelHistory_t structure is set, false (0) otherwise.
+ * @return @c 1 (true) if the modifiedDate of this 
+ * ModelHistory_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof ModelHistory_t
  */
@@ -647,10 +647,10 @@ ModelHistory_getNumModifiedDates(ModelHistory_t * mh);
  * of this ModelHistory_t.
  *
  * @note A bug in libSBML meant that originally a ModelHistory_t structure
- * contained only one instance of a ModifiedDate_t.  In fact the MIRIAM
+ * contained only one instance of a Date_t.  In fact the MIRIAM
  * annotation expects zero or more modified dates and thus the
- * implementation was changed.  To avoid impacting on existing code
- * there is a ditinction between the function 
+ * implementation was changed.  To avoid impacting existing code
+ * there is a distinction between the function 
  * ModelHistory_getModifiedDate() which requires no index value and
  * this function that indexes into a list.
  *
@@ -666,9 +666,9 @@ ModelHistory_getModifiedDateFromList(ModelHistory_t * mh, unsigned int n);
  *
  * @param mh the ModelHistory_t structure.
  * 
- * @return true (1) if this ModelHistory_t has all the required elements,
- * otherwise false (0) will be returned. If an invalid ModelHistory_t 
- * was provided LIBSBML_INVALID_OBJECT is returned.
+ * @return @c 1 (true) if this ModelHistory_t has all the required elements,
+ * otherwise @c 0 (false) will be returned, including if an invalid
+ * CVTerm_t was provided.
  *
  * @memberof ModelHistory_t
  */

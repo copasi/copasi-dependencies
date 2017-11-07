@@ -88,8 +88,8 @@
  * evoke the idea that the trigger expression does not have to be
  * re-checked after it triggers if "persistent"=@c true.  Conversely, if
  * the attribute value is @c false, then the trigger expression is not
- * assumed to persist: if the expression transitions in value back to @c
- * false at any time between when the event triggered and when it is to be
+ * assumed to persist: if the expression transitions in value back to
+ * @c false at any time between when the event triggered and when it is to be
  * executed, the event is no longer considered to have triggered and its
  * assignments are not executed.  (If the trigger expression transitions
  * once more to @c true after that point, then the event is triggered, but
@@ -123,8 +123,8 @@
  * trigger expression is determined by the value of the boolean attribute
  * "initialValue".  A value of @c true means the trigger expression is
  * taken to have the value @c true immediately prior to <em>t = 0</em>.  In
- * that case, the trigger cannot transition in value from @c false to @c
- * true at the moment simulation begins (because it has the value @c true
+ * that case, the trigger cannot transition in value from @c false to
+ * @c true at the moment simulation begins (because it has the value @c true
  * both before and after <em>t = 0</em>), and can only make the transition
  * from @c false to @c true sometime <em>after</em> <em>t = 0</em>.  (To do
  * that, it would also first have to transition to @c false before it could
@@ -795,8 +795,19 @@ public:
 
   #endif /* !SWIG */
 
+  /** @cond doxygenLibsbmlInternal */
+  /*
+  * Function to set/get an identifier for unit checking
+  */
+  std::string getInternalId() const;
+  void setInternalId(std::string id);
+
+  /** @endcond */
+
 
 protected:
+
+
   /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to read (and store) XHTML,
@@ -852,6 +863,9 @@ protected:
   bool mIsSetInitialValue;
   bool mIsSetPersistent;
 
+  /* internal id used by unit checking */
+  std::string mInternalId;
+
   /* the validator classes need to be friends to access the 
    * protected constructor that takes no arguments
    */
@@ -896,13 +910,7 @@ BEGIN_C_DECLS
  *
  * @return a pointer to the newly created Trigger_t structure.
  *
- * @note Once a Trigger_t has been added to an SBMLDocument_t, the @p
- * level and @p version for the document @em override those used to create
- * the Trigger_t.  Despite this, the ability to supply the values at
- * creation time is an important aid to creating valid SBML.  Knowledge of
- * the intended SBML Level and Version  determine whether it is valid to
- * assign a particular value to an attribute, or whether it is valid to add
- * a structure to an existing SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof Trigger_t
  */
@@ -920,13 +928,7 @@ Trigger_create (unsigned int level, unsigned int version);
  *
  * @return a pointer to the newly created Trigger_t structure.
  *
- * @note Once a Trigger_t has been added to an SBMLDocument_t, the
- * @p sbmlns namespaces for the document @em override those used to create
- * the Trigger_t.  Despite this, the ability to supply the values at creation time
- * is an important aid to creating valid SBML.  Knowledge of the intended SBML
- * Level and Version determine whether it is valid to assign a particular value
- * to an attribute, or whether it is valid to add a structure to an existing
- * SBMLDocument_t.
+ * @copydetails doc_note_setting_lv
  *
  * @memberof Trigger_t
  */
@@ -1012,8 +1014,8 @@ Trigger_getPersistent (const Trigger_t *t);
 
 
 /**
- * @return @c true (non-zero) if the math (or equivalently the formula) of
- * this Trigger_t is set, @c false (0) otherwise.
+ * @return @c 1 (true) if the math (or equivalently the formula) of
+ * this Trigger_t is set, @c 0 (false) otherwise.
  *
  * @memberof Trigger_t
  */
@@ -1027,8 +1029,8 @@ Trigger_isSetMath (const Trigger_t *t);
  * 
  * @param t the Trigger_t structure.
  *
- * @return @c true if the "initialValue" attribute value
- * in this Trigger_t is set, @c false otherwise.
+ * @return @c 1 (true) if the "initialValue" attribute value
+ * in this Trigger_t is set, @c 0 (false) otherwise.
  *
  * @memberof Trigger_t
  */
@@ -1042,8 +1044,8 @@ Trigger_isSetInitialValue (const Trigger_t *t);
  * 
  * @param t the Trigger_t structure.
  *
- * @return @c true if the "persisent" attribute value
- * in this Trigger_t is set, @c false otherwise.
+ * @return @c 1 (true) if the "persisent" attribute value
+ * in this Trigger_t is set, @c 0 (false) otherwise.
  *
  * @memberof Trigger_t
  */
@@ -1070,7 +1072,8 @@ Trigger_setMath (Trigger_t *t, const ASTNode_t *math);
  * Sets the "initialValue" attribute of this Trigger_t instance.
  *
  * @param t the Trigger_t structure.
- * @param initialValue a boolean representing the initialValue to be set.
+ * @param initialValue an integer representing the initialValue to be set,
+ * with @c nonzero indicating @c true, and @c zero indicating @c false.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1087,7 +1090,8 @@ Trigger_setInitialValue (Trigger_t *t, int initialValue);
  * Sets the "persistent" attribute of this Trigger_t instance.
  *
  * @param t the Trigger_t structure.
- * @param persistent a boolean representing the initialValue to be set.
+ * @param persistent an integer representing the initialValue to be set,
+ * with @c nonzero indicating @c true, and @c zero indicating @c false.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}

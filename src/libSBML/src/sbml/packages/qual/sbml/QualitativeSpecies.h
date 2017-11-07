@@ -47,6 +47,16 @@
  * A QualitativeSpecies describes a pool of indistinguishable entities in a
  * Compartment. It is associated with a level (an integer representing
  * e.g. an activity state, or a functional level of concentration, etc.)
+ *
+ * <!-- ------------------------------------------------------------------- -->
+ * @class ListOfQualitativeSpecies
+ * @sbmlbrief{qual} A list of QualitativeSpecies objects.
+ *
+ * The ListOfQualitativeSpecies is a container for the QualitativeSpecies elements of a Model.
+ *
+ * @copydetails doc_what_is_listof
+ *
+ * @see QualitativeSpecies
  */
 
 
@@ -804,16 +814,6 @@ protected:
 
 };
 
-/**
- * @class ListOfQualitativeSpecies
- * @sbmlbrief{qual} A list of QualitativeSpecies objects.
- * 
- * The ListOfQualitativeSpecies is a container for the QualitativeSpecies elements of a Model.
- * 
- * @copydetails doc_what_is_listof
- *
- * @see QualitativeSpecies
- */
 class LIBSBML_EXTERN ListOfQualitativeSpecies : public ListOf
 {
 
@@ -887,7 +887,7 @@ public:
    * of the QualitativeSpecies to get.
    *
    * @return QualitativeSpecies in this ListOfQualitativeSpecies
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * QualitativeSpecies exists.
    *
    * @see get(unsigned int n)   *
@@ -904,7 +904,7 @@ public:
    * of the QualitativeSpecies to get.
    *
    * @return QualitativeSpecies in this ListOfQualitativeSpecies
-   * with the given id or NULL if no such
+   * with the given id or @c NULL if no such
    * QualitativeSpecies exists.
    *
    * @see get(unsigned int n)   *
@@ -1003,7 +1003,7 @@ BEGIN_C_DECLS
 
 /**
  * Creates a new QualitativeSpecies_t structure using the given SBML @p level
- * and @p version values.
+ * and @p version, and the @p pkgVersion package version.
  *
  * @param level an unsigned int, the SBML Level to assign to this
  * QualitativeSpecies_t.
@@ -1081,8 +1081,8 @@ QualitativeSpecies_getCompartment(QualitativeSpecies_t * qs);
  *
  * @param qs the QualitativeSpecies_t whose constant is sought.
  *
- * @return nonzero (true) if the given QualitativeSpecies_t structure's
- * "constant" attribute value is nonzero, zero (0) otherwise.
+ * @return @c 1 (true) if the given QualitativeSpecies_t structure's
+ * "constant" attribute value is nonzero, @c 0 (false) otherwise.
  *
  * @memberof QualitativeSpecies_t
  */
@@ -1134,13 +1134,13 @@ QualitativeSpecies_getMaxLevel(QualitativeSpecies_t * qs);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * QualitativeSpecies_t structure's identifier is set.
  *
  * @param qs the QualitativeSpecies_t structure to query.
  * 
- * @return @c non-zero (true) if the "id" attribute of the given
- * QualitativeSpecies_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "id" attribute of the given
+ * QualitativeSpecies_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof QualitativeSpecies_t
  */
@@ -1150,13 +1150,13 @@ QualitativeSpecies_isSetId(QualitativeSpecies_t * qs);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * QualitativeSpecies_t structure's compartment is set.
  *
  * @param qs the QualitativeSpecies_t structure to query.
  * 
- * @return @c non-zero (true) if the "compartment" attribute of the given
- * QualitativeSpecies_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "compartment" attribute of the given
+ * QualitativeSpecies_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof QualitativeSpecies_t
  */
@@ -1166,13 +1166,13 @@ QualitativeSpecies_isSetCompartment(QualitativeSpecies_t * qs);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * QualitativeSpecies_t structure's constant is set.
  *
  * @param qs the QualitativeSpecies_t structure to query.
  * 
- * @return @c non-zero (true) if the "constant" attribute of the given
- * QualitativeSpecies_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "constant" attribute of the given
+ * QualitativeSpecies_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof QualitativeSpecies_t
  */
@@ -1182,13 +1182,13 @@ QualitativeSpecies_isSetConstant(QualitativeSpecies_t * qs);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * QualitativeSpecies_t structure's name is set.
  *
  * @param qs the QualitativeSpecies_t structure to query.
  * 
- * @return @c non-zero (true) if the "name" attribute of the given
- * QualitativeSpecies_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "name" attribute of the given
+ * QualitativeSpecies_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof QualitativeSpecies_t
  */
@@ -1198,13 +1198,13 @@ QualitativeSpecies_isSetName(QualitativeSpecies_t * qs);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * QualitativeSpecies_t structure's initialLevel is set.
  *
  * @param qs the QualitativeSpecies_t structure to query.
  * 
- * @return @c non-zero (true) if the "initialLevel" attribute of the given
- * QualitativeSpecies_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "initialLevel" attribute of the given
+ * QualitativeSpecies_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof QualitativeSpecies_t
  */
@@ -1214,13 +1214,13 @@ QualitativeSpecies_isSetInitialLevel(QualitativeSpecies_t * qs);
 
 
 /**
- * Predicate returning @c true or @c false depending on whether the given
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
  * QualitativeSpecies_t structure's maxLevel is set.
  *
  * @param qs the QualitativeSpecies_t structure to query.
  * 
- * @return @c non-zero (true) if the "maxLevel" attribute of the given
- * QualitativeSpecies_t structure is set, zero (false) otherwise.
+ * @return @c 1 (true) if the "maxLevel" attribute of the given
+ * QualitativeSpecies_t structure is set, @c 0 (false) otherwise.
  *
  * @memberof QualitativeSpecies_t
  */
@@ -1232,7 +1232,7 @@ QualitativeSpecies_isSetMaxLevel(QualitativeSpecies_t * qs);
 /**
  * Assigns the identifier of an QualitativeSpecies_t structure.
  *
- * This makes a copy of the string passed in the param @p sid.
+ * This makes a copy of the string passed in the parameter @p sid.
  *
  * @param qs the QualitativeSpecies_t structure to set.
  * @param sid the string to use as the identifier.
@@ -1241,7 +1241,7 @@ QualitativeSpecies_isSetMaxLevel(QualitativeSpecies_t * qs);
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
  *
- * @note Using this function with an id of NULL is equivalent to
+ * @note Using this function with an @p sid of NULL is equivalent to
  * unsetting the "id" attribute.
  *
  * @memberof QualitativeSpecies_t
@@ -1277,7 +1277,7 @@ QualitativeSpecies_setCompartment(QualitativeSpecies_t * qs, const char * compar
  * @param qs the QualitativeSpecies_t structure to set.
  * @param constant the value of the "constant" attribute, converted to a boolean: 
  * all nonzero values set the "constant" attribute to 'true', and a value of 
- * zero (0) will set the "constant" attribute to 'false'.
+ * @c 0 (zero) will set the "constant" attribute to 'false'.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1450,7 +1450,9 @@ QualitativeSpecies_unsetMaxLevel(QualitativeSpecies_t * qs);
   * have been set.
   *
   * @note The required attributes for a QualitativeSpecies_t structure are:
-  * @li useValuesfromTriggerTime ( L3 onwards )
+  * @li id
+  * @li compartment
+  * @li constant
   *
  * @memberof QualitativeSpecies_t
  */
@@ -1465,12 +1467,12 @@ QualitativeSpecies_hasRequiredAttributes(QualitativeSpecies_t * qs);
  * @param lo the ListOf_t structure to use.
  *
  * @param sid a string, the identifier of the
- * QualitativeSpecies_t is being sought.
+ * QualitativeSpecies_t being sought.
  *
  * @return the QualitativeSpecies_t for the given variable, or @c NULL if no such
- * QualitativeSpecies_t exits.
+ * QualitativeSpecies_t exists.
  *
- * @memberof QualitativeSpecies_t
+ * @memberof ListOfQualitativeSpecies_t
  */
 LIBSBML_EXTERN
 QualitativeSpecies_t *
@@ -1490,7 +1492,7 @@ ListOfQualitativeSpecies_getById(ListOf_t * lo, const char * sid);
  * caller owns the returned structure. @c NULL is returned if no QualitativeSpecies_t
  * structure with the "id" attribute exists in the given ListOf_t structure.
  *
- * @memberof QualitativeSpecies_t
+ * @memberof ListOfQualitativeSpecies_t
  */
 LIBSBML_EXTERN
 QualitativeSpecies_t *
