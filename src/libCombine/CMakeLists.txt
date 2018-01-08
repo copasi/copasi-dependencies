@@ -341,7 +341,7 @@ endif()
 set(ZLIB_INITIAL_VALUE)
 if (NOT LIBZ_LIBRARY)
 find_library(LIBZ_LIBRARY
-    NAMES zdll.lib z zlib.lib
+    NAMES zdll.lib z zlib.lib zlib
     PATHS /usr/lib /usr/local/lib
           ${CMAKE_OSX_SYSROOT}/usr/lib
           ${COMBINE_DEPENDENCY_DIR}/lib
