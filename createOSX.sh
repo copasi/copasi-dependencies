@@ -4,7 +4,7 @@
 DIRECTORY=$(cd `dirname $0` && pwd)
 
 if [ $# = 0 ]; then
-  ToBeBuild="expat raptor MML qwt qwtplot3d SBW libSBML libnuml libSEDML zlib libCombine"
+  ToBeBuild="expat raptor clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
 else
   while [ _${1} != _ ]; do
     ToBeBuild="$ToBeBuild ${1}"
@@ -14,37 +14,34 @@ fi
  
 #Default Values:
 BUILD_TYPE=${BUILD_TYPE:="Release"}
+SELECT_QT=${SELECT_QT:="Any"}
 CMAKE=${CMAKE:="cmake"}
-QMAKESPEC=${QMAKESPEC:="macx-g++"}
 
-export QMAKESPEC
+MAKE=${MAKE:="gmake"}
+command -v $MAKE >/dev/null 2>&1 || { MAKE=make; }
 
-if [ "x${QTDIR}" != "x" ]; then
-  QMAKE="${QTDIR}/bin/qmake"
-else
-  QMAKE=${QMAKE:="qmake-qt4"}
-fi
+# Build Directory
+BUILD_DIR=${BUILD_DIR:=${DIRECTORY}/tmp}
+[ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
 
-command -v $QMAKE >/dev/null 2>&1 || { QMAKE=qmake; }
-command -v $QMAKE >/dev/null 2>&1 || { echo >&2 "qmake cannot be found, please update the qmake variable."; }
-
-[ -d $DIRECTORY/tmp ] || mkdir $DIRECTORY/tmp
-[ -d $DIRECTORY/bin ] || mkdir $DIRECTORY/bin
-[ -d $DIRECTORY/bin/include ] || mkdir $DIRECTORY/bin/include
-[ -d $DIRECTORY/bin/lib ] || mkdir $DIRECTORY/bin/lib
+# Install Directory
+INSTALL_DIR=${INSTALL_DIR:=${DIRECTORY}/bin}
+[ -d ${INSTALL_DIR} ] || mkdir -p ${INSTALL_DIR}
+[ -d ${INSTALL_DIR}/include ] || mkdir ${INSTALL_DIR}/include
+[ -d ${INSTALL_DIR}/lib ] || mkdir ${INSTALL_DIR}/lib
 
 COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}"
-COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_INSTALL_PREFIX=$DIRECTORY/bin"
-COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DEXTRA_INCLUDE_DIRS=$DIRECTORY/bin/include"
+COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}"
+COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DEXTRA_INCLUDE_DIRS=${INSTALL_DIR}/include"
 COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DENABLE_UNIVERSAL=OFF"
-COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_OSX_ARCHITECTURES=x86_64;i386"
+COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_OSX_ARCHITECTURES=x86_64"
 
 #use the one below to link against libstd++ instead of libc++
 #COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCLANG_USE_STDLIB=ON"
 
-COPASI_CXXFLAGS="${COPASI_CXXFLAGS} -arch x86_64 -arch i386 -gdwarf-2 -O2 -I$DIRECTORY/bin/include"
-COPASI_CFLAGS="${COPASI_CFLAGS} -arch x86_64 -arch i386 -gdwarf-2 -O2 -I$DIRECTORY/bin/include"
-COPASI_LDFLAGS="${COPASI_LDFLAGS}  -arch x86_64 -arch i386 -L$DIRECTORY/bin/lib"
+COPASI_CXXFLAGS="${COPASI_CXXFLAGS} -gdwarf-2 -O2 -I${INSTALL_DIR}/include"
+COPASI_CFLAGS="${COPASI_CFLAGS} -gdwarf-2 -O2 -I${INSTALL_DIR}/include"
+COPASI_LDFLAGS="${COPASI_LDFLAGS} -L${INSTALL_DIR}/lib"
 
 function build () {
 case $1 in
@@ -58,44 +55,39 @@ case $1 in
       --enable-doxygen=no \
       --enable-dot=no \
       --enable-shared=no \
-      --prefix=$DIRECTORY/bin
+      --prefix=${INSTALL_DIR}
     CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" make 
     CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" make install
     ;;
 
   expat)
-# build expat
-    cd $DIRECTORY/src/expat
-    chmod +x configure 
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" ./configure \
-      --disable-dependency-tracking \
-      --enable-shared=no \
-      --prefix=$DIRECTORY/bin
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" make 
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" make install
+   # build expat
+    mkdir -p ${BUILD_DIR}/expat
+    cd ${BUILD_DIR}/expat
+    $CMAKE ${COPASI_CMAKE_OPTIONS} \
+        -DBUILD_shared=OFF \
+        $DIRECTORY/src/expat
+    $MAKE -j 4
+    $MAKE install
     # delete shared library just in case
-    [ -e $DIRECTORY/bin/lib/libexpat*dylib ] && rm $DIRECTORY/bin/lib/libexpat*dylib
+    [ -e ${INSTALL_DIR}/lib/libexpat*dylib ] && rm ${INSTALL_DIR}/lib/libexpat*dylib
     ;;
 
   raptor)
     # build raptor
-    cd $DIRECTORY/src/raptor
-    chmod +x configure
-    chmod +x install-sh
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" ./configure \
-      --disable-dependency-tracking \
-      --with-xml-parser=expat \
-      --with-www=none \
-      --enable-shared=no \
-      --prefix=$DIRECTORY/bin
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" make 
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" make install
+    mkdir -p ${BUILD_DIR}/raptor
+    cd ${BUILD_DIR}/raptor
+    $CMAKE ${COPASI_CMAKE_OPTIONS} \
+        -DBUILD_shared=OFF \
+        $DIRECTORY/src/raptor
+    $MAKE -j 4
+    $MAKE install
     ;;
 
   MML)
     #build MML
-    mkdir $DIRECTORY/tmp/mml 
-    cd $DIRECTORY/tmp/mml 
+    mkdir ${BUILD_DIR}/mml 
+    cd ${BUILD_DIR}/mml 
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       $DIRECTORY/src/mml
     make -j 4
@@ -104,18 +96,28 @@ case $1 in
 
   qwt)
     #build qwt 
-    mkdir $DIRECTORY/tmp/qwt 
-    cd $DIRECTORY/tmp/qwt 
+    mkdir ${BUILD_DIR}/qwt 
+    cd ${BUILD_DIR}/qwt 
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       $DIRECTORY/src/qwt
     make -j 4
     make install
     ;;
 
+  qwt-6)
+    #build qwt 
+    mkdir ${BUILD_DIR}/qwt-6 
+    cd ${BUILD_DIR}/qwt-6
+    $CMAKE ${COPASI_CMAKE_OPTIONS} \
+        $DIRECTORY/src/qwt-6
+    make -j 4
+    make install
+    ;;
+
   qwtplot3d)
     #build qwtplot3d 
-    mkdir $DIRECTORY/tmp/qwtplot3d-qt4
-    cd $DIRECTORY/tmp/qwtplot3d-qt4 
+    mkdir ${BUILD_DIR}/qwtplot3d-qt4
+    cd ${BUILD_DIR}/qwtplot3d-qt4 
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       $DIRECTORY/src/qwtplot3d-qt4
     make -j 4
@@ -124,8 +126,8 @@ case $1 in
 
   SBW)
     #Build SBW
-    mkdir $DIRECTORY/tmp/SBW
-    cd $DIRECTORY/tmp/SBW
+    mkdir ${BUILD_DIR}/SBW
+    cd ${BUILD_DIR}/SBW
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       -DWITH_BUILD_BROKER=OFF \
       -DWITH_BUILD_SHARED=OFF \
@@ -136,8 +138,8 @@ case $1 in
 
   libSBML)
     # build libsbml
-    mkdir $DIRECTORY/tmp/libsbml
-    cd $DIRECTORY/tmp/libsbml
+    mkdir ${BUILD_DIR}/libsbml
+    cd ${BUILD_DIR}/libsbml
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       -DENABLE_LAYOUT=ON \
       -DCLANG_USE_STDLIB=OFF \
@@ -150,7 +152,7 @@ case $1 in
       -DWITH_EXPAT=ON \
       -DWITH_LIBXML=OFF \
       -DLIBSBML_USE_LEGACY_MATH=ON \
-      -DLIBSBML_DEPENDENCY_DIR=$DIRECTORY/bin \
+      -DLIBSBML_DEPENDENCY_DIR=${INSTALL_DIR} \
       -DLIBSBML_SKIP_SHARED_LIBRARY=ON \
       -DWITH_BZIP2=OFF \
       -DWITH_ZLIB=OFF \
@@ -161,46 +163,46 @@ case $1 in
 
   libnuml)
     # build libnuml
-    mkdir -p $DIRECTORY/tmp/libnuml
-    cd $DIRECTORY/tmp/libnuml
+    mkdir -p ${BUILD_DIR}/libnuml
+    cd ${BUILD_DIR}/libnuml
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       -DLIBSBML_STATIC=ON \
       -DLIBNUML_SHARED_VERSION=OFF \
       -DLIBNUML_SKIP_SHARED_LIBRARY=ON \
-      -DLIBNUML_DEPENDENCY_DIR=$DIRECTORY/bin \
-      -DLIBSBML_INCLUDE_DIR=$DIRECTORY/bin/include \
-      -DLIBSBML_LIBRARY=$DIRECTORY/bin/lib/libsbml-static.a \
-      -DEXTRA_LIBS=$DIRECTORY/bin/lib/libexpat.a \
+      -DLIBNUML_DEPENDENCY_DIR=${INSTALL_DIR} \
+      -DLIBSBML_INCLUDE_DIR=${INSTALL_DIR}/include \
+      -DLIBSBML_LIBRARY=${INSTALL_DIR}/lib/libsbml-static.a \
+      -DEXTRA_LIBS=${INSTALL_DIR}/lib/libexpat.a \
       -DWITH_ZLIB=OFF \
       $DIRECTORY/src/libnuml
     make -j
     make install
-    [ -e $DIRECTORY/bin/lib/libnuml*.dylib ] && rm $DIRECTORY/bin/lib/libnuml*.dylib
+    [ -e ${INSTALL_DIR}/lib/libnuml*.dylib ] && rm ${INSTALL_DIR}/lib/libnuml*.dylib
     ;;
 
   libSEDML)
     # build libSEDML
-    mkdir -p $DIRECTORY/tmp/libSEDML
-    cd $DIRECTORY/tmp/libSEDML
+    mkdir -p ${BUILD_DIR}/libSEDML
+    cd ${BUILD_DIR}/libSEDML
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       -DLIBSBML_STATIC=ON \
       -DLIBSEDML_SHARED_VERSION=OFF \
       -DLIBSEDML_SKIP_SHARED_LIBRARY=ON \
-      -DLIBSEDML_DEPENDENCY_DIR=$DIRECTORY/bin \
-      -DLIBSBML_INCLUDE_DIR=$DIRECTORY/bin/include \
-      -DLIBSBML_LIBRARY=$DIRECTORY/bin/lib/libsbml-static.a \
-      -DEXTRA_LIBS=$DIRECTORY/bin/lib/libexpat.a \
+      -DLIBSEDML_DEPENDENCY_DIR=${INSTALL_DIR} \
+      -DLIBSBML_INCLUDE_DIR=${INSTALL_DIR}/include \
+      -DLIBSBML_LIBRARY=${INSTALL_DIR}/lib/libsbml-static.a \
+      -DEXTRA_LIBS=${INSTALL_DIR}/lib/libexpat.a \
       -DWITH_ZLIB=OFF \
       $DIRECTORY/src/libSEDML
     make -j
     make install
-    [ -e $DIRECTORY/bin/lib/libsedml.dylib ] && rm $DIRECTORY/bin/lib/libsedml*.dylib
+    [ -e ${INSTALL_DIR}/lib/libsedml.dylib ] && rm ${INSTALL_DIR}/lib/libsedml*.dylib
     ;;
 
   zlib)
     # build zlib
-    mkdir -p $DIRECTORY/tmp/zlib
-    cd $DIRECTORY/tmp/zlib
+    mkdir -p ${BUILD_DIR}/zlib
+    cd ${BUILD_DIR}/zlib
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       $DIRECTORY/src/zlib
     make -j 4
@@ -209,26 +211,26 @@ case $1 in
 
   libCombine)
     # build zipper
-    mkdir -p $DIRECTORY/tmp/zipper
-    cd $DIRECTORY/tmp/zipper
+    mkdir -p ${BUILD_DIR}/zipper
+    cd ${BUILD_DIR}/zipper
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
        -DWITH_QT_FILESYSTEM=ON \
-       -DZIPPER_DEPENDENCY_DIR=$DIRECTORY/bin \
+       -DZIPPER_DEPENDENCY_DIR=${INSTALL_DIR} \
         $DIRECTORY/src/zipper
     make -j 4
     make install
 
     # build libCombine
-    mkdir -p $DIRECTORY/tmp/libCombine
-    cd $DIRECTORY/tmp/libCombine
+    mkdir -p ${BUILD_DIR}/libCombine
+    cd ${BUILD_DIR}/libCombine
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
        -DWITH_QT_FILESYSTEM=ON \
-       -DCOMBINE_DEPENDENCY_DIR=$DIRECTORY/bin \
-       -DEXTRA_LIBS=$DIRECTORY/bin/lib/libexpat.a \
+       -DCOMBINE_DEPENDENCY_DIR=${INSTALL_DIR} \
+       -DEXTRA_LIBS=${INSTALL_DIR}/lib/libexpat.a \
         $DIRECTORY/src/libCombine
     make -j 4
     make install
-    [ -e $DIRECTORY/bin/lib/libCombine.dylib ] && rm $DIRECTORY/bin/lib/libCombine*.dylib
+    [ -e ${INSTALL_DIR}/lib/libCombine.dylib ] && rm ${INSTALL_DIR}/lib/libCombine*.dylib
     ;;
 esac
 }
@@ -237,4 +239,4 @@ for b in ${ToBeBuild}; do
   build $b
 done
 
-echo ${COPASI_CMAKE_OPTIONS}
+# echo ${COPASI_CMAKE_OPTIONS}
