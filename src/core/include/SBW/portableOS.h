@@ -1,6 +1,6 @@
 /**
  * @file portableOS.h
- * @brief  OS independant classes and methods
+ * @brief  OS independent classes and methods
  * 
  * This file is part of SBW.  Please visit http://sbw.sf.org for more
  * information about SBW, and the latest version of libSBW.
@@ -70,6 +70,10 @@
 #include <stdlib.h>
 #include <string>
 
+#if !defined(WIN32)
+#include <SBW/config.h>
+#endif
+
 #if defined(WIN32) && !defined(SBW_STRICT_INCLUDES)
 #include <winsock2.h>
 # ifndef WIN32_LEAN_AND_MEAN
@@ -86,10 +90,6 @@
 #include <SBW/SBWOSEvent.h>
 #include <SBW/SBWThread.h>
 
-
-#if !defined(WIN32)
-#include <SBW/config.h>
-#endif
 
 #ifdef HAVE_PTHREAD_H
 #include <pthread.h>

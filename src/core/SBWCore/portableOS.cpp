@@ -59,6 +59,15 @@
  *
  */
 
+#include <list>
+#include <stdio.h>
+
+
+#if !defined(WIN32)
+#include <SBW/config.h>
+#endif
+
+
 
 #ifndef WIN32
 
@@ -77,8 +86,6 @@
 
 #else
 
-#include <stdio.h>
-
 # ifndef WIN32_LEAN_AND_MEAN
 # define WIN32_LEAN_AND_MEAN
 # endif // WIN32_LEAN_AND_MEAN
@@ -90,7 +97,6 @@
 #include "stdafx.h"
 #include "config.h"
 #include "SBWRawException.h"
-#include <list>
 #include "SBWApplicationException.h"
 
 #include <SBW/portableOS.h>
