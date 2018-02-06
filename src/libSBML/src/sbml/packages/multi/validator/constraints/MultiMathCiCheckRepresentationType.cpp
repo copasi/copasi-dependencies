@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -95,16 +95,16 @@ MultiMathCiCheckRepresentationType::checkMath (const Model& m, const ASTNode& no
 const string
 MultiMathCiCheckRepresentationType::getMessage (const ASTNode& node, const SBase& object)
 {
-  ostringstream msg;
+  ostringstream oss_msg;
 
-  //msg << getPreamble();
+  //oss_msg << getPreamble();
   char * formula = SBML_formulaToString(&node);
-  msg << "The 'multi:representationType' attribute of the ci element '" << formula;
-  msg << "' in <" << object.getElementName();
-  msg << "> does not have a valid RepresentationType value.";
+  oss_msg << "The 'multi:representationType' attribute of the ci element '" << formula;
+  oss_msg << "' in <" << object.getElementName();
+  oss_msg << "> does not have a valid RepresentationType value.";
   safe_free(formula);
 
-  return msg.str();
+  return oss_msg.str();
 }
 
 void

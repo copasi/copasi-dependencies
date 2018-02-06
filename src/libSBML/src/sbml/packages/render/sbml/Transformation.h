@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -134,7 +134,90 @@ public:
    * @return true or false depending on whether a NaN was found.
    */
   bool isSetMatrix() const;
+  
 
+  /**
+   * Returns the value of the "name" attribute of this Transformation.
+   *
+   * @return the name of the Transformation
+   */
+  const std::string& getName () const;
+
+
+  /**
+   * Predicate returning @c true or @c false depending on whether this
+   * Transformation's "name" attribute has been set.
+   *
+   * @return returns true or false depending on whether the name on the 
+   * Transformation has been set.
+   */
+  bool isSetName () const;
+
+
+  /**
+   * Sets the value of the "name" attribute of this Transformation.
+   *
+   * @param name the new name for the Transformation 
+   *
+   * @return status if the operation succeeded
+   */
+  int setName (const std::string& name);
+
+
+  /**
+   * Unsets the value of the "name" attribute of this Transformation.
+   */
+  virtual int unsetName ();
+
+  
+  /** @cond doxygenLibsbmlInternal */
+  /**
+   * Subclasses should override this method to read values from the given
+   * XMLAttributes set into their specific fields.  Be sure to call your
+   * parents implementation of this method as well.
+   */
+  virtual void readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes);
+  /** @endcond */
+
+  
+protected:
+  /** @cond doxygenLibsbmlInternal */
+  /**
+   * Subclasses should override this method to get the list of
+   * expected attributes.
+   * This function is invoked from corresponding readAttributes()
+   * function.
+   */
+  virtual void addExpectedAttributes(ExpectedAttributes& attributes);
+  
+  
+  /** @endcond */
+  /**
+   * Returns the XML element name of this object.
+   *
+   * This is overridden by subclasses to return a string appropriate to the
+   * SBML component.  For example, Model defines it as returning "model",
+   * CompartmentType defines it as returning "compartmentType", etc.
+   * 
+   * NOTE: this function is only ever going to be called from the constructor
+   */
+  virtual const std::string& getElementName () const;
+  
+  
+  /** @cond doxygenLibsbmlInternal */
+  /**
+   * Subclasses should override this method to write their XML attributes
+   * to the XMLOutputStream.  Be sure to call your parents implementation
+   * of this method as well.  For example:
+   *
+   *   SBase::writeAttributes(stream);
+   *   stream.writeAttribute( "id"  , mId   );
+   *   stream.writeAttribute( "name", mName );
+   *   ...
+   */
+  virtual void writeAttributes (XMLOutputStream& stream) const;
+  /** @endcond */
+  
 };
 
 LIBSBML_CPP_NAMESPACE_END

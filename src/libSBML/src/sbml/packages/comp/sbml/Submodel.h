@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1518,45 +1518,6 @@ Submodel_hasRequiredAttributes(Submodel_t * s);
 LIBSBML_EXTERN
 int
 Submodel_hasRequiredElements(Submodel_t * s);
-
-
-/**
- * Return the Submodel_t indicated by the given @p sid.
- *
- * @param lo the ListOf_t structure to use.
- *
- * @param sid a string, the identifier of the
- * Submodel_t being sought.
- *
- * @return the Submodel_t for the given variable, or @c NULL if no such
- * Submodel_t exists.
- *
- * @memberof ListOfSubmodels_t
- */
-LIBSBML_EXTERN
-Submodel_t *
-ListOfSubmodels_getById(ListOf_t * lo, const char * sid);
-
-
-/**
- * Removes the Submodel_t structure with the given @p sid
- * from the given ListOf_t structure and returns a pointer to it.
- *
- * * The caller owns the returned structure and is responsible for deleting it.
- *
- * @param lo the ListOf_t structure.
- * @param sid the string of the "id" attribute of the Submodel_t sought.
- *
- * @return the Submodel_t structure removed.  As mentioned above, the 
- * caller owns the returned structure. @c NULL is returned if no Submodel_t
- * structure with the "id" attribute exists in the given ListOf_t structure.
- *
- * @memberof ListOfSubmodels_t
- */
-LIBSBML_EXTERN
-Submodel_t *
-ListOfSubmodels_removeById(ListOf_t * lo, const char * sid);
-
 
 
 END_C_DECLS

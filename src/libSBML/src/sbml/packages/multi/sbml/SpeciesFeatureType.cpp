@@ -879,7 +879,7 @@ ListOfSpeciesFeatureTypes::clone () const
 
 /*
  * Get a SpeciesFeatureType from the ListOfSpeciesFeatureTypes by index.
-*/
+ */
 SpeciesFeatureType*
 ListOfSpeciesFeatureTypes::get(unsigned int n)
 {
@@ -1037,9 +1037,6 @@ ListOfSpeciesFeatureTypes::writeXMLNS(XMLOutputStream& stream) const
   /** @endcond */
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 SpeciesFeatureType_t *
 SpeciesFeatureType_create(unsigned int level, unsigned int version,
@@ -1049,9 +1046,6 @@ SpeciesFeatureType_create(unsigned int level, unsigned int version,
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 void
 SpeciesFeatureType_free(SpeciesFeatureType_t * sft)
@@ -1061,9 +1055,6 @@ SpeciesFeatureType_free(SpeciesFeatureType_t * sft)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 SpeciesFeatureType_t *
 SpeciesFeatureType_clone(SpeciesFeatureType_t * sft)
@@ -1079,9 +1070,6 @@ SpeciesFeatureType_clone(SpeciesFeatureType_t * sft)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 char *
 SpeciesFeatureType_getId(SpeciesFeatureType_t * sft)
@@ -1093,9 +1081,6 @@ SpeciesFeatureType_getId(SpeciesFeatureType_t * sft)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 char *
 SpeciesFeatureType_getName(SpeciesFeatureType_t * sft)
@@ -1107,9 +1092,6 @@ SpeciesFeatureType_getName(SpeciesFeatureType_t * sft)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 unsigned int
 SpeciesFeatureType_getOccur(SpeciesFeatureType_t * sft)
@@ -1118,9 +1100,6 @@ SpeciesFeatureType_getOccur(SpeciesFeatureType_t * sft)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 int
 SpeciesFeatureType_isSetId(SpeciesFeatureType_t * sft)
@@ -1129,9 +1108,6 @@ SpeciesFeatureType_isSetId(SpeciesFeatureType_t * sft)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 int
 SpeciesFeatureType_isSetName(SpeciesFeatureType_t * sft)
@@ -1140,9 +1116,6 @@ SpeciesFeatureType_isSetName(SpeciesFeatureType_t * sft)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 int
 SpeciesFeatureType_isSetOccur(SpeciesFeatureType_t * sft)
@@ -1151,9 +1124,6 @@ SpeciesFeatureType_isSetOccur(SpeciesFeatureType_t * sft)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 int
 SpeciesFeatureType_setId(SpeciesFeatureType_t * sft, const char * id)
@@ -1162,9 +1132,6 @@ SpeciesFeatureType_setId(SpeciesFeatureType_t * sft, const char * id)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 int
 SpeciesFeatureType_setName(SpeciesFeatureType_t * sft, const char * name)
@@ -1173,9 +1140,6 @@ SpeciesFeatureType_setName(SpeciesFeatureType_t * sft, const char * name)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 int
 SpeciesFeatureType_setOccur(SpeciesFeatureType_t * sft, unsigned int occur)
@@ -1184,9 +1148,6 @@ SpeciesFeatureType_setOccur(SpeciesFeatureType_t * sft, unsigned int occur)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 int
 SpeciesFeatureType_unsetId(SpeciesFeatureType_t * sft)
@@ -1195,9 +1156,6 @@ SpeciesFeatureType_unsetId(SpeciesFeatureType_t * sft)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 int
 SpeciesFeatureType_unsetName(SpeciesFeatureType_t * sft)
@@ -1206,9 +1164,6 @@ SpeciesFeatureType_unsetName(SpeciesFeatureType_t * sft)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 int
 SpeciesFeatureType_unsetOccur(SpeciesFeatureType_t * sft)
@@ -1217,9 +1172,119 @@ SpeciesFeatureType_unsetOccur(SpeciesFeatureType_t * sft)
 }
 
 
-/**
- * 
+/*
+ * Returns a ListOf_t * containing PossibleSpeciesFeatureValue_t objects from
+ * this SpeciesFeatureType_t.
  */
+LIBSBML_EXTERN
+ListOf_t*
+SpeciesFeatureType_getListOfPossibleSpeciesFeatureValues(SpeciesFeatureType_t*
+  sft)
+{
+  return (sft != NULL) ? sft->getListOfPossibleSpeciesFeatureValues() : NULL;
+}
+
+
+/*
+ * Get a PossibleSpeciesFeatureValue_t from the SpeciesFeatureType_t.
+ */
+LIBSBML_EXTERN
+PossibleSpeciesFeatureValue_t*
+SpeciesFeatureType_getPossibleSpeciesFeatureValue(SpeciesFeatureType_t* sft,
+                                                  unsigned int n)
+{
+  return (sft != NULL) ? sft->getPossibleSpeciesFeatureValue(n) : NULL;
+}
+
+
+/*
+ * Get a PossibleSpeciesFeatureValue_t from the SpeciesFeatureType_t based on
+ * its identifier.
+ */
+LIBSBML_EXTERN
+PossibleSpeciesFeatureValue_t*
+SpeciesFeatureType_getPossibleSpeciesFeatureValueById(
+                                                      SpeciesFeatureType_t*
+                                                        sft,
+                                                      const char *sid)
+{
+  return (sft != NULL && sid != NULL) ?
+    sft->getPossibleSpeciesFeatureValue(sid) : NULL;
+}
+
+
+/*
+ * Adds a copy of the given PossibleSpeciesFeatureValue_t to this
+ * SpeciesFeatureType_t.
+ */
+LIBSBML_EXTERN
+int
+SpeciesFeatureType_addPossibleSpeciesFeatureValue(SpeciesFeatureType_t* sft,
+                                                  const
+                                                    PossibleSpeciesFeatureValue_t*
+                                                      psfv)
+{
+  return (sft != NULL) ? sft->addPossibleSpeciesFeatureValue(psfv) :
+    LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Get the number of PossibleSpeciesFeatureValue_t objects in this
+ * SpeciesFeatureType_t.
+ */
+LIBSBML_EXTERN
+unsigned int
+SpeciesFeatureType_getNumPossibleSpeciesFeatureValues(SpeciesFeatureType_t*
+  sft)
+{
+  return (sft != NULL) ? sft->getNumPossibleSpeciesFeatureValues() :
+    SBML_INT_MAX;
+}
+
+
+/*
+ * Creates a new PossibleSpeciesFeatureValue_t object, adds it to this
+ * SpeciesFeatureType_t object and returns the PossibleSpeciesFeatureValue_t
+ * object created.
+ */
+LIBSBML_EXTERN
+PossibleSpeciesFeatureValue_t*
+SpeciesFeatureType_createPossibleSpeciesFeatureValue(SpeciesFeatureType_t* sft)
+{
+  return (sft != NULL) ? sft->createPossibleSpeciesFeatureValue() : NULL;
+}
+
+
+/*
+ * Removes the nth PossibleSpeciesFeatureValue_t from this SpeciesFeatureType_t
+ * and returns a pointer to it.
+ */
+LIBSBML_EXTERN
+PossibleSpeciesFeatureValue_t*
+SpeciesFeatureType_removePossibleSpeciesFeatureValue(SpeciesFeatureType_t* sft,
+                                                     unsigned int n)
+{
+  return (sft != NULL) ? sft->removePossibleSpeciesFeatureValue(n) : NULL;
+}
+
+
+/*
+ * Removes the PossibleSpeciesFeatureValue_t from this SpeciesFeatureType_t
+ * based on its identifier and returns a pointer to it.
+ */
+LIBSBML_EXTERN
+PossibleSpeciesFeatureValue_t*
+SpeciesFeatureType_removePossibleSpeciesFeatureValueById(
+                                                         SpeciesFeatureType_t*
+                                                           sft,
+                                                         const char* sid)
+{
+  return (sft != NULL && sid != NULL) ?
+    sft->removePossibleSpeciesFeatureValue(sid) : NULL;
+}
+
+
 LIBSBML_EXTERN
 int
 SpeciesFeatureType_hasRequiredAttributes(SpeciesFeatureType_t * sft)
@@ -1228,9 +1293,6 @@ SpeciesFeatureType_hasRequiredAttributes(SpeciesFeatureType_t * sft)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 SpeciesFeatureType_t *
 ListOfSpeciesFeatureTypes_getById(ListOf_t * lo, const char * sid)
@@ -1242,9 +1304,6 @@ ListOfSpeciesFeatureTypes_getById(ListOf_t * lo, const char * sid)
 }
 
 
-/**
- * 
- */
 LIBSBML_EXTERN
 SpeciesFeatureType_t *
 ListOfSpeciesFeatureTypes_removeById(ListOf_t * lo, const char * sid)

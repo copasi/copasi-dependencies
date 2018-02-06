@@ -1,6 +1,6 @@
 /**
  * @file    ColorDefinition.cpp
- * @brief   class for rgba color definitions
+ * @brief Implementation of the ColorDefinition class.
  * @author  Ralph Gauges
  * @author  Frank T. Bergmann
  *
@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -25,13 +25,12 @@
  *     Germany
  *
  * This library is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation.  A copy of the license agreement is provided
- * in the file named "LICENSE.txt" included with this software distribution
- * and also available online as http://sbml.org/software/libsbml/license.html
- * ---------------------------------------------------------------------- -->*/
-
-#include "ColorDefinition.h"
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation. A copy of the license agreement is provided in the
+ * file named "LICENSE.txt" included with this software distribution and also
+ * available online as http://sbml.org/software/libsbml/license.html
+ * ------------------------------------------------------------------------ -->
+ */
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
@@ -48,70 +47,57 @@
 
 #include <assert.h>
 
+#include <sbml/packages/render/sbml/ColorDefinition.h>
+#include <sbml/packages/render/sbml/ListOfColorDefinitions.h>
+#include <sbml/packages/render/validator/RenderSBMLError.h>
+
+
+using namespace std;
+
 LIBSBML_CPP_NAMESPACE_BEGIN
-const std::string ColorDefinition::ELEMENT_NAME="colorDefinition";
-  
-const std::string ListOfColorDefinitions::ELEMENT_NAME="listOfColorDefinitions";
 
-/** @cond doxygenLibsbmlInternal */
+
+
+
+#ifdef __cplusplus
+
+
 /*
- * Creates a new ColorDefinition object with the given SBML level
- * and SBML version.
- *
- * @param level SBML level of the new object
- * @param level SBML version of the new object
+ * Creates a new ColorDefinition using the given SBML Level, Version and
+ * &ldquo;render&rdquo; package version.
  */
-ColorDefinition::ColorDefinition (unsigned int level, unsigned int version, unsigned int pkgVersion) : 
-    SBase(level,version)
-////    ,mId("")
+ColorDefinition::ColorDefinition(unsigned int level,
+                                 unsigned int version,
+                                 unsigned int pkgVersion)
+  : SBase(level, version)
     ,mRed(0)
     ,mGreen(0)
     ,mBlue(0)
     ,mAlpha(255)
+  , mValue ("")
 {
-  if (!hasValidLevelVersionNamespaceCombination())
-    throw SBMLConstructorException();
-
-    // set an SBMLNamespaces derived object (GroupsPkgNamespaces) of this package.
-  setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level,version,pkgVersion));  
-
-  // connect child elements to this element.
-  connectToChild();
-
+  mValue = createValueString();
+  setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level, version, pkgVersion));
 }
-/** @endcond */
 
 
-/** @cond doxygenLibsbmlInternal */
 /*
- * Creates a new ColorDefinition object with the given SBMLNamespaces.
- *
- * @param sbmlns The SBML namespace for the object.
+ * Creates a new ColorDefinition using the given RenderPkgNamespaces object.
  */
-ColorDefinition::ColorDefinition (RenderPkgNamespaces* renderns) :
-    SBase(renderns)
-////    ,mId("")
+ColorDefinition::ColorDefinition(RenderPkgNamespaces *renderns)
+   : SBase(renderns)
     ,mRed(0)
     ,mGreen(0)
     ,mBlue(0)
     ,mAlpha(255)
+  , mValue ("")
 {
-  if (!hasValidLevelVersionNamespaceCombination())
-    throw SBMLConstructorException();
-
-    // set the element namespace of this object
+  mValue = createValueString();
   setElementNamespace(renderns->getURI());
-
-  // connect child elements to this element.
-  connectToChild();
-
-  // load package extensions bound with this object (if any) 
   loadPlugins(renderns);
  }
-/** @endcond */
 
 
-/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new ColorDefinition object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -174,6 +160,7 @@ ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, const std::strin
     ,mBlue(0)
     ,mAlpha(255)
 {
+  mValue = createValueString();
   setId(id);
 
   // set the element namespace of this object
@@ -218,6 +205,7 @@ ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, const std::strin
     ,mBlue(b)
     ,mAlpha(a)
 {
+  mValue = createValueString();
   setId(id);
 
   // set the element namespace of this object
@@ -260,6 +248,7 @@ ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, unsigned char r,
     ,mBlue(b)
     ,mAlpha(a)
 {
+  mValue = createValueString();
 
   // set the element namespace of this object
   setElementNamespace(renderns->getURI());
@@ -277,15 +266,88 @@ ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, unsigned char r,
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
-/** @cond doxygenLibsbmlInternal */
 /*
- * Destroys this ColorDefinition object.
+ * Copy constructor for ColorDefinition.
  */
-ColorDefinition::~ColorDefinition(){}
-/** @endcond */
+ColorDefinition::ColorDefinition(const ColorDefinition& orig)
+  : SBase( orig )
+  , mValue ( orig.mValue )
+  , mRed(orig.mRed)
+  , mGreen(orig.mGreen)
+  , mBlue(orig.mBlue)
+  , mAlpha(orig.mAlpha)
+{
+}
 
 
-/** @cond doxygenLibsbmlInternal */
+/*
+ * Assignment operator for ColorDefinition.
+ */
+ColorDefinition&
+ColorDefinition::operator=(const ColorDefinition& rhs)
+{
+  if (&rhs != this)
+  {
+    SBase::operator=(rhs);
+    mValue = rhs.mValue;
+    mRed = rhs.mRed;
+    mGreen = rhs.mGreen;
+    mBlue = rhs.mBlue;
+    mAlpha = rhs.mAlpha;
+  }
+
+  return *this;
+}
+
+
+/*
+ * Creates and returns a deep copy of this ColorDefinition object.
+ */
+ColorDefinition*
+ColorDefinition::clone() const
+{
+  return new ColorDefinition(*this);
+}
+
+
+/*
+ * Destructor for ColorDefinition.
+ */
+ColorDefinition::~ColorDefinition()
+{
+}
+
+
+/*
+ * Returns the value of the "id" attribute of this ColorDefinition.
+ */
+const std::string&
+ColorDefinition::getId() const
+{
+  return mId;
+}
+
+
+/*
+ * Returns the value of the "name" attribute of this ColorDefinition.
+ */
+const std::string&
+ColorDefinition::getName() const
+{
+  return mName;
+}
+
+
+/*
+ * Returns the value of the "value" attribute of this ColorDefinition.
+ */
+const std::string&
+ColorDefinition::getValue() const
+{
+  return mValue;
+}
+
+
 /*
  * Returns the red color component.
  *
@@ -295,9 +357,8 @@ unsigned char ColorDefinition::getRed() const
 {
     return mRed;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Returns the green color component.
  *
@@ -307,9 +368,8 @@ unsigned char ColorDefinition::getGreen() const
 {
     return mGreen;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Returns the blue color component.
  *
@@ -319,9 +379,8 @@ unsigned char ColorDefinition::getBlue() const
 {
     return mBlue;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Returns the alpha color component.
  *
@@ -331,9 +390,72 @@ unsigned char ColorDefinition::getAlpha() const
 {
     return mAlpha;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+/*
+ * Predicate returning @c true if this ColorDefinition's "id" attribute is set.
+ */
+bool
+ColorDefinition::isSetId() const
+{
+  return (mId.empty() == false);
+}
+
+
+/*
+ * Predicate returning @c true if this ColorDefinition's "name" attribute is
+ * set.
+ */
+bool
+ColorDefinition::isSetName() const
+{
+  return (mName.empty() == false);
+}
+
+
+/*
+ * Predicate returning @c true if this ColorDefinition's "value" attribute is
+ * set.
+ */
+bool
+ColorDefinition::isSetValue() const
+{
+  return (mValue.empty() == false);
+}
+
+
+/*
+ * Sets the value of the "id" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::setId(const std::string& id)
+{
+  return SyntaxChecker::checkAndSetSId(id, mId);
+}
+
+
+/*
+ * Sets the value of the "name" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::setName(const std::string& name)
+{
+  mName = name;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+ * Sets the value of the "value" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::setValue(const std::string& value)
+{
+  mValue = value;
+  setColorValue(value);
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
 /*
  * Sets the red color component.
  *
@@ -342,10 +464,10 @@ unsigned char ColorDefinition::getAlpha() const
 void ColorDefinition::setRed(unsigned char c)
 {
     this->mRed=c;
+    mValue = createValueString();
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Sets the green color component.
  *
@@ -354,10 +476,10 @@ void ColorDefinition::setRed(unsigned char c)
 void ColorDefinition::setGreen(unsigned char c)
 {
     this->mGreen=c;
+    mValue = createValueString();
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Sets the blue color component.
  *
@@ -366,10 +488,10 @@ void ColorDefinition::setGreen(unsigned char c)
 void ColorDefinition::setBlue(unsigned char c)
 {
     this->mBlue=c;
+    mValue = createValueString();
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Sets alpha red color component.
  *
@@ -378,10 +500,10 @@ void ColorDefinition::setBlue(unsigned char c)
 void ColorDefinition::setAlpha(unsigned char c)
 {
     this->mAlpha=c;
+    mValue = createValueString();
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Sets the red green, blue and alpha color component.
  * The alpha value is optional and defaults to 255 if not given.
@@ -397,24 +519,10 @@ void ColorDefinition::setRGBA(unsigned char r,unsigned char g,unsigned char b,un
     this->mGreen=g;
     this->mBlue=b;
     this->mAlpha=a;
+    mValue = createValueString();
 }
-/** @endcond */
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * Creates and returns a deep copy of this ColorDefinition object.
- * 
- * @return a (deep) copy of this ColorDefinition object
- */
-ColorDefinition* 
-ColorDefinition::clone () const
-{
-    return new ColorDefinition(*this);
-}
-/** @endcond */
 
 
-/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the color value from a given value string.
  * If the string is not a valid value string, the color value is set to
@@ -455,7 +563,7 @@ bool ColorDefinition::setColorValue(const std::string& valueString)
       }
       else
       {
-	 result=false;
+   result=false;
       }
     }
     if(result==false)
@@ -467,9 +575,8 @@ bool ColorDefinition::setColorValue(const std::string& valueString)
      }
      return result;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Creates a string the represents the current color value.
  *
@@ -485,107 +592,468 @@ std::string ColorDefinition::createValueString() const
    }
    return os.str();
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
-void
-ColorDefinition::addExpectedAttributes(ExpectedAttributes& attributes)
-{
-  SBase::addExpectedAttributes(attributes);
 
-  attributes.add("id");
-  attributes.add("value");
-}
-/** @endcond */
-
-/** @cond doxygenLibsbmlInternal */
-void ColorDefinition::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
-{
-  SBase::readAttributes(attributes,expectedAttributes);
-  std::string valueString;
-  attributes.readInto("id", mId, getErrorLog(), false, getLine(), getColumn());
-  attributes.readInto("value", valueString, getErrorLog(), false, getLine(), getColumn());
-  this->setColorValue(valueString);
-}
-/** @endcond */
-
-/** @cond doxygenLibsbmlInternal */
 /*
- * Subclasses should override this method to write out their contained
- * SBML objects as XML elements.  Be sure to call your parents
- * implementation of this method as well.  For example:
- *
- *   SBase::writeElements(stream);
- *   mReactants.write(stream);
- *   mProducts.write(stream);
- *   ...
- */
-void ColorDefinition::writeElements (XMLOutputStream& stream) const
-{
-  SBase::writeElements(stream);
-}
-/** @endcond */
-
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * Subclasses should override this method to write their XML attributes
- * to the XMLOutputStream.  Be sure to call your parents implementation
- * of this method as well.  For example:
- *
- *   SBase::writeAttributes(stream);
- *   stream.writeAttribute( "id"  , mId   );
- *   stream.writeAttribute( "name", mName );
- *   ...
- */
-void ColorDefinition::writeAttributes (XMLOutputStream& stream) const
-{
-  SBase::writeAttributes(stream);
-  stream.writeAttribute("id", getPrefix(), this->getId());
-  stream.writeAttribute("value", getPrefix(), this->createValueString());
-}
-/** @endcond */
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * Returns the libSBML type code for this %SBML object.
- * 
- * @if clike LibSBML attaches an identifying code to every
- * kind of SBML object.  These are known as <em>SBML type codes</em>.
- * The set of possible type codes is defined in the enumeration
- * #SBMLTypeCode_t.  The names of the type codes all begin with the
- * characters @c SBML_. @endif@if java LibSBML attaches an
- * identifying code to every kind of SBML object.  These are known as
- * <em>SBML type codes</em>.  In other languages, the set of type codes
- * is stored in an enumeration; in the Java language interface for
- * libSBML, the type codes are defined as static integer constants in
- * interface class {@link libsbmlConstants}.  The names of the type codes
- * all begin with the characters @c SBML_. @endif
- *
- * @return the SBML type code for this object, or @c SBML_UNKNOWN (default).
- *
- * @see getElementName()
+ * Unsets the value of the "id" attribute of this ColorDefinition.
  */
 int
-ColorDefinition::getTypeCode () const
+ColorDefinition::unsetId()
+{
+  mId.erase();
+
+  if (mId.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
+/*
+ * Unsets the value of the "name" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::unsetName()
+{
+  mName.erase();
+
+  if (mName.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
+/*
+ * Unsets the value of the "value" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::unsetValue()
+{
+  mValue.erase();
+  setColorValue(mValue);
+
+  if (mValue.empty() == true)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
+/*
+ * Returns the XML element name of this ColorDefinition object.
+ */
+const std::string&
+ColorDefinition::getElementName() const
+{
+  static const string name = "colorDefinition";
+  return name;
+}
+
+
+/*
+ * Returns the libSBML type code for this ColorDefinition object.
+ */
+int
+ColorDefinition::getTypeCode() const
 {
   return SBML_RENDER_COLORDEFINITION;
 }
-/** @endcond */
+
+
+/*
+* Predicate returning @c true if all the required attributes but not defaults for this
+* ColorDefinition object have been set.
+*/
+bool
+ColorDefinition::hasRequiredAttributes() const
+{
+  bool allPresent = true;
+
+  if (isSetId() == false)
+  {
+    allPresent = false;
+  }
+
+  if (isSetValue() == false)
+  {
+    allPresent = false;
+  }
+
+  return allPresent;
+}
+
 
 /** @cond doxygenLibsbmlInternal */
+
 /*
- * Returns the XML element name of this object, which for
- * ListOfColorDefinitions, is always @c "colorDefinition".
- * 
- * @return the name of this element, i.e., @c "colorDefinition".
- */
-const std::string& ColorDefinition::getElementName () const
+* Predicate returning @c true if all the required attributes but not defaults for this
+* ColorDefinition object have been set.
+*/
+bool
+ColorDefinition::hasRequiredAttributesNoDefaults() const
 {
-  static std::string name = ColorDefinition::ELEMENT_NAME;
-  return name;
+  bool allPresent = true;
+
+  if (isSetId() == false)
+  {
+    allPresent = false;
+  }
+
+  return allPresent;
 }
+
 /** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Write any contained elements
+ */
+void
+ColorDefinition::writeElements(XMLOutputStream& stream) const
+{
+  SBase::writeElements(stream);
+
+  SBase::writeExtensionElements(stream);
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Accepts the given SBMLVisitor
+ */
+bool
+ColorDefinition::accept(SBMLVisitor& v) const
+{
+  return v.visit(*this);
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the parent SBMLDocument
+ */
+void
+ColorDefinition::setSBMLDocument(SBMLDocument* d)
+{
+  SBase::setSBMLDocument(d);
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Enables/disables the given package with this element
+ */
+void
+ColorDefinition::enablePackageInternal(const std::string& pkgURI,
+                                       const std::string& pkgPrefix,
+                                       bool flag)
+{
+  SBase::enablePackageInternal(pkgURI, pkgPrefix, flag);
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::getAttribute(const std::string& attributeName,
+                              bool& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::getAttribute(const std::string& attributeName,
+                              int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::getAttribute(const std::string& attributeName,
+                              double& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::getAttribute(const std::string& attributeName,
+                              unsigned int& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Gets the value of the "attributeName" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::getAttribute(const std::string& attributeName,
+                              std::string& value) const
+{
+  int return_value = SBase::getAttribute(attributeName, value);
+
+  if (return_value == LIBSBML_OPERATION_SUCCESS)
+  {
+    return return_value;
+  }
+
+  if (attributeName == "id")
+  {
+    value = getId();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "name")
+  {
+    value = getName();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (attributeName == "value")
+  {
+    value = getValue();
+    return_value = LIBSBML_OPERATION_SUCCESS;
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this ColorDefinition's attribute
+ * "attributeName" is set.
+ */
+bool
+ColorDefinition::isSetAttribute(const std::string& attributeName) const
+{
+  bool value = SBase::isSetAttribute(attributeName);
+
+  if (attributeName == "id")
+  {
+    value = isSetId();
+  }
+  else if (attributeName == "name")
+  {
+    value = isSetName();
+  }
+  else if (attributeName == "value")
+  {
+    value = isSetValue();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::setAttribute(const std::string& attributeName, bool value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::setAttribute(const std::string& attributeName, int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::setAttribute(const std::string& attributeName, double value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::setAttribute(const std::string& attributeName,
+                              unsigned int value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Sets the value of the "attributeName" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::setAttribute(const std::string& attributeName,
+                              const std::string& value)
+{
+  int return_value = SBase::setAttribute(attributeName, value);
+
+  if (attributeName == "id")
+  {
+    return_value = setId(value);
+  }
+  else if (attributeName == "name")
+  {
+    return_value = setName(value);
+  }
+  else if (attributeName == "value")
+  {
+    return_value = setValue(value);
+  }
+
+  return return_value;
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Unsets the value of the "attributeName" attribute of this ColorDefinition.
+ */
+int
+ColorDefinition::unsetAttribute(const std::string& attributeName)
+{
+  int value = SBase::unsetAttribute(attributeName);
+
+  if (attributeName == "id")
+  {
+    value = unsetId();
+  }
+  else if (attributeName == "name")
+  {
+    value = unsetName();
+  }
+  else if (attributeName == "value")
+  {
+    value = unsetValue();
+  }
+
+  return value;
+}
+
+/** @endcond */
+
+
 
 /** @cond doxygenLibsbmlInternal */
 /*
@@ -600,429 +1068,411 @@ XMLNode ColorDefinition::toXML() const
 }
 /** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
-/*
- * Subclasses should override this method to create, store, and then
- * return an SBML object corresponding to the next XMLToken in the
- * XMLInputStream.
- *
- * @return the SBML object corresponding to next XMLToken in the
- * XMLInputStream or NULL if the token was not recognized.
- */
-SBase*
-ColorDefinition::createObject (XMLInputStream& stream)
-{
-  return NULL;
-}
-/** @endcond */
+
 
 /** @cond doxygenLibsbmlInternal */
-/*
- * Accepts the given SBMLVisitor for this instance of ColorDefinition.
- *
- * @param v the SBMLVisitor instance to be used.
- *
- * @return the result of calling <code>v.visit()</code>.
- */
-bool ColorDefinition::accept (SBMLVisitor& v) const
-{
-	return false;
-}
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
 /*
- * Creates a new ListOfColorDefinitions object from the given XMLNode object.
- * The XMLNode object has to contain a valid XML representation of a 
- * ListOfColorDefinitions object as defined in the render extension specification.
- * This method is normally called when render information is read from a file and 
- * should normally not have to be called explicitely.
- *
- * @param node the XMLNode object reference that describes the ListOfColorDefinitions
- * object to be instantiated.
+ * Adds the expected attributes for this element
  */
-ListOfColorDefinitions::ListOfColorDefinitions(const XMLNode& node)
+void
+ColorDefinition::addExpectedAttributes(ExpectedAttributes& attributes)
 {
-    const XMLAttributes& attributes=node.getAttributes();
-    const XMLNode* child;
-    ExpectedAttributes ea;
-    mURI = RenderExtension::getXmlnsL3V1V1();
-    addExpectedAttributes(ea);
-    this->readAttributes(attributes, ea);
-    unsigned int n=0,nMax = node.getNumChildren();
-    while(n<nMax)
-    {
-        child=&node.getChild(n);
-        const std::string& childName=child->getName();
-        if(childName=="colorDefinition")
-        {
-            ColorDefinition* cd=new ColorDefinition(*child);
-	    this->appendAndOwn(cd);
-        }
-        else if(childName=="annotation")
-        {
-            this->mAnnotation=new XMLNode(*child);
-        }
-        else if(childName=="notes")
-        {
-            this->mNotes=new XMLNode(*child);
-        }
-        ++n;
-    }
+  SBase::addExpectedAttributes(attributes);
+
+  attributes.add("id");
+
+  attributes.add("name");
+
+  attributes.add("value");
 }
+
 /** @endcond */
 
 
-/** @cond doxygenLibsbmlInternal */
-/*
- * Creates and returns a deep copy of the ListOfColorDefinitions object.
- *
- * @return a (deep) copy of this ListOfColorDefinitions
- */
-ListOfColorDefinitions* ListOfColorDefinitions::clone () const
-{
-	return new ListOfColorDefinitions(*this);
-}
-/** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-/*
- * Copy constructor. Creates a copy of this ListOfColorDefinitions object.
- */
-ListOfColorDefinitions::ListOfColorDefinitions(const ListOfColorDefinitions& source):ListOf(source)
-{
-}
-/** @endcond */
 
 /*
- * Constructor which instantiates an empty ListOfColorDefinitions object.
+ * Reads the expected attributes into the member data variables
  */
-ListOfColorDefinitions::ListOfColorDefinitions(unsigned int level,
-                         unsigned int version,
-                         unsigned int pkgVersion)
-                         : ListOf(level, version)
+void
+ColorDefinition::readAttributes(const XMLAttributes& attributes,
+                                const ExpectedAttributes& expectedAttributes)
 {
-  setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level,version,pkgVersion));
-}
+  unsigned int level = getLevel();
+  unsigned int version = getVersion();
+  unsigned int pkgVersion = getPackageVersion();
+  unsigned int numErrs;
+  bool assigned = false;
+  SBMLErrorLog* log = getErrorLog();
 
-/*
- * Ctor.
- */
-ListOfColorDefinitions::ListOfColorDefinitions(RenderPkgNamespaces* renderns) 
-  : ListOf(renderns)
-{
-   setElementNamespace(renderns->getURI());
-}
-
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * Assignment operator for ListOfColorDefinitions objects.
- */
-ListOfColorDefinitions& ListOfColorDefinitions::operator=(const ListOfColorDefinitions& source)
-{
-    if(&source!=this)
-    {
-	this->ListOf::operator=(source);
-    }
-    return *this;
-}
-/** @endcond */
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * Returns the libSBML type code for the objects contained in this ListOf
- * (i.e., ColorDefinition objects, if the list is non-empty).
- * 
- * @if clike LibSBML attaches an identifying code to every
- * kind of SBML object.  These are known as <em>SBML type codes</em>.
- * The set of possible type codes is defined in the enumeration
- * #SBMLTypeCode_t.  The names of the type codes all begin with the
- * characters @c SBML_. @endif@if java LibSBML attaches an
- * identifying code to every kind of SBML object.  These are known as
- * <em>SBML type codes</em>.  In other languages, the set of type codes
- * is stored in an enumeration; in the Java language interface for
- * libSBML, the type codes are defined as static integer constants in
- * interface class {@link libsbmlConstants}.  The names of the type codes
- * all begin with the characters @c SBML_. @endif
- * 
- * @return the SBML type code for the objects contained in this ListOf
- * instance, or @c SBML_UNKNOWN (default).
- *
- * @see getElementName()
- */
-int ListOfColorDefinitions::getItemTypeCode () const
-{
-	return SBML_RENDER_COLORDEFINITION;
-}
-/** @endcond */
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * Returns the XML element name of this object, which for
- * ListOfColorDefinitions, is always @c "listOfColorDefinitions".
- * 
- * @return the name of this element, i.e., @c "listOfColorDefinitions".
- */
-const std::string& ListOfColorDefinitions::getElementName () const
-{
-  static std::string name = ListOfColorDefinitions::ELEMENT_NAME;
-  return name;
-}
-/** @endcond */
-
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * Creates an XMLNode object from this ListOfColorDefinitions object.
- *
- * @return the XMLNode with the XML representation for the 
- * ListOfColorDefinitions object.
- */
-XMLNode ListOfColorDefinitions::toXML() const
-{
-  return getXmlNodeForSBase(this);
-}
-/** @endcond */
- 
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * @return the SBML object corresponding to next XMLToken in the
- * XMLInputStream or NULL if the token was not recognized.
- */
-SBase* ListOfColorDefinitions::createObject (XMLInputStream& stream)
-{
-  const std::string& name   = stream.peek().getName();
-  SBase*        object = NULL;
-
-
-  if (name == "colorDefinition")
+  if (log && getParentSBMLObject() &&
+    static_cast<ListOfColorDefinitions*>(getParentSBMLObject())->size() < 2)
   {
-    RENDER_CREATE_NS(renderns, this->getSBMLNamespaces());
-    object = new ColorDefinition(renderns);
-    if(object != NULL) this->mItems.push_back(object);
-    delete renderns;
+    numErrs = log->getNumErrors();
+    for (int n = numErrs-1; n >= 0; n--)
+    {
+      if (log->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details = log->getError(n)->getMessage();
+        log->remove(UnknownPackageAttribute);
+        log->logPackageError("render", RenderColorDefinitionAllowedAttributes,
+          pkgVersion, level, version, details);
+      }
+      else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details = log->getError(n)->getMessage();
+        log->remove(UnknownCoreAttribute);
+        log->logPackageError("render",
+          RenderRenderInformationBaseLOColorDefinitionsAllowedCoreAttributes,
+            pkgVersion, level, version, details);
+      }
+    }
   }
-  return object;
-}
-/** @endcond */
 
-/*
- * Returns the value of the "id" attribute of this ColorDefinition.
- *
- * @return the id of the ColorDefinition
- */
-const std::string& ColorDefinition::getId () const
-{
-  return mId;
-}
-/** @endcond */
+  SBase::readAttributes(attributes, expectedAttributes);
 
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * Predicate returning @c true or @c false depending on whether this
- * GraphicalPrimitive's "id" attribute has been set.
- *
- * @return returns true or false depending on whether the id on the 
- * GraphicalPrimitive has been set.
- */
-bool ColorDefinition::isSetId () const
-{
-  return (mId.empty() == false);
-}
-/** @endcond */
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * Sets the value of the "id" attribute of this GraphicalPrimitive.
- *
- * @param id the new id for the GraphicalPrimitive 
- *
- * @return status if the operation succeeded
- */
-int ColorDefinition::setId (const std::string& id)
-{
-  if (!(SyntaxChecker::isValidSBMLSId(id)))
+  if (log)
   {
-    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+    numErrs = log->getNumErrors();
+
+    for (int n = numErrs-1; n >= 0; n--)
+    {
+      if (log->getError(n)->getErrorId() == UnknownPackageAttribute)
+      {
+        const std::string details = log->getError(n)->getMessage();
+        log->remove(UnknownPackageAttribute);
+        log->logPackageError("render", RenderColorDefinitionAllowedAttributes,
+          pkgVersion, level, version, details);
+      }
+      else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
+      {
+        const std::string details = log->getError(n)->getMessage();
+        log->remove(UnknownCoreAttribute);
+        log->logPackageError("render",
+          RenderColorDefinitionAllowedCoreAttributes, pkgVersion, level, version,
+            details);
+      }
+    }
+  }
+
+  // 
+  // id SId (use = "required" )
+  // 
+
+  assigned = attributes.readInto("id", mId);
+
+  if (assigned == true)
+  {
+    if (mId.empty() == true)
+    {
+      logEmptyString(mId, level, version, "<ColorDefinition>");
+    }
+    else if (SyntaxChecker::isValidSBMLSId(mId) == false)
+    {
+      log->logPackageError("render", RenderIdSyntaxRule, pkgVersion, level,
+        version, "The id on the <" + getElementName() + "> is '" + mId + "', "
+          "which does not conform to the syntax.", getLine(), getColumn());
+    }
   }
   else
   {
-    mId = id;
-    return LIBSBML_OPERATION_SUCCESS;
+    std::string message = "Render attribute 'id' is missing from the "
+      "<ColorDefinition> element.";
+    log->logPackageError("render", RenderColorDefinitionAllowedAttributes,
+      pkgVersion, level, version, message);
   }
-}
-/** @endcond */
 
+  // 
+  // name string (use = "optional" )
+  // 
 
-/** @cond doxygenLibsbmlInternal */
-/*
- * Unsets the value of the "id" attribute of this ColorDefinition.
- */
-int ColorDefinition::unsetId ()
-{
-  mId.erase();
-  if (mId.empty())
+  assigned = attributes.readInto("name", mName);
+
+  if (assigned == true)
   {
-    return LIBSBML_OPERATION_SUCCESS;
+    if (mName.empty() == true)
+    {
+      logEmptyString(mName, level, version, "<ColorDefinition>");
+    }
+  }
+
+  // 
+  // value string (use = "required" )
+  // 
+
+  assigned = attributes.readInto("value", mValue);
+
+  if (assigned == true)
+  {
+    if (mValue.empty() == true)
+    {
+      logEmptyString(mValue, level, version, "<ColorDefinition>");
+    }
+    else
+    {
+      this->setColorValue(mValue);
+    }
   }
   else
   {
-    return LIBSBML_OPERATION_FAILED;
+    std::string message = "Render attribute 'value' is missing from the "
+      "<ColorDefinition> element.";
+    log->logPackageError("render", RenderColorDefinitionAllowedAttributes,
+      pkgVersion, level, version, message);
   }
 }
+
+
 /** @endcond */
 
+
+
 /** @cond doxygenLibsbmlInternal */
+
 /*
- * Returns a pointer to the ColorDefinition with the given index or NULL if
- * the index is invalid.
- * 
- * @param i index of the ColorDefinition object to be returned
- * 
- * @return pointer to the ColorDefinition at the given index or NULL.
+ * Writes the attributes to the stream
  */
-ColorDefinition* ListOfColorDefinitions::get(unsigned int i)
+void
+ColorDefinition::writeAttributes(XMLOutputStream& stream) const
 {
-    return static_cast<ColorDefinition*>(this->ListOf::get(i));
-}
-/** @endcond */
+  SBase::writeAttributes(stream);
 
-/** @cond doxygenLibsbmlInternal */
-/*
- * Returns a const pointer to the ColorDefinition with the given index or NULL if
- * the index is invalid.
- * 
- * @param i index of the ColorDefinition object to be returned
- * 
- * @return const pointer to the ColorDefinition at the given index or NULL.
- */
-const ColorDefinition* ListOfColorDefinitions::get(unsigned int i) const
-{
-    return static_cast<const ColorDefinition*>(this->ListOf::get(i));
-}
-/** @endcond */
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * Used by ListOf::get() to lookup an SBase based by its id.
- */
-struct IdEqColorDefinition : public std::unary_function<SBase*, bool>
-{
-    const std::string& id;
-
-    IdEqColorDefinition (const std::string& id) : id(id) { }
-    bool operator() (SBase* sb) 
-    { return static_cast <ColorDefinition *> (sb)->getId() == id; }
-};
-/** @endcond */
-
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * Returns a pointer to the ColorDefinition with the given @p id or @c NULL if
- * the id is invalid.
- * 
- * @param id id of the ColorDefinition object to be returned
- * 
- * @return pointer to the ColorDefinition at the given @p id or @c NULL.
- */
-ColorDefinition* ListOfColorDefinitions::get(const std::string& id)
-{
-    return const_cast<ColorDefinition*>( 
-            static_cast<const ListOfColorDefinitions*>(this)->get(id) );
-}
-/** @endcond */
-
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * Returns a const pointer to the ColorDefinition with the given @p id or @c NULL if
- * the id is invalid.
- * 
- * @param id id of the ColorDefinition object to be returned
- * 
- * @return const pointer to the ColorDefinition at the given @p id or @c NULL.
- */
-const ColorDefinition* ListOfColorDefinitions::get(const std::string& id) const
-{
-    std::vector<SBase*>::const_iterator result;
-
-    result = std::find_if( mItems.begin(), mItems.end(), IdEqColorDefinition(id) );
-    return (result == mItems.end()) ? 0 : static_cast <ColorDefinition*> (*result);
-}
-/** @endcond */
-
-/** @cond doxygenLibsbmlInternal */
-/* Removes the nth item from this list */
-ColorDefinition*
-ListOfColorDefinitions::remove (unsigned int n)
-{
-   return static_cast<ColorDefinition*>(ListOf::remove(n));
-}
-/** @endcond */
-
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * Removes the nth item from this ListOfColorDefinitions items and returns a pointer to
- * it.
- *
- * The caller owns the returned item and is responsible for deleting it.
- *
- * @param n the index of the item to remove
- *
- * @see size()
- */
-ColorDefinition*
-ListOfColorDefinitions::remove (const std::string& sid)
-{
-  SBase* item = NULL;
-  std::vector<SBase*>::iterator result;
-
-  result = find_if( mItems.begin(), mItems.end(), IdEqColorDefinition(sid) );
-
-  if (result != mItems.end())
+  if (isSetId() == true)
   {
-    item = *result;
-    mItems.erase(result);
+    stream.writeAttribute("id", getPrefix(), mId);
   }
 
-  return static_cast <ColorDefinition*> (item);
+  if (isSetName() == true)
+  {
+    stream.writeAttribute("name", getPrefix(), mName);
+  }
+
+  if (isSetValue() == true)
+  {
+    stream.writeAttribute("value", getPrefix(), createValueString());
+  }
+
+  SBase::writeExtensionAttributes(stream);
 }
+
 /** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
-/* function returns true if component has all the required
- * attributes
+
+
+
+#endif /* __cplusplus */
+
+
+/*
+ * Creates a new ColorDefinition_t using the given SBML Level, Version and
+ * &ldquo;render&rdquo; package version.
  */
-bool ColorDefinition::hasRequiredAttributes() const
+LIBSBML_EXTERN
+ColorDefinition_t *
+ColorDefinition_create(unsigned int level,
+                       unsigned int version,
+                       unsigned int pkgVersion)
 {
-    bool result = this->SBase::hasRequiredAttributes();
-    result = result && this->isSetId();
-    // the color values can't be NaN
-    result = result && 
-             (this->mRed   == this->mRed)   &&
-             (this->mGreen == this->mGreen) &&
-             (this->mBlue  == this->mBlue)  &&
-             (this->mAlpha == this->mAlpha);
-    return result;
+  return new ColorDefinition(level, version, pkgVersion);
 }
-/** @endcond */
 
 
-/** @cond doxygenLibsbmlInternal */
-/* function returns true if component has all the required
- * elements
+/*
+ * Creates and returns a deep copy of this ColorDefinition_t object.
  */
-bool ColorDefinition::hasRequiredElements() const 
+LIBSBML_EXTERN
+ColorDefinition_t*
+ColorDefinition_clone(const ColorDefinition_t* cd)
 {
-    bool result = this->SBase::hasRequiredElements();
-    return result;
+  if (cd != NULL)
+  {
+    return static_cast<ColorDefinition_t*>(cd->clone());
+  }
+  else
+  {
+    return NULL;
+  }
 }
-/** @endcond */
+
+
+/*
+ * Frees this ColorDefinition_t object.
+ */
+LIBSBML_EXTERN
+void
+ColorDefinition_free(ColorDefinition_t* cd)
+{
+  if (cd != NULL)
+  {
+    delete cd;
+  }
+}
+
+
+/*
+ * Returns the value of the "id" attribute of this ColorDefinition_t.
+ */
+LIBSBML_EXTERN
+char *
+ColorDefinition_getId(const ColorDefinition_t * cd)
+{
+  if (cd == NULL)
+  {
+    return NULL;
+  }
+
+  return cd->getId().empty() ? NULL : safe_strdup(cd->getId().c_str());
+}
+
+
+/*
+ * Returns the value of the "name" attribute of this ColorDefinition_t.
+ */
+LIBSBML_EXTERN
+char *
+ColorDefinition_getName(const ColorDefinition_t * cd)
+{
+  if (cd == NULL)
+  {
+    return NULL;
+  }
+
+  return cd->getName().empty() ? NULL : safe_strdup(cd->getName().c_str());
+}
+
+
+/*
+ * Returns the value of the "value" attribute of this ColorDefinition_t.
+ */
+LIBSBML_EXTERN
+char *
+ColorDefinition_getValue(const ColorDefinition_t * cd)
+{
+  if (cd == NULL)
+  {
+    return NULL;
+  }
+
+  return cd->getValue().empty() ? NULL : safe_strdup(cd->getValue().c_str());
+}
+
+
+/*
+ * Predicate returning @c 1 (true) if this ColorDefinition_t's "id" attribute
+ * is set.
+ */
+LIBSBML_EXTERN
+int
+ColorDefinition_isSetId(const ColorDefinition_t * cd)
+{
+  return (cd != NULL) ? static_cast<int>(cd->isSetId()) : 0;
+}
+
+
+/*
+ * Predicate returning @c 1 (true) if this ColorDefinition_t's "name" attribute
+ * is set.
+ */
+LIBSBML_EXTERN
+int
+ColorDefinition_isSetName(const ColorDefinition_t * cd)
+{
+  return (cd != NULL) ? static_cast<int>(cd->isSetName()) : 0;
+}
+
+
+/*
+ * Predicate returning @c 1 (true) if this ColorDefinition_t's "value"
+ * attribute is set.
+ */
+LIBSBML_EXTERN
+int
+ColorDefinition_isSetValue(const ColorDefinition_t * cd)
+{
+  return (cd != NULL) ? static_cast<int>(cd->isSetValue()) : 0;
+}
+
+
+/*
+ * Sets the value of the "id" attribute of this ColorDefinition_t.
+ */
+LIBSBML_EXTERN
+int
+ColorDefinition_setId(ColorDefinition_t * cd, const char * id)
+{
+  return (cd != NULL) ? cd->setId(id) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Sets the value of the "name" attribute of this ColorDefinition_t.
+ */
+LIBSBML_EXTERN
+int
+ColorDefinition_setName(ColorDefinition_t * cd, const char * name)
+{
+  return (cd != NULL) ? cd->setName(name) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Sets the value of the "value" attribute of this ColorDefinition_t.
+ */
+LIBSBML_EXTERN
+int
+ColorDefinition_setValue(ColorDefinition_t * cd, const char * value)
+{
+  return (cd != NULL) ? cd->setValue(value) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Unsets the value of the "id" attribute of this ColorDefinition_t.
+ */
+LIBSBML_EXTERN
+int
+ColorDefinition_unsetId(ColorDefinition_t * cd)
+{
+  return (cd != NULL) ? cd->unsetId() : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Unsets the value of the "name" attribute of this ColorDefinition_t.
+ */
+LIBSBML_EXTERN
+int
+ColorDefinition_unsetName(ColorDefinition_t * cd)
+{
+  return (cd != NULL) ? cd->unsetName() : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Unsets the value of the "value" attribute of this ColorDefinition_t.
+ */
+LIBSBML_EXTERN
+int
+ColorDefinition_unsetValue(ColorDefinition_t * cd)
+{
+  return (cd != NULL) ? cd->unsetValue() : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Predicate returning @c 1 (true) if all the required attributes for this
+ * ColorDefinition_t object have been set.
+ */
+LIBSBML_EXTERN
+int
+ColorDefinition_hasRequiredAttributes(const ColorDefinition_t * cd)
+{
+  return (cd != NULL) ? static_cast<int>(cd->hasRequiredAttributes()) : 0;
+}
 
 
 LIBSBML_CPP_NAMESPACE_END
+
+

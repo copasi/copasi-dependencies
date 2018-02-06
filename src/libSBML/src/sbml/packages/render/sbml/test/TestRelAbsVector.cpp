@@ -1011,19 +1011,31 @@ START_TEST( test_RelAbsVector_constructors)
 {
     // constructor with two default arguments
     RelAbsVector v1;
+    fail_unless(v1.empty() == true);
     fail_unless(v1.getRelativeValue() < 1e-9);
     fail_unless(v1.getAbsoluteValue() < 1e-9);
+
     RelAbsVector v2(13.0);
+    fail_unless(v2.empty() == false);
     fail_unless(v2.getRelativeValue() < 1e-9);
     fail_unless(fabs((v2.getAbsoluteValue() - 13.0) / 13.0) < 1e-9);
+
     v2=RelAbsVector(23.0,-5.3);
+    fail_unless(v2.empty() == false);
     fail_unless(fabs((v2.getAbsoluteValue() - 23.0) / 23.0) < 1e-9);
     fail_unless(fabs((v2.getRelativeValue() - -5.3) / -5.3) < 1e-9);
 
-    // constructor mit value string
+    // constructor with  value string
     RelAbsVector v3("23-2.e2%");
+    fail_unless(v3.empty() == false);
     fail_unless(fabs((v3.getAbsoluteValue() - 23.0) / 23.0) < 1e-9);
     fail_unless(fabs((v3.getRelativeValue() - -2e2) / -2e2) < 1e-9);
+    v3.erase();
+    fail_unless(v3.empty() == true);
+    fail_unless(v3.getRelativeValue() < 1e-9);
+    fail_unless(v3.getAbsoluteValue() < 1e-9);
+
+
 }
 END_TEST
 

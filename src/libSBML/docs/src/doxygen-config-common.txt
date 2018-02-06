@@ -194,9 +194,11 @@ ALIASES += sbmlmarker{1}="@htmlinclude pkg-marker-\1.html"
 ALIASES += sbmlbrief{1}="@sbmlpackage{\1}\n\
 @brief @sbmlmarker{\1} "
 
-ALIASES += sbmlfunction{2}="@if clike SBML_\1()@endif @if csharp SBML_\1()@endif @if python @link libsbml.\1() \1()@endlink@endif@~"
+ALIASES += sbmlfunction{2}="@if cpp SBML_\1()@endif @if conly SBML_\1()@endif @if csharp SBML_\1()@endif @if python @link libsbml.\1() \1()@endlink@endif@~"
 
 ALIASES += sbmlconstant{2}="@if clike @link \2#\1 \1@endlink@endif @if csharp @link libsbml#\1 \1@endlink@endif @if python @link libsbml#\1 \1@endlink@endif @if java @link libsbmlConstants#\1 \1@endlink@endif@~"
+
+ALIASES += sbmlglobalfunction{2}="@if cpp \1()@endif @if conly \1()@endif @if csharp \1()@endif @if python @link libsbml.\1() \1()@endlink@endif@~"
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"
@@ -1299,21 +1301,15 @@ DOT_MULTI_TARGETS      = YES
 
 DOT_GRAPH_MAX_NODES    = 5000
 
+MARKDOWN_SUPPORT       = NO
+
 #---------------------------------------------------------------------------
 # Configuration:additions related to the search engine   
 #---------------------------------------------------------------------------
 
-# The SEARCHENGINE tag specifies whether or not a search engine should be 
-# used. If set to NO the values of all tags below this one will be ignored.
+# The following file does not exist in the distribution.  It's created by the
+# Makefile at run time, to generate different search systems depending on
+# whether we're building a copy of the docs for users' local use or for
+# installing them on sbml.org.
 
-SEARCHENGINE           = YES
-SERVER_BASED_SEARCH    = NO
-
-#---------------------------------------------------------------------------
-# Configuration: handling of Doxygen version-specific features
-#---------------------------------------------------------------------------
-
-# The following file does not exist in the distribution.  It's created
-# automatically by the Makefile at run-time.
-
-@INCLUDE = doxygen-version-specific.txt
+@INCLUDE = doxygen-search-config.txt

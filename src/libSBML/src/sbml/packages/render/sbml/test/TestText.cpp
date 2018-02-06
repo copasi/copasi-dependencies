@@ -211,9 +211,9 @@ START_TEST( test_Text_TextAnchor )
     T->setTextAnchor(Text::ANCHOR_END);
     fail_unless(T->isSetTextAnchor());
     fail_unless(T->getTextAnchor() == Text::ANCHOR_END);
-    //T->setTextAnchor(Text::ANCHOR_BASELINE);
-    //fail_unless( !T->isSetTextAnchor());
-    //fail_unless(T->getTextAnchor() == Text::ANCHOR_UNSET);
+    T->setTextAnchor(Text::ANCHOR_BASELINE);
+    fail_unless( !T->isSetTextAnchor());
+    fail_unless(T->getTextAnchor() == Text::ANCHOR_UNSET);
     T->setTextAnchor(Text::ANCHOR_UNSET);
     fail_unless( !T->isSetTextAnchor());
     fail_unless(T->getTextAnchor() == Text::ANCHOR_UNSET);
@@ -233,9 +233,9 @@ START_TEST( test_Text_VTextAnchor )
     T->setVTextAnchor(Text::ANCHOR_BOTTOM);
     fail_unless(T->isSetVTextAnchor());
     fail_unless(T->getVTextAnchor() == Text::ANCHOR_BOTTOM);
-    //T->setVTextAnchor(Text::ANCHOR_BASELINE);
-    //fail_unless(T->isSetVTextAnchor());
-    //fail_unless(T->getVTextAnchor() == Text::ANCHOR_BASELINE);
+    T->setVTextAnchor(Text::ANCHOR_BASELINE);
+    fail_unless(T->isSetVTextAnchor());
+    fail_unless(T->getVTextAnchor() == Text::ANCHOR_BASELINE);
     T->setVTextAnchor(Text::ANCHOR_UNSET);
     fail_unless( !T->isSetVTextAnchor());
     fail_unless(T->getVTextAnchor() == Text::ANCHOR_UNSET);

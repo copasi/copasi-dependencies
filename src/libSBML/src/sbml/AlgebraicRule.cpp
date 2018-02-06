@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -232,14 +232,14 @@ AlgebraicRule::getAttribute(const std::string& attributeName,
 /*
  * Gets the value of the "attributeName" attribute of this AlgebraicRule.
  */
-int
-AlgebraicRule::getAttribute(const std::string& attributeName,
-                            const char* value) const
-{
-  int return_value = Rule::getAttribute(attributeName, value);
-
-  return return_value;
-}
+//int
+//AlgebraicRule::getAttribute(const std::string& attributeName,
+//                            const char* value) const
+//{
+//  int return_value = Rule::getAttribute(attributeName, value);
+//
+//  return return_value;
+//}
 
 /** @endcond */
 
@@ -355,14 +355,14 @@ AlgebraicRule::setAttribute(const std::string& attributeName,
 /*
  * Sets the value of the "attributeName" attribute of this AlgebraicRule.
  */
-int
-AlgebraicRule::setAttribute(const std::string& attributeName,
-                            const char* value)
-{
-  int return_value = Rule::setAttribute(attributeName, value);
-
-  return return_value;
-}
+//int
+//AlgebraicRule::setAttribute(const std::string& attributeName,
+//                            const char* value)
+//{
+//  int return_value = Rule::setAttribute(attributeName, value);
+//
+//  return return_value;
+//}
 
 /** @endcond */
 

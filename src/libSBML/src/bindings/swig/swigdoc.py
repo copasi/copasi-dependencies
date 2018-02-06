@@ -12,7 +12,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2017 jointly by the following organizations:
+# Copyright (C) 2013-2018 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -831,6 +831,8 @@ def rewriteClassRef (match):
 
 
 def translateCrossRefs (str):
+  if str is None:
+    return ''
   if re.search('@sbml(global)?function', str) != None:
     p = re.compile('@sbmlfunction{([^}]+?)}')
     str = p.sub(translateSBMLFunctionRef, str)
@@ -1471,10 +1473,26 @@ def rewriteDocstringForPerl (docstring):
   docstring = docstring.replace(r'@returns?', 'Returns')
   docstring = docstring.replace(' < ', ' E<lt> ').replace(' > ', ' E<gt> ')
   docstring = re.sub('<code>([^<]*)</code>', r'C<\1>', docstring)
-  docstring = re.sub('<b>([^<]*)</b>', r'B<\1>', docstring)  
+  docstring = re.sub('<b>([^<]*)</b>', r'B<\1>', docstring)
 
   return docstring
 
+
+def defaultParameterValueNote(argstring):
+  if re.search(' = ', argstring) != None:
+    return "\n\n@note Owing to the way that language interfaces are"\
+      + " created in libSBML, this documentation may show"\
+      + " methods that define default values for parameters"\
+      + " with text that has the form"\
+      + " <nobr><i><code>parameter</code></i> = <i><code>value</code></i></nobr>."\
+      + " This is <strong>not</strong> to be intepreted as a"\
+      + " Python keyword argument; the use of a parameter name"\
+      + " followed by an equals sign followed by a value is"\
+      + " only meant to indicate a default value if the"\
+      + " argument is not provided at all.  It is not a keyword"\
+      + " in the Python sense.\n\n"
+  else:
+    return ""
 
 
 def processClassMethods(ostream, c):
@@ -1519,9 +1537,11 @@ def processClassMethods(ostream, c):
                       + rewriteDocstringForPython(argVariant.args) \
                       + "</pre>\n\n"
             newdoc += rewriteDocstringForPython(argVariant.docstring)
+            newdoc += defaultParameterValueNote(argVariant.args)
           written[argVariant.name + argVariant.args] = 1
       else:
         newdoc = rewriteDocstringForPython(m.docstring)
+        newdoc += defaultParameterValueNote(m.args)
       ostream.write(formatMethodDocString(m.name, c.name, newdoc, m.isInternal, m.args, m))
       written[m.name + m.args] = 1
   else: # Not python

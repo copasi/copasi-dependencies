@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -135,6 +135,7 @@ const char* SBML_RENDER_TYPECODE_STRINGS[] =
   , "Point"
   , "Text"
   , "Transformation2D"
+  , "DefaultValues"
 
 };
 
@@ -343,7 +344,7 @@ const char*
 RenderExtension::getStringFromTypeCode(int typeCode) const
 {
   int min = SBML_RENDER_COLORDEFINITION;
-  int max = SBML_RENDER_TRANSFORMATION2D;
+  int max = SBML_RENDER_DEFAULTS;
 
   if ( typeCode < min || typeCode > max)
   {
@@ -528,5 +529,94 @@ RenderExtension::isInUse(SBMLDocument *doc) const
 
 
 #endif  /* __cplusplus */
+static
+const char* SBML_GRADIENT_SPREAD_METHOD_STRINGS[] =
+{
+  "pad"
+, "reflect"
+, "repeat"
+, "invalid"
+};
+
+
+/*
+ * Returns the string version of the provided #GradientSpreadMethod_t
+ * enumeration.
+ */
+LIBSBML_EXTERN
+const char*
+GradientSpreadMethod_toString(GradientSpreadMethod_t gsm)
+{
+  int min = GRADIENT_SPREADMETHOD_PAD;
+  int max = GRADIENT_SPREAD_METHOD_INVALID;
+
+  if (gsm < min || gsm > max)
+  {
+    return "(Unknown GradientSpreadMethod value)";
+  }
+
+  return SBML_GRADIENT_SPREAD_METHOD_STRINGS[gsm - min];
+}
+
+
+/*
+ * Returns the #GradientSpreadMethod_t enumeration corresponding to the given
+ * string or @sbmlconstant{GRADIENT_SPREAD_METHOD_INVALID,
+ * GradientSpreadMethod_t} if there is no such match.
+ */
+LIBSBML_EXTERN
+GradientSpreadMethod_t
+GradientSpreadMethod_fromString(const char* code)
+{
+  static int size =
+    sizeof(SBML_GRADIENT_SPREAD_METHOD_STRINGS)/sizeof(SBML_GRADIENT_SPREAD_METHOD_STRINGS[0]);
+  std::string type(code);
+
+  for (int i = 0; i < size; i++)
+  {
+    if (type == SBML_GRADIENT_SPREAD_METHOD_STRINGS[i])
+    {
+      return (GradientSpreadMethod_t)(i);
+    }
+  }
+
+  return GRADIENT_SPREAD_METHOD_INVALID;
+}
+
+
+/*
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the
+ * given #GradientSpreadMethod_t is valid.
+ */
+LIBSBML_EXTERN
+int
+GradientSpreadMethod_isValid(GradientSpreadMethod_t gsm)
+{
+  int min = GRADIENT_SPREADMETHOD_PAD;
+  int max = GRADIENT_SPREAD_METHOD_INVALID;
+
+  if (gsm < min || gsm >= max)
+  {
+    return 0;
+  }
+  else
+  {
+    return 1;
+  }
+}
+
+
+/*
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the
+ * given string is a valid #GradientSpreadMethod_t.
+ */
+LIBSBML_EXTERN
+int
+GradientSpreadMethod_isValidString(const char* code)
+{
+  return GradientSpreadMethod_isValid(GradientSpreadMethod_fromString(code));
+}
+
+
 LIBSBML_CPP_NAMESPACE_END
 

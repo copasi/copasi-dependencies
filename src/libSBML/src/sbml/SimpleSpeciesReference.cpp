@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -497,26 +497,26 @@ SimpleSpeciesReference::getAttribute(const std::string& attributeName,
  * Gets the value of the "attributeName" attribute of this
  * SimpleSpeciesReference.
  */
-int
-SimpleSpeciesReference::getAttribute(const std::string& attributeName,
-                                     const char* value) const
-{
-  int return_value = SBase::getAttribute(attributeName, value);
-
-  if (return_value == LIBSBML_OPERATION_SUCCESS)
-  {
-    return return_value;
-  }
-
-  if (attributeName == "species")
-  {
-    value = getSpecies().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-
-  return return_value;
-}
-
+//int
+//SimpleSpeciesReference::getAttribute(const std::string& attributeName,
+//                                     const char* value) const
+//{
+//  int return_value = SBase::getAttribute(attributeName, value);
+//
+//  if (return_value == LIBSBML_OPERATION_SUCCESS)
+//  {
+//    return return_value;
+//  }
+//
+//  if (attributeName == "species")
+//  {
+//    value = getSpecies().c_str();
+//    return_value = LIBSBML_OPERATION_SUCCESS;
+//  }
+//
+//  return return_value;
+//}
+//
 /** @endcond */
 
 
@@ -650,19 +650,19 @@ SimpleSpeciesReference::setAttribute(const std::string& attributeName,
  * Sets the value of the "attributeName" attribute of this
  * SimpleSpeciesReference.
  */
-int
-SimpleSpeciesReference::setAttribute(const std::string& attributeName,
-                                     const char* value)
-{
-  int return_value = SBase::setAttribute(attributeName, value);
-
-  if (attributeName == "species")
-  {
-    return_value = setSpecies(value);
-  }
-
-  return return_value;
-}
+//int
+//SimpleSpeciesReference::setAttribute(const std::string& attributeName,
+//                                     const char* value)
+//{
+//  int return_value = SBase::setAttribute(attributeName, value);
+//
+//  if (attributeName == "species")
+//  {
+//    return_value = setSpecies(value);
+//  }
+//
+//  return return_value;
+//}
 
 /** @endcond */
 

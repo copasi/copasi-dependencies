@@ -10,7 +10,7 @@
 ## This sample program is distributed under a different license than the rest
 ## of libSBML.  This program uses the open-source MIT license, as follows:
 ##
-## Copyright (c) 2013-2017 by the California Institute of Technology
+## Copyright (c) 2013-2018 by the California Institute of Technology
 ## (California, USA), the European Bioinformatics Institute (EMBL-EBI, UK)
 ## and the University of Heidelberg (Germany), with support from the National
 ## Institutes of Health (USA) under grant R01GM070923.  All rights reserved.
@@ -45,13 +45,11 @@ import sys
 import os.path
 from libsbml import *
 
-print("Supported by LibSBML " + getLibSBMLDottedVersion());
-print;
-
-supported = SBMLNamespaces.getSupportedNamespaces();
+print("Supported by LibSBML " + getLibSBMLDottedVersion())
+print()
+supported = SBMLNamespaces.getSupportedNamespaces()
 for i in range(0,supported.getSize()):
-	current = supported.get(i);
-	print("\tSBML Level: " + str(current.getLevel()) + 
-					" Version: " + str(current.getVersion()));
-print;
-
+  current = supported.get(i)
+  print("\tSBML Level: " + str(current.getLevel()) + 
+        " Version: " + str(current.getVersion()))
+print()

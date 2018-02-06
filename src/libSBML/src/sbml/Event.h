@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1083,9 +1083,9 @@ public:
    * object have been set.
    *
    * @note The required elements for an Event object are:
-   * @li "trigger" (required in SBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1,
+   * @li "trigger" (required in SBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1;
    *     optional in SBML Level&nbsp;3 Version&nbsp;2+
-   * @li "listOfEventAssignments" (required in SBML Level&nbsp;2, optional in Level&nbsp;3)
+   * @li "listOfEventAssignments" (required in SBML Level&nbsp;2; optional in Level&nbsp;3)
    */
   virtual bool hasRequiredElements() const;
 
@@ -1218,8 +1218,8 @@ public:
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
-  virtual int getAttribute(const std::string& attributeName,
-                           const char* value) const;
+  //virtual int getAttribute(const std::string& attributeName,
+  //                         const char* value) const;
 
   /** @endcond */
 
@@ -1352,8 +1352,8 @@ public:
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
-  virtual int setAttribute(const std::string& attributeName, const char*
-    value);
+  //virtual int setAttribute(const std::string& attributeName, const char*
+  //  value);
 
   /** @endcond */
 
@@ -2316,13 +2316,14 @@ Event_hasRequiredAttributes (Event_t *e);
 
 
 /**
-  * Predicate returning @c true or @c false depending on whether
+  * Predicate returning @c 1 (true) or @c 0 (false) depending on whether
   * all the required elements for the given Event_t structure
   * have been set.
   *
   * @note The required elements for an Event_t structure are:
-  * @li trigger
-  * @li listOfEventAssignments (requirement removed in L3)
+  * @li "trigger" (required in SBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1;
+  *     optional in SBML Level&nbsp;3 Version&nbsp;2+
+  * @li "listOfEventAssignments" (required in SBML Level&nbsp;2; optional in Level&nbsp;3)
   *
  * @memberof Event_t
  */

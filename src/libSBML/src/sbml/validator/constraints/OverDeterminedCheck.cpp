@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -322,7 +322,7 @@ EquationMatching::getNumVariables()
  * creates edges between the equation vertexes and the variable vertexes
  * graph produced is an id representimg the equation and an IdList
  * listing the edges the equation vertex is connected to
-*/
+ */
 void
 EquationMatching::createGraph(const Model& m)
 {
@@ -764,7 +764,7 @@ EquationMatching::Recurse(std::string v)
 
 
 /* return true if the pair are matched
-*/
+ */
 bool
 EquationMatching::match_dependency(const std::string& var, const std::string& eq)
 {

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -572,46 +572,6 @@ Port_unsetName(Port_t * p);
 LIBSBML_EXTERN
 int
 Port_hasRequiredAttributes(Port_t * p);
-
-
-/**
- * Return the Port_t indicated by the given @p sid.
- *
- * @param lo the ListOf_t structure to use.
- *
- * @param sid a string, the identifier of the
- * Port_t being sought.
- *
- * @return the Port_t for the given variable, or @c NULL if no such
- * Port_t exists.
- *
- * @memberof ListOfPorts_t
- */
-LIBSBML_EXTERN
-Port_t *
-ListOfPorts_getById(ListOf_t * lo, const char * sid);
-
-
-/**
- * Removes the Port_t structure with the given @p sid
- * from the given ListOf_t structure and returns a pointer to it.
- *
- * The caller owns the returned structure and is responsible for deleting it.
- *
- * @param lo the ListOf_t structure.
- * @param sid the string of the "id" attribute of the Port_t sought.
- *
- * @return the Port_t structure removed.  As mentioned above, the 
- * caller owns the returned structure. @c NULL is returned if no Port_t
- * structure with the "id" attribute exists in the given ListOf_t structure.
- *
- * @memberof ListOfPorts_t
- */
-LIBSBML_EXTERN
-Port_t *
-ListOfPorts_removeById(ListOf_t * lo, const char * sid);
-
-
 
 END_C_DECLS
 LIBSBML_CPP_NAMESPACE_END

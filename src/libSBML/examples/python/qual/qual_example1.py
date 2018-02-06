@@ -8,7 +8,7 @@
 ## This sample program is distributed under a different license than the rest
 ## of libSBML.  This program uses the open-source MIT license, as follows:
 ##
-## Copyright (c) 2013-2017 by the California Institute of Technology
+## Copyright (c) 2013-2018 by the California Institute of Technology
 ## (California, USA), the European Bioinformatics Institute (EMBL-EBI, UK)
 ## and the University of Heidelberg (Germany), with support from the National
 ## Institutes of Health (USA) under grant R01GM070923.  All rights reserved.
@@ -40,72 +40,71 @@
 
 import sys
 import os.path
+import libsbml
 from libsbml import *
 
 
 def main (args):
     # Creates an SBMLNamespaces object with the given SBML level, version
     # package name, package version.
-    sbmlns = SBMLNamespaces(3, 1, "qual", 1);
+    sbmlns = SBMLNamespaces(3, 1, "qual", 1)
 
-    # Creates an SBMLDocument object 
-    document = SBMLDocument(sbmlns);
+    # Creates an SBMLDocument object
+    document = SBMLDocument(sbmlns)
 
     # mark qual as required
-    document.setPackageRequired("qual", True);
+    document.setPackageRequired("qual", True)
 
     # create the Model
-    model = document.createModel();
+    model = document.createModel()
 
     # create the Compartment
-    compartment = model.createCompartment();
-    compartment.setId("c");
-    compartment.setConstant(True);
-    
+    compartment = model.createCompartment()
+    compartment.setId("c")
+    compartment.setConstant(True)
+
     # Get a QualModelPlugin object plugged in the model object.
-    mplugin = model.getPlugin("qual");
+    mplugin = model.getPlugin("qual")
 
     # create the QualitativeSpecies
-    qs = mplugin.createQualitativeSpecies();
-    qs.setId("s1");
-    qs.setCompartment("c");
-    qs.setConstant(False);
-    qs.setInitialLevel(1);
-    qs.setMaxLevel(4);
-    qs.setName("sss");
+    qs = mplugin.createQualitativeSpecies()
+    qs.setId("s1")
+    qs.setCompartment("c")
+    qs.setConstant(False)
+    qs.setInitialLevel(1)
+    qs.setMaxLevel(4)
+    qs.setName("sss")
 
     # create the Transition
-    t = mplugin.createTransition();
-    t.setId("d");
-    t.setSBOTerm(1);
+    t = mplugin.createTransition()
+    t.setId("d")
+    t.setSBOTerm(1)
 
-    i = t.createInput();
-    i.setId("RD");
-    i.setQualitativeSpecies("s1");
-    i.setTransitionEffect("none");
-    i.setSign("negative");
-    i.setThresholdLevel(2);
-    i.setName("aa");
+    i = t.createInput()
+    i.setId("RD")
+    i.setQualitativeSpecies("s1")
+    i.setTransitionEffect(INPUT_TRANSITION_EFFECT_NONE)
+    i.setSign(INPUT_SIGN_NEGATIVE)
+    i.setThresholdLevel(2)
+    i.setName("aa")
 
-    o = t.createOutput();
-    o.setId("wd");
-    o.setQualitativeSpecies("s1");
-    o.setTransitionEffect("production");
-    o.setOutputLevel(2);
-    o.setName("aa");
+    o = t.createOutput()
+    o.setId("wd")
+    o.setQualitativeSpecies("s1")
+    o.setTransitionEffect(OUTPUT_TRANSITION_EFFECT_PRODUCTION)
+    o.setOutputLevel(2)
+    o.setName("aa")
 
-    ft = t.createFunctionTerm();
-    math = parseL3Formula("geq(s1, 2)");
-    ft.setResultLevel(1);
-    ft.setMath(math);
+    ft = t.createFunctionTerm()
+    math = parseL3Formula("geq(s1, 2)")
+    ft.setResultLevel(1)
+    ft.setMath(math)
 
-    dt = t.createDefaultTerm();
-    dt.setResultLevel(2);
+    dt = t.createDefaultTerm()
+    dt.setResultLevel(2)
 
-    writeSBML(document, "qual_example1.xml");
+    writeSBML(document, "qual_example1.xml")
 
-   
 
-  
 if __name__ == '__main__':
-  main(sys.argv)  
+  main(sys.argv)

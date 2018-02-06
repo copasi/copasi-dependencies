@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -47,6 +47,7 @@
 #include <sbml/AssignmentRule.h>
 #include <sbml/AlgebraicRule.h>
 #include <sbml/RateRule.h>
+#include <sbml/ModifierSpeciesReference.h>
 
 #include <sbml/util/List.h>
 
@@ -2384,20 +2385,29 @@ START_CONSTRAINT (21173, LocalParameter, p)
   if (r != NULL)
   {
     rnId = r->getId();
-    if (r->getReactant(id) != NULL)
+    const SpeciesReference *sr = r->getReactant(id);
+    if (sr != NULL && sr->getSpecies() == id)
     {
       fail = true;
       conflictType = "reactant";
     }
-    else if (r->getProduct(id) != NULL)
+    else
     {
-      fail = true;
-      conflictType = "product";
-    }
-    else if (r->getModifier(id) != NULL)
-    {
-      fail = true;
-      conflictType = "modifier";
+      sr = r->getProduct(id);
+      if (sr != NULL && sr->getSpecies() == id)
+      {
+        fail = true;
+        conflictType = "product";
+      }
+      else
+      {
+        const ModifierSpeciesReference *msr = r->getModifier(id);
+        if(msr != NULL && msr->getSpecies() == id)
+        {
+          fail = true;
+          conflictType = "modifier";
+        }
+      }
     }
   }
   

@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -29,6 +29,7 @@
 #include <sbml/packages/render/extension/RenderListOfLayoutsPlugin.h>
 #include <sbml/packages/layout/common/LayoutExtensionTypes.h>
 #include <sbml/packages/render/util/RenderUtilities.h>
+#include <sbml/packages/render/sbml/GlobalRenderInformation.h>
 #include <sbml/util/ElementFilter.h>
 
 
@@ -188,7 +189,7 @@ void
   RenderListOfLayoutsPlugin::writeElements (XMLOutputStream& stream) const
 {
     if ( getURI() == RenderExtension::getXmlnsL2() ) return;
-  if (mGlobalRenderInformation.size() > 0)
+  if (mGlobalRenderInformation.size() > 0 || mGlobalRenderInformation.isSetDefaultValues())
     mGlobalRenderInformation.write(stream);
 }
 /** @endcond */

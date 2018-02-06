@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -549,12 +549,12 @@ SBMLDocument::setLevelAndVersion (unsigned int level, unsigned int version,
 /** @cond doxygenLibsbmlInternal */
 
 /* 
-* function to set level to 0 on a doc that was just been created to read in to
-* the SBMLReader will only do this if the file is found to be invalid
-* this will allow for testing for an SBMLDocument without
-* relying on it having a model to be valid 
-* (in L3V2 a missing model will be valid) 
-*/
+ * function to set level to 0 on a doc that was just been created to read in to
+ * the SBMLReader will only do this if the file is found to be invalid
+ * this will allow for testing for an SBMLDocument without
+ * relying on it having a model to be valid 
+ * (in L3V2 a missing model will be valid) 
+ */
 void 
 SBMLDocument::setInvalidLevel()
 {
@@ -1210,12 +1210,12 @@ SBMLDocument::checkL3v1Compatibility ()
 
 
 /*
-* Performs a set of semantic consistency checks on the document to establish
-* whether it is compatible with L3v2 and can be converted.  Query
-* the results by calling getNumErrors() and getError().
-*
-* @return the number of failed checks (errors) encountered.
-*/
+ * Performs a set of semantic consistency checks on the document to establish
+ * whether it is compatible with L3v2 and can be converted.  Query
+ * the results by calling getNumErrors() and getError().
+ *
+ * @return the number of failed checks (errors) encountered.
+ */
 unsigned int
 SBMLDocument::checkL3v2Compatibility()
 {

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -520,26 +520,6 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this GeneProduct.
-   *
-   * @param attributeName, the name of the attribute to retrieve.
-   *
-   * @param value, the address of the value to record.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int getAttribute(const std::string& attributeName,
-                           const char* value) const;
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
    * Predicate returning @c true if this GeneProduct's attribute
    * "attributeName" is set.
    *
@@ -646,26 +626,6 @@ public:
    */
   virtual int setAttribute(const std::string& attributeName,
                            const std::string& value);
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
-   * Sets the value of the "attributeName" attribute of this GeneProduct.
-   *
-   * @param attributeName, the name of the attribute to set.
-   *
-   * @param value, the value of the attribute to set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int setAttribute(const std::string& attributeName, const char*
-    value);
 
   /** @endcond */
 
@@ -1331,37 +1291,37 @@ GeneProduct_hasRequiredAttributes(const GeneProduct_t * gp);
 
 
 /**
-* Return the structure indicated by the given @p sid.
-*
-* @param lo the ListOf_t structure to use.
-*
-* @param sid a string matching the "id" attribute of the element sought.
-*
-* @return the structure for the given variable, or @c NULL if no such
-* object exists in the list.
-*
-* @memberof ListOfGeneProducts_t
-*/
+ * Return the structure indicated by the given @p sid.
+ *
+ * @param lo the ListOf_t structure to use.
+ *
+ * @param sid a string matching the "id" attribute of the element sought.
+ *
+ * @return the structure for the given variable, or @c NULL if no such
+ * object exists in the list.
+ *
+ * @memberof ListOfGeneProducts_t
+ */
 LIBSBML_EXTERN
 GeneProduct_t *
 ListOfGeneProducts_getById(ListOf_t * lo, const char * sid);
 
 
 /**
-* Removes the structure with the given @p sid
-* from the given ListOf_t structure and returns a pointer to it.
-*
-* * The caller owns the returned structure and is responsible for deleting it.
-*
-* @param lo the ListOf_t structure.
-* @param sid the string of the "id" attribute of the sought structure.
-*
-* @return the structure removed.  As mentioned above, the
-* caller owns the returned structure. @c NULL is returned if no
-* structure with the "id" attribute exists in the given ListOf_t structure.
-*
-* @memberof ListOfGeneProducts_t
-*/
+ * Removes the structure with the given @p sid
+ * from the given ListOf_t structure and returns a pointer to it.
+ *
+ * * The caller owns the returned structure and is responsible for deleting it.
+ *
+ * @param lo the ListOf_t structure.
+ * @param sid the string of the "id" attribute of the sought structure.
+ *
+ * @return the structure removed.  As mentioned above, the
+ * caller owns the returned structure. @c NULL is returned if no
+ * structure with the "id" attribute exists in the given ListOf_t structure.
+ *
+ * @memberof ListOfGeneProducts_t
+ */
 LIBSBML_EXTERN
 GeneProduct_t *
 ListOfGeneProducts_removeById(ListOf_t * lo, const char * sid);

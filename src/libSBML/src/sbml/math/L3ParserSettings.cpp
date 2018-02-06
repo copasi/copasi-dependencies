@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -500,6 +500,27 @@ L3ParserSettings_getParseAvogadroCsymbol (const L3ParserSettings_t * settings)
     return 0;
 
   return (static_cast<int>(settings->getParseAvogadroCsymbol()));
+}
+
+LIBSBML_EXTERN
+void
+L3ParserSettings_setParseModuloL3v2(L3ParserSettings_t * settings, int flag)
+{
+  if (settings == NULL)
+    return;
+
+  settings->setParseModuloL3v2(static_cast<bool>(flag));
+}
+
+
+LIBSBML_EXTERN
+int
+L3ParserSettings_getParseModuloL3v2(const L3ParserSettings_t * settings)
+{
+  if (settings == NULL)
+    return 0;
+
+  return (static_cast<int>(settings->getParseModuloL3v2()));
 }
 
 /**

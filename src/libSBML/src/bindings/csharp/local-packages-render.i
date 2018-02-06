@@ -48,6 +48,8 @@ COVARIANT_RTYPE_FUNCTION(GradientBase, getAllElements)
 					return new RenderListOfLayoutsPlugin(cPtr, owner);
                  }
 				return new SBasePlugin(cPtr,owner);
+			case (int) libsbml.SBML_DOCUMENT:
+				return new SBMLDocumentPlugin(cPtr, owner);
 			case (int) libsbml.SBML_LAYOUT_LAYOUT:
 				return new RenderLayoutPlugin(cPtr, owner);
 			case (int) libsbml.SBML_LAYOUT_GRAPHICALOBJECT:

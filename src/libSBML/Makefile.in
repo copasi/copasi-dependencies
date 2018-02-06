@@ -259,6 +259,7 @@ examples =                                                          \
   examples/perl/printUnits.pl                                       \
   examples/perl/promoteParameters.pl                                \
   examples/perl/readSBML.pl                                         \
+  examples/perl/renameSId.pl                                        \
   examples/perl/translateMath.pl                                    \
   examples/perl/unsetAnnotation.pl                                  \
   examples/perl/unsetNotes.pl                                       \
@@ -286,6 +287,7 @@ examples =                                                          \
   examples/python/printUnits.py                                     \
   examples/python/promoteParameters.py                              \
   examples/python/readSBML.py                                       \
+  examples/python/stringInput.py                                    \
   examples/python/setIdFromNames.py                                 \
   examples/python/translateMath.py                                  \
   examples/python/unsetAnnotation.py                                \

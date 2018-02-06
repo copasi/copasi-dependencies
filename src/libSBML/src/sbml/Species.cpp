@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1167,10 +1167,10 @@ Species::getDerivedUnitDefinition()
       m->populateListFormulaUnitsData();
     }
     
-    if (m->getFormulaUnitsData(getId(), getTypeCode()) != NULL)
+    FormulaUnitsData *fud = m->getFormulaUnitsData(getId(), getTypeCode());
+    if (fud != NULL)
     {
-      return m->getFormulaUnitsData(getId(), getTypeCode())
-                                             ->getUnitDefinition();
+      return fud->getUnitDefinition();
     }
     else
     {
@@ -1438,51 +1438,51 @@ Species::getAttribute(const std::string& attributeName,
 /*
  * Gets the value of the "attributeName" attribute of this Species.
  */
-int
-Species::getAttribute(const std::string& attributeName,
-                      const char* value) const
-{
-  int return_value = SBase::getAttribute(attributeName, value);
-
-  if (return_value == LIBSBML_OPERATION_SUCCESS)
-  {
-    return return_value;
-  }
-
-  if (attributeName == "compartment")
-  {
-    value = getCompartment().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (attributeName == "substanceUnits")
-  {
-    value = getSubstanceUnits().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (attributeName == "conversionFactor")
-  {
-    value = getConversionFactor().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (attributeName == "speciesType")
-  {
-    value = getSpeciesType().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (attributeName == "spatialSizeUnits")
-  {
-    value = getSpatialSizeUnits().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (attributeName == "units")
-  {
-    value = getUnits().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-
-  return return_value;
-}
-
+//int
+//Species::getAttribute(const std::string& attributeName,
+//                      const char* value) const
+//{
+//  int return_value = SBase::getAttribute(attributeName, value);
+//
+//  if (return_value == LIBSBML_OPERATION_SUCCESS)
+//  {
+//    return return_value;
+//  }
+//
+//  if (attributeName == "compartment")
+//  {
+//    value = getCompartment().c_str();
+//    return_value = LIBSBML_OPERATION_SUCCESS;
+//  }
+//  else if (attributeName == "substanceUnits")
+//  {
+//    value = getSubstanceUnits().c_str();
+//    return_value = LIBSBML_OPERATION_SUCCESS;
+//  }
+//  else if (attributeName == "conversionFactor")
+//  {
+//    value = getConversionFactor().c_str();
+//    return_value = LIBSBML_OPERATION_SUCCESS;
+//  }
+//  else if (attributeName == "speciesType")
+//  {
+//    value = getSpeciesType().c_str();
+//    return_value = LIBSBML_OPERATION_SUCCESS;
+//  }
+//  else if (attributeName == "spatialSizeUnits")
+//  {
+//    value = getSpatialSizeUnits().c_str();
+//    return_value = LIBSBML_OPERATION_SUCCESS;
+//  }
+//  else if (attributeName == "units")
+//  {
+//    value = getUnits().c_str();
+//    return_value = LIBSBML_OPERATION_SUCCESS;
+//  }
+//
+//  return return_value;
+//}
+//
 /** @endcond */
 
 
@@ -1697,39 +1697,39 @@ Species::setAttribute(const std::string& attributeName,
 /*
  * Sets the value of the "attributeName" attribute of this Species.
  */
-int
-Species::setAttribute(const std::string& attributeName, const char* value)
-{
-  int return_value = SBase::setAttribute(attributeName, value);
-
-  if (attributeName == "compartment")
-  {
-    return_value = setCompartment(value);
-  }
-  else if (attributeName == "substanceUnits")
-  {
-    return_value = setSubstanceUnits(value);
-  }
-  else if (attributeName == "conversionFactor")
-  {
-    return_value = setConversionFactor(value);
-  }
-  else if (attributeName == "speciesType")
-  {
-    return_value = setSpeciesType(value);
-  }
-  else if (attributeName == "spatialSizeUnits")
-  {
-    return_value = setSpatialSizeUnits(value);
-  }
-  else if (attributeName == "units")
-  {
-    return_value = setUnits(value);
-  }
-
-  return return_value;
-}
-
+//int
+//Species::setAttribute(const std::string& attributeName, const char* value)
+//{
+//  int return_value = SBase::setAttribute(attributeName, value);
+//
+//  if (attributeName == "compartment")
+//  {
+//    return_value = setCompartment(value);
+//  }
+//  else if (attributeName == "substanceUnits")
+//  {
+//    return_value = setSubstanceUnits(value);
+//  }
+//  else if (attributeName == "conversionFactor")
+//  {
+//    return_value = setConversionFactor(value);
+//  }
+//  else if (attributeName == "speciesType")
+//  {
+//    return_value = setSpeciesType(value);
+//  }
+//  else if (attributeName == "spatialSizeUnits")
+//  {
+//    return_value = setSpatialSizeUnits(value);
+//  }
+//  else if (attributeName == "units")
+//  {
+//    return_value = setUnits(value);
+//  }
+//
+//  return return_value;
+//}
+//
 /** @endcond */
 
 

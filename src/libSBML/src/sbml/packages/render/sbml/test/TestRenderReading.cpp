@@ -6767,7 +6767,7 @@ START_TEST(test_RenderReading_read_L2_model_annotation_with_polygon_curve)
   fail_unless(poly != NULL);
   fail_unless(poly->getNumElements() > 0);
 
-  std::string representation = poly->toSBML();
+ // std::string representation = poly->toSBML();
   RenderPoint* last = poly->getElement(poly->getNumElements() - 1);
   fail_unless(last != NULL);
 

@@ -18,7 +18,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2017 jointly by the following organizations:
+# Copyright (C) 2013-2018 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -121,7 +121,15 @@ def reformatDocString (match):
   middle = '.*?'
   end    = '</pre>'
 
-  # First, clean up whitespace in the method signature strings (and not the
+  # First, remove default value statements in the parameter list.  The
+  # Doxygen output has method signatures like "foo(string x, bool y=False)",
+  # but the "y" does not really have a default value in the code.  This is
+  # misleading and people have complained, so:
+
+  p = re.compile('(' + start + ')(' + middle + ')(' + end + ')', re.DOTALL)
+  text = p.sub(remove_default_values, text)
+
+  # Next, clean up whitespace in the method signature strings (and not the
   # rest of the doc body, because that will mess up code example blocks).
 
   p = re.compile(start + '(' + middle + ')' + end, re.DOTALL)
@@ -138,6 +146,11 @@ def reformatDocString (match):
   # else Doxygen puts the entire docstring inside a verbatim environment.
 
   return "\"\"\"!" + text + "\"\"\""
+
+
+def remove_default_values(match):
+  new_middle = re.sub(r'([_a-zA-Z]\w*)=[_a-zA-Z]\w*', r'\1', match.group(2))
+  return match.group(1) + new_middle + match.group(3)
 
 
 def clean_up_spaces(match):
@@ -168,31 +181,35 @@ def filterDocStrings(contents):
   contents = re.sub(r'(\b' + r'\b|\b'.join(libsbml_enums) + r'\b)', 'long', contents)
 
   # We alter the names of some functions.
-  contents = re.sub('SBML_parseFormula\b',        "parseFormula",    contents)
-  contents = re.sub('SBML_formulaToString\b',     "formulaToString", contents)
+  contents = re.sub(r'SBML_parseFormula\b',        "parseFormula",    contents)
+  contents = re.sub(r'SBML_formulaToString\b',     "formulaToString", contents)
 
-  # Other simple type replacements.
-  contents = contents.replace('an unsigned int',           'a long integer')
-  contents = contents.replace('unsigned int',              'long')
-  contents = contents.replace('const int&',                'int')
-  contents = contents.replace('const long&',               'long')
-  contents = contents.replace('const bool&',               'bool')
-  contents = contents.replace('const std.string&',         'string')
-  contents = contents.replace('const std.string',          'string')
-  contents = contents.replace('SBMLConstructorException',  'ValueError')
+  # Other type replacements.
+  contents = re.sub(r'an unsigned int',          'a long integer ', contents)
+  contents = re.sub(r'bool const\s*\&',          'bool ',           contents)
+  contents = re.sub(r'char const\s*\*',          'long ',           contents)
+  contents = re.sub(r'const bool\s*\&',          'bool ',           contents)
+  contents = re.sub(r'const int\s*\&',           'int ',            contents)
+  contents = re.sub(r'const long\s*\&',          'long ',           contents)
+  contents = re.sub(r'const std.string\s*\&',    'string ',         contents)
+  contents = re.sub(r'const std.string',         'string ',         contents)
+  contents = re.sub(r'double const\s*\&',        'bool ',           contents)
+  contents = re.sub(r'int const\s*&',            'bool ',           contents)
+  contents = re.sub(r'SBMLConstructorException', 'ValueError ',     contents)
+  contents = re.sub(r'long const\s*\&',          'bool ',           contents)
+  contents = re.sub(r'unsigned int',             'long ',           contents)
   # Make sure to do the replacement for 'const' before the replacement for
   # 'char *', because in the SWIG output, there are things like 'char const *'.
-  contents = contents.replace('const ',                    '')
-  contents = contents.replace('char *',                    'string')
-  contents = contents.replace('string *',                  'string')
-  contents = contents.replace('string &',                  'string')
-  contents = contents.replace('double *',                  'float')
-  contents = contents.replace('double &',                  'float')
-  contents = contents.replace('float &',                   'float')
-  contents = contents.replace('float&',                    'float')
-  contents = contents.replace('bool &',                    'bool')
-  contents = contents.replace('long &',                    'long')
-  contents = contents.replace('int &',                     'int')
+  contents = re.sub(r'const ',                   ' ',               contents)
+  contents = re.sub(r'char \*',                  'string ',         contents)
+  contents = re.sub(r'string \*',                'string ',         contents)
+  contents = re.sub(r'string\s*\&',              'string ',         contents)
+  contents = re.sub(r'double \*',                'float ',          contents)
+  contents = re.sub(r'double\s*\&',              'float ',          contents)
+  contents = re.sub(r'float\s*\&',               'float ',          contents)
+  contents = re.sub(r'bool\s*\&',                'bool ',           contents)
+  contents = re.sub(r'long\s*\&',                'long ',           contents)
+  contents = re.sub(r'int\s*\&',                 'int ',            contents)
 
   return contents
 
@@ -279,6 +296,9 @@ def main (args):
   else:
     classes_list_file = 'class-list.txt'
 
+  # import time
+  # debugstream = open('/tmp/fout-' + str(time.time()), 'w')
+
   istream         = open(classes_list_file, 'r')
   libsbml_classes = istream.read().splitlines()
   libsbml_enums   = filter(lambda c: c.endswith('_t'), libsbml_classes)
@@ -291,7 +311,10 @@ def main (args):
   # Only process the content if it's Python.
 
   if re.search('.py$', args[1]):
-    sys.stdout.write(filterForDoxygen(contents))
+    result = filterForDoxygen(contents)
+    sys.stdout.write(result)
+    # debugstream.write(result)
+    # debugstream.close()
   else:
     sys.stdout.write(contents)
 

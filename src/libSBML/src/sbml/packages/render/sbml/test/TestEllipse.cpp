@@ -191,6 +191,15 @@ START_TEST (test_Ellipse_setters )
     fail_unless(fabs((E->getRY().getRelativeValue() -8.8) / 8.8) < 1e-9);
     fail_unless(E->getCZ().getAbsoluteValue() < 1e-9);
     fail_unless(fabs((E->getCZ().getRelativeValue() - 50.0) / 50.0) < 1e-9);
+
+    fail_unless(E->isSetRatio() == false);
+    fail_unless(util_isNaN(E->getRatio()));
+    fail_unless(E->setRatio(1.0) == LIBSBML_OPERATION_SUCCESS);
+    fail_unless(E->isSetRatio() == true);
+    fail_unless(E->getRatio() == 1.0);
+    fail_unless(E->unsetRatio() == LIBSBML_OPERATION_SUCCESS);
+    fail_unless(E->isSetRatio() == false);
+    fail_unless(util_isNaN(E->getRatio()));
 }
 END_TEST 
 

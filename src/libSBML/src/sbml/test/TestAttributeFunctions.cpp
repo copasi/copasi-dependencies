@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1345,9 +1345,9 @@ START_TEST (test_Attributes_Trigger_Id)
 {
   Trigger *obj = new Trigger(3,2);
   const std::string& att_name = "id";
-  const char* id = "x12345";
-  char* value;
-  const char* other_value;
+  std::string id = "x12345";
+  std::string value;
+  std::string other_value;
   int result;
 
   result = obj->setAttribute(att_name, id);
@@ -1361,11 +1361,11 @@ START_TEST (test_Attributes_Trigger_Id)
   result = obj->getAttribute(att_name, value);
 
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
-  fail_unless(strcmp(value, id));
+  fail_unless(value == id);
 
-  other_value = static_cast<SBase*>(obj)->getAttribute<const char *>(att_name);
+  result = obj->getAttribute(att_name, other_value);
 
-  fail_unless(strcmp(other_value, id));
+  fail_unless(other_value == id);
 
   result = obj->unsetAttribute(att_name);
 
@@ -1375,7 +1375,7 @@ START_TEST (test_Attributes_Trigger_Id)
   result = obj->getAttribute(att_name, value);
 
   fail_unless(result == LIBSBML_OPERATION_SUCCESS);
-  fail_unless(strcmp(value, ""));
+  fail_unless(value.empty());
   delete obj;
 }
 END_TEST
@@ -1547,6 +1547,7 @@ START_TEST(test_Elements_Model)
   fail_unless(m->getNumSpecies() == 1);
   fail_unless(m->getNumObjects("species") == 1);
 
+  delete s2;
   delete ss;
   delete m;
 }
@@ -1581,6 +1582,7 @@ START_TEST(test_Elements_Event)
   fail_unless(e->isSetTrigger() == true);
   fail_unless(e->getNumObjects("trigger") == 1);
 
+  delete t1;
   Trigger *t2 = (Trigger*)(e->removeChildObject("trigger", ""));
 
   fail_unless(t2 != NULL);

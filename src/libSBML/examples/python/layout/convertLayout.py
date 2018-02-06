@@ -7,7 +7,7 @@
 ## This sample program is distributed under a different license than the rest
 ## of libSBML.  This program uses the open-source MIT license, as follows:
 ##
-## Copyright (c) 2013-2017 by the California Institute of Technology
+## Copyright (c) 2013-2018 by the California Institute of Technology
 ## (California, USA), the European Bioinformatics Institute (EMBL-EBI, UK)
 ## and the University of Heidelberg (Germany), with support from the National
 ## Institutes of Health (USA) under grant R01GM070923.  All rights reserved.
@@ -37,33 +37,90 @@
 ## written permission.
 ## ------------------------------------------------------------------------ -->
 
+import sys
 from libsbml import *
-doc  = readSBMLFromFile('D:/DropboxSBML/Dropbox/Bug1867-l3.xml')
-layoutNsUri = "http://projects.eml.org/bcb/sbml/level2"
-layoutNs = LayoutPkgNamespaces(2, 4)
-renderNsUri = "http://projects.eml.org/bcb/sbml/render/level2"
-renderNs = RenderPkgNamespaces(2, 4)
 
-prop = ConversionProperties(SBMLNamespaces(2,4))
-prop.addOption('strict', False)
-prop.addOption('setLevelAndVersion', True)
-prop.addOption('ignorePackages', True)
-doc.convert(prop)
+def convertDocToL2(doc, outputFile):
+  layoutNsUri = "http://projects.eml.org/bcb/sbml/level2"
+  layoutNs = LayoutPkgNamespaces(2, 4)
+  renderNsUri = "http://projects.eml.org/bcb/sbml/render/level2"
+  renderNs = RenderPkgNamespaces(2, 4)
+
+  prop = ConversionProperties(SBMLNamespaces(2,4))
+  prop.addOption('strict', False)
+  prop.addOption('setLevelAndVersion', True)
+  prop.addOption('ignorePackages', True)
+  doc.convert(prop)
 
 
-docPlugin = doc.getPlugin("layout")
-if docPlugin != None:
-	docPlugin.setElementNamespace(layoutNsUri)
+  docPlugin = doc.getPlugin("layout")
+  if docPlugin is not None:
+    docPlugin.setElementNamespace(layoutNsUri)
 
-doc.getSBMLNamespaces().removePackageNamespace(3, 1, "layout", 1);        
-doc.getSBMLNamespaces().addPackageNamespace("layout", 1);        
+  doc.getSBMLNamespaces().removePackageNamespace(3, 1, "layout", 1)
+  doc.getSBMLNamespaces().addPackageNamespace("layout", 1)
 
-rdocPlugin = doc.getPlugin("render");
-if rdocPlugin!= None:
-	rdocPlugin->setElementNamespace(renderNsUri);
+  rdocPlugin = doc.getPlugin("render")
+  if rdocPlugin is not None:
+    rdocPlugin.setElementNamespace(renderNsUri)
 
-doc.getSBMLNamespaces().removePackageNamespace(3, 1, "render", 1);        
-doc.getSBMLNamespaces().addPackageNamespace("render", 1);        
+  doc.getSBMLNamespaces().removePackageNamespace(3, 1, "render", 1)
+  doc.getSBMLNamespaces().addPackageNamespace("render", 1)
 
-print doc.toSBML()
+  writeSBMLToFile(doc, outputFile)
 
+def convertDocToL3(doc, outputFile):
+  layoutNsUri = "http://www.sbml.org/sbml/level3/version1/layout/version1"
+  layoutNs = LayoutPkgNamespaces(3, 1)
+  renderNsUri = "http://www.sbml.org/sbml/level3/version1/render/version1"
+  renderNs = RenderPkgNamespaces(3, 1)
+
+  prop = ConversionProperties(SBMLNamespaces(3,1))
+  prop.addOption('strict', False)
+  prop.addOption('setLevelAndVersion', True)
+  prop.addOption('ignorePackages', True)
+  doc.convert(prop)
+
+
+  docPlugin = doc.getPlugin("layout")
+  if docPlugin is not None:
+    docPlugin.setElementNamespace(layoutNsUri)
+
+  doc.getSBMLNamespaces().removePackageNamespace(3, 1, "layout", 1)
+  doc.getSBMLNamespaces().addPackageNamespace("layout", 1)
+
+  rdocPlugin = doc.getPlugin("render")
+  if rdocPlugin is not None:
+    rdocPlugin.setElementNamespace(renderNsUri)
+
+  doc.getSBMLNamespaces().removePackageNamespace(3, 1, "render", 1)
+  doc.getSBMLNamespaces().addPackageNamespace("render", 1)
+
+  writeSBMLToFile(doc, outputFile)
+
+def convertFileToL2(inputFile, outputFile):
+  doc  = readSBMLFromFile(inputFile)
+  convertDocToL2(doc, outputFile)
+
+def convertFileToL3(inputFile, outputFile):
+  doc  = readSBMLFromFile(inputFile)
+  convertDocToL3(doc, outputFile)
+
+def convertFile(inputFile, outputFile):
+  doc  = readSBMLFromFile(inputFile)
+  if doc.getLevel() == 3:
+    convertDocToL2(doc, outputFile)
+  else:
+    convertDocToL3(doc, outputFile)
+  
+  
+if __name__ == '__main__':
+  if len(sys.argv) != 3:
+     print("""
+
+     usage: convertLayout <input file> <output file>
+
+     """)
+     sys.exit(1)
+
+  convertFile(sys.argv[1], sys.argv[2])

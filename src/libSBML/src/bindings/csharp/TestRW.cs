@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -113,7 +113,6 @@ namespace TestLibSBMLCSharp
             }
 
             testCreateSBML();
-            testMathML();
             testCovariantReturnTypes();
 
             // 
@@ -137,36 +136,6 @@ namespace TestLibSBMLCSharp
             Environment.Exit(0);
         }
 
-        static void testMathML()
-        {
-          string mathml = "<?xml version='1.0' encoding='UTF-8'?>\n" + 
-              "<math xmlns='http://www.w3.org/1998/Math/MathML'>\n" + 
-              "<apply>\n" + 
-              "	<divide />\n" + 
-              "	<ci>LacIbNormalized</ci>\n" + 
-              "	<apply>\n" + 
-              "		<csymbol definitionURL='http://sed-ml.org/#max' encoding='text'>max\n" + 
-              "		</csymbol>\n" + 
-              "		<ci>LacIbNormalized</ci>\n" + 
-              "	</apply>\n" + 
-              "</apply>\n" + 
-              "</math>\n";
-          ASTNode node = libsbml.readMathMLFromString(mathml);
-          if (node == null)
-          {
-            ERR("[testMathML] Error: couldn't read mathml string.");
-            return;
-          }
-          
-          string infix = libsbml.formulaToL3String(node);
-          if (infix  == null)
-          {
-            ERR("[testMathML] Error: couldn't create infix.");
-            return;
-          }
-          
-        }
-        
         static void testCovariantReturnTypes()
         {
           //

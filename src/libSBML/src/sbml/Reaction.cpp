@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1686,25 +1686,25 @@ Reaction::getAttribute(const std::string& attributeName,
 /*
  * Gets the value of the "attributeName" attribute of this Reaction.
  */
-int
-Reaction::getAttribute(const std::string& attributeName,
-                       const char* value) const
-{
-  int return_value = SBase::getAttribute(attributeName, value);
-
-  if (return_value == LIBSBML_OPERATION_SUCCESS)
-  {
-    return return_value;
-  }
-
-  if (attributeName == "compartment")
-  {
-    value = getCompartment().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-
-  return return_value;
-}
+//int
+//Reaction::getAttribute(const std::string& attributeName,
+//                       const char* value) const
+//{
+//  int return_value = SBase::getAttribute(attributeName, value);
+//
+//  if (return_value == LIBSBML_OPERATION_SUCCESS)
+//  {
+//    return return_value;
+//  }
+//
+//  if (attributeName == "compartment")
+//  {
+//    value = getCompartment().c_str();
+//    return_value = LIBSBML_OPERATION_SUCCESS;
+//  }
+//
+//  return return_value;
+//}
 
 /** @endcond */
 
@@ -1846,18 +1846,18 @@ Reaction::setAttribute(const std::string& attributeName,
 /*
  * Sets the value of the "attributeName" attribute of this Reaction.
  */
-int
-Reaction::setAttribute(const std::string& attributeName, const char* value)
-{
-  int return_value = SBase::setAttribute(attributeName, value);
-
-  if (attributeName == "compartment")
-  {
-    return_value = setCompartment(value);
-  }
-
-  return return_value;
-}
+//int
+//Reaction::setAttribute(const std::string& attributeName, const char* value)
+//{
+//  int return_value = SBase::setAttribute(attributeName, value);
+//
+//  if (attributeName == "compartment")
+//  {
+//    return_value = setCompartment(value);
+//  }
+//
+//  return return_value;
+//}
 
 /** @endcond */
 
@@ -1928,8 +1928,8 @@ Reaction::createChildObject(const std::string& elementName)
 /** @cond doxygenLibsbmlInternal */
 
 /*
-* Adds an new "elementName" object in this Reaction.
-*/
+ * Adds an new "elementName" object in this Reaction.
+ */
 int
 Reaction::addChildObject(const std::string& elementName, const SBase* element)
 {
@@ -1959,8 +1959,8 @@ Reaction::addChildObject(const std::string& elementName, const SBase* element)
 /** @cond doxygenLibsbmlInternal */
 
 /*
-* Adds an new "elementName" object in this Reaction.
-*/
+ * Adds an new "elementName" object in this Reaction.
+ */
 SBase*
 Reaction::removeChildObject(const std::string& elementName, const std::string& id)
 {

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -285,7 +285,7 @@ Constraint::setMessage (const XMLNode* xhtml)
 
 
 /* Sets the message from a string optionally wrapping in xhtml tags
-*/
+ */
 int 
 Constraint::setMessage (const std::string& message, 
                         bool addXHTMLMarkup)
@@ -568,14 +568,14 @@ Constraint::getAttribute(const std::string& attributeName,
 /*
  * Gets the value of the "attributeName" attribute of this Constraint.
  */
-int
-Constraint::getAttribute(const std::string& attributeName,
-                         const char* value) const
-{
-  int return_value = SBase::getAttribute(attributeName, value);
-
-  return return_value;
-}
+//int
+//Constraint::getAttribute(const std::string& attributeName,
+//                         const char* value) const
+//{
+//  int return_value = SBase::getAttribute(attributeName, value);
+//
+//  return return_value;
+//}
 
 /** @endcond */
 
@@ -690,13 +690,13 @@ Constraint::setAttribute(const std::string& attributeName,
 /*
  * Sets the value of the "attributeName" attribute of this Constraint.
  */
-int
-Constraint::setAttribute(const std::string& attributeName, const char* value)
-{
-  int return_value = SBase::setAttribute(attributeName, value);
-
-  return return_value;
-}
+//int
+//Constraint::setAttribute(const std::string& attributeName, const char* value)
+//{
+//  int return_value = SBase::setAttribute(attributeName, value);
+//
+//  return return_value;
+//}
 
 /** @endcond */
 
@@ -721,8 +721,8 @@ Constraint::unsetAttribute(const std::string& attributeName)
 
 /** @cond doxygenLibsbmlInternal */
 /*
-* Function to set/get an identifier for unit checking
-*/
+ * Function to set/get an identifier for unit checking
+ */
 std::string 
 Constraint::getInternalId() const
 { 

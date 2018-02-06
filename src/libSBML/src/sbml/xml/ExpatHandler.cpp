@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -127,8 +127,8 @@ ExpatHandler::ExpatHandler (XML_Parser parser, XMLHandler& handler) :
 
 
 /**
-* Copy Constructor
-*/
+ * Copy Constructor
+ */
 ExpatHandler::ExpatHandler (const ExpatHandler& other)
   : mParser  (other.mParser)
   , mHandler (other.mHandler)
@@ -139,8 +139,8 @@ ExpatHandler::ExpatHandler (const ExpatHandler& other)
 
 
 /**
-* Assignment operator
-*/
+ * Assignment operator
+ */
 ExpatHandler& ExpatHandler::operator=(const ExpatHandler& other)
 {
   if (this == &other) return *this;
@@ -155,7 +155,7 @@ ExpatHandler& ExpatHandler::operator=(const ExpatHandler& other)
 
 
 /**
-* Destroys this ExpatHandler.
+ * Destroys this ExpatHandler.
  */
 ExpatHandler::~ExpatHandler ()
 {

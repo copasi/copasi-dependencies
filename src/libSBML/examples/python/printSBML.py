@@ -10,7 +10,7 @@
 ## This sample program is distributed under a different license than the rest
 ## of libSBML.  This program uses the open-source MIT license, as follows:
 ##
-## Copyright (c) 2013-2017 by the California Institute of Technology
+## Copyright (c) 2013-2018 by the California Institute of Technology
 ## (California, USA), the European Bioinformatics Institute (EMBL-EBI, UK)
 ## and the University of Heidelberg (Germany), with support from the National
 ## Institutes of Health (USA) under grant R01GM070923.  All rights reserved.
@@ -50,59 +50,60 @@ def main (args):
   """
   
   
-  if (len(args) != 2):
-      print("\n" + "Usage: printSBML filename"  );
-      return 1;
-  
-  filename = args[1];
-  document = readSBML(filename);
-  
-  if (document.getNumErrors() > 0):
-      printLine("Encountered the following SBML errors:" );
-      document.printErrors();
-      return 1;
-  
-  level = document.getLevel();
-  version = document.getVersion();
-  
+  if len(args) != 2:
+      print("\n" + "Usage: printSBML filename"  )
+      return 1
+
+  filename = args[1]
+  document = readSBML(filename)
+
+  if document.getNumErrors() > 0:
+      printLine("Encountered the following SBML errors:" )
+      document.printErrors()
+      return 1
+
+  level = document.getLevel()
+  version = document.getVersion()
+
   print("\n"
                         + "File: " + filename
-                        + " (Level " + str(level) + ", version " + str(version) + ")" );
-  
-  model = document.getModel();
-  
-  if (model == None):
-      print("No model present." );
-      return 1;
-  
+                        + " (Level " + str(level) + ", version " + str(version) + ")" )
+
+  model = document.getModel()
+
+  if model is None:
+      print("No model present." )
+      return 1
+
   idString = "  id: "
-  if (level == 1):
-	idString = "name: "
+  if level == 1:
+    idString = "name: "
   id = "(empty)"
-  if (model.isSetId()):
-	id = model.getId()
+  if model.isSetId():
+    id = model.getId()
   print("               "
                         + idString
-                        + id );
-  
-  if (model.isSetSBOTerm()):
-      print("      model sboTerm: " + model.getSBOTerm() );
-  
-  print("functionDefinitions: " + str(model.getNumFunctionDefinitions()) );
-  print("    unitDefinitions: " + str(model.getNumUnitDefinitions()) );
-  print("   compartmentTypes: " + str(model.getNumCompartmentTypes()) );
-  print("        specieTypes: " + str(model.getNumSpeciesTypes()) );
-  print("       compartments: " + str(model.getNumCompartments()) );
-  print("            species: " + str(model.getNumSpecies()) );
-  print("         parameters: " + str(model.getNumParameters()) );
-  print(" initialAssignments: " + str(model.getNumInitialAssignments()) );
-  print("              rules: " + str(model.getNumRules()) );
-  print("        constraints: " + str(model.getNumConstraints()) );
-  print("          reactions: " + str(model.getNumReactions()) );
-  print("             events: " + str(model.getNumEvents()) );
-  print("\n");
-  
-  return 0;
- 
+                        + id )
+
+  if model.isSetSBOTerm():
+      print("      model sboTerm: " + model.getSBOTerm() )
+
+  print("functionDefinitions: " + str(model.getNumFunctionDefinitions()) )
+  print("    unitDefinitions: " + str(model.getNumUnitDefinitions()) )
+  print("   compartmentTypes: " + str(model.getNumCompartmentTypes()) )
+  print("        specieTypes: " + str(model.getNumSpeciesTypes()) )
+  print("       compartments: " + str(model.getNumCompartments()) )
+  print("            species: " + str(model.getNumSpecies()) )
+  print("         parameters: " + str(model.getNumParameters()) )
+  print(" initialAssignments: " + str(model.getNumInitialAssignments()) )
+  print("              rules: " + str(model.getNumRules()) )
+  print("        constraints: " + str(model.getNumConstraints()) )
+  print("          reactions: " + str(model.getNumReactions()) )
+  print("             events: " + str(model.getNumEvents()) )
+  print("\n")
+
+  return 0
+
+
 if __name__ == '__main__':
   main(sys.argv)  

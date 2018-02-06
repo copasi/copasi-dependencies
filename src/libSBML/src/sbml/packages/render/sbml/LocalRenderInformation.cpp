@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -43,6 +43,7 @@
 #endif // OMIT_DEPRECATED
 #include <sbml/packages/layout/util/LayoutAnnotation.h>
 #include <sbml/packages/render/extension/RenderExtension.h>
+#include <sbml/packages/render/sbml/DefaultValues.h>
 
 #include <sbml/util/ElementFilter.h>
 
@@ -457,10 +458,22 @@ ListOfLocalRenderInformation* ListOfLocalRenderInformation::clone () const
 ListOfLocalRenderInformation::ListOfLocalRenderInformation(const ListOfLocalRenderInformation& source)
   : ListOf(source)
   , mVersionMajor(source.mVersionMajor)
+  , mIsSetVersionMajor(source.mIsSetVersionMajor)
   , mVersionMinor(source.mVersionMinor)
+  , mIsSetVersionMinor(source.mIsSetVersionMinor)
+  , mDefaultValues(NULL)
 {
+  if (source.isSetDefaultValues())
+    setDefaultValues(source.getDefaultValues());
 }
+
 /** @endcond */
+
+ListOfLocalRenderInformation::~ListOfLocalRenderInformation()
+{
+  delete mDefaultValues;
+  mDefaultValues = NULL;
+}
 
 /** @cond doxygenLibsbmlInternal */
 /*
@@ -470,8 +483,11 @@ ListOfLocalRenderInformation& ListOfLocalRenderInformation::operator=(const List
 {
     if(&source!=this)
     {
-        this->mVersionMajor=source.mVersionMajor;
-        this->mVersionMinor=source.mVersionMinor;
+        mVersionMajor=source.mVersionMajor;
+        mIsSetVersionMajor = source.mIsSetVersionMajor;
+        mVersionMinor=source.mVersionMinor;
+        mIsSetVersionMinor = source.mIsSetVersionMinor;
+        setDefaultValues(source.getDefaultValues());
         this->ListOf::operator=(source);
     }
     return *this;
@@ -534,12 +550,18 @@ const std::string& ListOfLocalRenderInformation::getElementName () const
 void ListOfLocalRenderInformation::writeAttributes (XMLOutputStream& stream) const
 {
   ListOf::writeAttributes(stream);
-  std::ostringstream os;
-  os << this->mVersionMajor;
-  stream.writeAttribute("versionMajor", getPrefix(), os.str());
-  os.str("");
-  os << this->mVersionMinor;
-  stream.writeAttribute("versionMinor", getPrefix(), os.str());
+
+  if (isSetVersionMajor() == true)
+  {
+    stream.writeAttribute("versionMajor", getPrefix(), mVersionMajor);
+  }
+
+  if (isSetVersionMinor() == true)
+  {
+    stream.writeAttribute("versionMinor", getPrefix(), mVersionMinor);
+  }
+
+  SBase::writeExtensionAttributes(stream);
 }
 
 void 
@@ -615,8 +637,18 @@ SBase* ListOfLocalRenderInformation::createObject (XMLInputStream& stream)
 
        object = new LocalRenderInformation(renderns);
        if(object != NULL) this->mItems.push_back(object);
-	  delete renderns;
+	     delete renderns;
     }
+
+    if (name == "defaultValues")
+    {
+      RENDER_CREATE_NS(renderns, this->getSBMLNamespaces());
+      DefaultValues newDV(renderns);
+      setDefaultValues(&newDV);
+      object = getDefaultValues();
+      delete renderns;
+    }
+
     return object;
 }
 /** @endcond */
@@ -634,8 +666,8 @@ LocalRenderInformation::addExpectedAttributes(ExpectedAttributes& attributes)
 void LocalRenderInformation::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
    ExpectedAttributes ea;
-    addExpectedAttributes(ea);
-    this->RenderInformationBase::readAttributes(attributes, ea);
+   addExpectedAttributes(ea);
+   this->RenderInformationBase::readAttributes(attributes, ea);
 }
 /** @endcond */
 
@@ -715,10 +747,102 @@ LocalRenderInformation* LocalRenderInformation::clone() const
  */
 void ListOfLocalRenderInformation::setVersion(unsigned int major,unsigned int minor)
 {
-    this->mVersionMajor=major;
-    this->mVersionMinor=minor;
+  setVersionMajor(major);
+  setVersionMinor(minor);
 }
 /** @endcond */
+
+
+/*
+* Predicate returning @c true if this ListOfLocalRenderInformation's
+* "versionMajor" attribute is set.
+*/
+bool
+ListOfLocalRenderInformation::isSetVersionMajor() const
+{
+  return mIsSetVersionMajor;
+}
+
+
+/*
+* Predicate returning @c true if this ListOfLocalRenderInformation's
+* "versionMinor" attribute is set.
+*/
+bool
+ListOfLocalRenderInformation::isSetVersionMinor() const
+{
+  return mIsSetVersionMinor;
+}
+
+
+/*
+* Sets the value of the "versionMajor" attribute of this
+* ListOfLocalRenderInformation.
+*/
+int
+ListOfLocalRenderInformation::setVersionMajor(unsigned int versionMajor)
+{
+  mVersionMajor = versionMajor;
+  mIsSetVersionMajor = true;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+* Sets the value of the "versionMinor" attribute of this
+* ListOfLocalRenderInformation.
+*/
+int
+ListOfLocalRenderInformation::setVersionMinor(unsigned int versionMinor)
+{
+  mVersionMinor = versionMinor;
+  mIsSetVersionMinor = true;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+* Unsets the value of the "versionMajor" attribute of this
+* ListOfLocalRenderInformation.
+*/
+int
+ListOfLocalRenderInformation::unsetVersionMajor()
+{
+  mVersionMajor = SBML_INT_MAX;
+  mIsSetVersionMajor = false;
+
+  if (isSetVersionMajor() == false)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
+/*
+* Unsets the value of the "versionMinor" attribute of this
+* ListOfLocalRenderInformation.
+*/
+int
+ListOfLocalRenderInformation::unsetVersionMinor()
+{
+  mVersionMinor = SBML_INT_MAX;
+  mIsSetVersionMinor = false;
+
+  if (isSetVersionMinor() == false)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
 
 /** @cond doxygenLibsbmlInternal */
 /*
@@ -760,6 +884,110 @@ std::string ListOfLocalRenderInformation::getVersionString() const
     return os.str();
 }
 /** @endcond */
+
+
+/*
+* Returns the value of the "defaultValues" element of this
+* ListOfLocalRenderInformation.
+*/
+const DefaultValues*
+ListOfLocalRenderInformation::getDefaultValues() const
+{
+  return mDefaultValues;
+}
+
+
+/*
+* Returns the value of the "defaultValues" element of this
+* ListOfLocalRenderInformation.
+*/
+DefaultValues*
+ListOfLocalRenderInformation::getDefaultValues()
+{
+  return mDefaultValues;
+}
+
+
+/*
+* Predicate returning @c true if this ListOfLocalRenderInformation's
+* "defaultValues" element is set.
+*/
+bool
+ListOfLocalRenderInformation::isSetDefaultValues() const
+{
+  return (mDefaultValues != NULL);
+}
+
+
+/*
+* Sets the value of the "defaultValues" element of this
+* ListOfLocalRenderInformation.
+*/
+int
+ListOfLocalRenderInformation::setDefaultValues(const DefaultValues*
+  defaultValues)
+{
+  if (mDefaultValues == defaultValues)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (defaultValues == NULL)
+  {
+    delete mDefaultValues;
+    mDefaultValues = NULL;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    delete mDefaultValues;
+    mDefaultValues = (defaultValues != NULL) ? defaultValues->clone() : NULL;
+    if (mDefaultValues != NULL)
+    {
+      mDefaultValues->connectToParent(this);
+    }
+
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
+/*
+* Creates a new DefaultValues object, adds it to this
+* ListOfLocalRenderInformation object and returns the DefaultValues object
+* created.
+*/
+DefaultValues*
+ListOfLocalRenderInformation::createDefaultValues()
+{
+  if (mDefaultValues != NULL)
+  {
+    delete mDefaultValues;
+  }
+
+  RENDER_CREATE_NS(renderns, getSBMLNamespaces());
+  mDefaultValues = new DefaultValues(renderns);
+
+  delete renderns;
+
+  connectToChild();
+
+  return mDefaultValues;
+}
+
+
+/*
+* Unsets the value of the "defaultValues" element of this
+* ListOfLocalRenderInformation.
+*/
+int
+ListOfLocalRenderInformation::unsetDefaultValues()
+{
+  delete mDefaultValues;
+  mDefaultValues = NULL;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
 
 /** @cond doxygenLibsbmlInternal */
 /*
@@ -919,7 +1147,10 @@ LocalRenderInformation::enablePackageInternal(const std::string& pkgURI,
 ListOfLocalRenderInformation::ListOfLocalRenderInformation(RenderPkgNamespaces* renderns)
  : ListOf(renderns)
  , mVersionMajor (1)
+ , mIsSetVersionMajor(false)
  , mVersionMinor (0)
+ , mIsSetVersionMinor(false)
+ , mDefaultValues(NULL)
 {
   //
   // set the element namespace of this object
@@ -933,8 +1164,11 @@ ListOfLocalRenderInformation::ListOfLocalRenderInformation(RenderPkgNamespaces* 
  */
 ListOfLocalRenderInformation::ListOfLocalRenderInformation(unsigned int level, unsigned int version, unsigned int pkgVersion)
  : ListOf(level,version)
- , mVersionMajor (1)
- , mVersionMinor (0)
+ , mVersionMajor(1)
+ , mIsSetVersionMajor(false)
+ , mVersionMinor(0)
+ , mIsSetVersionMinor(false)
+ , mDefaultValues(NULL)
 {
   setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level,version,pkgVersion));
 }
@@ -947,5 +1181,47 @@ bool ListOfLocalRenderInformation::isValidTypeForList(SBase * item)
     typeCode == SBML_RENDER_LOCALRENDERINFORMATION
     );
 }
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+* Write any contained elements
+*/
+void
+ListOfLocalRenderInformation::writeElements(XMLOutputStream& stream) const
+{
+  ListOf::writeElements(stream);
+
+  if (isSetDefaultValues() == true)
+  {
+    mDefaultValues->write(stream);
+  }
+
+  SBase::writeExtensionElements(stream);
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+* Connects to child elements
+*/
+void
+ListOfLocalRenderInformation::connectToChild()
+{
+  ListOf::connectToChild();
+
+  if (mDefaultValues != NULL)
+  {
+    mDefaultValues->connectToParent(this);
+  }
+}
+
+/** @endcond */
+
+
 
 LIBSBML_CPP_NAMESPACE_END 

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -306,11 +306,6 @@ readMathMLFromStringWithNamespaces (const char *xml, XMLNamespaces_t * xmlns)
 }
 
 
-/**
-* @if conly
-* @memberof ASTNode_t
-* @endif
-*/
 LIBSBML_EXTERN
 char *
 writeMathMLWithNamespaceToString(const ASTNode_t* node, SBMLNamespaces_t* sbmlns)
@@ -332,14 +327,9 @@ writeMathMLWithNamespaceToString(const ASTNode_t* node, SBMLNamespaces_t* sbmlns
   return result;
 }
 
-/**
- * @if conly
- * @memberof ASTNode_t
- * @endif
- */
 LIBSBML_EXTERN
 char *
-writeMathMLToString (const ASTNode* node)
+writeMathMLToString (const ASTNode_t* node)
 {
   SBMLNamespaces sbmlns;
   return writeMathMLWithNamespaceToString(node, &sbmlns);

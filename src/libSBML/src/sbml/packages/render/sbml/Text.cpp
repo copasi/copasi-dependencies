@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -256,12 +256,12 @@ void Text::readAttributes (const XMLAttributes& attributes, const ExpectedAttrib
         {
             vta=Text::ANCHOR_TOP;
         }
-        /*
+        
         else if(s=="baseline")
         {
           vta=Text::ANCHOR_BASELINE;
         }
-        */
+        
     }
     this->setTextAnchor(ta);
     this->setVTextAnchor(vta);
@@ -532,13 +532,12 @@ void Text::setFontStyle(Text::FONT_STYLE style)
  */
 void Text::setTextAnchor(Text::TEXT_ANCHOR anchor)
 {
-   /* 
+    
    if(anchor == Text::ANCHOR_BASELINE)
    {
      this->mTextAnchor=Text::ANCHOR_UNSET;
    }
-   else
-   */
+   else   
    {
      this->mTextAnchor=anchor;
    }
@@ -848,6 +847,7 @@ void Text::addTextAttributes(const Text& text,XMLAttributes& att)
         // if it has been set to normal, we
         // have to write it because otherwise it is assumed to
         // be inherited
+        default:
         case Text::STYLE_UNSET:
             break;
         case Text::STYLE_NORMAL:
@@ -859,6 +859,7 @@ void Text::addTextAttributes(const Text& text,XMLAttributes& att)
     }
     switch(text.mFontStyle)
     {
+        default:
         case Text::WEIGHT_UNSET:
             break;
         case Text::WEIGHT_NORMAL:
@@ -887,6 +888,7 @@ void Text::addTextAttributes(const Text& text,XMLAttributes& att)
             case Text::ANCHOR_MIDDLE:
                 att.add("text-anchor","middle");
                 break;
+            default:
             case Text::ANCHOR_UNSET:
                 break;
         }
@@ -907,11 +909,12 @@ void Text::addTextAttributes(const Text& text,XMLAttributes& att)
             case Text::ANCHOR_MIDDLE:
                 att.add("vtext-anchor","middle");
                 break;
-            /*    
+                
             case Text::ANCHOR_BASELINE:
                 att.add("vtext-anchor","baseline");
                 break;
-            */    
+                
+            default:
             case Text::ANCHOR_UNSET:
                 break;
         }
@@ -963,6 +966,7 @@ void Text::writeAttributes (XMLOutputStream& stream) const
       // if it has been set to normal, we
       // have to write it because otherwise it is assumed to
       // be inherited
+      default:
       case Text::STYLE_UNSET:
           break;
       case Text::STYLE_NORMAL:
@@ -974,6 +978,7 @@ void Text::writeAttributes (XMLOutputStream& stream) const
   }
   switch(this->mFontStyle)
   {
+      default:
       case Text::WEIGHT_UNSET:
           break;
       case Text::WEIGHT_NORMAL:
@@ -1002,6 +1007,7 @@ void Text::writeAttributes (XMLOutputStream& stream) const
           case Text::ANCHOR_MIDDLE:
               stream.writeAttribute("text-anchor", getPrefix(), std::string("middle"));
               break;
+          default:
           case Text::ANCHOR_UNSET:
               break;
       }
@@ -1022,11 +1028,12 @@ void Text::writeAttributes (XMLOutputStream& stream) const
           case Text::ANCHOR_MIDDLE:
               stream.writeAttribute("vtext-anchor", getPrefix(), std::string("middle"));
               break;
-           /*   
+              
           case Text::ANCHOR_BASELINE:
               stream.writeAttribute("vtext-anchor",std::string("baseline"));
               break;
-          */    
+              
+          default:
           case Text::ANCHOR_UNSET:
               break;
       }
@@ -1103,7 +1110,7 @@ bool Text::hasRequiredAttributes() const
     result = result && 
         (this->mZ.getAbsoluteValue() == this->mZ.getAbsoluteValue()) &&
         (this->mZ.getRelativeValue() == this->mZ.getRelativeValue());
-    result = result && (mText.find_first_not_of(" \t\n\r") != std::string::npos);
+
     return result;
 }
 /** @endcond */
@@ -1120,5 +1127,117 @@ bool Text::hasRequiredElements() const
 }
 /** @endcond */
 
+const char* FONT_WEIGHT_STRINGS[] =
+{
+  "unset",
+  "normal",
+  "bold",
+  "invalid"
+};
 
-LIBSBML_CPP_NAMESPACE_END 
+
+const char* FONT_STYLE_STRINGS[] =
+{
+  "unset",
+  "normal",
+  "italic",
+  "invalid"
+};
+
+const char* TEXT_ANCHOR_STRINGS[] =
+{
+  "unset",
+  "start",
+  "middle", 
+  "end",
+  "top",
+  "bottom",
+  "baseline",
+  "invalid"
+};
+
+
+LIBSBML_EXTERN
+Text::TEXT_ANCHOR 
+TextAnchor_fromString(const char * name)
+{
+  if (name != NULL)
+  {
+    const Text::TEXT_ANCHOR  lo = Text::ANCHOR_UNSET;
+    const Text::TEXT_ANCHOR  hi = Text::ANCHOR_BASELINE;
+
+    return (Text::TEXT_ANCHOR)util_bsearchStringsI(TEXT_ANCHOR_STRINGS, name, lo, hi);
+  }
+
+  return Text::ANCHOR_UNSET;
+}
+
+LIBSBML_EXTERN
+const char * 
+TextAnchor_toString(Text::TEXT_ANCHOR anchor)
+{
+  if ((anchor < Text::ANCHOR_UNSET) || (anchor > Text::ANCHOR_BASELINE))
+  {
+    anchor = Text::ANCHOR_UNSET;
+  }
+
+  return TEXT_ANCHOR_STRINGS[anchor];
+}
+
+
+LIBSBML_EXTERN 
+Text::FONT_WEIGHT 
+FontWeight_fromString(const char * name)
+{
+  if (name != NULL)
+  {
+    const Text::FONT_WEIGHT  lo = Text::WEIGHT_UNSET;
+    const Text::FONT_WEIGHT  hi = Text::WEIGHT_BOLD;
+
+    return (Text::FONT_WEIGHT)util_bsearchStringsI(FONT_WEIGHT_STRINGS, name, lo, hi);
+  }
+
+  return Text::WEIGHT_UNSET;
+}
+
+LIBSBML_EXTERN 
+const char *
+FontWeight_toString(Text::FONT_WEIGHT weight)
+{
+  if ((weight < Text::WEIGHT_UNSET) || (weight > Text::WEIGHT_BOLD))
+  {
+    weight = Text::WEIGHT_UNSET;
+  }
+
+  return FONT_WEIGHT_STRINGS[weight];
+}
+
+LIBSBML_EXTERN 
+Text::FONT_STYLE 
+FontStyle_fromString(const char * name)
+{
+  if (name != NULL)
+  {
+    const Text::FONT_STYLE  lo = Text::STYLE_UNSET;
+    const Text::FONT_STYLE  hi = Text::STYLE_ITALIC;
+
+    return (Text::FONT_STYLE) util_bsearchStringsI(FONT_STYLE_STRINGS, name, lo, hi);
+  }
+
+  return Text::STYLE_UNSET;
+}
+
+LIBSBML_EXTERN
+const char * 
+FontStyle_toString(Text::FONT_STYLE style)
+{
+  if ((style < Text::STYLE_UNSET) || (style > Text::STYLE_ITALIC))
+  {
+    style = Text::STYLE_UNSET;
+  }
+
+  return FONT_STYLE_STRINGS[style];
+}
+
+
+LIBSBML_CPP_NAMESPACE_END

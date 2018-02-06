@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -36,7 +36,6 @@
 #include <sbml/packages/fbc/validator/FbcSBMLError.h>
 #include <sbml/util/ElementFilter.h>
 
-#include <sbml/packages/fbc/sbml/FbcAnd.h>
 #include <sbml/packages/fbc/sbml/FbcOr.h>
 #include <sbml/packages/fbc/sbml/GeneProductRef.h>
 
@@ -630,24 +629,6 @@ FbcAnd::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this FbcAnd.
- */
-int
-FbcAnd::getAttribute(const std::string& attributeName,
-                     const char* value) const
-{
-  int return_value = FbcAssociation::getAttribute(attributeName, value);
-
-  return return_value;
-}
-
-/** @endcond */
-
-
-
-/** @cond doxygenLibsbmlInternal */
-
-/*
  * Predicate returning @c true if this FbcAnd's attribute "attributeName" is
  * set.
  */
@@ -746,24 +727,6 @@ FbcAnd::setAttribute(const std::string& attributeName,
 }
 
 /** @endcond */
-
-
-
-/** @cond doxygenLibsbmlInternal */
-
-/*
- * Sets the value of the "attributeName" attribute of this FbcAnd.
- */
-int
-FbcAnd::setAttribute(const std::string& attributeName, const char* value)
-{
-  int return_value = FbcAssociation::setAttribute(attributeName, value);
-
-  return return_value;
-}
-
-/** @endcond */
-
 
 
 /** @cond doxygenLibsbmlInternal */
@@ -958,7 +921,6 @@ FbcAnd::writeAttributes (XMLOutputStream& stream) const
 
   /** @endcond doxygenLibsbmlInternal */
 
-LIBSBML_CPP_NAMESPACE_END
 
 #endif /* __cplusplus */
 
@@ -983,7 +945,7 @@ FbcAnd_free(FbcAnd_t * fa)
 
 LIBSBML_EXTERN
 FbcAnd_t *
-FbcAnd_clone(FbcAnd_t * fa)
+FbcAnd_clone(const FbcAnd_t * fa)
 {
   if (fa != NULL)
   {
@@ -998,7 +960,7 @@ FbcAnd_clone(FbcAnd_t * fa)
 
 LIBSBML_EXTERN
 int
-FbcAnd_addAssociation(FbcAnd_t * fa, FbcAssociation_t * a)
+FbcAnd_addAssociation(FbcAnd_t * fa, const FbcAssociation_t * a)
 {
   return  (fa != NULL) ? fa->addAssociation(a) : LIBSBML_INVALID_OBJECT;
 }
@@ -1082,6 +1044,7 @@ FbcAnd_hasRequiredElements(const FbcAnd_t * fa)
 }
 
 
+LIBSBML_CPP_NAMESPACE_END
 
 
 

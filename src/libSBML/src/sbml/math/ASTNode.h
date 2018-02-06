@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -2945,16 +2945,16 @@ ASTNode_isConstant (const ASTNode_t * node);
 
 
 /**
-* Returns @c 1 (true) if the given node represents a MathML constant.
-*
-* Examples of constants in this context are @c Pi, @c true, etc.
-*
-* @param node the node
-*
-* @return @c 1 (true) if @p node is a MathML constant, @c 0 (false) otherwise.
-*
-* @memberof ASTNode_t
-*/
+ * Returns @c 1 (true) if the given node represents a MathML constant.
+ *
+ * Examples of constants in this context are @c Pi, @c true, etc.
+ *
+ * @param node the node
+ *
+ * @return @c 1 (true) if @p node is a MathML constant, @c 0 (false) otherwise.
+ *
+ * @memberof ASTNode_t
+ */
 LIBSBML_EXTERN
 int
 ASTNode_isConstantNumber(const ASTNode_t * node);
@@ -3219,7 +3219,7 @@ ASTNode_isReal (const ASTNode_t *node);
  * @param node the node to query.
  *
  * @return @c 1 (true) if @p node is a MathML relational operator, meaning
- * <code>==</code>, <code>&gt;=</code>, <code>&gt;</code>,
+ * <code>==</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>&gt;</code>,
  * <code>&lt;</code>, and <code>!=</code>.
  *
  * @memberof ASTNode_t
@@ -3292,7 +3292,7 @@ ASTNode_isUMinus (const ASTNode_t *node);
  * Returns @c 1 (true) if the given node is a unary plus.
  *
  * A node is defined as a unary minus node if it is of type
- * @sbmlconstant{AST_MINUS, ASTNodeType_t} and has exactly one child.
+ * @sbmlconstant{AST_PLUS, ASTNodeType_t} and has exactly one child.
  *
  * @param node the node to query.
  *

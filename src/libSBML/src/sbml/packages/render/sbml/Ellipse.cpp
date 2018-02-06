@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -63,8 +63,13 @@ const std::string Ellipse::ELEMENT_NAME="ellipse";
  * @param level SBML level of the new object
  * @param level SBML version of the new object
  */
-Ellipse::Ellipse (unsigned int level, unsigned int version, unsigned int pkgVersion) : 
-    GraphicalPrimitive2D(level, version, pkgVersion),mCX(0.0),mCY(0.0),mCZ(0.0)
+Ellipse::Ellipse (unsigned int level, unsigned int version, unsigned int pkgVersion) 
+  : GraphicalPrimitive2D(level, version, pkgVersion)
+  , mCX(0.0)
+  , mCY(0.0)
+  , mCZ(0.0)
+  , mRatio(util_NaN())
+  , mIsSetRatio(false)
 {
     if (!hasValidLevelVersionNamespaceCombination())
         throw SBMLConstructorException();
@@ -78,8 +83,13 @@ Ellipse::Ellipse (unsigned int level, unsigned int version, unsigned int pkgVers
  *
  * @param sbmlns The SBML namespace for the object.
  */
-Ellipse::Ellipse (RenderPkgNamespaces* renderns):
-    GraphicalPrimitive2D(renderns),mCX(0.0),mCY(0.0),mCZ(0.0)
+Ellipse::Ellipse (RenderPkgNamespaces* renderns)
+  : GraphicalPrimitive2D(renderns)
+  , mCX(0.0)
+  , mCY(0.0)
+  , mCZ(0.0)
+  , mRatio(util_NaN())
+  , mIsSetRatio(false)
 {
     if (!hasValidLevelVersionNamespaceCombination())
         throw SBMLConstructorException();
@@ -93,7 +103,7 @@ Ellipse::Ellipse (RenderPkgNamespaces* renderns):
  * The XMLNode object has to contain a valid XML representation of a 
  * RadialGradient object as defined in the render extension specification.
  * This method is normally called when render information is read from a file and 
- * should normally not have to be called explicitely.
+ * should normally not have to be called explicitly.
  *
  * @param node the XMLNode object reference that describes the RadialGradient
  * object to be instantiated.
@@ -102,7 +112,10 @@ Ellipse::Ellipse (RenderPkgNamespaces* renderns):
  * constructors which take the SBML level and version or one that takes
  * an SBMLNamespaces object.
  */
-Ellipse::Ellipse(const XMLNode& node, unsigned int l2version):GraphicalPrimitive2D(node, l2version)
+Ellipse::Ellipse(const XMLNode& node, unsigned int l2version)
+  : GraphicalPrimitive2D(node, l2version)
+  , mRatio(util_NaN())
+  , mIsSetRatio(false)
 {
     ExpectedAttributes ea;
     addExpectedAttributes(ea);
@@ -138,7 +151,12 @@ Ellipse::~Ellipse ()
  * an SBMLNamespaces object.
  */
     Ellipse::Ellipse(RenderPkgNamespaces* renderns, const std::string& id)
-:GraphicalPrimitive2D(renderns,id),mCX(0.0),mCY(0.0),mCZ(0.0)
+ : GraphicalPrimitive2D(renderns,id)
+ , mCX(0.0)
+ , mCY(0.0)
+ , mCZ(0.0)
+ , mRatio(util_NaN())
+ , mIsSetRatio(false)
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. Ellipse::Ellipse(const std::string& id) is deprecated." << std::endl;
@@ -172,8 +190,13 @@ Ellipse::~Ellipse ()
  * constructors which take the SBML level and version or one that takes
  * an SBMLNamespaces object.
  */
-    Ellipse::Ellipse(RenderPkgNamespaces* renderns, const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& r)
-:GraphicalPrimitive2D(renderns),mCX(cx),mCY(cy),mCZ(RelAbsVector(0.0,50.0))
+Ellipse::Ellipse(RenderPkgNamespaces* renderns, const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& r)
+ : GraphicalPrimitive2D(renderns)
+  , mCX(cx)
+  , mCY(cy)
+  , mCZ(RelAbsVector(0.0,50.0))
+  , mRatio(util_NaN())
+  , mIsSetRatio(false)
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. Ellipse::Ellipse(const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& r) is deprecated." << std::endl;
@@ -200,8 +223,13 @@ Ellipse::~Ellipse ()
  * constructors which take the SBML level and version or one that takes
  * an SBMLNamespaces object.
  */
-    Ellipse::Ellipse(RenderPkgNamespaces* renderns, const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& rx,const RelAbsVector& ry)
-:GraphicalPrimitive2D(renderns),mCX(cx),mCY(cy),mCZ(0.0)
+Ellipse::Ellipse(RenderPkgNamespaces* renderns, const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& rx,const RelAbsVector& ry)
+ : GraphicalPrimitive2D(renderns)
+ , mCX(cx)
+ , mCY(cy)
+ , mCZ(0.0)
+ , mRatio(util_NaN())
+ , mIsSetRatio(false)
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. Ellipse::Ellipse(const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& rx,const RelAbsVector& ry) is deprecated." << std::endl;
@@ -236,8 +264,13 @@ Ellipse::~Ellipse ()
  * constructors which take the SBML level and version or one that takes
  * an SBMLNamespaces object.
  */
-    Ellipse::Ellipse(RenderPkgNamespaces* renderns, const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& cz,const RelAbsVector& rx,const RelAbsVector& ry)
-:GraphicalPrimitive2D(renderns),mCX(cx),mCY(cy),mCZ(cz)
+Ellipse::Ellipse(RenderPkgNamespaces* renderns, const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& cz,const RelAbsVector& rx,const RelAbsVector& ry)
+ : GraphicalPrimitive2D(renderns)
+  , mCX(cx)
+  , mCY(cy)
+  , mCZ(cz)
+  , mRatio(util_NaN())
+  , mIsSetRatio(false)
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. Ellipse::Ellipse(const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& cz,const RelAbsVector& rx,const RelAbsVector& ry) is deprecated." << std::endl;
@@ -271,8 +304,13 @@ Ellipse::~Ellipse ()
  * constructors which take the SBML level and version or one that takes
  * an SBMLNamespaces object.
  */
-    Ellipse::Ellipse(RenderPkgNamespaces* renderns, const std::string& id,const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& r)
-:GraphicalPrimitive2D(renderns,id),mCX(cx),mCY(cy),mCZ(0.0)
+Ellipse::Ellipse(RenderPkgNamespaces* renderns, const std::string& id,const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& r)
+ : GraphicalPrimitive2D(renderns,id)
+  , mCX(cx)
+  , mCY(cy)
+  , mCZ(0.0)
+  , mRatio(util_NaN())
+  , mIsSetRatio(false)
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. Ellipse::Ellipse(const std::string& id,const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& r) is deprecated." << std::endl;
@@ -307,8 +345,14 @@ Ellipse::~Ellipse ()
  * constructors which take the SBML level and version or one that takes
  * an SBMLNamespaces object.
  */
-    Ellipse::Ellipse(RenderPkgNamespaces* renderns, const std::string& id,const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& rx,const RelAbsVector& ry)
-:GraphicalPrimitive2D(renderns,id),mCX(cx),mCY(cy),mCZ(0.0)
+Ellipse::Ellipse(RenderPkgNamespaces* renderns, const std::string& id,const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& rx,const RelAbsVector& ry)
+ : GraphicalPrimitive2D(renderns,id)
+ , mCX(cx)
+ , mCY(cy)
+ , mCZ(0.0)
+ , mRatio(util_NaN())
+ , mIsSetRatio(false)
+
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. Ellipse::Ellipse(const std::string& id,const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& rx,const RelAbsVector& ry) is deprecated." << std::endl;
@@ -344,8 +388,13 @@ Ellipse::~Ellipse ()
  * constructors which take the SBML level and version or one that takes
  * an SBMLNamespaces object.
  */
-    Ellipse::Ellipse(RenderPkgNamespaces* renderns, const std::string& id,const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& cz,const RelAbsVector& rx,const RelAbsVector& ry)
-:GraphicalPrimitive2D(renderns, id),mCX(cx),mCY(cy),mCZ(cz)
+Ellipse::Ellipse(RenderPkgNamespaces* renderns, const std::string& id,const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& cz,const RelAbsVector& rx,const RelAbsVector& ry)
+ : GraphicalPrimitive2D(renderns, id)
+ , mCX(cx)
+ , mCY(cy)
+ , mCZ(cz)
+ , mRatio(util_NaN())
+ , mIsSetRatio(false)
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. Ellipse::Ellipse(const std::string& id,const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& cz,const RelAbsVector& rx,const RelAbsVector& ry) is deprecated." << std::endl;
@@ -363,11 +412,64 @@ Ellipse::~Ellipse ()
 /** @endcond */
 #endif // OMIT_DEPRECATED
 
+
+/*
+* Returns the value of the "ratio" attribute of this Ellipse.
+*/
+double
+Ellipse::getRatio() const
+{
+  return mRatio;
+}
+
+
+/*
+* Predicate returning @c true if this Ellipse's "ratio" attribute is set.
+*/
+bool
+Ellipse::isSetRatio() const
+{
+  return mIsSetRatio;
+}
+
+
+/*
+* Sets the value of the "ratio" attribute of this Ellipse.
+*/
+int
+Ellipse::setRatio(double ratio)
+{
+  mRatio = ratio;
+  mIsSetRatio = true;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+* Unsets the value of the "ratio" attribute of this Ellipse.
+*/
+int
+Ellipse::unsetRatio()
+{
+  mRatio = util_NaN();
+  mIsSetRatio = false;
+
+  if (isSetRatio() == false)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
 /** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate for the center point as a const reference.
  *
- * @return const reference to the x coordinatee of the center point.
+ * @return const reference to the x coordinate of the center point.
  */
 const RelAbsVector& Ellipse::getCX() const
 {
@@ -379,7 +481,7 @@ const RelAbsVector& Ellipse::getCX() const
 /*
  * Returns the y coordinate for the center point as a const reference.
  *
- * @return const reference to the y coordinatee of the center point.
+ * @return const reference to the y coordinate of the center point.
  */
 const RelAbsVector& Ellipse::getCY() const
 {
@@ -391,7 +493,7 @@ const RelAbsVector& Ellipse::getCY() const
 /*
  * Returns the z coordinate for the center point as a const reference.
  *
- * @return const reference to the z coordinatee of the center point.
+ * @return const reference to the z coordinate of the center point.
  */
 const RelAbsVector& Ellipse::getCZ() const
 {
@@ -427,7 +529,7 @@ const RelAbsVector& Ellipse::getRY() const
 /*
  * Returns the x coordinate for the center point as a reference.
  *
- * @return reference to the x coordinatee of the center point.
+ * @return reference to the x coordinate of the center point.
  */
 RelAbsVector& Ellipse::getCX()
 {
@@ -439,7 +541,7 @@ RelAbsVector& Ellipse::getCX()
 /*
  * Returns the y coordinate for the center point as a reference.
  *
- * @return reference to the y coordinatee of the center point.
+ * @return reference to the y coordinate of the center point.
  */
 RelAbsVector& Ellipse::getCY()
 {
@@ -451,7 +553,7 @@ RelAbsVector& Ellipse::getCY()
 /*
  * Returns the z coordinate for the center point as a reference.
  *
- * @return reference to the z coordinatee of the center point.
+ * @return reference to the z coordinate of the center point.
  */
 RelAbsVector& Ellipse::getCZ()
 {
@@ -647,6 +749,7 @@ Ellipse::addExpectedAttributes(ExpectedAttributes& attributes)
   attributes.add("rx");
   attributes.add("ry");
   attributes.add("rz");
+  attributes.add("ratio");
 }
 /** @endcond */
 
@@ -701,11 +804,17 @@ void Ellipse::readAttributes (const XMLAttributes& attributes, const ExpectedAtt
         this->mRY=v;
     }
     // TODO actually check if RY has been set, otherwise throw an error
-    // beause either rx or ry has to be set.
+    // because either rx or ry has to be set.
     if(!xSet)
     {
         this->mRX=this->mRY;
     }
+
+    // 
+    // ratio double (use = "optional" )
+    // 
+    mIsSetRatio = attributes.readInto("ratio", mRatio);
+
 }
 /** @endcond */
 
@@ -744,6 +853,13 @@ void Ellipse::writeAttributes (XMLOutputStream& stream) const
         os << mRY;
         stream.writeAttribute("ry",getPrefix(), os.str());
     }
+
+    if (isSetRatio() == true)
+    {
+      stream.writeAttribute("ratio", getPrefix(), mRatio);
+    }
+
+
 }
 /** @endcond */
 

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -289,7 +289,133 @@ typedef enum
   , SBML_RENDER_POINT = 1021
   , SBML_RENDER_TEXT = 1022
   , SBML_RENDER_TRANSFORMATION2D = 1023
+  , SBML_RENDER_DEFAULTS = 1024
+, SBML_RENDER_TRANSFORMATION              =  1025  /*!<Transformation */
+, SBML_RENDER_GRAPHICALPRIMITIVE1D        =  1026  /*!<GraphicalPrimitive1D */
+, SBML_RENDER_GRAPHICALPRIMITIVE2D        =  1027  /*!<GraphicalPrimitive2D */
+, SBML_RENDER_STYLE_BASE                  =  1028  /*!<Style */
+, SBML_RENDER_RENDERINFORMATION_BASE      =  1029  /*!<RenderInformationBase */
 } SBMLRenderTypeCode_t;
+
+
+/**
+ * @enum GradientSpreadMethod_t
+ * @brief Enumeration of values permitted as the value of the "spreadmethod"
+ * attribute on Gradient objects.
+ *
+ * @if conly
+ * @see Gradient_getSpreadmethod()
+ * @see Gradient_setSpreadmethod()
+ * @elseif java
+ * @see Gradient::getSpreadmethod()
+ * @see Gradient::setSpreadmethod(long)
+ * @else
+ * @see Gradient::getSpreadmethod()
+ * @see Gradient::setSpreadmethod()
+ * @endif
+ */
+typedef enum
+{
+  GRADIENT_SPREADMETHOD_PAD            /*!< The gradient spreadmethod is @c "pad". */
+, GRADIENT_SPREADMETHOD_REFLECT        /*!< The gradient spreadmethod is @c "reflect". */
+, GRADIENT_SPREADMETHOD_REPEAT         /*!< The gradient spreadmethod is @c "repeat". */
+, GRADIENT_SPREAD_METHOD_INVALID       /*!< Invalid GradientSpreadMethod value. */
+} GradientSpreadMethod_t;
+
+
+/**
+ * Returns the string version of the provided #GradientSpreadMethod_t
+ * enumeration.
+ *
+ * @param gsm the #GradientSpreadMethod_t enumeration value to convert.
+ *
+ * @return A string corresponding to the given type:
+ * "pad",
+ * "reflect",
+ * "repeat",
+ * or @c NULL if the value is @sbmlconstant{GRADIENT_SPREAD_METHOD_INVALID,
+ * GradientSpreadMethod_t} or another invalid enumeration value.
+ *
+ * @copydetails doc_returned_unowned_char
+ *
+ * @if conly
+ * @memberof Gradient_t
+ * @endif
+ */
+LIBSBML_EXTERN
+const char*
+GradientSpreadMethod_toString(GradientSpreadMethod_t gsm);
+
+
+/**
+ * Returns the #GradientSpreadMethod_t enumeration corresponding to the given
+ * string or @sbmlconstant{GRADIENT_SPREAD_METHOD_INVALID,
+ * GradientSpreadMethod_t} if there is no such match.
+ *
+ * @param code the string to convert to a #GradientSpreadMethod_t.
+ *
+ * @return the corresponding #GradientSpreadMethod_t or
+ * @sbmlconstant{GRADIENT_SPREAD_METHOD_INVALID, GradientSpreadMethod_t} if no
+ * match is found.
+ *
+ * @note The matching is case-sensitive: "pad" will return
+ * @sbmlconstant{GRADIENT_SPREADMETHOD_PAD, GradientSpreadMethod_t}, but "Pad"
+ * will return @sbmlconstant{GRADIENT_SPREAD_METHOD_INVALID,
+ * GradientSpreadMethod_t}.
+ *
+ * @if conly
+ * @memberof Gradient_t
+ * @endif
+ */
+LIBSBML_EXTERN
+GradientSpreadMethod_t
+GradientSpreadMethod_fromString(const char* code);
+
+
+/**
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the
+ * given #GradientSpreadMethod_t is valid.
+ *
+ * @param gsm the #GradientSpreadMethod_t enumeration to query.
+ *
+ * @return @c 1 (true) if the #GradientSpreadMethod_t is
+ * @sbmlconstant{GRADIENT_SPREADMETHOD_PAD, GradientSpreadMethod_t},
+ * @sbmlconstant{GRADIENT_SPREADMETHOD_REFLECT, GradientSpreadMethod_t}, or
+ * @sbmlconstant{GRADIENT_SPREADMETHOD_REPEAT, GradientSpreadMethod_t};
+ * @c 0 (false) otherwise (including
+ * @sbmlconstant{GRADIENT_SPREAD_METHOD_INVALID, GradientSpreadMethod_t}).
+ *
+ * @if conly
+ * @memberof Gradient_t
+ * @endif
+ */
+LIBSBML_EXTERN
+int
+GradientSpreadMethod_isValid(GradientSpreadMethod_t gsm);
+
+
+/**
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the
+ * given string is a valid #GradientSpreadMethod_t.
+ *
+ * @param code the string to query.
+ *
+ * @return @c 1 (true) if the string is
+ * "pad",
+ * "reflect", or
+ * "repeat";
+ * @c 0 (false) otherwise.
+ *
+ * @note The matching is case-sensitive: "pad" will return @c 1 (true), but
+ * "Pad" will return @c 0 (false).
+ *
+ * @if conly
+ * @memberof Gradient_t
+ * @endif
+ */
+LIBSBML_EXTERN
+int
+GradientSpreadMethod_isValidString(const char* code);
 
 
 LIBSBML_CPP_NAMESPACE_END

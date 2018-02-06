@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -615,11 +615,10 @@ Parameter::getDerivedUnitDefinition()
     /* here we do not want to try to infer the unit from any formula
     * we just use what is given
     */
-    if (m->getFormulaUnitsData(id, typecode) != NULL)
+    FormulaUnitsData *fud = m->getFormulaUnitsData(id, typecode);
+    if (fud != NULL)
     {
-      // we already have the ud in memory return it
-
-      derivedUD = m->getFormulaUnitsData(id, typecode)->getUnitDefinition();
+      derivedUD = fud->getUnitDefinition();
     }
   }
 
@@ -814,25 +813,25 @@ Parameter::getAttribute(const std::string& attributeName,
 /*
  * Gets the value of the "attributeName" attribute of this Parameter.
  */
-int
-Parameter::getAttribute(const std::string& attributeName,
-                        const char* value) const
-{
-  int return_value = SBase::getAttribute(attributeName, value);
-
-  if (return_value == LIBSBML_OPERATION_SUCCESS)
-  {
-    return return_value;
-  }
-
-  if (attributeName == "units")
-  {
-    value = getUnits().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-
-  return return_value;
-}
+//int
+//Parameter::getAttribute(const std::string& attributeName,
+//                        const char* value) const
+//{
+//  int return_value = SBase::getAttribute(attributeName, value);
+//
+//  if (return_value == LIBSBML_OPERATION_SUCCESS)
+//  {
+//    return return_value;
+//  }
+//
+//  if (attributeName == "units")
+//  {
+//    value = getUnits().c_str();
+//    return_value = LIBSBML_OPERATION_SUCCESS;
+//  }
+//
+//  return return_value;
+//}
 
 /** @endcond */
 
@@ -975,19 +974,19 @@ Parameter::setAttribute(const std::string& attributeName,
 /*
  * Sets the value of the "attributeName" attribute of this Parameter.
  */
-int
-Parameter::setAttribute(const std::string& attributeName, const char* value)
-{
-  int return_value = SBase::setAttribute(attributeName, value);
-
-  if (attributeName == "units")
-  {
-    return_value = setUnits(value);
-  }
-
-  return return_value;
-}
-
+//int
+//Parameter::setAttribute(const std::string& attributeName, const char* value)
+//{
+//  int return_value = SBase::setAttribute(attributeName, value);
+//
+//  if (attributeName == "units")
+//  {
+//    return_value = setUnits(value);
+//  }
+//
+//  return return_value;
+//}
+//
 /** @endcond */
 
 

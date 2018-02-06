@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -54,15 +54,18 @@ const std::string Rectangle::ELEMENT_NAME="rectangle";
  * @param level SBML level of the new object
  * @param level SBML version of the new object
  */
-Rectangle::Rectangle (unsigned int level, unsigned int version, unsigned int pkgVersion) : 
-    GraphicalPrimitive2D(level,version, pkgVersion),
-    mX(RelAbsVector(0.0,0.0)),
-    mY(RelAbsVector(0.0,0.0)),
-    mZ(RelAbsVector(0.0,0.0)),
-    mWidth(RelAbsVector(0.0,0.0)),
-    mHeight(RelAbsVector(0.0,0.0)),
-    mRX(RelAbsVector(0.0,0.0)),
-    mRY(RelAbsVector(0.0,0.0))
+Rectangle::Rectangle (unsigned int level, unsigned int version, unsigned int pkgVersion) 
+  : GraphicalPrimitive2D(level,version, pkgVersion)
+  , mX(RelAbsVector(0.0,0.0))
+  , mY(RelAbsVector(0.0,0.0))
+  , mZ(RelAbsVector(0.0,0.0))
+  , mWidth(RelAbsVector(0.0,0.0))
+  , mHeight(RelAbsVector(0.0,0.0))
+  , mRX(RelAbsVector(0.0,0.0))
+  , mRY(RelAbsVector(0.0,0.0))
+  , mRatio(util_NaN())
+  , mIsSetRatio(false)
+
 {
     if (!hasValidLevelVersionNamespaceCombination())
         throw SBMLConstructorException();
@@ -76,15 +79,17 @@ Rectangle::Rectangle (unsigned int level, unsigned int version, unsigned int pkg
  *
  * @param sbmlns The SBML namespace for the object.
  */
-Rectangle::Rectangle (RenderPkgNamespaces* renderns):
-    GraphicalPrimitive2D(renderns),
-    mX(RelAbsVector(0.0,0.0)),
-    mY(RelAbsVector(0.0,0.0)),
-    mZ(RelAbsVector(0.0,0.0)),
-    mWidth(RelAbsVector(0.0,0.0)),
-    mHeight(RelAbsVector(0.0,0.0)),
-    mRX(RelAbsVector(0.0,0.0)),
-    mRY(RelAbsVector(0.0,0.0))
+Rectangle::Rectangle (RenderPkgNamespaces* renderns)
+  : GraphicalPrimitive2D(renderns)
+  , mX(RelAbsVector(0.0,0.0))
+  , mY(RelAbsVector(0.0,0.0))
+  , mZ(RelAbsVector(0.0,0.0))
+  , mWidth(RelAbsVector(0.0,0.0))
+  , mHeight(RelAbsVector(0.0,0.0))
+  , mRX(RelAbsVector(0.0,0.0))
+  , mRY(RelAbsVector(0.0,0.0))
+  , mRatio(util_NaN())
+  , mIsSetRatio(false)
 {
     if (!hasValidLevelVersionNamespaceCombination())
         throw SBMLConstructorException();
@@ -113,6 +118,8 @@ Rectangle::Rectangle (RenderPkgNamespaces* renderns):
  */
 Rectangle::Rectangle(const XMLNode& node, unsigned int l2version)
   : GraphicalPrimitive2D(node, l2version)
+  , mRatio(util_NaN())
+  , mIsSetRatio(false)
 {
   ExpectedAttributes ea;
     addExpectedAttributes(ea);
@@ -148,6 +155,7 @@ Rectangle::addExpectedAttributes(ExpectedAttributes& attributes)
   attributes.add("height");
   attributes.add("rx");
   attributes.add("ry");
+  attributes.add("ratio");
 }
 /** @endcond */
 
@@ -201,6 +209,8 @@ void Rectangle::readAttributes (const XMLAttributes& attributes, const ExpectedA
             this->mRY=RelAbsVector(0.0,0.0);
         }
     }
+
+    mIsSetRatio = attributes.readInto("ratio", mRatio);
 }
 /** @endcond */
 
@@ -221,15 +231,18 @@ void Rectangle::readAttributes (const XMLAttributes& attributes, const ExpectedA
  * constructors which take the SBML level and version or one that takes
  * an SBMLNamespaces object.
  */
-Rectangle::Rectangle(RenderPkgNamespaces* renderns, const std::string& id):
-    GraphicalPrimitive2D(renderns, id),
-    mX(RelAbsVector(0.0,0.0)),
-    mY(RelAbsVector(0.0,0.0)),
-    mZ(RelAbsVector(0.0,0.0)),
-    mWidth(RelAbsVector(0.0,0.0)),
-    mHeight(RelAbsVector(0.0,0.0)),
-    mRX(RelAbsVector(0.0,0.0)),
-    mRY(RelAbsVector(0.0,0.0))
+Rectangle::Rectangle(RenderPkgNamespaces* renderns, const std::string& id)
+  : GraphicalPrimitive2D(renderns, id)
+  , mX(RelAbsVector(0.0,0.0))
+  , mY(RelAbsVector(0.0,0.0))
+  , mZ(RelAbsVector(0.0,0.0))
+  , mWidth(RelAbsVector(0.0,0.0))
+  , mHeight(RelAbsVector(0.0,0.0))
+  , mRX(RelAbsVector(0.0,0.0))
+  , mRY(RelAbsVector(0.0,0.0))
+  , mRatio(util_NaN())
+  , mIsSetRatio(false)
+
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. Rectangle::Rectangle(const std::string& id) is deprecated." << std::endl;
@@ -267,15 +280,18 @@ Rectangle::Rectangle(RenderPkgNamespaces* renderns, const std::string& id):
  * constructors which take the SBML level and version or one that takes
  * an SBMLNamespaces object.
  */
-Rectangle::Rectangle(RenderPkgNamespaces* renderns, const std::string& id,const RelAbsVector& x,const RelAbsVector& y,const RelAbsVector& z,const RelAbsVector& w,const RelAbsVector& h):
-    GraphicalPrimitive2D(renderns, id),
-    mX(x),
-    mY(y),
-    mZ(z),
-    mWidth(w),
-    mHeight(h),
-    mRX(RelAbsVector(0.0,0.0)),
-    mRY(RelAbsVector(0.0,0.0))
+Rectangle::Rectangle(RenderPkgNamespaces* renderns, const std::string& id,const RelAbsVector& x,const RelAbsVector& y,const RelAbsVector& z,const RelAbsVector& w,const RelAbsVector& h)
+  : GraphicalPrimitive2D(renderns, id)
+  , mX(x)
+  , mY(y)
+  , mZ(z)
+  , mWidth(w)
+  , mHeight(h)
+  , mRX(RelAbsVector(0.0,0.0))
+  , mRY(RelAbsVector(0.0,0.0))
+  , mRatio(util_NaN())
+  , mIsSetRatio(false)
+
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. Rectangle::Rectangle(const std::string& id,const RelAbsVector& x,const RelAbsVector& y,const RelAbsVector& z,const RelAbsVector& w,const RelAbsVector& h) is deprecated." << std::endl;
@@ -312,15 +328,17 @@ Rectangle::Rectangle(RenderPkgNamespaces* renderns, const std::string& id,const 
  * constructors which take the SBML level and version or one that takes
  * an SBMLNamespaces object.
  */
-Rectangle::Rectangle(RenderPkgNamespaces* renderns, const std::string& id,const RelAbsVector& x,const RelAbsVector& y,const RelAbsVector& w,const RelAbsVector& h):
-    GraphicalPrimitive2D(renderns, id),
-    mX(x),
-    mY(y),
-    mZ(RelAbsVector(0.0,0.0)),
-    mWidth(w),
-    mHeight(h),
-    mRX(RelAbsVector(0.0,0.0)),
-    mRY(RelAbsVector(0.0,0.0))
+Rectangle::Rectangle(RenderPkgNamespaces* renderns, const std::string& id,const RelAbsVector& x,const RelAbsVector& y,const RelAbsVector& w,const RelAbsVector& h)
+  : GraphicalPrimitive2D(renderns, id)
+  , mX(x)
+  , mY(y)
+  , mZ(RelAbsVector(0.0,0.0))
+  , mWidth(w)
+  , mHeight(h)
+  , mRX(RelAbsVector(0.0,0.0))
+  , mRY(RelAbsVector(0.0,0.0))
+  , mRatio(util_NaN())
+  , mIsSetRatio(false)
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. Rectangle::Rectangle(const std::string& id,const RelAbsVector& x,const RelAbsVector& y,const RelAbsVector& w,const RelAbsVector& h) is deprecated." << std::endl;
@@ -397,6 +415,60 @@ void Rectangle::setRadii(const RelAbsVector& rx,const RelAbsVector& ry)
     this->mRY=ry;
 }
 /** @endcond */
+
+
+/*
+* Returns the value of the "ratio" attribute of this Rectangle.
+*/
+double
+Rectangle::getRatio() const
+{
+  return mRatio;
+}
+
+
+/*
+* Predicate returning @c true if this Rectangle's "ratio" attribute is set.
+*/
+bool
+Rectangle::isSetRatio() const
+{
+  return mIsSetRatio;
+}
+
+
+/*
+* Sets the value of the "ratio" attribute of this Rectangle.
+*/
+int
+Rectangle::setRatio(double ratio)
+{
+  mRatio = ratio;
+  mIsSetRatio = true;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+* Unsets the value of the "ratio" attribute of this Rectangle.
+*/
+int
+Rectangle::unsetRatio()
+{
+  mRatio = util_NaN();
+  mIsSetRatio = false;
+
+  if (isSetRatio() == false)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
 
 /** @cond doxygenLibsbmlInternal */
 /*
@@ -680,6 +752,12 @@ void Rectangle::writeAttributes (XMLOutputStream& stream) const
         os << this->mRY;
         stream.writeAttribute("ry", getPrefix(), os.str());
     }
+
+    if (isSetRatio() == true)
+    {
+      stream.writeAttribute("ratio", getPrefix(), mRatio);
+    }
+
 }
 /** @endcond */
 

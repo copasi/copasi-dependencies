@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -226,7 +226,7 @@ int
 UnitDefinition::setId (const std::string& sid)
 {
   /* since the setId function has been used as an
-   * alias for setName we cant require it to only
+   * alias for setName we can't require it to only
    * be used on a L2 model
    */
 /*  if (getLevel() == 1)
@@ -1663,14 +1663,14 @@ UnitDefinition::getAttribute(const std::string& attributeName,
 /*
  * Gets the value of the "attributeName" attribute of this UnitDefinition.
  */
-int
-UnitDefinition::getAttribute(const std::string& attributeName,
-                             const char* value) const
-{
-  int return_value = SBase::getAttribute(attributeName, value);
-
-  return return_value;
-}
+//int
+//UnitDefinition::getAttribute(const std::string& attributeName,
+//                             const char* value) const
+//{
+//  int return_value = SBase::getAttribute(attributeName, value);
+//
+//  return return_value;
+//}
 
 /** @endcond */
 
@@ -1786,15 +1786,15 @@ UnitDefinition::setAttribute(const std::string& attributeName,
 /*
  * Sets the value of the "attributeName" attribute of this UnitDefinition.
  */
-int
-UnitDefinition::setAttribute(const std::string& attributeName,
-                             const char* value)
-{
-  int return_value = SBase::setAttribute(attributeName, value);
-
-  return return_value;
-}
-
+//int
+//UnitDefinition::setAttribute(const std::string& attributeName,
+//                             const char* value)
+//{
+//  int return_value = SBase::setAttribute(attributeName, value);
+//
+//  return return_value;
+//}
+//
 /** @endcond */
 
 
@@ -1835,8 +1835,8 @@ UnitDefinition::createChildObject(const std::string& elementName)
 
 /** @cond doxygenLibsbmlInternal */
 /*
-* Adds an new "elementName" object in this UnitDefinition.
-*/
+ * Adds an new "elementName" object in this UnitDefinition.
+ */
 int
 UnitDefinition::addChildObject(const std::string& elementName, const SBase* element)
 {
@@ -1852,8 +1852,8 @@ UnitDefinition::addChildObject(const std::string& elementName, const SBase* elem
 
 /** @cond doxygenLibsbmlInternal */
 /*
-* Adds an new "elementName" object in this UnitDefinition.
-*/
+ * Adds an new "elementName" object in this UnitDefinition.
+ */
 SBase*
 UnitDefinition::removeChildObject(const std::string& elementName, const std::string& id)
 {

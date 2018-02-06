@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -67,8 +67,8 @@ SBasePlugin::SBasePlugin (const std::string &uri, const std::string &prefix,
 
 /** @cond doxygenLibsbmlInternal */
 /*
-* Copy constructor. Creates a copy of this SBasePlugin object.
-*/
+ * Copy constructor. Creates a copy of this SBasePlugin object.
+ */
 SBasePlugin::SBasePlugin(const SBasePlugin& orig)
   : mSBMLExt(orig.mSBMLExt)
    ,mSBML(NULL)   // (NOTE) NULL must be set to mSBML and mParent........ 
@@ -857,12 +857,12 @@ SBasePlugin::getAttribute(const std::string& attributeName, std::string& value) 
 }
 
 
-int 
-SBasePlugin::getAttribute(const std::string& attributeName, const char * value) const
-{
-  return LIBSBML_OPERATION_FAILED;
-}
-
+//int 
+//SBasePlugin::getAttribute(const std::string& attributeName, const char * value) const
+//{
+//  return LIBSBML_OPERATION_FAILED;
+//}
+//
 
 bool 
 SBasePlugin::isSetAttribute(const std::string& attributeName) const
@@ -907,11 +907,11 @@ SBasePlugin::setAttribute(const std::string& attributeName, const std::string& v
 }
 
 
-int 
-SBasePlugin::setAttribute(const std::string& attributeName, const char * value)
-{
-  return LIBSBML_OPERATION_FAILED;
-}
+//int 
+//SBasePlugin::setAttribute(const std::string& attributeName, const char * value)
+//{
+//  return LIBSBML_OPERATION_FAILED;
+//}
 
 
 int 

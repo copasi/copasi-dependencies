@@ -50,7 +50,7 @@ AC_INIT([libSBML],
 
 AC_CONFIG_AUX_DIR(config)
 
-AC_REVISION($Revision: 24150 $)
+AC_REVISION($Revision: 24998 $)
 
 AC_CONFIG_SRCDIR(src/Makefile.in)
 
@@ -121,6 +121,19 @@ if test "$enable_layout" != no; then
   AC_DEFINE([LIBSBML_HAS_PACKAGE_LAYOUT], 1, [Define to 1 to build support for SBML 'layout'.])
   AC_SUBST(USE_LAYOUT, 1)
   AC_SUBST(LIBSBML_HAS_PACKAGE_LAYOUT, 1)
+fi
+
+AC_ARG_ENABLE([render],
+  AS_HELP_STRING([--enable-render@<:@=ARG@:>@],
+                 [build support for SBML 'render' @<:@default=no@:>@]),
+  [enable_render=$enableval],
+  [enable_render=no])
+
+if test "$enable_render" != no; then
+  AC_DEFINE([USE_RENDER], 1, [Define to 1 to build support for SBML 'layout'.])
+  AC_DEFINE([LIBSBML_HAS_PACKAGE_RENDER], 1, [Define to 1 to build support for SBML 'layout'.])
+  AC_SUBST(USE_RENDER, 1)
+  AC_SUBST(LIBSBML_HAS_PACKAGE_RENDER, 1)
 fi
 
 AC_ARG_ENABLE([comp],
@@ -332,7 +345,7 @@ CONFIG_PROG_SWIG(2.0.0)
 dnl Make sure to test doxygen *after* java, because there's a dependency
 dnl in CONFIG_PROG_DOXYGEN on whether --with-java was also given.
 
-CONFIG_PROG_DOXYGEN(1.7.0,1.8.11)
+CONFIG_PROG_DOXYGEN(1.8.8,1.8.11)
 
 dnl Do this one last, because some earlier config options may end up changing
 dnl things like CFLAGS, which in turn affects the libtool script that the
@@ -572,6 +585,23 @@ if test "$enable_multi" != "no" ; then
   AC_CONFIG_FILES([src/sbml/packages/multi/validator/constraints/Makefile])
   AC_CONFIG_FILES([src/sbml/packages/multi/validator/test/Makefile])
   AC_CONFIG_FILES([examples/c++/multi/Makefile])
+fi
+fi
+
+if test -d src/sbml/packages/render; then
+if test "$enable_render" != "no" ; then
+  AC_CONFIG_FILES([src/sbml/packages/render/Makefile])
+  AC_CONFIG_FILES([src/sbml/packages/render/common/Makefile])
+  AC_CONFIG_FILES([src/sbml/packages/render/extension/Makefile])
+  AC_CONFIG_FILES([src/sbml/packages/render/sbml/Makefile])
+  AC_CONFIG_FILES([src/sbml/packages/render/sbml/test/Makefile])
+  AC_CONFIG_FILES([src/sbml/packages/render/util/Makefile])
+  AC_CONFIG_FILES([src/sbml/packages/render/validator/Makefile])
+  AC_CONFIG_FILES([src/sbml/packages/render/validator/constraints/Makefile])
+  AC_CONFIG_FILES([src/sbml/packages/render/validator/test/Makefile])
+  AC_CONFIG_FILES([src/sbml/packages/render/validator/test/test-data/Makefile])
+  AC_CONFIG_FILES([examples/c++/render/Makefile])
+dnl  AC_CONFIG_FILES([examples/c/render/Makefile])
 fi
 fi
 
@@ -857,6 +887,9 @@ if test "$enable_multi" != "no" ; then
 fi
 if test "$enable_layout" != "no" ; then
   echo "  SBML 'layout'                 = $enable_layout"
+fi
+if test "$enable_render" != "no" ; then
+  echo "  SBML 'render'                 = $enable_render"
 fi
 if test "$enable_qual" != "no" ; then
   echo "  SBML 'qual'                   = $enable_qual"

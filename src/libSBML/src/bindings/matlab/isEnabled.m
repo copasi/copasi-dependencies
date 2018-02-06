@@ -15,7 +15,7 @@ function enabled = isEnabled(package)
 % This file is part of libSBML.  Please visit http://sbml.org for more
 % information about SBML, and the latest version of libSBML.
 %
-% Copyright (C) 2013-2017 jointly by the following organizations:
+% Copyright (C) 2013-2018 jointly by the following organizations:
 %     1. California Institute of Technology, Pasadena, CA, USA
 %     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 %     3. University of Heidelberg, Heidelberg, Germany
@@ -42,7 +42,7 @@ function enabled = isEnabled(package)
 % assume not enabled
 enabled = 0;
 
-supported = {'fbc'};
+supported = {'fbc', 'qual', 'groups'};
 if ~ischar(package)
     disp('argument must be a string representing an SBML L3 package');
 elseif ~ismember(supported, package)
@@ -66,8 +66,8 @@ try
   
   delete(filename);
   
-catch
-  
+catch err
+  disp(err.identifier)
   delete(filename);
   
   return
@@ -82,7 +82,7 @@ fout = fopen(filename, 'w');
 
 fprintf(fout, '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n');
 fprintf(fout, '<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" ');
-fprintf(fout, strcat('xmlns:fbc=\"http://www.sbml.org/sbml/level3/version1/', package, '/version1\"\n'));
+fprintf(fout, strcat('xmlns:', package, '=\"http://www.sbml.org/sbml/level3/version1/', package, '/version1\"\n'));
 fprintf(fout, 'level=\"3\" version=\"1\"\n');
 fprintf(fout, strcat(package, ':required=\"false\">\n'));
 fprintf(fout, '  <model/>\n</sbml>\n');

@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -79,7 +79,7 @@ public:
    * @param a absolute value
    * @param a relative value in % (50 -> 50%)
    */
-  RelAbsVector(double a=0.0,double r=0.0);
+  RelAbsVector(double a=0.0, double r=0.0);
 
   /**
    * Constructor with a value string.
@@ -104,7 +104,7 @@ public:
   void setCoordinate(double abs,double rel=0.0);
 
   /**
-   * Sets the coordinatees from the given string.
+   * Sets the coordinates from the given string.
    * If the string does not represent a valid value, the relative and the
    * absolute component of the RelAbsVector are set to NaN.
    *
@@ -176,6 +176,22 @@ public:
    * Assignment operator for RelAbsVector objects.
    */
   RelAbsVector& operator=(const RelAbsVector& src);
+
+  /**
+   * @return an indication whether this element has been set 
+   * (i.e., none zero entries for either relative or absolute coordinate)
+   */
+  bool empty() const;
+
+  /** 
+   * @return a string representation of this object
+   */
+  std::string toString() const;
+
+  /** 
+   * resets this element by setting its component to 0
+   */
+  void erase();
 
   /** @cond doxygenLibsbmlInternal */
   friend std::ostream& operator<<(std::ostream& os,const RelAbsVector& v);

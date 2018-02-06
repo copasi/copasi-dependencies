@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -388,6 +388,7 @@ protected:
 
 };
 
+class DefaultValues;
 
 class LIBSBML_EXTERN ListOfLocalRenderInformation : public ListOf
 {
@@ -398,7 +399,7 @@ public:
    * The XMLNode object has to contain a valid XML representation of a 
    * ListOfLocalRenderInformation object as defined in the render extension specification.
    * This method is normally called when render information is read from a file and 
-   * should normally not have to be called explicitely.
+   * should normally not have to be called explicitly.
    *
    * @param node the XMLNode object reference that describes the ListOfLocalRenderInformation
    * object to be instantiated.
@@ -431,6 +432,8 @@ public:
    * Copy constructor for ListOfLocalRenderInformation objects.
    */
   ListOfLocalRenderInformation(const ListOfLocalRenderInformation& source);
+
+  virtual ~ListOfLocalRenderInformation();
 
   /**
    * Assignment operator for ListOfLocalRenderInformation objects.
@@ -477,6 +480,79 @@ public:
    * @return the minor version number of the local render information list
    */
   unsigned int getMinorVersion() const;
+
+
+  /**
+  * Predicate returning @c true if this ListOfLocalRenderInformation's
+  * "versionMajor" attribute is set.
+  *
+  * @return @c true if this ListOfLocalRenderInformation's "versionMajor"
+  * attribute has been set, otherwise @c false is returned.
+  */
+  bool isSetVersionMajor() const;
+
+
+  /**
+  * Predicate returning @c true if this ListOfLocalRenderInformation's
+  * "versionMinor" attribute is set.
+  *
+  * @return @c true if this ListOfLocalRenderInformation's "versionMinor"
+  * attribute has been set, otherwise @c false is returned.
+  */
+  bool isSetVersionMinor() const;
+
+
+  /**
+  * Sets the value of the "versionMajor" attribute of this
+  * ListOfLocalRenderInformation.
+  *
+  * @param versionMajor unsigned int value of the "versionMajor" attribute to
+  * be set.
+  *
+  * @copydetails doc_returns_success_code
+  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
+  * OperationReturnValues_t}
+  */
+  int setVersionMajor(unsigned int versionMajor);
+
+
+  /**
+  * Sets the value of the "versionMinor" attribute of this
+  * ListOfLocalRenderInformation.
+  *
+  * @param versionMinor unsigned int value of the "versionMinor" attribute to
+  * be set.
+  *
+  * @copydetails doc_returns_success_code
+  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
+  * OperationReturnValues_t}
+  */
+  int setVersionMinor(unsigned int versionMinor);
+
+
+  /**
+  * Unsets the value of the "versionMajor" attribute of this
+  * ListOfLocalRenderInformation.
+  *
+  * @copydetails doc_returns_success_code
+  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+  */
+  int unsetVersionMajor();
+
+
+  /**
+  * Unsets the value of the "versionMinor" attribute of this
+  * ListOfLocalRenderInformation.
+  *
+  * @copydetails doc_returns_success_code
+  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+  */
+  int unsetVersionMinor();
+
 
   /**
    * Returns the version as a string.
@@ -587,6 +663,94 @@ public:
 
   virtual bool isValidTypeForList(SBase * item);
 
+  /**
+  * Returns the value of the "defaultValues" element of this
+  * ListOfLocalRenderInformation.
+  *
+  * @return the value of the "defaultValues" element of this
+  * ListOfLocalRenderInformation as a DefaultValues*.
+  */
+  const DefaultValues* getDefaultValues() const;
+
+
+  /**
+  * Returns the value of the "defaultValues" element of this
+  * ListOfLocalRenderInformation.
+  *
+  * @return the value of the "defaultValues" element of this
+  * ListOfLocalRenderInformation as a DefaultValues*.
+  */
+  DefaultValues* getDefaultValues();
+
+
+  /**
+  * Predicate returning @c true if this ListOfLocalRenderInformation's
+  * "defaultValues" element is set.
+  *
+  * @return @c true if this ListOfLocalRenderInformation's "defaultValues"
+  * element has been set, otherwise @c false is returned.
+  */
+  bool isSetDefaultValues() const;
+
+
+  /**
+  * Sets the value of the "defaultValues" element of this
+  * ListOfLocalRenderInformation.
+  *
+  * @param defaultValues DefaultValues* value of the "defaultValues" element
+  * to be set.
+  *
+  * @copydetails doc_returns_success_code
+  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
+  * OperationReturnValues_t}
+  */
+  int setDefaultValues(const DefaultValues* defaultValues);
+
+
+  /**
+  * Creates a new DefaultValues object, adds it to this
+  * ListOfLocalRenderInformation object and returns the DefaultValues object
+  * created.
+  *
+  * @return a new DefaultValues object instance.
+  */
+  DefaultValues* createDefaultValues();
+
+
+  /**
+  * Unsets the value of the "defaultValues" element of this
+  * ListOfLocalRenderInformation.
+  *
+  * @copydetails doc_returns_success_code
+  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+  */
+  int unsetDefaultValues();
+
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+  * Write any contained elements
+  */
+  virtual void writeElements(XMLOutputStream& stream) const;
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+  * Connects to child elements
+  */
+  virtual void connectToChild();
+
+  /** @endcond */
+
 protected:
   /** @cond doxygenLibsbmlInternal */
   /**
@@ -625,7 +789,10 @@ protected:
   virtual void writeXMLNS (XMLOutputStream& stream) const;
   static const std::string ELEMENT_NAME;
   unsigned int mVersionMajor;
+  bool mIsSetVersionMajor;
   unsigned int mVersionMinor;
+  bool mIsSetVersionMinor;
+  DefaultValues* mDefaultValues;
   /** @endcond */
 };
 

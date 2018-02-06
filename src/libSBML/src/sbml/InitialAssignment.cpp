@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -299,10 +299,10 @@ InitialAssignment::getDerivedUnitDefinition()
       m->populateListFormulaUnitsData();
     }
     
-    if (m->getFormulaUnitsData(getId(), getTypeCode()) != NULL)
+    FormulaUnitsData *fud = m->getFormulaUnitsData(getId(), getTypeCode());
+    if (fud != NULL)
     {
-      return m->getFormulaUnitsData(getId(), getTypeCode())
-                                             ->getUnitDefinition();
+      return fud->getUnitDefinition();
     }
     else
     {
@@ -369,10 +369,10 @@ InitialAssignment::containsUndeclaredUnits()
       m->populateListFormulaUnitsData();
     }
     
-    if (m->getFormulaUnitsData(getId(), getTypeCode()) != NULL)
+    FormulaUnitsData *fud = m->getFormulaUnitsData(getId(), getTypeCode());
+    if (fud != NULL)
     {
-      return m->getFormulaUnitsData(getId(), getTypeCode())
-      ->getContainsUndeclaredUnits();
+      return fud->getContainsUndeclaredUnits();
     }
     else
     {
@@ -563,25 +563,25 @@ InitialAssignment::getAttribute(const std::string& attributeName,
 /*
  * Gets the value of the "attributeName" attribute of this InitialAssignment.
  */
-int
-InitialAssignment::getAttribute(const std::string& attributeName,
-                                const char* value) const
-{
-  int return_value = SBase::getAttribute(attributeName, value);
-
-  if (return_value == LIBSBML_OPERATION_SUCCESS)
-  {
-    return return_value;
-  }
-
-  if (attributeName == "symbol")
-  {
-    value = getSymbol().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-
-  return return_value;
-}
+//int
+//InitialAssignment::getAttribute(const std::string& attributeName,
+//                                const char* value) const
+//{
+//  int return_value = SBase::getAttribute(attributeName, value);
+//
+//  if (return_value == LIBSBML_OPERATION_SUCCESS)
+//  {
+//    return return_value;
+//  }
+//
+//  if (attributeName == "symbol")
+//  {
+//    value = getSymbol().c_str();
+//    return_value = LIBSBML_OPERATION_SUCCESS;
+//  }
+//
+//  return return_value;
+//}
 
 /** @endcond */
 
@@ -708,19 +708,19 @@ InitialAssignment::setAttribute(const std::string& attributeName,
 /*
  * Sets the value of the "attributeName" attribute of this InitialAssignment.
  */
-int
-InitialAssignment::setAttribute(const std::string& attributeName,
-                                const char* value)
-{
-  int return_value = SBase::setAttribute(attributeName, value);
-
-  if (attributeName == "symbol")
-  {
-    return_value = setSymbol(value);
-  }
-
-  return return_value;
-}
+//int
+//InitialAssignment::setAttribute(const std::string& attributeName,
+//                                const char* value)
+//{
+//  int return_value = SBase::setAttribute(attributeName, value);
+//
+//  if (attributeName == "symbol")
+//  {
+//    return_value = setSymbol(value);
+//  }
+//
+//  return return_value;
+//}
 
 /** @endcond */
 

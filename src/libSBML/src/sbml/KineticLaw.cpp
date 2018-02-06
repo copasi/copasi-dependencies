@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -878,10 +878,10 @@ KineticLaw::getDerivedUnitDefinition()
       m->populateListFormulaUnitsData();
     }
     
-    if (m->getFormulaUnitsData(getInternalId(), getTypeCode()) != NULL)
+    FormulaUnitsData *fud = m->getFormulaUnitsData(getInternalId(), getTypeCode());
+    if (fud != NULL)
     {
-      return m->getFormulaUnitsData(getInternalId(), getTypeCode())
-                                             ->getUnitDefinition();
+      return fud->getUnitDefinition();
     }
     else
     {
@@ -948,10 +948,10 @@ KineticLaw::containsUndeclaredUnits()
       m->populateListFormulaUnitsData();
     }
     
-    if (m->getFormulaUnitsData(getInternalId(), getTypeCode()) != NULL)
+    FormulaUnitsData *fud = m->getFormulaUnitsData(getInternalId(), getTypeCode());
+    if (fud != NULL)
     {
-      return m->getFormulaUnitsData(getInternalId(), getTypeCode())
-      ->getContainsUndeclaredUnits();
+      return fud->getContainsUndeclaredUnits();
     }
     else
     {
@@ -1252,30 +1252,30 @@ KineticLaw::getAttribute(const std::string& attributeName,
 /*
  * Gets the value of the "attributeName" attribute of this KineticLaw.
  */
-int
-KineticLaw::getAttribute(const std::string& attributeName,
-                         const char* value) const
-{
-  int return_value = SBase::getAttribute(attributeName, value);
-
-  if (return_value == LIBSBML_OPERATION_SUCCESS)
-  {
-    return return_value;
-  }
-
-  if (attributeName == "timeUnits")
-  {
-    value = getTimeUnits().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (attributeName == "substanceUnits")
-  {
-    value = getSubstanceUnits().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-
-  return return_value;
-}
+//int
+//KineticLaw::getAttribute(const std::string& attributeName,
+//                         const char* value) const
+//{
+//  int return_value = SBase::getAttribute(attributeName, value);
+//
+//  if (return_value == LIBSBML_OPERATION_SUCCESS)
+//  {
+//    return return_value;
+//  }
+//
+//  if (attributeName == "timeUnits")
+//  {
+//    value = getTimeUnits().c_str();
+//    return_value = LIBSBML_OPERATION_SUCCESS;
+//  }
+//  else if (attributeName == "substanceUnits")
+//  {
+//    value = getSubstanceUnits().c_str();
+//    return_value = LIBSBML_OPERATION_SUCCESS;
+//  }
+//
+//  return return_value;
+//}
 
 /** @endcond */
 
@@ -1408,22 +1408,22 @@ KineticLaw::setAttribute(const std::string& attributeName,
 /*
  * Sets the value of the "attributeName" attribute of this KineticLaw.
  */
-int
-KineticLaw::setAttribute(const std::string& attributeName, const char* value)
-{
-  int return_value = SBase::setAttribute(attributeName, value);
-
-  if (attributeName == "timeUnits")
-  {
-    return_value = setTimeUnits(value);
-  }
-  else if (attributeName == "substanceUnits")
-  {
-    return_value = setSubstanceUnits(value);
-  }
-
-  return return_value;
-}
+//int
+//KineticLaw::setAttribute(const std::string& attributeName, const char* value)
+//{
+//  int return_value = SBase::setAttribute(attributeName, value);
+//
+//  if (attributeName == "timeUnits")
+//  {
+//    return_value = setTimeUnits(value);
+//  }
+//  else if (attributeName == "substanceUnits")
+//  {
+//    return_value = setSubstanceUnits(value);
+//  }
+//
+//  return return_value;
+//}
 
 /** @endcond */
 
@@ -1484,8 +1484,8 @@ KineticLaw::createChildObject(const std::string& elementName)
 /** @cond doxygenLibsbmlInternal */
 
 /*
-* Adds an new "elementName" object in this KineticLaw.
-*/
+ * Adds an new "elementName" object in this KineticLaw.
+ */
 int
 KineticLaw::addChildObject(const std::string& elementName, const SBase* element)
 {
@@ -1507,8 +1507,8 @@ KineticLaw::addChildObject(const std::string& elementName, const SBase* element)
 /** @cond doxygenLibsbmlInternal */
 
 /*
-* Adds an new "elementName" object in this KineticLaw.
-*/
+ * Adds an new "elementName" object in this KineticLaw.
+ */
 SBase*
 KineticLaw::removeChildObject(const std::string& elementName, const std::string& id)
 {

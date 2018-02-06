@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -444,6 +444,8 @@ void populatePackageLists()
   //reqdPkgPrefixes.append("spatial");
 
   unreqdPkgPrefixes.append("fbc");
+  unreqdPkgPrefixes.append("qual");
+  unreqdPkgPrefixes.append("groups");
 }
 
 
@@ -507,6 +509,20 @@ StructureFields::freeStructureMemory()
   mxDestroyArray(mxValueTypes);
 }
 
+bool
+isUnknownType(std::string tc)
+{
+  if (tc == "(Unknown SBML Type)")
+    return true;
+  else if (tc == "(Unknown SBML Fbc Type)")
+    return true;
+  else if (tc == "(Unknown SBML Groups Type)")
+    return true;
+  else if (tc == "(Unknown SBML Qual Type)")
+    return true;
+  else
+    return false;
+}
 void
 StructureFields::determineTypeCode()
 {
@@ -519,7 +535,7 @@ StructureFields::determineTypeCode()
   // check whether we are using a package object
   PkgIter it = pm.begin();
 
-  while (sbmlTC == "(Unknown SBML Type)" && it != pm.end())
+  while (isUnknownType(sbmlTC) && it != pm.end())
   {
     sbmlTC = SBMLTypeCode_toString(mSBase->getTypeCode(), (it->first).c_str());
     sbmlTC[0] = tolower(sbmlTC[0]);
@@ -1029,6 +1045,9 @@ StructureFields::addStructureField(const std::string& functionId, SBase* base,
   case TYPE_DOUBLE:
     dvalue = getDoubleValue(functionId, base, name, fieldIndex, usePlugin, prefix);
     mxSetField(mxStructure, index, fieldname.c_str(), mxCreateDoubleScalar(dvalue));
+    break;
+  case TYPE_ELEMENT:
+  default:
     break;
   }
 }
@@ -2984,10 +3003,11 @@ checkFileExists(FILE_CHAR filename)
       char * msgTxt = NULL;
 #if USE_FILE_WCHAR
       msgTxt = (char *) safe_calloc(wcslen(filename)+35, sizeof(char));
+      sprintf(msgTxt, "File %ws does not exist on this path", filename);
 #else
       msgTxt = (char *) safe_calloc(strlen(filename)+35, sizeof(char));
+      sprintf(msgTxt, "File %s does not exist on this path", filename);
 #endif
-      sprintf(msgTxt, "File %ws does not exist on this path", filename);
       reportError("TranslateSBML:inputArguments:filename", msgTxt);
       safe_free(msgTxt);
     }

@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -291,6 +291,7 @@ void GraphicalPrimitive2D::writeAttributes (XMLOutputStream& stream) const
             stream.writeAttribute("fill-rule", getPrefix(), "nonzero");
             break;
         case GraphicalPrimitive2D::UNSET:
+        default:
             break;
     }
 }
@@ -322,6 +323,7 @@ void GraphicalPrimitive2D::addGraphicalPrimitive2DAttributes(const GraphicalPrim
             // it is assumed to be inherited.
             att.add("fill-rule","nonzero");
             break;
+        default:
         case GraphicalPrimitive2D::UNSET:
             break;
     }
@@ -374,5 +376,46 @@ bool GraphicalPrimitive2D::isSetFillRule() const
     return this->mFillRule!=GraphicalPrimitive2D::UNSET;
 }
 /** @endcond */
+
+
+const char* FILL_RULE_STRINGS[] =
+{
+  "unset",
+  "nonzero",
+  "evenodd", 
+  "inherit", 
+  "invalid"
+};
+
+
+
+LIBSBML_EXTERN
+GraphicalPrimitive2D::FILL_RULE
+FillRule_fromString(const char* name)
+{
+  if (name != NULL)
+  {
+    const GraphicalPrimitive2D::FILL_RULE  lo = GraphicalPrimitive2D::UNSET;
+    const GraphicalPrimitive2D::FILL_RULE  hi = GraphicalPrimitive2D::INHERIT;
+
+    return (GraphicalPrimitive2D::FILL_RULE)util_bsearchStringsI(FILL_RULE_STRINGS, name, lo, hi);
+  }
+
+  return GraphicalPrimitive2D::UNSET;
+
+}
+
+LIBSBML_EXTERN
+const char*
+FillRule_toString(GraphicalPrimitive2D::FILL_RULE rule)
+{
+  if ((rule < GraphicalPrimitive2D::UNSET) || (rule > GraphicalPrimitive2D::INHERIT))
+  {
+    rule = GraphicalPrimitive2D::INVALID;
+  }
+
+  return FILL_RULE_STRINGS[rule];
+}
+
 
 LIBSBML_CPP_NAMESPACE_END 

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -42,8 +42,8 @@ LIBSBML_CPP_NAMESPACE_USE
 BEGIN_C_DECLS
 
 /**
-* Wraps the string s in the appropriate XML boilerplate.
-*/
+ * Wraps the string s in the appropriate XML boilerplate.
+ */
 #define XML_START   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 #define SBML_START  "<sbml "
 #define NS_L3v1     "xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" "

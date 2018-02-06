@@ -9,7 +9,7 @@
 ## This file is part of libSBML.  Please visit http://sbml.org for more
 ## information about SBML, and the latest version of libSBML.
 ##
-## Copyright (C) 2013-2017 jointly by the following organizations:
+## Copyright (C) 2013-2018 jointly by the following organizations:
 ##     1. California Institute of Technology, Pasadena, CA, USA
 ##     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 ##     3. University of Heidelberg, Heidelberg, Germany
@@ -48,38 +48,38 @@ thisdir   = src/sbml/packages/multi/validator/constraints
 # rules in `makefile-common-actions.mk' included at the end.
 
 sources = \
-	MultiConsistencyConstraints.cpp				     \
-	MultiIdBase.cpp						     \
-	MultiIdentifierConsistencyConstraints.cpp		     \
-	MultiMathCiCheckRepresentationType.cpp			     \
-	MultiMathCiCheckSpeciesReference.cpp			     \
-	MultiMathMLConsistencyConstraints.cpp			     \
-	UniqueCompartmentReferenceIdsWithinCompartment.cpp	     \
-	UniqueInSpeciesTypeBondIdsWithinMultiSpeciesType.cpp	     \
-	UniqueMultiComponentIds.cpp				     \
-	UniqueMultiIdBase.cpp					     \
-	UniqueSpeciesFeatureIdsWithinSpecies.cpp		     \
-	UniqueSpeciesFeatureTypeIdsWithinMultiSpeciesType.cpp	     \
-	UniqueSpeciesTypeComponentIndexIdsWithinMultiSpeciesType.cpp \
-	UniqueSpeciesTypeInstanceIdsWithinMultiSpeciesType.cpp	     \
-	UniqueSubListOfSpeciesFeaturesIdsWithinSpecies.cpp
+	MultiConsistencyConstraints.cpp		  \
+	MultiIdBase.cpp				  \
+	MultiIdentifierConsistencyConstraints.cpp \
+	MultiMathCiCheckRepresentationType.cpp	  \
+	MultiMathCiCheckSpeciesReference.cpp	  \
+	MultiMathMLConsistencyConstraints.cpp	  \
+	UniqueCRefIdsWithinCompartment.cpp	  \
+	UniqueISTBIdsWithinMultiSpeciesType.cpp	  \
+	UniqueMultiComponentIds.cpp		  \
+	UniqueMultiIdBase.cpp			  \
+	UniqueSFTIdsWithinMultiSpeciesType.cpp	  \
+	UniqueSLOSFIdsWithinSpecies.cpp		  \
+	UniqueSTCIdsWithinMultiSpeciesType.cpp	  \
+	UniqueSTIIdsWithinMultiSpeciesType.cpp	  \
+	UniqueSpeciesFeatureIdsWithinSpecies.cpp
 
 header_inst_prefix = packages/multi/validator/constraints
 
 headers = \
-	MultiConsistencyConstraints.h				   \
-	MultiIdBase.h						   \
-	MultiMathCiCheckRepresentationType.h			   \
-	MultiMathCiCheckSpeciesReference.h			   \
-	UniqueCompartmentReferenceIdsWithinCompartment.h	   \
-	UniqueInSpeciesTypeBondIdsWithinMultiSpeciesType.h	   \
-	UniqueMultiComponentIds.h				   \
-	UniqueMultiIdBase.h					   \
-	UniqueSpeciesFeatureIdsWithinSpecies.h			   \
-	UniqueSpeciesFeatureTypeIdsWithinMultiSpeciesType.h	   \
-	UniqueSpeciesTypeComponentIndexIdsWithinMultiSpeciesType.h \
-	UniqueSpeciesTypeInstanceIdsWithinMultiSpeciesType.h	   \
-	UniqueSubListOfSpeciesFeaturesIdsWithinSpecies.h
+	MultiIdBase.h			      \
+	MultiMathCiCheckRepresentationType.h  \
+	MultiMathCiCheckSpeciesReference.h    \
+	UniqueCRefIdsWithinCompartment.h      \
+	UniqueISTBIdsWithinMultiSpeciesType.h \
+	UniqueMultiComponentIds.h	      \
+	UniqueMultiIdBase.h		      \
+	UniqueSFTIdsWithinMultiSpeciesType.h  \
+	UniqueSLOSFIdsWithinSpecies.h	      \
+	UniqueSTCIdsWithinMultiSpeciesType.h  \
+	UniqueSTIIdsWithinMultiSpeciesType.h  \
+	UniqueSpeciesFeatureIdsWithinSpecies.h
+
 
 constraints_files = $(wildcard ./*.cxx) 
 

@@ -121,7 +121,7 @@ END_TEST
 START_TEST( test_GlobalRenderInformation_read )
 {
    std::string s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                   "<renderInformation id=\"test_render_info\">\n"
+                   "<renderInformation id=\"test_render_info\" backgroundColor='#FFFFFFFF'>\n"
 		   "  <listOfColorDefinitions>\n"
                    "    <colorDefinition id=\"red\" value=\"#C90000\" />\n"
                    "    <colorDefinition id=\"black\" value=\"#000000\" />\n"

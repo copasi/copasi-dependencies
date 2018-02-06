@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -3425,12 +3425,16 @@ create_suite_WriteSBML ()
   tcase_add_test( tcase, test_WriteSBML_locale  );
 
   // Compressed SBML
-#ifdef USE_ZLIB
+#ifdef USE_ZLIB 
+#ifndef LIBSBML_USE_VLD
   tcase_add_test( tcase, test_WriteSBML_gzip  );
   tcase_add_test( tcase, test_WriteSBML_zip  );
 #endif
+#endif
 #ifdef USE_BZ2
+#ifndef LIBSBML_USE_VLD
   tcase_add_test( tcase, test_WriteSBML_bzip2  );
+#endif
 #endif
 
   tcase_add_test( tcase, test_WriteSBML_elements_L1v2  );

@@ -8,7 +8,7 @@
 ## This sample program is distributed under a different license than the rest
 ## of libSBML.  This program uses the open-source MIT license, as follows:
 ##
-## Copyright (c) 2013-2017 by the California Institute of Technology
+## Copyright (c) 2013-2018 by the California Institute of Technology
 ## (California, USA), the European Bioinformatics Institute (EMBL-EBI, UK)
 ## and the University of Heidelberg (Germany), with support from the National
 ## Institutes of Health (USA) under grant R01GM070923.  All rights reserved.
@@ -46,25 +46,26 @@ import libsbml
 def main (args):
     """Usage: printNotes filename
     """
-    if (len(args) != 3):
-      print("Usage: inlineInitialAssignments filename outFile");
-      return 1;
+    if len(args) != 3:
+      print("Usage: inlineInitialAssignments filename outFile")
+      return 1
 
-    filename = args[1];
-    outFile = args[2];
+    filename = args[1]
+    outFile = args[2]
 
-    document = libsbml.readSBML(filename);
+    document = libsbml.readSBML(filename)
 
-    if (document.getNumErrors(libsbml.LIBSBML_SEV_ERROR) > 0):
-      print("The models contains errors, please correct them before continuing.");
-      document.printErrors();
-      return 1;
+    if document.getNumErrors(libsbml.LIBSBML_SEV_ERROR) > 0:
+      print("The models contains errors, please correct them before continuing.")
+      document.printErrors()
+      return 1
 
-    model = document.getModel();
+    model = document.getModel()
 
-    libsbml.SBMLTransforms.expandInitialAssignments(model);
+    libsbml.SBMLTransforms.expandInitialAssignments(model)
 
-    libsbml.writeSBML(document, outFile);
-   
+    libsbml.writeSBML(document, outFile)
+
+
 if __name__ == '__main__':
     main(sys.argv)  

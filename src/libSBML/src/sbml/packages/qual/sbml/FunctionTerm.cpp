@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -474,24 +474,6 @@ FunctionTerm::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this FunctionTerm.
- */
-int
-FunctionTerm::getAttribute(const std::string& attributeName,
-                           const char* value) const
-{
-  int return_value = SBase::getAttribute(attributeName, value);
-
-  return return_value;
-}
-
-/** @endcond */
-
-
-
-/** @cond doxygenLibsbmlInternal */
-
-/*
  * Predicate returning @c true if this FunctionTerm's attribute "attributeName"
  * is set.
  */
@@ -594,24 +576,6 @@ FunctionTerm::setAttribute(const std::string& attributeName,
 int
 FunctionTerm::setAttribute(const std::string& attributeName,
                            const std::string& value)
-{
-  int return_value = SBase::setAttribute(attributeName, value);
-
-  return return_value;
-}
-
-/** @endcond */
-
-
-
-/** @cond doxygenLibsbmlInternal */
-
-/*
- * Sets the value of the "attributeName" attribute of this FunctionTerm.
- */
-int
-FunctionTerm::setAttribute(const std::string& attributeName,
-                           const char* value)
 {
   int return_value = SBase::setAttribute(attributeName, value);
 
@@ -927,7 +891,7 @@ ListOfFunctionTerms::~ListOfFunctionTerms()
 }
 /*
  * Get a FunctionTerm from the ListOfFunctionTerms by index.
-*/
+ */
 FunctionTerm*
 ListOfFunctionTerms::get(unsigned int n)
 {
@@ -1199,9 +1163,6 @@ ListOfFunctionTerms::writeElements(XMLOutputStream& stream) const
 }
 /** @endcond */
   /** @cond doxygenLibsbmlInternal */
-/*
- * 
- */
 void
 ListOfFunctionTerms::connectToChild()
 {
@@ -1215,9 +1176,6 @@ ListOfFunctionTerms::connectToChild()
 
 
   /** @cond doxygenLibsbmlInternal */
-/*
- * 
- */
 void
 ListOfFunctionTerms::setSBMLDocument(SBMLDocument* d)
 {
@@ -1320,9 +1278,63 @@ FunctionTerm_unsetResultLevel(FunctionTerm_t * ft)
 }
 
 
+/*
+ * Returns the value of the "math" element of this FunctionTerm_t.
+ */
+LIBSBML_EXTERN
+const ASTNode_t*
+FunctionTerm_getMath(const FunctionTerm_t * ft)
+{
+  if (ft == NULL)
+  {
+    return NULL;
+  }
+
+  return (ASTNode_t*)(ft->getMath());
+}
+
+
+/*
+ * Predicate returning @c 1 (true) if this FunctionTerm_t's "math" element is
+ * set.
+ */
 LIBSBML_EXTERN
 int
-FunctionTerm_hasRequiredAttributes(FunctionTerm_t * ft)
+FunctionTerm_isSetMath(const FunctionTerm_t * ft)
+{
+  return (ft != NULL) ? static_cast<int>(ft->isSetMath()) : 0;
+}
+
+
+/*
+ * Sets the value of the "math" element of this FunctionTerm_t.
+ */
+LIBSBML_EXTERN
+int
+FunctionTerm_setMath(FunctionTerm_t * ft, const ASTNode_t* math)
+{
+  return (ft != NULL) ? ft->setMath(math) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Unsets the value of the "math" element of this FunctionTerm_t.
+ */
+LIBSBML_EXTERN
+int
+FunctionTerm_unsetMath(FunctionTerm_t * ft)
+{
+  return (ft != NULL) ? ft->unsetMath() : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Predicate returning @c 1 (true) if all the required attributes for this
+ * FunctionTerm_t object have been set.
+ */
+LIBSBML_EXTERN
+int
+FunctionTerm_hasRequiredAttributes(const FunctionTerm_t * ft)
 {
   return (ft != NULL) ? static_cast<int>(ft->hasRequiredAttributes()) : 0;
 }
@@ -1330,7 +1342,7 @@ FunctionTerm_hasRequiredAttributes(FunctionTerm_t * ft)
 
 LIBSBML_EXTERN
 int
-FunctionTerm_hasRequiredElements(FunctionTerm_t * ft)
+FunctionTerm_hasRequiredElements(const FunctionTerm_t * ft)
 {
   return (ft != NULL) ? static_cast<int>(ft->hasRequiredElements()) : 0;
 }

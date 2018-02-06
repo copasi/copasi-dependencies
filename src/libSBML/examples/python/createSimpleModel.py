@@ -8,7 +8,7 @@
 ## This sample program is distributed under a different license than the rest
 ## of libSBML.  This program uses the open-source MIT license, as follows:
 ##
-## Copyright (c) 2013-2017 by the California Institute of Technology
+## Copyright (c) 2013-2018 by the California Institute of Technology
 ## (California, USA), the European Bioinformatics Institute (EMBL-EBI, UK)
 ## and the University of Heidelberg (Germany), with support from the National
 ## Institutes of Health (USA) under grant R01GM070923.  All rights reserved.
@@ -51,7 +51,7 @@ def check(value, message):
   prints an error message constructed using 'message' along with text from
   libSBML explaining the meaning of the code, and exits with status code 1.
   """
-  if value == None:
+  if value is None:
     raise SystemExit('LibSBML returned a null value trying to ' + message + '.')
   elif type(value) is int:
     if value == LIBSBML_OPERATION_SUCCESS:
@@ -76,13 +76,13 @@ def create_model():
   try:
     document = SBMLDocument(3, 1)
   except ValueError:
-    raise SystemExit('Could not create SBMLDocumention object')
+    raise SystemExit('Could not create SBMLDocument object')
 
   # Create the basic Model object inside the SBMLDocument object.  To
   # produce a model with complete units for the reaction rates, we need
   # to set the 'timeUnits' and 'extentUnits' attributes on Model.  We
   # set 'substanceUnits' too, for good measure, though it's not strictly
-  # necessary here because we also set the units for invididual species
+  # necessary here because we also set the units for individual species
   # in their definitions.
 
   model = document.createModel()

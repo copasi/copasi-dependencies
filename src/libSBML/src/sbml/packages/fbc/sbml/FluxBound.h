@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -47,9 +47,10 @@
  * must be the identifier of a Reaction object defined within the enclosing
  * model.
  *
- * The "operation" attribute takes a value from an enumeration
- * (#FluxBoundOperation_t) of Boolean operations that represent mathemetical
- * inequalities.  Possible values for "operation" include
+ * The "operation" attribute takes a value from
+ * @if clike the enumeration #FluxBoundOperation_t @else a set of constants
+ * whose names begin with <code>FLUXBOUND_</code>@endif@~ representing
+ * different mathematical inequalities. Possible values for "operation" include
  * <code>"greaterEqual"</code>, <code>"equal"</code>, and others.
  *
  * The "value" attribute takes a numerical value of type <code>double</code>,
@@ -594,26 +595,6 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this FluxBound.
-   *
-   * @param attributeName, the name of the attribute to retrieve.
-   *
-   * @param value, the address of the value to record.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int getAttribute(const std::string& attributeName,
-                           const char* value) const;
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
    * Predicate returning @c true if this FluxBound's attribute "attributeName"
    * is set.
    *
@@ -720,26 +701,6 @@ public:
    */
   virtual int setAttribute(const std::string& attributeName,
                            const std::string& value);
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
-   * Sets the value of the "attributeName" attribute of this FluxBound.
-   *
-   * @param attributeName, the name of the attribute to set.
-   *
-   * @param value, the value of the attribute to set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int setAttribute(const std::string& attributeName, const char*
-    value);
 
   /** @endcond */
 
@@ -1360,9 +1321,9 @@ int
 FluxBound_unsetValue(FluxBound_t * fb);
 
 /**
- * Returns the string version of the provided FluxBoundOperation_t enumeration.
+ * Returns the string version of the provided #FluxBoundOperation_t enumeration.
  *
- * @param type the FluxBoundOperation_t enumeration to convert.
+ * @param type the #FluxBoundOperation_t enumeration to convert.
  *
  * @return A string corresponding to the given effect:  "lessEqual",
  * "greaterEqual", "equal", or @c NULL if the value is 
@@ -1382,7 +1343,7 @@ FluxBoundOperation_toString(FluxBoundOperation_t type);
 
 
 /**
- * Returns the FluxBoundOperation_t enumeration corresponding to
+ * Returns the #FluxBoundOperation_t enumeration corresponding to
  * the given string, or 
  * @sbmlconstant{FLUXBOUND_OPERATION_UNKNOWN, FluxBoundOperation_t}
  * if there is
@@ -1390,9 +1351,9 @@ FluxBoundOperation_toString(FluxBoundOperation_t type);
  * return  @sbmlconstant{FLUXBOUND_OPERATION_LESS_EQUAL, FluxBoundOperation_t}, but "lessequal" will return
  * @sbmlconstant{FLUXBOUND_OPERATION_UNKNOWN, FluxBoundOperation_t}.
  *
- * @param s the string to convert to a FluxBoundOperation_t.
+ * @param s the string to convert to a #FluxBoundOperation_t.
  *
- * @return The corresponding FluxBoundOperation_t, or
+ * @return The corresponding #FluxBoundOperation_t, or
  * @sbmlconstant{FLUXBOUND_OPERATION_UNKNOWN, FluxBoundOperation_t} if no match found.
  *
  * @note In an earlier version of this specification, "less" and "greater" were
@@ -1409,9 +1370,9 @@ FluxBoundOperation_fromString(const char* s);
 
 /**
  * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
- * FluxBoundOperation_t is valid.
+ * #FluxBoundOperation_t is valid.
  *
- * @param type the FluxBoundOperation_t enumeration to query.
+ * @param type the #FluxBoundOperation_t enumeration to query.
  *
  * @return @c 1 (true) if the FluxBoundOperation_t is
  * @sbmlconstant{FLUXBOUND_OPERATION_LESS_EQUAL, FluxBoundOperation_t}, 
@@ -1436,7 +1397,7 @@ FluxBoundOperation_isValidFluxBoundOperation(FluxBoundOperation_t type);
 
 /**
  * Predicate returning @c 1 (true) or @c 0 (false) depending
- * on whether the given string is a valid FluxBoundOperation_t.
+ * on whether the given string is a valid #FluxBoundOperation_t.
  * The matching is case-sensitive:  "lessEqual" will return @c 1 (true), but
  * "lessequal" will return @c 0 (false).
  *

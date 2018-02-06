@@ -503,8 +503,24 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
 /**
-* @memberof SpeciesFeatureValue_t
-*/
+ * Creates a new SpeciesFeatureValue_t using the given SBML Level, Version and
+ * &ldquo;multi&rdquo; package version.
+ *
+ * @param level an unsigned int, the SBML Level to assign to this
+ * SpeciesFeatureValue_t.
+ *
+ * @param version an unsigned int, the SBML Version to assign to this
+ * SpeciesFeatureValue_t.
+ *
+ * @param pkgVersion an unsigned int, the SBML Multi Version to assign to this
+ * SpeciesFeatureValue_t.
+ *
+ * @copydetails doc_note_setting_lv_pkg
+ *
+ * @copydetails doc_returned_owned_pointer
+ *
+ * @memberof SpeciesFeatureValue_t
+ */
 LIBSBML_EXTERN
 SpeciesFeatureValue_t *
 SpeciesFeatureValue_create(unsigned int level, unsigned int version,
@@ -512,93 +528,154 @@ SpeciesFeatureValue_create(unsigned int level, unsigned int version,
 
 
 /**
-* @memberof SpeciesFeatureValue_t
-*/
+ * Frees this SpeciesFeatureValue_t object.
+ *
+ * @param sfv the SpeciesFeatureValue_t structure.
+ *
+ * @memberof SpeciesFeatureValue_t
+ */
 LIBSBML_EXTERN
 void
 SpeciesFeatureValue_free(SpeciesFeatureValue_t * sfv);
 
 
 /**
-* @memberof SpeciesFeatureValue_t
-*/
+ * Creates and returns a deep copy of this SpeciesFeatureValue_t object.
+ *
+ * @param sfv the SpeciesFeatureValue_t structure.
+ *
+ * @return a (deep) copy of this SpeciesFeatureValue_t object.
+ *
+ * @copydetails doc_returned_owned_pointer
+ *
+ * @memberof SpeciesFeatureValue_t
+ */
 LIBSBML_EXTERN
 SpeciesFeatureValue_t *
 SpeciesFeatureValue_clone(SpeciesFeatureValue_t * sfv);
 
 
 /**
-* @memberof SpeciesFeatureValue_t
-*/
+ * Returns the value of the "value" attribute of this SpeciesFeatureValue_t.
+ *
+ * @param sfv the SpeciesFeatureValue_t structure whose value is sought.
+ *
+ * @return the value of the "value" attribute of this SpeciesFeatureValue_t as
+ * a pointer to a string.
+ *
+ * @copydetails doc_returned_owned_char
+ *
+ * @memberof SpeciesFeatureValue_t
+ */
 LIBSBML_EXTERN
 char *
 SpeciesFeatureValue_getValue(SpeciesFeatureValue_t * sfv);
 
 
 /**
-* @memberof SpeciesFeatureValue_t
-*/
+ * Predicate returning @c 1 (true) if this SpeciesFeatureValue_t's "value"
+ * attribute is set.
+ *
+ * @param sfv the SpeciesFeatureValue_t structure.
+ *
+ * @return @c 1 (true) if this SpeciesFeatureValue_t's "value" attribute has
+ * been set, otherwise @c 0 (false) is returned.
+ *
+ * @memberof SpeciesFeatureValue_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesFeatureValue_isSetValue(SpeciesFeatureValue_t * sfv);
 
 
 /**
-* @memberof SpeciesFeatureValue_t
-*/
+ * Sets the value of the "value" attribute of this SpeciesFeatureValue_t.
+ *
+ * @param sfv the SpeciesFeatureValue_t structure.
+ *
+ * @param value const char * value of the "value" attribute to be set.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof SpeciesFeatureValue_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesFeatureValue_setValue(SpeciesFeatureValue_t * sfv, const char * value);
 
 
 /**
-* @memberof SpeciesFeatureValue_t
-*/
+ * Unsets the value of the "value" attribute of this SpeciesFeatureValue_t.
+ *
+ * @param sfv the SpeciesFeatureValue_t structure.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof SpeciesFeatureValue_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesFeatureValue_unsetValue(SpeciesFeatureValue_t * sfv);
 
 
 /**
-* @memberof SpeciesFeatureValue_t
-*/
+ * Predicate returning @c 1 (true) if all the required attributes for this
+ * SpeciesFeatureValue_t object have been set.
+ *
+ * @param sfv the SpeciesFeatureValue_t structure.
+ *
+ * @return @c 1 (true) to indicate that all the required attributes of this
+ * SpeciesFeatureValue_t have been set, otherwise @c 0 (false) is returned.
+ *
+ *
+ * @note The required attributes for the SpeciesFeatureValue_t object are:
+ * @li "value"
+ *
+ * @memberof SpeciesFeatureValue_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesFeatureValue_hasRequiredAttributes(SpeciesFeatureValue_t * sfv);
 
 
 /**
-* Return the structure indicated by the given @p sid.
-*
-* @param lo the ListOf_t structure to use.
-*
-* @param sid a string matching the "id" attribute of the element sought.
-*
-* @return the structure for the given variable, or @c NULL if no such
-* object exists in the list.
-*
-* @memberof ListOfSpeciesFeatureValues_t
-*/
+ * Return the structure indicated by the given @p sid.
+ *
+ * @param lo the ListOf_t structure to use.
+ *
+ * @param sid a string matching the "id" attribute of the element sought.
+ *
+ * @return the structure for the given variable, or @c NULL if no such
+ * object exists in the list.
+ *
+ * @memberof ListOfSpeciesFeatureValues_t
+ */
 LIBSBML_EXTERN
 SpeciesFeatureValue_t *
 ListOfSpeciesFeatureValues_getById(ListOf_t * lo, const char * sid);
 
 
 /**
-* Removes the structure with the given @p sid
-* from the given list and returns a pointer to it.
-*
-* The caller owns the returned structure and is responsible for deleting it.
-*
-* @param lo the ListOf_t structure.
-* @param sid a string matching the "id" attribute of the element sought.
-*
-* @return the structure removed.  As mentioned above, the
-* caller owns the returned structure. @c NULL is returned if no
-* structure with the "id" attribute exists in the given list.
-*
-* @memberof ListOfSpeciesFeatureValues_t
-*/
+ * Removes the structure with the given @p sid
+ * from the given list and returns a pointer to it.
+ *
+ * The caller owns the returned structure and is responsible for deleting it.
+ *
+ * @param lo the ListOf_t structure.
+ * @param sid a string matching the "id" attribute of the element sought.
+ *
+ * @return the structure removed.  As mentioned above, the
+ * caller owns the returned structure. @c NULL is returned if no
+ * structure with the "id" attribute exists in the given list.
+ *
+ * @memberof ListOfSpeciesFeatureValues_t
+ */
 LIBSBML_EXTERN
 SpeciesFeatureValue_t *
 ListOfSpeciesFeatureValues_removeById(ListOf_t * lo, const char * sid);

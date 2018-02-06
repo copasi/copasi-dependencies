@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -427,8 +427,18 @@ bool GraphicalObject::isSetMetaIdRef() const
 int GraphicalObject::setMetaIdRef(const std::string& metaid)
 {
   if (metaid.empty())
+  {
     return unsetMetaIdRef();
-  return SyntaxChecker::checkAndSetSId(metaid, mMetaIdRef);
+  }
+  else if (!(SyntaxChecker::isValidXMLID(metaid)))
+  {
+    return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  }
+  else
+  {
+    mMetaIdRef = metaid;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
 }
 
 
@@ -832,7 +842,7 @@ void GraphicalObject::readAttributes(const XMLAttributes& attributes,
   assigned = attributes.readInto("metaidRef", mMetaIdRef);
   if (assigned == true && getErrorLog() != NULL)
   {
-    if (!SyntaxChecker::isValidInternalSId(mMetaIdRef))
+    if (!SyntaxChecker::isValidXMLID(mMetaIdRef))
     {
       int tc = this->getTypeCode();
       std::string msg = "The metaIdRef on the <" + this->getElementName() + "> ";

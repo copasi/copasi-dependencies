@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -989,7 +989,7 @@ public:
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    *
-   * @note If the QualifierType_t of this object is not
+   * @note If the @if clike #QualifierType_t value@else qualifier type@endif of this object is not
    * @sbmlconstant{MODEL_QUALIFIER, QualifierType_t}, then the
    * then the @if clike #ModelQualifierType_t value@else model qualifier type@endif@~
    * will default to @sbmlconstant{BQM_UNKNOWN, ModelQualifierType_t}.

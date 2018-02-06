@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -193,6 +193,122 @@ bool Transformation::isSetMatrix() const
       result=(mMatrix[i]==mMatrix[i]);
   }
   return result;
+}
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+/*
+ * Returns the value of the "name" attribute of this Transformation.
+ *
+ * @return the name of the Transformation
+ */
+const std::string& Transformation::getName () const
+{
+    return mName;
+}
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+/*
+ * Predicate returning @c true or @c false depending on whether this
+ * Transformation's "name" attribute has been set.
+ *
+ * @return returns true or false depending on whether the name on the 
+ * Transformation has been set.
+ */
+bool Transformation::isSetName () const
+{
+    return (mName.empty() == false);
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+/*
+ * Sets the value of the "name" attribute of this Transformation.
+ *
+ * @param name the new name for the Transformation 
+ *
+ * @return status if the operation succeeded
+ */
+int Transformation::setName (const std::string& name)
+{
+    mName = name;
+    return LIBSBML_OPERATION_SUCCESS;
+}
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+/*
+ * Unsets the value of the "name" attribute of this Transformation.
+ */
+int Transformation::unsetName ()
+{
+    mName.erase();
+    if (mName.empty())
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+/** @endcond */
+
+
+/** @cond doxygenLibsbmlInternal */
+void
+Transformation::addExpectedAttributes(ExpectedAttributes& attributes)
+{
+  SBase::addExpectedAttributes(attributes);
+
+  attributes.add("name");
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+void Transformation::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
+{
+    SBase::readAttributes(attributes, expectedAttributes);
+    attributes.readInto("name", mName, getErrorLog(), false, getLine(), getColumn());
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+/*
+ * Returns the XML element name of this object.
+ *
+ * This is overridden by subclasses to return a string appropriate to the
+ * SBML component.  For example, Model defines it as returning "model",
+ * CompartmentType defines it as returning "compartmentType", etc.
+ */
+const std::string& Transformation::getElementName() const
+{
+  static std::string name = "Transformation";
+  return name;
+}
+/** @endcond */
+
+/** @cond doxygenLibsbmlInternal */
+/*
+ * Subclasses should override this method to write their XML attributes
+ * to the XMLOutputStream.  Be sure to call your parents implementation
+ * of this method as well.  For example:
+ *
+ *   SBase::writeAttributes(stream);
+ *   stream.writeAttribute( "id"  , mId   );
+ *   stream.writeAttribute( "name", mName );
+ *   ...
+ */
+
+void Transformation::writeAttributes (XMLOutputStream& stream) const
+{
+  SBase::writeAttributes(stream);
+  if (isSetName())
+    stream.writeAttribute("name", getPrefix(), this->mName);
 }
 /** @endcond */
 

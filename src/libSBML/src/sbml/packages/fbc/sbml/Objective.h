@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -296,9 +296,15 @@ public:
 
 
   /**
-   * Sets the SIdRef string of the "type" attribute of this Objective.
+   * Sets the value of the "type" attribute of this Objective.
    *
-   * @param type a SIdRef string to be set.
+   * The @p type must be a @if clike #ObjectiveType_t value@else
+   * value from one of the constants whose names begin with <code>OBJECTIVE_TYPE_</code>@endif@~.
+   *
+   * @param type string value of the "type" attribute to be set.  Valid values
+   * include:
+   * @li @sbmlconstant{OBJECTIVE_TYPE_MAXIMIZE, ObjectiveType_t}
+   * @li @sbmlconstant{OBJECTIVE_TYPE_MINIMIZE, ObjectiveType_t}
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -310,7 +316,10 @@ public:
   /**
    * Sets the value of the "type" attribute of this Objective.
    *
-   * @param type string value of the "type" attribute to be set.
+   * @param type string value of the "type" attribute to be set.  Valid values
+   * include:
+   * @li "maximize" (@sbmlconstant{OBJECTIVE_TYPE_MAXIMIZE, ObjectiveType_t})
+   * @li "minimize" (@sbmlconstant{OBJECTIVE_TYPE_MINIMIZE, ObjectiveType_t})
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -346,17 +355,17 @@ public:
 
 
   /**
-   * Returns the  "ListOfFluxObjectives" in this Objective object.
+   * Returns the ListOfFluxObjectives in this Objective object.
    *
-   * @return the "ListOfFluxObjectives" attribute of this Objective.
+   * @return the ListOfFluxObjectives child of this Objective.
    */
   const ListOfFluxObjectives* getListOfFluxObjectives() const;
 
 
   /**
-   * Returns the  "ListOfFluxObjectives" in this Objective object.
+   * Returns the ListOfFluxObjectives in this Objective object.
    *
-   * @return the "ListOfFluxObjectives" attribute of this Objective.
+   * @return the ListOfFluxObjectives child of this Objective.
    */
   ListOfFluxObjectives* getListOfFluxObjectives();
 
@@ -708,26 +717,6 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Objective.
-   *
-   * @param attributeName, the name of the attribute to retrieve.
-   *
-   * @param value, the address of the value to record.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int getAttribute(const std::string& attributeName,
-                           const char* value) const;
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
    * Predicate returning @c true if this Objective's attribute "attributeName"
    * is set.
    *
@@ -834,26 +823,6 @@ public:
    */
   virtual int setAttribute(const std::string& attributeName,
                            const std::string& value);
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
-   * Sets the value of the "attributeName" attribute of this Objective.
-   *
-   * @param attributeName, the name of the attribute to set.
-   *
-   * @param value, the value of the attribute to set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int setAttribute(const std::string& attributeName, const char*
-    value);
 
   /** @endcond */
 
@@ -1400,14 +1369,14 @@ Objective_getName(const Objective_t * o);
 
 
 /**
-* Takes a Objective_t structure and returns its type.
-*
-* @param obj the Objective_t whose type is sought.
-*
-* @return the type of the given Objective_t, as a pointer to a string.
-*
-* @memberof Objective_t
-*/
+ * Takes a Objective_t structure and returns its type.
+ *
+ * @param obj the Objective_t whose type is sought.
+ *
+ * @return the type of the given Objective_t, as a pointer to a string.
+ *
+ * @memberof Objective_t
+ */
 LIBSBML_EXTERN
 const char *
 Objective_getType(Objective_t * obj);
@@ -1519,7 +1488,9 @@ Objective_setName(Objective_t * o, const char * name);
  * @param o the Objective_t structure.
  *
  * @param type the string to which the structures "type" attribute should be
- * set.
+ * set.  Valid values include:
+ * @li "maximize" (@sbmlconstant{OBJECTIVE_TYPE_MAXIMIZE, ObjectiveType_t})
+ * @li "minimize" (@sbmlconstant{OBJECTIVE_TYPE_MINIMIZE, ObjectiveType_t})
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1660,37 +1631,37 @@ Objective_hasRequiredElements(const Objective_t * o);
 
 
 /**
-* Return the structure indicated by the given @p sid.
-*
-* @param lo the ListOf_t structure to use.
-*
-* @param sid a string matching the "id" attribute of the element sought.
-*
-* @return the structure for the given variable, or @c NULL if no such
-* object exists in the list.
-*
-* @memberof ListOfObjectives_t
-*/
+ * Return the structure indicated by the given @p sid.
+ *
+ * @param lo the ListOf_t structure to use.
+ *
+ * @param sid a string matching the "id" attribute of the element sought.
+ *
+ * @return the structure for the given variable, or @c NULL if no such
+ * object exists in the list.
+ *
+ * @memberof ListOfObjectives_t
+ */
 LIBSBML_EXTERN
 Objective_t *
 ListOfObjectives_getById(ListOf_t * lo, const char * sid);
 
 
 /**
-* Removes the structure with the given @p sid
-* from the given ListOf_t structure and returns a pointer to it.
-*
-* * The caller owns the returned structure and is responsible for deleting it.
-*
-* @param lo the ListOf_t structure.
-* @param sid the string of the "id" attribute of the sought structure.
-*
-* @return the structure removed.  As mentioned above, the
-* caller owns the returned structure. @c NULL is returned if no
-* structure with the "id" attribute exists in the given ListOf_t structure.
-*
-* @memberof ListOfObjectives_t
-*/
+ * Removes the structure with the given @p sid
+ * from the given ListOf_t structure and returns a pointer to it.
+ *
+ * * The caller owns the returned structure and is responsible for deleting it.
+ *
+ * @param lo the ListOf_t structure.
+ * @param sid the string of the "id" attribute of the sought structure.
+ *
+ * @return the structure removed.  As mentioned above, the
+ * caller owns the returned structure. @c NULL is returned if no
+ * structure with the "id" attribute exists in the given ListOf_t structure.
+ *
+ * @memberof ListOfObjectives_t
+ */
 LIBSBML_EXTERN
 Objective_t *
 ListOfObjectives_removeById(ListOf_t * lo, const char * sid);

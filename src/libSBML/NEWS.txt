@@ -1,5 +1,235 @@
            libSBML NEWS -- History of user-visible changes
 
+====================================================================
+5.16.1 (Current SVN)
+====================================================================
+
+STABLE RELEASE
+
+* Render
+
+  - The first official version of the specification of the Render
+    package is now available, and thus the 
+    libSBML code for 'render' is now included in the stable release of 
+    libSBML.  This means that all prebuilt binaries for the stable 
+    release will include the 'render' package code. The src archive 
+    containing libSBML core code will continue to be available, with
+    additional src archives available in the stable branch: one
+    containing libSBML core plus all stable packages and additional
+    archives of the individual package code.
+    
+    NOTE: The libSBML GNU make-based build system has not been updated
+          for packages. Thus, to build from src, it is necessary to
+          use the CMake build system.
+
+
+* New features
+
+  - Unit validation has been optimized and significantly speeded up for
+    larger models. 
+	
+  - 'comp' package-specific updates:
+
+    - The C API for comp has been completed.
+
+  - 'fbc' package-specific updates:
+  - 'groups' package-specific updates:
+  - 'layout' package-specific updates:
+  - 'multi' package-specific updates:
+
+    - The C API for multi has been completed.
+
+  - 'qual' package-specific updates:
+  - 'render' package-specific updates:
+
+* Bug fixes
+
+  - Python examples have been updated to work with Python v3.
+
+  - 'comp' package-specific bug fixes:
+  - 'fbc' package-specific bug fixes:
+  - 'groups' package-specific bug fixes:
+  - 'layout' package-specific bug fixes:
+  - 'multi' package-specific bug fixes:
+  - 'qual' package-specific bug fixes:
+  - 'render' package-specific bug fixes:
+
+* Configuration/build system changes
+
+
+* Miscellaneous
+
+
+EXPERIMENTAL RELEASE
+
+* New features
+
+  - 'arrays' package-specific updates:
+  - 'distrib' package-specific updates:
+  - 'dyn' package-specific updates:
+  - 'req' package-specific updates:
+  - 'spatial' package-specific updates:
+
+ * Bug fixes
+ 
+  - 'arrays' package-specific bug fixes:
+  - 'distrib' package-specific bug fixes:
+  - 'dyn' package-specific bug fixes:
+  - 'req' package-specific bug fixes:
+  - 'spatial' package-specific bug fixes:
+
+
+====================================================================
+5.16.0 (2017-12-07)
+====================================================================
+
+
+
+STABLE RELEASE
+
+* Note
+
+  The L3 Render Package has been approved by the SBML Editors, but
+  approval came too late in the libSBML release cycle to include it
+  in this stable release of libSBML.
+
+  There are now two implementations of support for SBML Level 3
+  Version 2 Core.  The libSBML code for L3V2 can now be considered
+  stable and will only change for bug fixes.
+
+* New features
+
+  - The MATLAB interface now supports both the 'qual' and 'groups' 
+    packages, in addition to 'fbc'. 
+
+  - Unit checking has been expanded to include checking the <math>
+    of <trigger>, <constraint> and <stoichiometryMath> to at least
+    allow detection of values with undeclared units.
+
+  - Writing out an XMLNode that represented XHTML with multiple
+    nested text elements could distrupt indentation (see bug fixes).
+    A new function XMLNode::writeToStream(XMLOutputStream&) checks
+    the indentation is correctly recovered after writing out the
+    XMLNode.
+	
+  - 'comp' package-specific updates:
+
+    - There has been some improvements made to the reporting of line
+      numbers for errors and warnings.
+
+* Bug fixes
+
+  - SF Tracker #450: Code validating the shadowing of localParameter
+    was checking both 'id' and 'species' attributes. This rule should
+    only check the species attribute.
+
+  - SBML validation failed to distinguish between LocalParameters and
+    Parameters in L3V1 when reporting errors. This is fixed.
+
+  - libSBML had incorrectly reported that the 'fast' attribute was a
+    required attribute of L3V2 <reaction> elements. This is fixed.
+
+  - The libSBML C API does not work with default arguments. There were
+    previously a few stray ones left in the API code. These have been
+    removed.
+
+  - The SBMLTransforms::evaluateASTNode function previously failed to
+    check that model values had been evaluated prior to trying to
+    evaluate an ASTNode. The relevant function now checks whether the
+    map of values is present and populates it, if necessary.
+
+  - Code that checked the syntax for attributes of type ID and IDREF
+    did not always use the appropriate function. These cases have been
+    fixed.
+
+  - The use of an invalid syntax as the sbml:units attribute on a math
+    <cn> element was not being detected. This has been fixed. Thanks
+    to Nicolas Rodriguez for the report.
+
+  - The SBMLTransforms::evaluateASTNode function missed the fact that
+    in SBML Level 2, stoichiometry defaulted to '1'. This has been
+    corrected.
+
+  - The use of certain combinations of text elements in a <notes> element
+    could derail the entire indentation of the document. This has been
+    reported by several people. Hopefully this time we have fixed the
+    situation for all cases where it may occur. 
+
+  - The interactive help text stored with the functions and classes in
+    the Python bindings had many formatting problems and outright
+    omissions due to bugs in our "rewrite_pydoc.py" code. Many of
+    these problems should be fixed now.
+
+  - 'fbc' package-specific bug fixes:
+
+    - Validation incorrectly reported an empty <listOfFluxObjectives>
+      even when a model was being created and did in fact have a
+      <fluxObjective> element. This has been fixed. Thanks to Arthur
+      Goldberg for reporting it.
+
+    - An empty <geneProductAssociation> caused the reading of model
+      files to crash libSBML. This no longer happens.
+
+  - 'layout' package-specific bug fixes:
+
+    - Conversion between Level 2 annotations using both layout and render
+      and Level 3 packages has been corrected.
+  
+  - 'qual' package-specific bug fixes:
+
+     - Functions to get math on a <functionTerm> element were missing
+       from the C API. They have been added.
+
+* Configuration/build system changes
+
+  - SourceForge Tracker item #447: Configuration no longer defines
+    HAVE_IEEEFP_H when using MSVC compilers as it is not needed 
+    and not always present. Thanks to Alan Garny for spotting this.
+
+  - SourceForge Tracker item #443 & separate unreported problems:
+    Build failures with Java 9 should be fixed now.  Thanks to Chris
+    West for reporting the issue related to building the docs.
+
+* Miscellaneous
+
+  - SWIG only supports Javascript node 6x. Thus we cannot currently
+    support later versions of node.
+
+  - Documentation for the C API has been extensively improved.
+
+  - Support has been added for Python 2 unicode input.
+
+  - Currently we supply lib files built with MSVC2010 as part of the 
+    windows installers. These will be removed from future releases. 
+    Please let us know if this is an issue for you.
+
+
+EXPERIMENTAL RELEASE
+
+* New features
+
+  - 'render' package-specific updates:
+
+    - At the request of the SBMLEditors the attribute 'name' has been
+      added to render elements.
+
+ * Bug fixes
+ 
+  - 'render' package-specific bug fixes:
+
+    - Conversion between Level 2 annotations using both layout and
+      render and Level 3 packages has been corrected.
+
+  - 'spatial' package-specific bug fixes:
+
+    - There was a mismatch in the SetOperation enumeration in the
+      specification.  This has been agreed as 'union', 'intersection'
+      and 'difference' and libSBML code has changed to reflect this.
+
+    - Corrected the output of a <csGeometry> element to correctly use
+      an upper case G.
+      
+
 
 ====================================================================
 5.15.2 (2017-07-27)

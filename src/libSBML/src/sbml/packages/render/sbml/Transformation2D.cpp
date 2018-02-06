@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -242,7 +242,8 @@ void Transformation2D::addTransformation2DAttributes(const Transformation2D& tra
  */
 void Transformation2D::writeAttributes (XMLOutputStream& stream) const
 {
-  SBase::writeAttributes(stream);
+  Transformation::writeAttributes(stream);
+  
   if(this->isSetMatrix() && memcmp(this->mMatrix,getIdentityMatrix(),12*sizeof(double))!=0)
     {
         stream.writeAttribute("transform", getPrefix(), this->get2DTransformationString());
@@ -324,7 +325,7 @@ void Transformation2D::setMatrix(const double m[12])
 void
 Transformation2D::addExpectedAttributes(ExpectedAttributes& attributes)
 {
-  SBase::addExpectedAttributes(attributes);
+  Transformation::addExpectedAttributes(attributes);
 
   attributes.add("transform");
 }
@@ -333,7 +334,7 @@ Transformation2D::addExpectedAttributes(ExpectedAttributes& attributes)
 /** @cond doxygenLibsbmlInternal */
 void Transformation2D::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
-    SBase::readAttributes(attributes, expectedAttributes);
+    Transformation::readAttributes(attributes, expectedAttributes);
     std::string s;
     attributes.readInto("transform", s, getErrorLog(), false, getLine(), getColumn());
     if(!s.empty())

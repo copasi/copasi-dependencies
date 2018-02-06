@@ -8,7 +8,7 @@
 ## This sample program is distributed under a different license than the rest
 ## of libSBML.  This program uses the open-source MIT license, as follows:
 ##
-## Copyright (c) 2013-2017 by the California Institute of Technology
+## Copyright (c) 2013-2018 by the California Institute of Technology
 ## (California, USA), the European Bioinformatics Institute (EMBL-EBI, UK)
 ## and the University of Heidelberg (Germany), with support from the National
 ## Institutes of Health (USA) under grant R01GM070923.  All rights reserved.
@@ -50,43 +50,43 @@ def main (args):
     print(main.__doc__)
     sys.exit(2)
 
-  d = readSBML(args[1]);
-  errors = d.getNumErrors();
-  
-  if (errors > 0):
-    print("Read Error(s):\n");
-    d.printErrors();
-    
-    print("Correct the above and re-run.\n");
+  d = readSBML(args[1])
+  errors = d.getNumErrors()
+
+  if errors > 0:
+    print("Read Error(s):\n")
+    d.printErrors()
+
+    print("Correct the above and re-run.\n")
   else:
-    n = d.getModel().getNumReactions();
-    
-    if (n <= 0):
-        print("Model has no reactions.\n Cannot add CV terms\n");
+    n = d.getModel().getNumReactions()
+
+    if n <= 0:
+        print("Model has no reactions.\n Cannot add CV terms\n")
     else:
-        r = d.getModel().getReaction(0);
-    
+        r = d.getModel().getReaction(0)
+
         # check that the reaction has a metaid
         # no CVTerms will be added if there is no metaid to reference
         # 
-        if ( not r.isSetMetaId()):
-            r.setMetaId("metaid_0000052");
-    
-        cv1 = CVTerm(BIOLOGICAL_QUALIFIER);
-        cv1.setBiologicalQualifierType(BQB_IS_DESCRIBED_BY);
-        cv1.addResource("urn:miriam:obo.eco:ECO%3A0000183");
-    
-        r.addCVTerm(cv1);
-    
-        cv2 = CVTerm(BIOLOGICAL_QUALIFIER);
-        cv2.setBiologicalQualifierType(BQB_IS);
-        cv2.addResource("urn:miriam:kegg.reaction:R00756");
-        cv2.addResource("urn:miriam:reactome:REACT_736");
-    
-        r.addCVTerm(cv2);
-    
-        writeSBML(d, args[2]);
-  return errors;
+        if not r.isSetMetaId():
+            r.setMetaId("metaid_0000052")
+
+        cv1 = CVTerm(BIOLOGICAL_QUALIFIER)
+        cv1.setBiologicalQualifierType(BQB_IS_DESCRIBED_BY)
+        cv1.addResource("urn:miriam:obo.eco:ECO%3A0000183")
+
+        r.addCVTerm(cv1)
+
+        cv2 = CVTerm(BIOLOGICAL_QUALIFIER)
+        cv2.setBiologicalQualifierType(BQB_IS)
+        cv2.addResource("urn:miriam:kegg.reaction:R00756")
+        cv2.addResource("urn:miriam:reactome:REACT_736")
+
+        r.addCVTerm(cv2)
+
+        writeSBML(d, args[2])
+  return errors
 
 
 if __name__ == '__main__':

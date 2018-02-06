@@ -281,13 +281,16 @@ START_TEST ( test_Group_addChildElement )
     delete pPolygon;
     fail_unless(G->getNumElements() == 6);
     Text* pText=new Text(renderns);
+    // empty text is valid !
     fail_unless(pText != NULL);
-    fail_unless(G->addChildElement(pText) == LIBSBML_INVALID_OBJECT);
-    fail_unless(G->getNumElements() == 6);
+    fail_unless(G->addChildElement(pText) == LIBSBML_OPERATION_SUCCESS);
+    fail_unless(G->getNumElements() == 7);
+    delete pText;
+    pText = new Text(renderns);
     pText->setText("My Text");
     fail_unless(G->addChildElement(pText) == LIBSBML_OPERATION_SUCCESS);
     delete pText;
-    fail_unless(G->getNumElements() == 7);
+    fail_unless(G->getNumElements() == 8);
 }
 END_TEST
 

@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -241,16 +241,16 @@ ModifierSpeciesReference::getAttribute(const std::string& attributeName,
  * Gets the value of the "attributeName" attribute of this
  * ModifierSpeciesReference.
  */
-int
-ModifierSpeciesReference::getAttribute(const std::string& attributeName,
-                                       const char* value) const
-{
-  int return_value = SimpleSpeciesReference::getAttribute(attributeName,
-    value);
-
-  return return_value;
-}
-
+//int
+//ModifierSpeciesReference::getAttribute(const std::string& attributeName,
+//                                       const char* value) const
+//{
+//  int return_value = SimpleSpeciesReference::getAttribute(attributeName,
+//    value);
+//
+//  return return_value;
+//}
+//
 /** @endcond */
 
 
@@ -380,15 +380,15 @@ ModifierSpeciesReference::setAttribute(const std::string& attributeName,
  * Sets the value of the "attributeName" attribute of this
  * ModifierSpeciesReference.
  */
-int
-ModifierSpeciesReference::setAttribute(const std::string& attributeName,
-                                       const char* value)
-{
-  int return_value = SimpleSpeciesReference::setAttribute(attributeName,
-    value);
-
-  return return_value;
-}
+//int
+//ModifierSpeciesReference::setAttribute(const std::string& attributeName,
+//                                       const char* value)
+//{
+//  int return_value = SimpleSpeciesReference::setAttribute(attributeName,
+//    value);
+//
+//  return return_value;
+//}
 
 /** @endcond */
 

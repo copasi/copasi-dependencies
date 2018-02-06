@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -429,26 +429,6 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this FunctionTerm.
-   *
-   * @param attributeName, the name of the attribute to retrieve.
-   *
-   * @param value, the address of the value to record.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int getAttribute(const std::string& attributeName,
-                           const char* value) const;
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
    * Predicate returning @c true if this FunctionTerm's attribute
    * "attributeName" is set.
    *
@@ -555,26 +535,6 @@ public:
    */
   virtual int setAttribute(const std::string& attributeName,
                            const std::string& value);
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
-   * Sets the value of the "attributeName" attribute of this FunctionTerm.
-   *
-   * @param attributeName, the name of the attribute to set.
-   *
-   * @param value, the value of the attribute to set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int setAttribute(const std::string& attributeName, const char*
-    value);
 
   /** @endcond */
 
@@ -1065,7 +1025,74 @@ FunctionTerm_unsetResultLevel(FunctionTerm_t * ft);
 
 
 /**
-  * Predicate returning @c true or @c false depending on whether
+ * Returns the value of the "math" element of this FunctionTerm_t.
+ *
+ * @param ft the FunctionTerm_t structure whose math is sought.
+ *
+ * @return the value of the "math" element of this FunctionTerm_t as a
+ * ASTNode_t.
+ *
+ * @memberof FunctionTerm_t
+ */
+LIBSBML_EXTERN
+const ASTNode_t*
+FunctionTerm_getMath(const FunctionTerm_t * ft);
+
+
+/**
+ * Predicate returning @c 1 (true) if this FunctionTerm_t's "math" element is
+ * set.
+ *
+ * @param ft the FunctionTerm_t structure.
+ *
+ * @return @c 1 (true) if this FunctionTerm_t's "math" element has been set,
+ * otherwise @c 0 (false) is returned.
+ *
+ * @memberof FunctionTerm_t
+ */
+LIBSBML_EXTERN
+int
+FunctionTerm_isSetMath(const FunctionTerm_t * ft);
+
+
+/**
+ * Sets the value of the "math" element of this FunctionTerm_t.
+ *
+ * @param ft the FunctionTerm_t structure.
+ *
+ * @param math ASTNode_t value of the "math" element to be set.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof FunctionTerm_t
+ */
+LIBSBML_EXTERN
+int
+FunctionTerm_setMath(FunctionTerm_t * ft, const ASTNode_t* math);
+
+
+/**
+ * Unsets the value of the "math" element of this FunctionTerm_t.
+ *
+ * @param ft the FunctionTerm_t structure.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof FunctionTerm_t
+ */
+LIBSBML_EXTERN
+int
+FunctionTerm_unsetMath(FunctionTerm_t * ft);
+
+
+/**
+  * Predicate returning @c 1 (true) or @c 0 (false) depending on whether
   * all the required attributes for the given FunctionTerm_t structure
   * have been set.
   *
@@ -1073,11 +1100,11 @@ FunctionTerm_unsetResultLevel(FunctionTerm_t * ft);
  */
 LIBSBML_EXTERN
 int
-FunctionTerm_hasRequiredAttributes(FunctionTerm_t * ft);
+FunctionTerm_hasRequiredAttributes(const FunctionTerm_t * ft);
 
 
 /**
-  * Predicate returning @c true or @c false depending on whether
+  * Predicate returning @c 1 (true) or @c 0 (false) depending on whether
   * all the required elements for the given FunctionTerm_t structure
   * have been set.
   *
@@ -1088,7 +1115,7 @@ FunctionTerm_hasRequiredAttributes(FunctionTerm_t * ft);
  */
 LIBSBML_EXTERN
 int
-FunctionTerm_hasRequiredElements(FunctionTerm_t * ft);
+FunctionTerm_hasRequiredElements(const FunctionTerm_t * ft);
 
 
 /**

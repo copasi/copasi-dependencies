@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -51,9 +51,12 @@ LIBSBML_CPP_NAMESPACE_BEGIN
  * @param a absolute value
  * @param a relative value in % (50 -> 50%)
  */
-RelAbsVector::RelAbsVector(double a,double r):mAbs(a),mRel(r)
+RelAbsVector::RelAbsVector(double a, double r)
+  : mAbs(a)
+  , mRel(r)
 {
 }
+
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
@@ -62,9 +65,12 @@ RelAbsVector::RelAbsVector(double a,double r):mAbs(a),mRel(r)
  * If the string does not represent a valid value, the relative and the
  * absolute component of the RelAbsVector are set to NaN.
  */
-RelAbsVector::RelAbsVector(const std::string& coordString):mAbs(0.0),mRel(0.0)
+RelAbsVector::RelAbsVector(const std::string& coordString)
+  : mAbs(0.0)
+  , mRel(0.0)
 {
-    setCoordinate(coordString);
+  if (!coordString.empty())
+  setCoordinate(coordString);
 }
 /** @endcond */
 
@@ -332,6 +338,21 @@ RelAbsVector& RelAbsVector::operator=(const RelAbsVector& src)
         this->mRel=src.mRel;
     }
     return *this;
+}
+bool RelAbsVector::empty() const
+{
+  return ((mAbs == 0.0 || util_isNaN(mAbs)) && (mRel == 0.0 || util_isNaN(mRel)));
+}
+std::string RelAbsVector::toString() const
+{
+  std::stringstream str;
+  str << *this;
+  return str.str();
+}
+void RelAbsVector::erase()
+{
+  mAbs = 0;
+  mRel = 0;
 }
 /** @endcond */
 

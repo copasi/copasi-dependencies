@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -178,7 +178,6 @@ parseGlobalRenderAnnotation(XMLNode * annotation, ListOfLayouts* pLOL)
         if(namespaces.getIndex("http://projects.eml.org/bcb/sbml/render/version1_0")!=-1)
         {
           RenderTop = &(annotation->getChild(n));
-          plugin->getListOfGlobalRenderInformation()->setVersion(1,0);
           break;
         }
         // keep this in to read the render information prior to version 1
@@ -186,7 +185,6 @@ parseGlobalRenderAnnotation(XMLNode * annotation, ListOfLayouts* pLOL)
         else if(namespaces.getIndex("http://projects.eml.org/bcb/sbml/render/level2")!=-1)
         {
           RenderTop = &(annotation->getChild(n));
-          plugin->getListOfGlobalRenderInformation()->setVersion(0,0);          
           break;
         }
       }
@@ -220,11 +218,6 @@ parseGlobalRenderAnnotation(XMLNode * annotation, ListOfLayouts* pLOL)
         plugin->getListOfGlobalRenderInformation()->setNotes(new XMLNode(RenderTop->getChild(n)));
       }
       n++;
-    }
-    // if the version is lower than 1.0, we set it to 1.0
-    if(plugin->getListOfGlobalRenderInformation()->getMajorVersion()<1)
-    {
-        plugin->getListOfGlobalRenderInformation()->setVersion(1,0);
     }
   }
 }
@@ -341,14 +334,12 @@ parseLocalRenderAnnotation(XMLNode * annotation, Layout* pLayout)
         if(namespaces.getIndex("http://projects.eml.org/bcb/sbml/render/version1_0")!=-1)
         {
           RenderTop = &(annotation->getChild(n));
-          plugin->getListOfLocalRenderInformation()->setVersion(1,0);
           break;
         }
         // keep in the read render information from the first draft
         else if(namespaces.getIndex("http://projects.eml.org/bcb/sbml/render/level2")!=-1)
         {
           RenderTop = &(annotation->getChild(n));
-          plugin->getListOfLocalRenderInformation()->setVersion(0,0);
           break;
         }
       }
@@ -383,10 +374,6 @@ parseLocalRenderAnnotation(XMLNode * annotation, Layout* pLayout)
         plugin->getListOfLocalRenderInformation()->setNotes(new XMLNode(RenderTop->getChild(n)));
       }
       n++;
-    }
-    if(plugin->getListOfLocalRenderInformation()->getMajorVersion()<1)
-    {
-        plugin->getListOfLocalRenderInformation()->setVersion(1,0);
     }
   }
 }

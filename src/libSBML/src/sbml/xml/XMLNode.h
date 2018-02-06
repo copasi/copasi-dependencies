@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -436,11 +436,14 @@ public:
    *
    * @param ignoreURI whether to ignore the namespace URI when doing the
    * comparison.
+   * 
+   * @param ignoreAttributeValues whetehr to ignore attribute values when 
+   *        doing the comparison.
    *
    * @return boolean indicating whether this XMLNode represents the same XML
    * tree as another.
    */
-  bool equals(const XMLNode& other, bool ignoreURI=false) const;
+  bool equals(const XMLNode& other, bool ignoreURI=false, bool ignoreAttributeValues=false) const;
 	
 
   /**
@@ -459,6 +462,13 @@ public:
    * is to be written.
    */
   void write (XMLOutputStream& stream) const;
+
+  /** @endcond */
+
+  /** @cond doxygenLibsbmlInternal */
+
+  void writeToStream(XMLOutputStream& stream) const;
+
   /** @endcond */
 
 

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -834,7 +834,7 @@ ExternalModelDefinition_unsetModelRef(ExternalModelDefinition_t * emd);
 
 
 /**
-  * Predicate returning @c true or @c false depending on whether
+  * Predicate returning @c 1 (true) or @c 0 (false) depending on whether
   * all the required attributes for the given ExternalModelDefinition_t structure
   * have been set.
   *
@@ -847,45 +847,6 @@ ExternalModelDefinition_unsetModelRef(ExternalModelDefinition_t * emd);
 LIBSBML_EXTERN
 int
 ExternalModelDefinition_hasRequiredAttributes(ExternalModelDefinition_t * emd);
-
-
-/**
- * Return the ExternalModelDefinition_t indicated by the given @p sid.
- *
- * @param lo the ListOf_t structure to use.
- *
- * @param sid a string, the identifier of the
- * ExternalModelDefinition_t being sought.
- *
- * @return the ExternalModelDefinition_t for the given variable, or @c NULL if no such
- * ExternalModelDefinition_t exists.
- *
- * @memberof ListOfExternalModelDefinitions_t
- */
-LIBSBML_EXTERN
-ExternalModelDefinition_t *
-ListOfExternalModelDefinitions_getById(ListOf_t * lo, const char * sid);
-
-
-/**
- * Removes the ExternalModelDefinition_t structure with the given @p sid
- * from the given ListOf_t structure and returns a pointer to it.
- *
- * The caller owns the returned structure and is responsible for deleting it.
- *
- * @param lo the ListOf_t structure.
- * @param sid the string of the "id" attribute of the ExternalModelDefinition_t sought.
- *
- * @return the ExternalModelDefinition_t structure removed.  As mentioned above, the 
- * caller owns the returned structure. @c NULL is returned if no ExternalModelDefinition_t
- * structure with the "id" attribute exists in the given ListOf_t structure.
- *
- * @memberof ListOfExternalModelDefinitions_t
- */
-LIBSBML_EXTERN
-ExternalModelDefinition_t *
-ListOfExternalModelDefinitions_removeById(ListOf_t * lo, const char * sid);
-
 
 
 END_C_DECLS

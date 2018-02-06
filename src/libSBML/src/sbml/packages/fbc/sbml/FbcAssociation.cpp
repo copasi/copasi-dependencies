@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -549,23 +549,6 @@ FbcAssociation::getAttribute(const std::string& attributeName,
 
 
 
-/** @cond doxygenLibsbmlInternal */
-
-/*
- * Gets the value of the "attributeName" attribute of this Association.
- */
-int
-FbcAssociation::getAttribute(const std::string& attributeName,
-                          const char* value) const
-{
-  int return_value = SBase::getAttribute(attributeName, value);
-
-  return return_value;
-}
-
-/** @endcond */
-
-
 
 /** @cond doxygenLibsbmlInternal */
 
@@ -670,22 +653,6 @@ FbcAssociation::setAttribute(const std::string& attributeName,
 
 /** @endcond */
 
-
-
-/** @cond doxygenLibsbmlInternal */
-
-/*
- * Sets the value of the "attributeName" attribute of this Association.
- */
-int
-FbcAssociation::setAttribute(const std::string& attributeName, const char* value)
-{
-  int return_value = SBase::setAttribute(attributeName, value);
-
-  return return_value;
-}
-
-/** @endcond */
 
 
 
@@ -861,7 +828,7 @@ ListOfFbcAssociations::clone () const
 
 /*
  * Get a FbcAssociation from the ListOfFbcAssociations by index.
-*/
+ */
 FbcAssociation*
 ListOfFbcAssociations::get(unsigned int n)
 {
@@ -1210,7 +1177,6 @@ ListOfFbcAssociations::isValidTypeForList(SBase * item)
     return code == getItemTypeCode() || code == SBML_FBC_AND || code == SBML_FBC_OR || code == SBML_FBC_GENEPRODUCTREF ;
 }
 
-LIBSBML_CPP_NAMESPACE_END
 
 #endif /* __cplusplus */
 
@@ -1255,9 +1221,6 @@ FbcAssociation_hasRequiredAttributes(const FbcAssociation_t * fa)
 }
 
 
-/*
- *
- */
 LIBSBML_EXTERN
 FbcAssociation_t *
 ListOfFbcAssociations_getById(ListOf_t * lo, const char * sid)
@@ -1269,9 +1232,6 @@ ListOfFbcAssociations_getById(ListOf_t * lo, const char * sid)
 }
 
 
-/*
- *
- */
 LIBSBML_EXTERN
 FbcAssociation_t *
 ListOfFbcAssociations_removeById(ListOf_t * lo, const char * sid)
@@ -1303,6 +1263,7 @@ FbcAssociation_parseFbcInfixAssociation(const char * infix, SBasePlugin_t* plugi
 }
 
 
+LIBSBML_CPP_NAMESPACE_END
 
 
 

@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -280,7 +280,7 @@ XMLOutputStream::endElement (const std::string& name, const std::string& prefix)
  * XMLOutputStream.
  */
 void
-XMLOutputStream::endElement (const XMLTriple& triple)
+XMLOutputStream::endElement (const XMLTriple& triple, bool text)
 {
 
   if (mInStart)
@@ -288,7 +288,7 @@ XMLOutputStream::endElement (const XMLTriple& triple)
     mInStart = false;
     mStream << '/' << '>';
   }
-  else if (mInText)
+  else if (mInText || text)
   {
     mInText = false;
     mSkipNextIndent = false;
@@ -1148,6 +1148,16 @@ string XMLOutputStream::getLibraryVersion()
 void XMLOutputStream::setLibraryVersion(const string& libraryVersion)
 {
   mLibraryVersion = libraryVersion;
+}
+
+unsigned int XMLOutputStream::getIndent()
+{
+  return mIndent;
+}
+
+void XMLOutputStream::setIndent(unsigned int indent)
+{
+  mIndent = indent;
 }
 
 XMLOutputStream::~XMLOutputStream()

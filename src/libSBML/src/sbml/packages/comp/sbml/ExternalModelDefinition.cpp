@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -922,28 +922,6 @@ int
 ExternalModelDefinition_hasRequiredAttributes(ExternalModelDefinition_t * emd)
 {
   return (emd != NULL) ? static_cast<int>(emd->hasRequiredAttributes()) : 0;
-}
-
-
-LIBSBML_EXTERN
-ExternalModelDefinition_t *
-ListOfExternalModelDefinitions_getById(ListOf_t * lo, const char * sid)
-{
-  if (lo == NULL)
-    return NULL;
-
-  return (sid != NULL) ? static_cast <ListOfExternalModelDefinitions *>(lo)->get(sid) : NULL;
-}
-
-
-LIBSBML_EXTERN
-ExternalModelDefinition_t *
-ListOfExternalModelDefinitions_removeById(ListOf_t * lo, const char * sid)
-{
-  if (lo == NULL)
-    return NULL;
-
-  return (sid != NULL) ? static_cast <ListOfExternalModelDefinitions *>(lo)->remove(sid) : NULL;
 }
 /** @endcond */
 

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -2208,13 +2208,13 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
 
 
   /**
-  * Returns the Version within the SBML Level of the actual object.
+  * Returns the SBML Core Version within the SBML Level of the actual object.
   *
   * @copydetails doc_what_is_SBMLDocument
   *
-  * @return the SBML version of this SBML object.
+  * @return the SBML core version of this SBML object.
   */
-  unsigned int getObjectVersion() const;
+  unsigned int getPackageCoreVersion() const;
 
 
   /**
@@ -2377,7 +2377,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
 
   /** @endcond */
 
-   virtual int getAttribute(const std::string& attributeName, const char * value) const;
+//   virtual int getAttribute(const std::string& attributeName, const char * value) const;
 
 
    virtual bool isSetAttribute(const std::string& attributeName) const;
@@ -2416,7 +2416,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
 
   /** @cond doxygenLibsbmlInternal */
 
-   virtual int setAttribute(const std::string& attributeName, const char* value);
+//   virtual int setAttribute(const std::string& attributeName, const char* value);
 
   /** @endcond */
 
@@ -2511,6 +2511,11 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
   /**
    * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
    * package extension with the given package name or URI.
+   * The returned plug-in will be the appropriate type of plugin requested:
+   * calling Model::getPlugin("fbc") will return an FbcModelPlugin; calling
+   * Parameter::getPlugin("comp") will return CompSBasePlugin, etc.
+   *
+   * If no such plugin exists, NULL is returned.
    *
    * @copydetails doc_what_are_plugins
    *
@@ -2527,6 +2532,11 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
   /**
    * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
    * package extension with the given package name or URI.
+   * The returned plug-in will be the appropriate type of plugin requested:
+   * calling Model::getPlugin("fbc") will return an FbcModelPlugin; calling
+   * Parameter::getPlugin("comp") will return CompSBasePlugin, etc.
+   *
+   * If no such plugin exists, NULL is returned.
    *
    * @copydetails doc_what_are_plugins
    *
@@ -2543,6 +2553,11 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
   /**
    * Returns the nth plug-in object (extension interface) for an SBML Level&nbsp;3
    * package extension.
+   * The returned plug-in will be the appropriate type of plugin requested:
+   * calling Model::getPlugin("fbc") will return an FbcModelPlugin; calling
+   * Parameter::getPlugin("comp") will return CompSBasePlugin, etc.
+   *
+   * If no such plugin exists, NULL is returned.
    *
    * @copydetails doc_what_are_plugins
    *
@@ -2560,6 +2575,11 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
   /**
    * Returns the nth plug-in object (extension interface) for an SBML Level&nbsp;3
    * package extension.
+   * The returned plug-in will be the appropriate type of plugin requested:
+   * calling Model::getPlugin("fbc") will return an FbcModelPlugin; calling
+   * Parameter::getPlugin("comp") will return CompSBasePlugin, etc.
+   *
+   * If no such plugin exists, NULL is returned.
    *
    * @copydetails doc_what_are_plugins
    *
@@ -2576,7 +2596,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
 
   /**
    * Returns the nth disabled plug-in object (extension interface) for an SBML Level&nbsp;3
-   * package extension.
+   * package extension.  If no such plugin exists, NULL is returned.
    *
    * @copydetails doc_what_are_plugins
    *
@@ -2595,7 +2615,7 @@ s.setNotes("<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
 
   /**
    * Returns the nth disabled plug-in object (extension interface) for an SBML Level&nbsp;3
-   * package extension.
+   * package extension.  If no such plugin exists, NULL is returned.
    *
    * @copydetails doc_what_are_plugins
    *
@@ -4958,21 +4978,21 @@ SBase_getElementName (const SBase_t *sb);
 
 
 /**
-* Returns the package name for the given SBase_t structure
-*
-* @param sb the SBase_t structure.
-*
-* @return the package name for the given SBase_t structure or
-* NULL.
-*
-* @see SBase_getElementName()
-* @see SBase_getTypeCode()
-*
-* @memberof SBase_t
-*/
+ * Returns the package name for the given SBase_t structure
+ *
+ * @param sb the SBase_t structure.
+ *
+ * @return the package name for the given SBase_t structure or
+ * NULL.
+ *
+ * @see SBase_getElementName()
+ * @see SBase_getTypeCode()
+ *
+ * @memberof SBase_t
+ */
 LIBSBML_EXTERN
-const char *
-SBase_getPackageName(const SBase_t *sb);
+char *
+SBase_getPackageName(const SBaseExtensionPoint_t *sb);
 
 
 /**
@@ -5025,6 +5045,11 @@ SBase_getNumPlugins(SBase_t *sb);
 /**
  * Returns a plug-in structure (extension interface) for an SBML Level&nbsp;3
  * package extension with the given package name or URI.
+ * The returned plug-in will be the appropriate type of plugin requested:
+ * calling SBase_getPlugin(model, "fbc") will return an FbcModelPlugin; calling
+ * SBase_getPlugin(parameter, "comp") will return CompSBasePlugin, etc.
+ *
+ * If no such plugin exists, NULL is returned.
  *
  * @copydetails doc_what_are_plugins
  *

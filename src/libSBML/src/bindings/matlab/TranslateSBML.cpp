@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -217,7 +217,7 @@ private:
 
   void addCVTerms(const std::string& name, unsigned int index);
 
-  void freeMemory();
+  void freeStructureMemory();
 
 protected:
 
@@ -444,6 +444,8 @@ void populatePackageLists()
   //reqdPkgPrefixes.append("spatial");
 
   unreqdPkgPrefixes.append("fbc");
+  unreqdPkgPrefixes.append("qual");
+  unreqdPkgPrefixes.append("groups");
 }
 
 
@@ -487,20 +489,40 @@ StructureFields::~StructureFields()
 {
   // must not do this as it can be a part of a larger model
 //  delete mSBase;
-  mxDestroyArray(mxStructure);
-  mxDestroyArray(mxFieldnames);
-  mxDestroyArray(mxDefaultValues);
-  mxDestroyArray(mxValueTypes);
+  //mxDestroyArray(mxStructure);
+  //mxDestroyArray(mxFieldnames);
+  //mxDestroyArray(mxDefaultValues);
+  //mxDestroyArray(mxValueTypes);
+  // MATLAB says dont call destroy array in a destructor
+  // https://uk.mathworks.com/help/matlab/matlab_external/memory-management-issues.html
+  //mxDestroyArray(mxStructure);
+  //mxDestroyArray(mxFieldnames);
+  //mxDestroyArray(mxDefaultValues);
+  //mxDestroyArray(mxValueTypes);
 }
 
 void
-StructureFields::freeMemory()
+StructureFields::freeStructureMemory()
 {
   mxDestroyArray(mxFieldnames);
   mxDestroyArray(mxDefaultValues);
   mxDestroyArray(mxValueTypes);
 }
 
+bool
+isUnknownType(std::string tc)
+{
+  if (tc == "(Unknown SBML Type)")
+    return true;
+  else if (tc == "(Unknown SBML Fbc Type)")
+    return true;
+  else if (tc == "(Unknown SBML Groups Type)")
+    return true;
+  else if (tc == "(Unknown SBML Qual Type)")
+    return true;
+  else
+    return false;
+}
 void
 StructureFields::determineTypeCode()
 {
@@ -513,7 +535,7 @@ StructureFields::determineTypeCode()
   // check whether we are using a package object
   PkgIter it = pm.begin();
 
-  while (sbmlTC == "(Unknown SBML Type)" && it != pm.end())
+  while (isUnknownType(sbmlTC) && it != pm.end())
   {
     sbmlTC = SBMLTypeCode_toString(mSBase->getTypeCode(), (it->first).c_str());
     sbmlTC[0] = tolower(sbmlTC[0]);
@@ -569,20 +591,29 @@ StructureFields::populateFields()
       inputCount++;
     }
   }
-
-  if (mexCallMATLAB(1, &mxFieldnames, numberInputs, mxInput, "getStructureFieldnames") != 0)
+  mxArray * exception = NULL;
+  exception = mexCallMATLABWithTrap(1, &mxFieldnames, numberInputs, mxInput, "getStructureFieldnames");
+  if (exception != 0)
   {
+    mexCallMATLAB(0, (mxArray **)NULL, 1, &exception, "throw");
+
     reportError(id, "Failed to get fieldnames");
   }
 
-  if (mexCallMATLAB(1, &mxDefaultValues, numberInputs, mxInput, "getDefaultValues") != 0)
+  exception = mexCallMATLABWithTrap(1, &mxDefaultValues, numberInputs, mxInput, "getDefaultValues");
+  if (exception != 0)
   {
-    reportError(id, "Failed to get default value");
+      mexCallMATLAB(0, (mxArray **)NULL, 1, &exception, "throw");
+
+      reportError(id, "Failed to get default value");
   }
 
-  if (mexCallMATLAB(1, &mxValueTypes, numberInputs, mxInput, "getValueType") != 0)
+  exception = mexCallMATLABWithTrap(1, &mxValueTypes, numberInputs, mxInput, "getValueType");
+  if (exception != 0)
   {
-    reportError(id, "Failed to get value types");
+      mexCallMATLAB(0, (mxArray **)NULL, 1, &exception, "throw");
+
+      reportError(id, "Failed to get value types");
   }
 
   mxDestroyArray(mxInput[0]);
@@ -852,7 +883,7 @@ StructureFields::getNamespacesStructure()
 }
 
 mxArray*
-  createCVTermStructure(int num)
+createCVTermStructure(int num)
 {
   mxArray* mxCVTermReturn;
   mwSize dims[2] = {1, (mwSize)(num)};
@@ -1014,6 +1045,9 @@ StructureFields::addStructureField(const std::string& functionId, SBase* base,
   case TYPE_DOUBLE:
     dvalue = getDoubleValue(functionId, base, name, fieldIndex, usePlugin, prefix);
     mxSetField(mxStructure, index, fieldname.c_str(), mxCreateDoubleScalar(dvalue));
+    break;
+  case TYPE_ELEMENT:
+  default:
     break;
   }
 }
@@ -1602,7 +1636,7 @@ StructureFields::addChildElement(const std::string& name, unsigned int index)
       std::string id = std::string("OutputSBML:addChildElement:") + sf->getTypeCode();
       sf->addAttributes(id, i, n);
 
-      sf->freeMemory();
+      sf->freeStructureMemory();
     }
   }
 }
@@ -2969,10 +3003,11 @@ checkFileExists(FILE_CHAR filename)
       char * msgTxt = NULL;
 #if USE_FILE_WCHAR
       msgTxt = (char *) safe_calloc(wcslen(filename)+35, sizeof(char));
+      sprintf(msgTxt, "File %ws does not exist on this path", filename);
 #else
       msgTxt = (char *) safe_calloc(strlen(filename)+35, sizeof(char));
+      sprintf(msgTxt, "File %s does not exist on this path", filename);
 #endif
-      sprintf(msgTxt, "File %ws does not exist on this path", filename);
       reportError("TranslateSBML:inputArguments:filename", msgTxt);
       safe_free(msgTxt);
     }

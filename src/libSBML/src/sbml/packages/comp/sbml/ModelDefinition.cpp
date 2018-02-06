@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -210,7 +210,7 @@ ModelDefinition::writeAttributes(XMLOutputStream& stream) const
   // the id and name attribute on a ModelDefinition come from the parent model
   // BUT if the document is an L3V2 doc and we are using comp l3v1v1 we need to write
   // the id and name here but still in the sbml ns
-  if (getSBMLDocument()->getVersion() > 1 && this->getObjectVersion() == 1)
+  if (getSBMLDocument()->getVersion() > 1 && this->getPackageCoreVersion() == 1)
   {
     if (isSetId()) {
       stream.writeAttribute("id", getSBMLPrefix(), mId);

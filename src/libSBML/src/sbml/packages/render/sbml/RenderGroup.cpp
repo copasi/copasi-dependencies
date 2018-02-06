@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1205,8 +1205,9 @@ void RenderGroup::writeAttributes (XMLOutputStream& stream) const
     {
         stream.writeAttribute("font-family", getPrefix(), this->mFontFamily);
     }
-    switch(this->mFontStyle)
+    switch(this->mFontStyle)    
     {
+        default:
         case Text::STYLE_UNSET:
             break;
         case Text::STYLE_NORMAL:
@@ -1218,6 +1219,7 @@ void RenderGroup::writeAttributes (XMLOutputStream& stream) const
     }
     switch(this->mFontStyle)
     {
+        default:
         case Text::WEIGHT_UNSET:
             break;
         case Text::WEIGHT_NORMAL:
@@ -1239,6 +1241,7 @@ void RenderGroup::writeAttributes (XMLOutputStream& stream) const
             stream.writeAttribute("text-anchor", getPrefix(), std::string("middle"));
             break;
         case Text::ANCHOR_UNSET:
+        default:
             break;
     }
     switch(this->mVTextAnchor)
@@ -1252,11 +1255,11 @@ void RenderGroup::writeAttributes (XMLOutputStream& stream) const
         case Text::ANCHOR_MIDDLE:
             stream.writeAttribute("vtext-anchor", getPrefix(), std::string("middle"));
             break;
-        /*    
+            
         case Text::ANCHOR_BASELINE:
             stream.writeAttribute("vtext-anchor",std::string("baseline"));
             break;
-        */    
+        default:
         case Text::ANCHOR_UNSET:
             break;
     }
@@ -1326,6 +1329,7 @@ void RenderGroup::addTextAttributes(const RenderGroup& group,XMLAttributes& att)
     }
     switch(group.mFontStyle)
     {
+        default:
         case Text::STYLE_UNSET:
             break;
         case Text::STYLE_NORMAL:
@@ -1337,6 +1341,7 @@ void RenderGroup::addTextAttributes(const RenderGroup& group,XMLAttributes& att)
     }
     switch(group.mFontStyle)
     {
+        default:
         case Text::WEIGHT_UNSET:
             break;
         case Text::WEIGHT_NORMAL:
@@ -1357,6 +1362,7 @@ void RenderGroup::addTextAttributes(const RenderGroup& group,XMLAttributes& att)
         case Text::ANCHOR_MIDDLE:
             att.add("text-anchor","middle");
             break;
+        default:
         case Text::ANCHOR_UNSET:
             break;
     }
@@ -1371,11 +1377,10 @@ void RenderGroup::addTextAttributes(const RenderGroup& group,XMLAttributes& att)
         case Text::ANCHOR_MIDDLE:
             att.add("vtext-anchor","middle");
             break;
-        /*    
         case Text::ANCHOR_BASELINE:
             att.add("vtext-anchor","baseline");
             break;
-        */    
+        default:
         case Text::ANCHOR_UNSET:
             break;
     }

@@ -366,7 +366,6 @@ public:
    * @note The required attributes for a SpeciesTypeComponentIndex object are:
    * @li "id"
    * @li "component"
-   * @li "occur"
    *
    * @return a boolean value indicating whether all the required
    * attributes for this object have been defined.
@@ -659,8 +658,24 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Creates a new SpeciesTypeComponentIndex_t using the given SBML Level,
+ * Version and &ldquo;multi&rdquo; package version.
+ *
+ * @param level an unsigned int, the SBML Level to assign to this
+ * SpeciesTypeComponentIndex_t.
+ *
+ * @param version an unsigned int, the SBML Version to assign to this
+ * SpeciesTypeComponentIndex_t.
+ *
+ * @param pkgVersion an unsigned int, the SBML Multi Version to assign to this
+ * SpeciesTypeComponentIndex_t.
+ *
+ * @copydetails doc_note_setting_lv_pkg
+ *
+ * @copydetails doc_returned_owned_pointer
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 SpeciesTypeComponentIndex_t *
 SpeciesTypeComponentIndex_create(unsigned int level, unsigned int version,
@@ -668,229 +683,381 @@ SpeciesTypeComponentIndex_create(unsigned int level, unsigned int version,
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Frees this SpeciesTypeComponentIndex_t object.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 void
 SpeciesTypeComponentIndex_free(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Creates and returns a deep copy of this SpeciesTypeComponentIndex_t object.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @return a (deep) copy of this SpeciesTypeComponentIndex_t object.
+ *
+ * @copydetails doc_returned_owned_pointer
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 SpeciesTypeComponentIndex_t *
 SpeciesTypeComponentIndex_clone(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Returns the value of the "id" attribute of this SpeciesTypeComponentIndex_t.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure whose id is sought.
+ *
+ * @return the value of the "id" attribute of this SpeciesTypeComponentIndex_t
+ * as a pointer to a string.
+ *
+ * @copydetails doc_returned_owned_char
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 char *
 SpeciesTypeComponentIndex_getId(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Returns the value of the "name" attribute of this
+ * SpeciesTypeComponentIndex_t.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure whose name is sought.
+ *
+ * @return the value of the "name" attribute of this
+ * SpeciesTypeComponentIndex_t as a pointer to a string.
+ *
+ * @copydetails doc_returned_owned_char
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 char *
-SpeciesTypeComponentIndex_getName(SpeciesTypeComponentIndex_t * cr);
+SpeciesTypeComponentIndex_getName(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Returns the value of the "component" attribute of this
+ * SpeciesTypeComponentIndex_t.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure whose component is
+ * sought.
+ *
+ * @return the value of the "component" attribute of this
+ * SpeciesTypeComponentIndex_t as a pointer to a string.
+ *
+ * @copydetails doc_returned_owned_char
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 char *
 SpeciesTypeComponentIndex_getComponent(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
-LIBSBML_EXTERN
-unsigned int
-SpeciesTypeComponentIndex_getOccur(SpeciesTypeComponentIndex_t * stci);
-
-
-/**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Returns the value of the "identifyingParent" attribute of this
+ * SpeciesTypeComponentIndex_t.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure whose
+ * identifyingParent is sought.
+ *
+ * @return the value of the "identifyingParent" attribute of this
+ * SpeciesTypeComponentIndex_t as a pointer to a string.
+ *
+ * @copydetails doc_returned_owned_char
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 char *
 SpeciesTypeComponentIndex_getIdentifyingParent(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Predicate returning @c 1 (true) if this SpeciesTypeComponentIndex_t's "id"
+ * attribute is set.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @return @c 1 (true) if this SpeciesTypeComponentIndex_t's "id" attribute has
+ * been set, otherwise @c 0 (false) is returned.
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_isSetId(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Predicate returning @c 1 (true) if this SpeciesTypeComponentIndex_t's "name"
+ * attribute is set.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @return @c 1 (true) if this SpeciesTypeComponentIndex_t's "name" attribute
+ * has been set, otherwise @c 0 (false) is returned.
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 int
-SpeciesTypeComponentIndex_isSetName(SpeciesTypeComponentIndex_t * cr);
+SpeciesTypeComponentIndex_isSetName(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Predicate returning @c 1 (true) if this SpeciesTypeComponentIndex_t's
+ * "component" attribute is set.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @return @c 1 (true) if this SpeciesTypeComponentIndex_t's "component"
+ * attribute has been set, otherwise @c 0 (false) is returned.
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_isSetComponent(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
-LIBSBML_EXTERN
-int
-SpeciesTypeComponentIndex_isSetOccur(SpeciesTypeComponentIndex_t * stci);
-
-
-/**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Predicate returning @c 1 (true) if this SpeciesTypeComponentIndex_t's
+ * "identifyingParent" attribute is set.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @return @c 1 (true) if this SpeciesTypeComponentIndex_t's
+ * "identifyingParent" attribute has been set, otherwise @c 0 (false) is
+ * returned.
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_isSetIdentifyingParent(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Sets the value of the "id" attribute of this SpeciesTypeComponentIndex_t.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @param id const char * value of the "id" attribute to be set.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * Calling this function with @p id = @c NULL or an empty string is equivalent
+ * to calling SpeciesTypeComponentIndex_unsetId().
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_setId(SpeciesTypeComponentIndex_t * stci, const char * id);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Sets the value of the "name" attribute of this SpeciesTypeComponentIndex_t.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @param name const char * value of the "name" attribute to be set.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * Calling this function with @p name = @c NULL or an empty string is
+ * equivalent to calling SpeciesTypeComponentIndex_unsetName().
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 int
-SpeciesTypeComponentIndex_setName(SpeciesTypeComponentIndex_t * cr, const char * name);
+SpeciesTypeComponentIndex_setName(SpeciesTypeComponentIndex_t * stci, const char * name);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Sets the value of the "component" attribute of this
+ * SpeciesTypeComponentIndex_t.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @param component const char * value of the "component" attribute to be set.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_setComponent(SpeciesTypeComponentIndex_t * stci, const char * component);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
-LIBSBML_EXTERN
-int
-SpeciesTypeComponentIndex_setOccur(SpeciesTypeComponentIndex_t * stci, unsigned int occur);
-
-
-/**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Sets the value of the "identifyingParent" attribute of this
+ * SpeciesTypeComponentIndex_t.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @param identifyingParent const char * value of the "identifyingParent"
+ * attribute to be set.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_setIdentifyingParent(SpeciesTypeComponentIndex_t * stci, const char * identifyingParent);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Unsets the value of the "id" attribute of this SpeciesTypeComponentIndex_t.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_unsetId(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Unsets the value of the "name" attribute of this
+ * SpeciesTypeComponentIndex_t.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 int
-SpeciesTypeComponentIndex_unsetName(SpeciesTypeComponentIndex_t * cr);
+SpeciesTypeComponentIndex_unsetName(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Unsets the value of the "component" attribute of this
+ * SpeciesTypeComponentIndex_t.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_unsetComponent(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
-LIBSBML_EXTERN
-int
-SpeciesTypeComponentIndex_unsetOccur(SpeciesTypeComponentIndex_t * stci);
-
-
-/**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Unsets the value of the "identifyingParent" attribute of this
+ * SpeciesTypeComponentIndex_t.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_unsetIdentifyingParent(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
+ * Predicate returning @c 1 (true) if all the required attributes for this
+ * SpeciesTypeComponentIndex_t object have been set.
+ *
+ * @param stci the SpeciesTypeComponentIndex_t structure.
+ *
+ * @return @c 1 (true) to indicate that all the required attributes of this
+ * SpeciesTypeComponentIndex_t have been set, otherwise @c 0 (false) is
+ * returned.
+ *
+ *
+ * @note The required attributes for the SpeciesTypeComponentIndex_t object
+ * are:
+ * @li "id"
+ * @li "component"
+ *
+ * @memberof SpeciesTypeComponentIndex_t
+ */
 LIBSBML_EXTERN
 int
 SpeciesTypeComponentIndex_hasRequiredAttributes(SpeciesTypeComponentIndex_t * stci);
 
 
 /**
-* @memberof SpeciesTypeComponentIndex_t
-*/
-LIBSBML_EXTERN
-int
-SpeciesTypeComponentIndex_hasRequiredElements(SpeciesTypeComponentIndex_t * stci);
-
-
-/**
-* Return the structure indicated by the given @p sid.
-*
-* @param lo the ListOf_t structure to use.
-*
-* @param sid a string matching the "id" attribute of the element sought.
-*
-* @return the structure for the given variable, or @c NULL if no such
-* object exists in the list.
-*
-* @memberof ListOfSpeciesTypeComponentIndexes_t
-*/
+ * Return the structure indicated by the given @p sid.
+ *
+ * @param lo the ListOf_t structure to use.
+ *
+ * @param sid a string matching the "id" attribute of the element sought.
+ *
+ * @return the structure for the given variable, or @c NULL if no such
+ * object exists in the list.
+ *
+ * @memberof ListOfSpeciesTypeComponentIndexes_t
+ */
 LIBSBML_EXTERN
 SpeciesTypeComponentIndex_t *
 ListOfSpeciesTypeComponentIndexes_getById(ListOf_t * lo, const char * sid);
 
 
 /**
-* Removes the structure with the given @p sid
-* from the given list and returns a pointer to it.
-*
-* The caller owns the returned structure and is responsible for deleting it.
-*
-* @param lo the ListOf_t structure.
-* @param sid a string matching the "id" attribute of the element sought.
-*
-* @return the structure removed.  As mentioned above, the
-* caller owns the returned structure. @c NULL is returned if no
-* structure with the "id" attribute exists in the given list.
-*
-* @memberof ListOfSpeciesTypeComponentIndexes_t
-*/
+ * Removes the structure with the given @p sid
+ * from the given list and returns a pointer to it.
+ *
+ * The caller owns the returned structure and is responsible for deleting it.
+ *
+ * @param lo the ListOf_t structure.
+ * @param sid a string matching the "id" attribute of the element sought.
+ *
+ * @return the structure removed.  As mentioned above, the
+ * caller owns the returned structure. @c NULL is returned if no
+ * structure with the "id" attribute exists in the given list.
+ *
+ * @memberof ListOfSpeciesTypeComponentIndexes_t
+ */
 LIBSBML_EXTERN
 SpeciesTypeComponentIndex_t *
 ListOfSpeciesTypeComponentIndexes_removeById(ListOf_t * lo, const char * sid);

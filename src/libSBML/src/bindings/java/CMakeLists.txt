@@ -7,7 +7,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2017 jointly by the following organizations:
+# Copyright (C) 2013-2018 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -72,6 +72,10 @@ endif()
 if (NOT EXISTS "${PYTHON_EXECUTABLE}")
 	message(FATAL_ERROR "The java language bindings require PYTHON_EXECUTABLE to be set to the python command.")
 endif()
+
+
+set(JAVA_COMPATIBILITY "1.6" CACHE STRING
+  "Specify the source and target compatibility for the libsbml Java bindings. Leave empty to remove the parameter altogether.")
 
 
 ####################################################################
@@ -239,7 +243,7 @@ add_custom_command(
 		   -DSWIG_EXECUTABLE=\"${SWIG_EXECUTABLE}\"
 		   -DWITH_DOXYGEN=\"${WITH_DOXYGEN}\"
 		   -DLIB_NAME=\"${LIBSBML_CSHARP_BINDING_NATIVE_LIBRARY_NAME}\"
-		   -P "${CMAKE_CURRENT_BINARY_DIR}/swig-binding.cmake"
+       -P "${CMAKE_CURRENT_BINARY_DIR}/swig-binding.cmake"
 
 	MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/../swig/libsbml.i
 	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
@@ -299,6 +303,7 @@ ADD_CUSTOM_COMMAND(
 		 -DSRC_DIRECTORY=\"${CMAKE_CURRENT_SOURCE_DIR}\"
 		 -DFILE_SEP=\"${FILE_SEP}\"
 		 -DPATH_SEP=${PATH_SEP}
+     -DCOMPATIBILIY=${JAVA_COMPATIBILITY}
 		 -P "${CMAKE_CURRENT_SOURCE_DIR}/compile-native-files.cmake"
 	
 	MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/java-files/org/sbml/libsbml/libsbml.java
@@ -338,8 +343,19 @@ if(WITH_CHECK)
 			-Xss8m
 	    -Djava.library.path=$<TARGET_FILE_DIR:binding_java_lib>
 			-cp "${jar_file}${FILE_SEP}${current_dir}${FILE_SEP}${test_dir}"
-			AutoTestRunner						    
+			AutoTestRunner
 	)
+
+    # running a basic to check the package version
+	add_test(NAME test_java_printversion 
+			WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+			COMMAND "${Java_JAVA_EXECUTABLE}" 
+			-Xss8m
+	    -Djava.library.path=$<TARGET_FILE_DIR:binding_java_lib>
+			-cp "${jar_file}${FILE_SEP}${current_dir}${FILE_SEP}${test_dir}"
+			TestPrintVersion ${PACKAGE_VERSION}
+	)
+
 	# specify that tests have passed if we find only dots	
 	set_tests_properties(test_java_binding PROPERTIES PASS_REGULAR_EXPRESSION "[.]+" )
 	# specify that tests have failed in case there was one of the words below in the output
@@ -354,6 +370,4 @@ if(WITH_CHECK)
 		endif()
 	endif() 
 
-endif(WITH_CHECK)
-
-
+  endif(WITH_CHECK)

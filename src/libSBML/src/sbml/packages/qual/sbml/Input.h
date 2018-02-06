@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -608,26 +608,6 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Input.
-   *
-   * @param attributeName, the name of the attribute to retrieve.
-   *
-   * @param value, the address of the value to record.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int getAttribute(const std::string& attributeName,
-                           const char* value) const;
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
    * Predicate returning @c true if this Input's attribute "attributeName" is
    * set.
    *
@@ -734,26 +714,6 @@ public:
    */
   virtual int setAttribute(const std::string& attributeName,
                            const std::string& value);
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
-   * Sets the value of the "attributeName" attribute of this Input.
-   *
-   * @param attributeName, the name of the attribute to set.
-   *
-   * @param value, the value of the attribute to set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int setAttribute(const std::string& attributeName, const char*
-    value);
 
   /** @endcond */
 
@@ -1347,10 +1307,10 @@ Input_setName(Input_t * i, const char * name);
 
 
 /**
- * Sets the sign of this Input_t to a copy of the given InputSign_t.
+ * Sets the sign of this Input_t to a copy of the given #InputSign_t.
  *
  * @param i the Input_t structure to set.
- * @param sign the InputSign_t structure to use.
+ * @param sign the #InputSign_t structure to use.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1480,14 +1440,14 @@ Input_unsetThresholdLevel(Input_t * i);
 
 
 /**
-  * Predicate returning @c true or @c false depending on whether
-  * all the required attributes for the given Input_t structure
-  * have been set.
-  *
-  * @note The required attributes for a Input_t structure are:
-  * @li qualitativeSpecies
-  * @li transitionEffect
-  *
+ * Predicate returning @c 1 (true) or @c 0 (false) depending on whether
+ * all the required attributes for the given Input_t structure
+ * have been set.
+ *
+ * @note The required attributes for a Input_t structure are:
+ * @li qualitativeSpecies
+ * @li transitionEffect
+ *
  * @memberof Input_t
  */
 LIBSBML_EXTERN
@@ -1590,8 +1550,8 @@ InputTransitionEffect_isValidInputTransitionEffect(InputTransitionEffect_t effec
 /**
  * Predicate returning @c 1 (true) or @c 0 (false) depending 
  * on whether the given string is a valid #InputTransitionEffect_t.  
- * The matching is case-sensitive:  "none" will return @c true, but 
- * "NONE" will return @c false.
+ * The matching is case-sensitive:  "none" will return @c 1 (true), but 
+ * "NONE" will return @c 0 (false).
  *
  * @param s the string to query.
  * 
@@ -1605,12 +1565,12 @@ int
 InputTransitionEffect_isValidInputTransitionEffectString(const char* s);
 
 /**
- * Returns the string version of the provided InputSign_t enumeration.
+ * Returns the string version of the provided #InputSign_t enumeration.
  *
- * @param effect the InputSign_t enumeration to convert.
+ * @param effect the #InputSign_t enumeration to convert.
  *
  * @return A string corresponding to the given effect:  "positive", 
- * "negative", "dual", "unknown", or @c NULL if the value is INPUT_SIGN_VALUE_NOTSET
+ * "negative", "dual", "unknown", or @c NULL if the value is @sbmlconstant{INPUT_SIGN_VALUE_NOTSET, InputSign_t}
  * or some other invalid enumeration value.
  *
  * @memberof Input_t
@@ -1621,15 +1581,15 @@ InputSign_toString(InputSign_t effect);
 
 
 /**
- * Returns the InputSign_t enumeration corresponding to 
- * the given string, or INPUT_SIGN_VALUE_NOTSET if there is 
+ * Returns the #InputSign_t enumeration corresponding to 
+ * the given string, or @sbmlconstant{INPUT_SIGN_VALUE_NOTSET, InputSign_t} if there is 
  * no such match.  The matching is case-sensitive:  "negative" will 
- * return INPUT_SIGN_NEGATIVE, but "Negative" will return 
- * INPUT_SIGN_VALUE_NOTSET.
+ * return @sbmlconstant{INPUT_SIGN_NEGATIVE, InputSign_t}, but "Negative" will return 
+ * @sbmlconstant{INPUT_SIGN_VALUE_NOTSET, InputSign_t}.
  *
- * @param s the string to convert to an InputSign_t.
+ * @param s the string to convert to an #InputSign_t.
  *
- * @return The corresponding InputSign_t, or INPUT_SIGN_VALUE_NOTSET if no match found.
+ * @return The corresponding #InputSign_t, or @sbmlconstant{INPUT_SIGN_VALUE_NOTSET, InputSign_t} if no match found.
  *
  * @memberof Input_t
  */
@@ -1640,11 +1600,11 @@ InputSign_fromString(const char* s);
 
 /**
  * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the given
- * InputSign_t is valid.
+ * #InputSign_t is valid.
  *
- * @param effect the InputSign_t enumeration to query.
+ * @param effect the #InputSign_t enumeration to query.
  * 
- * @return @c 1 (true) if the InputSign_t is 
+ * @return @c 1 (true) if the #InputSign_t is 
  * @sbmlconstant{INPUT_SIGN_POSITIVE, InputSign_t}, 
  * @sbmlconstant{INPUT_SIGN_NEGATIVE, InputSign_t},
  * @sbmlconstant{INPUT_SIGN_DUAL, InputSign_t}, 
@@ -1660,9 +1620,9 @@ InputSign_isValidInputSign(InputSign_t effect);
 
 /**
  * Predicate returning @c 1 (true) or @c 0 (false) depending 
- * on whether the given string is a valid InputSign_t.  
- * The matching is case-sensitive:  "negative" will return @c true, but 
- * "Negative" will return @c false.
+ * on whether the given string is a valid #InputSign_t.  
+ * The matching is case-sensitive:  "negative" will return @c 1 (true), but 
+ * "Negative" will return @c 0 (false).
  *
  * @param s the string to query.
  * 

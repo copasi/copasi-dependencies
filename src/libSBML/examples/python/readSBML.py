@@ -9,7 +9,7 @@
 ## This sample program is distributed under a different license than the rest
 ## of libSBML.  This program uses the open-source MIT license, as follows:
 ##
-## Copyright (c) 2013-2017 by the California Institute of Technology
+## Copyright (c) 2013-2018 by the California Institute of Technology
 ## (California, USA), the European Bioinformatics Institute (EMBL-EBI, UK)
 ## and the University of Heidelberg (Germany), with support from the National
 ## Institutes of Health (USA) under grant R01GM070923.  All rights reserved.
@@ -49,26 +49,26 @@ def main (args):
   """Usage: readSBML filename
   """
   
-  if (len(args) != 2):
-      print("Usage: readSBML filename");
-      return 1;
-  
-  filename = args[1];
-  current = time.clock();
-  document = readSBML(filename);
-  
-  errors = document.getNumErrors();
-  
-  print;
-  print("            filename: " + filename);
-  print("           file size: " + str(os.stat(filename).st_size));
-  print("      read time (ms): " + str(time.clock() - current));
-  print(" validation error(s): " + str(errors));
-  print;
-  
-  document.printErrors();
-  
-  return errors;
-    
+  if len(args) != 2:
+      print("Usage: readSBML filename")
+      return 1
+
+  filename = args[1]
+  current = time.clock()
+  document = readSBML(filename)
+
+  errors = document.getNumErrors()
+
+  print()
+  print("            filename: " + filename)
+  print("           file size: " + str(os.stat(filename).st_size))
+  print("      read time (ms): " + str(time.clock() - current))
+  print(" validation error(s): " + str(errors))
+  print()
+  document.printErrors()
+
+  return errors
+
+
 if __name__ == '__main__':
   main(sys.argv)  

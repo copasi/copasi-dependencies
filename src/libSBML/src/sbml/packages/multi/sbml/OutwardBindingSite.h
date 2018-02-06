@@ -72,6 +72,35 @@
  */
 
 
+ /**
+ * <!-- ~ ~ ~ ~ ~ Start of common documentation strings ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ * The following text is used as common documentation blocks copied multiple
+ * times elsewhere in this file. The use of @class is a hack needed because
+ * Doxygen's @copydetails command has limited functionality. Symbols
+ * beginning with "doc_" are marked as ignored in our Doxygen configuration.
+ * ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ -->
+ *
+ *
+ * @class doc_outwardbindingsite_bindingStatus
+ *
+ * @par
+ * The attribute "bindingStatus" on a OutwardBindingSite object is used to
+ * describe the status of the binding site.
+ *
+ * In the SBML
+ * Level&nbsp;3 Version&nbsp;1 Multi specification, the following are the
+ * allowable values for "bindingStatus":
+ * <ul>
+ * <li> @c "bound", the binding site is bound.
+ *
+ * <li> @c "unbound", the binding site is not bound.
+ *
+ * <li> @c "either", the binding site may either be bound or unbound.
+ *
+ * </ul>
+ */
+
+
 #ifndef OutwardBindingSite_H__
 #define OutwardBindingSite_H__
 
@@ -293,6 +322,23 @@ public:
    * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
    */
   virtual int setBindingStatus(BindingStatus_t bindingStatus);
+
+
+  /**
+   * Sets the value of the "bindingStatus" attribute of this
+   * OutwardBindingSite.
+   *
+   * @param bindingStatus std::string& of the "bindingStatus" attribute to be
+   * set.
+   *
+   * @copydetails doc_returns_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
+   * OperationReturnValues_t}
+   *
+   * @copydetails doc_outwardbindingsite_bindingStatus
+   */
+  int setBindingStatus(const std::string& bindingStatus);
 
 
   /**
@@ -731,8 +777,24 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 BEGIN_C_DECLS
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Creates a new OutwardBindingSite_t using the given SBML Level, Version and
+ * &ldquo;multi&rdquo; package version.
+ *
+ * @param level an unsigned int, the SBML Level to assign to this
+ * OutwardBindingSite_t.
+ *
+ * @param version an unsigned int, the SBML Version to assign to this
+ * OutwardBindingSite_t.
+ *
+ * @param pkgVersion an unsigned int, the SBML Multi Version to assign to this
+ * OutwardBindingSite_t.
+ *
+ * @copydetails doc_note_setting_lv_pkg
+ *
+ * @copydetails doc_returned_owned_pointer
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 OutwardBindingSite_t *
 OutwardBindingSite_create(unsigned int level, unsigned int version,
@@ -740,205 +802,450 @@ OutwardBindingSite_create(unsigned int level, unsigned int version,
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Frees this OutwardBindingSite_t object.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 void
 OutwardBindingSite_free(OutwardBindingSite_t * obs);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Creates and returns a deep copy of this OutwardBindingSite_t object.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @return a (deep) copy of this OutwardBindingSite_t object.
+ *
+ * @copydetails doc_returned_owned_pointer
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 OutwardBindingSite_t *
 OutwardBindingSite_clone(OutwardBindingSite_t * obs);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Returns the value of the "id" attribute of this OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure whose id is sought.
+ *
+ * @return the value of the "id" attribute of this OutwardBindingSite_t as a
+ * pointer to a string.
+ *
+ * @copydetails doc_returned_owned_char
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 char *
-OutwardBindingSite_getId(OutwardBindingSite_t * cr);
+OutwardBindingSite_getId(const OutwardBindingSite_t * obs);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Returns the value of the "name" attribute of this OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure whose name is sought.
+ *
+ * @return the value of the "name" attribute of this OutwardBindingSite_t as a
+ * pointer to a string.
+ *
+ * @copydetails doc_returned_owned_char
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 char *
-OutwardBindingSite_getName(OutwardBindingSite_t * cr);
+OutwardBindingSite_getName(const OutwardBindingSite_t * obs);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Returns the value of the "bindingStatus" attribute of this
+ * OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure whose bindingStatus is sought.
+ *
+ * @return the value of the "bindingStatus" attribute of this
+ * OutwardBindingSite_t as a BindingStatus_t.
+ *
+ * @copydetails doc_outwardbindingsite_bindingStatus
+ * @if clike The value is drawn from the enumeration @ref BindingStatus_t @endif
+ * The possible values returned by this method are:
+ * @li @sbmlconstant{MULTI_BINDING_STATUS_BOUND, BindingStatus_t}
+ * @li @sbmlconstant{MULTI_BINDING_STATUS_UNBOUND, BindingStatus_t}
+ * @li @sbmlconstant{MULTI_BINDING_STATUS_EITHER, BindingStatus_t}
+ * @li @sbmlconstant{MULTI_BINDING_STATUS_UNKNOWN,
+ * BindingStatus_t}
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 BindingStatus_t
-OutwardBindingSite_getBindingStatus(OutwardBindingSite_t * obs);
+OutwardBindingSite_getBindingStatus(const OutwardBindingSite_t * obs);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Returns the value of the "bindingStatus" attribute of this
+ * OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure whose bindingStatus is sought.
+ *
+ * @return the value of the "bindingStatus" attribute of this
+ * OutwardBindingSite_t as a const char *.
+ *
+ * @copydetails doc_returned_unowned_char
+ *
+ * @copydetails doc_outwardbindingsite_bindingStatus
+ * The possible values returned by this method are:
+ * @li @c "bound"
+ * @li @c "unbound"
+ * @li @c "either"
+ * @li @c "invalid OutwardBindingSiteBindingStatus"
+ *
+ * @memberof OutwardBindingSite_t
+ */
+LIBSBML_EXTERN
+const char *
+OutwardBindingSite_getBindingStatusAsString(const OutwardBindingSite_t * obs);
+
+
+/**
+ * Returns the value of the "component" attribute of this OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure whose component is sought.
+ *
+ * @return the value of the "component" attribute of this OutwardBindingSite_t
+ * as a pointer to a string.
+ *
+ * @copydetails doc_returned_owned_char
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 char *
-OutwardBindingSite_getComponent(OutwardBindingSite_t * obs);
+OutwardBindingSite_getComponent(const OutwardBindingSite_t * obs);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Predicate returning @c 1 (true) if this OutwardBindingSite_t's "id"
+ * attribute is set.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @return @c 1 (true) if this OutwardBindingSite_t's "id" attribute has been
+ * set, otherwise @c 0 (false) is returned.
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int
-OutwardBindingSite_isSetId(OutwardBindingSite_t * cr);
+OutwardBindingSite_isSetId(const OutwardBindingSite_t * obs);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Predicate returning @c 1 (true) if this OutwardBindingSite_t's "name"
+ * attribute is set.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @return @c 1 (true) if this OutwardBindingSite_t's "name" attribute has been
+ * set, otherwise @c 0 (false) is returned.
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int
-OutwardBindingSite_isSetName(OutwardBindingSite_t * cr);
+OutwardBindingSite_isSetName(const OutwardBindingSite_t * obs);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Predicate returning @c 1 (true) if this OutwardBindingSite_t's
+ * "bindingStatus" attribute is set.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @return @c 1 (true) if this OutwardBindingSite_t's "bindingStatus" attribute
+ * has been set, otherwise @c 0 (false) is returned.
+ *
+ * @copydetails doc_outwardbindingsite_bindingStatus
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int
-OutwardBindingSite_isSetBindingStatus(OutwardBindingSite_t * obs);
+OutwardBindingSite_isSetBindingStatus(const OutwardBindingSite_t * obs);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Predicate returning @c 1 (true) if this OutwardBindingSite_t's "component"
+ * attribute is set.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @return @c 1 (true) if this OutwardBindingSite_t's "component" attribute has
+ * been set, otherwise @c 0 (false) is returned.
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int
-OutwardBindingSite_isSetComponent(OutwardBindingSite_t * obs);
+OutwardBindingSite_isSetComponent(const OutwardBindingSite_t * obs);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Sets the value of the "id" attribute of this OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @param id const char * value of the "id" attribute to be set.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * Calling this function with @p id = @c NULL or an empty string is equivalent
+ * to calling OutwardBindingSite_unsetId().
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int
-OutwardBindingSite_setId(OutwardBindingSite_t * cr, const char * id);
+OutwardBindingSite_setId(OutwardBindingSite_t * obs, const char * id);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Sets the value of the "name" attribute of this OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @param name const char * value of the "name" attribute to be set.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * Calling this function with @p name = @c NULL or an empty string is
+ * equivalent to calling OutwardBindingSite_unsetName().
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int
-OutwardBindingSite_setName(OutwardBindingSite_t * cr, const char * name);
+OutwardBindingSite_setName(OutwardBindingSite_t * obs, const char * name);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Sets the value of the "bindingStatus" attribute of this
+ * OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @param bindingStatus BindingStatus_t value of the "bindingStatus" attribute
+ * to be set.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @copydetails doc_outwardbindingsite_bindingStatus
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int
-OutwardBindingSite_setBindingStatus(OutwardBindingSite_t * obs, 
+OutwardBindingSite_setBindingStatus(OutwardBindingSite_t * obs,
                                     BindingStatus_t bindingStatus);
 
+
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Sets the value of the "bindingStatus" attribute of this
+ * OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @param bindingStatus const char * of the "bindingStatus" attribute to be
+ * set.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @copydetails doc_outwardbindingsite_bindingStatus
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int
-OutwardBindingSite_setComponent(OutwardBindingSite_t * obs, const char * component);
+OutwardBindingSite_setBindingStatusAsString(OutwardBindingSite_t * obs,
+                                            const char * bindingStatus);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Sets the value of the "component" attribute of this OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @param component const char * value of the "component" attribute to be set.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int
-OutwardBindingSite_unsetId(OutwardBindingSite_t * cr);
+OutwardBindingSite_setComponent(OutwardBindingSite_t * obs,
+                                const char * component);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Unsets the value of the "id" attribute of this OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int
-OutwardBindingSite_unsetName(OutwardBindingSite_t * cr);
+OutwardBindingSite_unsetId(OutwardBindingSite_t * obs);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Unsets the value of the "name" attribute of this OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof OutwardBindingSite_t
+ */
+LIBSBML_EXTERN
+int
+OutwardBindingSite_unsetName(OutwardBindingSite_t * obs);
+
+
+/**
+ * Unsets the value of the "bindingStatus" attribute of this
+ * OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @copydetails doc_outwardbindingsite_bindingStatus
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int
 OutwardBindingSite_unsetBindingStatus(OutwardBindingSite_t * obs);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Unsets the value of the "component" attribute of this OutwardBindingSite_t.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @copydetails doc_returns_success_code
+ * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+ * @li @sbmlconstant{LIBSBML_INVALID_OBJECT, OperationReturnValues_t}
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int
 OutwardBindingSite_unsetComponent(OutwardBindingSite_t * obs);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * Predicate returning @c 1 (true) if all the required attributes for this
+ * OutwardBindingSite_t object have been set.
+ *
+ * @param obs the OutwardBindingSite_t structure.
+ *
+ * @return @c 1 (true) to indicate that all the required attributes of this
+ * OutwardBindingSite_t have been set, otherwise @c 0 (false) is returned.
+ *
+ *
+ * @note The required attributes for the OutwardBindingSite_t object are:
+ * @li "bindingStatus"
+ * @li "component"
+ *
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int
 OutwardBindingSite_hasRequiredAttributes(OutwardBindingSite_t * obs);
 
 
 /**
-* Return the structure indicated by the given @p sid.
-*
-* @param lo the ListOf_t structure to use.
-*
-* @param sid a string matching the "id" attribute of the element sought.
-*
-* @return the structure for the given variable, or @c NULL if no such
-* object exists in the list.
-*
-* @memberof ListOfOutwardBindingSites_t
-*/
+ * Return the structure indicated by the given @p sid.
+ *
+ * @param lo the ListOf_t structure to use.
+ *
+ * @param sid a string matching the "id" attribute of the element sought.
+ *
+ * @return the structure for the given variable, or @c NULL if no such
+ * object exists in the list.
+ *
+ * @memberof ListOfOutwardBindingSites_t
+ */
 LIBSBML_EXTERN
 OutwardBindingSite_t *
 ListOfOutwardBindingSites_getById(ListOf_t * lo, const char * sid);
 
 
 /**
-* Removes the structure with the given @p sid
-* from the given list and returns a pointer to it.
-*
-* The caller owns the returned structure and is responsible for deleting it.
-*
-* @param lo the ListOf_t structure.
-* @param sid a string matching the "id" attribute of the element sought.
-*
-* @return the structure removed.  As mentioned above, the
-* caller owns the returned structure. @c NULL is returned if no
-* structure with the "id" attribute exists in the given list.
-*
-* @memberof ListOfOutwardBindingSites_t
-*/
+ * Removes the structure with the given @p sid
+ * from the given list and returns a pointer to it.
+ *
+ * The caller owns the returned structure and is responsible for deleting it.
+ *
+ * @param lo the ListOf_t structure.
+ * @param sid a string matching the "id" attribute of the element sought.
+ *
+ * @return the structure removed.  As mentioned above, the
+ * caller owns the returned structure. @c NULL is returned if no
+ * structure with the "id" attribute exists in the given list.
+ *
+ * @memberof ListOfOutwardBindingSites_t
+ */
 LIBSBML_EXTERN
 OutwardBindingSite_t *
 ListOfOutwardBindingSites_removeById(ListOf_t * lo, const char * sid);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int 
 OutwardBindingSite_isValidBindingStatus(BindingStatus_t bindigStatus);
 
 
 /**
-* @memberof OutwardBindingSite_t
-*/
+ * @memberof OutwardBindingSite_t
+ */
 LIBSBML_EXTERN
 int 
 OutwardBindingSite_isValidBindingStatusString(const char* s);

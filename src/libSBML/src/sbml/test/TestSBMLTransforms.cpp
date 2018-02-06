@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -890,13 +890,16 @@ START_TEST(test_SBMLTransforms_evaluateAST_L2SpeciesReference)
   pSR->setId("SR");
   pSR->setSpecies("A");
   KineticLaw* pKL = pReaction->createKineticLaw();
-  pKL->setFormula("A*0.1");
+  ASTNode * node = SBML_parseL3Formula("A*0.1");
+  pKL->setMath(node);
+  delete node;
 
-  double value = SBMLTransforms::evaluateASTNode(SBML_parseFormula("SR"), pMod);
+  node = SBML_parseFormula("SR");
+  double value = SBMLTransforms::evaluateASTNode(node, pMod);
 
   fail_unless(value == 1.0);
 
-
+  delete node;
 }
 END_TEST
 

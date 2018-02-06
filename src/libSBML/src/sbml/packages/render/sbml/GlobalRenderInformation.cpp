@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -42,6 +42,7 @@
 #include <sbml/xml/XMLOutputStream.h>
 #include <sbml/packages/layout/util/LayoutAnnotation.h>
 #include <sbml/packages/render/extension/RenderExtension.h>
+#include <sbml/packages/render/sbml/DefaultValues.h>
 
 #include <algorithm>
 #include <sstream>
@@ -432,7 +433,7 @@ GlobalRenderInformation::addExpectedAttributes(ExpectedAttributes& attributes)
 /** @cond doxygenLibsbmlInternal */
 void GlobalRenderInformation::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
 {
-      ExpectedAttributes ea;
+    ExpectedAttributes ea;
     addExpectedAttributes(ea);
     this->RenderInformationBase::readAttributes(attributes, ea);
 }
@@ -560,7 +561,10 @@ void ListOfGlobalRenderInformation::parseXML(const XMLNode& node)
 ListOfGlobalRenderInformation::ListOfGlobalRenderInformation(const ListOfGlobalRenderInformation& source)
   : ListOf(source)
   , mVersionMajor(source.mVersionMajor)
+  , mIsSetVersionMajor(source.mIsSetVersionMajor)
   , mVersionMinor(source.mVersionMinor)
+  , mIsSetVersionMinor(source.mIsSetVersionMinor)
+  , mDefaultValues(NULL)
 {
 }
 /** @endcond */
@@ -575,7 +579,10 @@ ListOfGlobalRenderInformation& ListOfGlobalRenderInformation::operator=(const Li
     {
         this->ListOf::operator=(source);
         mVersionMajor = source.mVersionMajor;
+        mIsSetVersionMajor = source.mIsSetVersionMajor;
         mVersionMinor = source.mVersionMinor;
+        mIsSetVersionMinor = source.mIsSetVersionMinor;
+        setDefaultValues(source.getDefaultValues());
     }
     return *this;
 }
@@ -630,7 +637,10 @@ const std::string& ListOfGlobalRenderInformation::getElementName () const
 ListOfGlobalRenderInformation::ListOfGlobalRenderInformation(RenderPkgNamespaces* renderns)
  : ListOf(renderns)
  , mVersionMajor(1)
+ , mIsSetVersionMajor(false)
  , mVersionMinor(0)
+ , mIsSetVersionMinor(false)
+ , mDefaultValues(NULL)
 {
   //
   // set the element namespace of this object
@@ -645,10 +655,20 @@ ListOfGlobalRenderInformation::ListOfGlobalRenderInformation(RenderPkgNamespaces
 ListOfGlobalRenderInformation::ListOfGlobalRenderInformation(unsigned int level, unsigned int version, unsigned int pkgVersion)
  : ListOf(level,version)
  , mVersionMajor(1)
+ , mIsSetVersionMajor(false)
  , mVersionMinor(0)
+ , mIsSetVersionMinor(false)
+ , mDefaultValues(NULL)
 {
   setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level,version,pkgVersion));
-};
+}
+
+ListOfGlobalRenderInformation::~ListOfGlobalRenderInformation()
+{
+  delete mDefaultValues;
+  mDefaultValues = NULL;
+}
+
 
 /** @cond doxygenLibsbmlInternal */
 /*
@@ -685,12 +705,18 @@ ListOfGlobalRenderInformation::addExpectedAttributes(ExpectedAttributes& attribu
 void ListOfGlobalRenderInformation::writeAttributes (XMLOutputStream& stream) const
 {
   ListOf::writeAttributes(stream);
-  std::ostringstream os;
-  os << this->mVersionMajor;
-  stream.writeAttribute("versionMajor", getPrefix(), os.str());
-  os.str("");
-  os << this->mVersionMinor;
-  stream.writeAttribute("versionMinor", getPrefix(), os.str());
+
+  if (isSetVersionMajor() == true)
+  {
+    stream.writeAttribute("versionMajor", getPrefix(), mVersionMajor);
+  }
+
+  if (isSetVersionMinor() == true)
+  {
+    stream.writeAttribute("versionMinor", getPrefix(), mVersionMinor);
+  }
+
+  SBase::writeExtensionAttributes(stream);
 }
 /** @endcond */
 
@@ -725,8 +751,18 @@ SBase* ListOfGlobalRenderInformation::createObject (XMLInputStream& stream)
       RENDER_CREATE_NS(renderns, this->getSBMLNamespaces());
       object = new GlobalRenderInformation(renderns);
       if(object != NULL) this->mItems.push_back(object);
-	 delete renderns;
+	    delete renderns;
     }
+
+    if (name == "defaultValues")
+    {
+      RENDER_CREATE_NS(renderns, this->getSBMLNamespaces());
+      DefaultValues newDV(renderns);
+      setDefaultValues(&newDV);
+      object = getDefaultValues();
+      delete renderns;
+    }
+
     return object;
 }
 /** @endcond */
@@ -742,8 +778,8 @@ SBase* ListOfGlobalRenderInformation::createObject (XMLInputStream& stream)
  */
 void ListOfGlobalRenderInformation::setVersion(unsigned int major,unsigned int minor)
 {
-    this->mVersionMajor=major;
-    this->mVersionMinor=minor;
+  setVersionMajor(major);
+  setVersionMinor(minor);
 }
 /** @endcond */
 
@@ -943,6 +979,232 @@ bool ListOfGlobalRenderInformation::isValidTypeForList(SBase * item)
   return (
     typeCode == SBML_RENDER_GLOBALRENDERINFORMATION
     );
+}
+
+/*
+* Returns the value of the "defaultValues" element of this
+* ListOfGlobalRenderInformation.
+*/
+const DefaultValues*
+ListOfGlobalRenderInformation::getDefaultValues() const
+{
+  return mDefaultValues;
+}
+
+
+/*
+* Returns the value of the "defaultValues" element of this
+* ListOfGlobalRenderInformation.
+*/
+DefaultValues*
+ListOfGlobalRenderInformation::getDefaultValues()
+{
+  return mDefaultValues;
+}
+
+
+/*
+* Predicate returning @c true if this ListOfGlobalRenderInformation's
+* "defaultValues" element is set.
+*/
+bool
+ListOfGlobalRenderInformation::isSetDefaultValues() const
+{
+  return (mDefaultValues != NULL);
+}
+
+
+/*
+* Sets the value of the "defaultValues" element of this
+* ListOfGlobalRenderInformation.
+*/
+int
+ListOfGlobalRenderInformation::setDefaultValues(const DefaultValues*
+  defaultValues)
+{
+  if (mDefaultValues == defaultValues)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else if (defaultValues == NULL)
+  {
+    delete mDefaultValues;
+    mDefaultValues = NULL;
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    delete mDefaultValues;
+    mDefaultValues = (defaultValues != NULL) ? defaultValues->clone() : NULL;
+    if (mDefaultValues != NULL)
+    {
+      mDefaultValues->connectToParent(this);
+    }
+
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+}
+
+
+/*
+* Creates a new DefaultValues object, adds it to this
+* ListOfGlobalRenderInformation object and returns the DefaultValues object
+* created.
+*/
+DefaultValues*
+ListOfGlobalRenderInformation::createDefaultValues()
+{
+  if (mDefaultValues != NULL)
+  {
+    delete mDefaultValues;
+  }
+
+  RENDER_CREATE_NS(renderns, getSBMLNamespaces());
+  mDefaultValues = new DefaultValues(renderns);
+
+  delete renderns;
+
+  connectToChild();
+
+  return mDefaultValues;
+}
+
+
+/*
+* Unsets the value of the "defaultValues" element of this
+* ListOfGlobalRenderInformation.
+*/
+int
+ListOfGlobalRenderInformation::unsetDefaultValues()
+{
+  delete mDefaultValues;
+  mDefaultValues = NULL;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+/*
+* Write any contained elements
+*/
+void
+ListOfGlobalRenderInformation::writeElements(XMLOutputStream& stream) const
+{
+  ListOf::writeElements(stream);
+
+  if (isSetDefaultValues() == true)
+  {
+    mDefaultValues->write(stream);
+  }
+
+  SBase::writeExtensionElements(stream);
+}
+
+/** @endcond */
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+* Connects to child elements
+*/
+void
+ListOfGlobalRenderInformation::connectToChild()
+{
+  ListOf::connectToChild();
+
+  if (mDefaultValues != NULL)
+  {
+    mDefaultValues->connectToParent(this);
+  }
+}
+
+/** @endcond */
+
+/*
+* Predicate returning @c true if this ListOfGlobalRenderInformation's
+* "versionMajor" attribute is set.
+*/
+bool
+ListOfGlobalRenderInformation::isSetVersionMajor() const
+{
+  return mIsSetVersionMajor;
+}
+
+
+/*
+* Predicate returning @c true if this ListOfGlobalRenderInformation's
+* "versionMinor" attribute is set.
+*/
+bool
+ListOfGlobalRenderInformation::isSetVersionMinor() const
+{
+  return mIsSetVersionMinor;
+}
+
+/*
+* Unsets the value of the "versionMajor" attribute of this
+* ListOfGlobalRenderInformation.
+*/
+int
+ListOfGlobalRenderInformation::unsetVersionMajor()
+{
+  mVersionMajor = SBML_INT_MAX;
+  mIsSetVersionMajor = false;
+
+  if (isSetVersionMajor() == false)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+
+/*
+* Unsets the value of the "versionMinor" attribute of this
+* ListOfGlobalRenderInformation.
+*/
+int
+ListOfGlobalRenderInformation::unsetVersionMinor()
+{
+  mVersionMinor = SBML_INT_MAX;
+  mIsSetVersionMinor = false;
+
+  if (isSetVersionMinor() == false)
+  {
+    return LIBSBML_OPERATION_SUCCESS;
+  }
+  else
+  {
+    return LIBSBML_OPERATION_FAILED;
+  }
+}
+
+/*
+* Sets the value of the "versionMajor" attribute of this
+* ListOfGlobalRenderInformation.
+*/
+int
+ListOfGlobalRenderInformation::setVersionMajor(unsigned int versionMajor)
+{
+  mVersionMajor = versionMajor;
+  mIsSetVersionMajor = true;
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+* Sets the value of the "versionMinor" attribute of this
+* ListOfGlobalRenderInformation.
+*/
+int
+ListOfGlobalRenderInformation::setVersionMinor(unsigned int versionMinor)
+{
+  mVersionMinor = versionMinor;
+  mIsSetVersionMinor = true;
+  return LIBSBML_OPERATION_SUCCESS;
 }
 
 

@@ -8,7 +8,7 @@
 ## This sample program is distributed under a different license than the rest
 ## of libSBML.  This program uses the open-source MIT license, as follows:
 ##
-## Copyright (c) 2013-2017 by the California Institute of Technology
+## Copyright (c) 2013-2018 by the California Institute of Technology
 ## (California, USA), the European Bioinformatics Institute (EMBL-EBI, UK)
 ## and the University of Heidelberg (Germany), with support from the National
 ## Institutes of Health (USA) under grant R01GM070923.  All rights reserved.
@@ -54,7 +54,7 @@ def main (args):
   outfile = args[3]
 
   if not os.path.exists(infile):
-    print("[Error] %s : No such file." % (infile))
+    print("[Error] %s : No such file." % infile)
     sys.exit(1)
 
   reader  = libsbml.SBMLReader()
@@ -77,10 +77,10 @@ def main (args):
   props = libsbml.ConversionProperties()
   props.addOption("stripPackage", True, "Strip SBML Level 3 package constructs from the model")
   props.addOption("package", package, "Name of the SBML Level 3 package to be stripped")
-  if (sbmldoc.convert(props) != libsbml.LIBSBML_OPERATION_SUCCESS):
-	print("[Error] Conversion failed...")
-	sys.exit(1)
-  
+  if sbmldoc.convert(props) != libsbml.LIBSBML_OPERATION_SUCCESS:
+    print("[Error] Conversion failed...")
+    sys.exit(1)
+
   writer.writeSBML(sbmldoc, outfile)
   print("[OK] stripped package '%s' from %s to %s" % (package, infile, outfile))
 

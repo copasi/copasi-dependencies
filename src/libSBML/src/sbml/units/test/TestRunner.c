@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -59,6 +59,7 @@ Suite *create_suite_UnitFormulaFormatter1 (void);
 Suite *create_suite_UnitFormulaFormatter2 (void);
 Suite *create_suite_UnitFormulaFormatter3 (void);
 Suite *create_suite_FormulaUnitsData (void);
+Suite *create_suite_FormulaUnitsDataMap(void);
 Suite *create_suite_DerivedUnitDefinition (void);
 Suite *create_suite_CalcUnitDefinition (void);
 
@@ -112,6 +113,7 @@ main (void)
   srunner_add_suite( runner, create_suite_UnitFormulaFormatter () );
   srunner_add_suite( runner, create_suite_UnitFormulaFormatter1() );
   srunner_add_suite( runner, create_suite_FormulaUnitsData() );
+  srunner_add_suite( runner, create_suite_FormulaUnitsDataMap());
   srunner_add_suite( runner, create_suite_DerivedUnitDefinition() );
   srunner_add_suite( runner, create_suite_UnitFormulaFormatter2() );
   srunner_add_suite( runner, create_suite_CalcUnitDefinition() );

@@ -10,7 +10,7 @@
 ## This file is part of libSBML.  Please visit http://sbml.org for more
 ## information about SBML, and the latest version of libSBML.
 ##
-## Copyright (C) 2013-2017 jointly by the following organizations:
+## Copyright (C) 2013-2018 jointly by the following organizations:
 ##     1. California Institute of Technology, Pasadena, CA, USA
 ##     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 ##     3. University of Heidelberg, Heidelberg, Germany
@@ -138,7 +138,12 @@ endif # USE_QUAL
 ifdef USE_MULTI
   SWIGFLAGS      += -DUSE_MULTI
   SWIGDOCDEFINES += --define USE_MULTI
-endif # USE_MULTI  
+endif # USE_MULTI
+
+ifdef USE_RENDER
+  SWIGFLAGS      += -DUSE_RENDER
+  SWIGDOCDEFINES += --define USE_RENDER
+endif # USE_RENDER
 
 # -fno-strict-aliasing option is added to CXXFLAGS when using GCC.  As
 # written in the SWIG Manual (section 20.2.4), SWIG generated code could
@@ -269,6 +274,7 @@ distfiles = Makefile.in                \
             CMakeLists.txt             \
             compile-native-files.cmake \
             swig-binding.cmake.in      \
+            TestPrintVersion.java      \
             $(check_sources)           \
             $(extra_sources)           \
             $(java_files)              \
@@ -437,15 +443,17 @@ endif
 
 # We use a trick involving marking methods as deprecated with the Javadoc
 # @deprecated comment directive, but unfortunately javac seems to pay
-# attention to that and thinks we're trying to use deprecated methods.  The
-# contortion below, involving the pipe and grep, filters the output from
-# javac so that people don't get confused.
+# attention to that and thinks we're trying to use deprecated methods. We
+# used to use a "grep -v" to filter them out, but in Java 9 each warning
+# prints multiple lines and the simple grep filter doesn't work. Resorting
+# to the use of -nowarn even though this is dangerous and could mask
+# a problem.
 
 compile_command = "$(JAVAC)" $(JAVAC_OPTION) -d $(outdir) $(outpath)/*.java
 
 $(outpath)/libsbml.class: libsbml_wrap.cpp $(outpath)
 	@echo $(compile_command)
-	$(shell $(compile_command) 2>&1 | grep -v deprecat)
+	$(compile_command) -nowarn
 
 $(jarfile): $(outpath)/libsbml.class 
 	$(CD) $(outdir) && "$(JAR)" -cvfm ../$(jarfile) ../Manifest.txt $(pkg_path)/*.class

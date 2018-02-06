@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -189,17 +189,17 @@ KineticLawUnitsCheck::logKLConflict (const ASTNode& node, const SBase& object)
 const std::string
 KineticLawUnitsCheck::getMessage (const ASTNode& node, const SBase& object)
 {
-  ostringstream msg;
+  ostringstream oss_msg;
 
-  //msg << getPreamble();
+  //oss_msg << getPreamble();
   char * formula = SBML_formulaToString(&node);
-  msg << "The formula '" << formula;
-  msg << "' in the <kineticLaw> element of the <reaction> with id '" << object.getId();
-  msg << "' produces units that are inconsistent with units of earlier KineticLaw ";
-  msg << "elements.";
+  oss_msg << "The formula '" << formula;
+  oss_msg << "' in the <kineticLaw> element of the <reaction> with id '" << object.getId();
+  oss_msg << "' produces units that are inconsistent with units of earlier KineticLaw ";
+  oss_msg << "elements.";
   safe_free(formula);
 
-  return msg.str();
+  return oss_msg.str();
 }
 
 LIBSBML_CPP_NAMESPACE_END

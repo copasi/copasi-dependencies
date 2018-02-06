@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -114,7 +114,10 @@ GetDowncastSwigType (SBasePlugin* sbp)
   if (!sb) return SWIGTYPE_p_SBasePlugin;
 
 #include "local-downcast-plugins.cpp"
-	
+
+  if (sb->getTypeCode() == SBML_DOCUMENT)
+    return SWIGTYPE_p_SBMLDocumentPlugin;
+
   return SWIGTYPE_p_SBasePlugin;
 }
 

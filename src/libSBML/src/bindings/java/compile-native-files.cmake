@@ -7,7 +7,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2017 jointly by the following organizations:
+# Copyright (C) 2013-2018 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -39,23 +39,28 @@ file(GLOB_RECURSE SOURCE_FILES RELATIVE ${BIN_DIRECTORY} ${BIN_DIRECTORY}/java-f
 # convert paths
 set(NATIVE_FILES)
 foreach(javaFile ${SOURCE_FILES})
-	file(TO_NATIVE_PATH ${javaFile} temp)
-	set(NATIVE_FILES ${NATIVE_FILES} ${temp})
+  file(TO_NATIVE_PATH ${javaFile} temp)
+  set(NATIVE_FILES ${NATIVE_FILES} ${temp})
 endforeach()
 
 # delete file if it exists
 if (EXISTS ${BIN_DIRECTORY}/libsbml.jar)
-	file(REMOVE ${BIN_DIRECTORY}/libsbml.jar)	
+  file(REMOVE ${BIN_DIRECTORY}/libsbml.jar)  
+endif()
+
+# figure out the compativility args to use
+SET (COMPATIBILITY_ARGS)
+if (COMPATIBILIY)
+SET (COMPATIBILITY_ARGS ${COMPATIBILITY_ARGS} -source ${COMPATIBILIY} -target ${COMPATIBILIY})
 endif()
 
 # compile files
 execute_process(
-	
+  
   COMMAND "${Java_JAVAC_EXECUTABLE}"
-		 -source 1.5
-		 -target 1.5
-		 -d java-files
-		 ${NATIVE_FILES}
+     ${COMPATIBILITY_ARGS}
+     -d java-files
+     ${NATIVE_FILES}
   
   ERROR_VARIABLE COMPILE_ERRORS
   
@@ -75,51 +80,54 @@ endif()
 file(GLOB_RECURSE CLASS_FILES RELATIVE ${BIN_DIRECTORY}/java-files ${BIN_DIRECTORY}/java-files/org/sbml/libsbml/*.class)
 set(NATIVE_CLASS_FILES)
 foreach(classFile ${CLASS_FILES})
-	file(TO_NATIVE_PATH ${classFile} temp)
-	set(NATIVE_CLASS_FILES ${NATIVE_CLASS_FILES} ${temp})
+  file(TO_NATIVE_PATH ${classFile} temp)
+  set(NATIVE_CLASS_FILES ${NATIVE_CLASS_FILES} ${temp})
 endforeach()
 
 # create jar
 execute_process(
-	COMMAND "${Java_JAR_EXECUTABLE}"
-		 -cvfm ..${PATH_SEP}libsbmlj.jar
-		 ../Manifest.txt
-		 ${NATIVE_CLASS_FILES}
-	WORKING_DIRECTORY "${BIN_DIRECTORY}/java-files"
+  COMMAND "${Java_JAR_EXECUTABLE}"
+     -cvfm ..${PATH_SEP}libsbmlj.jar
+     ../Manifest.txt
+     ${NATIVE_CLASS_FILES}
+  WORKING_DIRECTORY "${BIN_DIRECTORY}/java-files"
 )
 
 # compile test runner
 
 file(GLOB_RECURSE JAVA_TEST_FILES RELATIVE ${SRC_DIRECTORY} ${SRC_DIRECTORY}/test/*.java)
-set(JAVA_TEST_FILES ${JAVA_TEST_FILES} ${SRC_DIRECTORY}/AutoTestRunner.java)
-	
+set(JAVA_TEST_FILES ${JAVA_TEST_FILES} 
+   ${SRC_DIRECTORY}/AutoTestRunner.java 
+   ${SRC_DIRECTORY}/TestPrintVersion.java
+)
+  
 set(JAVA_NATIVE_FILES)
 foreach(javaFile ${JAVA_TEST_FILES})
-	file(TO_NATIVE_PATH ${javaFile} temp)
-	set(JAVA_NATIVE_FILES ${JAVA_NATIVE_FILES} ${temp})
+  file(TO_NATIVE_PATH ${javaFile} temp)
+  set(JAVA_NATIVE_FILES ${JAVA_NATIVE_FILES} ${temp})
 endforeach()
 
 file(TO_NATIVE_PATH ${BIN_DIRECTORY}/libsbmlj.jar jar_file)
 file(TO_NATIVE_PATH ${BIN_DIRECTORY} current_dir)
 file(TO_NATIVE_PATH ${BIN_DIRECTORY}/test test_dir)
+file(TO_NATIVE_PATH ${SRC_DIRECTORY}/TestPrintVersion.java print_version_src)
 
 message("
-	${Java_JAVAC_EXECUTABLE}
-	     -cp ${jar_file}${FILE_SEP}${current_dir}
-		 -source 1.5
-		 -target 1.5		 
-		 -d ${test_dir}
-		 ${JAVA_NATIVE_FILES}	")
-	
+  ${Java_JAVAC_EXECUTABLE}
+     -cp ${jar_file}${FILE_SEP}${current_dir}
+     ${COMPATIBILITY_ARGS}
+     -d ${test_dir}
+     ${JAVA_NATIVE_FILES}"
+)
+
 # compile files
 execute_process(
-	COMMAND "${Java_JAVAC_EXECUTABLE}"
-	     -cp ${jar_file}
-		 -source 1.5
-		 -target 1.5		 
-		 -d ${test_dir}
-		 ${JAVA_NATIVE_FILES}	
-	WORKING_DIRECTORY "${SRC_DIRECTORY}"
+  COMMAND "${Java_JAVAC_EXECUTABLE}"
+     -cp ${jar_file}
+     ${COMPATIBILITY_ARGS}
+     -d ${test_dir}
+     ${JAVA_NATIVE_FILES}
+     WORKING_DIRECTORY "${SRC_DIRECTORY}"
 )
 
 # # print variables for debug purposes 

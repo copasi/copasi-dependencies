@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -67,14 +67,16 @@ public:
   {
     WEIGHT_UNSET, 
     WEIGHT_NORMAL,
-    WEIGHT_BOLD
+    WEIGHT_BOLD, 
+    WEIGHT_INVALID
   };
 
   enum FONT_STYLE
   {
     STYLE_UNSET, 
     STYLE_NORMAL,
-    STYLE_ITALIC
+    STYLE_ITALIC, 
+    STYLE_INVALID
   };
 
   enum TEXT_ANCHOR 
@@ -84,8 +86,9 @@ public:
     ANCHOR_MIDDLE=2,
     ANCHOR_END=3,
     ANCHOR_TOP=1,
-    ANCHOR_BOTTOM=3
-    //,ANCHOR_BASELINE=4
+    ANCHOR_BOTTOM=3,
+    ANCHOR_BASELINE=4,
+    ANCHOR_INVALID
   };
 
 
@@ -360,7 +363,7 @@ public:
   TEXT_ANCHOR getVTextAnchor() const;
 
   /**
-   * Returns true if the horizonal alignment attribute has been set.
+   * Returns true if the horizontal alignment attribute has been set.
    *
    * @return true is flag is not Text::ANCHOR_UNSET
    */
@@ -572,5 +575,37 @@ protected:
 LIBSBML_CPP_NAMESPACE_END
 
 #endif /* __cplusplus */
+
+LIBSBML_CPP_NAMESPACE_BEGIN
+BEGIN_C_DECLS
+
+LIBSBML_EXTERN
+Text::TEXT_ANCHOR
+TextAnchor_fromString(const char* str);
+
+LIBSBML_EXTERN
+const char *
+TextAnchor_toString(Text::TEXT_ANCHOR anchor);
+
+LIBSBML_EXTERN
+Text::FONT_WEIGHT
+FontWeight_fromString(const char* str);
+
+LIBSBML_EXTERN
+const char*
+FontWeight_toString(Text::FONT_WEIGHT weight);
+
+
+LIBSBML_EXTERN
+Text::FONT_STYLE
+FontStyle_fromString(const char* str);
+
+LIBSBML_EXTERN
+const char*
+FontStyle_toString(Text::FONT_STYLE style);
+
+END_C_DECLS
+LIBSBML_CPP_NAMESPACE_END
+
 
 #endif /* Text_H__ */

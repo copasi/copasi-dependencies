@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -715,21 +715,21 @@ public:
   int unsetActiveObjectiveId();
 
   /**
-   * Returns the "ListOfGeneProducts" in this FbcModelPlugin object.
+   * Returns the ListOfGeneProducts in this FbcModelPlugin object.
    *
    * @copydetails doc_note_geneproduct_v2_only
    *
-   * @return the "ListOfGeneProducts" attribute of this FbcModelPlugin.
+   * @return the ListOfGeneProducts child of this FbcModelPlugin.
    */
   const ListOfGeneProducts* getListOfGeneProducts() const;
 
 
   /**
-   * Returns the  "ListOfGeneProducts" in this FbcModelPlugin object.
+   * Returns the ListOfGeneProducts in this FbcModelPlugin object.
    *
    * @copydetails doc_note_geneproduct_v2_only
    *
-   * @return the "ListOfGeneProducts" attribute of this FbcModelPlugin.
+   * @return the ListOfGeneProducts child of this FbcModelPlugin.
    */
   ListOfGeneProducts* getListOfGeneProducts();
 
@@ -1143,26 +1143,6 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this FbcModelPlugin.
-   *
-   * @param attributeName, the name of the attribute to retrieve.
-   *
-   * @param value, the address of the value to record.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int getAttribute(const std::string& attributeName,
-                           const char* value) const;
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
    * Predicate returning @c true if this FbcModelPlugin's attribute
    * "attributeName" is set.
    *
@@ -1269,26 +1249,6 @@ public:
    */
   virtual int setAttribute(const std::string& attributeName,
                            const std::string& value);
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
-   * Sets the value of the "attributeName" attribute of this FbcModelPlugin.
-   *
-   * @param attributeName, the name of the attribute to set.
-   *
-   * @param value, the value of the attribute to set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int setAttribute(const std::string& attributeName, const char*
-    value);
 
   /** @endcond */
 
@@ -1650,7 +1610,8 @@ FbcModelPlugin_getStrict(SBasePlugin_t * fmp);
  * @copydetails doc_note_strict_v2_only
  *
  * @param fmp the FbcModelPlugin_t structure to set.
- * @param strict bool value of the "strict" attribute to be set.
+ * @param strict bool value of the "strict" attribute to be set, with @c 0
+ * indicating 'false', and all other values indicating 'true'.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}

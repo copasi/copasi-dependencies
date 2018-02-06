@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -66,7 +66,8 @@ public:
     UNSET,
     NONZERO,
     EVENODD,
-    INHERIT
+    INHERIT,
+    INVALID
   };
 
 protected:
@@ -248,5 +249,22 @@ LIBSBML_CPP_NAMESPACE_END
 
 
 #endif /* __cplusplus */
+
+
+
+LIBSBML_CPP_NAMESPACE_BEGIN
+BEGIN_C_DECLS
+
+LIBSBML_EXTERN
+GraphicalPrimitive2D::FILL_RULE
+FillRule_fromString(const char* name);
+
+LIBSBML_EXTERN
+const char*
+FillRule_toString(GraphicalPrimitive2D::FILL_RULE rule);
+
+END_C_DECLS
+LIBSBML_CPP_NAMESPACE_END
+
 
 #endif /* GraphicalPrimitive2D_H__ */

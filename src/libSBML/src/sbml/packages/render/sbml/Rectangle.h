@@ -8,7 +8,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -59,6 +59,8 @@ protected:
   RelAbsVector mRX;
   RelAbsVector mRY;
   static const std::string ELEMENT_NAME;
+  double mRatio;
+  bool mIsSetRatio;
   /** @endcond */
 
 public:
@@ -163,6 +165,48 @@ public:
    */
   Rectangle(RenderPkgNamespaces* renderns, const std::string& id,const RelAbsVector& x,const RelAbsVector& y,const RelAbsVector& w,const RelAbsVector& h);
 #endif // OMIT_DEPRECATED
+
+
+  /**
+  * Returns the value of the "ratio" attribute of this Rectangle.
+  *
+  * @return the value of the "ratio" attribute of this Rectangle as a double.
+  */
+  double getRatio() const;
+
+
+  /**
+  * Predicate returning @c true if this Rectangle's "ratio" attribute is set.
+  *
+  * @return @c true if this Rectangle's "ratio" attribute has been set,
+  * otherwise @c false is returned.
+  */
+  bool isSetRatio() const;
+
+
+  /**
+  * Sets the value of the "ratio" attribute of this Rectangle.
+  *
+  * @param ratio double value of the "ratio" attribute to be set.
+  *
+  * @copydetails doc_returns_success_code
+  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
+  * OperationReturnValues_t}
+  */
+  int setRatio(double ratio);
+
+
+  /**
+  * Unsets the value of the "ratio" attribute of this Rectangle.
+  *
+  * @copydetails doc_returns_success_code
+  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+  * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
+  */
+  int unsetRatio();
+
+
 
   /**
    * Sets the position and the size of the Rectangle within the viewport.

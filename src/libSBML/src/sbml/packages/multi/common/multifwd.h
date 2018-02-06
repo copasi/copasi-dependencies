@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -56,14 +56,20 @@ typedef CLASS_OR_STRUCT CompartmentReference    CompartmentReference_t;
 typedef CLASS_OR_STRUCT SpeciesTypeInstance    SpeciesTypeInstance_t;
 typedef CLASS_OR_STRUCT InSpeciesTypeBond    InSpeciesTypeBond_t;
 typedef CLASS_OR_STRUCT OutwardBindingSite    OutwardBindingSite_t;
+typedef CLASS_OR_STRUCT PossibleSpeciesFeatureValue    PossibleSpeciesFeatureValue_t;
 typedef CLASS_OR_STRUCT SpeciesFeatureType    SpeciesFeatureType_t;
 typedef CLASS_OR_STRUCT SpeciesTypeComponentIndex    SpeciesTypeComponentIndex_t;
 typedef CLASS_OR_STRUCT SpeciesFeature    SpeciesFeature_t;
 typedef CLASS_OR_STRUCT SpeciesTypeComponentMapInProduct    SpeciesTypeComponentMapInProduct_t;
+typedef CLASS_OR_STRUCT SubListOfSpeciesFeatures    SubListOfSpeciesFeatures_t;
 typedef CLASS_OR_STRUCT MultiSpeciesType    MultiSpeciesType_t;
 typedef CLASS_OR_STRUCT BindingSiteSpeciesType    BindingSiteSpeciesType_t;
 typedef CLASS_OR_STRUCT IntraSpeciesReaction    IntraSpeciesReaction_t;
-
+typedef CLASS_OR_STRUCT MultiSpeciesReferencePlugin    MultiSpeciesReferencePlugin_t;
+typedef CLASS_OR_STRUCT MultiSimpleSpeciesReferencePlugin    MultiSimpleSpeciesReferencePlugin_t;
+typedef CLASS_OR_STRUCT MultiSpeciesPlugin    MultiSpeciesPlugin_t;
+typedef CLASS_OR_STRUCT MultiModelPlugin    MultiModelPlugin_t;
+typedef CLASS_OR_STRUCT MultiCompartmentPlugin    MultiCompartmentPlugin_t;
 LIBSBML_CPP_NAMESPACE_END
 
 #undef CLASS_OR_STRUCT

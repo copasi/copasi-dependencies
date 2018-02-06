@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -474,6 +474,11 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 
 class LIBSBML_EXTERN Model : public SBase
 {
+#ifndef SWIG
+  typedef std::pair<const std::string, int>   KeyValue;
+  typedef std::map<KeyValue, FormulaUnitsData*> UnitsValueMap;
+  typedef UnitsValueMap::const_iterator                  UnitsValueIter;
+#endif
   friend class SBMLDocument; //So that SBMLDocument can change the element namespace if it needs to.
 public:
 
@@ -3209,8 +3214,8 @@ public:
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
-  virtual int getAttribute(const std::string& attributeName,
-                           const char* value) const;
+  //virtual int getAttribute(const std::string& attributeName,
+  //                         const char* value) const;
 
   /** @endcond */
 
@@ -3343,8 +3348,8 @@ public:
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
-  virtual int setAttribute(const std::string& attributeName, const char*
-    value);
+  //virtual int setAttribute(const std::string& attributeName, const char*
+  //  value);
 
   /** @endcond */
 
@@ -3524,6 +3529,14 @@ public:
    * @return the FormulaUnitsData object created.
    */
   FormulaUnitsData* createFormulaUnitsData ();
+
+
+  /**
+  * Creates a new FormulaUnitsData inside this Model and returns it.
+  *
+  * @return the FormulaUnitsData object created.
+  */
+  FormulaUnitsData* createFormulaUnitsData(const std::string& id, int typecode);
 
 
   /**
@@ -4211,6 +4224,7 @@ protected:
   List *                     mFormulaUnitsData;
   IdList                     mIdList;
   IdList                     mMetaidList;
+  UnitsValueMap              mUnitsDataMap;
 
 
   /* the validator classes need to be friends to access the 

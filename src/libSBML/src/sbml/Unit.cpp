@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1149,17 +1149,17 @@ Unit::getAttribute(const std::string& attributeName, std::string& value) const
 /*
  * Gets the value of the "attributeName" attribute of this Unit.
  */
-int
-Unit::getAttribute(const std::string& attributeName, const char* value) const
-{
-  int return_value = SBase::getAttribute(attributeName, value);
-
-  if (attributeName == "kind")
-  {
-    value = UnitKind_toString(getKind());
-  }
-  return return_value;
-}
+//int
+//Unit::getAttribute(const std::string& attributeName, const char* value) const
+//{
+//  int return_value = SBase::getAttribute(attributeName, value);
+//
+//  if (attributeName == "kind")
+//  {
+//    value = UnitKind_toString(getKind());
+//  }
+//  return return_value;
+//}
 
 /** @endcond */
 
@@ -1323,13 +1323,13 @@ Unit::setAttribute(const std::string& attributeName, const std::string& value)
 /*
  * Sets the value of the "attributeName" attribute of this Unit.
  */
-int
-Unit::setAttribute(const std::string& attributeName, const char* value)
-{
-  int return_value = SBase::setAttribute(attributeName, value);
-
-  return return_value;
-}
+//int
+//Unit::setAttribute(const std::string& attributeName, const char* value)
+//{
+//  int return_value = SBase::setAttribute(attributeName, value);
+//
+//  return return_value;
+//}
 
 /** @endcond */
 

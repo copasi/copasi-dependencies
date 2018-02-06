@@ -9,7 +9,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -844,8 +844,8 @@ UnitFormulaFormatter::getUnitDefinitionFromDimensionlessReturnFunction(
   /* save any existing value of undeclaredUnits/canIgnoreUndeclaredUnits */
   unsigned int originalIgnore = mCanIgnoreUndeclaredUnits;
   bool originalUndeclaredValue = mContainsUndeclaredUnits;
-  unsigned int currentIgnore = mCanIgnoreUndeclaredUnits;
-  bool currentUndeclared = mContainsUndeclaredUnits;
+  //unsigned int currentIgnore = mCanIgnoreUndeclaredUnits;
+  //bool currentUndeclared = mContainsUndeclaredUnits;
 
   // check for undeclared units in child expressions
   UnitDefinition * tempUd;
@@ -857,6 +857,7 @@ UnitFormulaFormatter::getUnitDefinitionFromDimensionlessReturnFunction(
     {
       noUndeclared++;
     }
+    delete tempUd;
   }
   
   if (noUndeclared == 0)
@@ -2122,9 +2123,9 @@ UnitFormulaFormatter::getUnitDefinitionFromEventTime(const Event * event)
 }
 
 /**
-* Returns the unitDefinition constructed
-* from the extent units of this Model.
-*/
+ * Returns the unitDefinition constructed
+ * from the extent units of this Model.
+ */
 UnitDefinition * 
 UnitFormulaFormatter::getExtentUnitDefinition()
 {
@@ -2504,6 +2505,7 @@ UnitFormulaFormatter::inferUnitDefinition(UnitDefinition* expectedUD,
     const ASTNode * LHS, std::string id, bool inKL, int reactNo)
 {
   UnitDefinition * resultUD = NULL;
+  if (expectedUD == NULL) return NULL;
 
   ASTNode * math = LHS->deepCopy();
   UnitDefinition * tempUD = expectedUD->clone();

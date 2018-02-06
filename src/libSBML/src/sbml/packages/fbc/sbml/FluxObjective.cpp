@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -577,45 +577,6 @@ FluxObjective::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this FluxObjective.
- */
-int
-FluxObjective::getAttribute(const std::string& attributeName,
-                            const char* value) const
-{
-  int return_value = SBase::getAttribute(attributeName, value);
-
-  if (return_value == LIBSBML_OPERATION_SUCCESS)
-  {
-    return return_value;
-  }
-
-  if (attributeName == "id")
-  {
-    value = getId().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (attributeName == "name")
-  {
-    value = getName().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (attributeName == "reaction")
-  {
-    value = getReaction().c_str();
-    return_value = LIBSBML_OPERATION_SUCCESS;
-  }
-
-  return return_value;
-}
-
-/** @endcond */
-
-
-
-/** @cond doxygenLibsbmlInternal */
-
-/*
  * Predicate returning @c true if this FluxObjective's attribute
  * "attributeName" is set.
  */
@@ -730,37 +691,6 @@ FluxObjective::setAttribute(const std::string& attributeName,
 int
 FluxObjective::setAttribute(const std::string& attributeName,
                             const std::string& value)
-{
-  int return_value = SBase::setAttribute(attributeName, value);
-
-  if (attributeName == "id")
-  {
-    return_value = setId(value);
-  }
-  else if (attributeName == "name")
-  {
-    return_value = setName(value);
-  }
-  else if (attributeName == "reaction")
-  {
-    return_value = setReaction(value);
-  }
-
-  return return_value;
-}
-
-/** @endcond */
-
-
-
-/** @cond doxygenLibsbmlInternal */
-
-/*
- * Sets the value of the "attributeName" attribute of this FluxObjective.
- */
-int
-FluxObjective::setAttribute(const std::string& attributeName,
-                            const char* value)
 {
   int return_value = SBase::setAttribute(attributeName, value);
 
@@ -1055,7 +985,7 @@ ListOfFluxObjectives::clone () const
 
 /*
  * Get a FluxObjective from the ListOfFluxObjectives by index.
-*/
+ */
 FluxObjective*
 ListOfFluxObjectives::get(unsigned int n)
 {
@@ -1481,9 +1411,6 @@ FluxObjective_hasRequiredAttributes(const FluxObjective_t * fo)
 }
 
 
-/*
- *
- */
 LIBSBML_EXTERN
 FluxObjective_t *
 ListOfFluxObjectives_getById(ListOf_t * lo, const char * sid)
@@ -1495,9 +1422,6 @@ ListOfFluxObjectives_getById(ListOf_t * lo, const char * sid)
 }
 
 
-/*
- *
- */
 LIBSBML_EXTERN
 FluxObjective_t *
 ListOfFluxObjectives_removeById(ListOf_t * lo, const char * sid)

@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -3018,13 +3018,17 @@ SBase::getVersion () const
 }
 
 /*
-* @return the SBML version of this SBML object.
-*/
+ * @return the SBML version of this SBML object.
+ */
 unsigned int
-SBase::getObjectVersion() const
+SBase::getPackageCoreVersion() const
 {
-  // FIX_ME: This needs careful thinking through but since for the moment
-  // a package object cannot be more than L3V1
+  const SBMLExtension* sbmlext = SBMLExtensionRegistry::getInstance().getExtensionInternal(mURI);
+
+  if (sbmlext)
+  {
+    return sbmlext->getVersion(mURI);
+  }
   return 1;
 }
 
@@ -3105,33 +3109,33 @@ SBase::getAttribute(const std::string& attributeName, std::string& value) const
 
 
 /** @cond doxygenLibsbmlInternal */
-int 
-SBase::getAttribute(const std::string& attributeName, const char * value) const
-{
-  if (attributeName == "metaid")
-  {
-    value = getMetaId().c_str();
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (attributeName == "id")
-  {
-    value = getIdAttribute().c_str();
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (attributeName == "name")
-  {
-    value = getName().c_str();
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (attributeName == "sboTerm")
-  {
-    value = getSBOTermID().c_str();
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-
-
-  return LIBSBML_OPERATION_FAILED;
-}
+//int 
+//SBase::getAttribute(const std::string& attributeName, const char * value) const
+//{
+//  if (attributeName == "metaid")
+//  {
+//    value = getMetaId().c_str();
+//    return LIBSBML_OPERATION_SUCCESS;
+//  }
+//  else if (attributeName == "id")
+//  {
+//    value = getIdAttribute().c_str();
+//    return LIBSBML_OPERATION_SUCCESS;
+//  }
+//  else if (attributeName == "name")
+//  {
+//    value = getName().c_str();
+//    return LIBSBML_OPERATION_SUCCESS;
+//  }
+//  else if (attributeName == "sboTerm")
+//  {
+//    value = getSBOTermID().c_str();
+//    return LIBSBML_OPERATION_SUCCESS;
+//  }
+//
+//
+//  return LIBSBML_OPERATION_FAILED;
+//}
 /** @endcond */
 
 
@@ -3235,29 +3239,29 @@ SBase::setAttribute(const std::string& attributeName, const std::string& value)
 
 
 /** @cond doxygenLibsbmlInternal */
-int 
-SBase::setAttribute(const std::string& attributeName, const char * value)
-{
-  int return_value = LIBSBML_OPERATION_FAILED;
-  if (attributeName == "metaid")
-  {
-    return_value = setMetaId(value);
-  }
-  else if (attributeName == "id")
-  {
-    return_value = setIdAttribute(value);
-  }
-  else if (attributeName == "name")
-  {
-    return_value = setName(value);
-  }
-  else if (attributeName == "sboTerm")
-  {
-    return_value = setSBOTerm(value);
-  }
-
-  return return_value;
-}
+//int 
+//SBase::setAttribute(const std::string& attributeName, const char * value)
+//{
+//  int return_value = LIBSBML_OPERATION_FAILED;
+//  if (attributeName == "metaid")
+//  {
+//    return_value = setMetaId(value);
+//  }
+//  else if (attributeName == "id")
+//  {
+//    return_value = setIdAttribute(value);
+//  }
+//  else if (attributeName == "name")
+//  {
+//    return_value = setName(value);
+//  }
+//  else if (attributeName == "sboTerm")
+//  {
+//    return_value = setSBOTerm(value);
+//  }
+//
+//  return return_value;
+//}
 /** @endcond */
 
 
@@ -3719,8 +3723,8 @@ SBase::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPr
         // we have to force it to realise it is also a core model
         if (sbPluginCreator == NULL && getPackageName() == "comp" && getElementName() == "modelDefinition")
         {
-          SBaseExtensionPoint extPoint("core", SBML_MODEL, "model");
-          sbPluginCreator = sbmlext->getSBasePluginCreator(extPoint);
+          SBaseExtensionPoint coreextPoint("core", SBML_MODEL, "model");
+          sbPluginCreator = sbmlext->getSBasePluginCreator(coreextPoint);
 
         }
         if (sbPluginCreator)
@@ -4644,7 +4648,10 @@ SBase::write (XMLOutputStream& stream) const
 void
 SBase::writeElements (XMLOutputStream& stream) const
 {
-  if ( mNotes != NULL ) stream << *mNotes;
+  if (mNotes != NULL)
+  {
+    mNotes->writeToStream(stream);
+  }
 
   /*
    * NOTE: CVTerms on a model have already been dealt with
@@ -5739,9 +5746,6 @@ SBase::storeUnknownExtAttribute(const std::string& element,
 }
 
 
-/*
- *
- */
 bool
 SBase::storeUnknownExtElement(XMLInputStream &stream)
 {
@@ -5910,7 +5914,7 @@ SBase::writeAttributes (XMLOutputStream& stream) const
       stream.writeAttribute("id", mId);
       stream.writeAttribute("name", mName);
     }
-    else if (getObjectVersion() > 1)
+    else if (getPackageCoreVersion() > 1)
     {
       stream.writeAttribute("id", mId);
       stream.writeAttribute("name", mName);

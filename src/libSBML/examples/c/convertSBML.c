@@ -8,7 +8,7 @@
  * This sample program is distributed under a different license than the rest
  * of libSBML.  This program uses the open-source MIT license, as follows:
  *
- * Copyright (c) 2013-2017 by the California Institute of Technology
+ * Copyright (c) 2013-2018 by the California Institute of Technology
  * (California, USA), the European Bioinformatics Institute (EMBL-EBI, UK)
  * and the University of Heidelberg (Germany), with support from the National
  * Institutes of Health (USA) under grant R01GM070923.  All rights reserved.
@@ -102,8 +102,10 @@ main (int argc, char *argv[])
       printf("Conversion skipped.  Either libSBML does not (yet) have\n");
       printf("ability to convert this model, or (automatic) conversion\n");
       printf("is not possible in this case.\n");
+      return errors;
     }
-    else if (errors > 0)
+    
+    if (errors > 0)
     {
       printf("Information may have been lost in conversion; but a valid model ");
       printf("was produced by the conversion.\nThe following information ");
@@ -119,6 +121,6 @@ main (int argc, char *argv[])
   }
 
   SBMLDocument_free(d);
-  return errors;
+  return 0;
 }
 

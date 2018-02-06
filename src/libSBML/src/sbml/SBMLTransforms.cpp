@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -1086,18 +1086,18 @@ SBMLTransforms::evaluateASTNode(const ASTNode * node, const IdValueMap& values, 
 
   case AST_FUNCTION_MIN:
     result = evaluateASTNode(node->getChild(0), values);
-    for (unsigned int i = 1; i < node->getNumChildren(); i++)
+    for (unsigned int j = 1; j < node->getNumChildren(); j++)
     {
-      double nextValue = evaluateASTNode(node->getChild(i), values);
+      double nextValue = evaluateASTNode(node->getChild(j), values);
       if (nextValue < result) result = nextValue;
     }
     break;
 
   case AST_FUNCTION_MAX:
     result = evaluateASTNode(node->getChild(0), values);
-    for (unsigned int i = 1; i < node->getNumChildren(); i++)
+    for (unsigned int j = 1; j < node->getNumChildren(); j++)
     {
-      double nextValue = evaluateASTNode(node->getChild(i), values);
+      double nextValue = evaluateASTNode(node->getChild(j), values);
       if (nextValue > result) result = nextValue;
     }
     break;

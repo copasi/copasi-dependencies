@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -443,26 +443,6 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Association.
-   *
-   * @param attributeName, the name of the attribute to retrieve.
-   *
-   * @param value, the address of the value to record.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int getAttribute(const std::string& attributeName,
-                           const char* value) const;
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
    * Predicate returning @c true if this Association's attribute
    * "attributeName" is set.
    *
@@ -569,26 +549,6 @@ public:
    */
   virtual int setAttribute(const std::string& attributeName,
                            const std::string& value);
-
-  /** @endcond */
-
-
-
-  /** @cond doxygenLibsbmlInternal */
-
-  /**
-   * Sets the value of the "attributeName" attribute of this Association.
-   *
-   * @param attributeName, the name of the attribute to set.
-   *
-   * @param value, the value of the attribute to set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int setAttribute(const std::string& attributeName, const char*
-    value);
 
   /** @endcond */
 
@@ -1010,52 +970,85 @@ FbcAssociation_hasRequiredAttributes(const FbcAssociation_t * fa);
 
 
 /**
-* Return the structure indicated by the given @p sid.
-*
-* @param lo the ListOf_t structure to use.
-*
-* @param sid a string matching the "id" attribute of the element sought.
-*
-* @return the structure for the given variable, or @c NULL if no such
-* object exists in the list.
-*
-* @memberof ListOfFbcAssociations_t
-*/
+ * Return the structure indicated by the given @p sid.
+ *
+ * @param lo the ListOf_t structure to use.
+ *
+ * @param sid a string matching the "id" attribute of the element sought.
+ *
+ * @return the structure for the given variable, or @c NULL if no such
+ * object exists in the list.
+ *
+ * @memberof ListOfFbcAssociations_t
+ */
 LIBSBML_EXTERN
 FbcAssociation_t *
 ListOfFbcAssociations_getById(ListOf_t * lo, const char * sid);
 
 
 /**
-* Removes the structure with the given @p sid
-* from the given ListOf_t structure and returns a pointer to it.
-*
-* * The caller owns the returned structure and is responsible for deleting it.
-*
-* @param lo the ListOf_t structure.
-* @param sid the string of the "id" attribute of the sought structure.
-*
-* @return the structure removed.  As mentioned above, the
-* caller owns the returned structure. @c NULL is returned if no 
-* structure with the "id" attribute exists in the given ListOf_t structure.
-*
-* @memberof ListOfFbcAssociations_t
-*/
+ * Removes the structure with the given @p sid
+ * from the given ListOf_t structure and returns a pointer to it.
+ *
+ * * The caller owns the returned structure and is responsible for deleting it.
+ *
+ * @param lo the ListOf_t structure.
+ * @param sid the string of the "id" attribute of the sought structure.
+ *
+ * @return the structure removed.  As mentioned above, the
+ * caller owns the returned structure. @c NULL is returned if no 
+ * structure with the "id" attribute exists in the given ListOf_t structure.
+ *
+ * @memberof ListOfFbcAssociations_t
+ */
 LIBSBML_EXTERN
 FbcAssociation_t *
 ListOfFbcAssociations_removeById(ListOf_t * lo, const char * sid);
 
 
 /**
-* @memberof FbcAssociation_t
-*/
+ * Converts this FbcAssociation_t into an infix string representation.
+ *
+ * @param fa the FbcAssociation_t structure to convert.
+ *
+ * @return the association as infix string.
+ *
+ * @memberof FbcAssociation_t
+ */
 LIBSBML_EXTERN
 char *
 FbcAssociation_toInfix(const FbcAssociation_t * fa);
 
 /**
-* @memberof FbcAssociation_t
-*/
+ * Parses a gene association in infix format and returns a corresponding
+ * Association object.
+ *
+ * This parses a string that has a list of gene names and conjunctions
+ * or disjunctions.  For example:
+ * @verbatim
+ (b2422) and (b2425) and (b2423) and (b2424) or (b2422) and (b2423) and (b2424) and (b2413) and (b3917)
+@endverbatim
+ *
+ * The 'and' operator takes precedence over the 'or' operator, meaning that
+ * the above input string would turn into two groups of gene names: either
+ * "b2422, b2425, b2423, and b2424" or "b2422, b2423, b2424, b2413, and b3917".
+ * Parentheses may be added to make things more clear, and to encode
+ * alternative schemes.
+ * 
+ * This method also creates missing GeneProduct objects, in case the unique
+ * reference does not yet exist.
+ * 
+ * Note that the function assumes that the infix contains identifiers and not
+ * labels, and that any missing geneProducts are to be added.
+ *
+ * @param infix the string to parse.
+ * @param plugin the FbcModelPlugin on which to add the geneProduct elements.
+ *
+ * @return the parsed association, or @c NULL in case of an error.
+ *
+ * @copydetails doc_note_static_methods
+ * @memberof FbcAssociation_t
+ */
 LIBSBML_EXTERN
 FbcAssociation_t*
 FbcAssociation_parseFbcInfixAssociation(const char * infix, SBasePlugin_t* plugin);

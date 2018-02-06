@@ -7,7 +7,7 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  *     3. University of Heidelberg, Heidelberg, Germany
@@ -583,6 +583,8 @@ START_TEST (test_ReadSBML_Unit_defaults_L1_L2)
   char * output=writeSBMLToString(D);
 
   fail_unless(equals(s, output));
+
+  safe_free(output);
 }
 END_TEST
 
@@ -2801,8 +2803,107 @@ START_TEST(test_ReadSBML_bad_indents)
 
   fail_unless(equals(valid, output));
 
+  safe_free(output);
+
 }
 END_TEST
+
+
+START_TEST(test_ReadSBML_bad_indents_2)
+{
+  const char* valid = wrapXML
+    (
+      "<sbml xmlns=\"http://www.sbml.org/sbml/level2/version4\" level=\"2\" version=\"4\">\n"
+      "  <model>\n"
+      "    <notes>\n"
+      "      <p xmlns=\"http://www.w3.org/1999/xhtml\">Hello<a href=\"test\">link</a></p>\n"
+      "    </notes>\n"
+      "  </model>\n"
+      "</sbml>\n"
+      );
+
+  SBMLDocument* d = new SBMLDocument(2, 4);
+  Model * m = d->createModel();
+  std::string newnotes = "<p xmlns=\"http://www.w3.org/1999/xhtml\">Hello<a href=\"test\">link</a></p>";
+  m->setNotes(newnotes);
+
+  char * output = writeSBMLToString(d);
+
+  fail_unless(equals(valid, output));
+
+  safe_free(output);
+
+  delete d;
+
+}
+END_TEST
+
+
+START_TEST(test_ReadSBML_bad_indents_3)
+{
+  const char* valid = wrapXML
+    (
+      "<sbml xmlns=\"http://www.sbml.org/sbml/level2/version4\" level=\"2\" version=\"4\">\n"
+      "  <model>\n"
+      "    <notes>\n"
+      "      <p xmlns=\"http://www.w3.org/1999/xhtml\">Hello<a href=\"test\">link</a></p>\n"
+      "      <p xmlns=\"http://www.w3.org/1999/xhtml\">Hello</p>\n"
+      "      <p xmlns=\"http://www.w3.org/1999/xhtml\">Hello<a href=\"test\">link</a>\n"
+      "      <a href=\"foo\">foolink</a></p>\n"
+      "    </notes>\n"
+      "  </model>\n"
+      "</sbml>\n"
+      );
+
+  SBMLDocument* d = new SBMLDocument(2, 4);
+  Model * m = d->createModel();
+  std::string newnotes = "<p xmlns=\"http://www.w3.org/1999/xhtml\">Hello<a href=\"test\">link</a></p>";
+  m->setNotes(newnotes);
+
+  m->appendNotes("<p xmlns=\"http://www.w3.org/1999/xhtml\">Hello</p>");
+  m->appendNotes("<p xmlns=\"http://www.w3.org/1999/xhtml\">Hello<a href=\"test\">link</a><a href=\"foo\">foolink</a></p>");
+
+  char * output = writeSBMLToString(d);
+
+  fail_unless(equals(valid, output));
+  safe_free(output);
+
+  delete d;
+
+}
+END_TEST
+
+
+
+START_TEST(test_ReadSBML_bad_indents_4)
+{
+  const char* valid = wrapXML
+    (
+      "<sbml xmlns=\"http://www.sbml.org/sbml/level2/version4\" level=\"2\" version=\"4\">\n"
+      "  <model>\n"
+      "    <notes>\n"
+      "      <p xmlns=\"http://www.w3.org/1999/xhtml\">\n"
+      "        <a href=\"test\">link</a>\n"
+      "      </p>\n"
+      "    </notes>\n"
+      "  </model>\n"
+      "</sbml>\n"
+      );
+
+  SBMLDocument* d = new SBMLDocument(2, 4);
+  Model * m = d->createModel();
+  m->setNotes("<p xmlns=\"http://www.w3.org/1999/xhtml\"><a href=\"test\">link</a></p>");
+
+  char * output = writeSBMLToString(d);
+
+  fail_unless(equals(valid, output));
+  safe_free(output);
+
+  delete d;
+
+}
+END_TEST
+
 
 
 Suite *
@@ -2901,7 +3002,10 @@ create_suite_ReadSBML (void)
   tcase_add_test( tcase, test_ReadSBML_invalid_default_namespace );
 
   tcase_add_test(tcase, test_ReadSBML_bad_indents);
-  
+  tcase_add_test(tcase, test_ReadSBML_bad_indents_2);
+  tcase_add_test(tcase, test_ReadSBML_bad_indents_3);
+  tcase_add_test(tcase, test_ReadSBML_bad_indents_4);
+
   suite_add_tcase(suite, tcase);
 
   return suite;

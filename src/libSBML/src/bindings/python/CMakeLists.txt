@@ -7,7 +7,7 @@
 # This file is part of libSBML.  Please visit http://sbml.org for more
 # information about SBML, and the latest version of libSBML.
 #
-# Copyright (C) 2013-2017 jointly by the following organizations:
+# Copyright (C) 2013-2018 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
 #     3. University of Heidelberg, Heidelberg, Germany
@@ -143,9 +143,6 @@ file(COPY
     "${CMAKE_CURRENT_SOURCE_DIR}/../../../docs/src/utilities/generate-class-name-list.py"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../../docs/src/utilities/generate-converters-list.py"
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
-
-
 
 
 # Normally in Python 2 only ascii strings are accepted as input to 
@@ -452,7 +449,16 @@ if(WITH_CHECK)
 
     endmacro()
 
-    # run example as tests
+    # test that the bindings are returning the correct version
+
+    if (CMAKE_VERSION VERSION_GREATER 3.0)
+        add_test(NAME test_python_printversion 
+            COMMAND ${PYTHON_EXECUTABLE} -c "import libsbml; assert libsbml.getLibSBMLDottedVersion() == '${PACKAGE_VERSION}'"
+            -p $<TARGET_FILE_DIR:binding_python_lib> -b ${CMAKE_CURRENT_SOURCE_DIR}/test)
+        ADJUST_PYTHONPATH(test_python_printversion)
+    endif()
+    
+    # run examples as tests
 
     if (CMAKE_VERSION VERSION_LESS 3.0)
         message(STATUS "Python example tests check version: ${CMAKE_VERSION} < 3.0, skipping.")
@@ -614,18 +620,6 @@ if(WITH_CHECK)
         )
         ADJUST_PYTHONPATH(test_python_setIdFromNames)    
         
-        if(ENABLE_FBC) 
-        
-        add_test(NAME test_python_stripPackage
-            COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/stripPackage.py
-            ${CMAKE_SOURCE_DIR}/examples/sample-models/fbc/fbc_example1.xml
-            fbc
-            stripPackage.out.xml
-        )
-        ADJUST_PYTHONPATH(test_python_stripPackage)
-
-        endif(ENABLE_FBC)
-        
         add_test(NAME test_python_unsetAnnotation
             COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/unsetAnnotation.py
             ${CMAKE_SOURCE_DIR}/examples/sample-models/from-spec/level-3/enzymekinetics.xml
@@ -656,10 +650,91 @@ if(WITH_CHECK)
          ADJUST_PYTHONPATH(test_python_stringInput)
         endif()
 
+        # package specific tests
 
-    endif()
+        # if(ENABLE_COMP)
+        # add Python versions of C++ examples that do not require input
+        # endif(ENABLE_COMP)
 
-endif()
+        if(ENABLE_FBC) 
+        
+          add_test(NAME test_python_stripPackage
+              COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/stripPackage.py
+              ${CMAKE_SOURCE_DIR}/examples/sample-models/fbc/fbc_example1.xml
+              fbc
+              stripPackage.out.xml
+          )
+          ADJUST_PYTHONPATH(test_python_stripPackage)
+
+          add_test(NAME test_python_fbc_fbc_example1
+              COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/fbc/fbc_example1.py
+          )
+          ADJUST_PYTHONPATH(test_python_fbc_fbc_example1)    
+
+        endif(ENABLE_FBC)
+
+        if(ENABLE_GROUPS) 
+        
+          add_test(NAME test_python_groups_groups_example1
+              COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/groups/groups_example1.py
+          )
+          ADJUST_PYTHONPATH(test_python_groups_groups_example1)    
+
+        endif(ENABLE_GROUPS)
+
+        if(ENABLE_LAYOUT)
+
+          add_test(NAME test_python_layout_example1_L3
+              COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/layout/example1-L3.py
+          )
+          ADJUST_PYTHONPATH(test_python_layout_example1_L3)    
+
+          add_test(NAME test_python_layout_example1
+              COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/layout/example1.py
+          )
+          ADJUST_PYTHONPATH(test_python_layout_example1)    
+
+        endif(ENABLE_LAYOUT)
+
+        if(ENABLE_MULTI)
+
+          add_test(NAME test_python_multi_multi_example1
+              COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/multi/multi_example1.py
+          )
+          ADJUST_PYTHONPATH(test_python_multi_multi_example1)    
+
+	  if (NOT LIBSBML_USE_LEGACY_MATH)
+            add_test(NAME test_python_multi_multi_example2
+                COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/multi/multi_example2.py
+            )
+            ADJUST_PYTHONPATH(test_python_multi_multi_example2)    
+	  endif()
+
+          add_test(NAME test_python_multi_multi_example3
+              COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/multi/multi_example3.py
+          )
+          ADJUST_PYTHONPATH(test_python_multi_multi_example3)    
+
+          add_test(NAME test_python_multi_printMulti
+              COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/multi/printMulti.py
+          )
+          ADJUST_PYTHONPATH(test_python_multi_printMulti)    
+
+        endif(ENABLE_MULTI)
+
+        if(ENABLE_QUAL)
+
+          add_test(NAME test_python_qual_qual_example1
+              COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/qual/qual_example1.py
+          )
+          ADJUST_PYTHONPATH(test_python_qual_qual_example1)    
+
+        endif(ENABLE_QUAL)
+
+
+    endif(CMAKE_VERSION VERSION_LESS 3.0)
+
+endif(WITH_CHECK)
 
 
 

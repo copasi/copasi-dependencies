@@ -143,9 +143,9 @@ START_TEST (test_RenderWriting_write_model_1)
     "          <annotation>\n"
     "  <listOfLayouts xmlns=\"http://projects.eml.org/bcb/sbml/level2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n"
     "    <annotation xmlns=\"http://www.sbml.org/sbml/level2\">\n"
-    "      <listOfGlobalRenderInformation xmlns=\"http://projects.eml.org/bcb/sbml/render/level2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" versionMajor=\"1\" versionMinor=\"0\">\n"
+    "      <listOfGlobalRenderInformation xmlns=\"http://projects.eml.org/bcb/sbml/render/level2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n"
     "        <renderInformation id=\"wireFrame\" name=\"wireframe style\" \n"
-    "                           programName=\"Ralph Gauges\" programVersion=\"1.0\">\n"
+    "                           programName=\"Ralph Gauges\" programVersion=\"1.0\" backgroundColor='#FFFFFFFF'>\n"
     "          <listOfColorDefinitions>\n"
     "            <colorDefinition id=\"white\" value=\"#ffffff\"/>\n"
     "            <colorDefinition id=\"black\" value=\"#000000\"/>\n"
@@ -167,7 +167,7 @@ START_TEST (test_RenderWriting_write_model_1)
     "          </listOfStyles>\n"
     "        </renderInformation>\n"
     "        <renderInformation id=\"defaultGrayStyle\" name=\"grayscale style\" \n"
-    "                           programName=\"Ralph Gauges\" programVersion=\"1.0\">\n"
+    "                           programName=\"Ralph Gauges\" programVersion=\"1.0\" backgroundColor='#FFFFFFFF'>\n"
     "          <listOfColorDefinitions>\n"
     "            <colorDefinition id=\"lightGray\" value=\"#cecece\"/>\n"
     "            <colorDefinition id=\"white\" value=\"#ffffff\"/>\n"
@@ -227,7 +227,7 @@ START_TEST (test_RenderWriting_write_model_1)
     "          </listOfStyles>\n"
     "        </renderInformation>\n"
     "        <renderInformation id=\"shortGrayStyle\" name=\"modified default style to grayscale\" referenceRenderInformation=\"defaultStyle\" \n"
-    "                           programName=\"Ralph Gauges\" programVersion=\"1.0\">\n"
+    "                           programName=\"Ralph Gauges\" programVersion=\"1.0\" backgroundColor='#FFFFFFFF'>\n"
     "          <listOfColorDefinitions>\n"
     "            <colorDefinition id=\"lightBlue\" value=\"#cecece\"/>\n"
     "            <colorDefinition id=\"white\" value=\"#ffffff\"/>\n"
@@ -240,7 +240,7 @@ START_TEST (test_RenderWriting_write_model_1)
     "          </listOfColorDefinitions>\n"
     "        </renderInformation>\n"
     "        <renderInformation id=\"defaultStyle\" name=\"default style\" \n"
-    "                           programName=\"Ralph Gauges\" programVersion=\"1.0\">\n"
+    "                           programName=\"Ralph Gauges\" programVersion=\"1.0\" backgroundColor='#FFFFFFFF'>\n"
     "          <listOfColorDefinitions>\n"
     "            <colorDefinition id=\"lightBlue\" value=\"#add8e6\"/>\n"
     "            <colorDefinition id=\"white\" value=\"#ffffff\"/>\n"
@@ -351,9 +351,9 @@ START_TEST (test_RenderWriting_write_model_1)
     "    </annotation>\n"
     "    <layout id=\"Layout_1\">\n"
     "      <annotation xmlns=\"http://www.sbml.org/sbml/level2\">\n"
-    "        <listOfRenderInformation xmlns=\"http://projects.eml.org/bcb/sbml/render/level2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" versionMajor=\"1\" versionMinor=\"0\">\n"
+    "        <listOfRenderInformation xmlns=\"http://projects.eml.org/bcb/sbml/render/level2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" versionMajor='2' versionMinor='1' >\n"
     "          <renderInformation id=\"highlightGlucose\" referenceRenderInformation=\"defaultStyle\"\n"
-    "                             programName=\"Ralph Gauges\" programVersion=\"1.0\">\n"
+    "                             programName=\"Ralph Gauges\" programVersion=\"1.0\" backgroundColor='#FFFFFFFF'>\n"
     "            <listOfColorDefinitions>\n"
     "              <colorDefinition id=\"lightRed\" value=\"#e6add8\"/>\n"
     "              <colorDefinition id=\"white\" value=\"#ffffff\"/>\n"
@@ -2664,6 +2664,7 @@ START_TEST (test_RenderWriting_write_model_1)
   pGlobalRender->setName("wireframe style");
   pGlobalRender->setProgramName("Ralph Gauges");
   pGlobalRender->setProgramVersion("1.0");
+  pGlobalRender->setBackgroundColor("#FFFFFFFF");
   // color definitions
   ColorDefinition* pColorDefinition=pGlobalRender->createColorDefinition();
   pColorDefinition->setId("white");
@@ -2710,6 +2711,7 @@ START_TEST (test_RenderWriting_write_model_1)
   pGlobalRender->setName("grayscale style");
   pGlobalRender->setProgramName("Ralph Gauges");
   pGlobalRender->setProgramVersion("1.0");
+  pGlobalRender->setBackgroundColor("#FFFFFFFF");
   // color definitions
   pColorDefinition=pGlobalRender->createColorDefinition();
   pColorDefinition->setId("lightGray");
@@ -2827,6 +2829,7 @@ START_TEST (test_RenderWriting_write_model_1)
   pGlobalRender->setReferenceRenderInformationId("defaultStyle");
   pGlobalRender->setProgramName("Ralph Gauges");
   pGlobalRender->setProgramVersion("1.0");
+  pGlobalRender->setBackgroundColor("#FFFFFFFF");
   // color definitions
   pColorDefinition=pGlobalRender->createColorDefinition();
   pColorDefinition->setId("lightBlue");
@@ -2860,6 +2863,7 @@ START_TEST (test_RenderWriting_write_model_1)
   pGlobalRender->setName("default style");
   pGlobalRender->setProgramName("Ralph Gauges");
   pGlobalRender->setProgramVersion("1.0");
+  pGlobalRender->setBackgroundColor("#FFFFFFFF");
   // color definitions
   pColorDefinition=pGlobalRender->createColorDefinition();
   pColorDefinition->setId("lightBlue");
@@ -3029,11 +3033,13 @@ START_TEST (test_RenderWriting_write_model_1)
 
   // local style that references a global style and redefines some things
   RenderLayoutPlugin* lPlugin = (RenderLayoutPlugin*)layout->getPlugin("render");
+  lPlugin->getListOfLocalRenderInformation()->setVersion(2, 1);
   LocalRenderInformation* pLocalRender=lPlugin->createLocalRenderInformation();
   pLocalRender->setId("highlightGlucose");
   pLocalRender->setReferenceRenderInformationId("defaultStyle");
   pLocalRender->setProgramName("Ralph Gauges");
   pLocalRender->setProgramVersion("1.0");
+  pLocalRender->setBackgroundColor("#FFFFFFFF");
   // color definitions
   pColorDefinition=pLocalRender->createColorDefinition();
   pColorDefinition->setId("lightRed");
@@ -3951,8 +3957,8 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 "            </layout:boundingBox>"
 "          </layout:textGlyph>"
 "        </layout:listOfTextGlyphs>"
-"        <render:listOfRenderInformation render:versionMajor=\"1\" render:versionMinor=\"0\">"
-"          <render:renderInformation render:id=\"highlightGlucose\" render:referenceRenderInformation=\"defaultStyle\" render:programName=\"Ralph Gauges\" render:programVersion=\"1.0\">"
+"        <render:listOfRenderInformation>"
+"          <render:renderInformation render:id=\"highlightGlucose\" render:referenceRenderInformation=\"defaultStyle\" render:programName=\"Ralph Gauges\" render:programVersion=\"1.0\" render:backgroundColor='#FFFFFFFF'>"
 "            <render:listOfColorDefinitions>"
 "              <render:colorDefinition render:id=\"lightRed\" render:value=\"#e6add8\"/>"
 "              <render:colorDefinition render:id=\"white\" render:value=\"#ffffff\"/>"
@@ -3973,8 +3979,8 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 "          </render:renderInformation>"
 "        </render:listOfRenderInformation>"
 "      </layout:layout>"
-"      <render:listOfGlobalRenderInformation render:versionMajor=\"1\" render:versionMinor=\"0\">"
-"        <render:renderInformation render:id=\"wireFrame\" render:name=\"wireframe style\" render:programName=\"Ralph Gauges\" render:programVersion=\"1.0\">"
+"      <render:listOfGlobalRenderInformation>"
+"        <render:renderInformation render:id=\"wireFrame\" render:name=\"wireframe style\" render:programName=\"Ralph Gauges\" render:programVersion=\"1.0\" render:backgroundColor='#FFFFFFFF'>"
 "          <render:listOfColorDefinitions>"
 "            <render:colorDefinition render:id=\"white\" render:value=\"#ffffff\"/>"
 "            <render:colorDefinition render:id=\"black\" render:value=\"#000000\"/>"
@@ -3995,7 +4001,7 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 "            </render:style>"
 "          </render:listOfStyles>"
 "        </render:renderInformation>"
-"        <render:renderInformation render:id=\"defaultGrayStyle\" render:name=\"grayscale style\" render:programName=\"Ralph Gauges\" render:programVersion=\"1.0\">"
+"        <render:renderInformation render:id=\"defaultGrayStyle\" render:name=\"grayscale style\" render:programName=\"Ralph Gauges\" render:programVersion=\"1.0\" render:backgroundColor='#FFFFFFFF'>"
 "          <render:listOfColorDefinitions>"
 "            <render:colorDefinition render:id=\"lightGray\" render:value=\"#cecece\"/>"
 "            <render:colorDefinition render:id=\"white\" render:value=\"#ffffff\"/>"
@@ -4054,7 +4060,7 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 "            </render:style>"
 "          </render:listOfStyles>"
 "        </render:renderInformation>"
-"        <render:renderInformation render:id=\"shortGrayStyle\" render:name=\"modified default style to grayscale\" render:referenceRenderInformation=\"defaultStyle\" render:programName=\"Ralph Gauges\" render:programVersion=\"1.0\">"
+"        <render:renderInformation render:id=\"shortGrayStyle\" render:name=\"modified default style to grayscale\" render:referenceRenderInformation=\"defaultStyle\" render:programName=\"Ralph Gauges\" render:programVersion=\"1.0\" render:backgroundColor='#FFFFFFFF'>"
 "          <render:listOfColorDefinitions>"
 "            <render:colorDefinition render:id=\"lightBlue\" render:value=\"#cecece\"/>"
 "            <render:colorDefinition render:id=\"white\" render:value=\"#ffffff\"/>"
@@ -4066,7 +4072,7 @@ START_TEST (test_RenderWriting_write_L3_model_1)
 "            <render:colorDefinition render:id=\"darkGreen\" render:value=\"#0b0b0b\"/>"
 "          </render:listOfColorDefinitions>"
 "        </render:renderInformation>"
-"        <render:renderInformation render:id=\"defaultStyle\" render:name=\"default style\" render:programName=\"Ralph Gauges\" render:programVersion=\"1.0\">"
+"        <render:renderInformation render:id=\"defaultStyle\" render:name=\"default style\" render:programName=\"Ralph Gauges\" render:programVersion=\"1.0\" render:backgroundColor='#FFFFFFFF'>"
 "          <render:listOfColorDefinitions>"
 "            <render:colorDefinition render:id=\"lightBlue\" render:value=\"#add8e6\"/>"
 "            <render:colorDefinition render:id=\"white\" render:value=\"#ffffff\"/>"
@@ -5496,6 +5502,7 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   pGlobalRender->setName("wireframe style");
   pGlobalRender->setProgramName("Ralph Gauges");
   pGlobalRender->setProgramVersion("1.0");
+  pGlobalRender->setBackgroundColor("#FFFFFFFF");
   // color definitions
   ColorDefinition* pColorDefinition=pGlobalRender->createColorDefinition();
   pColorDefinition->setId("white");
@@ -5541,6 +5548,7 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   pGlobalRender->setName("grayscale style");
   pGlobalRender->setProgramName("Ralph Gauges");
   pGlobalRender->setProgramVersion("1.0");
+  pGlobalRender->setBackgroundColor("#FFFFFFFF");
   // color definitions
   pColorDefinition=pGlobalRender->createColorDefinition();
   pColorDefinition->setId("lightGray");
@@ -5657,6 +5665,7 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   pGlobalRender->setReferenceRenderInformationId("defaultStyle");
   pGlobalRender->setProgramName("Ralph Gauges");
   pGlobalRender->setProgramVersion("1.0");
+  pGlobalRender->setBackgroundColor("#FFFFFFFF");
   // color definitions
   pColorDefinition=pGlobalRender->createColorDefinition();
   pColorDefinition->setId("lightBlue");
@@ -5690,6 +5699,7 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   pGlobalRender->setName("default style");
   pGlobalRender->setProgramName("Ralph Gauges");
   pGlobalRender->setProgramVersion("1.0");
+  pGlobalRender->setBackgroundColor("#FFFFFFFF");
   // color definitions
   pColorDefinition=pGlobalRender->createColorDefinition();
   pColorDefinition->setId("lightBlue");
@@ -5864,6 +5874,7 @@ START_TEST (test_RenderWriting_write_L3_model_1)
   pLocalRender->setReferenceRenderInformationId("defaultStyle");
   pLocalRender->setProgramName("Ralph Gauges");
   pLocalRender->setProgramVersion("1.0");
+  pLocalRender->setBackgroundColor("#FFFFFFFF");
   // color definitions
   pColorDefinition=pLocalRender->createColorDefinition();
   pColorDefinition->setId("lightRed");
@@ -6025,7 +6036,7 @@ START_TEST (test_RenderWriting_write_L3_model_2)
     "            </layout:boundingBox>\n"
     "          </layout:graphicalObject>\n"
     "        </layout:listOfAdditionalGraphicalObjects>\n"
-    "        <listOfRenderInformation versionMajor=\"1\" versionMinor=\"0\">\n"
+    "        <listOfRenderInformation>\n"
     "          <renderInformation id=\"TextRenderInfo\">\n"
     "            <listOfStyles>\n"
     "              <style id=\"style_for_graphical_object_1\" idList=\"graphical_object_1\">\n"

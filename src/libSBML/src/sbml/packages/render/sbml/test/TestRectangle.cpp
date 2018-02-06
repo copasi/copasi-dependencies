@@ -279,6 +279,15 @@ START_TEST (test_Rectangle_setters )
     fail_unless(fabs((R->getHeight().getAbsoluteValue() - 11.11) / 11.11) < 1e-9);
     fail_unless(fabs((R->getHeight().getRelativeValue() - 12.12) / 12.12) < 1e-9);
 
+    fail_unless(R->isSetRatio() == false);
+    fail_unless(util_isNaN(R->getRatio()));
+    fail_unless(R->setRatio(1.0) == LIBSBML_OPERATION_SUCCESS);
+    fail_unless(R->isSetRatio() == true);
+    fail_unless(R->getRatio() == 1.0);
+    fail_unless(R->unsetRatio() == LIBSBML_OPERATION_SUCCESS);
+    fail_unless(R->isSetRatio() == false);
+    fail_unless(util_isNaN(R->getRatio()));
+
 }
 END_TEST 
 

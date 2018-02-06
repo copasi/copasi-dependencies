@@ -3758,6 +3758,14 @@ FastReactionsNotSupported = _libsbml.FastReactionsNotSupported
     ## documentation for SBMLError for an explanation of the
     ## meaning of this particular error code.
 
+SpeciesRefIdInMathMLNotSupported = _libsbml.SpeciesRefIdInMathMLNotSupported
+    ## @var long SpeciesRefIdInMathMLNotSupported
+    ##
+    ## A value in the enumeration of all the SBML error and warning codes
+    ## for objects of class SBMLError.  Please consult the
+    ## documentation for SBMLError for an explanation of the
+    ## meaning of this particular error code.
+
 IdNameSBaseInL3V2 = _libsbml.IdNameSBaseInL3V2
     ## @var long IdNameSBaseInL3V2
     ##
