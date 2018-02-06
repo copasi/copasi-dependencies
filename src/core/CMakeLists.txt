@@ -67,7 +67,7 @@ SET(CPACK_PACKAGE_VERSION_MAJOR "${SBW_VERSION_MAJOR}")
 SET(CPACK_PACKAGE_VERSION_MINOR "${SBW_VERSION_MINOR}")
 SET(CPACK_PACKAGE_VERSION_PATCH "${SBW_VERSION_PATCH}")
 SET(CPACK_SOURCE_PACKAGE_FILE_NAME  "sbw-core-${SBW_VERSION_MAJOR}.${SBW_VERSION_MINOR}.${SBW_VERSION_PATCH}")
-set(CPACK_SOURCE_IGNORE_FILES ".svn/;/build/;.*~")
+set(CPACK_SOURCE_IGNORE_FILES ".vs/;.svn/;/build/;.*~;txt.user;CMakeSettings.json")
 include(CPack)
 
 # set build type default
@@ -83,49 +83,6 @@ endif()
 # than lib. It will default to 'lib' but can be overwritten.
 set(CMAKE_INSTALL_LIBDIR lib CACHE PATH "Full path to the library output directory")
 mark_as_advanced(CMAKE_INSTALL_LIBDIR)
-
-####################################################################
-#
-# Locate Libxml2 if needed
-# 
-if (WITH_BUILD_BROKER)
-
-find_library(LIBXML_LIBRARY
-  NAMES libxml2.lib xml2
-  PATHS /usr/lib 
-        /usr/local/lib
-        ${CMAKE_SOURCE_DIR}
-        ${CMAKE_SOURCE_DIR}/lib
-)
-
-if (NOT LIBXML_LIBRARY)
-
-  message(FATAL_ERROR 
-"SBW depends on the libxml2, please specify the LIBXML_LIBRARY variable.")
-
-endif()
-
-find_path(LIBXML_INCLUDE_DIR
-    NAMES libxml/parser.h
-    PATHS /usr/include /usr/local/include
-          /usr/include/libxml2
-          /usr/local/include/libxml2
-          ${CMAKE_SOURCE_DIR}/include
-)
-
-if (NOT LIBXML_INCLUDE_DIR)
-message( FATAL_ERROR "Could not find the libxml2 include directory, please specify the 
-LIBXML_INCLUDE_DIR variable with full path to libxml/parser.h")
-endif()
-
-set(SBW_XML_LIBRARY "libxml2")
-set(SBW_XML_LIBRARY_INCLUDE ${LIBXML_INCLUDE_DIR})
-set(SBW_XML_LIBRARY_LIBS ${LIBXML_LIBRARY})
-
-set(SBW_LIBS ${SBW_LIBS} ${LIBXML_LIBRARY})
-include_directories(${LIBXML_INCLUDE_DIR})
-
-endif (WITH_BUILD_BROKER)
 
 #
 # Allow to build core library only by disabling the build of the broker
@@ -206,10 +163,10 @@ else(UNIX)
     endif ()
 
   set(SBW_LIBS ${SBW_LIBS} ws2_32.lib)
-  add_definitions(-DWIN32 -DSBW_EXPORTS -DLIBLAX_EXPORTS)
-  set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DWIN32 -DSBW_EXPORTS -DLIBLAX_EXPORTS")
+  add_definitions(-DWIN32 -DLIBLAX_EXPORTS)
+  set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DWIN32 -DLIBLAX_EXPORTS")
   if(MSVC OR USING_INTEL)
-    add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE -D_WINSOCK_DEPRECATED_NO_WARNINGS)
     set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -D_CRT_SECURE_NO_WARNINGS")
     option(WITH_STATIC_RUNTIME "Compile using the static MSVC Runtime" OFF)
     if (WITH_STATIC_RUNTIME)
@@ -269,6 +226,9 @@ add_subdirectory(SBWBroker)
 file(GLOB HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/SBW/*.h )
 install(FILES ${HEADER_FILES} DESTINATION include/SBW)
 
+set(PACKAGE_CONFIG_DIR lib/cmake CACHE PATH
+    "Path into which the cmake config files should be installed")
+mark_as_advanced(PACKAGE_CONFIG_DIR)
 
 ###############################################################################
 #
@@ -301,20 +261,10 @@ libSBW version ${PACKAGE_VERSION}
      CXXFLAGS                        = ${CMAKE_CXX_FLAGS}
      LDFLAGS                         = ${CMAKE_EXE_LINKER_FLAGS}
 
-   XML parser library configuration:
-     XML library                     = ${SBW_XML_LIBRARY}
-     CPPFLAGS for XML                = -I${SBW_XML_LIBRARY_INCLUDE}
-     LIBS for XML                    = ${SBW_XML_LIBRARY_LIBS}
-
    Other libSBML configuration settings:
      Installation $prefix            = ${CMAKE_INSTALL_PREFIX}")
 
 message(STATUS "")
-if (WITH_BUILD_BROKER)
-message(STATUS "  Build SBW Broker                = yes")
-else()
-message(STATUS "  Build SBW Broker                = no")
-endif()
 if (WITH_BUILD_SHARED)
 message(STATUS "  Build SBW shared library        = yes")
 else()
@@ -324,5 +274,17 @@ if (WITH_BUILD_STATIC)
 message(STATUS "  Build SBW static library        = yes")
 else()
 message(STATUS "  Build SBW static library        = no")
+endif()
+if (WITH_BUILD_BROKER)
+message(STATUS "  Build SBW Broker                = yes
+
+   Broker XML parser library configuration:
+     XML library                     = libxml2
+     CPPFLAGS for XML                = -I${LIBXML_INCLUDE_DIR}
+     LIBS for XML                    = ${LIBXML_LIBRARY}
+
+")
+else()
+message(STATUS "  Build SBW Broker                = no")
 endif()
 message(STATUS "")

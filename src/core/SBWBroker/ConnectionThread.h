@@ -56,7 +56,7 @@ namespace SystemsBiologyWorkbench
 			std::string type;
 
 			/** The session key to use for connections. **/
-			const char *sessionKey;
+      std::string sessionKey;
 
 			/** The host access table for connections of this type.  **/
 			HostAccessTable *hostAccessTable;
@@ -82,7 +82,7 @@ namespace SystemsBiologyWorkbench
 			* the server socket
 			**/
 			ConnectionThread(InstanceThread::Factory *instanceFactory,
-				ServerSocket *socket, std::string sessionKey,
+        ServerSocket *socket, const std::string &sessionKey,
 				HostAccessTable *hostAccessTable);
 			/**
 			* The <code>run()</code> method for this thread.  This is what is

@@ -69,6 +69,7 @@
 # ifndef WIN32_LEAN_AND_MEAN
 # define WIN32_LEAN_AND_MEAN
 # endif // WIN32_LEAN_AND_MEAN
+#pragma warning(disable: 4251)
 #include <windows.h>
 #endif
 
@@ -93,15 +94,15 @@ namespace SystemsBiologyWorkbench
 /**
  * portable interface to operating system event objects for synchronizing threads.
  */
-class SBWOSEvent
+class SBW_API SBWOSEvent
 {
 public:
-	SBW_API SBWOSEvent(std::string name);
-	SBW_API ~SBWOSEvent();
+	SBWOSEvent(std::string name);
+	~SBWOSEvent();
 
-	SBW_API void wait();
-	SBW_API void notify();
-	SBW_API std::string getName();
+	void wait();
+	void notify();
+	std::string getName();
 
 private:
 #if defined(WIN32)

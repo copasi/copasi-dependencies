@@ -94,18 +94,16 @@ class ServiceImplementation;
 template <class T> class MethodTable;
 
 /// represents the module implementation in this module
-class ModuleImpl : private Receiver 
+class SBW_API ModuleImpl : private Receiver
 {
 public:
-	SBW_API ModuleImpl(
-		std::string uniqueName, std::string displayName, ModuleManagementType type, std::string help = "");
-	SBW_API ModuleImpl(
-		const char* uniqueName, const char* displayName, ModuleManagementType type, const char* help = "");
+  ModuleImpl(
+    const std::string& uniqueName, const std::string& displayName, ModuleManagementType type, const std::string& help = "");
 
-	SBW_API virtual ~ModuleImpl();
+  virtual ~ModuleImpl();
 	
-	SBW_API static std::string calculateCommandLine(std::string argZero);
-	SBW_API static char *calculateCommandLineRaw(const char *argZero);
+  static std::string calculateCommandLine(std::string argZero);
+  static char *calculateCommandLineRaw(const char *argZero);
 
 #ifdef WIN32
 	/**
@@ -117,14 +115,13 @@ public:
 
 #endif
 
-	SBW_API void setCommandLine(std::string);
-	SBW_API void setCommandLine(const char* cmdLine);
+  void setCommandLine(const std::string&);
 
-	SBW_API void addService(
-		std::string serviceName, std::string serviceDisplayName, std::string category, std::string help = "");
-
-	SBW_API void addService(
-		const char* serviceName, const char* serviceDisplayName, const char* category, const char* help = "");
+  void addService(
+      const std::string& serviceName,
+      const std::string& serviceDisplayName,
+      const std::string& category,
+      const std::string& help = "");
 
 
 	/**
@@ -136,40 +133,29 @@ public:
 	 * @param help help string for this service.
 	 */
 	template<class T> void addServiceObject(
-		std::string serviceName, std::string serviceDisplayName, std::string category, T *service, std::string help = "")
+      const std::string& serviceName,
+      const std::string& serviceDisplayName,
+      const std::string& category,
+      T *service,
+      const std::string& help = "")
 	{
 		MethodTable<T> table(*this, service, serviceName);
 
 		addService(serviceName, serviceDisplayName, category, help);
 		service->registerMethods(table);
 	}
-	template<class T> void addServiceObject(
-		const char* serviceName, const char* serviceDisplayName, const char* category, T *service, const char* help = "")
-	{
-#if _MSC_VER > 1400
-		MethodTable<T> table(*this, service, _strdup(serviceName));
 
-		addService(_strdup(serviceName), _strdup(serviceDisplayName), _strdup(category), _strdup(help));
-#else
-		MethodTable<T> table(*this, service, strdup(serviceName));
+  void enableModuleServices();
+  void registerModule();
 
-		addService(strdup(serviceName), strdup(serviceDisplayName), strdup(category), strdup(help));
-#endif
-		service->registerMethods(table);
-	}
-
-
-	SBW_API void enableModuleServices();
-	SBW_API void registerModule();
-
-	SBW_API void setHandler(
+  void setHandler(
 		std::string serviceName, Handler *handler, std::string signature,
 		bool synchronized = false, std::string help = "");
 
-	SBW_API Handler *getHandler(std::string serviceName, std::string methodSignature);
-	SBW_API void waitForDisconnect();
-	SBW_API void run(int argc, char* argv[], bool waitForDisconnect = true);
-	SBW_API void runOnHost(char *sHost);
+  Handler *getHandler(std::string serviceName, std::string methodSignature);
+  void waitForDisconnect();
+  void run(int argc, char* argv[], bool waitForDisconnect = true);
+  void runOnHost(const std::string& sHost);
 
 private:
 	void run(ModuleModeType mode, bool waitForDisconnect, const char *argZero);
@@ -184,22 +170,22 @@ private:
 	std::vector<ServiceImpl *> services ;
 
 	/// the module identification string for this module
-	char *uniqueName ;
+  std::string uniqueName ;
 
 	/// the humanly readable name for this module
-	char *displayName ;
+  std::string displayName ;
 
 	/// mechanism for creating and disconnecting instances for this module
 	ModuleManagementType type ;
 
 	/// the command line used to create instances of this module
-	char *commandLine ;
+  std::string commandLine ;
 
 	/// the help string for this module
-	char *help ;
+  std::string help ;
 
 	/// the host this module should run on ... 
-	char *host ;
+  std::string host ;
 
 	/// the mode in which this application is operating in.
 	ModuleModeType mode ;

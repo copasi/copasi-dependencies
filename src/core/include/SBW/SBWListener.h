@@ -74,7 +74,7 @@ namespace SystemsBiologyWorkbench
 {
 
 /// callback interface for monitoring events occuring in SBW
-class SBWListener  : public SBWRPCListener
+class SBW_API SBWListener  : public SBWRPCListener
 {
 public:
 

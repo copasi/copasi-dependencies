@@ -73,7 +73,7 @@ namespace SystemsBiologyWorkbench
 {
 
 /// implements a minimal message receiver suitable for an application which doesn't implement any services
-class DoNothingReceiver : public Receiver  
+class SBW_API DoNothingReceiver : public Receiver
 {
 public:
 	DataBlockWriter receive(

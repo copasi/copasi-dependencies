@@ -74,20 +74,20 @@ namespace SystemsBiologyWorkbench
 {
 
 /// encodes data in a datablock ultimately for transmission to another module or the broker
-class DataBlockWriter : public SBWHandle<sbwDataBlockWriter>
+class SBW_API DataBlockWriter : public SBWHandle<sbwDataBlockWriter>
 {
 public:
-	SBW_API DataBlockWriter(const DataBlockWriter &);
-	SBW_API DataBlockWriter();
+	DataBlockWriter(const DataBlockWriter &);
+	DataBlockWriter();
 
 	/// @deprecated
-	DataBlockWriter& self() { return *this; }
+  DataBlockWriter& self();
 
 	/**
 	 * returns underlying sbwDataBlockWriter that implements the data block writer.
 	 * @return underlying sbwDataBlockWriter
 	 */
-	sbwDataBlockWriter *getImpl() { return p; }
+  sbwDataBlockWriter *getImpl();
 
 	/**
 	 * adds an object to the DataBlockWriter.
@@ -162,7 +162,7 @@ public:
 	friend class DataBlockConverter ;
 
 private:
-	SBW_API DataBlockWriter(sbwDataBlockWriter *);
+	DataBlockWriter(sbwDataBlockWriter *);
 
 };
 

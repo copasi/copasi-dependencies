@@ -73,7 +73,7 @@
 namespace SystemsBiologyWorkbench
 {
 /// represents an array type inside a signature
-class sbwSignatureArray : public sbwSignatureType  
+class SBW_API sbwSignatureArray : public sbwSignatureType
 {
 public:
 	sbwSignatureArray(SignatureType scalarType, Integer dimensions);
@@ -82,19 +82,19 @@ public:
 	 * returns ArrayType
 	 * @return ArrayType
 	 */
-	DataBlockType getType() { return ArrayType; }
+  DataBlockType getType();
 
 	/**
 	 * returns the type of element contained by the array
 	 * @return the type of element contained by the array
 	 */
-	virtual sbwSignatureType *getArrayInnerType() { return scalarType.getImpl(); }
+  virtual sbwSignatureType *getArrayInnerType();
 
 	/**
 	 * returns the number of dimensions of the the array
 	 * @return the number of dimensions of the the array
 	 */
-	Integer getArrayDimensions() { return dimensions; }
+  Integer getArrayDimensions();
 
 	// Note the functions involving va_list below are specific to the C interface
 	// the use of these functions in C++ is not recommended

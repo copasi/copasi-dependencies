@@ -93,23 +93,23 @@ class DataBlockWriter;
  * underlying implementation of DataBlockWriter and SBWDataBlockWriter.
  * Enables the encoding of objects into the SBW DataBlock format used to transmit data between modules.
  */
-struct sbwDataBlockWriter : public SBWObject
+struct SBW_API sbwDataBlockWriter : public SBWObject
 {
 public:
-	SBW_API unsigned char *createCall(
+	unsigned char *createCall(
 		Integer moduleTo, Integer moduleFrom, Integer messageId, Integer service, Integer method,
 		Integer &length);
-	SBW_API unsigned char *createSend(
+	unsigned char *createSend(
 		Integer moduleTo, Integer moduleFrom, Integer service, Integer method,
 		Integer &length);
-	SBW_API unsigned char *createReply(Integer moduleTo, Integer messageId, Integer &length);
+	unsigned char *createReply(Integer moduleTo, Integer messageId, Integer &length);
 
 	unsigned char *getDataCopy(Integer &length);
-	SBW_API void dump();
+	void dump();
 
-	SBW_API sbwDataBlockWriter();
-	SBW_API sbwDataBlockWriter(Integer size);
-	SBW_API virtual ~sbwDataBlockWriter();
+	sbwDataBlockWriter();
+	sbwDataBlockWriter(Integer size);
+	virtual ~sbwDataBlockWriter();
 
 	/**
 	 * adds an object to the sbwDataBlockWriter.
@@ -207,19 +207,19 @@ public:
 		}
 	}
 
-	SBW_API sbwDataBlockReader *getReader() const ;
-	SBW_API const unsigned char *getData(Integer *x = NULL) const;
+	sbwDataBlockReader *getReader() const ;
+	const unsigned char *getData(Integer *x = NULL) const;
 
-	SBW_API static DataBlockType getType(const Integer);
-	SBW_API static DataBlockType getType(const Double);
-	SBW_API static DataBlockType getType(const SBWComplex);
-	SBW_API static DataBlockType getType(const std::complex<double>);
-	SBW_API static DataBlockType getType(const unsigned char);
-	SBW_API static DataBlockType getType(const bool);
-	SBW_API static DataBlockType getType(const char *const);
-	SBW_API static DataBlockType getType(const std::string);
-	SBW_API static DataBlockType getType(const DataBlockWriter);
-	SBW_API static DataBlockType getType(const sbwDataBlockWriter *const);
+	static DataBlockType getType(const Integer);
+	static DataBlockType getType(const Double);
+	static DataBlockType getType(const SBWComplex);
+	static DataBlockType getType(const std::complex<double>);
+	static DataBlockType getType(const unsigned char);
+	static DataBlockType getType(const bool);
+	static DataBlockType getType(const char *const);
+	static DataBlockType getType(const std::string);
+	static DataBlockType getType(const DataBlockWriter);
+	static DataBlockType getType(const sbwDataBlockWriter *const);
 
 	/**
 	 * returns SystemsBiologyWorkbench::ArrayType
@@ -253,11 +253,11 @@ public:
 
 	static std::string typeString(DataBlockType);
 
-	SBW_API void packWithoutType(const char *const);
-	SBW_API void packWithoutType(const Integer);
-	SBW_API void packWithoutType(const unsigned char);
+	void packWithoutType(const char *const);
+	void packWithoutType(const Integer);
+	void packWithoutType(const unsigned char);
 
-	SBW_API void insertData(const unsigned char *x, int length);
+	void insertData(const unsigned char *x, int length);
 
 private:
 	unsigned char *createInvoke(
@@ -292,14 +292,14 @@ private:
 		}
 	}
 
-	SBW_API void makeSpace(int space);
-	SBW_API void packWithoutType(const Double);
-	SBW_API void packWithoutType(const SBWComplex);
-	SBW_API void packWithoutType(const std::complex<double>);
-	SBW_API void packWithoutType(const bool);
-	SBW_API void packWithoutType(const std::string);
-	SBW_API void packWithoutType(const DataBlockWriter);
-	SBW_API void packWithoutType(const sbwDataBlockWriter *const);
+	void makeSpace(int space);
+	void packWithoutType(const Double);
+	void packWithoutType(const SBWComplex);
+	void packWithoutType(const std::complex<double>);
+	void packWithoutType(const bool);
+	void packWithoutType(const std::string);
+	void packWithoutType(const DataBlockWriter);
+	void packWithoutType(const sbwDataBlockWriter *const);
 
 	/**
 	 * append an array to the end of the data block assuming that either the type prefix has already been appended or

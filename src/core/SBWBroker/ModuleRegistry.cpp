@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "ModuleRegistry.h"
 #include "StringUtil.h"
 

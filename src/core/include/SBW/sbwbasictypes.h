@@ -73,7 +73,7 @@ typedef double SBWDouble ;
 
 #ifndef __cplusplus
 
-struct SBWComplex 
+struct SBW_API SBWComplex
 {
 	double dReal;
 	double dImag;

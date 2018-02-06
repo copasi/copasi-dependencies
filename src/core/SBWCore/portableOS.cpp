@@ -1,49 +1,49 @@
 /**
  * @file portableOS.cpp
  * @brief OS independent class and function library
- * 
+ *
  * This file is part of SBW.  Please visit http://sbw.sf.org for more
  * information about SBW, and the latest version of libSBW.
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the New BSD license.
  *
- * Copyright (c) 2010-2014, Frank T. Bergmann and 
+ * Copyright (c) 2010-2014, Frank T. Bergmann and
  *                          University of Washington
- * Copyright (c) 2008-2010, University of Washington and 
+ * Copyright (c) 2008-2010, University of Washington and
  *                          Keck Graduate Institute.
  * Copyright (c) 2005-2008, Keck Graduate Institute.
  * Copyright (c) 2001-2004, California Institute of Technology and
  *               Japan Science and Technology Corporation.
- * 
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without 
- * modification, are permitted provided that the following conditions are 
- * met: 
- * 
- * 1. Redistributions of source code must retain the above 
- *    copyright notice, this list of conditions and the following disclaimer. 
- * 
- * 2. Redistributions in binary form must reproduce the above copyright 
- *    notice, this list of conditions and the following disclaimer in the 
- *    documentation and/or other materials provided with the distribution. 
- * 
- * 3. Neither the name of the copyright holder nor the names of its 
- *    contributors may be used to endorse or promote products derived from 
- *    this software without specific prior written permission. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * 1. Redistributions of source code must retain the above
+ *    copyright notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ *    contributors may be used to endorse or promote products derived from
+ *    this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The original code contained here was initially developed by:
  *
@@ -60,20 +60,14 @@
  */
 
 
-static const char rcsid[] = "$Id: portableOS.cpp,v 1.6 2008/07/25 00:01:38 fbergmann Exp $";
-
-#include "stdafx.h"
-#include "config.h"
-#include "SBWRawException.h"
-#include <list>
-#include "SBWApplicationException.h"
-
-#include <SBW/portableOS.h>
-#include <SBW/SBWThread.h>
-#include <SBW/SBWOSEvent.h>
-
 #ifndef WIN32
 #include <stdio.h>
+
+# ifndef WIN32_LEAN_AND_MEAN
+# define WIN32_LEAN_AND_MEAN
+# endif // WIN32_LEAN_AND_MEAN
+# include <windows.h>
+
 
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
@@ -88,6 +82,16 @@ static const char rcsid[] = "$Id: portableOS.cpp,v 1.6 2008/07/25 00:01:38 fberg
 #endif
 
 #endif
+
+#include "stdafx.h"
+#include "config.h"
+#include "SBWRawException.h"
+#include <list>
+#include "SBWApplicationException.h"
+
+#include <SBW/portableOS.h>
+#include <SBW/SBWThread.h>
+#include <SBW/SBWOSEvent.h>
 
 using namespace SystemsBiologyWorkbench ;
 
@@ -105,34 +109,34 @@ void SBWOS::ThrowError()
 {
 #if defined(WIN32)
 
-	char *lpMsgBuf ;
+  char *lpMsgBuf ;
 
-	DWORD error = ::GetLastError();
+  DWORD error = ::GetLastError();
 
-	if (!::FormatMessage(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-		FORMAT_MESSAGE_FROM_SYSTEM ,
-		NULL,
-		error,
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-		(LPTSTR) &lpMsgBuf,
-		0,
-		NULL ))
-		throw new SBWRawException("Unknown OS error");
+  if (!::FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER |
+        FORMAT_MESSAGE_FROM_SYSTEM ,
+        NULL,
+        error,
+        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+        (LPTSTR) &lpMsgBuf,
+        0,
+        NULL ))
+    throw new SBWRawException("Unknown OS error");
 
-	SBWRawException *exception = new SBWRawException((LPCTSTR) lpMsgBuf);
+  SBWRawException *exception = new SBWRawException( reinterpret_cast<const char*>(lpMsgBuf));
 
-	// Free the buffer.
-	LocalFree( lpMsgBuf );
+  // Free the buffer.
+  LocalFree( lpMsgBuf );
 
 #elif defined(HAVE_SYS_ERRNO_H)
 
-	// FIXME need to localize the error message.
-	SBWRawException *exception = new SBWRawException(strerror(errno));
+  // FIXME need to localize the error message.
+  SBWRawException *exception = new SBWRawException(strerror(errno));
 
 #endif
 
-	throw exception;
+  throw exception;
 }
 
 /**
@@ -145,87 +149,107 @@ void SBWOS::ThrowError(int error)
 {
 #if defined(WIN32)
 
-	char *lpMsgBuf ;
+  char *lpMsgBuf ;
 
-	if (!::FormatMessage(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-		FORMAT_MESSAGE_FROM_SYSTEM ,
-		NULL,
-		error,
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-		(LPTSTR) &lpMsgBuf,
-		0,
-		NULL ))
-		throw new SBWRawException("Unknown OS error");
+  if (!::FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER |
+        FORMAT_MESSAGE_FROM_SYSTEM ,
+        NULL,
+        error,
+        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+        (LPTSTR) &lpMsgBuf,
+        0,
+        NULL ))
+    throw new SBWRawException("Unknown OS error");
 
-	SBWRawException *exception = new SBWRawException((LPCTSTR) lpMsgBuf);
+  SBWRawException *exception = new SBWRawException(reinterpret_cast<const char*>(lpMsgBuf));
 
-	// Free the buffer.
-	LocalFree( lpMsgBuf );
+  // Free the buffer.
+  LocalFree( lpMsgBuf );
 
 #elif defined(HAVE_SYS_ERRNO_H)
 
-	// FIXME need to localize the error message.
-	SBWRawException *exception = new SBWRawException(strerror(error));
+  // FIXME need to localize the error message.
+  SBWRawException *exception = new SBWRawException(strerror(error));
 
 #endif
 
-	throw exception;
+  throw exception;
+}
+
+char SBWOS::PathSeparator() { return ';'; }
+
+char SBWOS::DirectorySeparator()
+{
+#ifdef WIN32
+  return '\\' ;
+#else
+  return '/' ;
+#endif
+}
+
+const char*SBWOS::DynamicLibraryExt()
+{
+#ifdef WIN32
+  return "dll" ;
+#else
+  return "so" ;
+#endif
 }
 
 
-/** 
+/**
 * launch new process with a given command line
 * @param commandLine command line to executed in a new process
 */
-void SBWOS::startProcess(char *commandLine, bool bWait /*= false*/)
+void SBWOS::startProcess(const char *commandLine, bool bWait /*= false*/)
 {
-	if (commandLine == NULL)
-		return;
+  if (commandLine == NULL)
+    return;
 
 #if defined(WIN32)
 
-	STARTUPINFO si;
-	memset(&si,0,sizeof(si));
-	si.cb = sizeof(si);     // Set byte count
+  STARTUPINFO si;
+  memset(&si,0,sizeof(si));
+  si.cb = sizeof(si);     // Set byte count
 
-	si.dwFlags = STARTF_USESHOWWINDOW;
-	si.wShowWindow  = SW_SHOWNORMAL;
-	
-	PROCESS_INFORMATION pi;
+  si.dwFlags = STARTF_USESHOWWINDOW;
+  si.wShowWindow  = SW_SHOWNORMAL;
 
-	if(!CreateProcess(NULL, (LPTSTR) (LPCTSTR) commandLine,
-		NULL,NULL,FALSE,0,NULL,NULL,&si,&pi))
-		ThrowError();
+  PROCESS_INFORMATION pi;
 
-	if (bWait)
-		WaitForSingleObject( pi.hProcess, INFINITE );
+  if(!CreateProcess(NULL, (LPTSTR) (LPCTSTR) commandLine,
+                    NULL,NULL,FALSE,0,NULL,NULL,&si,&pi))
+    ThrowError();
+
+  if (bWait)
+    WaitForSingleObject( pi.hProcess, INFINITE );
 #else
 
 
 
-	int pid = fork();
+  int pid = fork();
 
-	if (pid == -1)			// Fork failed.
-		ThrowError();
+  if (pid == -1)			// Fork failed.
+    ThrowError();
 
-	if (pid == 0)			// This is the child process.
-	{
-		char *argv[4];
-		const char *command = "sh";
-		const char *arg = "-c";
-		argv[0] = const_cast<char*>(command);
-		argv[1] = const_cast<char*>(arg);
-		argv[2] = commandLine;
-		argv[3] = NULL;
+  if (pid == 0)			// This is the child process.
+  {
+    char *argv[4];
+    const char *command = "sh";
+    const char *arg = "-c";
+    argv[0] = const_cast<char*>(command);
+    argv[1] = const_cast<char*>(arg);
+    argv[2] = const_cast<char*>(commandLine);
+    argv[3] = NULL;
 
-		if (execvp("/bin/sh", argv) > -1) // Only returns on failure.
-			ThrowError();
-	}
+    if (execvp("/bin/sh", argv) > -1) // Only returns on failure.
+      ThrowError();
+  }
 
-	// If pid != -1 or 0, then we're the parent thread.
-	// Simply exit and hope the child process started.
-	if (bWait){}
+  // If pid != -1 or 0, then we're the parent thread.
+  // Simply exit and hope the child process started.
+  if (bWait){}
 
 #endif
 }
@@ -236,53 +260,53 @@ void SBWOS::startProcess(char *commandLine, bool bWait /*= false*/)
 * @param argc set to the number of arguments on the command line plus one
 * @param argv set to the arguments on the command line including the invoking excutable
 */
-SBW_API void SBWOS::windowsExtractCommandLine(int *argc, char ***argv)
+ void SBWOS::windowsExtractCommandLine(int *argc, char ***argv)
 {
-	static char *cmdLine = NULL;
-	static std::list<char *> args ;
+  static char *cmdLine = NULL;
+  static std::list<char *> args ;
 
-	if (cmdLine == NULL)
-	{
-		char *token;
+  if (cmdLine == NULL)
+  {
+    char *token;
 #if  _MSC_VER >= 1400
-		cmdLine = _strdup(GetCommandLine());
+    cmdLine = _strdup(GetCommandLine());
 #else
-		cmdLine = strdup(GetCommandLine());
+    cmdLine = strdup(GetCommandLine());
 #endif
 
-		//MessageBox(NULL, cmdLine, "Trig - cmdline", MB_OK | MB_ICONEXCLAMATION);
-		if (cmdLine[0] == '"')
-		{
-			cmdLine++;
+    //MessageBox(NULL, cmdLine, "Trig - cmdline", MB_OK | MB_ICONEXCLAMATION);
+    if (cmdLine[0] == '"')
+    {
+      cmdLine++;
 
-			int index = strcspn(cmdLine, "\"");
+      int index = strcspn(cmdLine, "\"");
 
-			cmdLine[index] = '\0' ;
-			args.push_back(cmdLine);
-			token = strtok(&(cmdLine[index + 1]), " \t\n");
-		}
-		else
-			token = strtok(cmdLine, " \t\n");
+      cmdLine[index] = '\0' ;
+      args.push_back(cmdLine);
+      token = strtok(&(cmdLine[index + 1]), " \t\n");
+    }
+    else
+      token = strtok(cmdLine, " \t\n");
 
-		while (token != NULL)
-		{
-			args.push_back(token);
-			token = strtok(NULL, " \t\n");
-		}
-	}
+    while (token != NULL)
+    {
+      args.push_back(token);
+      token = strtok(NULL, " \t\n");
+    }
+  }
 
-	*argc = args.size();
-	*argv = new char *[*argc];
+  *argc = args.size();
+  *argv = new char *[*argc];
 
-	int i = 0 ;
-	std::list<char *>::iterator arg = args.begin();
+  int i = 0 ;
+  std::list<char *>::iterator arg = args.begin();
 
-	while (i != *argc)
-	{
-		(*argv)[i] = *arg ;
-		i++ ;
-		arg++ ;
-	}
+  while (i != *argc)
+  {
+    (*argv)[i] = *arg ;
+    i++ ;
+    arg++ ;
+  }
 }
 #endif // WIN32
 
@@ -295,38 +319,38 @@ SBW_API void SBWOS::windowsExtractCommandLine(int *argc, char ***argv)
 * @param n name of the mutex
 */
 
-SBW_API SBWOSMutex::SBWOSMutex(const std::string& n) : name(n)
+ SBWOSMutex::SBWOSMutex(const std::string& n) : name(n)
 {
 #if defined(WIN32)
 
-	InitializeCriticalSection(&criticalSection);
+  InitializeCriticalSection(&criticalSection);
 
 #elif defined(HAVE_LIBPTHREAD)
 
-	pthread_mutexattr_t attr;
-	int status;
+  pthread_mutexattr_t attr;
+  int status;
 
-	// The default kind of mutex in Linux pthreads is "fast" mutexes,
-	// not the "recursive" kind that is the default under Windows.
-	// Here we set up the Linux pthread mutexes to be "recursive".
+  // The default kind of mutex in Linux pthreads is "fast" mutexes,
+  // not the "recursive" kind that is the default under Windows.
+  // Here we set up the Linux pthread mutexes to be "recursive".
 
-	if ((status = pthread_mutexattr_init(&attr)) != 0)
-		SBWOS::ThrowError(status);
+  if ((status = pthread_mutexattr_init(&attr)) != 0)
+    SBWOS::ThrowError(status);
 #ifdef PTHREAD_MUTEX_RECURSIVE_NP
-	if ((status
-		= pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP)) != 0)
-		SBWOS::ThrowError(status);
+  if ((status
+       = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP)) != 0)
+    SBWOS::ThrowError(status);
 #else
-	if ((status
-		= pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE)) != 0)
-		SBWOS::ThrowError(status);
+  if ((status
+       = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE)) != 0)
+    SBWOS::ThrowError(status);
 
 #endif
-	if ((status = pthread_mutex_init(&mutex, &attr)) != 0)
-		SBWOS::ThrowError(status);
+  if ((status = pthread_mutex_init(&mutex, &attr)) != 0)
+    SBWOS::ThrowError(status);
 
-	if ((status = pthread_mutexattr_destroy(&attr)) != 0)
-		SBWOS::ThrowError(status);
+  if ((status = pthread_mutexattr_destroy(&attr)) != 0)
+    SBWOS::ThrowError(status);
 
 #endif
 }
@@ -337,40 +361,40 @@ SBW_API SBWOSMutex::SBWOSMutex(const std::string& n) : name(n)
 * @param n first part of name of the mutex
 * @param suffix second part of name of the mutex
 */
-SBW_API SBWOSMutex::SBWOSMutex(const std::string& n, const std::string& suffix) : name(n)
+ SBWOSMutex::SBWOSMutex(const std::string& n, const std::string& suffix) : name(n)
 {
-	name += suffix ;
+  name += suffix ;
 
 #if defined(WIN32)
 
-	InitializeCriticalSection(&criticalSection);
+  InitializeCriticalSection(&criticalSection);
 
 #elif defined(HAVE_LIBPTHREAD)
 
-	pthread_mutexattr_t attr;
-	int status;
+  pthread_mutexattr_t attr;
+  int status;
 
-	// The default kind of mutex in Linux pthreads is "fast" mutexes,
-	// not the "recursive" kind that is the default under Windows.
-	// Here we set up the Linux pthread mutexes to be "recursive".
+  // The default kind of mutex in Linux pthreads is "fast" mutexes,
+  // not the "recursive" kind that is the default under Windows.
+  // Here we set up the Linux pthread mutexes to be "recursive".
 
-	if ((status = pthread_mutexattr_init(&attr)) != 0)
-		SBWOS::ThrowError(status);
+  if ((status = pthread_mutexattr_init(&attr)) != 0)
+    SBWOS::ThrowError(status);
 #ifdef PTHREAD_MUTEX_RECURSIVE_NP
-	if ((status
-		= pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP)) != 0)
-		SBWOS::ThrowError(status);
+  if ((status
+       = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP)) != 0)
+    SBWOS::ThrowError(status);
 #else
-	if ((status
-		= pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE)) != 0)
-		SBWOS::ThrowError(status);
+  if ((status
+       = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE)) != 0)
+    SBWOS::ThrowError(status);
 
 #endif
-	if ((status = pthread_mutex_init(&mutex, &attr)) != 0)
-		SBWOS::ThrowError(status);
+  if ((status = pthread_mutex_init(&mutex, &attr)) != 0)
+    SBWOS::ThrowError(status);
 
-	if ((status = pthread_mutexattr_destroy(&attr)) != 0)
-		SBWOS::ThrowError(status);
+  if ((status = pthread_mutexattr_destroy(&attr)) != 0)
+    SBWOS::ThrowError(status);
 
 #endif
 }
@@ -381,14 +405,14 @@ SBWOSMutex::~SBWOSMutex()
 {
 #if defined(WIN32)
 
-	DeleteCriticalSection(&criticalSection);
+  DeleteCriticalSection(&criticalSection);
 
 #elif defined(HAVE_LIBPTHREAD)
 
-	int status;
+  int status;
 
-	if ((status = pthread_mutex_destroy(&mutex)) != 0)
-		SBWOS::ThrowError(status);
+  if ((status = pthread_mutex_destroy(&mutex)) != 0)
+    SBWOS::ThrowError(status);
 
 #endif
 }
@@ -402,17 +426,20 @@ void SBWOSMutex::lock()
 {
 #if defined(WIN32)
 
-	EnterCriticalSection(&criticalSection);
+  EnterCriticalSection(&criticalSection);
 
 #elif defined(HAVE_LIBPTHREAD)
 
-	int status;
+  int status;
 
-	if ((status = pthread_mutex_lock(&mutex)) != 0)
-		SBWOS::ThrowError(status);
+  if ((status = pthread_mutex_lock(&mutex)) != 0)
+    SBWOS::ThrowError(status);
 
 #endif
 }
+
+ const std::string&
+SBWOSMutex::getName() const { return name ; }
 
 /**
 * release mutex for this thread
@@ -421,17 +448,36 @@ void SBWOSMutex::unLock()
 {
 #if defined(WIN32)
 
-	LeaveCriticalSection(&criticalSection);
+  LeaveCriticalSection(&criticalSection);
 
 #elif defined(HAVE_LIBPTHREAD)
 
-	int status;
+  int status;
 
-	if ((status = pthread_mutex_unlock(&mutex)) != 0)
-		SBWOS::ThrowError(status);
+  if ((status = pthread_mutex_unlock(&mutex)) != 0)
+    SBWOS::ThrowError(status);
 
 #endif
 }
+
+SBWOSMutexLock::SBWOSMutexLock(SBWOSMutex &m)
+  : mutex(m)
+{
+  m.lock();
+}
+
+/// unlock the associated mutex
+SBWOSMutexLock::~SBWOSMutexLock()
+{
+  mutex.unLock();
+}
+
+//SBWOSMutexLock & operator=( const SBWOSMutexLock & ) {}
+SBWOSMutexLock & SBWOSMutexLock::operator=( const SBWOSMutexLock & )
+{
+  return *this;
+}
+
 
 // -----------------------------------------------------------------------------
 // Class SBWThread
@@ -444,9 +490,9 @@ void SBWOSMutex::unLock()
 SBWThread::SBWThread(std::string n) : name(n), joined(false)
 {
 #if defined(WIN32)
-	thread = NULL;
+  thread = NULL;
 #elif defined(HAVE_LIBPTHREAD)
-	threadId = 0;
+  threadId = 0;
 #endif
 }
 
@@ -456,22 +502,10 @@ SBWThread::SBWThread(std::string n) : name(n), joined(false)
 */
 SBWThread::~SBWThread()
 {
-	if (!joined)
-	{
-#if defined(WIN32)
-		if (thread != NULL)
-#elif defined(HAVE_LIBPTHREAD)
-		if (threadId != 0)
-#endif
-		{
-			throw new
-				SBWRawException("Attempting to delete running thread before join to thread has completed");
-		}
-	}
 
 #if defined(WIN32)
-	if (thread != NULL && !CloseHandle(thread))
-		SBWOS::ThrowError();
+  if (thread != NULL)
+    CloseHandle(thread);
 #endif
 }
 
@@ -483,15 +517,15 @@ SBWThread::~SBWThread()
 #if defined(WIN32)
 DWORD WINAPI SBWThread::threadProc(LPVOID lpParameter)
 {
-	((SBWThread *)lpParameter)->run();
+  ((SBWThread *)lpParameter)->run();
 
-	return 0 ;
+  return 0 ;
 }
 #else
 void* SBWThread::threadProc(void* lpParameter)
 {
-	((SBWThread *)lpParameter)->run();
-	return NULL;
+  ((SBWThread *)lpParameter)->run();
+  return NULL;
 }
 #endif
 
@@ -501,31 +535,31 @@ void* SBWThread::threadProc(void* lpParameter)
 */
 void SBWThread::start()
 {
-	threadId =0;
+  threadId =0;
 #if defined(WIN32)
 
-	thread = CreateThread(
-		NULL,  // pointer to security attributes
-		0,                         // initial thread stack size
-		threadProc,     // pointer to thread function
-		this,                        // argument for new thread
-		0,                     // creation flags
-		&threadId                         // pointer to receive thread ID
-		);
+  thread = CreateThread(
+        NULL,  // pointer to security attributes
+        0,                         // initial thread stack size
+        threadProc,     // pointer to thread function
+        this,                        // argument for new thread
+        0,                     // creation flags
+        &threadId                         // pointer to receive thread ID
+        );
 
-	if (thread == NULL)
-		SBWOS::ThrowError();
+  if (thread == NULL)
+    SBWOS::ThrowError();
 
 #elif defined(HAVE_LIBPTHREAD)
 
-	TRACE("Creating new thread");
+  TRACE("Creating new thread");
 
-	int status = pthread_create(&threadId, NULL, threadProc, (void *)this);
+  int status = pthread_create(&threadId, NULL, threadProc, (void *)this);
 
-	if (status != 0)
-		SBWOS::ThrowError(status);
+  if (status != 0)
+    SBWOS::ThrowError(status);
 
-	TRACE("New thread's id = " << threadId);
+  TRACE("New thread's id = " << threadId);
 
 #endif
 }
@@ -539,26 +573,26 @@ void SBWThread::join()
 {
 #if defined(WIN32)
 
-	if (thread == NULL || isThisThread())
-		return;
+  if (thread == NULL || isThisThread())
+    return;
 
-	if (WaitForSingleObject(thread, INFINITE) == WAIT_FAILED)
-		SBWOS::ThrowError();
+  if (WaitForSingleObject(thread, INFINITE) == WAIT_FAILED)
+    SBWOS::ThrowError();
 
 #elif defined(HAVE_LIBPTHREAD)
 
-	if (threadId == 0 || isThisThread())
-		return;
+  if (threadId == 0 || isThisThread())
+    return;
 
-	TRACE("Waiting to join thread id = " << threadId);
+  TRACE("Waiting to join thread id = " << threadId);
 
-	int status = pthread_join(threadId, NULL);
+  int status = pthread_join(threadId, NULL);
 
-	if (status != 0)
-		SBWOS::ThrowError(status);
+  if (status != 0)
+    SBWOS::ThrowError(status);
 
 #endif
-	joined = true ;
+  joined = true ;
 }
 /**
 * returns whether the execution thread is the same thread represented by this SBWThread object.
@@ -567,21 +601,21 @@ void SBWThread::join()
 bool SBWThread::isThisThread()
 {
 #if defined(WIN32)
-	return threadId == GetCurrentThreadId();
+  return threadId == GetCurrentThreadId();
 #elif defined(HAVE_LIBPTHREAD)
-	return threadId == pthread_self();
+  return threadId == pthread_self();
 #endif
 }
-/** 
+/**
 * returns a unique numeric identifier for the current execution thread
 * @return a unique numeric identifier for the current execution thread
 */
 unsigned long SBWThread::myThreadId()
 {
 #ifdef WIN32
-	return GetCurrentThreadId();
+  return GetCurrentThreadId();
 #else
-	return (unsigned long) pthread_self();
+  return (unsigned long) pthread_self();
 #endif
 }
 
@@ -592,64 +626,64 @@ unsigned long SBWThread::myThreadId()
 void SBWThread::sleep(Integer milliSec)
 {
 #if defined(WIN32)
-		Sleep(milliSec);
+  Sleep(milliSec);
 #elif defined(HAVE_LIBPTHREAD)
-		// There doesn't seem to be a thread-specific sleep in pthreads, so
-		// I'm hijacking the conditional wait to achive this.  The code below
-		// waits & times out on a conditional variable that is never signaled.
-	try
-	{
+  // There doesn't seem to be a thread-specific sleep in pthreads, so
+  // I'm hijacking the conditional wait to achive this.  The code below
+  // waits & times out on a conditional variable that is never signaled.
+  try
+  {
 
-		//TRACE("Sleeping for " << milliSec << " milliseconds");
-		int status;
-		//#if defined(DARWIN) || defined(SOLARIS)
-		//	struct timeval now;
-		//	struct timespec timeout;
-		//  
-		//  	pthread_mutex_t timeMutex = PTHREAD_MUTEX_INITIALIZER;
-		//	pthread_cond_t timeCond = PTHREAD_COND_INITIALIZER;
-		//
-		//	status = pthread_mutex_lock(&timeMutex);
-		//	if (status != 0)
-		//		SBWOS::ThrowError(status);
-		//
-		//	// The timeout param is an absolute time, so we have to calculate it.
-		//
-		//	gettimeofday(&now, NULL);
-		//	timeout.tv_sec = now.tv_sec;
-		//	timeout.tv_nsec = 1000 * (now.tv_usec + 1000 * milliSec);
-		//
-		//	status = pthread_cond_timedwait(&timeCond, &timeMutex, &timeout);
-		//	if (status != ETIMEDOUT)
-		//		SBWOS::ThrowError(status);
-		//
-		//	status = pthread_mutex_unlock(&timeMutex);
-		//#else
-		//struct timespec delay = { 0,0 };
-		//	delay.tv_nsec = 1000 * milliSec;
-		//	status = nanosleep(&delay,NULL);
+    //TRACE("Sleeping for " << milliSec << " milliseconds");
+    int status;
+    //#if defined(DARWIN) || defined(SOLARIS)
+    //	struct timeval now;
+    //	struct timespec timeout;
+    //
+    //  	pthread_mutex_t timeMutex = PTHREAD_MUTEX_INITIALIZER;
+    //	pthread_cond_t timeCond = PTHREAD_COND_INITIALIZER;
+    //
+    //	status = pthread_mutex_lock(&timeMutex);
+    //	if (status != 0)
+    //		SBWOS::ThrowError(status);
+    //
+    //	// The timeout param is an absolute time, so we have to calculate it.
+    //
+    //	gettimeofday(&now, NULL);
+    //	timeout.tv_sec = now.tv_sec;
+    //	timeout.tv_nsec = 1000 * (now.tv_usec + 1000 * milliSec);
+    //
+    //	status = pthread_cond_timedwait(&timeCond, &timeMutex, &timeout);
+    //	if (status != ETIMEDOUT)
+    //		SBWOS::ThrowError(status);
+    //
+    //	status = pthread_mutex_unlock(&timeMutex);
+    //#else
+    //struct timespec delay = { 0,0 };
+    //	delay.tv_nsec = 1000 * milliSec;
+    //	status = nanosleep(&delay,NULL);
 
-		struct timespec req={0,0};  
-		time_t sec=(int)(milliSec/1000);  
-		milliSec=milliSec-(sec*1000);  
-		req.tv_sec=sec;  
-		req.tv_nsec=milliSec*1000000L;  
-		while((status = nanosleep(&req,&req))==-1)  
-			continue;  	
+    struct timespec req={0,0};
+    time_t sec=(int)(milliSec/1000);
+    milliSec=milliSec-(sec*1000);
+    req.tv_sec=sec;
+    req.tv_nsec=milliSec*1000000L;
+    while((status = nanosleep(&req,&req))==-1)
+      continue;
 
-		//#endif
+    //#endif
 
-		if (status != 0)
-			SBWOS::ThrowError(status);
-	}
-	catch(SBWException *e)
-	{
-		throw e;
-	}
-	catch(...)
-	{
-		TRACE("SLEEP failed");
-	}
+    if (status != 0)
+      SBWOS::ThrowError(status);
+  }
+  catch(SBWException *e)
+  {
+    throw e;
+  }
+  catch(...)
+  {
+    TRACE("SLEEP failed");
+  }
 #endif
 }
 
@@ -664,31 +698,31 @@ void SBWThread::sleep(Integer milliSec)
 * create an event object with a given name in the unsignalled state
 * @param n name of event object
 */
-SBW_API SBWOSEvent::SBWOSEvent(std::string n)
-: name(n)
+ SBWOSEvent::SBWOSEvent(std::string n)
+  : name(n)
 {
 #if defined(WIN32)
 
-	event = CreateEvent(
-		NULL, // pointer to security attributes
-		FALSE,  // flag for manual-reset event
-		FALSE, // flag for initial state - in this case non signaled
-		NULL) ;     // pointer to event-object name
+  event = CreateEvent(
+        NULL, // pointer to security attributes
+        FALSE,  // flag for manual-reset event
+        FALSE, // flag for initial state - in this case non signaled
+        NULL) ;     // pointer to event-object name
 
-	if (event == NULL)
-		SBWOS::ThrowError();
+  if (event == NULL)
+    SBWOS::ThrowError();
 
 #elif defined(HAVE_LIBPTHREAD)
 
-	if (pthread_mutex_init(&mutex, NULL) != 0)
-		SBWOS::ThrowError();
+  if (pthread_mutex_init(&mutex, NULL) != 0)
+    SBWOS::ThrowError();
 
-	if (pthread_cond_init(&event, NULL) != 0)
-		SBWOS::ThrowError();
+  if (pthread_cond_init(&event, NULL) != 0)
+    SBWOS::ThrowError();
 
-	wakeup = false;
+  wakeup = false;
 
-	TRACE("Created new event object");
+  TRACE("Created new event object");
 
 #endif
 }
@@ -697,21 +731,21 @@ SBW_API SBWOSEvent::SBWOSEvent(std::string n)
 */
 SBWOSEvent::~SBWOSEvent()
 {
-	TRACE("Destroying event object: " << name);
+  TRACE("Destroying event object: " << name);
 #if defined(WIN32)
 
-	if (event != NULL && !CloseHandle(event))
-		SBWOS::ThrowError();
+  if (event != NULL && !CloseHandle(event))
+    SBWOS::ThrowError();
 
 #elif defined(HAVE_LIBPTHREAD)
 
-	TRACE("Destroying event object");
+  TRACE("Destroying event object");
 
-	if (pthread_mutex_destroy(&mutex) != 0)
-		SBWOS::ThrowError();
+  if (pthread_mutex_destroy(&mutex) != 0)
+    SBWOS::ThrowError();
 
-	if (pthread_cond_destroy(&event) != 0)
-		SBWOS::ThrowError();
+  if (pthread_cond_destroy(&event) != 0)
+    SBWOS::ThrowError();
 
 #endif
 }
@@ -721,55 +755,55 @@ SBWOSEvent::~SBWOSEvent()
 */
 void SBWOSEvent::wait()
 {
-	TRACE("Waiting on event: " << name);
+  TRACE("Waiting on event: " << name);
 #if defined(WIN32)
-	if (WaitForSingleObject(event, INFINITE) == WAIT_FAILED)
-		SBWOS::ThrowError();
+  if (WaitForSingleObject(event, INFINITE) == WAIT_FAILED)
+    SBWOS::ThrowError();
 
 #elif defined(HAVE_LIBPTHREAD)
 
-	TRACE("Waiting on event");
+  TRACE("Waiting on event");
 
-	if (pthread_mutex_lock(&mutex) != 0)
-		SBWOS::ThrowError();
+  if (pthread_mutex_lock(&mutex) != 0)
+    SBWOS::ThrowError();
 
-	while (!wakeup)
-		pthread_cond_wait(&event, &mutex);
+  while (!wakeup)
+    pthread_cond_wait(&event, &mutex);
 
-	wakeup = false;
+  wakeup = false;
 
-	if (pthread_mutex_unlock(&mutex) != 0)
-		SBWOS::ThrowError();
+  if (pthread_mutex_unlock(&mutex) != 0)
+    SBWOS::ThrowError();
 
 #endif
 }
 
 /**
 * signal the event.
-* the event state becomes signalled and all wait() method calls on this object unblock. 
+* the event state becomes signalled and all wait() method calls on this object unblock.
 */
 void SBWOSEvent::notify()
 {
-	TRACE("Notifying other threads about event: " << name);
+  TRACE("Notifying other threads about event: " << name);
 #if defined(WIN32)
 
-	if (!SetEvent(event))
-		SBWOS::ThrowError();
+  if (!SetEvent(event))
+    SBWOS::ThrowError();
 
 #elif defined(HAVE_LIBPTHREAD)
 
-	TRACE("Notifying other threads about event");
+  TRACE("Notifying other threads about event");
 
-	if (pthread_mutex_lock(&mutex) != 0)
-		SBWOS::ThrowError();
+  if (pthread_mutex_lock(&mutex) != 0)
+    SBWOS::ThrowError();
 
-	wakeup = true;
+  wakeup = true;
 
-	if (pthread_cond_broadcast(&event) != 0)
-		SBWOS::ThrowError();
+  if (pthread_cond_broadcast(&event) != 0)
+    SBWOS::ThrowError();
 
-	if (pthread_mutex_unlock(&mutex) != 0)
-		SBWOS::ThrowError();
+  if (pthread_mutex_unlock(&mutex) != 0)
+    SBWOS::ThrowError();
 #endif
 }
 
@@ -777,24 +811,15 @@ void SBWOSEvent::notify()
 * returns the name of this event object
 * @return the name of this event object
 */
-SBW_API std::string SBWOSEvent::getName()
+ std::string SBWOSEvent::getName()
 {
-	return name;
+  return name;
 }
 
 // -----------------------------------------------------------------------------
 // Misc. utils
 // -----------------------------------------------------------------------------
 
-/**
-* WIN32 only - displays a message box containing the string "Assert"
-*/
-#ifdef WIN32
-SBW_API void SystemsBiologyWorkbench::SBWAssertMessage()
-{
-	MessageBox(NULL, "ASSERT", "Assert", MB_OK);
-}
-#endif
 
 // SBWDebug ---------------------------------------------------------------------
 
@@ -812,21 +837,21 @@ SBWOSMutex SBWDebug::traceMutex("trace");
 * Has no effect in the Release configuration library.
 * Use the debug configuration library to get debug trace output.
 * @param x message string to be output
-* @param file the source code file in which this call is being made 
+* @param file the source code file in which this call is being made
 * @param line the line in <code>file</code> on which this call is being made
 */
-SBW_API void SBWDebug::trace(const char *x, const char *file, int line)
+ void SBWDebug::trace(const char *x, const char *file, int line)
 {
-	if (traceOn)
-	{
+  if (traceOn)
+  {
 #ifdef WIN32
-		SBWOSMutexLock ml(traceMutex);
+    SBWOSMutexLock ml(traceMutex);
 #endif
 
-		std::cerr << "(trace) thread #" << SBWThread::myThreadId() 
-			<< " (" << file << ":" << line << ") " 
-			<< " " << x << "\n"; std::cerr.flush();
-	}
+    std::cerr << "(trace) thread #" << SBWThread::myThreadId()
+              << " (" << file << ":" << line << ") "
+              << " " << x << "\n"; std::cerr.flush();
+  }
 }
 #endif
 
@@ -838,5 +863,5 @@ SBW_API void SBWDebug::trace(const char *x, const char *file, int line)
 */
 void SBWDebug::setTraceMode(bool mode)
 {
-	traceOn = mode;
+  traceOn = mode;
 }

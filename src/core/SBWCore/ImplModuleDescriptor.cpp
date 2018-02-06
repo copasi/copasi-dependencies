@@ -84,11 +84,22 @@ ImplModuleDescriptor::ImplModuleDescriptor(DataBlockReader reader)
 	type = (ModuleManagementType)typeCode ;
 }
 
+std::string ImplModuleDescriptor::getName() { return name; }
+
+std::string ImplModuleDescriptor::getDisplayName() { return displayName; }
+
+std::string ImplModuleDescriptor::getCommandLine() { return commandLine; }
+
+ModuleManagementType ImplModuleDescriptor::getType() { return type; }
+
+std::string ImplModuleDescriptor::getHelp() { return help ; }
+
 /**
  * returns the service descriptors for the services registered with this module
  * @return the service descriptors for the services registered with this module
  */
-SBW_API std::vector<ServiceDescriptor> *ImplModuleDescriptor::getServiceDescriptors()
+ std::vector<ServiceDescriptor> *
+ImplModuleDescriptor::getServiceDescriptors()
 {
-	return SBWLowLevel::getServiceDescriptors(name.c_str());
+  return SBWLowLevel::getServiceDescriptors(name.c_str());
 }

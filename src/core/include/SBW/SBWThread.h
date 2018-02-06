@@ -68,6 +68,7 @@
 # ifndef WIN32_LEAN_AND_MEAN
 # define WIN32_LEAN_AND_MEAN
 # endif // WIN32_LEAN_AND_MEAN
+#pragma warning(disable: 4251)
 #include <windows.h>
 #endif
 
@@ -89,29 +90,29 @@ typedef void (*SBWOSThread)(void *userData);
 /** portable interface to operating system thread functionality.
  * Represents one thread running inside this process.
  */
-class SBWThread 
+class SBW_API SBWThread
 {
 public :
-	SBW_API SBWThread(std::string name);
-	SBW_API virtual ~SBWThread();
+	SBWThread(std::string name);
+	virtual ~SBWThread();
 
-	SBW_API void start();
+	void start();
 
 	/// function that is run iside the thread.
-	SBW_API virtual void run() = 0 ;
+	virtual void run() = 0 ;
 
-	SBW_API void join();
-	SBW_API bool isThisThread();
+	void join();
+	bool isThisThread();
 
-	SBW_API static unsigned long myThreadId();
-	SBW_API static void sleep(Integer milliSec);
+	static unsigned long myThreadId();
+	static void sleep(Integer milliSec);
 
 
 private:
 
 #if defined(WIN32)
 
-	SBW_API static DWORD WINAPI threadProc(LPVOID lpParameter);
+	static DWORD WINAPI threadProc(LPVOID lpParameter);
 
 	/// handle to the windows thread object
 	HANDLE thread ;

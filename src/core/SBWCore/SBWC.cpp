@@ -279,13 +279,13 @@ DataBlockWriter HandlerForC::receive(Module from, DataBlockReader args)
 static ModuleImpl *moduleImpl = NULL ;
 
 /// @deprecated use SBWFree instead
-SBW_API void SBWFreeArray(void *x)
+ void SBWFreeArray(void *x)
 {
 	free(x);
 }
 
 /// @deprecated use SBWFree instead
-SBW_API void SBWFreeObject(void *x)
+ void SBWFreeObject(void *x)
 {
 	free(x);
 }
@@ -294,7 +294,7 @@ SBW_API void SBWFreeObject(void *x)
  * deallocate object created by the C API.
  * @param x object created by C API that is to be deallocated.
  */
-SBW_API void SBWFree(void *x)
+ void SBWFree(void *x)
 {
 	free(x);
 }
@@ -304,7 +304,7 @@ SBW_API void SBWFree(void *x)
  * @param xSize size of the first dimension of the array.
  * @param array array created by C API that is to be deallocated.
  */
-SBW_API void SBWFree2DArray(SBWInteger xSize, void **array)
+ void SBWFree2DArray(SBWInteger xSize, void **array)
 {
 	while (xSize != 0)
 	{
@@ -320,7 +320,7 @@ SBW_API void SBWFree2DArray(SBWInteger xSize, void **array)
  * @param size size of the first dimension of the array of module descriptors.
  * @param x array of module descriptors created by C API that is to be deallocated.
  */
-SBW_API void SBWFreeModuleDescriptorArray(int size, SBWModuleDescriptor *x)
+ void SBWFreeModuleDescriptorArray(int size, SBWModuleDescriptor *x)
 {
 	while (size != 0)
 	{
@@ -337,7 +337,7 @@ SBW_API void SBWFreeModuleDescriptorArray(int size, SBWModuleDescriptor *x)
  * deallocate service descriptor structure.
  * @param descriptor service descriptor to be deallocated.
  */
-SBW_API void SBWFreeServiceDescriptor(SBWServiceDescriptor *descriptor)
+ void SBWFreeServiceDescriptor(SBWServiceDescriptor *descriptor)
 {
 	delete[] descriptor->serviceName;
 	delete[] descriptor->serviceDisplayName ;
@@ -353,7 +353,7 @@ SBW_API void SBWFreeServiceDescriptor(SBWServiceDescriptor *descriptor)
  * @param size the number of service descriptors in the array of service descriptors.
  * @param descriptor array of service descriptors created by C API that is to be deallocated.
  */
-SBW_API void SBWFreeServiceDescriptorArray(int size, SBWServiceDescriptor *descriptor)
+ void SBWFreeServiceDescriptorArray(int size, SBWServiceDescriptor *descriptor)
 {
 	while (size != 0)
 	{
@@ -374,7 +374,7 @@ SBW_API void SBWFreeServiceDescriptorArray(int size, SBWServiceDescriptor *descr
  * deallocate given SBWDataBlockWriter.
  * @param x SBWDataBlockWriter to be deallocated. 
  */
-SBW_API void SBWFreeSBWDataBlockWriter(SBWDataBlockWriter *x)
+ void SBWFreeSBWDataBlockWriter(SBWDataBlockWriter *x)
 {
 	((SystemsBiologyWorkbench::sbwDataBlockWriter *)x)->Release();
 }
@@ -383,7 +383,7 @@ SBW_API void SBWFreeSBWDataBlockWriter(SBWDataBlockWriter *x)
  * dellocate given SBWDataBlockReader.
  * @param x SBWDataBlockReader to be deallocated.
  */
-SBW_API void SBWFreeSBWDataBlockReader(SBWDataBlockReader *x)
+ void SBWFreeSBWDataBlockReader(SBWDataBlockReader *x)
 {
 	((SystemsBiologyWorkbench::sbwDataBlockReader *)x)->Release();
 }
@@ -392,7 +392,7 @@ SBW_API void SBWFreeSBWDataBlockReader(SBWDataBlockReader *x)
  * dellocate given SBWSignature.
  * @param x SBWSignature to be deallocated.
  */
-SBW_API void SBWFreeSBWSignature(SBWSignature *x)
+ void SBWFreeSBWSignature(SBWSignature *x)
 {
 	((SystemsBiologyWorkbench::sbwSignature *)x)->Release();
 }
@@ -401,7 +401,7 @@ SBW_API void SBWFreeSBWSignature(SBWSignature *x)
  * dellocate given SBWSignatureType.
  * @param x SBWSignatureType to be deallocated.
  */
-SBW_API void SBWFreeSBWSignatureType(SBWSignatureType *x)
+ void SBWFreeSBWSignatureType(SBWSignatureType *x)
 {
 	((SystemsBiologyWorkbench::sbwSignatureType *)x)->Release();
 }
@@ -411,7 +411,7 @@ SBW_API void SBWFreeSBWSignatureType(SBWSignatureType *x)
  * @param size the number of signature arguments in the array.
  * @param descriptor array of signature arguments created by C API that is to be deallocated.
  */
-SBW_API void SBWFreeSBWSignatureElementArray(SBWInteger size, SBWSignatureElement **array)
+ void SBWFreeSBWSignatureElementArray(SBWInteger size, SBWSignatureElement **array)
 {
 	SystemsBiologyWorkbench::sbwSignatureElement **a = (SystemsBiologyWorkbench::sbwSignatureElement **)array;
 
@@ -430,7 +430,7 @@ SBW_API void SBWFreeSBWSignatureElementArray(SBWInteger size, SBWSignatureElemen
  * @return the user message associated with the pending exception.
  *         NULL if there is no pending exception.
  */
-SBW_API char *SBWExceptionGetMessage()
+ char *SBWExceptionGetMessage()
 {
 	SBWException *e = SBWException::getStoredException();
 
@@ -446,7 +446,7 @@ SBW_API char *SBWExceptionGetMessage()
  * @return the detailed message associated with the pending exception.
  *         NULL if there is no pending exception.
  */
-SBW_API char *SBWExceptionGetDetailedMessage()
+ char *SBWExceptionGetDetailedMessage()
 {
 	SBWException *e = SBWException::getStoredException();
 
@@ -461,7 +461,7 @@ SBW_API char *SBWExceptionGetDetailedMessage()
  * @return the exception code associated the pending exception.
  *         -1 if there is no pending exception.
  */
-SBW_API int SBWExceptionGetCode()
+ int SBWExceptionGetCode()
 {
 	SBWException *e = SBWException::getStoredException();
 
@@ -476,7 +476,7 @@ SBW_API int SBWExceptionGetCode()
  * @param userMessage user message associated with the exception.
  * @param detailedMessage detailed message associated with the exception.
  */
-SBW_API void SBWSetException(const char *userMessage, const char *detailedMessage)
+ void SBWSetException(const char *userMessage, const char *detailedMessage)
 {
 	SBWException *e = new SBWApplicationException(userMessage, detailedMessage);
 
@@ -487,7 +487,7 @@ SBW_API void SBWSetException(const char *userMessage, const char *detailedMessag
  * clears ALL exceptions on ALL threads. Really a kludge to fix the MATLAB-SBW 
  * "sticky errors" problem. 
  */ 
-SBW_API void SBWExceptionClear() 
+ void SBWExceptionClear() 
 { 
     SBWException::clearAllExceptions(); 
 } 
@@ -497,7 +497,7 @@ SBW_API void SBWExceptionClear()
  * - true the connection was made
  * - false the connection was not made because an error occurred and there is a pending exception
  */
-SBW_API SBWBoolean SBWConnect()
+ SBWBoolean SBWConnect()
 {
 	try
 	{
@@ -521,7 +521,7 @@ SBW_API SBWBoolean SBWConnect()
  * @param hostname the hostname of machine on which you wish to connect.
  * @returns true if succesful false otherwise.
  */
-SBW_API SBWBoolean SBWLink(const char *hostname)
+ SBWBoolean SBWLink(const char *hostname)
 {
 	try
 	{
@@ -544,7 +544,7 @@ SBW_API SBWBoolean SBWLink(const char *hostname)
  * - true the connection was made
  * - false the connection was not made because an error occurred and there is a pending exception
  */
-SBW_API SBWBoolean SBWConnectOnHost(const char *hostname)
+ SBWBoolean SBWConnectOnHost(const char *hostname)
 {
 	try
 	{
@@ -561,7 +561,7 @@ SBW_API SBWBoolean SBWConnectOnHost(const char *hostname)
 }
 
 /// block until this application is disconnected from the broker
-SBW_API void SBWWaitForDisconnect()
+ void SBWWaitForDisconnect()
 {
 	SBWLowLevel::waitForDisconnect();
 }
@@ -574,7 +574,7 @@ SBW_API void SBWWaitForDisconnect()
  * @param recursive include services that are in subcategories of this service.
  * @param oReturn the services that are in the given service category.
  */
-SBW_API void SBWFindServicesA(
+ void SBWFindServicesA(
 	const char *serviceCategory, SBWInteger *numberOfServices, SBWBoolean recursive, SBWServiceDescriptor* oReturn)
 {
 	oReturn = SBWFindServices(serviceCategory, numberOfServices, recursive);
@@ -588,7 +588,7 @@ SBW_API void SBWFindServicesA(
  * @param recursive include services that are in subcategories of this service.
  * @return the services that are in the given service category.
  */
-SBW_API SBWServiceDescriptor *SBWFindServices(
+ SBWServiceDescriptor *SBWFindServices(
 	const char *serviceCategory, SBWInteger *numberOfServices, SBWBoolean recursive)
 {
 	std::vector<ServiceDescriptor> *descriptors;
@@ -624,7 +624,7 @@ SBW_API SBWServiceDescriptor *SBWFindServices(
  * @param recursive include services that are in subcategories of this service.
  * @return the services that are in the given service category.
  */
-SBW_API SBWServiceDescriptor *SBWFindLocalServices(
+ SBWServiceDescriptor *SBWFindLocalServices(
 	const char *serviceCategory, SBWInteger *numberOfServices, SBWBoolean recursive)
 {
 	std::vector<ServiceDescriptor> *descriptors;
@@ -657,7 +657,7 @@ SBW_API SBWServiceDescriptor *SBWFindLocalServices(
  * add a callback function which will be called when this application disconnects from the broker.
  * @param ml a callback function which will be called when this application disconnects from the broker.
  */
-SBW_API void SBWRegisterShutdownListener(SBWSimpleListener ml)
+ void SBWRegisterShutdownListener(SBWSimpleListener ml)
 {
 	SBWLowLevel::registerShutdownListener((SimpleListener) ml);
 }
@@ -665,7 +665,7 @@ SBW_API void SBWRegisterShutdownListener(SBWSimpleListener ml)
  * add a callback function which will be called when the broker's registry changes.
  * @param sl a callback function which will be be called when the broker's registry changes.
  */
-SBW_API void SBWRegisterRegistrationChangeListener(SBWSimpleListener sl)
+ void SBWRegisterRegistrationChangeListener(SBWSimpleListener sl)
 {
 	SBWLowLevel::registerRegistrationChangeListener((SimpleListener) sl);
 }
@@ -673,7 +673,7 @@ SBW_API void SBWRegisterRegistrationChangeListener(SBWSimpleListener sl)
  * add a callback function which will be called whenever another module connects to the broker.
  * @param ml a callback function which will be called whenever another module connects to the broker.
  */
-SBW_API void SBWRegisterModuleStartupListener(SBWModuleListener ml)
+ void SBWRegisterModuleStartupListener(SBWModuleListener ml)
 {
 	SBWLowLevel::registerModuleStartupListener(ml);
 }
@@ -681,7 +681,7 @@ SBW_API void SBWRegisterModuleStartupListener(SBWModuleListener ml)
  * remove the callback function which was passed to SBWRegisterModuleShutdownListener
  * @param ml the callback function to be removed
  */
-SBW_API void SBWRemoveModuleShutdownListener(SBWModuleListener ml)
+ void SBWRemoveModuleShutdownListener(SBWModuleListener ml)
 {
 	SBWLowLevel::removeModuleShutdownListener(ml);
 }
@@ -689,7 +689,7 @@ SBW_API void SBWRemoveModuleShutdownListener(SBWModuleListener ml)
  * remove the callback function which was passed to SBWRegisterModuleStartupListener
  * @param ml the callback function to be removed
  */
-SBW_API void SBWRemoveModuleStartupListener(SBWModuleListener ml)
+ void SBWRemoveModuleStartupListener(SBWModuleListener ml)
 {
 	SBWLowLevel::removeModuleStartupListener(ml);
 }
@@ -697,7 +697,7 @@ SBW_API void SBWRemoveModuleStartupListener(SBWModuleListener ml)
  * remove the callback function which was passed to SBWRegisterShutdownListener
  * @param ml the callback function to be removed
  */
-SBW_API void SBWRemoveShutdownListener(SBWSimpleListener ml)
+ void SBWRemoveShutdownListener(SBWSimpleListener ml)
 {
 	SBWLowLevel::removeShutdownListener((SimpleListener) ml);
 }
@@ -705,7 +705,7 @@ SBW_API void SBWRemoveShutdownListener(SBWSimpleListener ml)
  * remove the callback function which was passed to SBWRegisterRegistrationChangeListener
  * @param ml the callback function to be removed
  */
-SBW_API void SBWRemoveRegistrationChangeListener(SBWSimpleListener sl)
+ void SBWRemoveRegistrationChangeListener(SBWSimpleListener sl)
 {
 	SBWLowLevel::removeRegistrationChangeListener((SimpleListener) sl);
 }
@@ -713,7 +713,7 @@ SBW_API void SBWRemoveRegistrationChangeListener(SBWSimpleListener sl)
  * add a callback function which will be called whenever another module disconnects from the broker.
  * @param ml a callback function which will be called whenever another module disconnects from the broker.
  */
-SBW_API void SBWRegisterModuleShutdownListener(SBWModuleListener ml)
+ void SBWRegisterModuleShutdownListener(SBWModuleListener ml)
 {
 	SBWLowLevel::registerModuleShutdownListener(ml);
 }
@@ -721,7 +721,7 @@ SBW_API void SBWRegisterModuleShutdownListener(SBWModuleListener ml)
  * add a callback function which will be called when this application disconnects from the broker.
  * @param ml a callback function which will be called when this application disconnects from the broker.
  */
-SBW_API void SBWRegisterShutdownListenerA(SBWSimpleListenerStdCall ml)
+ void SBWRegisterShutdownListenerA(SBWSimpleListenerStdCall ml)
 {
 	SBWLowLevel::registerShutdownListenerStdCall((SimpleListenerStdCall) ml);
 }
@@ -729,7 +729,7 @@ SBW_API void SBWRegisterShutdownListenerA(SBWSimpleListenerStdCall ml)
  * add a callback function which will be called whenever another module disconnects from the broker.
  * @param ml a callback function which will be called whenever another module disconnects from the broker.
  */
-SBW_API void SBWRegisterModuleShutdownListenerA(SBWModuleListenerStdCall ml)
+ void SBWRegisterModuleShutdownListenerA(SBWModuleListenerStdCall ml)
 {
 	SBWLowLevel::registerModuleShutdownListenerStdCall(ml);
 }
@@ -738,7 +738,7 @@ SBW_API void SBWRegisterModuleShutdownListenerA(SBWModuleListenerStdCall ml)
  * add a callback function which will be called whenever another module connects to the broker.
  * @param ml a callback function which will be called whenever another module connects to the broker.
  */
-SBW_API void SBWRegisterModuleStartupListenerA(SBWModuleListenerStdCall ml)
+ void SBWRegisterModuleStartupListenerA(SBWModuleListenerStdCall ml)
 {
 	SBWLowLevel::registerModuleStartupListenerStdCall(ml);
 }
@@ -747,7 +747,7 @@ SBW_API void SBWRegisterModuleStartupListenerA(SBWModuleListenerStdCall ml)
  * add a callback function which will be called when the broker's registry changes.
  * @param sl a callback function which will be be called when the broker's registry changes.
  */
-SBW_API void SBWRegisterRegistrationChangeListenerA(SBWSimpleListenerStdCall sl)
+ void SBWRegisterRegistrationChangeListenerA(SBWSimpleListenerStdCall sl)
 {
 	SBWLowLevel::registerRegistrationChangeListenerStdCall((SimpleListenerStdCall) sl);
 }
@@ -756,7 +756,7 @@ SBW_API void SBWRegisterRegistrationChangeListenerA(SBWSimpleListenerStdCall sl)
  * remove the callback function which was passed to SBWRegisterShutdownListener
  * @param ml the callback function to be removed
  */
-SBW_API void SBWRemoveShutdownListenerA(SBWSimpleListenerStdCall ml)
+ void SBWRemoveShutdownListenerA(SBWSimpleListenerStdCall ml)
 {
 	SBWLowLevel::removeShutdownListenerStdCall((SimpleListenerStdCall) ml);
 }
@@ -765,7 +765,7 @@ SBW_API void SBWRemoveShutdownListenerA(SBWSimpleListenerStdCall ml)
  * remove the callback function which was passed to SBWRegisterModuleShutdownListener
  * @param ml the callback function to be removed
  */
-SBW_API void SBWRemoveModuleShutdownListenerA(SBWModuleListenerStdCall ml)
+ void SBWRemoveModuleShutdownListenerA(SBWModuleListenerStdCall ml)
 {
 	SBWLowLevel::removeModuleShutdownListenerStdCall(ml);
 }
@@ -774,7 +774,7 @@ SBW_API void SBWRemoveModuleShutdownListenerA(SBWModuleListenerStdCall ml)
  * remove the callback function which was passed to SBWRegisterModuleStartupListener
  * @param ml the callback function to be removed
  */
-SBW_API void SBWRemoveModuleStartupListenerA(SBWModuleListenerStdCall ml)
+ void SBWRemoveModuleStartupListenerA(SBWModuleListenerStdCall ml)
 {
 	SBWLowLevel::removeModuleStartupListenerStdCall(ml);
 }
@@ -783,7 +783,7 @@ SBW_API void SBWRemoveModuleStartupListenerA(SBWModuleListenerStdCall ml)
  * remove the callback function which was passed to SBWRegisterRegistrationChangeListener
  * @param ml the callback function to be removed
  */
-SBW_API void SBWRemoveRegistrationChangeListenerA(SBWSimpleListenerStdCall sl)
+ void SBWRemoveRegistrationChangeListenerA(SBWSimpleListenerStdCall sl)
 {
 	SBWLowLevel::removeRegistrationChangeListenerStdCall((SimpleListenerStdCall) sl);
 }
@@ -792,7 +792,7 @@ SBW_API void SBWRemoveRegistrationChangeListenerA(SBWSimpleListenerStdCall sl)
  * returns the numeric identifier of this module.
  * @return the numeric identifier of this module.
  */
-SBW_API SBWInteger SBWGetThisModule()
+ SBWInteger SBWGetThisModule()
 {
 	try
 	{
@@ -816,7 +816,7 @@ SBW_API SBWInteger SBWGetThisModule()
  * - true if the module instance and service are located successfully
  * - false unable to locate either the module or service. exception pending.
  */
-SBW_API SBWBoolean SBWGetServiceInModuleInstance(
+ SBWBoolean SBWGetServiceInModuleInstance(
 	SBWServiceDescriptor *service, SBWInteger *moduleIdentifier, SBWInteger *serviceIdentifier)
 {
 	*moduleIdentifier = SBWGetModuleInstance(service->module.name);
@@ -842,7 +842,7 @@ SBW_API SBWBoolean SBWGetServiceInModuleInstance(
  * - NULL which indicates an error has occurred and a exception is pending otherwise
  * - the result is an array of service categories
  */
-SBW_API char **SBWGetServiceCategories(const char *serviceCategory, SBWInteger *numberOfCategories)
+ char **SBWGetServiceCategories(const char *serviceCategory, SBWInteger *numberOfCategories)
 {
 	std::vector<std::string> *categories ;
 	
@@ -877,7 +877,7 @@ SBW_API char **SBWGetServiceCategories(const char *serviceCategory, SBWInteger *
  * - NULL an error has occurred and exception is pending
  * - otherwise an array of numeric module instance identifiers
  */
-SBW_API SBWInteger *SBWGetExistingModuleInstances(SBWInteger *numberOfModuleInstances)
+ SBWInteger *SBWGetExistingModuleInstances(SBWInteger *numberOfModuleInstances)
 {
 	std::vector<Module> *modules ;
 
@@ -902,7 +902,7 @@ SBW_API SBWInteger *SBWGetExistingModuleInstances(SBWInteger *numberOfModuleInst
  * - NULL an error has occurred and exception is pending
  * - otherwise an array of numeric module instance identifiers
  */
-SBW_API SBWInteger *SBWGetExistingNamedModuleInstances(const char *moduleIdName, SBWInteger *numberOfModuleInstances)
+ SBWInteger *SBWGetExistingNamedModuleInstances(const char *moduleIdName, SBWInteger *numberOfModuleInstances)
 {
 	std::vector<Module> *modules ;
 
@@ -928,7 +928,7 @@ SBW_API SBWInteger *SBWGetExistingNamedModuleInstances(const char *moduleIdName,
  * - NULL an error has occurred and exception is pending
  * - otherwise the module descriptors for all the modules known to the broker.
  */
-SBW_API void SBWGetModuleDescriptorsA(SBWBoolean includeRunning, SBWBoolean localOnly, SBWInteger *numberOfDescriptors, SBWModuleDescriptor *oReturn)
+ void SBWGetModuleDescriptorsA(SBWBoolean includeRunning, SBWBoolean localOnly, SBWInteger *numberOfDescriptors, SBWModuleDescriptor *oReturn)
 {
 	oReturn = SBWGetModuleDescriptors(includeRunning, localOnly, numberOfDescriptors);
 }
@@ -941,7 +941,7 @@ SBW_API void SBWGetModuleDescriptorsA(SBWBoolean includeRunning, SBWBoolean loca
  * - NULL an error has occurred and exception is pending
  * - otherwise the module descriptors for all the modules known to the broker.
  */
-SBW_API SBWModuleDescriptor *SBWGetModuleDescriptors(
+ SBWModuleDescriptor *SBWGetModuleDescriptors(
 	SBWBoolean includeRunning, SBWBoolean localOnly, SBWInteger *numberOfModules)
 {
 	std::vector<ModuleDescriptor> *descriptors ;
@@ -978,7 +978,7 @@ SBW_API SBWModuleDescriptor *SBWGetModuleDescriptors(
  * - NULL an error has occurred and exception is pending
  * - otherwise the module descriptors for all the modules known to the broker.
  */
-SBW_API void SBWGetModuleDescriptorA(const char *moduleIdName, SBWBoolean includeRunning, SBWModuleDescriptor *oReturn)
+ void SBWGetModuleDescriptorA(const char *moduleIdName, SBWBoolean includeRunning, SBWModuleDescriptor *oReturn)
 {
 	oReturn = SBWGetModuleDescriptor(moduleIdName, includeRunning);
 }
@@ -991,7 +991,7 @@ SBW_API void SBWGetModuleDescriptorA(const char *moduleIdName, SBWBoolean includ
  * - NULL an error has occurred and exception is pending
  * - otherwise the module descriptors for all the modules known to the broker.
  */
-SBW_API SBWModuleDescriptor *SBWGetModuleDescriptor(const char *moduleIdName, SBWBoolean includeRunning)
+ SBWModuleDescriptor *SBWGetModuleDescriptor(const char *moduleIdName, SBWBoolean includeRunning)
 {
 	ModuleDescriptor descriptor ;
 
@@ -1020,7 +1020,7 @@ SBW_API SBWModuleDescriptor *SBWGetModuleDescriptor(const char *moduleIdName, SB
  * - NULL an error has occurred and exception is pending
  * - otherwise the service descriptors for all the registered services for the given module
  */
-SBW_API void SBWGetServiceDescriptorsA(const char *moduleIdName, SBWInteger *numberOfDescriptors, SBWServiceDescriptor *oReturn)
+ void SBWGetServiceDescriptorsA(const char *moduleIdName, SBWInteger *numberOfDescriptors, SBWServiceDescriptor *oReturn)
 {
 	oReturn = SBWGetServiceDescriptors(moduleIdName, numberOfDescriptors);
 }
@@ -1033,7 +1033,7 @@ SBW_API void SBWGetServiceDescriptorsA(const char *moduleIdName, SBWInteger *num
  * - NULL an error has occurred and exception is pending
  * - otherwise the service descriptors for all the registered services for the given module
  */
-SBW_API SBWServiceDescriptor *SBWGetServiceDescriptors(const char *moduleIdName, SBWInteger *numberOfDescriptors)
+ SBWServiceDescriptor *SBWGetServiceDescriptors(const char *moduleIdName, SBWInteger *numberOfDescriptors)
 {
 	std::vector<ServiceDescriptor> *descriptors ;
 
@@ -1065,7 +1065,7 @@ SBW_API SBWServiceDescriptor *SBWGetServiceDescriptors(const char *moduleIdName,
  * - 0 an error has occurred and exception is pending
  * - otherwise the numeric identifier of the given module.
  */
-SBW_API SBWInteger SBWGetModuleInstance(const char *moduleIdentificationName)
+ SBWInteger SBWGetModuleInstance(const char *moduleIdentificationName)
 {
 	try
 	{
@@ -1085,7 +1085,7 @@ SBW_API SBWInteger SBWGetModuleInstance(const char *moduleIdentificationName)
  * - -1 an error has occurred and exception is pending
  * - otherwise the number of services implemented by a given module instance
  */
-SBW_API SBWInteger SBWModuleGetNumberOfServices(SBWInteger moduleInstanceId)
+ SBWInteger SBWModuleGetNumberOfServices(SBWInteger moduleInstanceId)
 {
 	try
 	{
@@ -1106,7 +1106,7 @@ SBW_API SBWInteger SBWModuleGetNumberOfServices(SBWInteger moduleInstanceId)
  * - 0 an error has occurred and exception is pending.
  * - 1 the module was successfully disconnected.
  */
-SBW_API SBWBoolean SBWModuleShutdown(SBWInteger moduleInstanceId)
+ SBWBoolean SBWModuleShutdown(SBWInteger moduleInstanceId)
 {
 	try
 	{
@@ -1128,7 +1128,7 @@ SBW_API SBWBoolean SBWModuleShutdown(SBWInteger moduleInstanceId)
  * - -1 an error has occurred and exception is pending.
  * - otherwise numeric service identifier for given service.
  */
-SBW_API SBWInteger SBWModuleFindServiceByName(SBWInteger moduleInstanceId, const char *serviceName)
+ SBWInteger SBWModuleFindServiceByName(SBWInteger moduleInstanceId, const char *serviceName)
 {
 	try
 	{
@@ -1150,7 +1150,7 @@ SBW_API SBWInteger SBWModuleFindServiceByName(SBWInteger moduleInstanceId, const
  * - NULL an error has occurred and an exception is pending.
  * - otherwise array of numeric service identifier.
  */
-SBW_API SBWInteger *SBWModuleFindServicesByCategory(
+ SBWInteger *SBWModuleFindServicesByCategory(
 	SBWInteger moduleInstanceId, const char *category, SBWInteger *numberOfServices)
 {
 	*numberOfServices = 0 ;
@@ -1192,7 +1192,7 @@ SBW_API SBWInteger *SBWModuleFindServicesByCategory(
  * - -1 an error has occurred and an exception is pending.
  * - otherwise numeric method identifier.
  */
-SBW_API SBWInteger SBWServiceGetMethod(
+ SBWInteger SBWServiceGetMethod(
 	SBWInteger moduleInstanceId, SBWInteger serviceId, const char *signature)
 {
 	try
@@ -1215,7 +1215,7 @@ SBW_API SBWInteger SBWServiceGetMethod(
  * - -1 an error has occurred and an exception is pending.
  * - otherwise numeric method identifier.
  */
-SBW_API void SBWServiceGetDescriptorA(
+ void SBWServiceGetDescriptorA(
 	SBWInteger moduleInstanceId, SBWInteger serviceId, SBWServiceDescriptor *oReturn)
 {
 	oReturn = SBWServiceGetDescriptor(moduleInstanceId, serviceId);
@@ -1230,7 +1230,7 @@ SBW_API void SBWServiceGetDescriptorA(
  * - -1 an error has occurred and an exception is pending.
  * - otherwise numeric method identifier.
  */
-SBW_API SBWServiceDescriptor *SBWServiceGetDescriptor(
+ SBWServiceDescriptor *SBWServiceGetDescriptor(
 	SBWInteger moduleInstanceId, SBWInteger serviceId)
 {
 	try
@@ -1257,7 +1257,7 @@ SBW_API SBWServiceDescriptor *SBWServiceGetDescriptor(
  * - -1 an error has occurred and an exception is pending.
  * - otherwise number of SBW methods on the given service.
  */
-SBW_API SBWInteger SBWServiceGetNumberOfMethods(SBWInteger moduleInstanceId, SBWInteger serviceId)
+ SBWInteger SBWServiceGetNumberOfMethods(SBWInteger moduleInstanceId, SBWInteger serviceId)
 {
 	try
 	{
@@ -1279,7 +1279,7 @@ SBW_API SBWInteger SBWServiceGetNumberOfMethods(SBWInteger moduleInstanceId, SBW
  * - NULL an error has occurred and an exception is pending.
  * - otherwise the SBW signture string for the given method.
  */
-SBW_API char *SBWMethodGetSignatureString(SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger methodId)
+ char *SBWMethodGetSignatureString(SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger methodId)
 {
 	try
 	{
@@ -1301,7 +1301,7 @@ SBW_API char *SBWMethodGetSignatureString(SBWInteger moduleInstanceId, SBWIntege
  * - NULL an error has occurred and an exception is pending.
  * - otherwise the name of the given method.
  */
-SBW_API char *SBWMethodGetName(SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger methodId)
+ char *SBWMethodGetName(SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger methodId)
 {
 	try
 	{
@@ -1323,7 +1323,7 @@ SBW_API char *SBWMethodGetName(SBWInteger moduleInstanceId, SBWInteger serviceId
  * - NULL an error has occurred and an exception is pending.
  * - otherwise the help string for the given method.
  */
-SBW_API char *SBWMethodGetHelp(SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger methodId)
+ char *SBWMethodGetHelp(SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger methodId)
 {
 	try
 	{
@@ -1388,7 +1388,7 @@ SBWBoolean SBWMethodInvoke(
  * - 0 an error has occurred and an exception is pending.
  * - 1 the method executed successfully.
  */
-SBW_API SBWBoolean SBWMethodCall(
+ SBWBoolean SBWMethodCall(
 	SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger method, const char *signature ...)
 {
 	va_list ap;
@@ -1408,7 +1408,7 @@ SBW_API SBWBoolean SBWMethodCall(
  * a datablock containing the return data from the method
  * - NULL => an error has occurred and an exception is pending.
  */
-SBW_API SBWDataBlockReader *SBWMethodCallUsingDataBlock(
+ SBWDataBlockReader *SBWMethodCallUsingDataBlock(
 	SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger method, SBWDataBlockWriter *args)
 {
 	DataBlockReader returnData;
@@ -1441,7 +1441,7 @@ SBW_API SBWDataBlockReader *SBWMethodCallUsingDataBlock(
  * - 0 an error has occurred and an exception is pending.
  * - 1 the send message was sent successfully.
  */
-SBW_API SBWBoolean SBWMethodSend(
+ SBWBoolean SBWMethodSend(
 	SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger method, const char *signature ...)
 {
 	va_list ap;
@@ -1461,7 +1461,7 @@ SBW_API SBWBoolean SBWMethodSend(
  * a datablock containing the return data from the method
  * - NULL => an error has occurred and an exception is pending.
  */
-SBW_API SBWBoolean SBWMethodSendUsingDataBlock(
+ SBWBoolean SBWMethodSendUsingDataBlock(
 	SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger method, SBWDataBlockWriter *args)
 {
 	try
@@ -1489,7 +1489,7 @@ SBW_API SBWBoolean SBWMethodSendUsingDataBlock(
  * - otherwise the result data.
  */
 
-SBW_API void SBWMethodCallRawA(
+ void SBWMethodCallRawA(
 	SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger method, const unsigned char *rawDataArgs, unsigned char *oReturn, SBWInteger *rawDataLength)
 {	
 	int nTemp = *rawDataLength;
@@ -1511,7 +1511,7 @@ SBW_API void SBWMethodCallRawA(
  * - NULL an error has occurred and an exception is pending.
  * - otherwise the result data.
  */
-SBW_API unsigned char *SBWMethodCallRaw(
+ unsigned char *SBWMethodCallRaw(
 	SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger method, const unsigned char *rawData, SBWInteger *rawDataLength)
 {
 	try
@@ -1549,7 +1549,7 @@ SBW_API unsigned char *SBWMethodCallRaw(
  * - 0 an error has occurred and an exception is pending.
  * - 1 the send message was sent successfully.
  */
-SBW_API SBWBoolean SBWMethodSendRaw(
+ SBWBoolean SBWMethodSendRaw(
 	SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger method, const unsigned char *rawData, SBWInteger rawDataLength)
 {
 	try
@@ -1579,7 +1579,7 @@ SBW_API SBWBoolean SBWMethodSendRaw(
  * - NULL an error has occurred and an exception is pending.
  * - otherwise the parse tree of the given method's signature.
  */
-SBW_API void SBWMethodGetSignatureA(SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger methodId, SBWSignature *oReturn)
+ void SBWMethodGetSignatureA(SBWInteger moduleInstanceId, SBWInteger serviceId, SBWInteger methodId, SBWSignature *oReturn)
 {
 	oReturn = SBWMethodGetSignature(moduleInstanceId, serviceId, methodId);
 }
@@ -1593,7 +1593,7 @@ SBW_API void SBWMethodGetSignatureA(SBWInteger moduleInstanceId, SBWInteger serv
  * - NULL an error has occurred and an exception is pending.
  * - otherwise the parse tree of the given method's signature.
  */
-SBW_API SBWSignature *SBWMethodGetSignature(SBWInteger moduleId, SBWInteger serviceId, SBWInteger methodId)
+ SBWSignature *SBWMethodGetSignature(SBWInteger moduleId, SBWInteger serviceId, SBWInteger methodId)
 {
 	try
 	{
@@ -1619,7 +1619,7 @@ SBW_API SBWSignature *SBWMethodGetSignature(SBWInteger moduleId, SBWInteger serv
  * @param numberOfArguments referenced integer is set to the number of reutnred arguments.
  * @return array of signature arguments.
  */
-SBW_API SBWSignatureElement **SBWSignatureGetArguments(SBWSignature *sig, SBWInteger *numberOfArguments)
+ SBWSignatureElement **SBWSignatureGetArguments(SBWSignature *sig, SBWInteger *numberOfArguments)
 {
 	SystemsBiologyWorkbench::sbwSignature *signature = (SystemsBiologyWorkbench::sbwSignature *)sig;
 
@@ -1634,7 +1634,7 @@ SBW_API SBWSignatureElement **SBWSignatureGetArguments(SBWSignature *sig, SBWInt
  * @param sig signature parse structure.
  * @return signature type structure of the result of the signature structure.
  */
-SBW_API SBWSignatureType *SBWSignatureGetReturnType(SBWSignature *sig)
+ SBWSignatureType *SBWSignatureGetReturnType(SBWSignature *sig)
 {
 	SystemsBiologyWorkbench::sbwSignature *signature = (SystemsBiologyWorkbench::sbwSignature *)sig;
 	SystemsBiologyWorkbench::sbwSignatureType *handle = signature->getReturnType().getImpl();
@@ -1650,7 +1650,7 @@ SBW_API SBWSignatureType *SBWSignatureGetReturnType(SBWSignature *sig)
  * @param sig signature parse structure.
  * @return the name string of the given signature structure
  */
-SBW_API char *SBWSignatureGetName(SBWSignature *sig)
+ char *SBWSignatureGetName(SBWSignature *sig)
 {
 	SystemsBiologyWorkbench::sbwSignature *signature = (SystemsBiologyWorkbench::sbwSignature *)sig;
 	return SBWLowLevel::resultStringForC(signature->getName().c_str());
@@ -1662,7 +1662,7 @@ SBW_API char *SBWSignatureGetName(SBWSignature *sig)
  * @param arg signature argument parse structure.
  * @return the name string of the given signature argument.
  */
-SBW_API char *SBWSignatureElementGetName(SBWSignatureElement *arg)
+ char *SBWSignatureElementGetName(SBWSignatureElement *arg)
 {
 	SystemsBiologyWorkbench::sbwSignatureElement *argument = (SystemsBiologyWorkbench::sbwSignatureElement *)arg;
 	return SBWLowLevel::resultStringForC(argument->getName().c_str());
@@ -1693,7 +1693,7 @@ SBWSignatureType *SBWSignatureElementGetType(SBWSignatureElement *arg)
  * @param t signature type.
  * @return the generic type of the signature type.
  */
-SBW_API SBWDataBlockType SBWSignatureTypeGetType(SBWSignatureType *t)
+ SBWDataBlockType SBWSignatureTypeGetType(SBWSignatureType *t)
 {
 	SystemsBiologyWorkbench::sbwSignatureType *type = (SystemsBiologyWorkbench::sbwSignatureType *)t;
 	return (SBWDataBlockType)type->getType();
@@ -1707,7 +1707,7 @@ SBW_API SBWDataBlockType SBWSignatureTypeGetType(SBWSignatureType *t)
  * - NULL error occured, exception pending
  * - otherwise the signature type of object contained inside a signature type for an array.
  */
-SBW_API SBWSignatureType *SBWSignatureTypeGetArrayInnerType(SBWSignatureType *t)
+ SBWSignatureType *SBWSignatureTypeGetArrayInnerType(SBWSignatureType *t)
 {
 	SystemsBiologyWorkbench::sbwSignatureType *type = (SystemsBiologyWorkbench::sbwSignatureType *)t;
 	try
@@ -1732,7 +1732,7 @@ SBW_API SBWSignatureType *SBWSignatureTypeGetArrayInnerType(SBWSignatureType *t)
  * - -1 implies error occured, exception pending
  * - other values are the number of dimensions of a signature type for an array.
  */
-SBW_API SBWInteger SBWSignatureTypeGetArrayDimensions(SBWSignatureType *t)
+ SBWInteger SBWSignatureTypeGetArrayDimensions(SBWSignatureType *t)
 {
 	SystemsBiologyWorkbench::sbwSignatureType *type = (SystemsBiologyWorkbench::sbwSignatureType *)t;
 
@@ -1755,7 +1755,7 @@ SBW_API SBWInteger SBWSignatureTypeGetArrayDimensions(SBWSignatureType *t)
  * - NULL implies error occured, exception pending
  * - otherwise array containing signature argument structures which are the contents of the given list type.
  */
-SBW_API SBWSignatureElement **SBWSignatureTypeGetListContents(SBWSignatureType *t, SBWInteger *numberOfArguments)
+ SBWSignatureElement **SBWSignatureTypeGetListContents(SBWSignatureType *t, SBWInteger *numberOfArguments)
 {
 	SystemsBiologyWorkbench::sbwSignatureType *type = (SystemsBiologyWorkbench::sbwSignatureType *)t;
 
@@ -1776,7 +1776,7 @@ SBW_API SBWSignatureElement **SBWSignatureTypeGetListContents(SBWSignatureType *
  * @param rawData data in SBW data format.
  * @param rawDataLength length of rawData.
  */
-SBW_API void SBWWriteRaw(
+ void SBWWriteRaw(
 	SBWDataBlockWriter *writer, const unsigned char *rawData, SBWInteger rawDataLength)
 {
 	if (rawData != NULL)
@@ -1790,7 +1790,7 @@ SBW_API void SBWWriteRaw(
  * @param rawDataLength referenced integer is set to the length of returned data.
  * @return raw message data in a byte array.
  */
-SBW_API unsigned char *SBWReadRaw(SBWDataBlockReader *reader, SBWInteger *rawDataLength)
+ unsigned char *SBWReadRaw(SBWDataBlockReader *reader, SBWInteger *rawDataLength)
 {
 	return ((SystemsBiologyWorkbench::sbwDataBlockReader *)reader)->getRemainingDataForC(*rawDataLength);
 }
@@ -1800,7 +1800,7 @@ SBW_API unsigned char *SBWReadRaw(SBWDataBlockReader *reader, SBWInteger *rawDat
  * whether or not an SBWConnect its necessary. 
  *
  */
-SBW_API SBWBoolean SBWGetConnectionStatus()
+ SBWBoolean SBWGetConnectionStatus()
 {
 	return SBWLowLevel::isConnected();
 }
@@ -1809,7 +1809,7 @@ SBW_API SBWBoolean SBWGetConnectionStatus()
  * disconnect this application from the broker.
  * This function blocks until the disconnection has occured.
  */
-SBW_API void SBWDisconnect()
+ void SBWDisconnect()
 {
 	try
 	{
@@ -1825,7 +1825,7 @@ SBW_API void SBWDisconnect()
  * request that the broker disconnects from this application.
  * This function doesn't block until the disconnection has occured.
  */
-SBW_API void SBWSignalDisconnect()
+ void SBWSignalDisconnect()
 {
 	try
 	{
@@ -1847,7 +1847,7 @@ SBW_API void SBWSignalDisconnect()
  * - false error occured, exception pending.
  * - true structure created successfully.
  */
-SBW_API SBWBoolean SBWCreateModuleImpl(
+ SBWBoolean SBWCreateModuleImpl(
 	const char *uniqueName, const char *nameForDisplay, SBWModuleManagementType type, const char *help)
 {
 	try
@@ -1872,7 +1872,7 @@ SBW_API SBWBoolean SBWCreateModuleImpl(
  * - false error occured, exception pending.
  * - true structure deallocated successfully.
  */
-SBW_API SBWBoolean SBWFreeModuleImpl()
+ SBWBoolean SBWFreeModuleImpl()
 {
 	try
 	{
@@ -1896,7 +1896,7 @@ SBW_API SBWBoolean SBWFreeModuleImpl()
  * - false error occured, exception pending.
  * - true structure deallocated successfully.
  */
-SBW_API SBWBoolean SBWModuleImplSetCommandLine(const char *cmdLine)
+ SBWBoolean SBWModuleImplSetCommandLine(const char *cmdLine)
 {
 	try
 	{
@@ -1915,7 +1915,7 @@ SBW_API SBWBoolean SBWModuleImplSetCommandLine(const char *cmdLine)
 }
 
 
-SBW_API SBWBoolean SBWModuleImplSetHost(char* host)
+ SBWBoolean SBWModuleImplSetHost(char* host)
 {
 	try
 	{
@@ -1944,7 +1944,7 @@ SBW_API SBWBoolean SBWModuleImplSetHost(char* host)
  * - false error occured, exception pending.
  * - true new service added successfully.
  */
-SBW_API SBWBoolean SBWModuleImplAddService(
+ SBWBoolean SBWModuleImplAddService(
 	const char *serviceName, const char *serviceDisplayName, const char *category, const char *help)
 {
 	try
@@ -1975,7 +1975,7 @@ SBW_API SBWBoolean SBWModuleImplAddService(
  * - false error occured, exception pending.
  * - true new method added successfully.
  */
-SBW_API SBWBoolean SBWModuleImplSetHandlerA(
+ SBWBoolean SBWModuleImplSetHandlerA(
 	const char *serviceName,
 	SBWCHandler handler,
 	int nService, int nMethod,
@@ -2013,7 +2013,7 @@ SBW_API SBWBoolean SBWModuleImplSetHandlerA(
  * - false error occured, exception pending.
  * - true new method added successfully.
  */
-SBW_API SBWBoolean SBWModuleImplSetHandler(
+ SBWBoolean SBWModuleImplSetHandler(
 	const char *serviceName,
 	SBWHandler handler,
 	void *userData,
@@ -2044,7 +2044,7 @@ SBW_API SBWBoolean SBWModuleImplSetHandler(
  * - false error occured, exception pending.
  * - true connection to broker made successfully.
  */
-SBW_API SBWBoolean SBWModuleImplEnableServices()
+ SBWBoolean SBWModuleImplEnableServices()
 {
 	try
 	{
@@ -2068,7 +2068,7 @@ SBW_API SBWBoolean SBWModuleImplEnableServices()
  * - false error occured, exception pending.
  * - true registration with broker made successfully.
  */
-SBW_API SBWBoolean SBWModuleImplRegister()
+ SBWBoolean SBWModuleImplRegister()
 {
 	try
 	{
@@ -2086,7 +2086,7 @@ SBW_API SBWBoolean SBWModuleImplRegister()
 	return true ;
 }
 
-SBW_API SBWBoolean SBWModuleImplRunA()
+ SBWBoolean SBWModuleImplRunA()
 {
 	char* argv[1];
 #if  _MSC_VER >= 1400
@@ -2109,7 +2109,7 @@ SBW_API SBWBoolean SBWModuleImplRunA()
  * - false error occured, exception pending.
  * - true execution was successful.
  */
-SBW_API SBWBoolean SBWModuleImplRun(int argc, char *argv[], SBWBoolean waitForDisconnect)
+ SBWBoolean SBWModuleImplRun(int argc, char *argv[], SBWBoolean waitForDisconnect)
 {
 	try
 	{
@@ -2133,7 +2133,7 @@ SBW_API SBWBoolean SBWModuleImplRun(int argc, char *argv[], SBWBoolean waitForDi
  * - NULL error occured, exception pending
  * - otherwise module descriptor for given module instance.
  */
-SBW_API void SBWModuleGetModuleDescriptorA(SBWInteger moduleInstanceId, SBWModuleDescriptor *oReturn)
+ void SBWModuleGetModuleDescriptorA(SBWInteger moduleInstanceId, SBWModuleDescriptor *oReturn)
 {
 	oReturn = SBWModuleGetModuleDescriptor(moduleInstanceId);
 }
@@ -2144,7 +2144,7 @@ SBW_API void SBWModuleGetModuleDescriptorA(SBWInteger moduleInstanceId, SBWModul
  * - NULL error occured, exception pending
  * - otherwise module descriptor for given module instance.
  */
-SBW_API SBWModuleDescriptor *SBWModuleGetModuleDescriptor(SBWInteger moduleInstanceId)
+ SBWModuleDescriptor *SBWModuleGetModuleDescriptor(SBWInteger moduleInstanceId)
 {
 	SBWModuleDescriptor *result = new SBWModuleDescriptor ;
 
@@ -2169,7 +2169,7 @@ SBW_API SBWModuleDescriptor *SBWModuleGetModuleDescriptor(SBWInteger moduleInsta
  * @param userData referenced object chnaged to application data supplied with method implementation.
  * @return function that implements given SBW method.
  */
-SBW_API SBWHandler SBWModuleImplGetHandler(const char *serviceName, const char *methodName, void **userData)
+ SBWHandler SBWModuleImplGetHandler(const char *serviceName, const char *methodName, void **userData)
 {
 	try
 	{
@@ -2193,7 +2193,7 @@ SBW_API SBWHandler SBWModuleImplGetHandler(const char *serviceName, const char *
  * returns a new empty SBWDataBlockWriter structure.
  * @return a new empty SBWDataBlockWriter structure.
  */
-SBW_API SBWDataBlockWriter *SBWCreateSBWDataBlockWriter()
+ SBWDataBlockWriter *SBWCreateSBWDataBlockWriter()
 {
 	SystemsBiologyWorkbench::sbwDataBlockWriter *result = new SystemsBiologyWorkbench::sbwDataBlockWriter();
 
@@ -2212,7 +2212,7 @@ SBW_API SBWDataBlockWriter *SBWCreateSBWDataBlockWriter()
  * - false error occurred, exception pending.
  * - true data inserted successfully.
  */
-SBW_API SBWBoolean SBWWrite(SBWDataBlockWriter *w, const char *argumentList, ...)
+ SBWBoolean SBWWrite(SBWDataBlockWriter *w, const char *argumentList, ...)
 {
 	try
 	{
@@ -2243,7 +2243,7 @@ SBW_API SBWBoolean SBWWrite(SBWDataBlockWriter *w, const char *argumentList, ...
  * - false error occurred, exception pending.
  * - true data extracted successfully.
   */
-SBW_API SBWBoolean SBWRead(SBWDataBlockReader *r, const char *argumentList, ...)
+ SBWBoolean SBWRead(SBWDataBlockReader *r, const char *argumentList, ...)
 {
 	try
 	{
@@ -2271,7 +2271,7 @@ SBW_API SBWBoolean SBWRead(SBWDataBlockReader *r, const char *argumentList, ...)
  * - SBWErrorType error occurred, exception pending.
  * - otherise the SBWDataBlockType for the object at the cursor in the given SBWDataBlockReader structure.
  */
-SBW_API SBWDataBlockType SBWGetNextType(SBWDataBlockReader *reader)
+ SBWDataBlockType SBWGetNextType(SBWDataBlockReader *reader)
 {
 	try
 	{
@@ -2291,7 +2291,7 @@ SBW_API SBWDataBlockType SBWGetNextType(SBWDataBlockReader *reader)
  * - SBWErrorType error occurred, exception pending.
  * - otherise the SBWDataBlockType for the objects contained in the array at the cursor in the given SBWDataBlockReader structure.
  */
-SBW_API SBWDataBlockType SBWGetNextArrayType(SBWDataBlockReader *reader)
+ SBWDataBlockType SBWGetNextArrayType(SBWDataBlockReader *reader)
 {
 	try
 	{
@@ -2311,7 +2311,7 @@ SBW_API SBWDataBlockType SBWGetNextArrayType(SBWDataBlockReader *reader)
  * - -1 error occurred, exception pending.
  * - otherwise the number of dimensions of the array at the cursor in the given SBWDataBlockReader structure.
  */
-SBW_API SBWInteger SBWGetNextArrayDimensions(SBWDataBlockReader *reader)
+ SBWInteger SBWGetNextArrayDimensions(SBWDataBlockReader *reader)
 {
 	try
 	{
@@ -2330,7 +2330,7 @@ SBW_API SBWInteger SBWGetNextArrayDimensions(SBWDataBlockReader *reader)
  * @param argv referenced pointer set to array of command line arguments including the command itself.
  */
 #ifdef WIN32
-SBW_API void SBWWindowsExtractCommandLine(int *argc, char ***argv)
+ void SBWWindowsExtractCommandLine(int *argc, char ***argv)
 {
 	SBWOS::windowsExtractCommandLine(argc, argv);
 }
@@ -2342,7 +2342,7 @@ SBW_API void SBWWindowsExtractCommandLine(int *argc, char ***argv)
  * @param argZero the command (without arguments) which was passed to this application by the OS.
  * @return the command line required to launch this application in module mode.
  */
-SBW_API char *SBWCalculateCommandLine(const char *argZero)
+ char *SBWCalculateCommandLine(const char *argZero)
 {
 	try
 	{
@@ -2360,7 +2360,7 @@ SBW_API char *SBWCalculateCommandLine(const char *argZero)
  * The result should be recovered using SBWFree
  * @return the version string for the C/C++ SBW library.
  */
-SBW_API char *SBWGetVersion()
+ char *SBWGetVersion()
 {
 	return SBWLowLevel::resultStringForC(SBWLowLevel::getVersion().c_str());
 }
@@ -2383,7 +2383,7 @@ void SBWFreeModuleDescriptor(SBWModuleDescriptor *x)
  * @param writer given data block.
  * @return the SBWDataBlockReader corresponding to the given SBWDataBlockWriter.
  */
-SBW_API SBWDataBlockReader *SBWGetReaderFromWriter(SBWDataBlockWriter *writer)
+ SBWDataBlockReader *SBWGetReaderFromWriter(SBWDataBlockWriter *writer)
 {
 	SystemsBiologyWorkbench::sbwDataBlockReader *reader =
 		((SystemsBiologyWorkbench::sbwDataBlockWriter *)writer)->getReader();
@@ -2399,7 +2399,7 @@ SBW_API SBWDataBlockReader *SBWGetReaderFromWriter(SBWDataBlockWriter *writer)
  * Use the debug configuration library to get debug trace output.
  * @param traceOn whether debug trace should be output
  */
-SBW_API void SBWSetDebugTrace(SBWBoolean traceOn)
+ void SBWSetDebugTrace(SBWBoolean traceOn)
 {
 	SBWDebug::setTraceMode(traceOn != 0);
 }
@@ -2413,7 +2413,7 @@ SBW_API void SBWSetDebugTrace(SBWBoolean traceOn)
  * @param file the source code file in which this call is being made 
  * @param line the line in <code>file</code> on which this call is being made
  */
-SBW_API void SBWDebugTrace(const char *text, const char *file, int line)
+ void SBWDebugTrace(const char *text, const char *file, int line)
 {
 	SBWDebug::trace(text, file, line);
 }
@@ -2432,12 +2432,12 @@ SBW_API void SBWDebugTrace(const char *text, const char *file, int line)
  * @returns whether the command line contains either <code>-sbwregister</code> or <code>-sbwmodule</code>
  *          ie whether the application should either register itself or run as a module respectively.
  **/
-SBW_API SBWBoolean SBWProcessArguments(int argc, char* argv[])
+ SBWBoolean SBWProcessArguments(int argc, char* argv[])
 {
 	return SBWLowLevel::processArguments(argc, argv);
 }
 
-SBW_API void *SBWMalloc(SBWInteger a, SBWInteger b)
+ void *SBWMalloc(SBWInteger a, SBWInteger b)
 {
 	return calloc(a, b);
 }
@@ -2447,7 +2447,7 @@ SBW_API void *SBWMalloc(SBWInteger a, SBWInteger b)
  * @param size - number of elements in array
  * @param a - array
  **/
-SBW_API void SBWFreeStringArray(SBWInteger size, char **a)
+ void SBWFreeStringArray(SBWInteger size, char **a)
 {
 	for (int i = 0 ; i != size; i++)
 		free(a[i]);
@@ -2461,7 +2461,7 @@ SBW_API void SBWFreeStringArray(SBWInteger size, char **a)
  * @param ySize - number of elements in array on y axis
  * @param a - array
  **/
-SBW_API void SBWFreeString2DArray(SBWInteger xSize, SBWInteger ySize, char ***a)
+ void SBWFreeString2DArray(SBWInteger xSize, SBWInteger ySize, char ***a)
 {
 	for (int x = 0 ; x != xSize; x++)
 	{
@@ -2480,7 +2480,7 @@ SBW_API void SBWFreeString2DArray(SBWInteger xSize, SBWInteger ySize, char ***a)
  * @param size - number of elements in array
  * @param a - array
  **/
-SBW_API void SBWFreeSBWDataBlockWriterArray(SBWInteger size, SBWDataBlockWriter **a)
+ void SBWFreeSBWDataBlockWriterArray(SBWInteger size, SBWDataBlockWriter **a)
 {
 	for (int i = 0 ; i != size; i++)
 		SBWFreeSBWDataBlockWriter(a[i]);
@@ -2494,7 +2494,7 @@ SBW_API void SBWFreeSBWDataBlockWriterArray(SBWInteger size, SBWDataBlockWriter 
  * @param ySize - number of elements in array on y axis
  * @param a - array
  **/
-SBW_API void SBWFreeSBWDataBlockWriter2DArray(SBWInteger xSize, SBWInteger ySize, SBWDataBlockWriter ***a)
+ void SBWFreeSBWDataBlockWriter2DArray(SBWInteger xSize, SBWInteger ySize, SBWDataBlockWriter ***a)
 {
 	for (int x = 0 ; x != xSize; x++)
 	{
@@ -2512,7 +2512,7 @@ SBW_API void SBWFreeSBWDataBlockWriter2DArray(SBWInteger xSize, SBWInteger ySize
  * @param size - number of elements in array
  * @param a - array
  **/
-SBW_API void SBWFreeSBWDataBlockReaderArray(SBWInteger size, SBWDataBlockReader **a)
+ void SBWFreeSBWDataBlockReaderArray(SBWInteger size, SBWDataBlockReader **a)
 {
 	for (int i = 0 ; i != size; i++)
 		SBWFreeSBWDataBlockReader(a[i]);
@@ -2526,7 +2526,7 @@ SBW_API void SBWFreeSBWDataBlockReaderArray(SBWInteger size, SBWDataBlockReader 
  * @param ySize - number of elements in array on y axis
  * @param a - array
  **/
-SBW_API void SBWFreeSBWDataBlockReader2DArray(SBWInteger xSize, SBWInteger ySize, SBWDataBlockReader ***a)
+ void SBWFreeSBWDataBlockReader2DArray(SBWInteger xSize, SBWInteger ySize, SBWDataBlockReader ***a)
 {
 	for (int x = 0 ; x != xSize; x++)
 	{
@@ -2543,7 +2543,7 @@ SBW_API void SBWFreeSBWDataBlockReader2DArray(SBWInteger xSize, SBWInteger ySize
  * returns broker version string
  * @return broker version string
  **/
-SBW_API char *SBWGetBrokerVersion()
+ char *SBWGetBrokerVersion()
 {
 	try
 	{
@@ -2575,7 +2575,7 @@ void SBWIncomingCallThreadCreatorForC(RPCInCall *x)
  * registers function that creates threads that process incoming calls
  * @param x function that creates threads that process incoming calls
  */
-SBW_API void SBWRegisterIncomingCallThreadCreator(SBWIncomingCallThreadCreator x)
+ void SBWRegisterIncomingCallThreadCreator(SBWIncomingCallThreadCreator x)
 {
 	RPCInCall::registerThreadCreator(SBWIncomingCallThreadCreatorForC);
 	incomingCallThreadCreator = x ;
@@ -2585,7 +2585,7 @@ SBW_API void SBWRegisterIncomingCallThreadCreator(SBWIncomingCallThreadCreator x
  * prcoesses incoming calls (body of thread for that processes incoming calls)
  * @param x object that manages all incoming calls
  */
-SBW_API void SBWProcessIncomingCalls(SBWIncomingCallThreadData *x)
+ void SBWProcessIncomingCalls(SBWIncomingCallThreadData *x)
 {
 	RPCInCall::processIncomingCalls((RPCInCall *)x);
 }

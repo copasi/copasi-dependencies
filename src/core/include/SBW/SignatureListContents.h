@@ -85,21 +85,21 @@ class SignatureElement ;
 class SignatureType ;
 
 /// represents the contents of a list type inside a signature
-class SignatureListContents : public std::vector<SignatureElement>  
+class SBW_API SignatureListContents : public std::vector<SignatureElement>
 {
 public:
 	/// create an empty list
-	SignatureListContents() {} 
-	SBW_API SignatureListContents(SignatureType);
-	SBW_API SignatureListContents(const char *&);
-	SBW_API std::vector<SignatureElement> *copyVector() const;
+  SignatureListContents();
+  SignatureListContents(SignatureType);
+  SignatureListContents(const char *&);
+  std::vector<SignatureElement> *copyVector() const;
 
 	// Note the functions involving va_list below are specific to the C interface
 	// the use of these functions in C++ is not recommended
-	SBW_API void write(DataBlockWriter, va_list &) const;
-	SBW_API void read(DataBlockReader, va_list &) const;
+  void write(DataBlockWriter, va_list &) const;
+  void read(DataBlockReader, va_list &) const;
 
-	SBW_API bool match(const SignatureListContents &) const;
+  bool match(const SignatureListContents &) const;
 };
 
 } // SystemsBiologyWorkbench

@@ -1,49 +1,49 @@
 /**
  * @file SBWRPC.h
  * @brief common lowlevel implementation of message handling common to both broker and module
- * 
+ *
  * This file is part of SBW.  Please visit http://sbw.sf.org for more
  * information about SBW, and the latest version of libSBW.
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the New BSD license.
  *
- * Copyright (c) 2010-2014, Frank T. Bergmann and 
+ * Copyright (c) 2010-2014, Frank T. Bergmann and
  *                          University of Washington
- * Copyright (c) 2008-2010, University of Washington and 
+ * Copyright (c) 2008-2010, University of Washington and
  *                          Keck Graduate Institute.
  * Copyright (c) 2005-2008, Keck Graduate Institute.
  * Copyright (c) 2001-2004, California Institute of Technology and
  *               Japan Science and Technology Corporation.
- * 
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without 
- * modification, are permitted provided that the following conditions are 
- * met: 
- * 
- * 1. Redistributions of source code must retain the above 
- *    copyright notice, this list of conditions and the following disclaimer. 
- * 
- * 2. Redistributions in binary form must reproduce the above copyright 
- *    notice, this list of conditions and the following disclaimer in the 
- *    documentation and/or other materials provided with the distribution. 
- * 
- * 3. Neither the name of the copyright holder nor the names of its 
- *    contributors may be used to endorse or promote products derived from 
- *    this software without specific prior written permission. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * 1. Redistributions of source code must retain the above
+ *    copyright notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ *    contributors may be used to endorse or promote products derived from
+ *    this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The original code contained here was initially developed by:
  *
@@ -93,8 +93,8 @@ class RPCOutCall ;
  */
 enum SBWStandardServices
 {
-	SBWErrorService = -2 , /**< placeholder for error conditions */
-	SBWSystemService = -1 /**< service on all module instances that provides information on the services and methods exported by the module.*/
+    SBWErrorService = -2 , /**< placeholder for error conditions */
+    SBWSystemService = -1 /**< service on all module instances that provides information on the services and methods exported by the module.*/
 };
 
 /**
@@ -103,8 +103,8 @@ enum SBWStandardServices
  */
 enum SBWStandardModules
 {
-	SBWErrorModule = -2, /**< placeholder for error conditions */
-	SBWBrokerModule = -1 /**< the Broker */
+    SBWErrorModule = -2, /**< placeholder for error conditions */
+    SBWBrokerModule = -1 /**< the Broker */
 };
 
 /**
@@ -114,14 +114,14 @@ enum SBWStandardModules
  */
 enum SBWStandardMethods
 {
-	SBWErrorMethod = -1, /**< placeholder for error conditions */
-	SBWGetServicesMethod = 0 , /**< returns the services on the module instance */
-	SBWGetMethodsMethod = 1, /**< returns the signatures of the methods on a given service on the module instance */
-	SBWOnOtherModuleInstanceShutdownMethod = 2, /**< called when another module is disconnected from the broker */
-	SBWShutdownMethod = 3, /**< called when another module requests that this module instance disconnects */
-	SBWGetMethodHelpMethod = 4, /**< returns help for a given method on a given service on the module instance */
-	SBWOnOtherModuleInstanceStartupMethod = 5, /**< called when another module connects to the broker */
-	SBWOnRegistrationChangeMethod = 6 /**< called when the broker's registration data changes */
+    SBWErrorMethod = -1, /**< placeholder for error conditions */
+    SBWGetServicesMethod = 0 , /**< returns the services on the module instance */
+    SBWGetMethodsMethod = 1, /**< returns the signatures of the methods on a given service on the module instance */
+    SBWOnOtherModuleInstanceShutdownMethod = 2, /**< called when another module is disconnected from the broker */
+    SBWShutdownMethod = 3, /**< called when another module requests that this module instance disconnects */
+    SBWGetMethodHelpMethod = 4, /**< returns help for a given method on a given service on the module instance */
+    SBWOnOtherModuleInstanceStartupMethod = 5, /**< called when another module connects to the broker */
+    SBWOnRegistrationChangeMethod = 6 /**< called when the broker's registration data changes */
 };
 
 /**
@@ -129,99 +129,95 @@ enum SBWStandardMethods
  * The actual connection setup, disconnect and data transmission is
  * abstracted via virtual functions.
  */
-class SBWRPC  
+class SBW_API SBWRPC
 {
 public:
-	SBWRPC(SBWRPCListener *l);
-	virtual ~SBWRPC();
+    SBWRPC(SBWRPCListener *l);
+    virtual ~SBWRPC();
 
-	SBW_API DataBlockReader call(Integer moduleTo, Integer service, Integer method, DataBlockWriter args);
+    DataBlockReader call(Integer moduleTo, Integer service, Integer method, DataBlockWriter args);
 
-	/**
-	 * make connection.
-	 * @param moduleIdentificationString module identification string of this module instance.
-	 *                                   default is the empty string which indicates an anonymous connection 
-	 */
-	virtual void connect(const char *moduleIdentificationString = "", const char *hostname = "") = 0;
+    /**
+     * make connection.
+     * @param moduleIdentificationString module identification string of this module instance.
+     *                                   default is the empty string which indicates an anonymous connection
+     */
+    virtual void connect(const char *moduleIdentificationString = "", const char *hostname = "") = 0;
 
-	/// disconnect.
-	void disconnect()
-	{
-		signalDisconnect();
-		waitForDisconnect();
-	}
+    /// disconnect.
+    void disconnect();
 
-	/** 
-	 * returns whether there is a connection on this link.
-	 * @return whether there is a connection on this link.
-	 */
-	virtual bool isConnected() = 0;
+    /**
+     * returns whether there is a connection on this link.
+     * @return whether there is a connection on this link.
+     */
+    virtual bool isConnected() = 0;
 
-	/// block until disconnection
-	virtual void waitForDisconnect() = 0 ;
+    /// block until disconnection
+    virtual void waitForDisconnect() = 0 ;
 
-	/// send message requesting disconnection
-	virtual void signalDisconnect() = 0 ;
+    /// send message requesting disconnection
+    virtual void signalDisconnect() = 0 ;
 
-	SBW_API void receive(DataBlockReader reader);
-	SBW_API void registerReceiver(Receiver *);
-	SBW_API void send(Integer moduleTo, Integer service, Integer method, DataBlockWriter args);
-	SBW_API void transmit(Integer moduleTo, unsigned char *messageForRelease, int length);
+    void receive(DataBlockReader reader);
+    void registerReceiver(Receiver *);
+    void send(Integer moduleTo, Integer service, Integer method, DataBlockWriter args);
+    void transmit(Integer moduleTo, unsigned char *messageForRelease, int length);
 
-	static const char *brokerServiceName;
-	static const Integer disconnectMessage ;
+    static const char *brokerServiceName;
+    static const Integer disconnectMessage ;
 
-	/*SBW_API */virtual void onOtherModuleInstanceShutdown(DataBlockReader *reader, int brokerId);//Integer otherModuleId);
-	/*SBW_API */virtual void onOtherModuleInstanceStartup(DataBlockReader *reader, int brokerId);//Integer otherModuleId);
-	/*SBW_API */virtual void onRegistrationChange(DataBlockReader *reader, int brokerId);//);
+    /*SBW_API */virtual void onOtherModuleInstanceShutdown(DataBlockReader *reader, int brokerId);//Integer otherModuleId);
+    /*SBW_API */virtual void onOtherModuleInstanceStartup(DataBlockReader *reader, int brokerId);//Integer otherModuleId);
+    /*SBW_API */virtual void onRegistrationChange(DataBlockReader *reader, int brokerId);//);
 
-	void setListener(SBWRPCListener *);
+    void setListener(SBWRPCListener *);
 
-	/**
-	 * return the numeric module identifier of this module
-	 */
-	virtual Integer getModuleId() = 0 ;
+    /**
+     * return the numeric module identifier of this module
+     */
+    virtual Integer getModuleId() = 0 ;
 
 protected:
-	static const char *brokerJar;
+    static const char *brokerJar;
 
-	void cleanup();
+    void cleanup();
 
-	/**
-	 * transmit message over connection.
-	 * @param moduleTo numeric module instance identifier of destination module instance.
-	 * @param message message to be sent in its final form.
-	 * @param length length of message in bytes.
-	 */
-	virtual void transmitExternalOnly(Integer moduleTo, unsigned char *message, int length) = 0;
+    /**
+     * transmit message over connection.
+     * @param moduleTo numeric module instance identifier of destination module instance.
+     * @param message message to be sent in its final form.
+     * @param length length of message in bytes.
+     */
+    virtual void transmitExternalOnly(Integer moduleTo, unsigned char *message, int length) = 0;
 
 private:
-	void receiveCall(DataBlockReader reader, bool transmitReply);
-	void receiveReply(DataBlockReader reader, bool isException);
+    void receiveCall(DataBlockReader reader, bool transmitReply);
+    void receiveReply(DataBlockReader reader, bool isException);
 
-	/// reciever for RPC events
-	SBWRPCListener *listener;
+    /// reciever for RPC events
+    SBWRPCListener *listener;
 
-	/// incoming call threads
-	std::vector<RPCInCall *> inCalls ;
+    /// incoming call threads
+    std::vector<RPCInCall *> inCalls ;
 
-	/// pending outgoing calls
-	std::vector<RPCOutCall *> outCalls ;
+    /// pending outgoing calls
+    std::vector<RPCOutCall *> outCalls ;
 
-	/// incoming call implementation processor
-	Receiver *receiver ;
+    /// incoming call implementation processor
+    Receiver *receiver ;
 
     /**
-	 * mutex for controlling access to incoming threads structure.
+     * mutex for controlling access to incoming threads structure.
      * @see inCalls
-	 */
-	SBWOSMutex inCallsMutex ;
+     */
+    SBWOSMutex inCallsMutex ;
 
     /**
-	 * mutex for controlling access to outgoing threads structure.
+     * mutex for controlling access to outgoing threads structure.
      * @see outCalls
-	 */
-	SBWOSMutex outCallsMutex ;
+     */
+    SBWOSMutex outCallsMutex ;
 };
 
 } // SystemsBiologyWorkbench

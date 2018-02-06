@@ -73,7 +73,7 @@ namespace SystemsBiologyWorkbench
 {
 
 /// represents a boolean type inside a signature
-class sbwSignatureBoolean : public sbwSignatureType  
+class SBW_API sbwSignatureBoolean : public sbwSignatureType
 {
 public:
 //	SignatureBoolean();
@@ -82,7 +82,7 @@ public:
 	 * returns BooleanType
 	 * @return BooleanType
 	 */
-	DataBlockType getType() { return BooleanType; }
+  DataBlockType getType();
 
 	// Note the functions involving va_list below are specific to the C interface
 	// the use of these functions in C++ is not recommended

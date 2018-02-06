@@ -84,6 +84,8 @@ sbwSignatureElement::sbwSignatureElement(SBWHandle<sbwSignatureType> t) : type(t
 {
 }
 
+std::string sbwSignatureElement::getName() { return name ; }
+
 /**
  * construct a signature argument object given a string starting with a signature argument substring.
  * @param signature string starting with a signature argument substring, string pointer changed to point after the
@@ -103,7 +105,7 @@ sbwSignatureElement::sbwSignatureElement(const char *&signature)
  * fetches the type structure for the signature argument.
  * @param x set to the type structure of the signature argument.
  */
-SBW_API void sbwSignatureElement::getType(SignatureType &x)
+ void sbwSignatureElement::getType(SignatureType &x)
 {
 	x = (SignatureType)type ;
 }
@@ -113,17 +115,25 @@ SBW_API void sbwSignatureElement::getType(SignatureType &x)
  * construct a signature argument object given an SBW type object.
  * @param t SBW type object.
  */
-SBW_API SignatureElement::SignatureElement(SBWHandle<sbwSignatureType> t)
+ SignatureElement::SignatureElement(SBWHandle<sbwSignatureType> t)
 : SBWHandle<sbwSignatureElement>(new sbwSignatureElement(t))
 {
 }
+
+std::string SignatureElement::getName() { return p->getName() ; }
+
+void SignatureElement::getType(SignatureType& x) const { p->getType(x) ; }
+
+sbwSignatureElement*SignatureElement::getImpl() { return p; }
 
 /**
  * construct a signature argument object given a string starting with a signature argument substring.
  * @param signature string starting with a signature argument substring, string pointer changed to point after the
  *                  signature argument substring.
  */
-SBW_API SignatureElement::SignatureElement(const char *&x)
+ SignatureElement::SignatureElement() {}
+
+SignatureElement::SignatureElement(const char *&x)
 : SBWHandle<sbwSignatureElement>(new sbwSignatureElement(x))
 {
 }

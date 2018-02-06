@@ -94,7 +94,7 @@ typedef void (* IncomingCallThreadCreator) (RPCInCall *x);
 class RPCInCallThread ;
 
 /// incoming call processor.
-class RPCInCall  
+class SBW_API RPCInCall
 {
 public:
 	RPCInCall(SBWRPC *, Receiver *, std::string name);

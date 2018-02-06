@@ -70,14 +70,14 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "Comments", "C++ Version of the SBW Broker"
-            VALUE "CompanyName", "KGI"
+            VALUE "CompanyName", "SBW Team"
             VALUE "FileDescription", "C++ Broker"
-            VALUE "FileVersion", "@SBW_VERSION_MAJOR@, @SBW_VERSION_MINOR@, @SBW_VERSION_PATCH@, 0"
+            VALUE "FileVersion", "@SBW_VERSION_MAJOR@.@SBW_VERSION_MINOR@.@SBW_VERSION_PATCH@"
             VALUE "InternalName", "SBWBroker"
-            VALUE "LegalCopyright", "Copyright (C) 2004-2014"
+            VALUE "LegalCopyright", "Copyright (C) 2004-2018 SBW Team"
             VALUE "OriginalFilename", "C++Broker.exe"
             VALUE "ProductName", "SBWBroker"
-            VALUE "ProductVersion", "@SBW_VERSION_MAJOR@, @SBW_VERSION_MINOR@, @SBW_VERSION_PATCH@, 0"
+            VALUE "ProductVersion", "@SBW_VERSION_MAJOR@.@SBW_VERSION_MINOR@.@SBW_VERSION_PATCH@"
         END
     END
     BLOCK "VarFileInfo"

@@ -67,6 +67,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <SBW/sbwdefs.h>
 #include <SBW/SBWObject.h>
 #include <SBW/DataBlockReaderClass.h>
 
@@ -78,42 +79,42 @@ class ServiceDescriptor ;
 /** implementation uderlying the ModuleDescriptor class.
  * Contains information stored in the Brokers repository about a given module.
  */
-class ImplModuleDescriptor : public SBWObject  
+class SBW_API ImplModuleDescriptor : public SBWObject
 {
 public:
-	SBW_API ImplModuleDescriptor(DataBlockReader r);
+  ImplModuleDescriptor(DataBlockReader r);
 
 	/**
 	 * returns the module identification string/name
 	 * @return the module identification string/name
 	 */
-	SBW_API std::string getName() { return name; }
+  std::string getName();
 
 	/**
 	 * returns the humanly readable name for the module
 	 * @return the humanly readable name for the module
 	 */
-	SBW_API std::string getDisplayName() { return displayName; }
+  std::string getDisplayName();
 
 	/**
 	 * returns the command line that is used to create an instance of the module
 	 * @return the command line that is used to create an instance of the module
 	 */
-	SBW_API std::string getCommandLine() { return commandLine; }
+  std::string getCommandLine();
 
 	/**
 	 * returns the mechanism used to determine how module instances are started and disconnected
 	 * @return the mechanism used to determine how module instances are started and disconnected
 	 */
-	SBW_API ModuleManagementType getType() { return type; }
+  ModuleManagementType getType();
 
 	/**
 	 * returns the help string for the module
 	 * @return the help string for the module
 	 */
-	SBW_API std::string getHelp() { return help ; }
+  std::string getHelp();
 
-	SBW_API std::vector<ServiceDescriptor> *getServiceDescriptors();
+  std::vector<ServiceDescriptor> *getServiceDescriptors();
 
 private:
 	/// the module identification string/name

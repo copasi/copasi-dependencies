@@ -80,6 +80,8 @@ using namespace SystemsBiologyWorkbench ;
  * @param writer data block in which the boolean will be stored.
  * @param ap variable argument list - the next item is assumed to be an SBWBoolean value.
  */
+DataBlockType sbwSignatureBoolean::getType() { return BooleanType; }
+
 void sbwSignatureBoolean::write(DataBlockWriter writer, va_list &ap)
 {
 	SBWBoolean arg = va_arg(ap, SBWBoolean);

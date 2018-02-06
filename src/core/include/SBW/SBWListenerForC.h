@@ -63,6 +63,11 @@
 #if !defined(AFX_SBWLISTENERFORC_H__93B8AA99_0E82_47C7_A989_50316A7127CB__INCLUDED_)
 #define AFX_SBWLISTENERFORC_H__93B8AA99_0E82_47C7_A989_50316A7127CB__INCLUDED_
 
+#ifdef WIN32
+#pragma warning(disable: 4251)
+#endif
+
+#include <SBW/sbwdefs.h>
 #include <SBW/SBWRPCListener.h>
 
 #include <set>
@@ -71,7 +76,7 @@ namespace SystemsBiologyWorkbench
 {
 
 /// monitors events occuring in SBW on behalf of the C API
-class SBWListenerForC : public SBWRPCListener  
+class SBW_API SBWListenerForC : public SBWRPCListener
 {
 public:
 	// register cdecl listeners

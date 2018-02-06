@@ -88,6 +88,12 @@ sbwSignatureArray::sbwSignatureArray(SignatureType st, Integer d) : scalarType(s
 {
 }
 
+DataBlockType sbwSignatureArray::getType() { return ArrayType; }
+
+sbwSignatureType*sbwSignatureArray::getArrayInnerType() { return scalarType.getImpl(); }
+
+Integer sbwSignatureArray::getArrayDimensions() { return dimensions; }
+
 /**
  * For C API : store an array as defined by this object in a given data block.
  * @param writer the data block in which the data will be stored.

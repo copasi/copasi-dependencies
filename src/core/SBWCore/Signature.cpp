@@ -1,49 +1,49 @@
 /**
  * @file Signature.cpp
  * @brief represents the structure of a signature
- * 
+ *
  * This file is part of SBW.  Please visit http://sbw.sf.org for more
  * information about SBW, and the latest version of libSBW.
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the New BSD license.
  *
- * Copyright (c) 2010-2014, Frank T. Bergmann and 
+ * Copyright (c) 2010-2014, Frank T. Bergmann and
  *                          University of Washington
- * Copyright (c) 2008-2010, University of Washington and 
+ * Copyright (c) 2008-2010, University of Washington and
  *                          Keck Graduate Institute.
  * Copyright (c) 2005-2008, Keck Graduate Institute.
  * Copyright (c) 2001-2004, California Institute of Technology and
  *               Japan Science and Technology Corporation.
- * 
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without 
- * modification, are permitted provided that the following conditions are 
- * met: 
- * 
- * 1. Redistributions of source code must retain the above 
- *    copyright notice, this list of conditions and the following disclaimer. 
- * 
- * 2. Redistributions in binary form must reproduce the above copyright 
- *    notice, this list of conditions and the following disclaimer in the 
- *    documentation and/or other materials provided with the distribution. 
- * 
- * 3. Neither the name of the copyright holder nor the names of its 
- *    contributors may be used to endorse or promote products derived from 
- *    this software without specific prior written permission. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * 1. Redistributions of source code must retain the above
+ *    copyright notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ *    contributors may be used to endorse or promote products derived from
+ *    this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The original code contained here was initially developed by:
  *
@@ -92,11 +92,11 @@ using namespace SystemsBiologyWorkbench ;
  */
 sbwSignature::sbwSignature(const char *signature)
 {
-	result = parseType(signature);
-	name = consumeName(signature);
-	consume("(", signature);
-	arguments = new SignatureListContents(signature);
-	consume(")", signature);
+    result = parseType(signature);
+    name = consumeName(signature);
+    consume("(", signature);
+    arguments = new SignatureListContents(signature);
+    consume(")", signature);
 }
 
 /**
@@ -104,7 +104,7 @@ sbwSignature::sbwSignature(const char *signature)
  */
 sbwSignature::~sbwSignature()
 {
-	delete arguments ;
+    delete arguments ;
 }
 
 /**
@@ -116,20 +116,20 @@ sbwSignature::~sbwSignature()
  */
 std::string sbwSignature::consumeName(const char *&signature)
 {
-	consumeSpace(signature);
+    consumeSpace(signature);
 
-	std::string result ;
+    std::string result ;
 
-	while (*signature != '\0' && *signature != '{' && *signature != '}' &&
-				*signature != '[' && *signature != ']' &&
-				*signature != '(' && *signature != ')' &&
-				*signature != ',' && *signature != '\t' && *signature != ' ')
-	{
-		result += *signature ;
-		signature++ ;
-	}
+    while (*signature != '\0' && *signature != '{' && *signature != '}' &&
+                *signature != '[' && *signature != ']' &&
+                *signature != '(' && *signature != ')' &&
+                *signature != ',' && *signature != '\t' && *signature != ' ')
+    {
+        result += *signature ;
+        signature++ ;
+    }
 
-	return result ;
+    return result ;
 }
 
 /**
@@ -138,8 +138,8 @@ std::string sbwSignature::consumeName(const char *&signature)
  */
 void sbwSignature::consumeSpace(const char *&signature)
 {
-	while (*signature == ' ' || *signature == '\t')
-		signature++ ;\
+    while (*signature == ' ' || *signature == '\t')
+        signature++ ;\
 }
 
 /**
@@ -150,15 +150,15 @@ void sbwSignature::consumeSpace(const char *&signature)
  */
 void sbwSignature::consume(const char *expected, const char *&signature)
 {
-	if (!compareString(expected, signature))
-	{
-		std::string message("syntax error expecting ") ;
+    if (!compareString(expected, signature))
+    {
+        std::string message("syntax error expecting ") ;
 
-		message += expected ;
-		message += " got ";
-		message += signature ;
-		throw new SBWSignatureSyntaxException(message);
-	}
+        message += expected ;
+        message += " got ";
+        message += signature ;
+        throw new SBWSignatureSyntaxException(message);
+    }
 }
 
 /**
@@ -170,77 +170,77 @@ void sbwSignature::consume(const char *expected, const char *&signature)
  */
 bool sbwSignature::compareString(const char *expected, const char *&signature)
 {
-	consumeSpace(signature);
+    consumeSpace(signature);
 
-	int len = strlen(expected);
-	
-	if (strncmp(expected, signature, len))
-		return false ;
+    int len = strlen(expected);
 
-	signature += len;
-	
-	return true ;
+    if (strncmp(expected, signature, len))
+        return false ;
+
+    signature += len;
+
+    return true ;
 }
 
 /**
  * parse a given string, extracting the initial SBW scalar type. Any leading whitespace is ignored/skipped.
  * @param signature the string to be parsed, this string pointer value is changed to point beyond the scalar type if it exists.
- * @return 
+ * @return
  * - NULL if the front of signature doesn't match any scalar types.
  * - otherwise a sbwSignatureType structure parsed from signature.
  */
 sbwSignatureType *sbwSignature::parseScalarType(const char *&signature)
 {
-	consumeSpace(signature);
+    consumeSpace(signature);
 
-	if (*signature == '{')
-		return new sbwSignatureList(signature);
-	if (compareString("string", signature))
-		return new sbwSignatureScalar<char *, StringType>();
-	else if (compareString("int", signature))
-		return new sbwSignatureScalar<Integer, IntegerType>();
-	else if (compareString("double", signature))
-		return new sbwSignatureScalar<Double, DoubleType>();
-	else if (compareString("boolean", signature))
-		return new sbwSignatureBoolean();
-	else if (compareString("byte", signature))
-		return new sbwSignatureByte();
-	else if (compareString("void", signature))
-		return new sbwSignatureVoid();
-	else if (compareString("complex", signature))
-		return new sbwSignatureScalar<SBWComplex, ComplexType>();
-	else
-	{
-		std::string message = "Whilst parsing signature: ";
-		
-		message += "Expecting start of type (one of: {, string, int, double, complex, boolean, byte or void) instead got ";
-		message += signature;
-		throw new SBWSignatureSyntaxException(message);
-	}
+    if (*signature == '{')
+        return new sbwSignatureList(signature);
+    if (compareString("string", signature))
+        return new sbwSignatureScalar<char *, StringType>();
+    else if (compareString("int", signature))
+        return new sbwSignatureScalar<Integer, IntegerType>();
+    else if (compareString("double", signature))
+        return new sbwSignatureScalar<Double, DoubleType>();
+    else if (compareString("boolean", signature))
+        return new sbwSignatureBoolean();
+    else if (compareString("byte", signature))
+        return new sbwSignatureByte();
+    else if (compareString("void", signature))
+        return new sbwSignatureVoid();
+    else if (compareString("complex", signature))
+        return new sbwSignatureScalar<SBWComplex, ComplexType>();
+    else
+    {
+        std::string message = "Whilst parsing signature: ";
+
+        message += "Expecting start of type (one of: {, string, int, double, complex, boolean, byte or void) instead got ";
+        message += signature;
+        throw new SBWSignatureSyntaxException(message);
+    }
 }
 
 /**
  * parse a given string, extracting the initial SBW type. Any leading whitespace is ignored/skipped.
  * @param signature the string to be parsed, this string pointer value is changed to point beyond the type if it exists.
- * @return 
+ * @return
  * - NULL if the front of signature doesn't match any SBW types.
  * - otherwise a sbwSignatureType structure parsed from signature.
  */
 sbwSignatureType *sbwSignature::parseType(const char *&signature)
 {
-	sbwSignatureType *scalarType = parseScalarType(signature);
-	int dimensions = 0 ;
+    sbwSignatureType *scalarType = parseScalarType(signature);
+    int dimensions = 0 ;
 
-	while (compareString("[]", signature))
-		dimensions++;
+    while (compareString("[]", signature))
+        dimensions++;
 
-	if (dimensions == 0)
-		return scalarType ;
-	else
-		return new sbwSignatureArray(scalarType, dimensions);
+    if (dimensions == 0)
+        return scalarType ;
+    else
+        return new sbwSignatureArray(scalarType, dimensions);
 }
 
-/** 
+/**
  * returns whether a string is a match for a given complete signature.
  * @param completeSignature a complete SBW method signature
  * @param partialSignature either
@@ -252,42 +252,48 @@ sbwSignatureType *sbwSignature::parseType(const char *&signature)
 bool sbwSignature::match(const char *completeSignature, const char *partialSignature)
 {
 
-	if (strcmp(completeSignature, partialSignature) == 0)
-		return true ;
+    if (strcmp(completeSignature, partialSignature) == 0)
+        return true ;
 
-	sbwSignature signature(completeSignature);
+    sbwSignature signature(completeSignature);
 
-	try
-	{
-		sbwSignature otherSignature(partialSignature);
+    try
+    {
+        sbwSignature otherSignature(partialSignature);
 
-		return
-			signature.getName().compare(otherSignature.getName()) == 0 &&
-				otherSignature.getArguments().match(signature.getArguments());
-	}
-	catch (SBWSignatureSyntaxException *)
-	{
-		std::string name = consumeName(partialSignature);
+        return
+            signature.getName().compare(otherSignature.getName()) == 0 &&
+                otherSignature.getArguments().match(signature.getArguments());
+    }
+    catch (SBWSignatureSyntaxException *)
+    {
+        std::string name = consumeName(partialSignature);
 
-		if (name.compare(signature.getName()) == 0)
-		{	
-			if (*partialSignature == '\0')
-				return true ; 
-			
-			consume("(", partialSignature);
-			SignatureListContents *arguments = new SignatureListContents(partialSignature);
-			consume(")", partialSignature);
+        if (name.compare(signature.getName()) == 0)
+        {
+            if (*partialSignature == '\0')
+                return true ;
 
-			bool result = arguments->match(signature.getArguments());
+            consume("(", partialSignature);
+            SignatureListContents *arguments = new SignatureListContents(partialSignature);
+            consume(")", partialSignature);
 
-			delete arguments ;
+            bool result = arguments->match(signature.getArguments());
 
-			return result ;
-		}
-	}
+            delete arguments ;
 
-	return false ;
+            return result ;
+        }
+    }
+
+    return false ;
 }
+
+const SignatureListContents &sbwSignature::getArguments() { return *arguments ; }
+
+SignatureType sbwSignature::getReturnType() const { return result ; }
+
+std::string sbwSignature::getName() const { return name ; }
 
 /**
  * returns the index of a method in a given array which matches with a given signature.
@@ -297,26 +303,26 @@ bool sbwSignature::match(const char *completeSignature, const char *partialSigna
  */
 Integer sbwSignature::match(const std::vector<std::string> &methods, const char *signature)
 {
-	Integer methodId = 0, methodsFound = 0, methodFound = 0;
+    Integer methodId = 0, methodsFound = 0, methodFound = 0;
 
-	while (methodId !=  (Integer)methods.size())
-	{
-		if (sbwSignature::match(methods[methodId].c_str(), signature))
-		{
-			methodsFound++ ;
-			methodFound = methodId;
-		}
+    while (methodId !=  (Integer)methods.size())
+    {
+        if (sbwSignature::match(methods[methodId].c_str(), signature))
+        {
+            methodsFound++ ;
+            methodFound = methodId;
+        }
 
-		methodId++ ;
-	}
+        methodId++ ;
+    }
 
-	if (methodsFound == 0)
-		throw new SBWMethodNotFoundException("method not found");
+    if (methodsFound == 0)
+        throw new SBWMethodNotFoundException("method not found");
 
-	if (methodsFound != 1)
-		throw new SBWMethodAmbiguousException("more than one method matches the signature given");
+    if (methodsFound != 1)
+        throw new SBWMethodAmbiguousException("more than one method matches the signature given");
 
-	return methodFound ;
+    return methodFound ;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -325,8 +331,8 @@ Integer sbwSignature::match(const std::vector<std::string> &methods, const char 
  * create a signature structure by parseing a given signature string.
  * @param signature the SBW signature string to be parsed.
  */
-SBW_API Signature::Signature(const char *signature)
-: SBWHandle<sbwSignature>(new sbwSignature(signature)) 
+ Signature::Signature(const char *signature)
+: SBWHandle<sbwSignature>(new sbwSignature(signature))
 {
 }
 
@@ -334,8 +340,8 @@ SBW_API Signature::Signature(const char *signature)
  * create a signature structure by parseing a given signature string.
  * @param signature the SBW signature string to be parsed.
  */
-SBW_API Signature::Signature(std::string signature)
-: SBWHandle<sbwSignature>(new sbwSignature(signature.c_str())) 
+ Signature::Signature(std::string signature)
+: SBWHandle<sbwSignature>(new sbwSignature(signature.c_str()))
 {
 }
 
@@ -344,8 +350,14 @@ SBW_API Signature::Signature(std::string signature)
  * The returned vector should be deallocated using delete.
  * @return a vector of SignatureElement objects corresponding to the arguments of the parsed signature.
  */
-SBW_API std::vector<SignatureElement> *Signature::getArguments()
+ std::vector<SignatureElement> *Signature::getArguments()
 {
-	return p->getArguments().copyVector();
+    return p->getArguments().copyVector();
 }
+
+SignatureType Signature::getReturnType() { return p->getReturnType() ; }
+
+std::string Signature::getName() const { return p->getName() ; }
+
+sbwSignature *Signature::getImpl() { return p; }
 

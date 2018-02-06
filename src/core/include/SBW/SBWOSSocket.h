@@ -1,6 +1,6 @@
 /**
  * @file SBWOSSocket.h
- * @brief platform independant socket implementation
+ * @brief platform independent socket implementation
  * 
  * This file is part of SBW.  Please visit http://sbw.sf.org for more
  * information about SBW, and the latest version of libSBW.
@@ -98,55 +98,55 @@
 #include <SBW/sbwplusbasictypes.h>
 
 #ifndef SBW_STRICT_INCLUDES
-#include <portableOS.h>
+#include <SBW/portableOS.h>
 #endif
 
 namespace SystemsBiologyWorkbench
 {
 
 /// represents SBW library's use of the operating systems socket library
-class SBWOSSocketSystem
+class SBW_API SBWOSSocketSystem
 {
 public:
-	SBW_API SBWOSSocketSystem();
-	SBW_API ~SBWOSSocketSystem();
+	SBWOSSocketSystem();
+	~SBWOSSocketSystem();
 };
 
-/// platform independant socket implementation
-class SBWOSSocket  
+/// platform independent socket implementation
+class SBW_API SBWOSSocket  
 {
 public:
-	SBW_API SBWOSSocket(Integer port, const char *hostname = ""); 
-	SBW_API virtual ~SBWOSSocket();
+	SBWOSSocket(Integer port, const char *hostname = ""); 
+	virtual ~SBWOSSocket();
 
-	SBW_API void receive(unsigned char *data, Integer length);
-	SBW_API void transmit(unsigned char *data, Integer length);
+	void receive(unsigned char *data, Integer length);
+	void transmit(unsigned char *data, Integer length);
 
-	SBW_API static bool isLocalAddress(const char *hostname);
-	SBW_API static bool portInUse(int port);
+	static bool isLocalAddress(const char *hostname);
+	static bool portInUse(int port);
 
 	/**
 	 * return the address of a given host
 	 * \param host the host to look up
 	 * \return the address of a given host
 	 */
-	SBW_API static std::string getHostAddress(std::string host);
+	static std::string getHostAddress(std::string host);
 	/**
 	 *
 	 * \return the name of the local host
 	 */
-	SBW_API static std::string getHostName();
+	static std::string getHostName();
 	
 	
 	/**
 	*
 	* \return the local host address
 	*/
-	SBW_API static std::string getHostAddress();
+	static std::string getHostAddress();
 
 
 private:
-	SBW_API void throwError();
+	void throwError();
 	/** 
 	 *
 	 * \return all local addresses 

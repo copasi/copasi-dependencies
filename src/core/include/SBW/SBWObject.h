@@ -76,11 +76,11 @@ namespace SystemsBiologyWorkbench
 {
 
 /// base class for underlying API implementation classes - supports reference counting for use with SBWHandle
-class SBWObject  
+class SBW_API SBWObject  
 {
 public:
-	SBW_API SBWObject();
-	SBW_API virtual ~SBWObject() ;
+	SBWObject();
+	virtual ~SBWObject() ;
 
 	// AddReference
 	//
@@ -89,7 +89,7 @@ public:
 	// MUST BE PAIRED WITH A RELEASE CALL
 	// Use SBWHandle if possible instead
 	//
-	SBW_API virtual void AddReference();
+	virtual void AddReference();
 
 	// Release
 	//
@@ -98,7 +98,7 @@ public:
 	// MUST BE PAIRED WITH AN ADDREFERENCE CALL
 	// Use SBWandle if possible instead
 	//
-	SBW_API virtual void Release();
+	virtual void Release();
 
 private:
 	/**

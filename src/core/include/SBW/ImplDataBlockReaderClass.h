@@ -84,23 +84,23 @@ class SBWOSSocket ;
  * underlying implementation of DataBlockReader.
  * container for data passed to a module - allows data to extracted sequentially like a input stream.
  */
-struct sbwDataBlockReader : public SBWObject
+struct SBW_API sbwDataBlockReader : public SBWObject
 {
 public:
 	unsigned char *getRemainingDataForC(Integer &lengthReturned);
-	SBW_API static Integer readInteger(SBWOSSocket *);
+	static Integer readInteger(SBWOSSocket *);
 
-	SBW_API void dump();
+	void dump();
 
 	sbwDataBlockReader();
-	SBW_API sbwDataBlockReader(unsigned char *x, Integer length, bool makeCopy = true);
-	SBW_API sbwDataBlockReader(const unsigned char *x, Integer length);
-	SBW_API virtual ~sbwDataBlockReader();
+	sbwDataBlockReader(unsigned char *x, Integer length, bool makeCopy = true);
+	sbwDataBlockReader(const unsigned char *x, Integer length);
+	virtual ~sbwDataBlockReader();
 
 	void skipObject();
 	DataBlockType getNextType();
-	SBW_API DataBlockType getNextArrayType();
-	SBW_API Integer getNextArrayDimensions();
+	DataBlockType getNextArrayType();
+	Integer getNextArrayDimensions();
 
 	/**
 	 * sets x to the next object in the sbwDataBlockReader.
@@ -298,7 +298,7 @@ private:
 		checkType(getType(x), s);
 	}
 
-	SBW_API void checkType(DataBlockType x, const char *context = "");
+  void checkType(DataBlockType x, const char *context = "");
 
 	static DataBlockType getType(Integer &);
 	static DataBlockType getType(Double &);
@@ -342,7 +342,7 @@ private:
 	}
 
 	void extract(unsigned char *x, Integer l);
-	SBW_API void getWithoutType(DataBlockReader &x);
+  void getWithoutType(DataBlockReader &x);
 
 
 	/**
@@ -516,12 +516,12 @@ private:
 	 * moves the cursor over the object at the cursor assuming the type prefix has already been consumed.
 	 * @param t type of the object at the cursor
 	 */
-	SBW_API void skipObjectWithoutType(DataBlockType t);
+  void skipObjectWithoutType(DataBlockType t);
 
 	/**
 	 * moves the cursor over the array data at the cursor
 	 */
-	SBW_API void skipArray();
+  void skipArray();
 
 	/**
 	 * the raw data of the datablock

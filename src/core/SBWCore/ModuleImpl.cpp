@@ -71,6 +71,7 @@
 
 #include <string.h>
 #include <iostream>
+#include <stdlib.h>
 #include "stdafx.h"
 #include "ModuleImpl.h"
 #include "sbwenums.h"
@@ -104,13 +105,6 @@ using namespace SystemsBiologyWorkbench ;
  */
 ModuleImpl::~ModuleImpl()
 {
-	if (commandLine != NULL)
-		free(commandLine);
-
-	free(uniqueName);
-	free(displayName);
-	free(help);
-
 	std::vector<ServiceImpl *>::iterator itr= services.begin();
 
 	while (itr != services.end())
@@ -136,62 +130,25 @@ void ModuleImpl::waitForDisconnect()
  * @param t module management type of this module
  * @param h help string for this module
  */
-#if  _MSC_VER >= 1400
-ModuleImpl::ModuleImpl(std::string un, std::string dn, ModuleManagementType t, std::string h)
-: uniqueName(_strdup(un.c_str())),
-	displayName(_strdup(dn.c_str())),
+ModuleImpl::ModuleImpl(const std::string& un, const std::string& dn, ModuleManagementType t, const std::string& h)
+: uniqueName(un),
+  displayName(dn),
 	type(t),
-	commandLine(NULL),
-	help(_strdup(h.c_str())),
+	commandLine(),
+  help(h),
 	host(),
 	mode(NormalMode)
-#else
-ModuleImpl::ModuleImpl(std::string un, std::string dn, ModuleManagementType t, std::string h)
-: uniqueName(strdup(un.c_str())),
-	displayName(strdup(dn.c_str())),
-	type(t),
-	commandLine(NULL),
-	help(strdup(h.c_str())),
-	host(),
-	mode(NormalMode)
-#endif
 {
 	
 }
-#if  _MSC_VER >= 1400
-ModuleImpl::ModuleImpl(const char* un, const char* dn, ModuleManagementType t, const char* h)
-: uniqueName(_strdup(un)),
-	displayName(_strdup(dn)),
-	type(t),
-	commandLine(NULL),
-	help(_strdup(h)),
-	host(),
-	mode(NormalMode)
-#else
-ModuleImpl::ModuleImpl(const char* un, const char* dn, ModuleManagementType t, const char* h)
-: uniqueName(strdup(un)),
-	displayName(strdup(dn)),
-	type(t),
-	commandLine(NULL),
-	help(strdup(h)),
-	host(),
-	mode(NormalMode)
 
-#endif
-{
-	
-}
 /**
  * sets the command to start this module to cmd
  * @param cmd the command to start this module
  */
-void ModuleImpl::setCommandLine(std::string cmd)
+void ModuleImpl::setCommandLine(const std::string& cmd)
 {
-#if  _MSC_VER >= 1400
-	commandLine = _strdup(cmd.c_str());
-#else
-	commandLine = strdup(cmd.c_str());
-#endif
+  commandLine = cmd;
 }
 
 /**
@@ -201,25 +158,9 @@ void ModuleImpl::setCommandLine(std::string cmd)
  * @param category specific category (classification) that this service resides in.
  * @param help help string for this service.
  */
-void ModuleImpl::addService(
-	std::string serviceName, std::string serviceDisplayName, std::string category, std::string help)
+void ModuleImpl::addService(const std::string& serviceName, const std::string& serviceDisplayName, const std::string& category, const std::string& help)
 {
-	std::string sServiceName(serviceName);
-	std::string sServiceDisplayName(serviceDisplayName);
-	std::string sCategory (category);
-	std::string sHelp(help);
-	services.push_back(new ServiceImpl(sServiceName, sServiceDisplayName, sCategory, sHelp));
-	//services.push_back(new ServiceImpl(serviceName, serviceDisplayName, category, help));
-}
-
-void ModuleImpl::addService(
-	const char* serviceName, const char* serviceDisplayName, const char* category, const char* help)
-{
-#if (_MSC_VER > 1400)
-	services.push_back(new ServiceImpl(_strdup(serviceName), _strdup(serviceDisplayName), _strdup(category), _strdup(help)));
-#else
-	services.push_back(new ServiceImpl(strdup(serviceName), strdup(serviceDisplayName), strdup(category), strdup(help)));
-#endif
+  services.push_back(new ServiceImpl(serviceName, serviceDisplayName, category, help));
 }
 
 /**
@@ -237,15 +178,11 @@ void ModuleImpl::enableModuleServices()
 
 	// changed the order of the following functions - AMF 7th Aug 02
 	SBWLowLevel::setReceiver(this);
-	SBWLowLevel::connect(uniqueName, host);
+  SBWLowLevel::connect(uniqueName.c_str(), host.c_str());
 }
-void ModuleImpl::runOnHost(char *sHost)
+void ModuleImpl::runOnHost(const std::string& sHost)
 {
-#if  _MSC_VER >= 1400
-	host = _strdup(sHost);
-#else
-	host = strdup(sHost);
-#endif
+  host = sHost;
 }
 /**
  * pass information on this module to the broker to be stored in the broker's persistant registry of module data.
@@ -257,7 +194,7 @@ void ModuleImpl::registerModule()
 	if (!SBWLowLevel::isConnected())
 		SBWLowLevel::connect();
 
-	if (commandLine == NULL)
+  if (commandLine.empty())
 		throw new SBWApplicationException("command line not set on call to register module");
 
  	//SBWLowLevel::getBrokerMethod(
@@ -265,7 +202,7 @@ void ModuleImpl::registerModule()
  	//		DataBlockWriter() << (char *)uniqueName << displayName << (int)type << commandLine << help);
  	SBWLowLevel::getBrokerMethod(
 		RegisterModule).call(
- 			DataBlockWriter() << (char *)uniqueName << displayName << (int)type << commandLine << help);
+      DataBlockWriter() << uniqueName << displayName << (int)type << commandLine << help);
 
 	std::vector<ServiceImpl *>::iterator itr = services.begin();
 	//ServiceMethod registerService =
@@ -440,8 +377,8 @@ void ModuleImpl::run(ModuleModeType mode, bool wait, const char *argZero)
 	switch (mode)
 	{
 		case RegisterMode:
-			if (commandLine == NULL)
-				commandLine = calculateCommandLineRaw(argZero);
+      if (commandLine.empty())
+        commandLine = calculateCommandLine(argZero);
 
 			registerModule();
 			SBWLowLevel::disconnect();
@@ -632,8 +569,4 @@ void ModuleImpl::windowsExtractCommandLine(int *argc, char ***argv)
 
 #endif
 
-SBW_API void ModuleImpl::setCommandLine(const char* cmdLine) 
-{ 
-  setCommandLine(std::string(cmdLine)); 
-}
 

@@ -260,26 +260,26 @@ SBWOSSocket::~SBWOSSocket()
 #ifdef WIN32
 	WSAEVENT event = WSACreateEvent();
 
-	if (event == WSA_INVALID_EVENT)
-		throwError();
+  if (event == WSA_INVALID_EVENT)
+    return;
 
-	if (WSAEventSelect(sock, event, FD_CLOSE) == SOCKET_ERROR)
-		throwError();
+  if (WSAEventSelect(sock, event, FD_CLOSE) == SOCKET_ERROR)
+    return;
 #endif
 
-	if (shutdown(sock, SD_SEND) == SOCKET_ERROR)
-		throwError();
+  if (shutdown(sock, SD_SEND) == SOCKET_ERROR)
+    return;
 
 #ifdef WIN32
 	if (WSAWaitForMultipleEvents(1, &event, TRUE, WSA_INFINITE, FALSE)
 		== WSA_WAIT_FAILED)
 	{
-		throwError();
+    return;
 	}
 #endif
 
-	if (closesocket(sock) == SOCKET_ERROR)
-		throwError();
+  if (closesocket(sock) == SOCKET_ERROR)
+    return;
 }
 
 /**

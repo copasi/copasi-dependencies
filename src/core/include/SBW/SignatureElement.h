@@ -66,6 +66,7 @@
 
 #if _MSC_VER > 1000
 #pragma once
+#pragma warning(disable: 4251)
 #endif // _MSC_VER > 1000
 
 #include <string>
@@ -79,7 +80,7 @@ struct sbwSignatureType;
 class SignatureType ;
 
 /// underlying implementation of SignatureElement - represents an argument in a signature
-struct sbwSignatureElement : public SBWObject
+struct SBW_API sbwSignatureElement : public SBWObject
 {
 public:
 	sbwSignatureElement(const char *&);
@@ -89,9 +90,9 @@ public:
 	 * return the name of the argument
 	 * @return the name of the argument
 	 */
-	std::string getName() { return name ; }
+  std::string getName();
 
-	SBW_API void getType(SignatureType &x);
+	void getType(SignatureType &x);
 
 private:
 	/// the name of the argument
@@ -102,31 +103,31 @@ private:
 };
 
 /// represents an argument in a signature
-class SignatureElement : public SBWHandle<sbwSignatureElement>
+class SBW_API SignatureElement : public SBWHandle<sbwSignatureElement>
 {
 public:
 	/// creates an empty argument structure
-	SignatureElement() {} ;
-	SBW_API SignatureElement(const char *&);
-	SBW_API SignatureElement(SBWHandle<sbwSignatureType>);
+  SignatureElement();
+  SignatureElement(const char *&);
+  SignatureElement(SBWHandle<sbwSignatureType>);
 
 	/**
 	 * returns the name of the argument
 	 * @return the name of the argument
 	 */
-	std::string getName() { return p->getName() ; }
+  std::string getName();
 
 	/**
 	 * fetch the type of the argument
 	 * @param x set ot the type of the argument
 	 */
-	void getType(SignatureType  &x) const { p->getType(x) ; }
+  void getType(SignatureType  &x) const;
 
 	/**
 	 * returns the underlying implementation object
 	 * @return the underlying implementation object
 	 */
-	sbwSignatureElement *getImpl() { return p; }
+  sbwSignatureElement *getImpl();
 };
 
 } // SystemsBiologyWorkbench

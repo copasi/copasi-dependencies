@@ -1,49 +1,49 @@
 /**
  * @file ImplDataBlockReader.cpp
  * @brief implementation of DataBlockReader
- * 
+ *
  * This file is part of SBW.  Please visit http://sbw.sf.org for more
  * information about SBW, and the latest version of libSBW.
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the New BSD license.
  *
- * Copyright (c) 2010-2014, Frank T. Bergmann and 
+ * Copyright (c) 2010-2014, Frank T. Bergmann and
  *                          University of Washington
- * Copyright (c) 2008-2010, University of Washington and 
+ * Copyright (c) 2008-2010, University of Washington and
  *                          Keck Graduate Institute.
  * Copyright (c) 2005-2008, Keck Graduate Institute.
  * Copyright (c) 2001-2004, California Institute of Technology and
  *               Japan Science and Technology Corporation.
- * 
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without 
- * modification, are permitted provided that the following conditions are 
- * met: 
- * 
- * 1. Redistributions of source code must retain the above 
- *    copyright notice, this list of conditions and the following disclaimer. 
- * 
- * 2. Redistributions in binary form must reproduce the above copyright 
- *    notice, this list of conditions and the following disclaimer in the 
- *    documentation and/or other materials provided with the distribution. 
- * 
- * 3. Neither the name of the copyright holder nor the names of its 
- *    contributors may be used to endorse or promote products derived from 
- *    this software without specific prior written permission. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * 1. Redistributions of source code must retain the above
+ *    copyright notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ *    contributors may be used to endorse or promote products derived from
+ *    this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * The original code contained here was initially developed by:
  *
@@ -59,8 +59,6 @@
  *
  */
 
-static const char rcsid[] = "$Id: ImplDataBlockReader.cpp,v 1.1 2005/12/15 01:06:44 fbergmann Exp $";
-
 #include "stdafx.h"
 #include <stdio.h>
 #include "ImplDataBlockReader.h"
@@ -75,70 +73,70 @@ using namespace SystemsBiologyWorkbench ;
  * @param expectedType the type expected in the type prefix at the cursor.
  * @param additional context string that is added to any thrown exception message.
  */
-SBW_API void sbwDataBlockReader::checkType(DataBlockType expectedType, const char *additional)
+ void sbwDataBlockReader::checkType(DataBlockType expectedType, const char *additional)
 {
-	if (end >= length)
-	{
-	    std::string message("reached end of data when expecting ");
-	    message += sbwDataBlockWriter::typeString(expectedType);
-	    message += " ";
-	    message += additional;
+    if (end >= length)
+    {
+        std::string message("reached end of data when expecting ");
+        message += sbwDataBlockWriter::typeString(expectedType);
+        message += " ";
+        message += additional;
 
-	    throw new SBWTypeMismatchException(message);
-	}
+        throw new SBWTypeMismatchException(message);
+    }
 
-	if (getNextType() != expectedType)
-	{
-		std::string message("encountered ");
+    if (getNextType() != expectedType)
+    {
+        std::string message("encountered ");
 
-		message += sbwDataBlockWriter::typeString(getNextType());
-		message += " required ";
-		message += sbwDataBlockWriter::typeString(expectedType);
-		message += " ";
-		message += additional;
+        message += sbwDataBlockWriter::typeString(getNextType());
+        message += " required ";
+        message += sbwDataBlockWriter::typeString(expectedType);
+        message += " ";
+        message += additional;
 
-		throw new SBWTypeMismatchException(message);
-	}
+        throw new SBWTypeMismatchException(message);
+    }
 
-	end++;
+    end++;
 }
 
 /**
  * deallocates the data representing the datablock
  */
-SBW_API sbwDataBlockReader::~sbwDataBlockReader()
+ sbwDataBlockReader::~sbwDataBlockReader()
 {
-	delete[] data;
+    delete[] data;
 }
 
-/** 
+/**
  * shares or copies data between a new sbwDataBlockReader object and raw char data.
  * @param x raw data with which to construct DatablockReader object (not a zero terminated text string)
  * @param l size of x
  * @param makeCopy if true then the sbwDataBlockReader creates a copy of x otherwise takes ownership of x
  */
-SBW_API sbwDataBlockReader::sbwDataBlockReader(unsigned char *x, Integer l, bool makeCopy)
+ sbwDataBlockReader::sbwDataBlockReader(unsigned char *x, Integer l, bool makeCopy)
 : end(0), length(l)
 {
-	if (makeCopy)
-	{
-		data = new unsigned char[l]; 
-		memcpy(data, x, l);
-	}
-	else
-		data = x ;
+    if (makeCopy)
+    {
+        data = new unsigned char[l];
+        memcpy(data, x, l);
+    }
+    else
+        data = x ;
 }
 
-/** 
+/**
  * copies raw char data into a new sbwDataBlockReader object.
  * @param x raw data with which to construct DatablockReader object (not a zero terminated text string)
  * @param l size of x
  */
-SBW_API sbwDataBlockReader::sbwDataBlockReader(const unsigned char *x, Integer l)
+ sbwDataBlockReader::sbwDataBlockReader(const unsigned char *x, Integer l)
 : end(0), length(l)
 {
-	data = new unsigned char[l]; 
-	memcpy(data, x, l);
+    data = new unsigned char[l];
+    memcpy(data, x, l);
 }
 
 /**
@@ -146,42 +144,42 @@ SBW_API sbwDataBlockReader::sbwDataBlockReader(const unsigned char *x, Integer l
  * Assumes that type prefix has been consumed
  * @param x set to the list data at the cursor
  */
-SBW_API void sbwDataBlockReader::getWithoutType(DataBlockReader &x)
+ void sbwDataBlockReader::getWithoutType(DataBlockReader &x)
 {
-	sbwDataBlockReader *impl;
+    sbwDataBlockReader *impl;
 
-	getWithoutType(impl);
-	DataBlockReader actual(impl);
+    getWithoutType(impl);
+    DataBlockReader actual(impl);
 
-	x = actual ;
+    x = actual ;
 }
 
-/** 
+/**
  * outputs to standard output the contents of the data block.
  * Data is output in space seperated decimal byte values.
  * A '>' character indicates the position of the cursor.
  */
-SBW_API void sbwDataBlockReader::dump()
+ void sbwDataBlockReader::dump()
 {
-	printf("\n");
+    printf("\n");
 
-	int x = 0 ;
+    int x = 0 ;
 
-	while (x != end)
-	{
-		printf("%d ", data[x]);
-		x++;
-	}
+    while (x != end)
+    {
+        printf("%d ", data[x]);
+        x++;
+    }
 
-	printf(">");
+    printf(">");
 
-	while (x != length)
-	{
-		printf("%d ", data[x]);
-		x++;
-	}
+    while (x != length)
+    {
+        printf("%d ", data[x]);
+        x++;
+    }
 
-	printf("\n");
+    printf("\n");
 }
 
 /**
@@ -189,106 +187,106 @@ SBW_API void sbwDataBlockReader::dump()
  * Assumes the type prefix of the object has already been consumed.
  * @param type the type of the object data at the cursor.
  */
-SBW_API void sbwDataBlockReader::skipObjectWithoutType(DataBlockType type)
+ void sbwDataBlockReader::skipObjectWithoutType(DataBlockType type)
 {
-	switch (type)
-	{
-		case IntegerType :
-			{
-				Integer a;
+    switch (type)
+    {
+        case IntegerType :
+            {
+                Integer a;
 
-				getWithoutType(a) ;
-				break ;
-			}
-		case DoubleType :
-			{
-				Double a;
+                getWithoutType(a) ;
+                break ;
+            }
+        case DoubleType :
+            {
+                Double a;
 
-				getWithoutType(a) ;
-				break ;
-			}
-		case StringType :
-			{
-				std::string a;
+                getWithoutType(a) ;
+                break ;
+            }
+        case StringType :
+            {
+                std::string a;
 
-				getWithoutType(a) ;
-				break ;
-			}
-		case ArrayType :
-			skipArray();
-			break;
-		case ComplexType:
-			{
-				Double a;
+                getWithoutType(a) ;
+                break ;
+            }
+        case ArrayType :
+            skipArray();
+            break;
+        case ComplexType:
+            {
+                Double a;
 
-				getWithoutType(a) ;
-				getWithoutType(a) ;
-				break ;
+                getWithoutType(a) ;
+                getWithoutType(a) ;
+                break ;
 
-			}
-		case ListType :
-			{
-				DataBlockReader r;
+            }
+        case ListType :
+            {
+                DataBlockReader r;
 
-				getWithoutType(r) ;
-				break;
-			}
-		
-		case BooleanType :
-			{
-				bool z ;
+                getWithoutType(r) ;
+                break;
+            }
 
-				getWithoutType(z) ;
-				break;
-			}
+        case BooleanType :
+            {
+                bool z ;
 
-		case ByteType :
-			{
-				unsigned char x ;
+                getWithoutType(z) ;
+                break;
+            }
 
-				getWithoutType(x) ;
-				break;
-			}
+        case ByteType :
+            {
+                unsigned char x ;
 
-		case VoidType :
-		case TerminateType :
-		case ErrorType :
-		    /* These are only here to quiet some compilers. */
-			{
-			        break;
-			}
-	}
+                getWithoutType(x) ;
+                break;
+            }
+
+        case VoidType :
+        case TerminateType :
+        case ErrorType :
+            /* These are only here to quiet some compilers. */
+            {
+                    break;
+            }
+    }
 }
 
 /**
  * consumes the array data at the cursor.
  * Assumes the type prefix but not the array header for the array has already been consumed.
  */
-SBW_API void sbwDataBlockReader::skipArray()
+ void sbwDataBlockReader::skipArray()
 {
-	Integer dimensions ;
-	unsigned char type ;
-	int dimension = 0 ;
-	int size = 1;
-	int item = 0;
+    Integer dimensions ;
+    unsigned char type ;
+    int dimension = 0 ;
+    int size = 1;
+    int item = 0;
 
-	getWithoutType(type);
-	getWithoutType(dimensions);
+    getWithoutType(type);
+    getWithoutType(dimensions);
 
-	while (dimension != dimensions)
-	{
-		Integer dimSize ;
+    while (dimension != dimensions)
+    {
+        Integer dimSize ;
 
-		getWithoutType(dimSize);
-		size *= dimSize ;
-		dimension++;
-	}
+        getWithoutType(dimSize);
+        size *= dimSize ;
+        dimension++;
+    }
 
-	while (item != size)
-	{
-		skipObjectWithoutType((DataBlockType)type);
-		item++;
-	}
+    while (item != size)
+    {
+        skipObjectWithoutType((DataBlockType)type);
+        item++;
+    }
 }
 
 /**
@@ -300,30 +298,30 @@ SBW_API void sbwDataBlockReader::skipArray()
  */
 Integer sbwDataBlockReader::readInteger(SBWOSSocket *sock)
 {
-	Integer result ;
-	unsigned char *buffer = new unsigned char[4];
-	sbwDataBlockReader reader(buffer, 4, false);  // this free's buffer on its destruction
-	
-	sock->receive(buffer, 4);
-	reader.getWithoutType(result);
-	
-	return result ;
+    Integer result ;
+    unsigned char *buffer = new unsigned char[4];
+    sbwDataBlockReader reader(buffer, 4, false);  // this free's buffer on its destruction
+
+    sock->receive(buffer, 4);
+    reader.getWithoutType(result);
+
+    return result ;
 }
 
 /**
  * returns the type of the next object in the sbwDataBlockReader.
  * @return the type of the next object in the sbwDataBlockReader
  */
-SBW_API DataBlockType sbwDataBlockReader::getNextArrayType()
+ DataBlockType sbwDataBlockReader::getNextArrayType()
 {
-	if (getNextType() != ArrayType)
-		throw new SBWTypeMismatchException("next type is not an array");
+    if (getNextType() != ArrayType)
+        throw new SBWTypeMismatchException("next type is not an array");
 
-	if (end + 1 > length)
-		throw new SBWTypeMismatchException("reached end of data");
+    if (end + 1 > length)
+        throw new SBWTypeMismatchException("reached end of data");
 
-	int x = (char)data[end + 1];
-	return (DataBlockType)x ;
+    int x = (char)data[end + 1];
+    return (DataBlockType)x ;
 }
 
 /**
@@ -331,18 +329,18 @@ SBW_API DataBlockType sbwDataBlockReader::getNextArrayType()
  * @throws an SBWException * if the next object is not an array
  * @return the number of dimensions of the next array object in the sbwDataBlockReader
  */
-SBW_API Integer sbwDataBlockReader::getNextArrayDimensions()
+ Integer sbwDataBlockReader::getNextArrayDimensions()
 {
-	if (getNextType() != ArrayType)
-		throw new SBWTypeMismatchException("next type is not an array");
+    if (getNextType() != ArrayType)
+        throw new SBWTypeMismatchException("next type is not an array");
 
-	// move end up to array dimensions just for this function
-	end += 2;
+    // move end up to array dimensions just for this function
+    end += 2;
 
-	Integer result ;
+    Integer result ;
 
-	getWithoutType(result);
-	end -= 6 ; // 1 byte for Array Type, 1 byte for Inner Type and 4 bytes for dimensions
+    getWithoutType(result);
+    end -= 6 ; // 1 byte for Array Type, 1 byte for Inner Type and 4 bytes for dimensions
 
-	return result ;
+    return result ;
 }

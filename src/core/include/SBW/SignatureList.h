@@ -76,14 +76,14 @@ namespace SystemsBiologyWorkbench
 class SignatureListContents ;
 
 /// represents a list type inside a signature
-class sbwSignatureList : public sbwSignatureType  
+class SBW_API sbwSignatureList : public sbwSignatureType
 {
 public:
 	/**
 	 * returns true
 	 * @return true
 	 */
-	bool isList() { return true; }
+  bool isList();
 	sbwSignatureList(const char *&signature);
 	virtual ~sbwSignatureList();
 

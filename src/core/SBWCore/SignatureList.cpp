@@ -93,6 +93,8 @@ sbwSignatureList::~sbwSignatureList()
  *        to the first character after the type definition
  *
  */
+bool sbwSignatureList::isList() { return true; }
+
 sbwSignatureList::sbwSignatureList(const char *&signature)
 {
 	sbwSignature::consume("{", signature);

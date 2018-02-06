@@ -38,7 +38,7 @@ namespace SystemsBiologyWorkbench
 			 * \param category the category string to normalize
 			 * \return the normalized category string
 			 */
-			static std::string normalizeCategoryName(std::string category);
+      static std::string normalizeCategoryName(const std::string& category);
 			/**
 			 *
 			 * \return internal RPC API

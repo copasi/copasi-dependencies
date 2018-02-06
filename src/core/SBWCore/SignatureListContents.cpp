@@ -80,7 +80,9 @@ using namespace SystemsBiologyWorkbench ;
  * The created list contains one argument without a name.
  * @param arg The type of the initial argument.
  */
-SBW_API SignatureListContents::SignatureListContents(SignatureType arg)
+ SignatureListContents::SignatureListContents() {}
+
+SignatureListContents::SignatureListContents(SignatureType arg)
 {
 	push_back(SignatureElement(arg));
 }
@@ -90,7 +92,7 @@ SBW_API SignatureListContents::SignatureListContents(SignatureType arg)
  * @param signature string prefixed by a signature argument list.  The given string pointer is set to point to the 
  *        first character in the original string after the signature argument list.
  */
-SBW_API SignatureListContents::SignatureListContents(const char *&signature)
+ SignatureListContents::SignatureListContents(const char *&signature)
 {
 	sbwSignature::consumeSpace(signature);
 
@@ -111,7 +113,7 @@ SBW_API SignatureListContents::SignatureListContents(const char *&signature)
  * @param ap the variable argument list.  This pointer is changed to point to the n+1th argument where n
  *           is the number of arguments in this argument list.
  */
-SBW_API void SignatureListContents::write(DataBlockWriter writer, va_list &ap) const
+ void SignatureListContents::write(DataBlockWriter writer, va_list &ap) const
 {
 	std::vector<SignatureElement>::const_iterator itr = begin();
 
@@ -141,7 +143,7 @@ SBW_API void SignatureListContents::write(DataBlockWriter writer, va_list &ap) c
  * @param reader the datablock in which the data is stored.
  * @param ap the variable argument list.  
  */
-SBW_API void SignatureListContents::read(DataBlockReader reader, va_list &ap) const
+ void SignatureListContents::read(DataBlockReader reader, va_list &ap) const
 {
 	std::vector<SignatureElement>::const_iterator itr = begin();
 
@@ -161,7 +163,7 @@ SBW_API void SignatureListContents::read(DataBlockReader reader, va_list &ap) co
  * @return an array signature argument objects corresponding to the type list.
  *         The returned value should be deallocated using the delete operator.
  */
-SBW_API std::vector<SignatureElement> *SignatureListContents::copyVector() const
+ std::vector<SignatureElement> *SignatureListContents::copyVector() const
 {
 	std::vector<SignatureElement> *result = new std::vector<SignatureElement>(size());
 
@@ -175,7 +177,7 @@ SBW_API std::vector<SignatureElement> *SignatureListContents::copyVector() const
  * @param other another type sequence.
  * @return whether the type sequence contained in this object corresponds to the other type sequence.
  */
-SBW_API bool SignatureListContents::match(const SignatureListContents &other) const
+ bool SignatureListContents::match(const SignatureListContents &other) const
 {
 	std::vector<SignatureElement>::const_iterator itr = begin();
 	std::vector<SignatureElement>::const_iterator otherItr = other.begin();

@@ -112,7 +112,11 @@ using namespace SystemsBiologyWorkbench ;
 * @param initialListener default event listener
 */
 SBWModuleRPC::SBWModuleRPC(SBWRPCListener *initialListener)
-: SBWRPC(initialListener), SBWThread("socket receive"), socket(NULL), state(Disconnected), transmitMutex("transmit")
+: SBWRPC(initialListener)
+, SBWThread("socket receive")
+, socket(NULL)
+, state(Disconnected)
+, transmitMutex("transmit")
 {
 	// At the point this is created, a new SBWThread is created
 	// but it is not yet start()'ed.
@@ -260,11 +264,7 @@ int SBWModuleRPC::startBroker()
 	bool bFound = false;
 	/* Temporarily disabling the use of startbroker.bat under windows */
 
-#if  _MSC_VER >= 1400
-	std::string brokerStartupScript = _strdup(Config::getSBWUserDir().c_str());
-#else
-	std::string brokerStartupScript = strdup(Config::getSBWUserDir().c_str());
-#endif
+  std::string brokerStartupScript = Config::getSBWUserDir();
 	brokerStartupScript+= SBWOS::DirectorySeparator();
 	brokerStartupScript+= "brokerfile";
 	if (fileExists(brokerStartupScript.c_str())) 
@@ -378,6 +378,7 @@ int SBWModuleRPC::startBroker()
 		try
 		{
 			delete socket ;
+      socket = NULL;
 		}
 		catch (SBWException *)
 		{
@@ -455,17 +456,9 @@ void SBWModuleRPC::connectMessageStreams(const char *moduleName)
 	try
 	{
 		Integer length;
-		// HACK: still the same strange error ... calling 
-		//		 SessionKey::getKey().c_str() returns garbage ...
 		std::string sKey = SessionKey::getKey();
-#if  _MSC_VER >= 1400
-		char *key = _strdup(sKey.c_str());
-#else
-		char *key = strdup(sKey.c_str());
-#endif
 		unsigned char *message
-			= DataBlockWriter::createConnectMessage(key, moduleName, length);
-		free(key);
+      = DataBlockWriter::createConnectMessage(sKey.c_str(), moduleName, length);
 		socket->transmit(message, length);
 		delete[] message;
 		
@@ -478,11 +471,16 @@ void SBWModuleRPC::connectMessageStreams(const char *moduleName)
 		try
 		{
 			delete socket;
-		}
+      socket = NULL;
+		}    
 		catch (SBWException *)
 		{
-			// delibrately ignored - don't know or care if we have good connection
+			// deliberately ignored - don't know or care if we have good connection
 		}
+    catch (const SBWException &)
+    {
+      // deliberately ignored - don't know or care if we have good connection
+    }
 		state = Disconnected;
 		throw;
 	}
@@ -522,8 +520,8 @@ void SBWModuleRPC::waitForDisconnect()
 }
 
 /**
-* return the numeric module instance identifer for this application process.
-* @return the numeric module instance identifer for this application process.
+* return the numeric module instance identifier for this application process.
+* @return the numeric module instance identifier for this application process.
 */
 Integer SBWModuleRPC::getModuleId()
 {
@@ -607,6 +605,10 @@ void SBWModuleRPC::run()
 			e->log();
 			delete e;
 		}
+    catch (const SBWException &e)
+    {
+      e.log();
+    }
 		catch (...) {}
 	}
 
@@ -615,11 +617,17 @@ void SBWModuleRPC::run()
 		try
 		{
 			delete socket;
+      socket = NULL;
 		}
-		catch (SBWException *)
+		catch (SBWException * e)
 		{
-			// delibrately ignored - don't know or care if we have good connection
+			// deliberately ignored - don't know or care if we have good connection
+      delete e;
 		}
+    catch (...)
+    {
+      // deliberately ignored - don't know or care if we have good connection
+    }
 	}
 
 	cleanup();

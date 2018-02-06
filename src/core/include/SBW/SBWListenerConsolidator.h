@@ -73,10 +73,10 @@ namespace SystemsBiologyWorkbench
 {
 
 /// listener that broadcasts events to other listeners registered with it
-class SBWListenerConsolidator : public SBWRPCListener  
+class SBW_API SBWListenerConsolidator : public SBWRPCListener
 {
 public:
-	SBW_API SBWListenerConsolidator();
+  SBWListenerConsolidator();
 	virtual ~SBWListenerConsolidator();
 
 	virtual void onModuleShutdown(Integer x);

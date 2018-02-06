@@ -19,10 +19,10 @@ using namespace SystemsBiologyWorkbench::Broker;
 using namespace SystemsBiologyWorkbench;
 
 ConnectionThread::ConnectionThread(InstanceThread::Factory *_instanceFactory,
-								   ServerSocket *_socket, std::string _sessionKey,
-								   HostAccessTable *_hostAccessTable) : SBWThread( _instanceFactory->getType() +  "-connection-thread"), 
+                   ServerSocket *_socket, const string& _sessionKey,
+                   HostAccessTable *_hostAccessTable) : SBWThread( _instanceFactory->getType() +  "-connection-thread"),
 								   serverSocket(_socket), 
-								   sessionKey(strdup(_sessionKey.c_str())), 
+                   sessionKey(_sessionKey),
 								   hostAccessTable(_hostAccessTable),
 								   instanceFactory(_instanceFactory)  
 
@@ -135,7 +135,7 @@ void ConnectionThread::run()
 				else
 					throw new SBWApplicationException("error creating instance - don't know what instance to create.");
 
-				if (inst != NULL && (inst->connect(sessionKey) && inst->start()))
+        if (inst != NULL && (inst->connect(sessionKey.c_str()) && inst->start()))
 				{
 					TRACE("New instance " << inst->getId() << " started");
 				}

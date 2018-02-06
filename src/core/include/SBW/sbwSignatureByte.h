@@ -73,7 +73,7 @@ namespace SystemsBiologyWorkbench
 {
 
 /// parse structure of a byte type in an SBW signature
-class sbwSignatureByte : public sbwSignatureType  
+class SBW_API sbwSignatureByte : public sbwSignatureType
 {
 public:
 	/**
@@ -81,22 +81,14 @@ public:
 	 * @see ByteType
 	 * @return ByteType.
 	 */
-	DataBlockType getType() { return ByteType; }
+  DataBlockType getType();
 
 	/**
 	 * For C API : store a byte value from a variable argument list in a given data block.
 	 * @param writer data block in which the byte will be stored.
 	 * @param ap variable argument list - the next item is assumed to be a unsigned char value.
 	 */
-	void write(DataBlockWriter writer, va_list &ap)
-	{
-		// The C++ C99 standard requires that "the type used in va_arg is
-		// supposed to match the actual type **after default promotions**."
-
-		unsigned char x = (unsigned char) va_arg(ap, int /* unsigned char */);
-
-		writer << x ;
-	}
+  void write(DataBlockWriter writer, va_list &ap);
 
 	/**
 	 * For C API : read a byte value from a given data block.
@@ -104,12 +96,7 @@ public:
 	 * @param ap variable argument list - the next item is assumed to be an unsigned char pointer,
 	 *           the extracted value is stored in the referenced location.
 	 */
-	void read(DataBlockReader reader, va_list &ap)
-	{
-		unsigned char *x = (unsigned char *) va_arg(ap, unsigned char *);
-
-		reader.getForC(*x) ;
-	}
+  void read(DataBlockReader reader, va_list &ap);
 
 	/**
 	 * For C API : store array of bytes in data block.
@@ -117,12 +104,7 @@ public:
 	 * @param size number of byte values in the array
 	 * @param ap variable argument list - the next item is assumed to be a pointer to a byte array.
 	 */
-	void write1DArray(DataBlockWriter writer, Integer size, va_list &ap)
-	{
-		unsigned char *x = (unsigned char *) va_arg(ap, unsigned char *);
-
-		writer.add(size, x);
-	}
+  void write1DArray(DataBlockWriter writer, Integer size, va_list &ap);
 
 	/**
 	 * For C API : read an array of byte from a data block.
@@ -132,12 +114,7 @@ public:
 	 *           This pointer is changed to point to a byte array allocated on the C Heap.
 	 *           Use SBWFree to deallocate this array.
 	 */
-	void read1DArray(DataBlockReader reader, Integer &size, va_list &ap)
-	{
-		unsigned char **x = (unsigned char **)va_arg(ap, unsigned char **);
-
-		reader.getForC(size, *x);
-	}
+  void read1DArray(DataBlockReader reader, Integer &size, va_list &ap);
 
 	/**
 	 * For C API : store 2D array of bytes in data block.
@@ -147,12 +124,7 @@ public:
 	 * @param ap variable argument list - the next item is assumed to be a pointer to a unsigned char * array
 	 *           where each element points to an SBWBoolean array.
 	 */
-	void write2DArray(DataBlockWriter writer, Integer xsize, Integer ysize, va_list &ap)
-	{
-		unsigned char **x = (unsigned char **)va_arg(ap, unsigned char **);
-
-		writer.add(xsize, ysize, x);
-	}
+  void write2DArray(DataBlockWriter writer, Integer xsize, Integer ysize, va_list &ap);
 
 	/**
 	 * For C API : read a 2D array of bytes from a data block.
@@ -163,12 +135,7 @@ public:
 	 *           array. This pointer is changed to point to an unsigned char * array allocated on the C Heap.
 	 *           Use SBWFree2DArray to deallocate this array.
 	 */
-	void read2DArray(DataBlockReader reader, Integer &xsize, Integer &ysize, va_list &ap)
-	{
-		unsigned char ***x = (unsigned char ***)va_arg(ap, unsigned char ***);
-
-		reader.getForC(xsize, ysize, *x);
-	}
+  void read2DArray(DataBlockReader reader, Integer &xsize, Integer &ysize, va_list &ap);
 };
 
 } // SystemsBiologyWorkbench

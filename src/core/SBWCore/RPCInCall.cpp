@@ -135,7 +135,10 @@ RPCInCall::~RPCInCall()
 	try
 	{
 		if (thread)
+    {
 			delete thread ;
+      thread = NULL;
+    }
 	}
 	catch(...)
 	{

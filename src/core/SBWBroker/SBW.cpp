@@ -20,7 +20,7 @@ void Broker::SBW::setInternalAPI(SBWBrokerRPC *r)
 	rpc = r;
 }
 
-std::string Broker::SBW::normalizeCategoryName(std::string category)
+std::string Broker::SBW::normalizeCategoryName(const std::string& category)
 {
 	if (StringUtil::empty(category))
 		return "/";
@@ -54,7 +54,7 @@ std::string Broker::SBW::normalizeCategoryName(std::string category)
 			//newCategoryStr =
 			//	newCategoryStr + "/"
 			//	+ category.substr(lastPos, currPos);
-
+      free(string);
 			return newCategoryStr;
 		}
 		catch (...)

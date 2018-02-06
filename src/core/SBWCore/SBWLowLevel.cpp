@@ -107,8 +107,18 @@ SBWRPC* SBWLowLevel::initializeRPC()
 
 void SBWLowLevel::deleteRPC()
 {
-  delete rpc;
-  rpc = NULL;
+  if (rpc != NULL)
+  {
+    try
+    {
+    delete rpc;
+    rpc = NULL;
+    }
+    catch(...)
+    {
+
+    }
+  }
 }
 
 SBWRPCListener *SBWLowLevel::getListenerConsolidator()
@@ -118,6 +128,7 @@ SBWRPCListener *SBWLowLevel::getListenerConsolidator()
 
 void SBWLowLevel::setMasterListener(SBWRPCListener *l)
 {
+  if (rpc == NULL) return;
 	rpc->setListener(l);
 }
 
@@ -125,7 +136,7 @@ void SBWLowLevel::setMasterListener(SBWRPCListener *l)
  * returns the version of the C & C++ library
  * @return the version of the C & C++ library
  */
-SBW_API std::string SBWLowLevel::getVersion()
+std::string SBWLowLevel::getVersion()
 {
 	return version ;
 }
@@ -134,7 +145,7 @@ SBW_API std::string SBWLowLevel::getVersion()
  * returns the version of the Broker
  * @return the version of the Broker
  */
-SBW_API std::string SBWLowLevel::getBrokerVersion()
+std::string SBWLowLevel::getBrokerVersion()
 {
 	std::string result ;
 
@@ -150,7 +161,7 @@ SBW_API std::string SBWLowLevel::getBrokerVersion()
  * sets the incoming call processor for the underlying rpc mechanism.
  * @param t the incoming call processor for this module.
  */
-SBW_API void SBWLowLevel::setReceiver(Receiver *r) { rpc->registerReceiver(r); }
+void SBWLowLevel::setReceiver(Receiver *r) { rpc->registerReceiver(r); }
 
 /**
  * returns module descriptors for all the modules known to the broker.
@@ -158,7 +169,7 @@ SBW_API void SBWLowLevel::setReceiver(Receiver *r) { rpc->registerReceiver(r); }
  * @param includeRunning the result should include running but unregistered modules.
  * @return module descriptors for all the modules known to the broker.
  */
-SBW_API std::vector<ModuleDescriptor> *SBWLowLevel::getModuleDescriptors(bool includeRunning, bool localOnly)
+std::vector<ModuleDescriptor> *SBWLowLevel::getModuleDescriptors(bool includeRunning, bool localOnly)
 {
 	std::vector<DataBlockReader> lists ;
 	
@@ -223,7 +234,7 @@ std::vector<Module> *SBWLowLevel::createModuleArray(const std::vector<Integer>&m
  * returns the numeric module instance identifier for this application
  * @return the numeric module instance identifier for this application
  */
-SBW_API Integer SBWLowLevel::getThisModule()
+Integer SBWLowLevel::getThisModule()
 {
 	return rpc->getModuleId();
 }
@@ -232,7 +243,7 @@ SBW_API Integer SBWLowLevel::getThisModule()
  * register a callback which is called when this application disconnects from the broker
  * @param x a callback which is called when this application disconnects from the broker
  */
-SBW_API void SBWLowLevel::registerShutdownListener(SimpleListener x)
+void SBWLowLevel::registerShutdownListener(SimpleListener x)
 {
 	initialiseListenerForC();
 
@@ -242,7 +253,7 @@ SBW_API void SBWLowLevel::registerShutdownListener(SimpleListener x)
  * register a callback which is called when another module disconnects from the broker
  * @param x a callback which is called when another module disconnects from the broker
  */
-SBW_API void SBWLowLevel::registerModuleShutdownListener(ModuleListener x)
+void SBWLowLevel::registerModuleShutdownListener(ModuleListener x)
 {
 	initialiseListenerForC();
 
@@ -252,7 +263,7 @@ SBW_API void SBWLowLevel::registerModuleShutdownListener(ModuleListener x)
  * register a callback which is called when another module connects to the broker
  * @param x a callback which is called when another module connects to the broker
  */
-SBW_API void SBWLowLevel::registerModuleStartupListener(ModuleListener x)
+void SBWLowLevel::registerModuleStartupListener(ModuleListener x)
 {
 	initialiseListenerForC();
 
@@ -262,7 +273,7 @@ SBW_API void SBWLowLevel::registerModuleStartupListener(ModuleListener x)
  * register a callback which is called when the broker's register of modules changes
  * @param x a callback which is called when the broker's register of modules changes
  */
-SBW_API void SBWLowLevel::registerRegistrationChangeListener(SimpleListener x)
+void SBWLowLevel::registerRegistrationChangeListener(SimpleListener x)
 {
 	initialiseListenerForC();
 
@@ -272,7 +283,7 @@ SBW_API void SBWLowLevel::registerRegistrationChangeListener(SimpleListener x)
  * remove a callback which is called when this application disconnects from the broker
  * @param x a callback which is called when this application disconnects from the broker
  */
-SBW_API void SBWLowLevel::removeShutdownListener(SimpleListener x)
+void SBWLowLevel::removeShutdownListener(SimpleListener x)
 {
 	initialiseListenerForC();
 
@@ -282,7 +293,7 @@ SBW_API void SBWLowLevel::removeShutdownListener(SimpleListener x)
  * remove a callback which is called when another module disconnects from the broker
  * @param x a callback which is called when another module disconnects from the broker
  */
-SBW_API void SBWLowLevel::removeModuleShutdownListener(ModuleListener x)
+void SBWLowLevel::removeModuleShutdownListener(ModuleListener x)
 {
 	initialiseListenerForC();
 
@@ -292,7 +303,7 @@ SBW_API void SBWLowLevel::removeModuleShutdownListener(ModuleListener x)
  * remove a callback which is called when another module connects to the broker
  * @param x a callback which is called when another module connects to the broker
  */
-SBW_API void SBWLowLevel::removeModuleStartupListener(ModuleListener x)
+void SBWLowLevel::removeModuleStartupListener(ModuleListener x)
 {
 	initialiseListenerForC();
 
@@ -302,7 +313,7 @@ SBW_API void SBWLowLevel::removeModuleStartupListener(ModuleListener x)
  * remove a callback which is called when the broker's register of modules changes
  * @param x a callback which is called when the broker's register of modules changes
  */
-SBW_API void SBWLowLevel::removeRegistrationChangeListener(SimpleListener x)
+void SBWLowLevel::removeRegistrationChangeListener(SimpleListener x)
 {
 	initialiseListenerForC();
 
@@ -312,7 +323,7 @@ SBW_API void SBWLowLevel::removeRegistrationChangeListener(SimpleListener x)
  * register a callback which is called when this application disconnects from the broker
  * @param x a callback which is called when this application disconnects from the broker
  */
-SBW_API void SBWLowLevel::registerShutdownListenerStdCall(SimpleListenerStdCall x)
+void SBWLowLevel::registerShutdownListenerStdCall(SimpleListenerStdCall x)
 {
 	initialiseListenerForC();
 
@@ -323,7 +334,7 @@ SBW_API void SBWLowLevel::registerShutdownListenerStdCall(SimpleListenerStdCall 
  * register a callback which is called when another module disconnects from the broker
  * @param x a callback which is called when another module disconnects from the broker
  */
-SBW_API void SBWLowLevel::registerModuleShutdownListenerStdCall(ModuleListenerStdCall x)
+void SBWLowLevel::registerModuleShutdownListenerStdCall(ModuleListenerStdCall x)
 {
 	initialiseListenerForC();
 
@@ -334,7 +345,7 @@ SBW_API void SBWLowLevel::registerModuleShutdownListenerStdCall(ModuleListenerSt
  * register a callback which is called when another module connects to the broker
  * @param x a callback which is called when another module connects to the broker
  */
-SBW_API void SBWLowLevel::registerModuleStartupListenerStdCall(ModuleListenerStdCall x)
+void SBWLowLevel::registerModuleStartupListenerStdCall(ModuleListenerStdCall x)
 {
 	initialiseListenerForC();
 
@@ -345,7 +356,7 @@ SBW_API void SBWLowLevel::registerModuleStartupListenerStdCall(ModuleListenerStd
  * register a callback which is called when the broker's register of modules changes
  * @param x a callback which is called when the broker's register of modules changes
  */
-SBW_API void SBWLowLevel::registerRegistrationChangeListenerStdCall(SimpleListenerStdCall x)
+void SBWLowLevel::registerRegistrationChangeListenerStdCall(SimpleListenerStdCall x)
 {
 	initialiseListenerForC();
 
@@ -356,7 +367,7 @@ SBW_API void SBWLowLevel::registerRegistrationChangeListenerStdCall(SimpleListen
  * remove a callback which is called when this application disconnects from the broker
  * @param x a callback which is called when this application disconnects from the broker
  */
-SBW_API void SBWLowLevel::removeShutdownListenerStdCall(SimpleListenerStdCall x)
+void SBWLowLevel::removeShutdownListenerStdCall(SimpleListenerStdCall x)
 {
 	initialiseListenerForC();
 
@@ -368,7 +379,7 @@ SBW_API void SBWLowLevel::removeShutdownListenerStdCall(SimpleListenerStdCall x)
  * remove a callback which is called when another module disconnects from the broker
  * @param x a callback which is called when another module disconnects from the broker
  */
-SBW_API void SBWLowLevel::removeModuleShutdownListenerStdCall(ModuleListenerStdCall x)
+void SBWLowLevel::removeModuleShutdownListenerStdCall(ModuleListenerStdCall x)
 {
 	initialiseListenerForC();
 
@@ -379,7 +390,7 @@ SBW_API void SBWLowLevel::removeModuleShutdownListenerStdCall(ModuleListenerStdC
  * remove a callback which is called when another module connects to the broker
  * @param x a callback which is called when another module connects to the broker
  */
-SBW_API void SBWLowLevel::removeModuleStartupListenerStdCall(ModuleListenerStdCall x)
+void SBWLowLevel::removeModuleStartupListenerStdCall(ModuleListenerStdCall x)
 {
 	initialiseListenerForC();
 
@@ -390,7 +401,7 @@ SBW_API void SBWLowLevel::removeModuleStartupListenerStdCall(ModuleListenerStdCa
  * remove a callback which is called when the broker's register of modules changes
  * @param x a callback which is called when the broker's register of modules changes
  */
-SBW_API void SBWLowLevel::removeRegistrationChangeListenerStdCall(SimpleListenerStdCall x)
+void SBWLowLevel::removeRegistrationChangeListenerStdCall(SimpleListenerStdCall x)
 {
 	initialiseListenerForC();
 
@@ -422,7 +433,7 @@ void SBWLowLevel::deleteListenerForC()
  * Deallocate the result using delete.
  * @return an array of module instance objects representing all the module instances connected to the broker.
  */
-SBW_API std::vector<Module> *SBWLowLevel::getExistingModuleInstances()
+std::vector<Module> *SBWLowLevel::getExistingModuleInstances()
 {
 	std::vector<Integer> moduleIds ;
 
@@ -442,7 +453,7 @@ SBW_API std::vector<Module> *SBWLowLevel::getExistingModuleInstances()
  * @return an array of module instance objects representing all the instances of the given module
  *         connected to the broker.
  */
-SBW_API std::vector<Module> *SBWLowLevel::getExistingModuleInstances(std::string moduleName)
+std::vector<Module> *SBWLowLevel::getExistingModuleInstances(std::string moduleName)
 {
 	std::vector<Module> *modules = getExistingModuleInstances();
 	std::vector<Module>::iterator moduleItr = modules->begin();
@@ -464,7 +475,7 @@ SBW_API std::vector<Module> *SBWLowLevel::getExistingModuleInstances(std::string
  * @param includeRunning return result for a running module if the given module is not registered.
  * @return a module descriptor for a given module
  */
-SBW_API ModuleDescriptor SBWLowLevel::getModuleDescriptor(std::string moduleName, bool includeRunning)
+ModuleDescriptor SBWLowLevel::getModuleDescriptor(std::string moduleName, bool includeRunning)
 {
 	DataBlockReader list ;
 	
@@ -481,7 +492,7 @@ SBW_API ModuleDescriptor SBWLowLevel::getModuleDescriptor(std::string moduleName
  * @param recursive include service in subcategories of the given categroy (default true)
  * @return an array of service descriptors that are in a given category
  */
-SBW_API std::vector<ServiceDescriptor> *SBWLowLevel::findLocalServices(
+std::vector<ServiceDescriptor> *SBWLowLevel::findLocalServices(
 	std::string category, bool recursive /* = true */)
 {
 	std::vector<DataBlockReader> listArray ;
@@ -510,7 +521,7 @@ SBW_API std::vector<ServiceDescriptor> *SBWLowLevel::findLocalServices(
  * @param recursive include service in subcategories of the given categroy (default true)
  * @return an array of service descriptors that are in a given category
  */
-SBW_API std::vector<ServiceDescriptor> *SBWLowLevel::findServices(
+std::vector<ServiceDescriptor> *SBWLowLevel::findServices(
 	std::string category, bool recursive /* = true */)
 {
 	std::vector<DataBlockReader> listArray ;
@@ -553,7 +564,7 @@ bool SBWLowLevel::isSubCategory(std::string category, std::string subCategory)
  * @param moduleIdentificationName the module identification name of this application.
  * @param hostname the hostname of machine on which you wish to connect, "" implies local
  */
-SBW_API void SBWLowLevel::connect(const char *moduleIdentificationName, const char *hostname)
+void SBWLowLevel::connect(const char *moduleIdentificationName, const char *hostname)
 { rpc->connect(moduleIdentificationName, hostname); }
 
 /**
@@ -563,7 +574,7 @@ SBW_API void SBWLowLevel::connect(const char *moduleIdentificationName, const ch
  * remote resources.
  * @param hostname the hostname of machine on which you wish to connect.
  */
-SBW_API void SBWLowLevel::link(const char *hostname)
+void SBWLowLevel::link(const char *hostname)
 {
 	//getBrokerMethod("int linkBroker(string)").call(DataBlockWriter() << hostname) ;
 	getBrokerMethod(LinkBroker).call(DataBlockWriter() << hostname) ;
@@ -573,7 +584,7 @@ SBW_API void SBWLowLevel::link(const char *hostname)
  * returns whether this application is connected to the broker.
  * @return whether this application is connected to the broker.
  */
-SBW_API bool SBWLowLevel::isConnected()
+bool SBWLowLevel::isConnected()
 {
 	return rpc->isConnected();
 }
@@ -591,7 +602,7 @@ SBW_API bool SBWLowLevel::isConnected()
  * @returns whether the command line contains either <code>-sbwregister</code> or <code>-sbwmodule</code>
  *          ie whether the application should either register itself or run as a module respectively.
  **/
-SBW_API bool SBWLowLevel::processArguments(int argc, char* argv[])
+bool SBWLowLevel::processArguments(int argc, char* argv[])
 {
 	int i = 0;
 	bool moduleMode = false ;
@@ -619,7 +630,7 @@ SBW_API bool SBWLowLevel::processArguments(int argc, char* argv[])
  * disconnects this application from the broker.
  * Blocks until the disconnection has occured.
  */
-SBW_API void SBWLowLevel::disconnect()
+void SBWLowLevel::disconnect()
 {
 	try
 	{
@@ -635,7 +646,7 @@ SBW_API void SBWLowLevel::disconnect()
 /**
  * blocks until this application has disconnected from the broker.
  */
-SBW_API void SBWLowLevel::waitForDisconnect()
+void SBWLowLevel::waitForDisconnect()
 { rpc->waitForDisconnect(); }
 
 /**
@@ -645,7 +656,7 @@ SBW_API void SBWLowLevel::waitForDisconnect()
  * @param methodId numeric method identifier
  * @return the help string for the given method.
  */
-SBW_API std::string SBWLowLevel::methodGetHelpInString(Integer moduleInstanceId, Integer serviceId, Integer methodId)
+std::string SBWLowLevel::methodGetHelpInString(Integer moduleInstanceId, Integer serviceId, Integer methodId)
 {
 	std::string result ;
 
@@ -666,7 +677,7 @@ SBW_API std::string SBWLowLevel::methodGetHelpInString(Integer moduleInstanceId,
  * @param methodId numeric method identifier
  * @return the help string for the given method.
  */
-SBW_API char *SBWLowLevel::methodGetHelp(Integer moduleInstanceId, Integer serviceId, Integer methodId)
+char *SBWLowLevel::methodGetHelp(Integer moduleInstanceId, Integer serviceId, Integer methodId)
 {
 	return resultStringForC(methodGetHelpInString(moduleInstanceId, serviceId, methodId).c_str());
 }
@@ -679,7 +690,7 @@ SBW_API char *SBWLowLevel::methodGetHelp(Integer moduleInstanceId, Integer servi
  * @param methodId numeric method identifier
  * @return the name of the given method.
  */
-SBW_API char *SBWLowLevel::methodGetName(Integer moduleInstanceId, Integer serviceId, Integer methodId)
+char *SBWLowLevel::methodGetName(Integer moduleInstanceId, Integer serviceId, Integer methodId)
 {
 	return resultStringForC(methodGetNameInString(moduleInstanceId, serviceId, methodId).c_str());
 }
@@ -691,7 +702,7 @@ SBW_API char *SBWLowLevel::methodGetName(Integer moduleInstanceId, Integer servi
  * @param methodId numeric method identifier
  * @return the name of the given method.
  */
-SBW_API std::string SBWLowLevel::methodGetNameInString(Integer moduleInstanceId, Integer serviceId, Integer methodId)
+std::string SBWLowLevel::methodGetNameInString(Integer moduleInstanceId, Integer serviceId, Integer methodId)
 {
 	return Signature(methodGetSignatureInString(moduleInstanceId, serviceId, methodId).c_str()).getName();
 }
@@ -703,7 +714,7 @@ SBW_API std::string SBWLowLevel::methodGetNameInString(Integer moduleInstanceId,
  * @param methodId numeric method identifier
  * @return the signature parse object of the given method.
  */
-SBW_API Signature SBWLowLevel::methodGetSignature(Integer moduleInstanceId, Integer serviceId, Integer methodId)
+ Signature SBWLowLevel::methodGetSignature(Integer moduleInstanceId, Integer serviceId, Integer methodId)
 {
 	return Signature(methodGetSignatureInString(moduleInstanceId, serviceId, methodId).c_str());
 }
@@ -716,7 +727,7 @@ SBW_API Signature SBWLowLevel::methodGetSignature(Integer moduleInstanceId, Inte
  * @param methodId numeric method identifier
  * @return the signature string of the given method.
  */
-SBW_API char *SBWLowLevel::methodGetSignatureInCharStar(Integer moduleInstanceId, Integer serviceId, Integer methodId)
+ char *SBWLowLevel::methodGetSignatureInCharStar(Integer moduleInstanceId, Integer serviceId, Integer methodId)
 {
 	return resultStringForC(methodGetSignatureInString(moduleInstanceId, serviceId, methodId).c_str());
 }
@@ -728,7 +739,7 @@ SBW_API char *SBWLowLevel::methodGetSignatureInCharStar(Integer moduleInstanceId
  * @param methodId numeric method identifier
  * @return the signature string of the given method.
  */
-SBW_API std::string SBWLowLevel::methodGetSignatureInString(Integer moduleInstanceId, Integer serviceId, Integer methodId)
+ std::string SBWLowLevel::methodGetSignatureInString(Integer moduleInstanceId, Integer serviceId, Integer methodId)
 {
 	DataBlockWriter args ;
 
@@ -749,7 +760,7 @@ SBW_API std::string SBWLowLevel::methodGetSignatureInString(Integer moduleInstan
  * @param s string to be copied.
  * @return copy of string on C heap.
  */ 
-SBW_API char *SBWLowLevel::resultStringForC(const char *s)
+ char *SBWLowLevel::resultStringForC(const char *s)
 {
 	char *result = (char *)malloc(strlen(s) + 1);
 
@@ -766,7 +777,7 @@ SBW_API char *SBWLowLevel::resultStringForC(const char *s)
  * @param args arguments to method
  * @return data block containing the result of the SBW method call
  */
-SBW_API DataBlockReader SBWLowLevel::methodCall(
+ DataBlockReader SBWLowLevel::methodCall(
 	Integer moduleInstanceId, Integer serviceId, Integer method, DataBlockWriter args)
 {
 	return rpc->call(moduleInstanceId, serviceId, method, args);
@@ -779,7 +790,7 @@ SBW_API DataBlockReader SBWLowLevel::methodCall(
  * @param method method numeric identifier
  * @param args arguments to method
  */
-SBW_API void SBWLowLevel::methodSend(
+ void SBWLowLevel::methodSend(
 	Integer moduleInstanceId, Integer serviceId, Integer method, DataBlockWriter args)
 {
 	rpc->send(moduleInstanceId, serviceId, method, args);
@@ -790,7 +801,7 @@ SBW_API void SBWLowLevel::methodSend(
  * @param signature signature of a method on the broker.
  * @return broker method corresponding to the given signature 
  */
-SBW_API ServiceMethod SBWLowLevel::getBrokerMethod(const char *signature)
+ ServiceMethod SBWLowLevel::getBrokerMethod(const char *signature)
 {
 	return
 		Module(SBWBrokerModule).
@@ -808,7 +819,7 @@ ServiceMethod SBWLowLevel::getBrokerMethod(brokerMethods method)
  * @param moduleIdentificationName module string identifier
  * @return the numeric identifier of an instance of the given module
  */
-SBW_API Integer SBWLowLevel::getModuleInstance(const char *moduleIdentificationName)
+ Integer SBWLowLevel::getModuleInstance(const char *moduleIdentificationName)
 {
 	Integer brokerService = moduleFindServiceByName(SBWBrokerModule, SBWRPC::brokerServiceName);
 	Integer getModuleInstanceMethodId =
@@ -832,7 +843,7 @@ SBW_API Integer SBWLowLevel::getModuleInstance(const char *moduleIdentificationN
  * @param moduleIdentificationName module string identifier
  * @return the array of service descriptors of the resitered services of the given module
  */
-SBW_API std::vector<ServiceDescriptor> *SBWLowLevel::getServiceDescriptors(const char *moduleIdentificationName)
+ std::vector<ServiceDescriptor> *SBWLowLevel::getServiceDescriptors(const char *moduleIdentificationName)
 {
 	std::vector<DataBlockReader> listArray ;
 
@@ -860,7 +871,7 @@ SBW_API std::vector<ServiceDescriptor> *SBWLowLevel::getServiceDescriptors(const
  * Normally a module instance will terminate when the broker disconnects from the module instance.
  * @param moduleInstanceId numeric module instance identifier of the module instance to be disconnected.
  */
-SBW_API void SBWLowLevel::moduleShutdown(Integer moduleInstanceId)
+ void SBWLowLevel::moduleShutdown(Integer moduleInstanceId)
 {
 	methodSend(moduleInstanceId, SBWSystemService, SBWShutdownMethod, DataBlockWriter());
 }
@@ -870,7 +881,7 @@ SBW_API void SBWLowLevel::moduleShutdown(Integer moduleInstanceId)
  * @param moduleInstanceId numeric module instance identifier of the module instance.
  * @param the number of services implemented by the given module instance.
  */
-SBW_API Integer SBWLowLevel::moduleGetNumberOfServices(Integer moduleInstanceId)
+ Integer SBWLowLevel::moduleGetNumberOfServices(Integer moduleInstanceId)
 {
 	DataBlockWriter args ;
 	DataBlockReader result =
@@ -887,7 +898,7 @@ SBW_API Integer SBWLowLevel::moduleGetNumberOfServices(Integer moduleInstanceId)
  * @param serviceName service identification name.
  * @return the numeric service identifier of the named service on the given module instance.
  */
-SBW_API Integer SBWLowLevel::moduleFindServiceByName(Integer moduleInstanceId, const char *serviceName)
+ Integer SBWLowLevel::moduleFindServiceByName(Integer moduleInstanceId, const char *serviceName)
 {
 	DataBlockWriter args ;
 	DataBlockReader result =
@@ -912,7 +923,7 @@ SBW_API Integer SBWLowLevel::moduleFindServiceByName(Integer moduleInstanceId, c
  * @param moduleInstanceId numeric module instance identifier of the module instance.
  * @return the module descriptor corresponding to the given module instance.
  */
-SBW_API ModuleDescriptor SBWLowLevel::moduleGetModuleDescriptor(Integer moduleInstanceId)
+ ModuleDescriptor SBWLowLevel::moduleGetModuleDescriptor(Integer moduleInstanceId)
 {
 	DataBlockReader list;
 	
@@ -928,7 +939,7 @@ SBW_API ModuleDescriptor SBWLowLevel::moduleGetModuleDescriptor(Integer moduleIn
  * @param serviceId numeric service identifier of the service.
  * @return the service descriptor corresponding to the given service.
  */
-SBW_API ServiceDescriptor SBWLowLevel::serviceGetDescriptorHandle(Integer moduleInstanceId, Integer serviceId)
+ ServiceDescriptor SBWLowLevel::serviceGetDescriptorHandle(Integer moduleInstanceId, Integer serviceId)
 {
 	DataBlockWriter args ;
 	std::vector<std::string> services ;
@@ -965,7 +976,7 @@ SBW_API ServiceDescriptor SBWLowLevel::serviceGetDescriptorHandle(Integer module
  * @param signature the signature of the method to be located.
  * @return the numeric method on the given service with the given signature.
  */
-SBW_API Integer SBWLowLevel::serviceGetMethod(Integer moduleInstanceId, Integer serviceId, const char *signature)
+ Integer SBWLowLevel::serviceGetMethod(Integer moduleInstanceId, Integer serviceId, const char *signature)
 {
 	DataBlockWriter args ;
 	
@@ -986,7 +997,7 @@ SBW_API Integer SBWLowLevel::serviceGetMethod(Integer moduleInstanceId, Integer 
  * @param serviceId numeric service identifier of the service.
  * @return the number of methods on the given service.
  */
-SBW_API Integer SBWLowLevel::serviceGetNumberOfMethods(Integer moduleInstanceId, Integer serviceId)
+ Integer SBWLowLevel::serviceGetNumberOfMethods(Integer moduleInstanceId, Integer serviceId)
 {
 	DataBlockWriter args ;
 
@@ -1052,12 +1063,12 @@ sbwSignatureElement **SBWLowLevel::mapSignatureElements(std::vector<SignatureEle
  * adds a given listener object to the C++ API to receive notification of SBW events.
  * @param x listener object
  */
-SBW_API void SBWLowLevel::addListener(SBWListener *x)
+ void SBWLowLevel::addListener(SBWListener *x)
 { listenerConsolidator.addListener(x); }
 
 /**
  * removes a listener object from the C++ API.
  * @param x listener object
  */
-SBW_API void SBWLowLevel::removeListener(SBWListener *x)
+ void SBWLowLevel::removeListener(SBWListener *x)
 { listenerConsolidator.removeListener(x); }

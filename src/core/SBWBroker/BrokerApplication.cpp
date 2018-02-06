@@ -362,9 +362,9 @@ void shutdownHandler()
 }
 void BrokerApplication::startBroker()
 {	
-	SBWBrokerRPC *rpc = new SBWBrokerRPC();
+  SBWBrokerRPC rpc;
 	set_terminate(shutdownHandler);
-	SBW::setInternalAPI(rpc);
+  SBW::setInternalAPI(&rpc);
 
 	// Create the Broker service.  We bypass the use of ModuleImpl and
 	// set up a receiver directly.
@@ -372,14 +372,14 @@ void BrokerApplication::startBroker()
 	ObjectOrientedReceiver *receiver = new ObjectOrientedReceiver("BROKER");
 	receiver->addService("BROKER", "BROKER", "/", new CBroker(),
 		"The BROKER service implements the services of the SBW Broker.");
-	rpc->registerReceiver(receiver);	
+  rpc.registerReceiver(receiver);
 	try
 	{
-		rpc->startBrokerRPC();
+    rpc.startBrokerRPC();
 		// The call above will return normally 
 		// and this method would quit and end the program ... so block it.
 
-		while(!(rpc->ShuttingDown())) 
+    while(!(rpc.ShuttingDown()))
 		{ 
 			try {SBWThread::sleep(100);} catch(...){} 
 		}
@@ -387,10 +387,11 @@ void BrokerApplication::startBroker()
 	catch (SBWException *e)
 	{
 		printError(e->getMessage());
+    delete e;
 		printError("SBW Broker exiting");
 		quit(STATUS_CANNOT_START);
-	}
-	delete rpc;	
+  }
+
 	TRACE("BROKER was shut down");
 	quit(STATUS_NORMAL);
 

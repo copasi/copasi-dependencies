@@ -126,14 +126,14 @@ namespace SystemsBiologyWorkbench
 // Class SBWOS
 // -----------------------------------------------------------------------------
 /// simple portable interface to operating system functionality
-class SBWOS
+class SBW_API	SBWOS
 {
 public:
 #ifdef WIN32
-  SBW_API	static void windowsExtractCommandLine(int *argc, char ***argv);
+  static void windowsExtractCommandLine(int *argc, char ***argv);
 #endif // WIN32
 
-  SBW_API	static void startProcess(char *commandLine, bool bWait = false);
+  static void startProcess(const char *commandLine, bool bWait = false);
 
   static void ThrowError();
   static void ThrowError(int error);
@@ -144,33 +144,19 @@ public:
    * method is only used for breaking up lists of JAR files.)
    * @return path seperator character.
    */
-  static char PathSeparator() { return ';'; }
+  static char PathSeparator();
 
   /**
    * returns the directory seperator character in file and directory paths.
    * @return directory seperator character.
    */
-  static char DirectorySeparator()
-  {
-#ifdef WIN32
-    return '\\' ;
-#else
-    return '/' ;
-#endif
-  }
+  static char DirectorySeparator();
 
   /**
    * returns the file suffix for dynamic libraries on this OS
    * @return the file suffix for dynamic libraries on this OS
    */
-    static const char *DynamicLibraryExt()
-  {
-#ifdef WIN32
-    return "dll" ;
-#else
-    return "so" ;
-#endif
-  }
+    static const char *DynamicLibraryExt();
 
 };
 
@@ -234,27 +220,23 @@ private:
 // Misc. utils.
 // -----------------------------------------------------------------------------
 
-#if defined(WIN32) && !defined(CYGWIN)
-SBW_API void SBWAssertMessage();
-#endif
-
 /**
- * programming facilities avaliable only in the debug library.
+ * programming facilities available only in the debug library.
  * methods in this class have no effect in the release build
  */
-class SBWDebug
+class SBW_API SBWDebug
 {
 public:
 
   // empty inline for release configuration
 #ifndef _DEBUG
-  SBW_API static void trace(const char *, const char *, int)
+  static void trace(const char *, const char *, int)
   {}
 #else
-  SBW_API static void trace(const char *x, const char *file, int line);
+  static void trace(const char *x, const char *file, int line);
 #endif
 
-  SBW_API static void setTraceMode(bool mode = true);
+  static void setTraceMode(bool mode = true);
 
 private:
   static bool traceOn;

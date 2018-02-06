@@ -79,25 +79,25 @@ namespace SystemsBiologyWorkbench
 {
 
 	/// lowlevel socket management specific to a module instance (as opposed to the broker)
-	class SBWModuleRPC : public SBWRPC, private SBWThread  
+	class SBW_API SBWModuleRPC : public SBWRPC, private SBWThread  
 	{
 	public:
-		SBW_API SBWModuleRPC(SBWRPCListener *);
-		SBW_API ~SBWModuleRPC();
-		SBW_API void connect(const char *moduleIdentificationString, const char *hostname = "");
-		SBW_API void disconnect();
-		SBW_API void signalDisconnect();
-		SBW_API bool isConnected();
-		SBW_API void waitForDisconnect();
-		SBW_API static bool fileExists(const char *path);
+		SBWModuleRPC(SBWRPCListener *);
+		~SBWModuleRPC();
+		void connect(const char *moduleIdentificationString, const char *hostname = "");
+		void disconnect();
+		void signalDisconnect();
+		bool isConnected();
+		void waitForDisconnect();
+		static bool fileExists(const char *path);
 		bool connectToBroker(const char *moduleName, const char *hostname, int port);
 
 	protected :
 		Integer getModuleId();
-		SBW_API void transmitExternalOnly(Integer destinationModuleId, unsigned char *message, Integer length);
+		void transmitExternalOnly(Integer destinationModuleId, unsigned char *message, Integer length);
 
 	private :
-		SBW_API void run();
+		void run();
 		int startBroker();
 
 		void connectMessageStreams(const char *moduleName);
