@@ -61,12 +61,6 @@
 
 
 #ifndef WIN32
-#include <stdio.h>
-
-# ifndef WIN32_LEAN_AND_MEAN
-# define WIN32_LEAN_AND_MEAN
-# endif // WIN32_LEAN_AND_MEAN
-# include <windows.h>
 
 
 #ifdef HAVE_SYS_TIME_H
@@ -81,7 +75,17 @@
 #include <unistd.h>
 #endif
 
-#endif
+#else
+
+#include <stdio.h>
+
+# ifndef WIN32_LEAN_AND_MEAN
+# define WIN32_LEAN_AND_MEAN
+# endif // WIN32_LEAN_AND_MEAN
+# include <windows.h>
+
+
+#endif // WIN32
 
 #include "stdafx.h"
 #include "config.h"
