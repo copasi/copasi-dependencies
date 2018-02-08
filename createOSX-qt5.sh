@@ -80,11 +80,6 @@ case $1 in
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
         $DIRECTORY/src/raptor
-    chmod +x configure
-    chmod +x install-sh
-    CXXFLAGS="${COPASI_CXXFLAGS}" CFLAGS="${COPASI_CFLAGS}" LDFLAGS="${COPASI_LDFLAGS}" ./configure \
-      --disable-dependency-tracking \
-      --with-xml-parser=expat \
     $MAKE -j 4
     $MAKE install
     ;;
