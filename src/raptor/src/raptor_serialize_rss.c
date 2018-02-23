@@ -1548,12 +1548,14 @@ raptor_rss10_ensure_atom_feed_valid(raptor_rss10_serializer_context *rss_seriali
   int i;
   raptor_rss_item* item;
   raptor_rss_model* rss_model;
-  struct timeval tv;
   time_t now = 0;
 
 #ifdef HAVE_GETTIMEOFDAY
+  struct timeval tv;
   if(!gettimeofday(&tv, NULL))
     now = tv.tv_sec;
+#else
+  now = time(NULL);
 #endif
   
   is_atom=rss_serializer->is_atom;
