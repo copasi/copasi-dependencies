@@ -4,7 +4,7 @@ Setlocal EnableDelayedExpansion
 
 if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build" SET VC_VARS=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
 if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build" SET VC_VARS=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvarsall.bat
-if "%INCLUDE%"=="" call  %VC_VARS% x86_amd64
+if "%INCLUDE%"=="" call  "%VC_VARS%" x86_amd64
 
 if "%QTDIR%"=="" SET QTDIR=C:\Qt\qt-everywhere-opensource-src-4.8.6_vs14
 if "%SELECT_QT%"=="" SET SELECT_QT=Qt4
