@@ -62,6 +62,7 @@
 
 #include "stdafx.h"
 #include "SBWListener.h"
+#include <SBW/SBWLowLevel.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -69,30 +70,43 @@
 
 
 /// does nothing
-SBWListener::SBWListener() {}
+SBWListener::SBWListener() 
+{
+}
 
 /// does nothing
-SBWListener::~SBWListener() {}
+SBWListener::~SBWListener() 
+{
+  SBWLowLevel::removeListener(this);
+}
 
 /**
 * Called when a given module disconnects from the broker.
 * This implementation does nothing.
 * @param x ignored; Module instance that has disconnected from the broker.
 */
-void SBWListener::onModuleShutdown(Module /*x*/) {}
+void SBWListener::onModuleShutdown(Module /*x*/) 
+{
+}
 
 /**
 * Called when a given module connects from the broker.
 * This implementation does nothing.
 * @param x ignored; Module instance that has connected from the broker.
 */
-void SBWListener::onModuleStart(Module) {}
+void SBWListener::onModuleStart(Module) 
+{
+}
 
 /// called when the broker's module registration data changes.  This implementation does nothing.
-void SBWListener::onRegistrationChange() {}
+void SBWListener::onRegistrationChange() 
+{
+}
 
 /// called when this module/application is disconnected from the broker. 
-void SBWListener::onShutdown() {}
+void SBWListener::onShutdown() 
+{
+}
 
 /**
 * Called when a given module disconnects from the broker.
@@ -100,7 +114,10 @@ void SBWListener::onShutdown() {}
 * @see onModuleShutdown(Module x)
 * @param x ignored; numeric module instance identifier of module instance that has disconnected from the broker.
 */	
-void SBWListener::onModuleShutdown(Integer x) { onModuleShutdown(Module(x)); }
+void SBWListener::onModuleShutdown(Integer x) 
+{
+  onModuleShutdown(Module(x));
+}
 
 /**
 * Called when a given module connects from the broker.
@@ -108,4 +125,7 @@ void SBWListener::onModuleShutdown(Integer x) { onModuleShutdown(Module(x)); }
 * @see onModuleStart(Module x)
 * @param x ignored; numeric module instance identifier of module instance that has connected from the broker.
 */	
-void SBWListener::onModuleStart(Integer x) { onModuleStart(Module(x)); }
+void SBWListener::onModuleStart(Integer x) 
+{ 
+  onModuleStart(Module(x)); 
+}

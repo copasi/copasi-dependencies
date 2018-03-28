@@ -220,15 +220,16 @@ endif()
 #
 # Build the actual SBW library and broker
 # 
+
+set(PACKAGE_CONFIG_DIR lib/cmake CACHE PATH
+    "Path into which the cmake config files should be installed")
+mark_as_advanced(PACKAGE_CONFIG_DIR)
+
 add_subdirectory(SBWCore)
 add_subdirectory(SBWBroker)
 
 file(GLOB HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/SBW/*.h )
 install(FILES ${HEADER_FILES} DESTINATION include/SBW)
-
-set(PACKAGE_CONFIG_DIR lib/cmake CACHE PATH
-    "Path into which the cmake config files should be installed")
-mark_as_advanced(PACKAGE_CONFIG_DIR)
 
 ###############################################################################
 #

@@ -70,6 +70,7 @@
 #include <string.h>
 
 #if defined(WIN32)
+#pragma comment(lib,"ws2_32.LIB")
 #include <winsock2.h>
 #else
 #ifdef HAVE_ERRNO_H

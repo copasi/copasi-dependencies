@@ -91,7 +91,7 @@ const char *SBWRPC::brokerServiceName = "BROKER";
 const Integer SBWRPC::disconnectMessage = -1;
 
 /**
- * creates an RPC mechanism which initially doesn't process incomming calls
+ * creates an RPC mechanism which initially doesn't process incoming calls
  */
 SBWRPC::SBWRPC(SBWRPCListener *l) : listener(l), receiver(new DoNothingReceiver()), inCallsMutex("inCalls"), outCallsMutex("outCalls")
 {
@@ -120,7 +120,7 @@ void SBWRPC::setListener(SBWRPCListener *x)
  * @param service the numeric service identifier of the destination service.
  * @param method the numeric method identifier to be called.
  * @param args the argument data for the call.
- * @return data block contain the reult of the call.
+ * @return data block contain the result of the call.
  */
 DataBlockReader SBWRPC::call(Integer moduleTo, Integer service, Integer method, DataBlockWriter args)
 {
@@ -319,7 +319,7 @@ void SBWRPC::onOtherModuleInstanceStartup(DataBlockReader *reader, int /*brokerI
 }
 
 /**
- * process event where the broker's module registery has changed
+ * process event where the broker's module registry has changed
  */
 void SBWRPC::onRegistrationChange(DataBlockReader * /*reader*/, int /*brokerId*/)//)
 {
@@ -332,7 +332,13 @@ void SBWRPC::onRegistrationChange(DataBlockReader * /*reader*/, int /*brokerId*/
  */
 void SBWRPC::cleanup()
 {
-    listener->onShutdown();
+    try
+    {
+      listener->onShutdown();
+    }
+    catch (...)
+    {
+    }
 
     {
         SBWOSMutexLock ml(inCallsMutex);
@@ -345,7 +351,7 @@ void SBWRPC::cleanup()
             inCalls[thread]->waitTillComplete(); // wait for thread to stop
             delete inCalls[thread] ; // safely destroy thread object
             inCalls[thread] = NULL ;
-            thread++ ;
+            ++thread ;
         }
     }
 
@@ -360,7 +366,7 @@ void SBWRPC::cleanup()
             if (outCall != NULL)
                 outCall->onBrokerShutdown();
 
-            outCallId++ ;
+            ++outCallId ;
         }
     }
 }

@@ -2,4 +2,7 @@
 
 SystemsBiologyWorkbench::SBWRPCListener::SBWRPCListener() {}
 
-SystemsBiologyWorkbench::SBWRPCListener::~SBWRPCListener() {}
+SystemsBiologyWorkbench::SBWRPCListener::~SBWRPCListener() 
+{
+
+}

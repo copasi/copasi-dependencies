@@ -127,7 +127,7 @@ void SBWListenerConsolidator::onRegistrationChange()
  */
 void SBWListenerConsolidator::onShutdown()
 {	
-
+  try {
 	std::list<SBWRPCListener *> l;
 	
 	copyListeners(l);
@@ -136,9 +136,10 @@ void SBWListenerConsolidator::onShutdown()
 
 	while (i != l.end())
 	{		
-		try { (*i)->onShutdown(); } catch (...) {}
-		i++ ;
+		try { if ((*i) != NULL) (*i)->onShutdown(); } catch (...) {}
+		++i;
 	}
+  } catch (...) {}
 }
 
 /**
@@ -196,6 +197,6 @@ void SBWListenerConsolidator::copyListeners(std::list<SBWRPCListener *> &l)
 	while (itr != listeners.end())
 	{
 		l.push_back(*itr);
-		itr++;
+		++itr;
 	}
 }
