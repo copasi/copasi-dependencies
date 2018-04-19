@@ -294,6 +294,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_P
 #
 find_package(LIBSBML REQUIRED)
 
+find_package(EXPAT REQUIRED)
 
 # detect zipper library if sources are not included
 if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/zipper)
@@ -426,6 +427,10 @@ elseif (LIBSBML_LIBRARY)
   set(LIBCOMBINE_LIBS ${LIBCOMBINE_LIBS} ${LIBSBML_LIBRARY})
 endif()
 
+if (EXPAT_LIBRARY)
+  set(LIBCOMBINE_LIBS ${LIBCOMBINE_LIBS} ${EXPAT_LIBRARY})
+endif()
+  
 if (ZIPPER_LIBRARY)
   set(LIBCOMBINE_LIBS ${LIBCOMBINE_LIBS} ${ZIPPER_LIBRARY})
 endif()
@@ -652,7 +657,6 @@ elseif(LIBSBML_HAS_MINIZIP AND EXISTS ${LIBSBML_INCLUDE_DIR})
   
 endif()
 
-
 set(LIBCOMBINE_SOURCES ${COMBINE_SOURCES} ${COMBINE_HEADERS})
 set(LIBCOMBINE_LIBRARY ${COMBINE_LIBRARY})
 set (CMAKE_INSTALL_LIBDIR lib)
@@ -665,7 +669,7 @@ if (WITH_EXAMPLES)
 
 endif(WITH_EXAMPLES)
 
-option(BUILD_TEST "Build the test program." ON)
+option(BUILD_TEST "Build the test program." OFF)
 if (BUILD_TEST)
   enable_testing()
 

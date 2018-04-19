@@ -3,23 +3,6 @@
 
 DIRECTORY=$(cd `dirname $0` && pwd)
 
-if [ $# = 0 ]; then
-  ToBeBuild="expat raptor clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
-else
-  while [ _${1} != _ ]; do
-    ToBeBuild="$ToBeBuild ${1}"
-    shift
-  done;
-fi
- 
-#Default Values:
-BUILD_TYPE=${BUILD_TYPE:="Release"}
-SELECT_QT=${SELECT_QT:="Any"}
-CMAKE=${CMAKE:="cmake"}
-
-MAKE=${MAKE:="gmake"}
-command -v $MAKE >/dev/null 2>&1 || { MAKE=make; }
-
 # Build Directory
 BUILD_DIR=${BUILD_DIR:=${DIRECTORY}/tmp}
 [ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
@@ -29,6 +12,27 @@ INSTALL_DIR=${INSTALL_DIR:=${DIRECTORY}/bin}
 [ -d ${INSTALL_DIR} ] || mkdir -p ${INSTALL_DIR}
 [ -d ${INSTALL_DIR}/include ] || mkdir ${INSTALL_DIR}/include
 [ -d ${INSTALL_DIR}/lib ] || mkdir ${INSTALL_DIR}/lib
+
+if [ $# = 0 ]; then
+  ToBeBuild="expat raptor clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
+elif [ _${1} = _--rebuild -a -e "${BUILD_DIR}/.packages" ]; then
+  . "${BUILD_DIR}/.packages"
+else
+  while [ _${1} != _ ]; do
+    ToBeBuild="$ToBeBuild ${1}"
+    shift
+  done;
+fi
+
+echo ToBeBuild=\"${ToBeBuild}\" > "${BUILD_DIR}/.packages"
+
+#Default Values:
+BUILD_TYPE=${BUILD_TYPE:="Release"}
+SELECT_QT=${SELECT_QT:="Any"}
+CMAKE=${CMAKE:="cmake"}
+
+MAKE=${MAKE:="gmake"}
+command -v $MAKE >/dev/null 2>&1 || { MAKE=make; }
 
 # echo ${BUILD_TYPE}
 # echo ${CMAKE}
@@ -83,6 +87,17 @@ case $1 in
     $MAKE install
     ;;
 
+  libuuid)
+    # build libuuid
+    mkdir -p $DIRECTORY/tmp/libuuid
+    cd $DIRECTORY/tmp/libuuid
+    $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
+        -DBUILD_shared=OFF \
+        $DIRECTORY/src/libuuid
+    $MAKE -j 4
+    $MAKE install
+    ;;
+
   clapack)
     # Build Clapack
     mkdir -p ${BUILD_DIR}/clapack
@@ -105,11 +120,17 @@ case $1 in
     ;;
 
   qwt)
+    if [ _${SELECT_QT} == _Qt5 ]; then
+      QWT=qwt-6
+    else
+      QWT=qwt-6
+    fi
+    
     #build qwt 
-    mkdir ${BUILD_DIR}/qwt 
-    cd ${BUILD_DIR}/qwt 
+    mkdir "${BUILD_DIR}/${QWT}"
+    cd "${BUILD_DIR}/${QWT}"
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
-        $DIRECTORY/src/qwt
+        "$DIRECTORY/src/${QWT}"
     make -j 4
     make install
     ;;
@@ -225,7 +246,6 @@ case $1 in
     cd ${BUILD_DIR}/libCombine
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DCOMBINE_DEPENDENCY_DIR=${INSTALL_DIR} \
-        -DEXTRA_LIBS=${INSTALL_DIR}/lib/libexpat.a \
         -DLIBCOMBINE_SKIP_SHARED_LIBRARY=ON \
         $DIRECTORY/src/libCombine
     $MAKE -j 4
