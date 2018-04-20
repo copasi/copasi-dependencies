@@ -3,23 +3,6 @@
 
 DIRECTORY=$(cd `dirname $0` && pwd)
 
-if [ $# = 0 ]; then
-  ToBeBuild="expat raptor clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
-else
-  while [ _${1} != _ ]; do
-    ToBeBuild="$ToBeBuild ${1}"
-    shift
-  done;
-fi
- 
-#Default Values:
-BUILD_TYPE=${BUILD_TYPE:="Release"}
-SELECT_QT=${SELECT_QT:="Any"}
-CMAKE=${CMAKE:="cmake"}
-
-MAKE=${MAKE:="gmake"}
-command -v $MAKE >/dev/null 2>&1 || { MAKE=make; }
-
 # Build Directory
 BUILD_DIR=${BUILD_DIR:=${DIRECTORY}/tmp}
 [ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
@@ -29,6 +12,27 @@ INSTALL_DIR=${INSTALL_DIR:=${DIRECTORY}/bin}
 [ -d ${INSTALL_DIR} ] || mkdir -p ${INSTALL_DIR}
 [ -d ${INSTALL_DIR}/include ] || mkdir ${INSTALL_DIR}/include
 [ -d ${INSTALL_DIR}/lib ] || mkdir ${INSTALL_DIR}/lib
+
+if [ $# = 0 ]; then
+  ToBeBuild="expat raptor libuuid clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
+elif [ _${1} = _--rebuild -a -e "${BUILD_DIR}/.packages" ]; then
+  . "${BUILD_DIR}/.packages"
+else
+  while [ _${1} != _ ]; do
+    ToBeBuild="$ToBeBuild ${1}"
+    shift
+  done;
+fi
+
+echo ToBeBuild=\"${ToBeBuild}\" > "${BUILD_DIR}/.packages"
+
+#Default Values:
+BUILD_TYPE=${BUILD_TYPE:="Release"}
+SELECT_QT=${SELECT_QT:="Any"}
+CMAKE=${CMAKE:="cmake"}
+
+MAKE=${MAKE:="gmake"}
+command -v $MAKE >/dev/null 2>&1 || { MAKE=make; }
 
 COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}"
 COPASI_CMAKE_OPTIONS="${COPASI_CMAKE_OPTIONS} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}"
@@ -80,6 +84,17 @@ case $1 in
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
         $DIRECTORY/src/raptor
+    $MAKE -j 4
+    $MAKE install
+    ;;
+
+  libuuid)
+    # build libuuid
+    mkdir -p ${BUILD_DIR}/libuuid
+    cd ${BUILD_DIR}/libuuid
+    $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
+        -DBUILD_shared=OFF \
+        $DIRECTORY/src/libuuid
     $MAKE -j 4
     $MAKE install
     ;;

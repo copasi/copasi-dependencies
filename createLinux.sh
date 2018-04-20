@@ -14,7 +14,7 @@ INSTALL_DIR=${INSTALL_DIR:=${DIRECTORY}/bin}
 [ -d ${INSTALL_DIR}/lib ] || mkdir ${INSTALL_DIR}/lib
 
 if [ $# = 0 ]; then
-  ToBeBuild="expat raptor clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
+  ToBeBuild="expat raptor libuuid clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
 elif [ _${1} = _--rebuild -a -e "${BUILD_DIR}/.packages" ]; then
   . "${BUILD_DIR}/.packages"
 else
@@ -89,8 +89,8 @@ case $1 in
 
   libuuid)
     # build libuuid
-    mkdir -p $DIRECTORY/tmp/libuuid
-    cd $DIRECTORY/tmp/libuuid
+    mkdir -p ${BUILD_DIR}/libuuid
+    cd ${BUILD_DIR}/libuuid
     $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
         $DIRECTORY/src/libuuid

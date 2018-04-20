@@ -2,20 +2,6 @@
 SET BASE_DIR=%~dp0
 Setlocal EnableDelayedExpansion
 
-IF "%1"=="" (
-  SET TO_BE_BUILD=expat raptor clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d
-) ELSE (
-  SET TO_BE_BUILD=%*
-)
-
-if "%BUILD_TYPE%"=="" SET BUILD_TYPE=Release
-if "%BUILD_TOOL%"=="" SET BUILD_TOOL=nmake
-
-
-SET BUILD_COMMAND=
-SET INSTALL_COMMAND=install
-
-
 if "%BUILD_DIR%"=="" SET BUILD_DIR=%BASE_DIR%\tmp
 if not exist %BUILD_DIR% mkdir %BUILD_DIR%
 
@@ -23,6 +9,29 @@ if "%INSTALL_DIR%"=="" SET INSTALL_DIR=%BASE_DIR%\bin
 if not exist %INSTALL_DIR% mkdir %INSTALL_DIR%
 if not exist %INSTALL_DIR%\include mkdir %INSTALL_DIR%\include
 if not exist %INSTALL_DIR%\lib mkdir %INSTALL_DIR%\lib
+
+IF "%1"=="" (
+  SET TO_BE_BUILD=expat raptor libuuid clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d
+  GOTO :END_ARGUMENTS
+)
+
+IF "%1"=="--rebuild" (
+  CALL "%BUILD_DIR%\.packages.bat"
+  GOTO :END_ARGUMENTS
+)
+
+SET TO_BE_BUILD=%*
+
+:END_ARGUMENTS
+
+ECHO SET TO_BE_BUILD=%TO_BE_BUILD% > "%BUILD_DIR%\.packages.bat"
+
+if "%BUILD_TYPE%"=="" SET BUILD_TYPE=Release
+if "%BUILD_TOOL%"=="" SET BUILD_TOOL=nmake
+
+
+SET BUILD_COMMAND=
+SET INSTALL_COMMAND=install
 
 SET CMAKE=cmake -G "NMake Makefiles" %CMAKE_OVERRIDES% -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%INSTALL_DIR%
 
@@ -55,6 +64,13 @@ FOR %%A IN (%TO_BE_BUILD%) DO (
     mkdir %BUILD_DIR%\raptor
     cd /d %BUILD_DIR%\raptor
     %CMAKE% %BASE_DIR%\src\raptor
+  )
+
+  IF %%A==libuuid (
+    REM Build libuuid
+    mkdir %BUILD_DIR%\libuuid
+    cd /d %BUILD_DIR%\libuuid
+    %CMAKE% %BASE_DIR%\src\libuuid
   )
 
   IF %%A==SBW (
