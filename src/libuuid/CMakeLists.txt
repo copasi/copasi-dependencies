@@ -49,8 +49,19 @@ endif()
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
 
-file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.c) 
-file(GLOB HEADERS ${PROJECT_SOURCE_DIR}/src/*.h ) 
+file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.c)
+  list(REMOVE_ITEM SOURCES ${PROJECT_SOURCE_DIR}/src/test_uuid.c)
+file(GLOB HEADERS ${PROJECT_SOURCE_DIR}/src/*.h )
+
+check_symbol_exists (memcpy string.h HAVE_MEMPCPY)
+if (${HAVE_MEMPCPY})
+  add_definitions(-DHAVE_MEMPCPY)
+endif()
+
+check_include_file(unistd.h HAVE_UNISTD_H)
+if (HAVE_UNISTD_H)
+  add_definitions( -DHAVE_UNISTD_H )
+endif()
 
 if (WIN32 AND NOT CYGWIN)
   add_definitions( -DWIN32 )

@@ -9,6 +9,12 @@
 #include <stdio.h>
 #include <errno.h>
 
+#ifdef WIN32
+# include <io.h>
+# define mode_t unsigned int
+# define strncasecmp _strnicmp 
+#endif
+
 /* default strtoxx_or_err() exit code */
 #ifndef STRTOXX_EXIT_CODE
 # define STRTOXX_EXIT_CODE EXIT_FAILURE

@@ -9,7 +9,9 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
@@ -184,26 +186,26 @@ errmsg(char doexit, int excode, char adderr, const char *fmt, ...)
 			fprintf(stderr, ": ");
 	}
 	if (adderr)
-		fprintf(stderr, "%m");
+          fprintf(stderr, "%s", strerror (errno));
 	fprintf(stderr, "\n");
 	if (doexit)
 		exit(excode);
 }
 
 #ifndef HAVE_ERR
-# define err(E, FMT...) errmsg(1, E, 1, FMT)
+# define err(E, ...) errmsg(1, E, 1, __VA_ARGS__)
 #endif
 
 #ifndef HAVE_ERRX
-# define errx(E, FMT...) errmsg(1, E, 0, FMT)
+# define errx(E, ...) errmsg(1, E, 0, __VA_ARGS__)
 #endif
 
 #ifndef HAVE_WARN
-# define warn(FMT...) errmsg(0, 0, 1, FMT)
+# define warn(...) errmsg(0, 0, 1, __VA_ARGS__)
 #endif
 
 #ifndef HAVE_WARNX
-# define warnx(FMT...) errmsg(0, 0, 0, FMT)
+# define warnx(...) errmsg(0, 0, 0, __VA_ARGS__)
 #endif
 #endif /* !HAVE_ERR_H */
 
@@ -276,11 +278,15 @@ static inline int dirfd(DIR *d)
  */
 static inline size_t get_hostname_max(void)
 {
-	long len = sysconf(_SC_HOST_NAME_MAX);
+        long len = 256;
+  
+#ifndef WIN32
+        len = sysconf(_SC_HOST_NAME_MAX);
+#endif
 
 	if (0 < len)
 		return len;
-
+        
 #ifdef MAXHOSTNAMELEN
 	return MAXHOSTNAMELEN;
 #elif HOST_NAME_MAX
@@ -296,9 +302,17 @@ static inline size_t get_hostname_max(void)
  */
 #include <time.h>
 
+#ifdef WIN32
+#  define useconds_t unsigned int
+#endif
+
 static inline int xusleep(useconds_t usec)
 {
-#ifdef HAVE_NANOSLEEP
+#ifdef WIN32
+        Sleep(usec/1000L);
+        return 0;
+        
+#elif defined HAVE_NANOSLEEP
 	struct timespec waittime = {
 		.tv_sec   =  usec / 1000000L,
 		.tv_nsec  = (usec % 1000000L) * 1000

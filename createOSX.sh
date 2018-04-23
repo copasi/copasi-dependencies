@@ -92,7 +92,7 @@ case $1 in
     # build libuuid
     mkdir -p ${BUILD_DIR}/libuuid
     cd ${BUILD_DIR}/libuuid
-    $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
+    $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
         $DIRECTORY/src/libuuid
     $MAKE -j 4

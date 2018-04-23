@@ -33,16 +33,16 @@
  */
 
 #ifdef _WIN32
-#define _WIN32_WINNT 0x0500
-#include <windows.h>
-#define UUID MYUUID
+# define _WIN32_WINNT 0x0500
+# include <windows.h>
+# define UUID MYUUID
 #endif
 #include <stdio.h>
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+# include <unistd.h>
 #endif
 #ifdef HAVE_STDLIB_H
-#include <stdlib.h>
+# include <stdlib.h>
 #endif
 #include <string.h>
 #include <fcntl.h>
@@ -50,35 +50,35 @@
 #include <limits.h>
 #include <sys/types.h>
 #ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
+# include <sys/time.h>
 #endif
 #include <sys/stat.h>
 #ifdef HAVE_SYS_FILE_H
-#include <sys/file.h>
+# include <sys/file.h>
 #endif
 #ifdef HAVE_SYS_IOCTL_H
-#include <sys/ioctl.h>
+# include <sys/ioctl.h>
 #endif
 #ifdef HAVE_SYS_SOCKET_H
-#include <sys/socket.h>
+# include <sys/socket.h>
 #endif
 #ifdef HAVE_SYS_UN_H
-#include <sys/un.h>
+# include <sys/un.h>
 #endif
 #ifdef HAVE_SYS_SOCKIO_H
-#include <sys/sockio.h>
+# include <sys/sockio.h>
 #endif
 #ifdef HAVE_NET_IF_H
-#include <net/if.h>
+# include <net/if.h>
 #endif
 #ifdef HAVE_NETINET_IN_H
-#include <netinet/in.h>
+# include <netinet/in.h>
 #endif
 #ifdef HAVE_NET_IF_DL_H
-#include <net/if_dl.h>
+# include <net/if_dl.h>
 #endif
 #if defined(__linux__) && defined(HAVE_SYS_SYSCALL_H)
-#include <sys/syscall.h>
+# include <sys/syscall.h>
 #endif
 
 #include "all-io.h"
@@ -95,6 +95,14 @@
 #endif
 
 #ifdef _WIN32
+/* Operations for the `flock' call.  */
+#define LOCK_SH 1       /* Shared lock.  */
+#define LOCK_EX 2       /* Exclusive lock.  */
+#define LOCK_UN 8       /* Unlock.  */
+
+/* Can be OR'd in to one of the above.  */
+#define LOCK_NB 4       /* Don't block when locking.  */
+
 static void gettimeofday (struct timeval *tv, void *dummy)
 {
 	FILETIME	ftime;
@@ -116,6 +124,243 @@ static int getuid (void)
 {
 	return 1;
 }
+
+/* LockFileEx */
+
+/* Determine the current size of a file.  Because the other braindead
+ * APIs we'll call need lower/upper 32 bit pairs, keep the file size
+ * like that too.
+ */
+static BOOL
+file_size (HANDLE h, DWORD * lower, DWORD * upper)
+{
+  *lower = GetFileSize (h, upper);
+  return 1;
+}
+
+/* LOCKFILE_FAIL_IMMEDIATELY is undefined on some Windows systems. */
+# ifndef LOCKFILE_FAIL_IMMEDIATELY
+#  define LOCKFILE_FAIL_IMMEDIATELY 1
+# endif
+
+/* Acquire a lock. */
+static BOOL
+do_lock (HANDLE h, int non_blocking, int exclusive)
+{
+  BOOL res;
+  DWORD size_lower, size_upper;
+  OVERLAPPED ovlp;
+  int flags = 0;
+
+  /* We're going to lock the whole file, so get the file size. */
+  res = file_size (h, &size_lower, &size_upper);
+  if (!res)
+    return 0;
+
+  /* Start offset is 0, and also zero the remaining members of this struct. */
+  memset (&ovlp, 0, sizeof ovlp);
+
+  if (non_blocking)
+    flags |= LOCKFILE_FAIL_IMMEDIATELY;
+  if (exclusive)
+    flags |= LOCKFILE_EXCLUSIVE_LOCK;
+
+  return LockFileEx (h, flags, 0, size_lower, size_upper, &ovlp);
+}
+
+/* Unlock reader or exclusive lock. */
+static BOOL
+do_unlock (HANDLE h)
+{
+  int res;
+  DWORD size_lower, size_upper;
+
+  res = file_size (h, &size_lower, &size_upper);
+  if (!res)
+    return 0;
+
+  return UnlockFile (h, 0, 0, size_lower, size_upper);
+}
+
+/* Now our BSD-like flock operation. */
+int
+flock (int fd, int operation)
+{
+  HANDLE h = (HANDLE) _get_osfhandle (fd);
+  DWORD res;
+  int non_blocking;
+
+  if (h == INVALID_HANDLE_VALUE)
+    {
+      errno = EBADF;
+      return -1;
+    }
+
+  non_blocking = operation & LOCK_NB;
+  operation &= ~LOCK_NB;
+
+  switch (operation)
+    {
+    case LOCK_SH:
+      res = do_lock (h, non_blocking, 0);
+      break;
+    case LOCK_EX:
+      res = do_lock (h, non_blocking, 1);
+      break;
+    case LOCK_UN:
+      res = do_unlock (h);
+      break;
+    default:
+      errno = EINVAL;
+      return -1;
+    }
+
+  /* Map Windows errors into Unix errnos.  As usual MSDN fails to
+   * document the permissible error codes.
+   */
+  if (!res)
+    {
+      DWORD err = GetLastError ();
+      switch (err)
+        {
+          /* This means someone else is holding a lock. */
+        case ERROR_LOCK_VIOLATION:
+          errno = EAGAIN;
+          break;
+
+          /* Out of memory. */
+        case ERROR_NOT_ENOUGH_MEMORY:
+          errno = ENOMEM;
+          break;
+
+        case ERROR_BAD_COMMAND:
+          errno = EINVAL;
+          break;
+
+          /* Unlikely to be other errors, but at least don't lose the
+           * error code.
+           */
+        default:
+          errno = err;
+        }
+
+      return -1;
+    }
+
+  return 0;
+}
+
+static BOOL
+SetFileSize (HANDLE h, LONGLONG size)
+{
+  LARGE_INTEGER old_size;
+
+  if (!GetFileSizeEx (h, &old_size))
+    return FALSE;
+
+  if (size != old_size.QuadPart)
+    {
+      /* Duplicate the handle, so we are free to modify its file position.  */
+      HANDLE curr_process = GetCurrentProcess ();
+      HANDLE tmph;
+
+      if (!DuplicateHandle (curr_process,           /* SourceProcessHandle */
+                            h,                      /* SourceHandle */
+                            curr_process,           /* TargetProcessHandle */
+                            (PHANDLE) &tmph,        /* TargetHandle */
+                            (DWORD) 0,              /* DesiredAccess */
+                            FALSE,                  /* InheritHandle */
+                            DUPLICATE_SAME_ACCESS)) /* Options */
+        return FALSE;
+
+      if (size < old_size.QuadPart)
+        {
+          /* Reduce the size.  */
+          LONG size_hi = (LONG) (size >> 32);
+          if (SetFilePointer (tmph, (LONG) size, &size_hi, FILE_BEGIN)
+              == INVALID_SET_FILE_POINTER
+              && GetLastError() != NO_ERROR)
+            {
+              CloseHandle (tmph);
+              return FALSE;
+            }
+          if (!SetEndOfFile (tmph))
+            {
+              CloseHandle (tmph);
+              return FALSE;
+            }
+        }
+      else
+        {
+          /* Increase the size by adding zero bytes at the end.  */
+          static char zero_bytes[1024];
+          LONG pos_hi = 0;
+          LONG pos_lo = SetFilePointer (tmph, (LONG) 0, &pos_hi, FILE_END);
+          LONGLONG pos;
+          if (pos_lo == INVALID_SET_FILE_POINTER
+              && GetLastError() != NO_ERROR)
+            {
+              CloseHandle (tmph);
+              return FALSE;
+            }
+          pos = ((LONGLONG) pos_hi << 32) | (ULONGLONG) (ULONG) pos_lo;
+          while (pos < size)
+            {
+              DWORD written;
+              LONGLONG count = size - pos;
+              if (count > sizeof (zero_bytes))
+                count = sizeof (zero_bytes);
+              if (!WriteFile (tmph, zero_bytes, (DWORD) count, &written, NULL)
+                  || written == 0)
+                {
+                  CloseHandle (tmph);
+                  return FALSE;
+                }
+              pos += (ULONGLONG) (ULONG) written;
+            }
+        }
+      /* Close the handle.  */
+      CloseHandle (tmph);
+    }
+  return TRUE;
+}
+
+int
+ftruncate (int fd, off_t length)
+{
+  HANDLE handle = (HANDLE) _get_osfhandle (fd);
+
+  if (handle == INVALID_HANDLE_VALUE)
+    {
+      errno = EBADF;
+      return -1;
+    }
+  if (length < 0)
+    {
+      errno = EINVAL;
+      return -1;
+    }
+  if (!SetFileSize (handle, length))
+    {
+      switch (GetLastError ())
+        {
+        case ERROR_ACCESS_DENIED:
+          errno = EACCES;
+          break;
+        case ERROR_HANDLE_DISK_FULL:
+        case ERROR_DISK_FULL:
+        case ERROR_DISK_TOO_FRAGMENTED:
+          errno = ENOSPC;
+          break;
+        default:
+          errno = EIO;
+          break;
+        }
+      return -1;
+    }
+  return 0;
+}
+
 #endif
 
 /*

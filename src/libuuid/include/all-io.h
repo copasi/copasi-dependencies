@@ -9,8 +9,17 @@
 #ifndef UTIL_LINUX_ALL_IO_H
 #define UTIL_LINUX_ALL_IO_H
 
+#ifdef _WIN32
+#define _WIN32_WINNT 0x0500
+# include <windows.h>
+# include <io.h>
+# define write _write
+# define UUID MYUUID
+#endif
 #include <string.h>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <errno.h>
 
 #include "c.h"
@@ -18,7 +27,7 @@
 static inline int write_all(int fd, const void *buf, size_t count)
 {
 	while (count) {
-		ssize_t tmp;
+		size_t tmp;
 
 		errno = 0;
 		tmp = write(fd, buf, count);
@@ -54,10 +63,10 @@ static inline int fwrite_all(const void *ptr, size_t size,
 	return 0;
 }
 
-static inline ssize_t read_all(int fd, char *buf, size_t count)
+static inline size_t read_all(int fd, char *buf, size_t count)
 {
-	ssize_t ret;
-	ssize_t c = 0;
+	size_t ret;
+	size_t c = 0;
 	int tries = 0;
 
 	memset(buf, 0, count);
