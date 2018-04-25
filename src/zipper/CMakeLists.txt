@@ -20,6 +20,7 @@ include (CheckCCompilerFlag)
 include (CheckCSourceRuns)
 include (CheckSymbolExists)
 include (CheckTypeSize)
+include(GNUInstallDirs)
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt")
 
@@ -343,10 +344,9 @@ if (BUILD_SHARED_VERSION)
   target_link_libraries(${ZIPPER_LIBRARY} ${LIBZ_LIBRARY} ${EXTRA_LIBS})
   
   INSTALL(TARGETS ${ZIPPER_LIBRARY}
-          RUNTIME DESTINATION bin
-          LIBRARY DESTINATION lib
-          ARCHIVE DESTINATION lib
-  )
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 endif()
 
 option(BUILD_STATIC_VERSION "Build the static version of the library." ON)
@@ -356,10 +356,9 @@ if (BUILD_STATIC_VERSION)
   target_link_libraries(${ZIPPER_LIBRARY}-static ${LIBZ_LIBRARY} ${EXTRA_LIBS})
   
   INSTALL(TARGETS ${ZIPPER_LIBRARY}-static
-          RUNTIME DESTINATION bin
-          LIBRARY DESTINATION lib
-          ARCHIVE DESTINATION lib
-  )
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 endif()
 
 
@@ -398,7 +397,7 @@ endif()
 file(GLOB ZIPPER_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/zipper/*.h ${CMAKE_CURRENT_SOURCE_DIR}/minizip/*.h  )
 install(FILES 
         ${ZIPPER_HEADERS}
-        DESTINATION include/zipper
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/zipper
 )
 
 message(STATUS "

@@ -5,6 +5,8 @@
 cmake_minimum_required (VERSION 2.6)
 project (qwtplot3d)
 
+include(GNUInstallDirs)
+
 include_directories("${PROJECT_SOURCE_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}/include")
 
@@ -177,9 +179,8 @@ target_link_libraries(qwtplot3d ${ZLIB_LIBRARIES})
 endif(ZLIB_FOUND)
 
 
-install(FILES ${HEADERS} DESTINATION include)
+install(FILES ${HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 INSTALL(TARGETS qwtplot3d 
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-  )
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")

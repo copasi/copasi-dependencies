@@ -86,14 +86,19 @@ endif()
 add_library(raptor ${SOURCES} ${HEADERS})
 target_link_libraries(raptor ${EXPAT_LIBRARY} )
 
-install(TARGETS raptor
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-  )
+include(GNUInstallDirs)
+install(TARGETS raptor EXPORT raptorTargets
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 
 file(GLOB HEADERS src/*.h ) 
   
-install(FILES ${HEADERS} DESTINATION include)
+install(FILES ${HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+
+# Make cmake config files for all targets
+install(EXPORT raptorTargets
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
+    FILE raptor-config.cmake)
 
 

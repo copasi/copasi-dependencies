@@ -102,20 +102,27 @@ endif(BUILD_shared)
 
 add_library(expat ${_SHARED} ${expat_SRCS})
 
-install(TARGETS expat RUNTIME DESTINATION bin
-                      LIBRARY DESTINATION lib
-                      ARCHIVE DESTINATION lib)
+message(STATUS ${CMAKE_INSTALL_PREFIX})
 
-set(prefix ${CMAKE_INSTALL_PREFIX})
-set(exec_prefix "\${prefix}/bin")
-set(libdir "\${prefix}/lib")
-set(includedir "\${prefix}/include")
-configure_file(expat.pc.in ${CMAKE_CURRENT_BINARY_DIR}/expat.pc)
-
-install(FILES lib/expat.h lib/expat_external.h DESTINATION include)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/expat.pc DESTINATION lib/pkgconfig)
+include(GNUInstallDirs)
+install(TARGETS expat EXPORT expatTargets
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 
 
+set(exec_prefix "${CMAKE_INSTALL_BINDIR}")
+set(libdir "${CMAKE_INSTALL_LIBDIR}")
+set(includedir "${CMAKE_INSTALL_INCLUDEDIR}")
+configure_file(expat.pc.in "${CMAKE_CURRENT_BINARY_DIR}/expat.pc")
+
+install(FILES lib/expat.h lib/expat_external.h DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/expat.pc DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+
+# Make cmake config files for all targets
+install(EXPORT expatTargets
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
+    FILE expat-config.cmake)
 
 if(BUILD_tools AND NOT WINCE)
     set(xmlwf_SRCS

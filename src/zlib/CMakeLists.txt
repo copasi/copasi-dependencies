@@ -23,7 +23,6 @@
 ###############################################################################
 
 cmake_minimum_required(VERSION 2.6)
-
 project(zdll)
 
 if(MSVC OR USING_INTEL)
@@ -89,6 +88,8 @@ else()
 set(LIBRARY_OPTION SHARED)
 endif()
 
+include(GNUInstallDirs)
+
 if(WIN32)
 add_definitions(
 		-DWIN32 
@@ -99,10 +100,9 @@ add_definitions(
 add_library (zdll ${LIBRARY_OPTION} ${ZLIB_SOURCE} )
 
 INSTALL(TARGETS zdll
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-  )
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 
 else()
 
@@ -116,10 +116,9 @@ endif()
 add_library (zlib ${LIBRARY_OPTION} ${ZLIB_SOURCE} )
 
 INSTALL(TARGETS zlib
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-  )
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 
 endif()
 
@@ -128,10 +127,10 @@ endif()
   install(FILES 
 	"source/zconf.h"
 	"source/zlib.h"
-	DESTINATION include)
+	DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
 	
   install(FILES 
 	"source/zconf.h"
 	"source/zlib.h"
-	DESTINATION include/zlib)
+	DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/zlib")

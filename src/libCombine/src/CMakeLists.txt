@@ -41,6 +41,9 @@ endmacro(copy_if_different_and_remove)
 #
 # create libcombine-config-common.h
 #
+
+cmake_policy(SET CMP0022 NEW)
+
 include(CheckIncludeFiles)
 check_include_files (check.h HAVE_CHECK_H)
 check_include_files (expat.h HAVE_EXPAT_H)
@@ -103,13 +106,13 @@ configure_file (
 foreach(dir annotation common compress conversion extension units util validator xml  )
 
     file(GLOB header_files "${CMAKE_CURRENT_SOURCE_DIR}/omex/${dir}/*.h")
-    install(FILES ${header_files} DESTINATION include/omex/${dir})
+    install(FILES ${header_files} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/omex/${dir}")
 
 endforeach(dir)
 
 
 file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/omex/*.h")
-install(FILES ${files} DESTINATION include/omex)
+install(FILES ${files} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/omex")
 
 
 ###############################################################################
@@ -119,7 +122,7 @@ install(FILES ${files} DESTINATION include/omex)
 
 file(GLOB additional_common "${CMAKE_CURRENT_BINARY_DIR}/omex/common/*.h")
 
-install(FILES ${additional_common} DESTINATION include/omex/common)
+install(FILES ${additional_common} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/omex/common")
 
 ###############################################################################
 #
@@ -234,7 +237,7 @@ endif()
 
 SET (INCLUDE_DESTINATION)
 if (${CMAKE_VERSION} VERSION_GREATER "2.8.11")
-  set(INCLUDE_DESTINATION INCLUDES DESTINATION include)
+  set(INCLUDE_DESTINATION INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 endif()
 
 
@@ -252,9 +255,9 @@ target_link_libraries(${LIBCOMBINE_LIBRARY} ${LIBCOMBINE_LIBS} ${EXTRA_LIBS})
 
 INSTALL(TARGETS ${LIBCOMBINE_LIBRARY}
         EXPORT  ${LIBCOMBINE_LIBRARY}-config
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         ${INCLUDE_DESTINATION}
 )
 
@@ -289,9 +292,9 @@ target_link_libraries(${LIBCOMBINE_LIBRARY}-static ${LIBCOMBINE_LIBS} ${EXTRA_LI
 
 INSTALL(TARGETS ${LIBCOMBINE_LIBRARY}-static
         EXPORT  ${LIBCOMBINE_LIBRARY}-static-config
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         ${INCLUDE_DESTINATION}
 )
 

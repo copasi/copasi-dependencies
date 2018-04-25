@@ -20,6 +20,7 @@ include (CheckCCompilerFlag)
 include (CheckCSourceRuns)
 include (CheckSymbolExists)
 include (CheckTypeSize)
+include(GNUInstallDirs)
 
 ###############################################################################
 #
@@ -52,7 +53,7 @@ endif()
 MATH(EXPR LIBCOMBINE_VERSION_NUMERIC "${LIBCOMBINE_VERSION_MAJOR} * 10000 + ${LIBCOMBINE_VERSION_MINOR} * 100 + ${LIBCOMBINE_VERSION_PATCH}" )
 set(LIBCOMBINE_VERSION "${LIBCOMBINE_VERSION_MAJOR}.${LIBCOMBINE_VERSION_MINOR}.${LIBCOMBINE_VERSION_PATCH}${LIBCOMBINE_VERSION_RELEASE}")
 set(PACKAGE_NAME "libCombine")
-set(PACKAGE_CONFIG_DIR lib/cmake CACHE PATH
+set(PACKAGE_CONFIG_DIR "${CMAKE_INSTALL_LIBDIR}/cmake" CACHE PATH
     "Path into which the cmake config files should be installed")
 
 
@@ -417,13 +418,9 @@ endif()
 set(USE_ZLIB ON)
 add_definitions( -DUSE_ZLIB )
 
-if (LIBZ_LIBRARY)
-  set(LIBCOMBINE_LIBS ${LIBCOMBINE_LIBS} ${LIBZ_LIBRARY})
-endif()
+set(LIBCOMBINE_LIBS)
 
-if (LIBSBML_LIBRARY_NAME)
-  set(LIBCOMBINE_LIBS ${LIBCOMBINE_LIBS} ${LIBSBML_LIBRARY_NAME})
-elseif (LIBSBML_LIBRARY)
+if (LIBSBML_LIBRARY)
   set(LIBCOMBINE_LIBS ${LIBCOMBINE_LIBS} ${LIBSBML_LIBRARY})
 endif()
 
@@ -433,6 +430,10 @@ endif()
   
 if (ZIPPER_LIBRARY)
   set(LIBCOMBINE_LIBS ${LIBCOMBINE_LIBS} ${ZIPPER_LIBRARY})
+endif()
+
+if (LIBZ_LIBRARY)
+  set(LIBCOMBINE_LIBS ${LIBCOMBINE_LIBS} ${LIBZ_LIBRARY})
 endif()
 
 # make sure that we have a valid zip library
@@ -600,7 +601,7 @@ file(GLOB COMBINE_HEADERS
   ${CMAKE_CURRENT_SOURCE_DIR}/src/combine/*.h
 )
 
-install(FILES ${COMBINE_HEADERS} DESTINATION include/combine)
+install(FILES ${COMBINE_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/combine")
 
 file(GLOB COMBINE_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/src/combine/*.cpp
@@ -659,7 +660,6 @@ endif()
 
 set(LIBCOMBINE_SOURCES ${COMBINE_SOURCES} ${COMBINE_HEADERS})
 set(LIBCOMBINE_LIBRARY ${COMBINE_LIBRARY})
-set (CMAKE_INSTALL_LIBDIR lib)
 
 add_subdirectory(src)
 

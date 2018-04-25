@@ -4,6 +4,7 @@
 # 
 cmake_minimum_required (VERSION 2.6)
 project (qwt)
+include(GNUInstallDirs)
 
 include_directories("${PROJECT_SOURCE_DIR}")
 
@@ -265,9 +266,10 @@ add_library(qwt STATIC ${SOURCES} ${HEADERS})
 
 target_link_libraries(qwt ${QT_LIBRARIES} )
 
-install(FILES ${HEADERS} DESTINATION include)
+install(FILES ${HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+
 INSTALL(TARGETS qwt 
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-  )
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+        

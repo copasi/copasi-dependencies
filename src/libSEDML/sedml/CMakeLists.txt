@@ -72,12 +72,12 @@ configure_file (
 foreach(dir annotation common compress conversion extension math units util validator xml  )
 
   file(GLOB header_files "${CMAKE_CURRENT_SOURCE_DIR}/${dir}/*.h")
-  install(FILES ${header_files} DESTINATION include/sedml/${dir})
+  install(FILES ${header_files} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/sedml/${dir}")
 
 endforeach(dir)
 
 file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-install(FILES ${files} DESTINATION include/sedml)
+install(FILES ${files} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/sedml")
 
 # install generated headers
 install(FILES 
@@ -85,7 +85,7 @@ install(FILES
        "${CMAKE_CURRENT_BINARY_DIR}/common/libsedml-config-common.h"
        "${CMAKE_CURRENT_BINARY_DIR}/common/libsedml-namespace.h"
        "${CMAKE_CURRENT_BINARY_DIR}/common/libsedml-package.h"
-        DESTINATION include/sedml/common)
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/sedml/common")
 
 ###############################################################################
 #
@@ -166,7 +166,7 @@ endif()
 
 SET (INCLUDE_DESTINATION)
 if (${CMAKE_VERSION} VERSION_GREATER "2.8.11")
-  set(INCLUDE_DESTINATION INCLUDES DESTINATION include)
+  set(INCLUDE_DESTINATION INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 endif()
 
 if (LIBSEDML_SHARED_VERSION OR NOT LIBSEDML_SKIP_SHARED_LIBRARY)
@@ -185,9 +185,9 @@ target_link_libraries(${LIBSEDML_LIBRARY} ${LIBSBML_LIBRARY_NAME} ${LIBNUML_LIBR
 # Create the exported target
 INSTALL(TARGETS ${LIBSEDML_LIBRARY} 
   EXPORT ${LIBSEDML_LIBRARY}-config
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   ${INCLUDE_DESTINATION}
   )
 
@@ -220,9 +220,9 @@ target_link_libraries(${LIBSEDML_LIBRARY}-static ${LIBSBML_LIBRARY_NAME} ${LIBNU
 # Create the exported target for the static library
 INSTALL(TARGETS ${LIBSEDML_LIBRARY}-static 
   EXPORT ${LIBSEDML_LIBRARY}-static-config
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   ${INCLUDE_DESTINATION}
 )
 

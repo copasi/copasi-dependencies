@@ -14,7 +14,7 @@ INSTALL_DIR=${INSTALL_DIR:=${DIRECTORY}/bin}
 [ -d ${INSTALL_DIR}/lib ] || mkdir ${INSTALL_DIR}/lib
 
 if [ $# = 0 ]; then
-  ToBeBuild="expat raptor libuuid clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
+  ToBeBuild="expat raptor crossguid clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
 elif [ _${1} = _--rebuild -a -e "${BUILD_DIR}/.packages" ]; then
   . "${BUILD_DIR}/.packages"
 else
@@ -67,7 +67,7 @@ case $1 in
 
   expat)
     # build expat
-    mkdir -p ${BUILD_DIR}/expat
+    [ -e ${BUILD_DIR}/expat ] || mkdir -p ${BUILD_DIR}/expat
     cd ${BUILD_DIR}/expat
     $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
@@ -78,7 +78,7 @@ case $1 in
 
   raptor)
     # build raptor
-    mkdir -p ${BUILD_DIR}/raptor
+    [ -e ${BUILD_DIR}/raptor ] || mkdir -p ${BUILD_DIR}/raptor
     cd ${BUILD_DIR}/raptor
     $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
@@ -87,20 +87,20 @@ case $1 in
     $MAKE install
     ;;
 
-  libuuid)
-    # build libuuid
-    mkdir -p ${BUILD_DIR}/libuuid
-    cd ${BUILD_DIR}/libuuid
+  crossguid)
+    # build crossguid
+    [ -e ${BUILD_DIR}/clapack ] || mkdir -p ${BUILD_DIR}/crossguid
+    cd ${BUILD_DIR}/crossguid
     $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
-        $DIRECTORY/src/libuuid
+        $DIRECTORY/src/crossguid
     $MAKE -j 4
     $MAKE install
     ;;
 
   clapack)
     # Build Clapack
-    mkdir -p ${BUILD_DIR}/clapack
+    [ -e ${BUILD_DIR}/expat ] || mkdir -p ${BUILD_DIR}/clapack
     cd ${BUILD_DIR}/clapack
     $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
         -DBUILD_TESTING=OFF \
@@ -111,7 +111,7 @@ case $1 in
 
   MML)
     #build MML
-    mkdir -p ${BUILD_DIR}/mml 
+    [ -e ${BUILD_DIR}/mml ] || mkdir -p ${BUILD_DIR}/mml 
     cd ${BUILD_DIR}/mml
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
            $DIRECTORY/src/mml
@@ -123,11 +123,11 @@ case $1 in
     if [ _${SELECT_QT} == _Qt5 ]; then
       QWT=qwt-6
     else
-      QWT=qwt-6
+      QWT=qwt
     fi
     
     #build qwt 
-    mkdir "${BUILD_DIR}/${QWT}"
+    [ -e ${BUILD_DIR}/${QWT} ] || mkdir "${BUILD_DIR}/${QWT}"
     cd "${BUILD_DIR}/${QWT}"
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         "$DIRECTORY/src/${QWT}"
@@ -137,7 +137,7 @@ case $1 in
 
   qwt-6)
     #build qwt 
-    mkdir ${BUILD_DIR}/qwt-6 
+    [ -e ${BUILD_DIR}/qwt-6 ] || mkdir ${BUILD_DIR}/qwt-6 
     cd ${BUILD_DIR}/qwt-6
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         $DIRECTORY/src/qwt-6
@@ -147,7 +147,7 @@ case $1 in
 
   qwtplot3d)
     #build qwtplot3d 
-    mkdir ${BUILD_DIR}/qwtplot3d-qt4
+    [ -e ${BUILD_DIR}/qwtplot3d-qt4 ] || mkdir ${BUILD_DIR}/qwtplot3d-qt4
     cd ${BUILD_DIR}/qwtplot3d-qt4 
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         $DIRECTORY/src/qwtplot3d-qt4
@@ -157,7 +157,7 @@ case $1 in
 
   SBW)
     #Build SBW
-    mkdir -p ${BUILD_DIR}/SBW
+    [ -e ${BUILD_DIR}/SBW] || mkdir -p ${BUILD_DIR}/SBW
     cd ${BUILD_DIR}/SBW
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DWITH_BUILD_BROKER=OFF \
@@ -169,7 +169,7 @@ case $1 in
 
   libSBML)
     # build libsbml
-    mkdir -p ${BUILD_DIR}/libsbml
+    [ -e ${BUILD_DIR}/libsbml ] || mkdir -p ${BUILD_DIR}/libsbml
     cd ${BUILD_DIR}/libsbml
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DENABLE_LAYOUT=ON \
@@ -194,7 +194,7 @@ case $1 in
 
   libnuml)
     # build libnuml
-    mkdir -p ${BUILD_DIR}/libnuml
+    [ -e ${BUILD_DIR}/libnuml ] || mkdir -p ${BUILD_DIR}/libnuml
     cd ${BUILD_DIR}/libnuml
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DLIBSBML_STATIC=ON \
@@ -213,7 +213,7 @@ case $1 in
 
   libSEDML)
     # build libSEDML
-    mkdir -p ${BUILD_DIR}/libSEDML
+    [ -e ${BUILD_DIR}/libSEDML ] || mkdir -p ${BUILD_DIR}/libSEDML
     cd ${BUILD_DIR}/libSEDML
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DLIBSBML_STATIC=ON \
@@ -232,7 +232,7 @@ case $1 in
 
   zlib)
     # build zlib
-    mkdir -p ${BUILD_DIR}/zlib
+    [ -e ${BUILD_DIR}/zlib ] || mkdir -p ${BUILD_DIR}/zlib
     cd ${BUILD_DIR}/zlib
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         $DIRECTORY/src/zlib
@@ -242,7 +242,7 @@ case $1 in
 
   libCombine)
      # build libCombine
-    mkdir -p ${BUILD_DIR}/libCombine
+    [ -e ${BUILD_DIR}/libCombine ] || mkdir -p ${BUILD_DIR}/libCombine
     cd ${BUILD_DIR}/libCombine
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DCOMBINE_DEPENDENCY_DIR=${INSTALL_DIR} \

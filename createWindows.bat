@@ -11,7 +11,7 @@ if not exist %INSTALL_DIR%\include mkdir %INSTALL_DIR%\include
 if not exist %INSTALL_DIR%\lib mkdir %INSTALL_DIR%\lib
 
 IF "%1"=="" (
-  SET TO_BE_BUILD=expat raptor libuuid clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d
+  SET TO_BE_BUILD=expat raptor crossguid clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d
   GOTO :END_ARGUMENTS
 )
 
@@ -66,11 +66,11 @@ FOR %%A IN (%TO_BE_BUILD%) DO (
     %CMAKE% %BASE_DIR%\src\raptor
   )
 
-  IF %%A==libuuid (
-    REM Build libuuid
-    mkdir %BUILD_DIR%\libuuid
-    cd /d %BUILD_DIR%\libuuid
-    %CMAKE% %BASE_DIR%\src\libuuid
+  IF %%A==crossguid (
+    REM Build crossguid
+    mkdir %BUILD_DIR%\crossguid
+    cd /d %BUILD_DIR%\crossguid
+    %CMAKE% %BASE_DIR%\src\crossguid
   )
 
   IF %%A==SBW (

@@ -79,11 +79,6 @@ else()
   set(SBW_BUILD_TYPE "64bit")
 endif()
 
-# On some Linux (64bit) systems the libraries should be installed into lib64 rather
-# than lib. It will default to 'lib' but can be overwritten.
-set(CMAKE_INSTALL_LIBDIR lib CACHE PATH "Full path to the library output directory")
-mark_as_advanced(CMAKE_INSTALL_LIBDIR)
-
 #
 # Allow to build core library only by disabling the build of the broker
 # 
@@ -221,7 +216,9 @@ endif()
 # Build the actual SBW library and broker
 # 
 
-set(PACKAGE_CONFIG_DIR lib/cmake CACHE PATH
+include(GNUInstallDirs)
+
+set(PACKAGE_CONFIG_DIR "${CMAKE_INSTALL_LIBDIR}/cmake" CACHE PATH
     "Path into which the cmake config files should be installed")
 mark_as_advanced(PACKAGE_CONFIG_DIR)
 
@@ -229,7 +226,8 @@ add_subdirectory(SBWCore)
 add_subdirectory(SBWBroker)
 
 file(GLOB HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/SBW/*.h )
-install(FILES ${HEADER_FILES} DESTINATION include/SBW)
+
+install(FILES ${HEADER_FILES} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/SBW")
 
 ###############################################################################
 #

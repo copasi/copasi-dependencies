@@ -14,7 +14,7 @@ INSTALL_DIR=${INSTALL_DIR:=${DIRECTORY}/bin}
 [ -d ${INSTALL_DIR}/lib ] || mkdir ${INSTALL_DIR}/lib
 
 if [ $# = 0 ]; then
-  ToBeBuild="expat raptor libuuid clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
+  ToBeBuild="expat raptor crossguid clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
 elif [ _${1} = _--rebuild -a -e "${BUILD_DIR}/.packages" ]; then
   . "${BUILD_DIR}/.packages"
 else
@@ -88,13 +88,13 @@ case $1 in
     $MAKE install
     ;;
 
-  libuuid)
-    # build libuuid
-    mkdir -p ${BUILD_DIR}/libuuid
-    cd ${BUILD_DIR}/libuuid
+  crossguid)
+    # build crossguid
+    mkdir -p ${BUILD_DIR}/crossguid
+    cd ${BUILD_DIR}/crossguid
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
-        $DIRECTORY/src/libuuid
+        $DIRECTORY/src/crossguid
     $MAKE -j 4
     $MAKE install
     ;;

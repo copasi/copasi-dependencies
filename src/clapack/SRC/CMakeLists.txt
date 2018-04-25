@@ -375,11 +375,19 @@ endif()
 if(BUILD_COMPLEX16)
   set(ALLOBJ  ${ZLASRC} ${ALLAUX} ${DZLAUX})
 endif()
-add_library(lapack ${ALLOBJ} ${ALLXOBJ})
-target_link_libraries(lapack blas)
 
-INSTALL(TARGETS lapack
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-  )
+add_library(lapack ${ALLOBJ} ${ALLXOBJ})
+
+target_link_libraries(lapack
+        \${_IMPORT_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${CMAKE_SHARED_LIBRARY_PREFX}blas${CMAKE_STATIC_LIBRARY_SUFFIX}
+        \${_IMPORT_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${CMAKE_SHARED_LIBRARY_PREFX}f2c${CMAKE_STATIC_LIBRARY_SUFFIX})
+
+INSTALL(TARGETS lapack EXPORT lapackTargets
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+
+# Make cmake config files for all targets
+install(EXPORT lapackTargets
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
+    FILE lapack-config.cmake)
