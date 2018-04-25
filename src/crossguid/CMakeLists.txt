@@ -5,7 +5,12 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
 option(CROSSGUID_TESTS "Build test runner" ON)
 
-set(CMAKE_CXX_STANDARD 11)
+if (CMAKE_MAJOR_VERSION LESS 3 OR CMAKE_MINOR_VERSION LESS 1)
+  set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11")
+else()
+  set(CMAKE_CXX_STANDARD 11)
+endif()
+
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_DEBUG_POSTFIX "-dgb")
 
@@ -50,9 +55,13 @@ else()
         message(FATAL_ERROR
             "You might need to run 'sudo apt-get install uuid-dev' or similar")
     endif()
+
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing -fPIC")
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-strict-aliasing -fPIC")
+
     target_include_directories(crossguid PRIVATE ${LIBUUID_INCLUDE_DIR})
-    target_link_libraries(crossguid ${LIBUUID_LIBRARY})
-    target_compile_definitions(crossguid PRIVATE GUID_LIBUUID)
+      target_link_libraries(crossguid ${LIBUUID_LIBRARY})
+      target_compile_definitions(crossguid PRIVATE GUID_LIBUUID)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
