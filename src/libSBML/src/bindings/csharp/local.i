@@ -302,12 +302,6 @@ SWIGEXPORT void SWIGSTDCALL SWIGRegisterWStringCallback_$module(SWIG_CSharpWStri
 			return sbmlext.DowncastSBasePlugin(cPtr,owner);
 		}
 
-    SBase sb = sbp.getParentSBMLObject();
-    if (sb == null) return new SBasePlugin(cPtr,owner);
-
-    if (sb.getTypeCode() == libsbml.SBML_DOCUMENT)
-      return new SBMLDocumentPlugin(cPtr,owner);
-    
 		return new SBasePlugin(cPtr,owner);
 	}
 	

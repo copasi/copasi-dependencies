@@ -32,7 +32,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class GradientBase
- * @brief abstract base class for linear and radial gradients
+ * @sbmlbrief{render} abstract base class for linear and radial gradients
  * 
  * The base class implements common structures to both gradient classes.
  * Both gradients have an id attribute which is used to reference a gradient
@@ -100,7 +100,7 @@
 
 #include <sbml/SBase.h>
 #include <sbml/packages/render/extension/RenderExtension.h>
-//#include <sbml/packages/render/sbml/ListOfGradientStops.h>
+#include <sbml/packages/render/sbml/ListOfGradientStops.h>
 #include <sbml/packages/render/sbml/GradientStop.h>
 
 
@@ -273,9 +273,9 @@ public:
    * @li @c "pad"
    * @li @c "reflect"
    * @li @c "repeat"
-   * @li @c "invalid GradientBaseSpreadMethod"
+   * @li @c "(Unknown GradientSpreadMethod value)"
    */
-  const std::string& getSpreadMethodAsString() const;
+  std::string getSpreadMethodAsString() const;
 
 
   /**
@@ -289,9 +289,9 @@ public:
    * @li @c "pad"
    * @li @c "reflect"
    * @li @c "repeat"
-   * @li @c "invalid GradientBaseSpreadMethod"
+   * @li @c "invalid"
    */
-  const std::string& getSpreadMethodString() const;
+  std::string getSpreadMethodString() const;
 
 
   /**
@@ -1345,12 +1345,12 @@ GradientBase_getSpreadMethod(const GradientBase_t * gb);
  * @li @c "pad"
  * @li @c "reflect"
  * @li @c "repeat"
- * @li @c "invalid GradientBaseSpreadMethod"
+ * @li @c "invalid"
  *
  * @memberof GradientBase_t
  */
 LIBSBML_EXTERN
-const char *
+char *
 GradientBase_getSpreadMethodAsString(const GradientBase_t * gb);
 
 

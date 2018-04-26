@@ -23,6 +23,13 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
  *------------------------------------------------------------------------- -->
+ *
+ * @class RenderListOfLayoutsPlugin
+ * @sbmlbrief{render} LibSBML implementation for the extension to the
+ * ListOfLayouts class by the Render extension.
+ *
+ * The Render package extends the ListOfLayouts object from the Layout package 
+ * with the addition of an optional ListOfGlobalRenderInformation object.
  */
 
 #ifndef RenderListOfLayoutsPlugin_h
@@ -44,6 +51,7 @@
 #include <sbml/packages/render/extension/RenderExtension.h>
 #include <sbml/packages/render/sbml/GlobalRenderInformation.h>
 #include <sbml/packages/render/sbml/LocalRenderInformation.h>
+#include <sbml/packages/render/sbml/ListOfGlobalRenderInformation.h>
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 

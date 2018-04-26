@@ -33,7 +33,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class ColorDefinition
- * @brief LibSBML implementation for the %ColorDefinition construct from 
+ * @sbmlbrief{render} LibSBML implementation for the %ColorDefinition construct from 
  * the SBML render extension.
  *
  * A @em ColorDefinition specifies an id for a certain RGBA value which can

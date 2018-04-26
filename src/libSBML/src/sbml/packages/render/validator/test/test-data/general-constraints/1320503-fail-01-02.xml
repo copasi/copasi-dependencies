@@ -8,8 +8,7 @@
     <listOfCompartments>
       <compartment id="Yeast" spatialDimensions="3" units="litre" constant="true"/>
     </listOfCompartments>
-    <layout:listOfLayouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-		xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1">
+    <layout:listOfLayouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <layout:layout layout:id="Layout_1">
         <layout:dimensions layout:width="400" layout:height="230"/>
         <layout:listOfCompartmentGlyphs>

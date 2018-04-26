@@ -68,7 +68,7 @@ protected:
   /** @cond doxygenLibsbmlInternal */
 
   std::string mBackgroundColor;
-  GradientBase::SPREADMETHOD mSpreadMethod;
+  int mSpreadMethod;
   RelAbsVector mLinearGradient_x1;
   RelAbsVector mLinearGradient_y1;
   RelAbsVector mLinearGradient_z1;
@@ -83,17 +83,17 @@ protected:
   RelAbsVector mRadialGradient_fy;
   RelAbsVector mRadialGradient_fz;
   std::string mFill;
-  GraphicalPrimitive2D::FILL_RULE mFillRule;
+  int mFillRule;
   RelAbsVector mDefault_z;
   std::string mStroke;
   double mStrokeWidth;
   bool mIsSetStrokeWidth;
   std::string mFontFamily;
   RelAbsVector mFontSize;
-  Text::FONT_WEIGHT mFontWeight;
-  Text::FONT_STYLE mFontStyle;
-  Text::TEXT_ANCHOR mTextAnchor;
-  Text::TEXT_ANCHOR mVTextAnchor;
+  int mFontWeight;
+  int mFontStyle;
+  int mTextAnchor;
+  int mVTextAnchor;
   std::string mStartHead;
   std::string mEndHead;
   bool mEnableRotationalMapping;
@@ -184,7 +184,7 @@ public:
    * a GradientBase::SPREADMETHOD.
    *
    */
-  GradientBase::SPREADMETHOD getSpreadMethod() const;
+  GradientSpreadMethod_t getSpreadMethod() const;
 
 
   /**
@@ -337,19 +337,19 @@ public:
 
 
   /**
-   * Returns the value of the "fillRule" attribute of this DefaultValues.
+   * Returns the value of the "fill-rule" attribute of this DefaultValues.
    *
-   * @return the value of the "fillRule" attribute of this DefaultValues as a
-   * GraphicalPrimitive2D::FILL_RULE.
+   * @return the value of the "fill-rule" attribute of this DefaultValues as a
+   * FileRule_t.
    *
    */
-  GraphicalPrimitive2D::FILL_RULE getFillRule() const;
+  int getFillRule() const;
 
 
   /**
-   * Returns the value of the "fillRule" attribute of this DefaultValues.
+   * Returns the value of the "fill-rule" attribute of this DefaultValues.
    *
-   * @return the value of the "fillRule" attribute of this DefaultValues as a
+   * @return the value of the "fill-rule" attribute of this DefaultValues as a
    * string.
    *
    */
@@ -384,98 +384,114 @@ public:
 
 
   /**
-   * Returns the value of the "fontFamily" attribute of this DefaultValues.
+   * Returns the value of the "font-family" attribute of this DefaultValues.
    *
-   * @return the value of the "fontFamily" attribute of this DefaultValues as a
+   * @return the value of the "font-family" attribute of this DefaultValues as a
    * string.
    */
   const std::string& getFontFamily() const;
 
 
   /**
-   * Returns the value of the "fontSize" attribute of this DefaultValues.
+   * Returns the value of the "font-size" attribute of this DefaultValues.
    *
-   * @return the value of the "fontSize" attribute of this DefaultValues as a
+   * @return the value of the "font-size" attribute of this DefaultValues as a
    * string.
    */
   const RelAbsVector& getFontSize() const;
 
 
   /**
-   * Returns the value of the "fontWeight" attribute of this DefaultValues.
+   * Returns the value of the "font-weight" attribute of this DefaultValues.
    *
-   * @return the value of the "fontWeight" attribute of this DefaultValues as a
+   * @return the value of the "font-weight" attribute of this DefaultValues as a
    * Text::FONT_WEIGHT.
    *
+   * @copydetails doc_render_font_weight
+   *
    */
-  Text::FONT_WEIGHT getFontWeight() const;
+  FontWeight_t getFontWeight() const;
 
 
   /**
-   * Returns the value of the "fontWeight" attribute of this DefaultValues.
+   * Returns the value of the "font-weight" attribute of this DefaultValues.
    *
-   * @return the value of the "fontWeight" attribute of this DefaultValues as a
+   * @return the value of the "font-weight" attribute of this DefaultValues as a
    * string.
+   *
+   * @copydetails doc_render_font_weight
    *
    */
   std::string getFontWeightAsString() const;
 
 
   /**
-   * Returns the value of the "fontStyle" attribute of this DefaultValues.
+   * Returns the value of the "font-style" attribute of this DefaultValues.
    *
-   * @return the value of the "fontStyle" attribute of this DefaultValues as a
+   * @return the value of the "font-style" attribute of this DefaultValues as a
    * Text::FONT_STYLE.
    *
+   * @copydetails doc_render_font_style
+   *
    */
-  Text::FONT_STYLE getFontStyle() const;
+  FontStyle_t getFontStyle() const;
 
 
   /**
-   * Returns the value of the "fontStyle" attribute of this DefaultValues.
+   * Returns the value of the "font-style" attribute of this DefaultValues.
    *
-   * @return the value of the "fontStyle" attribute of this DefaultValues as a
+   * @return the value of the "font-style" attribute of this DefaultValues as a
    * string.
+   *
+   * @copydetails doc_render_font_style
    *
    */
   std::string getFontStyleAsString() const;
 
 
   /**
-   * Returns the value of the "textAnchor" attribute of this DefaultValues.
+   * Returns the value of the "text-anchor" attribute of this DefaultValues.
    *
-   * @return the value of the "textAnchor" attribute of this DefaultValues as a
+   * @return the value of the "text-anchor" attribute of this DefaultValues as a
    * Text::TEXT_ANCHOR.
    *
+   * @copydetails doc_render_text_anchor
+   *
    */
-  Text::TEXT_ANCHOR getTextAnchor() const;
+  HTextAnchor_t getTextAnchor() const;
 
 
   /**
-   * Returns the value of the "textAnchor" attribute of this DefaultValues.
+   * Returns the value of the "text-anchor" attribute of this DefaultValues.
    *
-   * @return the value of the "textAnchor" attribute of this DefaultValues as a
+   * @return the value of the "text-anchor" attribute of this DefaultValues as a
    * string.
+   *
+   * @copydetails doc_render_text_anchor
    *
    */
   std::string getTextAnchorAsString() const;
 
 
   /**
-   * Returns the value of the "vtextAnchor" attribute of this DefaultValues.
+   * Returns the value of the "vtext-anchor" attribute of this DefaultValues.
    *
-   * @return the value of the "vtextAnchor" attribute of this DefaultValues as
+   * @return the value of the "vtext-anchor" attribute of this DefaultValues as
    * a Text::TEXT_ANCHOR.
    *
+   * @copydetails doc_render_vtext_anchor
+   *
    */
-  Text::TEXT_ANCHOR getVTextAnchor() const;
+  VTextAnchor_t getVTextAnchor() const;
 
 
   /**
-   * Returns the value of the "vtextAnchor" attribute of this DefaultValues.
+   * Returns the value of the "vtext-anchor" attribute of this DefaultValues.
    *
-   * @return the value of the "vtextAnchor" attribute of this DefaultValues as
+   * @return the value of the "vtext-anchor" attribute of this DefaultValues as
    * a string.
+   *
+   * @copydetails doc_render_vtext_anchor
    *
    */
   std::string getVTextAnchorAsString() const;
@@ -671,10 +687,10 @@ public:
 
 
   /**
-   * Predicate returning @c true if this DefaultValues's "fillRule" attribute
+   * Predicate returning @c true if this DefaultValues's "fill-rule" attribute
    * is set.
    *
-   * @return @c true if this DefaultValues's "fillRule" attribute has been set,
+   * @return @c true if this DefaultValues's "fill-rule" attribute has been set,
    * otherwise @c false is returned.
    *
    */
@@ -712,65 +728,71 @@ public:
 
 
   /**
-   * Predicate returning @c true if this DefaultValues's "fontFamily" attribute
+   * Predicate returning @c true if this DefaultValues's "font-family" attribute
    * is set.
    *
-   * @return @c true if this DefaultValues's "fontFamily" attribute has been
+   * @return @c true if this DefaultValues's "font-family" attribute has been
    * set, otherwise @c false is returned.
    */
   bool isSetFontFamily() const;
 
 
   /**
-   * Predicate returning @c true if this DefaultValues's "fontSize" attribute
+   * Predicate returning @c true if this DefaultValues's "font-size" attribute
    * is set.
    *
-   * @return @c true if this DefaultValues's "fontSize" attribute has been set,
+   * @return @c true if this DefaultValues's "font-size" attribute has been set,
    * otherwise @c false is returned.
    */
   bool isSetFontSize() const;
 
 
   /**
-   * Predicate returning @c true if this DefaultValues's "fontWeight" attribute
+   * Predicate returning @c true if this DefaultValues's "font-weight" attribute
    * is set.
    *
-   * @return @c true if this DefaultValues's "fontWeight" attribute has been
+   * @return @c true if this DefaultValues's "font-weight" attribute has been
    * set, otherwise @c false is returned.
    *
-   * @copydetails doc_defaultvalues_fontWeight
+   * @copydetails doc_render_font_weight
    */
   bool isSetFontWeight() const;
 
 
   /**
-   * Predicate returning @c true if this DefaultValues's "fontStyle" attribute
+   * Predicate returning @c true if this DefaultValues's "font-style" attribute
    * is set.
    *
-   * @return @c true if this DefaultValues's "fontStyle" attribute has been
+   * @return @c true if this DefaultValues's "font-style" attribute has been
    * set, otherwise @c false is returned.
+   *
+   * @copydetails doc_render_font_style
    *
    */
   bool isSetFontStyle() const;
 
 
   /**
-   * Predicate returning @c true if this DefaultValues's "textAnchor" attribute
+   * Predicate returning @c true if this DefaultValues's "text-anchor" attribute
    * is set.
    *
-   * @return @c true if this DefaultValues's "textAnchor" attribute has been
+   * @return @c true if this DefaultValues's "text-anchor" attribute has been
    * set, otherwise @c false is returned.
+   *
+   * @copydetails doc_render_text_anchor
    *
    */
   bool isSetTextAnchor() const;
 
 
   /**
-   * Predicate returning @c true if this DefaultValues's "vtextAnchor"
+   * Predicate returning @c true if this DefaultValues's "vtext-anchor"
    * attribute is set.
    *
-   * @return @c true if this DefaultValues's "vtextAnchor" attribute has been
+   * @return @c true if this DefaultValues's "vtext-anchor" attribute has been
    * set, otherwise @c false is returned.
+   *
+   * @copydetails doc_render_vtext_anchor
    *
    */
   bool isSetVTextAnchor() const;
@@ -1061,10 +1083,10 @@ public:
 
 
   /**
-   * Sets the value of the "fillRule" attribute of this DefaultValues.
+   * Sets the value of the "fill-rule" attribute of this DefaultValues.
    *
    * @param fillRule @if clike GraphicalPrimitive2D::FILL_RULE@else int@endif value of the
-   * "fillRule" attribute to be set.
+   * "fill-rule" attribute to be set.
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1077,9 +1099,25 @@ public:
 
 
   /**
-   * Sets the value of the "fillRule" attribute of this DefaultValues.
+  * Sets the value of the "fill-rule" attribute of this DefaultValues.
+  *
+  * @param fillRule @if clike GraphicalPrimitive2D::FILL_RULE@else int@endif value of the
+  * "fill-rule" attribute to be set.
+  *
+  * @copydetails doc_returns_success_code
+  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
+  * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
+  * OperationReturnValues_t}
+  *
+  * @copydetails doc_defaultvalues_fillRule
+  */
+  int setFillRule(FillRule_t fillRule);
+
+
+  /**
+   * Sets the value of the "fill-rule" attribute of this DefaultValues.
    *
-   * @param fillRule std::string& of the "fillRule" attribute to be set.
+   * @param fillRule std::string& of the "fill-rule" attribute to be set.
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1136,9 +1174,9 @@ public:
 
 
   /**
-   * Sets the value of the "fontFamily" attribute of this DefaultValues.
+   * Sets the value of the "font-family" attribute of this DefaultValues.
    *
-   * @param fontFamily std::string& value of the "fontFamily" attribute to be
+   * @param fontFamily std::string& value of the "font-family" attribute to be
    * set.
    *
    * @copydetails doc_returns_one_success_code
@@ -1151,9 +1189,9 @@ public:
 
 
   /**
-   * Sets the value of the "fontSize" attribute of this DefaultValues.
+   * Sets the value of the "font-size" attribute of this DefaultValues.
    *
-   * @param fontSize std::string& value of the "fontSize" attribute to be set.
+   * @param fontSize std::string& value of the "font-size" attribute to be set.
    *
    * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1165,10 +1203,12 @@ public:
 
 
   /**
-   * Sets the value of the "fontWeight" attribute of this DefaultValues.
+   * Sets the value of the "font-weight" attribute of this DefaultValues.
    *
    * @param fontWeight @if clike Text::FONT_WEIGHT@else int@endif value of the
-   * "fontWeight" attribute to be set.
+   * "font-weight" attribute to be set.
+   *
+   * @copydetails doc_render_font_weight
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1181,9 +1221,11 @@ public:
 
 
   /**
-   * Sets the value of the "fontWeight" attribute of this DefaultValues.
+   * Sets the value of the "font-weight" attribute of this DefaultValues.
    *
-   * @param fontWeight std::string& of the "fontWeight" attribute to be set.
+   * @param fontWeight std::string& of the "font-weight" attribute to be set.
+   *
+   * @copydetails doc_render_font_weight
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1196,10 +1238,12 @@ public:
 
 
   /**
-   * Sets the value of the "fontStyle" attribute of this DefaultValues.
+   * Sets the value of the "font-style" attribute of this DefaultValues.
    *
    * @param fontStyle @if clike Text::FONT_STYLE@else int@endif value of the
-   * "fontStyle" attribute to be set.
+   * "font-style" attribute to be set.
+   *
+   * @copydetails doc_render_font_style
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1212,9 +1256,11 @@ public:
 
 
   /**
-   * Sets the value of the "fontStyle" attribute of this DefaultValues.
+   * Sets the value of the "font-style" attribute of this DefaultValues.
    *
-   * @param fontStyle std::string& of the "fontStyle" attribute to be set.
+   * @param fontStyle std::string& of the "font-style" attribute to be set.
+   *
+   * @copydetails doc_render_font_style
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1227,10 +1273,12 @@ public:
 
 
   /**
-   * Sets the value of the "textAnchor" attribute of this DefaultValues.
+   * Sets the value of the "text-anchor" attribute of this DefaultValues.
    *
    * @param textAnchor @if clike Text::TEXT_ANCHOR@else int@endif value of the
-   * "textAnchor" attribute to be set.
+   * "text-anchor" attribute to be set.
+   *
+   * @copydetails doc_render_text_anchor
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1243,9 +1291,11 @@ public:
 
 
   /**
-   * Sets the value of the "textAnchor" attribute of this DefaultValues.
+   * Sets the value of the "text-anchor" attribute of this DefaultValues.
    *
-   * @param textAnchor std::string& of the "textAnchor" attribute to be set.
+   * @param textAnchor std::string& of the "text-anchor" attribute to be set.
+   *
+   * @copydetails doc_render_text_anchor
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1258,10 +1308,12 @@ public:
 
 
   /**
-   * Sets the value of the "vtextAnchor" attribute of this DefaultValues.
+   * Sets the value of the "vtext-anchor" attribute of this DefaultValues.
    *
    * @param vtextAnchor @if clike Text::TEXT_ANCHOR@else int@endif value of the
-   * "vtextAnchor" attribute to be set.
+   * "vtext-anchor" attribute to be set.
+   *
+   * @copydetails doc_render_vtext_anchor
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1274,9 +1326,11 @@ public:
 
 
   /**
-   * Sets the value of the "vtextAnchor" attribute of this DefaultValues.
+   * Sets the value of the "vtext-anchor" attribute of this DefaultValues.
    *
-   * @param vtextAnchor std::string& of the "vtextAnchor" attribute to be set.
+   * @param vtextAnchor std::string& of the "vtext-anchor" attribute to be set.
+   *
+   * @copydetails doc_render_vtext_anchor
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1505,7 +1559,7 @@ public:
 
 
   /**
-   * Unsets the value of the "fillRule" attribute of this DefaultValues.
+   * Unsets the value of the "fill-rule" attribute of this DefaultValues.
    *
    * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1546,7 +1600,7 @@ public:
 
 
   /**
-   * Unsets the value of the "fontFamily" attribute of this DefaultValues.
+   * Unsets the value of the "font-family" attribute of this DefaultValues.
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1556,7 +1610,7 @@ public:
 
 
   /**
-   * Unsets the value of the "fontSize" attribute of this DefaultValues.
+   * Unsets the value of the "font-size" attribute of this DefaultValues.
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1566,29 +1620,31 @@ public:
 
 
   /**
-   * Unsets the value of the "fontWeight" attribute of this DefaultValues.
+   * Unsets the value of the "font-weight" attribute of this DefaultValues.
    *
    * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    *
-   * @copydetails doc_defaultvalues_fontWeight
+   * @copydetails doc_render_font_weight
    */
   int unsetFontWeight();
 
 
   /**
-   * Unsets the value of the "fontStyle" attribute of this DefaultValues.
+   * Unsets the value of the "font-style" attribute of this DefaultValues.
    *
    * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    *
-   * @copydetails doc_defaultvalues_fontStyle
+   * @copydetails doc_render_font_style
    */
   int unsetFontStyle();
 
 
   /**
-   * Unsets the value of the "textAnchor" attribute of this DefaultValues.
+   * Unsets the value of the "text-anchor" attribute of this DefaultValues.
+   *
+   * @copydetails doc_render_text_anchor
    *
    * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1599,7 +1655,9 @@ public:
 
 
   /**
-   * Unsets the value of the "vtextAnchor" attribute of this DefaultValues.
+   * Unsets the value of the "vtext-anchor" attribute of this DefaultValues.
+   *
+   * @copydetails doc_render_vtext_anchor
    *
    * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}

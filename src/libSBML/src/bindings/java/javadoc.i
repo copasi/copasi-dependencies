@@ -99,6 +99,11 @@
 ";
 
 
+%javamethodmodifiers IdList::empty() const "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers IdList::removeIdsBefore(const std::string& id) "
 /** * @internal */ public
 ";
@@ -149,7 +154,7 @@ the implementation of extra functionality provided by libSBML.
    <p>
    * This is the central predicate of the {@link ElementFilter} class.  In subclasses
    * of {@link ElementFilter}, callers should implement this method such that it
-   * returns <code>true</code> for <code>element</code> arguments that are \'desirable\' and 
+   * returns <code>true</code> for <code>element</code> arguments that are \'desirable\' and
    * <code>false</code> for those that are \'undesirable\' in whatever filtering context the
    * {@link ElementFilter} subclass is designed to be used.
    <p>
@@ -227,17 +232,17 @@ defined in SBML.
  <p>
  * The {@link SBMLReader} class provides the main interface for reading SBML content
  * from files and strings.  The methods for reading SBML all return an
- * {@link SBMLDocument}
- * object representing the results.  In the case of failures (such as if the
- * SBML contains errors or a file cannot be read), the errors will be
- * recorded with the {@link SBMLErrorLog} object kept in the
- * {@link SBMLDocument}
+ * {@link SBMLDocument} object representing the results.  In the case of failures
+ * (such as if the SBML contains errors or a file cannot be read), the errors
+ * will be recorded with the {@link SBMLErrorLog} object kept in the {@link SBMLDocument}
  * returned by {@link SBMLReader}.  Consequently, immediately after calling a method
  * on {@link SBMLReader}, callers should always check for errors and warnings using
  * the methods for this purpose provided by {@link SBMLDocument}.
  <p>
  * For convenience as well as easy access from other languages besides C++,
- * this file also defines two global functions, <a href=\'libsbml.html#readSBML(java.lang.String)\'><code>libsbml.readSBML(String)</code></a> and <a href=\'libsbml.html#readSBMLFromString(java.lang.String)\'><code>libsbml.readSBMLFromString(String)</code></a>.  They are
+ * this file also defines two global functions,
+ * @sbmlglobalfunction{readSBML, String}global and
+ * @sbmlglobalfunction{readSBMLFromString, String}global.  They are
  * equivalent to creating an {@link SBMLReader} object and then calling the
  * {@link SBMLReader#readSBML(String)} and
  * {@link SBMLReader#readSBMLFromString(String)} methods, respectively.
@@ -290,16 +295,20 @@ defined in SBML.
    * <p>
  * Reads an SBML document from the given file.
  <p>
- * If the file named <code>filename</code> does not exist or its content is not
- * valid SBML, one or more errors will be logged with the
- * {@link SBMLDocument}
- * object returned by this method.  Callers can use the methods on
- * {@link SBMLDocument} such as
+ * If the file named <code>filename</code> does not exist or its content is not valid
+ * SBML, one or more errors will be logged with the {@link SBMLDocument} object
+ * returned by this method.  Callers can use the methods on {@link SBMLDocument} such
+ * as
+ * ,
  * {@link SBMLDocument#getNumErrors()}
  * and
+ <p>
  * {@link SBMLDocument#getError(long)}
+ <p>
  * to get the errors.  The object returned by
+ <p>
  * {@link SBMLDocument#getError(long)}
+ <p>
  * is an {@link SBMLError} object, and it has methods to get the error code,
  * category, and severity level of the problem, as well as a textual
  * description of the problem.  The possible severity levels range from
@@ -311,7 +320,7 @@ defined in SBML.
  * appear first.  The error code  can provide a clue about what
  * happened.  For example, a file might be unreadable (either because it does
  * not actually exist or because the user does not have the necessary access
- * priviledges to read it) or some sort of file operation error may have been
+ * privileges to read it) or some sort of file operation error may have been
  * reported by the underlying operating system.  Callers can check for these
  * situations using a program fragment such as the following:
  <p>
@@ -337,7 +346,7 @@ if (doc.getNumErrors() &gt; 0)
 </pre>
 <p>
  * <p>
- * If the given filename ends with the suffix <code>\'.gz\'</code> (for example, 
+ * If the given filename ends with the suffix <code>\'.gz\'</code> (for example,
  * <code>\'myfile.xml.gz\'</code>), the file is assumed to be compressed in <em>gzip</em>
  * format and will be automatically decompressed upon reading.
  * Similarly, if the given filename ends with <code>\'.zip\'</code> or <code>\'.bz2\'</code>, the
@@ -393,16 +402,20 @@ if (doc.getNumErrors() &gt; 0)
    * <p>
  * Reads an SBML document from the given file.
  <p>
- * If the file named <code>filename</code> does not exist or its content is not
- * valid SBML, one or more errors will be logged with the
- * {@link SBMLDocument}
- * object returned by this method.  Callers can use the methods on
- * {@link SBMLDocument} such as
+ * If the file named <code>filename</code> does not exist or its content is not valid
+ * SBML, one or more errors will be logged with the {@link SBMLDocument} object
+ * returned by this method.  Callers can use the methods on {@link SBMLDocument} such
+ * as
+ * ,
  * {@link SBMLDocument#getNumErrors()}
  * and
+ <p>
  * {@link SBMLDocument#getError(long)}
+ <p>
  * to get the errors.  The object returned by
+ <p>
  * {@link SBMLDocument#getError(long)}
+ <p>
  * is an {@link SBMLError} object, and it has methods to get the error code,
  * category, and severity level of the problem, as well as a textual
  * description of the problem.  The possible severity levels range from
@@ -414,7 +427,7 @@ if (doc.getNumErrors() &gt; 0)
  * appear first.  The error code  can provide a clue about what
  * happened.  For example, a file might be unreadable (either because it does
  * not actually exist or because the user does not have the necessary access
- * priviledges to read it) or some sort of file operation error may have been
+ * privileges to read it) or some sort of file operation error may have been
  * reported by the underlying operating system.  Callers can check for these
  * situations using a program fragment such as the following:
  <p>
@@ -440,7 +453,7 @@ if (doc.getNumErrors() &gt; 0)
 </pre>
 <p>
  * <p>
- * If the given filename ends with the suffix <code>\'.gz\'</code> (for example, 
+ * If the given filename ends with the suffix <code>\'.gz\'</code> (for example,
  * <code>\'myfile.xml.gz\'</code>), the file is assumed to be compressed in <em>gzip</em>
  * format and will be automatically decompressed upon reading.
  * Similarly, if the given filename ends with <code>\'.zip\'</code> or <code>\'.bz2\'</code>, the
@@ -507,13 +520,14 @@ if (doc.getNumErrors() &gt; 0)
  <p>
  * This method will log a fatal error if the content given in the parameter
  * <code>xml</code> is not in SBML format.  See the method documentation for
- * {@link SBMLReader#readSBML(String)} for an example of code for
- * testing the returned error code.
+ * {@link SBMLReader#readSBML()}
+ <p>
+ * for an example of code for testing the returned error code.
    <p>
    * @param xml a string containing a full SBML model.
    <p>
    * @return a pointer to the {@link SBMLDocument} created from the SBML content,
-   * or a null pointer if <code>xml</code> is null.
+   * or a null pointer if <code>xml</code> is <code>null.</code>
    <p>
    * <p>
  * @note When using this method to read an {@link SBMLDocument} that uses the SBML
@@ -521,8 +535,9 @@ if (doc.getNumErrors() &gt; 0)
  * location cannot be set automatically. Thus, if the model contains
  * references to ExternalModelDefinition objects, it will be necessary to
  * manually set the document URI location
- * ({@link SBMLDocument#setLocationURI(String)} in order to facilitate
- * resolving these models.
+ * ({@link SBMLDocument#setLocationURI()}
+ <p>
+ * ) in order to facilitate resolving these models.
    <p>
    * @see SBMLReader#readSBML(String)
    */ public
@@ -569,16 +584,20 @@ if (doc.getNumErrors() &gt; 0)
  * <p>
  * Reads an SBML document from the given file.
  <p>
- * If the file named <code>filename</code> does not exist or its content is not
- * valid SBML, one or more errors will be logged with the
- * {@link SBMLDocument}
- * object returned by this method.  Callers can use the methods on
- * {@link SBMLDocument} such as
+ * If the file named <code>filename</code> does not exist or its content is not valid
+ * SBML, one or more errors will be logged with the {@link SBMLDocument} object
+ * returned by this method.  Callers can use the methods on {@link SBMLDocument} such
+ * as
+ * ,
  * {@link SBMLDocument#getNumErrors()}
  * and
+ <p>
  * {@link SBMLDocument#getError(long)}
+ <p>
  * to get the errors.  The object returned by
+ <p>
  * {@link SBMLDocument#getError(long)}
+ <p>
  * is an {@link SBMLError} object, and it has methods to get the error code,
  * category, and severity level of the problem, as well as a textual
  * description of the problem.  The possible severity levels range from
@@ -590,7 +609,7 @@ if (doc.getNumErrors() &gt; 0)
  * appear first.  The error code  can provide a clue about what
  * happened.  For example, a file might be unreadable (either because it does
  * not actually exist or because the user does not have the necessary access
- * priviledges to read it) or some sort of file operation error may have been
+ * privileges to read it) or some sort of file operation error may have been
  * reported by the underlying operating system.  Callers can check for these
  * situations using a program fragment such as the following:
  <p>
@@ -616,7 +635,7 @@ if (doc.getNumErrors() &gt; 0)
 </pre>
 <p>
  * <p>
- * If the given filename ends with the suffix <code>\'.gz\'</code> (for example, 
+ * If the given filename ends with the suffix <code>\'.gz\'</code> (for example,
  * <code>\'myfile.xml.gz\'</code>), the file is assumed to be compressed in <em>gzip</em>
  * format and will be automatically decompressed upon reading.
  * Similarly, if the given filename ends with <code>\'.zip\'</code> or <code>\'.bz2\'</code>, the
@@ -643,16 +662,20 @@ if (doc.getNumErrors() &gt; 0)
  * <p>
  * Reads an SBML document from the given file.
  <p>
- * If the file named <code>filename</code> does not exist or its content is not
- * valid SBML, one or more errors will be logged with the
- * {@link SBMLDocument}
- * object returned by this method.  Callers can use the methods on
- * {@link SBMLDocument} such as
+ * If the file named <code>filename</code> does not exist or its content is not valid
+ * SBML, one or more errors will be logged with the {@link SBMLDocument} object
+ * returned by this method.  Callers can use the methods on {@link SBMLDocument} such
+ * as
+ * ,
  * {@link SBMLDocument#getNumErrors()}
  * and
+ <p>
  * {@link SBMLDocument#getError(long)}
+ <p>
  * to get the errors.  The object returned by
+ <p>
  * {@link SBMLDocument#getError(long)}
+ <p>
  * is an {@link SBMLError} object, and it has methods to get the error code,
  * category, and severity level of the problem, as well as a textual
  * description of the problem.  The possible severity levels range from
@@ -664,7 +687,7 @@ if (doc.getNumErrors() &gt; 0)
  * appear first.  The error code  can provide a clue about what
  * happened.  For example, a file might be unreadable (either because it does
  * not actually exist or because the user does not have the necessary access
- * priviledges to read it) or some sort of file operation error may have been
+ * privileges to read it) or some sort of file operation error may have been
  * reported by the underlying operating system.  Callers can check for these
  * situations using a program fragment such as the following:
  <p>
@@ -690,7 +713,7 @@ if (doc.getNumErrors() &gt; 0)
 </pre>
 <p>
  * <p>
- * If the given filename ends with the suffix <code>\'.gz\'</code> (for example, 
+ * If the given filename ends with the suffix <code>\'.gz\'</code> (for example,
  * <code>\'myfile.xml.gz\'</code>), the file is assumed to be compressed in <em>gzip</em>
  * format and will be automatically decompressed upon reading.
  * Similarly, if the given filename ends with <code>\'.zip\'</code> or <code>\'.bz2\'</code>, the
@@ -733,8 +756,9 @@ if (doc.getNumErrors() &gt; 0)
  <p>
  * This method will log a fatal error if the content given in the parameter
  * <code>xml</code> is not in SBML format.  See the method documentation for
- * {@link SBMLReader#readSBML(String)} for an example of code for
- * testing the returned error code.
+ * {@link SBMLReader#readSBML()}
+ <p>
+ * for an example of code for testing the returned error code.
  <p>
  * @param xml a string containing a full SBML model.
  <p>
@@ -747,8 +771,9 @@ if (doc.getNumErrors() &gt; 0)
  * location cannot be set automatically. Thus, if the model contains
  * references to ExternalModelDefinition objects, it will be necessary to
  * manually set the document URI location
- * ({@link SBMLDocument#setLocationURI(String)} in order to facilitate
- * resolving these models.
+ * ({@link SBMLDocument#setLocationURI()}
+ <p>
+ * ) in order to facilitate resolving these models.
  */ public
 ";
 
@@ -1086,15 +1111,15 @@ Similarly, the filename in the archive will be
  * @param filename a string giving the path to a file where the XML
  * content is to be written.
  <p>
- * @return <code>1</code> on success and <code>0</code> (zero) if <code>filename</code> could not be
+ * @return <code>1</code> (true) on success and <code>0</code> (false) if <code>filename</code> could not be
  * written.  Some possible reasons for failure include (a) being unable to
  * open the file, and (b) using a filename that indicates a compressed SBML
  * file (i.e., a filename ending in <code>&quot;.zip&quot;</code> or
  * similar) when the compression functionality has not been enabled in
  * the underlying copy of libSBML.
  <p>
- * @see SBMLWriter#hasZlib()
- * @see SBMLWriter#hasBzip2()
+ * @see SBMLWriter#hasZlib() 
+ * @see SBMLWriter#hasBzip2() 
  */ public
 ";
 
@@ -1150,7 +1175,7 @@ Similarly, the filename in the archive will be
  * @param filename a string giving the path to a file where the XML
  * content is to be written.
  <p>
- * @return <code>1</code> on success and <code>0</code> (zero) if <code>filename</code> could not be
+ * @return <code>1</code> (true) on success and <code>0</code> (false) if <code>filename</code> could not be
  * written.  Some possible reasons for failure include (a) being unable to
  * open the file, and (b) using a filename that indicates a compressed SBML
  * file (i.e., a filename ending in <code>&quot;.zip&quot;</code> or
@@ -1250,7 +1275,7 @@ Similarly, the filename in the archive will be
  * serves to identify a model component for purposes such as referencing
  * that component from metadata placed within \'annotation\' subelements.
  <p>
- * Beginning with SBML Level 2 Version 3, {@link SBase} also has an optional
+ * Beginning with SBML Level 2 Version 2, {@link SBase} has an optional
  * attribute named \'sboTerm\' for supporting the use of the Systems Biology
  * Ontology.  In SBML proper, the data type of the attribute is a string of
  * the form \'SBO:NNNNNNN\', where \'NNNNNNN\' is a seven digit integer number;
@@ -1261,9 +1286,8 @@ Similarly, the filename in the archive will be
  * form and a text-string form of the {@link SBO} identifier.)  {@link SBO} terms are a
  * type of optional annotation, and each different class of SBML object
  * derived from {@link SBase} imposes its own requirements about the values
- * permitted for \'sboTerm\'.  Please consult the SBML Level&nbsp;2
- * Version&nbsp;4 specification for more information about the use of {@link SBO}
- * and the \'sboTerm\' attribute.
+ * permitted for \'sboTerm\'.  More details can be found in SBML specifications
+ * for Level&nbsp;2 Version&nbsp;2 and above.
  <p>
  * Finally, note that, in the list of methods on {@link SBase}, there is no public
  * constructor because {@link SBase} is an abstract class.  The constructors reside
@@ -2418,22 +2442,20 @@ appears in the documentation.
    * Returns the integer portion of the value of the \'sboTerm\' attribute of
    * this object.
    <p>
-   * Beginning with SBML Level 2 Version 3, objects derived from {@link SBase} have
-   * an optional attribute named \'sboTerm\' for supporting the use of the
-   * Systems Biology Ontology.  In SBML proper, the data type of the
-   * attribute is a string of the form \'SBO:NNNNNNN\', where \'NNNNNNN\' is a
-   * seven digit integer number; libSBML simplifies the representation by
-   * only storing the \'NNNNNNN\' integer portion.  Thus, in libSBML, the
-   * \'sboTerm\' attribute on {@link SBase} has data type <code>int</code>, and {@link SBO} identifiers
-   * are stored simply as integers.  (For convenience, libSBML offers
-   * methods for returning both the integer form and a text-string form of
-   * the {@link SBO} identifier.)
-   <p>
-   * {@link SBO} terms are a type of optional annotation, and each different class
-   * of SBML object derived from {@link SBase} imposes its own requirements about
-   * the values permitted for \'sboTerm\'.  Please consult the SBML
-   * Level&nbsp;2 Version&nbsp;4 specification for more information about
-   * the use of {@link SBO} and the \'sboTerm\' attribute.
+   * <p>
+ * Beginning with SBML Level 2 Version 2, objects derived from {@link SBase} have
+ * an optional attribute named \'sboTerm\' for supporting the use of the
+ * Systems Biology Ontology.  In SBML proper, the data type of the
+ * attribute is a string of the form \'SBO:NNNNNNN\', where \'NNNNNNN\' is a
+ * seven digit integer number; libSBML simplifies the representation by
+ * only storing the \'NNNNNNN\' integer portion.  Thus, in libSBML, the
+ * \'sboTerm\' attribute on {@link SBase} has data type <code>int</code>, and {@link SBO} identifiers
+ * are stored simply as integers.
+   * <p>
+ * {@link SBO} terms are a type of optional annotation, and each different class
+ * of SBML object derived from {@link SBase} imposes its own requirements about
+ * the values permitted for \'sboTerm\'. More details can be found in SBML
+ * specifications for Level&nbsp;2 Version&nbsp;2 and above.
    <p>
    * @return the value of the \'sboTerm\' attribute as an integer, or <code>-1</code>
    * if the value is not set.
@@ -2446,21 +2468,20 @@ appears in the documentation.
    * Returns the string representation of the \'sboTerm\' attribute of
    * this object.
    <p>
-   * Beginning with SBML Level 2 Version 3, objects derived from {@link SBase} have
-   * an optional attribute named \'sboTerm\' for supporting the use of the
-   * Systems Biology Ontology.  In SBML proper, the data type of the
-   * attribute is a string of the form \'SBO:NNNNNNN\', where \'NNNNNNN\' is a
-   * seven digit integer number; libSBML simplifies the representation by
-   * only storing the \'NNNNNNN\' integer portion.  Thus, in libSBML, the
-   * \'sboTerm\' attribute on {@link SBase} has data type <code>int</code>, and {@link SBO} identifiers
-   * are stored simply as integers.  This method returns the entire {@link SBO}
-   * identifier as a text string in the form \'SBO:NNNNNNN\'.
-   <p>
-   * {@link SBO} terms are a type of optional annotation, and each different class
-   * of SBML object derived from {@link SBase} imposes its own requirements about
-   * the values permitted for \'sboTerm\'.  Please consult the SBML
-   * Level&nbsp;2 Version&nbsp;4 specification for more information about
-   * the use of {@link SBO} and the \'sboTerm\' attribute.
+   * <p>
+ * Beginning with SBML Level 2 Version 2, objects derived from {@link SBase} have
+ * an optional attribute named \'sboTerm\' for supporting the use of the
+ * Systems Biology Ontology.  In SBML proper, the data type of the
+ * attribute is a string of the form \'SBO:NNNNNNN\', where \'NNNNNNN\' is a
+ * seven digit integer number; libSBML simplifies the representation by
+ * only storing the \'NNNNNNN\' integer portion.  Thus, in libSBML, the
+ * \'sboTerm\' attribute on {@link SBase} has data type <code>int</code>, and {@link SBO} identifiers
+ * are stored simply as integers.
+   * <p>
+ * {@link SBO} terms are a type of optional annotation, and each different class
+ * of SBML object derived from {@link SBase} imposes its own requirements about
+ * the values permitted for \'sboTerm\'. More details can be found in SBML
+ * specifications for Level&nbsp;2 Version&nbsp;2 and above.
    <p>
    * @return the value of the \'sboTerm\' attribute as a string (its value
    * will be of the form \'SBO:NNNNNNN\'), or an empty string if
@@ -2477,11 +2498,11 @@ appears in the documentation.
    * This method returns the entire {@link SBO} identifier as a text string in the
    * form <code style=\'margin-right:0; padding-right:0\'>http</code><code style=\'margin-left:0; padding-left:0\'>://identifiers.org/biomodels.sbo/SBO:NNNNNNN\'</code>.
    <p>
-   * {@link SBO} terms are a type of optional annotation, and each different class
-   * of SBML object derived from {@link SBase} imposes its own requirements about
-   * the values permitted for \'sboTerm\'.  Please consult the SBML
-   * Level&nbsp;2 Version&nbsp;4 specification for more information about
-   * the use of {@link SBO} and the \'sboTerm\' attribute.
+   * <p>
+ * {@link SBO} terms are a type of optional annotation, and each different class
+ * of SBML object derived from {@link SBase} imposes its own requirements about
+ * the values permitted for \'sboTerm\'. More details can be found in SBML
+ * specifications for Level&nbsp;2 Version&nbsp;2 and above.
    <p>
    * @return the value of the \'sboTerm\' attribute as an identifiers.org URL,
    * or an empty string if the value is not set.
@@ -2963,7 +2984,7 @@ appears in the documentation.
    * Predicate returning <code>true</code> if this
    * object has a {@link ModelHistory} object attached to it.
    <p>
-   * @return <code>true</code> if the {@link ModelHistory} of this object is set, 
+   * @return <code>true</code> if the {@link ModelHistory} of this object is set,
    * <code>false</code> otherwise.
    <p>
    * @note In SBML Level&nbsp;2, model history annotations were only
@@ -3722,20 +3743,20 @@ s.setNotes(\'&lt;body xmlns=\'http://www.w3.org/1999/xhtml\'&gt;here is my note&
 /**
    * Sets the value of the \'sboTerm\' attribute.
    <p>
-   * Beginning with SBML Level 2 Version 3, objects derived from {@link SBase} have
-   * an optional attribute named \'sboTerm\' for supporting the use of the
-   * Systems Biology Ontology.  In SBML proper, the data type of the
-   * attribute is a string of the form \'SBO:NNNNNNN\', where \'NNNNNNN\' is a
-   * seven digit integer number; libSBML simplifies the representation by
-   * only storing the \'NNNNNNN\' integer portion.  Thus, in libSBML, the
-   * \'sboTerm\' attribute on {@link SBase} has data type <code>int</code>, and {@link SBO} identifiers
-   * are stored simply as integers. 
-   <p>
-   * {@link SBO} terms are a type of optional annotation, and each different class
-   * of SBML object derived from {@link SBase} imposes its own requirements about
-   * the values permitted for \'sboTerm\'.  Please consult the SBML
-   * Level&nbsp;2 Version&nbsp;4 specification for more information about
-   * the use of {@link SBO} and the \'sboTerm\' attribute.
+   * <p>
+ * Beginning with SBML Level 2 Version 2, objects derived from {@link SBase} have
+ * an optional attribute named \'sboTerm\' for supporting the use of the
+ * Systems Biology Ontology.  In SBML proper, the data type of the
+ * attribute is a string of the form \'SBO:NNNNNNN\', where \'NNNNNNN\' is a
+ * seven digit integer number; libSBML simplifies the representation by
+ * only storing the \'NNNNNNN\' integer portion.  Thus, in libSBML, the
+ * \'sboTerm\' attribute on {@link SBase} has data type <code>int</code>, and {@link SBO} identifiers
+ * are stored simply as integers.
+   * <p>
+ * {@link SBO} terms are a type of optional annotation, and each different class
+ * of SBML object derived from {@link SBase} imposes its own requirements about
+ * the values permitted for \'sboTerm\'. More details can be found in SBML
+ * specifications for Level&nbsp;2 Version&nbsp;2 and above.
    <p>
    * @param value the NNNNNNN integer portion of the {@link SBO} identifier.
    <p>
@@ -3758,22 +3779,20 @@ s.setNotes(\'&lt;body xmlns=\'http://www.w3.org/1999/xhtml\'&gt;here is my note&
 /**
    * Sets the value of the \'sboTerm\' attribute by string.
    <p>
-   * Beginning with SBML Level 2 Version 3, objects derived from {@link SBase} have
-   * an optional attribute named \'sboTerm\' for supporting the use of the
-   * Systems Biology Ontology.  In SBML proper, the data type of the
-   * attribute is a string of the form \'SBO:NNNNNNN\', where \'NNNNNNN\' is a
-   * seven digit integer number; libSBML simplifies the representation by
-   * only storing the \'NNNNNNN\' integer portion.  Thus, in libSBML, the
-   * \'sboTerm\' attribute on {@link SBase} has data type <code>int</code>, and {@link SBO} identifiers
-   * are stored simply as integers.  This method lets you set the value of
-   * \'sboTerm\' as a complete string of the form \'SBO:NNNNNNN\', whereas
-   * {@link SBase#setSBOTerm(int value)} allows you to set it using the integer form.
-   <p>
-   * {@link SBO} terms are a type of optional annotation, and each different class
-   * of SBML object derived from {@link SBase} imposes its own requirements about
-   * the values permitted for \'sboTerm\'.  Please consult the SBML
-   * Level&nbsp;2 Version&nbsp;4 specification for more information about
-   * the use of {@link SBO} and the \'sboTerm\' attribute.
+   * <p>
+ * Beginning with SBML Level 2 Version 2, objects derived from {@link SBase} have
+ * an optional attribute named \'sboTerm\' for supporting the use of the
+ * Systems Biology Ontology.  In SBML proper, the data type of the
+ * attribute is a string of the form \'SBO:NNNNNNN\', where \'NNNNNNN\' is a
+ * seven digit integer number; libSBML simplifies the representation by
+ * only storing the \'NNNNNNN\' integer portion.  Thus, in libSBML, the
+ * \'sboTerm\' attribute on {@link SBase} has data type <code>int</code>, and {@link SBO} identifiers
+ * are stored simply as integers.
+   * <p>
+ * {@link SBO} terms are a type of optional annotation, and each different class
+ * of SBML object derived from {@link SBase} imposes its own requirements about
+ * the values permitted for \'sboTerm\'. More details can be found in SBML
+ * specifications for Level&nbsp;2 Version&nbsp;2 and above.
    <p>
    * @param sboid the {@link SBO} identifier string of the form \'SBO:NNNNNNN\'.
    <p>
@@ -4415,9 +4434,9 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers SBase::getObjectVersion() const "
+%javamethodmodifiers SBase::getPackageCoreVersion() const "
 /**
-  * Returns the Version within the SBML Level of the actual object.
+  * Returns the SBML Core Version within the SBML Level of the actual object.
   <p>
   * <p>
  * LibSBML uses the class {@link SBMLDocument} as a top-level container for
@@ -4429,7 +4448,7 @@ appears in the documentation.
  * Level&nbsp;1.  (But, it is created by libSBML no matter whether the
  * model is Level&nbsp;1, Level&nbsp;2 or Level&nbsp;3.)
   <p>
-  * @return the SBML version of this SBML object.
+  * @return the SBML core version of this SBML object.
   */ public
 ";
 
@@ -4475,7 +4494,9 @@ appears in the documentation.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * <p>
@@ -4592,7 +4613,7 @@ void example (SBase sb)
    * Returns the XML element name of this object.
    <p>
    * This is overridden by subclasses to return a string appropriate to the
-   * SBML component.  For example, {@link Model} defines it as returning 
+   * SBML component.  For example, {@link Model} defines it as returning
    * <code>\'model\'</code>, {@link CompartmentType} defines it as returning <code>\'compartmentType\'</code>,
    * and so on.
    */ public
@@ -4649,6 +4670,11 @@ void example (SBase sb)
 /**
    * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
    * package extension with the given package name or URI.
+   * The returned plug-in will be the appropriate type of plugin requested:
+   * calling {@link Model#getPlugin(\'fbc\')} will return an FbcModelPlugin; calling
+   * {@link Parameter#getPlugin(\'comp\')} will return CompSBasePlugin, etc.
+   <p>
+   * If no such plugin exists, null is returned.
    <p>
    * <p>
  * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
@@ -4679,6 +4705,11 @@ void example (SBase sb)
 /**
    * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
    * package extension with the given package name or URI.
+   * The returned plug-in will be the appropriate type of plugin requested:
+   * calling {@link Model#getPlugin(\'fbc\')} will return an FbcModelPlugin; calling
+   * {@link Parameter#getPlugin(\'comp\')} will return CompSBasePlugin, etc.
+   <p>
+   * If no such plugin exists, null is returned.
    <p>
    * <p>
  * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
@@ -4709,6 +4740,11 @@ void example (SBase sb)
 /**
    * Returns the nth plug-in object (extension interface) for an SBML Level&nbsp;3
    * package extension.
+   * The returned plug-in will be the appropriate type of plugin requested:
+   * calling {@link Model#getPlugin(\'fbc\')} will return an FbcModelPlugin; calling
+   * {@link Parameter#getPlugin(\'comp\')} will return CompSBasePlugin, etc.
+   <p>
+   * If no such plugin exists, null is returned.
    <p>
    * <p>
  * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
@@ -4740,6 +4776,11 @@ void example (SBase sb)
 /**
    * Returns the nth plug-in object (extension interface) for an SBML Level&nbsp;3
    * package extension.
+   * The returned plug-in will be the appropriate type of plugin requested:
+   * calling {@link Model#getPlugin(\'fbc\')} will return an FbcModelPlugin; calling
+   * {@link Parameter#getPlugin(\'comp\')} will return CompSBasePlugin, etc.
+   <p>
+   * If no such plugin exists, null is returned.
    <p>
    * <p>
  * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
@@ -4770,7 +4811,7 @@ void example (SBase sb)
 %javamethodmodifiers SBase::getDisabledPlugin(unsigned int n) "
 /**
    * Returns the nth disabled plug-in object (extension interface) for an SBML Level&nbsp;3
-   * package extension.
+   * package extension.  If no such plugin exists, null is returned.
    <p>
    * <p>
  * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
@@ -4808,7 +4849,7 @@ void example (SBase sb)
 %javamethodmodifiers SBase::getDisabledPlugin "
 /**
    * Returns the nth disabled plug-in object (extension interface) for an SBML Level&nbsp;3
-   * package extension.
+   * package extension.  If no such plugin exists, null is returned.
    <p>
    * <p>
  * SBML Level&nbsp;3 consists of a <em>Core</em> definition that can be extended
@@ -5063,7 +5104,7 @@ newModel.addSpecies(s1);
    <p>
    * @param pkgName the name of the package.
    <p>
-   * @return <code>true</code> if the given package is enabled within this object, 
+   * @return <code>true</code> if the given package is enabled within this object,
    * <code>false</code> otherwise.
    <p>
    * @see #isPackageURIEnabled(String)
@@ -5099,7 +5140,7 @@ newModel.addSpecies(s1);
    <p>
    * @param pkgName the name of the package.
    <p>
-   * @return <code>true</code> if the given package is enabled within this object, 
+   * @return <code>true</code> if the given package is enabled within this object,
    * <code>false</code> otherwise.
    <p>
    * @deprecated <div class=\'deprecated\'>Replaced in libSBML 5.2.0 by
@@ -5412,6 +5453,11 @@ newModel.addSpecies(s1);
 
 
 %javamethodmodifiers SBase::hasOptionalElements() const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBase::updateSBMLNamespace(const std::string& package, unsigned int level, unsigned int version) "
 /** * @internal */ public
 ";
 
@@ -6123,7 +6169,9 @@ appears in the documentation.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -6158,7 +6206,9 @@ appears in the documentation.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * Classes that inherit from the {@link ListOf} class should override this method
@@ -6191,6 +6241,11 @@ appears in the documentation.
 
 
 %javamethodmodifiers ListOf::enablePackageInternal(const std::string& pkgURI, const std::string& pkgPrefix, bool flag) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ListOf::updateSBMLNamespace(const std::string& package, unsigned int level, unsigned int version) "
 /** * @internal */ public
 ";
 
@@ -6240,7 +6295,7 @@ appears in the documentation.
  * within the model, the list must not be empty; that is, it must have
  * length one or more.  The following are the components and lists
  * permitted in different Levels and Versions of SBML in
- * version 5.15.2
+ * version 5.17.0
  * of libSBML:
  * <ul>
  * <li> In SBML Level 1, the components are: {@link UnitDefinition}, {@link Compartment},
@@ -6349,7 +6404,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <h2>Consistency and adherence to SBML specifications</h2>
  <p>
  * To make it easier for applications to do whatever they need,
- * libSBML version 5.15.2
+ * libSBML version 5.17.0
  * is relatively lax when it comes to enforcing correctness and
  * completeness of models <em>during</em> model construction and editing.
  * Essentially, libSBML <em>will</em> <em>not</em> in most cases check automatically
@@ -6431,7 +6486,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * compartments having a \'spatialDimensions\' attribute value of <code>\'2\'</code>, and
  * \'lengthUnits\' for compartments having a \'spatialDimensions\' attribute
  * value of <code>\'1\'.</code>  The attributes are not applicable to compartments
- * whose \'spatialDimensions\' attribute values are <em>not</em> one of <code>\'1\'</code>, 
+ * whose \'spatialDimensions\' attribute values are <em>not</em> one of <code>\'1\'</code>,
  * <code>\'2\'</code> or <code>\'3\'.</code>
  <p>
  * If a given {@link Compartment} object instance does not provide a value for its
@@ -6480,7 +6535,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * not define separate values for their \'conversionFactor\' attributes.  The
  * value of this attribute must refer to a {@link Parameter} object instance
  * defined in the model.  The {@link Parameter} object in question must be a
- * constant; ie it must have its \'constant\' attribute value set to 
+ * constant; ie it must have its \'constant\' attribute value set to
  * <code>\'true\'.</code>
  <p>
  * If a given {@link Species} object definition does not specify a conversion
@@ -6599,7 +6654,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    <p>
    * @param id string representing the id of the object to find.
    <p>
-   * @return pointer to the first element found with the given <code>id</code>, or 
+   * @return pointer to the first element found with the given <code>id</code>, or
    * <code>null</code> if no such object is found.
    */ public
 ";
@@ -8328,7 +8383,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * created and <code>null</code> is returned instead.
    <p>
    * @return the {@link SpeciesReference} object created.  If a {@link Reaction} does not
-   * exist for this model, a new {@link SpeciesReference} is <em>not</em> created and 
+   * exist for this model, a new {@link SpeciesReference} is <em>not</em> created and
    * <code>null</code> is returned.
    */ public
 ";
@@ -8351,7 +8406,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * created and <code>null</code> is returned instead.
    <p>
    * @return the {@link SpeciesReference} object created. If a {@link Reaction} does not
-   * exist for this model, a new {@link SpeciesReference} is <em>not</em> created and 
+   * exist for this model, a new {@link SpeciesReference} is <em>not</em> created and
    * <code>null</code> is returned.
    */ public
 ";
@@ -8375,7 +8430,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * created and <code>null</code> is returned instead.
    <p>
    * @return the {@link SpeciesReference} object created.  If a {@link Reaction} does not
-   * exist for this model, a new {@link SpeciesReference} is <em>not</em> created and 
+   * exist for this model, a new {@link SpeciesReference} is <em>not</em> created and
    * <code>null</code> is returned.
    */ public
 ";
@@ -9891,6 +9946,11 @@ sp.setId(&#34;BestSpeciesEver&#34;);
 ";
 
 
+%javamethodmodifiers Model::dealWithL3Fast(unsigned int targetVersion) "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers Model::addModifiers "
 /** * @internal */ public
 ";
@@ -10008,7 +10068,9 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -10112,6 +10174,11 @@ sp.setId(&#34;BestSpeciesEver&#34;);
 
 
 %javamethodmodifiers Model::createFormulaUnitsData "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers Model::createFormulaUnitsData(const std::string& id, int typecode) "
 /** * @internal */ public
 ";
 
@@ -10669,6 +10736,11 @@ sp.setId(&#34;BestSpeciesEver&#34;);
 ";
 
 
+%javamethodmodifiers Model::updateSBMLNamespace(const std::string& package, unsigned int level, unsigned int version) "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers Model::readOtherXML(XMLInputStream& stream) "
 /** * @internal */ public
 ";
@@ -10859,6 +10931,11 @@ sp.setId(&#34;BestSpeciesEver&#34;);
 ";
 
 
+%javamethodmodifiers Model::createConstraintUnitsData(UnitFormulaFormatter * unitFormatter) "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers Model::createRuleUnitsData(UnitFormulaFormatter * unitFormatter) "
 /** * @internal */ public
 ";
@@ -10875,6 +10952,11 @@ sp.setId(&#34;BestSpeciesEver&#34;);
 
 
 %javamethodmodifiers Model::createDelayUnitsData(UnitFormulaFormatter* unitFormatter, Event * e, const std::string& eventId) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers Model::createTriggerUnitsData(UnitFormulaFormatter* unitFormatter, Event * e, const std::string& eventId) "
 /** * @internal */ public
 ";
 
@@ -11094,7 +11176,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    <p>
    * <p>
  * This \'default Level\' corresponds to the most recent SBML specification
- * Level available at the time libSBML version 5.15.2 was released.  The default Level is used by
+ * Level available at the time libSBML version 5.17.0 was released.  The default Level is used by
  * {@link SBMLDocument} if no Level is explicitly specified at the time of the
  * construction of an {@link SBMLDocument} instance.
    <p>
@@ -11114,7 +11196,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * <p>
  * This \'default Version\' corresponds to the most recent Version within the
  * most recent Level of SBML available at the time libSBML version
- * 5.15.2 was released.  The default Version is
+ * 5.17.0 was released.  The default Version is
  * used by {@link SBMLDocument} if no Version is explicitly specified at the time of
  * the construction of an {@link SBMLDocument} instance. 
    <p>
@@ -11330,7 +11412,7 @@ appears in the documentation.
    <p>
    * @note This function will check the consistency of a model before
    * attemptimg the transformation.  If the model is not valid SBML, the
-   * transformation will not be performed and the function will return 
+   * transformation will not be performed and the function will return
    * <code>false.</code>
    */ public
 ";
@@ -11353,13 +11435,13 @@ appears in the documentation.
    <p>
    * @note This function will check the consistency of a model before
    * attemptimg the transformation.  If the model is not valid SBML, the
-   * transformation will not be performed and the function will return 
+   * transformation will not be performed and the function will return
    * <code>false.</code>  As part of that process, this method will check that it has
    * values for any components referred to by the <code>&lt;math&gt;</code>
    * elements of {@link InitialAssignment} objects.  In cases where not all of the
    * values have been declared (e.g., if the mathematical expression refers
    * to model entities that have no declared values), the {@link InitialAssignment}
-   * in question will <em>not</em> be removed and this method will return 
+   * in question will <em>not</em> be removed and this method will return
    * <code>false.</code>
    */ public
 ";
@@ -11384,8 +11466,9 @@ appears in the documentation.
    * {@link SBMLDocument#checkL2v2Compatibility()},
    * {@link SBMLDocument#checkL2v3Compatibility()},
    * {@link SBMLDocument#checkL2v4Compatibility()},
-   * {@link SBMLDocument#checkL2v5Compatibility()}, and
-   * {@link SBMLDocument#checkL3v1Compatibility()}.
+   * {@link SBMLDocument#checkL2v5Compatibility()},
+   * {@link SBMLDocument#checkL3v1Compatibility()}, and
+   * {@link SBMLDocument#checkL3v2Compatibility()}.
    <p>
    * The valid combinations of SBML Level and Version as of this release
    * of libSBML are the following: 
@@ -11939,7 +12022,7 @@ appears in the documentation.
    * the severity of the problem.  The possible severity levels range from
    * informational messages to fatal errors.
    <p>
-   * @return the error or warning indexed by integer <code>n</code>, or return 
+   * @return the error or warning indexed by integer <code>n</code>, or return
    * <code>null</code> if <code>n &gt; (getNumErrors() - 1)</code>.
    <p>
    * @param n the integer index of the error sought.
@@ -11955,7 +12038,7 @@ appears in the documentation.
    * encountered during parsing, consistency checking, or attempted
    * translation of this model.
    <p>
-   * @return the error or warning indexed by integer <code>n</code>, or return 
+   * @return the error or warning indexed by integer <code>n</code>, or return
    * <code>null</code> if <code>n &gt; (getNumErrors(severity) - 1)</code>.
    <p>
    * @param n the integer index of the error sought.
@@ -12106,7 +12189,9 @@ appears in the documentation.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -12215,9 +12300,6 @@ appears in the documentation.
    * Sets the <code>required</code> attribute value of the given package
    * extension.
    <p>
-   * @note The name of package must not be given if the package is not
-   * enabled.
-   <p>
    * @param package the name or URI of the package extension.
    * @param flag Boolean value indicating whether the package is required.
    <p>
@@ -12238,9 +12320,6 @@ appears in the documentation.
    * Returns the <code>required</code> attribute of the given package
    * extension.
    <p>
-   * @note The name of package must not be given if the package is not
-   * enabled.
-   <p>
    * @param package the name or URI of the package extension.
    <p>
    * @return Boolean flag indicating whether the package is flagged as
@@ -12253,9 +12332,6 @@ appears in the documentation.
 /**
    * Returns <code>true</code> if the required attribute of the given package extension
    * is defined, otherwise returns <code>false.</code>
-   <p>
-   * @note The name of package must not be given if the package is not
-   * enabled.
    <p>
    * @param package the name or URI of the package extension.
    <p>
@@ -12303,9 +12379,6 @@ appears in the documentation.
    * Sets the value of the <code>required</code> attribute for the given
    * package.
    <p>
-   * @note The name of package must not be given if the package is not
-   * enabled.
-   <p>
    * @param package the name or URI of the package extension.
    * @param flag a Boolean value.
    <p>
@@ -12330,9 +12403,6 @@ appears in the documentation.
    * Returns the <code>required</code> attribute of the given package
    * extension.
    <p>
-   * @note The name of package must not be given if the package is not
-   * enabled.
-   <p>
    * @param package the name or URI of the package extension.
    <p>
    * @return a Boolean value indicating whether the package is flagged as
@@ -12349,9 +12419,6 @@ appears in the documentation.
 /**
    * Returns <code>true</code> if the required attribute of the given package extension
    * is defined, otherwise returns <code>false.</code>
-   <p>
-   * @note The name of package must not be given if the package is not
-   * enabled.
    <p>
    * @param package the name or URI of the package extension.
    <p>
@@ -13300,7 +13367,9 @@ appears in the documentation.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -13517,7 +13586,9 @@ appears in the documentation.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for the objects contained in this ListOf:
@@ -13533,7 +13604,7 @@ appears in the documentation.
 /**
    * Returns the XML element name of this object.
    <p>
-   * For {@link ListOfFunctionDefinitions}, the XML element name is 
+   * For {@link ListOfFunctionDefinitions}, the XML element name is
    * <code>\'listOfFunctionDefinitions\'.</code>
    <p>
    * @return the name of this element, i.e., <code>\'listOfFunctionDefinitions\'.</code>
@@ -13622,7 +13693,7 @@ appears in the documentation.
    * Removes item in this {@link ListOfFunctionDefinitions} items with the given identifier.
    <p>
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier <code>sid</code>, then 
+   * If none of the items in this list have the identifier <code>sid</code>, then
    * <code>null</code> is returned.
    <p>
    * @param sid the identifier of the item to remove.
@@ -13655,15 +13726,15 @@ appears in the documentation.
  * <li>{@link libsbmlConstants#UNIT_KIND_METER UNIT_KIND_METER} <code>==</code> {@link libsbmlConstants#UNIT_KIND_METRE UNIT_KIND_METRE}
  * </ul>
  <p>
- * In the two cases above, C equality comparison would yield <code>false</code>
+ * In the two cases above, C equality comparison would yield <code>0</code> (false)
  * (because each of the above is a distinct enumeration value), but
  * this function returns <code>true.</code>
  <p>
  * @param uk1 a <code>UNIT_KIND_</code> value.
  * @param uk2 a second <code>UNIT_KIND_</code> value to compare to <code>uk1</code>.
  <p>
- * @return nonzero (for <code>true</code>) if <code>uk1</code> is logically equivalent to 
- * <code>uk2</code>, zero (for <code>false</code>) otherwise.
+ * @return <code>1</code> (true) if <code>uk1</code> is logically equivalent to 
+ * <code>uk2</code>, <code>0</code> (false) otherwise.
  <p>
  * @note For more information about the libSBML unit codes, please refer to
  * the class documentation for {@link Unit}.
@@ -13715,8 +13786,8 @@ appears in the documentation.
  * @param level the Level of SBML.
  * @param version the Version within the Level of SBML.
  <p>
- * @return nonzero (for <code>true</code>) if string is the name of a valid
- * <code>UNIT_KIND_</code> value, zero (for <code>false</code>) otherwise.
+ * @return 1 (true) if string is the name of a valid
+ * <code>UNIT_KIND_</code> value, <code>0</code> (false) otherwise.
  <p>
  * @note For more information about the libSBML unit codes, please refer to
  * the class documentation for {@link Unit}.
@@ -13770,7 +13841,7 @@ appears in the documentation.
  <p>
  * A few small differences exist between the Level&nbsp;3 list of base
  * units and the list defined in other Level/Version combinations of SBML.
- * Specifically, Levels of SBML before Level&nbsp;3 do not define 
+ * Specifically, Levels of SBML before Level&nbsp;3 do not define
  * <code>avogadro</code>; conversely, Level&nbsp;2 Version&nbsp;1 defines <code>Celsius</code>,
  * and Level&nbsp;1 defines <code>celsius</code>, <code>meter</code>, and <code>liter</code>, none of
  * which are available in Level&nbsp;3.  In libSBML, each of the predefined
@@ -13794,7 +13865,7 @@ appears in the documentation.
  * define <code>foot</code> as a measure of length in terms of a <code>metre.</code>  The
  * \'multiplier\' attribute is optional in SBML Level&nbsp;2, where it has a
  * default value of <code>1</code> (one); in SBML Level&nbsp;3, the attribute is
- * mandatory and has not default value.
+ * mandatory and has no default value.
  <p>
  * * <h3><a class=\'anchor\' name=\'UnitKind_t\'>Unit identification codes</a></h3>
  <p>
@@ -13804,9 +13875,9 @@ appears in the documentation.
  * units.
  <p>
  * In SBML Level&nbsp;2 Versions before
- * Version&nbsp;3, there existed an enumeration of units called 
+ * Version&nbsp;3, there existed an enumeration of units called
  * <code>UnitKind.</code>  In Version&nbsp;3, this enumeration was removed and the
- * identifier class <code>UnitSId</code> redefined to include the previous 
+ * identifier class <code>UnitSId</code> redefined to include the previous
  * <code>UnitKind</code> values as reserved symbols.  This change has no net effect on
  * permissible models, their representation or their syntax.  The purpose
  * of the change in the SBML specification was simply to clean up an
@@ -13832,7 +13903,7 @@ appears in the documentation.
  * SBML Level&nbsp;1 models.
  <p>
  * <li> The unit <code>\'Celsius\'</code> is included because of its presence in
- * specifications of SBML prior to SBML Level&nbsp;2 Version&nbsp;3.
+ * specifications of SBML prior to SBML Level&nbsp;2 Version&nbsp;2.
  <p>
  * <li> The unit <code>avogadro</code> was introduced in SBML Level&nbsp;3, and
  * is only permitted for use in SBML Level&nbsp;3 models.
@@ -14197,7 +14268,7 @@ to indicate an invalid or unset unit.</td></tr>
    * @warning <span class=\'warning\'>The predefined unit <code>Celsius</code> was
    * removed from the list of predefined units in SBML Level&nbsp;2
    * Version&nbsp;2 at the same time that the \'offset\' attribute was removed
-   * from {@link Unit} definitions.  LibSBML methods such as this one related to 
+   * from {@link Unit} definitions.  LibSBML methods such as this one related to
    * <code>Celsius</code> are retained in order to support SBML Level&nbsp;2
    * Version&nbsp;1, but their use is strongly discouraged.</span>
    */ public
@@ -14216,7 +14287,7 @@ to indicate an invalid or unset unit.</td></tr>
 
 %javamethodmodifiers Unit::isDimensionless() const "
 /**
-   * Predicate for testing whether this {@link Unit} is of the kind 
+   * Predicate for testing whether this {@link Unit} is of the kind
    * <code>dimensionless.</code>
    <p>
    * @return <code>true</code> if the kind of this {@link Unit} is <code>dimensionless</code>, <code>false</code>
@@ -14329,9 +14400,8 @@ to indicate an invalid or unset unit.</td></tr>
 /**
    * Predicate for testing whether this {@link Unit} is of the kind <code>litre</code>
    <p>
-   * @return <code>true</code> if the kind of this {@link Unit} is <code>litre</code> or \'liter\', 
-   * <code>false</code> 
-   * otherwise.
+   * @return <code>true</code> if the kind of this {@link Unit} is <code>litre</code> or \'liter\',
+   * <code>false</code> otherwise.
    */ public
 ";
 
@@ -14360,7 +14430,7 @@ to indicate an invalid or unset unit.</td></tr>
 /**
    * Predicate for testing whether this {@link Unit} is of the kind <code>metre</code>
    <p>
-   * @return <code>true</code> if the kind of this {@link Unit} is <code>metre</code> or \'meter\', 
+   * @return <code>true</code> if the kind of this {@link Unit} is <code>metre</code> or \'meter\',
    * <code>false</code> 
    * otherwise.
    */ public
@@ -14501,7 +14571,7 @@ to indicate an invalid or unset unit.</td></tr>
 /**
    * Predicate to test whether the \'kind\' attribute of this {@link Unit} is set.
    <p>
-   * @return <code>true</code> if the \'kind\' attribute of this {@link Unit} is set, 
+   * @return <code>true</code> if the \'kind\' attribute of this {@link Unit} is set,
    * <code>false</code> otherwise.
    */ public
 ";
@@ -14657,7 +14727,7 @@ to indicate an invalid or unset unit.</td></tr>
 /**
    * Sets the \'offset\' attribute value of this {@link Unit}.
    <p>
-   * @param value the float-point value to which the attribute \'offset\'
+   * @param value the floating point value to which the attribute \'offset\'
    * should set.
    <p>
    * <p>
@@ -14785,7 +14855,9 @@ to indicate an invalid or unset unit.</td></tr>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -14820,21 +14892,19 @@ to indicate an invalid or unset unit.</td></tr>
 
 %javamethodmodifiers Unit::isBuiltIn(const std::string& name, unsigned int level) "
 /**
-   * Predicate to test whether a given string is the name of a
-   * predefined SBML unit.
+   * Predicate to test whether a given string is the name of a built-in SBML
+   * unit, depending on the SBML level, since new predefined units were added
+   * between level 2 versions 1 and 2, and then all predefined units were removed
+   * again in SBML Level 3.
    <p>
-   * @param name a string to be tested against the predefined unit names.
+   * @param name a string to be tested against the built-in unit names.
+   * @param level the level of SBML one is checking.
    <p>
-   * @param level the Level of SBML for which the determination should be
-   * made.  This is necessary because there are a few small differences
-   * in allowed units between SBML Level&nbsp;1 and Level&nbsp;2.
-   <p>
-   * @return <code>true</code> if <code>name</code> is one of the five SBML predefined unit
-   * identifiers (<code>\'substance\'</code>, <code>\'volume\'</code>, <code>\'area\'</code>, <code>\'length\'</code> or 
-   * <code>\'time\'</code>), <code>false</code> otherwise.
-   <p>
-   * @note The predefined unit identifiers <code>\'length\'</code> and <code>\'area\'</code> were
-   * added in Level&nbsp;2 Version&nbsp;1.
+   * @return <code>true</code> if <code>name</code> is one of <code>\'substance\'</code>, <code>\'volume\'</code>,
+   * or <code>\'time\'</code> and the <code>level</code> is <code>1</code>; or if <code>name</code> is one of
+   * <code>\'substance\'</code>, <code>\'volume\'</code>, <code>\'area\'</code>, <code>\'length\'</code>, or <code>\'time\'</code> and
+   * the <code>level</code> is <code>2</code>; <code>false</code> otherwise (including all values when
+   * <code>level</code> is <code>3</code>).
    <p>
    * 
    */ public
@@ -14912,8 +14982,8 @@ to indicate an invalid or unset unit.</td></tr>
    * @param unit2 the second {@link Unit} object to compare.
    <p>
    * @return <code>true</code> if the \'kind\' and \'exponent\' attributes of unit1 are
-   * identical to the kind and exponent attributes of unit2, <code>false</code>
-   * otherwise.
+   * identical to the kind and exponent attributes of unit2, or if the kind
+   * attributes of both are <code>dimensionless</code>; <code>false</code> otherwise.
    <p>
    * 
    <p>
@@ -15208,7 +15278,9 @@ to indicate an invalid or unset unit.</td></tr>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for objects contained in this list:
@@ -15368,7 +15440,7 @@ to indicate an invalid or unset unit.</td></tr>
  * <ul>
  <p>
  * <li> The \'id\' of a {@link UnitDefinition} must <em>not</em> contain a value from the
- * list of SBML\'s predefined base unit names (i.e., the strings <code>gram</code>, 
+ * list of SBML\'s predefined base unit names (i.e., the strings <code>gram</code>,
  * <code>litre</code>, etc.).  In SBML Level&nbsp;3, this list consists of the
  * following:
  <p>
@@ -15429,7 +15501,7 @@ to indicate an invalid or unset unit.</td></tr>
 
  <p>
  * Also, SBML Level&nbsp;2 imposes two limitations on redefining the
- * predefined unit <code>substance</code>, <code>volume</code>, <code>area</code>, <code>length</code>, and 
+ * predefined unit <code>substance</code>, <code>volume</code>, <code>area</code>, <code>length</code>, and
  * <code>time:</code> (1) The {@link UnitDefinition} of a predefined SBML unit can only contain
  * a single {@link Unit} object within it.  (2) The value of the \'kind\' attribute
  * in a {@link Unit} instance must be drawn from one of the values in the second
@@ -16178,7 +16250,7 @@ to indicate an invalid or unset unit.</td></tr>
    * variant of the predefined unit identifier <code>\'area\'.</code>
    <p>
    * @return <code>true</code> if this {@link UnitDefinition} is a variant of the predefined
-   * unit <code>area</code>, meaning square metres with only abritrary variations
+   * unit <code>area</code>, meaning square metres with only arbitrary variations
    * in scale or multiplier values; <code>false</code> otherwise.
    */ public
 ";
@@ -16190,7 +16262,7 @@ to indicate an invalid or unset unit.</td></tr>
    * variant of the predefined unit identifier <code>\'length\'.</code>
    <p>
    * @return <code>true</code> if this {@link UnitDefinition} is a variant of the predefined
-   * unit <code>length</code>, meaning metres with only abritrary variations in scale
+   * unit <code>length</code>, meaning metres with only arbitrary variations in scale
    * or multiplier values; <code>false</code> otherwise.
    */ public
 ";
@@ -16203,7 +16275,7 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * @return <code>true</code> if this {@link UnitDefinition} is a variant of the predefined
    * unit <code>substance</code>, meaning moles or items (and grams or kilograms from
-   * SBML Level&nbsp;2 Version&nbsp;2 onwards) with only abritrary variations
+   * SBML Level&nbsp;2 Version&nbsp;2 onwards) with only arbitrary variations
    * in scale or multiplier values; <code>false</code> otherwise.
    */ public
 ";
@@ -16215,7 +16287,7 @@ to indicate an invalid or unset unit.</td></tr>
    * variant of the predefined unit identifier <code>\'time\'.</code>
    <p>
    * @return <code>true</code> if this {@link UnitDefinition} is a variant of the predefined
-   * unit <code>time</code>, meaning seconds with only abritrary variations in scale or
+   * unit <code>time</code>, meaning seconds with only arbitrary variations in scale or
    * multiplier values; <code>false</code> otherwise.
    */ public
 ";
@@ -16227,7 +16299,7 @@ to indicate an invalid or unset unit.</td></tr>
    * variant of the predefined unit identifier <code>\'volume\'.</code>
    <p>
    * @return <code>true</code> if this {@link UnitDefinition} is a variant of the predefined
-   * unit <code>volume</code>, meaning litre or cubic metre with only abritrary
+   * unit <code>volume</code>, meaning litre or cubic metre with only arbitrary
    * variations in scale or multiplier values; <code>false</code> otherwise.
    */ public
 ";
@@ -16238,8 +16310,8 @@ to indicate an invalid or unset unit.</td></tr>
    * Convenience function for testing if a given unit definition is a
    * variant of the unit <code>\'dimensionless\'.</code>
    <p>
-   * @return <code>true</code> if this {@link UnitDefinition} is a variant of 
-   * <code>dimensionless</code>, meaning dimensionless with only abritrary variations in
+   * @return <code>true</code> if this {@link UnitDefinition} is a variant of
+   * <code>dimensionless</code>, meaning dimensionless with only arbitrary variations in
    * scale or multiplier values; <code>false</code> otherwise.
    */ public
 ";
@@ -16251,7 +16323,7 @@ to indicate an invalid or unset unit.</td></tr>
    * variant of the predefined unit identifier <code>\'mass\'.</code>
    <p>
    * @return <code>true</code> if this {@link UnitDefinition} is a variant of mass units,
-   * meaning gram or kilogram with only abritrary variations in scale or
+   * meaning gram or kilogram with only arbitrary variations in scale or
    * multiplier values; <code>false</code> otherwise.
    */ public
 ";
@@ -16401,6 +16473,11 @@ to indicate an invalid or unset unit.</td></tr>
 ";
 
 
+%javamethodmodifiers UnitDefinition::updateSBMLNamespace(const std::string& package, unsigned int level, unsigned int version) "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers UnitDefinition::getTypeCode() const "
 /**
    * Returns the libSBML type code for this object instance.
@@ -16413,7 +16490,9 @@ to indicate an invalid or unset unit.</td></tr>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -16514,8 +16593,8 @@ to indicate an invalid or unset unit.</td></tr>
    * @param ud1 the first {@link UnitDefinition} object to compare.
    * @param ud2 the second {@link UnitDefinition} object to compare.
    <p>
-   * @return <code>true</code> if all the {@link Unit} objects in ud1 are identical to the
-   * {@link Unit} objects of ud2, <code>false</code> otherwise.
+   * @return <code>true</code> if all the {@link Unit} objects in <code>ud1</code> are identical to the
+   * {@link Unit} objects of <code>ud2</code>, <code>false</code> otherwise.
    <p>
    * 
    <p>
@@ -16541,8 +16620,8 @@ to indicate an invalid or unset unit.</td></tr>
    <p>
    * @param ud2 the second {@link UnitDefinition} object to compare.
    <p>
-   * @return <code>true</code> if all the {@link Unit} objects in ud1 are equivalent
-   * to the {@link Unit} objects in ud2, <code>false</code> otherwise.
+   * @return <code>true</code> if all the {@link Unit} objects in <code>ud1</code> are equivalent
+   * to the {@link Unit} objects in <code>ud2</code>, <code>false</code> otherwise.
    <p>
    * 
    <p>
@@ -16796,7 +16875,9 @@ to indicate an invalid or unset unit.</td></tr>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for objects contained in this list:
@@ -16812,7 +16893,7 @@ to indicate an invalid or unset unit.</td></tr>
 /**
    * Returns the XML element name of this object.
    <p>
-   * For {@link ListOfUnitDefinitions}, the XML element name is 
+   * For {@link ListOfUnitDefinitions}, the XML element name is
    * <code>\'listOfUnitDefinitions\'.</code>
    <p>
    * @return the name of this element, i.e., <code>\'listOfUnitDefinitions\'.</code>
@@ -16918,7 +16999,7 @@ to indicate an invalid or unset unit.</td></tr>
    * Removes item in this {@link ListOfUnitDefinitions} items with the given identifier.
    <p>
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier <code>sid</code>, then 
+   * If none of the items in this list have the identifier <code>sid</code>, then
    * <code>null</code> is returned.
    <p>
    * @param sid the identifier of the item to remove.
@@ -17609,7 +17690,9 @@ to indicate an invalid or unset unit.</td></tr>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -17774,7 +17857,9 @@ to indicate an invalid or unset unit.</td></tr>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for the objects contained in this {@link ListOf}
@@ -17790,7 +17875,7 @@ to indicate an invalid or unset unit.</td></tr>
 /**
    * Returns the XML element name of this object.
    <p>
-   * For {@link ListOfCompartmentTypes}, the XML element name is 
+   * For {@link ListOfCompartmentTypes}, the XML element name is
    * <code>\'listOfCompartmentTypes\'.</code>
    <p>
    * @return the name of this element, i.e., <code>\'listOfCompartmentTypes\'.</code>
@@ -17879,7 +17964,7 @@ to indicate an invalid or unset unit.</td></tr>
    * Removes item in this {@link ListOfCompartmentTypes} items with the given identifier.
    <p>
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier <code>sid</code>, then 
+   * If none of the items in this list have the identifier <code>sid</code>, then
    * <code>null</code> is returned.
    <p>
    * @param sid the identifier of the item to remove.
@@ -18567,7 +18652,9 @@ to indicate an invalid or unset unit.</td></tr>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -18729,7 +18816,9 @@ to indicate an invalid or unset unit.</td></tr>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for objects contained in this list:
@@ -18745,7 +18834,7 @@ to indicate an invalid or unset unit.</td></tr>
 /**
    * Returns the XML element name of this object.
    <p>
-   * For {@link ListOfSpeciesTypes}, the XML element name is 
+   * For {@link ListOfSpeciesTypes}, the XML element name is
    * <code>\'listOfSpeciesTypes\'.</code>
    <p>
    * @return the name of this element, i.e., <code>\'listOfSpeciesTypes\'.</code>
@@ -18834,7 +18923,7 @@ to indicate an invalid or unset unit.</td></tr>
    * Removes item in this {@link ListOfSpeciesTypes} items with the given identifier.
    <p>
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier <code>sid</code>, then 
+   * If none of the items in this list have the identifier <code>sid</code>, then
    * <code>null</code> is returned.
    <p>
    * @param sid the identifier of the item to remove.
@@ -18886,7 +18975,7 @@ to indicate an invalid or unset unit.</td></tr>
  * there are no restrictions on the permitted values of the
  * \'spatialDimensions\' attribute, and there are no default values.  In SBML
  * Level&nbsp;2, the value must be a positive <code>integer</code>, and the default
- * value is <code>3</code>; the permissible values in SBML Level&nbsp;2 are <code>3</code>, 
+ * value is <code>3</code>; the permissible values in SBML Level&nbsp;2 are <code>3</code>,
  * <code>2</code>, <code>1</code>, and <code>0</code> (for a point).
  <p>
  * Another optional attribute on {@link Compartment} is \'size\', representing the 
@@ -18915,7 +19004,7 @@ to indicate an invalid or unset unit.</td></tr>
  * Finally, the {@link Compartment} attribute named \'constant\' is used to
  * indicate whether the compartment\'s size stays constant after simulation
  * begins.  A value of <code>true</code> indicates the compartment\'s \'size\' cannot be
- * changed by any other construct except {@link InitialAssignment}; a value of 
+ * changed by any other construct except {@link InitialAssignment}; a value of
  * <code>false</code> indicates the compartment\'s \'size\' can be changed by other
  * constructs in SBML.  In SBML Level&nbsp;2, there is an additional
  * explicit restriction that if \'spatialDimensions\'=<code>\'0\'</code>, the value
@@ -18930,7 +19019,7 @@ to indicate an invalid or unset unit.</td></tr>
  * of units allowed as values of the attribute \'units\', interact with the
  * number of spatial dimensions of the compartment.  The value of the \'units\'
  * attribute of a {@link Compartment} object must
- * be one of the base units (see {@link Unit}), or the predefined unit identifiers 
+ * be one of the base units (see {@link Unit}), or the predefined unit identifiers
  * <code>volume</code>, <code>area</code>, <code>length</code> or <code>dimensionless</code>, or a new unit defined by a
  * {@link UnitDefinition} object in the enclosing
  * {@link Model}, subject to the restrictions detailed in the following table:
@@ -20232,7 +20321,7 @@ to indicate an invalid or unset unit.</td></tr>
 /**
    * Sets the \'units\' attribute of this {@link Compartment} object.
    <p>
-   * @param sid the identifier of the defined units to use.  If <code>sid</code> is 
+   * @param sid the identifier of the defined units to use.  If <code>sid</code> is
    * <code>null</code>, then this method will return
    * {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}.
    <p>
@@ -20479,8 +20568,8 @@ to indicate an invalid or unset unit.</td></tr>
 /**
    * Unsets the value of the \'size\' attribute of this {@link Compartment} object.
    <p>
-   * In SBML Level&nbsp;1, a compartment\'s volume has a default value (
-   * <code>1.0</code>) and therefore <em>should always be set</em>.  Calling this method
+   * In SBML Level&nbsp;1, a compartment\'s volume has a default value
+   * (<code>1.0</code>) and therefore <em>should always be set</em>.  Calling this method
    * on a Level&nbsp;1 model resets the value to <code>1.0</code> rather than actually
    * unsetting it.  In Level&nbsp;2, a compartment\'s \'size\' is optional with
    * no default value, and unsetting it will result in the compartment having
@@ -20650,7 +20739,7 @@ to indicate an invalid or unset unit.</td></tr>
  * whole.  In cases where the
  * {@link Compartment} object has not
  * yet been added to a model, or the model itself is incomplete, unit
- * analysis is not possible, and consequently this method will return 
+ * analysis is not possible, and consequently this method will return
  * <code>null.</code>
    <p>
    * @see #isSetUnits()
@@ -20696,7 +20785,7 @@ to indicate an invalid or unset unit.</td></tr>
  * whole.  In cases where the
  * {@link Compartment} object has not
  * yet been added to a model, or the model itself is incomplete, unit
- * analysis is not possible, and consequently this method will return 
+ * analysis is not possible, and consequently this method will return
  * <code>null.</code>
    <p>
    * @see #isSetUnits()
@@ -20717,7 +20806,9 @@ to indicate an invalid or unset unit.</td></tr>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -20900,7 +20991,9 @@ to indicate an invalid or unset unit.</td></tr>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for the objects contained in this {@link ListOf}
@@ -21117,7 +21210,7 @@ to indicate an invalid or unset unit.</td></tr>
  <p>
  * In SBML Level&nbsp;2, if the \'substanceUnits\' attribute is not set on a
  * given {@link Species} object instance, then the unit of <em>amount</em> for that
- * species is taken from the predefined SBML unit identifier 
+ * species is taken from the predefined SBML unit identifier
  * <code>\'substance\'.</code>  The value assigned to \'substanceUnits\' must be chosen from
  * one of the following possibilities: one of the base unit identifiers
  * defined in SBML, the built-in unit identifier <code>\'substance\'</code>, or the
@@ -21736,7 +21829,7 @@ attributes.</caption>
 /**
    * Get the value of the \'initialAmount\' attribute.
    <p>
-   * @return the initialAmount of this {@link Species}, as a float-point number.
+   * @return the initialAmount of this {@link Species}, as a floating point number.
    */ public
 ";
 
@@ -21745,7 +21838,7 @@ attributes.</caption>
 /**
    * Get the value of the \'initialConcentration\' attribute.
    <p>
-   * @return the initialConcentration of this {@link Species},, as a float-point
+   * @return the initialConcentration of this {@link Species},, as a floating point
    * number.
    <p>
    * @note The attribute \'initialConcentration\' is only available in SBML
@@ -21791,8 +21884,8 @@ attributes.</caption>
  * initial concentration.  This attribute was removed in SBML Level&nbsp;2
  * Version&nbsp;3.  LibSBML retains this attribute for compatibility with
  * older definitions of Level&nbsp;2, but its use is strongly discouraged
- * because it is incompatible with Level&nbsp;2 Version&nbsp;3 and
- * Level&nbsp;2 Version&nbsp;4.</span>
+ * because it is incompatible with levels and versions of SBML beyond
+ * Level&nbsp;2 Version&nbsp;2.</span>
    */ public
 ";
 
@@ -21820,7 +21913,7 @@ attributes.</caption>
    * Get the value of the \'hasOnlySubstanceUnits\' attribute.
    <p>
    * @return <code>true</code> if this {@link Species}\' \'hasOnlySubstanceUnits\' attribute
-   * value is nonzero, <code>false</code> otherwise.
+   * value is <code>true</code>, <code>false</code> otherwise.
    <p>
    * @note The \'hasOnlySubstanceUnits\' attribute does not exist in SBML
    * Level&nbsp;1.
@@ -21833,7 +21926,7 @@ attributes.</caption>
    * Get the value of the \'boundaryCondition\' attribute.
    <p>
    * @return <code>true</code> if this {@link Species}\' \'boundaryCondition\' attribute value
-   * is nonzero, <code>false</code> otherwise.
+   * is <code>true</code>, <code>false</code> otherwise.
    */ public
 ";
 
@@ -21865,7 +21958,7 @@ attributes.</caption>
    * Get the value of the \'constant\' attribute.
    <p>
    * @return <code>true</code> if this {@link Species}\'s \'constant\' attribute value is
-   * nonzero, <code>false</code> otherwise.
+   * <code>true</code>, <code>false</code> otherwise.
    <p>
    * @note The attribute \'constant\' is only available in SBML Levels&nbsp;2
    * and&nbsp;3.  It does not exist on {@link Species} in Level&nbsp;1.
@@ -22108,8 +22201,8 @@ attributes.</caption>
  * initial concentration.  This attribute was removed in SBML Level&nbsp;2
  * Version&nbsp;3.  LibSBML retains this attribute for compatibility with
  * older definitions of Level&nbsp;2, but its use is strongly discouraged
- * because it is incompatible with Level&nbsp;2 Version&nbsp;3 and
- * Level&nbsp;2 Version&nbsp;4.</span>
+ * because it is incompatible with levels and versions of SBML beyond
+ * Level&nbsp;2 Version&nbsp;2.</span>
    */ public
 ";
 
@@ -22434,8 +22527,8 @@ attributes.</caption>
  * initial concentration.  This attribute was removed in SBML Level&nbsp;2
  * Version&nbsp;3.  LibSBML retains this attribute for compatibility with
  * older definitions of Level&nbsp;2, but its use is strongly discouraged
- * because it is incompatible with Level&nbsp;2 Version&nbsp;3 and
- * Level&nbsp;2 Version&nbsp;4.</span>
+ * because it is incompatible with levels and versions of SBML beyond
+ * Level&nbsp;2 Version&nbsp;2.</span>
    */ public
 ";
 
@@ -22754,8 +22847,8 @@ attributes.</caption>
  * initial concentration.  This attribute was removed in SBML Level&nbsp;2
  * Version&nbsp;3.  LibSBML retains this attribute for compatibility with
  * older definitions of Level&nbsp;2, but its use is strongly discouraged
- * because it is incompatible with Level&nbsp;2 Version&nbsp;3 and
- * Level&nbsp;2 Version&nbsp;4.</span>
+ * because it is incompatible with levels and versions of SBML beyond
+ * Level&nbsp;2 Version&nbsp;2.</span>
    */ public
 ";
 
@@ -22976,7 +23069,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -23226,7 +23321,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for objects contained in this list:
@@ -23330,7 +23427,7 @@ attributes.</caption>
    * Removes item in this ListOfSpeciess items with the given identifier.
    <p>
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier <code>sid</code>, then 
+   * If none of the items in this list have the identifier <code>sid</code>, then
    * <code>null</code> is returned.
    <p>
    * @param sid the identifier of the item to remove.
@@ -23388,7 +23485,7 @@ attributes.</caption>
  * <li> In SBML Level&nbsp;2, the value assigned to the parameter\'s \'units\'
  * attribute must be chosen from one of the following possibilities: one of
  * the base unit identifiers defined in SBML; one of the built-in unit
- * identifiers <code>\'substance\'</code>, <code>\'time\'</code>, <code>\'volume\'</code>, <code>\'area\'</code> or 
+ * identifiers <code>\'substance\'</code>, <code>\'time\'</code>, <code>\'volume\'</code>, <code>\'area\'</code> or
  * <code>\'length\'</code>; or the identifier of a new unit defined in the list of unit
  * definitions in the enclosing {@link Model} structure.  There are no constraints
  * on the units that can be chosen from these sets.  There are no default
@@ -24430,7 +24527,7 @@ attributes.</caption>
    * identifier.  It does this by constructing an appropriate
    * {@link UnitDefinition}.  For SBML Level&nbsp;2 models, it will do this even
    * when the value of the \'units\' attribute is one of the predefined SBML
-   * units <code>\'substance\'</code>, <code>\'volume\'</code>, <code>\'area\'</code>, <code>\'length\'</code> or 
+   * units <code>\'substance\'</code>, <code>\'volume\'</code>, <code>\'area\'</code>, <code>\'length\'</code> or
    * <code>\'time\'.</code>  Callers may find this useful in conjunction with the helper
    * methods provided by the {@link UnitDefinition} class for comparing different
    * {@link UnitDefinition} objects.
@@ -24460,7 +24557,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -24715,7 +24814,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this objects contained in this list:
@@ -24883,7 +24984,7 @@ attributes.</caption>
  * <li> In SBML Level&nbsp;2, the value assigned to the parameter\'s \'units\'
  * attribute must be chosen from one of the following possibilities: one of
  * the base unit identifiers defined in SBML; one of the built-in unit
- * identifiers <code>\'substance\'</code>, <code>\'time\'</code>, <code>\'volume\'</code>, <code>\'area\'</code> or 
+ * identifiers <code>\'substance\'</code>, <code>\'time\'</code>, <code>\'volume\'</code>, <code>\'area\'</code> or
  * <code>\'length\'</code>; or the identifier of a new unit defined in the list of unit
  * definitions in the enclosing {@link Model} structure.  There are no constraints
  * on the units that can be chosen from these sets.  There are no default
@@ -25116,7 +25217,7 @@ attributes.</caption>
  * identifier.  It does this by constructing an appropriate
  * {@link UnitDefinition}.  For SBML Level&nbsp;2 models, it will do this even
  * when the value of the \'units\' attribute is one of the predefined SBML
- * units <code>\'substance\'</code>, <code>\'volume\'</code>, <code>\'area\'</code>, <code>\'length\'</code> or 
+ * units <code>\'substance\'</code>, <code>\'volume\'</code>, <code>\'area\'</code>, <code>\'length\'</code> or
  * <code>\'time\'.</code>  Callers may find this useful in conjunction with the helper
  * methods provided by the {@link UnitDefinition} class for comparing different
  * {@link UnitDefinition} objects.
@@ -25153,7 +25254,7 @@ attributes.</caption>
  * identifier.  It does this by constructing an appropriate
  * {@link UnitDefinition}.  For SBML Level&nbsp;2 models, it will do this even
  * when the value of the \'units\' attribute is one of the predefined SBML
- * units <code>\'substance\'</code>, <code>\'volume\'</code>, <code>\'area\'</code>, <code>\'length\'</code> or 
+ * units <code>\'substance\'</code>, <code>\'volume\'</code>, <code>\'area\'</code>, <code>\'length\'</code> or
  * <code>\'time\'.</code>  Callers may find this useful in conjunction with the helper
  * methods provided by the {@link UnitDefinition} class for comparing different
  * {@link UnitDefinition} objects.
@@ -25183,7 +25284,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -25360,7 +25463,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for the objects contained in this ListOf:
@@ -25895,8 +26000,8 @@ attributes.</caption>
 /**
    * Sets the \'symbol\' attribute value of this {@link InitialAssignment}.
    <p>
-   * @param sid the identifier of a {@link Species}, {@link Compartment} or {@link Parameter}
-   * object defined elsewhere in this {@link Model}.
+   * @param sid the identifier of an element defined in this model whose
+   * value can be set.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -26079,7 +26184,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -26363,7 +26470,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for the objects contained in this ListOf:
@@ -26379,7 +26488,7 @@ attributes.</caption>
 /**
    * Returns the XML element name of this object.
    <p>
-   * For {@link ListOfInitialAssignments}, the XML element name is 
+   * For {@link ListOfInitialAssignments}, the XML element name is
    * <code>\'listOfInitialAssignments\'.</code>
    <p>
    * @return the name of this element, i.e., <code>\'listOfInitialAssignments\'.</code>
@@ -26468,7 +26577,7 @@ attributes.</caption>
    * Removes item in this {@link ListOfInitialAssignments} items with the given identifier.
    <p>
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier <code>sid</code>, then 
+   * If none of the items in this list have the identifier <code>sid</code>, then
    * <code>null</code> is returned.
    <p>
    * @param sid the identifier of the item to remove.
@@ -26791,7 +26900,7 @@ attributes.</caption>
    * Get the mathematical formula of this {@link Rule} as an {@link ASTNode} tree.
    <p>
    * @return an {@link ASTNode}, the value of the \'math\' subelement of this {@link Rule},
-   * or null if the math is not set.
+   * or <code>null</code> if the math is not set.
    <p>
    * @note The subelement \'math\' is present in SBML Levels&nbsp;2
    * and&nbsp;3.  In SBML Level&nbsp;1, the equivalent construct is the
@@ -27317,7 +27426,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object, either
@@ -27361,7 +27472,7 @@ attributes.</caption>
    <p>
    * The returned value can be any of a number of different strings,
    * depending on the SBML Level in use and the kind of {@link Rule} object this
-   * is.  The rules as of libSBML version 5.15.2
+   * is.  The rules as of libSBML version 5.17.0
    * are the following:
    * <ul>
    * <li> (Level&nbsp;2 and&nbsp;3) RateRule: returns <code>\'rateRule\'</code>
@@ -27684,7 +27795,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for objects contained in this list:
@@ -27798,7 +27911,7 @@ attributes.</caption>
    * Removes item in this {@link ListOfRules} items with the given identifier.
    <p>
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier <code>sid</code>, then 
+   * If none of the items in this list have the identifier <code>sid</code>, then
    * <code>null</code> is returned.
    <p>
    * @param sid the identifier of the item to remove.
@@ -29425,7 +29538,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -29473,6 +29588,16 @@ attributes.</caption>
    * @return a boolean value indicating whether all the required
    * elements for this object have been defined.
    */ public
+";
+
+
+%javamethodmodifiers Constraint::getInternalId() const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers Constraint::setInternalId(std::string id) "
+/** * @internal */ public
 ";
 
 
@@ -29598,7 +29723,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for the objects contained in this {@link ListOf}
@@ -29683,12 +29810,12 @@ attributes.</caption>
  * at which the reaction takes place, and optional parameters.
  <p>
  * As with other major objects in SBML, {@link Reaction} has a mandatory attribute,
- * \'id\', used to give the compartment type an identifier.  The identifier
+ * \'id\', used to give the reaction an identifier.  The identifier
  * must be a text string conforming to the identifer syntax permitted in
  * SBML.  In SBML Level&nbsp;2 and Level&nbsp;3, the reaction \'id\'
  * identifier can be used in mathematical formulas elsewhere in an SBML
  * model to represent the rate of that reaction; this usage is explained
- * below.  {@link Reaction} also has an optional \'name\' attribute, of type 
+ * below.  {@link Reaction} also has an optional \'name\' attribute, of type
  * <code>string.</code>  The \'id\' and \'name\' must be used according to the guidelines
  * described in the SBML specification.
  <p>
@@ -29755,7 +29882,7 @@ attributes.</caption>
  * software generating it.
  <p>
  * The {@link Reaction} object class has another boolean attribute called \'fast\'.
- * This attribute is optional in SBML Level&nbsp;2, with a default of 
+ * This attribute is optional in SBML Level&nbsp;2, with a default of
  * <code>false</code>; it is mandatory in SBML Level&nbsp;3 (with no default value).  
  * In SBML Level&nbsp;3 Version&nbsp;2, a value of <code>true</code> for the \'fast\'
  * attribute is deprecated in favor of all reactions having a \'fast\' value 
@@ -29778,14 +29905,14 @@ attributes.</caption>
  * <em>does</em> make use of \'fast\'.
  <p>
  * <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, values of <code>true</code>
- * for the \'fast\' attribute were deprecated, and in future
- * versions of the specification, the attribute itself will
- * be removed.  Users should be aware that even for previous
- * levels/versions of the specification, the \'fast\' attribute
- * has never achieved widespread support, and many software
+ * In SBML Level&nbsp;3 Version&nbsp;2, the \'fast\' attribute was 
+ * removed.  All reactions are assumed to be equivalent to reactions
+ * in previous levels/versions that have a \'fast\' attribute value
+ * of <code>false.</code>  Users should be aware that even for previous
+ * levels/versions of the specification, \'fast\' attribute values of
+ * <code>true</code> never achieved widespread support, and many software
  * packages may ignore it.  To achieve the same or similar 
- * effects as setting the fast attribute to \'true\' for a given 
+ * effects as setting the fast attribute to <code>true</code> for a given 
  * reaction, the {@link KineticLaw} attribute should be constructed to 
  * produce a value in the desired time scale, or else the 
  * reaction could be replaced with an {@link AssignmentRule} or 
@@ -30050,7 +30177,9 @@ attributes.</caption>
    * <ul>
    * <li> Sets the \'reversible\' attribute to <code>true</code>
    * <li> Sets the \'fast\' attribute to <code>false</code>
-   * <li> Marks the \'fast\' attribute as <em>not</em> having been set
+   * <li> Marks the \'fast\' attribute as <em>not</em> having been set for
+   *     SBML Level&nbsp;2, but <em>as</em> having been set for
+   *     SBML Level&nbsp;1 and SBML Level&nbsp;3.
    *
    * </ul> <p>
    * <p>
@@ -30239,14 +30368,14 @@ attributes.</caption>
    * Returns the value of the \'fast\' attribute of this {@link Reaction}.
    <p>
    * <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, values of <code>true</code>
- * for the \'fast\' attribute were deprecated, and in future
- * versions of the specification, the attribute itself will
- * be removed.  Users should be aware that even for previous
- * levels/versions of the specification, the \'fast\' attribute
- * has never achieved widespread support, and many software
+ * In SBML Level&nbsp;3 Version&nbsp;2, the \'fast\' attribute was 
+ * removed.  All reactions are assumed to be equivalent to reactions
+ * in previous levels/versions that have a \'fast\' attribute value
+ * of <code>false.</code>  Users should be aware that even for previous
+ * levels/versions of the specification, \'fast\' attribute values of
+ * <code>true</code> never achieved widespread support, and many software
  * packages may ignore it.  To achieve the same or similar 
- * effects as setting the fast attribute to \'true\' for a given 
+ * effects as setting the fast attribute to <code>true</code> for a given 
  * reaction, the {@link KineticLaw} attribute should be constructed to 
  * produce a value in the desired time scale, or else the 
  * reaction could be replaced with an {@link AssignmentRule} or 
@@ -30442,14 +30571,14 @@ attributes.</caption>
    * the \'fast\' attribute on this {@link Reaction} is set.
    <p>
    * <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, values of <code>true</code>
- * for the \'fast\' attribute were deprecated, and in future
- * versions of the specification, the attribute itself will
- * be removed.  Users should be aware that even for previous
- * levels/versions of the specification, the \'fast\' attribute
- * has never achieved widespread support, and many software
+ * In SBML Level&nbsp;3 Version&nbsp;2, the \'fast\' attribute was 
+ * removed.  All reactions are assumed to be equivalent to reactions
+ * in previous levels/versions that have a \'fast\' attribute value
+ * of <code>false.</code>  Users should be aware that even for previous
+ * levels/versions of the specification, \'fast\' attribute values of
+ * <code>true</code> never achieved widespread support, and many software
  * packages may ignore it.  To achieve the same or similar 
- * effects as setting the fast attribute to \'true\' for a given 
+ * effects as setting the fast attribute to <code>true</code> for a given 
  * reaction, the {@link KineticLaw} attribute should be constructed to 
  * produce a value in the desired time scale, or else the 
  * reaction could be replaced with an {@link AssignmentRule} or 
@@ -30644,24 +30773,26 @@ attributes.</caption>
    * Sets the value of the \'fast\' attribute of this {@link Reaction}.
    <p>
    * <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, values of <code>true</code>
- * for the \'fast\' attribute were deprecated, and in future
- * versions of the specification, the attribute itself will
- * be removed.  Users should be aware that even for previous
- * levels/versions of the specification, the \'fast\' attribute
- * has never achieved widespread support, and many software
+ * In SBML Level&nbsp;3 Version&nbsp;2, the \'fast\' attribute was 
+ * removed.  All reactions are assumed to be equivalent to reactions
+ * in previous levels/versions that have a \'fast\' attribute value
+ * of <code>false.</code>  Users should be aware that even for previous
+ * levels/versions of the specification, \'fast\' attribute values of
+ * <code>true</code> never achieved widespread support, and many software
  * packages may ignore it.  To achieve the same or similar 
- * effects as setting the fast attribute to \'true\' for a given 
+ * effects as setting the fast attribute to <code>true</code> for a given 
  * reaction, the {@link KineticLaw} attribute should be constructed to 
  * produce a value in the desired time scale, or else the 
  * reaction could be replaced with an {@link AssignmentRule} or 
  * {@link AlgebraicRule}.
    <p>
    * Calling this function with an argument of <code>true</code> for an
-   * SBML Level&nbsp;3 Version&nbsp;2 {@link Reaction} will set 
-   * the value, but will result in a return value of 
-   * {@link libsbmlConstants#LIBSBML_DEPRECATED_ATTRIBUTE LIBSBML_DEPRECATED_ATTRIBUTE}.
-   <p>
+   * SBML Level&nbsp;3 Version&nbsp;2 {@link Reaction} will not set
+   * the value, as the attribute does not exist for that level/version.
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
+   *
+   * </ul> <p>
    * @param value the value of the \'fast\' attribute.
    <p>
    * <p>
@@ -30670,7 +30801,7 @@ attributes.</caption>
  * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_DEPRECATED_ATTRIBUTE LIBSBML_DEPRECATED_ATTRIBUTE}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
    * <p>
@@ -30807,14 +30938,14 @@ attributes.</caption>
    * Unsets the value of the \'fast\' attribute of this {@link Reaction}.
    <p>
    * <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, values of <code>true</code>
- * for the \'fast\' attribute were deprecated, and in future
- * versions of the specification, the attribute itself will
- * be removed.  Users should be aware that even for previous
- * levels/versions of the specification, the \'fast\' attribute
- * has never achieved widespread support, and many software
+ * In SBML Level&nbsp;3 Version&nbsp;2, the \'fast\' attribute was 
+ * removed.  All reactions are assumed to be equivalent to reactions
+ * in previous levels/versions that have a \'fast\' attribute value
+ * of <code>false.</code>  Users should be aware that even for previous
+ * levels/versions of the specification, \'fast\' attribute values of
+ * <code>true</code> never achieved widespread support, and many software
  * packages may ignore it.  To achieve the same or similar 
- * effects as setting the fast attribute to \'true\' for a given 
+ * effects as setting the fast attribute to <code>true</code> for a given 
  * reaction, the {@link KineticLaw} attribute should be constructed to 
  * produce a value in the desired time scale, or else the 
  * reaction could be replaced with an {@link AssignmentRule} or 
@@ -30827,6 +30958,7 @@ attributes.</caption>
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    *
    * </ul> <p>
    * <p>
@@ -30930,7 +31062,7 @@ attributes.</caption>
    * @param species the species to be added as reactant.
    <p>
    * @param stoichiometry an optional parameter specifying the
-   *        stoichiometry of the product (defaulting to 1).
+   *        stoichiometry of the added reactant (defaulting to 1).
    <p>
    * @param id an optional id to be given to the species reference that will
    *        be created. (defaulting to empty string, i.e. not set).
@@ -31012,7 +31144,7 @@ attributes.</caption>
    * @param species the species to be added as product.
    <p>
    * @param stoichiometry an optional parameter specifying the
-   *        stoichiometry of the product (defaulting to 1).
+   *        stoichiometry of the added product (defaulting to 1).
    <p>
    * @param id an optional id to be given to the species reference that will
    *        be created. (defaulting to empty string, i.e. not set).
@@ -31552,6 +31684,11 @@ attributes.</caption>
 ";
 
 
+%javamethodmodifiers Reaction::updateSBMLNamespace(const std::string& package, unsigned int level, unsigned int version) "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers Reaction::getTypeCode() const "
 /**
    * Returns the libSBML type code for this SBML object.
@@ -31564,7 +31701,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -31605,7 +31744,7 @@ attributes.</caption>
    * The required attributes for a {@link Reaction} object are:
    * <ul>
    * <li> \'id\' (or \'name\' in SBML Level&nbsp;1)
-   * <li> \'fast\' (in Level&nbsp;3 only, where it is defined as a required attribute)
+   * <li> \'fast\' (in Level&nbsp;3 Version&nbsp;1 only, where it is defined as a required attribute)
    * <li> \'reversible\' (in Level&nbsp;3 only, where it is defined as a required attribute)
    *
    * </ul> <p>
@@ -31752,7 +31891,9 @@ attributes.</caption>
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for objects contained in this list:
@@ -31807,7 +31948,7 @@ attributes.</caption>
    <p>
    * @param sid a string representing the identifier of the {@link Reaction} to get.
    <p>
-   * @return {@link Reaction} in this {@link ListOfReactions} with the given <code>sid</code> or 
+   * @return {@link Reaction} in this {@link ListOfReactions} with the given <code>sid</code> or
    * <code>null</code> if no such {@link Reaction} exists.
    <p>
    * @see #get(long n)
@@ -31822,7 +31963,7 @@ attributes.</caption>
    <p>
    * @param sid a string representing the identifier of the {@link Reaction} to get.
    <p>
-   * @return {@link Reaction} in this {@link ListOfReactions} with the given <code>sid</code> or 
+   * @return {@link Reaction} in this {@link ListOfReactions} with the given <code>sid</code> or
    * <code>null</code> if no such {@link Reaction} exists.
    <p>
    * @see #get(long n)
@@ -32136,7 +32277,7 @@ AST mechanisms.
    * text-string form.
    <p>
    * @return the {@link ASTNode} representation of the mathematical formula, 
-   * or null if the math is not set.
+   * or <code>null</code> if the math is not set.
    <p>
    * @see #getFormula()
    */ public
@@ -32433,6 +32574,9 @@ AST mechanisms.
 /**
    * Adds a copy of the given {@link Parameter} object to the list of local
    * parameters in this {@link KineticLaw}.
+   * <p>
+ * This function should be used for SBML Level&nbsp;1 and Level&nbsp;2 documents, 
+ * as the equivalent constructs in Level&nbsp;3 are {@link LocalParameter} objects instead.
    <p>
    * @param p the {@link Parameter} to add.
    <p>
@@ -32470,6 +32614,9 @@ AST mechanisms.
 /**
    * Adds a copy of the given {@link LocalParameter} object to the list of local
    * parameters in this {@link KineticLaw}.
+   * <p>
+ * This function should be used for SBML Level&nbsp;3 documents, as the equivalent 
+ * constructs in Level&nbsp;2 and Level&nbsp;1 are {@link Parameter} objects instead.
    <p>
    * @param p the {@link LocalParameter} to add.
    <p>
@@ -32506,7 +32653,10 @@ AST mechanisms.
 %javamethodmodifiers KineticLaw::createParameter "
 /**
    * Creates a new {@link Parameter} object, adds it to this {@link KineticLaw}\'s list of
-   * local parameters, and returns the {@link Parameter} object created.
+   * parameters, and returns the {@link Parameter} object created.
+   * <p>
+ * This function should be used for SBML Level&nbsp;1 and Level&nbsp;2 documents, 
+ * as the equivalent constructs in Level&nbsp;3 are {@link LocalParameter} objects instead.
    <p>
    * @return a new {@link Parameter} object instance.
    <p>
@@ -32519,6 +32669,9 @@ AST mechanisms.
 /**
    * Creates a new {@link LocalParameter} object, adds it to this {@link KineticLaw}\'s list
    * of local parameters, and returns the {@link LocalParameter} object created.
+   * <p>
+ * This function should be used for SBML Level&nbsp;3 documents, as the equivalent 
+ * constructs in Level&nbsp;2 and Level&nbsp;1 are {@link Parameter} objects instead.
    <p>
    * @return a new {@link LocalParameter} object instance.
    <p>
@@ -32529,7 +32682,10 @@ AST mechanisms.
 
 %javamethodmodifiers KineticLaw::getListOfParameters() const "
 /**
-   * Returns the list of local parameters in this {@link KineticLaw} object.
+   * Returns the list of parameters in this {@link KineticLaw} object.
+   * <p>
+ * This function should be used for SBML Level&nbsp;1 and Level&nbsp;2 documents, 
+ * as the equivalent constructs in Level&nbsp;3 are {@link LocalParameter} objects instead.
    <p>
    * @return the list of Parameters for this {@link KineticLaw}.
    */ public
@@ -32538,7 +32694,10 @@ AST mechanisms.
 
 %javamethodmodifiers KineticLaw::getListOfParameters "
 /**
-   * Returns the list of local parameters in this {@link KineticLaw} object.
+   * Returns the list of parameters in this {@link KineticLaw} object.
+   * <p>
+ * This function should be used for SBML Level&nbsp;1 and Level&nbsp;2 documents, 
+ * as the equivalent constructs in Level&nbsp;3 are {@link LocalParameter} objects instead.
    <p>
    * @return the list of Parameters for this {@link KineticLaw}.
    */ public
@@ -32548,6 +32707,9 @@ AST mechanisms.
 %javamethodmodifiers KineticLaw::getListOfLocalParameters() const "
 /**
    * Returns the list of local parameters in this {@link KineticLaw} object.
+   * <p>
+ * This function should be used for SBML Level&nbsp;3 documents, as the equivalent 
+ * constructs in Level&nbsp;2 and Level&nbsp;1 are {@link Parameter} objects instead.
    <p>
    * @return the list of LocalParameters for this {@link KineticLaw}.
    */ public
@@ -32557,6 +32719,9 @@ AST mechanisms.
 %javamethodmodifiers KineticLaw::getListOfLocalParameters "
 /**
    * Returns the list of local parameters in this {@link KineticLaw} object.
+   * <p>
+ * This function should be used for SBML Level&nbsp;3 documents, as the equivalent 
+ * constructs in Level&nbsp;2 and Level&nbsp;1 are {@link Parameter} objects instead.
    <p>
    * @return the list of LocalParameters for this {@link KineticLaw}.
    */ public
@@ -32565,8 +32730,11 @@ AST mechanisms.
 
 %javamethodmodifiers KineticLaw::getParameter "
 /**
-   * Returns the nth {@link Parameter} object in the list of local parameters in
+   * Returns the nth {@link Parameter} object in the list of parameters in
    * this {@link KineticLaw} instance.
+   * <p>
+ * This function should be used for SBML Level&nbsp;1 and Level&nbsp;2 documents, 
+ * as the equivalent constructs in Level&nbsp;3 are {@link LocalParameter} objects instead.
    <p>
    * @param n the index of the {@link Parameter} object sought.
    <p>
@@ -32577,8 +32745,11 @@ AST mechanisms.
 
 %javamethodmodifiers KineticLaw::getParameter(unsigned int n) "
 /**
-   * Returns the nth {@link Parameter} object in the list of local parameters in
+   * Returns the nth {@link Parameter} object in the list of parameters in
    * this {@link KineticLaw} instance.
+   * <p>
+ * This function should be used for SBML Level&nbsp;1 and Level&nbsp;2 documents, 
+ * as the equivalent constructs in Level&nbsp;3 are {@link LocalParameter} objects instead.
    <p>
    * @param n the index of the {@link Parameter} object sought.
    <p>
@@ -32591,6 +32762,9 @@ AST mechanisms.
 /**
    * Returns the nth {@link LocalParameter} object in the list of local parameters in
    * this {@link KineticLaw} instance.
+   * <p>
+ * This function should be used for SBML Level&nbsp;3 documents, as the equivalent 
+ * constructs in Level&nbsp;2 and Level&nbsp;1 are {@link Parameter} objects instead.
    <p>
    * @param n the index of the {@link LocalParameter} object sought.
    <p>
@@ -32603,6 +32777,9 @@ AST mechanisms.
 /**
    * Returns the nth {@link LocalParameter} object in the list of local parameters in
    * this {@link KineticLaw} instance.
+   * <p>
+ * This function should be used for SBML Level&nbsp;3 documents, as the equivalent 
+ * constructs in Level&nbsp;2 and Level&nbsp;1 are {@link Parameter} objects instead.
    <p>
    * @param n the index of the {@link LocalParameter} object sought.
    <p>
@@ -32613,7 +32790,10 @@ AST mechanisms.
 
 %javamethodmodifiers KineticLaw::getParameter(const std::string& sid) const "
 /**
-   * Returns a local parameter based on its identifier.
+   * Returns a parameter based on its identifier.
+   * <p>
+ * This function should be used for SBML Level&nbsp;1 and Level&nbsp;2 documents, 
+ * as the equivalent constructs in Level&nbsp;3 are {@link LocalParameter} objects instead.
    <p>
    * @param sid the identifier of the {@link Parameter} being sought.
    <p>
@@ -32625,7 +32805,10 @@ AST mechanisms.
 
 %javamethodmodifiers KineticLaw::getParameter(const std::string& sid) "
 /**
-   * Returns a local parameter based on its identifier.
+   * Returns a parameter based on its identifier.
+   * <p>
+ * This function should be used for SBML Level&nbsp;1 and Level&nbsp;2 documents, 
+ * as the equivalent constructs in Level&nbsp;3 are {@link LocalParameter} objects instead.
    <p>
    * @param sid the identifier of the {@link Parameter} being sought.
    <p>
@@ -32638,6 +32821,9 @@ AST mechanisms.
 %javamethodmodifiers KineticLaw::getLocalParameter(const std::string& sid) const "
 /**
    * Returns a local parameter based on its identifier.
+   * <p>
+ * This function should be used for SBML Level&nbsp;3 documents, as the equivalent 
+ * constructs in Level&nbsp;2 and Level&nbsp;1 are {@link Parameter} objects instead.
    <p>
    * @param sid the identifier of the {@link LocalParameter} being sought.
    <p>
@@ -32650,6 +32836,9 @@ AST mechanisms.
 %javamethodmodifiers KineticLaw::getLocalParameter(const std::string& sid) "
 /**
    * Returns a local parameter based on its identifier.
+   * <p>
+ * This function should be used for SBML Level&nbsp;3 documents, as the equivalent 
+ * constructs in Level&nbsp;2 and Level&nbsp;1 are {@link Parameter} objects instead.
    <p>
    * @param sid the identifier of the {@link LocalParameter} being sought.
    <p>
@@ -32661,7 +32850,10 @@ AST mechanisms.
 
 %javamethodmodifiers KineticLaw::getNumParameters() const "
 /**
-   * Returns the number of local parameters in this {@link KineticLaw} instance.
+   * Returns the number of parameters in this {@link KineticLaw} instance.
+   * <p>
+ * This function should be used for SBML Level&nbsp;1 and Level&nbsp;2 documents, 
+ * as the equivalent constructs in Level&nbsp;3 are {@link LocalParameter} objects instead.
    <p>
    * @return the number of Parameters in this {@link KineticLaw}.
    */ public
@@ -32671,6 +32863,9 @@ AST mechanisms.
 %javamethodmodifiers KineticLaw::getNumLocalParameters() const "
 /**
    * Returns the number of local parameters in this {@link KineticLaw} instance.
+   * <p>
+ * This function should be used for SBML Level&nbsp;3 documents, as the equivalent 
+ * constructs in Level&nbsp;2 and Level&nbsp;1 are {@link Parameter} objects instead.
    <p>
    * @return the number of LocalParameters in this {@link KineticLaw}.
    */ public
@@ -32799,8 +32994,11 @@ AST mechanisms.
 
 %javamethodmodifiers KineticLaw::removeParameter(unsigned int n) "
 /**
-   * Removes the nth {@link Parameter} object in the list of local parameters 
+   * Removes the nth {@link Parameter} object in the list of parameters 
    * in this {@link KineticLaw} instance and returns a pointer to it.
+   * <p>
+ * This function should be used for SBML Level&nbsp;1 and Level&nbsp;2 documents, 
+ * as the equivalent constructs in Level&nbsp;3 are {@link LocalParameter} objects instead.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
@@ -32817,6 +33015,9 @@ AST mechanisms.
 /**
    * Removes the nth {@link LocalParameter} object in the list of local parameters 
    * in this {@link KineticLaw} instance and returns a pointer to it.
+   * <p>
+ * This function should be used for SBML Level&nbsp;3 documents, as the equivalent 
+ * constructs in Level&nbsp;2 and Level&nbsp;1 are {@link Parameter} objects instead.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
@@ -32832,7 +33033,10 @@ AST mechanisms.
 %javamethodmodifiers KineticLaw::removeParameter(const std::string& sid) "
 /**
    * Removes a {@link Parameter} object with the given identifier in the list of
-   * local parameters in this {@link KineticLaw} instance and returns a pointer to it.
+   * parameters in this {@link KineticLaw} instance and returns a pointer to it.
+   * <p>
+ * This function should be used for SBML Level&nbsp;1 and Level&nbsp;2 documents, 
+ * as the equivalent constructs in Level&nbsp;3 are {@link LocalParameter} objects instead.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
@@ -32849,6 +33053,9 @@ AST mechanisms.
 /**
    * Removes a {@link LocalParameter} object with the given identifier in the list of
    * local parameters in this {@link KineticLaw} instance and returns a pointer to it.
+   * <p>
+ * This function should be used for SBML Level&nbsp;3 documents, as the equivalent 
+ * constructs in Level&nbsp;2 and Level&nbsp;1 are {@link Parameter} objects instead.
    <p>
    * The caller owns the returned object and is responsible for deleting it.
    <p>
@@ -32871,6 +33078,11 @@ AST mechanisms.
 ";
 
 
+%javamethodmodifiers KineticLaw::updateSBMLNamespace(const std::string& package, unsigned int level, unsigned int version) "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers KineticLaw::getTypeCode() const "
 /**
    * Returns the libSBML type code for this SBML object.
@@ -32883,7 +33095,9 @@ AST mechanisms.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -33903,7 +34117,7 @@ AST mechanisms.
  * Product and reactant stoichiometries can be specified using
  * <em>either</em> \'stoichiometry\' or \'stoichiometryMath\' in a
  * {@link SpeciesReference} object.  The \'stoichiometry\' attribute is of type
- * double and should contain values greater than zero (0).  The
+ * double and should contain values greater than <code>0</code> (false).  The
  * \'stoichiometryMath\' element is implemented as an element containing a
  * MathML expression.  These two are mutually exclusive; only one of
  * \'stoichiometry\' or \'stoichiometryMath\' should be defined in a given
@@ -33921,7 +34135,7 @@ AST mechanisms.
  * that can be used in \'stoichiometryMath\' are those referenced in the
  * {@link Reaction} list of reactants, products and modifiers.
  <p>
- * The following is a simple example of a species reference for species 
+ * The following is a simple example of a species reference for species
  * <code>X0</code>, with stoichiometry <code>2</code>, in a list of reactants within a reaction
  * having the identifier <code>J1:</code>
  * <pre class=\'fragment\'>
@@ -34329,6 +34543,9 @@ AST mechanisms.
    * will write out the appropriate constructs (either a combination of
    * \'stoichiometry\' and \'denominator\' in the case of SBML Level&nbsp;1, or a
    * \'stoichiometryMath\' subelement in the case of SBML Level&nbsp;2).
+   * However, as the \'stoichiometryMath\' subelement was removed in SBML
+   * Level&nbsp;3, automatic translation of the \'denominator\'
+   * attribute is no longer supported for that level.
    <p>
    * @return the value of the \'denominator\' attribute of this
    * {@link SpeciesReference}.
@@ -34488,6 +34705,9 @@ AST mechanisms.
    * will write out the appropriate constructs (either a combination of
    * \'stoichiometry\' and \'denominator\' in the case of SBML Level&nbsp;1, or
    * a \'stoichiometryMath\' subelement in the case of SBML Level&nbsp;2).
+   * However, as the \'stoichiometryMath\' subelement was removed in SBML
+   * Level&nbsp;3, automatic translation of the \'denominator\' 
+   * attribute is no longer supported for that level.
    <p>
    * @param value the scalar value.
    <p>
@@ -34497,6 +34717,7 @@ AST mechanisms.
  * returned by this function are:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_UNEXPECTED_ATTRIBUTE LIBSBML_UNEXPECTED_ATTRIBUTE}
    * </ul>
    */ public
 ";
@@ -34614,6 +34835,10 @@ AST mechanisms.
    * {@link SpeciesReference}, and returns it.
    <p>
    * @return the newly created {@link StoichiometryMath} object instance.
+   <p>
+   * @note This function has no effect on SBML Level 1 or Level 3 
+   * {@link SpeciesReference} objects, neither of which have
+   * {@link StoichiometryMath} children.
    <p>
    * @see Reaction#addReactant(SpeciesReference sr)
    * @see Reaction#addProduct(SpeciesReference sr)
@@ -34749,7 +34974,9 @@ AST mechanisms.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -34946,7 +35173,9 @@ AST mechanisms.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for objects contained in this list:
@@ -34962,7 +35191,7 @@ AST mechanisms.
 /**
    * Returns the XML element name of this object.
    <p>
-   * For {@link ListOfSpeciesReferences}, the XML element name is 
+   * For {@link ListOfSpeciesReferences}, the XML element name is
    * <code>\'listOfSpeciesReferences\'.</code>
    <p>
    * @return the name of this element, i.e., <code>\'listOfSpeciesReferences\'.</code>
@@ -35051,7 +35280,7 @@ AST mechanisms.
    * Removes item in this {@link ListOfSpeciesReferences} items with the given identifier.
    <p>
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier <code>sid</code>, then 
+   * If none of the items in this list have the identifier <code>sid</code>, then
    * <code>null</code> is returned.
    <p>
    * @param sid the identifier of the item to remove.
@@ -35203,7 +35432,9 @@ AST mechanisms.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -35330,7 +35561,7 @@ AST mechanisms.
  * The detailed semantics of events are described in the specification
  * documents for each SBML Level/Version.  Here we include the description
  * from the SBML Level&nbsp;1 Version&nbsp;1.
- * Any transition of a {@link Trigger} object\'s \'math\' formula from the value 
+ * Any transition of a {@link Trigger} object\'s \'math\' formula from the value
  * <code>false</code> to <code>true</code> will cause the enclosing {@link Event} object to
  * <em>trigger</em>.  Such a transition is not possible at the very start
  * of a simulation (i.e., at time <em>t = 0</em>) unless the {@link Trigger}
@@ -35853,7 +36084,7 @@ AST mechanisms.
    * (SBML Level&nbsp;3 only) Get the event priority portion of this
    * {@link Event}.
    <p>
-   * @return the {@link Priority} object of this {@link Event}, or null if the {@link Priority}
+   * @return the {@link Priority} object of this {@link Event}, or <code>null</code> if the {@link Priority}
    * has not been set.
    <p>
    * @note The element \'priority\' is available in SBML Level&nbsp;3,
@@ -35867,7 +36098,7 @@ AST mechanisms.
    * (SBML Level&nbsp;3 only) Get the event priority portion of this
    * {@link Event}.
    <p>
-   * @return the {@link Priority} object of this {@link Event}, or null if the {@link Priority}
+   * @return the {@link Priority} object of this {@link Event}, or <code>null</code> if the {@link Priority}
    * has not been set.
    <p>
    * @note The element \'priority\' is available in SBML Level&nbsp;3,
@@ -36769,7 +37000,7 @@ AST mechanisms.
    * (SBML Level&nbsp;3 only) Creates a new, empty {@link Priority}, adds it to this
    * {@link Event} and returns the {@link Priority}.
    <p>
-   * @return the newly created {@link Priority} object instance, or null if the SBML
+   * @return the newly created {@link Priority} object instance, or <code>null</code> if the SBML
    * level and version used for this {@link Event} does not define {@link Priority} children.
    <p>
    * @note The element \'priority\' is available in SBML Level&nbsp;3,
@@ -36826,7 +37057,7 @@ AST mechanisms.
    * {@link EventAssignment} is being sought.
    <p>
    * @return the {@link EventAssignment} for the given <code>variable</code>, or <code>null</code> if
-   * no such {@link EventAssignment} exits.
+   * no such {@link EventAssignment} exists.
    */ public
 ";
 
@@ -36839,7 +37070,7 @@ AST mechanisms.
    * {@link EventAssignment} is being sought.
    <p>
    * @return the {@link EventAssignment} for the given <code>variable</code>, or <code>null</code> if
-   * no such {@link EventAssignment} exits.
+   * no such {@link EventAssignment} exists.
    */ public
 ";
 
@@ -36899,6 +37130,11 @@ AST mechanisms.
 ";
 
 
+%javamethodmodifiers Event::updateSBMLNamespace(const std::string& package, unsigned int level,unsigned int version) "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers Event::getTypeCode() const "
 /**
    * Returns the libSBML type code of this object instance.
@@ -36911,7 +37147,9 @@ AST mechanisms.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -36967,9 +37205,9 @@ AST mechanisms.
    <p>
    * @note The required elements for an {@link Event} object are:
    * <ul>
-   * <li> \'trigger\' (required in SBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1,
+   * <li> \'trigger\' (required in SBML Level&nbsp;2 and Level&nbsp;3 Version&nbsp;1;
    *     optional in SBML Level&nbsp;3 Version&nbsp;2+
-   * <li> \'listOfEventAssignments\' (required in SBML Level&nbsp;2, optional in Level&nbsp;3)
+   * <li> \'listOfEventAssignments\' (required in SBML Level&nbsp;2; optional in Level&nbsp;3)
    * </ul>
    */ public
 ";
@@ -37112,7 +37350,9 @@ AST mechanisms.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for the objects contained in this ListOf:
@@ -37623,8 +37863,8 @@ AST mechanisms.
    * Sets the attribute \'variable\' of this {@link EventAssignment} to a copy of
    * the given identifier string.
    <p>
-   * @param sid the identifier of a {@link Compartment}, {@link Species} or (global)
-   * {@link Parameter} defined in this model.
+   * @param sid the identifier of an element defined in this model that
+   * can vary over time.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -37834,7 +38074,9 @@ AST mechanisms.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -38117,7 +38359,9 @@ AST mechanisms.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for the objects contained in this ListOf:
@@ -38133,7 +38377,7 @@ AST mechanisms.
 /**
    * Returns the XML element name of this object.
    <p>
-   * For {@link ListOfEventAssignments}, the XML element name is 
+   * For {@link ListOfEventAssignments}, the XML element name is
    * <code>\'listOfEventAssignments\'.</code>
    <p>
    * @return the name of this element, i.e., <code>\'listOfEventAssignments\'.</code>
@@ -38223,7 +38467,7 @@ AST mechanisms.
    * identifier.
    <p>
    * The caller owns the returned item and is responsible for deleting it.
-   * If none of the items in this list have the identifier <code>sid</code>, then 
+   * If none of the items in this list have the identifier <code>sid</code>, then
    * <code>null</code> is returned.
    <p>
    * @param sid the identifier of the item to remove.
@@ -38319,7 +38563,7 @@ AST mechanisms.
  * evoke the idea that the trigger expression does not have to be
  * re-checked after it triggers if \'persistent\'=<code>true.</code>  Conversely, if
  * the attribute value is <code>false</code>, then the trigger expression is not
- * assumed to persist: if the expression transitions in value back to 
+ * assumed to persist: if the expression transitions in value back to
  * <code>false</code> at any time between when the event triggered and when it is to be
  * executed, the event is no longer considered to have triggered and its
  * assignments are not executed.  (If the trigger expression transitions
@@ -38354,7 +38598,7 @@ AST mechanisms.
  * trigger expression is determined by the value of the boolean attribute
  * \'initialValue\'.  A value of <code>true</code> means the trigger expression is
  * taken to have the value <code>true</code> immediately prior to <em>t = 0</em>.  In
- * that case, the trigger cannot transition in value from <code>false</code> to 
+ * that case, the trigger cannot transition in value from <code>false</code> to
  * <code>true</code> at the moment simulation begins (because it has the value <code>true</code>
  * both before and after <em>t = 0</em>), and can only make the transition
  * from <code>false</code> to <code>true</code> sometime <em>after</em> <em>t = 0</em>.  (To do
@@ -38656,7 +38900,9 @@ AST mechanisms.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -38806,6 +39052,16 @@ AST mechanisms.
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
    * </ul>
    */ public
+";
+
+
+%javamethodmodifiers Trigger::getInternalId() const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers Trigger::setInternalId(std::string id) "
+/** * @internal */ public
 ";
 
 
@@ -39277,7 +39533,9 @@ AST mechanisms.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -39750,7 +40008,9 @@ AST mechanisms.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -40901,7 +41161,7 @@ appears in the documentation.
  * stoichiometry found in textbooks.  Examples and more explanations of
  * this are given in the SBML specification.
  <p>
- * The following is a simple example of a species reference for species 
+ * The following is a simple example of a species reference for species
  * <code>\'X0\'</code>, with stoichiometry <code>2</code>, in a list of reactants within a reaction
  * having the identifier <code>\'J1\':</code>
  * <pre class=\'fragment\'>
@@ -41308,7 +41568,9 @@ appears in the documentation.
  * type codes are defined as static integer constants in the interface class
  * {@link libsbmlConstants}.    Note that different Level&nbsp;3
  * package plug-ins may use overlapping type codes; to identify the package
- * to which a given object belongs, call the <code>getPackageName()</code>
+ * to which a given object belongs, call the 
+ * <code>{@link SBase#getPackageName()}
+ * </code>
  * method on the object.
    <p>
    * @return the SBML type code for this object:
@@ -41905,7 +42167,7 @@ else
    * </ul> <p>
    * @note XML namespaces of a non-registered package extensions are not
    * added (just ignored) by this function. {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE} will be returned if the given
-   * xmlns is null.
+   * xmlns is <code>null.</code>
    */ public
 ";
 
@@ -42552,7 +42814,7 @@ the implementation of extra functionality provided by libSBML.
  * <h3>Example of invoking an SBML converter</h3>
  <p>
  * The following code fragment illustrates an example using
- * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * {@link SBMLReactionConverter}, which is invoked using the option string
  * <code>\'replaceReactions\':</code>
  <p>
 <pre class=\'fragment\'>
@@ -42606,7 +42868,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.15.2:
+ * provided by libSBML 5.17.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  <p>
@@ -42723,11 +42985,11 @@ appears in the documentation.
 
 %javamethodmodifiers ConversionProperties::getOption(int index) const "
 /**
-   * Returns the {@link ConversionOption} object for the given index.
+   * Returns the {@link ConversionOption} object for the given <code>index</code>.
    <p>
    * @param index the index for the option.
    <p>
-   * @return the option with the given index.
+   * @return the option with the given <code>index</code>.
    */ public
 ";
 
@@ -43085,7 +43347,7 @@ the implementation of extra functionality provided by libSBML.
  * <h3>Example of invoking an SBML converter</h3>
  <p>
  * The following code fragment illustrates an example using
- * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * {@link SBMLReactionConverter}, which is invoked using the option string
  * <code>\'replaceReactions\':</code>
  <p>
 <pre class=\'fragment\'>
@@ -43139,7 +43401,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.15.2:
+ * provided by libSBML 5.17.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -43511,7 +43773,7 @@ the implementation of extra functionality provided by libSBML.
  * <h2>Configuration and use of {@link SBMLFunctionDefinitionConverter}</h2>
  <p>
  * {@link SBMLFunctionDefinitionConverter} is enabled by creating a
- * {@link ConversionProperties} object with the option 
+ * {@link ConversionProperties} object with the option
  * <code>\'expandFunctionDefinitions\'</code>, and passing this properties object to
  * {@link SBMLDocument#convert(ConversionProperties)}.
  * The converter accepts one option:
@@ -43549,7 +43811,7 @@ the implementation of extra functionality provided by libSBML.
  * <h3>Example of invoking an SBML converter</h3>
  <p>
  * The following code fragment illustrates an example using
- * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * {@link SBMLReactionConverter}, which is invoked using the option string
  * <code>\'replaceReactions\':</code>
  <p>
 <pre class=\'fragment\'>
@@ -43603,7 +43865,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.15.2:
+ * provided by libSBML 5.17.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -43780,7 +44042,7 @@ the implementation of extra functionality provided by libSBML.
  * <h3>Example of invoking an SBML converter</h3>
  <p>
  * The following code fragment illustrates an example using
- * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * {@link SBMLReactionConverter}, which is invoked using the option string
  * <code>\'replaceReactions\':</code>
  <p>
 <pre class=\'fragment\'>
@@ -43834,7 +44096,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.15.2:
+ * provided by libSBML 5.17.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -43984,7 +44246,7 @@ the implementation of extra functionality provided by libSBML.
  * <h3>Example of invoking an SBML converter</h3>
  <p>
  * The following code fragment illustrates an example using
- * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * {@link SBMLReactionConverter}, which is invoked using the option string
  * <code>\'replaceReactions\':</code>
  <p>
 <pre class=\'fragment\'>
@@ -44038,7 +44300,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.15.2:
+ * provided by libSBML 5.17.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -44223,7 +44485,7 @@ the implementation of extra functionality provided by libSBML.
  * <h3>Example of invoking an SBML converter</h3>
  <p>
  * The following code fragment illustrates an example using
- * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * {@link SBMLReactionConverter}, which is invoked using the option string
  * <code>\'replaceReactions\':</code>
  <p>
 <pre class=\'fragment\'>
@@ -44277,7 +44539,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.15.2:
+ * provided by libSBML 5.17.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -44454,7 +44716,7 @@ the implementation of extra functionality provided by libSBML.
  * <h3>Example of invoking an SBML converter</h3>
  <p>
  * The following code fragment illustrates an example using
- * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * {@link SBMLReactionConverter}, which is invoked using the option string
  * <code>\'replaceReactions\':</code>
  <p>
 <pre class=\'fragment\'>
@@ -44508,7 +44770,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.15.2:
+ * provided by libSBML 5.17.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -44668,6 +44930,11 @@ if (config != None) {
 ";
 
 
+%javamethodmodifiers SBMLLevelVersionConverter::updatePackages(unsigned int targetVersion) "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers SBMLLevelVersionConverter::validateConvertedDocument "
 /** * @internal */ public
 ";
@@ -44684,6 +44951,11 @@ if (config != None) {
 
 
 %javamethodmodifiers SBMLLevelVersionConverter::collectSpeciesReferenceIds "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers SBMLLevelVersionConverter::populateMathElements "
 /** * @internal */ public
 ";
 
@@ -44774,7 +45046,7 @@ the implementation of extra functionality provided by libSBML.
  * <h3>Example of invoking an SBML converter</h3>
  <p>
  * The following code fragment illustrates an example using
- * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * {@link SBMLReactionConverter}, which is invoked using the option string
  * <code>\'replaceReactions\':</code>
  <p>
 <pre class=\'fragment\'>
@@ -44828,7 +45100,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.15.2:
+ * provided by libSBML 5.17.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -44995,7 +45267,7 @@ the implementation of extra functionality provided by libSBML.
  * <h3>Example of invoking an SBML converter</h3>
  <p>
  * The following code fragment illustrates an example using
- * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * {@link SBMLReactionConverter}, which is invoked using the option string
  * <code>\'replaceReactions\':</code>
  <p>
 <pre class=\'fragment\'>
@@ -45049,7 +45321,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.15.2:
+ * provided by libSBML 5.17.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -45199,7 +45471,7 @@ the implementation of extra functionality provided by libSBML.
  * <h3>Example of invoking an SBML converter</h3>
  <p>
  * The following code fragment illustrates an example using
- * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * {@link SBMLReactionConverter}, which is invoked using the option string
  * <code>\'replaceReactions\':</code>
  <p>
 <pre class=\'fragment\'>
@@ -45253,7 +45525,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.15.2:
+ * provided by libSBML 5.17.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -45496,7 +45768,7 @@ the implementation of extra functionality provided by libSBML.
  * <h3>Example of invoking an SBML converter</h3>
  <p>
  * The following code fragment illustrates an example using
- * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * {@link SBMLReactionConverter}, which is invoked using the option string
  * <code>\'replaceReactions\':</code>
  <p>
 <pre class=\'fragment\'>
@@ -45550,7 +45822,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.15.2:
+ * provided by libSBML 5.17.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -45717,7 +45989,7 @@ the implementation of extra functionality provided by libSBML.
  * <h3>Example of invoking an SBML converter</h3>
  <p>
  * The following code fragment illustrates an example using
- * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * {@link SBMLReactionConverter}, which is invoked using the option string
  * <code>\'replaceReactions\':</code>
  <p>
 <pre class=\'fragment\'>
@@ -45771,7 +46043,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.15.2:
+ * provided by libSBML 5.17.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -45908,7 +46180,7 @@ the implementation of extra functionality provided by libSBML.
  * {@link Unit} conversion will only be performed on models that are fully unit
  * consistent, meaning that all objects have units associated with them and
  * there are no literal numbers with unspecified units.  In the case of an
- * SBML Level&nbsp;3 model involving math expressions, this means that the 
+ * SBML Level&nbsp;3 model involving math expressions, this means that the
  * <code>timeUnits</code> attribute on the {@link Model} object must be set, and if there are any
  * reactions in the model, the <code>extentUnits</code> attribute on the {@link Model} object
  * must also be set.
@@ -45955,7 +46227,7 @@ the implementation of extra functionality provided by libSBML.
  * <h3>Example of invoking an SBML converter</h3>
  <p>
  * The following code fragment illustrates an example using
- * {@link SBMLReactionConverter}, which is invoked using the option string 
+ * {@link SBMLReactionConverter}, which is invoked using the option string
  * <code>\'replaceReactions\':</code>
  <p>
 <pre class=\'fragment\'>
@@ -46009,7 +46281,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.15.2:
+ * provided by libSBML 5.17.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -46891,7 +47163,7 @@ foo:myattribute=\'7\'
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
    * &ndash; this value is returned if any of the arguments are <code>null.</code>  To
-   * set an empty value for the attribute, use an empty string rather than 
+   * set an empty value for the attribute, use an empty string rather than
    * <code>null.</code>
    *
    * </ul> <p>
@@ -47458,7 +47730,7 @@ foo:myattribute=\'7\'
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    <p>
-   * @returns <code>true</code> if the attribute was successfully read into value, 
+   * @returns <code>true</code> if the attribute was successfully read into value,
    * <code>false</code> otherwise.
    <p>
    * 
@@ -47529,7 +47801,7 @@ appears in the documentation.
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    <p>
-   * @returns <code>true</code> if the attribute was successfully read into value, 
+   * @returns <code>true</code> if the attribute was successfully read into value,
    * <code>false</code> otherwise.
    <p>
    * 
@@ -47602,7 +47874,7 @@ appears in the documentation.
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    <p>
-   * @returns <code>true</code> if the attribute was successfully read into value, 
+   * @returns <code>true</code> if the attribute was successfully read into value,
    * <code>false</code> otherwise.
    <p>
    * <p>
@@ -47685,7 +47957,7 @@ appears in the documentation.
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    <p>
-   * @returns <code>true</code> if the attribute was successfully read into value, 
+   * @returns <code>true</code> if the attribute was successfully read into value,
    * <code>false</code> otherwise.
    <p>
    * 
@@ -47759,7 +48031,7 @@ appears in the documentation.
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    <p>
-   * @returns <code>true</code> if the attribute was successfully read into value, 
+   * @returns <code>true</code> if the attribute was successfully read into value,
    * <code>false</code> otherwise.
    <p>
    * <p>
@@ -47842,7 +48114,7 @@ appears in the documentation.
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    <p>
-   * @returns <code>true</code> if the attribute was successfully read into value, 
+   * @returns <code>true</code> if the attribute was successfully read into value,
    * <code>false</code> otherwise.
    <p>
    * <p>
@@ -47928,7 +48200,7 @@ appears in the documentation.
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    <p>
-   * @returns <code>true</code> if the attribute was successfully read into value, 
+   * @returns <code>true</code> if the attribute was successfully read into value,
    * <code>false</code> otherwise.
    <p>
    * <p>
@@ -48014,7 +48286,7 @@ appears in the documentation.
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    <p>
-   * @returns <code>true</code> if the attribute was successfully read into value, 
+   * @returns <code>true</code> if the attribute was successfully read into value,
    * <code>false</code> otherwise.
    <p>
    * 
@@ -48090,7 +48362,7 @@ appears in the documentation.
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    <p>
-   * @returns <code>true</code> if the attribute was successfully read into value, 
+   * @returns <code>true</code> if the attribute was successfully read into value,
    * <code>false</code> otherwise.
    <p>
    * <p>
@@ -48176,7 +48448,7 @@ appears in the documentation.
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    <p>
-   * @returns <code>true</code> if the attribute was successfully read into value, 
+   * @returns <code>true</code> if the attribute was successfully read into value,
    * <code>false</code> otherwise.
    <p>
    * 
@@ -48239,7 +48511,7 @@ appears in the documentation.
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    <p>
-   * @returns <code>true</code> if the attribute was successfully read into value, 
+   * @returns <code>true</code> if the attribute was successfully read into value,
    * <code>false</code> otherwise.
    <p>
    * <p>
@@ -48312,7 +48584,7 @@ appears in the documentation.
    * occurred.  Callers can supply this value if it makes sense for their
    * applications.
    <p>
-   * @returns <code>true</code> if the attribute was successfully read into value, 
+   * @returns <code>true</code> if the attribute was successfully read into value,
    * <code>false</code> otherwise.
    <p>
    * 
@@ -48609,7 +48881,7 @@ appears in the documentation.
 
 %javamethodmodifiers XMLNamespaces::getIndexByPrefix(const std::string prefix) const "
 /**
-   * Look up the index of an XML namespace declaration by prefix.
+   * Look up the index of an XML namespace declaration by <code>prefix</code>.
    <p>
    * An {@link XMLNamespaces} object stores a list of pairs of namespaces and their
    * prefixes.  If this {@link XMLNamespaces} object contains a pair with the given
@@ -49529,7 +49801,7 @@ appears in the documentation.
    * @param triple an {@link XMLTriple} object describing the attribute being sought.
    <p>
    * @return <code>true</code> if an attribute matching the properties of the given
-   * {@link XMLTriple} object exists in the list of attributes on this token, 
+   * {@link XMLTriple} object exists in the list of attributes on this token,
    * <code>false</code> otherwise.
    */ public
 ";
@@ -50022,7 +50294,7 @@ appears in the documentation.
    * XMLToken:isStart(), {@link XMLToken#isEnd()} and {@link XMLToken#isText()} are more
    * specific predicates.
    <p>
-   * @return <code>true</code> if this {@link XMLToken} object represents an XML element, 
+   * @return <code>true</code> if this {@link XMLToken} object represents an XML element,
    * <code>false</code> otherwise.
    <p>
    * @see #isStart()
@@ -50533,7 +50805,7 @@ appears in the documentation.
    * index is required.
    <p>
    * @return the index of the first child of this {@link XMLNode} with the given
-   * name, or -1 if not present.
+   * name, or <code>-1</code> if not present.
    */ public
 ";
 
@@ -50551,7 +50823,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLNode::equals(const XMLNode& other, bool ignoreURI=false) const "
+%javamethodmodifiers XMLNode::equals(const XMLNode& other, bool ignoreURI=false, bool ignoreAttributeValues=false) const "
 /**
    * Compare this {@link XMLNode} against another {@link XMLNode} returning true if both
    * nodes represent the same XML tree, or false otherwise.
@@ -50560,6 +50832,9 @@ appears in the documentation.
    <p>
    * @param ignoreURI whether to ignore the namespace URI when doing the
    * comparison.
+   <p>
+   * @param ignoreAttributeValues whetehr to ignore attribute values when 
+   *        doing the comparison.
    <p>
    * @return boolean indicating whether this {@link XMLNode} represents the same XML
    * tree as another.
@@ -50577,6 +50852,11 @@ appears in the documentation.
 
 
 %javamethodmodifiers XMLNode::write(XMLOutputStream& stream) const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers XMLNode::writeToStream(XMLOutputStream& stream) const "
 /** * @internal */ public
 ";
 
@@ -50992,7 +51272,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLOutputStream::endElement(const XMLTriple& triple) "
+%javamethodmodifiers XMLOutputStream::endElement(const XMLTriple& triple, bool text = false) "
 /**
    * Writes the given element to the stream.
    <p>
@@ -51515,6 +51795,16 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
    <p>
    * @param libraryVersion the version information as string.
    */ public
+";
+
+
+%javamethodmodifiers XMLOutputStream::getIndent "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers XMLOutputStream::setIndent(unsigned int indent) "
+/** * @internal */ public
 ";
 
 
@@ -63784,7 +64074,7 @@ defined in SBML.
  * name=\'SBMLErrorSeverity_t\'>Severity codes associated with {@link SBMLError}
  * objects</h3>
  <p>
- * In libSBML version 5.15.2
+ * In libSBML version 5.17.0
  * there are no additional severity codes beyond those defined by {@link XMLError}.
  * They are implemented as static integer constants defined in the interface
  * class <code><a href=\'libsbmlConstants.html\'>libsbmlConstants</a></code>,
@@ -64117,7 +64407,7 @@ defined in SBML.
 %javamethodmodifiers CVTerm::CVTerm(QualifierType_t type = UNKNOWN_QUALIFIER) "
 /**
    * Creates an empty {@link CVTerm}, optionally with the given
-   * qualifier <code>type</code>.
+   * qualifier <code>type</code> .
    <p>
    * <p>
  * The SBML Level&nbsp;2 and Level&nbsp;3 specifications define a simple
@@ -64996,7 +65286,7 @@ appears in the documentation.
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
-   * @note If the Qualifier Type of this object is not
+   * @note If the qualifier type of this object is not
    * {@link libsbmlConstants#MODEL_QUALIFIER MODEL_QUALIFIER}, then the
    * then the model qualifier type
    * will default to {@link libsbmlConstants#BQM_UNKNOWN BQM_UNKNOWN}.
@@ -65338,7 +65628,7 @@ appears in the documentation.
  <p>
  * This method takes a model qualifier type as argument
  * and returns a string name corresponding to that code.  For example,
- * passing it the qualifier <code>BQM_IS_DESCRIBED_BY</code> will return
+ * passing it the qualifier {@link libsbmlConstants#BQM_IS_DESCRIBED_BY BQM_IS_DESCRIBED_BY} will return
  * the string <code>\'isDescribedBy\'</code>.
  <p>
  * @param type the  value to
@@ -65361,7 +65651,7 @@ appears in the documentation.
  <p>
  * This method takes a biol qualifier type as argument
  * and returns a string name corresponding to that code.  For example,
- * passing it the qualifier <code>BQB_HAS_VERSION</code> will return
+ * passing it the qualifier {@link libsbmlConstants#BQB_HAS_VERSION BQB_HAS_VERSION} will return
  * the string <code>\'hasVersion\'</code>.
  <p>
  * @param type the  value to
@@ -65379,13 +65669,13 @@ appears in the documentation.
 
 %javamethodmodifiers ModelQualifierType_fromString(const char* s) "
 /**
- * This method takes a a string and returns a model qualifier
+ * This method takes a string and returns a model qualifier
  * representing the string.
  <p>
  * This method takes a string as argument and returns a model qualifier type
  * corresponding to that string.  For example, passing it the string
  * <code>\'isDescribedBy\'</code> will return the qualifier
- * <code>BQM_IS_DESCRIBED_BY</code>.
+ * {@link libsbmlConstants#BQM_IS_DESCRIBED_BY BQM_IS_DESCRIBED_BY}.
  <p>
  * @param s the string to translate to a libSBML constant value representing a model qualifier.
  <p>
@@ -65397,13 +65687,13 @@ appears in the documentation.
 
 %javamethodmodifiers BiolQualifierType_fromString(const char* s) "
 /**
- * This method takes a a string and returns a biol qualifier
+ * This method takes a string and returns a biol qualifier
  * representing the string.
  <p>
  * This method takes a string as argument and returns a biol qualifier type
  * corresponding to that string.  For example, passing it the string
  * <code>\'hasVersion\'</code> will return the qualifier
- * <code>BQB_HAS_VERSION</code>.
+ * {@link libsbmlConstants#BQB_HAS_VERSION BQB_HAS_VERSION}.
  <p>
  * @param s the string to translate to a libSBML constant value representing a biological qualifier.
  <p>
@@ -67957,6 +68247,11 @@ defined in SBML.
 ";
 
 
+%javamethodmodifiers SBasePlugin::updateSBMLNamespace(const std::string& package, unsigned int level, unsigned int version) "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers SBasePlugin::SBasePlugin(const std::string &uri, const std::string &prefix, SBMLNamespaces *sbmlns) "
 /** * @internal */ public
 ";
@@ -68118,7 +68413,7 @@ defined in SBML.
  * and does <em>not</em> depend on the actual presence or absence of particular
  * package constructs in a given SBML document: in other words, if the
  * package specification defines any construct that can change the model\'s
- * meaning, the value of the \'required\' attribute must always be set to 
+ * meaning, the value of the \'required\' attribute must always be set to
  * <code>true</code> in any SBML document that uses the package.
  <p>
  * The XML namespace declaration for an SBML Level&nbsp;3 package is an
@@ -68164,7 +68459,7 @@ defined in SBML.
  * and does <em>not</em> depend on the actual presence or absence of particular
  * package constructs in a given SBML document: in other words, if the
  * package specification defines any construct that can change the model\'s
- * meaning, the value of the \'required\' attribute must always be set to 
+ * meaning, the value of the \'required\' attribute must always be set to
  * <code>true</code> in any SBML document that uses the package.
  <p>
  * The XML namespace declaration for an SBML Level&nbsp;3 package is an
@@ -68199,7 +68494,7 @@ defined in SBML.
  * and does <em>not</em> depend on the actual presence or absence of particular
  * package constructs in a given SBML document: in other words, if the
  * package specification defines any construct that can change the model\'s
- * meaning, the value of the \'required\' attribute must always be set to 
+ * meaning, the value of the \'required\' attribute must always be set to
  * <code>true</code> in any SBML document that uses the package.
  <p>
  * The XML namespace declaration for an SBML Level&nbsp;3 package is an
@@ -68707,7 +69002,7 @@ if (doc-&gt;getLevel() == 2)
 ";
 
 
-%javamethodmodifiers SBMLExtension::hasMultipleVersions() const "
+%javamethodmodifiers SBMLExtension::hasMutiplePackageVersions() const "
 /** * @internal */ public
 ";
 
@@ -69952,7 +70247,7 @@ defined in SBML.
  * <li> If the node is a lambda expression, its type will be
  * {@link libsbmlConstants#AST_LAMBDA AST_LAMBDA}.
  <p>
- * <li> If the node is a predefined constant (<code>\'ExponentialE\'</code>, <code>\'Pi\'</code>, 
+ * <li> If the node is a predefined constant (<code>\'ExponentialE\'</code>, <code>\'Pi\'</code>,
  * <code>\'True\'</code> or <code>\'False\'</code>), then the node\'s type will be
  * {@link libsbmlConstants#AST_CONSTANT_E AST_CONSTANT_E},
  * {@link libsbmlConstants#AST_CONSTANT_PI AST_CONSTANT_PI},
@@ -69967,12 +70262,12 @@ defined in SBML.
  * the fact that <code>time</code> is a single variable, whereas <code>delay</code> is actually a
  * function taking arguments.)
  <p>
- * <li> (Level&nbsp;3 only) If the node is the special MathML csymbol 
+ * <li> (Level&nbsp;3 only) If the node is the special MathML csymbol
  * <code>avogadro</code>, the value of the node will be
  * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO}.
  <p>
- * <li> (Level&nbsp;3 Version&nbsp;2+ only) If the node is the special MathML csymbol 
- * <code>rateOf</code>, the value of the node will be
+ * <li> (Level&nbsp;3 Version&nbsp;2+ only) If the node is the special MathML
+ * csymbol <code>rateOf</code>, the value of the node will be
  * {@link libsbmlConstants#AST_FUNCTION_RATE_OF AST_FUNCTION_RATE_OF}.
  <p>
  * <li> (Level&nbsp;3 Version&nbsp;2+ only) If the node is a MathML 
@@ -70141,7 +70436,7 @@ appears in the documentation.
    <p>
    * <ul>
    * <li> If the node type is {@link libsbmlConstants#AST_NAME AST_NAME}
-   * and the node name matches <code>\'ExponentialE\'</code>, <code>\'Pi\'</code>, <code>\'True\'</code> or 
+   * and the node name matches <code>\'ExponentialE\'</code>, <code>\'Pi\'</code>, <code>\'True\'</code> or
    * <code>\'False\'</code> the node type is converted to the corresponding
    * <code>AST_CONSTANT_</code><em><span class=\'placeholder\'>X</span></em> type.
    * <li> If the node type is an {@link libsbmlConstants#AST_FUNCTION AST_FUNCTION} and
@@ -70662,7 +70957,7 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
    * If this node type is {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, this
    * method returns the value of the numerator.
    <p>
-   * @return the value of this {@link ASTNode} as a (<code>long</code>) integer if type {@link libsbmlConstants#AST_INTEGER AST_INTEGER}; the numerator if type {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, and <code>0</code> otherwise.
+   * @return the value of this {@link ASTNode} as a (<code>long</code>) integer if type {@link libsbmlConstants#AST_INTEGER AST_INTEGER}; the numerator if type {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, and <code>0</code> (false) otherwise.
    <p>
    * @note This function should be called only when
    * {@link ASTNode#getType()} returns
@@ -70670,7 +70965,7 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
    * {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
    * It will return <code>0</code> if the node type is <em>not</em> one of these, but since
    * <code>0</code> may be a valid value for integer, it is important to be sure that
-   * the node type is one of the expected types in order to understand if 
+   * the node type is one of the expected types in order to understand if
    * <code>0</code> is the actual value.
    <p>
    * @see #getNumerator()
@@ -70709,7 +71004,7 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
 
 %javamethodmodifiers ASTNode::getNumerator() const "
 /**
-   * Returns the value of the numerator of this node if of type {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, or the numerical value of the node if of type {@link libsbmlConstants#AST_INTEGER AST_INTEGER}; <code>0</code> otherwise.
+   * Returns the value of the numerator of this node if of type {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, or the numerical value of the node if of type {@link libsbmlConstants#AST_INTEGER AST_INTEGER}; <code>0</code> (false) otherwise.
    <p>
    * This function should be called only when
    * {@link ASTNode#getType()} returns
@@ -70720,7 +71015,7 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
    * important to be sure that the node type is the correct type in order to
    * correctly interpret the returned value.
    <p>
-   * @return the value of the numerator of this {@link ASTNode} if {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, the value if {@link libsbmlConstants#AST_INTEGER AST_INTEGER}, or <code>0</code> otherwise.
+   * @return the value of the numerator of this {@link ASTNode} if {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, the value if {@link libsbmlConstants#AST_INTEGER AST_INTEGER}, or <code>0</code> (false) otherwise.
    <p>
    * @see #getDenominator()
    * @see #getInteger()
@@ -70732,13 +71027,13 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
 /**
    * Returns the value of the denominator of this node.
    <p>
-   * @return the value of the denominator of this {@link ASTNode}, or <code>1</code> if
+   * @return the value of the denominator of this {@link ASTNode}, or <code>1</code> (true) if
    * this node is not of type {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
    <p>
    * @note This function should be called only when
    * {@link ASTNode#getType()} returns
    * {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
-   * It will return <code>1</code> if the node type is another type, but since <code>1</code> may
+   * It will return <code>1</code> (true) if the node type is another type, but since <code>1</code> may
    * be a valid value for the denominator of a rational number, it is
    * important to be sure that the node type is the correct type in order to
    * correctly interpret the returned value.
@@ -71068,7 +71363,7 @@ used to define a number with value <code>10</code> and unit of measurement
    * first of which is an {@link libsbmlConstants#AST_INTEGER AST_INTEGER} equal to
    * 10.
    <p>
-   * @return <code>true</code> if the given {@link ASTNode} represents a <code>log10</code>() function, 
+   * @return <code>true</code> if the given {@link ASTNode} represents a <code>log10</code>() function,
    * <code>false</code> otherwise.
    <p>
    * @see <a href=\'libsbml.html#parseL3Formula(java.lang.String)\'><code>libsbml.parseL3Formula(String)</code></a>
@@ -71080,7 +71375,7 @@ used to define a number with value <code>10</code> and unit of measurement
 /**
    * Returns <code>true</code> if this node is a MathML logical operator.
    <p>
-   * The possible MathML logical operators in SBML core are <code>and</code>, <code>or</code>, <code>not</code>, 
+   * The possible MathML logical operators in SBML core are <code>and</code>, <code>or</code>, <code>not</code>,
    * <code>xor</code>, and (as of SBML Level&nbsp;3 Version&nbsp;2) <code>implies.</code>  If
    * the node represents a logical operator defined in a Level&nbsp;3 package,
    * it will also return <code>true.</code>
@@ -71104,7 +71399,7 @@ used to define a number with value <code>10</code> and unit of measurement
    * and not a constant or variable.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is a user-defined variable name in SBML
-   * or the special symbols for time or Avogadro\'s constant. It returns 
+   * or the special symbols for time or Avogadro\'s constant. It returns
    * <code>false</code> otherwise.
    */ public
 ";
@@ -71171,7 +71466,7 @@ used to define a number with value <code>10</code> and unit of measurement
    * Predicate returning <code>true</code> if this node is a MathML
    * qualifier.
    <p>
-   * The MathML qualifier node types are <code>bvar</code>, <code>degree</code>, <code>base</code>, 
+   * The MathML qualifier node types are <code>bvar</code>, <code>degree</code>, <code>base</code>,
    * <code>piece</code>, and <code>otherwise.</code>
    <p>
    * @return <code>true</code> if this {@link ASTNode} is a MathML qualifier, <code>false</code>
@@ -71210,7 +71505,7 @@ used to define a number with value <code>10</code> and unit of measurement
    * The MathML relational operators are <code>==</code>, <code>&gt;=</code>,
    * <code>&gt;</code>, <code>&lt;</code>, and <code>!=</code>.
    <p>
-   * @return <code>true</code> if this {@link ASTNode} is a MathML relational operator, 
+   * @return <code>true</code> if this {@link ASTNode} is a MathML relational operator,
    * <code>false</code> otherwise.
    */ public
 ";
@@ -71935,7 +72230,7 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * For example, if the formula in this {@link ASTNode} is <code>x + y</code>,
    * and the function is called with <code>bvar</code> = <code>\'x\'</code> and <code>arg</code> = an {@link ASTNode}
-   * representing the real value <code>3.</code>  This method would substitute <code>3</code> for 
+   * representing the real value <code>3.</code>  This method would substitute <code>3</code> for
    * <code>x</code> within this {@link ASTNode} object, resulting in the forula <code>3 + y</code>.
    <p>
    * @param bvar a string representing the variable name to be substituted.
@@ -72387,21 +72682,19 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers writeMathMLWithNamespaceToString(const ASTNode_t* node, SBMLNamespaces_t* sbmlns) "
 /**
-* Writes the given AST node (and its children) to a string as MathML, and
-* returns the string.
-*
-* @param node the root of an AST to write out to the stream.
-* @param sbmlns the SBML namespace to be used
-*
-* @return a string containing the written-out MathML representation
-* of the given AST.
-*
-* @note The string is owned by the caller and should be freed (with
-* free()) when no longer needed.  <code>null</code> is returned if the given
-* argument is <code>null.</code>
-*
-* 
-*/ public
+ * Writes the given AST node (and its children) to a string as MathML, and
+ * returns the string.
+ <p>
+ * @param node the root of an AST to write out to the stream.
+ * @param sbmlns the SBML namespace to be used
+ <p>
+ * @return a string containing the written-out MathML representation
+ * of the given AST.
+ <p>
+ * @note The string is owned by the caller and should be freed (with
+ * free()) when no longer needed.  <code>null</code> is returned if the given
+ * argument is <code>null.</code>
+ */ public
 ";
 
 
@@ -72498,7 +72791,7 @@ text-string format for mathematical expressions used by SBML_parseFormula().
 <tr><td><code>ceil</code></td><td><em>x</em></td><td>smallest number not less than <em>x</em> whose value is an exact integer</td><td></td><td></td></tr>
 <tr><td><code>cos</code></td><td><em>x</em></td><td>cosine of <em>x</em></td><td></td><td></td></tr>
 <tr><td><code>exp</code></td><td><em>x</em></td><td><em>e</em><sup><em> x</em></sup>, where <em>e</em> is the base of the natural logarithm</td><td></td><td></td></tr>
-<tr><td><code>floor</code></td><td><em>x</em></td><td>the largest number not greater than <em>x</em> whose value is an exact integer</td><td></td><td></td></tr>
+<tr><td><code>floor</code></td><td><em>x</em></td><td>largest number not greater than <em>x</em> whose value is an exact integer</td><td></td><td></td></tr>
 <tr><td><code>log</code></td><td><em>x</em></td><td>natural logarithm of <em>x</em></td><td><em>x</em> &gt; 0</td><td></td></tr>
 <tr><td><code>log10</code></td><td><em>x</em></td><td>base 10 logarithm of <em>x</em></td><td><em>x</em> &gt; 0</td><td></td></tr>
 <tr><td><code>pow</code></td><td><em>x, y</em></td><td><em>x</em><sup><em> y</em></sup></td><td></td><td></td></tr>
@@ -72524,7 +72817,7 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  <p>
  * @param formula the text-string formula expression to be parsed.
  <p>
- * @return the root node of the AST corresponding to the <code>formula</code>, or 
+ * @return the root node of the AST corresponding to the <code>formula</code>, or
  * <code>null</code> if an error occurred in parsing the formula
  <p>
  * 
@@ -72584,7 +72877,7 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * <a href=\'libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)\'><code>libsbml.formulaToL3String(ASTNode)</code></a>.
  <p>
  * The following lists the main differences in the formula syntax supported by
- * the \'Level 3\' or L3 versions of the formula parsers and formatters,
+ * the Level 3 (\'L3\') versions of the formula parsers and formatters,
  * compared to what is supported by the Level&nbsp;1-oriented
  * <a href=\'libsbml.html#parseFormula(java.lang.String)\'><code>libsbml.parseFormula(String)</code></a> and
  * <a href=\'libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)\'><code>libsbml.formulaToString(ASTNode)</code></a>:
@@ -72605,12 +72898,14 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * and <span class=\'code\' style=\'background-color: #edd\'>unit</span>
  * is optional.
  <p>
- * <li> The Boolean function symbols <code>&&</code>, <code>||</code>, <code>!</code>, and <code>!=</code> may be
- * used.
+ * <li> The Boolean function symbols <code>&&</code> (<em>and</em>), <code>||</code> (<em>or</em>), <code>!</code> (<em>not</em>),
+ * and <code>!=</code> (<em>not</em> <em>equals</em>) may be used.
  <p>
  * <li> The <em>modulo</em> operation is allowed as the symbol <code>@%</code> and will
  * produce a <code>&lt;piecewise&gt;</code> function in the corresponding
- * MathML output.
+ * MathML output by default, or can produce the MathML function <code>rem</code>, 
+ * depending on the {@link L3ParserSettings} object (see 
+ * L3ParserSettings_setParseModuloL3v2() ).
  <p>
  * <li> All inverse trigonometric functions may be defined in the infix either
  * using <code>arc</code> as a prefix or simply <code>a</code>; in other words, both <code>arccsc</code>
@@ -72656,12 +72951,25 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * <li style=\'margin-bottom: 0.5em\'> The string <code>avogadro</code> can be parsed as
  * a MathML <em>csymbol</em> or as an identifier.
  <p>
+ * <li style=\'margin-bottom: 0.5em\'> The string @% can be parsed either as a 
+ * piecewise function or as the \'rem\' function:  <code>a @% b</code> will either
+ * become
+ <p>
+ * <code>piecewise(a - b*ceil(a/b), xor((a < 0), (b < 0)), a - b*floor(a/b))</code>
+ <p>
+ * or 
+ <p>
+ * <code>rem(a, b)</code>.
+ <p>
+ * The latter is simpler, but the <code>rem</code> MathML is only allowed
+ * as of SBML Level&nbsp;3 Version&nbsp;2.</li>
+ <p>
  * <li style=\'margin-bottom: 0.5em\'> A {@link Model} object may optionally be
  * provided to the parser using the variant function call
  * <a href=\'libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)\'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a> or
  * stored in a {@link L3ParserSettings} object passed to the variant function
  * <a href=\'libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)\'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.  When a {@link Model} object is provided, identifiers
- * (values of type <code>SId</code>) from that model are used in preference to
+ * (values of type <code>SId</code> ) from that model are used in preference to
  * pre-defined MathML definitions for both symbols and functions.
  * More precisely:
  * <ul style=\'list-style-type: square\'>
@@ -72715,18 +73023,18 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
      <th align=\"left\">Token</th>
      <th align=\"left\">Operation</th>
      <th align=\"left\">Class</th>
-     <th>Precedence</th>
-     <th align=\"left\">Associates</th>
+     <th>Preced.</th>
+     <th align=\"left\">Assoc.</th>
  </tr>
 <tr><td><em>name</em></td><td>symbol reference</td><td>operand</td><td align=\"center\">8</td><td>n/a</td></tr>
 <tr><td><code>(</code><em>expression</em><code>)</code></td><td>expression grouping</td><td>operand</td><td align=\"center\">8</td><td>n/a</td></tr>
 <tr><td><code>f(</code><em>...</em><code>)</code></td><td>function call</td><td>prefix</td><td align=\"center\">8</td><td>left</td></tr>
 <tr><td><code>^</code></td><td>power</td><td>binary</td><td align=\"center\">7</td><td>left</td></tr>
-<tr><td><code>-, !</code></td><td>negation and boolean 'not'</td><td>unary</td><td align=\"center\">6</td><td>right</td></tr>
-<tr><td><code>*, /, %</code></td><td>multiplication, division, and modulo</td><td>binary</td><td align=\"center\">5</td><td>left</td></tr>
+<tr><td><code>-, !</code></td><td>negation, Boolean 'not'</td><td>unary</td><td align=\"center\">6</td><td>right</td></tr>
+<tr><td><code>*, /, %</code></td><td>multip., div., modulo</td><td>binary</td><td align=\"center\">5</td><td>left</td></tr>
 <tr><td><code>+, -</code></td><td>addition and subtraction</td><td>binary</td><td align=\"center\">4</td><td>left</td></tr>
-<tr><td><code>==, &lt;, &gt;, &lt=, &gt=, !=</code></td><td>boolean equality, inequality, and comparison</td><td>binary</td><td align=\"center\">3</td><td>left</td></tr>
-<tr><td><code>&&, ||</code></td><td>boolean 'and' and 'or'</td><td>binary</td><td align=\"center\">2</td><td>left</td></tr>
+<tr><td><code>==, &lt;, &gt;, &lt;=, &gt;=, !=</code></td><td>Boolean comparisons</td><td>binary</td><td align=\"center\">3</td><td>left</td></tr>
+<tr><td><code>&&, ||</code></td><td>Boolean 'and' and 'or'</td><td>binary</td><td align=\"center\">2</td><td>left</td></tr>
 <tr><td><code>,</code></td><td>argument delimiter</td><td>binary</td><td align=\"center\">1</td><td>left</td></tr>
 
 <caption class=\"top-caption\">Expression operators and their precedence in the
@@ -72934,7 +73242,7 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
 <tr><td><code>piecewise</code></td>
     <td><em>x1, y1, [x2, y2,] [...] [z]</em></td>
     <td>A piecewise function: if (<em>y1</em>), <em>x1</em>.  Otherwise, if (<em>y2</em>), <em>x2</em>, etc.  Otherwise, z. </td>
-    <td><em>y1, y2, y3 [etc]</em> must be boolean</td>
+    <td><em>y1, y2, y3 [etc]</em> must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>pow</code>, <code>power</code> </td>
@@ -73000,25 +73308,25 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
 <tr><td><code>and</code></td>
     <td><em>x, y, z...</em></td>
     <td>Boolean <em>and(x, y, z...)</em>: returns <code>true</code> if all of its arguments are true.  Note that <code>and</code> is an n-ary function, taking 0 or more arguments, and that <code>and()</code> returns <code>true</code>.</td>
-    <td>All arguments must be boolean</td>
+    <td>All arguments must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>not</code></td>
     <td><em>x</em></td>
     <td>Boolean <em>not(x)</em></td>
-    <td><em>x</em> must be boolean</td>
+    <td><em>x</em> must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>or</code></td>
     <td><em>x, y, z...</em></td>
     <td>Boolean <em>or(x, y, z...)</em>: returns <code>true</code> if at least one of its arguments is true.  Note that <code>or</code> is an n-ary function, taking 0 or more arguments, and that <code>or()</code> returns <code>false</code>.</td>
-    <td>All arguments must be boolean</td>
+    <td>All arguments must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>xor</code></td>
     <td><em>x, y, z...</em></td>
     <td>Boolean <em>xor(x, y, z...)</em>: returns <code>true</code> if an odd number of its arguments is true.  Note that <code>xor</code> is an n-ary function, taking 0 or more arguments, and that <code>xor()</code> returns <code>false</code>.</td>
-    <td>All arguments must be boolean</td>
+    <td>All arguments must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>eq</code></td>
@@ -73112,7 +73420,7 @@ in the \"Level&nbsp;3\" text-string formula syntax.</caption>
  * &quot;<code>log</code>&quot; is interpreted as the base&nbsp;10 logarithm,
  * and <em>not</em> as the natural logarithm.  However, you can change the
  * interpretation to be base-10 log, natural log, or as an error; since the
- * name \'log\' by itself is ambiguous, you require that the parser uses 
+ * name \'log\' by itself is ambiguous, you require that the parser uses
  * <code>log10</code> or <code>ln</code> instead, which are more clear.  Please refer to
  * <a href=\'libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)\'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.
  <p>
@@ -73128,31 +73436,31 @@ in the \"Level&nbsp;3\" text-string formula syntax.</caption>
      <th align=\"left\">MathML</th>
  </tr>
 <tr><td><code>true</code></td>   
-    <td>The boolean value <code>true</code></td>
+    <td>Boolean value <code>true</code></td>
     <td><code>&lt;true/&gt;</code></td>
 </tr>
 <tr><td><code>false</code></td>   
-    <td>The boolean value <code>false</code></td>
+    <td>Boolean value <code>false</code></td>
     <td><code>&lt;false/&gt;</code></td>
 </tr>
 <tr><td><code>pi</code></td>   
-    <td>The mathematical constant pi</td>
+    <td>Mathematical constant pi</td>
     <td><code>&lt;pi/&gt;</code></td>
 </tr>
 <tr><td><code>avogadro</code></td>   
-    <td>The numerical value of Avogadro's constant, as defined in the SBML specification</td>
+    <td>Value of Avogadro's constant stipulated by SBML</td>
     <td><code style=\"letter-spacing: -1px\">&lt;csymbol encoding=\"text\" definitionURL=\"http://www.sbml.org/sbml/symbols/avogadro\"&gt; avogadro &lt;/csymbol/&gt;</code></td>
 </tr>
 <tr><td><code>time</code></td>   
     <td>Simulation time as defined in SBML</td>
     <td><code style=\"letter-spacing: -1px\">&lt;csymbol encoding=\"text\" definitionURL=\"http://www.sbml.org/sbml/symbols/time\"&gt; time &lt;/csymbol/&gt;</code></td>
 </tr>
-<tr><td><code>inf</code> or <code>infinity</code></td>   
-    <td>The mathematical constant \"infinity\"</td>
+<tr><td><code>inf</code>, <code>infinity</code></td>   
+    <td>Mathematical constant \"infinity\"</td>
     <td><code>&lt;infinity/&gt;</code></td>
 </tr>
-<tr><td><code>nan</code> or <code>notanumber</code></td>   
-    <td>The mathematical concept \"not a number\"</td>
+<tr><td><code>nan</code>, <code>notanumber</code></td>   
+    <td>Mathematical concept \"not a number\"</td>
     <td><code>&lt;notanumber/&gt;</code></td>
 </tr>
 
@@ -73343,7 +73651,7 @@ text-string format for mathematical expressions used by SBML_parseFormula().
 <tr><td><code>ceil</code></td><td><em>x</em></td><td>smallest number not less than <em>x</em> whose value is an exact integer</td><td></td><td></td></tr>
 <tr><td><code>cos</code></td><td><em>x</em></td><td>cosine of <em>x</em></td><td></td><td></td></tr>
 <tr><td><code>exp</code></td><td><em>x</em></td><td><em>e</em><sup><em> x</em></sup>, where <em>e</em> is the base of the natural logarithm</td><td></td><td></td></tr>
-<tr><td><code>floor</code></td><td><em>x</em></td><td>the largest number not greater than <em>x</em> whose value is an exact integer</td><td></td><td></td></tr>
+<tr><td><code>floor</code></td><td><em>x</em></td><td>largest number not greater than <em>x</em> whose value is an exact integer</td><td></td><td></td></tr>
 <tr><td><code>log</code></td><td><em>x</em></td><td>natural logarithm of <em>x</em></td><td><em>x</em> &gt; 0</td><td></td></tr>
 <tr><td><code>log10</code></td><td><em>x</em></td><td>base 10 logarithm of <em>x</em></td><td><em>x</em> &gt; 0</td><td></td></tr>
 <tr><td><code>pow</code></td><td><em>x, y</em></td><td><em>x</em><sup><em> y</em></sup></td><td></td><td></td></tr>
@@ -73428,7 +73736,7 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * <a href=\'libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)\'><code>libsbml.formulaToL3String(ASTNode)</code></a>.
  <p>
  * The following lists the main differences in the formula syntax supported by
- * the \'Level 3\' or L3 versions of the formula parsers and formatters,
+ * the Level 3 (\'L3\') versions of the formula parsers and formatters,
  * compared to what is supported by the Level&nbsp;1-oriented
  * <a href=\'libsbml.html#parseFormula(java.lang.String)\'><code>libsbml.parseFormula(String)</code></a> and
  * <a href=\'libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)\'><code>libsbml.formulaToString(ASTNode)</code></a>:
@@ -73449,12 +73757,14 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * and <span class=\'code\' style=\'background-color: #edd\'>unit</span>
  * is optional.
  <p>
- * <li> The Boolean function symbols <code>&&</code>, <code>||</code>, <code>!</code>, and <code>!=</code> may be
- * used.
+ * <li> The Boolean function symbols <code>&&</code> (<em>and</em>), <code>||</code> (<em>or</em>), <code>!</code> (<em>not</em>),
+ * and <code>!=</code> (<em>not</em> <em>equals</em>) may be used.
  <p>
  * <li> The <em>modulo</em> operation is allowed as the symbol <code>@%</code> and will
  * produce a <code>&lt;piecewise&gt;</code> function in the corresponding
- * MathML output.
+ * MathML output by default, or can produce the MathML function <code>rem</code>, 
+ * depending on the {@link L3ParserSettings} object (see 
+ * L3ParserSettings_setParseModuloL3v2() ).
  <p>
  * <li> All inverse trigonometric functions may be defined in the infix either
  * using <code>arc</code> as a prefix or simply <code>a</code>; in other words, both <code>arccsc</code>
@@ -73500,12 +73810,25 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * <li style=\'margin-bottom: 0.5em\'> The string <code>avogadro</code> can be parsed as
  * a MathML <em>csymbol</em> or as an identifier.
  <p>
+ * <li style=\'margin-bottom: 0.5em\'> The string @% can be parsed either as a 
+ * piecewise function or as the \'rem\' function:  <code>a @% b</code> will either
+ * become
+ <p>
+ * <code>piecewise(a - b*ceil(a/b), xor((a < 0), (b < 0)), a - b*floor(a/b))</code>
+ <p>
+ * or 
+ <p>
+ * <code>rem(a, b)</code>.
+ <p>
+ * The latter is simpler, but the <code>rem</code> MathML is only allowed
+ * as of SBML Level&nbsp;3 Version&nbsp;2.</li>
+ <p>
  * <li style=\'margin-bottom: 0.5em\'> A {@link Model} object may optionally be
  * provided to the parser using the variant function call
  * <a href=\'libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)\'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a> or
  * stored in a {@link L3ParserSettings} object passed to the variant function
  * <a href=\'libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)\'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.  When a {@link Model} object is provided, identifiers
- * (values of type <code>SId</code>) from that model are used in preference to
+ * (values of type <code>SId</code> ) from that model are used in preference to
  * pre-defined MathML definitions for both symbols and functions.
  * More precisely:
  * <ul style=\'list-style-type: square\'>
@@ -73559,18 +73882,18 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
      <th align=\"left\">Token</th>
      <th align=\"left\">Operation</th>
      <th align=\"left\">Class</th>
-     <th>Precedence</th>
-     <th align=\"left\">Associates</th>
+     <th>Preced.</th>
+     <th align=\"left\">Assoc.</th>
  </tr>
 <tr><td><em>name</em></td><td>symbol reference</td><td>operand</td><td align=\"center\">8</td><td>n/a</td></tr>
 <tr><td><code>(</code><em>expression</em><code>)</code></td><td>expression grouping</td><td>operand</td><td align=\"center\">8</td><td>n/a</td></tr>
 <tr><td><code>f(</code><em>...</em><code>)</code></td><td>function call</td><td>prefix</td><td align=\"center\">8</td><td>left</td></tr>
 <tr><td><code>^</code></td><td>power</td><td>binary</td><td align=\"center\">7</td><td>left</td></tr>
-<tr><td><code>-, !</code></td><td>negation and boolean 'not'</td><td>unary</td><td align=\"center\">6</td><td>right</td></tr>
-<tr><td><code>*, /, %</code></td><td>multiplication, division, and modulo</td><td>binary</td><td align=\"center\">5</td><td>left</td></tr>
+<tr><td><code>-, !</code></td><td>negation, Boolean 'not'</td><td>unary</td><td align=\"center\">6</td><td>right</td></tr>
+<tr><td><code>*, /, %</code></td><td>multip., div., modulo</td><td>binary</td><td align=\"center\">5</td><td>left</td></tr>
 <tr><td><code>+, -</code></td><td>addition and subtraction</td><td>binary</td><td align=\"center\">4</td><td>left</td></tr>
-<tr><td><code>==, &lt;, &gt;, &lt=, &gt=, !=</code></td><td>boolean equality, inequality, and comparison</td><td>binary</td><td align=\"center\">3</td><td>left</td></tr>
-<tr><td><code>&&, ||</code></td><td>boolean 'and' and 'or'</td><td>binary</td><td align=\"center\">2</td><td>left</td></tr>
+<tr><td><code>==, &lt;, &gt;, &lt;=, &gt;=, !=</code></td><td>Boolean comparisons</td><td>binary</td><td align=\"center\">3</td><td>left</td></tr>
+<tr><td><code>&&, ||</code></td><td>Boolean 'and' and 'or'</td><td>binary</td><td align=\"center\">2</td><td>left</td></tr>
 <tr><td><code>,</code></td><td>argument delimiter</td><td>binary</td><td align=\"center\">1</td><td>left</td></tr>
 
 <caption class=\"top-caption\">Expression operators and their precedence in the
@@ -73778,7 +74101,7 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
 <tr><td><code>piecewise</code></td>
     <td><em>x1, y1, [x2, y2,] [...] [z]</em></td>
     <td>A piecewise function: if (<em>y1</em>), <em>x1</em>.  Otherwise, if (<em>y2</em>), <em>x2</em>, etc.  Otherwise, z. </td>
-    <td><em>y1, y2, y3 [etc]</em> must be boolean</td>
+    <td><em>y1, y2, y3 [etc]</em> must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>pow</code>, <code>power</code> </td>
@@ -73844,25 +74167,25 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
 <tr><td><code>and</code></td>
     <td><em>x, y, z...</em></td>
     <td>Boolean <em>and(x, y, z...)</em>: returns <code>true</code> if all of its arguments are true.  Note that <code>and</code> is an n-ary function, taking 0 or more arguments, and that <code>and()</code> returns <code>true</code>.</td>
-    <td>All arguments must be boolean</td>
+    <td>All arguments must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>not</code></td>
     <td><em>x</em></td>
     <td>Boolean <em>not(x)</em></td>
-    <td><em>x</em> must be boolean</td>
+    <td><em>x</em> must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>or</code></td>
     <td><em>x, y, z...</em></td>
     <td>Boolean <em>or(x, y, z...)</em>: returns <code>true</code> if at least one of its arguments is true.  Note that <code>or</code> is an n-ary function, taking 0 or more arguments, and that <code>or()</code> returns <code>false</code>.</td>
-    <td>All arguments must be boolean</td>
+    <td>All arguments must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>xor</code></td>
     <td><em>x, y, z...</em></td>
     <td>Boolean <em>xor(x, y, z...)</em>: returns <code>true</code> if an odd number of its arguments is true.  Note that <code>xor</code> is an n-ary function, taking 0 or more arguments, and that <code>xor()</code> returns <code>false</code>.</td>
-    <td>All arguments must be boolean</td>
+    <td>All arguments must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>eq</code></td>
@@ -73956,7 +74279,7 @@ in the \"Level&nbsp;3\" text-string formula syntax.</caption>
  * &quot;<code>log</code>&quot; is interpreted as the base&nbsp;10 logarithm,
  * and <em>not</em> as the natural logarithm.  However, you can change the
  * interpretation to be base-10 log, natural log, or as an error; since the
- * name \'log\' by itself is ambiguous, you require that the parser uses 
+ * name \'log\' by itself is ambiguous, you require that the parser uses
  * <code>log10</code> or <code>ln</code> instead, which are more clear.  Please refer to
  * <a href=\'libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)\'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.
  <p>
@@ -73972,31 +74295,31 @@ in the \"Level&nbsp;3\" text-string formula syntax.</caption>
      <th align=\"left\">MathML</th>
  </tr>
 <tr><td><code>true</code></td>   
-    <td>The boolean value <code>true</code></td>
+    <td>Boolean value <code>true</code></td>
     <td><code>&lt;true/&gt;</code></td>
 </tr>
 <tr><td><code>false</code></td>   
-    <td>The boolean value <code>false</code></td>
+    <td>Boolean value <code>false</code></td>
     <td><code>&lt;false/&gt;</code></td>
 </tr>
 <tr><td><code>pi</code></td>   
-    <td>The mathematical constant pi</td>
+    <td>Mathematical constant pi</td>
     <td><code>&lt;pi/&gt;</code></td>
 </tr>
 <tr><td><code>avogadro</code></td>   
-    <td>The numerical value of Avogadro's constant, as defined in the SBML specification</td>
+    <td>Value of Avogadro's constant stipulated by SBML</td>
     <td><code style=\"letter-spacing: -1px\">&lt;csymbol encoding=\"text\" definitionURL=\"http://www.sbml.org/sbml/symbols/avogadro\"&gt; avogadro &lt;/csymbol/&gt;</code></td>
 </tr>
 <tr><td><code>time</code></td>   
     <td>Simulation time as defined in SBML</td>
     <td><code style=\"letter-spacing: -1px\">&lt;csymbol encoding=\"text\" definitionURL=\"http://www.sbml.org/sbml/symbols/time\"&gt; time &lt;/csymbol/&gt;</code></td>
 </tr>
-<tr><td><code>inf</code> or <code>infinity</code></td>   
-    <td>The mathematical constant \"infinity\"</td>
+<tr><td><code>inf</code>, <code>infinity</code></td>   
+    <td>Mathematical constant \"infinity\"</td>
     <td><code>&lt;infinity/&gt;</code></td>
 </tr>
-<tr><td><code>nan</code> or <code>notanumber</code></td>   
-    <td>The mathematical concept \"not a number\"</td>
+<tr><td><code>nan</code>, <code>notanumber</code></td>   
+    <td>Mathematical concept \"not a number\"</td>
     <td><code>&lt;notanumber/&gt;</code></td>
 </tr>
 
@@ -74183,7 +74506,7 @@ in the \"Level&nbsp;3\" text-string formula syntax.
  * <a href=\'libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)\'><code>libsbml.formulaToL3String(ASTNode)</code></a>.
  <p>
  * The following lists the main differences in the formula syntax supported by
- * the \'Level 3\' or L3 versions of the formula parsers and formatters,
+ * the Level 3 (\'L3\') versions of the formula parsers and formatters,
  * compared to what is supported by the Level&nbsp;1-oriented
  * <a href=\'libsbml.html#parseFormula(java.lang.String)\'><code>libsbml.parseFormula(String)</code></a> and
  * <a href=\'libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)\'><code>libsbml.formulaToString(ASTNode)</code></a>:
@@ -74204,12 +74527,14 @@ in the \"Level&nbsp;3\" text-string formula syntax.
  * and <span class=\'code\' style=\'background-color: #edd\'>unit</span>
  * is optional.
  <p>
- * <li> The Boolean function symbols <code>&&</code>, <code>||</code>, <code>!</code>, and <code>!=</code> may be
- * used.
+ * <li> The Boolean function symbols <code>&&</code> (<em>and</em>), <code>||</code> (<em>or</em>), <code>!</code> (<em>not</em>),
+ * and <code>!=</code> (<em>not</em> <em>equals</em>) may be used.
  <p>
  * <li> The <em>modulo</em> operation is allowed as the symbol <code>@%</code> and will
  * produce a <code>&lt;piecewise&gt;</code> function in the corresponding
- * MathML output.
+ * MathML output by default, or can produce the MathML function <code>rem</code>, 
+ * depending on the {@link L3ParserSettings} object (see 
+ * L3ParserSettings_setParseModuloL3v2() ).
  <p>
  * <li> All inverse trigonometric functions may be defined in the infix either
  * using <code>arc</code> as a prefix or simply <code>a</code>; in other words, both <code>arccsc</code>
@@ -74255,12 +74580,25 @@ in the \"Level&nbsp;3\" text-string formula syntax.
  * <li style=\'margin-bottom: 0.5em\'> The string <code>avogadro</code> can be parsed as
  * a MathML <em>csymbol</em> or as an identifier.
  <p>
+ * <li style=\'margin-bottom: 0.5em\'> The string @% can be parsed either as a 
+ * piecewise function or as the \'rem\' function:  <code>a @% b</code> will either
+ * become
+ <p>
+ * <code>piecewise(a - b*ceil(a/b), xor((a < 0), (b < 0)), a - b*floor(a/b))</code>
+ <p>
+ * or 
+ <p>
+ * <code>rem(a, b)</code>.
+ <p>
+ * The latter is simpler, but the <code>rem</code> MathML is only allowed
+ * as of SBML Level&nbsp;3 Version&nbsp;2.</li>
+ <p>
  * <li style=\'margin-bottom: 0.5em\'> A {@link Model} object may optionally be
  * provided to the parser using the variant function call
  * <a href=\'libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)\'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a> or
  * stored in a {@link L3ParserSettings} object passed to the variant function
  * <a href=\'libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)\'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.  When a {@link Model} object is provided, identifiers
- * (values of type <code>SId</code>) from that model are used in preference to
+ * (values of type <code>SId</code> ) from that model are used in preference to
  * pre-defined MathML definitions for both symbols and functions.
  * More precisely:
  * <ul style=\'list-style-type: square\'>
@@ -74314,18 +74652,18 @@ in the \"Level&nbsp;3\" text-string formula syntax.
      <th align=\"left\">Token</th>
      <th align=\"left\">Operation</th>
      <th align=\"left\">Class</th>
-     <th>Precedence</th>
-     <th align=\"left\">Associates</th>
+     <th>Preced.</th>
+     <th align=\"left\">Assoc.</th>
  </tr>
 <tr><td><em>name</em></td><td>symbol reference</td><td>operand</td><td align=\"center\">8</td><td>n/a</td></tr>
 <tr><td><code>(</code><em>expression</em><code>)</code></td><td>expression grouping</td><td>operand</td><td align=\"center\">8</td><td>n/a</td></tr>
 <tr><td><code>f(</code><em>...</em><code>)</code></td><td>function call</td><td>prefix</td><td align=\"center\">8</td><td>left</td></tr>
 <tr><td><code>^</code></td><td>power</td><td>binary</td><td align=\"center\">7</td><td>left</td></tr>
-<tr><td><code>-, !</code></td><td>negation and boolean 'not'</td><td>unary</td><td align=\"center\">6</td><td>right</td></tr>
-<tr><td><code>*, /, %</code></td><td>multiplication, division, and modulo</td><td>binary</td><td align=\"center\">5</td><td>left</td></tr>
+<tr><td><code>-, !</code></td><td>negation, Boolean 'not'</td><td>unary</td><td align=\"center\">6</td><td>right</td></tr>
+<tr><td><code>*, /, %</code></td><td>multip., div., modulo</td><td>binary</td><td align=\"center\">5</td><td>left</td></tr>
 <tr><td><code>+, -</code></td><td>addition and subtraction</td><td>binary</td><td align=\"center\">4</td><td>left</td></tr>
-<tr><td><code>==, &lt;, &gt;, &lt=, &gt=, !=</code></td><td>boolean equality, inequality, and comparison</td><td>binary</td><td align=\"center\">3</td><td>left</td></tr>
-<tr><td><code>&&, ||</code></td><td>boolean 'and' and 'or'</td><td>binary</td><td align=\"center\">2</td><td>left</td></tr>
+<tr><td><code>==, &lt;, &gt;, &lt;=, &gt;=, !=</code></td><td>Boolean comparisons</td><td>binary</td><td align=\"center\">3</td><td>left</td></tr>
+<tr><td><code>&&, ||</code></td><td>Boolean 'and' and 'or'</td><td>binary</td><td align=\"center\">2</td><td>left</td></tr>
 <tr><td><code>,</code></td><td>argument delimiter</td><td>binary</td><td align=\"center\">1</td><td>left</td></tr>
 
 <caption class=\"top-caption\">Expression operators and their precedence in the
@@ -74533,7 +74871,7 @@ in the \"Level&nbsp;3\" text-string formula syntax.
 <tr><td><code>piecewise</code></td>
     <td><em>x1, y1, [x2, y2,] [...] [z]</em></td>
     <td>A piecewise function: if (<em>y1</em>), <em>x1</em>.  Otherwise, if (<em>y2</em>), <em>x2</em>, etc.  Otherwise, z. </td>
-    <td><em>y1, y2, y3 [etc]</em> must be boolean</td>
+    <td><em>y1, y2, y3 [etc]</em> must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>pow</code>, <code>power</code> </td>
@@ -74599,25 +74937,25 @@ in the \"Level&nbsp;3\" text-string formula syntax.
 <tr><td><code>and</code></td>
     <td><em>x, y, z...</em></td>
     <td>Boolean <em>and(x, y, z...)</em>: returns <code>true</code> if all of its arguments are true.  Note that <code>and</code> is an n-ary function, taking 0 or more arguments, and that <code>and()</code> returns <code>true</code>.</td>
-    <td>All arguments must be boolean</td>
+    <td>All arguments must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>not</code></td>
     <td><em>x</em></td>
     <td>Boolean <em>not(x)</em></td>
-    <td><em>x</em> must be boolean</td>
+    <td><em>x</em> must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>or</code></td>
     <td><em>x, y, z...</em></td>
     <td>Boolean <em>or(x, y, z...)</em>: returns <code>true</code> if at least one of its arguments is true.  Note that <code>or</code> is an n-ary function, taking 0 or more arguments, and that <code>or()</code> returns <code>false</code>.</td>
-    <td>All arguments must be boolean</td>
+    <td>All arguments must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>xor</code></td>
     <td><em>x, y, z...</em></td>
     <td>Boolean <em>xor(x, y, z...)</em>: returns <code>true</code> if an odd number of its arguments is true.  Note that <code>xor</code> is an n-ary function, taking 0 or more arguments, and that <code>xor()</code> returns <code>false</code>.</td>
-    <td>All arguments must be boolean</td>
+    <td>All arguments must be Boolean</td>
     <td></td>
 </tr>
 <tr><td><code>eq</code></td>
@@ -74711,7 +75049,7 @@ in the \"Level&nbsp;3\" text-string formula syntax.</caption>
  * &quot;<code>log</code>&quot; is interpreted as the base&nbsp;10 logarithm,
  * and <em>not</em> as the natural logarithm.  However, you can change the
  * interpretation to be base-10 log, natural log, or as an error; since the
- * name \'log\' by itself is ambiguous, you require that the parser uses 
+ * name \'log\' by itself is ambiguous, you require that the parser uses
  * <code>log10</code> or <code>ln</code> instead, which are more clear.  Please refer to
  * <a href=\'libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)\'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>.
  <p>
@@ -74727,31 +75065,31 @@ in the \"Level&nbsp;3\" text-string formula syntax.</caption>
      <th align=\"left\">MathML</th>
  </tr>
 <tr><td><code>true</code></td>   
-    <td>The boolean value <code>true</code></td>
+    <td>Boolean value <code>true</code></td>
     <td><code>&lt;true/&gt;</code></td>
 </tr>
 <tr><td><code>false</code></td>   
-    <td>The boolean value <code>false</code></td>
+    <td>Boolean value <code>false</code></td>
     <td><code>&lt;false/&gt;</code></td>
 </tr>
 <tr><td><code>pi</code></td>   
-    <td>The mathematical constant pi</td>
+    <td>Mathematical constant pi</td>
     <td><code>&lt;pi/&gt;</code></td>
 </tr>
 <tr><td><code>avogadro</code></td>   
-    <td>The numerical value of Avogadro's constant, as defined in the SBML specification</td>
+    <td>Value of Avogadro's constant stipulated by SBML</td>
     <td><code style=\"letter-spacing: -1px\">&lt;csymbol encoding=\"text\" definitionURL=\"http://www.sbml.org/sbml/symbols/avogadro\"&gt; avogadro &lt;/csymbol/&gt;</code></td>
 </tr>
 <tr><td><code>time</code></td>   
     <td>Simulation time as defined in SBML</td>
     <td><code style=\"letter-spacing: -1px\">&lt;csymbol encoding=\"text\" definitionURL=\"http://www.sbml.org/sbml/symbols/time\"&gt; time &lt;/csymbol/&gt;</code></td>
 </tr>
-<tr><td><code>inf</code> or <code>infinity</code></td>   
-    <td>The mathematical constant \"infinity\"</td>
+<tr><td><code>inf</code>, <code>infinity</code></td>   
+    <td>Mathematical constant \"infinity\"</td>
     <td><code>&lt;infinity/&gt;</code></td>
 </tr>
-<tr><td><code>nan</code> or <code>notanumber</code></td>   
-    <td>The mathematical concept \"not a number\"</td>
+<tr><td><code>nan</code>, <code>notanumber</code></td>   
+    <td>Mathematical concept \"not a number\"</td>
     <td><code>&lt;notanumber/&gt;</code></td>
 </tr>
 
@@ -74997,15 +75335,15 @@ defined in SBML.
    * interpreted in a case-sensitive manner.
    <p>
    * @param moduloL3v2 (\'modulo L3v2\') a flag that controls how the
-   * parser will handle the \'%\' (\'modulo\') symbol in formulas.  By default, 
+   * parser will handle the @% (\'modulo\') symbol in formulas.  By default, 
    * the parser will convert \'a % b\' to a piecewise function that properly
    * calculates the remainder of a with respect to be, but the parser can
    * also be set to produce the MathML <code>rem</code> function, should the target
    * of the produced {@link ASTNode} be an SBML Level&nbsp;3 Version&nbsp;2 
    * document, where the <code>rem</code> function is legal.
    * The possible values of this field are
-   * {@link libsbmlConstants#L3P_MODULO_IS_PIECEWISE L3P_MODULO_IS_PIECEWISE} (to parse \'%\' as a piecewise function) and
-   * {@link libsbmlConstants#L3P_MODULO_IS_REM L3P_MODULO_IS_REM} (to parse \'%\' as <code>rem</code>).
+   * {@link libsbmlConstants#L3P_MODULO_IS_PIECEWISE L3P_MODULO_IS_PIECEWISE} (to parse @% as a piecewise function) and
+   * {@link libsbmlConstants#L3P_MODULO_IS_REM L3P_MODULO_IS_REM} (to parse @% as <code>rem</code>).
    <p>
    * @param sbmlns (\'SBML namespaces\') an SBML namespaces object.  The
    * namespaces identify the SBML Level&nbsp;3 packages that can extend the
@@ -75078,7 +75416,7 @@ appears in the documentation.
  * &quot;<code>pi</code>&quot;, and the formula to be parsed is
  * &quot;<code>3*pi</code>&quot;, the MathML produced will contain the
  * construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of the construct
- * <code>&lt;pi/&gt;</code>.  Similarly, when a {@link Model} object is provided, 
+ * <code>&lt;pi/&gt;</code>.  Similarly, when a {@link Model} object is provided,
  * <code>SId</code> values of user-defined functions present in the {@link Model} will be used
  * preferentially over pre-defined MathML functions.  For example, if the
  * passed-in {@link Model} contains a {@link FunctionDefinition} with the identifier
@@ -75112,7 +75450,7 @@ appears in the documentation.
  * &quot;<code>pi</code>&quot;, and the formula to be parsed is
  * &quot;<code>3*pi</code>&quot;, the MathML produced will contain the
  * construct <code>&lt;ci&gt; pi &lt;/ci&gt;</code> instead of the construct
- * <code>&lt;pi/&gt;</code>.  Similarly, when a {@link Model} object is provided, 
+ * <code>&lt;pi/&gt;</code>.  Similarly, when a {@link Model} object is provided,
  * <code>SId</code> values of user-defined functions present in the {@link Model} will be used
  * preferentially over pre-defined MathML functions.  For example, if the
  * passed-in {@link Model} contains a {@link FunctionDefinition} with the identifier
@@ -75438,7 +75776,7 @@ appears in the documentation.
  * and <code>\'true\'</code> will match the built-in values, but the symbols <code>\'SIN\'</code>,
  * <code>\'Sin\'</code>, <code>\'True\'</code>, <code>\'TRUE\'</code>, and so on, will not.
    <p>
-   * @param strcmp a boolean indicating whether to be case sensitive (if 
+   * @param strcmp a boolean indicating whether to be case sensitive (if
    * <code>true</code>) or be case insensitive (if <code>false</code>).
    <p>
    * @see #getComparisonCaseSensitivity()
@@ -75473,11 +75811,11 @@ appears in the documentation.
 
 %javamethodmodifiers L3ParserSettings::setParseModuloL3v2(bool modulol3v2) "
 /**
-  * Sets the behavior for handling the \'%\' sumbol in mathematical
+  * Sets the behavior for handling the @% symbol in mathematical
   * formulas.
   <p>
   * <p>
- * This setting affects whether the \'%\' symbol (modulo) is parsed as a
+ * This setting affects whether the @% symbol (modulo) is parsed as a
  * piecewise equation that returns the modulo value of the entries on 
  * either side of the symbol, or whether it is parsed as the MathML 
  * \'rem\' function, which was allowed in SBML Level&nbsp;3 Version&nbsp;2,
@@ -75485,7 +75823,7 @@ appears in the documentation.
  * might not be legal SBML for the desired target SBML document.
   <p>
   * This method lets you tell the parser which behavior to use&mdash;either
-  * parse \'%\' as the \'rem\' function or as a piecewise function with the
+  * parse @% as the \'rem\' function or as a piecewise function with the
   * same interpretation.  The two possibilities are
   * represented using the following constants:
   <p>
@@ -75501,7 +75839,7 @@ appears in the documentation.
   * @param modulol3v2 a boolean value (one of the constants
   * {@link libsbmlConstants#L3P_MODULO_IS_PIECEWISE L3P_MODULO_IS_PIECEWISE} or
   * {@link libsbmlConstants#L3P_MODULO_IS_REM L3P_MODULO_IS_REM})
-  * indicating how the \'%\' symbol in the input should be handled.
+  * indicating how the @% symbol in the input should be handled.
   <p>
   * @see #getParseModuloL3v2()
   */ public
@@ -75510,11 +75848,11 @@ appears in the documentation.
 
 %javamethodmodifiers L3ParserSettings::getParseModuloL3v2() const "
 /**
-  * Indicates the current behavior set for handling the \'%\' sumbol in 
+  * Indicates the current behavior set for handling the @% symbol in 
   * mathematical formulas.
   <p>
   * <p>
- * This setting affects whether the \'%\' symbol (modulo) is parsed as a
+ * This setting affects whether the @% symbol (modulo) is parsed as a
  * piecewise equation that returns the modulo value of the entries on 
  * either side of the symbol, or whether it is parsed as the MathML 
  * \'rem\' function, which was allowed in SBML Level&nbsp;3 Version&nbsp;2,
@@ -75585,7 +75923,7 @@ appears in the documentation.
 
 %javamethodmodifiers L3ParserSettings::getParseL3v2Functions() const "
 /**
-  * Indicates the current behavior set for handling the \'%\' sumbol in
+  * Indicates the current behavior set for handling the @% symbol in
   * mathematical formulas.
   <p>
   * <p>

@@ -32,7 +32,7 @@
  * ------------------------------------------------------------------------ -->
  *
  * @class RenderInformationBase
- * @brief abstract base class for local and global render information.
+ * @sbmlbrief{render} abstract base class for local and global render information.
  *
  * In the SBML render extension, local and global render information representations
  * share many attributes. These are implemented in this abstract base class.
@@ -69,7 +69,7 @@
 #include <sbml/packages/render/extension/RenderExtension.h>
 #include <sbml/packages/render/sbml/ListOfColorDefinitions.h>
 #include <sbml/packages/render/sbml/ListOfGradientDefinitions.h>
-//#include <sbml/packages/render/sbml/ListOfLineEndings.h>
+#include <sbml/packages/render/sbml/ListOfLineEndings.h>
 #include <sbml/packages/render/sbml/ColorDefinition.h>
 #include <sbml/packages/render/sbml/GradientBase.h>
 #include <sbml/packages/render/sbml/LinearGradient.h>
@@ -1234,7 +1234,7 @@ public:
   virtual void renameSIdRefs(const std::string& oldid,
                              const std::string& newid);
 
-
+// render FIX ME
   /**
    * Returns the XML element name of this RenderInformationBase object.
    *
@@ -1243,7 +1243,7 @@ public:
    *
    * @return the name of this element, i.e. @c "renderInformationBase".
    */
-  virtual const std::string& getElementName() const;
+  //virtual const std::string& getElementName() const;
 
 
   /**

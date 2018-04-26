@@ -62,6 +62,7 @@ Suite *create_suite_FormulaUnitsData (void);
 Suite *create_suite_FormulaUnitsDataMap(void);
 Suite *create_suite_DerivedUnitDefinition (void);
 Suite *create_suite_CalcUnitDefinition (void);
+Suite *create_suite_DerivedUnitDefinitionUndefined (void);
 
 END_C_DECLS
 /**
@@ -106,6 +107,8 @@ main (void)
   int num_failed;
 
   setTestDataDirectory();
+  //SRunner *runner = srunner_create( create_suite_DerivedUnitDefinitionUndefined() );
+
 
   SRunner *runner = srunner_create( create_suite_UtilsUnit() );
 
@@ -118,6 +121,7 @@ main (void)
   srunner_add_suite( runner, create_suite_UnitFormulaFormatter2() );
   srunner_add_suite( runner, create_suite_CalcUnitDefinition() );
   srunner_add_suite( runner, create_suite_UnitFormulaFormatter3() );
+  srunner_add_suite( runner, create_suite_DerivedUnitDefinitionUndefined() );
   
 
 

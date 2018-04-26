@@ -7,7 +7,7 @@
  * This file is part of libSBML. Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2017 jointly by the following organizations:
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  * 1. California Institute of Technology, Pasadena, CA, USA
  * 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  * 3. University of Heidelberg, Heidelberg, Germany
@@ -227,7 +227,7 @@ static const packageErrorTableEntry renderErrorTable[] =
     "VersionMajor attribute must be NonNegativeInteger.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
-    "The attribute 'render:versionMajor' on a <layout> must have a value of "
+    "The attribute 'render:versionMajor' on a <listOfLocalRenderInformation> must have a value of "
     "data type 'integer', and must be non negative.",
     { "L3V1 Render V1 Section"
     }
@@ -238,7 +238,7 @@ static const packageErrorTableEntry renderErrorTable[] =
     "VersionMinor attribute must be NonNegativeInteger.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
-    "The attribute 'render:versionMinor' on a <layout> must have a value of "
+    "The attribute 'render:versionMinor' on a <listOfLocalRenderInformation> must have a value of "
     "data type 'integer', and must be non negative.",
     { "L3V1 Render V1 Section"
     }
@@ -309,7 +309,7 @@ static const packageErrorTableEntry renderErrorTable[] =
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "A <listOfGlobalRenderInformation> object may have the optional attributes "
-    "'render:versionMajor', 'render:versionMinor' and 'render:defaultValues'. "
+    "'render:versionMajor', and 'render:versionMinor'. "
     "No other attributes from the SBML Level 3 Render namespaces are permitted "
     "on a <listOfGlobalRenderInformation> object. ",
     { "L3V1 Render V1 Section"
@@ -446,7 +446,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1320604
-  { RenderEllipseCxMustBeString,
+  { RenderEllipseCxMustBeRelAbsVector,
     "The 'cx' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -460,7 +460,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1320605
-  { RenderEllipseCyMustBeString,
+  { RenderEllipseCyMustBeRelAbsVector,
     "The 'cy' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -474,7 +474,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1320606
-  { RenderEllipseRxMustBeString,
+  { RenderEllipseRxMustBeRelAbsVector,
     "The 'rx' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -499,7 +499,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1320608
-  { RenderEllipseCzMustBeString,
+  { RenderEllipseCzMustBeRelAbsVector,
     "The 'cz' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -513,7 +513,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1320609
-  { RenderEllipseRyMustBeString,
+  { RenderEllipseRyMustBeRelAbsVector,
     "The 'ry' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -895,8 +895,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321112
-  { RenderRenderGroupFontSizeMustBeString,
-    "The 'fontSize' attribute must be String.",
+  { RenderRenderGroupFontSizeMustBeRelAbsVector,
+    "The 'fontSize' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:font-size' of a <renderGroup> object "
@@ -958,7 +958,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321205
-  { RenderImageXMustBeString,
+  { RenderImageXMustBeRelAbsVector,
     "The 'x' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -972,7 +972,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321206
-  { RenderImageYMustBeString,
+  { RenderImageYMustBeRelAbsVector,
     "The 'y' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -986,7 +986,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321207
-  { RenderImageWidthMustBeString,
+  { RenderImageWidthMustBeRelAbsVector,
     "The 'width' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -1000,7 +1000,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321208
-  { RenderImageHeightMustBeString,
+  { RenderImageHeightMustBeRelAbsVector,
     "The 'height' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -1014,7 +1014,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321209
-  { RenderImageZMustBeString,
+  { RenderImageZMustBeRelAbsVector,
     "The 'z' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -1125,8 +1125,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321404
-  { RenderLinearGradientX1MustBeString,
-    "The 'x1' attribute must be String.",
+  { RenderLinearGradientX1MustBeRelAbsVector,
+    "The 'x1' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:x1' of a <linearGradient> object must "
@@ -1139,8 +1139,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321405
-  { RenderLinearGradientY1MustBeString,
-    "The 'y1' attribute must be String.",
+  { RenderLinearGradientY1MustBeRelAbsVector,
+    "The 'y1' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:y1' of a <linearGradient> object must "
@@ -1153,8 +1153,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321406
-  { RenderLinearGradientZ1MustBeString,
-    "The 'z1' attribute must be String.",
+  { RenderLinearGradientZ1MustBeRelAbsVector,
+    "The 'z1' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:z1' of a <linearGradient> object must "
@@ -1167,8 +1167,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321407
-  { RenderLinearGradientX2MustBeString,
-    "The 'x2' attribute must be String.",
+  { RenderLinearGradientX2MustBeRelAbsVector,
+    "The 'x2' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:x2' of a <linearGradient> object must "
@@ -1181,8 +1181,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321408
-  { RenderLinearGradientY2MustBeString,
-    "The 'y2' attribute must be String.",
+  { RenderLinearGradientY2MustBeRelAbsVector,
+    "The 'y2' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:y2' of a <linearGradient> object must "
@@ -1195,8 +1195,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321409
-  { RenderLinearGradientZ2MustBeString,
-    "The 'z2' attribute must be String.",
+  { RenderLinearGradientZ2MustBeRelAbsVector,
+    "The 'z2' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:z2' of a <linearGradient> object must "
@@ -1435,8 +1435,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321804
-  { RenderRadialGradientCxMustBeString,
-    "The 'cx' attribute must be String.",
+  { RenderRadialGradientCxMustBeRelAbsVector,
+    "The 'cx' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:cx' of a <radialGradient> object must "
@@ -1449,8 +1449,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321805
-  { RenderRadialGradientCyMustBeString,
-    "The 'cy' attribute must be String.",
+  { RenderRadialGradientCyMustBeRelAbsVector,
+    "The 'cy' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:cy' of a <radialGradient> object must "
@@ -1463,8 +1463,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321806
-  { RenderRadialGradientCzMustBeString,
-    "The 'cz' attribute must be String.",
+  { RenderRadialGradientCzMustBeRelAbsVector,
+    "The 'cz' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:cz' of a <radialGradient> object must "
@@ -1477,8 +1477,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321807
-  { RenderRadialGradientRMustBeString,
-    "The 'r' attribute must be String.",
+  { RenderRadialGradientRMustBeRelAbsVector,
+    "The 'r' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:r' of a <radialGradient> object must "
@@ -1491,8 +1491,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321808
-  { RenderRadialGradientFxMustBeString,
-    "The 'fx' attribute must be String.",
+  { RenderRadialGradientFxMustBeRelAbsVector,
+    "The 'fx' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:fx' of a <radialGradient> object must "
@@ -1505,8 +1505,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321809
-  { RenderRadialGradientFyMustBeString,
-    "The 'fy' attribute must be String.",
+  { RenderRadialGradientFyMustBeRelAbsVector,
+    "The 'fy' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:fy' of a <radialGradient> object must "
@@ -1519,8 +1519,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321810
-  { RenderRadialGradientFzMustBeString,
-    "The 'fz' attribute must be String.",
+  { RenderRadialGradientFzMustBeRelAbsVector,
+    "The 'fz' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:fz' of a <radialGradient> object must "
@@ -1571,7 +1571,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321904
-  { RenderRectangleXMustBeString,
+  { RenderRectangleXMustBeRelAbsVector,
     "The 'x' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -1585,7 +1585,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321905
-  { RenderRectangleYMustBeString,
+  { RenderRectangleYMustBeRelAbsVector,
     "The 'y' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -1599,7 +1599,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321906
-  { RenderRectangleWidthMustBeString,
+  { RenderRectangleWidthMustBeRelAbsVector,
     "The 'width' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -1613,7 +1613,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321907
-  { RenderRectangleHeightMustBeString,
+  { RenderRectangleHeightMustBeRelAbsVector,
     "The 'height' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -1638,7 +1638,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321909
-  { RenderRectangleZMustBeString,
+  { RenderRectangleZMustBeRelAbsVector,
     "The 'z' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -1652,7 +1652,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321910
-  { RenderRectangleRXMustBeString,
+  { RenderRectangleRXMustBeRelAbsVector,
     "The 'rX' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -1666,7 +1666,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1321911
-  { RenderRectangleRYMustBeString,
+  { RenderRectangleRYMustBeRelAbsVector,
     "The 'rY' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -1719,8 +1719,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322004
-  { RenderRenderCubicBezierBasePoint1_xMustBeString,
-    "The 'basePoint1_x' attribute must be String.",
+  { RenderRenderCubicBezierBasePoint1_xMustBeRelAbsVector,
+    "The 'basePoint1_x' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:basePoint1_x' of a <renderCubicBezier> "
@@ -1733,8 +1733,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322005
-  { RenderRenderCubicBezierBasePoint1_yMustBeString,
-    "The 'basePoint1_y' attribute must be String.",
+  { RenderRenderCubicBezierBasePoint1_yMustBeRelAbsVector,
+    "The 'basePoint1_y' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:basePoint1_y' of a <renderCubicBezier> "
@@ -1747,8 +1747,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322006
-  { RenderRenderCubicBezierBasePoint2_xMustBeString,
-    "The 'basePoint2_x' attribute must be String.",
+  { RenderRenderCubicBezierBasePoint2_xMustBeRelAbsVector,
+    "The 'basePoint2_x' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:basePoint2_x' of a <renderCubicBezier> "
@@ -1761,8 +1761,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322007
-  { RenderRenderCubicBezierBasePoint2_yMustBeString,
-    "The 'basePoint2_y' attribute must be String.",
+  { RenderRenderCubicBezierBasePoint2_yMustBeRelAbsVector,
+    "The 'basePoint2_y' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:basePoint2_y' of a <renderCubicBezier> "
@@ -1775,8 +1775,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322008
-  { RenderRenderCubicBezierBasePoint1_zMustBeString,
-    "The 'basePoint1_z' attribute must be String.",
+  { RenderRenderCubicBezierBasePoint1_zMustBeRelAbsVector,
+    "The 'basePoint1_z' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:basePoint1_z' of a <renderCubicBezier> "
@@ -1789,8 +1789,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322009
-  { RenderRenderCubicBezierBasePoint2_zMustBeString,
-    "The 'basePoint2_z' attribute must be String.",
+  { RenderRenderCubicBezierBasePoint2_zMustBeRelAbsVector,
+    "The 'basePoint2_z' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:basePoint2_z' of a <renderCubicBezier> "
@@ -1947,8 +1947,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322204
-  { RenderRenderPointXMustBeString,
-    "The 'x' attribute must be String.",
+  { RenderRenderPointXMustBeRelAbsVector,
+    "The 'x' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:x' of a <renderPoint> object must "
@@ -1961,8 +1961,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322205
-  { RenderRenderPointYMustBeString,
-    "The 'y' attribute must be String.",
+  { RenderRenderPointYMustBeRelAbsVector,
+    "The 'y' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:y' of a <renderPoint> object must "
@@ -1975,8 +1975,8 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322206
-  { RenderRenderPointZMustBeString,
-    "The 'z' attribute must be String.",
+  { RenderRenderPointZMustBeRelAbsVector,
+    "The 'z' attribute must be RelAbsVector.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The value of the attribute 'render:z' of a <renderPoint> object must "
@@ -2028,7 +2028,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322304
-  { RenderTextXMustBeString,
+  { RenderTextXMustBeRelAbsVector,
     "The 'x' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -2042,7 +2042,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322305
-  { RenderTextYMustBeString,
+  { RenderTextYMustBeRelAbsVector,
     "The 'y' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -2119,7 +2119,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322311
-  { RenderTextZMustBeString,
+  { RenderTextZMustBeRelAbsVector,
     "The 'z' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -2133,7 +2133,7 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322312
-  { RenderTextFontSizeMustBeString,
+  { RenderTextFontSizeMustBeRelAbsVector,
     "The 'fontSize' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
@@ -2199,10 +2199,9 @@ static const packageErrorTableEntry renderErrorTable[] =
     "Attributes allowed on <transformation>.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
-    "A <transformation> object must have the required attribute "
-    "'render:transform', and may have the optional attribute 'render:name'. No "
-    "other attributes from the SBML Level 3 Render namespaces are permitted on "
-    "a <transformation> object. ",
+    "A <transformation> object may have the optional attributes "
+    "'render:transform' and 'render:name'. No other attributes from the SBML "
+    "Level 3 Render namespaces are permitted on a <transformation> object. ",
     { "L3V1 Render V1 Section"
     }
   },
@@ -2260,7 +2259,7 @@ static const packageErrorTableEntry renderErrorTable[] =
     LIBSBML_SEV_ERROR,
     "A <graphicalPrimitive1D> object may have the optional attributes "
     "'render:id', 'render:stroke', 'render:stroke-width' and "
-    "'render:stroke-dasharray'. No other attributes from the SBML Level 3 "
+    "'render:stroke-dashArray'. No other attributes from the SBML Level 3 "
     "Render namespaces are permitted on a <graphicalPrimitive1D> object. ",
     { "L3V1 Render V1 Section"
     }
@@ -2278,23 +2277,24 @@ static const packageErrorTableEntry renderErrorTable[] =
   },
 
   // 1322605
-  { RenderGraphicalPrimitive1DStrokeWidthMustBeString,
-    "The 'strokeWidth' attribute must be String.",
+  { RenderGraphicalPrimitive1DStrokeWidthMustBeDouble,
+    "The 'strokeWidth' attribute must be Double.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
     "The attribute 'render:stroke-width' on a <graphicalPrimitive1D> must have "
-    "a value of data type 'string'.",
+    "a value of data type 'double'.",
     { "L3V1 Render V1 Section"
     }
   },
 
   // 1322606
-  { RenderGraphicalPrimitive1DStrokeDasharrayMustBeString,
-    "The 'strokeDasharray' attribute must be String.",
+  { RenderGraphicalPrimitive1DStrokeDashArrayMustBeString,
+    "The 'strokeDashArray' attribute must be String.",
     LIBSBML_CAT_GENERAL_CONSISTENCY,
     LIBSBML_SEV_ERROR,
-    "The attribute 'render:stroke-dasharray' on a <graphicalPrimitive1D> must "
-    "have a value of data type 'string'.",
+    "The value of the attribute 'render:stroke-dashArray' of a "
+    "<graphicalPrimitive1D> object must be an array of values of type "
+    "'unsignedint'.",
     { "L3V1 Render V1 Section"
     }
   },

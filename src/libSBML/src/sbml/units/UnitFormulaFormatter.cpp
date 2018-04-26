@@ -49,6 +49,7 @@ UnitFormulaFormatter::UnitFormulaFormatter(const Model *m)
  : model(m)
 {
   mContainsUndeclaredUnits = false;
+  mContainsInconsistentUnits = false;
   mCanIgnoreUndeclaredUnits = 2;
   depthRecursiveCall = 0;
 }
@@ -306,6 +307,8 @@ UnitFormulaFormatter::getUnitDefinition(const ASTNode * node,
         UnitDefinition*>(node,static_cast<UnitDefinition*>(ud->clone())));
       undeclaredUnitsMap.insert(std::pair<const ASTNode*, 
                                     bool>(node,mContainsUndeclaredUnits));
+      inconsistentUnitsMap.insert(std::pair<const ASTNode*, bool>
+        (node, mContainsInconsistentUnits));
       canIgnoreUndeclaredUnitsMap.insert(std::pair<const ASTNode*, 
                            unsigned int>(node,mCanIgnoreUndeclaredUnits));
     }
@@ -324,13 +327,20 @@ UnitFormulaFormatter::getUnitDefinition(const ASTNode * node,
     }
     unitDefinitionMap.clear();
     undeclaredUnitsMap.clear();
+    inconsistentUnitsMap.clear();
     canIgnoreUndeclaredUnitsMap.clear();
   }
 
   /* if something is returned with an empty unitDefinition
    * it means not all units could be determined
+   * 
+   * NO !! it might mean the answer could not be determined
+   * i.e. mole + second does not contain undeclared units
+   * but the answer is indeterminate
+   * 
+   * so only mark as undeclared if we have not marked inconsistency
    */
-  if (ud->getNumUnits() == 0)
+  if (!mContainsInconsistentUnits && ud->getNumUnits() == 0)
   {
     mContainsUndeclaredUnits = true;
     mCanIgnoreUndeclaredUnits = 0;
@@ -612,6 +622,7 @@ UnitFormulaFormatter::getUnitDefinitionFromPower(const ASTNode * node,
   ASTNode * exponentNode = node->getRightChild();
 
   // is the exponent dimensionless or a number because if not it is a problem
+  bool inconsistent = false;
   UnitDefinition* exponentUD = getUnitDefinition(exponentNode, inKL, reactNo);
   UnitDefinition::simplify(exponentUD);
 
@@ -633,12 +644,24 @@ UnitFormulaFormatter::getUnitDefinitionFromPower(const ASTNode * node,
     mContainsUndeclaredUnits = varHasUndeclared;
     mCanIgnoreUndeclaredUnits = varCanIgnoreUndeclared;
   }
+  else if (exponentUD != NULL && exponentUD->getNumUnits() > 0)
+  {
+    inconsistent = true;
+  }
   else
   {
     mContainsUndeclaredUnits = true;
   }
   
   delete exponentUD;
+  if (inconsistent)
+  {
+    for (unsigned int n = variableUD->getNumUnits(); n > 0; --n)
+    {
+      variableUD->removeUnit(n-1);
+    }
+    mContainsInconsistentUnits = true;
+  }
 
   return variableUD;
 
@@ -728,6 +751,8 @@ UnitFormulaFormatter::getUnitDefinitionFromRoot(const ASTNode * node,
     child = node->getLeftChild();
   }
 
+  bool inconsistent = false;
+
   for (i = 0; i < tempUD->getNumUnits(); i++)
   {
     unit = tempUD->getUnit(i);
@@ -755,37 +780,51 @@ UnitFormulaFormatter::getUnitDefinitionFromRoot(const ASTNode * node,
       {
 
         tempUD2 = getUnitDefinition(child, inKL, reactNo);
-        UnitDefinition::simplify(tempUD2);
-
-        if (tempUD2->isVariantOfDimensionless())
+        if (tempUD2 && tempUD2->getNumUnits() > 0)
         {
-          SBMLTransforms::mapComponentValues(model);
-          double value = SBMLTransforms::evaluateASTNode(child);
-          SBMLTransforms::clearComponentValues();
-          if (!util_isNaN(value))
+          UnitDefinition::simplify(tempUD2);
+
+          if (tempUD2->isVariantOfDimensionless())
           {
-            double doubleExponent = 
-                                double(unit->getExponent())/value;
-            //if (floor(doubleExponent) != doubleExponent)
+            SBMLTransforms::mapComponentValues(model);
+            double value = SBMLTransforms::evaluateASTNode(child);
+            SBMLTransforms::clearComponentValues();
+            if (!util_isNaN(value))
+            {
+              double doubleExponent =
+                double(unit->getExponent()) / value;
+              //if (floor(doubleExponent) != doubleExponent)
               unit->setExponentUnitChecking(doubleExponent);
-//              mContainsUndeclaredUnits = true;
-//            unit->setExponentUnitChecking((int)(unit->getExponent()/value));
+              //              mContainsUndeclaredUnits = true;
+              //            unit->setExponentUnitChecking((int)(unit->getExponent()/value));
+            }
+            else
+            {
+              inconsistent = true;
+            }
           }
           else
           {
-            mContainsUndeclaredUnits = true;
+            /* here the child is an expression with units
+            * flag the expression as not checked
+            */
+            inconsistent = true;
           }
         }
         else
         {
-          /* here the child is an expression with units
-          * flag the expression as not checked
-          */
           mContainsUndeclaredUnits = true;
         }
       }
     }
-    ud->addUnit(unit);
+    if (!inconsistent)
+    {
+      ud->addUnit(unit);
+    }
+    else
+    {
+      mContainsInconsistentUnits = true;
+    }
   }
 
   delete tempUD;
@@ -895,6 +934,7 @@ UnitFormulaFormatter::getUnitDefinitionFromArgUnitsReturnFunction
   UnitDefinition * tempUd;
   unsigned int i = 0;
   unsigned int n = 0;
+  bool conflictingUnits = false;
  
   /* save any existing value of undeclaredUnits/canIgnoreUndeclaredUnits */
   unsigned int originalIgnore = mCanIgnoreUndeclaredUnits;
@@ -933,6 +973,13 @@ UnitFormulaFormatter::getUnitDefinitionFromArgUnitsReturnFunction
     {
       resetFlags();
       tempUd = getUnitDefinition(node->getChild(n), inKL, reactNo);
+      if (tempUd->getNumUnits() > 0)
+      {
+        if (!UnitDefinition::areEquivalent(ud, tempUd))
+        {
+          conflictingUnits = true;
+        }
+      }
       if (getContainsUndeclaredUnits())
       {
         currentUndeclared = true;
@@ -952,6 +999,18 @@ UnitFormulaFormatter::getUnitDefinitionFromArgUnitsReturnFunction
   if (originalIgnore == 2)
   {
     mCanIgnoreUndeclaredUnits = currentIgnore;
+  }
+
+  // we know we have something like mole + second
+  // we dont want to report either mole or second as the 'correct' answer
+  if (conflictingUnits)
+  {
+    mContainsInconsistentUnits = true;
+    for (unsigned int j = ud->getNumUnits(); j > 0; --j)
+    {
+      ud->removeUnit(j - 1);
+    }
+    
   }
   
 
@@ -2489,13 +2548,23 @@ UnitFormulaFormatter::getContainsUndeclaredUnits()
   return mContainsUndeclaredUnits;
 }
 
-/** 
+/**
+* returns undeclaredUnits value
+*/
+bool
+UnitFormulaFormatter::getContainsInconsistentUnits()
+{
+  return mContainsInconsistentUnits;
+}
+
+/**
   * resets the undeclaredUnits and canIgnoreUndeclaredUnits flags
   * since these will different for each math formula
   */
 void 
 UnitFormulaFormatter::resetFlags()
 {
+  mContainsInconsistentUnits = false;
   mContainsUndeclaredUnits = false;
   mCanIgnoreUndeclaredUnits = 2;
 }

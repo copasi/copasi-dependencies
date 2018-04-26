@@ -1,6 +1,6 @@
 /**
  * @file    Ellipse.cpp
- * @brief   class for ellipse objects.
+ * @brief Implementation of the Ellipse class.
  * @author  Ralph Gauges
  * @author  Frank T. Bergmann
  *
@@ -31,14 +31,19 @@
  * and also available online as http://sbml.org/software/libsbml/license.html
  * ---------------------------------------------------------------------- -->*/
 
-#include "Ellipse.h"
+#include <sbml/packages/render/sbml/Ellipse.h>
+#include <sbml/packages/render/validator/RenderSBMLError.h>
+
+using namespace std;
 
 #include <string>
+
 #ifndef OMIT_DEPRECATED
 #ifdef DEPRECATION_WARNINGS
 #include <iostream>
 #endif // DEPRECATION_WARNINGS
 #endif // OMIT_DEPRECATED
+
 #include <sbml/SBMLErrorLog.h>
 #include <sbml/SBMLVisitor.h>
 #include <sbml/xml/XMLNode.h>
@@ -53,51 +58,52 @@
 
 LIBSBML_CPP_NAMESPACE_BEGIN
 
-const std::string Ellipse::ELEMENT_NAME="ellipse";
+static RelAbsVector nullRef = RelAbsVector("");
 
-/** @cond doxygenLibsbmlInternal */
+
+#ifdef __cplusplus
+
+
 /*
- * Creates a new Ellipse object with the given SBML level
- * and SBML version.
- *
- * @param level SBML level of the new object
- * @param level SBML version of the new object
+ * Creates a new Ellipse using the given SBML Level, Version and
+ * &ldquo;render&rdquo; package version.
  */
-Ellipse::Ellipse (unsigned int level, unsigned int version, unsigned int pkgVersion) 
+Ellipse::Ellipse(unsigned int level,
+                 unsigned int version,
+                 unsigned int pkgVersion)
   : GraphicalPrimitive2D(level, version, pkgVersion)
   , mCX(0.0)
   , mCY(0.0)
   , mCZ(0.0)
+  , mRX (0.0)
+  , mRY (0.0)
   , mRatio(util_NaN())
   , mIsSetRatio(false)
 {
-    if (!hasValidLevelVersionNamespaceCombination())
-        throw SBMLConstructorException();
+  setSBMLNamespacesAndOwn(new RenderPkgNamespaces(level, version, pkgVersion));
+  connectToChild();
 }
-/** @endcond */
 
 
-/** @cond doxygenLibsbmlInternal */
 /*
- * Creates a new Ellipse object with the given SBMLNamespaces.
- *
- * @param sbmlns The SBML namespace for the object.
+ * Creates a new Ellipse using the given RenderPkgNamespaces object.
  */
-Ellipse::Ellipse (RenderPkgNamespaces* renderns)
+Ellipse::Ellipse(RenderPkgNamespaces *renderns)
   : GraphicalPrimitive2D(renderns)
   , mCX(0.0)
   , mCY(0.0)
   , mCZ(0.0)
-  , mRatio(util_NaN())
-  , mIsSetRatio(false)
+  , mRX (0.0)
+  , mRY (0.0)
+  , mRatio (util_NaN())
+  , mIsSetRatio (false)
 {
-    if (!hasValidLevelVersionNamespaceCombination())
-        throw SBMLConstructorException();
+  setElementNamespace(renderns->getURI());
+  connectToChild();
+  loadPlugins(renderns);
 }
-/** @endcond */
 
 
-/** @cond doxygenLibsbmlInternal */
 /*
  * Creates a new RadialGradient object from the given XMLNode object.
  * The XMLNode object has to contain a valid XML representation of a 
@@ -127,14 +133,6 @@ Ellipse::Ellipse(const XMLNode& node, unsigned int l2version)
   connectToChild();
 }
 /** @endcond */
-
-
-/*
- * Destroy this object.
- */
-Ellipse::~Ellipse ()
-{
-}
 
 
 #ifndef OMIT_DEPRECATED
@@ -414,8 +412,67 @@ Ellipse::Ellipse(RenderPkgNamespaces* renderns, const std::string& id,const RelA
 
 
 /*
-* Returns the value of the "ratio" attribute of this Ellipse.
-*/
+ * Copy constructor for Ellipse.
+ */
+Ellipse::Ellipse(const Ellipse& orig)
+  : GraphicalPrimitive2D( orig )
+  , mCX ( orig.mCX )
+  , mCY ( orig.mCY )
+  , mCZ ( orig.mCZ )
+  , mRX ( orig.mRX )
+  , mRY ( orig.mRY )
+  , mRatio ( orig.mRatio )
+  , mIsSetRatio ( orig.mIsSetRatio )
+{
+  connectToChild();
+}
+
+
+/*
+ * Assignment operator for Ellipse.
+ */
+Ellipse&
+Ellipse::operator=(const Ellipse& rhs)
+{
+  if (&rhs != this)
+  {
+    GraphicalPrimitive2D::operator=(rhs);
+    mCX = rhs.mCX;
+    mCY = rhs.mCY;
+    mCZ = rhs.mCZ;
+    mRX = rhs.mRX;
+    mRY = rhs.mRY;
+    mRatio = rhs.mRatio;
+    mIsSetRatio = rhs.mIsSetRatio;
+
+    connectToChild();
+  }
+
+  return *this;
+}
+
+
+/*
+ * Creates and returns a deep copy of this Ellipse object.
+ */
+Ellipse*
+Ellipse::clone() const
+{
+  return new Ellipse(*this);
+}
+
+
+/*
+ * Destructor for Ellipse.
+ */
+Ellipse::~Ellipse()
+{
+}
+
+
+/*
+ * Returns the value of the "ratio" attribute of this Ellipse.
+ */
 double
 Ellipse::getRatio() const
 {
@@ -424,8 +481,8 @@ Ellipse::getRatio() const
 
 
 /*
-* Predicate returning @c true if this Ellipse's "ratio" attribute is set.
-*/
+ * Predicate returning @c true if this Ellipse's "ratio" attribute is set.
+ */
 bool
 Ellipse::isSetRatio() const
 {
@@ -434,8 +491,8 @@ Ellipse::isSetRatio() const
 
 
 /*
-* Sets the value of the "ratio" attribute of this Ellipse.
-*/
+ * Sets the value of the "ratio" attribute of this Ellipse.
+ */
 int
 Ellipse::setRatio(double ratio)
 {
@@ -446,8 +503,8 @@ Ellipse::setRatio(double ratio)
 
 
 /*
-* Unsets the value of the "ratio" attribute of this Ellipse.
-*/
+ * Unsets the value of the "ratio" attribute of this Ellipse.
+ */
 int
 Ellipse::unsetRatio()
 {
@@ -465,193 +522,211 @@ Ellipse::unsetRatio()
 }
 
 
-/** @cond doxygenLibsbmlInternal */
 /*
  * Returns the x coordinate for the center point as a const reference.
- *
- * @return const reference to the x coordinate of the center point.
  */
-const RelAbsVector& Ellipse::getCX() const
+const RelAbsVector& 
+Ellipse::getCX() const
 {
     return this->mCX;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
+/*
+* Returns the x coordinate for the center point as a const reference.
+*/
+RelAbsVector&
+Ellipse::getCX()
+{
+  return this->mCX;
+}
+
+
 /*
  * Returns the y coordinate for the center point as a const reference.
- *
- * @return const reference to the y coordinate of the center point.
  */
-const RelAbsVector& Ellipse::getCY() const
+const RelAbsVector& 
+Ellipse::getCY() const
 {
     return this->mCY;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
+/*
+* Returns the y coordinate for the center point as a const reference.
+*/
+RelAbsVector&
+Ellipse::getCY()
+{
+  return this->mCY;
+}
+
+
 /*
  * Returns the z coordinate for the center point as a const reference.
- *
- * @return const reference to the z coordinate of the center point.
  */
-const RelAbsVector& Ellipse::getCZ() const
+const RelAbsVector& 
+Ellipse::getCZ() const
 {
     return this->mCZ;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
+/*
+* Returns the z coordinate for the center point as a const reference.
+*/
+RelAbsVector&
+Ellipse::getCZ()
+{
+  return this->mCZ;
+}
+
+
 /*
  * Returns the radius along the x axis as a const reference.
- *
- * @return const reference to the radius along the x axis
  */
-const RelAbsVector& Ellipse::getRX() const
+const RelAbsVector& 
+Ellipse::getRX() const
 {
     return this->mRX;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
+RelAbsVector&
+Ellipse::getRX()
+{
+  return this->mRX;
+}
+
+
 /*
  * Returns the radius along the y axis as a const reference.
- *
- * @return const reference to the radius along the y axis
  */
-const RelAbsVector& Ellipse::getRY() const
+const RelAbsVector& 
+Ellipse::getRY() const
 {
     return this->mRY;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
-/*
- * Returns the x coordinate for the center point as a reference.
- *
- * @return reference to the x coordinate of the center point.
- */
-RelAbsVector& Ellipse::getCX()
+
+RelAbsVector&
+Ellipse::getRY()
 {
-    return this->mCX;
+  return this->mRY;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
- * Returns the y coordinate for the center point as a reference.
- *
- * @return reference to the y coordinate of the center point.
+ * Predicate returning @c true if this Ellipse's "cx" element is set.
  */
-RelAbsVector& Ellipse::getCY()
+bool
+Ellipse::isSetCX() const
 {
-    return this->mCY;
+  return mCX.isSetCoordinate();
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
- * Returns the z coordinate for the center point as a reference.
- *
- * @return reference to the z coordinate of the center point.
+ * Predicate returning @c true if this Ellipse's "cy" element is set.
  */
-RelAbsVector& Ellipse::getCZ()
+bool
+Ellipse::isSetCY() const
 {
-    return this->mCZ;
+  return mCY.isSetCoordinate();
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
- * Returns the radius along the x axis as a reference.
- *
- * @return reference to the radius along the x axis
+ * Predicate returning @c true if this Ellipse's "cz" element is set.
  */
-RelAbsVector& Ellipse::getRX()
+bool
+Ellipse::isSetCZ() const
 {
-    return this->mRX;
+  return mCZ.isSetCoordinate();
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
- * Returns the radius along the y axis as a reference.
- *
- * @return reference to the radius along the y axis
+ * Predicate returning @c true if this Ellipse's "rx" element is set.
  */
-RelAbsVector& Ellipse::getRY()
+bool
+Ellipse::isSetRX() const
 {
-    return this->mRY;
+  return mRX.isSetCoordinate();
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Predicate returning @c true if this Ellipse's "ry" element is set.
+ */
+bool
+Ellipse::isSetRY() const
+{
+  return mRY.isSetCoordinate();
+}
+
+
 /*
  * Sets the x coordinates for the center point.
  *
  * @param cx x value of the center point 
  */
-void Ellipse::setCX(const RelAbsVector& cx)
+int Ellipse::setCX(const RelAbsVector& cx)
 {
     this->mCX=cx;
+    return LIBSBML_OPERATION_SUCCESS;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Sets the y coordinates for the center point.
  *
  * @param cy y value of the center point 
  */
-void Ellipse::setCY(const RelAbsVector& cy)
+int Ellipse::setCY(const RelAbsVector& cy)
 {
     this->mCY=cy;
+    return LIBSBML_OPERATION_SUCCESS;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Sets the z coordinates for the center point.
  *
  * @param cz z value of the center point 
  */
-void Ellipse::setCZ(const RelAbsVector& cz)
+int Ellipse::setCZ(const RelAbsVector& cz)
 {
     this->mCZ=cz;
+    return LIBSBML_OPERATION_SUCCESS;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
 /*
  * Sets the radius along the x axis
  *
  * @param rx radius along the x axis
  */
-void Ellipse::setRX(const RelAbsVector& rx)
+int Ellipse::setRX(const RelAbsVector& rx)
 {
     this->mRX=rx;
+    return LIBSBML_OPERATION_SUCCESS;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Sets the radius along the y axis
  *
  * @param ry radius along the y axis
  */
-void Ellipse::setRY(const RelAbsVector& ry)
+int Ellipse::setRY(const RelAbsVector& ry)
 {
     this->mRY=ry;
+    return LIBSBML_OPERATION_SUCCESS;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Sets the 2D coordinates for the center point.
- * The z coodintate is set to 50%
- *
- * @param cx x value of the center point 
- * @param cy y value of the center point 
  */
 void Ellipse::setCenter2D(const RelAbsVector& cx,const RelAbsVector& cy)
 {
@@ -659,15 +734,10 @@ void Ellipse::setCenter2D(const RelAbsVector& cx,const RelAbsVector& cy)
     this->mCY=cy;
     this->mCZ=RelAbsVector(0.0,50.0);
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Sets the 3D coordinates for the center point.
- *
- * @param cx x value of the center point 
- * @param cy y value of the center point 
- * @param cz z value of the center point 
  */
 void Ellipse::setCenter3D(const RelAbsVector& cx,const RelAbsVector& cy,const RelAbsVector& cz)
 {
@@ -675,67 +745,179 @@ void Ellipse::setCenter3D(const RelAbsVector& cx,const RelAbsVector& cy,const Re
     this->mCY=cy;
     this->mCZ=cz;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
  * Sets the radii of the ellipse
- *
- * @param rx radius along the x axis
- * @param ry radius along the y axis
  */
 void Ellipse::setRadii(const RelAbsVector& rx,const RelAbsVector& ry)
 {
     this->mRX=rx;
     this->mRY=ry;
 }
+
+
+/*
+ * Unsets the value of the "cx" element of this Ellipse.
+ */
+int
+Ellipse::unsetCX()
+{
+  mCX.unsetCoordinate();
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+ * Unsets the value of the "cy" element of this Ellipse.
+ */
+int
+Ellipse::unsetCY()
+{
+  mCY.unsetCoordinate();
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+ * Unsets the value of the "cz" element of this Ellipse.
+ */
+int
+Ellipse::unsetCZ()
+{
+  mCZ.unsetCoordinate();
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+ * Unsets the value of the "rx" element of this Ellipse.
+ */
+int
+Ellipse::unsetRX()
+{
+  mRX.unsetCoordinate();
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+ * Unsets the value of the "ry" element of this Ellipse.
+ */
+int
+Ellipse::unsetRY()
+{
+  mRY.unsetCoordinate();
+  return LIBSBML_OPERATION_SUCCESS;
+}
+
+
+/*
+ * Returns the XML element name of this Ellipse object.
+ */
+const std::string&
+Ellipse::getElementName() const
+{
+  static const string name = "ellipse";
+  return name;
+}
+
+
+/*
+ * Returns the libSBML type code for this Ellipse object.
+ */
+int
+Ellipse::getTypeCode() const
+{
+  return SBML_RENDER_ELLIPSE;
+}
+
+
+/*
+ * Predicate returning @c true if all the required attributes for this Ellipse
+ * object have been set.
+ */
+bool
+Ellipse::hasRequiredAttributes() const
+{
+  bool allPresent = GraphicalPrimitive2D::hasRequiredAttributes();
+
+  if (isSetCX() == false)
+  {
+    allPresent = false;
+  }
+
+  if (isSetCY() == false)
+  {
+    allPresent = false;
+  }
+
+  if (isSetRX() == false)
+  {
+    allPresent = false;
+  }
+
+  return allPresent;
+}
+
+
+
+/** @cond doxygenLibsbmlInternal */
+
+/*
+ * Accepts the given SBMLVisitor
+ */
+bool
+Ellipse::accept(SBMLVisitor& v) const
+{
+  v.visit(*this);
+  //render - FIX_ME
+  //if (mCX != NULL)
+  //{
+  //  mCX.accept(v);
+  //}
+
+  //if (mCY != NULL)
+  //{
+  //  mCY.accept(v);
+  //}
+
+  //if (mCZ != NULL)
+  //{
+  //  mCZ.accept(v);
+  //}
+
+  //if (mRX != NULL)
+  //{
+  //  mRX.accept(v);
+  //}
+
+  //if (mRY != NULL)
+  //{
+  //  mRY.accept(v);
+  //}
+
+  v.leave(*this);
+  return true;
+}
+
 /** @endcond */
+
 
 
 /** @cond doxygenLibsbmlInternal */
 /*
- * Subclasses should override this method to write out their contained
- * SBML objects as XML elements.  Be sure to call your parents
- * implementation of this method as well.  For example:
+ * Creates an XMLNode object from this Ellipse object.
  *
- *   SBase::writeElements(stream);
- *   mReactants.write(stream);
- *   mProducts.write(stream);
- *   ...
+ * @return the XMLNode with the XML representation for the 
+ * Ellipse object.
  */
-void Ellipse::writeElements (XMLOutputStream& stream) const
+XMLNode Ellipse::toXML() const
 {
-    GraphicalPrimitive2D::writeElements(stream);
+  return getXmlNodeForSBase(this);
 }
 /** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
-/*
- * Creates and returns a deep copy of this Ellipse object.
- * 
- * @return a (deep) copy of this Ellipse object
- */
-Ellipse* 
-Ellipse::clone () const
-{
-    return new Ellipse(*this);
-}
-/** @endcond */
-
-
-/** @cond doxygenLibsbmlInternal */
-/*
- * @return the SBML object corresponding to next XMLToken in the
- * XMLInputStream or NULL if the token was not recognized.
- */
-    SBase*
-Ellipse::createObject (XMLInputStream& stream)
-{
-    SBase*        object = NULL;
-
-    return object;
-}
-/** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
 void
@@ -754,84 +936,237 @@ Ellipse::addExpectedAttributes(ExpectedAttributes& attributes)
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
-void Ellipse::readAttributes (const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes)
+void Ellipse::readAttributes (const XMLAttributes& attributes, 
+                              const ExpectedAttributes& expectedAttributes)
 {
-      ExpectedAttributes ea;
-    addExpectedAttributes(ea);
-    this->GraphicalPrimitive2D::readAttributes(attributes, ea);
+    unsigned int level = getLevel();
+    unsigned int version = getVersion();
+    unsigned int pkgVersion = getPackageVersion();
+    unsigned int numErrs;
+    bool assigned = false;
+    SBMLErrorLog* log = getErrorLog();
+
+    GraphicalPrimitive2D::readAttributes(attributes, expectedAttributes);
+
+    if (log)
+    {
+      numErrs = log->getNumErrors();
+
+      for (int n = numErrs-1; n >= 0; n--)
+      {
+        if (log->getError(n)->getErrorId() == UnknownPackageAttribute)
+        {
+          const std::string details = log->getError(n)->getMessage();
+          log->remove(UnknownPackageAttribute);
+          log->logPackageError("render", RenderEllipseAllowedAttributes,
+            pkgVersion, level, version, details);
+        }
+        else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
+        {
+          const std::string details = log->getError(n)->getMessage();
+          log->remove(UnknownCoreAttribute);
+          log->logPackageError("render", RenderEllipseAllowedCoreAttributes,
+            pkgVersion, level, version, details);
+        }
+      }
+    }
+
+    string elplusid = "<ellipse> element";
+    if (!getId().empty()) {
+      elplusid += " with the id '" + mId + "'";
+    }
+    // 
+    // ratio double (use = "optional" )
+    // 
+
+    if (log) numErrs = log->getNumErrors();
+    mIsSetRatio = attributes.readInto("ratio", mRatio);
+
+    if ( mIsSetRatio == false && log)
+    {
+      if (log->getNumErrors() == numErrs + 1 &&
+        log->contains(XMLAttributeTypeMismatch))
+      {
+        log->remove(XMLAttributeTypeMismatch);
+        std::string message = "Render attribute 'ratio' from the " + elplusid +
+          " must be a double.";
+        log->logPackageError("render", RenderEllipseRatioMustBeDouble,
+          pkgVersion, level, version, message);
+      }
+    }
+
     std::string s;
-    RelAbsVector v=RelAbsVector();
-    attributes.readInto("cx", s,this->getErrorLog(),true, getLine(), getColumn());
-    v.setCoordinate(s);
-    this->setCX(v);
+    RelAbsVector v = RelAbsVector();
+
+    //
+    // cx RelAbsVector (use = required) 
+    //
+    assigned = attributes.readInto("cx", s,this->getErrorLog(),false, getLine(), getColumn());
+    if (!assigned && log) 
+    {
+      std::string message = "The required attribute 'cx' is missing from the "
+        + elplusid + ".";
+      log->logPackageError("render", RenderEllipseAllowedAttributes,
+        pkgVersion, level, version, message);
+    }
+    else
+    {
+      v.setCoordinate(s);
+      if (!(v.isSetCoordinate()) && log)
+      {
+        std::string message = "The syntax '" + s + "' of the attribute 'cx' on the "
+          + elplusid + " does not conform to the syntax of a RelAbsVector type.";
+        log->logPackageError("render", RenderEllipseCxMustBeRelAbsVector,
+          pkgVersion, level, version, message);
+
+      }
+      else
+      {
+        this->setCX(v);
+      }
+      v.erase();
+    }
+    //
+    // cy RelAbsVector (use = required) 
+    //
     s="";
-    attributes.readInto("cy", s,this->getErrorLog(),true, getLine(), getColumn());
-    v.setCoordinate(s);
-    this->setCY(v);
+    assigned = attributes.readInto("cy", s, this->getErrorLog(), false, getLine(), getColumn());
+    if (!assigned && log)
+    {
+      std::string message = "The required attribute 'cy' is missing from the "
+        + elplusid + ".";
+      log->logPackageError("render", RenderEllipseAllowedAttributes,
+        pkgVersion, level, version, message);
+    }
+    else
+    {
+      v.setCoordinate(s);
+      if (!(v.isSetCoordinate()) && log)
+      {
+        std::string message = "The syntax '" + s + "' of the attribute 'cy' on the "
+          + elplusid + " does not conform to the syntax of a RelAbsVector type.";
+        log->logPackageError("render", RenderEllipseCyMustBeRelAbsVector,
+          pkgVersion, level, version, message);
+
+      }
+      else
+      {
+        this->setCY(v);
+      }
+      v.erase();
+    }
+
+    //
+    // cz RelAbsVector (use = optional) 
+    //
+
     s="";
-    if(!attributes.readInto("cz", s, getErrorLog(), false, getLine(), getColumn()))
+    assigned = attributes.readInto("cz", s, getErrorLog(), false, getLine(), getColumn());
+    if (!assigned)
     {
         this->mCZ=RelAbsVector(0.0,0.0);
     }
     else
     {
-        v.setCoordinate(s);
-        this->mCZ=v;
+      v.setCoordinate(s);
+      if (!(v.isSetCoordinate()) && log)
+      {
+        std::string message = "The syntax '" + s + "' of the attribute 'cz' on the "
+          + elplusid + " does not conform to the syntax of a RelAbsVector type.";
+        log->logPackageError("render", RenderEllipseCzMustBeRelAbsVector,
+          pkgVersion, level, version, message);
+
+      }
+      else
+      {
+        this->setCZ(v);
+      }
+      v.erase();
     }
+
+    //
+    // rx RelAbsVector (use = required) 
+    //
+
     s="";
-    bool xSet=false;
-    if(attributes.readInto("rx", s,this->getErrorLog(),true, getLine(), getColumn()))
+    assigned = attributes.readInto("rx", s, this->getErrorLog(), false, getLine(), getColumn());
+    if (!assigned && log)
     {
-        v.setCoordinate(s);
-        this->setRX(v);
-        xSet=true;
+      std::string message = "The required attribute 'rx' is missing from the "
+        + elplusid + ".";
+      log->logPackageError("render", RenderEllipseAllowedAttributes,
+        pkgVersion, level, version, message);
     }
-    s="";
-    if(!attributes.readInto("ry", s, getErrorLog(), false, getLine(), getColumn()))
-    {
-        if(xSet)
+    else
+    {    
+        v.setCoordinate(s);
+        if (!(v.isSetCoordinate()) && log)
         {
-            this->mRY=this->mRX;
+          std::string message = "The syntax '" + s + "' of the attribute 'rx' on the "
+            + elplusid + " does not conform to the syntax of a RelAbsVector type.";
+          log->logPackageError("render", RenderEllipseRxMustBeRelAbsVector,
+            pkgVersion, level, version, message);
+
         }
         else
         {
-            this->mRY=RelAbsVector(0.0,0.0);
+          this->setRX(v);
         }
+        v.erase();
+    }
+
+    //
+    // ry RelAbsVector (use = optional) 
+    //
+
+    s="";
+    assigned = attributes.readInto("ry", s, getErrorLog(), false, getLine(), getColumn());
+    if (!assigned)
+    {
+      if (isSetRX())
+      {
+        setRY(getRX());
+      }
+      else
+      {
+        this->mRY = RelAbsVector(0.0, 0.0);
+      }
     }
     else
     {
-        v.setCoordinate(s);
-        this->mRY=v;
-    }
-    // TODO actually check if RY has been set, otherwise throw an error
-    // because either rx or ry has to be set.
-    if(!xSet)
-    {
-        this->mRX=this->mRY;
-    }
+      v.setCoordinate(s);
+      if (!(v.isSetCoordinate()) && log)
+      {
+        std::string message = "The syntax '" + s + "' of the attribute 'ry' on the "
+          + elplusid + " does not conform to the syntax of a RelAbsVector type.";
+        log->logPackageError("render", RenderEllipseRyMustBeRelAbsVector,
+          pkgVersion, level, version, message);
 
-    // 
-    // ratio double (use = "optional" )
-    // 
-    mIsSetRatio = attributes.readInto("ratio", mRatio);
-
+      }
+      else
+      {
+        this->setRY(v);
+      }
+      v.erase();
+    }
 }
 /** @endcond */
 
 /** @cond doxygenLibsbmlInternal */
+
 /*
- * Subclasses should override this method to write their XML attributes
- * to the XMLOutputStream.  Be sure to call your parents implementation
- * of this method as well.  For example:
- *
- *   SBase::writeAttributes(stream);
- *   stream.writeAttribute( "id"  , mId   );
- *   stream.writeAttribute( "name", mName );
- *   ...
+ * Writes the attributes to the stream
  */
-void Ellipse::writeAttributes (XMLOutputStream& stream) const
+void
+Ellipse::writeAttributes(XMLOutputStream& stream) const
 {
-    GraphicalPrimitive2D::writeAttributes(stream);
+  GraphicalPrimitive2D::writeAttributes(stream);
+
+  if (isSetRatio() == true)
+  {
+    stream.writeAttribute("ratio", getPrefix(), mRatio);
+  }
+
     std::ostringstream os;
     os << mCX;
     stream.writeAttribute("cx",getPrefix(), os.str());
@@ -854,125 +1189,374 @@ void Ellipse::writeAttributes (XMLOutputStream& stream) const
         stream.writeAttribute("ry",getPrefix(), os.str());
     }
 
-    if (isSetRatio() == true)
-    {
-      stream.writeAttribute("ratio", getPrefix(), mRatio);
-    }
-
-
+  SBase::writeExtensionAttributes(stream);
 }
 /** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
+
+
+
+
+
+
+
+
+#endif /* __cplusplus */
+
+
 /*
- * Creates an XMLNode object from this Ellipse object.
- *
- * @return the XMLNode with the XML representation for the 
- * Ellipse object.
+ * Creates a new Ellipse_t using the given SBML Level, Version and
+ * &ldquo;render&rdquo; package version.
  */
-XMLNode Ellipse::toXML() const
+LIBSBML_EXTERN
+Ellipse_t *
+Ellipse_create(unsigned int level,
+               unsigned int version,
+               unsigned int pkgVersion)
 {
-  return getXmlNodeForSBase(this);
+  return new Ellipse(level, version, pkgVersion);
 }
-/** @endcond */
 
 
-
-/** @cond doxygenLibsbmlInternal */
 /*
- * Returns the libSBML type code for this %SBML object.
- * 
- * @if clike LibSBML attaches an identifying code to every
- * kind of SBML object.  These are known as <em>SBML type codes</em>.
- * The set of possible type codes is defined in the enumeration
- * #SBMLTypeCode_t.  The names of the type codes all begin with the
- * characters @c SBML_. @endif@if java LibSBML attaches an
- * identifying code to every kind of SBML object.  These are known as
- * <em>SBML type codes</em>.  In other languages, the set of type codes
- * is stored in an enumeration; in the Java language interface for
- * libSBML, the type codes are defined as static integer constants in
- * interface class {@link libsbmlConstants}.  The names of the type codes
- * all begin with the characters @c SBML_. @endif
- *
- * @return the SBML type code for this object, or @c SBML_UNKNOWN (default).
- *
- * @see getElementName()
+ * Creates and returns a deep copy of this Ellipse_t object.
  */
+LIBSBML_EXTERN
+Ellipse_t*
+Ellipse_clone(const Ellipse_t* e)
+{
+  if (e != NULL)
+  {
+    return static_cast<Ellipse_t*>(e->clone());
+  }
+  else
+  {
+    return NULL;
+  }
+}
+
+
+/*
+ * Frees this Ellipse_t object.
+ */
+LIBSBML_EXTERN
+void
+Ellipse_free(Ellipse_t* e)
+{
+  if (e != NULL)
+  {
+    delete e;
+  }
+}
+
+
+/*
+ * Returns the value of the "ratio" attribute of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+double
+Ellipse_getRatio(const Ellipse_t * e)
+{
+  return (e != NULL) ? e->getRatio() : util_NaN();
+}
+
+
+/*
+ * Predicate returning @c 1 (true) if this Ellipse_t's "ratio" attribute is
+ * set.
+ */
+LIBSBML_EXTERN
 int
-Ellipse::getTypeCode () const
+Ellipse_isSetRatio(const Ellipse_t * e)
 {
-    return SBML_RENDER_ELLIPSE;
+  return (e != NULL) ? static_cast<int>(e->isSetRatio()) : 0;
 }
-/** @endcond */
 
-/** @cond doxygenLibsbmlInternal */
+
 /*
- * Returns the XML element name of this object.
- *
- * This is overridden by subclasses to return a string appropriate to the
- * SBML component.  For example, Ellipse defines it as returning "ellipse",
+ * Sets the value of the "ratio" attribute of this Ellipse_t.
  */
-const std::string& Ellipse::getElementName() const
+LIBSBML_EXTERN
+int
+Ellipse_setRatio(Ellipse_t * e, double ratio)
 {
-  static std::string name = Ellipse::ELEMENT_NAME;
-  return name;
+  return (e != NULL) ? e->setRatio(ratio) : LIBSBML_INVALID_OBJECT;
 }
-/** @endcond */
 
 
-/** @cond doxygenLibsbmlInternal */
 /*
- * Accepts the given SBMLVisitor.
- *
- * @return the result of calling <code>v.visit()</code>, which indicates
- * whether or not the Visitor would like to visit the SBML object's next
- * sibling object (if available).
+ * Unsets the value of the "ratio" attribute of this Ellipse_t.
  */
-bool Ellipse::accept (SBMLVisitor& v) const
+LIBSBML_EXTERN
+int
+Ellipse_unsetRatio(Ellipse_t * e)
 {
-    //v.visit(*this);
-    return false;
+  return (e != NULL) ? e->unsetRatio() : LIBSBML_INVALID_OBJECT;
 }
-/** @endcond */
-
-/** @cond doxygenLibsbmlInternal */
-/* function returns true if component has all the required
- * attributes
- */
-bool Ellipse::hasRequiredAttributes() const
-{
-    bool result = this->GraphicalPrimitive2D::hasRequiredAttributes();
-    // the center should not contain NaN
-    result = result && 
-        (this->mCX.getAbsoluteValue() == this->mCX.getAbsoluteValue()) &&
-        (this->mCX.getRelativeValue() == this->mCX.getRelativeValue());
-    result = result && 
-        (this->mCY.getAbsoluteValue() == this->mCY.getAbsoluteValue()) &&
-        (this->mCY.getRelativeValue() == this->mCY.getRelativeValue());
-    result = result && 
-        (this->mCZ.getAbsoluteValue() == this->mCZ.getAbsoluteValue()) &&
-        (this->mCZ.getRelativeValue() == this->mCZ.getRelativeValue());
-    // the radii should not contain NaN
-    result = result && 
-        (this->mRX.getAbsoluteValue() == this->mRX.getAbsoluteValue()) &&
-        (this->mRX.getRelativeValue() == this->mRX.getRelativeValue());
-    result = result && 
-        (this->mRY.getAbsoluteValue() == this->mRY.getAbsoluteValue()) &&
-        (this->mRY.getRelativeValue() == this->mRY.getRelativeValue());
-    return result;
-}
-/** @endcond */
 
 
-/** @cond doxygenLibsbmlInternal */
-/* function returns true if component has all the required
- * elements
+/*
+ * Returns the value of the "cx" element of this Ellipse_t.
  */
-bool Ellipse::hasRequiredElements() const 
+LIBSBML_EXTERN
+RelAbsVector_t*
+Ellipse_getCX(const Ellipse_t * e)
 {
-    bool result = this->GraphicalPrimitive2D::hasRequiredElements();
-    return result;
+  if (e == NULL)
+  {
+    return NULL;
+  }
+
+  return (RelAbsVector_t*)(&(e->getCX()));
 }
-/** @endcond */
+
+
+/*
+ * Returns the value of the "cy" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+RelAbsVector_t*
+Ellipse_getCY(const Ellipse_t * e)
+{
+  if (e == NULL)
+  {
+    return NULL;
+  }
+
+  return (RelAbsVector_t*)(&(e->getCY()));
+}
+
+
+/*
+ * Returns the value of the "cz" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+RelAbsVector_t*
+Ellipse_getCZ(const Ellipse_t * e)
+{
+  if (e == NULL)
+  {
+    return NULL;
+  }
+
+  return (RelAbsVector_t*)(&(e->getCZ()));
+}
+
+
+/*
+ * Returns the value of the "rx" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+RelAbsVector_t*
+Ellipse_getRX(const Ellipse_t * e)
+{
+  if (e == NULL)
+  {
+    return NULL;
+  }
+
+  return (RelAbsVector_t*)(&(e->getRX()));
+}
+
+
+/*
+ * Returns the value of the "ry" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+RelAbsVector_t*
+Ellipse_getRY(const Ellipse_t * e)
+{
+  if (e == NULL)
+  {
+    return NULL;
+  }
+
+  return (RelAbsVector_t*)(&(e->getRY()));
+}
+
+
+/*
+ * Predicate returning @c 1 (true) if this Ellipse_t's "cx" element is set.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_isSetCX(const Ellipse_t * e)
+{
+  return (e != NULL) ? static_cast<int>(e->isSetCX()) : 0;
+}
+
+
+/*
+ * Predicate returning @c 1 (true) if this Ellipse_t's "cy" element is set.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_isSetCY(const Ellipse_t * e)
+{
+  return (e != NULL) ? static_cast<int>(e->isSetCY()) : 0;
+}
+
+
+/*
+ * Predicate returning @c 1 (true) if this Ellipse_t's "cz" element is set.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_isSetCZ(const Ellipse_t * e)
+{
+  return (e != NULL) ? static_cast<int>(e->isSetCZ()) : 0;
+}
+
+
+/*
+ * Predicate returning @c 1 (true) if this Ellipse_t's "rx" element is set.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_isSetRX(const Ellipse_t * e)
+{
+  return (e != NULL) ? static_cast<int>(e->isSetRX()) : 0;
+}
+
+
+/*
+ * Predicate returning @c 1 (true) if this Ellipse_t's "ry" element is set.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_isSetRY(const Ellipse_t * e)
+{
+  return (e != NULL) ? static_cast<int>(e->isSetRY()) : 0;
+}
+
+
+/*
+ * Sets the value of the "cx" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_setCX(Ellipse_t * e, const RelAbsVector_t* cx)
+{
+  return (e != NULL) ? e->setCX(*cx) : LIBSBML_INVALID_OBJECT;
+}
+
+
+
+/*
+ * Sets the value of the "cy" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_setCY(Ellipse_t * e, const RelAbsVector_t* cy)
+{
+  return (e != NULL) ? e->setCY(*cy) : LIBSBML_INVALID_OBJECT;
+}
+
+/*
+ * Sets the value of the "cz" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_setCZ(Ellipse_t * e, const RelAbsVector_t* cz)
+{
+  return (e != NULL) ? e->setCZ(*cz) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Sets the value of the "rx" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_setRX(Ellipse_t * e, const RelAbsVector_t* rx)
+{
+  return (e != NULL) ? e->setRX(*rx) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Sets the value of the "ry" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_setRY(Ellipse_t * e, const RelAbsVector_t* ry)
+{
+  return (e != NULL) ? e->setRY(*ry) : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Unsets the value of the "cx" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_unsetCX(Ellipse_t * e)
+{
+  return (e != NULL) ? e->unsetCX() : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Unsets the value of the "cy" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_unsetCY(Ellipse_t * e)
+{
+  return (e != NULL) ? e->unsetCY() : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Unsets the value of the "cz" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_unsetCZ(Ellipse_t * e)
+{
+  return (e != NULL) ? e->unsetCZ() : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Unsets the value of the "rx" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_unsetRX(Ellipse_t * e)
+{
+  return (e != NULL) ? e->unsetRX() : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Unsets the value of the "ry" element of this Ellipse_t.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_unsetRY(Ellipse_t * e)
+{
+  return (e != NULL) ? e->unsetRY() : LIBSBML_INVALID_OBJECT;
+}
+
+
+/*
+ * Predicate returning @c 1 (true) if all the required attributes for this
+ * Ellipse_t object have been set.
+ */
+LIBSBML_EXTERN
+int
+Ellipse_hasRequiredAttributes(const Ellipse_t * e)
+{
+  return (e != NULL) ? static_cast<int>(e->hasRequiredAttributes()) : 0;
+}
+
+
+
+
+
 
 LIBSBML_CPP_NAMESPACE_END
+
+

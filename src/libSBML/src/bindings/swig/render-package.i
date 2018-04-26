@@ -56,13 +56,11 @@
 %include <sbml/packages/render/sbml/Style.h>
 
 %include <sbml/packages/render/sbml/ColorDefinition.h>
-%include <sbml/packages/render/sbml/ListOfColorDefinitions.h>
 %include <sbml/packages/render/sbml/RelAbsVector.h>
 %include <sbml/packages/render/sbml/Ellipse.h>
 %include <sbml/packages/render/sbml/GlobalRenderInformation.h>
 %include <sbml/packages/render/sbml/GlobalStyle.h>
 %include <sbml/packages/render/sbml/GradientStop.h>
-%include <sbml/packages/render/sbml/ListOfGradientDefinitions.h>
 %include <sbml/packages/render/sbml/Image.h>
 %include <sbml/packages/render/sbml/Text.h>
 %include <sbml/packages/render/sbml/Rectangle.h>
@@ -73,11 +71,21 @@
 %include <sbml/packages/render/sbml/RenderGroup.h>
 %include <sbml/packages/render/sbml/LinearGradient.h>
 %include <sbml/packages/render/sbml/LineEnding.h>
-%include <sbml/packages/render/sbml/ListOfCurveElements.h>
 %include <sbml/packages/render/sbml/LocalRenderInformation.h>
 %include <sbml/packages/render/sbml/LocalStyle.h>
 %include <sbml/packages/render/sbml/RadialGradient.h>
 %include <sbml/packages/render/sbml/DefaultValues.h>
+
+%include <sbml/packages/render/sbml/ListOfColorDefinitions.h>
+%include <sbml/packages/render/sbml/ListOfCurveElements.h>
+%include <sbml/packages/render/sbml/ListOfDrawables.h>
+%include <sbml/packages/render/sbml/ListOfGlobalRenderInformation.h>
+%include <sbml/packages/render/sbml/ListOfGlobalStyles.h>
+%include <sbml/packages/render/sbml/ListOfGradientDefinitions.h>
+%include <sbml/packages/render/sbml/ListOfGradientStops.h>
+%include <sbml/packages/render/sbml/ListOfLineEndings.h>
+%include <sbml/packages/render/sbml/ListOfLocalRenderInformation.h>
+%include <sbml/packages/render/sbml/ListOfLocalStyles.h>
 
 %include std_deque.i
 %include std_set.i

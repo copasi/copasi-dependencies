@@ -256,10 +256,10 @@ int GradientBase::getSpreadMethod() const
 /*
  * Returns the value of the "spreadMethod" attribute of this GradientBase.
  */
-const std::string&
+std::string
 GradientBase::getSpreadMethodAsString() const
 {
-  static const std::string code_str =
+  std::string code_str =
     GradientSpreadMethod_toString((GradientSpreadMethod_t)(mSpreadMethod));
   return code_str;
 }
@@ -268,10 +268,18 @@ GradientBase::getSpreadMethodAsString() const
 /*
  * Returns the value of the "spreadMethod" attribute of this GradientBase.
  */
-const std::string&
+//const std::string&
+//GradientBase::getSpreadMethodString() const
+//{
+//  static const std::string code_str =
+//    SpreadMethod_toString((GradientBase::SPREADMETHOD)(mSpreadMethod));
+//  return code_str;
+//}
+//bgoli22
+std::string
 GradientBase::getSpreadMethodString() const
 {
-  static const std::string code_str =
+  std::string code_str = 
     SpreadMethod_toString((GradientBase::SPREADMETHOD)(mSpreadMethod));
   return code_str;
 }
@@ -373,16 +381,25 @@ GradientBase::setSpreadMethod(const GradientSpreadMethod_t spreadMethod)
 int
 GradientBase::setSpreadMethod(const std::string& spreadMethod)
 {
-  if (GradientSpreadMethod_isValidString(spreadMethod.c_str()) == 0)
+  mSpreadMethod =
+    GradientSpreadMethod_fromString(spreadMethod.c_str());
+
+  if (mSpreadMethod == GRADIENT_SPREAD_METHOD_INVALID)
   {
-    mSpreadMethod = GRADIENT_SPREADMETHOD_PAD;
     return LIBSBML_INVALID_ATTRIBUTE_VALUE;
   }
-  else
-  {
-    mSpreadMethod = GradientSpreadMethod_fromString(spreadMethod.c_str());
-    return LIBSBML_OPERATION_SUCCESS;
-  }
+
+  return LIBSBML_OPERATION_SUCCESS;
+  //if (GradientSpreadMethod_isValidString(spreadMethod.c_str()) == 0)
+  //{
+  //  mSpreadMethod = GRADIENT_SPREADMETHOD_PAD;
+  //  return LIBSBML_INVALID_ATTRIBUTE_VALUE;
+  //}
+  //else
+  //{
+  //  mSpreadMethod = GradientSpreadMethod_fromString(spreadMethod.c_str());
+  //  return LIBSBML_OPERATION_SUCCESS;
+//  }
 }
 
 
@@ -1609,10 +1626,10 @@ GradientBase_getSpreadMethod(const GradientBase_t * gb)
  * Returns the value of the "spreadMethod" attribute of this GradientBase_t.
  */
 LIBSBML_EXTERN
-const char *
+char *
 GradientBase_getSpreadMethodAsString(const GradientBase_t * gb)
 {
-  return GradientSpreadMethod_toString((GradientSpreadMethod_t)(gb->getSpreadMethod()));
+  return (char*)(GradientSpreadMethod_toString((GradientSpreadMethod_t)(gb->getSpreadMethod())));
 }
 
 
