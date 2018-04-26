@@ -397,7 +397,7 @@ endif()
 file(GLOB ZIPPER_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/zipper/*.h ${CMAKE_CURRENT_SOURCE_DIR}/minizip/*.h  )
 install(FILES 
         ${ZIPPER_HEADERS}
-        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/zipper
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/zipper
 )
 
 message(STATUS "
@@ -424,5 +424,6 @@ Zipper version ${PACKAGE_VERSION}
 
    Other configuration settings:
      Installation $prefix            = ${CMAKE_INSTALL_PREFIX}
-     ")
+     "
+)
 
