@@ -157,7 +157,7 @@ case $1 in
 
   SBW)
     #Build SBW
-    [ -e ${BUILD_DIR}/SBW] || mkdir -p ${BUILD_DIR}/SBW
+    [ -e ${BUILD_DIR}/SBW ] || mkdir -p ${BUILD_DIR}/SBW
     cd ${BUILD_DIR}/SBW
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DWITH_BUILD_BROKER=OFF \
