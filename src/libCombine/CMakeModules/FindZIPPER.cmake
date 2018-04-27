@@ -14,22 +14,22 @@ ENDMACRO ()
 
 find_library(ZIPPER_LIBRARY
     NAMES Zipper-static Zipper libZipper-static libZipper
-    PATHS /usr/lib
-          /usr/local/lib
-          ${CMAKE_OSX_SYSROOT}/usr/lib
+    PATHS ${CMAKE_OSX_SYSROOT}/usr/lib
           ${COMBINE_DEPENDENCY_DIR}/lib
           ${ADDITIONAL_LIB_DIRS}
           $ENV{ZLIBROOT}/lib
+          /usr/lib
+          /usr/local/lib
     DOC "The file name of the ZIPPER library."
 )
 
 find_path(ZIPPER_INCLUDE_DIR
       NAMES zipper/zipper.h
-      PATHS ${CMAKE_OSX_SYSROOT}/usr/include
+      PATHS ${COMBINE_DEPENDENCY_DIR}/include
+            $ENV{ZLIBROOT}/include
+            ${CMAKE_OSX_SYSROOT}/usr/include
             /usr/include
             /usr/local/include
-            ${COMBINE_DEPENDENCY_DIR}/include
-            $ENV{ZLIBROOT}/include
             NO_DEFAULT_PATH
       DOC "The directory containing the ZIPPER include files."
             )

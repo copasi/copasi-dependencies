@@ -105,24 +105,32 @@ or CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel." FORCE)
 endif()
 
 
+# Set the default dependency directory.
+set(ZIPPER_DEPENDENCY_DIR ${CMAKE_SOURCE_DIR}/dependencies/ CACHE PATH
+    "Directory containing libraries that zipper depends upon. (Particularly important on Windows.)")
+if("${ZIPPER_DEPENDENCY_DIR}" STREQUAL "")
+  set(ZIPPER_DEPENDENCY_DIR ${CMAKE_SOURCE_DIR}/dependencies/ CACHE PATH
+  "Directory containing libraries that zipper depends upon. (Particularly important on Windows.)" FORCE)
+endif()
+
 find_library(LIBZ_LIBRARY
     NAMES zdll.lib z zlib.lib
-    PATHS /usr/lib /usr/local/lib
-          ${CMAKE_OSX_SYSROOT}/usr/lib
-          ${ZIPPER_DEPENDENCY_DIR}/lib
+    PATHS ${ZIPPER_DEPENDENCY_DIR}/lib
           ${ADDITIONAL_LIB_DIRS}
           $ENV{ZLIBROOT}/lib
+          /usr/lib
+          /usr/local/lib
+          ${CMAKE_OSX_SYSROOT}/usr/lib
     DOC "The file name of the zip compression library."
 )
-
 
 if (NOT LIBZ_INCLUDE_DIR)
   find_path(LIBZ_INCLUDE_DIR
       NAMES zlib.h zlib/zlib.h
-      PATHS ${CMAKE_OSX_SYSROOT}/usr/include
-            /usr/include /usr/local/include
-            ${ZIPPER_DEPENDENCY_DIR}/include
+      PATHS ${ZIPPER_DEPENDENCY_DIR}/include
             $ENV{ZLIBROOT}/include
+            ${CMAKE_OSX_SYSROOT}/usr/include
+            /usr/include /usr/local/include
             NO_DEFAULT_PATH
       DOC "The directory containing the zlib include files."
             )
