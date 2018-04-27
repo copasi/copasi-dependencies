@@ -14,7 +14,7 @@ INSTALL_DIR=${INSTALL_DIR:=${DIRECTORY}/bin}
 [ -d ${INSTALL_DIR}/lib ] || mkdir ${INSTALL_DIR}/lib
 
 if [ $# = 0 ]; then
-  ToBeBuild="expat raptor crossguid clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
+  ToBeBuild="expat raptor crossguid clapack SBW libSBML libnuml libSEDML zlib zipper libCombine MML qwt qwt-6 qwtplot3d"
 elif [ _${1} = _--rebuild -a -e "${BUILD_DIR}/.packages" ]; then
   . "${BUILD_DIR}/.packages"
 else
@@ -100,7 +100,7 @@ case $1 in
 
   clapack)
     # Build Clapack
-    [ -e ${BUILD_DIR}/expat ] || mkdir -p ${BUILD_DIR}/clapack
+    [ -e ${BUILD_DIR}/clapack ] || mkdir -p ${BUILD_DIR}/clapack
     cd ${BUILD_DIR}/clapack
     $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
         -DBUILD_TESTING=OFF \
@@ -111,8 +111,8 @@ case $1 in
 
   MML)
     #build MML
-    [ -e ${BUILD_DIR}/mml ] || mkdir -p ${BUILD_DIR}/mml 
-    cd ${BUILD_DIR}/mml
+    [ -e ${BUILD_DIR}/MML ] || mkdir -p ${BUILD_DIR}/MML 
+    cd ${BUILD_DIR}/MML
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
            $DIRECTORY/src/mml
     $MAKE -j 4
@@ -147,8 +147,8 @@ case $1 in
 
   qwtplot3d)
     #build qwtplot3d 
-    [ -e ${BUILD_DIR}/qwtplot3d-qt4 ] || mkdir ${BUILD_DIR}/qwtplot3d-qt4
-    cd ${BUILD_DIR}/qwtplot3d-qt4 
+    [ -e ${BUILD_DIR}/qwtplot3d ] || mkdir ${BUILD_DIR}/qwtplot3d
+    cd ${BUILD_DIR}/qwtplot3d 
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         $DIRECTORY/src/qwtplot3d-qt4
     make -j 4
@@ -168,9 +168,9 @@ case $1 in
     ;;
 
   libSBML)
-    # build libsbml
-    [ -e ${BUILD_DIR}/libsbml ] || mkdir -p ${BUILD_DIR}/libsbml
-    cd ${BUILD_DIR}/libsbml
+    # build libSBML
+    [ -e ${BUILD_DIR}/libSBML ] || mkdir -p ${BUILD_DIR}/libSBML
+    cd ${BUILD_DIR}/libSBML
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DENABLE_LAYOUT=ON \
         -DENABLE_REQUIREDELEMENTS=OFF \
@@ -181,7 +181,6 @@ case $1 in
         -DENABLE_GROUPS=OFF \
         -DWITH_EXPAT=ON \
         -DWITH_LIBXML=OFF \
-        -DLIBSBML_USE_LEGACY_MATH=ON \
         -DLIBSBML_USE_LEGACY_MATH=ON \
         -DLIBSBML_DEPENDENCY_DIR=${INSTALL_DIR} \
         -DLIBSBML_SKIP_SHARED_LIBRARY=ON \
@@ -240,8 +239,20 @@ case $1 in
     $MAKE install
     ;;
 
+  zipper)
+    # build zipper
+    [ -e ${BUILD_DIR}/zipper ] || mkdir -p ${BUILD_DIR}/zipper
+    cd ${BUILD_DIR}/zipper
+    $CMAKE ${COPASI_CMAKE_OPTIONS} \
+       -DWITH_QT_FILESYSTEM=ON \
+       -DZIPPER_DEPENDENCY_DIR=${INSTALL_DIR} \
+        $DIRECTORY/src/zipper
+    make -j 4
+    make install
+    ;;
+
   libCombine)
-     # build libCombine
+    # build libCombine
     [ -e ${BUILD_DIR}/libCombine ] || mkdir -p ${BUILD_DIR}/libCombine
     cd ${BUILD_DIR}/libCombine
     $CMAKE ${COPASI_CMAKE_OPTIONS} \

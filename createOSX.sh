@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 
 DIRECTORY=$(cd `dirname $0` && pwd)
@@ -14,7 +14,7 @@ INSTALL_DIR=${INSTALL_DIR:=${DIRECTORY}/bin}
 [ -d ${INSTALL_DIR}/lib ] || mkdir ${INSTALL_DIR}/lib
 
 if [ $# = 0 ]; then
-  ToBeBuild="expat raptor crossguid clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d"
+  ToBeBuild="expat raptor crossguid clapack SBW libSBML libnuml libSEDML zlib zipper libCombine MML qwt qwt-6 qwtplot3d"
 elif [ _${1} = _--rebuild -a -e "${BUILD_DIR}/.packages" ]; then
   . "${BUILD_DIR}/.packages"
 else
@@ -65,8 +65,8 @@ case $1 in
     ;;
 
   expat)
-   # build expat
-    mkdir -p ${BUILD_DIR}/expat
+    # build expat
+    [ -e ${BUILD_DIR}/expat ] || mkdir -p ${BUILD_DIR}/expat
     cd ${BUILD_DIR}/expat
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
@@ -79,7 +79,7 @@ case $1 in
 
   raptor)
     # build raptor
-    mkdir -p ${BUILD_DIR}/raptor
+    [ -e ${BUILD_DIR}/raptor ] || mkdir -p ${BUILD_DIR}/raptor
     cd ${BUILD_DIR}/raptor
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
@@ -90,7 +90,7 @@ case $1 in
 
   crossguid)
     # build crossguid
-    mkdir -p ${BUILD_DIR}/crossguid
+    [ -e ${BUILD_DIR}/clapack ] || mkdir -p ${BUILD_DIR}/crossguid
     cd ${BUILD_DIR}/crossguid
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
@@ -101,8 +101,8 @@ case $1 in
 
   MML)
     #build MML
-    mkdir ${BUILD_DIR}/mml 
-    cd ${BUILD_DIR}/mml 
+    [ -e ${BUILD_DIR}/MML ] || mkdir -p ${BUILD_DIR}/MML 
+    cd ${BUILD_DIR}/MML
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       $DIRECTORY/src/mml
     make -j 4
@@ -110,18 +110,24 @@ case $1 in
     ;;
 
   qwt)
+    if [ _${SELECT_QT} == _Qt5 ]; then
+      QWT=qwt-6
+    else
+      QWT=qwt
+    fi
+    
     #build qwt 
-    mkdir ${BUILD_DIR}/qwt 
-    cd ${BUILD_DIR}/qwt 
+    [ -e ${BUILD_DIR}/${QWT} ] || mkdir "${BUILD_DIR}/${QWT}"
+    cd "${BUILD_DIR}/${QWT}"
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
-      $DIRECTORY/src/qwt
+        "$DIRECTORY/src/${QWT}"
     make -j 4
     make install
     ;;
 
   qwt-6)
     #build qwt 
-    mkdir ${BUILD_DIR}/qwt-6 
+    [ -e ${BUILD_DIR}/qwt-6 ] || mkdir ${BUILD_DIR}/qwt-6 
     cd ${BUILD_DIR}/qwt-6
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         $DIRECTORY/src/qwt-6
@@ -131,17 +137,17 @@ case $1 in
 
   qwtplot3d)
     #build qwtplot3d 
-    mkdir ${BUILD_DIR}/qwtplot3d-qt4
-    cd ${BUILD_DIR}/qwtplot3d-qt4 
+    [ -e ${BUILD_DIR}/qwtplot3d ] || mkdir ${BUILD_DIR}/qwtplot3d
+    cd ${BUILD_DIR}/qwtplot3d 
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
-      $DIRECTORY/src/qwtplot3d-qt4
+        $DIRECTORY/src/qwtplot3d-qt4
     make -j 4
     make install
     ;;
 
   SBW)
     #Build SBW
-    mkdir ${BUILD_DIR}/SBW
+    [ -e ${BUILD_DIR}/SBW ] || mkdir -p ${BUILD_DIR}/SBW
     cd ${BUILD_DIR}/SBW
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       -DWITH_BUILD_BROKER=OFF \
@@ -152,9 +158,9 @@ case $1 in
     ;;
 
   libSBML)
-    # build libsbml
-    mkdir ${BUILD_DIR}/libsbml
-    cd ${BUILD_DIR}/libsbml
+    # build libSBML
+    [ -e ${BUILD_DIR}/libSBML ] || mkdir -p ${BUILD_DIR}/libSBML
+    cd ${BUILD_DIR}/libSBML
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       -DENABLE_LAYOUT=ON \
       -DCLANG_USE_STDLIB=OFF \
@@ -178,7 +184,7 @@ case $1 in
 
   libnuml)
     # build libnuml
-    mkdir -p ${BUILD_DIR}/libnuml
+    [ -e ${BUILD_DIR}/libnuml ] || mkdir -p ${BUILD_DIR}/libnuml
     cd ${BUILD_DIR}/libnuml
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       -DLIBSBML_STATIC=ON \
@@ -197,7 +203,7 @@ case $1 in
 
   libSEDML)
     # build libSEDML
-    mkdir -p ${BUILD_DIR}/libSEDML
+    [ -e ${BUILD_DIR}/libSEDML ] || mkdir -p ${BUILD_DIR}/libSEDML
     cd ${BUILD_DIR}/libSEDML
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       -DLIBSBML_STATIC=ON \
@@ -216,7 +222,7 @@ case $1 in
 
   zlib)
     # build zlib
-    mkdir -p ${BUILD_DIR}/zlib
+    [ -e ${BUILD_DIR}/zlib ] || mkdir -p ${BUILD_DIR}/zlib
     cd ${BUILD_DIR}/zlib
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
       $DIRECTORY/src/zlib
@@ -224,9 +230,9 @@ case $1 in
     make install
     ;;
 
-  libCombine)
+  zipper)
     # build zipper
-    mkdir -p ${BUILD_DIR}/zipper
+    [ -e ${BUILD_DIR}/zipper ] || mkdir -p ${BUILD_DIR}/zipper
     cd ${BUILD_DIR}/zipper
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
        -DWITH_QT_FILESYSTEM=ON \
@@ -234,14 +240,15 @@ case $1 in
         $DIRECTORY/src/zipper
     make -j 4
     make install
+    ;;
 
+  libCombine)
     # build libCombine
-    mkdir -p ${BUILD_DIR}/libCombine
+    [ -e ${BUILD_DIR}/libCombine ] || mkdir -p ${BUILD_DIR}/libCombine
     cd ${BUILD_DIR}/libCombine
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
        -DWITH_QT_FILESYSTEM=ON \
        -DCOMBINE_DEPENDENCY_DIR=${INSTALL_DIR} \
-       -DEXTRA_LIBS=${INSTALL_DIR}/lib/libexpat.a \
         $DIRECTORY/src/libCombine
     make -j 4
     make install

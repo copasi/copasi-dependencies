@@ -11,7 +11,7 @@ if not exist %INSTALL_DIR%\include mkdir %INSTALL_DIR%\include
 if not exist %INSTALL_DIR%\lib mkdir %INSTALL_DIR%\lib
 
 IF "%1"=="" (
-  SET TO_BE_BUILD=expat raptor crossguid clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwt-6 qwtplot3d
+  SET TO_BE_BUILD=expat raptor crossguid clapack SBW libSBML libnuml libSEDML zlib zipper libCombine MML qwt qwt-6 qwtplot3d
   GOTO :END_ARGUMENTS
 )
 
