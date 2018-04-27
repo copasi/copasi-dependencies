@@ -297,48 +297,7 @@ find_package(LIBSBML REQUIRED)
 
 find_package(EXPAT REQUIRED)
 
-# detect zipper library if sources are not included
-if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/zipper)
-
-find_library(ZIPPER_LIBRARY
-    NAMES Zipper-static Zipper libZipper-static libZipper
-    PATHS /usr/lib /usr/local/lib
-          ${CMAKE_OSX_SYSROOT}/usr/lib
-          ${COMBINE_DEPENDENCY_DIR}/lib
-          ${ADDITIONAL_LIB_DIRS}
-          $ENV{ZLIBROOT}/lib
-    DOC "The file name of the ZIPPER library."
-)
-
-
-find_path(ZIPPER_INCLUDE_DIR
-      NAMES zipper/zipper.h
-      PATHS ${CMAKE_OSX_SYSROOT}/usr/include
-            /usr/include /usr/local/include
-            ${COMBINE_DEPENDENCY_DIR}/include
-            $ENV{ZLIBROOT}/include
-            NO_DEFAULT_PATH
-      DOC "The directory containing the ZIPPER include files."
-            )
-else()
-  unset(ZIPPER_LIBRARY)
-  unset(ZIPPER_INCLUDE_DIR)
-  find_path(ZIPPER_INCLUDE_DIR
-      NAMES zipper/zipper.h
-      PATHS ${CMAKE_CURRENT_SOURCE_DIR}/src
-            NO_DEFAULT_PATH
-      DOC "The directory containing the ZIPPER include files."
-            )
-endif()
-
-if (NOT ZIPPER_INCLUDE_DIR)
- message(FATAL_ERROR "
-     Could not found zipper/zipper.h on system or in src/zipper. Please specify
-     the ZIPPER_INCLUDE_DIR variable or copy the zipper directory into the src
-     dir.
-")
-endif()
-
+find_package(ZIPPER REQUIRED)
 
 set(ZLIB_INITIAL_VALUE)
 if (NOT LIBZ_LIBRARY)
@@ -608,55 +567,8 @@ file(GLOB COMBINE_SOURCES
 )
 source_group(combine FILES ${COMBINE_SOURCES} ${COMBINE_HEADERS})
 
-# if we have the zipper sources, include them directly
-if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/zipper)
-  include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/src/zipper)
-  include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-
-  file(GLOB ZIPPER_SOURCES
-    RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/zipper/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/zipper/*.h
-  )
-
-  set(COMBINE_SOURCES ${COMBINE_SOURCES} ${ZIPPER_SOURCES})
-  
-  source_group(zipper FILES ${ZIPPER_SOURCES})
-  
-endif()
-
 # include minizip sources if we have them and libSBML has been compiled 
 # without compression
-
-set (LIBSBML_HAS_MINIZIP)
-if (EXISTS ${LIBSBML_LIBRARY})
-  SET(CMAKE_REQUIRED_LIBRARIES ${LIBSBML_LIBRARY} ${LIBZ_LIBRARY} ${EXTRA_LIBS})
-  CHECK_FUNCTION_EXISTS(zipOpen3 LIBSBML_HAS_MINIZIP)
-endif()
-
-if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/minizip AND NOT LIBSBML_HAS_MINIZIP)
-  include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/src/minizip)
-
-  file(GLOB MINIZIP_SOURCES
-    RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/minizip/*.c
-  )
-
-  if (UNIX AND NOT CYGWIN)
-   list(REMOVE_ITEM MINIZIP_SOURCES
-    minizip/iowin32.c
-  )
-  endif()
-
-  set(COMBINE_SOURCES ${COMBINE_SOURCES} ${MINIZIP_SOURCES})
-  
-  source_group(minizip FILES ${MINIZIP_SOURCES})
-
-elseif(LIBSBML_HAS_MINIZIP AND EXISTS ${LIBSBML_INCLUDE_DIR})
-
-  include_directories(${LIBSBML_INCLUDE_DIR}/sbml/compress)
-  
-endif()
 
 set(LIBCOMBINE_SOURCES ${COMBINE_SOURCES} ${COMBINE_HEADERS})
 set(LIBCOMBINE_LIBRARY ${COMBINE_LIBRARY})
