@@ -45,8 +45,9 @@
 #include <sbml/packages/render/sbml/Ellipse.h>
 #include <sbml/packages/render/sbml/Rectangle.h>
 #include <sbml/packages/render/sbml/Polygon.h>
-#include <sbml/packages/render/sbml/RenderGroup.h>
+#include <sbml/packages/render/sbml/ListOfDrawables.h>
 #include <sbml/packages/render/sbml/LineEnding.h>
+#include <sbml/packages/render/sbml/ListOfLineEndings.h>
 #include <sbml/packages/render/sbml/Text.h>
 #include <sbml/packages/render/sbml/RenderCurve.h>
 
@@ -2234,11 +2235,11 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
 
   if (assigned == true)
   {
-    if (mStartHead.empty() == true)
+    if (log && mStartHead.empty() == true)
     {
       logEmptyString(mStartHead, level, version, "<RenderGroup>");
     }
-    else if (SyntaxChecker::isValidSBMLSId(mStartHead) == false)
+    else if (log && SyntaxChecker::isValidSBMLSId(mStartHead) == false)
     {
       std::string msg = "The startHead attribute on the <" + getElementName() +
         ">";
@@ -2262,11 +2263,11 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
 
   if (assigned == true)
   {
-    if (mEndHead.empty() == true)
+    if (log && mEndHead.empty() == true)
     {
       logEmptyString(mEndHead, level, version, "<RenderGroup>");
     }
-    else if (SyntaxChecker::isValidSBMLSId(mEndHead) == false)
+    else if (log && SyntaxChecker::isValidSBMLSId(mEndHead) == false)
     {
       std::string msg = "The endHead attribute on the <" + getElementName() +
         ">";
@@ -2289,7 +2290,7 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
 
   if (assigned == true)
   {
-    if (mFontFamily.empty() == true)
+    if (log && mFontFamily.empty() == true)
     {
       logEmptyString(mFontFamily, level, version, "<RenderGroup>");
     }
@@ -2306,13 +2307,16 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
   {
     if (fontWeight.empty() == true)
     {
-      logEmptyString(fontWeight, level, version, "<RenderGroup>");
+      if (log)
+      {
+        logEmptyString(fontWeight, level, version, "<RenderGroup>");
+      }
     }
     else
     {
       mFontWeight = FontWeight_fromString(fontWeight.c_str());
 
-      if (FontWeight_isValid((FontWeight_t)(mFontWeight)) == 0)
+      if (log && FontWeight_isValid((FontWeight_t)(mFontWeight)) == 0)
       {
         std::string msg = "The font-weight on the <RenderGroup> ";
 
@@ -2343,7 +2347,7 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
 
   if (assigned == true)
   {
-    if (fontStyle.empty() == true)
+    if (log && fontStyle.empty() == true)
     {
       logEmptyString(fontStyle, level, version, "<RenderGroup>");
     }
@@ -2351,7 +2355,7 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
     {
       mFontStyle = FontStyle_fromString(fontStyle.c_str());
 
-      if (FontStyle_isValid((FontStyle_t)(mFontStyle)) == 0)
+      if (log && FontStyle_isValid((FontStyle_t)(mFontStyle)) == 0)
       {
         std::string msg = "The font-style on the <RenderGroup> ";
 
@@ -2382,7 +2386,7 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
 
   if (assigned == true)
   {
-    if (textAnchor.empty() == true)
+    if (log && textAnchor.empty() == true)
     {
       logEmptyString(textAnchor, level, version, "<RenderGroup>");
     }
@@ -2390,7 +2394,7 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
     {
       mTextAnchor = HTextAnchor_fromString(textAnchor.c_str());
 
-      if (HTextAnchor_isValid((HTextAnchor_t)(mTextAnchor)) == 0)
+      if (log && HTextAnchor_isValid((HTextAnchor_t)(mTextAnchor)) == 0)
       {
         std::string msg = "The text-anchor on the <RenderGroup> ";
 
@@ -2421,7 +2425,7 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
 
   if (assigned == true)
   {
-    if (vtextAnchor.empty() == true)
+    if (log && vtextAnchor.empty() == true)
     {
       logEmptyString(vtextAnchor, level, version, "<RenderGroup>");
     }
@@ -2429,7 +2433,7 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
     {
       mVTextAnchor = VTextAnchor_fromString(vtextAnchor.c_str());
 
-      if (VTextAnchor_isValid((VTextAnchor_t)(mVTextAnchor)) == 0)
+      if (log && VTextAnchor_isValid((VTextAnchor_t)(mVTextAnchor)) == 0)
       {
         std::string msg = "The vtext-anchor on the <RenderGroup> ";
 
@@ -2465,16 +2469,19 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
   else
   {
     v.setCoordinate(s);
-    if (!(v.isSetCoordinate()) && log)
+    if (!(v.isSetCoordinate()))
     {
-      std::string message = "The syntax '" + s + "' of the attribute 'font-size' on the ";
-      if (isSetId())
+      if (log)
       {
-        message += "with id '" + getId() + "'";
+        std::string message = "The syntax '" + s + "' of the attribute 'font-size' on the ";
+        if (isSetId())
+        {
+          message += "with id '" + getId() + "'";
+        }
+        message += " does not conform to the syntax of a RelAbsVector type.";
+        log->logPackageError("render", RenderRenderGroupFontSizeMustBeRelAbsVector,
+          pkgVersion, level, version, message);
       }
-      message += " does not conform to the syntax of a RelAbsVector type.";
-      log->logPackageError("render", RenderRenderGroupFontSizeMustBeRelAbsVector,
-        pkgVersion, level, version, message);
 
     }
     else

@@ -37,7 +37,9 @@
 #include <sbml/packages/render/validator/RenderSBMLError.h>
 
 #include <sbml/packages/render/sbml/GlobalStyle.h>
+#include <sbml/packages/render/sbml/ListOfGlobalStyles.h>
 #include <sbml/packages/render/sbml/LocalStyle.h>
+#include <sbml/packages/render/sbml/ListOfLocalStyles.h>
 
 #include <sbml/util/ElementFilter.h>
 
@@ -1353,7 +1355,7 @@ Style::readAttributes(const XMLAttributes& attributes,
 
   assigned = attributes.readInto("id", mId);
 
-  if (assigned == true)
+  if (log && assigned == true)
   {
     if (mId.empty() == true)
     {
@@ -1373,7 +1375,7 @@ Style::readAttributes(const XMLAttributes& attributes,
 
   assigned = attributes.readInto("name", mName);
 
-  if (assigned == true)
+  if (log && assigned == true)
   {
     if (mName.empty() == true)
     {

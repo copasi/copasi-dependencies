@@ -41,7 +41,9 @@
 #include <sbml/packages/render/sbml/Rectangle.h>
 #include <sbml/packages/render/sbml/Polygon.h>
 #include <sbml/packages/render/sbml/RenderGroup.h>
+#include <sbml/packages/render/sbml/ListOfDrawables.h>
 #include <sbml/packages/render/sbml/LineEnding.h>
+#include <sbml/packages/render/sbml/ListOfLineEndings.h>
 #include <sbml/packages/render/sbml/Text.h>
 #include <sbml/packages/render/sbml/RenderCurve.h>
 
@@ -759,7 +761,7 @@ Transformation2D::readAttributes(const XMLAttributes& attributes,
   //  }
   //}
     std::string s;
-    attributes.readInto("transform", s, getErrorLog(), false, getLine(), getColumn());
+    attributes.readInto("transform", s);
     if(!s.empty())
     {
         this->parseTransformation(s);

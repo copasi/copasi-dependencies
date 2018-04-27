@@ -37,7 +37,9 @@
 #include <sbml/packages/render/sbml/Rectangle.h>
 #include <sbml/packages/render/sbml/Polygon.h>
 #include <sbml/packages/render/sbml/RenderGroup.h>
+#include <sbml/packages/render/sbml/ListOfDrawables.h>
 #include <sbml/packages/render/sbml/LineEnding.h>
+#include <sbml/packages/render/sbml/ListOfLineEndings.h>
 
 #include <sbml/packages/render/extension/RenderExtension.h>
 
@@ -852,7 +854,7 @@ GraphicalPrimitive2D::readAttributes(const XMLAttributes& attributes,
 
   if (assigned == true)
   {
-    if (mFill.empty() == true)
+    if (mFill.empty() == true && log)
     {
       logEmptyString(mFill, level, version, "<GraphicalPrimitive2D>");
     }
@@ -867,7 +869,7 @@ GraphicalPrimitive2D::readAttributes(const XMLAttributes& attributes,
 
   if (assigned == true)
   {
-    if (fillRule.empty() == true)
+    if (fillRule.empty() == true && log)
     {
       logEmptyString(fillRule, level, version, "<GraphicalPrimitive2D>");
     }
@@ -885,10 +887,12 @@ GraphicalPrimitive2D::readAttributes(const XMLAttributes& attributes,
         }
 
         msg += "is '" + fillRule + "', which is not a valid option.";
-
-        log->logPackageError("render",
-          RenderGraphicalPrimitive2DFillRuleMustBeFillRuleEnum, pkgVersion,
+        if (log)
+        {
+          log->logPackageError("render",
+            RenderGraphicalPrimitive2DFillRuleMustBeFillRuleEnum, pkgVersion,
             level, version, msg);
+        }
       }
     }
   }

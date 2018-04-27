@@ -38,7 +38,9 @@
 #include <sbml/packages/render/sbml/Rectangle.h>
 #include <sbml/packages/render/sbml/Polygon.h>
 #include <sbml/packages/render/sbml/RenderGroup.h>
+#include <sbml/packages/render/sbml/ListOfDrawables.h>
 #include <sbml/packages/render/sbml/LineEnding.h>
+#include <sbml/packages/render/sbml/ListOfLineEndings.h>
 #include <sbml/packages/render/sbml/Text.h>
 #include <sbml/packages/render/sbml/RenderCurve.h>
 
@@ -1119,11 +1121,11 @@ GraphicalPrimitive1D::readAttributes(const XMLAttributes& attributes,
 
   if (assigned == true)
   {
-    if (mId.empty() == true)
+    if (mId.empty() == true && log)
     {
       logEmptyString(mId, level, version, "<GraphicalPrimitive1D>");
     }
-    else if (SyntaxChecker::isValidSBMLSId(mId) == false)
+    else if (SyntaxChecker::isValidSBMLSId(mId) == false && log)
     {
       log->logPackageError("render", RenderIdSyntaxRule, pkgVersion, level,
         version, "The id on the <" + getElementName() + "> is '" + mId + "', "
@@ -1139,7 +1141,7 @@ GraphicalPrimitive1D::readAttributes(const XMLAttributes& attributes,
 
   if (assigned == true)
   {
-    if (mStroke.empty() == true)
+    if (mStroke.empty() == true && log)
     {
       logEmptyString(mStroke, level, version, "<GraphicalPrimitive1D>");
     }
@@ -1151,9 +1153,9 @@ GraphicalPrimitive1D::readAttributes(const XMLAttributes& attributes,
   if (log)  numErrs = log->getNumErrors();
   mIsSetStrokeWidth = attributes.readInto("stroke-width", mStrokeWidth);
 
-  if (log && mIsSetStrokeWidth == false)
+  if (mIsSetStrokeWidth == false)
   {
-    if (log->getNumErrors() == numErrs + 1 &&
+    if (log && log->getNumErrors() == numErrs + 1 &&
       log->contains(XMLAttributeTypeMismatch))
     {
       log->remove(XMLAttributeTypeMismatch);
@@ -1163,6 +1165,7 @@ GraphicalPrimitive1D::readAttributes(const XMLAttributes& attributes,
         RenderGraphicalPrimitive1DStrokeWidthMustBeDouble, pkgVersion, level,
           version, message);
     }
+    mStrokeWidth = std::numeric_limits<double>::quiet_NaN();
   }
 
 

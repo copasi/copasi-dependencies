@@ -1124,8 +1124,9 @@ LIBSBML_CPP_NAMESPACE_END
 
 #endif /* !SWIG */
 
-
+#ifndef LIBSBML_USE_STRICT_INCLUDES
 #include <sbml/packages/render/sbml/ListOfGlobalRenderInformation.h>
+#endif // LIBSBML_USE_STRICT_INCLUDES
 
 #endif /* !GlobalRenderInformation_H__ */
 
