@@ -104,7 +104,6 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "")
 or CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel." FORCE)
 endif()
 
-
 # Set the default dependency directory.
 set(ZIPPER_DEPENDENCY_DIR ${CMAKE_SOURCE_DIR}/dependencies/ CACHE PATH
     "Directory containing libraries that zipper depends upon. (Particularly important on Windows.)")
@@ -114,10 +113,12 @@ if("${ZIPPER_DEPENDENCY_DIR}" STREQUAL "")
 endif()
 
 find_library(LIBZ_LIBRARY
-    NAMES zdll.lib z zlib.lib
-    PATHS ${ZIPPER_DEPENDENCY_DIR}/lib
-          ${ADDITIONAL_LIB_DIRS}
+    NAMES zlib zdll.lib z zlib.lib
+    PATHS ${ZIPPER_DEPENDENCY_DIR}/lib64
+          ${ZIPPER_DEPENDENCY_DIR}/lib
+          $ENV{ZLIBROOT}/lib64
           $ENV{ZLIBROOT}/lib
+          ${ADDITIONAL_LIB_DIRS}
           /usr/lib
           /usr/local/lib
           ${CMAKE_OSX_SYSROOT}/usr/lib
@@ -159,6 +160,7 @@ add_definitions( -DUSE_ZLIB )
 
 # make sure that we have a valid zip library
 check_library_exists("${LIBZ_LIBRARY}" "gzopen" "" LIBZ_FOUND_SYMBOL)
+
 if(NOT LIBZ_FOUND_SYMBOL)
     # this is odd, but on windows this check always fails! must be a
     # bug in the current cmake version so for now only issue this
