@@ -553,6 +553,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * Writes the given element to the stream.
    *
    * @param triple the XML element to write.
+   * @param text the text to put
    */ public
  void endElement(XMLTriple triple, bool text) {
     libsbmlPINVOKE.XMLOutputStream_endElement__SWIG_2(swigCPtr, XMLTriple.getCPtr(triple), text);
@@ -564,6 +565,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * Writes the given element to the stream.
    *
    * @param triple the XML element to write.
+   * @param text the text to put
    */ public
  void endElement(XMLTriple triple) {
     libsbmlPINVOKE.XMLOutputStream_endElement__SWIG_3(swigCPtr, XMLTriple.getCPtr(triple));

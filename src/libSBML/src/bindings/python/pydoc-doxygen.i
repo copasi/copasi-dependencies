@@ -49504,6 +49504,7 @@ This method has multiple variants; they differ in the arguments
 Writes the given element to the stream.
 
 @param triple the XML element to write.
+@param text the text to put
    
 
 
@@ -60325,7 +60326,7 @@ from libSBML core.@endif
 <td class=\'s-error\'></td>
 </tr>
 <tr><td class=\'code\'>@link libsbml#GroupsGroupKindMustBeGroupKindEnum GroupsGroupKindMustBeGroupKindEnum@endlink</td>
-<td class=\'meaning\'>Kind attribute must be GroupKindEnum.</td>
+<td class=\'meaning\'>Kind attribute must be GroupKind.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
@@ -63178,7 +63179,7 @@ returned by this function are:
 @li @link libsbml#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link libsbml#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
 
-@note If the @if clike #QualifierType_t value@else qualifier type@endif of this object is not
+@note If the @if clike #QualifierType_t value@else qualifier type@endif@~ of this object is not
 @link libsbml#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, then the
 then the @if clike #ModelQualifierType_t value@else model qualifier type@endif@~
 will default to @link libsbml#BQM_UNKNOWN BQM_UNKNOWN@endlink.

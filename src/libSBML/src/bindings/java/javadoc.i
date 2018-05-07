@@ -51277,6 +51277,7 @@ appears in the documentation.
    * Writes the given element to the stream.
    <p>
    * @param triple the XML element to write.
+   * @param text the text to put
    */ public
 ";
 
@@ -62178,7 +62179,7 @@ defined in SBML.
 <td class=\'s-error\'></td>
 </tr>
 <tr><td class=\'code\'>{@link libsbmlConstants#GroupsGroupKindMustBeGroupKindEnum GroupsGroupKindMustBeGroupKindEnum}</td>
-<td class=\'meaning\'>Kind attribute must be GroupKindEnum.</td>
+<td class=\'meaning\'>Kind attribute must be GroupKind.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>

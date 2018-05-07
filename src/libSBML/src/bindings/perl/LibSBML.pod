@@ -28309,6 +28309,7 @@ C<element> name.  (The result has the form
 
 Writes the given element to the stream.
 @param triple the XML element to write.
+@param text the text to put
 
 
 =item XMLOutputStream::setAutoIndent
@@ -31162,7 +31163,7 @@ of this CVTerm object.
 C<opydetails> doc_returns_success_code
 @li @link OperationReturnValues_t#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS@endlink
 @li @link OperationReturnValues_t#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE@endlink
-@note If the @if clike #QualifierType_t value@else qualifier type@endif of this object is not
+@note If the @if clike #QualifierType_t value@else qualifier type@endif@~ of this object is not
 @link QualifierType_t#MODEL_QUALIFIER MODEL_QUALIFIER@endlink, then the
 then the @if clike #ModelQualifierType_t value@else model qualifier type@endif@~
 will default to @link ModelQualifierType_t#BQM_UNKNOWN BQM_UNKNOWN@endlink.

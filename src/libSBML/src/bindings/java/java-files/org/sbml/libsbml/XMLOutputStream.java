@@ -570,6 +570,7 @@ appears in the documentation.
    * Writes the given element to the stream.
    <p>
    * @param triple the XML element to write.
+   * @param text the text to put
    */ public
  void endElement(XMLTriple triple, boolean text) {
     libsbmlJNI.XMLOutputStream_endElement__SWIG_2(swigCPtr, this, XMLTriple.getCPtr(triple), triple, text);
@@ -580,6 +581,7 @@ appears in the documentation.
    * Writes the given element to the stream.
    <p>
    * @param triple the XML element to write.
+   * @param text the text to put
    */ public
  void endElement(XMLTriple triple) {
     libsbmlJNI.XMLOutputStream_endElement__SWIG_3(swigCPtr, this, XMLTriple.getCPtr(triple), triple);

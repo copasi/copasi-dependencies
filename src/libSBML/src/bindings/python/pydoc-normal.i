@@ -45512,7 +45512,8 @@ Method variant with the following signature:
 
 Writes the given element to the stream.
 
-Parameter 'triple' is the XML element to write.
+Parameter 'triple' is the XML element to write. Parameter 'text' is
+the text to put
 
 Note: Owing to the way that language interfaces are created in
 libSBML, this documentation may show methods that define default
@@ -48357,7 +48358,7 @@ If the name of a code does not begin with one of the package nicknames
   | GroupsGroupAllowedCoreElements            | Core elements allowed on <group>.                                                                    |       |       |       |       |       |       |       |       |
   | GroupsGroupAllowedAttributes              | Attributes allowed on <group>.                                                                       |       |       |       |       |       |       |       |       |
   | GroupsGroupAllowedElements                | Elements allowed on <group>.                                                                         |       |       |       |       |       |       |       |       |
-  | GroupsGroupKindMustBeGroupKindEnum        | Kind attribute must be GroupKindEnum.                                                                |       |       |       |       |       |       |       |       |
+  | GroupsGroupKindMustBeGroupKindEnum        | Kind attribute must be GroupKind.                                                                    |       |       |       |       |       |       |       |       |
   | GroupsGroupNameMustBeString               | Name attribute must be String.                                                                       |       |       |       |       |       |       |       |       |
   | GroupsGroupEmptyLOElements                | No Empty ListOf elements allowed on <group>.                                                         |       |       |       |       |       |       |       |       |
   | GroupsGroupLOMembersAllowedCoreElements   | Core elements allowed on <listOfMembers>.                                                            |       |       |       |       |       |       |       |       |

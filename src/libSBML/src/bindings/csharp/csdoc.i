@@ -55250,6 +55250,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
    * Writes the given element to the stream.
    *
    * @param triple the XML element to write.
+   * @param text the text to put
    */ public
 ";
 
@@ -66262,7 +66263,7 @@ on yyyy-MM-dd HH:mm with libSBML version <libsbml version>. -->
 <td class=\'s-error\'></td>
 </tr>
 <tr><td class=\'code\'>@link libsbml#GroupsGroupKindMustBeGroupKindEnum GroupsGroupKindMustBeGroupKindEnum@endlink</td>
-<td class=\'meaning\'>Kind attribute must be GroupKindEnum.</td>
+<td class=\'meaning\'>Kind attribute must be GroupKind.</td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>
 <td class=\'s-na\'></td>

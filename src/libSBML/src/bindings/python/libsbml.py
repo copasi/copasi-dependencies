@@ -56951,7 +56951,8 @@ class XMLOutputStream(_object):
 
         Writes the given element to the stream.
 
-        Parameter 'triple' is the XML element to write.
+        Parameter 'triple' is the XML element to write. Parameter 'text' is
+        the text to put
 
         Note: Owing to the way that language interfaces are created in
         libSBML, this documentation may show methods that define default
@@ -61136,7 +61137,7 @@ class SBMLError(XMLError):
       | GroupsGroupAllowedCoreElements            | Core elements allowed on <group>.                                                                    |       |       |       |       |       |       |       |       |
       | GroupsGroupAllowedAttributes              | Attributes allowed on <group>.                                                                       |       |       |       |       |       |       |       |       |
       | GroupsGroupAllowedElements                | Elements allowed on <group>.                                                                         |       |       |       |       |       |       |       |       |
-      | GroupsGroupKindMustBeGroupKindEnum        | Kind attribute must be GroupKindEnum.                                                                |       |       |       |       |       |       |       |       |
+      | GroupsGroupKindMustBeGroupKindEnum        | Kind attribute must be GroupKind.                                                                    |       |       |       |       |       |       |       |       |
       | GroupsGroupNameMustBeString               | Name attribute must be String.                                                                       |       |       |       |       |       |       |       |       |
       | GroupsGroupEmptyLOElements                | No Empty ListOf elements allowed on <group>.                                                         |       |       |       |       |       |       |       |       |
       | GroupsGroupLOMembersAllowedCoreElements   | Core elements allowed on <listOfMembers>.                                                            |       |       |       |       |       |       |       |       |

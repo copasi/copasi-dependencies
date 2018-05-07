@@ -8662,7 +8662,7 @@ namespace libsbml {
 <td class='s-error'></td>
 </tr>
 <tr><td class='code'>@link libsbml#GroupsGroupKindMustBeGroupKindEnum GroupsGroupKindMustBeGroupKindEnum@endlink</td>
-<td class='meaning'>Kind attribute must be GroupKindEnum.</td>
+<td class='meaning'>Kind attribute must be GroupKind.</td>
 <td class='s-na'></td>
 <td class='s-na'></td>
 <td class='s-na'></td>

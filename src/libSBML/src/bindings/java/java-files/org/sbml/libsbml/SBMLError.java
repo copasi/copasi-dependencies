@@ -8564,7 +8564,7 @@ defined in SBML.
 <td class='s-error'></td>
 </tr>
 <tr><td class='code'>{@link libsbmlConstants#GroupsGroupKindMustBeGroupKindEnum GroupsGroupKindMustBeGroupKindEnum}</td>
-<td class='meaning'>Kind attribute must be GroupKindEnum.</td>
+<td class='meaning'>Kind attribute must be GroupKind.</td>
 <td class='s-na'></td>
 <td class='s-na'></td>
 <td class='s-na'></td>
