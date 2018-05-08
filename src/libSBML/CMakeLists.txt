@@ -59,7 +59,17 @@ include (CheckCCompilerFlag)
 include (CheckCSourceRuns)
 include (CheckSymbolExists)
 include (CheckTypeSize)
+if (${CMAKE_VERSION} VERSION_GREATER 2.8.4)
 include(GNUInstallDirs)
+else ()
+set (CMAKE_INSTALL_DATADIR "share/libsbml/")
+set (CMAKE_INSTALL_LIBDIR "lib")
+set (CMAKE_INSTALL_INCLUDEDIR "include")
+set (CMAKE_INSTALL_BINDIR "bin")
+set (CMAKE_INSTALL_DATADIR "share")
+set (CMAKE_INSTALL_FULL_LIBDIR "${CMAKE_INSTALL_PREFIX}/lib")
+set (CMAKE_INSTALL_FULL_INCLUDEDIR "${CMAKE_INSTALL_PREFIX}/include")
+endif ()
 
 ###############################################################################
 #
@@ -865,10 +875,10 @@ set( MISC_PREFIX )
 if(UNIX OR CYGWIN)
     set(PATH_SEP "/")
     set(FILE_SEP ":")
-    set( MISC_PREFIX "share/libsbml/" )
+    set( MISC_PREFIX "${CMAKE_INSTALL_DATADIR}/libsbml/" )
     set(LIBSBML_LIBRARY sbml)
 else()
-    set( MISC_PREFIX "${CMAKE_INSTALL_DATADIR}" )
+    set( MISC_PREFIX "." )
     set(PATH_SEP "\\")
     set(FILE_SEP ";")
     if(MINGW)
@@ -1179,7 +1189,7 @@ set(DOCUMENTATION_FILES
         VERSION.txt
 )
 
-install(FILES ${DOCUMENTATION_FILES} DESTINATION ${MISC_PREFIX}.)
+install(FILES ${DOCUMENTATION_FILES} DESTINATION ${MISC_PREFIX})
 
 ###############################################################################
 #
