@@ -239,6 +239,7 @@ public class ListOfFunctionDefinitions extends ListOf {
    * @param n the index number of the {@link FunctionDefinition} to get.
    <p>
    * @return the nth {@link FunctionDefinition} in this {@link ListOfFunctionDefinitions}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public

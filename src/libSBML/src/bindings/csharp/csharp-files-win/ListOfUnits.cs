@@ -284,6 +284,7 @@ public class ListOfUnits : ListOf {
    * @param n the index number of the Unit to get.
    * 
    * @return the nth Unit in this ListOfUnits.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @see size()
    */ public new

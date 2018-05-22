@@ -42,7 +42,7 @@
  * Since a polygon is a closed shape and doesn't really have a start or an
  * end, it does not get decorations as the RenderCurve does.  So, a polygon
  * is always closed and can therefore have a fill style and fill style related
- * attributes.  Those attributes are inherited from Polygons base class
+ * attributes.  Those attributes are inherited from the Polygon base class
  * GraphicalPrimitive2D.
  */
 
@@ -119,7 +119,7 @@ public:
    * The XMLNode object has to contain a valid XML representation of a 
    * Polygon object as defined in the render extension specification.
    * This method is normally called when render information is read from a file and 
-   * should normally not have to be called explicitely.
+   * should normally not have to be called explicitly.
    *
    * @param node the XMLNode object reference that describes the Polygon
    * object to be instantiated.
@@ -182,8 +182,8 @@ public:
    * @copydetails doc_returned_unowned_pointer
    *
    * @see addElement(const RenderPoint* object)
-   * @see createElement()
-   * @see getElement(const std::string& sid)
+   * @see createCubicBezier()
+   * @see getElementBySId(const std::string& sid)
    * @see getElement(unsigned int n)
    * @see getNumElements()
    * @see removeElement(const std::string& sid)
@@ -200,8 +200,8 @@ public:
    * @copydetails doc_returned_unowned_pointer
    *
    * @see addElement(const RenderPoint* object)
-   * @see createElement()
-   * @see getElement(const std::string& sid)
+   * @see createCubicBezier()
+   * @see getElementBySId(const std::string& sid)
    * @see getElement(unsigned int n)
    * @see getNumElements()
    * @see removeElement(const std::string& sid)
@@ -217,13 +217,13 @@ public:
    * retrieve.
    *
    * @return the nth RenderPoint in the ListOfCurveElements within this
-   * Polygon.
+   * Polygon or @c NULL if no such object exists.
    *
    * @copydetails doc_returned_unowned_pointer
    *
    * @see addElement(const RenderPoint* object)
-   * @see createElement()
-   * @see getElement(const std::string& sid)
+   * @see createCubicBezier()
+   * @see getElementBySId(const std::string& sid)
    * @see getNumElements()
    * @see removeElement(const std::string& sid)
    * @see removeElement(unsigned int n)
@@ -238,13 +238,13 @@ public:
    * retrieve.
    *
    * @return the nth RenderPoint in the ListOfCurveElements within this
-   * Polygon.
+   * Polygon or @c NULL if no such object exists.
    *
    * @copydetails doc_returned_unowned_pointer
    *
    * @see addElement(const RenderPoint* object)
-   * @see createElement()
-   * @see getElement(const std::string& sid)
+   * @see createCubicBezier()
+   * @see getElementBySId(const std::string& sid)
    * @see getNumElements()
    * @see removeElement(const std::string& sid)
    * @see removeElement(unsigned int n)
@@ -268,8 +268,8 @@ public:
    *
    * @copydetails doc_note_object_is_copied
    *
-   * @see createElement()
-   * @see getElement(const std::string& sid)
+   * @see createCubicBezier()
+   * @see getElementBySId(const std::string& sid)
    * @see getElement(unsigned int n)
    * @see getNumElements()
    * @see removeElement(const std::string& sid)
@@ -285,8 +285,8 @@ public:
    *
    *
    * @see addElement(const RenderPoint* object)
-   * @see createElement()
-   * @see getElement(const std::string& sid)
+   * @see createCubicBezier()
+   * @see getElementBySId(const std::string& sid)
    * @see getElement(unsigned int n)
    * @see removeElement(const std::string& sid)
    * @see removeElement(unsigned int n)
@@ -303,7 +303,7 @@ public:
    * @copydetails doc_returned_unowned_pointer
    *
    * @see addElement(const RenderPoint* object)
-   * @see getElement(const std::string& sid)
+   * @see getElementBySId(const std::string& sid)
    * @see getElement(unsigned int n)
    * @see getNumElements()
    * @see removeElement(const std::string& sid)
@@ -321,7 +321,7 @@ public:
    * @copydetails doc_returned_unowned_pointer
    *
    * @see addElement(const RenderPoint* object)
-   * @see getElement(const std::string& sid)
+   * @see getElementBySId(const std::string& sid)
    * @see getElement(unsigned int n)
    * @see getNumElements()
    * @see removeElement(const std::string& sid)
@@ -341,13 +341,33 @@ public:
    * @copydetails doc_returned_owned_pointer
    *
    * @see addElement(const RenderPoint* object)
-   * @see createElement()
-   * @see getElement(const std::string& sid)
+   * @see createCubicBezier()
+   * @see getElementBySId(const std::string& sid)
    * @see getElement(unsigned int n)
    * @see getNumElements()
    * @see removeElement(const std::string& sid)
    */
   RenderPoint* removeElement(unsigned int n);
+
+
+  /**
+  * Removes the RenderPoint with the given id from this 
+  * Polygon and returns a pointer to it.
+  *
+  * @param sid the ID of the RenderPoint to remove.
+  *
+  * @return a pointer to the removed RenderPoint.
+  *
+  * @copydetails doc_returned_owned_pointer
+  *
+  * @see addElement(const RenderPoint* object)
+  * @see createCubicBezier()
+  * @see getElementBySId(const std::string& sid)
+  * @see getElement(unsigned int n)
+  * @see getNumElements()
+  * @see removeElement(unsigned int n)
+  */
+  RenderPoint* removeElement(const std::string& sid);
 
 
   /**
@@ -560,7 +580,7 @@ public:
    * @param filter an ElementFilter that may impose restrictions on the objects
    * to be retrieved.
    *
-   * @return a List* pointer of pointers to all SBase child objects with any
+   * @return a List pointer of pointers to all SBase child objects with any
    * restriction imposed.
    */
   virtual List* getAllElements(ElementFilter * filter = NULL);
@@ -736,7 +756,7 @@ Polygon_getListOfElements(Polygon_t* p);
  * retrieve.
  *
  * @return the nth RenderPoint_t in the ListOfCurveElements within this
- * Polygon.
+ * Polygon or @c NULL if no such object exists.
  *
  * @copydetails doc_returned_unowned_pointer
  *

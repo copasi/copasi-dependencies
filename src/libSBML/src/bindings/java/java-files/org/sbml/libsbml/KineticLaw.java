@@ -763,6 +763,7 @@ AST mechanisms.
    * @param n the index of the {@link Parameter} object sought.
    <p>
    * @return the nth {@link Parameter} of this {@link KineticLaw}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
  Parameter getParameter(long n) {
     long cPtr = libsbmlJNI.KineticLaw_getParameter__SWIG_0(swigCPtr, this, n);
@@ -780,6 +781,7 @@ AST mechanisms.
    * @param n the index of the {@link LocalParameter} object sought.
    <p>
    * @return the nth {@link LocalParameter} of this {@link KineticLaw}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
  LocalParameter getLocalParameter(long n) {
     long cPtr = libsbmlJNI.KineticLaw_getLocalParameter__SWIG_0(swigCPtr, this, n);

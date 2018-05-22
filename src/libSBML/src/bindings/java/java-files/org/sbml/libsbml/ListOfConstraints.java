@@ -238,6 +238,7 @@ public class ListOfConstraints extends ListOf {
    * @param n the index number of the {@link Constraint} to get.
    <p>
    * @return the nth {@link Constraint} in this {@link ListOfConstraints}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public

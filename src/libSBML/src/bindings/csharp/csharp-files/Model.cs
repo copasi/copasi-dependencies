@@ -583,7 +583,6 @@ public class Model : SBase {
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -813,10 +812,6 @@ public class Model : SBase {
    * Model's 'id' attribute is set.
    *
    *
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- *
  *
  * 
  * The identifier given by an object's 'id' attribute value
@@ -831,7 +826,6 @@ public class Model : SBase {
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -872,9 +866,13 @@ public class Model : SBase {
  * write 'id' attributes for those objects.
  *
  *
- * 
+ *
  * @return @c true if the 'id' attribute of this SBML object is
  * set, @c false otherwise.
+ *
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  *
  * @see getIdAttribute()
  * @see setIdAttribute(string sid)
@@ -1095,7 +1093,6 @@ public class Model : SBase {
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -1389,7 +1386,6 @@ public class Model : SBase {
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -2958,6 +2954,7 @@ public class Model : SBase {
    * @param n the index of the object to return.
    *
    * @return the nth FunctionDefinition of this Model.
+   * If the index @p n is invalid, @c null is returned.
    */ public
  FunctionDefinition getFunctionDefinition(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.Model_getFunctionDefinition__SWIG_0(swigCPtr, n);
@@ -2988,6 +2985,7 @@ public class Model : SBase {
    * @param n the index of the object to return.
    *
    * @return the nth UnitDefinition of this Model.
+   * If the index @p n is invalid, @c null is returned.
    */ public
  UnitDefinition getUnitDefinition(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.Model_getUnitDefinition__SWIG_0(swigCPtr, n);
@@ -3018,6 +3016,7 @@ public class Model : SBase {
    * @param n the index of the object to return.
    *
    * @return the nth CompartmentType of this Model.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @note The CompartmentType object class is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -3056,6 +3055,7 @@ public class Model : SBase {
    * @param n the index of the object to return.
    *
    * @return the nth SpeciesType of this Model.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @note The SpeciesType object class is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -3094,6 +3094,7 @@ public class Model : SBase {
    * @param n the index of the object to return.
    *
    * @return the nth Compartment of this Model.
+   * If the index @p n is invalid, @c null is returned.
    */ public
  Compartment getCompartment(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.Model_getCompartment__SWIG_0(swigCPtr, n);
@@ -3124,6 +3125,7 @@ public class Model : SBase {
    * @param n the index of the object to return.
    *
    * @return the nth Species of this Model.
+   * If the index @p n is invalid, @c null is returned.
    */ public
  Species getSpecies(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.Model_getSpecies__SWIG_0(swigCPtr, n);
@@ -3154,6 +3156,7 @@ public class Model : SBase {
    * @param n the index of the object to return.
    *
    * @return the nth Parameter of this Model.
+   * If the index @p n is invalid, @c null is returned.
    */ public
  Parameter getParameter(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.Model_getParameter__SWIG_0(swigCPtr, n);
@@ -3184,6 +3187,7 @@ public class Model : SBase {
    * @param n the index of the object to return.
    *
    * @return the nth InitialAssignment of this Model.
+   * If the index @p n is invalid, @c null is returned.
    */ public
  InitialAssignment getInitialAssignment(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.Model_getInitialAssignment__SWIG_0(swigCPtr, n);
@@ -3232,6 +3236,7 @@ public class Model : SBase {
    * @param n the index of the object to return.
    *
    * @return the nth Rule of this Model.
+   * If the index @p n is invalid, @c null is returned.
    */ public
  Rule getRule(long n) {
         Rule ret = (Rule) libsbml.DowncastSBase(libsbmlPINVOKE.Model_getRule__SWIG_0(swigCPtr, n), false);
@@ -3339,6 +3344,7 @@ public class Model : SBase {
    * @param n the index of the object to return.
    *
    * @return the nth Constraint of this Model.
+   * If the index @p n is invalid, @c null is returned.
    */ public
  Constraint getConstraint(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.Model_getConstraint__SWIG_0(swigCPtr, n);
@@ -3353,6 +3359,7 @@ public class Model : SBase {
    * @param n the index of the object to return.
    *
    * @return the nth Reaction of this Model.
+   * If the index @p n is invalid, @c null is returned.
    */ public
  Reaction getReaction(long n) {
 	Reaction ret = (Reaction) libsbml.DowncastSBase(libsbmlPINVOKE.Model_getReaction__SWIG_0(swigCPtr, n), false);
@@ -3414,6 +3421,7 @@ public class Model : SBase {
    * @param n the index of the object to return.
    *
    * @return the nth Event of this Model.
+   * If the index @p n is invalid, @c null is returned.
    */ public
  Event getEvent(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.Model_getEvent__SWIG_0(swigCPtr, n);

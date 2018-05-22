@@ -39,7 +39,7 @@
  * objects by role and type as well as by id of layout objects from the
  * layout the local style belongs to.
  *
- * Since LocalStyle is derived from Styles, it inherits all of the methods
+ * Since LocalStyle is derived from Style, it inherits all of the methods
  * and attributes from Style.
  *
  * @see LocalRenderInformation
@@ -118,7 +118,7 @@ public:
    * The XMLNode object has to contain a valid XML representation of a 
    * LocalStyle object as defined in the render extension specification.
    * This method is normally called when render information is read from a file and 
-   * should normally not have to be called explicitely.
+   * should normally not have to be called explicitly.
    *
    * @param node the XMLNode object reference that describes the LocalStyle
    * object to be instantiated.

@@ -239,6 +239,7 @@ public class ListOfSpeciesTypes extends ListOf {
    * @param n the index number of the {@link SpeciesType} to get.
    <p>
    * @return the nth {@link SpeciesType} in this {@link ListOfSpeciesTypes}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public

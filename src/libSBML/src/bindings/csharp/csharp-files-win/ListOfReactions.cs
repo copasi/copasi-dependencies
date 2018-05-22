@@ -282,6 +282,7 @@ public class ListOfReactions : ListOf {
    * @param n the index number of the Reaction to get.
    * 
    * @return the nth Reaction in this ListOfReactions.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @see size()
    */ public new

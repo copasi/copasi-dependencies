@@ -239,6 +239,7 @@ public class ListOfCompartments extends ListOf {
    * @param n the index number of the {@link Compartment} object to get.
    <p>
    * @return the nth {@link Compartment} object in this {@link ListOfCompartments}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public

@@ -1153,7 +1153,8 @@ appears in the documentation.
    <p>
    * @param n long the index of the {@link CVTerm} to retrieve.
    <p>
-   * @return the nth {@link CVTerm} in the list of CVTerms for this {@link CVTerm} object.
+   * @return the nth {@link CVTerm} in the list of CVTerms for this {@link CVTerm} object
+   * or <code>null</code> if no such object exists.
    */ public
  CVTerm getNestedCVTerm(long n) {
     long cPtr = libsbmlJNI.CVTerm_getNestedCVTerm__SWIG_0(swigCPtr, this, n);

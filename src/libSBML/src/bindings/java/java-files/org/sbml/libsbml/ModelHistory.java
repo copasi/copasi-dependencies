@@ -351,7 +351,7 @@ public class ModelHistory {
    * storing a list of 'modified date' values.
    <p>
    * @return the nth {@link Date} in the list of ModifiedDates of this
-   * {@link ModelHistory}.
+   * {@link ModelHistory} or <code>null</code> if no such object exists.
    */ public
  Date getModifiedDate(long n) {
     long cPtr = libsbmlJNI.ModelHistory_getModifiedDate__SWIG_1(swigCPtr, this, n);
@@ -422,7 +422,7 @@ public class ModelHistory {
    * creators.  The libSBML {@link ModelHistory} class supports this by storing a
    * list of 'model creator' values.
    <p>
-   * @return the nth {@link ModelCreator} object.
+   * @return the nth {@link ModelCreator} object or <code>null</code> if no such object exists.
    */ public
  ModelCreator getCreator(long n) {
     long cPtr = libsbmlJNI.ModelHistory_getCreator(swigCPtr, this, n);

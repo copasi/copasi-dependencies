@@ -1671,10 +1671,6 @@ appears in the documentation.
    * or the \'variable\' attribute of a {@link Rule}, or the \'symbol\' attribute of
    * an {@link InitialAssignment}.
    <p>
-   * @note Because of the inconsistent behavior of this function with 
-   * respect to assignments and rules, it is now recommended to
-   * use the getIdAttribute() function instead.
-   <p>
    * <p>
  * The identifier given by an object\'s \'id\' attribute value
  * is used to identify the object within the SBML model definition.
@@ -1688,7 +1684,6 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -1728,8 +1723,11 @@ appears in the documentation.
  * libSBML will not allow the identifier to be set, nor will it read or 
  * write \'id\' attributes for those objects.
    <p>
-   * @return the id of this SBML object, or the \'variable\' if the object 
-   * is a {@link Rule}, or the \'symbol\' if the object is an {@link InitialAssignment}.
+   * @return the id of this SBML object, or the \'variable\' if the object is a
+   * {@link Rule}, or the \'symbol\' if the object is an {@link InitialAssignment}.
+   <p>
+   * @note Because of the inconsistent behavior of this function with respect
+   * to assignments and rules, callers should use getIdAttribute() instead.
    <p>
    * @see #getIdAttribute()
    * @see #setIdAttribute(String sid)
@@ -1742,10 +1740,6 @@ appears in the documentation.
 %javamethodmodifiers SBase::getIdAttribute() const "
 /**
    * Returns the value of the \'id\' attribute of this SBML object.
-   <p>
-   * @note Because of the inconsistent behavior of the old {@link SBase#getId()}
-   * function with respect to assignments and rules, it is now 
-   * recommended to use this getIdAttribute() function instead.
    <p>
    * <p>
  * The identifier given by an object\'s \'id\' attribute value
@@ -1760,7 +1754,6 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -1802,6 +1795,9 @@ appears in the documentation.
    <p>
    * @return the id of this SBML object, if set and valid for this
    * level and version of SBML; an empty string otherwise.
+   <p>
+   * @note Because of the inconsistent behavior of this function with respect
+   * to assignments and rules, callers should use getIdAttribute() instead.
    <p>
    * @see #setIdAttribute(String sid)
    * @see #isSetIdAttribute()
@@ -2632,27 +2628,23 @@ appears in the documentation.
 
 %javamethodmodifiers SBase::isSetId() const "
 /**
-   * Predicate returning <code>true</code> if a call to getId() returns a 
-   * non-empty string.  This means that for most objects, this 
-   * function will return <code>true</code> if its \'id\' attribute is set, and
-   * <code>false</code> if it is not, or if the object has no \'id\' attribute
-   * at all.  However, for an {@link EventAssignment} or a {@link Rule}, isSetId() 
-   * checks whether the \'variable\' attribute is set, and for an
-   * {@link InitialAssignment}, it checks whether the \'symbol\' attribute
-   * is set.  Because those elements will also have an \'id\'
-   * attribute in SBML Level&nbsp;3 Version&nbsp;2 which isSetId()
-   * will not check, the function itself is deprecated, and it
-   * is recommended to use isSetIdAttribute() in all cases where
-   * one needs to know whether the \'id\' attribute is set, and
-   * to use {@link EventAssignment#isSetVariable()}, {@link Rule#isSetVariable()}
-   * and {@link InitialAssignment#isSetSymbol()} when the status of the
-   * \'variable\' or \'symbol\' attributes need to be checked.
+   * Predicate returning <code>true</code> if a call to getId() returns a
+   * non-empty string.
+   <p>
+   * For most objects, this function will return <code>true</code> if its \'id\'
+   * attribute is set, and <code>false</code> if it is not, or if the object has no
+   * \'id\' attribute at all.  However, for an {@link EventAssignment} or a {@link Rule},
+   * isSetId() checks whether the \'variable\' attribute is set, and for an
+   * {@link InitialAssignment}, it checks whether the \'symbol\' attribute is set.
+   * Because those elements will also have an \'id\' attribute in SBML
+   * Level&nbsp;3 Version&nbsp;2 which isSetId() will not check, the function
+   * itself is deprecated, and it is recommended to use isSetIdAttribute() in
+   * all cases where one needs to know whether the \'id\' attribute is set, and
+   * to use {@link EventAssignment#isSetVariable()}, {@link Rule#isSetVariable()} and
+   * {@link InitialAssignment#isSetSymbol()} when the status of the \'variable\' or
+   * \'symbol\' attributes need to be checked.
    <p>
    * <p>
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- <p>
  * <p>
  * The identifier given by an object\'s \'id\' attribute value
  * is used to identify the object within the SBML model definition.
@@ -2666,7 +2658,6 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -2709,6 +2700,10 @@ appears in the documentation.
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
  <p>
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
+ <p>
  * @see #getIdAttribute()
  * @see #setIdAttribute(String sid)
  * @see #unsetIdAttribute()
@@ -2734,7 +2729,6 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -3014,7 +3008,6 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -3094,7 +3087,6 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -3891,7 +3883,6 @@ s.setNotes(\'&lt;body xmlns=\'http://www.w3.org/1999/xhtml\'&gt;here is my note&
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -4236,6 +4227,7 @@ appears in the documentation.
    * @param n long the index of the {@link CVTerm} to retrieve.
    <p>
    * @return the nth {@link CVTerm} in the list of CVTerms for this SBML object.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -4765,6 +4757,7 @@ void example (SBase sb)
    <p>
    * @return the nth plug-in object (the libSBML extension interface) of a
    * package extension.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #getNumPlugins()
    * @see #getPlugin(String package)
@@ -4801,6 +4794,7 @@ void example (SBase sb)
    <p>
    * @return the nth plug-in object (the libSBML extension interface) of a
    * package extension.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #getNumPlugins()
    * @see #getPlugin(String package)
@@ -4839,6 +4833,7 @@ void example (SBase sb)
    <p>
    * @return the nth disabled plug-in object (the libSBML extension interface) of a
    * package extension.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #getNumDisabledPlugins()
    * @see #getPlugin(String package)
@@ -4877,6 +4872,7 @@ void example (SBase sb)
    <p>
    * @return the nth disabled plug-in object (the libSBML extension interface) of a
    * package extension.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #getNumDisabledPlugins()
    * @see #getPlugin(String package)
@@ -6712,7 +6708,6 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -6917,10 +6912,6 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * {@link Model}\'s \'id\' attribute is set.
    <p>
    * <p>
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- <p>
  * <p>
  * The identifier given by an object\'s \'id\' attribute value
  * is used to identify the object within the SBML model definition.
@@ -6934,7 +6925,6 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -6976,6 +6966,10 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
+ <p>
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  <p>
  * @see #getIdAttribute()
  * @see #setIdAttribute(String sid)
@@ -7169,7 +7163,6 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -7437,7 +7430,6 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -8934,6 +8926,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link FunctionDefinition} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -8945,6 +8938,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link FunctionDefinition} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -8980,6 +8974,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link UnitDefinition} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -8991,6 +8986,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link UnitDefinition} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9026,6 +9022,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link CompartmentType} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @note The {@link CompartmentType} object class is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -9041,6 +9038,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link CompartmentType} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @note The {@link CompartmentType} object class is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -9088,6 +9086,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link SpeciesType} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @note The {@link SpeciesType} object class is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -9103,6 +9102,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link SpeciesType} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @note The {@link SpeciesType} object class is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -9150,6 +9150,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Compartment} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9161,6 +9162,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Compartment} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9196,6 +9198,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Species} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9207,6 +9210,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Species} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9242,6 +9246,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Parameter} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9253,6 +9258,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Parameter} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9288,6 +9294,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link InitialAssignment} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9299,6 +9306,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link InitialAssignment} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9362,6 +9370,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Rule} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9373,6 +9382,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Rule} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9528,6 +9538,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Constraint} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9539,6 +9550,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Constraint} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9550,6 +9562,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Reaction} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9561,6 +9574,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Reaction} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9646,6 +9660,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Event} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -9657,6 +9672,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Event} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -12812,7 +12828,6 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -12943,10 +12958,6 @@ appears in the documentation.
    * {@link FunctionDefinition}\'s \'id\' attribute is set.
    <p>
    * <p>
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- <p>
  * <p>
  * The identifier given by an object\'s \'id\' attribute value
  * is used to identify the object within the SBML model definition.
@@ -12960,7 +12971,6 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -13002,6 +13012,10 @@ appears in the documentation.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
+ <p>
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  <p>
  * @see #getIdAttribute()
  * @see #setIdAttribute(String sid)
@@ -13108,7 +13122,6 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -13292,6 +13305,7 @@ appears in the documentation.
    <p>
    * @return the nth argument (bound variable) passed to this
    * {@link FunctionDefinition}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #getNumArguments()
    */ public
@@ -13619,6 +13633,7 @@ appears in the documentation.
    * @param n the index number of the {@link FunctionDefinition} to get.
    <p>
    * @return the nth {@link FunctionDefinition} in this {@link ListOfFunctionDefinitions}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -13632,6 +13647,7 @@ appears in the documentation.
    * @param n the index number of the {@link FunctionDefinition} to get.
    <p>
    * @return the nth {@link FunctionDefinition} in this {@link ListOfFunctionDefinitions}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -15310,6 +15326,7 @@ to indicate an invalid or unset unit.</td></tr>
    * @param n the index number of the {@link Unit} to get.
    <p>
    * @return the nth {@link Unit} in this {@link ListOfUnits}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -15323,6 +15340,7 @@ to indicate an invalid or unset unit.</td></tr>
    * @param n the index number of the {@link Unit} to get.
    <p>
    * @return the nth {@link Unit} in this {@link ListOfUnits}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -15816,7 +15834,6 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -15937,10 +15954,6 @@ to indicate an invalid or unset unit.</td></tr>
    * {@link UnitDefinition}\'s \'id\' attribute is set.
    <p>
    * <p>
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- <p>
  * <p>
  * The identifier given by an object\'s \'id\' attribute value
  * is used to identify the object within the SBML model definition.
@@ -15954,7 +15967,6 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -15996,6 +16008,10 @@ to indicate an invalid or unset unit.</td></tr>
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
+ <p>
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  <p>
  * @see #getIdAttribute()
  * @see #setIdAttribute(String sid)
@@ -16091,7 +16107,6 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -16420,6 +16435,7 @@ to indicate an invalid or unset unit.</td></tr>
    * @param n an integer, the index of the {@link Unit} to be returned.
    <p>
    * @return the nth {@link Unit} of this {@link UnitDefinition}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #getNumUnits()
    */ public
@@ -16433,6 +16449,7 @@ to indicate an invalid or unset unit.</td></tr>
    * @param n an integer, the index of the {@link Unit} to be returned.
    <p>
    * @return the nth {@link Unit} of this {@link UnitDefinition}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -16908,6 +16925,7 @@ to indicate an invalid or unset unit.</td></tr>
    * @param n the index number of the {@link UnitDefinition} to get.
    <p>
    * @return the nth {@link UnitDefinition} in this {@link ListOfUnitDefinitions}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -16921,6 +16939,7 @@ to indicate an invalid or unset unit.</td></tr>
    * @param n the index number of the {@link UnitDefinition} to get.
    <p>
    * @return the nth {@link UnitDefinition} in this {@link ListOfUnitDefinitions}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -17250,7 +17269,6 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -17371,10 +17389,6 @@ to indicate an invalid or unset unit.</td></tr>
    * attribute is set.
    <p>
    * <p>
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- <p>
  * <p>
  * The identifier given by an object\'s \'id\' attribute value
  * is used to identify the object within the SBML model definition.
@@ -17388,7 +17402,6 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -17430,6 +17443,10 @@ to indicate an invalid or unset unit.</td></tr>
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
+ <p>
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  <p>
  * @see #getIdAttribute()
  * @see #setIdAttribute(String sid)
@@ -17525,7 +17542,6 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -17890,6 +17906,7 @@ to indicate an invalid or unset unit.</td></tr>
    * @param n the index number of the {@link CompartmentType} object to get.
    <p>
    * @return the nth {@link CompartmentType} object in this {@link ListOfCompartmentTypes}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -17903,6 +17920,7 @@ to indicate an invalid or unset unit.</td></tr>
    * @param n the index number of the {@link CompartmentType} object to get.
    <p>
    * @return the nth {@link CompartmentType} object in this {@link ListOfCompartmentTypes}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -18212,7 +18230,6 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -18333,10 +18350,6 @@ to indicate an invalid or unset unit.</td></tr>
    * {@link SpeciesType}\'s \'id\' attribute is set.
    <p>
    * <p>
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- <p>
  * <p>
  * The identifier given by an object\'s \'id\' attribute value
  * is used to identify the object within the SBML model definition.
@@ -18350,7 +18363,6 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -18392,6 +18404,10 @@ to indicate an invalid or unset unit.</td></tr>
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
+ <p>
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  <p>
  * @see #getIdAttribute()
  * @see #setIdAttribute(String sid)
@@ -18487,7 +18503,6 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -18849,6 +18864,7 @@ to indicate an invalid or unset unit.</td></tr>
    * @param n the index number of the {@link SpeciesType} to get.
    <p>
    * @return the nth {@link SpeciesType} in this {@link ListOfSpeciesTypes}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -18862,6 +18878,7 @@ to indicate an invalid or unset unit.</td></tr>
    * @param n the index number of the {@link SpeciesType} to get.
    <p>
    * @return the nth {@link SpeciesType} in this {@link ListOfSpeciesTypes}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -19489,7 +19506,6 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -19793,10 +19809,6 @@ to indicate an invalid or unset unit.</td></tr>
    * is set.
    <p>
    * <p>
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- <p>
  * <p>
  * The identifier given by an object\'s \'id\' attribute value
  * is used to identify the object within the SBML model definition.
@@ -19810,7 +19822,6 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -19852,6 +19863,10 @@ to indicate an invalid or unset unit.</td></tr>
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
+ <p>
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  <p>
  * @see #getIdAttribute()
  * @see #setIdAttribute(String sid)
@@ -20091,7 +20106,6 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -21024,6 +21038,7 @@ to indicate an invalid or unset unit.</td></tr>
    * @param n the index number of the {@link Compartment} object to get.
    <p>
    * @return the nth {@link Compartment} object in this {@link ListOfCompartments}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -21037,6 +21052,7 @@ to indicate an invalid or unset unit.</td></tr>
    * @param n the index number of the {@link Compartment} object to get.
    <p>
    * @return the nth {@link Compartment} object in this {@link ListOfCompartments}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -21685,7 +21701,6 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -21985,10 +22000,6 @@ attributes.</caption>
    * {@link Species} object\'s \'id\' attribute is set.
    <p>
    * <p>
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- <p>
  * <p>
  * The identifier given by an object\'s \'id\' attribute value
  * is used to identify the object within the SBML model definition.
@@ -22002,7 +22013,6 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -22044,6 +22054,10 @@ attributes.</caption>
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
+ <p>
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  <p>
  * @see #getIdAttribute()
  * @see #setIdAttribute(String sid)
@@ -22316,7 +22330,6 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -23353,6 +23366,7 @@ attributes.</caption>
    * @param n the index number of the {@link Species} to get.
    <p>
    * @return the nth {@link Species} in this {@link ListOfSpecies}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -23366,6 +23380,7 @@ attributes.</caption>
    * @param n the index number of the {@link Species} to get.
    <p>
    * @return the nth {@link Species} in this {@link ListOfSpecies}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -23760,7 +23775,6 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -23958,10 +23972,6 @@ attributes.</caption>
    * {@link Parameter}\'s \'id\' attribute is set.
    <p>
    * <p>
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- <p>
  * <p>
  * The identifier given by an object\'s \'id\' attribute value
  * is used to identify the object within the SBML model definition.
@@ -23975,7 +23985,6 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -24017,6 +24026,10 @@ attributes.</caption>
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
+ <p>
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  <p>
  * @see #getIdAttribute()
  * @see #setIdAttribute(String sid)
@@ -24189,7 +24202,6 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -26503,6 +26515,7 @@ attributes.</caption>
    * @param n the index number of the {@link InitialAssignment} to get.
    <p>
    * @return the nth {@link InitialAssignment} in this {@link ListOfInitialAssignments}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -26516,6 +26529,7 @@ attributes.</caption>
    * @param n the index number of the {@link InitialAssignment} to get.
    <p>
    * @return the nth {@link InitialAssignment} in this {@link ListOfInitialAssignments}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -27827,6 +27841,7 @@ attributes.</caption>
    * @param n the index number of the {@link Rule} to get.
    <p>
    * @return the nth {@link Rule} in this {@link ListOfRules}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -27840,6 +27855,7 @@ attributes.</caption>
    * @param n the index number of the {@link Rule} to get.
    <p>
    * @return the nth {@link Rule} in this {@link ListOfRules}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -29755,6 +29771,7 @@ attributes.</caption>
    * @param n the index number of the {@link Constraint} to get.
    <p>
    * @return the nth {@link Constraint} in this {@link ListOfConstraints}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -29768,6 +29785,7 @@ attributes.</caption>
    * @param n the index number of the {@link Constraint} to get.
    <p>
    * @return the nth {@link Constraint} in this {@link ListOfConstraints}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -30220,7 +30238,6 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -30420,10 +30437,6 @@ attributes.</caption>
    * {@link Reaction}\'s \'id\' attribute is set.
    <p>
    * <p>
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- <p>
  * <p>
  * The identifier given by an object\'s \'id\' attribute value
  * is used to identify the object within the SBML model definition.
@@ -30437,7 +30450,6 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -30479,6 +30491,10 @@ attributes.</caption>
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
+ <p>
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  <p>
  * @see #getIdAttribute()
  * @see #setIdAttribute(String sid)
@@ -30649,7 +30665,6 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -31375,6 +31390,7 @@ attributes.</caption>
    <p>
    * @return the nth reactant (as a {@link SpeciesReference} object) of this
    * {@link Reaction}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -31391,6 +31407,7 @@ attributes.</caption>
    <p>
    * @return the nth reactant (as a {@link SpeciesReference} object) of this
    * {@link Reaction}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -31435,6 +31452,7 @@ attributes.</caption>
    <p>
    * @return the nth product (as a {@link SpeciesReference} object) of this
    * {@link Reaction}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -31451,6 +31469,7 @@ attributes.</caption>
    <p>
    * @return the nth product (as a {@link SpeciesReference} object) of this
    * {@link Reaction}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -31495,6 +31514,7 @@ attributes.</caption>
    <p>
    * @return the nth modifier (as a {@link ModifierSpeciesReference} object) of
    * this {@link Reaction}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -31511,6 +31531,7 @@ attributes.</caption>
    <p>
    * @return the nth modifier (as a {@link ModifierSpeciesReference} object) of
    * this {@link Reaction}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -31923,6 +31944,7 @@ attributes.</caption>
    * @param n the index number of the {@link Reaction} to get.
    <p>
    * @return the nth {@link Reaction} in this {@link ListOfReactions}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -31936,6 +31958,7 @@ attributes.</caption>
    * @param n the index number of the {@link Reaction} to get.
    <p>
    * @return the nth {@link Reaction} in this {@link ListOfReactions}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -32739,6 +32762,7 @@ AST mechanisms.
    * @param n the index of the {@link Parameter} object sought.
    <p>
    * @return the nth {@link Parameter} of this {@link KineticLaw}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -32754,6 +32778,7 @@ AST mechanisms.
    * @param n the index of the {@link Parameter} object sought.
    <p>
    * @return the nth {@link Parameter} of this {@link KineticLaw}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -32769,6 +32794,7 @@ AST mechanisms.
    * @param n the index of the {@link LocalParameter} object sought.
    <p>
    * @return the nth {@link LocalParameter} of this {@link KineticLaw}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -32784,6 +32810,7 @@ AST mechanisms.
    * @param n the index of the {@link LocalParameter} object sought.
    <p>
    * @return the nth {@link LocalParameter} of this {@link KineticLaw}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
 ";
 
@@ -33417,7 +33444,6 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -33548,10 +33574,6 @@ AST mechanisms.
    * {@link SimpleSpeciesReference}\'s \'id\' attribute is set.
    <p>
    * <p>
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- <p>
  * <p>
  * The identifier given by an object\'s \'id\' attribute value
  * is used to identify the object within the SBML model definition.
@@ -33565,7 +33587,6 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -33607,6 +33628,10 @@ AST mechanisms.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
+ <p>
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  <p>
  * @see #getIdAttribute()
  * @see #setIdAttribute(String sid)
@@ -33734,7 +33759,6 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -33834,7 +33858,6 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -35206,6 +35229,7 @@ AST mechanisms.
    * @param n the index number of the {@link SpeciesReference} to get.
    <p>
    * @return the nth {@link SpeciesReference} in this {@link ListOfSpeciesReferences}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -35219,6 +35243,7 @@ AST mechanisms.
    * @param n the index number of the {@link SpeciesReference} to get.
    <p>
    * @return the nth {@link SpeciesReference} in this {@link ListOfSpeciesReferences}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -35926,7 +35951,6 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -36183,10 +36207,6 @@ AST mechanisms.
    * {@link Event}\'s \'id\' attribute is set.
    <p>
    * <p>
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- <p>
  * <p>
  * The identifier given by an object\'s \'id\' attribute value
  * is used to identify the object within the SBML model definition.
@@ -36200,7 +36220,6 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -36242,6 +36261,10 @@ AST mechanisms.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
+ <p>
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  <p>
  * @see #getIdAttribute()
  * @see #setIdAttribute(String sid)
@@ -36408,7 +36431,6 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -36661,7 +36683,6 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> \'zero or more times\', and the character
  * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
@@ -38392,6 +38413,7 @@ AST mechanisms.
    * @param n the index number of the {@link EventAssignment} to get.
    <p>
    * @return the nth {@link EventAssignment} in this {@link ListOfEventAssignments}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -38405,6 +38427,7 @@ AST mechanisms.
    * @param n the index number of the {@link EventAssignment} to get.
    <p>
    * @return the nth {@link EventAssignment} in this {@link ListOfEventAssignments}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public
@@ -65547,7 +65570,8 @@ appears in the documentation.
    <p>
    * @param n long the index of the {@link CVTerm} to retrieve.
    <p>
-   * @return the nth {@link CVTerm} in the list of CVTerms for this {@link CVTerm} object.
+   * @return the nth {@link CVTerm} in the list of CVTerms for this {@link CVTerm} object
+   * or <code>null</code> if no such object exists.
    */ public
 ";
 
@@ -65559,7 +65583,8 @@ appears in the documentation.
    <p>
    * @param n long the index of the {@link CVTerm} to retrieve.
    <p>
-   * @return the nth {@link CVTerm} in the list of CVTerms for this {@link CVTerm} object.
+   * @return the nth {@link CVTerm} in the list of CVTerms for this {@link CVTerm} object
+   * or <code>null</code> if no such object exists.
    */ public
 ";
 
@@ -67082,7 +67107,7 @@ defined in SBML.
    * storing a list of \'modified date\' values.
    <p>
    * @return the nth {@link Date} in the list of ModifiedDates of this
-   * {@link ModelHistory}.
+   * {@link ModelHistory} or <code>null</code> if no such object exists.
    */ public
 ";
 
@@ -67147,7 +67172,7 @@ defined in SBML.
    * creators.  The libSBML {@link ModelHistory} class supports this by storing a
    * list of \'model creator\' values.
    <p>
-   * @return the nth {@link ModelCreator} object.
+   * @return the nth {@link ModelCreator} object or <code>null</code> if no such object exists.
    */ public
 ";
 

@@ -162,7 +162,7 @@ public:
    * The XMLNode object has to contain a valid XML representation of a 
    * GradientBase object as defined in the render extension specification.
    * This method is normally called when render information is read from a file and 
-   * should normally not have to be called explicitely.
+   * should normally not have to be called explicitly.
    *
    * @param node the XMLNode object reference that describes the GradientBase
    * object to be instantiated.
@@ -462,13 +462,14 @@ public:
 
 
   /**
-   * Get a GradientStop from the GradientBase.
+   * Get the nth GradientStop from the GradientBase.
    *
    * @param n an unsigned int representing the index of the GradientStop to
    * retrieve.
    *
    * @return the nth GradientStop in the ListOfGradientStops within this
    * GradientBase.
+   * If the index @p n is invalid, @c NULL is returned.
    *
    * @copydetails doc_returned_unowned_pointer
    *
@@ -483,6 +484,27 @@ public:
 
 
   /**
+  * Get the GradientStop with the given id from the GradientBase.
+  *
+  * @param sid the id of the GradientStop to retrieve.
+  *
+  * @return the GradientStop in the ListOfGradientStops with 
+  * the given @p id from this GradientBase.
+  * If no such GradientStop exists, @c NULL is returned.
+  *
+  * @copydetails doc_returned_unowned_pointer
+  *
+  * @see addGradientStop(const GradientStop* object)
+  * @see createGradientStop()
+  * @see getGradientStop(unsigned int n)
+  * @see getNumGradientStops()
+  * @see removeGradientStop(const std::string& sid)
+  * @see removeGradientStop(unsigned int n)
+  */
+  GradientStop* getGradientStop(const std::string& sid);
+
+
+  /**
    * Get a GradientStop from the GradientBase.
    *
    * @param n an unsigned int representing the index of the GradientStop to
@@ -490,6 +512,7 @@ public:
    *
    * @return the nth GradientStop in the ListOfGradientStops within this
    * GradientBase.
+   * If the index @p n is invalid, @c NULL is returned.
    *
    * @copydetails doc_returned_unowned_pointer
    *
@@ -582,6 +605,26 @@ public:
    * @see removeGradientStop(const std::string& sid)
    */
   GradientStop* removeGradientStop(unsigned int n);
+
+
+  /**
+  * Removes the GradientStop with the given id from this GradientBase 
+  * and returns a pointer to it.
+  *
+  * @param sid the id of the GradientStop to remove.
+  *
+  * @return a pointer to the nth GradientStop in this GradientBase.
+  *
+  * @copydetails doc_returned_owned_pointer
+  *
+  * @see addGradientStop(const GradientStop* object)
+  * @see createGradientStop()
+  * @see getGradientStop(const std::string& sid)
+  * @see getGradientStop(unsigned int n)
+  * @see getNumGradientStops()
+  * @see removeGradientStop(unsigned int n)
+  */
+  GradientStop* removeGradientStop(const std::string& sid);
 
 
   /**
@@ -1080,7 +1123,7 @@ public:
    * @param filter an ElementFilter that may impose restrictions on the objects
    * to be retrieved.
    *
-   * @return a List* pointer of pointers to all SBase child objects with any
+   * @return a List pointer of pointers to all SBase child objects with any
    * restriction imposed.
    */
   virtual List* getAllElements(ElementFilter * filter = NULL);
@@ -1555,6 +1598,7 @@ GradientBase_getListOfGradientStops(GradientBase_t* gb);
  *
  * @return the nth GradientStop_t in the ListOfGradientStops within this
  * GradientBase.
+ * If the index @p n is invalid, @c NULL is returned.
  *
  * @copydetails doc_returned_unowned_pointer
  *

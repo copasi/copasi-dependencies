@@ -239,6 +239,7 @@ public class ListOfEventAssignments extends ListOf {
    * @param n the index number of the {@link EventAssignment} to get.
    <p>
    * @return the nth {@link EventAssignment} in this {@link ListOfEventAssignments}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public

@@ -36,7 +36,7 @@
  *
  * The RenderCubicBezier is derived from RenderPoint and is the second
  * element needed to represent arbitrary curves with relative coordinates as
- * they can appear in RenderCurves and Polygon objects.  In addition to the
+ * they can appear in RenderCurve and Polygon objects.  In addition to the
  * attributes inherited from RenderPoint, RenderCubicBezier has two
  * additional attributes for the two base points that define a cubic bezier
  * curve.
@@ -44,9 +44,9 @@
  * Segments in a RenderCurve or a Polygon are always defined by two
  * consecutive RenderPoint or RenderCubicBezier elements. The first element
  * in a list of RenderPoints has to be a RenderPoint object, all following
- * elements can either be RenderPoints or RenderCubicBezier elements.  If the
+ * elements can either be RenderPoint or RenderCubicBezier elements.  If the
  * second element is a RenderPoint, the two elements represent a straight
- * line segement, if the second element if a RenderCubicBezier, the two
+ * line segement; if the second element if a RenderCubicBezier, the two
  * elements represent a cubic bezier curve segment.
  *
  * For further details please have a look at the SBML Level&nbsp;3 Render
@@ -137,15 +137,15 @@ public:
   * Creates a CubicBezier with the given points.
   *
   * @param renderns the RenderPkgNamespaces object.
-  * @param bp1_x x coordinatee of the first base point.
-  * @param bp1_y y coordinatee of the first base point.
-  * @param bp1_z z coordinatee of the first base point.
-  * @param bp2_x x coordinatee of the second base point.
-  * @param bp2_y y coordinatee of the second base point.
-  * @param bp2_z z coordinatee of the second base point.
-  * @param end_x x coordinatee of the end point.
-  * @param end_y y coordinatee of the end point.
-  * @param end_z z coordinatee of the end point.
+  * @param bp1_x x coordinate of the first base point.
+  * @param bp1_y y coordinate of the first base point.
+  * @param bp1_z z coordinate of the first base point.
+  * @param bp2_x x coordinate of the second base point.
+  * @param bp2_y y coordinate of the second base point.
+  * @param bp2_z z coordinate of the second base point.
+  * @param end_x x coordinate of the end point.
+  * @param end_y y coordinate of the end point.
+  * @param end_z z coordinate of the end point.
   */
   RenderCubicBezier(RenderPkgNamespaces* renderns,
     const RelAbsVector& bp1_x,
@@ -164,7 +164,7 @@ public:
   * The XMLNode object has to contain a valid XML representation of a
   * RenderCubicBezier object as defined in the render extension specification.
   * This method is normally called when render information is read from a file and
-  * should normally not have to be called explicitely.
+  * should normally not have to be called explicitly.
   *
   * @param node the XMLNode object reference that describes the RenderCubicBezier
   * object to be instantiated.
@@ -214,7 +214,7 @@ public:
    * Returns the value of the "basePoint1_x" element of this RenderCubicBezier.
    *
    * @return the value of the "basePoint1_x" element of this RenderCubicBezier
-   * as a RelAbsVector*.
+   * as a RelAbsVector.
    */
   const RelAbsVector& getBasePoint1_x() const;
 
@@ -223,7 +223,7 @@ public:
    * Returns the value of the "basePoint1_x" element of this RenderCubicBezier.
    *
    * @return the value of the "basePoint1_x" element of this RenderCubicBezier
-   * as a RelAbsVector*.
+   * as a RelAbsVector.
    */
   RelAbsVector& getBasePoint1_x();
 
@@ -249,7 +249,7 @@ public:
    * Returns the value of the "basePoint1_y" element of this RenderCubicBezier.
    *
    * @return the value of the "basePoint1_y" element of this RenderCubicBezier
-   * as a RelAbsVector*.
+   * as a RelAbsVector.
    */
   const RelAbsVector& getBasePoint1_y() const;
 
@@ -258,7 +258,7 @@ public:
    * Returns the value of the "basePoint1_y" element of this RenderCubicBezier.
    *
    * @return the value of the "basePoint1_y" element of this RenderCubicBezier
-   * as a RelAbsVector*.
+   * as a RelAbsVector.
    */
   RelAbsVector& getBasePoint1_y();
 
@@ -284,7 +284,7 @@ public:
    * Returns the value of the "basePoint1_z" element of this RenderCubicBezier.
    *
    * @return the value of the "basePoint1_z" element of this RenderCubicBezier
-   * as a RelAbsVector*.
+   * as a RelAbsVector.
    */
   const RelAbsVector& getBasePoint1_z() const;
 
@@ -293,7 +293,7 @@ public:
    * Returns the value of the "basePoint1_z" element of this RenderCubicBezier.
    *
    * @return the value of the "basePoint1_z" element of this RenderCubicBezier
-   * as a RelAbsVector*.
+   * as a RelAbsVector.
    */
   RelAbsVector& getBasePoint1_z();
 
@@ -320,7 +320,7 @@ public:
    * Returns the value of the "basePoint2_x" element of this RenderCubicBezier.
    *
    * @return the value of the "basePoint2_x" element of this RenderCubicBezier
-   * as a RelAbsVector*.
+   * as a RelAbsVector.
    */
   const RelAbsVector& getBasePoint2_x() const;
 
@@ -329,7 +329,7 @@ public:
    * Returns the value of the "basePoint2_x" element of this RenderCubicBezier.
    *
    * @return the value of the "basePoint2_x" element of this RenderCubicBezier
-   * as a RelAbsVector*.
+   * as a RelAbsVector.
    */
   RelAbsVector& getBasePoint2_x();
 
@@ -354,7 +354,7 @@ public:
    * Returns the value of the "basePoint2_y" element of this RenderCubicBezier.
    *
    * @return the value of the "basePoint2_y" element of this RenderCubicBezier
-   * as a RelAbsVector*.
+   * as a RelAbsVector.
    */
   const RelAbsVector& getBasePoint2_y() const;
 
@@ -363,7 +363,7 @@ public:
    * Returns the value of the "basePoint2_y" element of this RenderCubicBezier.
    *
    * @return the value of the "basePoint2_y" element of this RenderCubicBezier
-   * as a RelAbsVector*.
+   * as a RelAbsVector.
    */
   RelAbsVector& getBasePoint2_y();
 
@@ -388,7 +388,7 @@ public:
    * Returns the value of the "basePoint2_z" element of this RenderCubicBezier.
    *
    * @return the value of the "basePoint2_z" element of this RenderCubicBezier
-   * as a RelAbsVector*.
+   * as a RelAbsVector.
    */
   const RelAbsVector& getBasePoint2_z() const;
 
@@ -397,7 +397,7 @@ public:
    * Returns the value of the "basePoint2_z" element of this RenderCubicBezier.
    *
    * @return the value of the "basePoint2_z" element of this RenderCubicBezier
-   * as a RelAbsVector*.
+   * as a RelAbsVector.
    */
   RelAbsVector& getBasePoint2_z();
 
@@ -484,10 +484,8 @@ public:
    * @param basePoint1_x RelAbsVector& value of the "basePoint1_x" element to
    * be set.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
    */
   int setBasePoint1_x(const RelAbsVector& basePoint1_x);
 
@@ -497,6 +495,9 @@ public:
    * starting point).
    *
    * @param x x coordinate of first base point.
+   *
+   * @copydetails doc_returns_one_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */ 
   int setBasePoint1_X(const RelAbsVector& x);
 
@@ -506,10 +507,8 @@ public:
    * @param basePoint1_y RelAbsVector& value of the "basePoint1_y" element to
    * be set.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
    */
   int setBasePoint1_y(const RelAbsVector& basePoint1_y);
 
@@ -520,6 +519,9 @@ public:
    * starting point).
    *
    * @param y y coordinate of first base point.
+   *
+   * @copydetails doc_returns_one_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */ 
   int setBasePoint1_Y(const RelAbsVector& y);
 
@@ -529,10 +531,8 @@ public:
    * @param basePoint1_z RelAbsVector& value of the "basePoint1_z" element to
    * be set.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
    */
   int setBasePoint1_z(const RelAbsVector& basePoint1_z);
 
@@ -543,6 +543,9 @@ public:
    * starting point).
    *
    * @param z z coordinate of first base point.
+   *
+   * @copydetails doc_returns_one_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */ 
   int setBasePoint1_Z(const RelAbsVector& z);
 
@@ -553,10 +556,8 @@ public:
    * @param basePoint2_x RelAbsVector& value of the "basePoint2_x" element to
    * be set.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
    */
   int setBasePoint2_x(const RelAbsVector& basePoint2_x);
 
@@ -566,6 +567,9 @@ public:
    * starting point).
    *
    * @param x value of second base point.
+   *
+   * @copydetails doc_returns_one_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */ 
   int setBasePoint2_X(const RelAbsVector& x);
 
@@ -575,10 +579,8 @@ public:
    * @param basePoint2_y RelAbsVector& value of the "basePoint2_y" element to
    * be set.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
    */
   int setBasePoint2_y(const RelAbsVector& basePoint2_y);
 
@@ -588,6 +590,9 @@ public:
    * starting point).
    *
    * @param y value of second base point.
+   *
+   * @copydetails doc_returns_one_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */ 
   int setBasePoint2_Y(const RelAbsVector& y);
 
@@ -597,10 +602,8 @@ public:
    * @param basePoint2_z RelAbsVector& value of the "basePoint2_z" element to
    * be set.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
    */
   int setBasePoint2_z(const RelAbsVector& basePoint2_z);
 
@@ -610,6 +613,9 @@ public:
    * starting point).
    *
    * @param z value of second base point.
+   *
+   * @copydetails doc_returns_one_success_code
+   * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
    */ 
   int setBasePoint2_Z(const RelAbsVector& z);
 
@@ -636,9 +642,8 @@ public:
   /**
    * Unsets the value of the "basePoint1_x" element of this RenderCubicBezier.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   int unsetBasePoint1_x();
 
@@ -646,9 +651,8 @@ public:
   /**
    * Unsets the value of the "basePoint1_y" element of this RenderCubicBezier.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   int unsetBasePoint1_y();
 
@@ -656,9 +660,8 @@ public:
   /**
    * Unsets the value of the "basePoint1_z" element of this RenderCubicBezier.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   int unsetBasePoint1_z();
 
@@ -666,9 +669,8 @@ public:
   /**
    * Unsets the value of the "basePoint2_x" element of this RenderCubicBezier.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   int unsetBasePoint2_x();
 
@@ -676,9 +678,8 @@ public:
   /**
    * Unsets the value of the "basePoint2_y" element of this RenderCubicBezier.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   int unsetBasePoint2_y();
 
@@ -686,9 +687,8 @@ public:
   /**
    * Unsets the value of the "basePoint2_z" element of this RenderCubicBezier.
    *
-   * @copydetails doc_returns_success_code
+   * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sbmlconstant{LIBSBML_OPERATION_FAILED, OperationReturnValues_t}
    */
   int unsetBasePoint2_z();
 
@@ -868,7 +868,7 @@ RenderCubicBezier_free(RenderCubicBezier_t* rcb);
  * @param rcb the RenderCubicBezier_t structure whose basePoint1_x is sought.
  *
  * @return the value of the "basePoint1_x" element of this RenderCubicBezier_t
- * as a RelAbsVector*.
+ * as a RelAbsVector_t.
  *
  * @memberof RenderCubicBezier_t
  */
@@ -883,7 +883,7 @@ RenderCubicBezier_getBasePoint1_x(const RenderCubicBezier_t * rcb);
  * @param rcb the RenderCubicBezier_t structure whose basePoint1_y is sought.
  *
  * @return the value of the "basePoint1_y" element of this RenderCubicBezier_t
- * as a RelAbsVector*.
+ * as a RelAbsVector_t.
  *
  * @memberof RenderCubicBezier_t
  */
@@ -898,7 +898,7 @@ RenderCubicBezier_getBasePoint1_y(const RenderCubicBezier_t * rcb);
  * @param rcb the RenderCubicBezier_t structure whose basePoint1_z is sought.
  *
  * @return the value of the "basePoint1_z" element of this RenderCubicBezier_t
- * as a RelAbsVector*.
+ * as a RelAbsVector_t.
  *
  * @memberof RenderCubicBezier_t
  */
@@ -913,7 +913,7 @@ RenderCubicBezier_getBasePoint1_z(const RenderCubicBezier_t * rcb);
  * @param rcb the RenderCubicBezier_t structure whose basePoint2_x is sought.
  *
  * @return the value of the "basePoint2_x" element of this RenderCubicBezier_t
- * as a RelAbsVector*.
+ * as a RelAbsVector_t.
  *
  * @memberof RenderCubicBezier_t
  */
@@ -928,7 +928,7 @@ RenderCubicBezier_getBasePoint2_x(const RenderCubicBezier_t * rcb);
  * @param rcb the RenderCubicBezier_t structure whose basePoint2_y is sought.
  *
  * @return the value of the "basePoint2_y" element of this RenderCubicBezier_t
- * as a RelAbsVector*.
+ * as a RelAbsVector_t.
  *
  * @memberof RenderCubicBezier_t
  */
@@ -943,7 +943,7 @@ RenderCubicBezier_getBasePoint2_y(const RenderCubicBezier_t * rcb);
  * @param rcb the RenderCubicBezier_t structure whose basePoint2_z is sought.
  *
  * @return the value of the "basePoint2_z" element of this RenderCubicBezier_t
- * as a RelAbsVector*.
+ * as a RelAbsVector_t.
  *
  * @memberof RenderCubicBezier_t
  */

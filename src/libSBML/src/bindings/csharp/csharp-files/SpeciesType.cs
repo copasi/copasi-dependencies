@@ -241,7 +241,6 @@ public class SpeciesType : SBase {
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -373,10 +372,6 @@ public class SpeciesType : SBase {
    * SpeciesType's 'id' attribute is set.
    *
    *
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- *
  *
  * 
  * The identifier given by an object's 'id' attribute value
@@ -391,7 +386,6 @@ public class SpeciesType : SBase {
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -432,9 +426,13 @@ public class SpeciesType : SBase {
  * write 'id' attributes for those objects.
  *
  *
- * 
+ *
  * @return @c true if the 'id' attribute of this SBML object is
  * set, @c false otherwise.
+ *
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  *
  * @see getIdAttribute()
  * @see setIdAttribute(string sid)
@@ -543,7 +541,6 @@ public class SpeciesType : SBase {
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is

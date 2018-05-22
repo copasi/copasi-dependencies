@@ -239,6 +239,7 @@ public class ListOfUnitDefinitions extends ListOf {
    * @param n the index number of the {@link UnitDefinition} to get.
    <p>
    * @return the nth {@link UnitDefinition} in this {@link ListOfUnitDefinitions}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public

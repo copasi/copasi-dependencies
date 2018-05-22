@@ -286,6 +286,7 @@ public class ListOfSpeciesReferences : ListOf {
    * @param n the index number of the SpeciesReference to get.
    * 
    * @return the nth SpeciesReference in this ListOfSpeciesReferences.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @see size()
    */ public new

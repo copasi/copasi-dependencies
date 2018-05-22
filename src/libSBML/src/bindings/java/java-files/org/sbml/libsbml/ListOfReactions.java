@@ -238,6 +238,7 @@ public class ListOfReactions extends ListOf {
    * @param n the index number of the {@link Reaction} to get.
    <p>
    * @return the nth {@link Reaction} in this {@link ListOfReactions}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public

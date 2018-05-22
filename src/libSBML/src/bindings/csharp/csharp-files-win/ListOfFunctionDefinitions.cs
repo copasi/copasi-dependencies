@@ -283,6 +283,7 @@ public class ListOfFunctionDefinitions : ListOf {
    * @param n the index number of the FunctionDefinition to get.
    * 
    * @return the nth FunctionDefinition in this ListOfFunctionDefinitions.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @see size()
    */ public new

@@ -232,6 +232,7 @@ public:
    *
    * @return the nth LocalStyle in the ListOfLocalStyles within this
    * LocalRenderInformation.
+   * If the index @p n is invalid, @c NULL is returned.
    *
    * @copydetails doc_returned_unowned_pointer
    *
@@ -253,11 +254,12 @@ public:
   *
   * @return the nth LocalStyle in the ListOfLocalStyles within this
   * LocalRenderInformation.
+  * If the index @p n is invalid, @c NULL is returned.
   *
   * @copydetails doc_returned_unowned_pointer
   *
   * @see addStyle(const LocalStyle* object)
-  * @see createStyle()
+  * @see createLocalStyle()
   * @see getStyle(const std::string& sid)
   * @see getNumStyles()
   * @see removeStyle(const std::string& sid)
@@ -274,6 +276,7 @@ public:
    *
    * @return the nth LocalStyle in the ListOfLocalStyles within this
    * LocalRenderInformation.
+   * If the index @p n is invalid, @c NULL is returned.
    *
    * @copydetails doc_returned_unowned_pointer
    *
@@ -295,11 +298,12 @@ public:
   *
   * @return the nth LocalStyle in the ListOfLocalStyles within this
   * LocalRenderInformation.
+  * If the index @p n is invalid, @c NULL is returned.
   *
   * @copydetails doc_returned_unowned_pointer
   *
   * @see addStyle(const LocalStyle* object)
-  * @see createStyle()
+  * @see createLocalStyle()
   * @see getStyle(const std::string& sid)
   * @see getNumStyles()
   * @see removeStyle(const std::string& sid)
@@ -390,7 +394,7 @@ public:
   *
   * @copydetails doc_note_object_is_copied
   *
-  * @see createStyle()
+  * @see createLocalStyle()
   * @see getStyle(const std::string& sid)
   * @see getStyle(unsigned int n)
   * @see getNumStyles()
@@ -423,7 +427,7 @@ public:
   *
   *
   * @see addStyle(const LocalStyle* object)
-  * @see createStyle()
+  * @see createLocalStyle()
   * @see getStyle(const std::string& sid)
   * @see getStyle(unsigned int n)
   * @see removeStyle(const std::string& sid)
@@ -453,7 +457,9 @@ public:
 
   /**
   * Creates a new LocalStyle object, adds it to this LocalRenderInformation
-  * object and returns the LocalStyle object created.
+  * object, sets the id, and returns the LocalStyle object created.
+  *
+  * @param id the id to give to the newly-created LocalStyle.
   *
   * @return a new LocalStyle object instance.
   *
@@ -503,7 +509,7 @@ public:
   * @copydetails doc_returned_owned_pointer
   *
   * @see addStyle(const LocalStyle* object)
-  * @see createStyle()
+  * @see createLocalStyle()
   * @see getStyle(const std::string& sid)
   * @see getStyle(unsigned int n)
   * @see getNumStyles()
@@ -547,7 +553,7 @@ public:
   * @copydetails doc_returned_owned_pointer
   *
   * @see addStyle(const LocalStyle* object)
-  * @see createStyle()
+  * @see createLocalStyle()
   * @see getStyle(const std::string& sid)
   * @see getStyle(unsigned int n)
   * @see getNumStyles()
@@ -770,7 +776,7 @@ public:
    * @param filter an ElementFilter that may impose restrictions on the objects
    * to be retrieved.
    *
-   * @return a List* pointer of pointers to all SBase child objects with any
+   * @return a List pointer of pointers to all SBase child objects with any
    * restriction imposed.
    */
   virtual List* getAllElements(ElementFilter * filter = NULL);
@@ -961,6 +967,7 @@ LocalRenderInformation_getListOfLocalStyles(LocalRenderInformation_t* lri);
  *
  * @return the nth LocalStyle_t in the ListOfLocalStyles within this
  * LocalRenderInformation.
+ * If the index @p n is invalid, @c NULL is returned.
  *
  * @copydetails doc_returned_unowned_pointer
  *

@@ -452,10 +452,6 @@ public class SBase : global::System.IDisposable {
    * or the 'variable' attribute of a Rule, or the 'symbol' attribute of
    * an InitialAssignment.
    *
-   * @note Because of the inconsistent behavior of this function with 
-   * respect to assignments and rules, it is now recommended to
-   * use the getIdAttribute() function instead.
-   *
    *
  * 
  * The identifier given by an object's 'id' attribute value
@@ -470,7 +466,6 @@ public class SBase : global::System.IDisposable {
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -512,8 +507,11 @@ public class SBase : global::System.IDisposable {
  *
  *
    *
-   * @return the id of this SBML object, or the 'variable' if the object 
-   * is a Rule, or the 'symbol' if the object is an InitialAssignment.
+   * @return the id of this SBML object, or the 'variable' if the object is a
+   * Rule, or the 'symbol' if the object is an InitialAssignment.
+   *
+   * @note Because of the inconsistent behavior of this function with respect
+   * to assignments and rules, callers should use getIdAttribute() instead.
    *
    * @see getIdAttribute()
    * @see setIdAttribute(string sid)
@@ -529,10 +527,6 @@ public class SBase : global::System.IDisposable {
 /**
    * Returns the value of the 'id' attribute of this SBML object.
    *
-   * @note Because of the inconsistent behavior of the old SBase::getId()
-   * function with respect to assignments and rules, it is now 
-   * recommended to use this getIdAttribute() function instead.
-   * 
    *
  * 
  * The identifier given by an object's 'id' attribute value
@@ -547,7 +541,6 @@ public class SBase : global::System.IDisposable {
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -591,6 +584,9 @@ public class SBase : global::System.IDisposable {
    *
    * @return the id of this SBML object, if set and valid for this
    * level and version of SBML; an empty string otherwise.
+   *
+   * @note Because of the inconsistent behavior of this function with respect
+   * to assignments and rules, callers should use getIdAttribute() instead.
    *
    * @see setIdAttribute(string sid)
    * @see isSetIdAttribute()
@@ -1258,27 +1254,23 @@ public class SBase : global::System.IDisposable {
 
   
 /**
-   * Predicate returning @c true if a call to getId() returns a 
-   * non-empty string.  This means that for most objects, this 
-   * function will return @c true if its 'id' attribute is set, and
-   * @c false if it is not, or if the object has no 'id' attribute
-   * at all.  However, for an EventAssignment or a Rule, isSetId() 
-   * checks whether the 'variable' attribute is set, and for an
-   * InitialAssignment, it checks whether the 'symbol' attribute
-   * is set.  Because those elements will also have an 'id'
-   * attribute in SBML Level&nbsp;3 Version&nbsp;2 which isSetId()
-   * will not check, the function itself is deprecated, and it
-   * is recommended to use isSetIdAttribute() in all cases where
-   * one needs to know whether the 'id' attribute is set, and
-   * to use EventAssignment::isSetVariable(), Rule::isSetVariable()
-   * and InitialAssignment::isSetSymbol() when the status of the
-   * 'variable' or 'symbol' attributes need to be checked.
+   * Predicate returning @c true if a call to getId() returns a
+   * non-empty string.
+   *
+   * For most objects, this function will return @c true if its 'id'
+   * attribute is set, and @c false if it is not, or if the object has no
+   * 'id' attribute at all.  However, for an EventAssignment or a Rule,
+   * isSetId() checks whether the 'variable' attribute is set, and for an
+   * InitialAssignment, it checks whether the 'symbol' attribute is set.
+   * Because those elements will also have an 'id' attribute in SBML
+   * Level&nbsp;3 Version&nbsp;2 which isSetId() will not check, the function
+   * itself is deprecated, and it is recommended to use isSetIdAttribute() in
+   * all cases where one needs to know whether the 'id' attribute is set, and
+   * to use EventAssignment::isSetVariable(), Rule::isSetVariable() and
+   * InitialAssignment::isSetSymbol() when the status of the 'variable' or
+   * 'symbol' attributes need to be checked.
    *
    *
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- *
  *
  * 
  * The identifier given by an object's 'id' attribute value
@@ -1293,7 +1285,6 @@ public class SBase : global::System.IDisposable {
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -1334,9 +1325,13 @@ public class SBase : global::System.IDisposable {
  * write 'id' attributes for those objects.
  *
  *
- * 
+ *
  * @return @c true if the 'id' attribute of this SBML object is
  * set, @c false otherwise.
+ *
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  *
  * @see getIdAttribute()
  * @see setIdAttribute(string sid)
@@ -1368,7 +1363,6 @@ public class SBase : global::System.IDisposable {
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -1673,7 +1667,6 @@ public class SBase : global::System.IDisposable {
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -1760,7 +1753,6 @@ public class SBase : global::System.IDisposable {
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -2804,7 +2796,6 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
  *   idChar ::= letter | digit | '_'
  *   SId    ::= ( letter | '_' ) idChar*
  * </pre>
- *
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -3191,6 +3182,7 @@ s.setNotes('<body xmlns='http://www.w3.org/1999/xhtml'><p>here is my note</p></b
    * @param n unsigned int the index of the CVTerm to retrieve.
    *
    * @return the nth CVTerm in the list of CVTerms for this SBML object.
+   * If the index @p n is invalid, @c null is returned.
    */ public
  CVTerm getCVTerm(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.SBase_getCVTerm(swigCPtr, n);
@@ -3851,6 +3843,7 @@ void example (SBase sb)
    *
    * @return the nth plug-in object (the libSBML extension interface) of a
    * package extension.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @see getNumPlugins()
    * @see getPlugin(string package)
@@ -3897,6 +3890,7 @@ void example (SBase sb)
    *
    * @return the nth disabled plug-in object (the libSBML extension interface) of a
    * package extension.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @see getNumDisabledPlugins()
    * @see getPlugin(string package)

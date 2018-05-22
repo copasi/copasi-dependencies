@@ -283,6 +283,7 @@ public class ListOfCompartmentTypes : ListOf {
    * @param n the index number of the CompartmentType object to get.
    *
    * @return the nth CompartmentType object in this ListOfCompartmentTypes.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @see size()
    */ public new

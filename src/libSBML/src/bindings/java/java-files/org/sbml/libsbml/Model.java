@@ -458,7 +458,6 @@ public class Model extends SBase {
  *   idChar .= letter | digit | '_'
  *   SId    .= ( letter | '_' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -672,10 +671,6 @@ public class Model extends SBase {
    * {@link Model}'s 'id' attribute is set.
    <p>
    * <p>
- * @note Because of the inconsistent behavior of this function with 
- * respect to assignments and rules, it is now recommended to
- * use the isSetIdAttribute() function instead.
- <p>
  * <p>
  * The identifier given by an object's 'id' attribute value
  * is used to identify the object within the SBML model definition.
@@ -689,7 +684,6 @@ public class Model extends SBase {
  *   idChar .= letter | digit | '_'
  *   SId    .= ( letter | '_' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -731,6 +725,10 @@ public class Model extends SBase {
  <p>
  * @return <code>true</code> if the 'id' attribute of this SBML object is
  * set, <code>false</code> otherwise.
+ <p>
+ * @note Because of the inconsistent behavior of this function with
+ * respect to assignments and rules, it is recommended that callers
+ * use isSetIdAttribute() instead.
  <p>
  * @see #getIdAttribute()
  * @see #setIdAttribute(String sid)
@@ -933,7 +931,6 @@ public class Model extends SBase {
  *   idChar .= letter | digit | '_'
  *   SId    .= ( letter | '_' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -1210,7 +1207,6 @@ public class Model extends SBase {
  *   idChar .= letter | digit | '_'
  *   SId    .= ( letter | '_' ) idChar*
  * </pre>
- <p>
  * The characters <code>(</code> and <code>)</code> are used for grouping, the
  * character <code>*</code> 'zero or more times', and the character
  * <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -2687,6 +2683,7 @@ public class Model extends SBase {
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link FunctionDefinition} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
  FunctionDefinition getFunctionDefinition(long n) {
     long cPtr = libsbmlJNI.Model_getFunctionDefinition__SWIG_0(swigCPtr, this, n);
@@ -2714,6 +2711,7 @@ public class Model extends SBase {
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link UnitDefinition} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
  UnitDefinition getUnitDefinition(long n) {
     long cPtr = libsbmlJNI.Model_getUnitDefinition__SWIG_0(swigCPtr, this, n);
@@ -2741,6 +2739,7 @@ public class Model extends SBase {
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link CompartmentType} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @note The {@link CompartmentType} object class is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -2776,6 +2775,7 @@ public class Model extends SBase {
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link SpeciesType} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @note The {@link SpeciesType} object class is only available in SBML
    * Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -2811,6 +2811,7 @@ public class Model extends SBase {
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Compartment} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
  Compartment getCompartment(long n) {
     long cPtr = libsbmlJNI.Model_getCompartment__SWIG_0(swigCPtr, this, n);
@@ -2838,6 +2839,7 @@ public class Model extends SBase {
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Species} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
  Species getSpecies(long n) {
     long cPtr = libsbmlJNI.Model_getSpecies__SWIG_0(swigCPtr, this, n);
@@ -2865,6 +2867,7 @@ public class Model extends SBase {
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Parameter} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
  Parameter getParameter(long n) {
     long cPtr = libsbmlJNI.Model_getParameter__SWIG_0(swigCPtr, this, n);
@@ -2892,6 +2895,7 @@ public class Model extends SBase {
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link InitialAssignment} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
  InitialAssignment getInitialAssignment(long n) {
     long cPtr = libsbmlJNI.Model_getInitialAssignment__SWIG_0(swigCPtr, this, n);
@@ -2935,6 +2939,7 @@ public class Model extends SBase {
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Rule} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
  Rule getRule(long n) {
   return (Rule) libsbml.DowncastSBase(libsbmlJNI.Model_getRule__SWIG_0(swigCPtr, this, n), false);
@@ -3029,6 +3034,7 @@ public class Model extends SBase {
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Constraint} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
  Constraint getConstraint(long n) {
     long cPtr = libsbmlJNI.Model_getConstraint__SWIG_0(swigCPtr, this, n);
@@ -3042,6 +3048,7 @@ public class Model extends SBase {
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Reaction} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
  Reaction getReaction(long n) {
   return (Reaction) libsbml.DowncastSBase(libsbmlJNI.Model_getReaction__SWIG_0(swigCPtr, this, n), false);
@@ -3096,6 +3103,7 @@ public class Model extends SBase {
    * @param n the index of the object to return.
    <p>
    * @return the nth {@link Event} of this {@link Model}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    */ public
  Event getEvent(long n) {
     long cPtr = libsbmlJNI.Model_getEvent__SWIG_0(swigCPtr, this, n);

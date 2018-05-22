@@ -286,6 +286,7 @@ public class ListOfUnitDefinitions : ListOf {
    * @param n the index number of the UnitDefinition to get.
    * 
    * @return the nth UnitDefinition in this ListOfUnitDefinitions.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @see size()
    */ public new

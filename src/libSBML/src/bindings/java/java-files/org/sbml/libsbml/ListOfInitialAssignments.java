@@ -239,6 +239,7 @@ public class ListOfInitialAssignments extends ListOf {
    * @param n the index number of the {@link InitialAssignment} to get.
    <p>
    * @return the nth {@link InitialAssignment} in this {@link ListOfInitialAssignments}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public

@@ -285,6 +285,7 @@ public class ListOfSpecies : ListOf {
    * @param n the index number of the Species to get.
    * 
    * @return the nth Species in this ListOfSpecies.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @see size()
    */ public new

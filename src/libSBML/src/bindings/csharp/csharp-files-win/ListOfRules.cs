@@ -282,6 +282,7 @@ public class ListOfRules : ListOf {
    * @param n the index number of the Rule to get.
    * 
    * @return the nth Rule in this ListOfRules.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @see size()
    */ public new

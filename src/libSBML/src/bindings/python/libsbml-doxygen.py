@@ -3362,10 +3362,6 @@ class SBase(_object):
         or the 'variable' attribute of a Rule, or the 'symbol' attribute of
         an InitialAssignment.
 
-        @note Because of the inconsistent behavior of this function with 
-        respect to assignments and rules, it is now recommended to
-        use the getIdAttribute() function instead.
-
         @par
         The identifier given by an object's 'id' attribute value
         is used to identify the object within the SBML model definition.
@@ -3379,7 +3375,6 @@ class SBase(_object):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -3419,8 +3414,11 @@ class SBase(_object):
         libSBML will not allow the identifier to be set, nor will it read or 
         write 'id' attributes for those objects.
 
-        @return the id of this SBML object, or the 'variable' if the object 
-        is a Rule, or the 'symbol' if the object is an InitialAssignment.
+        @return the id of this SBML object, or the 'variable' if the object is a
+        Rule, or the 'symbol' if the object is an InitialAssignment.
+
+        @note Because of the inconsistent behavior of this function with respect
+        to assignments and rules, callers should use getIdAttribute() instead.
 
         @see getIdAttribute()
         @see setIdAttribute()
@@ -3438,10 +3436,6 @@ class SBase(_object):
 
         Returns the value of the 'id' attribute of this SBML object.
 
-        @note Because of the inconsistent behavior of the old SBase.getId()
-        function with respect to assignments and rules, it is now 
-        recommended to use this getIdAttribute() function instead.
-
         @par
         The identifier given by an object's 'id' attribute value
         is used to identify the object within the SBML model definition.
@@ -3455,7 +3449,6 @@ class SBase(_object):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -3497,6 +3490,9 @@ class SBase(_object):
 
         @return the id of this SBML object, if set and valid for this
         level and version of SBML; an empty string otherwise.
+
+        @note Because of the inconsistent behavior of this function with respect
+        to assignments and rules, callers should use getIdAttribute() instead.
 
         @see setIdAttribute()
         @see isSetIdAttribute()
@@ -4123,25 +4119,21 @@ class SBase(_object):
         isSetId(SBase self) -> bool
 
 
-        Predicate returning @c True if a call to getId() returns a 
-        non-empty string.  This means that for most objects, this 
-        function will return @c True if its 'id' attribute is set, and
-        @c False if it is not, or if the object has no 'id' attribute
-        at all.  However, for an EventAssignment or a Rule, isSetId() 
-        checks whether the 'variable' attribute is set, and for an
-        InitialAssignment, it checks whether the 'symbol' attribute
-        is set.  Because those elements will also have an 'id'
-        attribute in SBML Level&nbsp;3 Version&nbsp;2 which isSetId()
-        will not check, the function itself is deprecated, and it
-        is recommended to use isSetIdAttribute() in all cases where
-        one needs to know whether the 'id' attribute is set, and
-        to use EventAssignment.isSetVariable(), Rule.isSetVariable()
-        and InitialAssignment.isSetSymbol() when the status of the
-        'variable' or 'symbol' attributes need to be checked.
+        Predicate returning @c True if a call to getId() returns a
+        non-empty string.
 
-        @note Because of the inconsistent behavior of this function with 
-        respect to assignments and rules, it is now recommended to
-        use the isSetIdAttribute() function instead.
+        For most objects, this function will return @c True if its 'id'
+        attribute is set, and @c False if it is not, or if the object has no
+        'id' attribute at all.  However, for an EventAssignment or a Rule,
+        isSetId() checks whether the 'variable' attribute is set, and for an
+        InitialAssignment, it checks whether the 'symbol' attribute is set.
+        Because those elements will also have an 'id' attribute in SBML
+        Level&nbsp;3 Version&nbsp;2 which isSetId() will not check, the function
+        itself is deprecated, and it is recommended to use isSetIdAttribute() in
+        all cases where one needs to know whether the 'id' attribute is set, and
+        to use EventAssignment.isSetVariable(), Rule.isSetVariable() and
+        InitialAssignment.isSetSymbol() when the status of the 'variable' or
+        'symbol' attributes need to be checked.
 
         @par
         The identifier given by an object's 'id' attribute value
@@ -4156,7 +4148,6 @@ class SBase(_object):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -4199,6 +4190,10 @@ class SBase(_object):
         @return @c True if the 'id' attribute of this SBML object is
         set, @c False otherwise.
 
+        @note Because of the inconsistent behavior of this function with
+        respect to assignments and rules, it is recommended that callers
+        use isSetIdAttribute() instead.
+
         @see getIdAttribute()
         @see setIdAttribute()
         @see unsetIdAttribute()
@@ -4228,7 +4223,6 @@ class SBase(_object):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -4533,7 +4527,6 @@ class SBase(_object):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -4615,7 +4608,6 @@ class SBase(_object):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -5532,7 +5524,6 @@ class SBase(_object):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -5880,6 +5871,7 @@ class SBase(_object):
         @param n long the index of the CVTerm to retrieve.
 
         @return the nth CVTerm in the list of CVTerms for this SBML object.
+        If the index @p n is invalid, @c None is returned.
 
         """
         return _libsbml.SBase_getCVTerm(self, n)
@@ -6527,6 +6519,7 @@ class SBase(_object):
 
         @return the nth plug-in object (the libSBML extension interface) of a
         package extension.
+        If the index @p n is invalid, @c None is returned.
 
         @see getNumPlugins()
         @see getPlugin()
@@ -6606,6 +6599,7 @@ class SBase(_object):
 
         @return the nth disabled plug-in object (the libSBML extension interface) of a
         package extension.
+        If the index @p n is invalid, @c None is returned.
 
         @see getNumDisabledPlugins()
         @see getPlugin()
@@ -8666,7 +8660,6 @@ class Model(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -8905,10 +8898,6 @@ class Model(SBase):
         Predicate returning @c True if this
         Model's 'id' attribute is set.
 
-        @note Because of the inconsistent behavior of this function with 
-        respect to assignments and rules, it is now recommended to
-        use the isSetIdAttribute() function instead.
-
         @par
         The identifier given by an object's 'id' attribute value
         is used to identify the object within the SBML model definition.
@@ -8922,7 +8911,6 @@ class Model(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -8964,6 +8952,10 @@ class Model(SBase):
 
         @return @c True if the 'id' attribute of this SBML object is
         set, @c False otherwise.
+
+        @note Because of the inconsistent behavior of this function with
+        respect to assignments and rules, it is recommended that callers
+        use isSetIdAttribute() instead.
 
         @see getIdAttribute()
         @see setIdAttribute()
@@ -9192,7 +9184,6 @@ class Model(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -9477,7 +9468,6 @@ class Model(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -11074,6 +11064,7 @@ class Model(SBase):
         @param n the index of the object to return.
 
         @return the nth FunctionDefinition of this Model.
+        If the index @p n is invalid, @c None is returned.
 
 
         @par
@@ -11113,6 +11104,7 @@ class Model(SBase):
         @param n the index of the object to return.
 
         @return the nth UnitDefinition of this Model.
+        If the index @p n is invalid, @c None is returned.
 
 
         @par
@@ -11152,6 +11144,7 @@ class Model(SBase):
         @param n the index of the object to return.
 
         @return the nth CompartmentType of this Model.
+        If the index @p n is invalid, @c None is returned.
 
         @note The CompartmentType object class is only available in SBML
         Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -11199,6 +11192,7 @@ class Model(SBase):
         @param n the index of the object to return.
 
         @return the nth SpeciesType of this Model.
+        If the index @p n is invalid, @c None is returned.
 
         @note The SpeciesType object class is only available in SBML
         Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
@@ -11246,6 +11240,7 @@ class Model(SBase):
         @param n the index of the object to return.
 
         @return the nth Compartment of this Model.
+        If the index @p n is invalid, @c None is returned.
 
 
         @par
@@ -11285,6 +11280,7 @@ class Model(SBase):
         @param n the index of the object to return.
 
         @return the nth Species of this Model.
+        If the index @p n is invalid, @c None is returned.
 
 
         @par
@@ -11324,6 +11320,7 @@ class Model(SBase):
         @param n the index of the object to return.
 
         @return the nth Parameter of this Model.
+        If the index @p n is invalid, @c None is returned.
 
 
         @par
@@ -11377,6 +11374,7 @@ class Model(SBase):
         @param n the index of the object to return.
 
         @return the nth InitialAssignment of this Model.
+        If the index @p n is invalid, @c None is returned.
 
         """
         return _libsbml.Model_getInitialAssignment(self, *args)
@@ -11434,6 +11432,7 @@ class Model(SBase):
         @param n the index of the object to return.
 
         @return the nth Rule of this Model.
+        If the index @p n is invalid, @c None is returned.
 
         """
         return _libsbml.Model_getRule(self, *args)
@@ -11535,6 +11534,7 @@ class Model(SBase):
         @param n the index of the object to return.
 
         @return the nth Constraint of this Model.
+        If the index @p n is invalid, @c None is returned.
 
         """
         return _libsbml.Model_getConstraint(self, *args)
@@ -11561,6 +11561,7 @@ class Model(SBase):
         @param n the index of the object to return.
 
         @return the nth Reaction of this Model.
+        If the index @p n is invalid, @c None is returned.
 
 
         @par
@@ -11635,6 +11636,7 @@ class Model(SBase):
         @param n the index of the object to return.
 
         @return the nth Event of this Model.
+        If the index @p n is invalid, @c None is returned.
 
 
         @par
@@ -15393,7 +15395,6 @@ class FunctionDefinition(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -15534,10 +15535,6 @@ class FunctionDefinition(SBase):
         Predicate returning @c True if this
         FunctionDefinition's 'id' attribute is set.
 
-        @note Because of the inconsistent behavior of this function with 
-        respect to assignments and rules, it is now recommended to
-        use the isSetIdAttribute() function instead.
-
         @par
         The identifier given by an object's 'id' attribute value
         is used to identify the object within the SBML model definition.
@@ -15551,7 +15548,6 @@ class FunctionDefinition(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -15593,6 +15589,10 @@ class FunctionDefinition(SBase):
 
         @return @c True if the 'id' attribute of this SBML object is
         set, @c False otherwise.
+
+        @note Because of the inconsistent behavior of this function with
+        respect to assignments and rules, it is recommended that callers
+        use isSetIdAttribute() instead.
 
         @see getIdAttribute()
         @see setIdAttribute()
@@ -15710,7 +15710,6 @@ class FunctionDefinition(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -15910,6 +15909,7 @@ class FunctionDefinition(SBase):
 
         @return the nth argument (bound variable) passed to this
         FunctionDefinition.
+        If the index @p n is invalid, @c None is returned.
 
         @see getNumArguments()
 
@@ -16362,6 +16362,7 @@ class ListOfFunctionDefinitions(ListOf):
         @param n the index number of the FunctionDefinition to get.
 
         @return the nth FunctionDefinition in this ListOfFunctionDefinitions.
+        If the index @p n is invalid, @c None is returned.
 
         @see size()
 
@@ -18643,6 +18644,7 @@ class ListOfUnits(ListOf):
         @param n the index number of the Unit to get.
 
         @return the nth Unit in this ListOfUnits.
+        If the index @p n is invalid, @c None is returned.
 
         @see size()
 
@@ -19087,7 +19089,6 @@ class UnitDefinition(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -19214,10 +19215,6 @@ class UnitDefinition(SBase):
         Predicate returning @c True if this
         UnitDefinition's 'id' attribute is set.
 
-        @note Because of the inconsistent behavior of this function with 
-        respect to assignments and rules, it is now recommended to
-        use the isSetIdAttribute() function instead.
-
         @par
         The identifier given by an object's 'id' attribute value
         is used to identify the object within the SBML model definition.
@@ -19231,7 +19228,6 @@ class UnitDefinition(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -19273,6 +19269,10 @@ class UnitDefinition(SBase):
 
         @return @c True if the 'id' attribute of this SBML object is
         set, @c False otherwise.
+
+        @note Because of the inconsistent behavior of this function with
+        respect to assignments and rules, it is recommended that callers
+        use isSetIdAttribute() instead.
 
         @see getIdAttribute()
         @see setIdAttribute()
@@ -19375,7 +19375,6 @@ class UnitDefinition(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -19784,6 +19783,7 @@ class UnitDefinition(SBase):
         @param n an integer, the index of the Unit to be returned.
 
         @return the nth Unit of this UnitDefinition.
+        If the index @p n is invalid, @c None is returned.
 
         @see getNumUnits()
 
@@ -20747,6 +20747,7 @@ class ListOfUnitDefinitions(ListOf):
         @param n the index number of the UnitDefinition to get.
 
         @return the nth UnitDefinition in this ListOfUnitDefinitions.
+        If the index @p n is invalid, @c None is returned.
 
         @see size()
 
@@ -21042,7 +21043,6 @@ class CompartmentType(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -21169,10 +21169,6 @@ class CompartmentType(SBase):
         Predicate returning @c True if this CompartmentType object's 'id'
         attribute is set.
 
-        @note Because of the inconsistent behavior of this function with 
-        respect to assignments and rules, it is now recommended to
-        use the isSetIdAttribute() function instead.
-
         @par
         The identifier given by an object's 'id' attribute value
         is used to identify the object within the SBML model definition.
@@ -21186,7 +21182,6 @@ class CompartmentType(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -21228,6 +21223,10 @@ class CompartmentType(SBase):
 
         @return @c True if the 'id' attribute of this SBML object is
         set, @c False otherwise.
+
+        @note Because of the inconsistent behavior of this function with
+        respect to assignments and rules, it is recommended that callers
+        use isSetIdAttribute() instead.
 
         @see getIdAttribute()
         @see setIdAttribute()
@@ -21330,7 +21329,6 @@ class CompartmentType(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -21822,6 +21820,7 @@ class ListOfCompartmentTypes(ListOf):
         @param n the index number of the CompartmentType object to get.
 
         @return the nth CompartmentType object in this ListOfCompartmentTypes.
+        If the index @p n is invalid, @c None is returned.
 
         @see size()
 
@@ -22093,7 +22092,6 @@ class SpeciesType(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -22220,10 +22218,6 @@ class SpeciesType(SBase):
         Predicate returning @c True if this
         SpeciesType's 'id' attribute is set.
 
-        @note Because of the inconsistent behavior of this function with 
-        respect to assignments and rules, it is now recommended to
-        use the isSetIdAttribute() function instead.
-
         @par
         The identifier given by an object's 'id' attribute value
         is used to identify the object within the SBML model definition.
@@ -22237,7 +22231,6 @@ class SpeciesType(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -22279,6 +22272,10 @@ class SpeciesType(SBase):
 
         @return @c True if the 'id' attribute of this SBML object is
         set, @c False otherwise.
+
+        @note Because of the inconsistent behavior of this function with
+        respect to assignments and rules, it is recommended that callers
+        use isSetIdAttribute() instead.
 
         @see getIdAttribute()
         @see setIdAttribute()
@@ -22381,7 +22378,6 @@ class SpeciesType(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -22870,6 +22866,7 @@ class ListOfSpeciesTypes(ListOf):
         @param n the index number of the SpeciesType to get.
 
         @return the nth SpeciesType in this ListOfSpeciesTypes.
+        If the index @p n is invalid, @c None is returned.
 
         @see size()
 
@@ -23464,7 +23461,6 @@ class Compartment(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -23804,10 +23800,6 @@ class Compartment(SBase):
         Predicate returning @c True if this Compartment object's 'id' attribute
         is set.
 
-        @note Because of the inconsistent behavior of this function with 
-        respect to assignments and rules, it is now recommended to
-        use the isSetIdAttribute() function instead.
-
         @par
         The identifier given by an object's 'id' attribute value
         is used to identify the object within the SBML model definition.
@@ -23821,7 +23813,6 @@ class Compartment(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -23863,6 +23854,10 @@ class Compartment(SBase):
 
         @return @c True if the 'id' attribute of this SBML object is
         set, @c False otherwise.
+
+        @note Because of the inconsistent behavior of this function with
+        respect to assignments and rules, it is recommended that callers
+        use isSetIdAttribute() instead.
 
         @see getIdAttribute()
         @see setIdAttribute()
@@ -24135,7 +24130,6 @@ class Compartment(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -25173,6 +25167,7 @@ class ListOfCompartments(ListOf):
         @param n the index number of the Compartment object to get.
 
         @return the nth Compartment object in this ListOfCompartments.
+        If the index @p n is invalid, @c None is returned.
 
         @see size()
 
@@ -25740,7 +25735,6 @@ class Species(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -26090,10 +26084,6 @@ class Species(SBase):
         Predicate returning @c True if this
         Species object's 'id' attribute is set.
 
-        @note Because of the inconsistent behavior of this function with 
-        respect to assignments and rules, it is now recommended to
-        use the isSetIdAttribute() function instead.
-
         @par
         The identifier given by an object's 'id' attribute value
         is used to identify the object within the SBML model definition.
@@ -26107,7 +26097,6 @@ class Species(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -26149,6 +26138,10 @@ class Species(SBase):
 
         @return @c True if the 'id' attribute of this SBML object is
         set, @c False otherwise.
+
+        @note Because of the inconsistent behavior of this function with
+        respect to assignments and rules, it is recommended that callers
+        use isSetIdAttribute() instead.
 
         @see getIdAttribute()
         @see setIdAttribute()
@@ -26474,7 +26467,6 @@ class Species(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -27624,6 +27616,7 @@ class ListOfSpecies(ListOf):
         @param n the index number of the Species to get.
 
         @return the nth Species in this ListOfSpecies.
+        If the index @p n is invalid, @c None is returned.
 
         @see size()
 
@@ -27984,7 +27977,6 @@ class Parameter(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -28198,10 +28190,6 @@ class Parameter(SBase):
         Predicate returning @c True if this
         Parameter's 'id' attribute is set.
 
-        @note Because of the inconsistent behavior of this function with 
-        respect to assignments and rules, it is now recommended to
-        use the isSetIdAttribute() function instead.
-
         @par
         The identifier given by an object's 'id' attribute value
         is used to identify the object within the SBML model definition.
@@ -28215,7 +28203,6 @@ class Parameter(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -28257,6 +28244,10 @@ class Parameter(SBase):
 
         @return @c True if the 'id' attribute of this SBML object is
         set, @c False otherwise.
+
+        @note Because of the inconsistent behavior of this function with
+        respect to assignments and rules, it is recommended that callers
+        use isSetIdAttribute() instead.
 
         @see getIdAttribute()
         @see setIdAttribute()
@@ -28446,7 +28437,6 @@ class Parameter(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -30965,6 +30955,7 @@ class ListOfInitialAssignments(ListOf):
         @param n the index number of the InitialAssignment to get.
 
         @return the nth InitialAssignment in this ListOfInitialAssignments.
+        If the index @p n is invalid, @c None is returned.
 
         @see size()
 
@@ -32388,6 +32379,7 @@ class ListOfRules(ListOf):
         @param n the index number of the Rule to get.
 
         @return the nth Rule in this ListOfRules.
+        If the index @p n is invalid, @c None is returned.
 
         @see size()
 
@@ -34489,6 +34481,7 @@ class ListOfConstraints(ListOf):
         @param n the index number of the Constraint to get.
 
         @return the nth Constraint in this ListOfConstraints.
+        If the index @p n is invalid, @c None is returned.
 
         @see size()
 
@@ -34908,7 +34901,6 @@ class Reaction(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -35121,10 +35113,6 @@ class Reaction(SBase):
         Predicate returning @c True if this
         Reaction's 'id' attribute is set.
 
-        @note Because of the inconsistent behavior of this function with 
-        respect to assignments and rules, it is now recommended to
-        use the isSetIdAttribute() function instead.
-
         @par
         The identifier given by an object's 'id' attribute value
         is used to identify the object within the SBML model definition.
@@ -35138,7 +35126,6 @@ class Reaction(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -35180,6 +35167,10 @@ class Reaction(SBase):
 
         @return @c True if the 'id' attribute of this SBML object is
         set, @c False otherwise.
+
+        @note Because of the inconsistent behavior of this function with
+        respect to assignments and rules, it is recommended that callers
+        use isSetIdAttribute() instead.
 
         @see getIdAttribute()
         @see setIdAttribute()
@@ -35372,7 +35363,6 @@ class Reaction(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -36185,6 +36175,7 @@ class Reaction(SBase):
 
         @return the nth reactant (as a SpeciesReference object) of this
         Reaction.
+        If the index @p n is invalid, @c None is returned.
 
         """
         return _libsbml.Reaction_getReactant(self, *args)
@@ -36231,6 +36222,7 @@ class Reaction(SBase):
 
         @return the nth product (as a SpeciesReference object) of this
         Reaction.
+        If the index @p n is invalid, @c None is returned.
 
         """
         return _libsbml.Reaction_getProduct(self, *args)
@@ -36278,6 +36270,7 @@ class Reaction(SBase):
 
         @return the nth modifier (as a ModifierSpeciesReference object) of
         this Reaction.
+        If the index @p n is invalid, @c None is returned.
 
         """
         return _libsbml.Reaction_getModifier(self, *args)
@@ -36831,6 +36824,7 @@ class ListOfReactions(ListOf):
         @param n the index number of the Reaction to get.
 
         @return the nth Reaction in this ListOfReactions.
+        If the index @p n is invalid, @c None is returned.
 
         @see size()
 
@@ -37672,6 +37666,7 @@ class KineticLaw(SBase):
         @param n the index of the Parameter object sought.
 
         @return the nth Parameter of this KineticLaw.
+        If the index @p n is invalid, @c None is returned.
 
 
         @par
@@ -37718,6 +37713,7 @@ class KineticLaw(SBase):
         @param n the index of the LocalParameter object sought.
 
         @return the nth LocalParameter of this KineticLaw.
+        If the index @p n is invalid, @c None is returned.
 
 
         @par
@@ -38275,7 +38271,6 @@ class SimpleSpeciesReference(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -38416,10 +38411,6 @@ class SimpleSpeciesReference(SBase):
         Predicate returning @c True if this
         SimpleSpeciesReference's 'id' attribute is set.
 
-        @note Because of the inconsistent behavior of this function with 
-        respect to assignments and rules, it is now recommended to
-        use the isSetIdAttribute() function instead.
-
         @par
         The identifier given by an object's 'id' attribute value
         is used to identify the object within the SBML model definition.
@@ -38433,7 +38424,6 @@ class SimpleSpeciesReference(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -38475,6 +38465,10 @@ class SimpleSpeciesReference(SBase):
 
         @return @c True if the 'id' attribute of this SBML object is
         set, @c False otherwise.
+
+        @note Because of the inconsistent behavior of this function with
+        respect to assignments and rules, it is recommended that callers
+        use isSetIdAttribute() instead.
 
         @see getIdAttribute()
         @see setIdAttribute()
@@ -38615,7 +38609,6 @@ class SimpleSpeciesReference(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -38718,7 +38711,6 @@ class SimpleSpeciesReference(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -40155,6 +40147,7 @@ class ListOfSpeciesReferences(ListOf):
         @param n the index number of the SpeciesReference to get.
 
         @return the nth SpeciesReference in this ListOfSpeciesReferences.
+        If the index @p n is invalid, @c None is returned.
 
         @see size()
 
@@ -40872,7 +40865,6 @@ class Event(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -41123,10 +41115,6 @@ class Event(SBase):
         Predicate returning @c True if this
         Event's 'id' attribute is set.
 
-        @note Because of the inconsistent behavior of this function with 
-        respect to assignments and rules, it is now recommended to
-        use the isSetIdAttribute() function instead.
-
         @par
         The identifier given by an object's 'id' attribute value
         is used to identify the object within the SBML model definition.
@@ -41140,7 +41128,6 @@ class Event(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -41182,6 +41169,10 @@ class Event(SBase):
 
         @return @c True if the 'id' attribute of this SBML object is
         set, @c False otherwise.
+
+        @note Because of the inconsistent behavior of this function with
+        respect to assignments and rules, it is recommended that callers
+        use isSetIdAttribute() instead.
 
         @see getIdAttribute()
         @see setIdAttribute()
@@ -41374,7 +41365,6 @@ class Event(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -41639,7 +41629,6 @@ class Event(SBase):
         idChar ::= letter | digit | '_'
         SId    ::= ( letter | '_' ) idChar*
         </pre>
-
         The characters <code>(</code> and <code>)</code> are used for grouping, the
         character <code>*</code> 'zero or more times', and the character
         <code>|</code> indicates logical 'or'.  The equality of SBML identifiers is
@@ -43572,6 +43561,7 @@ class ListOfEventAssignments(ListOf):
         @param n the index number of the EventAssignment to get.
 
         @return the nth EventAssignment in this ListOfEventAssignments.
+        If the index @p n is invalid, @c None is returned.
 
         @see size()
 
@@ -75036,7 +75026,8 @@ class CVTerm(_object):
 
         @param n long the index of the CVTerm to retrieve.
 
-        @return the nth CVTerm in the list of CVTerms for this CVTerm object.
+        @return the nth CVTerm in the list of CVTerms for this CVTerm object
+        or @c None if no such object exists.
 
         """
         return _libsbml.CVTerm_getNestedCVTerm(self, *args)
@@ -76933,7 +76924,7 @@ class ModelHistory(_object):
         storing a list of 'modified date' values.
 
         @return the nth Date in the list of ModifiedDates of this
-        ModelHistory.
+        ModelHistory or @c None if no such object exists.
 
         """
         return _libsbml.ModelHistory_getModifiedDate(self, *args)
@@ -77012,7 +77003,7 @@ class ModelHistory(_object):
         creators.  The libSBML ModelHistory class supports this by storing a
         list of 'model creator' values.
 
-        @return the nth ModelCreator object.
+        @return the nth ModelCreator object or @c None if no such object exists.
 
         """
         return _libsbml.ModelHistory_getCreator(self, n)

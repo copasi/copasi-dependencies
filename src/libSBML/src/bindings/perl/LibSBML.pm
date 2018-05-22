@@ -913,12 +913,11 @@ C<opydetails> doc_what_is_metaid
 Returns the value of the "id" attribute of this SBML object, if it has one, 
 or the "variable" attribute of a Rule, or the "symbol" attribute of
 an InitialAssignment.
-@note Because of the inconsistent behavior of this function with 
-respect to assignments and rules, it is now recommended to
-use the getIdAttribute() function instead.
 C<opydetails> doc_id_attribute
-@return the id of this SBML object, or the "variable" if the object 
-is a Rule, or the "symbol" if the object is an InitialAssignment.
+@return the id of this SBML object, or the "variable" if the object is a
+Rule, or the "symbol" if the object is an InitialAssignment.
+@note Because of the inconsistent behavior of this function with respect
+to assignments and rules, callers should use getIdAttribute() instead.
 @see getIdAttribute()
 @see setIdAttribute(const std::string& sid)
 @see isSetIdAttribute()
@@ -928,12 +927,11 @@ is a Rule, or the "symbol" if the object is an InitialAssignment.
 =item SBase::getIdAttribute
 
 Returns the value of the "id" attribute of this SBML object.
-@note Because of the inconsistent behavior of the old SBase::getId()
-function with respect to assignments and rules, it is now 
-recommended to use this getIdAttribute() function instead.
 C<opydetails> doc_id_attribute
 @return the id of this SBML object, if set and valid for this
 level and version of SBML; an empty string otherwise.
+@note Because of the inconsistent behavior of this function with respect
+to assignments and rules, callers should use getIdAttribute() instead.
 @see setIdAttribute(const std::string& sid)
 @see isSetIdAttribute()
 @see unsetIdAttribute()
@@ -1369,21 +1367,20 @@ set, C<false> otherwise.
 
 =item SBase::isSetId
 
-Predicate returning C<true> if a call to getId() returns a 
-non-empty string.  This means that for most objects, this 
-function will return C<true> if its "id" attribute is set, and
-C<false> if it is not, or if the object has no "id" attribute
-at all.  However, for an EventAssignment or a Rule, isSetId() 
-checks whether the "variable" attribute is set, and for an
-InitialAssignment, it checks whether the "symbol" attribute
-is set.  Because those elements will also have an "id"
-attribute in SBML Level&nbsp;3 Version&nbsp;2 which isSetId()
-will not check, the function itself is deprecated, and it
-is recommended to use isSetIdAttribute() in all cases where
-one needs to know whether the "id" attribute is set, and
-to use EventAssignment::isSetVariable(), Rule::isSetVariable()
-and InitialAssignment::isSetSymbol() when the status of the
-"variable" or "symbol" attributes need to be checked.
+Predicate returning C<true> if a call to getId() returns a
+non-empty string.
+For most objects, this function will return C<true> if its "id"
+attribute is set, and C<false> if it is not, or if the object has no
+"id" attribute at all.  However, for an EventAssignment or a Rule,
+isSetId() checks whether the "variable" attribute is set, and for an
+InitialAssignment, it checks whether the "symbol" attribute is set.
+Because those elements will also have an "id" attribute in SBML
+Level&nbsp;3 Version&nbsp;2 which isSetId() will not check, the function
+itself is deprecated, and it is recommended to use isSetIdAttribute() in
+all cases where one needs to know whether the "id" attribute is set, and
+to use EventAssignment::isSetVariable(), Rule::isSetVariable() and
+InitialAssignment::isSetSymbol() when the status of the "variable" or
+"symbol" attributes need to be checked.
 C<opydetails> doc_isset_id
 
 
@@ -2153,6 +2150,7 @@ object.
 
 @param n unsigned int the index of the CVTerm to retrieve.
 @return the nth CVTerm in the list of CVTerms for this SBML object.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item SBase::unsetCVTerms
@@ -2503,6 +2501,7 @@ C<opydetails> doc_what_are_plugins
 @param n the index of the plug-in to return.
 @return the nth plug-in object (the libSBML extension interface) of a
 package extension.
+If the index C<n> is invalid, C<NULL> is returned.
 @see getNumPlugins()
 @see getPlugin(const std::string& package)
 
@@ -2519,6 +2518,7 @@ C<opydetails> doc_what_are_plugins
 @param n the index of the plug-in to return.
 @return the nth plug-in object (the libSBML extension interface) of a
 package extension.
+If the index C<n> is invalid, C<NULL> is returned.
 @see getNumPlugins()
 @see getPlugin(const std::string& package)
 
@@ -2532,6 +2532,7 @@ C<opydetails> doc_what_are_disabled_plugins
 @param n the index of the disabled plug-in to return.
 @return the nth disabled plug-in object (the libSBML extension interface) of a
 package extension.
+If the index C<n> is invalid, C<NULL> is returned.
 @see getNumDisabledPlugins()
 @see getPlugin(const std::string& package)
 
@@ -2545,6 +2546,7 @@ C<opydetails> doc_what_are_disabled_plugins
 @param n the index of the disabled plug-in to return.
 @return the nth disabled plug-in object (the libSBML extension interface) of a
 package extension.
+If the index C<n> is invalid, C<NULL> is returned.
 @see getNumDisabledPlugins()
 @see getPlugin(const std::string& package)
 
@@ -4938,6 +4940,7 @@ Get the ListOfEvents object in this Model.
 Get the nth FunctionDefinitions object in this Model.
 @param n the index of the object to return.
 @return the nth FunctionDefinition of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getFunctionDefinition
@@ -4945,6 +4948,7 @@ Get the nth FunctionDefinitions object in this Model.
 Get the nth FunctionDefinitions object in this Model.
 @param n the index of the object to return.
 @return the nth FunctionDefinition of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getFunctionDefinition
@@ -4968,6 +4972,7 @@ C<sid> or C<NULL> if no such FunctionDefinition exists.
 Get the nth UnitDefinition object in this Model.
 @param n the index of the object to return.
 @return the nth UnitDefinition of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getUnitDefinition
@@ -4975,6 +4980,7 @@ Get the nth UnitDefinition object in this Model.
 Get the nth UnitDefinition object in this Model.
 @param n the index of the object to return.
 @return the nth UnitDefinition of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getUnitDefinition
@@ -4998,6 +5004,7 @@ C<NULL> if no such UnitDefinition exists.
 Get the nth CompartmentType object in this Model.
 @param n the index of the object to return.
 @return the nth CompartmentType of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 @note The CompartmentType object class is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
 Level&nbsp;1 nor Level&nbsp;3.
@@ -5008,6 +5015,7 @@ Level&nbsp;1 nor Level&nbsp;3.
 Get the nth CompartmentType object in this Model.
 @param n the index of the object to return.
 @return the nth CompartmentType of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 @note The CompartmentType object class is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
 Level&nbsp;1 nor Level&nbsp;3.
@@ -5040,6 +5048,7 @@ Level&nbsp;1 nor Level&nbsp;3.
 Get the nth SpeciesType object in this Model.
 @param n the index of the object to return.
 @return the nth SpeciesType of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 @note The SpeciesType object class is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
 Level&nbsp;1 nor Level&nbsp;3.
@@ -5050,6 +5059,7 @@ Level&nbsp;1 nor Level&nbsp;3.
 Get the nth SpeciesType object in this Model.
 @param n the index of the object to return.
 @return the nth SpeciesType of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 @note The SpeciesType object class is only available in SBML
 Level&nbsp;2 Versions&nbsp;2&ndash;4.  It is not available in
 Level&nbsp;1 nor Level&nbsp;3.
@@ -5082,6 +5092,7 @@ Level&nbsp;1 nor Level&nbsp;3.
 Get the nth Compartment object in this Model.
 @param n the index of the object to return.
 @return the nth Compartment of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getCompartment
@@ -5089,6 +5100,7 @@ Get the nth Compartment object in this Model.
 Get the nth Compartment object in this Model.
 @param n the index of the object to return.
 @return the nth Compartment of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getCompartment
@@ -5112,6 +5124,7 @@ C<NULL> if no such Compartment exists.
 Get the nth Species object in this Model.
 @param n the index of the object to return.
 @return the nth Species of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getSpecies
@@ -5119,6 +5132,7 @@ Get the nth Species object in this Model.
 Get the nth Species object in this Model.
 @param n the index of the object to return.
 @return the nth Species of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getSpecies
@@ -5142,6 +5156,7 @@ if no such Species exists.
 Get the nth Parameter object in this Model.
 @param n the index of the object to return.
 @return the nth Parameter of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getParameter
@@ -5149,6 +5164,7 @@ Get the nth Parameter object in this Model.
 Get the nth Parameter object in this Model.
 @param n the index of the object to return.
 @return the nth Parameter of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getParameter
@@ -5172,6 +5188,7 @@ if no such Parameter exists.
 Get the nth InitialAssignment object in this Model.
 @param n the index of the object to return.
 @return the nth InitialAssignment of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getInitialAssignment
@@ -5179,6 +5196,7 @@ Get the nth InitialAssignment object in this Model.
 Get the nth InitialAssignment object in this Model.
 @param n the index of the object to return.
 @return the nth InitialAssignment of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getInitialAssignment
@@ -5222,6 +5240,7 @@ attribute value or C<NULL> if no such InitialAssignment exists.
 Get the nth Rule object in this Model.
 @param n the index of the object to return.
 @return the nth Rule of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getRule
@@ -5229,6 +5248,7 @@ Get the nth Rule object in this Model.
 Get the nth Rule object in this Model.
 @param n the index of the object to return.
 @return the nth Rule of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getRule
@@ -5332,6 +5352,7 @@ value or C<NULL> if no such Rule exists.
 Get the nth Constraint object in this Model.
 @param n the index of the object to return.
 @return the nth Constraint of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getConstraint
@@ -5339,6 +5360,7 @@ Get the nth Constraint object in this Model.
 Get the nth Constraint object in this Model.
 @param n the index of the object to return.
 @return the nth Constraint of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getReaction
@@ -5346,6 +5368,7 @@ Get the nth Constraint object in this Model.
 Get the nth Reaction object in this Model.
 @param n the index of the object to return.
 @return the nth Reaction of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getReaction
@@ -5353,6 +5376,7 @@ Get the nth Reaction object in this Model.
 Get the nth Reaction object in this Model.
 @param n the index of the object to return.
 @return the nth Reaction of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getReaction
@@ -5410,6 +5434,7 @@ if no such ModifierSpeciesReference exists.
 Get the nth Event object in this Model.
 @param n the index of the object to return.
 @return the nth Event of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getEvent
@@ -5417,6 +5442,7 @@ Get the nth Event object in this Model.
 Get the nth Event object in this Model.
 @param n the index of the object to return.
 @return the nth Event of this Model.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Model::getEvent
@@ -7856,7 +7882,7 @@ by calling getNumArguments().
 @param n an integer index for the argument sought.
 @return the nth argument (bound variable) passed to this
 FunctionDefinition.
-
+If the index C<n> is invalid, C<NULL> is returned.
 @see getNumArguments()
 
 
@@ -8046,6 +8072,7 @@ C<"listOfFunctionDefinitions">.
 Get a FunctionDefinition from the ListOfFunctionDefinitions.
 @param n the index number of the FunctionDefinition to get.
 @return the nth FunctionDefinition in this ListOfFunctionDefinitions.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -8054,6 +8081,7 @@ Get a FunctionDefinition from the ListOfFunctionDefinitions.
 Get a FunctionDefinition from the ListOfFunctionDefinitions.
 @param n the index number of the FunctionDefinition to get.
 @return the nth FunctionDefinition in this ListOfFunctionDefinitions.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -9158,6 +9186,7 @@ For ListOfUnits, the XML element name is C<"listOfUnits">.
 Get a Unit from the ListOfUnits.
 @param n the index number of the Unit to get.
 @return the nth Unit in this ListOfUnits.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -9166,6 +9195,7 @@ Get a Unit from the ListOfUnits.
 Get a Unit from the ListOfUnits.
 @param n the index number of the Unit to get.
 @return the nth Unit in this ListOfUnits.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -9639,6 +9669,7 @@ Returns the list of Units for this UnitDefinition instance.
 Returns a specific Unit instance belonging to this UnitDefinition.
 @param n an integer, the index of the Unit to be returned.
 @return the nth Unit of this UnitDefinition.
+If the index C<n> is invalid, C<NULL> is returned.
 @see getNumUnits()
 
 
@@ -9647,6 +9678,7 @@ Returns a specific Unit instance belonging to this UnitDefinition.
 Returns a specific Unit instance belonging to this UnitDefinition.
 @param n an integer, the index of the Unit to be returned.
 @return the nth Unit of this UnitDefinition.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item UnitDefinition::getNumUnits
@@ -9962,6 +9994,7 @@ C<"listOfUnitDefinitions">.
 Get a UnitDefinition from the ListOfUnitDefinitions.
 @param n the index number of the UnitDefinition to get.
 @return the nth UnitDefinition in this ListOfUnitDefinitions.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -9970,6 +10003,7 @@ Get a UnitDefinition from the ListOfUnitDefinitions.
 Get a UnitDefinition from the ListOfUnitDefinitions.
 @param n the index number of the UnitDefinition to get.
 @return the nth UnitDefinition in this ListOfUnitDefinitions.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -10305,6 +10339,7 @@ C<"listOfCompartmentTypes">.
 Get a CompartmentType object from the ListOfCompartmentTypes.
 @param n the index number of the CompartmentType object to get.
 @return the nth CompartmentType object in this ListOfCompartmentTypes.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -10313,6 +10348,7 @@ Get a CompartmentType object from the ListOfCompartmentTypes.
 Get a CompartmentType object from the ListOfCompartmentTypes.
 @param n the index number of the CompartmentType object to get.
 @return the nth CompartmentType object in this ListOfCompartmentTypes.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -10631,6 +10667,7 @@ C<"listOfSpeciesTypes">.
 Get a SpeciesType from the ListOfSpeciesTypes.
 @param n the index number of the SpeciesType to get.
 @return the nth SpeciesType in this ListOfSpeciesTypes.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -10639,6 +10676,7 @@ Get a SpeciesType from the ListOfSpeciesTypes.
 Get a SpeciesType from the ListOfSpeciesTypes.
 @param n the index number of the SpeciesType to get.
 @return the nth SpeciesType in this ListOfSpeciesTypes.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -11738,6 +11776,7 @@ C<"listOfCompartments">.
 Get a Compartment object from the ListOfCompartments.
 @param n the index number of the Compartment object to get.
 @return the nth Compartment object in this ListOfCompartments.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -11746,6 +11785,7 @@ Get a Compartment object from the ListOfCompartments.
 Get a Compartment object from the ListOfCompartments.
 @param n the index number of the Compartment object to get.
 @return the nth Compartment object in this ListOfCompartments.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -12894,6 +12934,7 @@ For ListOfSpeciess, the XML element name is C<"listOfSpeciess">.
 Get a Species from the ListOfSpecies.
 @param n the index number of the Species to get.
 @return the nth Species in this ListOfSpecies.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -12902,6 +12943,7 @@ Get a Species from the ListOfSpecies.
 Get a Species from the ListOfSpecies.
 @param n the index number of the Species to get.
 @return the nth Species in this ListOfSpecies.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -14540,6 +14582,7 @@ C<"listOfInitialAssignments">.
 Get a InitialAssignment from the ListOfInitialAssignments.
 @param n the index number of the InitialAssignment to get.
 @return the nth InitialAssignment in this ListOfInitialAssignments.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -14548,6 +14591,7 @@ Get a InitialAssignment from the ListOfInitialAssignments.
 Get a InitialAssignment from the ListOfInitialAssignments.
 @param n the index number of the InitialAssignment to get.
 @return the nth InitialAssignment in this ListOfInitialAssignments.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -15231,6 +15275,7 @@ For ListOfRules, the XML element name is C<"listOfRules">.
 Get a Rule from the ListOfRules.
 @param n the index number of the Rule to get.
 @return the nth Rule in this ListOfRules.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -15239,6 +15284,7 @@ Get a Rule from the ListOfRules.
 Get a Rule from the ListOfRules.
 @param n the index number of the Rule to get.
 @return the nth Rule in this ListOfRules.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -16122,6 +16168,7 @@ For ListOfConstraints, the XML element name is C<"listOfConstraints">.
 Get a Constraint from the ListOfConstraints.
 @param n the index number of the Constraint to get.
 @return the nth Constraint in this ListOfConstraints.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -16130,6 +16177,7 @@ Get a Constraint from the ListOfConstraints.
 Get a Constraint from the ListOfConstraints.
 @param n the index number of the Constraint to get.
 @return the nth Constraint in this ListOfConstraints.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -16777,6 +16825,7 @@ reactants there are, to avoid using an invalid index number.
 @param n the index of the reactant sought.
 @return the nth reactant (as a SpeciesReference object) of this
 Reaction.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Reaction::getReactant
@@ -16788,6 +16837,7 @@ reactants there are, to avoid using an invalid index number.
 @param n the index of the reactant sought.
 @return the nth reactant (as a SpeciesReference object) of this
 Reaction.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Reaction::getReactant
@@ -16819,6 +16869,7 @@ products there are, to avoid using an invalid index number.
 @param n the index of the product sought.
 @return the nth product (as a SpeciesReference object) of this
 Reaction.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Reaction::getProduct
@@ -16830,6 +16881,7 @@ products there are, to avoid using an invalid index number.
 @param n the index of the product sought.
 @return the nth product (as a SpeciesReference object) of this
 Reaction.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Reaction::getProduct
@@ -16861,6 +16913,7 @@ modifiers there are, to avoid using an invalid index number.
 @param n the index of the modifier species sought.
 @return the nth modifier (as a ModifierSpeciesReference object) of
 this Reaction.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Reaction::getModifier
@@ -16872,6 +16925,7 @@ modifiers there are, to avoid using an invalid index number.
 @param n the index of the modifier species sought.
 @return the nth modifier (as a ModifierSpeciesReference object) of
 this Reaction.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item Reaction::getModifier
@@ -17137,6 +17191,7 @@ For ListOfReactions, the XML element name is C<"listOfReactions">.
 Get a Reaction from the ListOfReactions.
 @param n the index number of the Reaction to get.
 @return the nth Reaction in this ListOfReactions.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -17145,6 +17200,7 @@ Get a Reaction from the ListOfReactions.
 Get a Reaction from the ListOfReactions.
 @param n the index number of the Reaction to get.
 @return the nth Reaction in this ListOfReactions.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -17605,6 +17661,7 @@ this KineticLaw instance.
 C<opydetails> doc_use_param_in_l2
 @param n the index of the Parameter object sought.
 @return the nth Parameter of this KineticLaw.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item KineticLaw::getParameter
@@ -17614,6 +17671,7 @@ this KineticLaw instance.
 C<opydetails> doc_use_param_in_l2
 @param n the index of the Parameter object sought.
 @return the nth Parameter of this KineticLaw.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item KineticLaw::getLocalParameter
@@ -17623,6 +17681,7 @@ this KineticLaw instance.
 C<opydetails> doc_use_localparam_in_l3
 @param n the index of the LocalParameter object sought.
 @return the nth LocalParameter of this KineticLaw.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item KineticLaw::getLocalParameter
@@ -17632,6 +17691,7 @@ this KineticLaw instance.
 C<opydetails> doc_use_localparam_in_l3
 @param n the index of the LocalParameter object sought.
 @return the nth LocalParameter of this KineticLaw.
+If the index C<n> is invalid, C<NULL> is returned.
 
 
 =item KineticLaw::getParameter
@@ -18936,6 +18996,7 @@ C<"listOfSpeciesReferences">.
 Get a SpeciesReference from the ListOfSpeciesReferences.
 @param n the index number of the SpeciesReference to get.
 @return the nth SpeciesReference in this ListOfSpeciesReferences.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -18944,6 +19005,7 @@ Get a SpeciesReference from the ListOfSpeciesReferences.
 Get a SpeciesReference from the ListOfSpeciesReferences.
 @param n the index number of the SpeciesReference to get.
 @return the nth SpeciesReference in this ListOfSpeciesReferences.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -20529,6 +20591,7 @@ C<"listOfEventAssignments">.
 Get a EventAssignment from the ListOfEventAssignments.
 @param n the index number of the EventAssignment to get.
 @return the nth EventAssignment in this ListOfEventAssignments.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -20537,6 +20600,7 @@ Get a EventAssignment from the ListOfEventAssignments.
 Get a EventAssignment from the ListOfEventAssignments.
 @param n the index number of the EventAssignment to get.
 @return the nth EventAssignment in this ListOfEventAssignments.
+If the index C<n> is invalid, C<NULL> is returned.
 @see size()
 
 
@@ -31351,7 +31415,8 @@ Returns the nth CVTerm in the list of CVTerms of this CVTerm
 object.
 
 @param n unsigned int the index of the CVTerm to retrieve.
-@return the nth CVTerm in the list of CVTerms for this CVTerm object.
+@return the nth CVTerm in the list of CVTerms for this CVTerm object
+or C<NULL> if no such object exists.
 
 
 =item CVTerm::getNestedCVTerm
@@ -31360,7 +31425,8 @@ Returns the nth CVTerm in the list of CVTerms of this CVTerm
 object.
 
 @param n unsigned int the index of the CVTerm to retrieve.
-@return the nth CVTerm in the list of CVTerms for this CVTerm object.
+@return the nth CVTerm in the list of CVTerms for this CVTerm object
+or C<NULL> if no such object exists.
 
 
 =item CVTerm::getListNestedCVTerms
@@ -32325,7 +32391,7 @@ In the MIRIAM format for annotations, there can be multiple
 modification dates.  The libSBML ModelHistory class supports this by
 storing a list of "modified date" values.
 @return the nth Date in the list of ModifiedDates of this
-ModelHistory.
+ModelHistory or C<NULL> if no such object exists.
 
 
 =item ModelHistory::getNumModifiedDates
@@ -32369,7 +32435,7 @@ Get the nth ModelCreator object stored in this ModelHistory object.
 In the MIRIAM format for annotations, there can be multiple model
 creators.  The libSBML ModelHistory class supports this by storing a
 list of "model creator" values.
-@return the nth ModelCreator object.
+@return the nth ModelCreator object or C<NULL> if no such object exists.
 
 
 =item ModelHistory::getNumCreators

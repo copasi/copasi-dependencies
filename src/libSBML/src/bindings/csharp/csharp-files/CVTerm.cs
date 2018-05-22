@@ -1143,7 +1143,8 @@ public class CVTerm : global::System.IDisposable {
    *
    * @param n unsigned int the index of the CVTerm to retrieve.
    *
-   * @return the nth CVTerm in the list of CVTerms for this CVTerm object.
+   * @return the nth CVTerm in the list of CVTerms for this CVTerm object
+   * or @c null if no such object exists.
    */ public
  CVTerm getNestedCVTerm(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.CVTerm_getNestedCVTerm__SWIG_0(swigCPtr, n);

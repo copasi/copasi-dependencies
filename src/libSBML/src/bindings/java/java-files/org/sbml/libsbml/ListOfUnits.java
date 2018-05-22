@@ -240,6 +240,7 @@ public class ListOfUnits extends ListOf {
    * @param n the index number of the {@link Unit} to get.
    <p>
    * @return the nth {@link Unit} in this {@link ListOfUnits}.
+   * If the index <code>n</code> is invalid, <code>null</code> is returned.
    <p>
    * @see #size()
    */ public

@@ -346,7 +346,7 @@ public class ModelHistory : global::System.IDisposable {
    * storing a list of 'modified date' values.
    * 
    * @return the nth Date in the list of ModifiedDates of this
-   * ModelHistory.
+   * ModelHistory or @c null if no such object exists.
    */ public
  Date getModifiedDate(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.ModelHistory_getModifiedDate__SWIG_1(swigCPtr, n);
@@ -416,7 +416,7 @@ public class ModelHistory : global::System.IDisposable {
    * creators.  The libSBML ModelHistory class supports this by storing a
    * list of 'model creator' values.
    * 
-   * @return the nth ModelCreator object.
+   * @return the nth ModelCreator object or @c null if no such object exists.
    */ public
  ModelCreator getCreator(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.ModelHistory_getCreator(swigCPtr, n);

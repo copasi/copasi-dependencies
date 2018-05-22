@@ -810,6 +810,7 @@ public class KineticLaw : SBase {
    * @param n the index of the Parameter object sought.
    * 
    * @return the nth Parameter of this KineticLaw.
+   * If the index @p n is invalid, @c null is returned.
    */ public
  Parameter getParameter(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.KineticLaw_getParameter__SWIG_0(swigCPtr, n);
@@ -832,6 +833,7 @@ public class KineticLaw : SBase {
    * @param n the index of the LocalParameter object sought.
    * 
    * @return the nth LocalParameter of this KineticLaw.
+   * If the index @p n is invalid, @c null is returned.
    */ public
  LocalParameter getLocalParameter(long n) {
     global::System.IntPtr cPtr = libsbmlPINVOKE.KineticLaw_getLocalParameter__SWIG_0(swigCPtr, n);

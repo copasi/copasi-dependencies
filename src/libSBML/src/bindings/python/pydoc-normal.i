@@ -1367,10 +1367,6 @@ Returns the value of the 'id' attribute of this SBML object, if it has
 one,  or the 'variable' attribute of a Rule, or the 'symbol' attribute
 of an InitialAssignment.
 
-Note: Because of the inconsistent behavior of this function with
-respect to assignments and rules, it is now recommended to use the
-getIdAttribute() function instead.
-
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
 can refer to the component using this identifier.  The data type of
@@ -1383,12 +1379,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -1422,8 +1417,12 @@ attribute  according to the SBML specification for the Level and
 Version in use, libSBML will not allow the identifier to be set, nor
 will it read or  write 'id' attributes for those objects.
 
-Returns the id of this SBML object, or the 'variable' if the object
-is a Rule, or the 'symbol' if the object is an InitialAssignment.
+Returns the id of this SBML object, or the 'variable' if the object is
+a Rule, or the 'symbol' if the object is an InitialAssignment.
+
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, callers should use getIdAttribute()
+instead.
 
 See also getIdAttribute(), setIdAttribute(), isSetIdAttribute(),
 unsetIdAttribute().
@@ -1432,10 +1431,6 @@ unsetIdAttribute().
 
 %feature("docstring") SBase::getIdAttribute "
 Returns the value of the 'id' attribute of this SBML object.
-
-Note: Because of the inconsistent behavior of the old SBase.getId()
-function with respect to assignments and rules, it is now  recommended
-to use this getIdAttribute() function instead.
 
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
@@ -1449,12 +1444,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -1490,6 +1484,10 @@ will it read or  write 'id' attributes for those objects.
 
 Returns the id of this SBML object, if set and valid for this level
 and version of SBML; an empty string otherwise.
+
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, callers should use getIdAttribute()
+instead.
 
 See also setIdAttribute(), isSetIdAttribute(), unsetIdAttribute().
 ";
@@ -1951,23 +1949,21 @@ See also getMetaId(), setMetaId().
 
 
 %feature("docstring") SBase::isSetId "
-Predicate returning 'True' if a call to getId() returns a  non-empty
-string.  This means that for most objects, this  function will return
-'True' if its 'id' attribute is set, and 'False' if it is not, or if
-the object has no 'id' attribute at all.  However, for an
-EventAssignment or a Rule, isSetId()  checks whether the 'variable'
-attribute is set, and for an InitialAssignment, it checks whether the
-'symbol' attribute is set.  Because those elements will also have an
-'id' attribute in SBML Level 3 Version 2 which isSetId() will not
-check, the function itself is deprecated, and it is recommended to use
-isSetIdAttribute() in all cases where one needs to know whether the
-'id' attribute is set, and to use EventAssignment.isSetVariable(),
-Rule.isSetVariable() and InitialAssignment.isSetSymbol() when the
-status of the 'variable' or 'symbol' attributes need to be checked.
+Predicate returning 'True' if a call to getId() returns a non-empty
+string.
 
-Note: Because of the inconsistent behavior of this function with
-respect to assignments and rules, it is now recommended to use the
-isSetIdAttribute() function instead.
+For most objects, this function will return 'True' if its 'id'
+attribute is set, and 'False' if it is not, or if the object has no
+'id' attribute at all.  However, for an EventAssignment or a Rule,
+isSetId() checks whether the 'variable' attribute is set, and for an
+InitialAssignment, it checks whether the 'symbol' attribute is set.
+Because those elements will also have an 'id' attribute in SBML Level
+3 Version 2 which isSetId() will not check, the function itself is
+deprecated, and it is recommended to use isSetIdAttribute() in all
+cases where one needs to know whether the 'id' attribute is set, and
+to use EventAssignment.isSetVariable(), Rule.isSetVariable() and
+InitialAssignment.isSetSymbol() when the status of the 'variable' or
+'symbol' attributes need to be checked.
 
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
@@ -1981,12 +1977,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -2023,6 +2018,10 @@ will it read or  write 'id' attributes for those objects.
 Returns 'True' if the 'id' attribute of this SBML object is set,
 'False' otherwise.
 
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, it is recommended that callers use
+isSetIdAttribute() instead.
+
 See also getIdAttribute(), setIdAttribute(), unsetIdAttribute(),
 isSetIdAttribute().
 ";
@@ -2043,12 +2042,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -2278,12 +2276,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -2350,12 +2347,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -3107,12 +3103,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -3390,7 +3385,8 @@ Returns the nth CVTerm in the list of CVTerms of this SBML object.
 
 Parameter 'n' is long the index of the CVTerm to retrieve.
 
-Returns the nth CVTerm in the list of CVTerms for this SBML object.
+Returns the nth CVTerm in the list of CVTerms for this SBML object. If
+the index 'n' is invalid, 'None' is returned.
 ";
 
 
@@ -3755,7 +3751,7 @@ plug-ins supporting additional Level 3 packages.
 Parameter 'n' is the index of the plug-in to return.
 
 Returns the nth plug-in object (the libSBML extension interface) of a
-package extension.
+package extension. If the index 'n' is invalid, 'None' is returned.
 
 See also getNumPlugins(), getPlugin().
 
@@ -3824,7 +3820,8 @@ to the final model.
 Parameter 'n' is the index of the disabled plug-in to return.
 
 Returns the nth disabled plug-in object (the libSBML extension
-interface) of a package extension.
+interface) of a package extension. If the index 'n' is invalid, 'None'
+is returned.
 
 See also getNumDisabledPlugins(), getPlugin().
 ";
@@ -5512,12 +5509,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -5690,10 +5686,6 @@ but is not present on Model in lower Levels of SBML.
 %feature("docstring") Model::isSetId "
 Predicate returning 'True' if this Model's 'id' attribute is set.
 
-Note: Because of the inconsistent behavior of this function with
-respect to assignments and rules, it is now recommended to use the
-isSetIdAttribute() function instead.
-
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
 can refer to the component using this identifier.  The data type of
@@ -5706,12 +5698,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -5747,6 +5738,10 @@ will it read or  write 'id' attributes for those objects.
 
 Returns 'True' if the 'id' attribute of this SBML object is set,
 'False' otherwise.
+
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, it is recommended that callers use
+isSetIdAttribute() instead.
 
 See also getIdAttribute(), setIdAttribute(), unsetIdAttribute(),
 isSetIdAttribute().
@@ -5913,12 +5908,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -6146,12 +6140,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -7397,7 +7390,8 @@ Get the nth FunctionDefinitions object in this Model.
 
 Parameter 'n' is the index of the object to return.
 
-Returns the nth FunctionDefinition of this Model.
+Returns the nth FunctionDefinition of this Model. If the index 'n' is
+invalid, 'None' is returned.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -7426,7 +7420,8 @@ Get the nth UnitDefinition object in this Model.
 
 Parameter 'n' is the index of the object to return.
 
-Returns the nth UnitDefinition of this Model.
+Returns the nth UnitDefinition of this Model. If the index 'n' is
+invalid, 'None' is returned.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -7455,7 +7450,8 @@ Get the nth CompartmentType object in this Model.
 
 Parameter 'n' is the index of the object to return.
 
-Returns the nth CompartmentType of this Model.
+Returns the nth CompartmentType of this Model. If the index 'n' is
+invalid, 'None' is returned.
 
 Note: The CompartmentType object class is only available in SBML Level
 2 Versions 2-4.  It is not available in Level 1 nor Level 3.
@@ -7490,7 +7486,8 @@ Get the nth SpeciesType object in this Model.
 
 Parameter 'n' is the index of the object to return.
 
-Returns the nth SpeciesType of this Model.
+Returns the nth SpeciesType of this Model. If the index 'n' is
+invalid, 'None' is returned.
 
 Note: The SpeciesType object class is only available in SBML Level 2
 Versions 2-4.  It is not available in Level 1 nor Level 3.
@@ -7525,7 +7522,8 @@ Get the nth Compartment object in this Model.
 
 Parameter 'n' is the index of the object to return.
 
-Returns the nth Compartment of this Model.
+Returns the nth Compartment of this Model. If the index 'n' is
+invalid, 'None' is returned.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -7554,7 +7552,8 @@ Get the nth Species object in this Model.
 
 Parameter 'n' is the index of the object to return.
 
-Returns the nth Species of this Model.
+Returns the nth Species of this Model. If the index 'n' is invalid,
+'None' is returned.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -7583,7 +7582,8 @@ Get the nth Parameter object in this Model.
 
 Parameter 'n' is the index of the object to return.
 
-Returns the nth Parameter of this Model.
+Returns the nth Parameter of this Model. If the index 'n' is invalid,
+'None' is returned.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -7625,7 +7625,8 @@ Get the nth InitialAssignment object in this Model.
 
 Parameter 'n' is the index of the object to return.
 
-Returns the nth InitialAssignment of this Model.
+Returns the nth InitialAssignment of this Model. If the index 'n' is
+invalid, 'None' is returned.
 ";
 
 
@@ -7665,7 +7666,8 @@ Get the nth Rule object in this Model.
 
 Parameter 'n' is the index of the object to return.
 
-Returns the nth Rule of this Model.
+Returns the nth Rule of this Model. If the index 'n' is invalid,
+'None' is returned.
 ";
 
 
@@ -7724,7 +7726,8 @@ Get the nth Constraint object in this Model.
 
 Parameter 'n' is the index of the object to return.
 
-Returns the nth Constraint of this Model.
+Returns the nth Constraint of this Model. If the index 'n' is invalid,
+'None' is returned.
 ";
 
 
@@ -7741,7 +7744,8 @@ Get the nth Reaction object in this Model.
 
 Parameter 'n' is the index of the object to return.
 
-Returns the nth Reaction of this Model.
+Returns the nth Reaction of this Model. If the index 'n' is invalid,
+'None' is returned.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -7790,7 +7794,8 @@ Get the nth Event object in this Model.
 
 Parameter 'n' is the index of the object to return.
 
-Returns the nth Event of this Model.
+Returns the nth Event of this Model. If the index 'n' is invalid,
+'None' is returned.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -10831,12 +10836,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -10949,10 +10953,6 @@ FunctionDefinition, or 'None' if the math is not set.
 Predicate returning 'True' if this FunctionDefinition's 'id' attribute
 is set.
 
-Note: Because of the inconsistent behavior of this function with
-respect to assignments and rules, it is now recommended to use the
-isSetIdAttribute() function instead.
-
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
 can refer to the component using this identifier.  The data type of
@@ -10965,12 +10965,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -11006,6 +11005,10 @@ will it read or  write 'id' attributes for those objects.
 
 Returns 'True' if the 'id' attribute of this SBML object is set,
 'False' otherwise.
+
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, it is recommended that callers use
+isSetIdAttribute() instead.
 
 See also getIdAttribute(), setIdAttribute(), unsetIdAttribute(),
 isSetIdAttribute().
@@ -11098,12 +11101,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -11265,7 +11267,7 @@ by calling getNumArguments().
 Parameter 'n' is an integer index for the argument sought.
 
 Returns the nth argument (bound variable) passed to this
-FunctionDefinition.
+FunctionDefinition. If the index 'n' is invalid, 'None' is returned.
 
 See also getNumArguments().
 
@@ -11559,6 +11561,7 @@ Get a FunctionDefinition from the ListOfFunctionDefinitions.
 Parameter 'n' is the index number of the FunctionDefinition to get.
 
 Returns the nth FunctionDefinition in this ListOfFunctionDefinitions.
+If the index 'n' is invalid, 'None' is returned.
 
 See also size().
 
@@ -13038,7 +13041,8 @@ Get a Unit from the ListOfUnits.
 
 Parameter 'n' is the index number of the Unit to get.
 
-Returns the nth Unit in this ListOfUnits.
+Returns the nth Unit in this ListOfUnits. If the index 'n' is invalid,
+'None' is returned.
 
 See also size().
 ";
@@ -13507,12 +13511,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -13617,10 +13620,6 @@ See also getIdAttribute(), isSetName(), setName(), unsetName().
 Predicate returning 'True' if this UnitDefinition's 'id' attribute is
 set.
 
-Note: Because of the inconsistent behavior of this function with
-respect to assignments and rules, it is now recommended to use the
-isSetIdAttribute() function instead.
-
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
 can refer to the component using this identifier.  The data type of
@@ -13633,12 +13632,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -13674,6 +13672,10 @@ will it read or  write 'id' attributes for those objects.
 
 Returns 'True' if the 'id' attribute of this SBML object is set,
 'False' otherwise.
+
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, it is recommended that callers use
+isSetIdAttribute() instead.
 
 See also getIdAttribute(), setIdAttribute(), unsetIdAttribute(),
 isSetIdAttribute().
@@ -13757,12 +13759,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -14099,7 +14100,8 @@ Returns a specific Unit instance belonging to this UnitDefinition.
 
 Parameter 'n' is an integer, the index of the Unit to be returned.
 
-Returns the nth Unit of this UnitDefinition.
+Returns the nth Unit of this UnitDefinition. If the index 'n' is
+invalid, 'None' is returned.
 
 See also getNumUnits().
 ";
@@ -14593,7 +14595,8 @@ Get a UnitDefinition from the ListOfUnitDefinitions.
 
 Parameter 'n' is the index number of the UnitDefinition to get.
 
-Returns the nth UnitDefinition in this ListOfUnitDefinitions.
+Returns the nth UnitDefinition in this ListOfUnitDefinitions. If the
+index 'n' is invalid, 'None' is returned.
 
 See also size().
 
@@ -14918,12 +14921,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -15028,10 +15030,6 @@ See also getIdAttribute(), isSetName(), setName(), unsetName().
 Predicate returning 'True' if this CompartmentType object's 'id'
 attribute is set.
 
-Note: Because of the inconsistent behavior of this function with
-respect to assignments and rules, it is now recommended to use the
-isSetIdAttribute() function instead.
-
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
 can refer to the component using this identifier.  The data type of
@@ -15044,12 +15042,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -15085,6 +15082,10 @@ will it read or  write 'id' attributes for those objects.
 
 Returns 'True' if the 'id' attribute of this SBML object is set,
 'False' otherwise.
+
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, it is recommended that callers use
+isSetIdAttribute() instead.
 
 See also getIdAttribute(), setIdAttribute(), unsetIdAttribute(),
 isSetIdAttribute().
@@ -15168,12 +15169,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -15506,6 +15506,7 @@ Parameter 'n' is the index number of the CompartmentType object to
 get.
 
 Returns the nth CompartmentType object in this ListOfCompartmentTypes.
+If the index 'n' is invalid, 'None' is returned.
 
 See also size().
 
@@ -15812,12 +15813,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -15921,10 +15921,6 @@ See also getIdAttribute(), isSetName(), setName(), unsetName().
 Predicate returning 'True' if this SpeciesType's 'id' attribute is
 set.
 
-Note: Because of the inconsistent behavior of this function with
-respect to assignments and rules, it is now recommended to use the
-isSetIdAttribute() function instead.
-
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
 can refer to the component using this identifier.  The data type of
@@ -15937,12 +15933,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -15978,6 +15973,10 @@ will it read or  write 'id' attributes for those objects.
 
 Returns 'True' if the 'id' attribute of this SBML object is set,
 'False' otherwise.
+
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, it is recommended that callers use
+isSetIdAttribute() instead.
 
 See also getIdAttribute(), setIdAttribute(), unsetIdAttribute(),
 isSetIdAttribute().
@@ -16061,12 +16060,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -16393,7 +16391,8 @@ Get a SpeciesType from the ListOfSpeciesTypes.
 
 Parameter 'n' is the index number of the SpeciesType to get.
 
-Returns the nth SpeciesType in this ListOfSpeciesTypes.
+Returns the nth SpeciesType in this ListOfSpeciesTypes. If the index
+'n' is invalid, 'None' is returned.
 
 See also size().
 
@@ -16940,12 +16939,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -17192,10 +17190,6 @@ See also isSetConstant(), setConstant().
 Predicate returning 'True' if this Compartment object's 'id' attribute
 is set.
 
-Note: Because of the inconsistent behavior of this function with
-respect to assignments and rules, it is now recommended to use the
-isSetIdAttribute() function instead.
-
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
 can refer to the component using this identifier.  The data type of
@@ -17208,12 +17202,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -17249,6 +17242,10 @@ will it read or  write 'id' attributes for those objects.
 
 Returns 'True' if the 'id' attribute of this SBML object is set,
 'False' otherwise.
+
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, it is recommended that callers use
+isSetIdAttribute() instead.
 
 See also getIdAttribute(), setIdAttribute(), unsetIdAttribute(),
 isSetIdAttribute().
@@ -17444,12 +17441,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -18204,7 +18200,8 @@ Get a Compartment object from the ListOfCompartments.
 
 Parameter 'n' is the index number of the Compartment object to get.
 
-Returns the nth Compartment object in this ListOfCompartments.
+Returns the nth Compartment object in this ListOfCompartments. If the
+index 'n' is invalid, 'None' is returned.
 
 See also size().
 
@@ -18813,12 +18810,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -19072,10 +19068,6 @@ It does not exist on Species in SBML Levels 1 and 2.
 Predicate returning 'True' if this Species object's 'id' attribute is
 set.
 
-Note: Because of the inconsistent behavior of this function with
-respect to assignments and rules, it is now recommended to use the
-isSetIdAttribute() function instead.
-
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
 can refer to the component using this identifier.  The data type of
@@ -19088,12 +19080,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -19129,6 +19120,10 @@ will it read or  write 'id' attributes for those objects.
 
 Returns 'True' if the 'id' attribute of this SBML object is set,
 'False' otherwise.
+
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, it is recommended that callers use
+isSetIdAttribute() instead.
 
 See also getIdAttribute(), setIdAttribute(), unsetIdAttribute(),
 isSetIdAttribute().
@@ -19363,12 +19358,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -20226,7 +20220,8 @@ Get a Species from the ListOfSpecies.
 
 Parameter 'n' is the index number of the Species to get.
 
-Returns the nth Species in this ListOfSpecies.
+Returns the nth Species in this ListOfSpecies. If the index 'n' is
+invalid, 'None' is returned.
 
 See also size().
 
@@ -20610,12 +20605,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -20782,10 +20776,6 @@ See also isSetConstant(), setConstant().
 %feature("docstring") Parameter::isSetId "
 Predicate returning 'True' if this Parameter's 'id' attribute is set.
 
-Note: Because of the inconsistent behavior of this function with
-respect to assignments and rules, it is now recommended to use the
-isSetIdAttribute() function instead.
-
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
 can refer to the component using this identifier.  The data type of
@@ -20798,12 +20788,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -20839,6 +20828,10 @@ will it read or  write 'id' attributes for those objects.
 
 Returns 'True' if the 'id' attribute of this SBML object is set,
 'False' otherwise.
+
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, it is recommended that callers use
+isSetIdAttribute() instead.
 
 See also getIdAttribute(), setIdAttribute(), unsetIdAttribute(),
 isSetIdAttribute().
@@ -20989,12 +20982,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -23001,7 +22993,8 @@ Get a InitialAssignment from the ListOfInitialAssignments.
 
 Parameter 'n' is the index number of the InitialAssignment to get.
 
-Returns the nth InitialAssignment in this ListOfInitialAssignments.
+Returns the nth InitialAssignment in this ListOfInitialAssignments. If
+the index 'n' is invalid, 'None' is returned.
 
 See also size().
 
@@ -24135,7 +24128,8 @@ Get a Rule from the ListOfRules.
 
 Parameter 'n' is the index number of the Rule to get.
 
-Returns the nth Rule in this ListOfRules.
+Returns the nth Rule in this ListOfRules. If the index 'n' is invalid,
+'None' is returned.
 
 See also size().
 
@@ -25972,7 +25966,8 @@ Get a Constraint from the ListOfConstraints.
 
 Parameter 'n' is the index number of the Constraint to get.
 
-Returns the nth Constraint in this ListOfConstraints.
+Returns the nth Constraint in this ListOfConstraints. If the index 'n'
+is invalid, 'None' is returned.
 
 See also size().
 ";
@@ -26417,12 +26412,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -26584,10 +26578,6 @@ not present on Reaction in lower Levels of SBML.
 %feature("docstring") Reaction::isSetId "
 Predicate returning 'True' if this Reaction's 'id' attribute is set.
 
-Note: Because of the inconsistent behavior of this function with
-respect to assignments and rules, it is now recommended to use the
-isSetIdAttribute() function instead.
-
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
 can refer to the component using this identifier.  The data type of
@@ -26600,12 +26590,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -26641,6 +26630,10 @@ will it read or  write 'id' attributes for those objects.
 
 Returns 'True' if the 'id' attribute of this SBML object is set,
 'False' otherwise.
+
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, it is recommended that callers use
+isSetIdAttribute() instead.
 
 See also getIdAttribute(), setIdAttribute(), unsetIdAttribute(),
 isSetIdAttribute().
@@ -26787,12 +26780,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -27478,7 +27470,7 @@ reactants there are, to avoid using an invalid index number.
 Parameter 'n' is the index of the reactant sought.
 
 Returns the nth reactant (as a SpeciesReference object) of this
-Reaction.
+Reaction. If the index 'n' is invalid, 'None' is returned.
 ";
 
 
@@ -27514,7 +27506,7 @@ products there are, to avoid using an invalid index number.
 Parameter 'n' is the index of the product sought.
 
 Returns the nth product (as a SpeciesReference object) of this
-Reaction.
+Reaction. If the index 'n' is invalid, 'None' is returned.
 ";
 
 
@@ -27551,7 +27543,7 @@ modifiers there are, to avoid using an invalid index number.
 Parameter 'n' is the index of the modifier species sought.
 
 Returns the nth modifier (as a ModifierSpeciesReference object) of
-this Reaction.
+this Reaction. If the index 'n' is invalid, 'None' is returned.
 ";
 
 
@@ -27946,7 +27938,8 @@ Get a Reaction from the ListOfReactions.
 
 Parameter 'n' is the index number of the Reaction to get.
 
-Returns the nth Reaction in this ListOfReactions.
+Returns the nth Reaction in this ListOfReactions. If the index 'n' is
+invalid, 'None' is returned.
 
 See also size().
 
@@ -28648,7 +28641,8 @@ instead.
 
 Parameter 'n' is the index of the Parameter object sought.
 
-Returns the nth Parameter of this KineticLaw.
+Returns the nth Parameter of this KineticLaw. If the index 'n' is
+invalid, 'None' is returned.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -28686,7 +28680,8 @@ instead.
 
 Parameter 'n' is the index of the LocalParameter object sought.
 
-Returns the nth LocalParameter of this KineticLaw.
+Returns the nth LocalParameter of this KineticLaw. If the index 'n' is
+invalid, 'None' is returned.
 
 ______________________________________________________________________
 Method variant with the following signature:
@@ -29202,12 +29197,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -29320,10 +29314,6 @@ SimpleSpeciesReference.
 Predicate returning 'True' if this SimpleSpeciesReference's 'id'
 attribute is set.
 
-Note: Because of the inconsistent behavior of this function with
-respect to assignments and rules, it is now recommended to use the
-isSetIdAttribute() function instead.
-
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
 can refer to the component using this identifier.  The data type of
@@ -29336,12 +29326,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -29377,6 +29366,10 @@ will it read or  write 'id' attributes for those objects.
 
 Returns 'True' if the 'id' attribute of this SBML object is set,
 'False' otherwise.
+
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, it is recommended that callers use
+isSetIdAttribute() instead.
 
 See also getIdAttribute(), setIdAttribute(), unsetIdAttribute(),
 isSetIdAttribute().
@@ -29486,12 +29479,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -29572,12 +29564,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -30827,7 +30818,8 @@ Get a SpeciesReference from the ListOfSpeciesReferences.
 
 Parameter 'n' is the index number of the SpeciesReference to get.
 
-Returns the nth SpeciesReference in this ListOfSpeciesReferences.
+Returns the nth SpeciesReference in this ListOfSpeciesReferences. If
+the index 'n' is invalid, 'None' is returned.
 
 See also size().
 
@@ -31507,12 +31499,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -31707,10 +31698,6 @@ SBMLDocument.checkConsistency() will report an error.
 %feature("docstring") Event::isSetId "
 Predicate returning 'True' if this Event's 'id' attribute is set.
 
-Note: Because of the inconsistent behavior of this function with
-respect to assignments and rules, it is now recommended to use the
-isSetIdAttribute() function instead.
-
 The identifier given by an object's 'id' attribute value is used to
 identify the object within the SBML model definition. Other objects
 can refer to the component using this identifier.  The data type of
@@ -31723,12 +31710,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -31764,6 +31750,10 @@ will it read or  write 'id' attributes for those objects.
 
 Returns 'True' if the 'id' attribute of this SBML object is set,
 'False' otherwise.
+
+Note: Because of the inconsistent behavior of this function with
+respect to assignments and rules, it is recommended that callers use
+isSetIdAttribute() instead.
 
 See also getIdAttribute(), setIdAttribute(), unsetIdAttribute(),
 isSetIdAttribute().
@@ -31904,12 +31894,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -32125,12 +32114,11 @@ follows:
   idChar ::= letter | digit | \'_\'
   SId    ::= ( letter | \'_\' ) idChar*
 
-The characters ( and ) are used for grouping, the character * 'zero
-or more times', and the character | indicates logical 'or'.  The
-equality of SBML identifiers is determined by an exact character
-sequence match; i.e., comparisons must be performed in a case-
-sensitive manner.  This applies to all uses of SId,  SIdRef, and
-derived types.
+The characters ( and ) are used for grouping, the character * 'zero or
+more times', and the character | indicates logical 'or'.  The equality
+of SBML identifiers is determined by an exact character sequence
+match; i.e., comparisons must be performed in a case-sensitive manner.
+This applies to all uses of SId,  SIdRef, and derived types.
 
 In SBML Level 3 Version 2, the 'id' and 'name' attributes were moved
 to SBase directly, instead of being defined individually for many (but
@@ -33632,7 +33620,8 @@ Get a EventAssignment from the ListOfEventAssignments.
 
 Parameter 'n' is the index number of the EventAssignment to get.
 
-Returns the nth EventAssignment in this ListOfEventAssignments.
+Returns the nth EventAssignment in this ListOfEventAssignments. If the
+index 'n' is invalid, 'None' is returned.
 
 See also size().
 
@@ -49570,7 +49559,8 @@ Returns the nth CVTerm in the list of CVTerms of this CVTerm object.
 
 Parameter 'n' is long the index of the CVTerm to retrieve.
 
-Returns the nth CVTerm in the list of CVTerms for this CVTerm object.
+Returns the nth CVTerm in the list of CVTerms for this CVTerm object
+or 'None' if no such object exists.
 ";
 
 
@@ -50804,8 +50794,8 @@ In the MIRIAM format for annotations, there can be multiple
 modification dates.  The libSBML ModelHistory class supports this by
 storing a list of 'modified date' values.
 
-Returns the nth Date in the list of ModifiedDates of this
-ModelHistory.
+Returns the nth Date in the list of ModifiedDates of this ModelHistory
+or 'None' if no such object exists.
 ";
 
 
@@ -50945,7 +50935,8 @@ In the MIRIAM format for annotations, there can be multiple model
 creators.  The libSBML ModelHistory class supports this by storing a
 list of 'model creator' values.
 
-Returns the nth ModelCreator object.
+Returns the nth ModelCreator object or 'None' if no such object
+exists.
 ";
 
 

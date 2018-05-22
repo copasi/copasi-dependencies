@@ -99,7 +99,7 @@ GradientBase::GradientBase(RenderPkgNamespaces *renderns)
  * The XMLNode object has to contain a valid XML representation of a 
  * GradientBase object as defined in the render extension specification.
  * This method is normally called when render information is read from a file and 
- * should normally not have to be called explicitely.
+ * should normally not have to be called explicitly.
  *
  * @param node the XMLNode object reference that describes the GradientBase
  * object to be instantiated.
@@ -482,6 +482,13 @@ GradientBase::getGradientStop(unsigned int n)
 }
 
 
+GradientStop*
+GradientBase::getGradientStop(const std::string& sid)
+{
+  return mGradientStops.get(sid);
+}
+
+
 /*
  * Get a GradientStop from the GradientBase.
  */
@@ -576,6 +583,13 @@ GradientStop*
 GradientBase::removeGradientStop(unsigned int n)
 {
   return mGradientStops.remove(n);
+}
+
+
+GradientStop*
+GradientBase::removeGradientStop(const std::string& sid)
+{
+  return mGradientStops.remove(sid);
 }
 
 

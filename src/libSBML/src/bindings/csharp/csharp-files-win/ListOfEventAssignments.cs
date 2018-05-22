@@ -283,6 +283,7 @@ public class ListOfEventAssignments : ListOf {
    * @param n the index number of the EventAssignment to get.
    * 
    * @return the nth EventAssignment in this ListOfEventAssignments.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @see size()
    */ public new

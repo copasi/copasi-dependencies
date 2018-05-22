@@ -286,6 +286,7 @@ public class ListOfInitialAssignments : ListOf {
    * @param n the index number of the InitialAssignment to get.
    * 
    * @return the nth InitialAssignment in this ListOfInitialAssignments.
+   * If the index @p n is invalid, @c null is returned.
    *
    * @see size()
    */ public new
