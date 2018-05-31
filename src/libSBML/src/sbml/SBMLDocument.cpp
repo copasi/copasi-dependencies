@@ -1732,6 +1732,8 @@ SBMLDocument::readAttributes (const XMLAttributes& attributes,
           std::string dummyURI;
           dummyURI.assign(uri);
           size_t pos = dummyURI.find("level3");
+		  if (pos != std::string::npos)
+		  {
           dummyURI.replace(pos, 15, "level3/version2");
           if (sbmlext->getVersion(dummyURI) == 2)
           {
@@ -1744,6 +1746,7 @@ SBMLDocument::readAttributes (const XMLAttributes& attributes,
 
 
           }
+		  }
         }
 
 
