@@ -89,7 +89,7 @@ case $1 in
 
   crossguid)
     # build crossguid
-    [ -e ${BUILD_DIR}/clapack ] || mkdir -p ${BUILD_DIR}/crossguid
+    [ -e ${BUILD_DIR}/crossguid ] || mkdir -p ${BUILD_DIR}/crossguid
     cd ${BUILD_DIR}/crossguid
     $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
