@@ -28,12 +28,13 @@ ECHO SET TO_BE_BUILD=%TO_BE_BUILD% > "%BUILD_DIR%\.packages.bat"
 
 if "%BUILD_TYPE%"=="" SET BUILD_TYPE=Release
 if "%BUILD_TOOL%"=="" SET BUILD_TOOL=nmake
+if "%BUILD_GENERATOR%"=="" SET BUILD_GENERATOR=NMake Makefiles
 
 
 SET BUILD_COMMAND=
 SET INSTALL_COMMAND=install
 
-SET CMAKE=cmake -G "NMake Makefiles" %CMAKE_OVERRIDES% -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%INSTALL_DIR%
+SET CMAKE=cmake -G "%BUILD_GENERATOR%" %CMAKE_OVERRIDES% -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_INSTALL_PREFIX=%INSTALL_DIR%
 
 FOR %%A IN (%TO_BE_BUILD%) DO (
   ECHO Building:  %%A
@@ -112,7 +113,7 @@ FOR %%A IN (%TO_BE_BUILD%) DO (
     REM Build Zipper
     mkdir %BUILD_DIR%\zipper
     cd /d %BUILD_DIR%\zipper
-    %CMAKE% -DWITH_QT_FILESYSTEM=ON  -DQT_CORE_LIBRARY="%QTDIR%/lib/QtCore4.lib" -DQT_INCLUDE_DIR="%QTDIR%/include" -DLIBZ_LIBRARY=%INSTALL_DIR%\lib\zdll.lib -DLIBZ_INCLUDE_DIR=%INSTALL_DIR%\include -DBUILD_TEST=OFF -DBUILD_shared=OFF %BASE_DIR%\src\zipper
+    %CMAKE% -DLIBZ_LIBRARY=%INSTALL_DIR%\lib\zdll.lib -DLIBZ_INCLUDE_DIR=%INSTALL_DIR%\include -DBUILD_TEST=OFF -DBUILD_shared=OFF %BASE_DIR%\src\zipper
   )
   
   IF %%A==libCombine (
@@ -131,9 +132,12 @@ FOR %%A IN (%TO_BE_BUILD%) DO (
 
   IF %%A==qwt (
     REM Build QWT
-    mkdir %BUILD_DIR%\qwt
-    cd /d %BUILD_DIR%\qwt
-    %CMAKE% %BASE_DIR%\src\qwt
+    ::mkdir %BUILD_DIR%\qwt
+    ::cd /d %BUILD_DIR%\qwt
+    ::%CMAKE% %BASE_DIR%\src\qwt
+    mkdir %BUILD_DIR%\qwt-6
+    cd /d %BUILD_DIR%\qwt-6
+    %CMAKE% %BASE_DIR%\src\qwt-6
   )
 
   IF %%A==qwt-6 (
