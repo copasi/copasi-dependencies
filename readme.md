@@ -42,7 +42,7 @@ On OSX the `QTDIR` amd and `QMAKESPEC` (to `macx-g++`) are hardcoded to my locat
 **Note:** when using the gnu compiler from macports, you want to make sure, that it supports universal builds. If it does not, you will need to adapt the `createOSX.sh` to not build universal binaries. Additionally set the `CMAKE_OSX_ARCHITECTURES` to only the systems arch. 
   
 ### Linux
-To build the dependencies on Linux, be sure to have your operating systems qt4 libraries (including webkit) installed (if building with GUI) along with the mesa gl libraries, and xml2. From there simply run:
+To build the dependencies on Linux, be sure to have your operating systems qt4 or qt5 libraries  installed (if building with GUI) along with the mesa gl libraries, and xml2 as well ass uuid-dev. From there simply run:
 
 	./createLinux.sh
 

@@ -9,6 +9,11 @@ We recently upgraded the graphical user interface to use Qt5 whenever we can. CO
 
 Our release builds of CopasiUI use Qt5, where we also make use of the `Qt5DataVisualization` module. Unfortunately as of April, 2019, this is still not available on many linux distributions. So your choice would be to either download a pre-built qt version from <https://download.qt.io/archive/qt/>, and use that one, or you specify another configuration parameter called `QT5_USE_DATAVISUALIZATION` and set it to `OFF` so it will not be used. 
 
+Since the graphical user interface displays HTML notes, there are various ways of displaying them. The default now is to simply display the text in the Qt Textbrowser, as that requires only a small amount of resources. It is however possible to use WebKit or WebEngine to display those notes. This is controlled by the following variables:
+
+* `QT_USE_TEXTBROWSER`: default `ON`
+* if `QT_USE_TEXTBROWSER` is `OFF` then we will attempt to discover webkit, unless `QT5_USE_WEBENGINE` is set to `ON`.  
+
 In case you have several Qt5 versions installed, you can specify the one to be used by supplying the parameter `Qt5_DIR` with a full path to the `<qt install prefix>/lib/cmake/Qt5` directory.  
 
 For example: 
