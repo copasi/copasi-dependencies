@@ -1,6 +1,38 @@
 # Building COPASI on Linux
 This document describes how to build COPASI and its dependencies on Linux.
 
+## General Remarks
+
+### Building the Graphical User Interface
+
+We recently upgraded the graphical user interface to use Qt5 whenever we can. COPASI still builds with Qt4, but you should select one or the other before compiling. You choose the Qt version by specifying the `SELECT_QT` parameter and set it to either `Qt5` or `Qt4`. This parameter defaults to `Any` at which point we try and select the first one. 
+
+Our release builds of CopasiUI use Qt5, where we also make use of the `Qt5DataVisualization` module. Unfortunately as of April, 2019, this is still not available on many linux distributions. So your choice would be to either download a pre-built qt version from <https://download.qt.io/archive/qt/>, and use that one, or you specify another configuration parameter called `QT5_USE_DATAVISUALIZATION` and set it to `OFF` so it will not be used. 
+
+In case you have several Qt5 versions installed, you can specify the one to be used by supplying the parameter `Qt5_DIR` with a full path to the `<qt install prefix>/lib/cmake/Qt5` directory.  
+
+For example: 
+
+```
+  cmake -G Ninja -DCOPASI_DEPENDENCY_DIR=../../copasi-dependencies/bin -DSELECT_QT=Qt5 -DQT5_USE_DATAVISUALIZATION=OFF -DBUILD_GUI=ON ../COPASI
+```
+
+would compile COPASI without the data visualization widget, which would work with the default Qt5 version available on Ubuntu 18.04. Alternatively: 
+
+```
+cmake -G Ninja -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin -DSELECT_QT=Qt5  -DBUILD_GUI=ON  -DQt5_DIR=~/Qt5.12.2/5.12.2/gcc_64/lib/cmake/Qt5 ../COPASI/
+```
+
+would compile against a custom installed Qt 5.12 version. 
+
+### C++ compiler
+
+At this point we do require any C++ compiler capable of supporting C++11.
+
+## Various linux distributions checked in the past
+
+(we are in the process of updating the following section)
+
 In order to ensure compilation in the majority of cases, we list the instructions for the [mostly used](http://www.zdnet.com/the-5-most-popular-linux-distributions-7000003183/) linux distributions. If your linux distibution is not listed here, and the instructions don't work for you, please let us know and we will try to include yours. This document lists:
 
 * [Ubuntu](#ubuntu-1210)
@@ -9,7 +41,7 @@ In order to ensure compilation in the majority of cases, we list the instruction
 * [Fedora](#fedora-19-beta)
 * [Mageia](#mageia-3) (a Mandriva derivate)
 * [Slackware](#slackware-14)
-* [openSUSE] (#opensuse-123)
+* [openSUSE](#opensuse-123)
 
 ## Ubuntu 12.10
 Starting from a vanilla / updated copy of Ubuntu 12.10, the dependencies are built as follows. 
