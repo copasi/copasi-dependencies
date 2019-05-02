@@ -4,7 +4,7 @@
 DIRECTORY=$(cd `dirname $0` && pwd)
 
 if [ $# = 0 ]; then
-  ToBeBuild="expat raptor clapack SBW libSBML libnuml libSEDML zlib libCombine MML qwt qwtplot3d"
+  ToBeBuild="expat raptor crossguid clapack SBW libSBML libnuml libSEDML zlib zipper libCombine MML qwt qwtplot3d"
 else
   while [ _${1} != _ ]; do
     ToBeBuild="$ToBeBuild ${1}"
@@ -79,6 +79,17 @@ case $1 in
     $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
         $DIRECTORY/src/raptor
+    $MAKE -j 4
+    $MAKE install
+    ;;
+
+  crossguid)
+    # build crossguid
+    [ -e ${BUILD_DIR}/crossguid ] || mkdir -p ${BUILD_DIR}/crossguid
+    cd ${BUILD_DIR}/crossguid
+    $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
+        -DBUILD_shared=OFF \
+        $DIRECTORY/src/crossguid
     $MAKE -j 4
     $MAKE install
     ;;
@@ -207,6 +218,18 @@ case $1 in
         $DIRECTORY/src/zlib
     $MAKE -j 4
     $MAKE install
+    ;;
+
+  zipper)
+    # build zipper
+    [ -e ${BUILD_DIR}/zipper ] || mkdir -p ${BUILD_DIR}/zipper
+    cd ${BUILD_DIR}/zipper
+    $CMAKE ${COPASI_CMAKE_OPTIONS} \
+       -DWITH_QT_FILESYSTEM=ON \
+       -DZIPPER_DEPENDENCY_DIR=${INSTALL_DIR} \
+        $DIRECTORY/src/zipper
+    make -j 4
+    make install
     ;;
 
   libCombine)
