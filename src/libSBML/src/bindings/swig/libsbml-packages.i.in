@@ -18,3 +18,16 @@
 #ifdef USE_MULTI
 %include "multi-package.i"
 #endif
+#ifdef USE_RENDER
+%include "render-package.i"
+#endif
+#ifdef USE_ARRAYS
+%include "arrays-package.i"
+#endif
+#ifdef USE_DISTRIB
+%include "distrib-package.i"
+#endif
+#ifdef USE_L3V2EXTENDEDMATH
+%include "l3v2extendedmath-package.i"
+#endif
+

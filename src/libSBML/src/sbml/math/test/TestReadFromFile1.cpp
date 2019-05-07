@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -234,13 +238,12 @@ START_TEST (test_read_MathML_1)
   kl = m->getReaction(0)->getKineticLaw();
   const ASTNode *kl_math = kl->getMath();
 
-  /* the fact that this would be read is a bug */
-  fail_unless(kl_math == NULL);
-
-  //fail_unless (kl_math->getType() == AST_REAL, NULL);
-  //fail_unless (kl_math->getNumChildren() == 0, NULL);
-  //fail_unless (!strcmp(math, "4.5"), NULL);
-  //fail_unless (kl_math->getParentSBMLObject() == kl, NULL);
+  fail_unless (kl_math->getType() == AST_REAL, NULL);
+  fail_unless (kl_math->getNumChildren() == 0, NULL);
+  math = SBML_formulaToString(kl_math);
+  fail_unless (!strcmp(math, "4.5"), NULL);
+  safe_free(math);
+  fail_unless (kl_math->getParentSBMLObject() == kl, NULL);
   //fail_unless (kl_math->getNumVariablesWithUndeclaredUnits() == 0);
   //fail_unless( kl_math->containsVariable("c") == false );
   //fail_unless( kl_math->containsVariable("x") == false );

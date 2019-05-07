@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -87,6 +91,30 @@ START_TEST(test_unit_merge_units)
 
     delete u; 
     delete u1;
+}
+END_TEST
+
+START_TEST(test_unit_merge_units_1)
+{
+  Unit * u = new Unit(2, 4);
+  u->setKind(UNIT_KIND_LITRE);
+  u->setScale(-3);
+  u->setMultiplier(2);
+  Unit * u1 = new Unit(2, 4);
+  u1->setKind(UNIT_KIND_LITRE);
+  u1->setExponent(0);
+  u1->setMultiplier(2);
+
+  Unit::merge(u, u1);
+
+  fail_unless(u->getMultiplier() == 0.004);
+  fail_unless(u->getScale() == 0);
+  fail_unless(u->getExponent() == 1);
+  fail_unless(u->getOffset() == 0.0);
+  fail_unless(u->getKind() == UNIT_KIND_LITRE);
+
+  delete u;
+  delete u1;
 }
 END_TEST
 
@@ -1031,6 +1059,7 @@ create_suite_UtilsUnit (void)
 
   tcase_add_test( tcase, test_unit_remove_scale     );
   tcase_add_test( tcase, test_unit_merge_units      );
+  tcase_add_test(tcase, test_unit_merge_units_1);
   tcase_add_test( tcase, test_unit_convert_SI       );
   tcase_add_test( tcase, test_unit_areIdentical     );
   tcase_add_test( tcase, test_unit_areEquivalent    );

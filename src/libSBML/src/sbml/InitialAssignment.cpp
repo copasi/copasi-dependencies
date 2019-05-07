@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -174,7 +178,7 @@ InitialAssignment::getMath () const
 
 
 /*
- * @return true if the symbol of this InitialAssignment is set,
+ * @return @c true if the symbol of this InitialAssignment is set,
  * false otherwise.
  */
 bool
@@ -185,7 +189,7 @@ InitialAssignment::isSetSymbol () const
 
 
 /*
- * @return true if the math for this InitialAssignment is set,
+ * @return @c true if the math for this InitialAssignment is set,
  * false otherwise.
  */
 bool
@@ -838,7 +842,7 @@ InitialAssignment::writeElements (XMLOutputStream& stream) const
  * Subclasses should override this method to read (and store) XHTML,
  * MathML, etc. directly from the XMLInputStream.
  *
- * @return true if the subclass read from the stream, false otherwise.
+ * @return @c true if the subclass read from the stream, false otherwise.
  */
 bool
 InitialAssignment::readOtherXML (XMLInputStream& stream)

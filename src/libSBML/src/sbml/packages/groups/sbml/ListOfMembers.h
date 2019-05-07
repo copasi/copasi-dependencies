@@ -7,6 +7,10 @@
  * This file is part of libSBML. Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ * 1. California Institute of Technology, Pasadena, CA, USA
+ * 2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  * 1. California Institute of Technology, Pasadena, CA, USA
  * 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -349,7 +353,7 @@ public:
    *
    * @return a pointer to the nth Member in this ListOfMembers.
    *
-   * @copydetails doc_returned_owned_pointer
+   * @copydetails doc_warning_returns_owned_pointer
    *
    * @see addMember(const Member* object)
    * @see createMember()
@@ -370,7 +374,7 @@ public:
    * @return the Member in this ListOfMembers based on the identifier or NULL
    * if no such Member exists.
    *
-   * @copydetails doc_returned_owned_pointer
+   * @copydetails doc_warning_returns_owned_pointer
    *
    * @see addMember(const Member* object)
    * @see createMember()
@@ -412,7 +416,6 @@ public:
    * Get the number of Member objects in this ListOfMembers.
    *
    * @return the number of Member objects in this ListOfMembers.
-   *
    *
    * @see addMember(const Member* object)
    * @see createMember()
@@ -488,7 +491,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML type code for this object:
-   * @sbmlconstant{SBML_LIST_OF, SBMLTypeCode_t}
+   * @sbmlconstant{SBML_LIST_OF, SBMLTypeCode_t}.
    *
    * @copydetails doc_warning_typecodes_not_unique
    */
@@ -502,7 +505,7 @@ public:
    * @copydetails doc_what_are_typecodes
    *
    * @return the SBML typecode for the objects contained in this ListOfMembers:
-   * @sbmlconstant{SBML_GROUPS_MEMBER, SBMLGroupsTypeCode_t}
+   * @sbmlconstant{SBML_GROUPS_MEMBER, SBMLGroupsTypeCode_t}.
    *
    * @copydetails doc_warning_typecodes_not_unique
    *
@@ -625,7 +628,7 @@ BEGIN_C_DECLS
  * @return the value of the "id" attribute of this ListOf_t as a pointer to a
  * string.
  *
- * @copydetails doc_returned_owned_char
+ * @copydetails doc_warning_returns_owned_char
  *
  * @memberof ListOfMembers_t
  */
@@ -642,7 +645,7 @@ ListOfMembers_getId(const ListOf_t * lo);
  * @return the value of the "name" attribute of this ListOf_t as a pointer to a
  * string.
  *
- * @copydetails doc_returned_owned_char
+ * @copydetails doc_warning_returns_owned_char
  *
  * @memberof ListOfMembers_t
  */
@@ -805,7 +808,7 @@ ListOfMembers_getById(ListOf_t* lo, const char *sid);
  *
  * @return a pointer to the nth Member_t in this ListOf_t.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof ListOfMembers_t
  */
@@ -825,7 +828,7 @@ ListOfMembers_remove(ListOf_t* lo, unsigned int n);
  * @return the Member_t in this ListOf_t based on the identifier or NULL if no
  * such Member_t exists.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof ListOfMembers_t
  */

@@ -7,6 +7,10 @@
  * This file is part of libSBML. Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ * 1. California Institute of Technology, Pasadena, CA, USA
+ * 2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  * 1. California Institute of Technology, Pasadena, CA, USA
  * 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -228,7 +232,7 @@ public:
    *
    * @return a pointer to the nth Group in this ListOfGroups.
    *
-   * @copydetails doc_returned_owned_pointer
+   * @copydetails doc_warning_returns_owned_pointer
    *
    * @see addGroup(const Group* object)
    * @see createGroup()
@@ -249,7 +253,7 @@ public:
    * @return the Group in this ListOfGroups based on the identifier or NULL if
    * no such Group exists.
    *
-   * @copydetails doc_returned_owned_pointer
+   * @copydetails doc_warning_returns_owned_pointer
    *
    * @see addGroup(const Group* object)
    * @see createGroup()
@@ -291,7 +295,6 @@ public:
    * Get the number of Group objects in this ListOfGroups.
    *
    * @return the number of Group objects in this ListOfGroups.
-   *
    *
    * @see addGroup(const Group* object)
    * @see createGroup()
@@ -469,7 +472,7 @@ ListOfGroups_getById(ListOf_t* lo, const char *sid);
  *
  * @return a pointer to the nth Group_t in this ListOf_t.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof ListOfGroups_t
  */
@@ -489,7 +492,7 @@ ListOfGroups_remove(ListOf_t* lo, unsigned int n);
  * @return the Group_t in this ListOf_t based on the identifier or NULL if no
  * such Group_t exists.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof ListOfGroups_t
  */

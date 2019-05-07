@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -435,7 +439,7 @@ Reaction::getCompartment () const
 
 
 /*
- * @return true if the id of this SBML object is set, false
+ * @return @c true if the id of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -446,7 +450,7 @@ Reaction::isSetId () const
 
 
 /*
- * @return true if the name of this SBML object is set, false
+ * @return @c true if the name of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -458,7 +462,7 @@ Reaction::isSetName () const
 
 
 /*
- * @return true if the KineticLaw of this Reaction is set, false
+ * @return @c true if the KineticLaw of this Reaction is set, false
  * otherwise.
  */
 bool
@@ -469,7 +473,7 @@ Reaction::isSetKineticLaw () const
 
 
 /*
- * @return true if the fast status of this Reaction is set, false
+ * @return @c true if the fast status of this Reaction is set, false
  * otherwise.
  *
  * In L1, fast is optional with a default of false, which means it is
@@ -484,7 +488,7 @@ Reaction::isSetFast () const
 
 
 /*
- * @return true if the compartment of this SBML object is set, false
+ * @return @c true if the compartment of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -495,7 +499,7 @@ Reaction::isSetCompartment () const
 
 
 /*
- * @return true if the fast status of this Reaction is set, false
+ * @return @c true if the fast status of this Reaction is set, false
  * otherwise.
  */
 bool
@@ -807,7 +811,7 @@ Reaction::addReactant (const SpeciesReference* sr)
 int Reaction::addReactant(
     const Species *species,
     double stoichiometry,
-    const std::string &id,
+    const std::string id,
     bool constant)
 {
   if (species == NULL)
@@ -863,7 +867,7 @@ int
 Reaction::addProduct(
     const Species *species,
     double stoichiometry,
-    const std::string &id,
+    const std::string id,
     bool constant)
 {
   if (species == NULL)
@@ -919,7 +923,7 @@ Reaction::addModifier (const ModifierSpeciesReference* msr)
 int
 Reaction::addModifier(
     const Species *species,
-    const std::string &id)
+    const std::string id)
 {
   if (species == NULL)
     return LIBSBML_INVALID_OBJECT;

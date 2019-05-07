@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -827,7 +831,7 @@ BEGIN_C_DECLS
  *
  * @copydetails doc_note_setting_lv_pkg
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Rectangle_t
  */
@@ -845,7 +849,7 @@ Rectangle_create(unsigned int level,
  *
  * @return a (deep) copy of this Rectangle_t object.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Rectangle_t
  */
@@ -1146,7 +1150,7 @@ Rectangle_isSetRY(const Rectangle_t * r);
  *
  * @param r the Rectangle_t structure.
  *
- * @param x RelAbsVector_t* value of the "x" element to be set.
+ * @param x RelAbsVector_t value of the "x" element to be set.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1165,7 +1169,7 @@ Rectangle_setX(Rectangle_t * r, const RelAbsVector_t* x);
  *
  * @param r the Rectangle_t structure.
  *
- * @param y RelAbsVector_t* value of the "y" element to be set.
+ * @param y RelAbsVector_t value of the "y" element to be set.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1184,7 +1188,7 @@ Rectangle_setY(Rectangle_t * r, const RelAbsVector_t* y);
  *
  * @param r the Rectangle_t structure.
  *
- * @param z RelAbsVector_t* value of the "z" element to be set.
+ * @param z RelAbsVector_t value of the "z" element to be set.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1203,7 +1207,7 @@ Rectangle_setZ(Rectangle_t * r, const RelAbsVector_t* z);
  *
  * @param r the Rectangle_t structure.
  *
- * @param width RelAbsVector_t* value of the "width" element to be set.
+ * @param width RelAbsVector_t value of the "width" element to be set.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1222,7 +1226,7 @@ Rectangle_setWidth(Rectangle_t * r, const RelAbsVector_t* width);
  *
  * @param r the Rectangle_t structure.
  *
- * @param height RelAbsVector_t* value of the "height" element to be set.
+ * @param height RelAbsVector_t value of the "height" element to be set.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1241,7 +1245,7 @@ Rectangle_setHeight(Rectangle_t * r, const RelAbsVector_t* height);
  *
  * @param r the Rectangle_t structure.
  *
- * @param rX RelAbsVector_t* value of the "rX" element to be set.
+ * @param rX RelAbsVector_t value of the "rX" element to be set.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1260,7 +1264,7 @@ Rectangle_setRX(Rectangle_t * r, const RelAbsVector_t* rX);
  *
  * @param r the Rectangle_t structure.
  *
- * @param rY RelAbsVector_t* value of the "rY" element to be set.
+ * @param rY RelAbsVector_t value of the "rY" element to be set.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}

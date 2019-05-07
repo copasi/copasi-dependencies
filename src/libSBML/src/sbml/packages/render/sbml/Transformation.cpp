@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -229,7 +233,7 @@ const double* Transformation::getIdentityMatrix()
 * Returns true if the matrix has been set or false otherwise.
 * The matrix is considered as set if none of the values in the matrix is NaN.
 *
-* @return true or false depending on whether a NaN was found.
+* @return @c true or false depending on whether a NaN was found.
 */
 bool Transformation::isSetTransform() const
 {
@@ -252,7 +256,7 @@ Transformation::isSetName() const
  * Returns true if the matrix has been set or false otherwise.
  * The matrix is considered as set if none of the values in the matrix is NaN.
  *
- * @return true or false depending on whether a NaN was found.
+ * @return @c true or false depending on whether a NaN was found.
  */
 bool Transformation::isSetMatrix() const
 {
@@ -354,7 +358,7 @@ Transformation::unsetMatrix()
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation" is of type
+ * Predicate returning @c true if this abstract Transformation is of type
  * Image
  */
 bool
@@ -365,7 +369,7 @@ Transformation::isImage() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation" is of type
+ * Predicate returning @c true if this abstract Transformation is of type
  * Ellipse
  */
 bool
@@ -376,7 +380,7 @@ Transformation::isEllipse() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation" is of type
+ * Predicate returning @c true if this abstract Transformation is of type
  * Rectangle
  */
 bool
@@ -387,7 +391,7 @@ Transformation::isRectangle() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation" is of type
+ * Predicate returning @c true if this abstract Transformation is of type
  * Polygon
  */
 bool
@@ -398,7 +402,7 @@ Transformation::isPolygon() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation" is of type
+ * Predicate returning @c true if this abstract Transformation is of type
  * RenderGroup
  */
 bool
@@ -409,7 +413,7 @@ Transformation::isRenderGroup() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation" is of type
+ * Predicate returning @c true if this abstract Transformation is of type
  * LineEnding
  */
 bool
@@ -420,7 +424,7 @@ Transformation::isLineEnding() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation" is of type
+ * Predicate returning @c true if this abstract Transformation is of type
  * Text
  */
 bool
@@ -431,7 +435,7 @@ Transformation::isText() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation" is of type
+ * Predicate returning @c true if this abstract Transformation is of type
  * RenderCurve
  */
 bool
@@ -496,7 +500,7 @@ Transformation::accept(SBMLVisitor& v) const
 
 /** @cond doxygenLibsbmlInternal */
 
-/*
+
 /*
  * used to write arrays
  */
@@ -795,7 +799,7 @@ Transformation::readAttributes(const XMLAttributes& attributes,
 {
   unsigned int level = getLevel();
   unsigned int version = getVersion();
-  unsigned int pkgVersion = getPackageVersion();
+  //unsigned int pkgVersion = getPackageVersion();
 //  unsigned int numErrs;
   bool assigned = false;
   SBMLErrorLog* log = getErrorLog();

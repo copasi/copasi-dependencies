@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -885,13 +889,13 @@ public:
   /**
    * Returns the value of the "id" attribute of this Layout.
    *
-   * @note Because of the inconsistent behavior of this function with 
-   * respect to assignments and rules, it is now recommended to
-   * use the getIdAttribute() function instead.
-   *
    * @copydetails doc_id_attribute
    *
    * @return the id of this Layout.
+   *
+   * @note Because of the inconsistent behavior of this function with 
+   * respect to assignments and rules, it is now recommended to
+   * use the getIdAttribute() function instead.
    *
    * @see getIdAttribute()
    * @see setIdAttribute(const std::string& sid)
@@ -1354,7 +1358,7 @@ public:
    * If no compartment glyph has been removed, @c NULL is returned.
    */
   CompartmentGlyph*
-  removeCompartmentGlyph(const std::string id);
+  removeCompartmentGlyph(const std::string& id);
 
 
   /**
@@ -1363,7 +1367,7 @@ public:
    * If no species glyph has been removed, @c NULL is returned.
    */
   SpeciesGlyph*
-  removeSpeciesGlyph(const std::string id);
+  removeSpeciesGlyph(const std::string& id);
 
 
   /**
@@ -1372,7 +1376,7 @@ public:
    * If no reaction glyph has been removed, @c NULL is returned.
    */
   ReactionGlyph*
-  removeReactionGlyph(const std::string id);
+  removeReactionGlyph(const std::string& id);
 
 
   /**
@@ -1381,7 +1385,7 @@ public:
    * If no species reference glyph has been removed, @c NULL is returned.
    */
   SpeciesReferenceGlyph*
-  removeSpeciesReferenceGlyph(const std::string id);
+  removeSpeciesReferenceGlyph(const std::string& id);
 
 
   /**
@@ -1390,7 +1394,7 @@ public:
    * If no text glyph has been removed, @c NULL is returned.
    */
   TextGlyph*
-  removeTextGlyph(const std::string id);
+  removeTextGlyph(const std::string& id);
 
 
   /**
@@ -1399,7 +1403,7 @@ public:
    * If no graphical object has been removed, @c NULL is returned.
    */
   GraphicalObject*
-  removeAdditionalGraphicalObject(const std::string id);
+  removeAdditionalGraphicalObject(const std::string& id);
 
   /** @cond doxygenLibsbmlInternal */
   /**
@@ -1757,7 +1761,7 @@ BEGIN_C_DECLS
  * Creates a new Layout_t with the default SBML level, version, and package 
  * version, and returns a pointer to it.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -1783,7 +1787,7 @@ Layout_createWith (const char *sid);
  *
  * @param temp the Layout_t structure to copy.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -2125,7 +2129,7 @@ Layout_getNumTextGlyphs (const Layout_t *l);
  * @param l the Layout_t structure.
  * @param index the index of the CompartmentGlyph_t to remove.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -2140,7 +2144,7 @@ Layout_removeCompartmentGlyph (Layout_t *l, unsigned int index);
  * @param l the Layout_t structure.
  * @param index the index of the SpeciesGlyph_t to remove.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -2155,7 +2159,7 @@ Layout_removeSpeciesGlyph (Layout_t *l, unsigned int index);
  * @param l the Layout_t structure.
  * @param index the index of the ReactionGlyph_t to remove.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -2170,7 +2174,7 @@ Layout_removeReactionGlyph (Layout_t *l, unsigned int index);
  * @param l the Layout_t structure.
  * @param index the index of the TextGlyph_t to remove.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -2185,7 +2189,7 @@ Layout_removeTextGlyph (Layout_t *l, unsigned int index);
  * @param l the Layout_t structure.
  * @param index the index of the GraphicalObject_t to remove.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -2200,7 +2204,7 @@ Layout_removeAdditionalGraphicalObject (Layout_t *l, unsigned int index);
  * @param l the Layout_t structure.
  * @param id the id of the CompartmentGlyph_t to remove.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -2215,7 +2219,7 @@ Layout_removeCompartmentGlyphWithId (Layout_t *l, const char* id);
  * @param l the Layout_t structure.
  * @param id the id of the SpeciesGlyph_t to remove.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -2230,7 +2234,7 @@ Layout_removeSpeciesGlyphWithId (Layout_t *l, const char* id);
  * @param l the Layout_t structure.
  * @param id the id of the SpeciesReferenceGlyph_t to remove.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -2245,7 +2249,7 @@ Layout_removeSpeciesReferenceGlyphWithId (Layout_t *l, const char* id);
  * @param l the Layout_t structure.
  * @param id the id of the ReactionGlyph_t to remove.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -2260,7 +2264,7 @@ Layout_removeReactionGlyphWithId (Layout_t *l, const char* id);
  * @param l the Layout_t structure.
  * @param id the id of the TextGlyph_t to remove.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -2275,7 +2279,7 @@ Layout_removeTextGlyphWithId (Layout_t *l, const char* id);
  * @param l the Layout_t structure.
  * @param id the id of the GraphicalObject_t to remove.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -2389,7 +2393,7 @@ Layout_createAdditionalGraphicalObject (Layout_t *l);
  *
  * @param l the Layout_t structure.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Layout_t
  */
@@ -2415,7 +2419,7 @@ Layout_isSetId (const Layout_t *l);
  *
  * @param l the Layout_t structure.
  *
- * @copydetails doc_returned_owned_char
+ * @copydetails doc_warning_returns_owned_char
  *
  * @memberof Layout_t
  */

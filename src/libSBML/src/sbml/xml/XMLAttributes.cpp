@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -130,8 +134,8 @@ XMLAttributes::clone () const
 int
 XMLAttributes::add (const std::string& name,
 		    const std::string& value,
-		    const std::string& namespaceURI,
-		    const std::string& prefix)
+		    const std::string namespaceURI,
+		    const std::string prefix)
 {
 
   int index = getIndex(name, namespaceURI);
@@ -223,7 +227,7 @@ XMLAttributes::remove (int n)
  * XMLAttributes set.
  */
 int 
-XMLAttributes::remove (const std::string& name, const std::string& uri)
+XMLAttributes::remove (const std::string& name, const std::string uri)
 {
   return remove(getIndex(name,uri));
 }
@@ -393,7 +397,7 @@ XMLAttributes::getValue (int index) const
  * hasAttribute(name) to test for attribute existence.
  */
 std::string
-XMLAttributes::getValue (const std::string name) const
+XMLAttributes::getValue (const std::string& name) const
 {
   return getValue( getIndex(name) );
 }
@@ -407,7 +411,7 @@ XMLAttributes::getValue (const std::string name) const
  * hasAttribute(name,uri) to test for attribute existence.
  */
 std::string
-XMLAttributes::getValue (const std::string name, const std::string uri) const
+XMLAttributes::getValue (const std::string& name, const std::string& uri) const
 {
   return getValue( getIndex(name,uri) );
 }
@@ -451,7 +455,7 @@ XMLAttributes::hasAttribute (int index) const
  *
  */
 bool 
-XMLAttributes::hasAttribute (const std::string name, const std::string uri) const 
+XMLAttributes::hasAttribute (const std::string& name, const std::string uri) const 
 { 
   return ( getIndex(name,uri) != -1 ); 
 }
@@ -475,7 +479,7 @@ XMLAttributes::hasAttribute (const XMLTriple& triple) const
 
 
 /*
- * @return true if this XMLAttributes set is empty, false otherwise.
+ * @return @c true if this XMLAttributes set is empty, false otherwise.
  */
 bool
 XMLAttributes::isEmpty () const

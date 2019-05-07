@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -791,7 +795,7 @@ GlobalRenderInformation::createObject(XMLInputStream& stream)
     {
       getErrorLog()->logPackageError("render",
         RenderGlobalRenderInformationAllowedElements, getPackageVersion(),
-          getLevel(), getVersion());
+          getLevel(), getVersion(), "", getLine(), getColumn());
     }
 
     obj = &mGlobalStyles;
@@ -834,7 +838,6 @@ GlobalRenderInformation::readAttributes(const XMLAttributes& attributes,
   unsigned int version = getVersion();
   unsigned int pkgVersion = getPackageVersion();
   unsigned int numErrs;
-  bool assigned = false;
   SBMLErrorLog* log = getErrorLog();
 
   if (log && getParentSBMLObject() &&
@@ -850,7 +853,7 @@ GlobalRenderInformation::readAttributes(const XMLAttributes& attributes,
         log->remove(UnknownPackageAttribute);
         log->logPackageError("render",
           RenderListOfLayoutsLOGlobalRenderInformationAllowedAttributes,
-            pkgVersion, level, version, details);
+            pkgVersion, level, version, details, getLine(), getColumn());
       }
       else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -858,7 +861,7 @@ GlobalRenderInformation::readAttributes(const XMLAttributes& attributes,
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render",
           RenderListOfLayoutsLOGlobalRenderInformationAllowedCoreAttributes,
-            pkgVersion, level, version, details);
+            pkgVersion, level, version, details, getLine(), getColumn());
       }
     }
   }
@@ -876,7 +879,7 @@ GlobalRenderInformation::readAttributes(const XMLAttributes& attributes,
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownPackageAttribute);
         log->logPackageError("render", RenderUnknown, pkgVersion, level,
-          version, details);
+          version, details, getLine(), getColumn());
       }
       else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -884,7 +887,7 @@ GlobalRenderInformation::readAttributes(const XMLAttributes& attributes,
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render",
           RenderGlobalRenderInformationAllowedCoreAttributes, pkgVersion, level,
-            version, details);
+            version, details, getLine(), getColumn());
       }
     }
   }

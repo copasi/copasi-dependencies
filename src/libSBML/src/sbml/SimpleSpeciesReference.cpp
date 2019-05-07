@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -148,7 +152,7 @@ SimpleSpeciesReference::getSpecies () const
 
 
 /*
- * @return true if the id of this SBML object is set, false
+ * @return @c true if the id of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -159,7 +163,7 @@ SimpleSpeciesReference::isSetId () const
 
 
 /*
- * @return true if the name of this SBML object is set, false
+ * @return @c true if the name of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -171,7 +175,7 @@ SimpleSpeciesReference::isSetName () const
 
 
 /*
- * @return true if the species for this SimpleSpeciesReference is 
+ * @return @c true if the species for this SimpleSpeciesReference is 
  * set, false otherwise.
  */
 bool
@@ -349,7 +353,7 @@ SimpleSpeciesReference::unsetSpecies ()
   }
 }
 /*
- * @return true if this SpeciesReference is a ModiferSpeciesReference,
+ * @return @c true if this SpeciesReference is a ModiferSpeciesReference,
  * false otherwise.
  */
 bool

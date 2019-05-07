@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -338,7 +342,7 @@ public:
    *
    * @return a pointer to the nth RenderPoint in this Polygon.
    *
-   * @copydetails doc_returned_owned_pointer
+   * @copydetails doc_warning_returns_owned_pointer
    *
    * @see addElement(const RenderPoint* object)
    * @see createCubicBezier()
@@ -358,7 +362,7 @@ public:
   *
   * @return a pointer to the removed RenderPoint.
   *
-  * @copydetails doc_returned_owned_pointer
+  * @copydetails doc_warning_returns_owned_pointer
   *
   * @see addElement(const RenderPoint* object)
   * @see createCubicBezier()
@@ -684,7 +688,7 @@ BEGIN_C_DECLS
  *
  * @copydetails doc_note_setting_lv_pkg
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Polygon_t
  */
@@ -702,7 +706,7 @@ Polygon_create(unsigned int level,
  *
  * @return a (deep) copy of this Polygon_t object.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Polygon_t
  */
@@ -850,7 +854,7 @@ Polygon_createCubicBezier(Polygon_t* p);
  *
  * @return a pointer to the nth RenderPoint_t in this Polygon_t.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Polygon_t
  */

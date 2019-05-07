@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -345,7 +349,7 @@ GraphicalPrimitive1D::isSetStrokeDashArray() const
 }
 
 /*
- * Returns true is the dash array has been set or false otherwise.
+ * Returns true if the dash array has been set or false otherwise.
  * The array is considered set if it is not empty and if the first entry is
  * not NaN.
  *
@@ -429,7 +433,7 @@ void GraphicalPrimitive1D::setDashArray(const std::vector<unsigned int>& array)
  *
  * @param arrayString a string with number representing a dash array.
  *
- * @return true is setting the dasharray from the string succeed or false otherwise.
+ * @return @c true if setting the dasharray from the string succeed or @c false otherwise.
  */
 bool GraphicalPrimitive1D::setDashArray(const std::string& arrayString)
 {
@@ -465,7 +469,7 @@ GraphicalPrimitive1D::getDashByIndex(unsigned int index) const
 }
 
 /*
- * Adds a dash at the end of the current list
+ * Adds a new length of a dash to the 'stroke-dasharray' attribute.
  */
 void 
 GraphicalPrimitive1D::addDash(unsigned int dash)
@@ -474,7 +478,7 @@ GraphicalPrimitive1D::addDash(unsigned int dash)
 }
 
 /*
- * Clears all defined dashes.
+ * Unsets the 'stroke-dasharray' attribute.
  */
 void 
 GraphicalPrimitive1D::clearDashes()
@@ -585,7 +589,7 @@ GraphicalPrimitive1D::unsetStrokeDashArray()
 
 
 /*
- * Predicate returning @c true if this abstract "GraphicalPrimitive1D" is of
+ * Predicate returning @c true if this abstract GraphicalPrimitive1D is of
  * type Ellipse
  */
 bool
@@ -596,7 +600,7 @@ GraphicalPrimitive1D::isEllipse() const
 
 
 /*
- * Predicate returning @c true if this abstract "GraphicalPrimitive1D" is of
+ * Predicate returning @c true if this abstract GraphicalPrimitive1D is of
  * type Rectangle
  */
 bool
@@ -607,7 +611,7 @@ GraphicalPrimitive1D::isRectangle() const
 
 
 /*
- * Predicate returning @c true if this abstract "GraphicalPrimitive1D" is of
+ * Predicate returning @c true if this abstract GraphicalPrimitive1D is of
  * type Polygon
  */
 bool
@@ -618,7 +622,7 @@ GraphicalPrimitive1D::isPolygon() const
 
 
 /*
- * Predicate returning @c true if this abstract "GraphicalPrimitive1D" is of
+ * Predicate returning @c true if this abstract GraphicalPrimitive1D is of
  * type RenderGroup
  */
 bool
@@ -629,7 +633,7 @@ GraphicalPrimitive1D::isRenderGroup() const
 
 
 /*
- * Predicate returning @c true if this abstract "GraphicalPrimitive1D" is of
+ * Predicate returning @c true if this abstract GraphicalPrimitive1D is of
  * type LineEnding
  */
 bool
@@ -640,7 +644,7 @@ GraphicalPrimitive1D::isLineEnding() const
 
 
 /*
- * Predicate returning @c true if this abstract "GraphicalPrimitive1D" is of
+ * Predicate returning @c true if this abstract GraphicalPrimitive1D is of
  * type Text
  */
 bool
@@ -651,7 +655,7 @@ GraphicalPrimitive1D::isText() const
 
 
 /*
- * Predicate returning @c true if this abstract "GraphicalPrimitive1D" is of
+ * Predicate returning @c true if this abstract GraphicalPrimitive1D is of
  * type RenderCurve
  */
 bool
@@ -1160,10 +1164,10 @@ GraphicalPrimitive1D::readAttributes(const XMLAttributes& attributes,
     {
       log->remove(XMLAttributeTypeMismatch);
       std::string message = "Render attribute 'stroke-width' from the "
-        "<GraphicalPrimitive1D> element must be an integer.";
+        "<GraphicalPrimitive1D> element must be a double.";
       log->logPackageError("render",
         RenderGraphicalPrimitive1DStrokeWidthMustBeDouble, pkgVersion, level,
-          version, message);
+          version, message, getLine(), getColumn());
     }
     mStrokeWidth = std::numeric_limits<double>::quiet_NaN();
   }

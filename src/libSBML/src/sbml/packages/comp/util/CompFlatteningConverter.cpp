@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -416,6 +420,7 @@ CompFlatteningConverter::performConversion()
   // now reconstruct the document to be returned 
   // taking user options into account
   result = reconstructDocument(flatmodel);
+  delete flatmodel;
 
 
   if (result != LIBSBML_OPERATION_SUCCESS) 
@@ -424,7 +429,6 @@ CompFlatteningConverter::performConversion()
     return result;
   }
 
-  delete flatmodel;
   return LIBSBML_OPERATION_SUCCESS;
 }
 /** @endcond */
@@ -1071,7 +1075,8 @@ CompFlatteningConverter::stripUnflattenablePackages()
       mDisabledPackages.insert(make_pair(nsURI, package));
       mDocument->getErrorLog()->logPackageError("comp", errorId, 
         mDocument->getPlugin("comp")->getPackageVersion(), 
-        mDocument->getLevel(), mDocument->getVersion(), message);
+        mDocument->getLevel(), mDocument->getVersion(), message, 
+        mDocument->getLine(), mDocument->getColumn());
       mPkgsToStrip->append(package);
     }
     else if (getAbortForRequired() == true)
@@ -1083,7 +1088,8 @@ CompFlatteningConverter::stripUnflattenablePackages()
         mDisabledPackages.insert(make_pair(nsURI, package));
         mDocument->getErrorLog()->logPackageError("comp", errorId, 
           mDocument->getPlugin("comp")->getPackageVersion(), 
-          mDocument->getLevel(), mDocument->getVersion(), message);
+          mDocument->getLevel(), mDocument->getVersion(), message,
+          mDocument->getLine(), mDocument->getColumn());
         mPkgsToStrip->append(package);
       }
     }
@@ -1170,7 +1176,8 @@ CompFlatteningConverter::canBeFlattened()
       mDocument->getErrorLog()->logPackageError("comp", 
         CompFlatteningNotRecognisedReqd, 
         mDocument->getPlugin("comp")->getPackageVersion(), 
-        mDocument->getLevel(), mDocument->getVersion(), message);
+        mDocument->getLevel(), mDocument->getVersion(), message,
+        mDocument->getLine(), mDocument->getColumn());
     }
     else if (haveUnknownUnrequiredPackages() == true)
     {
@@ -1178,7 +1185,8 @@ CompFlatteningConverter::canBeFlattened()
       mDocument->getErrorLog()->logPackageError("comp", 
         CompFlatteningNotRecognisedNotReqd, 
         mDocument->getPlugin("comp")->getPackageVersion(), 
-        mDocument->getLevel(), mDocument->getVersion(), message);
+        mDocument->getLevel(), mDocument->getVersion(), message,
+        mDocument->getLine(), mDocument->getColumn());
     }
     else if (haveUnflattenableRequiredPackages() == true)
     {
@@ -1186,7 +1194,8 @@ CompFlatteningConverter::canBeFlattened()
       mDocument->getErrorLog()->logPackageError("comp", 
         CompFlatteningNotImplementedReqd, 
         mDocument->getPlugin("comp")->getPackageVersion(), 
-        mDocument->getLevel(), mDocument->getVersion(), message);
+        mDocument->getLevel(), mDocument->getVersion(), message,
+        mDocument->getLine(), mDocument->getColumn());
     }
     else if (haveUnflattenableUnrequiredPackages() == true)
     {
@@ -1194,7 +1203,8 @@ CompFlatteningConverter::canBeFlattened()
       mDocument->getErrorLog()->logPackageError("comp", 
         CompFlatteningNotImplementedNotReqd, 
         mDocument->getPlugin("comp")->getPackageVersion(), 
-        mDocument->getLevel(), mDocument->getVersion(), message);
+        mDocument->getLevel(), mDocument->getVersion(), message,
+        mDocument->getLine(), mDocument->getColumn());
     }
   }
   else if (getAbortForRequired() == true)
@@ -1210,7 +1220,8 @@ CompFlatteningConverter::canBeFlattened()
       mDocument->getErrorLog()->logPackageError("comp", 
         CompFlatteningNotRecognisedReqd, 
         mDocument->getPlugin("comp")->getPackageVersion(), 
-        mDocument->getLevel(), mDocument->getVersion(), message);
+        mDocument->getLevel(), mDocument->getVersion(), message,
+        mDocument->getLine(), mDocument->getColumn());
     }
     else if (haveUnflattenableRequiredPackages() == true)
     {
@@ -1218,7 +1229,8 @@ CompFlatteningConverter::canBeFlattened()
       mDocument->getErrorLog()->logPackageError("comp", 
         CompFlatteningNotImplementedReqd, 
         mDocument->getPlugin("comp")->getPackageVersion(), 
-        mDocument->getLevel(), mDocument->getVersion(), message);
+        mDocument->getLevel(), mDocument->getVersion(), message,
+        mDocument->getLine(), mDocument->getColumn());
     }
   }
 

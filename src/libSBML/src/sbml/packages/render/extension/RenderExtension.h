@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -305,7 +309,7 @@ public:
   /** 
    * Determines whether this extension is being used by the given SBMLDocument
    *
-   * The implementation returns true if the list of layouts contains a global render information,
+   * The implementation returns @c true if the list of layouts contains a global render information,
    * or a layout object contains a local render information object. 
    * 
    * @param doc the sbml document to test. 
@@ -326,6 +330,8 @@ public:
 // in RenderExtension.cpp for DLL.
 //
 typedef SBMLExtensionNamespaces<RenderExtension> RenderPkgNamespaces; 
+
+#endif  /* __cplusplus */
 
 /**
 * @enum SBMLRenderTypeCode_t
@@ -396,11 +402,13 @@ typedef enum
 } GradientSpreadMethod_t;
 
 
+#ifndef SWIG
+
 /**
- * Returns the string version of the provided #GradientSpreadMethod_t
+ * Returns the string version of the provided GradientSpreadMethod_t
  * enumeration.
  *
- * @param gsm the #GradientSpreadMethod_t enumeration value to convert.
+ * @param gsm the GradientSpreadMethod_t enumeration value to convert.
  *
  * @return A string corresponding to the given type:
  * "pad",
@@ -422,13 +430,13 @@ GradientSpreadMethod_toString(GradientSpreadMethod_t gsm);
 
 
 /**
- * Returns the #GradientSpreadMethod_t enumeration corresponding to the given
+ * Returns the GradientSpreadMethod_t enumeration corresponding to the given
  * string or @sbmlconstant{GRADIENT_SPREAD_METHOD_INVALID,
  * GradientSpreadMethod_t} if there is no such match.
  *
- * @param code the string to convert to a #GradientSpreadMethod_t.
+ * @param code the string to convert to a GradientSpreadMethod_t.
  *
- * @return the corresponding #GradientSpreadMethod_t or
+ * @return the corresponding GradientSpreadMethod_t or
  * @sbmlconstant{GRADIENT_SPREAD_METHOD_INVALID, GradientSpreadMethod_t} if no
  * match is found.
  *
@@ -448,11 +456,11 @@ GradientSpreadMethod_fromString(const char* code);
 
 /**
  * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the
- * given #GradientSpreadMethod_t is valid.
+ * given GradientSpreadMethod_t is valid.
  *
- * @param gsm the #GradientSpreadMethod_t enumeration to query.
+ * @param gsm the GradientSpreadMethod_t enumeration to query.
  *
- * @return @c 1 (true) if the #GradientSpreadMethod_t is
+ * @return @c 1 (true) if the GradientSpreadMethod_t is
  * @sbmlconstant{GRADIENT_SPREADMETHOD_PAD, GradientSpreadMethod_t},
  * @sbmlconstant{GRADIENT_SPREADMETHOD_REFLECT, GradientSpreadMethod_t}, or
  * @sbmlconstant{GRADIENT_SPREADMETHOD_REPEAT, GradientSpreadMethod_t};
@@ -470,7 +478,7 @@ GradientSpreadMethod_isValid(GradientSpreadMethod_t gsm);
 
 /**
  * Predicate returning @c 1 (true) or @c 0 (false) depending on whether the
- * given string is a valid #GradientSpreadMethod_t.
+ * given string is a valid GradientSpreadMethod_t.
  *
  * @param code the string to query.
  *
@@ -490,6 +498,8 @@ GradientSpreadMethod_isValid(GradientSpreadMethod_t gsm);
 LIBSBML_EXTERN
 int
 GradientSpreadMethod_isValidString(const char* code);
+
+#endif /* !SWIG */
 
 
 /**
@@ -517,6 +527,8 @@ typedef enum
 , FILL_RULE_INVALID       /*!< Invalid FillRule value. */
 } FillRule_t;
 
+
+#ifndef SWIG
 
 /**
  * Returns the string version of the provided #FillRule_t enumeration.
@@ -609,6 +621,8 @@ LIBSBML_EXTERN
 int
 FillRule_isValidString(const char* code);
 
+#endif /* !SWIG */
+
 
 /**
  * @enum FontFamily_t
@@ -634,6 +648,8 @@ typedef enum
 , FONT_FAMILY_INVALID          /*!< Invalid FontFamily value. */
 } FontFamily_t;
 
+
+#ifndef SWIG
 
 /**
  * Returns the string version of the provided #FontFamily_t enumeration.
@@ -725,6 +741,8 @@ LIBSBML_EXTERN
 int
 FontFamily_isValidString(const char* code);
 
+#endif /* !SWIG */
+
 
 /**
  * @enum FontWeight_t
@@ -751,6 +769,8 @@ typedef enum
 } FontWeight_t;
 
 
+#ifndef SWIG
+
 /**
  * Returns the string version of the provided #FontWeight_t enumeration.
  *
@@ -775,7 +795,7 @@ FontWeight_toString(FontWeight_t fw);
 
 
 /**
- * Returns the #FontWeight_t enumeration corresponding to the given string or
+ * Returns the FontWeight_t enumeration corresponding to the given string or
  * @sbmlconstant{FONT_WEIGHT_INVALID, FontWeight_t} if there is no such match.
  *
  * @param code the string to convert to a #FontWeight_t.
@@ -839,6 +859,8 @@ LIBSBML_EXTERN
 int
 FontWeight_isValidString(const char* code);
 
+#endif /* !SWIG */
+
 
 /**
  * @enum FontStyle_t
@@ -864,6 +886,8 @@ typedef enum
 , FONT_STYLE_INVALID       /*!< Invalid FontStyle value. */
 } FontStyle_t;
 
+
+#ifndef SWIG
 
 /**
  * Returns the string version of the provided #FontStyle_t enumeration.
@@ -953,6 +977,8 @@ LIBSBML_EXTERN
 int
 FontStyle_isValidString(const char* code);
 
+#endif /* !SWIG */
+
 
 /**
  * @enum VTextAnchor_t
@@ -993,6 +1019,8 @@ typedef enum
 } VTextAnchor_t;
 
 
+#ifndef SWIG
+
 /**
  * Returns the string version of the provided #VTextAnchor_t enumeration.
  *
@@ -1011,7 +1039,7 @@ typedef enum
  * @copydetails doc_returned_unowned_char
  *
  * @if conly
- * @memberof DefaultValue_t
+ * @memberof DefaultValues_t
  * @endif
  */
 LIBSBML_EXTERN
@@ -1035,7 +1063,7 @@ VTextAnchor_toString(VTextAnchor_t vta);
  * @sbmlconstant{V_TEXTANCHOR_INVALID, VTextAnchor_t}.
  *
  * @if conly
- * @memberof DefaultValue_t
+ * @memberof DefaultValues_t
  * @endif
  */
 LIBSBML_EXTERN
@@ -1058,7 +1086,7 @@ VTextAnchor_fromString(const char* code);
  * VTextAnchor_t}).
  *
  * @if conly
- * @memberof DefaultValue_t
+ * @memberof DefaultValues_t
  * @endif
  */
 LIBSBML_EXTERN
@@ -1083,12 +1111,14 @@ VTextAnchor_isValid(VTextAnchor_t vta);
  * "Top" will return @c 0 (false).
  *
  * @if conly
- * @memberof DefaultValue_t
+ * @memberof DefaultValues_t
  * @endif
  */
 LIBSBML_EXTERN
 int
 VTextAnchor_isValidString(const char* code);
+
+#endif /* !SWIG */
 
 
 /**
@@ -1129,6 +1159,8 @@ typedef enum
 } HTextAnchor_t;
 
 
+#ifndef SWIG
+
 /**
  * Returns the string version of the provided #HTextAnchor_t enumeration.
  *
@@ -1146,7 +1178,7 @@ typedef enum
  * @copydetails doc_returned_unowned_char
  *
  * @if conly
- * @memberof DefaultValue_t
+ * @memberof DefaultValues_t
  * @endif
  */
 LIBSBML_EXTERN
@@ -1169,7 +1201,7 @@ HTextAnchor_toString(HTextAnchor_t hta);
  * @sbmlconstant{H_TEXTANCHOR_INVALID, HTextAnchor_t}.
  *
  * @if conly
- * @memberof DefaultValue_t
+ * @memberof DefaultValues_t
  * @endif
  */
 LIBSBML_EXTERN
@@ -1191,7 +1223,7 @@ HTextAnchor_fromString(const char* code);
  * HTextAnchor_t}).
  *
  * @if conly
- * @memberof DefaultValue_t
+ * @memberof DefaultValues_t
  * @endif
  */
 LIBSBML_EXTERN
@@ -1215,16 +1247,17 @@ HTextAnchor_isValid(HTextAnchor_t hta);
  * "Start" will return @c 0 (false).
  *
  * @if conly
- * @memberof DefaultValue_t
+ * @memberof DefaultValues_t
  * @endif
  */
 LIBSBML_EXTERN
 int
 HTextAnchor_isValidString(const char* code);
 
+#endif /* !SWIG */
 
 
 LIBSBML_CPP_NAMESPACE_END
 
-#endif  /* __cplusplus */
+
 #endif  /* RenderExtension_h */

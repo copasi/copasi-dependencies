@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -40,6 +44,7 @@
 #include <sbml/math/FormulaParser.h>
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/MathML.h>
+#include <sbml/math/DefinitionURLRegistry.h>
 
 #include <sbml/xml/XMLNode.h>
 
@@ -1555,7 +1560,7 @@ START_TEST (test_element_semantics)
 
   N = readMathMLFromString(s);
 
-  fail_unless( N->isSemantics() == true );
+  fail_unless( N->getSemanticsFlag() == true );
   fail_unless( N != NULL );
 
 
@@ -1580,14 +1585,8 @@ START_TEST (test_element_semantics_URL)
 
   fail_unless( N != NULL );
 
-  XMLAttributes* xa = N->getDefinitionURL();
-
-  fail_unless( N->isSemantics() == true );
-  if (xa != NULL)
-  {
-    fail_unless( xa->getValue(0) == "foobar");
-    delete xa;
-  }
+  fail_unless( N->getSemanticsFlag() == true );
+  fail_unless( N->getDefinitionURL()->getValue(0) == "foobar");
 
   F = SBML_formulaToString(N);
   fail_unless( !strcmp(F, "xor(a, b, b, a)") );
@@ -1611,7 +1610,7 @@ START_TEST (test_element_semantics_annotation)
 
   fail_unless( N != NULL );
 
-  fail_unless( N->isSemantics() == true );
+  fail_unless( N->getSemanticsFlag() == true );
   fail_unless( N->getNumSemanticsAnnotations() == 1);
 
   std::string ann1 = XMLNode::convertXMLNodeToString(N->getSemanticsAnnotation(0));
@@ -1643,7 +1642,7 @@ START_TEST (test_element_semantics_annxml)
 
   fail_unless( N != NULL );
 
-  fail_unless( N->isSemantics() == true );
+  fail_unless( N->getSemanticsFlag() == true );
   fail_unless( N->getNumSemanticsAnnotations() == 1);
 
   std::string ann1 = XMLNode::convertXMLNodeToString(N->getSemanticsAnnotation(0));
@@ -1673,7 +1672,7 @@ START_TEST (test_element_semantics_lambda)
 
   N = readMathMLFromString(s);
 
-  fail_unless( N->isSemantics() == true );
+  fail_unless( N->getSemanticsFlag() == true );
   fail_unless( N != NULL );
 
 
@@ -1700,15 +1699,8 @@ START_TEST (test_element_semantics_URL_lambda)
 
   fail_unless( N != NULL );
 
-  XMLAttributes* xa = N->getDefinitionURL();
-
-  fail_unless( N->isSemantics() == true );
-  if (xa != NULL)
-  {
-    fail_unless( xa->getValue(0) == "foobar");
-    delete xa;
-  }
-
+  fail_unless( N->getSemanticsFlag() == true );
+  fail_unless( N->getDefinitionURL()->getValue(0) == "foobar");
 
   F = SBML_formulaToString(N);
   fail_unless( !strcmp(F, "lambda(a, xor(a, b, b, a))") );
@@ -1733,7 +1725,7 @@ START_TEST (test_element_semantics_ann_lambda)
 
   fail_unless( N != NULL );
 
-  fail_unless( N->isSemantics() == true );
+  fail_unless( N->getSemanticsFlag() == true );
   fail_unless( N->getNumSemanticsAnnotations() == 1);
 
   std::string ann1 = XMLNode::convertXMLNodeToString(N->getSemanticsAnnotation(0));
@@ -1766,7 +1758,7 @@ START_TEST (test_element_semantics_annxml_lambda)
 
   fail_unless( N != NULL );
 
-  fail_unless( N->isSemantics() == true );
+  fail_unless( N->getSemanticsFlag() == true );
   fail_unless( N->getNumSemanticsAnnotations() == 1);
 
   std::string ann1 = XMLNode::convertXMLNodeToString(N->getSemanticsAnnotation(0));
@@ -2075,10 +2067,8 @@ START_TEST (test_element_invalid_mathml)
   N = readMathMLFromString(NULL);
   fail_unless( N == NULL );
 
-  // in making read from string and read from file consistent this 
-  // would not be NULL node 
   N = readMathMLFromString(invalid);
-  fail_unless( N != NULL );
+  fail_unless( N == NULL );
 }
 END_TEST
 
@@ -2282,6 +2272,150 @@ START_TEST (test_element_child_func1)
 }
 END_TEST
 
+START_TEST(test_element_csymbol_other)
+{
+  const char* s = wrapMathML
+    (
+      "<csymbol encoding='text' "
+      "definitionURL='http://www.other/symbols/foo'> NA </csymbol>"
+      );
+
+
+  N = readMathMLFromString(s);
+
+  fail_unless(N != NULL);
+
+  fail_unless(N->getType() == AST_CSYMBOL_FUNCTION);
+  fail_unless(!strcmp(N->getName(), "NA"));
+  fail_unless(N->getNumChildren() == 0);
+}
+END_TEST
+
+
+START_TEST(test_element_csymbol_other_withNS)
+{
+  const char* s = wrapMathML
+    (
+      "<csymbol encoding='text' "
+      "definitionURL='http://www.other/symbols/foo'> NA </csymbol>"
+      );
+
+  XMLNamespaces* xmlns = new XMLNamespaces();
+  xmlns->add("any_uri");
+
+  N = readMathMLFromStringWithNamespaces(s, xmlns);
+
+  fail_unless(N == NULL);
+
+  delete xmlns;
+}
+END_TEST
+
+
+START_TEST(test_element_csymbol_other_withNS_1)
+{
+  const char* s = wrapMathML
+    ( "<apply>"
+      "<csymbol encoding='text' "
+      "definitionURL='http://www.other/symbols/foo'> NA </csymbol>"
+      "  <ci> y </ci>"
+      "</apply>\n"
+      );
+
+  XMLNamespaces* xmlns = new XMLNamespaces();
+  xmlns->add("any_uri");
+
+  DefinitionURLRegistry::getInstance().addDefinitionURL("http://www.other/symbols/foo", AST_CSYMBOL_FUNCTION);
+
+  N = readMathMLFromStringWithNamespaces(s, xmlns);
+
+  fail_unless(N != NULL);
+
+  fail_unless(N->getType() == AST_CSYMBOL_FUNCTION);
+  fail_unless(!strcmp(N->getName(), "NA"));
+  fail_unless(!strcmp(N->getDefinitionURLString().c_str(), "http://www.other/symbols/foo"));
+
+  F = SBML_formulaToString(N);
+  fail_unless(!strcmp(F, "NA(y)"));
+
+  delete xmlns;
+  DefinitionURLRegistry::getInstance().clearDefinitions();
+}
+END_TEST
+
+
+START_TEST (test_element_generic_csymbol_1)
+{
+  const char* s = wrapMathML
+  (
+    "<csymbol encoding='text' "
+    "definitionURL='http://www.sbml.org/sbml/symbols/unknown/URL'> unknown_function </csymbol>"
+  );
+
+
+  N = readMathMLFromString(s);
+
+  fail_unless( N != NULL );
+
+  fail_unless( N->getType() == AST_CSYMBOL_FUNCTION );
+  fail_unless( !strcmp(N->getName(), "unknown_function"));
+  fail_unless( !strcmp(N->getDefinitionURLString().c_str(), "http://www.sbml.org/sbml/symbols/unknown/URL"));
+  fail_unless( N->getNumChildren() == 0      );
+}
+END_TEST
+
+
+START_TEST (test_element_generic_csymbol_2)
+{
+  const char* s = wrapMathML
+  (
+    "<apply>"
+    "<csymbol encoding='text' "
+    "definitionURL='http://www.sbml.org/sbml/symbols/unknown/URL'> unknown_function </csymbol>"
+    "  <ci> x </ci>"
+    "  <ci> y </ci>"
+    "</apply>\n"
+  );
+
+
+
+  N = readMathMLFromString(s);
+
+  fail_unless( N != NULL );
+
+  F = SBML_formulaToString(N);
+  fail_unless( !strcmp(F, "unknown_function(x, y)") );
+}
+END_TEST
+
+
+START_TEST (test_element_generic_csymbol_3)
+{
+  const char* s = wrapMathML
+  (
+    "<apply>"
+    "  <power/>"
+    "  <apply>"
+    "<csymbol encoding='text' "
+    "definitionURL='http://www.sbml.org/sbml/symbols/unknown/URL'> unknown_function </csymbol>"
+    "    <ci> P </ci>"
+    "    <ci> Q </ci>"
+    "  </apply>\n"
+    "  <ci> q </ci>"
+    "</apply>\n"
+  );
+
+
+
+  N = readMathMLFromString(s);
+
+  fail_unless( N != NULL );
+
+  F = SBML_formulaToString(N);
+  fail_unless( !strcmp(F, "pow(unknown_function(P, Q), q)") );
+}
+END_TEST
+
 
 Suite *
 create_suite_ReadMathML ()
@@ -2411,6 +2545,14 @@ create_suite_ReadMathML ()
 
   tcase_add_test( tcase, test_element_child_func             );
   tcase_add_test( tcase, test_element_child_func1             );
+
+  tcase_add_test(tcase, test_element_csymbol_other);
+  tcase_add_test(tcase, test_element_csymbol_other_withNS);
+  tcase_add_test(tcase, test_element_csymbol_other_withNS_1);
+  tcase_add_test(tcase, test_element_generic_csymbol_1);
+  tcase_add_test(tcase, test_element_generic_csymbol_2);
+  tcase_add_test(tcase, test_element_generic_csymbol_3);
+
   suite_add_tcase(suite, tcase);
 
   return suite;

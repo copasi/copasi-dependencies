@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -1118,7 +1122,7 @@ RenderInformationBase::removeLineEnding(const std::string& sid)
 
 
 /*
- * Predicate returning @c true if this abstract "RenderInformationBase" is of
+ * Predicate returning @c true if this abstract RenderInformationBase is of
  * type GlobalRenderInformation
  */
 bool
@@ -1129,7 +1133,7 @@ RenderInformationBase::isGlobalRenderInformation() const
 
 
 /*
- * Predicate returning @c true if this abstract "RenderInformationBase" is of
+ * Predicate returning @c true if this abstract RenderInformationBase is of
  * type LocalRenderInformation
  */
 bool
@@ -1955,7 +1959,7 @@ RenderInformationBase::createObject(XMLInputStream& stream)
     {
       getErrorLog()->logPackageError("render",
         RenderRenderInformationBaseAllowedElements, getPackageVersion(),
-          getLevel(), getVersion());
+          getLevel(), getVersion(), "", getLine(), getColumn());
     }
 
     obj = &mColorDefinitions;
@@ -1966,7 +1970,7 @@ RenderInformationBase::createObject(XMLInputStream& stream)
     {
       getErrorLog()->logPackageError("render",
         RenderRenderInformationBaseAllowedElements, getPackageVersion(),
-          getLevel(), getVersion());
+          getLevel(), getVersion(), "", getLine(), getColumn());
     }
 
     obj = &mGradientBases;
@@ -1977,7 +1981,7 @@ RenderInformationBase::createObject(XMLInputStream& stream)
     {
       getErrorLog()->logPackageError("render",
         RenderRenderInformationBaseAllowedElements, getPackageVersion(),
-          getLevel(), getVersion());
+          getLevel(), getVersion(), "", getLine(), getColumn());
     }
 
     obj = &mLineEndings;
@@ -2049,7 +2053,7 @@ RenderInformationBase::readAttributes(const XMLAttributes& attributes,
         log->remove(UnknownPackageAttribute);
         log->logPackageError("render",
           RenderRenderInformationBaseAllowedAttributes, pkgVersion, level, version,
-          details);
+          details, getLine(), getColumn());
       }
       else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -2057,7 +2061,7 @@ RenderInformationBase::readAttributes(const XMLAttributes& attributes,
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render",
           RenderRenderInformationBaseAllowedCoreAttributes, pkgVersion, level,
-          version, details);
+          version, details, getLine(), getColumn());
       }
     }
   }
@@ -2088,7 +2092,7 @@ RenderInformationBase::readAttributes(const XMLAttributes& attributes,
         "<RenderInformationBase> element.";
       log->logPackageError("render",
         RenderRenderInformationBaseAllowedAttributes, pkgVersion, level, version,
-        message);
+        message, getLine(), getColumn());
     }
   }
   // 

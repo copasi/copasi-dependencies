@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -228,9 +232,9 @@ ConversionProperties::addOption(const ConversionOption &option)
 }
 
 void 
-ConversionProperties::addOption(const std::string& key, const std::string& value, 
+ConversionProperties::addOption(const std::string& key, const std::string value, 
     ConversionOptionType_t type, 
-    const std::string& description)
+    const std::string description)
 {
   ConversionOption *old = removeOption(key);
   if (old != NULL) delete old;
@@ -239,7 +243,7 @@ ConversionProperties::addOption(const std::string& key, const std::string& value
 }
 void 
 ConversionProperties::addOption(const std::string& key, const char* value, 
-    const std::string& description)
+    const std::string description)
 {
   ConversionOption *old = removeOption(key);
   if (old != NULL) delete old;
@@ -248,7 +252,7 @@ ConversionProperties::addOption(const std::string& key, const char* value,
 }
 void 
 ConversionProperties::addOption(const std::string& key, bool value, 
-    const std::string& description)
+    const std::string description)
 {
   ConversionOption *old = removeOption(key);
   if (old != NULL) delete old;
@@ -257,7 +261,7 @@ ConversionProperties::addOption(const std::string& key, bool value,
 }
 void 
 ConversionProperties::addOption(const std::string& key, double value, 
-    const std::string& description)
+    const std::string description)
 {
   ConversionOption *old = removeOption(key);
   if (old != NULL) delete old;
@@ -266,7 +270,7 @@ ConversionProperties::addOption(const std::string& key, double value,
 }
 void 
 ConversionProperties::addOption(const std::string& key, float value, 
-    const std::string& description)
+    const std::string description)
 {
   ConversionOption *old = removeOption(key);
   if (old != NULL) delete old;
@@ -275,7 +279,7 @@ ConversionProperties::addOption(const std::string& key, float value,
 }
 void 
 ConversionProperties::addOption(const std::string& key, int value, 
-    const std::string& description)
+    const std::string description)
 {
   ConversionOption *old = removeOption(key);
   if (old != NULL) delete old;

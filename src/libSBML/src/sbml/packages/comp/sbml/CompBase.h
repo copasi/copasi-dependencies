@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -43,6 +47,7 @@
 #include <sbml/extension/SBMLExtension.h>
 #include <sbml/extension/SBMLExtensionNamespaces.h>
 #include <sbml/packages/comp/extension/CompExtension.h>
+#include <sbml/packages/comp/validator/CompSBMLError.h>
 #include <sbml/SBase.h>
 
 #ifdef __cplusplus
@@ -143,7 +148,8 @@ protected:
    * parent's implementation of this method as well.
    */
   virtual void readAttributes (const XMLAttributes& attributes,
-                               const ExpectedAttributes& expectedAttributes);
+                               const ExpectedAttributes& expectedAttributes,
+                               bool hasCompIdName, bool idRequired, CompSBMLErrorCode_t errcode);
 
 
   /**
@@ -184,7 +190,7 @@ protected:
    */
   virtual void logInvalidId(const std::string& attribute,
                             const std::string& wrongattribute,
-                            const std::string& object = "");
+                            const std::string object = "");
 
 
 

@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -229,15 +233,15 @@ RenderGroup::RenderGroup(const XMLNode& node, unsigned int l2version)
 */
 RenderGroup::RenderGroup(RenderPkgNamespaces* renderns, const std::string& id) :
   GraphicalPrimitive2D(renderns, id),
+  mStartHead(""),
+  mEndHead(""),
   mFontFamily(""),
-  mFontSize(RelAbsVector(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN())),
   mFontWeight(Text::WEIGHT_UNSET),
   mFontStyle(Text::STYLE_UNSET),
   mTextAnchor(Text::ANCHOR_UNSET),
   mVTextAnchor(Text::ANCHOR_UNSET),
-  mStartHead(""),
-  mEndHead("")
-  , mElements(renderns)
+  mFontSize(RelAbsVector(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN())),
+  mElements(renderns)
 {
 #ifdef DEPRECATION_WARNINGS
   std::cerr << "Warning. RenderGroup::RenderGroup(const std::string& id) is deprecated." << std::endl;
@@ -2269,7 +2273,7 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render", RenderRenderGroupAllowedCoreAttributes,
-          pkgVersion, level, version, details);
+          pkgVersion, level, version, details, getLine(), getColumn());
       }
     }
   }
@@ -2376,7 +2380,7 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
 
         log->logPackageError("render",
           RenderRenderGroupFontWeightMustBeFontWeightEnum, pkgVersion, level,
-            version, msg);
+            version, msg, getLine(), getColumn());
       }
     }
   }
@@ -2415,7 +2419,7 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
 
         log->logPackageError("render",
           RenderRenderGroupFontStyleMustBeFontStyleEnum, pkgVersion, level,
-            version, msg);
+            version, msg, getLine(), getColumn());
       }
     }
   }
@@ -2454,7 +2458,7 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
 
         log->logPackageError("render",
           RenderRenderGroupTextAnchorMustBeHTextAnchorEnum, pkgVersion, level,
-            version, msg);
+            version, msg, getLine(), getColumn());
       }
     }
   }
@@ -2493,7 +2497,7 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
 
         log->logPackageError("render",
           RenderRenderGroupVtextAnchorMustBeVTextAnchorEnum, pkgVersion, level,
-            version, msg);
+            version, msg, getLine(), getColumn());
       }
     }
   }
@@ -2527,7 +2531,7 @@ RenderGroup::readAttributes(const XMLAttributes& attributes,
         }
         message += " does not conform to the syntax of a RelAbsVector type.";
         log->logPackageError("render", RenderRenderGroupFontSizeMustBeRelAbsVector,
-          pkgVersion, level, version, message);
+          pkgVersion, level, version, message, getLine(), getColumn());
       }
 
     }

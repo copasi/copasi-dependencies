@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  * 
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -260,7 +264,7 @@ FluxBound::getReaction () const
 
 
 /*
- * @return true if the reaction of this SBML object has been set, false
+ * @return @c true if the reaction of this SBML object has been set, false
  * otherwise.
  */
 bool
@@ -348,7 +352,7 @@ FluxBound::getFluxBoundOperation () const
 
 
 /*
- * @return true if the operation of this SBML object has been set, false
+ * @return @c true if the operation of this SBML object has been set, false
  * otherwise.
  */
 bool
@@ -391,7 +395,7 @@ FluxBound::getValue () const
 
 
 /*
- * @return true if the value of this SBML object has been set, false
+ * @return @c true if the value of this SBML object has been set, false
  * otherwise.
  */
 bool
@@ -793,7 +797,7 @@ FluxBound::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("fbc", FbcLOFluxBoundsAllowedAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
       else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -801,7 +805,7 @@ FluxBound::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("fbc", FbcLOFluxBoundsAllowedAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
     }
   }
@@ -820,7 +824,7 @@ FluxBound::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("fbc", FbcFluxBoundRequiredAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
       else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -828,7 +832,7 @@ FluxBound::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("fbc", FbcFluxBoundAllowedL3Attributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
     }
   }
@@ -857,7 +861,7 @@ FluxBound::readAttributes (const XMLAttributes& attributes,
       // conform to the SBML type SId.
       //
       getErrorLog()->logPackageError("fbc", FbcSBMLSIdSyntax, 
-        getPackageVersion(), sbmlLevel, sbmlVersion);
+        getPackageVersion(), sbmlLevel, sbmlVersion, "", getLine(), getColumn());
     }
   }
 
@@ -868,7 +872,7 @@ FluxBound::readAttributes (const XMLAttributes& attributes,
   {
     std::string message = "Fbc attribute 'reaction' is missing.";
     getErrorLog()->logPackageError("fbc", FbcFluxBoundRequiredAttributes, 
-      getPackageVersion(), sbmlLevel, sbmlVersion, message);
+      getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
   }
   else
   {
@@ -886,7 +890,7 @@ FluxBound::readAttributes (const XMLAttributes& attributes,
       // conform to the SBML type SId.
       //
       getErrorLog()->logPackageError("fbc", FbcFluxBoundRectionMustBeSIdRef, 
-        getPackageVersion(), sbmlLevel, sbmlVersion);
+        getPackageVersion(), sbmlLevel, sbmlVersion, "", getLine(), getColumn());
     }
   }
 
@@ -910,7 +914,7 @@ FluxBound::readAttributes (const XMLAttributes& attributes,
        if (FluxBoundOperation_isValidFluxBoundOperation(mOperation) == 0)
        {
           getErrorLog()->logPackageError("fbc", FbcFluxBoundOperationMustBeEnum, 
-            getPackageVersion(), sbmlLevel, sbmlVersion);
+            getPackageVersion(), sbmlLevel, sbmlVersion, "", getLine(), getColumn());
        }
     }
   }
@@ -918,7 +922,7 @@ FluxBound::readAttributes (const XMLAttributes& attributes,
   {
     std::string message = "Fbc attribute 'operation' is missing.";
     getErrorLog()->logPackageError("fbc", FbcFluxBoundRequiredAttributes, 
-      getPackageVersion(), sbmlLevel, sbmlVersion, message);
+      getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
   }
 
   unsigned int numErrs = getErrorLog()->getNumErrors();
@@ -931,13 +935,13 @@ FluxBound::readAttributes (const XMLAttributes& attributes,
     {
       getErrorLog()->remove(XMLAttributeTypeMismatch);
       getErrorLog()->logPackageError("fbc", FbcFluxBoundValueMustBeDouble,
-        getPackageVersion(), sbmlLevel, sbmlVersion);
+        getPackageVersion(), sbmlLevel, sbmlVersion, "", getLine(), getColumn());
     }
     else
     {
       std::string message = "Fbc attribute 'value' is missing.";
       getErrorLog()->logPackageError("fbc", FbcFluxBoundRequiredAttributes, 
-        getPackageVersion(), sbmlLevel, sbmlVersion, message);
+        getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
     }
   }
 }

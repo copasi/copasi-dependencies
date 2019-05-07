@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -300,7 +304,6 @@ GetDowncastSwigTypeForPackage (SBase* sb, const std::string &pkgName)
   return SWIGTYPE_p_SBase;
 }
 
-#ifndef LIBSBML_USE_LEGACY_MATH
 
 /**
  * @return the most specific Swig type for the given ASTBasePlugin object.
@@ -318,7 +321,6 @@ GetDowncastSwigType (ASTBasePlugin* sbp)
 }
 
 
-#endif // #ifndef LIBSBML_USE_LEGACY_MATH
 
 /* Compatibility bug fix for swig 2.0.7 and Python 3. 
  * See http://patch-tracker.debian.org/patch/series/view/swig2.0/2.0.7-3/pyint_fromsize_t.diff

@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -327,6 +331,58 @@ START_TEST (test_compartment_size)
 END_TEST
 
 
+START_TEST (test_lv_rxn_variables)
+{
+  SBMLNamespaces sbmlns(2, 1);
+  ConversionProperties prop(&sbmlns);
+  prop.addOption("strict", true, "should validity be preserved");
+  prop.addOption("setLevelAndVersion", true, "convert the document to the given level and version");
+  prop.addOption("ignorePackages", true);
+
+  SBMLLevelVersionConverter * converter = new SBMLLevelVersionConverter();
+  converter->setProperties(&prop);
+
+  string filename(TestDataDirectory);
+  filename += "01224-sbml-l3v1.xml";
+
+  SBMLDocument* d = readSBMLFromFile(filename.c_str());
+
+  // convert to L2V1
+  converter->setDocument(d);
+  fail_unless(converter->convert() == LIBSBML_OPERATION_SUCCESS);
+
+  fail_unless(d->getModel()->getParameter(0)->getValue() == 1.0);
+
+  delete d;
+  delete converter;
+
+  SBMLNamespaces sbmlns2(1, 2);
+  ConversionProperties prop2(&sbmlns2);
+  prop.addOption("strict", true, "should validity be preserved");
+  prop.addOption("setLevelAndVersion", true, "convert the document to the given level and version");
+  prop.addOption("ignorePackages", true);
+
+  converter = new SBMLLevelVersionConverter();
+  converter->setProperties(&prop2);
+
+  filename = TestDataDirectory;
+  filename += "01224-sbml-l3v1.xml";
+
+  d = readSBMLFromFile(filename.c_str());
+
+  // convert to L2V1
+  converter->setDocument(d);
+  fail_unless(converter->convert() == LIBSBML_OPERATION_SUCCESS);
+
+  fail_unless(d->getModel()->getParameter(0)->getValue() == 1.0);
+
+
+  delete d;
+  delete converter;
+}
+END_TEST
+
+
 Suite *
 create_suite_TestLevelVersionConverter (void)
 { 
@@ -343,6 +399,8 @@ create_suite_TestLevelVersionConverter (void)
   tcase_add_test(tcase, test_convertToL1V1);
 
   tcase_add_test(tcase, test_compartment_size);
+
+  tcase_add_test(tcase, test_lv_rxn_variables);
 
   suite_add_tcase(suite, tcase);
 

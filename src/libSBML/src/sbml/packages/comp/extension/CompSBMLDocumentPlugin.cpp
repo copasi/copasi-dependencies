@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -134,7 +138,7 @@ CompSBMLDocumentPlugin::createObject(XMLInputStream& stream)
       if (mListOfModelDefinitions.size() != 0)
       {
         getErrorLog()->logPackageError("comp", CompOneListOfModelDefinitions, 
-          getPackageVersion(), getLevel(), getVersion());
+          getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
       }
      
       object = &mListOfModelDefinitions;
@@ -158,7 +162,7 @@ CompSBMLDocumentPlugin::createObject(XMLInputStream& stream)
       if (mListOfExternalModelDefinitions.size() != 0)
       {
         getErrorLog()->logPackageError("comp", CompOneListOfExtModelDefinitions, 
-          getPackageVersion(), getLevel(), getVersion());
+          getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
       }
      
       object = &mListOfExternalModelDefinitions;
@@ -271,12 +275,12 @@ CompSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
         getErrorLog()->contains(XMLAttributeTypeMismatch))
     {
       getErrorLog()->logPackageError("comp", CompAttributeRequiredMustBeBoolean,
-        getPackageVersion(), getLevel(), getVersion());
+        getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
     }
     else
     {
       getErrorLog()->logPackageError("comp", CompAttributeRequiredMissing,
-        getPackageVersion(), getLevel(), getVersion());
+        getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
     }
   }
   else
@@ -285,7 +289,7 @@ CompSBMLDocumentPlugin::readAttributes (const XMLAttributes& attributes,
     if (mRequired == false) 
     {
       getErrorLog()->logPackageError("comp", CompAttributeRequiredMustBeTrue,
-        getPackageVersion(), getLevel(), getVersion());
+        getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
     }
   }
 }

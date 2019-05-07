@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -200,7 +204,7 @@ Transformation2D::Transformation2D(RenderPkgNamespaces* renderns, const double m
 #endif // OMIT_DEPRECATED
 
 /*
- * Predicate returning @c true if this abstract "Transformation2D" is of type
+ * Predicate returning @c true if this abstract Transformation2D is of type
  * Image
  */
 bool
@@ -211,7 +215,7 @@ Transformation2D::isImage() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation2D" is of type
+ * Predicate returning @c true if this abstract Transformation2D is of type
  * Ellipse
  */
 bool
@@ -222,7 +226,7 @@ Transformation2D::isEllipse() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation2D" is of type
+ * Predicate returning @c true if this abstract Transformation2D is of type
  * Rectangle
  */
 bool
@@ -233,7 +237,7 @@ Transformation2D::isRectangle() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation2D" is of type
+ * Predicate returning @c true if this abstract Transformation2D is of type
  * Polygon
  */
 bool
@@ -244,7 +248,7 @@ Transformation2D::isPolygon() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation2D" is of type
+ * Predicate returning @c true if this abstract Transformation2D is of type
  * RenderGroup
  */
 bool
@@ -255,7 +259,7 @@ Transformation2D::isRenderGroup() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation2D" is of type
+ * Predicate returning @c true if this abstract Transformation2D is of type
  * LineEnding
  */
 bool
@@ -266,7 +270,7 @@ Transformation2D::isLineEnding() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation2D" is of type
+ * Predicate returning @c true if this abstract Transformation2D is of type
  * Text
  */
 bool
@@ -277,7 +281,7 @@ Transformation2D::isText() const
 
 
 /*
- * Predicate returning @c true if this abstract "Transformation2D" is of type
+ * Predicate returning @c true if this abstract Transformation2D is of type
  * RenderCurve
  */
 bool
@@ -711,7 +715,6 @@ Transformation2D::readAttributes(const XMLAttributes& attributes,
   unsigned int version = getVersion();
   unsigned int pkgVersion = getPackageVersion();
   unsigned int numErrs;
-  bool assigned = false;
   SBMLErrorLog* log = getErrorLog();
 
   if (log && getParentSBMLObject() &&
@@ -725,14 +728,14 @@ Transformation2D::readAttributes(const XMLAttributes& attributes,
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownPackageAttribute);
         log->logPackageError("render", RenderUnknown, pkgVersion, level,
-          version, details);
+          version, details, getLine(), getColumn());
       }
       else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render", RenderUnknown, pkgVersion, level,
-          version, details);
+          version, details, getLine(), getColumn());
       }
     }
   }
@@ -810,7 +813,7 @@ Transformation2D::writeAttributes(XMLOutputStream& stream) const
  */
 void Transformation2D::parseTransformation(const std::string& transformationString)
 {
-    // the string should contain a list of 6 komma seperated numbers
+    // the string should contain a list of 6 comma seperated numbers
     // if it doesn't, we set the matrix to the identity matrix
     bool result=true;
     std::string delimiter=",";

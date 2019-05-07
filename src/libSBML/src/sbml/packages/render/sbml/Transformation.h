@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -221,10 +225,10 @@ public:
 
 
   /**
-   * Returns true if the matrix has been set or false otherwise.
+   * Returns @c true if the matrix has been set or @c false otherwise.
    * The matrix is considered as set if none of the values in the matrix is NaN.
    *
-   * @return true or false depending on whether a NaN was found.
+   * @return @c true or @c false depending on whether a NaN was found.
    */
   bool isSetMatrix() const;
   
@@ -295,80 +299,80 @@ public:
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation" is of type
+   * Predicate returning @c true if this abstract Transformation is of type
    * Image
    *
-   * @return @c true if this abstract "Transformation" is of type Image,
+   * @return @c true if this abstract Transformation is of type Image,
    * @c false otherwise
    */
   virtual bool isImage() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation" is of type
+   * Predicate returning @c true if this abstract Transformation is of type
    * Ellipse
    *
-   * @return @c true if this abstract "Transformation" is of type Ellipse,
+   * @return @c true if this abstract Transformation is of type Ellipse,
    * @c false otherwise
    */
   virtual bool isEllipse() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation" is of type
+   * Predicate returning @c true if this abstract Transformation is of type
    * Rectangle
    *
-   * @return @c true if this abstract "Transformation" is of type Rectangle,
+   * @return @c true if this abstract Transformation is of type Rectangle,
    * @c false otherwise
    */
   virtual bool isRectangle() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation" is of type
+   * Predicate returning @c true if this abstract Transformation is of type
    * Polygon
    *
-   * @return @c true if this abstract "Transformation" is of type Polygon,
+   * @return @c true if this abstract Transformation is of type Polygon,
    * @c false otherwise
    */
   virtual bool isPolygon() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation" is of type
+   * Predicate returning @c true if this abstract Transformation is of type
    * RenderGroup
    *
-   * @return @c true if this abstract "Transformation" is of type RenderGroup,
+   * @return @c true if this abstract Transformation is of type RenderGroup,
    * @c false otherwise
    */
   virtual bool isRenderGroup() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation" is of type
+   * Predicate returning @c true if this abstract Transformation is of type
    * LineEnding
    *
-   * @return @c true if this abstract "Transformation" is of type LineEnding,
+   * @return @c true if this abstract Transformation is of type LineEnding,
    * @c false otherwise
    */
   virtual bool isLineEnding() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation" is of type
+   * Predicate returning @c true if this abstract Transformation is of type
    * Text
    *
-   * @return @c true if this abstract "Transformation" is of type Text,
+   * @return @c true if this abstract Transformation is of type Text,
    * @c false otherwise
    */
   virtual bool isText() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation" is of type
+   * Predicate returning @c true if this abstract Transformation is of type
    * RenderCurve
    *
-   * @return @c true if this abstract "Transformation" is of type RenderCurve,
+   * @return @c true if this abstract Transformation is of type RenderCurve,
    * @c false otherwise
    */
   virtual bool isRenderCurve() const;
@@ -739,7 +743,7 @@ BEGIN_C_DECLS
  *
  * @copydetails doc_note_setting_lv_pkg
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Transformation_t
  */
@@ -765,7 +769,7 @@ Transformation_createImage(unsigned int level,
  *
  * @copydetails doc_note_setting_lv_pkg
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Transformation_t
  */
@@ -791,7 +795,7 @@ Transformation_createEllipse(unsigned int level,
  *
  * @copydetails doc_note_setting_lv_pkg
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Transformation_t
  */
@@ -817,7 +821,7 @@ Transformation_createRectangle(unsigned int level,
  *
  * @copydetails doc_note_setting_lv_pkg
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Transformation_t
  */
@@ -843,7 +847,7 @@ Transformation_createPolygon(unsigned int level,
  *
  * @copydetails doc_note_setting_lv_pkg
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Transformation_t
  */
@@ -869,7 +873,7 @@ Transformation_createRenderGroup(unsigned int level,
  *
  * @copydetails doc_note_setting_lv_pkg
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Transformation_t
  */
@@ -895,7 +899,7 @@ Transformation_createLineEnding(unsigned int level,
  *
  * @copydetails doc_note_setting_lv_pkg
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Transformation_t
  */
@@ -921,7 +925,7 @@ Transformation_createText(unsigned int level,
  *
  * @copydetails doc_note_setting_lv_pkg
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Transformation_t
  */
@@ -939,7 +943,7 @@ Transformation_createRenderCurve(unsigned int level,
  *
  * @return a (deep) copy of this Transformation_t object.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Transformation_t
  */
@@ -968,7 +972,7 @@ Transformation_free(Transformation_t* t);
  * @return the value of the "name" attribute of this Transformation_t as a
  * pointer to a string.
  *
- * @copydetails doc_returned_owned_char
+ * @copydetails doc_warning_returns_owned_char
  *
  * @memberof Transformation_t
  */

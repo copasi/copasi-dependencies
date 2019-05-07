@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -57,7 +61,7 @@
 #include <sbml/extension/ISBMLExtensionNamespaces.h>
 #include <sbml/extension/SBMLExtensionRegistry.h>
 #include <sbml/extension/SBMLExtensionException.h>
-
+#include <sbml/util/CallbackRegistry.h>
 
 /** @cond doxygenIgnored */
 using namespace std;
@@ -1121,7 +1125,7 @@ SBase::getModelHistory()
 
 
 /*
- * @return true if the metaid of this SBML object is set, false
+ * @return @c true if the metaid of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -1134,7 +1138,7 @@ SBase::isSetMetaId () const
 /*
  * NOTE: THIS IS FOR BACKWARD COMPATABILITY REASONS
  *
- * @return true if the id of this SBML object is set, false
+ * @return @c true if the id of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -1147,7 +1151,7 @@ SBase::isSetId () const
 /*
  * NOTE: THIS IS FOR BACKWARD COMPATABILITY REASONS
  *
- * @return true if the name of this SBML object is set, false
+ * @return @c true if the name of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -1165,7 +1169,7 @@ SBase::isSetIdAttribute () const
 
 
 /*
- * @return true if the notes of this SBML object is set, false
+ * @return @c true if the notes of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -1176,7 +1180,7 @@ SBase::isSetNotes () const
 
 
 /*
- * @return true if the annotation of this SBML object is set,
+ * @return @c true if the annotation of this SBML object is set,
  * false otherwise.
  */
 bool
@@ -1188,7 +1192,7 @@ SBase::isSetAnnotation () const
 
 
 /*
- * @return true if the sboTerm is set, false
+ * @return @c true if the sboTerm is set, false
  * otherwise.
  */
 bool
@@ -1616,7 +1620,7 @@ SBase::appendAnnotation (const std::string& annotation)
 
 
 int
-SBase::removeTopLevelAnnotationElement(const std::string elementName,
+SBase::removeTopLevelAnnotationElement(const std::string& elementName,
     const std::string elementURI, bool removeEmpty)
 {
 
@@ -2387,7 +2391,7 @@ SBase::connectToChild()
 /** @endcond */
 
 SBase*
-SBase::getAncestorOfType(int type, const std::string pkgName)
+SBase::getAncestorOfType(int type, const std::string& pkgName)
 {
   if (pkgName == "core" && type == SBML_DOCUMENT)
     return getSBMLDocument();
@@ -3558,8 +3562,10 @@ SBase::deleteDisabledPlugins(bool recursive /*= true*/)
   if (recursive)
   {
     List* list = getAllElements();
-    for (unsigned int i = 0; i < list->getSize(); ++i)
-      ((SBase*)list->get(i))->deleteDisabledPlugins();
+    for (ListIterator iter = list->begin(); iter != list->end(); ++iter)
+    {
+      (static_cast<SBase*>(*iter))->deleteDisabledPlugins();
+    }
     delete list;
   }
 
@@ -4525,6 +4531,13 @@ SBase::read (XMLInputStream& stream)
 
   while ( stream.isGood() )
   {
+    if (CallbackRegistry::invokeCallbacks(getSBMLDocument()) != LIBSBML_OPERATION_SUCCESS)
+    {
+      if (getErrorLog() != NULL && !getErrorLog()->contains(OperationInterrupted))
+        logError(OperationInterrupted, getLevel(), getVersion());
+      break;
+    }
+
     // this used to skip the text
     //    stream.skipText();
     // instead, read text and store in variable
@@ -4553,7 +4566,15 @@ SBase::read (XMLInputStream& stream)
            << stream.peek().getURI() << endl;
 #endif
 
-      SBase * object = createObject(stream);
+      SBase * object = NULL;
+      try
+      {
+        object = createObject(stream);
+      }
+      catch (const SBMLExtensionException&)
+      {
+        object = NULL;
+      }
 
       if (!object)
       {
@@ -4736,7 +4757,14 @@ SBase::createExtensionObject (XMLInputStream& stream)
     std::cout << "[DEBUG] SBase::createExtensionObject " << getElementName()
          << " " << uri << std::endl;
 #endif
-    object = sbext->createObject(stream);
+    try
+    {
+      object = sbext->createObject(stream);
+    }
+    catch (const SBMLExtensionException&)
+    {
+      object = NULL;
+    }
   }
 #if 0
   else
@@ -4758,7 +4786,7 @@ SBase::createExtensionObject (XMLInputStream& stream)
  * Subclasses should override this method to read (and store) XHTML,
  * MathML, etc. directly from the XMLInputStream.
  *
- * @return true if the subclass read from the stream, false otherwise.
+ * @return @c true if the subclass read from the stream, false otherwise.
  */
 bool
 SBase::readOtherXML (XMLInputStream& stream)
@@ -4785,7 +4813,7 @@ SBase::readOtherXML (XMLInputStream& stream)
 
 /** @cond doxygenLibsbmlInternal */
 /*
- * @return true if read an <annotation> element from the stream
+ * @return @c true if read an <annotation> element from the stream
  */
 bool
 SBase::readAnnotation (XMLInputStream& stream)
@@ -4917,7 +4945,7 @@ SBase::readAnnotation (XMLInputStream& stream)
 
 /** @cond doxygenLibsbmlInternal */
 /*
- * @return true if read a <notes> element from the stream
+ * @return @c true if read a <notes> element from the stream
  */
 bool
 SBase::readNotes (XMLInputStream& stream)
@@ -5020,7 +5048,7 @@ SBase::logUnknownAttribute( const string& attribute,
                             const unsigned int level,
                             const unsigned int version,
                             const string& element,
-                            const string& prefix)
+                            const string prefix)
 {
   ostringstream msg;
 
@@ -5480,7 +5508,7 @@ void
 SBase::logError (  unsigned int       id
                  , const unsigned int 
                  , const unsigned int 
-                 , const std::string& details )
+                 , const std::string details )
 {
   //
   // (TODO) Needs to be fixed so that error can be added when
@@ -5568,7 +5596,23 @@ SBase::readAttributes (const XMLAttributes& attributes,
     {
       if (!expectedAttributes.hasAttribute(name))
       {
-        logUnknownAttribute(name, level, version, getElementName());
+        if (name == "required")
+        {
+          //we have an l2 doc with a package declared
+          for (unsigned int i = 0; i < this->getNumPlugins(); ++i)
+          {
+            if (getPlugin(i)->getURI() == uri)
+            {
+              enablePackageInternal(uri, prefix, false);
+            }
+          }
+          logError(NotSchemaConformant, getLevel(), getVersion(), "The L3 package '" + prefix +
+            "' cannot be used in this document.");
+        }
+        else
+        {
+          logUnknownAttribute(name, level, version, getElementName());
+        }
       }
     }
     else if (!prefix.empty() && (prefix != getPrefix()) && (uri != mURI) )
@@ -6693,7 +6737,7 @@ SBase::checkMathMLNamespace(const XMLToken elem)
 void
 SBase::checkDefaultNamespace(const XMLNamespaces* xmlns,
                              const std::string& elementName,
-                             const std::string& prefix)
+                             const std::string prefix)
 {
   //
   // checks if the given default namespace (if any) is a valid
@@ -7286,7 +7330,7 @@ SBase::updateSBMLNamespace(const std::string& package, unsigned int level,
   else
   {
     std::string uri = this->getSBMLNamespaces()->getNamespaces()->getURI(package);
-    const SBMLExtension* sbmlext = SBMLExtensionRegistry::getInstance().getExtension(uri);
+    const SBMLExtension* sbmlext = SBMLExtensionRegistry::getInstance().getExtensionInternal(uri);
     // so we have a plugin for this package already enabled
     // if there are two version 1 of this package
     // we want is to change the uri being used

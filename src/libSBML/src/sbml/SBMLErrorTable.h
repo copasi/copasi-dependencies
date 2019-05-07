@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -289,7 +293,9 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_ERROR,
     "In the SBML subset of MathML 2.0, the MathML attribute "
     "'encoding' is only permitted on <csymbol>. No other MathML elements may "
-    "have an 'encoding' attribute. ",
+    "have an 'encoding' attribute. An SBML L3 Package may allow the 'encoding' "
+    "attribute in other places, and if so, the package must define "
+    "required = 'true' on the SBML container element <sbml>.",
     {"",
      "",
      "L2V2 Section 3.5.1",
@@ -324,7 +330,10 @@ static const sbmlErrorTableEntry errorTable[] =
     "In the SBML subset of MathML 2.0, the MathML attribute "
     "'definitionURL' is only permitted on <csymbol>, <semantics> or <ci> "
     "(Level 2 Version 5 and Level 3 only). "
-    "No other MathML elements may have a 'definitionURL' attribute. ",
+    "No other MathML elements may have a 'definitionURL' attribute. "
+    "An SBML L3 Package may allow the 'definitionURL' "
+    "attribute in other places, and if so, the package must define "
+    "required = 'true' on the SBML container element <sbml>.",
     {"",
      "",
      "L2V2 Section 3.5.1",
@@ -353,7 +362,10 @@ static const sbmlErrorTableEntry errorTable[] =
     "a <csymbol> element are \"http://www.sbml.org/sbml/symbols/time\" "
     "and \"http://www.sbml.org/sbml/symbols/delay\". SBML Level 3 added "
     "\"http://www.sbml.org/sbml/symbols/avogadro\". SBML Level 3 Version 2 "
-    "added \"http://www.sbml.org/sbml/symbols/rateOf\"", 
+    "added \"http://www.sbml.org/sbml/symbols/rateOf\" An SBML L3 Package "
+    "may allow new values for the 'definitionURL' attribute of a csymbol, "
+    "and if so, the package must define "
+    "required = 'true' on the SBML container element <sbml>.",
     {"",
      "",
      "L2V2 Section 3.5.5",
@@ -380,7 +392,9 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_ERROR,
     "In the SBML subset of MathML 2.0, the MathML attribute "
     "'type' is only permitted on the <cn> construct. No other MathML elements "
-    "may have a 'type' attribute.",
+    "may have a 'type' attribute. An SBML L3 Package may allow the 'type' "
+    "attribute in other places, and if so, the package must define "
+    "required = 'true' on the SBML container element <sbml>.",
     {"",
      "",
      "L2V2 Section 3.5.1",
@@ -406,7 +420,10 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
     "The only permitted values for the 'type' attribute on MathML <cn> "
-    "elements are 'e-notation', 'real', 'integer', and 'rational'. ",
+    "elements are 'e-notation', 'real', 'integer', and 'rational'. An SBML L3 " 
+      "Package may allow new values for the 'type' "
+    "attribute, and if so, the package must define "
+    "required = 'true' on the SBML container element <sbml>.",
     {"",
      "",
      "L2V2 Section 3.5.2",
@@ -435,7 +452,9 @@ static const sbmlErrorTableEntry errorTable[] =
     "the 'math' element of a <functionDefinition> or as the first element "
     "of a semantics element immediately inside inside the math element "
     "of a <functionDefinition>; they may not be used "
-    "elsewhere in an SBML model.",
+    "elsewhere in an SBML model. An SBML L3 Package may allow the lambda "
+    "element in other places, and if so, the package must define "
+    "required = 'true' on the SBML container element <sbml>.",
     {"",
      "",
      "L2V2 Sections 3.5.1 and 4.3",
@@ -768,7 +787,10 @@ static const sbmlErrorTableEntry errorTable[] =
     LIBSBML_SEV_ERROR,
     LIBSBML_SEV_ERROR,
     "The SBML attribute 'units' may only be added to MathML <cn> elements; "
-    "no other MathML elements are permitted to have the 'units' attribute. ",
+    "no other MathML elements are permitted to have the 'units' attribute.  "
+    "An SBML L3 Package may allow the 'units' "
+    "attribute in other places, and if so, the package must define "
+    "required = 'true' on the SBML container element <sbml>.",
     {"",
      "",
      "",
@@ -4023,7 +4045,34 @@ static const sbmlErrorTableEntry errorTable[] =
      "L3V2 Section 4.3"}
   },
 
-  //20401
+      //20308 (currently 
+  {
+    OnlyCiInsideBVar,
+    "Invalid element found in <bvar> element",
+      LIBSBML_CAT_GENERAL_CONSISTENCY,
+      LIBSBML_SEV_NOT_APPLICABLE,
+      LIBSBML_SEV_NOT_APPLICABLE,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      LIBSBML_SEV_ERROR,
+      "Inside the lambda MathML element within a FunctionDefinition any bvar "
+      "elements must contain one instance of a <ci> element. No other elements "
+      "are permitted within a bvar element.",
+      { "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "L3V1 Section 4.3",
+      "L3V2 Section 4.3" }
+  },
+
+      //20401
   {
     InvalidUnitDefId,
     "Invalid 'id' attribute value for a UnitDefinition object",
@@ -12089,7 +12138,30 @@ static const sbmlErrorTableEntry errorTable[] =
      ""}
    },
 
-
+	//99950
+	{
+		OperationInterrupted ,
+		"The operation was interrupted by the user.",
+		LIBSBML_CAT_INTERNAL_CONSISTENCY,
+		LIBSBML_SEV_ERROR,
+		LIBSBML_SEV_ERROR,
+		LIBSBML_SEV_ERROR,
+		LIBSBML_SEV_ERROR,
+		LIBSBML_SEV_ERROR,
+		LIBSBML_SEV_ERROR,
+		LIBSBML_SEV_ERROR,
+		LIBSBML_SEV_ERROR,
+		LIBSBML_SEV_ERROR,
+		"The operation was interrupted by the user.",
+		{"",
+		 "",
+		 "",
+		 "",
+		 "",
+		 "",
+		 "",
+		 ""}
+	},
 
       /* Explanation about 99994 and 99995:
 

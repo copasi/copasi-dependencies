@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -610,7 +614,7 @@ Style::unsetGroup()
 
 
 /*
- * Predicate returning @c true if this abstract "Style" is of type GlobalStyle
+ * Predicate returning @c true if this abstract Style is of type GlobalStyle
  */
 bool
 Style::isGlobalStyle() const
@@ -620,7 +624,7 @@ Style::isGlobalStyle() const
 
 
 /*
- * Predicate returning @c true if this abstract "Style" is of type LocalStyle
+ * Predicate returning @c true if this abstract Style is of type LocalStyle
  */
 bool
 Style::isLocalStyle() const
@@ -1337,14 +1341,14 @@ Style::readAttributes(const XMLAttributes& attributes,
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownPackageAttribute);
         log->logPackageError("render", RenderStyleAllowedAttributes,
-          pkgVersion, level, version, details);
+          pkgVersion, level, version, details, getLine(), getColumn());
       }
       else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render", RenderStyleAllowedCoreAttributes,
-          pkgVersion, level, version, details);
+          pkgVersion, level, version, details, getLine(), getColumn());
       }
     }
   }

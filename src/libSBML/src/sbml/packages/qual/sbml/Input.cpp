@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -914,7 +918,7 @@ Input::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("qual", QualTransitionLOInputAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
       else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -922,7 +926,7 @@ Input::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("qual", QualTransitionLOInputAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
     }
   }
@@ -941,7 +945,7 @@ Input::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("qual", QualInputAllowedAttributes,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
       else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -949,7 +953,7 @@ Input::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("qual", QualInputAllowedCoreAttributes,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
     }
   }
@@ -999,7 +1003,7 @@ Input::readAttributes (const XMLAttributes& attributes,
   {
     std::string message = "Qual attribute 'qualitativeSpecies' is missing.";
     getErrorLog()->logPackageError("qual", QualInputAllowedAttributes,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
   }
 
   //
@@ -1027,7 +1031,7 @@ Input::readAttributes (const XMLAttributes& attributes,
           }
           msg += "is '" + effect + "', which is not a valid option.";
           getErrorLog()->logPackageError("qual", QualInputTransEffectMustBeInputEffect,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, msg);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, msg, getLine(), getColumn());
        }
     }
   }
@@ -1035,7 +1039,7 @@ Input::readAttributes (const XMLAttributes& attributes,
   {
     std::string message = "Qual attribute 'transitionEffect' is missing.";
     getErrorLog()->logPackageError("qual", QualInputAllowedAttributes,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
   }
 
   //
@@ -1078,7 +1082,7 @@ Input::readAttributes (const XMLAttributes& attributes,
           }
           msg += "is '" + sign + "', which is not a valid option.";
           getErrorLog()->logPackageError("qual", QualInputSignMustBeSignEnum,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, msg);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, msg, getLine(), getColumn());
        }
     }
   }
@@ -1098,7 +1102,7 @@ Input::readAttributes (const XMLAttributes& attributes,
       {
         getErrorLog()->remove(XMLAttributeTypeMismatch);
         getErrorLog()->logPackageError("qual", QualInputThreshMustBeInteger,
-                     getPackageVersion(), sbmlLevel, sbmlVersion);
+                     getPackageVersion(), sbmlLevel, sbmlVersion, "", getLine(), getColumn());
       }
     }
   }
@@ -1113,7 +1117,7 @@ Input::readAttributes (const XMLAttributes& attributes,
       }
       msg << "is '" << mThresholdLevel << "', which is negative.";
       getErrorLog()->logPackageError("qual", QualInputThreshMustBeNonNegative,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, msg.str());
+                   getPackageVersion(), sbmlLevel, sbmlVersion, msg.str(), getLine(), getColumn());
     }
   }
 

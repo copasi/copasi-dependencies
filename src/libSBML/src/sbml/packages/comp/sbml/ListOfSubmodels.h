@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -283,7 +287,7 @@ ListOfSubmodels_getById(ListOf_t* lo, const char *sid);
  *
  * @return a pointer to the nth Submodel_t in this ListOf_t.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof ListOfSubmodels_t
  */
@@ -303,7 +307,7 @@ ListOfSubmodels_remove(ListOf_t* lo, unsigned int n);
  * @return the Submodel_t in this ListOf_t based on the identifier or NULL if
  * no such Submodel_t exists.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof ListOfSubmodels_t
  */

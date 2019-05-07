@@ -9,6 +9,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -95,6 +99,8 @@
 #include "FunctionDefinitionRecursion.h"
 
 #include "RateOfCycles.h"
+
+#include <sbml/math/L3FormulaFormatter.h>
 
 #endif
 
@@ -414,6 +420,36 @@ START_CONSTRAINT (99302, FunctionDefinition, fd)
   pre( fd.getMath()->isLambda() );
   
   inv( fd.isSetBody() == true      );
+}
+END_CONSTRAINT
+
+
+START_CONSTRAINT(99304, FunctionDefinition, fd)
+{
+
+  pre(fd.getLevel() > 1);
+  pre(fd.isSetMath());
+  pre(fd.getMath()->isLambda());
+  const ASTNode* math = fd.getMath();
+  unsigned int n = math->getNumBvars();
+
+  bool fail = false;
+
+  unsigned int i = 0;
+  while (i < n && fail == false)
+  {
+    const ASTNode * child = math->getChild(i);
+    if (child->getType() != AST_NAME)
+    {
+      msg = "The <functionDefinition> with id '" + fd.getId() + "' contains"
+        " a <bvar> element " + SBML_formulaToL3String(child) + " that is not a <ci> element.";
+      fail = true;
+    }
+
+    i++;
+  }
+
+  inv(fail == false);
 }
 END_CONSTRAINT
 

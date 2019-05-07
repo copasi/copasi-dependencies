@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -141,9 +145,9 @@ SBMLIdConverter::convert()
   std::map<std::string, std::string> renamed;
   
   // rename ids 
-  for (unsigned int i = 0; i < allElements->getSize(); ++i)
+  for (ListIterator iter = allElements->begin(); iter != allElements->end(); ++iter)
   {
-    SBase* current = static_cast<SBase*>(allElements->get(i));
+    SBase* current = static_cast<SBase*>(*iter);
     if (current == NULL || !current->isSetId() 
       || current->getTypeCode() == SBML_LOCAL_PARAMETER)
       continue;	 
@@ -168,9 +172,9 @@ SBMLIdConverter::convert()
 
   // update all references that we changed
   std::map<std::string, std::string>::const_iterator it;
-  for (unsigned int i = 0; i < allElements->getSize(); ++i)
+  for (ListIterator iter = allElements->begin(); iter != allElements->end(); ++iter)
   {
-	  SBase* current = static_cast<SBase*>(allElements->get(i));
+    SBase* current = static_cast<SBase*>(*iter);
 	  for (it = renamed.begin(); it != renamed.end(); ++it)
 	  {
 	    current->renameSIdRefs(it->first, it->second);

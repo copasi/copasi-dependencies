@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -1073,14 +1077,14 @@ Rectangle::readAttributes(const XMLAttributes& attributes,
           const std::string details = log->getError(n)->getMessage();
           log->remove(UnknownPackageAttribute);
           log->logPackageError("render", RenderRectangleAllowedAttributes,
-            pkgVersion, level, version, details);
+            pkgVersion, level, version, details, getLine(), getColumn());
         }
         else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
         {
           const std::string details = log->getError(n)->getMessage();
           log->remove(UnknownCoreAttribute);
           log->logPackageError("render", RenderRectangleAllowedCoreAttributes,
-            pkgVersion, level, version, details);
+            pkgVersion, level, version, details, getLine(), getColumn());
         }
       }
     }
@@ -1105,7 +1109,7 @@ Rectangle::readAttributes(const XMLAttributes& attributes,
           std::string message = "Render attribute 'ratio' from the " + elplusid +
             " must be a double.";
         log->logPackageError("render", RenderRectangleRatioMustBeDouble,
-          pkgVersion, level, version, message);
+          pkgVersion, level, version, message, getLine(), getColumn());
       }
     }
 
@@ -1122,7 +1126,7 @@ Rectangle::readAttributes(const XMLAttributes& attributes,
       std::string message = "The required attribute 'x' is missing from the "
         + elplusid + ".";
       log->logPackageError("render", RenderRectangleAllowedAttributes,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
     }
     else
     {
@@ -1132,7 +1136,7 @@ Rectangle::readAttributes(const XMLAttributes& attributes,
         std::string message = "The syntax '" + s + "' of the attribute 'x' on the "
           + elplusid + " does not conform to the syntax of a RelAbsVector type.";
         log->logPackageError("render", RenderRectangleXMustBeRelAbsVector,
-          pkgVersion, level, version, message);
+          pkgVersion, level, version, message, getLine(), getColumn());
 
       }
       else
@@ -1152,7 +1156,7 @@ Rectangle::readAttributes(const XMLAttributes& attributes,
       std::string message = "The required attribute 'y' is missing from the "
         + elplusid + ".";
       log->logPackageError("render", RenderRectangleAllowedAttributes,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
     }
     else
     {
@@ -1162,7 +1166,7 @@ Rectangle::readAttributes(const XMLAttributes& attributes,
         std::string message = "The syntax '" + s + "' of the attribute 'y' on the "
           + elplusid + " does not conform to the syntax of a RelAbsVector type.";
         log->logPackageError("render", RenderRectangleYMustBeRelAbsVector,
-          pkgVersion, level, version, message);
+          pkgVersion, level, version, message, getLine(), getColumn());
 
       }
       else
@@ -1190,7 +1194,7 @@ Rectangle::readAttributes(const XMLAttributes& attributes,
         std::string message = "The syntax '" + s + "' of the attribute 'z' on the "
           + elplusid + " does not conform to the syntax of a RelAbsVector type.";
         log->logPackageError("render", RenderRectangleZMustBeRelAbsVector,
-          pkgVersion, level, version, message);
+          pkgVersion, level, version, message, getLine(), getColumn());
 
       }
       else
@@ -1210,7 +1214,7 @@ Rectangle::readAttributes(const XMLAttributes& attributes,
       std::string message = "The required attribute 'height' is missing from the "
         + elplusid + ".";
       log->logPackageError("render", RenderRectangleAllowedAttributes,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
     }
     else
     {
@@ -1220,7 +1224,7 @@ Rectangle::readAttributes(const XMLAttributes& attributes,
         std::string message = "The syntax '" + s + "' of the attribute 'height' on the "
           + elplusid + " does not conform to the syntax of a RelAbsVector type.";
         log->logPackageError("render", RenderRectangleHeightMustBeRelAbsVector,
-          pkgVersion, level, version, message);
+          pkgVersion, level, version, message, getLine(), getColumn());
 
       }
       else
@@ -1241,7 +1245,7 @@ Rectangle::readAttributes(const XMLAttributes& attributes,
       std::string message = "The required attribute 'width' is missing from the "
         + elplusid + ".";
       log->logPackageError("render", RenderRectangleAllowedAttributes,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
     }
     else
     {
@@ -1251,7 +1255,7 @@ Rectangle::readAttributes(const XMLAttributes& attributes,
         std::string message = "The syntax '" + s + "' of the attribute 'width' on the "
           + elplusid + " does not conform to the syntax of a RelAbsVector type.";
         log->logPackageError("render", RenderRectangleWidthMustBeRelAbsVector,
-          pkgVersion, level, version, message);
+          pkgVersion, level, version, message, getLine(), getColumn());
 
       }
       else
@@ -1279,7 +1283,7 @@ Rectangle::readAttributes(const XMLAttributes& attributes,
         std::string message = "The syntax '" + s + "' of the attribute 'rx' on the "
           + elplusid + " does not conform to the syntax of a RelAbsVector type.";
         log->logPackageError("render", RenderRectangleRXMustBeRelAbsVector,
-          pkgVersion, level, version, message);
+          pkgVersion, level, version, message, getLine(), getColumn());
 
       }
       else
@@ -1314,7 +1318,7 @@ Rectangle::readAttributes(const XMLAttributes& attributes,
         std::string message = "The syntax '" + s + "' of the attribute 'ry' on the "
           + elplusid + " does not conform to the syntax of a RelAbsVector type.";
         log->logPackageError("render", RenderRectangleRYMustBeRelAbsVector,
-          pkgVersion, level, version, message);
+          pkgVersion, level, version, message, getLine(), getColumn());
 
       }
       else

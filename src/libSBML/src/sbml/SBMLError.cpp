@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -188,12 +192,12 @@ std::string SBMLError::stringForCategory(unsigned int code) const
 SBMLError::SBMLError (  const unsigned int errorId
                       , const unsigned int level
                       , const unsigned int version 
-                      , const std::string& details
+                      , const std::string details
                       , const unsigned int line
                       , const unsigned int column
                       , const unsigned int severity
                       , const unsigned int category 
-                      , const std::string& package
+                      , const std::string package
                       , const unsigned int pkgVersion) :
     XMLError((int)errorId, details, line, column, severity, category)
 {

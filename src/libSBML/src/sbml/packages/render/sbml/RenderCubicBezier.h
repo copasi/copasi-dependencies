@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -823,7 +827,7 @@ BEGIN_C_DECLS
  *
  * @copydetails doc_note_setting_lv_pkg
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof RenderCubicBezier_t
  */
@@ -841,7 +845,7 @@ RenderCubicBezier_create(unsigned int level,
  *
  * @return a (deep) copy of this RenderCubicBezier_t object.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof RenderCubicBezier_t
  */
@@ -1053,7 +1057,7 @@ RenderCubicBezier_isSetBasePoint2_z(const RenderCubicBezier_t * rcb);
  *
  * @param rcb the RenderCubicBezier_t structure.
  *
- * @param basePoint1_x RelAbsVector_t* value of the "basePoint1_x" element to
+ * @param basePoint1_x RelAbsVector_t value of the "basePoint1_x" element to
  * be set.
  *
  * @copydetails doc_returns_success_code
@@ -1074,7 +1078,7 @@ RenderCubicBezier_setBasePoint1_x(RenderCubicBezier_t * rcb,
  *
  * @param rcb the RenderCubicBezier_t structure.
  *
- * @param basePoint1_y RelAbsVector_t* value of the "basePoint1_y" element to
+ * @param basePoint1_y RelAbsVector_t value of the "basePoint1_y" element to
  * be set.
  *
  * @copydetails doc_returns_success_code
@@ -1095,7 +1099,7 @@ RenderCubicBezier_setBasePoint1_y(RenderCubicBezier_t * rcb,
  *
  * @param rcb the RenderCubicBezier_t structure.
  *
- * @param basePoint1_z RelAbsVector_t* value of the "basePoint1_z" element to
+ * @param basePoint1_z RelAbsVector_t value of the "basePoint1_z" element to
  * be set.
  *
  * @copydetails doc_returns_success_code
@@ -1116,7 +1120,7 @@ RenderCubicBezier_setBasePoint1_z(RenderCubicBezier_t * rcb,
  *
  * @param rcb the RenderCubicBezier_t structure.
  *
- * @param basePoint2_x RelAbsVector_t* value of the "basePoint2_x" element to
+ * @param basePoint2_x RelAbsVector_t value of the "basePoint2_x" element to
  * be set.
  *
  * @copydetails doc_returns_success_code
@@ -1137,7 +1141,7 @@ RenderCubicBezier_setBasePoint2_x(RenderCubicBezier_t * rcb,
  *
  * @param rcb the RenderCubicBezier_t structure.
  *
- * @param basePoint2_y RelAbsVector_t* value of the "basePoint2_y" element to
+ * @param basePoint2_y RelAbsVector_t value of the "basePoint2_y" element to
  * be set.
  *
  * @copydetails doc_returns_success_code
@@ -1158,7 +1162,7 @@ RenderCubicBezier_setBasePoint2_y(RenderCubicBezier_t * rcb,
  *
  * @param rcb the RenderCubicBezier_t structure.
  *
- * @param basePoint2_z RelAbsVector_t* value of the "basePoint2_z" element to
+ * @param basePoint2_z RelAbsVector_t value of the "basePoint2_z" element to
  * be set.
  *
  * @copydetails doc_returns_success_code

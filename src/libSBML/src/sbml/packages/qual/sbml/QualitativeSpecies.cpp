@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -948,7 +952,7 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("qual", QualLOQualSpeciesAllowedAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
       else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -956,7 +960,7 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("qual", QualLOQualSpeciesAllowedAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
     }
   }
@@ -974,7 +978,7 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("qual", QualQualSpeciesAllowedAttributes,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
       else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -982,7 +986,7 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("qual", QualQualSpeciesAllowedCoreAttributes,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
     }
   }
@@ -1011,7 +1015,7 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
   {
     std::string message = "Qual attribute 'id' is missing.";
     getErrorLog()->logPackageError("qual", QualQualSpeciesAllowedAttributes,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
   }
 
   //
@@ -1037,7 +1041,7 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
   {
     std::string message = "Qual attribute 'compartment' is missing.";
     getErrorLog()->logPackageError("qual", QualQualSpeciesAllowedAttributes,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, message);
+                   getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
   }
 
   //
@@ -1055,13 +1059,13 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
       {
         getErrorLog()->remove(XMLAttributeTypeMismatch);
         getErrorLog()->logPackageError("qual", QualConstantMustBeBool,
-                     getPackageVersion(), sbmlLevel, sbmlVersion);
+                     getPackageVersion(), sbmlLevel, sbmlVersion, "", getLine(), getColumn());
       }
       else
       {
       std::string message = "Qual attribute 'constant' is missing.";
       getErrorLog()->logPackageError("qual", QualQualSpeciesAllowedAttributes,
-                     getPackageVersion(), sbmlLevel, sbmlVersion, message);
+                     getPackageVersion(), sbmlLevel, sbmlVersion, message, getLine(), getColumn());
       }
     }
   }
@@ -1097,7 +1101,7 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
       {
         getErrorLog()->remove(XMLAttributeTypeMismatch);
         getErrorLog()->logPackageError("qual", QualInitialLevelMustBeInt,
-                     getPackageVersion(), sbmlLevel, sbmlVersion);
+                     getPackageVersion(), sbmlLevel, sbmlVersion, "", getLine(), getColumn());
       }
     }
   }
@@ -1112,7 +1116,7 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
       }
       msg << "is '" << mInitialLevel << "', which is negative.";
       getErrorLog()->logPackageError("qual", QualInitalLevelNotNegative,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, msg.str());
+                   getPackageVersion(), sbmlLevel, sbmlVersion, msg.str(), getLine(), getColumn());
     }
   }
 
@@ -1131,7 +1135,7 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
       {
         getErrorLog()->remove(XMLAttributeTypeMismatch);
         getErrorLog()->logPackageError("qual", QualMaxLevelMustBeInt,
-                     getPackageVersion(), sbmlLevel, sbmlVersion);
+                     getPackageVersion(), sbmlLevel, sbmlVersion, "", getLine(), getColumn());
       }
     }
   }
@@ -1146,7 +1150,7 @@ QualitativeSpecies::readAttributes (const XMLAttributes& attributes,
       }
       msg << "is '" << mMaxLevel << "', which is negative.";
       getErrorLog()->logPackageError("qual", QualMaxLevelNotNegative,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, msg.str());
+                   getPackageVersion(), sbmlLevel, sbmlVersion, msg.str(), getLine(), getColumn());
     }
   }
 }

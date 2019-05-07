@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -437,7 +441,7 @@ public:
    *
    * @return a pointer to the nth RenderPoint in this RenderCurve.
    *
-   * @copydetails doc_returned_owned_pointer
+   * @copydetails doc_warning_returns_owned_pointer
    *
    * @see addElement(const RenderPoint* object)
    * @see getElement(unsigned int n)
@@ -1033,7 +1037,7 @@ BEGIN_C_DECLS
  *
  * @copydetails doc_note_setting_lv_pkg
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof RenderCurve_t
  */
@@ -1051,7 +1055,7 @@ RenderCurve_create(unsigned int level,
  *
  * @return a (deep) copy of this RenderCurve_t object.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof RenderCurve_t
  */
@@ -1080,7 +1084,7 @@ RenderCurve_free(RenderCurve_t* rc);
  * @return the value of the "startHead" attribute of this RenderCurve_t as a
  * pointer to a string.
  *
- * @copydetails doc_returned_owned_char
+ * @copydetails doc_warning_returns_owned_char
  *
  * @memberof RenderCurve_t
  */
@@ -1097,7 +1101,7 @@ RenderCurve_getStartHead(const RenderCurve_t * rc);
  * @return the value of the "endHead" attribute of this RenderCurve_t as a
  * pointer to a string.
  *
- * @copydetails doc_returned_owned_char
+ * @copydetails doc_warning_returns_owned_char
  *
  * @memberof RenderCurve_t
  */
@@ -1337,7 +1341,7 @@ RenderCurve_createCubicBezier(RenderCurve_t* rc);
  *
  * @return a pointer to the nth RenderPoint_t in this RenderCurve_t.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof RenderCurve_t
  */

@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -493,7 +497,7 @@ RenderPoint::unsetZ()
 
 
 /*
- * Predicate returning @c true if this abstract "RenderPoint" is of type
+ * Predicate returning @c true if this abstract RenderPoint is of type
  * RenderPoint
  */
 bool
@@ -504,7 +508,7 @@ RenderPoint::isRenderPoint() const
 
 
 /*
- * Predicate returning @c true if this abstract "RenderPoint" is of type
+ * Predicate returning @c true if this abstract RenderPoint is of type
  * RenderCubicBezier
  */
 bool
@@ -661,7 +665,7 @@ void RenderPoint::readAttributes (const XMLAttributes& attributes, const Expecte
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render",
           RenderRenderPointAllowedCoreAttributes, pkgVersion, level, version,
-          details);
+          details, getLine(), getColumn());
       }
     }
   }
@@ -685,7 +689,7 @@ void RenderPoint::readAttributes (const XMLAttributes& attributes, const Expecte
       std::string message = "The required attribute 'x' is missing from the "
         + elplusid + ".";
       log->logPackageError("render", RenderRenderPointAllowedAttributes,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
     }
     setX(RelAbsVector(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()));
   }
@@ -699,7 +703,7 @@ void RenderPoint::readAttributes (const XMLAttributes& attributes, const Expecte
         std::string message = "The syntax '" + s + "' of the attribute 'x' on the "
           + elplusid + " does not conform to the syntax of a RelAbsVector type.";
         log->logPackageError("render", RenderEllipseCxMustBeRelAbsVector,
-          pkgVersion, level, version, message);
+          pkgVersion, level, version, message, getLine(), getColumn());
       }
       setX(RelAbsVector(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()));
     }
@@ -721,7 +725,7 @@ void RenderPoint::readAttributes (const XMLAttributes& attributes, const Expecte
       std::string message = "The required attribute 'y' is missing from the "
         + elplusid + ".";
       log->logPackageError("render", RenderRenderPointAllowedAttributes,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
     }
     setY(RelAbsVector(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()));
   }
@@ -735,7 +739,7 @@ void RenderPoint::readAttributes (const XMLAttributes& attributes, const Expecte
         std::string message = "The syntax '" + s + "' of the attribute 'y' on the "
           + elplusid + " does not conform to the syntax of a RelAbsVector type.";
         log->logPackageError("render", RenderEllipseCyMustBeRelAbsVector,
-          pkgVersion, level, version, message);
+          pkgVersion, level, version, message, getLine(), getColumn());
       }
       setY(RelAbsVector(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()));
     }
@@ -764,7 +768,7 @@ void RenderPoint::readAttributes (const XMLAttributes& attributes, const Expecte
       std::string message = "The syntax '" + s + "' of the attribute 'c' on the "
         + elplusid + " does not conform to the syntax of a RelAbsVector type.";
       log->logPackageError("render", RenderEllipseCzMustBeRelAbsVector,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
 
     }
     else

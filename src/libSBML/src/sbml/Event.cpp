@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -417,7 +421,7 @@ Event::getUseValuesFromTriggerTime () const
 
   
 /*
- * @return true if the id of this SBML object is set, false
+ * @return @c true if the id of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -428,7 +432,7 @@ Event::isSetId () const
 
 
 /*
- * @return true if the name of this SBML object is set, false
+ * @return @c true if the name of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -440,7 +444,7 @@ Event::isSetName () const
 
 
 /*
- * @return true if the trigger of this Event is set, false otherwise.
+ * @return @c true if the trigger of this Event is set, false otherwise.
  */
 bool
 Event::isSetTrigger () const
@@ -450,7 +454,7 @@ Event::isSetTrigger () const
 
 
 /*
- * @return true if the delay of this Event is set, false otherwise.
+ * @return @c true if the delay of this Event is set, false otherwise.
  */
 bool
 Event::isSetDelay () const
@@ -460,7 +464,7 @@ Event::isSetDelay () const
 
 
 /*
- * @return true if the priority of this Event is set, false otherwise.
+ * @return @c true if the priority of this Event is set, false otherwise.
  */
 bool
 Event::isSetPriority () const
@@ -470,7 +474,7 @@ Event::isSetPriority () const
 
 
 /*
- * @return true if the timeUnits of this Event is set, false
+ * @return @c true if the timeUnits of this Event is set, false
  * otherwise.
  *
  * @warning Definitions of Event in SBML Level 2 Versions 1 and 2
@@ -487,7 +491,7 @@ Event::isSetTimeUnits () const
 
 
 /*
- * @return true if the mUseValuesFromTriggerTime of this Event is set, false otherwise.
+ * @return @c true if the mUseValuesFromTriggerTime of this Event is set, false otherwise.
  */
 bool
 Event::isSetUseValuesFromTriggerTime () const

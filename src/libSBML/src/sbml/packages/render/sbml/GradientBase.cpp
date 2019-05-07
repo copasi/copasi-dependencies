@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -275,7 +279,6 @@ GradientBase::getSpreadMethodAsString() const
 //    SpreadMethod_toString((GradientBase::SPREADMETHOD)(mSpreadMethod));
 //  return code_str;
 //}
-//bgoli22
 std::string
 GradientBase::getSpreadMethodString() const
 {
@@ -594,7 +597,7 @@ GradientBase::removeGradientStop(const std::string& sid)
 
 
 /*
- * Predicate returning @c true if this abstract "GradientBase" is of type
+ * Predicate returning @c true if this abstract GradientBase is of type
  * LinearGradient
  */
 bool
@@ -605,7 +608,7 @@ GradientBase::isLinearGradient() const
 
 
 /*
- * Predicate returning @c true if this abstract "GradientBase" is of type
+ * Predicate returning @c true if this abstract GradientBase is of type
  * RadialGradient
  */
 bool
@@ -1248,7 +1251,7 @@ GradientBase::createObject(XMLInputStream& stream)
 {
   SBase* obj = NULL;
 
-  const std::string& name = stream.peek().getName();
+  //const std::string& name = stream.peek().getName();
 
   obj = mGradientStops.createObject(stream);
 
@@ -1309,14 +1312,14 @@ GradientBase::readAttributes(const XMLAttributes& attributes,
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownPackageAttribute);
         log->logPackageError("render", RenderGradientBaseAllowedAttributes,
-          pkgVersion, level, version, details);
+          pkgVersion, level, version, details, getLine(), getColumn());
       }
       else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render", RenderUnknown, pkgVersion, level,
-          version, details);
+          version, details, getLine(), getColumn());
       }
     }
   }
@@ -1334,14 +1337,14 @@ GradientBase::readAttributes(const XMLAttributes& attributes,
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownPackageAttribute);
         log->logPackageError("render", RenderGradientBaseAllowedAttributes,
-          pkgVersion, level, version, details);
+          pkgVersion, level, version, details, getLine(), getColumn());
       }
       else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render", RenderGradientBaseAllowedCoreAttributes,
-          pkgVersion, level, version, details);
+          pkgVersion, level, version, details, getLine(), getColumn());
       }
     }
   }
@@ -1372,7 +1375,7 @@ GradientBase::readAttributes(const XMLAttributes& attributes,
     if (log)
     {
       log->logPackageError("render", RenderGradientBaseAllowedAttributes,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
     }
   }
 
@@ -1420,7 +1423,7 @@ GradientBase::readAttributes(const XMLAttributes& attributes,
 
         log->logPackageError("render",
           RenderGradientBaseSpreadMethodMustBeGradientSpreadMethodEnum,
-            pkgVersion, level, version, msg);
+            pkgVersion, level, version, msg, getLine(), getColumn());
       }
     }
   }

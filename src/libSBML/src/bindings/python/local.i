@@ -9,6 +9,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -264,13 +268,11 @@ namespace std
                                $owner | %newpointer_flags);
 }
 
-#ifndef LIBSBML_USE_LEGACY_MATH
 %typemap(out) ASTBasePlugin*
 {
   $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), GetDowncastSwigType($1),
                                $owner | %newpointer_flags);
 }
-#endif
 
 /*
  * SWIG-generated wrapper code wrongly invokes
@@ -990,7 +992,12 @@ SBase::getCVTerms
 
 
     """
-    return _libsbml.SBase_getCVTerms(self)
+    
+    cvlist = _libsbml.SBase_getCVTerms(self)
+    if cvlist is None:
+      return []
+    else:
+      return cvlist
 %}
 
 %typemap(out) List* SBase::getCVTerms
@@ -1090,6 +1097,38 @@ SBasePlugin::getListOfAllElements
 #endif
                                SWIG_POINTER_OWN |  0 );
 }
+
+/***
+ * Add a document reference to the returned model to keep it alive
+*/
+%feature("shadow")
+SBMLDocument::getModel
+%{
+  def getModel(self, *args):
+    """
+    getModel(SBMLDocument self) -> Model
+    getModel(SBMLDocument self) -> Model
+
+
+    Returns the Model object stored in this SBMLDocument.
+
+    It is important to note that this method does not create a Model
+    instance.  The model in the SBMLDocument must have been created at
+    some prior time, for example using SBMLDocument.createModel()  or
+    SBMLDocument.setModel(). This method returns 'None' if a model does
+    not yet exist.
+
+    Returns the Model contained in this SBMLDocument, or 'None' if no such
+    model exists.
+
+    See also createModel().
+
+    """
+    model = _libsbml.SBMLDocument_getModel(self, *args)
+    if model is not None:
+      model.__parent_ref__ = self
+    return model
+%}
 
 
 #endif

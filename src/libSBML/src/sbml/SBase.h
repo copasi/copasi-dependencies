@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -804,7 +808,7 @@ public:
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
-  SBase* getAncestorOfType(int type, const std::string pkgName = "core");
+  SBase* getAncestorOfType(int type, const std::string& pkgName = "core");
 
 
   /**
@@ -1385,7 +1389,7 @@ public:
    * @see replaceTopLevelAnnotationElement(const XMLNode *)
    * @see replaceTopLevelAnnotationElement(const std::string&)
    */
-  int removeTopLevelAnnotationElement(const std::string elementName, 
+  int removeTopLevelAnnotationElement(const std::string& elementName, 
     const std::string elementURI = "", bool removeEmpty = true);
 
 
@@ -3362,7 +3366,7 @@ protected:
   void logError (  unsigned int       id
                  , const unsigned int level   = 2
                  , const unsigned int version = 3
-                 , const std::string& details = "" );
+                 , const std::string details = "" );
 
 
   /**
@@ -3372,7 +3376,7 @@ protected:
           const unsigned int level,
           const unsigned int version,
           const std::string& element,
-          const std::string& prefix="");
+          const std::string prefix="");
 
 
   /**
@@ -3485,7 +3489,7 @@ protected:
    * If the given default namespace is not valid, an error is logged.
    */
   void checkDefaultNamespace(const XMLNamespaces* xmlns, 
-    const std::string& elementName, const std::string& prefix = "");
+    const std::string& elementName, const std::string prefix = "");
 
   /**
    * Checks the annotation does not declare an sbml namespace.

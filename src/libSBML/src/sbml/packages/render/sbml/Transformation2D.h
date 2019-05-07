@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -181,80 +185,80 @@ public:
 #endif // OMIT_DEPRECATED
 
   /**
-   * Predicate returning @c true if this abstract "Transformation2D" is of type
+   * Predicate returning @c true if this abstract Transformation2D is of type
    * Image
    *
-   * @return @c true if this abstract "Transformation2D" is of type Image,
+   * @return @c true if this abstract Transformation2D is of type Image,
    * @c false otherwise
    */
   virtual bool isImage() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation2D" is of type
+   * Predicate returning @c true if this abstract Transformation2D is of type
    * Ellipse
    *
-   * @return @c true if this abstract "Transformation2D" is of type Ellipse,
+   * @return @c true if this abstract Transformation2D is of type Ellipse,
    * @c false otherwise
    */
   virtual bool isEllipse() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation2D" is of type
+   * Predicate returning @c true if this abstract Transformation2D is of type
    * Rectangle
    *
-   * @return @c true if this abstract "Transformation2D" is of type Rectangle,
+   * @return @c true if this abstract Transformation2D is of type Rectangle,
    * @c false otherwise
    */
   virtual bool isRectangle() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation2D" is of type
+   * Predicate returning @c true if this abstract Transformation2D is of type
    * Polygon
    *
-   * @return @c true if this abstract "Transformation2D" is of type Polygon,
+   * @return @c true if this abstract Transformation2D is of type Polygon,
    * @c false otherwise
    */
   virtual bool isPolygon() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation2D" is of type
+   * Predicate returning @c true if this abstract Transformation2D is of type
    * RenderGroup
    *
-   * @return @c true if this abstract "Transformation2D" is of type
+   * @return @c true if this abstract Transformation2D is of type
    * RenderGroup, @c false otherwise
    */
   virtual bool isRenderGroup() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation2D" is of type
+   * Predicate returning @c true if this abstract Transformation2D is of type
    * LineEnding
    *
-   * @return @c true if this abstract "Transformation2D" is of type LineEnding,
+   * @return @c true if this abstract Transformation2D is of type LineEnding,
    * @c false otherwise
    */
   virtual bool isLineEnding() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation2D" is of type
+   * Predicate returning @c true if this abstract Transformation2D is of type
    * Text
    *
-   * @return @c true if this abstract "Transformation2D" is of type Text,
+   * @return @c true if this abstract Transformation2D is of type Text,
    * @c false otherwise
    */
   virtual bool isText() const;
 
 
   /**
-   * Predicate returning @c true if this abstract "Transformation2D" is of type
+   * Predicate returning @c true if this abstract Transformation2D is of type
    * RenderCurve
    *
-   * @return @c true if this abstract "Transformation2D" is of type
+   * @return @c true if this abstract Transformation2D is of type
    * RenderCurve, @c false otherwise
    */
   virtual bool isRenderCurve() const;
@@ -773,7 +777,7 @@ BEGIN_C_DECLS
 *
 * @copydetails doc_note_setting_lv_pkg
 *
-* @copydetails doc_returned_owned_pointer
+* @copydetails doc_warning_returns_owned_pointer
 *
 * @memberof Transformation2D_t
 */
@@ -799,7 +803,7 @@ Transformation2D_createImage(unsigned int level,
 *
 * @copydetails doc_note_setting_lv_pkg
 *
-* @copydetails doc_returned_owned_pointer
+* @copydetails doc_warning_returns_owned_pointer
 *
 * @memberof Transformation2D_t
 */
@@ -825,7 +829,7 @@ Transformation2D_createEllipse(unsigned int level,
 *
 * @copydetails doc_note_setting_lv_pkg
 *
-* @copydetails doc_returned_owned_pointer
+* @copydetails doc_warning_returns_owned_pointer
 *
 * @memberof Transformation2D_t
 */
@@ -851,7 +855,7 @@ Transformation2D_createRectangle(unsigned int level,
 *
 * @copydetails doc_note_setting_lv_pkg
 *
-* @copydetails doc_returned_owned_pointer
+* @copydetails doc_warning_returns_owned_pointer
 *
 * @memberof Transformation2D_t
 */
@@ -877,7 +881,7 @@ Transformation2D_createPolygon(unsigned int level,
 *
 * @copydetails doc_note_setting_lv_pkg
 *
-* @copydetails doc_returned_owned_pointer
+* @copydetails doc_warning_returns_owned_pointer
 *
 * @memberof Transformation2D_t
 */
@@ -903,7 +907,7 @@ Transformation2D_createRenderGroup(unsigned int level,
 *
 * @copydetails doc_note_setting_lv_pkg
 *
-* @copydetails doc_returned_owned_pointer
+* @copydetails doc_warning_returns_owned_pointer
 *
 * @memberof Transformation2D_t
 */
@@ -929,7 +933,7 @@ Transformation2D_createText(unsigned int level,
 *
 * @copydetails doc_note_setting_lv_pkg
 *
-* @copydetails doc_returned_owned_pointer
+* @copydetails doc_warning_returns_owned_pointer
 *
 * @memberof Transformation2D_t
 */
@@ -955,7 +959,7 @@ Transformation2D_createRenderCurve(unsigned int level,
 *
 * @copydetails doc_note_setting_lv_pkg
 *
-* @copydetails doc_returned_owned_pointer
+* @copydetails doc_warning_returns_owned_pointer
 *
 * @memberof Transformation2D_t
 */
@@ -973,7 +977,7 @@ Transformation2D_createLineEnding(unsigned int level,
  *
  * @return a (deep) copy of this Transformation2D_t object.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof Transformation2D_t
  */

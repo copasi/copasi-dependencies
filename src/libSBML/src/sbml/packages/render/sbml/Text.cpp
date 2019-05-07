@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -201,11 +205,11 @@ Text::Text(const Text& orig)
   , mY ( orig.mY )
   , mZ ( orig.mZ )
   , mFontFamily ( orig.mFontFamily )
+  , mFontSize(orig.mFontSize)
   , mFontWeight ( orig.mFontWeight )
   , mFontStyle ( orig.mFontStyle )
   , mTextAnchor ( orig.mTextAnchor )
   , mVTextAnchor ( orig.mVTextAnchor )
-  , mFontSize ( orig.mFontSize )
 {
   connectToChild();
 }
@@ -1086,14 +1090,14 @@ Text::readAttributes(const XMLAttributes& attributes,
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownPackageAttribute);
         log->logPackageError("render", RenderTextAllowedAttributes, pkgVersion,
-          level, version, details);
+          level, version, details, getLine(), getColumn());
       }
       else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render", RenderTextAllowedCoreAttributes,
-          pkgVersion, level, version, details);
+          pkgVersion, level, version, details, getLine(), getColumn());
       }
     }
   }
@@ -1146,7 +1150,7 @@ Text::readAttributes(const XMLAttributes& attributes,
         if (log) 
           log->logPackageError("render",
           RenderTextFontWeightMustBeFontWeightEnum, pkgVersion, level, version,
-            msg);
+            msg, getLine(), getColumn());
         mFontWeight = FONT_WEIGHT_UNSET;
       }
     }
@@ -1180,7 +1184,7 @@ Text::readAttributes(const XMLAttributes& attributes,
 
         if (log) 
           log->logPackageError("render", RenderTextFontStyleMustBeFontStyleEnum,
-          pkgVersion, level, version, msg);
+          pkgVersion, level, version, msg, getLine(), getColumn());
         mFontStyle = FONT_STYLE_UNSET;
       }
     }
@@ -1215,7 +1219,7 @@ Text::readAttributes(const XMLAttributes& attributes,
         if (log)
           log->logPackageError("render",
           RenderTextTextAnchorMustBeHTextAnchorEnum, pkgVersion, level, version,
-            msg);
+            msg, getLine(), getColumn());
         mTextAnchor = H_TEXTANCHOR_UNSET;
       }
     }
@@ -1250,7 +1254,7 @@ Text::readAttributes(const XMLAttributes& attributes,
         if (log)
           log->logPackageError("render",
           RenderTextVtextAnchorMustBeVTextAnchorEnum, pkgVersion, level, version,
-            msg);
+            msg, getLine(), getColumn());
         mVTextAnchor = V_TEXTANCHOR_UNSET;
       }
     }
@@ -1268,7 +1272,7 @@ Text::readAttributes(const XMLAttributes& attributes,
     std::string message = "The required attribute 'x' is missing from the "
       + elplusid + ".";
     log->logPackageError("render", RenderTextAllowedAttributes,
-      pkgVersion, level, version, message);
+      pkgVersion, level, version, message, getLine(), getColumn());
   }
   else
   {
@@ -1278,7 +1282,7 @@ Text::readAttributes(const XMLAttributes& attributes,
       std::string message = "The syntax '" + s + "' of the attribute 'x' on the "
         + elplusid + " does not conform to the syntax of a RelAbsVector type.";
       log->logPackageError("render", RenderTextXMustBeRelAbsVector,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
 
     }
     else
@@ -1298,7 +1302,7 @@ Text::readAttributes(const XMLAttributes& attributes,
     std::string message = "The required attribute 'y' is missing from the "
       + elplusid + ".";
     log->logPackageError("render", RenderTextAllowedAttributes,
-      pkgVersion, level, version, message);
+      pkgVersion, level, version, message, getLine(), getColumn());
   }
   else
   {
@@ -1308,7 +1312,7 @@ Text::readAttributes(const XMLAttributes& attributes,
       std::string message = "The syntax '" + s + "' of the attribute 'y' on the "
         + elplusid + " does not conform to the syntax of a RelAbsVector type.";
       log->logPackageError("render", RenderTextYMustBeRelAbsVector,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
 
     }
     else
@@ -1336,7 +1340,7 @@ Text::readAttributes(const XMLAttributes& attributes,
       std::string message = "The syntax '" + s + "' of the attribute 'z' on the "
         + elplusid + " does not conform to the syntax of a RelAbsVector type.";
       log->logPackageError("render", RenderTextZMustBeRelAbsVector,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
 
     }
     else
@@ -1365,7 +1369,7 @@ Text::readAttributes(const XMLAttributes& attributes,
       std::string message = "The syntax '" + s + "' of the attribute 'font-size' on the "
         + elplusid + " does not conform to the syntax of a RelAbsVector type.";
       log->logPackageError("render", RenderTextFontSizeMustBeRelAbsVector,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
 
     }
     else

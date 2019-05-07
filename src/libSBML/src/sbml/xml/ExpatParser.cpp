@@ -11,6 +11,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -125,7 +129,7 @@ translateError(const int expatCode)
  */
 void
 ExpatParser::reportError (const XMLErrorCode_t code,
-			  const string&        extraMsg,
+			  const string        extraMsg,
 			  const unsigned int   line,
 			  const unsigned int   column)
 {
@@ -180,7 +184,7 @@ ExpatParser::~ExpatParser ()
  * result from out-of-memory conditions as well.  This is called
  * by methods such as @c parse() and @c parseNext().
  * 
- * @return true if the parser encountered an error, false otherwise.
+ * @return @c true if the parser encountered an error, false otherwise.
  */
 bool
 ExpatParser::error () const
@@ -221,7 +225,7 @@ ExpatParser::getLine () const
  * which to read the XML content.  Otherwise, @p content is treated as a
  * null-terminated buffer containing XML data and is read directly.
  *
- * @return true if the parse was successful, false otherwise.
+ * @return @c true if the parse was successful, false otherwise.
  */
 bool
 ExpatParser::parse (const char* content, bool isFile)
@@ -253,7 +257,7 @@ ExpatParser::parse (const char* content, bool isFile)
  * to read the XML content.  Otherwise, content is treated as a buffer
  * containing XML data and is read directly.
  *
- * @return true if the first step of the progressive parse was
+ * @return @c true if the first step of the progressive parse was
  * successful, false otherwise.
  */
 bool
@@ -317,7 +321,7 @@ ExpatParser::parseFirst (const char* content, bool isFile)
 /**
  * Parses the next chunk of XML content.
  *
- * @return true if the next step of the progressive parse was successful,
+ * @return @c true if the next step of the progressive parse was successful,
  * false otherwise or when at EOF.
  */
 bool

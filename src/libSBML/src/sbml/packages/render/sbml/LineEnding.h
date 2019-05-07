@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -287,7 +291,7 @@ public:
    * Returns the value of the "group" element of this LineEnding.
    *
    * @return the value of the "group" element of this LineEnding as a
-   * RenderGroup*.
+   * RenderGroup.
    */
   const RenderGroup* getGroup() const;
 
@@ -296,7 +300,7 @@ public:
    * Returns the value of the "group" element of this LineEnding.
    *
    * @return the value of the "group" element of this LineEnding as a
-   * RenderGroup*.
+   * RenderGroup.
    */
   RenderGroup* getGroup();
 
@@ -305,7 +309,7 @@ public:
    * Returns the value of the "boundingBox" element of this LineEnding.
    *
    * @return the value of the "boundingBox" element of this LineEnding as a
-   * BoundingBox*.
+   * BoundingBox.
    */
   const BoundingBox* getBoundingBox() const;
 
@@ -314,7 +318,7 @@ public:
    * Returns the value of the "boundingBox" element of this LineEnding.
    *
    * @return the value of the "boundingBox" element of this LineEnding as a
-   * BoundingBox*.
+   * BoundingBox.
    */
   BoundingBox* getBoundingBox();
 
@@ -341,7 +345,7 @@ public:
   /**
    * Sets the value of the "group" element of this LineEnding.
    *
-   * @param group RenderGroup* value of the "group" element to be set.
+   * @param group RenderGroup value of the "group" element to be set.
    *
    * @copydetails doc_returns_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -354,7 +358,7 @@ public:
   /**
    * Sets the value of the "boundingBox" element of this LineEnding.
    *
-   * @param boundingBox BoundingBox* value of the "boundingBox" element to be
+   * @param boundingBox BoundingBox value of the "boundingBox" element to be
    * set.
    *
    * @copydetails doc_returns_success_code
@@ -975,7 +979,7 @@ BEGIN_C_DECLS
  *
  * @copydetails doc_note_setting_lv_pkg
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof LineEnding_t
  */
@@ -993,7 +997,7 @@ LineEnding_create(unsigned int level,
  *
  * @return a (deep) copy of this LineEnding_t object.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof LineEnding_t
  */
@@ -1022,7 +1026,7 @@ LineEnding_free(LineEnding_t* le);
  * @return the value of the "id" attribute of this LineEnding_t as a pointer to
  * a string.
  *
- * @copydetails doc_returned_owned_char
+ * @copydetails doc_warning_returns_owned_char
  *
  * @memberof LineEnding_t
  */
@@ -1165,7 +1169,7 @@ LineEnding_unsetEnableRotationalMapping(LineEnding_t * le);
  * @param le the LineEnding_t structure whose group is sought.
  *
  * @return the value of the "group" element of this LineEnding_t as a
- * RenderGroup*.
+ * RenderGroup.
  *
  * @memberof LineEnding_t
  */
@@ -1180,7 +1184,7 @@ LineEnding_getGroup(const LineEnding_t * le);
  * @param le the LineEnding_t structure whose boundingBox is sought.
  *
  * @return the value of the "boundingBox" element of this LineEnding_t as a
- * BoundingBox*.
+ * BoundingBox.
  *
  * @memberof LineEnding_t
  */
@@ -1226,7 +1230,7 @@ LineEnding_isSetBoundingBox(const LineEnding_t * le);
  *
  * @param le the LineEnding_t structure.
  *
- * @param group RenderGroup_t* value of the "group" element to be set.
+ * @param group RenderGroup_t value of the "group" element to be set.
  *
  * @copydetails doc_returns_success_code
  * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -1245,7 +1249,7 @@ LineEnding_setGroup(LineEnding_t * le, const RenderGroup_t* group);
  *
  * @param le the LineEnding_t structure.
  *
- * @param boundingBox BoundingBox_t* value of the "boundingBox" element to be
+ * @param boundingBox BoundingBox_t value of the "boundingBox" element to be
  * set.
  *
  * @copydetails doc_returns_success_code

@@ -252,6 +252,7 @@ add_custom_command(
     COMMAND "${CMAKE_COMMAND}"
     ARGS -DBIN_DIRECTORY=\"${CMAKE_CURRENT_BINARY_DIR}\"
          -DSRC_DIRECTORY=\"${CMAKE_CURRENT_SOURCE_DIR}\"
+         -DPYTHON_USE_API2_WARNINGS=\"${PYTHON_USE_API2_WARNINGS}\"
          -P "${CMAKE_CURRENT_SOURCE_DIR}/patch-python.cmake"
 
     MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/libsbml.i
@@ -338,12 +339,15 @@ endif()
 
 option (PYTHON_INSTALL_IN_PREFIX
     "Install python binaries using the specified install prefix." ON)
+
+
 if (PYTHON_INSTALL_IN_PREFIX)
     install(TARGETS binding_python_lib DESTINATION ${PYTHON_PACKAGE_INSTALL_DIR}/libsbml )
 
     file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pth" "libsbml\n")
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsbml.pth  DESTINATION ${PYTHON_PACKAGE_INSTALL_DIR})
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libsbml.py  DESTINATION ${PYTHON_PACKAGE_INSTALL_DIR}/libsbml )
+    
 endif(PYTHON_INSTALL_IN_PREFIX)
 
 ####################################################################
@@ -703,12 +707,10 @@ if(WITH_CHECK)
           )
           ADJUST_PYTHONPATH(test_python_multi_multi_example1)    
 
-	  if (NOT LIBSBML_USE_LEGACY_MATH)
-            add_test(NAME test_python_multi_multi_example2
-                COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/multi/multi_example2.py
-            )
-            ADJUST_PYTHONPATH(test_python_multi_multi_example2)    
-	  endif()
+          add_test(NAME test_python_multi_multi_example2
+              COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/multi/multi_example2.py
+          )
+          ADJUST_PYTHONPATH(test_python_multi_multi_example2)    
 
           add_test(NAME test_python_multi_multi_example3
               COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/examples/python/multi/multi_example3.py

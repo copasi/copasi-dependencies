@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -195,7 +199,7 @@ START_TEST(test_L3_SpeciesReference_denominator)
   // check it cannot be set
   fail_unless(SpeciesReference_setDenominator(SR, 2) == LIBSBML_UNEXPECTED_ATTRIBUTE);
 
-  // but for backwards compatability allow teh value to be set
+  // but for backwards compatability allow the value to be set
   fail_unless(SpeciesReference_getDenominator(SR) == 2);
 }
 END_TEST

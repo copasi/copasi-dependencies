@@ -9,6 +9,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -156,9 +160,9 @@ SBasePlugin::getElementBySId(const std::string& id)
   IdFilter filter;
   List* allElementsWithIds = this->getAllElements(&filter);
   if (allElementsWithIds == NULL) return NULL;
-  for (unsigned int i = 0; i < allElementsWithIds->getSize(); i++)
+  for (ListIterator iter = allElementsWithIds->begin(); iter != allElementsWithIds->end(); ++iter)
   {
-    SBase* obj = (SBase*)(allElementsWithIds->get(i));
+    SBase* obj = static_cast<SBase*>(*iter);
     if (obj->getId() == id)
     {
       delete allElementsWithIds;
@@ -177,9 +181,9 @@ SBasePlugin::getElementByMetaId(const std::string& metaid)
   MetaIdFilter filter;
   List* allElementsWithIds = this->getAllElements(&filter);
   if (allElementsWithIds == NULL) return NULL;
-  for (unsigned int i = 0; i < allElementsWithIds->getSize(); i++)
+  for (ListIterator iter = allElementsWithIds->begin(); iter != allElementsWithIds->end(); ++iter)
   {
-    SBase* obj = (SBase*)(allElementsWithIds->get(i));
+    SBase* obj = static_cast<SBase*>(*iter);
     if (obj->getMetaId() == metaid)
     {
       delete allElementsWithIds;
@@ -515,7 +519,7 @@ SBasePlugin::createObject(XMLInputStream& )
  * Subclasses should override this method to read (and store) XHTML,
  * MathML, etc. directly from the XMLInputStream.
  *
- * @return true if the subclass read from the stream, false otherwise.
+ * @return @c true if the subclass read from the stream, @c false otherwise.
  */
 bool
 SBasePlugin::readOtherXML (SBase* , XMLInputStream& )
@@ -1031,7 +1035,7 @@ SBasePlugin::updateSBMLNamespace(const std::string& package, unsigned int level,
   else
   {
     std::string uri = this->getSBMLNamespaces()->getNamespaces()->getURI(package);
-    const SBMLExtension* sbmlext = SBMLExtensionRegistry::getInstance().getExtension(uri);
+    const SBMLExtension* sbmlext = SBMLExtensionRegistry::getInstance().getExtensionInternal(uri);
     // so we have a plugin for this package already enabled
     // if there are two version 1 of this package
     // we want is to change the uri being used

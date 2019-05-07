@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -237,7 +241,7 @@ ExternalModelDefinition::getModelRef () const
 
 
 /*
- * @return true if the modelRef of this SBML object has been set, false
+ * @return @c true if the modelRef of this SBML object has been set, false
  * otherwise.
  */
 bool
@@ -289,7 +293,7 @@ ExternalModelDefinition::getMd5 () const
 
 
 /*
- * @return true if the md5 of this SBML object has been set, false
+ * @return @c true if the md5 of this SBML object has been set, false
  * otherwise.
  */
 bool
@@ -339,7 +343,7 @@ ExternalModelDefinition::getSource () const
 
 
 /*
- * @return true if the source of this SBML object has been set, false
+ * @return @c true if the source of this SBML object has been set, false
  * otherwise.
  */
 bool
@@ -419,7 +423,7 @@ ExternalModelDefinition::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("comp", CompLOExtModDefsAllowedAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
       else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -427,13 +431,13 @@ ExternalModelDefinition::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("comp", CompLOExtModDefsAllowedAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
     }
   }
 
 
-  CompBase::readAttributes(attributes,expectedAttributes);
+  CompBase::readAttributes(attributes,expectedAttributes, true, true, CompExtModDefAllowedAttributes);
 
   // look to see whether an unknown attribute error was logged
   if (getErrorLog() != NULL)
@@ -447,7 +451,7 @@ ExternalModelDefinition::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("comp", CompExtModDefAllowedAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
       else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -455,7 +459,7 @@ ExternalModelDefinition::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("comp", CompExtModDefAllowedCoreAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
     }
   }
@@ -463,40 +467,8 @@ ExternalModelDefinition::readAttributes (const XMLAttributes& attributes,
 
   if ( sbmlLevel > 2 )
   {
-    XMLTriple tripleId("id", mURI, getPrefix());
-    bool assigned = false;
-    assigned = attributes.readInto(tripleId, mId, getErrorLog(), 
-      false, getLine(), getColumn()); 
-    
-    if (assigned == false)
-    {
-      logMissingAttribute("id", "<ExternalModelDefinition>");
-    }
-    else if (assigned == true && mId.size() == 0)
-    {
-      logEmptyString("id", "<ExternalModelDefinition>");
-    }
-    else 
-    {
-      if (!SyntaxChecker::isValidSBMLSId(mId)) {
-        logInvalidId("comp:id", mId);
-      }
-    }
-
- 
-    XMLTriple tripleName("name", mURI, getPrefix());
-    assigned = attributes.readInto(tripleName, mName);
-    
-    if (assigned == true)
-    {
-      if (mName.empty()) 
-      {
-        logEmptyString("comp:name", mName);
-      }
-    }
-
     XMLTriple tripleSource("source", mURI, getPrefix());
-    assigned = attributes.readInto(tripleSource, mSource);
+    bool assigned = attributes.readInto(tripleSource, mSource);
 
     if (assigned == false)
     {
@@ -507,7 +479,9 @@ ExternalModelDefinition::readAttributes (const XMLAttributes& attributes,
       if (!SyntaxChecker::isValidXMLanyURI(mSource)) 
       {
         getErrorLog()->logPackageError("comp", CompInvalidSourceSyntax,
-          getPackageVersion(), getLevel(), getVersion(), "The source attribute value '" + mSource + "' does not conform to the anyURI syntax.");
+          getPackageVersion(), getLevel(), getVersion(), 
+          "The source attribute value '" + mSource + "' does not conform to the anyURI syntax.", 
+          getLine(), getColumn());
       }
     }
     
@@ -639,13 +613,35 @@ ExternalModelDefinition::getReferencedModel(SBMLDocument* errordoc, set<pair<str
     return NULL;
   }
 
-  if (!(doc->getLevel() == 3  && doc->getVersion() == 1))
+  // We want an L3V2 document to allow L3V2 external models
+  // but L3V1 to only allow L3V1 external models
+  bool matchDocs = true;
+  if (doc->getLevel() != 3)
+  {
+    matchDocs = false;
+  }
+  else if (errordoc->getLevel() != 3)
+  {
+    matchDocs = false;
+  }
+  else if (doc->getVersion() != errordoc->getVersion())
+  {
+    matchDocs = false;
+  }
+
+  if (!matchDocs)
   {
     // comp v1 ONLY allows L3v1 models. All other levels and versions are not supported. 
     // 
     if (errordoc) {
-      string error = "In ExternalModelDefinition::getReferencedModel, unable to resolve the external model definition '" + getId() + "': the SBML document found at source '" + getSource() + "' was not SBML Level 3 Version 1.";
-      errordoc->getErrorLog()->logPackageError("comp", CompReferenceMustBeL3, getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
+      stringstream errout;
+
+      errout << "In ExternalModelDefinition::getReferencedModel, "
+        "unable to resolve the external model definition '" << getId()
+        << "': the SBML document found at source '" << getSource() 
+        << "' was not SBML Level 3 Version " << doc->getVersion() << ".";
+      errordoc->getErrorLog()->logPackageError("comp", CompReferenceMustBeL3, 
+        getPackageVersion(), getLevel(), getVersion(), errout.str(), getLine(), getColumn());
     }
     return NULL;
   }

@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -121,7 +125,7 @@ CompModelPlugin::createObject(XMLInputStream& stream)
       if (mListOfSubmodels.size() != 0)
       {
         getErrorLog()->logPackageError("comp", CompOneListOfOnModel, 
-          getPackageVersion(), getLevel(), getVersion());
+          getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
       }
 
       object = &mListOfSubmodels;
@@ -145,7 +149,7 @@ CompModelPlugin::createObject(XMLInputStream& stream)
       if (mListOfPorts.size() != 0)
       {
         getErrorLog()->logPackageError("comp", CompOneListOfOnModel, 
-          getPackageVersion(), getLevel(), getVersion());
+          getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
       }
 
       object = &mListOfPorts;
@@ -562,7 +566,8 @@ Model* CompModelPlugin::flattenModel() const
     success = flat->appendFrom(submodel);
     if (success != LIBSBML_OPERATION_SUCCESS) {
       string error = "Unable to flatten model in CompModelPlugin::flattenModel: appending elements from the submodel '" + submodel->getId() + "' to the elements of the parent model failed.";
-      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error);
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, 
+        getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
       delete flat;
       return NULL;
     }
@@ -595,13 +600,13 @@ Model* CompModelPlugin::flattenModel() const
   flatplug->clearReplacedElements();
   flatplug->unsetReplacedBy();
   
-  List* allelements = flat->getAllElements();
+  List* allElements = flat->getAllElements();
   
   vector<SBase*> nonReplacedElements;
   
-  for (unsigned int el=0; el<allelements->getSize(); el++) 
+  for (ListIterator iter = allElements->begin(); iter != allElements->end(); ++iter)
   {
-    SBase* element = static_cast<SBase*>(allelements->get(el));
+    SBase* element = static_cast<SBase*>(*iter);
     int type = element->getTypeCode();
     if (!(type==SBML_COMP_REPLACEDBY ||
           type==SBML_COMP_REPLACEDELEMENT ||
@@ -612,7 +617,7 @@ Model* CompModelPlugin::flattenModel() const
   }
 
   // delete the list
-  delete allelements;
+  delete allElements;
 
   for (unsigned int el=0; el<nonReplacedElements.size(); el++) 
   {
@@ -806,7 +811,8 @@ int CompModelPlugin::saveAllReferencedElements(set<SBase*> uniqueRefs, set<SBase
   if (model==NULL) {
     if (doc) {
       string error = "Unable to discover any referenced elements in CompModelPlugin::saveAllReferencedElements: no Model parent of the 'comp' model plugin.";
-      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error);
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, 
+        getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
     }
     return LIBSBML_OPERATION_FAILED;
   }
@@ -821,8 +827,12 @@ int CompModelPlugin::saveAllReferencedElements(set<SBase*> uniqueRefs, set<SBase
     modname = "the model '" + model->getId() + "'";
   }
   set<SBase*> todelete;
-  for (unsigned int el=0; el<allElements->getSize(); el++) {
-    SBase* element = static_cast<SBase*>(allElements->get(el));
+  //for (unsigned int el=0; el<allElements->getSize(); el++) {
+  //  SBase* element = static_cast<SBase*>(allElements->get(el));
+  // Using ListIterator is faster
+  for (ListIterator iter = allElements->begin(); iter != allElements->end(); ++iter)
+  {
+    SBase* element = static_cast<SBase*>(*iter);
     int type = element->getTypeCode();
     if (type==SBML_COMP_DELETION ||
         type==SBML_COMP_REPLACEDBY ||
@@ -895,7 +905,8 @@ int CompModelPlugin::saveAllReferencedElements(set<SBase*> uniqueRefs, set<SBase
                   error += "with the metaId '" + rbParent->getMetaId() + "'";
                 }
                 error += " has a <replacedBy> child and is also pointed to by a <port>, <deletion>, <replacedElement>, or one or more <replacedBy> objects.";
-                doc->getErrorLog()->logPackageError("comp", CompNoMultipleReferences, getPackageVersion(), getLevel(), getVersion(), error);
+                doc->getErrorLog()->logPackageError("comp", CompNoMultipleReferences, 
+                  getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
               }
               delete allElements;
               return LIBSBML_OPERATION_FAILED;
@@ -929,7 +940,8 @@ int CompModelPlugin::saveAllReferencedElements(set<SBase*> uniqueRefs, set<SBase
                 else if (direct->isSetMetaId()) {
                   error += "with the metaId '" + direct->getMetaId() + "'.";
                 }
-                doc->getErrorLog()->logPackageError("comp", CompNoMultipleReferences, getPackageVersion(), getLevel(), getVersion(), error);
+                doc->getErrorLog()->logPackageError("comp", CompNoMultipleReferences, 
+                  getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
               }
               delete allElements;
               return LIBSBML_OPERATION_FAILED;
@@ -970,7 +982,8 @@ CompModelPlugin::renameAllIDsAndPrepend(const std::string& prefix)
   if (model==NULL) {
     if (doc) {
       string error = "Unable to rename elements in CompModelPlugin::renameAllIDsAndPrepend: no parent model could be found for the given 'comp' model plugin element.";
-      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error);
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, 
+        getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
     }
     return LIBSBML_INVALID_OBJECT;
   }
@@ -985,7 +998,7 @@ CompModelPlugin::renameAllIDsAndPrepend(const std::string& prefix)
         stringstream error;
         error << "Unable to rename elements in CompModelPlugin::renameAllIDsAndPrepend: no valid submodel number " << sm << "for model " << model->getId();
         doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed,
-          getPackageVersion(), getLevel(), getVersion(), error.str());
+          getPackageVersion(), getLevel(), getVersion(), error.str(), getLine(), getColumn());
       }
       return LIBSBML_OPERATION_FAILED;
     }
@@ -994,7 +1007,7 @@ CompModelPlugin::renameAllIDsAndPrepend(const std::string& prefix)
         stringstream error;
         error << "Unable to rename elements in CompModelPlugin::renameAllIDsAndPrepend: submodel number " << sm << "for model " << model->getId() << " is invalid: it has no 'id' attribute set.";
         doc->getErrorLog()->logPackageError("comp", CompSubmodelAllowedAttributes,
-          getPackageVersion(), getLevel(), getVersion(), error.str());
+          getPackageVersion(), getLevel(), getVersion(), error.str(), getLine(), getColumn());
       }
       return LIBSBML_INVALID_OBJECT;
     }
@@ -1019,7 +1032,8 @@ CompModelPlugin::renameAllIDsAndPrepend(const std::string& prefix)
       if (doc) {
         //Shouldn't happen:  'getInstantiation' turns on the comp plugin.
         string error = "Unable to rename elements in CompModelPlugin::renameAllIDsAndPrepend: no valid 'comp' plugin for the model instantiated from submodel " + subm->getId();
-        doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error);
+        doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, 
+          getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
       }
       delete allElements;
       return LIBSBML_OPERATION_FAILED;
@@ -1061,8 +1075,14 @@ void CompModelPlugin::findUniqueSubmodPrefixes(vector<string>& submodids, List* 
         fullprefix << suffixes[str];
       }
       fullprefix << getDivider();
-      for (unsigned long el=0; el<allElements->getSize(); ++el) {
-        SBase* element = static_cast<SBase*>(allElements->get((unsigned int)el));
+      //for (unsigned long el=0; el<allElements->getSize(); ++el) {
+      //  SBase* element = static_cast<SBase*>(allElements->get((unsigned int)el));
+      // Using ListIterator is faster
+      for (ListIterator iter = allElements->begin(); iter != allElements->end(); ++iter)
+      {
+        SBase* element = static_cast<SBase*>(*iter);
+      //for (unsigned long el=0; el<allElements->getSize(); ++el) {
+      //  SBase* element = static_cast<SBase*>(allElements->get((unsigned int)el));
         if (element==NULL) {
           assert(false);
           continue;
@@ -1120,9 +1140,9 @@ void CompModelPlugin::renameIDs(List* allElements, const string& prefix)
   if (isSetTransformer())
     mTransformer->setPrefix(prefix);
   
-  for (unsigned long el=0; el < allElements->getSize(); ++el) 
+  for (ListIterator iter = allElements->begin(); iter != allElements->end(); ++iter)
   {
-    SBase* element = static_cast<SBase*>(allElements->get((unsigned int)el));
+    SBase* element = static_cast<SBase*>(*iter);
     string id = element->getIdAttribute();
     string metaid = element->getMetaId();
     
@@ -1158,9 +1178,13 @@ void CompModelPlugin::renameIDs(List* allElements, const string& prefix)
     }
   }
 
-  for (unsigned long el=0; el<allElements->getSize(); el++) {
-    SBase* element = static_cast<SBase*>(allElements->get((unsigned int)el));
-    for (size_t id=0; id<renamedSIds.size(); id++) 
+  //for (unsigned long el=0; el<allElements->getSize(); el++) {
+  //  SBase* element = static_cast<SBase*>(allElements->get((unsigned int)el));
+  // Using ListIterator is faster
+  for (ListIterator iter = allElements->begin(); iter != allElements->end(); ++iter)
+  {
+    SBase* element = static_cast<SBase*>(*iter);
+    for (size_t id=0; id<renamedSIds.size(); id++)
     {
       element->renameSIdRefs(renamedSIds[id].first, renamedSIds[id].second);
     }
@@ -1184,7 +1208,8 @@ int CompModelPlugin::collectDeletionsAndDeleteSome(set<SBase*>* removed, set<SBa
   if (model==NULL) {
     if (doc) {
       string error = "Unable to attempt to perform deletions in CompModelPlugin::collectDeletionsAndDeleteSome: no parent model could be found for the given 'comp' model plugin element.";
-      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error);
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, 
+        getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
     }
     return LIBSBML_OPERATION_FAILED;
   }
@@ -1225,7 +1250,8 @@ int CompModelPlugin::collectDeletionsAndDeleteSome(set<SBase*>* removed, set<SBa
       if (doc) {
         //Shouldn't happen:  'getInstantiation' turns on the comp plugin.
         string error = "Unable to rename elements in CompModelPlugin::collectDeletionsAndDeleteSome: no valid 'comp' plugin for the model instantiated from submodel " + submodel->getId();
-        doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error);
+        doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, 
+          getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
       }
       return LIBSBML_OPERATION_FAILED;
     }
@@ -1240,7 +1266,8 @@ int CompModelPlugin::performDeletions()
 {
   SBMLDocument* doc = getSBMLDocument();
   if (doc) {
-    doc->getErrorLog()->logPackageError("comp", CompDeprecatedDeleteFunction, getPackageVersion(), getLevel(), getVersion());
+    doc->getErrorLog()->logPackageError("comp", CompDeprecatedDeleteFunction, 
+      getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
   }
 
   set<SBase*> toremove;
@@ -1261,7 +1288,8 @@ int CompModelPlugin::collectRenameAndConvertReplacements(set<SBase*>* removed, s
   if (model==NULL) {
     if (doc) {
       string error = "Unable to perform replacements in CompModelPlugin::collectRenameAndConvertReplacements: no parent model could be found for the given 'comp' model plugin element.";
-      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, getPackageVersion(), getLevel(), getVersion(), error);
+      doc->getErrorLog()->logPackageError("comp", CompModelFlatteningFailed, 
+        getPackageVersion(), getLevel(), getVersion(), error, getLine(), getColumn());
     }
     return LIBSBML_OPERATION_FAILED;
   }
@@ -1269,8 +1297,12 @@ int CompModelPlugin::collectRenameAndConvertReplacements(set<SBase*>* removed, s
   vector<ReplacedElement*> res;
   vector<ReplacedBy*> rbs;
   //Collect replaced elements and replaced by's.
-  for (unsigned int e=0; e<allElements->getSize(); e++) {
-    SBase* element = static_cast<SBase*>(allElements->get(e));
+  //for (unsigned int e=0; e<allElements->getSize(); e++) {
+  //  SBase* element = static_cast<SBase*>(allElements->get(e));
+  // Using ListIterator is faster
+  for (ListIterator iter = allElements->begin(); iter != allElements->end(); ++iter)
+  {
+    SBase* element = static_cast<SBase*>(*iter);
     int type = element->getTypeCode();
     if (type==SBML_COMP_REPLACEDELEMENT) {
       ReplacedElement* reference = static_cast<ReplacedElement*>(element);
@@ -1322,7 +1354,8 @@ int CompModelPlugin::performReplacementsAndConversions()
 {
   SBMLDocument* doc = getSBMLDocument();
   if (doc) {
-    doc->getErrorLog()->logPackageError("comp", CompDeprecatedReplaceFunction, getPackageVersion(), getLevel(), getVersion());
+    doc->getErrorLog()->logPackageError("comp", CompDeprecatedReplaceFunction, 
+      getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
   }
 
   set<SBase*> toremove;
@@ -1343,8 +1376,9 @@ int CompModelPlugin::removeCollectedElements(set<SBase*>* removed, set<SBase*>* 
     if (removed->insert(removeme).second == true) {
       //Need to remove the element.
       List* children = removeme->getAllElements();
-      for (unsigned int el=0; el<children->getSize(); el++) {
-        SBase* element = static_cast<SBase*>(children->get(el));
+      for (ListIterator iter = children->begin(); iter != children->end(); ++iter)
+      {
+        SBase* element = static_cast<SBase*>(*iter);
         removed->insert(element);
       }
       delete children;

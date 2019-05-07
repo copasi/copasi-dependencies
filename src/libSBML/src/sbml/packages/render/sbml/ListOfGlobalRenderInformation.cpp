@@ -7,6 +7,10 @@
  * This file is part of libSBML. Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  * 1. California Institute of Technology, Pasadena, CA, USA
  * 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -889,7 +893,6 @@ ListOfGlobalRenderInformation::readAttributes(const XMLAttributes& attributes,
   unsigned int version = getVersion();
   unsigned int pkgVersion = getPackageVersion();
   unsigned int numErrs;
-  bool assigned = false;
   SBMLErrorLog* log = getErrorLog();
 
   ListOf::readAttributes(attributes, expectedAttributes);
@@ -906,7 +909,7 @@ ListOfGlobalRenderInformation::readAttributes(const XMLAttributes& attributes,
         log->remove(UnknownPackageAttribute);
         log->logPackageError("render",
           RenderListOfLayoutsLOGlobalRenderInformationAllowedAttributes,
-            pkgVersion, level, version, details);
+            pkgVersion, level, version, details, getLine(), getColumn());
       }
       else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -914,7 +917,7 @@ ListOfGlobalRenderInformation::readAttributes(const XMLAttributes& attributes,
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render",
           RenderListOfLayoutsLOGlobalRenderInformationAllowedCoreAttributes,
-            pkgVersion, level, version, details);
+            pkgVersion, level, version, details, getLine(), getColumn());
       }
     }
   }
@@ -939,8 +942,7 @@ ListOfGlobalRenderInformation::readAttributes(const XMLAttributes& attributes,
         "<ListOfGlobalRenderInformation> element must be an integer.";
       log->logPackageError("render", 
         RenderListOfLayoutsVersionMajorMustBeNonNegativeInteger, pkgVersion, 
-        level, version,
-        message);
+        level, version, message, getLine(), getColumn());
     }
   }
 
@@ -964,8 +966,7 @@ ListOfGlobalRenderInformation::readAttributes(const XMLAttributes& attributes,
         "<ListOfGlobalRenderInformation> element must be an integer.";
       log->logPackageError("render", 
         RenderListOfLayoutsVersionMinorMustBeNonNegativeInteger, pkgVersion, 
-        level, version,
-        message);
+        level, version, message, getLine(), getColumn());
     }
   }
 }

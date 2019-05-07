@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -190,23 +194,21 @@ Model::Model(const Model& orig)
   , mUnitsDataMap        ()
 {
 
-  if(orig.mFormulaUnitsData != NULL)
+  if (orig.mFormulaUnitsData != NULL)
   {
-    this->mFormulaUnitsData  = new List();
-    unsigned int i,iMax = orig.mFormulaUnitsData->getSize();
-    for(i = 0; i < iMax; ++i)
+    this->mFormulaUnitsData = new List();
+    unsigned int i, iMax = orig.mFormulaUnitsData->getSize();
+    for (i = 0; i < iMax; ++i)
     {
-      this->mFormulaUnitsData
-        ->add(static_cast<FormulaUnitsData*>
-                                (orig.mFormulaUnitsData->get(i))->clone());
-    }
-  }
+      FormulaUnitsData *newFud = static_cast<FormulaUnitsData*>
+        (orig.mFormulaUnitsData->get(i))->clone();
+      this->mFormulaUnitsData->add((void *)newFud);
+      std::string id = newFud->getUnitReferenceId();
+      int typecode = newFud->getComponentTypecode();
 
-  UnitsValueIter it = orig.mUnitsDataMap.begin();
-  while (it != orig.mUnitsDataMap.end())
-  { 
-    mUnitsDataMap[it->first] = new FormulaUnitsData(*(it->second));
-    ++it;
+      KeyValue key(id, typecode);
+      mUnitsDataMap.insert(make_pair(key, newFud));
+    }
   }
   connectToChild();
   
@@ -240,7 +242,6 @@ Model& Model::operator=(const Model& rhs)
     mConstraints          = rhs.mConstraints;
     mReactions            = rhs.mReactions;
     mEvents               = rhs.mEvents;
-    mUnitsDataMap = rhs.mUnitsDataMap;
 
 
     if (this->mFormulaUnitsData  != NULL)
@@ -250,6 +251,7 @@ Model& Model::operator=(const Model& rhs)
         delete static_cast<FormulaUnitsData*>( 
                           this->mFormulaUnitsData->remove(0) );
       delete this->mFormulaUnitsData;
+      mUnitsDataMap.clear();
     }
 
     if(rhs.mFormulaUnitsData != NULL)
@@ -258,14 +260,20 @@ Model& Model::operator=(const Model& rhs)
       unsigned int i,iMax = rhs.mFormulaUnitsData->getSize();
       for(i = 0; i < iMax; ++i)
       {
-        this->mFormulaUnitsData
-          ->add(static_cast<FormulaUnitsData*>
-                                   (rhs.mFormulaUnitsData->get(i))->clone());
+        FormulaUnitsData *newFud = static_cast<FormulaUnitsData*>
+          (rhs.mFormulaUnitsData->get(i))->clone();
+        this->mFormulaUnitsData->add((void *)newFud);
+        std::string id = newFud->getUnitReferenceId();
+        int typecode = newFud->getComponentTypecode();
+
+        KeyValue key(id, typecode);
+        mUnitsDataMap.insert(make_pair(key, newFud));
       }
     }
     else
     {
       this->mFormulaUnitsData = NULL;
+      mUnitsDataMap.clear();
     }
   }
 
@@ -603,7 +611,7 @@ Model::getConversionFactor () const
 
 
 /*
- * @return true if the id of this SBML object has been set, false
+ * @return @c true if the id of this SBML object has been set, false
  * otherwise.
  */
 bool
@@ -614,7 +622,7 @@ Model::isSetId () const
 
 
 /*
- * @return true if the name of this SBML object is set, false
+ * @return @c true if the name of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -3320,7 +3328,7 @@ int Model::removeFromParentAndDelete()
 
 /** @cond doxygenLibsbmlInternal */
 /*
- * @return true if the given ASTNode is a boolean.  Often times, this
+ * @return @c true if the given ASTNode is a boolean.  Often times, this
  * question can be answered with the ASTNode's own isBoolean() method,
  * but if the AST is an expression that calls a function defined in the
  * Model's ListOf FunctionDefinitions, the model is needed for lookup
@@ -4743,7 +4751,7 @@ Model::renameUnitSIdRefs(const std::string& oldid, const std::string& newid)
  * Subclasses should override this method to read (and store) XHTML,
  * MathML, etc. directly from the XMLInputStream.
  *
- * @return true if the subclass read from the stream, false otherwise.
+ * @return @c true if the subclass read from the stream, false otherwise.
  */
 bool
 Model::readOtherXML (XMLInputStream& stream)

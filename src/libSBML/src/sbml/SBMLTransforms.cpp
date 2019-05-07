@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -93,9 +97,6 @@ SBMLTransforms::replaceFD(ASTNode * node, const FunctionDefinition *fd, const Id
   
   recurseReplaceFD(node, fd, idsToExclude);
 
-#ifndef LIBSBML_USE_LEGACY_MATH
-  node->setIsChildFlag(false);
-#endif
 }
 
 
@@ -1063,61 +1064,19 @@ SBMLTransforms::evaluateASTNode(const ASTNode * node, const IdValueMap& values, 
     }
     break;
 
-  case AST_FUNCTION_QUOTIENT:
-    if (node->getNumChildren() < 2) result = 0.0;
-    else 
-    {      
-      result = floor(evaluateASTNode(node->getChild(0), values, m) /
-        evaluateASTNode(node->getChild(1), values, m));
-    }
-    break;
-
-  case AST_FUNCTION_REM:
-    if (node->getNumChildren() < 2) result = 0.0;
-    else 
-    {   
-      double dividend = evaluateASTNode(node->getChild(0), values);
-      double divisor = evaluateASTNode(node->getChild(1), values);
-      double quotient = floor(dividend/divisor);
-
-      result = dividend - (quotient * divisor);
-    }
-    break;
-
-  case AST_FUNCTION_MIN:
-    result = evaluateASTNode(node->getChild(0), values);
-    for (unsigned int j = 1; j < node->getNumChildren(); j++)
-    {
-      double nextValue = evaluateASTNode(node->getChild(j), values);
-      if (nextValue < result) result = nextValue;
-    }
-    break;
-
-  case AST_FUNCTION_MAX:
-    result = evaluateASTNode(node->getChild(0), values);
-    for (unsigned int j = 1; j < node->getNumChildren(); j++)
-    {
-      double nextValue = evaluateASTNode(node->getChild(j), values);
-      if (nextValue > result) result = nextValue;
-    }
-    break;
-
-  case AST_LOGICAL_IMPLIES:
-    {
-      if (node->getNumChildren() == 0)
-        result = 0.0;
-      else if (node->getNumChildren() == 1)
-        result = evaluateASTNode(node->getChild(0), values, m);
-      else
-        result = (double)((!(evaluateASTNode(node->getChild(0), values, m)))
-        || (evaluateASTNode(node->getChild(1), values, m)));
-    }
-    break;
-
-  case AST_FUNCTION_RATE_OF:
   default:
-    result = numeric_limits<double>::quiet_NaN();
-    break;
+    if (node->getNumPlugins() == 0)
+    {
+      ((ASTNode*)(node))->loadASTPlugins(NULL);
+    }
+    for (unsigned int p = 0; p < node->getNumPlugins(); p++)
+    {
+      const ASTBasePlugin* baseplugin = node->getPlugin(p);
+      if (baseplugin->defines(node->getType()))
+      {
+        result = baseplugin->evaluateASTNode(node, m);
+      }
+    }
   }
 
 

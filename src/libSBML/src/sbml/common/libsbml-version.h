@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -42,7 +46,7 @@
  *
  * A version string of the form "1.2.3".
  */
-#define LIBSBML_DOTTED_VERSION	"5.17.0"
+#define LIBSBML_DOTTED_VERSION	"5.18.0"
 
 
 /**
@@ -53,7 +57,7 @@
  * libSBML is released, making it easy to use less-than and greater-than
  * comparisons when testing versions numbers.
  */
-#define LIBSBML_VERSION		51700
+#define LIBSBML_VERSION		51800
 
 
 /**
@@ -61,7 +65,7 @@
  *
  * The numeric version as a string: version 1.2.3 becomes "10203".
  */
-#define LIBSBML_VERSION_STRING	"51700"
+#define LIBSBML_VERSION_STRING	"51800"
 
 
 LIBSBML_CPP_NAMESPACE_BEGIN

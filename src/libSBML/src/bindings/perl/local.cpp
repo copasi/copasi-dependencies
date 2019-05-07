@@ -316,7 +316,6 @@ GetDowncastSwigTypeForPackage (SBase* sb, const std::string &pkgName)
   return SWIGTYPE_p_SBase;
 }
 
-#ifndef LIBSBML_USE_LEGACY_MATH
 
 /**
  * @return the most specific Swig type for the given ASTBasePlugin object.
@@ -334,4 +333,3 @@ GetDowncastSwigType (ASTBasePlugin* sbp)
 }
 
 
-#endif // #ifndef LIBSBML_USE_LEGACY_MATH

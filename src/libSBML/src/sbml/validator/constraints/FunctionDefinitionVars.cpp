@@ -9,6 +9,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -36,6 +40,7 @@
 #include <sbml/FunctionDefinition.h>
 #include <sbml/util/List.h>
 #include <sbml/math/ASTNode.h>
+#include <sbml/extension/ASTBasePlugin.h>
 
 #include "FunctionDefinitionVars.h"
 
@@ -119,17 +124,20 @@ FunctionDefinitionVars::check_ (const Model& m, const FunctionDefinition& fd)
       }
     }
   }
- 
-  if (m.getLevel() == 3 && m.getVersion() > 1)
-  { // check we dont use rateOf csymbol
-    delete variables;
-    variables = fd.getBody()->getListOfNodes( ASTNode_isFunction );
-    
-    for (unsigned int n = 0; n < variables->getSize(); ++n)
-    {
-      ASTNode* node = static_cast<ASTNode*>( variables->get(n) );
 
-      if (node->getType() == AST_FUNCTION_RATE_OF)
+
+  //Check we don't use a function defined in a plugin (like rateOf)
+  delete variables;
+  variables = fd.getBody()->getListOfNodes(ASTNode_isFunction);
+
+  for (unsigned int n = 0; n < variables->getSize(); ++n)
+  {
+    ASTNode* node = static_cast<ASTNode*>(variables->get(n));
+
+    const ASTBasePlugin* plugin = node->getASTPlugin(node->getType());
+    if (plugin != NULL)
+    {
+      if (plugin->allowedInFunctionDefinition(node->getType()) == 0)
       {
         logUndefined(fd, node->getName());
       }

@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -653,7 +657,7 @@ FunctionTerm::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("qual", QualTransitionLOFuncTermAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
       else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -661,7 +665,7 @@ FunctionTerm::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("qual", QualTransitionLOFuncTermAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
     }
   }
@@ -680,7 +684,7 @@ FunctionTerm::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("qual", QualFuncTermAllowedAttributes,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
       else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -688,7 +692,7 @@ FunctionTerm::readAttributes (const XMLAttributes& attributes,
                           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("qual", QualFuncTermAllowedCoreAttributes,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, details);
+                       getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       }
     }
   }
@@ -719,7 +723,7 @@ FunctionTerm::readAttributes (const XMLAttributes& attributes,
         }
         msg << "is not an integer.";
         getErrorLog()->logPackageError("qual", QualFuncTermResultMustBeInteger,
-                     getPackageVersion(), sbmlLevel, sbmlVersion, msg.str());
+                     getPackageVersion(), sbmlLevel, sbmlVersion, msg.str(), getLine(), getColumn());
       }
       else
       {
@@ -735,7 +739,7 @@ FunctionTerm::readAttributes (const XMLAttributes& attributes,
         }
         msg << ".";
         getErrorLog()->logPackageError("qual", QualFuncTermAllowedAttributes,
-                       getPackageVersion(), sbmlLevel, sbmlVersion, msg.str());
+                       getPackageVersion(), sbmlLevel, sbmlVersion, msg.str(), getLine(), getColumn());
       }
     }
   }
@@ -750,7 +754,7 @@ FunctionTerm::readAttributes (const XMLAttributes& attributes,
       }
       msg << "is '" << mResultLevel << "', which is negative.";
       getErrorLog()->logPackageError("qual", QualFuncTermResultMustBeNonNeg,
-                   getPackageVersion(), sbmlLevel, sbmlVersion, msg.str());
+                   getPackageVersion(), sbmlLevel, sbmlVersion, msg.str(), getLine(), getColumn());
     }
   }
 
@@ -763,7 +767,7 @@ FunctionTerm::readAttributes (const XMLAttributes& attributes,
  * Subclasses should override this method to read (and store) XHTML,
  * MathML, etc. directly from the XMLInputStream.
  *
- * @return true if the subclass read from the stream, false otherwise.
+ * @return @c true if the subclass read from the stream, false otherwise.
  */
 bool
 FunctionTerm::readOtherXML (XMLInputStream& stream)
@@ -776,7 +780,7 @@ FunctionTerm::readOtherXML (XMLInputStream& stream)
     if (mMath != NULL)
     {
       getErrorLog()->logPackageError("qual", QualFuncTermOnlyOneMath,
-                   getPackageVersion(), getLevel(), getVersion());
+                   getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
     }
     /* check for MathML namespace 
      * this may be explicitly declared here

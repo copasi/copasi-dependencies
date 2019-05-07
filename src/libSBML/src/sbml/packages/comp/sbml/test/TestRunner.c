@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -57,6 +61,7 @@ Suite *create_suite_TestComp_ReplacedBy (void);
 Suite *create_suite_TestComp_ReplacedElement (void);
 Suite *create_suite_TestComp_SBaseRef (void);
 Suite *create_suite_TestComp_Submodel (void);
+Suite *create_suite_TestComp_AttributeNamespaces (void);
 
 
 /**
@@ -103,6 +108,7 @@ main (void)
   setTestDataDirectory();
 
   SRunner *runner = srunner_create( create_suite_TestCompSBaseObjects() );
+  srunner_add_suite( runner, create_suite_TestComp_AttributeNamespaces() );
   srunner_add_suite( runner, create_suite_TestReadWriteSBaseObjects() );
   srunner_add_suite( runner, create_suite_TestComp_Deletion() );
   srunner_add_suite( runner, create_suite_TestComp_ExternalModelDefinition() );

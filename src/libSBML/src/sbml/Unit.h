@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -1389,11 +1393,9 @@ public:
 
   #endif /* !SWIG */
 
-
-protected:
   /** @cond doxygenLibsbmlInternal */
-  void setExponentUnitChecking (double value); 
-                                           
+  void setExponentUnitChecking(double value);
+
   double getExponentUnitChecking();
 
   double getExponentUnitChecking() const;
@@ -1402,6 +1404,11 @@ protected:
 
   bool isUnitChecking() const;
 
+  /** @endcond */
+
+
+protected:
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Subclasses should override this method to get the list of
    * expected attributes.
@@ -1526,6 +1533,7 @@ protected:
   friend class UnitConsistencyValidator;
   friend class UnitFormulaFormatter;
   friend class UnitDefinition;
+  friend class ASTBasePlugin;
 
 
   /** @endcond */

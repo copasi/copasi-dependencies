@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -418,20 +422,10 @@ END_TEST
 
 START_TEST (test_MathMLFormatter_constant_infinity_neg)
 {
-#ifndef LIBSBML_USE_LEGACY_MATH
-  const char* expected = wrapMathML
-  (
-    "  <apply>\n"
-    "    <minus/>\n"
-    "    <infinity/>\n"
-    "  </apply>\n"
-  );
-#else
   const char* expected = wrapMathML
   (
     "  <apply> <minus/> <infinity/> </apply>\n"
   );
-#endif
 
   N = new ASTNode;
   N->setValue( - numeric_limits<double>::infinity() );
@@ -863,7 +857,7 @@ START_TEST (test_MathMLFormatter_semantics)
   );
 
   N = SBML_parseFormula("lt(x, 0)");
-  N->addSemanticsAnnotation(NULL);
+  N->setSemanticsFlag();
   S = writeMathMLToString(N);
 
   fail_unless( equals(expected, S) );
@@ -888,7 +882,7 @@ START_TEST (test_MathMLFormatter_semantics_url)
   xa->add("definitionURL", "foobar");
   
   N = SBML_parseFormula("lt(x, 0)");
-  N->addSemanticsAnnotation(NULL);
+  N->setSemanticsFlag();
   N->setDefinitionURL(*xa);
   S = writeMathMLToString(N);
 
@@ -926,7 +920,7 @@ START_TEST (test_MathMLFormatter_semantics_ann)
   ann->addChild(textNode);
   
   N = SBML_parseFormula("lt(x, 0)");
-  //N->setSemanticsFlag();
+  N->setSemanticsFlag();
   N->addSemanticsAnnotation(ann);
 
   S = writeMathMLToString(N);
@@ -978,7 +972,7 @@ START_TEST (test_MathMLFormatter_semantics_annxml)
   ann->addChild(foo);
   
   N = SBML_parseFormula("lt(x, 0)");
-  //N->setSemanticsFlag();
+  N->setSemanticsFlag();
   N->addSemanticsAnnotation(ann);
 
   S = writeMathMLToString(N);
@@ -1040,16 +1034,20 @@ START_TEST (test_MathMLFormatter_apply_cn_units_old)
 END_TEST
 
 
-START_TEST (test_MathMLFormatter_apply_cn_units_1)
-{
-  const char *expected = wrapMathMLUnitsOtherPrefix("  <apply>\n    <divide/>\n    <cn foo:units=\"mole\" type=\"integer\"> 3 </cn>\n    <cn foo:units=\"dimensionless\" type=\"integer\"> 4 </cn>\n  </apply>\n");
-
-  N = readMathMLFromString(expected);
-  S = writeMathMLToString(N);
-
-  fail_unless( equals(expected, S) );
-}
-END_TEST
+//START_TEST (test_MathMLFormatter_apply_cn_units_1)
+//{
+//  const char *expected = wrapMathMLUnitsOtherPrefix("  <apply>\n"
+//    "    <divide/>\n"
+//    "    <cn foo:units=\"mole\" type=\"integer\"> 3 </cn>\n"
+//    "    <cn foo:units=\"dimensionless\" type=\"integer\"> 4 </cn>\n"
+//    "  </apply>\n");
+//
+//  N = readMathMLFromString(expected);
+//  S = writeMathMLToString(N);
+//
+//  fail_unless( equals(expected, S) );
+//}
+//END_TEST
 
 
 START_TEST (test_MathMLFormatter_csymbol_avogadro)
@@ -1180,7 +1178,7 @@ create_suite_WriteMathML ()
   tcase_add_test( tcase, test_MathMLFormatter_cn_units                 );
   tcase_add_test( tcase, test_MathMLFormatter_apply_cn_units           );
   tcase_add_test( tcase, test_MathMLFormatter_apply_cn_units_old       );
-  tcase_add_test( tcase, test_MathMLFormatter_apply_cn_units_1         );
+//  tcase_add_test( tcase, test_MathMLFormatter_apply_cn_units_1         );
 
   tcase_add_test( tcase, test_MathMLFormatter_csymbol_avogadro         );
   tcase_add_test( tcase, test_MathMLFormatter_ci_definitionURL         );

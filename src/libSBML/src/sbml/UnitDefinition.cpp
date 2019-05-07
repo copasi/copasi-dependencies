@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -197,7 +201,7 @@ UnitDefinition::getName () const
 
 
 /*
- * @return true if the id of this SBML object is set, false
+ * @return @c true if the id of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -208,7 +212,7 @@ UnitDefinition::isSetId () const
 
 
 /*
- * @return true if the name of this SBML object is set, false
+ * @return @c true if the name of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -306,7 +310,7 @@ UnitDefinition::unsetName ()
 
 
 /*
- * @return true if this UnitDefinition is a variant of the built-in type
+ * @return @c true if this UnitDefinition is a variant of the built-in type
  * area. i.e. square metres with only arbitrary variations in scale,
  * or multiplier values, false otherwise.
  */
@@ -343,7 +347,7 @@ UnitDefinition::isVariantOfArea (bool relaxed) const
 
 
 /*
- * @return true if this UnitDefinition is a variant of the built-in type
+ * @return @c true if this UnitDefinition is a variant of the built-in type
  * length. i.e. metres with only arbitrary variations in scale,
  * or multiplier values, false otherwise.
  */
@@ -380,7 +384,7 @@ UnitDefinition::isVariantOfLength (bool relaxed) const
 
 
 /*
- * @return true if this UnitDefinition is a variant of the built-in type
+ * @return @c true if this UnitDefinition is a variant of the built-in type
  * substance. i.e. moles or items with only arbitrary variations in
  * scale or multiplier values, false otherwise.
  */
@@ -445,7 +449,7 @@ UnitDefinition::isVariantOfSubstance (bool relaxed) const
 
 
 /*
- * @return true if this UnitDefinition is a variant of the built-in type
+ * @return @c true if this UnitDefinition is a variant of the built-in type
  * time. i.e. seconds with only arbitrary variations in scale,
  * or multiplier values, false otherwise.
  */
@@ -482,7 +486,7 @@ UnitDefinition::isVariantOfTime (bool relaxed) const
 
 
 /*
- * @return true if this UnitDefinition is a variant of the built-in type
+ * @return @c true if this UnitDefinition is a variant of the built-in type
  * volume. i.e. litre or cubic metre with only arbitrary variations in
  * scale or multiplier values, false otherwise.
  */
@@ -524,7 +528,7 @@ UnitDefinition::isVariantOfVolume (bool relaxed) const
 
 
 /*
- * @return true if this UnitDefinition is a variant of dimensionless.
+ * @return @c true if this UnitDefinition is a variant of dimensionless.
  * i.e. dimensionless with only arbitrary variations in scale,
  * or multiplier values, false otherwise.
  */
@@ -532,6 +536,12 @@ bool
 UnitDefinition::isVariantOfDimensionless (bool relaxed) const
 {
   bool result = false;
+
+  // careful here if we have no units simplify will add dimensionless
+  if (getNumUnits() == 0)
+  {
+    return result;
+  }
 
   UnitDefinition *ud = static_cast<UnitDefinition*>(this->clone());
   UnitDefinition::simplify(ud);
@@ -559,7 +569,7 @@ UnitDefinition::isVariantOfDimensionless (bool relaxed) const
 
 
 /*
- * @return true if this UnitDefinition is a variant of mass. ie gram or
+ * @return @c true if this UnitDefinition is a variant of mass. ie gram or
  * kilogram with only arbitrary variations in scale or multiplier
  * values, false otherwise.
  */
@@ -601,7 +611,7 @@ UnitDefinition::isVariantOfMass (bool relaxed) const
 
 
 /*
- * @return true if this UnitDefinition is a variant of the built-in type
+ * @return @c true if this UnitDefinition is a variant of the built-in type
  * substance per time, false otherwise.
  */
 bool
@@ -869,36 +879,48 @@ UnitDefinition::simplify(UnitDefinition * ud)
   unsigned int n, i;
   ListOfUnits *  units = ud->getListOfUnits();
   Unit * unit;
-  UnitKindList kindsList;
   const char * unitKind;
   int cancelFlag = 0;
+  bool dimensionlessPresent = false;
 
+  
   for (n = 0; n < ud->getNumUnits(); n++)
   {
-    kindsList.append(UnitKind_toString(ud->getUnit(n)->getKind()));
+    Unit* unit = ud->getUnit(n);
+    if (unit->getKind() == UNIT_KIND_DIMENSIONLESS)
+    {
+      dimensionlessPresent = true;
+    }
   }
   
   double dimMultfactor = 1.0;
+  double dimMultfactorSaved = 1.0;
+
   
   /* if only one unit cannot be simplified any further */
   if (units->size() > 1)
   {
-    if (kindsList.contains("dimensionless"))
+    if (dimensionlessPresent)
     {
       /* if contains a dimensionless unit and any others then 
         dimensionless is unecessary 
         unless it has a multiplier attached
         */
-      for (n = 0; n < units->size(); n++)
+      unsigned int origNumUnits = units->size();
+      for (n = origNumUnits; n > 0; n--)
       {
-        unit = (Unit *) units->get(n);
+        unit = (Unit *) units->get(n-1);
+        Unit::removeScale(unit);
+
         if (!strcmp(UnitKind_toString(unit->getKind()), "dimensionless"))
         {
           dimMultfactor = pow(unit->getMultiplier(), unit->getExponent());
           if (util_isEqual(dimMultfactor, 1.0) == false)
+          {
             cancelFlag = 1;
-          delete units->remove(n);
-          kindsList.removeUnitKind("dimensionless");
+            dimMultfactorSaved = dimMultfactorSaved * dimMultfactor;
+          }
+          delete units->remove(n-1);
         }
       }
     }
@@ -906,23 +928,21 @@ UnitDefinition::simplify(UnitDefinition * ud)
     /* if it contains two units with same kind these must be combined */
     for (n = 0; n < units->size(); n++)
     {
-      unit = (Unit *) units->get(n);
+      unit = (Unit *)units->get(n);
       unitKind = UnitKind_toString(unit->getKind());
 
-      /* check that there is only one occurence */
-      kindsList.removeUnitKind(unitKind);
-      while (kindsList.contains(unitKind)) 
+      /* find other occurences and merge */
+      for (i = n+1; i < units->size();)
       {
-        /* find next occurence and merge */
-        for (i = n + 1; i < units->size(); i++)
+        if (!strcmp(UnitKind_toString(((Unit *)units->get(i))->getKind()),
+          unitKind))
         {
-          if (!strcmp(UnitKind_toString(((Unit *) units->get(i))->getKind()), 
-                                                                   unitKind))
-          {
-            Unit::merge(unit, (Unit *) units->get(i));
-            delete units->remove(i);
-            kindsList.removeUnitKind(unitKind);
-          }
+          Unit::merge(unit, (Unit *)units->get(i));
+          delete units->remove(i);
+        }
+        else
+        {
+          i++;
         }
       }
     }
@@ -930,7 +950,7 @@ UnitDefinition::simplify(UnitDefinition * ud)
 
   /* may have cancelled units - in which case exponent will be 0 */
   // might need to propagate a multiplier though
-  double newMultiplier = dimMultfactor;
+  double newMultiplier = dimMultfactorSaved;
   unsigned int numUnits = units->size();
   for (n = numUnits; n > 0; n--)
   {
@@ -955,7 +975,7 @@ UnitDefinition::simplify(UnitDefinition * ud)
   /* if all units have been cancelled need to add dimensionless */
   /* or indeed if one or more have been cancelled need to
    * propagate any remaining multiplier */
-  if (cancelFlag == 1)
+  if (cancelFlag == 1 || (dimensionlessPresent && units->size() == 0))
   {
     if (units->size() == 0)
     {

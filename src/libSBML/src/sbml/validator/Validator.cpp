@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -47,6 +51,10 @@
 #include <sbml/ModifierSpeciesReference.h>
 #include <sbml/SBMLDocument.h>
 #include <sbml/SBMLReader.h>
+#include <sbml/math/DefinitionURLRegistry.h>
+
+#include <sbml/util/CallbackRegistry.h>
+
 
 /** @cond doxygenIgnored */
 using namespace std;
@@ -112,6 +120,8 @@ public:
    */
   void applyTo (const Model& model, const T& object)
   {
+    if (CallbackRegistry::invokeCallbacks(NULL) != LIBSBML_OPERATION_SUCCESS)
+      throw std::invalid_argument("stop");
     for_each(constraints.begin(), constraints.end(), Apply<T>(model, object));
   }
 
@@ -910,6 +920,9 @@ unsigned int
 Validator::validate (const std::string& filename)
 {
   SBMLReader    reader;
+  // if we are doing a read following another read need to reset
+  // the DefinitionURLRegistry
+  DefinitionURLRegistry::getInstance().clearDefinitions();
   SBMLDocument* d = reader.readSBML(filename);
 
 

@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -184,7 +188,7 @@ ModelDefinition::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("comp", CompLOModelDefsAllowedAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
       else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -192,12 +196,37 @@ ModelDefinition::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("comp", CompLOModelDefsAllowedAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
     }
   }
 
   Model::readAttributes(attributes, expectedAttributes);
+  SBMLErrorLog* log = getErrorLog();
+  string compid = attributes.getValue("id", mURI);
+  string coreid = attributes.getValue("id", "");
+  string compname = attributes.getValue("name", mURI);
+  string corename = attributes.getValue("name", "");
+  if (!compid.empty())
+  {
+    string details = "The <comp:modelDefinition> element ";
+    if (!coreid.empty()) {
+      details += "with the 'id' with the value '" + coreid + "' and ";
+    }
+    details += "with the 'comp:id' with value '" + compid 
+      + "' may not use a 'comp:id': the id attribute from core must be used instead.";
+    log->logError(AllowedAttributesOnModel, sbmlLevel, sbmlVersion, details);
+  }
+  if (!compname.empty())
+  {
+    string details = "The <comp:modelDefinition> element ";
+    if (!corename.empty()) {
+      details += "with the 'name' with the value '" + corename + "' and ";
+    }
+    details += "with the 'comp:name' with value '" + compname 
+      + "' may not use a 'comp:name': the name attribute from core must be used instead.";
+    log->logError(AllowedAttributesOnModel, sbmlLevel, sbmlVersion, details);
+  }
 }
 /** @endcond */
 

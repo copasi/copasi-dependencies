@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -48,6 +52,7 @@
 #define SBMLExtensionRegistry_h
 
 #include <sbml/extension/SBMLExtension.h>
+#include <sbml/extension/ASTBasePlugin.h>
 LIBSBML_CPP_NAMESPACE_BEGIN
 
 
@@ -76,6 +81,7 @@ public:
   typedef std::map<std::string, const SBMLExtension*>              SBMLExtensionMap;
   typedef std::pair<std::string, const SBMLExtension*>             SBMLExtensionPair;
   typedef SBMLExtensionMap::iterator                               SBMLExtensionMapIter;
+
   /** @endcond */
 #endif //SWIG
 
@@ -375,6 +381,9 @@ public:
    */
   static std::string getRegisteredPackageName(unsigned int index);
 
+  std::vector<ASTBasePlugin*> getASTPlugins();
+  unsigned int getNumASTPlugins();
+  const ASTBasePlugin * getASTPlugin(unsigned int i);
 
 private:
 
@@ -392,6 +401,7 @@ private:
   /** @cond doxygenLibsbmlInternal */
   SBMLExtensionMap  mSBMLExtensionMap;
   SBasePluginMap    mSBasePluginMap;
+  std::vector<ASTBasePlugin*>  mASTPluginsVector;
 
   static SBMLExtensionRegistry* mInstance;
 

@@ -10,6 +10,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -104,6 +108,8 @@
 #cmakedefine EXIT_ON_ERROR 1
 
 /* Define to specify that the legacy math implementation ought to be used. */
+/* This is no longer an option but in case other programs compiling against
+   libsbml have used the flag it is always on */
 #cmakedefine LIBSBML_USE_LEGACY_MATH 1
 
 #include <sbml/common/libsbml-config-packages.h>

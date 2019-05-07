@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -155,10 +159,11 @@ ColorDefinition::ColorDefinition(const XMLNode& node, unsigned int l2version)
 ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, const std::string& id)
    :SBase(renderns)
 //    ,mId(id)
-    ,mRed(0)
-    ,mGreen(0)
-    ,mBlue(0)
-    ,mAlpha(255)
+  , mRed(0)
+  , mGreen(0)
+  , mBlue(0)
+  , mAlpha(255)
+  , mValue("")
 {
   mValue = createValueString();
   setId(id);
@@ -204,6 +209,7 @@ ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, const std::strin
     ,mGreen(g)
     ,mBlue(b)
     ,mAlpha(a)
+  , mValue("")
 {
   mValue = createValueString();
   setId(id);
@@ -247,6 +253,7 @@ ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, unsigned char r,
     ,mGreen(g)
     ,mBlue(b)
     ,mAlpha(a)
+  , mValue("")
 {
   mValue = createValueString();
 
@@ -271,11 +278,11 @@ ColorDefinition::ColorDefinition(RenderPkgNamespaces* renderns, unsigned char r,
  */
 ColorDefinition::ColorDefinition(const ColorDefinition& orig)
   : SBase( orig )
-  , mValue ( orig.mValue )
   , mRed(orig.mRed)
   , mGreen(orig.mGreen)
   , mBlue(orig.mBlue)
   , mAlpha(orig.mAlpha)
+  , mValue(orig.mValue)
 {
 }
 
@@ -531,7 +538,7 @@ void ColorDefinition::setRGBA(unsigned char r,unsigned char g,unsigned char b,un
  * @param valueString A const reference to a string that represents a valid color value,
  * e.g. "#FFFFFFFF" for fully opaque white.
  *
- * @return true or false depending on whether setting the color value from the string
+ * @return @c true or false depending on whether setting the color value from the string
  * was successfull.
  */
 bool ColorDefinition::setColorValue(const std::string& valueString)
@@ -1118,7 +1125,7 @@ ColorDefinition::readAttributes(const XMLAttributes& attributes,
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownPackageAttribute);
         log->logPackageError("render", RenderColorDefinitionAllowedAttributes,
-          pkgVersion, level, version, details);
+          pkgVersion, level, version, details, getLine(), getColumn());
       }
       else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -1126,7 +1133,7 @@ ColorDefinition::readAttributes(const XMLAttributes& attributes,
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render",
           RenderRenderInformationBaseLOColorDefinitionsAllowedCoreAttributes,
-            pkgVersion, level, version, details);
+            pkgVersion, level, version, details, getLine(), getColumn());
       }
     }
   }
@@ -1144,7 +1151,7 @@ ColorDefinition::readAttributes(const XMLAttributes& attributes,
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownPackageAttribute);
         log->logPackageError("render", RenderColorDefinitionAllowedAttributes,
-          pkgVersion, level, version, details);
+          pkgVersion, level, version, details, getLine(), getColumn());
       }
       else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -1152,7 +1159,7 @@ ColorDefinition::readAttributes(const XMLAttributes& attributes,
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render",
           RenderColorDefinitionAllowedCoreAttributes, pkgVersion, level, version,
-            details);
+            details, getLine(), getColumn());
       }
     }
   }
@@ -1181,7 +1188,7 @@ ColorDefinition::readAttributes(const XMLAttributes& attributes,
     std::string message = "Render attribute 'id' is missing from the "
       "<ColorDefinition> element.";
     log->logPackageError("render", RenderColorDefinitionAllowedAttributes,
-      pkgVersion, level, version, message);
+      pkgVersion, level, version, message, getLine(), getColumn());
   }
 
   // 
@@ -1222,7 +1229,7 @@ ColorDefinition::readAttributes(const XMLAttributes& attributes,
       std::string message = "Render attribute 'value' is missing from the "
         "<ColorDefinition> element.";
       log->logPackageError("render", RenderColorDefinitionAllowedAttributes,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
     }
   }
 }

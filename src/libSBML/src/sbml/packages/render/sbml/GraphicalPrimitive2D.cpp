@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -133,7 +137,9 @@ GraphicalPrimitive2D::GraphicalPrimitive2D(const XMLNode& node, unsigned int l2v
  * an SBMLNamespaces object.
  */
 GraphicalPrimitive2D::GraphicalPrimitive2D(RenderPkgNamespaces* renderns, const std::string& id)
-    :GraphicalPrimitive1D(renderns, id),mFillRule(GraphicalPrimitive2D::UNSET),mFill("")
+    :GraphicalPrimitive1D(renderns, id)
+  , mFill("")
+  ,mFillRule(GraphicalPrimitive2D::UNSET)
 {
 #ifdef DEPRECATION_WARNINGS
     std::cerr << "Warning. GraphicalPrimitive2D::GraphicalPrimitive2D(const std::string& id) is deprecated." << std::endl;
@@ -253,7 +259,7 @@ GraphicalPrimitive2D::isSetFill() const
  * Returns true if the fill attribute is set or false otherwise.
  * The fill attribute is considered set if the string is not empty.
  *
- * @return true is the fill color is set.
+ * @return @c true if the fill color is set.
  */
 bool GraphicalPrimitive2D::isSetFillColor() const
 {
@@ -314,7 +320,7 @@ GraphicalPrimitive2D::setFillRule(const FillRule_t fillRule)
 }
 
 
-void GraphicalPrimitive2D::setFillRule(GraphicalPrimitive2D::FILL_RULE rule)
+void GraphicalPrimitive2D::setFillRule(FILL_RULE rule)
 {
   this->mFillRule = rule;
 }
@@ -368,7 +374,7 @@ GraphicalPrimitive2D::unsetFillRule()
 
 
 /*
- * Predicate returning @c true if this abstract "GraphicalPrimitive2D" is of
+ * Predicate returning @c true if this abstract GraphicalPrimitive2D is of
  * type Ellipse
  */
 bool
@@ -379,7 +385,7 @@ GraphicalPrimitive2D::isEllipse() const
 
 
 /*
- * Predicate returning @c true if this abstract "GraphicalPrimitive2D" is of
+ * Predicate returning @c true if this abstract GraphicalPrimitive2D is of
  * type Rectangle
  */
 bool
@@ -390,7 +396,7 @@ GraphicalPrimitive2D::isRectangle() const
 
 
 /*
- * Predicate returning @c true if this abstract "GraphicalPrimitive2D" is of
+ * Predicate returning @c true if this abstract GraphicalPrimitive2D is of
  * type Polygon
  */
 bool
@@ -401,7 +407,7 @@ GraphicalPrimitive2D::isPolygon() const
 
 
 /*
- * Predicate returning @c true if this abstract "GraphicalPrimitive2D" is of
+ * Predicate returning @c true if this abstract GraphicalPrimitive2D is of
  * type RenderGroup
  */
 bool
@@ -412,7 +418,7 @@ GraphicalPrimitive2D::isRenderGroup() const
 
 
 /*
- * Predicate returning @c true if this abstract "GraphicalPrimitive2D" is of
+ * Predicate returning @c true if this abstract GraphicalPrimitive2D is of
  * type LineEnding
  */
 bool
@@ -891,7 +897,7 @@ GraphicalPrimitive2D::readAttributes(const XMLAttributes& attributes,
         {
           log->logPackageError("render",
             RenderGraphicalPrimitive2DFillRuleMustBeFillRuleEnum, pkgVersion,
-            level, version, msg);
+            level, version, msg, getLine(), getColumn());
         }
       }
     }

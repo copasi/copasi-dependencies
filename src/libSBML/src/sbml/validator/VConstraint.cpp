@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -108,6 +112,11 @@ VConstraint::logFailure (const SBase& object, const std::string& message)
     if (offset == 9900000)
     {
       // we are dealing with the strict units validator
+      mId = mId - offset;
+    }
+    else if (offset == 1400000 && object.getLevel() == 3 && object.getVersion() == 2)
+    {
+      // we are using the l3v2extended math package but in l3v2 which means we want to report core
       mId = mId - offset;
     }
     else

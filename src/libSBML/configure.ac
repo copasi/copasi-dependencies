@@ -50,7 +50,7 @@ AC_INIT([libSBML],
 
 AC_CONFIG_AUX_DIR(config)
 
-AC_REVISION($Revision: 25196 $)
+AC_REVISION($Revision: 25690 $)
 
 AC_CONFIG_SRCDIR(src/Makefile.in)
 
@@ -201,6 +201,19 @@ if test "$enable_multi" != no; then
   AC_SUBST(LIBSBML_HAS_PACKAGE_MULTI, 1)
 fi
 
+AC_ARG_ENABLE([l3v2extendedmath],
+  AS_HELP_STRING([--enable-l3v2extendedmath@<:@=ARG@:>@],
+                 [build support for SBML 'l3v2extendedmath' @<:@default=no@:>@]),
+  [enable_l3v2extendedmath=$enableval],
+  [enable_l3v2extendedmath=no])
+
+if test "$enable_l3v2extendedmath" != no; then
+  AC_DEFINE([USE_L3V2EXTENDEDMATH], 1, [Define to 1 to build support for SBML 'l3v2extendedmath'.])
+  AC_DEFINE([LIBSBML_HAS_PACKAGE_L3V2EXTENDEDMATH], 1, [Define to 1 to build support for SBML 'l3v2extendedmath'.])
+  AC_SUBST(USE_L3V2EXTENDEDMATH, 1)
+  AC_SUBST(LIBSBML_HAS_PACKAGE_L3V2EXTENDEDMATH, 1)
+fi
+
 dnl -------------------------------------------------------
 dnl Other SBML L3 package variables
 dnl -------------------------------------------------------
@@ -235,21 +248,6 @@ AC_ARG_ENABLE([shared-version],
 if test "$enable_shared_version" != no; then
   AC_DEFINE([LIBSBML_SHARED_VERSION], 1, [Define to 1 to include the version number in the shared library.])
   AC_SUBST(LIBSBML_SHARED_VERSION, 1)
-fi
-
-dnl ---------------------------------------------------------------------------
-dnl LIBSBML_USE_LEGACY_MATH
-dnl ---------------------------------------------------------------------------
-
-AC_ARG_ENABLE([legacy-math],
-  AS_HELP_STRING([--enable-legacy-math@<:@=ARG@:>@],
-                 [use legacy AST math implementation @<:@default=no@:>@]),
-  [enable_use_legacy_math=$enableval],
-  [enable_use_legacy_math=no])
-
-if test "$enable_use_legacy_math" != no; then
-  AC_DEFINE([LIBSBML_USE_LEGACY_MATH], 1, [Define to 1 to use the legacy math AST implementation.])
-  AC_SUBST(LIBSBML_USE_LEGACY_MATH, 1)
 fi
 
 dnl ---------------------------------------------------------------------------
@@ -480,9 +478,6 @@ AC_CONFIG_FILES([src/sbml/annotation/test/Makefile])
 AC_CONFIG_FILES([src/sbml/math/Makefile])
 AC_CONFIG_FILES([src/sbml/math/test/Makefile])
 
-AC_CONFIG_FILES([src/sbml/math-legacy/Makefile])
-AC_CONFIG_FILES([src/sbml/math-legacy/test/Makefile])
-
 AC_CONFIG_FILES([src/sbml/units/Makefile])
 AC_CONFIG_FILES([src/sbml/units/test/Makefile])
 
@@ -558,6 +553,15 @@ AC_CONFIG_FILES([src/sbml/packages/layout/validator/Makefile])
 AC_CONFIG_FILES([src/sbml/packages/layout/validator/constraints/Makefile])
 AC_CONFIG_FILES([src/sbml/packages/layout/validator/test/Makefile])
 AC_CONFIG_FILES([src/sbml/packages/layout/validator/test/test-data/Makefile])
+
+AC_CONFIG_FILES([src/sbml/packages/l3v2extendedmath/Makefile])
+AC_CONFIG_FILES([src/sbml/packages/l3v2extendedmath/common/Makefile])
+AC_CONFIG_FILES([src/sbml/packages/l3v2extendedmath/extension/Makefile])
+AC_CONFIG_FILES([src/sbml/packages/l3v2extendedmath/extension/test/Makefile])
+AC_CONFIG_FILES([src/sbml/packages/l3v2extendedmath/validator/Makefile])
+AC_CONFIG_FILES([src/sbml/packages/l3v2extendedmath/validator/constraints/Makefile])
+AC_CONFIG_FILES([src/sbml/packages/l3v2extendedmath/validator/test/Makefile])
+AC_CONFIG_FILES([src/sbml/packages/l3v2extendedmath/validator/test/test-data/Makefile])
 
 if test -d src/sbml/packages/qual; then
 if test "$enable_qual" != "no" ; then
@@ -895,6 +899,10 @@ fi
 if test "$enable_qual" != "no" ; then
   echo "  SBML 'qual'                   = $enable_qual"
 fi
+if test "$enable_l3v2extendedmath" != "no" ; then
+  echo "  SBML 'l3v2extendedmath'                 = $enable_l3v2extendedmath"
+fi
+
 
 echo ""
 echo "Other potentially important settings:"

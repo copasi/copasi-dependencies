@@ -1,22 +1,231 @@
-           libSBML NEWS -- History of user-visible changes
+﻿           libSBML NEWS -- History of user-visible changes
 
 ====================================================================
-5.17.0 (2018-05-09)
+5.18.0 (2019-04-18)
 ====================================================================
 
 STABLE RELEASE
 
-* Render
+* New features
 
-  - The first official version of the specification of the Render
-    package is now available, and thus the 
-    libSBML code for 'render' is now included in the stable release of 
-    libSBML.  This means that all prebuilt binaries for the stable 
-    release will include the 'render' package code. The src archive 
-    containing libSBML core code will continue to be available, with
-    additional src archives available in the stable branch: one
-    containing libSBML core plus all stable packages and additional
-    archives of the individual package code.
+  - LibSBML now defines a DefinitionURLRegistry to allow a user to log
+    their own values of the 'definitionURL' attribute on a math <csymbol>
+    element. Once logged these definitionURL values will not trigger the
+    unknown csymbol error when reading a model that uses them. 
+
+  - LibSBML now defines a CallbackRegistry which allows a user to register
+    a callback to interrupt a long running read operation. Examples for C++
+    and Python are included. In future it would be anticipated that would
+    have callbacks to interrupt long running validation or conversion 
+    processes.
+	
+
+* Bug fixes
+
+  - Validation was incorrectly stating that the id of a <localParameter>
+    that mirrorred the id of a <species> should be listed as a 
+    <modifierSpeciesReference> in the enclosing <reaction>. It no longer
+    issue an incorrect error.
+
+  - The string to MathML parser was failing to identify known constants
+    as arguments to a lambda function. lambda(pi, pi*2) should treat 'pi'
+    as an unknown argument not the constant pi. This has been fixed.
+
+  - The MathML parser adds logbase and degree to log and root elements 
+    respectively. These are dimensionless integers and but unit
+    validation was failing.  This has been corrected.  Note this means
+    that for L3 models libSBML will write out the dimensionless units 
+    on the relevant <cn> element explicitly.  This may cause an 
+    apparent difference in models if reading and then writing. 
+
+  - In MathML a <bvar> element within a <lambda> can only contain a 
+    <ci> child element. Validation was failing to spot when this was 
+    not the case. This has been corrected.
+
+  - MathML within a <semantics> element was not being properly validated.
+    This has been improved.
+
+  - 'layout' package-specific bug fixes:
+
+    - Code was failing to roundtrip glyphs that contained both a <curve>
+      and a <boundingBox> element. This has been fixed.
+
+
+* Configuration/build system changes
+
+  - The cmake files that enable using the check library on 
+    a Linux OS have been updated to make this easier.
+
+  - Python 3.7 is now supported.
+
+
+* Miscellaneous
+ 
+  - Several obscure memory leaks have been plugged.
+
+
+EXPERIMENTAL RELEASE
+
+* New features
+
+  - 'distrib' package-specific updates:
+
+     - The code has been updated to reflect the specification
+       agreed during HARMONY 2019 version 0.24.
+        
+  - 'spatial' package-specific updates:
+
+    - The code has been updated to reflect the specification 
+      version 0.93.
+
+    - Attributes 'id' and 'name' have been added to the SpatialPoints
+      class in anticipation of these being added to the specification.
+
+    - Plugin code has changed so that child element class members are
+      initialised to NULL.  This saves memory but may cause existing
+      code to hit an issue when using a getAbc function; which may now
+      return a NULL object when previously it did not.
+
+
+====================================================================
+5.17.2-experimental (2018-12-06)
+====================================================================
+
+***                 Experimental only release                    ***
+
+This is an experimental only release, that is, a release of those
+files provided in the experimental folder of a full release. 
+
+This includes updates to all the SBML L3 packages that are not yet
+accepted and undergoing development.
+
+NOTE: An experimental release is not as rigorously tested as a 
+full release.  Any changes/fixes listed as either referring to
+stable or experimental code may change before the next full release.
+
+
+STABLE RELEASE
+
+* New features
+
+  - The math code has been refactored to use the more efficient 
+    math-legacy code in combination with a math plugin system. 
+    This code has been optimized and we welcome feedback on any 
+    performance issues.  This means there is no longer a math-legacy 
+    build option.
+
+  - The new math constructs introduced in SBML L3V2 have been refactored 
+    as a math extension; which facilitates the use of these math functions
+    in an SBML L3V1 document.
+
+  
+  - 'comp' package-specific updates:
+
+    - The 'comp' specification states that an external model must be
+      an L3V1 document. Since this specification predates SBML L3V2
+      we have relaxed the restriction to allow an L3V2 model using 
+      Model Composition to use an L3V2 external model.
+
+    - The converter that 'flattens' a comp model has been optimized
+      for speed with significant improvement for larger models.
+
+  - Python interface specific updates:
+
+    - In libSBML the set/add/unset methods return a code to indicate
+      success or failure of the operation. The Python interface has
+      been improved to produce a warning when a function fails. This 
+      behaviour can be enabled by setting a CMAKE configure option
+      or an environment variable.
+
+    - Sourceforge Tracker item #456: The Python interface has
+      been changed to return an empty List of CVTerms rather
+      than a None object.
+
+    - Users have raised issued about Model objects retrieved from within an
+      SBMLDocument object going out of scope when the document object
+      is removed from scope. We have adjusted the code to allow a Model
+      to remain in scope without it's parent document. Feedback would
+      be apprceiated about whether this is sufficient or whether all child
+      objects should be available regardless of whether their parent is
+      still available. 
+
+    - Sourceforge Tracker item #468:  Functions deprecated in Python 3.6
+      have been replaced to avoid deprecation warning messages. 
+    
+
+* Bug fixes
+
+  - The function SBMLTypeCode_toString was not retuning the correct 
+    string for a ListOf element originating in a package. This
+    has been corrected.
+
+  - Using an SBML L3 package in an L2 document could cause a crash.
+    This has been fixed. Thanks to Thomas Hamm for reporting it.
+
+  - The code that checked for use of an L3V2 package with an L3V1
+    document could cause a crash. This has been fixed. 
+
+  - Writing out a document without a model and no level and version
+    was using level = version = 0; which is not valid. This has been
+    changed to write a L3V2 document with no model.
+
+  - There was an issue with newer architectures when casting a
+    NaN to an integer - this has been now been avoided.
+
+  - MATLAB interface specific bug fixes:
+
+    - The matlab binding was failing to distinguish between a
+      functionDefinition where the id ended with a logical operator,
+      e.g. 'myor' and the actual logical function. This has been corrected.
+
+
+  - 'comp' package-specific bug fixes:
+
+    - There was an issue with flattening 'comp' models using conversion 
+      factors. This has been tracked down and fixed. Thanks to Matthias 
+      Konig for reporting it and providing examples.
+
+  - 'render' package-specific bug fixes:
+
+    - Historical render code did not create a NULL BoundingBox. 
+      Current code has been brought in line with this.
+
+* Configuration/build system changes
+
+  - Python 3.7 is now supported and included in the builds.
+
+  - The USE_LEGACY_MATH option has been removed as code has been
+    reverted to use this math implementation (see above).
+
+
+EXPERIMENTAL RELEASE
+
+* New features
+
+  - 'distrib' package-specific updates:
+
+    - The distrib package code has been updated to include the use
+      of csymbols to reference distributions. This is in line with 
+      the latest distrib specification.
+
+
+====================================================================
+5.17.0 (2018-05-21)
+====================================================================
+
+STABLE RELEASE
+
+* Addition of support for the SBML Render package
+
+  - Now that the first official version of the specification for the
+    SBML Level 3 Rendering package is available, the libSBML API for
+    'render' is now included in the stable release of libSBML.  This
+    means that all prebuilt binaries for the stable release will
+    include the 'render' package code. The src archive containing
+    libSBML core code will continue to be available, with additional
+    src archives available in the stable branch: one containing
+    libSBML core plus all stable packages and additional archives of
+    the individual package code.
     
     NOTE: The libSBML GNU make-based build system has not been updated
           for packages. Thus, to build from src, it is necessary to
@@ -25,25 +234,25 @@ STABLE RELEASE
 
 * New features
 
-  - The libSBML-matlab interface function TranslateSBML has been
+  - The MATLAB language interface function TranslateSBML has been
     optimized for speed.
 
-  - The libSBML-matlab interface function OutputSBML can now be called
-    with an output argument and no inputs to return information about 
-    the libSBML version and enabled packages used to build the 
+  - The MATLAB interface function OutputSBML can now be called with an
+    output argument and no inputs; doing so will return information
+    about the libSBML version and enabled packages used to build the
     binary files.
 
-  - A new function getDefaultSBMLStruct has been added to the 
-    libSBML-matlab interface. This function takes a string name of the
-    element with level and version information and returns the relevant
-    MATLAB-SBML structure for the element. Many thanks go to Thomas Pfau
-    for supplying this function.
+  - A new function getDefaultSBMLStruct has been added to the MATLAB
+    interface. This function takes a string name of the element with
+    level and version information and returns the relevant MATLAB-SBML
+    structure for the element. Many thanks go to Thomas Pfau for
+    supplying this function.
 
-  - On occasion the functions 'getDerivedUnitDefinition' that return
-    calculated units were reporting incorrect units without flagging
-    any issues. This has been made less ambiguous and a derived 
-    UnitDefinition will not contain any units if it cannot be correctly 
-    determined.
+  - On occasion, the function getDerivedUnitDefinition that returns
+    calculated units would report incorrect units without flagging any
+    issues. This has been made less ambiguous and a derived
+    UnitDefinition will not contain any units if it cannot be
+    correctly determined.
 
   - Unit validation has been optimized and significantly speeded up for
     larger models. 
@@ -71,8 +280,8 @@ STABLE RELEASE
 * Bug fixes
 
   - SourceForge Tracker item #459: An error in the function that
-    converts libsbml-infix to matlab infix was failing when log
-    functions were failing. This is fixed. Thanks to Sven Thiele
+    converts libSBML infix notation to MATLAB infix notation failed
+    when log functions failed. This is fixed. Thanks to Sven Thiele
     for reporting the issue.
 
   - The validation check for duplicate values of the 'metaid'

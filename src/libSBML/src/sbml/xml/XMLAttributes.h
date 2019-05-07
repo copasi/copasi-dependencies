@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -314,8 +318,8 @@ public:
    */
   int add (  const std::string& name
            , const std::string& value
-           , const std::string& namespaceURI = ""
-           , const std::string& prefix = "");
+           , const std::string namespaceURI = ""
+           , const std::string prefix = "");
 
 
   /**
@@ -433,7 +437,7 @@ public:
    * @see remove(int n)
    * @see remove(const XMLTriple& triple)
    */
-  int remove (const std::string& name, const std::string& uri = "");
+  int remove (const std::string& name, const std::string uri = "");
 
 
   /**
@@ -658,7 +662,7 @@ public:
    * @see hasAttribute(const std::string name, const std::string uri) const
    * @see hasAttribute(const XMLTriple& triple) const
    */
-  std::string getValue (const std::string name) const;
+  std::string getValue (const std::string& name) const;
 
 
   /**
@@ -678,7 +682,7 @@ public:
    * @see hasAttribute(const std::string name, const std::string uri) const
    * @see hasAttribute(const XMLTriple& triple) const
    */
-  std::string getValue (const std::string name, const std::string uri) const;
+  std::string getValue (const std::string& name, const std::string& uri) const;
 
 
   /**
@@ -727,7 +731,7 @@ public:
    * @see add(const std::string& name, const std::string& value, const std::string& namespaceURI, const std::string& prefix)
    * @see add(const XMLTriple& triple, const std::string& value)
    */
-   bool hasAttribute (const std::string name, const std::string uri="") const;
+   bool hasAttribute (const std::string& name, const std::string uri="") const;
 
 
   /**

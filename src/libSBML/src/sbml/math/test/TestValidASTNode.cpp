@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -164,15 +168,7 @@ START_TEST (test_ValidASTNode_Number)
   ASTNode *d = SBML_parseFormula("d");
   int i = n->addChild(d);
 
-#ifndef LIBSBML_USE_LEGACY_MATH
-  // old test allowed to create invalid node
-//  fail_unless( !(n->isWellFormedASTNode()) );
-  fail_unless( i == LIBSBML_INVALID_OBJECT);
-
-  delete d;
-#else
   fail_unless( !(n->isWellFormedASTNode()) );
-#endif
 
   delete n;
 }
@@ -188,15 +184,8 @@ START_TEST (test_ValidASTNode_Name)
   ASTNode *d = SBML_parseFormula("d");
   int i = n->addChild(d);
 
-#ifndef LIBSBML_USE_LEGACY_MATH
-  // old test allowed to create invalid node
-//  fail_unless( !(n->isWellFormedASTNode()) );
-  fail_unless( i == LIBSBML_INVALID_OBJECT);
 
-  delete d;
-#else
   fail_unless( !(n->isWellFormedASTNode()) );
-#endif
   delete n;
 }
 END_TEST
@@ -318,11 +307,7 @@ START_TEST (test_ValidASTNode_log)
   ASTNode *c = SBML_parseFormula("c");
   n->addChild(c);
 
-#ifndef LIBSBML_USE_LEGACY_MATH
-  fail_unless( n->isWellFormedASTNode() );
-#else
   fail_unless( !(n->isWellFormedASTNode()));
-#endif
 
   ASTNode *d = SBML_parseFormula("3");
   n->addChild(d);
@@ -437,6 +422,56 @@ START_TEST (test_ValidASTNode_returnsBoolean)
 }
 END_TEST
 
+#ifdef USE_L3V2EXTENDEDMATH
+START_TEST(test_ValidASTNode_L3V2)
+{
+  ASTNode node(AST_LOGICAL_IMPLIES);
+  fail_unless(node.returnsBoolean());
+  fail_unless(node.isWellFormedASTNode() == false);
+  fail_unless(node.hasCorrectNumberArguments() == false);
+
+  ASTNode c1(AST_NAME);
+  node.addChild(c1.deepCopy());
+  node.addChild(c1.deepCopy());
+  fail_unless(node.isWellFormedASTNode() == true);
+  fail_unless(node.hasCorrectNumberArguments() == true);
+
+
+  ASTNode *n = new ASTNode(AST_FUNCTION_REM);
+  fail_unless(!(n->isWellFormedASTNode()));
+
+  ASTNode *c = SBML_parseFormula("c");
+
+  n->addChild(c->deepCopy());
+  fail_unless(!(n->isWellFormedASTNode()));
+
+  n->addChild(c->deepCopy());
+  fail_unless((n->isWellFormedASTNode()));
+
+  n->addChild(c->deepCopy());
+  fail_unless(!(n->isWellFormedASTNode()));
+
+  delete n;
+
+  n = new ASTNode(AST_FUNCTION_MIN);
+  // zero arguments are now allowed
+  //fail_unless(!(n->isWellFormedASTNode()));
+
+  n->addChild(c->deepCopy());
+  fail_unless((n->isWellFormedASTNode()));
+
+  n->addChild(c->deepCopy());
+  fail_unless((n->isWellFormedASTNode()));
+
+  n->addChild(c->deepCopy());
+  fail_unless((n->isWellFormedASTNode()));
+
+  delete n;
+  delete c;
+
+}
+END_TEST
+#endif
 
 Suite *
 create_suite_TestValidASTNode ()
@@ -458,6 +493,11 @@ create_suite_TestValidASTNode ()
   tcase_add_test( tcase, test_ValidASTNode_log              );
   tcase_add_test( tcase, test_ValidASTNode_lambda            );
   tcase_add_test( tcase, test_ValidASTNode_setType           );
+
+#ifdef USE_L3V2EXTENDEDMATH
+  tcase_add_test(tcase, test_ValidASTNode_L3V2);
+
+#endif
 
   suite_add_tcase(suite, tcase);
 

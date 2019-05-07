@@ -7,6 +7,10 @@
  * This file is part of libSBML. Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ * 1. California Institute of Technology, Pasadena, CA, USA
+ * 2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  * 1. California Institute of Technology, Pasadena, CA, USA
  * 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -159,8 +163,8 @@ public:
    *
    * @param n an unsigned int representing the index of the Group to retrieve.
    *
-   * @return the nth Group in the ListOfGroups within this GroupsModelPlugin 
-   * or @c NULL if no such object exists.
+   * @return the nth Group in the ListOfGroups within this GroupsModelPlugin or
+   * @c NULL if no such object exists..
    *
    * @copydetails doc_returned_unowned_pointer
    *
@@ -179,8 +183,8 @@ public:
    *
    * @param n an unsigned int representing the index of the Group to retrieve.
    *
-   * @return the nth Group in the ListOfGroups within this GroupsModelPlugin
-   * or @c NULL if no such object exists.
+   * @return the nth Group in the ListOfGroups within this GroupsModelPlugin or
+   * @c NULL if no such object exists..
    *
    * @copydetails doc_returned_unowned_pointer
    *
@@ -265,7 +269,6 @@ public:
    *
    * @return the number of Group objects in this GroupsModelPlugin.
    *
-   *
    * @see addGroup(const Group* object)
    * @see createGroup()
    * @see getGroup(const std::string& sid)
@@ -302,7 +305,7 @@ public:
    *
    * @return a pointer to the nth Group in this GroupsModelPlugin.
    *
-   * @copydetails doc_returned_owned_pointer
+   * @copydetails doc_warning_returns_owned_pointer
    *
    * @see addGroup(const Group* object)
    * @see createGroup()
@@ -323,7 +326,7 @@ public:
    * @return the Group in this GroupsModelPlugin based on the identifier or
    * NULL if no such Group exists.
    *
-   * @copydetails doc_returned_owned_pointer
+   * @copydetails doc_warning_returns_owned_pointer
    *
    * @see addGroup(const Group* object)
    * @see createGroup()
@@ -399,6 +402,19 @@ public:
   virtual void enablePackageInternal(const std::string& pkgURI,
                                      const std::string& pkgPrefix,
                                      bool flag);
+
+  /** @endcond */
+
+
+
+  /** @cond doxygenLibsbmlInternal */
+
+  /**
+   * Updates the namespaces when setLevelVersion is used
+   */
+  virtual void updateSBMLNamespace(const std::string& package,
+                                   unsigned int level,
+                                   unsigned int version);
 
   /** @endcond */
 
@@ -819,6 +835,9 @@ public:
 
 LIBSBML_CPP_NAMESPACE_END
 
+
+
+
 #endif /* __cplusplus */
 
 
@@ -849,11 +868,11 @@ BEGIN_C_DECLS
  *
  * @see GroupsModelPlugin_addGroup()
  * @see GroupsModelPlugin_createGroup()
- * @see GroupsModelPlugin_getGroup()
  * @see GroupsModelPlugin_getGroupById()
+ * @see GroupsModelPlugin_getGroup()
  * @see GroupsModelPlugin_getNumGroups()
- * @see GroupsModelPlugin_removeGroup()
  * @see GroupsModelPlugin_removeGroupById()
+ * @see GroupsModelPlugin_removeGroup()
  *
  * @memberof GroupsModelPlugin_t
  */
@@ -869,8 +888,8 @@ GroupsModelPlugin_getListOfGroups(GroupsModelPlugin_t* gmp);
  *
  * @param n an unsigned int representing the index of the Group_t to retrieve.
  *
- * @return the nth Group_t in the ListOfGroups within this GroupsModelPlugin 
- * or @c NULL if no such object exists.
+ * @return the nth Group_t in the ListOfGroups within this GroupsModelPlugin or
+ * @c NULL if no such object exists..
  *
  * @copydetails doc_returned_unowned_pointer
  *
@@ -966,7 +985,7 @@ GroupsModelPlugin_createGroup(GroupsModelPlugin_t* gmp);
  *
  * @return a pointer to the nth Group_t in this GroupsModelPlugin_t.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof GroupsModelPlugin_t
  */
@@ -986,7 +1005,7 @@ GroupsModelPlugin_removeGroup(GroupsModelPlugin_t* gmp, unsigned int n);
  * @return the Group_t in this GroupsModelPlugin_t based on the identifier or
  * NULL if no such Group_t exists.
  *
- * @copydetails doc_returned_owned_pointer
+ * @copydetails doc_warning_returns_owned_pointer
  *
  * @memberof GroupsModelPlugin_t
  */

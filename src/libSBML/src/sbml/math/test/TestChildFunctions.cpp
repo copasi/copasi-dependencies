@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -59,12 +63,11 @@ LIBSBML_CPP_NAMESPACE_USE
 #define XML_HEADER    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 #define MATHML_HEADER "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
 #define MATHML_HEADER_UNITS  "<math xmlns=\"http://www.w3.org/1998/Math/MathML\""
-#define MATHML_HEADER_UNITS2  " xmlns:sbml=\"http://www.sbml.org/sbml/level3/version1/core\">\n"
+#define MATHML_HEADER_UNITS2  " xmlns:sbml=\"http://www.sbml.org/sbml/level3/version2/core\">\n"
 #define MATHML_FOOTER "</math>"
 
 #define wrapMathML(s)   XML_HEADER MATHML_HEADER s MATHML_FOOTER
 #define wrapMathMLUnits(s)  XML_HEADER MATHML_HEADER_UNITS MATHML_HEADER_UNITS2 s MATHML_FOOTER
-
 
 static ASTNode* N;
 static char*    S;
@@ -342,12 +345,12 @@ END_TEST
 
 START_TEST (test_ChildFunctions_addToLog_2)
 {
-  const char* expected = wrapMathML
+  const char* expected = wrapMathMLUnits
   (
     "  <apply>\n"
     "    <log/>\n"
     "    <logbase>\n"
-    "      <cn type=\"integer\"> 10 </cn>\n"
+    "      <cn sbml:units=\"dimensionless\" type=\"integer\"> 10 </cn>\n"
     "    </logbase>\n"
     "    <ci> newChild </ci>\n"
     "  </apply>\n"
@@ -454,12 +457,12 @@ END_TEST
 
 START_TEST (test_ChildFunctions_addToRoot_2)
 {
-  const char* expected = wrapMathML
+  const char* expected = wrapMathMLUnits
   (
     "  <apply>\n"
     "    <root/>\n"
     "    <degree>\n"
-    "      <cn type=\"integer\"> 2 </cn>\n"
+    "      <cn sbml:units=\"dimensionless\" type=\"integer\"> 2 </cn>\n"
     "    </degree>\n"
     "    <ci> newChild </ci>\n"
     "  </apply>\n"
@@ -788,6 +791,9 @@ START_TEST (test_ChildFunctions_getChildFromLog_2)
 END_TEST
 
 
+#if (0)
+
+// not applicable to math-legacy
 START_TEST (test_ChildFunctions_getChildFromLog_3)
 {
   N = new ASTNode(AST_FUNCTION_LOG);
@@ -820,6 +826,7 @@ START_TEST (test_ChildFunctions_getChildFromLog_3)
 }
 END_TEST
 
+#endif
 
 START_TEST (test_ChildFunctions_getChildFromRoot_1)
 {
@@ -877,6 +884,9 @@ START_TEST (test_ChildFunctions_getChildFromRoot_2)
 END_TEST
 
 
+#if (0)
+
+// not applicable to math-legacy
 START_TEST (test_ChildFunctions_getChildFromRoot_3)
 {
   N = new ASTNode(AST_FUNCTION_ROOT);
@@ -909,6 +919,7 @@ START_TEST (test_ChildFunctions_getChildFromRoot_3)
 }
 END_TEST
 
+#endif
 
 START_TEST (test_ChildFunctions_remove)
 {
@@ -1331,7 +1342,7 @@ END_TEST
 
 START_TEST (test_ChildFunctions_removeFromLog_2)
 {
-  const char* expected = wrapMathML
+  const char* expected = wrapMathMLUnits
   (
     "  <apply>\n"
     "    <log/>\n"
@@ -1494,11 +1505,11 @@ END_TEST
 
 START_TEST (test_ChildFunctions_removeFromRoot_2)
 {
-  const char* expected = wrapMathML
+  const char* expected = wrapMathMLUnits
   (
     "  <apply>\n"
     "    <root/>\n"
-    "    <cn type=\"integer\"> 2 </cn>\n"
+    "    <cn sbml:units=\"dimensionless\" type=\"integer\"> 2 </cn>\n"
     "  </apply>\n"
   );
 
@@ -2643,10 +2654,8 @@ create_suite_TestChildFunctions ()
   tcase_add_test( tcase, test_ChildFunctions_getChildFromLambda_2  );
   tcase_add_test( tcase, test_ChildFunctions_getChildFromLog_1  );
   tcase_add_test( tcase, test_ChildFunctions_getChildFromLog_2  );
-  tcase_add_test( tcase, test_ChildFunctions_getChildFromLog_3  );
   tcase_add_test( tcase, test_ChildFunctions_getChildFromRoot_1  );
   tcase_add_test( tcase, test_ChildFunctions_getChildFromRoot_2  );
-  tcase_add_test( tcase, test_ChildFunctions_getChildFromRoot_3  );
   tcase_add_test( tcase, test_ChildFunctions_remove               );
   tcase_add_test( tcase, test_ChildFunctions_removeFromPiecewise_1  );
   tcase_add_test( tcase, test_ChildFunctions_removeFromPiecewise_2  );

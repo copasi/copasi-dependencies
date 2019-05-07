@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -75,9 +79,7 @@ static const packageErrorTableEntryV2 defaultErrorTableV2[] =
 
 SBMLExtension::SBMLExtension ()
  : mIsEnabled(true)
-//#ifndef LIBSBML_USE_LEGACY_MATH
  , mASTBasePlugin (NULL)
-//#endif
 {
 }
 
@@ -87,19 +89,15 @@ SBMLExtension::SBMLExtension ()
  */
 SBMLExtension::SBMLExtension(const SBMLExtension& orig)
 {
-//#ifndef LIBSBML_USE_LEGACY_MATH
     mASTBasePlugin = NULL;
-//#endif
 
   mIsEnabled = orig.mIsEnabled;
   mSupportedPackageURI = orig.mSupportedPackageURI;
 
-//#ifndef LIBSBML_USE_LEGACY_MATH
   if (orig.mASTBasePlugin != NULL) 
   {
     mASTBasePlugin = orig.mASTBasePlugin->clone();
   }
-//#endif
   for (size_t i=0; i < orig.mSBasePluginCreators.size(); i++)
     mSBasePluginCreators.push_back(orig.mSBasePluginCreators[i]->clone());
 }
@@ -112,10 +110,8 @@ SBMLExtension::~SBMLExtension ()
 {
   for (size_t i=0; i < mSBasePluginCreators.size(); i++)
     delete mSBasePluginCreators[i];
-//#ifndef LIBSBML_USE_LEGACY_MATH
   if (mASTBasePlugin != NULL)
     delete mASTBasePlugin;
-//#endif
 }
 
 
@@ -130,12 +126,10 @@ SBMLExtension::operator=(const SBMLExtension& orig)
     mIsEnabled = orig.mIsEnabled; 
     mSupportedPackageURI = orig.mSupportedPackageURI; 
 
-//  #ifndef LIBSBML_USE_LEGACY_MATH
     mASTBasePlugin = NULL;
     if (orig.mASTBasePlugin != NULL) {
       mASTBasePlugin = orig.mASTBasePlugin->clone();
     }
-//  #endif /* LIBSBML_USE_LEGACY_MATH */
 
     for (size_t i=0; i < mSBasePluginCreators.size(); i++)
       delete mSBasePluginCreators[i];
@@ -201,7 +195,6 @@ SBMLExtension::addSBasePluginCreator(const SBasePluginCreatorBase* sbaseExt)
 /** @endcond */
 
 
-//#ifndef LIBSBML_USE_LEGACY_MATH
 /** @cond doxygenLibsbmlInternal */
 int 
 SBMLExtension::setASTBasePlugin(const ASTBasePlugin* astPlugin)
@@ -249,7 +242,6 @@ SBMLExtension::getASTBasePlugin() const
 }
 /** @endcond */
 
-//#endif /* LIBSBML_USE_LEGACY_MATH */
 
 /** @cond doxygenLibsbmlInternal */
 SBasePluginCreatorBase*

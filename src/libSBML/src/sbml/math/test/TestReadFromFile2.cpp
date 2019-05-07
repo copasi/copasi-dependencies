@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -253,16 +257,11 @@ START_TEST (test_read_MathML_2)
   //</algebraicRule>
   r = m->getRule(0);
   const ASTNode *r_math = r->getMath();
-#ifndef LIBSBML_USE_LEGACY_MATH
-  /* the fact that this would be read is a bug */
-  fail_unless(r_math == NULL);
-#else
   fail_unless (r_math->getType() == AST_CONSTANT_TRUE, NULL);
   fail_unless (r_math->getNumChildren() == 0, NULL);
   math = SBML_formulaToString(r_math);
   fail_unless (!strcmp(math, "true"), NULL);
   safe_free(math);
-#endif
   //fail_unless (r_math->getNumVariablesWithUndeclaredUnits() == 0);
   //fail_unless( r_math->containsVariable("c") == false );
   //fail_unless( r_math->containsVariable("x") == false );

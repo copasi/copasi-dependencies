@@ -8,6 +8,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -106,11 +110,11 @@ LineEnding::LineEnding(RenderPkgNamespaces *renderns)
  */
 LineEnding::LineEnding(const XMLNode& node, unsigned int l2version)
   : GraphicalPrimitive2D(node, l2version)
-  , mBoundingBox(NULL)
   , mGroup(NULL)
+  , mBoundingBox(NULL)
 {
-  //mBoundingBox = new BoundingBox(2, l2version);
-  //mGroup = new RenderGroup(2, l2version);
+  mBoundingBox = new BoundingBox(2, l2version);
+  mGroup = new RenderGroup(2, l2version);
     const XMLNode* child;
     const XMLAttributes& attributes=node.getAttributes();
      ExpectedAttributes ea;
@@ -165,6 +169,8 @@ LineEnding::LineEnding(RenderPkgNamespaces* renderns, const std::string& id) :
 //    ,mGroup(renderns)    
 {
   mGroup = new RenderGroup(renderns);
+  mBoundingBox = new BoundingBox(renderns->getLevel(), renderns->getVersion());
+
     //this->mBoundingBox.setParentSBMLObject(this);
     //this->mBoundingBox.setIsInRenderContext(true);
 #ifdef DEPRECATION_WARNINGS
@@ -1327,7 +1333,7 @@ LineEnding::createObject(XMLInputStream& stream)
     if (isSetBoundingBox() && mBoundingBox->getDimensionsExplicitlySet() && getErrorLog() != NULL)
     {
       getErrorLog()->logPackageError("render", RenderLineEndingAllowedElements,
-        getPackageVersion(), getLevel(), getVersion());
+        getPackageVersion(), getLevel(), getVersion(), "", getLine(), getColumn());
     }
 
     delete mBoundingBox;
@@ -1394,7 +1400,7 @@ LineEnding::readAttributes(const XMLAttributes& attributes,
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownPackageAttribute);
         log->logPackageError("render", RenderLineEndingAllowedAttributes,
-          pkgVersion, level, version, details);
+          pkgVersion, level, version, details, getLine(), getColumn());
       }
       else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -1402,7 +1408,7 @@ LineEnding::readAttributes(const XMLAttributes& attributes,
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render",
           RenderRenderInformationBaseLOLineEndingsAllowedCoreAttributes,
-            pkgVersion, level, version, details);
+            pkgVersion, level, version, details, getLine(), getColumn());
       }
     }
   }
@@ -1420,14 +1426,14 @@ LineEnding::readAttributes(const XMLAttributes& attributes,
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownPackageAttribute);
         log->logPackageError("render", RenderLineEndingAllowedAttributes,
-          pkgVersion, level, version, details);
+          pkgVersion, level, version, details, getLine(), getColumn());
       }
       else if (log->getError(n)->getErrorId() == UnknownCoreAttribute)
       {
         const std::string details = log->getError(n)->getMessage();
         log->remove(UnknownCoreAttribute);
         log->logPackageError("render", RenderLineEndingAllowedCoreAttributes,
-          pkgVersion, level, version, details);
+          pkgVersion, level, version, details, getLine(), getColumn());
       }
     }
   }
@@ -1458,7 +1464,7 @@ LineEnding::readAttributes(const XMLAttributes& attributes,
     if (log)
     {
       log->logPackageError("render", RenderLineEndingAllowedAttributes,
-        pkgVersion, level, version, message);
+        pkgVersion, level, version, message, getLine(), getColumn());
     }
   }
 
@@ -1481,7 +1487,7 @@ LineEnding::readAttributes(const XMLAttributes& attributes,
       log->remove(XMLAttributeTypeMismatch);
       log->logPackageError("render",
         RenderLineEndingEnableRotationalMappingMustBeBoolean, pkgVersion, level,
-          version);
+          version, "", getLine(), getColumn());
     }
     else
     {

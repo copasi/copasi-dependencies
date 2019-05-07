@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -250,7 +254,7 @@ Parameter::getUnits () const
 
 
 /*
- * @return true if this Parameter is constant, false otherwise.
+ * @return @c true if this Parameter is constant, false otherwise.
  */
 bool
 Parameter::getConstant () const
@@ -260,7 +264,7 @@ Parameter::getConstant () const
 
 
 /*
- * @return true if the id of this SBML object is set, false
+ * @return @c true if the id of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -271,7 +275,7 @@ Parameter::isSetId () const
 
 
 /*
- * @return true if the name of this SBML object is set, false
+ * @return @c true if the name of this SBML object is set, false
  * otherwise.
  */
 bool
@@ -283,7 +287,7 @@ Parameter::isSetName () const
 
 
 /*
- * @return true if the value of this Parameter is set, false
+ * @return @c true if the value of this Parameter is set, false
  * otherwise.
  *
  * In SBML L1v1, a Parameter value is required and therefore <b>should
@@ -298,7 +302,7 @@ Parameter::isSetValue () const
 
 
 /*
- * @return true if the units of this Parameter is set, false
+ * @return @c true if the units of this Parameter is set, false
  * otherwise.
  */
 bool
@@ -309,7 +313,7 @@ Parameter::isSetUnits () const
 
 
 /*
- * @return true if the constant of this Parameter is set, false
+ * @return @c true if the constant of this Parameter is set, false
  * otherwise.
  */
 bool

@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -329,8 +333,8 @@ public:
    */
   int addAttr (  const std::string& name
                , const std::string& value
-               , const std::string& namespaceURI = ""
-               , const std::string& prefix = "");
+               , const std::string namespaceURI = ""
+               , const std::string prefix = "");
 
 
   /**
@@ -396,7 +400,7 @@ public:
    *
    * @see hasAttr(const std::string name, const std::string uri) const
    */
-  int removeAttr (const std::string& name, const std::string& uri = "");
+  int removeAttr (const std::string& name, const std::string uri = "");
 
 
   /**
@@ -444,7 +448,7 @@ public:
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
-  int getAttrIndex (const std::string& name, const std::string& uri="") const;
+  int getAttrIndex (const std::string& name, const std::string uri="") const;
 
 
   /**
@@ -573,7 +577,7 @@ public:
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
-  std::string getAttrValue (const std::string name, const std::string uri="") const;
+  std::string getAttrValue (const std::string& name, const std::string uri="") const;
 
 
   /**
@@ -619,7 +623,7 @@ public:
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
-  bool hasAttr (const std::string name, const std::string uri="") const;
+  bool hasAttr (const std::string& name, const std::string uri="") const;
 
 
   /**
@@ -691,7 +695,7 @@ public:
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
-  int addNamespace (const std::string& uri, const std::string& prefix = "");
+  int addNamespace (const std::string& uri, const std::string prefix = "");
 
 
   /**
@@ -842,7 +846,7 @@ public:
    *
    * @ifnot hasDefaultArgs @htmlinclude warn-default-args-in-docs.html @endif@~
    */
-  std::string getNamespaceURI (const std::string& prefix = "") const;
+  std::string getNamespaceURI (const std::string prefix = "") const;
 
 
   /**

@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -348,8 +352,8 @@ XMLToken::setAttributes(const XMLAttributes& attributes)
 int 
 XMLToken::addAttr (  const std::string& name
                    , const std::string& value
-                   , const std::string& namespaceURI
-                   , const std::string& prefix      )
+                   , const std::string namespaceURI
+                   , const std::string prefix      )
 {
   if (mIsStart) 
   {
@@ -417,7 +421,7 @@ XMLToken::removeAttr (int n)
  * @param uri    a string, the namespace URI of the attribute.
  */
 int 
-XMLToken::removeAttr (const std::string& name, const std::string& uri)
+XMLToken::removeAttr (const std::string& name, const std::string uri)
 {
   if (mIsStart) 
   {
@@ -491,7 +495,7 @@ XMLToken::clearAttributes()
  * documentation.
  */
 int 
-XMLToken::getAttrIndex (const std::string& name, const std::string& uri) const
+XMLToken::getAttrIndex (const std::string& name, const std::string uri) const
 {
   return mAttributes.getIndex(name, uri);
 }
@@ -649,7 +653,7 @@ XMLToken::getAttrValue (int index) const
  * documentation.
  */
 std::string 
-XMLToken::getAttrValue (const std::string name, const std::string uri) const
+XMLToken::getAttrValue (const std::string& name, const std::string uri) const
 {
   return mAttributes.getValue(name, uri);
 }
@@ -705,7 +709,7 @@ XMLToken::hasAttr (int index) const
  * @if notcpp @htmlinclude warn-default-args-in-docs.html @endif@~
  */
 bool 
-XMLToken::hasAttr (const std::string name, const std::string uri) const
+XMLToken::hasAttr (const std::string& name, const std::string uri) const
 {
   return mAttributes.hasAttribute(name, uri);
 }
@@ -795,7 +799,7 @@ XMLToken::setNamespaces(const XMLNamespaces& namespaces)
  * Nothing will be done if this XMLToken is not a start element.
  */
 int 
-XMLToken::addNamespace (const std::string& uri, const std::string& prefix)
+XMLToken::addNamespace (const std::string& uri, const std::string prefix)
 {
 
    if (mIsStart)  
@@ -958,7 +962,7 @@ XMLToken::getNamespaceURI (int index) const
  * @return the URI of an XML namespace declaration given its prefix.  
  */
 std::string 
-XMLToken::getNamespaceURI (const std::string& prefix) const
+XMLToken::getNamespaceURI (const std::string prefix) const
 {
   return mNamespaces.getURI(prefix);
 }
@@ -1092,7 +1096,7 @@ XMLToken::getURI () const
 
 
 /*
- * @return true if this XMLToken is an XML element.
+ * @return @c true if this XMLToken is an XML element.
  */
 bool
 XMLToken::isElement () const
@@ -1102,7 +1106,7 @@ XMLToken::isElement () const
 
  
 /*
- * @return true if this XMLToken is an XML end element, false
+ * @return @c true if this XMLToken is an XML end element, false
  * otherwise.
  */
 bool
@@ -1113,7 +1117,7 @@ XMLToken::isEnd () const
 
 
 /*
- * @return true if this XMLToken is an XML end element for the given XML
+ * @return @c true if this XMLToken is an XML end element for the given XML
  * start element, false otherwise.
  */
 bool
@@ -1129,7 +1133,7 @@ XMLToken::isEndFor (const XMLToken& element) const
 
 
 /*
- * @return true if this XMLToken is an end of file (input) marker, false
+ * @return @c true if this XMLToken is an end of file (input) marker, false
  * otherwise.
  */
 bool
@@ -1140,7 +1144,7 @@ XMLToken::isEOF () const
 
 
 /*
- * @return true if this XMLToken is an XML start element, false
+ * @return @c true if this XMLToken is an XML start element, false
  * otherwise.
  */
 bool
@@ -1151,7 +1155,7 @@ XMLToken::isStart () const
 
 
 /*
- * @return true if this XMLToken is text, false otherwise.
+ * @return @c true if this XMLToken is text, false otherwise.
  */
 bool
 XMLToken::isText () const

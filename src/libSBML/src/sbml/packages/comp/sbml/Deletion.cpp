@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -199,7 +203,7 @@ Deletion::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownPackageAttribute);
         getErrorLog()->logPackageError("comp", CompLODeletionAllowedAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
       else if (getErrorLog()->getError((unsigned int)n)->getErrorId() == UnknownCoreAttribute)
       {
@@ -207,38 +211,11 @@ Deletion::readAttributes (const XMLAttributes& attributes,
           getErrorLog()->getError((unsigned int)n)->getMessage();
         getErrorLog()->remove(UnknownCoreAttribute);
         getErrorLog()->logPackageError("comp", CompLODeletionAllowedAttributes,
-          getPackageVersion(), sbmlLevel, sbmlVersion, details);
+          getPackageVersion(), sbmlLevel, sbmlVersion, details, getLine(), getColumn());
       } 
     }
   }
-  SBaseRef::readAttributes(attributes,expectedAttributes);
-
-  //const unsigned int sbmlLevel   = getLevel  ();
-  //const unsigned int sbmlVersion = getVersion();
-
-  XMLTriple tripleId("id", mURI, getPrefix());
-  if (attributes.readInto(tripleId, mId, getErrorLog(), 
-                          false, getLine(), getColumn()))
-  {
-    if (mId.size() == 0)
-    {
-      logEmptyString("id", "<Deletion>");
-    }
-    else 
-    {
-      if (!SyntaxChecker::isValidSBMLSId(mId)) 
-      {
-        logInvalidId("comp:id", mId);
-      }
-    }
-  }
-
-  XMLTriple tripleName("name", mURI, getPrefix());
-  if (attributes.readInto(tripleName, mName, getErrorLog(), false, getLine(), getColumn())) {
-    if (mName.empty()) {
-      logInvalidId("comp:name", mName);
-    }
-  }
+  SBaseRef::readAttributes(attributes,expectedAttributes, true, false, CompDeletionAllowedAttributes);
 }
 /** @endcond */
 

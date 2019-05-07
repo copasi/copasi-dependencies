@@ -7,6 +7,10 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2019 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *
  * Copyright (C) 2013-2018 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -39,6 +43,7 @@
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
 #include <sbml/extension/SBasePlugin.h>
+#include <sbml/util/MathFilter.h>
 
 #ifdef USE_COMP
 #include <sbml/packages/comp/common/CompExtensionTypes.h>
@@ -270,13 +275,30 @@ SBMLLevelVersionConverter::convert()
   {
     // disable all unused packages
     SBMLExtensionRegistry::getInstance().disableUnusedPackages(mDocument);
-    if (mDocument->getNumPlugins() > 0)
+    // if there are still plugins enabled fail
+    // unless it is the l3v2 plugin and we are an l3v2 document
+    if (currentLevel == 3 && currentVersion == 2)
     {
-      // if there are still plugins enabled fail
-      mDocument->getErrorLog()->logError(PackageConversionNotSupported, 
-                                         currentLevel, currentVersion);
-      return LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE;
+      if (mDocument->getNumPlugins() > 1 
+        || (mDocument->getNumPlugins() == 1 && 
+          mDocument->getPlugin(0)->getURI() != "http://www.sbml.org/sbml/level3/version2/core"))
+      {
+        mDocument->getErrorLog()->logError(PackageConversionNotSupported,
+          currentLevel, currentVersion);
+        return LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE;
 
+      }
+
+    }
+    else
+    {
+      if (mDocument->getNumPlugins() > 0)
+      {
+        mDocument->getErrorLog()->logError(PackageConversionNotSupported,
+          currentLevel, currentVersion);
+        return LIBSBML_CONV_PKG_CONVERSION_NOT_AVAILABLE;
+
+      }
     }
   }
 
@@ -353,7 +375,7 @@ SBMLLevelVersionConverter::convert()
   {
     unsigned int origLevel = 0;
     unsigned int origVersion = 0;
-    Model *origModel = NULL;
+    Model origModel(3,2);
     if (strict)
     {
       /* here we are strict and only want to do
@@ -363,7 +385,7 @@ SBMLLevelVersionConverter::convert()
        */
       origLevel = currentLevel;
       origVersion = currentVersion;
-      origModel = currentModel->clone();
+      origModel = *currentModel;
     }
 
     conversion = performConversion(strict, strictUnits, duplicateAnn);
@@ -374,7 +396,6 @@ SBMLLevelVersionConverter::convert()
 
       if (strict)
       {
-        if (origModel != NULL) delete origModel;
         mDocument->setApplicableValidators(origValidators);
         mDocument->updateSBMLNamespace("core", origLevel, origVersion);
       }
@@ -393,10 +414,10 @@ SBMLLevelVersionConverter::convert()
            */
           conversion = false;
           /* undo any changes */
-          *currentModel = *(origModel->clone());
+          delete currentModel;
+          currentModel = origModel.clone();
           mDocument->updateSBMLNamespace("core", origLevel, origVersion);
           mDocument->setApplicableValidators(origValidators);
-          delete origModel;
         }
         else
         {
@@ -411,7 +432,6 @@ SBMLLevelVersionConverter::convert()
               delete history;
             }
           }
-          delete origModel;
         }
       }
       else
@@ -1207,6 +1227,10 @@ void
 SBMLLevelVersionConverter::populateMathElements()
 {
   MathFilter *mfilter = new MathFilter();
+  if (mMathElements != NULL)
+  {
+    delete mMathElements;
+  }
   mMathElements = mDocument->getAllElements(mfilter);
   delete mfilter;
 
@@ -1427,32 +1451,6 @@ SBMLLevelVersionConverter::has_fatal_errors(unsigned int level, unsigned int ver
   }
 
 }
-/** @endcond */
-
-/** @cond doxygenLibsbmlInternal */
-MathFilter::MathFilter() 
-{
-}
-
-
-MathFilter::~MathFilter() 
-{
-}
-
-
-bool 
-MathFilter::filter(const SBase* element)
-{
-  // get elements with math set
-  if (element == NULL || element->isSetMath() == false)
-  {
-    return false;
-  }
-
-  return true;
-}
-
-
 /** @endcond */
 
 
