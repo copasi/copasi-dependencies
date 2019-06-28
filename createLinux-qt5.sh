@@ -162,11 +162,12 @@ case $1 in
         -DWITH_EXPAT=ON \
         -DWITH_LIBXML=OFF \
         -DLIBSBML_USE_LEGACY_MATH=ON \
-        -DLIBSBML_USE_LEGACY_MATH=ON \
         -DLIBSBML_DEPENDENCY_DIR=${INSTALL_DIR} \
         -DLIBSBML_SKIP_SHARED_LIBRARY=ON \
         -DWITH_BZIP2=OFF \
         -DWITH_ZLIB=OFF \
+        -DLIBEXPAT_INCLUDE_DIR=${INSTALL_DIR}/include \
+        -DLIBEXPAT_LIBRARY=${INSTALL_DIR}/lib/libexpat.a \
         $DIRECTORY/src/libSBML
     $MAKE -j 4
     $MAKE install
