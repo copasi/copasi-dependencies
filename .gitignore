@@ -542,3 +542,10 @@ src/qwt/designer/plugins/designer/*.lib
 /src/libSBML/src/sbml/common/libsbml-namespace.h
 /src/libSBML/src/sbml/common/libsbml-package.h
 /src/util-linux-2.30.1
+
+
+bin_*
+bin-*
+tmp-*
+tmp_*
+vs15_*
