@@ -83,6 +83,8 @@ case $1 in
     cd ${BUILD_DIR}/raptor
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
+        -DEXPAT_INCLUDE_DIR=${INSTALL_DIR}/include \
+        -DEXPAT_LIBRARY=${INSTALL_DIR}/lib/libexpat.a \
         $DIRECTORY/src/raptor
     $MAKE -j 4
     $MAKE install
@@ -248,8 +250,11 @@ case $1 in
     [ -e ${BUILD_DIR}/libCombine ] || mkdir -p ${BUILD_DIR}/libCombine
     cd ${BUILD_DIR}/libCombine
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
-       -DWITH_QT_FILESYSTEM=ON \
-       -DCOMBINE_DEPENDENCY_DIR=${INSTALL_DIR} \
+        -DCOMBINE_DEPENDENCY_DIR=${INSTALL_DIR} \
+        -DEXTRA_LIBS=${INSTALL_DIR}/lib/libexpat.a \
+        -DLIBCOMBINE_SKIP_SHARED_LIBRARY=ON \
+        -DEXPAT_INCLUDE_DIR=${INSTALL_DIR}/include \
+        -DEXPAT_LIBRARY=${INSTALL_DIR}/lib/libexpat.a \
         $DIRECTORY/src/libCombine
     make -j 4
     make install
