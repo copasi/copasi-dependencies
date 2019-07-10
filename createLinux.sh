@@ -7,11 +7,23 @@ DIRECTORY=$(cd `dirname $0` && pwd)
 BUILD_DIR=${BUILD_DIR:=${DIRECTORY}/tmp}
 [ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
 
+
+
+case "$(uname -m)" in
+  'x86_64')
+    LIB_DIR="lib64"
+    ;;
+
+  'i686')
+    LIB_DIR="lib"
+    ;;
+esac
+
 # Install Directory
 INSTALL_DIR=${INSTALL_DIR:=${DIRECTORY}/bin}
 [ -d ${INSTALL_DIR} ] || mkdir -p ${INSTALL_DIR}
 [ -d ${INSTALL_DIR}/include ] || mkdir ${INSTALL_DIR}/include
-[ -d ${INSTALL_DIR}/lib ] || mkdir ${INSTALL_DIR}/lib
+[ -d ${INSTALL_DIR}/${LIB_DIR} ] || mkdir ${INSTALL_DIR}/${LIB_DIR}
 
 if [ $# = 0 ]; then
   ToBeBuild="expat raptor crossguid clapack SBW libSBML libnuml libSEDML zlib zipper libCombine MML qwt qwt-6 qwtplot3d"
@@ -83,7 +95,7 @@ case $1 in
     $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
         -DEXPAT_INCLUDE_DIR=${INSTALL_DIR}/include \
-        -DEXPAT_LIBRARY=${INSTALL_DIR}/lib/libexpat.a \
+        -DEXPAT_LIBRARY=${INSTALL_DIR}/${LIB_DIR}/libexpat.a \
         $DIRECTORY/src/raptor
     $MAKE -j 4
     $MAKE install
@@ -189,7 +201,7 @@ case $1 in
         -DWITH_BZIP2=OFF \
         -DWITH_ZLIB=OFF \
         -DLIBEXPAT_INCLUDE_DIR=${INSTALL_DIR}/include \
-        -DLIBEXPAT_LIBRARY=${INSTALL_DIR}/lib/libexpat.a \
+        -DLIBEXPAT_LIBRARY=${INSTALL_DIR}/${LIB_DIR}/libexpat.a \
         $DIRECTORY/src/libSBML
     $MAKE -j 4
     $MAKE install
@@ -204,14 +216,14 @@ case $1 in
         -DLIBNUML_SHARED_VERSION=OFF \
         -DLIBNUML_SKIP_SHARED_LIBRARY=ON \
         -DLIBSBML_INCLUDE_DIR=${INSTALL_DIR}/include \
-        -DLIBSBML_LIBRARY=${INSTALL_DIR}/lib/libsbml-static.a \
+        -DLIBSBML_LIBRARY=${INSTALL_DIR}/${LIB_DIR}/libsbml-static.a \
         -DLIBNUML_DEPENDENCY_DIR=${INSTALL_DIR} \
-        -DEXTRA_LIBS=${INSTALL_DIR}/lib/libexpat.a \
+        -DEXTRA_LIBS=${INSTALL_DIR}/${LIB_DIR}/libexpat.a \
         -DWITH_ZLIB=OFF \
         $DIRECTORY/src/libnuml
     $MAKE -j 4
     $MAKE install
-    [ -e ${INSTALL_DIR}/lib/libnuml*.so ] && rm ${INSTALL_DIR}/lib/libnuml*.so
+    [ -e ${INSTALL_DIR}/${LIB_DIR}/libnuml*.so ] && rm ${INSTALL_DIR}/${LIB_DIR}/libnuml*.so
     ;;
 
   libSEDML)
@@ -223,14 +235,14 @@ case $1 in
         -DLIBSEDML_SHARED_VERSION=OFF \
         -DLIBSEDML_SKIP_SHARED_LIBRARY=ON \
         -DLIBSBML_INCLUDE_DIR=${INSTALL_DIR}/include \
-        -DLIBSBML_LIBRARY=${INSTALL_DIR}/lib/libsbml-static.a \
+        -DLIBSBML_LIBRARY=${INSTALL_DIR}/${LIB_DIR}/libsbml-static.a \
         -DLIBSEDML_DEPENDENCY_DIR=${INSTALL_DIR} \
-        -DEXTRA_LIBS=${INSTALL_DIR}/lib/libexpat.a \
+        -DEXTRA_LIBS=${INSTALL_DIR}/${LIB_DIR}/libexpat.a \
         -DWITH_ZLIB=OFF \
         $DIRECTORY/src/libSEDML
     $MAKE -j 4
     $MAKE install
-    [ -e ${INSTALL_DIR}/lib/libsedml*.so ] && rm ${INSTALL_DIR}/lib/libsedml*.so
+    [ -e ${INSTALL_DIR}/${LIB_DIR}/libsedml*.so ] && rm ${INSTALL_DIR}/${LIB_DIR}/libsedml*.so
     ;;
 
   zlib)
@@ -261,10 +273,10 @@ case $1 in
     cd ${BUILD_DIR}/libCombine
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DCOMBINE_DEPENDENCY_DIR=${INSTALL_DIR} \
-        -DEXTRA_LIBS=${INSTALL_DIR}/lib/libexpat.a \
+        -DEXTRA_LIBS=${INSTALL_DIR}/${LIB_DIR}/libexpat.a \
         -DLIBCOMBINE_SKIP_SHARED_LIBRARY=ON \
         -DEXPAT_INCLUDE_DIR=${INSTALL_DIR}/include \
-        -DEXPAT_LIBRARY=${INSTALL_DIR}/lib/libexpat.a \
+        -DEXPAT_LIBRARY=${INSTALL_DIR}/${LIB_DIR}/libexpat.a \
         $DIRECTORY/src/libCombine
     $MAKE -j 4
     $MAKE install
