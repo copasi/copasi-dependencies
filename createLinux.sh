@@ -7,14 +7,14 @@ DIRECTORY=$(cd `dirname $0` && pwd)
 BUILD_DIR=${BUILD_DIR:=${DIRECTORY}/tmp}
 [ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
 
+TARGET="${COPASI_TARGET:-$($CC -v 2>&1 | awk -- '$1 ~ "Target:" {print $2}')}"
 
-
-case "$(uname -m)" in
-  'x86_64')
+case ${TARGET} in
+  x86_64-*)
     LIB_DIR="lib64"
     ;;
 
-  'i686')
+  *)
     LIB_DIR="lib"
     ;;
 esac
@@ -289,15 +289,3 @@ for b in ${ToBeBuild}; do
 done
 
 cd ${INSTALL_DIR}
-
-case "$(uname -m)" in
-  'x86_64')
-    SUFFIX="-64"
-    ;;
-
-  'i686')
-    SUFFIX="-32"
-    ;;
-esac
-
-# tar -czvf dependencies${SUFFIX}.tar.gz *
