@@ -3,15 +3,41 @@
 
 DIRECTORY=$(cd `dirname $0` && pwd)
 
+# Build Directory
+BUILD_DIR=${BUILD_DIR:=${DIRECTORY}/tmp}
+[ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
+
+TARGET="${COPASI_TARGET:-$($CC -v 2>&1 | awk -- '$1 ~ "Target:" {print $2}')}"
+
+case ${TARGET} in
+  x86_64-*)
+    LIB_DIR="lib64"
+    ;;
+
+  *)
+    LIB_DIR="lib"
+    ;;
+esac
+
+# Install Directory
+INSTALL_DIR=${INSTALL_DIR:=${DIRECTORY}/bin}
+[ -d ${INSTALL_DIR} ] || mkdir -p ${INSTALL_DIR}
+[ -d ${INSTALL_DIR}/include ] || mkdir ${INSTALL_DIR}/include
+[ -d ${INSTALL_DIR}/${LIB_DIR} ] || mkdir ${INSTALL_DIR}/${LIB_DIR}
+
 if [ $# = 0 ]; then
-  ToBeBuild="expat raptor crossguid clapack SBW libSBML libnuml libSEDML zlib zipper libCombine MML qwt qwtplot3d"
+  ToBeBuild="expat raptor crossguid clapack SBW libSBML libnuml libSEDML zlib zipper libCombine MML qwt-6 qwtplot3d"
+elif [ _${1} = _--rebuild -a -e "${BUILD_DIR}/.packages" ]; then
+  . "${BUILD_DIR}/.packages"
 else
   while [ _${1} != _ ]; do
     ToBeBuild="$ToBeBuild ${1}"
     shift
   done;
 fi
- 
+
+echo ToBeBuild=\"${ToBeBuild}\" > "${BUILD_DIR}/.packages"
+
 #Default Values:
 BUILD_TYPE=${BUILD_TYPE:="Release"}
 SELECT_QT=${SELECT_QT:="Qt5"}
@@ -19,16 +45,6 @@ CMAKE=${CMAKE:="cmake"}
 
 MAKE=${MAKE:="gmake"}
 command -v $MAKE >/dev/null 2>&1 || { MAKE=make; }
-
-# Build Directory
-BUILD_DIR=${BUILD_DIR:=${DIRECTORY}/tmp}
-[ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
-
-# Install Directory
-INSTALL_DIR=${INSTALL_DIR:=${DIRECTORY}/bin}
-[ -d ${INSTALL_DIR} ] || mkdir -p ${INSTALL_DIR}
-[ -d ${INSTALL_DIR}/include ] || mkdir ${INSTALL_DIR}/include
-[ -d ${INSTALL_DIR}/lib ] || mkdir ${INSTALL_DIR}/lib
 
 # echo ${BUILD_TYPE}
 # echo ${CMAKE}
@@ -63,7 +79,7 @@ case $1 in
 
   expat)
     # build expat
-    mkdir -p ${BUILD_DIR}/expat
+    [ -e ${BUILD_DIR}/expat ] || mkdir -p ${BUILD_DIR}/expat
     cd ${BUILD_DIR}/expat
     $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
@@ -74,12 +90,12 @@ case $1 in
 
   raptor)
     # build raptor
-    mkdir -p ${BUILD_DIR}/raptor
+    [ -e ${BUILD_DIR}/raptor ] || mkdir -p ${BUILD_DIR}/raptor
     cd ${BUILD_DIR}/raptor
     $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
         -DBUILD_shared=OFF \
         -DEXPAT_INCLUDE_DIR=${INSTALL_DIR}/include \
-        -DEXPAT_LIBRARY=${INSTALL_DIR}/lib/libexpat.a \
+        -DEXPAT_LIBRARY=${INSTALL_DIR}/${LIB_DIR}/libexpat.a \
         $DIRECTORY/src/raptor
     $MAKE -j 4
     $MAKE install
@@ -98,7 +114,7 @@ case $1 in
 
   clapack)
     # Build Clapack
-    mkdir -p ${BUILD_DIR}/clapack
+    [ -e ${BUILD_DIR}/clapack ] || mkdir -p ${BUILD_DIR}/clapack
     cd ${BUILD_DIR}/clapack
     $CMAKE ${COPASI_COMMON_CMAKE_OPTIONS} \
         -DBUILD_TESTING=OFF \
@@ -109,7 +125,7 @@ case $1 in
 
   MML)
     #build MML
-    mkdir -p ${BUILD_DIR}/mml 
+    [ -e ${BUILD_DIR}/MML ] || mkdir -p ${BUILD_DIR}/MML 
     cd ${BUILD_DIR}/mml
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
            $DIRECTORY/src/mml
@@ -118,19 +134,35 @@ case $1 in
     ;;
 
   qwt)
+    if [ _${SELECT_QT} == _Qt5 ]; then
+      QWT=qwt-6
+    else
+      QWT=qwt
+    fi
+    
     #build qwt 
-    mkdir ${BUILD_DIR}/qwt 
-    cd ${BUILD_DIR}/qwt 
+    [ -e ${BUILD_DIR}/${QWT} ] || mkdir "${BUILD_DIR}/${QWT}"
+    cd "${BUILD_DIR}/${QWT}"
+    $CMAKE ${COPASI_CMAKE_OPTIONS} \
+        "$DIRECTORY/src/${QWT}"
+    make -j 4
+    make install
+    ;;
+
+  qwt-6)
+    #build qwt 
+    [ -e ${BUILD_DIR}/qwt-6 ] || mkdir ${BUILD_DIR}/qwt-6 
+    cd ${BUILD_DIR}/qwt-6
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         $DIRECTORY/src/qwt-6
-    $MAKE -j 4
-    $MAKE install
+    make -j 4
+    make install
     ;;
 
   qwtplot3d)
     #build qwtplot3d 
-    mkdir ${BUILD_DIR}/qwtplot3d-qt4
-    cd ${BUILD_DIR}/qwtplot3d-qt4 
+    [ -e ${BUILD_DIR}/qwtplot3d ] || mkdir ${BUILD_DIR}/qwtplot3d
+    cd ${BUILD_DIR}/qwtplot3d 
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         $DIRECTORY/src/qwtplot3d-qt4
     make -j 4
@@ -139,7 +171,7 @@ case $1 in
 
   SBW)
     #Build SBW
-    mkdir -p ${BUILD_DIR}/SBW
+    [ -e ${BUILD_DIR}/SBW ] || mkdir -p ${BUILD_DIR}/SBW
     cd ${BUILD_DIR}/SBW
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DWITH_BUILD_BROKER=OFF \
@@ -151,7 +183,7 @@ case $1 in
 
   libSBML)
     # build libsbml
-    mkdir -p ${BUILD_DIR}/libsbml
+    [ -e ${BUILD_DIR}/libSBML ] || mkdir -p ${BUILD_DIR}/libSBML
     cd ${BUILD_DIR}/libsbml
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DENABLE_LAYOUT=ON \
@@ -169,7 +201,7 @@ case $1 in
         -DWITH_BZIP2=OFF \
         -DWITH_ZLIB=OFF \
         -DLIBEXPAT_INCLUDE_DIR=${INSTALL_DIR}/include \
-        -DLIBEXPAT_LIBRARY=${INSTALL_DIR}/lib/libexpat.a \
+        -DLIBEXPAT_LIBRARY=${INSTALL_DIR}/${LIB_DIR}/libexpat.a \
         $DIRECTORY/src/libSBML
     $MAKE -j 4
     $MAKE install
@@ -177,45 +209,45 @@ case $1 in
 
   libnuml)
     # build libnuml
-    mkdir -p ${BUILD_DIR}/libnuml
+    [ -e ${BUILD_DIR}/libnuml ] || mkdir -p ${BUILD_DIR}/libnuml
     cd ${BUILD_DIR}/libnuml
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DLIBSBML_STATIC=ON \
         -DLIBNUML_SHARED_VERSION=OFF \
         -DLIBNUML_SKIP_SHARED_LIBRARY=ON \
         -DLIBSBML_INCLUDE_DIR=${INSTALL_DIR}/include \
-        -DLIBSBML_LIBRARY=${INSTALL_DIR}/lib/libsbml-static.a \
+        -DLIBSBML_LIBRARY=${INSTALL_DIR}/${LIB_DIR}/libsbml-static.a \
         -DLIBNUML_DEPENDENCY_DIR=${INSTALL_DIR} \
-        -DEXTRA_LIBS=${INSTALL_DIR}/lib/libexpat.a \
+        -DEXTRA_LIBS=${INSTALL_DIR}/${LIB_DIR}/libexpat.a \
         -DWITH_ZLIB=OFF \
         $DIRECTORY/src/libnuml
     $MAKE -j 4
     $MAKE install
-    [ -e ${INSTALL_DIR}/lib/libnuml*.so ] && rm ${INSTALL_DIR}/lib/libnuml*.so
+    [ -e ${INSTALL_DIR}/${LIB_DIR}/libnuml*.so ] && rm ${INSTALL_DIR}/${LIB_DIR}/libnuml*.so
     ;;
 
   libSEDML)
     # build libSEDML
-    mkdir -p ${BUILD_DIR}/libSEDML
+    [ -e ${BUILD_DIR}/libSEDML ] || mkdir -p ${BUILD_DIR}/libSEDML
     cd ${BUILD_DIR}/libSEDML
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DLIBSBML_STATIC=ON \
         -DLIBSEDML_SHARED_VERSION=OFF \
         -DLIBSEDML_SKIP_SHARED_LIBRARY=ON \
         -DLIBSBML_INCLUDE_DIR=${INSTALL_DIR}/include \
-        -DLIBSBML_LIBRARY=${INSTALL_DIR}/lib/libsbml-static.a \
+        -DLIBSBML_LIBRARY=${INSTALL_DIR}/${LIB_DIR}/libsbml-static.a \
         -DLIBSEDML_DEPENDENCY_DIR=${INSTALL_DIR} \
-        -DEXTRA_LIBS=${INSTALL_DIR}/lib/libexpat.a \
+        -DEXTRA_LIBS=${INSTALL_DIR}/${LIB_DIR}/libexpat.a \
         -DWITH_ZLIB=OFF \
         $DIRECTORY/src/libSEDML
     $MAKE -j 4
     $MAKE install
-    [ -e ${INSTALL_DIR}/lib/libsedml*.so ] && rm ${INSTALL_DIR}/lib/libsedml*.so
+    [ -e ${INSTALL_DIR}/${LIB_DIR}/libsedml*.so ] && rm ${INSTALL_DIR}/${LIB_DIR}/libsedml*.so
     ;;
 
   zlib)
     # build zlib
-    mkdir -p ${BUILD_DIR}/zlib
+    [ -e ${BUILD_DIR}/zlib ] || mkdir -p ${BUILD_DIR}/zlib
     cd ${BUILD_DIR}/zlib
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         $DIRECTORY/src/zlib
@@ -236,15 +268,15 @@ case $1 in
     ;;
 
   libCombine)
-     # build libCombine
-    mkdir -p ${BUILD_DIR}/libCombine
+    # build libCombine
+    [ -e ${BUILD_DIR}/libCombine ] || mkdir -p ${BUILD_DIR}/libCombine
     cd ${BUILD_DIR}/libCombine
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DCOMBINE_DEPENDENCY_DIR=${INSTALL_DIR} \
-        -DEXTRA_LIBS=${INSTALL_DIR}/lib/libexpat.a \
+        -DEXTRA_LIBS=${INSTALL_DIR}/${LIB_DIR}/libexpat.a \
         -DLIBCOMBINE_SKIP_SHARED_LIBRARY=ON \
         -DEXPAT_INCLUDE_DIR=${INSTALL_DIR}/include \
-        -DEXPAT_LIBRARY=${INSTALL_DIR}/lib/libexpat.a \
+        -DEXPAT_LIBRARY=${INSTALL_DIR}/${LIB_DIR}/libexpat.a \
         $DIRECTORY/src/libCombine
     $MAKE -j 4
     $MAKE install
@@ -257,15 +289,3 @@ for b in ${ToBeBuild}; do
 done
 
 cd ${INSTALL_DIR}
-
-case "$(uname -m)" in
-  'x86_64')
-    SUFFIX="-64"
-    ;;
-
-  'i686')
-    SUFFIX="-32"
-    ;;
-esac
-
-# tar -czvf dependencies${SUFFIX}.tar.gz *
