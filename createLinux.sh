@@ -7,6 +7,7 @@ DIRECTORY=$(cd `dirname $0` && pwd)
 BUILD_DIR=${BUILD_DIR:=${DIRECTORY}/tmp}
 [ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
 
+CC=${CC:=cc}
 TARGET="${COPASI_TARGET:-$($CC -v 2>&1 | awk -- '$1 ~ "Target:" {print $2}')}"
 
 case ${TARGET} in
