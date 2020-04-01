@@ -549,3 +549,5 @@ bin-*
 tmp-*
 tmp_*
 vs15_*
+
+.vscode/

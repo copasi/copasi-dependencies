@@ -1,0 +1,344 @@
+cmake_minimum_required (VERSION 3.11)
+
+find_package(Git QUIET)
+if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+# update submodules as needed
+  option(GIT_SUBMODULE "Check submodules during build" ON)
+  if(GIT_SUBMODULE)
+    message(STATUS "Submodule update")
+    execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+                    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+                    RESULT_VARIABLE GIT_SUBMOD_RESULT)
+    if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+      message(FATAL_ERROR "git submodule update --init failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+    endif()
+  endif()
+endif()
+
+# if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/jansson/CMakeLists.txt" OR
+#    NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/libpqxx/CMakeLists.txt" OR
+#    NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/spdlog/CMakeLists.txt")
+#   message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
+# endif()
+
+set (CLEAN_TARGETS)
+
+include(ExternalProject)
+
+if (BUILD_expat)
+  ExternalProject_Add(expat
+    PREFIX            ${CMAKE_BINARY_DIR}/expat
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/expat
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DBUILD_examples=OFF 
+      -DBUILD_tests=OFF 
+      -DBUILD_tools=OFF 
+      -DBUILD_shared=OFF 
+  	  ${CMAKE_CURRENT_SOURCE_DIR}/expat
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+  )
+
+  file(GLOB CLEAN_TARGETS_expat ${CMAKE_BINARY_DIR}/expat/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_expat})
+endif (BUILD_expat)
+
+if (BUILD_raptor)
+  ExternalProject_Add(raptor
+    PREFIX            ${CMAKE_BINARY_DIR}/raptor
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/raptor
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DBUILD_shared=OFF
+      -DEXPAT_INCLUDE_DIR=${CMAKE_INSTALL_PREFIX}/include
+      -DEXPAT_LIBRARY=${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/libexpat.a
+  	  ${CMAKE_CURRENT_SOURCE_DIR}/raptor
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+    DEPENDS            expat
+  )
+
+  file(GLOB CLEAN_TARGETS_raptor ${CMAKE_BINARY_DIR}/raptor/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_raptor})
+endif (BUILD_raptor)
+
+if (BUILD_crossguid)
+  ExternalProject_Add(crossguid
+    PREFIX            ${CMAKE_BINARY_DIR}/crossguid
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/crossguid
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DBUILD_shared=OFF
+  	  ${CMAKE_CURRENT_SOURCE_DIR}/crossguid
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+  )
+
+  file(GLOB CLEAN_TARGETS_crossguid ${CMAKE_BINARY_DIR}/crossguid/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_crossguid})
+endif (BUILD_crossguid)
+
+if (BUILD_clapack)
+  ExternalProject_Add(clapack
+    PREFIX            ${CMAKE_BINARY_DIR}/clapack
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/clapack
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DBUILD_TESTING=OFF
+  	  ${CMAKE_CURRENT_SOURCE_DIR}/clapack
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+  )
+
+  file(GLOB CLEAN_TARGETS_clapack ${CMAKE_BINARY_DIR}/clapack/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_clapack})
+endif (BUILD_clapack)
+
+if (BUILD_SBW)
+  ExternalProject_Add(SBW
+    PREFIX            ${CMAKE_BINARY_DIR}/SBW
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/core
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DWITH_BUILD_BROKER=OFF
+      -DWITH_BUILD_SHARED=OFF
+  	  ${CMAKE_CURRENT_SOURCE_DIR}/core
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+  )
+
+  file(GLOB CLEAN_TARGETS_SBW ${CMAKE_BINARY_DIR}/SBW/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_SBW})
+endif (BUILD_SBW)
+
+if (BUILD_libSBML)
+  ExternalProject_Add(libSBML
+    PREFIX            ${CMAKE_BINARY_DIR}/libSBML
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/libSBML
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DENABLE_LAYOUT=ON
+      -DENABLE_REQUIREDELEMENTS=OFF
+      -DENABLE_RENDER=ON
+      -DENABLE_COMP=ON
+      -DENABLE_FBC=OFF
+      -DENABLE_SPATIAL=OFF
+      -DENABLE_GROUPS=OFF
+      -DWITH_EXPAT=ON
+      -DWITH_LIBXML=OFF
+      -DLIBSBML_USE_LEGACY_MATH=ON
+      -DLIBSBML_DEPENDENCY_DIR=${INSTALL_DIR}
+      -DLIBSBML_SKIP_SHARED_LIBRARY=ON
+      -DWITH_BZIP2=OFF
+      -DWITH_ZLIB=OFF
+      -DEXPAT_INCLUDE_DIR=${CMAKE_INSTALL_PREFIX}/include
+      -DEXPAT_LIBRARY=${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/libexpat.a
+    ${CMAKE_CURRENT_SOURCE_DIR}/libSBML
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+    DEPENDS            expat
+  )
+
+  file(GLOB CLEAN_TARGETS_libSBML ${CMAKE_BINARY_DIR}/libSBML/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_libSBML})
+endif (BUILD_libSBML)
+
+if (BUILD_libnuml)
+  ExternalProject_Add(libnuml
+    PREFIX            ${CMAKE_BINARY_DIR}/libnuml
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/libnuml
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DLIBSBML_STATIC=ON
+      -DLIBNUML_SHARED_VERSION=OFF
+      -DLIBNUML_SKIP_SHARED_LIBRARY=ON
+      -DWITH_ZLIB=OFF
+      -DLIBSBML_INCLUDE_DIR=${CMAKE_INSTALL_PREFIX}/include
+      -DLIBSBML_LIBRARY=${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/libsbml-static.a
+      -DLIBNUML_DEPENDENCY_DIR=${CMAKE_INSTALL_PREFIX}
+      -DEXTRA_LIBS=${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/libexpat.a
+    ${CMAKE_CURRENT_SOURCE_DIR}/libnuml
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+    DEPENDS            libSBML expat
+  )
+
+  file(GLOB CLEAN_TARGETS_libnuml ${CMAKE_BINARY_DIR}/libnuml/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_libnuml})
+endif (BUILD_libnuml)
+
+if (BUILD_libSEDML)
+  ExternalProject_Add(libSEDML
+    PREFIX            ${CMAKE_BINARY_DIR}/libSEDML
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/libSEDML
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DLIBSBML_STATIC=ON
+      -DLIBSEDML_SHARED_VERSION=OFF
+      -DLIBSEDML_SKIP_SHARED_LIBRARY=ON
+      -DWITH_ZLIB=OFF
+      -DLIBSBML_INCLUDE_DIR=${CMAKE_INSTALL_PREFIX}/include
+      -DLIBSBML_LIBRARY=${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/libsbml-static.a
+      -DLIBNUML_DEPENDENCY_DIR=${CMAKE_INSTALL_PREFIX}
+      -DEXTRA_LIBS=${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/libexpat.a
+    ${CMAKE_CURRENT_SOURCE_DIR}/libSEDML
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+    DEPENDS            libnuml libSBML expat
+  )
+
+  file(GLOB CLEAN_TARGETS_libSEDML ${CMAKE_BINARY_DIR}/libSEDML/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_libSEDML})
+
+endif (BUILD_libSEDML)
+
+if (BUILD_zlib)
+  ExternalProject_Add(zlib
+    PREFIX            ${CMAKE_BINARY_DIR}/zlib
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/zlib
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+  	  ${CMAKE_CURRENT_SOURCE_DIR}/zlib
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+  )
+
+  file(GLOB CLEAN_TARGETS_zlib ${CMAKE_BINARY_DIR}/zlib/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_zlib})
+endif (BUILD_zlib)
+
+if (BUILD_zipper)
+  ExternalProject_Add(zipper
+    PREFIX            ${CMAKE_BINARY_DIR}/zipper
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/zipper
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DWITH_QT_FILESYSTEM=ON
+      -DZIPPER_DEPENDENCY_DIR=${CMAKE_INSTALL_PREFIX}
+  	  ${CMAKE_CURRENT_SOURCE_DIR}/zipper
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+    DEPENDS            zlib
+  )
+
+  file(GLOB CLEAN_TARGETS_zipper ${CMAKE_BINARY_DIR}/zipper/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_zipper})
+endif (BUILD_zipper)
+
+if (BUILD_libCombine)
+  ExternalProject_Add(libCombine
+    PREFIX            ${CMAKE_BINARY_DIR}/libCombine
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/libCombine
+  
+    CONFIGURE_COMMAND ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DLIBCOMBINE_SKIP_SHARED_LIBRARY=ON
+      -DCOMBINE_DEPENDENCY_DIR=${CMAKE_INSTALL_PREFIX}
+      -DEXTRA_LIBS=${CMAKE_INSTALL_PREFIX}/$${CMAKE_INSTALL_LIBDIR}/libexpat.a
+      -DEXPAT_INCLUDE_DIR=${CMAKE_INSTALL_PREFIX}/include
+      -DEXPAT_LIBRARY=${CMAKE_INSTALL_PREFIX}/$${CMAKE_INSTALL_LIBDIR}/libexpat.a
+  	  ${CMAKE_CURRENT_SOURCE_DIR}/libCombine
+  	
+    BUILD_COMMAND     ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND   ${CMAKE_MAKE_PROGRAM} install
+    DEPENDS           zipper libSBML expat
+  )
+
+  file(GLOB CLEAN_TARGETS_libCombine ${CMAKE_BINARY_DIR}/libCombine/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_libCombine})
+endif (BUILD_libCombine)
+
+if (BUILD_mml)
+  ExternalProject_Add(mml
+    PREFIX            ${CMAKE_BINARY_DIR}/mml
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/mml
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DSELECT_QT=${SELECT_QT}
+  	  ${CMAKE_CURRENT_SOURCE_DIR}/mml
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+  )
+
+  file(GLOB CLEAN_TARGETS_mml ${CMAKE_BINARY_DIR}/mml/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_mml})
+endif (BUILD_mml)
+
+if (BUILD_qwt)
+  ExternalProject_Add(qwt
+    PREFIX            ${CMAKE_BINARY_DIR}/qwt
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/qwt
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DSELECT_QT=${SELECT_QT}
+  	  ${CMAKE_CURRENT_SOURCE_DIR}/qwt
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+  )
+
+  file(GLOB CLEAN_TARGETS_qwt ${CMAKE_BINARY_DIR}/qwt/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_qwt})
+endif (BUILD_qwt)
+
+if (BUILD_qwt6)
+  ExternalProject_Add(qwt-6
+    PREFIX            ${CMAKE_BINARY_DIR}/qwt-6
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/qwt-6
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DSELECT_QT=${SELECT_QT}
+  	  ${CMAKE_CURRENT_SOURCE_DIR}/qwt-6
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+  )
+
+  file(GLOB CLEAN_TARGETS_qwt-6 ${CMAKE_BINARY_DIR}/qwt-6/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_qwt-6})
+endif (BUILD_qwt6)
+
+if (BUILD_qwtplot3d)
+  ExternalProject_Add(qwtplot3d
+    PREFIX            ${CMAKE_BINARY_DIR}/qwtplot3d
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/qwtplot3d-qt4
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DSELECT_QT=${SELECT_QT}
+  	  ${CMAKE_CURRENT_SOURCE_DIR}/qwtplot3d-qt4
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} -j4
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+  )
+
+  file(GLOB CLEAN_TARGETS_qwtplot3d ${CMAKE_BINARY_DIR}/qwtplot3d/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_qwtplot3d})
+endif (BUILD_qwtplot3d)
+
+set_directory_properties(PROPERTIES ADDITIONAL_CLEAN_FILES "${CLEAN_TARGETS}")
