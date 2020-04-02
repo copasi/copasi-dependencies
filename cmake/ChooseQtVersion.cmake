@@ -90,7 +90,7 @@ macro(QT_FIND_MODULES)
     endif(${SELECT_QT} MATCHES "Any")
   endif (Qt4_FOUND OR QT4_FOUND)
 
-  message (STATUS "${QT_INCLUDE_DIRS}")
+  #message (STATUS "${QT_INCLUDE_DIRS}")
 
 endmacro(QT_FIND_MODULES)
 
