@@ -25,40 +25,6 @@ set (CLEAN_TARGETS)
 
 include(ExternalProject)
 
-set (COMMON_CMAKE_OPTIONS ${COMMON_CMAKE_OPTIONS} -G ${CMAKE_GENERATOR})
-
-if (Qt5_DIR AND EXISTS ${Qt5_DIR})
-set (COMMON_CMAKE_OPTIONS ${COMMON_CMAKE_OPTIONS} -DQt5_DIR=${Qt5_DIR})
-endif()
-
-set (BUILD_OPTIONS)
-if (CMAKE_GENERATOR MATCHES "Unix Makefiles")
-set (BUILD_OPTIONS -j4)
-endif()
-
-if (WIN32)
-set (COMMON_CMAKE_OPTIONS ${COMMON_CMAKE_OPTIONS} -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR})
-set (CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR})
-
-option(WITH_STATIC_RUNTIME "Compile using the static MSVC Runtime." OFF)
-if(WITH_STATIC_RUNTIME)
-set (COMMON_CMAKE_OPTIONS ${COMMON_CMAKE_OPTIONS} -DWITH_STATIC_RUNTIME=${WITH_STATIC_RUNTIME})
-endif()
-
-if (CMAKE_GENERATOR MATCHES "Visual Studio*")
-
-message(FATAL_ERROR "
-
-    The Visual Studio generator is not currently supported, please choose either 
-    NMake Makefiles, or Ninja as generator to compile using MSVC
-
-")
-
-endif()
-
-endif()
-
-
 if (BUILD_expat)
   ExternalProject_Add(expat
     PREFIX            ${CMAKE_BINARY_DIR}/expat
@@ -310,7 +276,7 @@ if (BUILD_mml)
   
     CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
       ${COMMON_CMAKE_OPTIONS}
-      -DSELECT_QT=${SELECT_QT}
+      ${COMMON_CMAKE_OPTIONS_UI}
   	  ${CMAKE_CURRENT_SOURCE_DIR}/mml
   	
     BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} ${BUILD_OPTIONS}
@@ -328,7 +294,7 @@ if (BUILD_qwt)
   
     CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
       ${COMMON_CMAKE_OPTIONS}
-      -DSELECT_QT=${SELECT_QT}
+      ${COMMON_CMAKE_OPTIONS_UI}
   	  ${CMAKE_CURRENT_SOURCE_DIR}/qwt
   	
     BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} ${BUILD_OPTIONS}
@@ -346,7 +312,7 @@ if (BUILD_qwt6)
   
     CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
       ${COMMON_CMAKE_OPTIONS}
-      -DSELECT_QT=${SELECT_QT}
+      ${COMMON_CMAKE_OPTIONS_UI}
   	  ${CMAKE_CURRENT_SOURCE_DIR}/qwt-6
   	
     BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} ${BUILD_OPTIONS}
@@ -364,7 +330,7 @@ if (BUILD_qwtplot3d)
   
     CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
       ${COMMON_CMAKE_OPTIONS}
-      -DSELECT_QT=${SELECT_QT}
+      ${COMMON_CMAKE_OPTIONS_UI}
   	  ${CMAKE_CURRENT_SOURCE_DIR}/qwtplot3d-qt4
   	
     BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} ${BUILD_OPTIONS}
