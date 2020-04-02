@@ -45,6 +45,17 @@ if(WITH_STATIC_RUNTIME)
 set (COMMON_CMAKE_OPTIONS ${COMMON_CMAKE_OPTIONS} -DWITH_STATIC_RUNTIME=${WITH_STATIC_RUNTIME})
 endif()
 
+if (CMAKE_GENERATOR MATCHES "Visual Studio*")
+
+message(FATAL_ERROR "
+
+    The Visual Studio generator is not currently supported, please choose either 
+    NMake Makefiles, or Ninja as generator to compile using MSVC
+
+")
+
+endif()
+
 endif()
 
 
