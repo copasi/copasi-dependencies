@@ -60,7 +60,7 @@ macro(QT_FIND_MODULES)
   set (CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH_TMP})
 
   if (NOT (Qt5_FOUND OR Qt4_FOUND OR QT4_FOUND))
-    message(FATAL_ERROR " Qt not found")
+    message(FATAL_ERROR " Qt not found, please specify QT_DIR or Qt5_DIR")
   endif (NOT (Qt5_FOUND OR Qt4_FOUND OR QT4_FOUND))
 
   if (Qt5_FOUND)
