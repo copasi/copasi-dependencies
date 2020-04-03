@@ -10,6 +10,7 @@ bin_vs2008_x64_release/
 bin_vs2008_x86_release/
 bin_*
 tmp_*
+build*
 src/qwt/lib/
 src/qwt-6/lib/
 src/qwt-6/designer/plugins/designer/*
