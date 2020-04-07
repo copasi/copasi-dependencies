@@ -22,6 +22,7 @@ endif()
 # endif()
 
 set (CLEAN_TARGETS)
+set (ARCHIVE_DEPENDENCIES)
 
 include(ExternalProject)
 
@@ -44,6 +45,7 @@ if (BUILD_expat)
 
   file(GLOB CLEAN_TARGETS_expat ${CMAKE_BINARY_DIR}/expat/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_expat})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} expat)
 endif (BUILD_expat)
 
 if (BUILD_raptor)
@@ -64,6 +66,7 @@ if (BUILD_raptor)
 
   file(GLOB CLEAN_TARGETS_raptor ${CMAKE_BINARY_DIR}/raptor/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_raptor})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} raptor)
 endif (BUILD_raptor)
 
 if (BUILD_crossguid)
@@ -82,6 +85,7 @@ if (BUILD_crossguid)
 
   file(GLOB CLEAN_TARGETS_crossguid ${CMAKE_BINARY_DIR}/crossguid/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_crossguid})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} crossguid)
 endif (BUILD_crossguid)
 
 if (BUILD_clapack)
@@ -100,6 +104,7 @@ if (BUILD_clapack)
 
   file(GLOB CLEAN_TARGETS_clapack ${CMAKE_BINARY_DIR}/clapack/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_clapack})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} clapack)
 endif (BUILD_clapack)
 
 if (BUILD_SBW)
@@ -119,6 +124,7 @@ if (BUILD_SBW)
 
   file(GLOB CLEAN_TARGETS_SBW ${CMAKE_BINARY_DIR}/SBW/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_SBW})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} SBW)
 endif (BUILD_SBW)
 
 if (BUILD_libSBML)
@@ -153,6 +159,7 @@ if (BUILD_libSBML)
 
   file(GLOB CLEAN_TARGETS_libSBML ${CMAKE_BINARY_DIR}/libSBML/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_libSBML})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} libSBML)
 endif (BUILD_libSBML)
 
 if (BUILD_libnuml)
@@ -177,6 +184,7 @@ if (BUILD_libnuml)
 
   file(GLOB CLEAN_TARGETS_libnuml ${CMAKE_BINARY_DIR}/libnuml/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_libnuml})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} libnuml)
 endif (BUILD_libnuml)
 
 if (BUILD_libSEDML)
@@ -202,7 +210,7 @@ if (BUILD_libSEDML)
 
   file(GLOB CLEAN_TARGETS_libSEDML ${CMAKE_BINARY_DIR}/libSEDML/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_libSEDML})
-
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} libSEDML)
 endif (BUILD_libSEDML)
 
 if (BUILD_zlib)
@@ -220,6 +228,7 @@ if (BUILD_zlib)
 
   file(GLOB CLEAN_TARGETS_zlib ${CMAKE_BINARY_DIR}/zlib/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_zlib})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} zlib)
 endif (BUILD_zlib)
 
 if (BUILD_zipper)
@@ -240,6 +249,7 @@ if (BUILD_zipper)
 
   file(GLOB CLEAN_TARGETS_zipper ${CMAKE_BINARY_DIR}/zipper/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_zipper})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} zipper)
 endif (BUILD_zipper)
 
 if (BUILD_libCombine)
@@ -261,6 +271,7 @@ if (BUILD_libCombine)
 
   file(GLOB CLEAN_TARGETS_libCombine ${CMAKE_BINARY_DIR}/libCombine/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_libCombine})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} libCombine)
 endif (BUILD_libCombine)
 
 if (BUILD_mml)
@@ -279,6 +290,7 @@ if (BUILD_mml)
 
   file(GLOB CLEAN_TARGETS_mml ${CMAKE_BINARY_DIR}/mml/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_mml})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} mml)
 endif (BUILD_mml)
 
 if (BUILD_qwt)
@@ -297,6 +309,7 @@ if (BUILD_qwt)
 
   file(GLOB CLEAN_TARGETS_qwt ${CMAKE_BINARY_DIR}/qwt/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_qwt})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} qwt)
 endif (BUILD_qwt)
 
 if (BUILD_qwt6)
@@ -315,6 +328,7 @@ if (BUILD_qwt6)
 
   file(GLOB CLEAN_TARGETS_qwt-6 ${CMAKE_BINARY_DIR}/qwt-6/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_qwt-6})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} qwt-6)
 endif (BUILD_qwt6)
 
 if (BUILD_qwtplot3d)
@@ -333,6 +347,25 @@ if (BUILD_qwtplot3d)
 
   file(GLOB CLEAN_TARGETS_qwtplot3d ${CMAKE_BINARY_DIR}/qwtplot3d/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_qwtplot3d})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} qwtplot3d)
 endif (BUILD_qwtplot3d)
+
+if (BUILD_archive)
+  ExternalProject_Add(archive
+    PREFIX             ${CMAKE_BINARY_DIR}/archive
+    SOURCE_DIR         ${CMAKE_INSTALL_PREFIX}
+
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      ${CMAKE_CURRENT_SOURCE_DIR}/archive
+
+    INSTALL_COMMAND      ${CMAKE_MAKE_PROGRAM} package
+      
+    DEPENDS            ${ARCHIVE_DEPENDENCIES}
+  )
+
+  file(GLOB CLEAN_TARGETS_archive ${CMAKE_BINARY_DIR}/copasi-dependencies-*.zip)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_archive})
+endif (BUILD_archive)
 
 set_directory_properties(PROPERTIES ADDITIONAL_CLEAN_FILES "${CLEAN_TARGETS}")

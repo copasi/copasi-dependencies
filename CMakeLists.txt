@@ -27,7 +27,6 @@ endif()
 if (NOT EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt AND
     NOT BUILD_OPTIONS)
   if (CMAKE_GENERATOR MATCHES "Unix Makefiles" OR
-      CMAKE_GENERATOR MATCHES "Ninja" OR
       CMAKE_GENERATOR MATCHES "NMake Makefiles JOM")
     set (BUILD_OPTIONS -j4)
   endif()
@@ -40,11 +39,19 @@ if (Qt5_DIR AND EXISTS ${Qt5_DIR})
   set (COMMON_CMAKE_OPTIONS_UI ${COMMON_CMAKE_OPTIONS_UI} -DQt5_DIR=${Qt5_DIR})
 endif()
 
+if (CMAKE_GENERATOR MATCHES "Ninja")
+message(FATAL_ERROR "
+
+The Ninja generator is not currently supported, please choose another generator.
+
+")
+endif()
+
 if (CMAKE_GENERATOR MATCHES "Visual Studio*")
   message(FATAL_ERROR "
 
     The Visual Studio generator is not currently supported, please choose either 
-    NMake Makefiles, or Ninja as generator to compile using MSVC
+    'NMake Makefiles', or 'NMake Makefiles JOM' as generator to compile using MSVC
 
   ")
 endif()
@@ -113,5 +120,7 @@ if (BUILD_qwt AND ${SELECT_QT} MATCHES "Qt5")
 endif (BUILD_qwt AND ${SELECT_QT} MATCHES "Qt5")
 
 option(BUILD_qwtplot3d "Build the qwtplot3d library" ON)
+
+option(BUILD_archive "Build a binary archive of all dependencies" ON)
 
 add_subdirectory(src)
