@@ -27,7 +27,8 @@ endif()
 if (NOT EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt AND
     NOT BUILD_OPTIONS)
   if (CMAKE_GENERATOR MATCHES "Unix Makefiles" OR
-      CMAKE_GENERATOR MATCHES "NMake Makefiles JOM")
+      CMAKE_GENERATOR MATCHES "NMake Makefiles JOM" OR
+      CMAKE_GENERATOR MATCHES "Ninja")
     set (BUILD_OPTIONS -j4)
   endif()
 endif()
@@ -37,14 +38,6 @@ set (COMMON_CMAKE_OPTIONS_UI -DSELECT_QT=${SELECT_QT})
 
 if (Qt5_DIR AND EXISTS ${Qt5_DIR})
   set (COMMON_CMAKE_OPTIONS_UI ${COMMON_CMAKE_OPTIONS_UI} -DQt5_DIR=${Qt5_DIR})
-endif()
-
-if (CMAKE_GENERATOR MATCHES "Ninja")
-message(FATAL_ERROR "
-
-The Ninja generator is not currently supported, please choose another generator.
-
-")
 endif()
 
 if (CMAKE_GENERATOR MATCHES "Visual Studio*")
