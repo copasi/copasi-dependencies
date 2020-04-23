@@ -5,8 +5,13 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
 include(GNUInstallDirs)
 
+
+option(BUILD_UI_DEPS "Build the GUI dependencies" ON)
+
+if (BUILD_UI_DEPS)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ChooseQtVersion.cmake)
 QT_FIND_MODULES(Core Gui)
+endif()
 
 # Default CMAKE_INSTALL_PREFIX
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
@@ -34,10 +39,13 @@ if (NOT EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt AND
 endif()
 
 set (COMMON_CMAKE_OPTIONS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX} -G ${CMAKE_GENERATOR})
+
+if (BUILD_UI_DEPS)
 set (COMMON_CMAKE_OPTIONS_UI -DSELECT_QT=${SELECT_QT})
 
 if (Qt5_DIR AND EXISTS ${Qt5_DIR})
   set (COMMON_CMAKE_OPTIONS_UI ${COMMON_CMAKE_OPTIONS_UI} -DQt5_DIR=${Qt5_DIR})
+endif()
 endif()
 
 if (CMAKE_GENERATOR MATCHES "Visual Studio*")
@@ -69,7 +77,7 @@ option(BUILD_crossguid "Build the crossguid library" ON)
 
 option(BUILD_clapack "Build the clapack library" ON)
 
-option(BUILD_SBW "Build the SBW library" ON)
+option(BUILD_SBW "Build the SBW library" ${BUILD_UI_DEPS})
 
 option(BUILD_libSBML "Build the libSBML library" ON)
 if (BUILD_libSBML)
@@ -102,18 +110,23 @@ if (BUILD_libCombine)
   set (BUILD_zipper ON)
 endif (BUILD_libCombine)
 
-option(BUILD_mml "Build the mml library" ON)
+if (BUILD_UI_DEPS )
+
+option(BUILD_mml "Build the mml library" ${BUILD_UI_DEPS})
 
 option(BUILD_qwt6 "Build the qwt-6 library" OFF)
 
-option(BUILD_qwt "Build the qwt library" ON)
+option(BUILD_qwt "Build the qwt library" ${BUILD_UI_DEPS})
+
 if (BUILD_qwt AND ${SELECT_QT} MATCHES "Qt5")
   set (BUILD_qwt OFF)
   set (BUILD_qwt6 ON)
 endif (BUILD_qwt AND ${SELECT_QT} MATCHES "Qt5")
 
-option(BUILD_qwtplot3d "Build the qwtplot3d library" ON)
+option(BUILD_qwtplot3d "Build the qwtplot3d library" ${BUILD_UI_DEPS})
 
 option(BUILD_archive "Build a binary archive of all dependencies" ON)
+
+endif()
 
 add_subdirectory(src)
