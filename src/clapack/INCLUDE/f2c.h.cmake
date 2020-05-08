@@ -7,7 +7,7 @@
 #ifndef F2C_INCLUDE
 #define F2C_INCLUDE
 
-typedef long int integer;
+typedef @F2C_INTEGER@ integer;
 typedef unsigned long int uinteger;
 typedef char *address;
 typedef short int shortint;
@@ -15,7 +15,7 @@ typedef float real;
 typedef double doublereal;
 typedef struct { real r, i; } complex;
 typedef struct { doublereal r, i; } doublecomplex;
-typedef long int logical;
+typedef @F2C_LOGICAL@ logical;
 typedef short int shortlogical;
 typedef char logical1;
 typedef char integer1;

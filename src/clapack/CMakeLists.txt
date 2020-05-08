@@ -39,6 +39,56 @@ if(MSVC OR USING_INTEL)
 endif(MSVC OR USING_INTEL)
 
 
+macro(copy_if_different_and_remove source target)
+# message(
+# "
+# copy_if_different_and_remove called with:
+#     source = ${source}
+#     target = ${target}
+# "
+# )
+file(READ ${source} CONTENT)
+
+if (EXISTS ${target})
+    # message("target exists")
+    file(READ ${target} CURRENT_CONTENT)
+    string(COMPARE EQUAL "${CURRENT_CONTENT}" "${CONTENT}" IS_SAME)
+    if (NOT ${IS_SAME})
+        #message("content is different")
+        file(WRITE ${target} "${CONTENT}")
+    endif()
+else()
+    #message("target does not exist")
+    file(WRITE ${target} "${CONTENT}")
+endif()
+
+file(REMOVE ${source})
+
+endmacro(copy_if_different_and_remove)
+
+
+set(F2C_INTEGER "long int" CACHE STRING
+    "f2c integer type")
+set(F2C_LOGICAL "long int" CACHE STRING
+    "f2c logical type")
+
+include_directories(${CLAPACK_BINARY_DIR}/INCLUDE)
+# allow to overwrite the f2c integer size
+configure_file(${CLAPACK_SOURCE_DIR}/INCLUDE/f2c.h.cmake
+  ${CLAPACK_BINARY_DIR}/INCLUDE/f2c.h.new @ONLY)
+configure_file(${CLAPACK_SOURCE_DIR}/INCLUDE/f2c.h.cmake
+  ${CLAPACK_BINARY_DIR}/F2CLIBS/libf2c/f2c.h.new @ONLY)
+  
+copy_if_different_and_remove(
+  ${CLAPACK_BINARY_DIR}/INCLUDE/f2c.h.new
+  ${CLAPACK_BINARY_DIR}/INCLUDE/f2c.h
+)
+
+copy_if_different_and_remove(
+  ${CLAPACK_BINARY_DIR}/F2CLIBS/libf2c/f2c.h.new
+  ${CLAPACK_BINARY_DIR}/F2CLIBS/libf2c/f2c.h
+)
+
 if(WIN32 AND NOT CYGWIN)
   set(SECOND_SRC  ${CLAPACK_SOURCE_DIR}/INSTALL/winsecond.c)
   set(DSECOND_SRC  ${CLAPACK_SOURCE_DIR}/INSTALL/windsecnd.c)
@@ -68,6 +118,8 @@ include(CPack)
 
 file(GLOB header_files "${CMAKE_CURRENT_SOURCE_DIR}/INCLUDE/*.h")
 install(FILES ${header_files} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+file(GLOB bin_header_files "${CMAKE_CURRENT_BINARY_DIR}/INCLUDE/*.h")
+install(FILES ${bin_header_files} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
   
 configure_file(${CLAPACK_SOURCE_DIR}/clapack-config-version.cmake.in
   ${CLAPACK_BINARY_DIR}/clapack-config-version.cmake @ONLY)
