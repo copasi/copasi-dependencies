@@ -27,6 +27,8 @@ set (ARCHIVE_DEPENDENCIES)
 include(ExternalProject)
 
 if (BUILD_expat)
+
+  message(STATUS "adding project: expat")
   ExternalProject_Add(expat
     PREFIX            ${CMAKE_BINARY_DIR}/expat
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/expat
@@ -49,6 +51,7 @@ if (BUILD_expat)
 endif (BUILD_expat)
 
 if (BUILD_raptor)
+  message(STATUS "adding project: raptor")
   ExternalProject_Add(raptor
     PREFIX            ${CMAKE_BINARY_DIR}/raptor
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/raptor
@@ -70,6 +73,7 @@ if (BUILD_raptor)
 endif (BUILD_raptor)
 
 if (BUILD_crossguid)
+  message(STATUS "adding project: crossguid")
   ExternalProject_Add(crossguid
     PREFIX            ${CMAKE_BINARY_DIR}/crossguid
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/crossguid
@@ -89,6 +93,7 @@ if (BUILD_crossguid)
 endif (BUILD_crossguid)
 
 if (BUILD_clapack)
+  message(STATUS "adding project: clapack")
   ExternalProject_Add(clapack
     PREFIX            ${CMAKE_BINARY_DIR}/clapack
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/clapack
@@ -108,6 +113,7 @@ if (BUILD_clapack)
 endif (BUILD_clapack)
 
 if (BUILD_SBW)
+  message(STATUS "adding project: SBW")
   ExternalProject_Add(SBW
     PREFIX            ${CMAKE_BINARY_DIR}/SBW
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/core
@@ -128,6 +134,7 @@ if (BUILD_SBW)
 endif (BUILD_SBW)
 
 if (BUILD_libSBML)
+  message(STATUS "adding project: libSBML")
   ExternalProject_Add(libSBML
     PREFIX            ${CMAKE_BINARY_DIR}/libSBML
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/libSBML
@@ -163,6 +170,7 @@ if (BUILD_libSBML)
 endif (BUILD_libSBML)
 
 if (BUILD_libnuml)
+  message(STATUS "adding project: libnuml")
   ExternalProject_Add(libnuml
     PREFIX            ${CMAKE_BINARY_DIR}/libnuml
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/libnuml
@@ -188,6 +196,7 @@ if (BUILD_libnuml)
 endif (BUILD_libnuml)
 
 if (BUILD_libSEDML)
+  message(STATUS "adding project: libSEDML")
   ExternalProject_Add(libSEDML
     PREFIX            ${CMAKE_BINARY_DIR}/libSEDML
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/libSEDML
@@ -214,6 +223,7 @@ if (BUILD_libSEDML)
 endif (BUILD_libSEDML)
 
 if (BUILD_zlib)
+  message(STATUS "adding project: zlib")
   ExternalProject_Add(zlib
     PREFIX            ${CMAKE_BINARY_DIR}/zlib
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/zlib
@@ -232,6 +242,7 @@ if (BUILD_zlib)
 endif (BUILD_zlib)
 
 if (BUILD_zipper)
+  message(STATUS "adding project: zipper")
   ExternalProject_Add(zipper
     PREFIX            ${CMAKE_BINARY_DIR}/zipper
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/zipper
@@ -253,6 +264,7 @@ if (BUILD_zipper)
 endif (BUILD_zipper)
 
 if (BUILD_libCombine)
+  message(STATUS "adding project: libCombine")
   ExternalProject_Add(libCombine
     PREFIX            ${CMAKE_BINARY_DIR}/libCombine
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/libCombine
@@ -275,6 +287,7 @@ if (BUILD_libCombine)
 endif (BUILD_libCombine)
 
 if (BUILD_mml)
+  message(STATUS "adding project: mml")
   ExternalProject_Add(mml
     PREFIX            ${CMAKE_BINARY_DIR}/mml
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/mml
@@ -294,6 +307,7 @@ if (BUILD_mml)
 endif (BUILD_mml)
 
 if (BUILD_qwt)
+  message(STATUS "adding project: qwt")
   ExternalProject_Add(qwt
     PREFIX            ${CMAKE_BINARY_DIR}/qwt
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/qwt
@@ -313,6 +327,7 @@ if (BUILD_qwt)
 endif (BUILD_qwt)
 
 if (BUILD_qwt6)
+  message(STATUS "adding project: qwt-6")
   ExternalProject_Add(qwt-6
     PREFIX            ${CMAKE_BINARY_DIR}/qwt-6
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/qwt-6
@@ -332,6 +347,7 @@ if (BUILD_qwt6)
 endif (BUILD_qwt6)
 
 if (BUILD_qwtplot3d)
+  message(STATUS "adding project: qwtplot3d")
   ExternalProject_Add(qwtplot3d
     PREFIX            ${CMAKE_BINARY_DIR}/qwtplot3d
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/qwtplot3d-qt4
@@ -351,6 +367,7 @@ if (BUILD_qwtplot3d)
 endif (BUILD_qwtplot3d)
 
 if (BUILD_archive)
+  message(STATUS "adding project: archive")
   ExternalProject_Add(archive
     PREFIX             ${CMAKE_BINARY_DIR}/archive
     SOURCE_DIR         ${CMAKE_INSTALL_PREFIX}

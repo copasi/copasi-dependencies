@@ -40,25 +40,15 @@ endif(MSVC OR USING_INTEL)
 
 
 macro(copy_if_different_and_remove source target)
-# message(
-# "
-# copy_if_different_and_remove called with:
-#     source = ${source}
-#     target = ${target}
-# "
-# )
 file(READ ${source} CONTENT)
 
 if (EXISTS ${target})
-    # message("target exists")
     file(READ ${target} CURRENT_CONTENT)
     string(COMPARE EQUAL "${CURRENT_CONTENT}" "${CONTENT}" IS_SAME)
     if (NOT ${IS_SAME})
-        #message("content is different")
         file(WRITE ${target} "${CONTENT}")
     endif()
 else()
-    #message("target does not exist")
     file(WRITE ${target} "${CONTENT}")
 endif()
 
@@ -125,4 +115,12 @@ configure_file(${CLAPACK_SOURCE_DIR}/clapack-config-version.cmake.in
   ${CLAPACK_BINARY_DIR}/clapack-config-version.cmake @ONLY)
 configure_file(${CLAPACK_SOURCE_DIR}/clapack-config.cmake.in
   ${CLAPACK_BINARY_DIR}/clapack-config.cmake @ONLY)
+
+message("--
+-- CLAPACK ${CLAPACK_VERSION}
+-- =============
+--
+--  integer type: ${F2C_INTEGER}
+--  logical type: ${F2C_LOGICAL}
+--")
 

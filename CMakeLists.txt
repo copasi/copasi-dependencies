@@ -5,7 +5,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
 include(GNUInstallDirs)
 
-
 option(BUILD_UI_DEPS "Build the GUI dependencies" ON)
 
 if (BUILD_UI_DEPS)
@@ -38,7 +37,7 @@ if (NOT EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt AND
   endif()
 endif()
 
-set (COMMON_CMAKE_OPTIONS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX} -G ${CMAKE_GENERATOR})
+set (COMMON_CMAKE_OPTIONS ${COMMON_CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX} -G ${CMAKE_GENERATOR})
 
 if (APPLE)
 set (DEFAULT_OSX_TARGET 10.9)
@@ -73,6 +72,20 @@ if (WIN32)
     set (COMMON_CMAKE_OPTIONS ${COMMON_CMAKE_OPTIONS} -DWITH_STATIC_RUNTIME=${WITH_STATIC_RUNTIME})
   endif (WITH_STATIC_RUNTIME)
 endif (WIN32)
+
+message(STATUS "
+--
+--   COPASI Dependencies
+--   ===================
+--
+--   cmake generator: ${CMAKE_GENERATOR}
+--   common options:")
+
+foreach(entry ${COMMON_CMAKE_OPTIONS})
+message(STATUS "    ${entry}")
+endforeach()
+message(STATUS "
+--")
 
 option(BUILD_expat "Build the expat library" ON)
 
