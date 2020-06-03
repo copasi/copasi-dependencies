@@ -127,7 +127,7 @@ case $1 in
   MML)
     #build MML
     [ -e ${BUILD_DIR}/MML ] || mkdir -p ${BUILD_DIR}/MML 
-    cd ${BUILD_DIR}/mml
+    cd ${BUILD_DIR}/MML
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
            $DIRECTORY/src/mml
     $MAKE -j 4
@@ -183,9 +183,9 @@ case $1 in
     ;;
 
   libSBML)
-    # build libsbml
+    # build libSBML
     [ -e ${BUILD_DIR}/libSBML ] || mkdir -p ${BUILD_DIR}/libSBML
-    cd ${BUILD_DIR}/libsbml
+    cd ${BUILD_DIR}/libSBML
     $CMAKE ${COPASI_CMAKE_OPTIONS} \
         -DENABLE_LAYOUT=ON \
         -DENABLE_REQUIREDELEMENTS=OFF \
