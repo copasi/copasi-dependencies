@@ -6,54 +6,101 @@ This project contains a number of open source libraries, that make the building 
 	make install
 
 ## Building the dependencies
-For the time being, I am using shell scripts for the individual operating systems to create the build. All of them install into the `./bin` directory of the project. From there I usually either archive, rename, or refer to it directly from CMAKE. 
 
-When building the dependencies, you have only to be aware of one thing. The scripts are pretty much dumb, and just build whatever they can, and they certainly won't worry whether the build was successful. So if you happen to not have Qt present, then building all the Qt dependencies will pretty much fail (those being the MML widget, QWT and QWT3dPlot). Now that will be fine, if all you want to build is the language bindings / CopasiSE, but might not be otherwise. 
+*We are in the process of updating the documentation. The [older instructions](./older_instructions.md) are still available.*
 
-Should the build fail unexpectedly for any other reason, please feel free to file an issue and let me know!
-### Windows
-Truth be told, building the dependencies on windows was the hardest, and so there is a while bunch of batch scripts for the case. There are ones for debug builds and release builds. And while they have directories hard coded in them that suit me, those directories might not exist on your machine. But don't despair, you can override them easily. The environment variables to watch out for: 
 
-- `INCLUDE`: if not set variants of vcvars will be called to set up MSVC
-- `QTDIR`: if not set my Qt directories will be used, otherwise just set to your Qt root
-- `QMAKESPEC`: set to win32-msvc2010 by default
+To build the COPASI dependencies we recommend to use the cmake build system from the main directory. This basically includes the required dependency libraries from the chosen configuration as external projects. 
 
-The batch files so far: 
+#### supported cmake generators 
+Currently not all cmake generators support external subprojects (building from the visual studio IDE is currently known to be not working) so we recommend to use either: 
 
-	createX86_vs11_x64_debug.bat  
-	createX86_vs11_x64_release.bat  
-	createX86_vs11_x86_debug.bat  
-	createX86_vs11_x86_release.bat  
+  * `Ninja`
+  * `Unix Makefiles`
+  * `NMake Makefiles JOM`
+  * `NMake Makefiles` 
 
-These files mainly differ in whether they do a release or debug build, and in what defaults they use. And again, even though those files have a 'vs11' in the name, if your environment is initialized for example with a 'vs9' environment, that will be used instead. 
-#### Intel Compiler
-Perhaps a word to compile with the intel compiler. I've added variants of the above batch files, that will use the Intel compiler. You would only need to open the intel compiler shell for the architecture and then run either: 
+#### overview of the build options
+If you just want to build the dependencies for the language bindings or the command line version for COPASI, you can simply configure using the `BUILD_UI_DEPS=OFF` option. Then a build of those dependencies is done simply with: 
 
-	create_icc_x64_release.bat  
-	create_icc_x86_release.bat
+	mkdir build
+	cd build
+	cmake -G Ninja -DBUILD_UI_DEPS=OFF ..
+	ninja
 
-### OS X
-On OSX the `QTDIR` amd and `QMAKESPEC` (to `macx-g++`) are hardcoded to my location. Since I use Lion / Mountainlion, I build with universal binaries for `i386` and `x86_64`, if that is not sufficient, you might need to adapt the: 
+where:
 
-	./createOSX.sh
- 
-**Note:** when I tried runing some builds with cmake 2.8.10 supplied by macports, the builds failed (due to missing `CMAKE_OSX_SYSROOT` variable, and later also in a test for endianess). So for the time being I recommend building with the downloadable version from cmake. 
+* `build`: is the name of the build folder in which all of the copasi-dependencies will be built. (this is also the path that you later specify as `-DCOPASI_DEPENDENCY_DIR=<dir>` when configuring COPASI). 
+* `-G Ninja`: specifies that the ninja generator should be used
+* `-DBUILD_UI_DEPS=OFF`: that no UI dependencies should be built 
+* `..`: indicates that the root of the copasi-dependencies directory is one folder up
 
-**Note:** when using the gnu compiler from macports, you want to make sure, that it supports universal builds. If it does not, you will need to adapt the `createOSX.sh` to not build universal binaries. Additionally set the `CMAKE_OSX_ARCHITECTURES` to only the systems arch. 
+
+**Note:** on linux system crossguid has a dependency on the `uuid` library, as such you will have to install it manually first. This can be done using your package manager:
+
+	apt-get install uuid-dev
+
+or 
+
+	yum install uuid-devel
+
+or directly from the source archives. 
+
+#### UI dependency libraries
+The COPASI user interface uses Qt. We recommend to use Qt5, with the additional `Qt5DataVisualization` module installed. 
+
+To specify which Qt should be used, use the 
+
+  * `SELECT_QT`: option we recommend it to be set to `Qt5`, other valid values are `Qt4` and `Any`
   
-### Linux
-To build the dependencies on Linux, be sure to have your operating systems qt4 or qt5 libraries  installed (if building with GUI) along with the mesa gl libraries, and xml2 as well ass uuid-dev. From there simply run:
+To ensure that Qt can be found you will need to specify the `Qt5_DIR` variable to the full path of the `lib/cmake/Qt5` path of your Qt5 installation). (Or for Qt4 the `QT_DIR` variable to the full path of the root of your Qt4 installation). 
 
-	./createLinux.sh
+**Examples:** 
 
-For more step-by-step instructions on building COPASI for various distributions see this [separate document](./readme_linux.md). 
+Qt5:
 
-## Resetting the build
-Simly remove the `bin` and `tmp` folder to start over. 
+	-DSELECT_QT=Qt5 -DQt5_DIR=C:/Qt/Qt5.14.2/5.14.2/msvc2017/lib/cmake/Qt5
+ 
+Qt4: 
+
+	-DSELECT_QT=Qt4 -DQTDIR=C:\Qt\qt-everywhere-opensource-src-4.8.6_vs14
+
+to summarize to build all dependencies (including UI dependencies for Qt5) you would use commands like: 
+
+	mkdir build
+	cd build
+	cmake -G Ninja -DSELECT_QT=Qt5 -DQt5_DIR=C:/Qt/Qt5.11.1/5.11.1/msvc2015/lib/cmake/Qt5 ..
+    ninja
+
+where: 
+
+* `build`: is the name of the build folder in which all of the copasi-dependencies will be built. (this is also the path that you later specify as `-DCOPASI_DEPENDENCY_DIR=<dir>` when configuring COPASI). 
+* `-G Ninja`: specifies that the ninja generator should be used
+* `-DSELECT_QT=Qt5`: that Qt5 from the specified `Qt5_DIR` should be used
+* `..`: indicates that the root of the copasi-dependencies directory is one folder up
 
 
-	rm -rf bin  
-	rm -rf tmp  
+#### all options:
+The complete list of all options is: 
+ 
+* `BUILD_UI_DEPS`: specifies whether the UI dependencies are preselected. (defaults to `ON`)
+* `BUILD_expat`: specifies whether or not expat should be built (defaults to `ON`)
+* `BUILD_raptor`: specifies whether raptor should be built (defaults to `ON`, forces expat to be built)
+* `BUILD_crossguid`: specifies whether raptor should be built (defaults to `ON`)
+* `BUILD_clapack`: specifies whether clapack should be built (defaults to `ON`)
+* `BUILD_libSBML`: specifies whether libSBML should be built (defaults to `ON`, forces expat to be built)
+* `BUILD_libnuml`: specifies whether libNUML should be built (defaults to `ON`, forces libSBML to be built)
+* `BUILD_libSEDML`: specifies whether libSEDML should be built (defaults to `ON`, forces libnuml to be built)
+* `BUILD_zlib`: specifies whether zlib should be built (defaults to `ON`)
+* `BUILD_zipper`: specifies whether `zipper` should be built (defaults to `ON`, forces zlib to be built)
+* `BUILD_libCombine`: specifies whether libCombine should be built (defaults to `ON`, forces zipper and libSBML to be built)
+* `BUILD_SBW`: specifies whether SBW should be built (defaults to `BUILD_UI_DEPS`)
+* `BUILD_mml`: specifies whether MML should be built (defaults to `BUILD_UI_DEPS`)
+* `BUILD_qwt6`: specifies whether qwt-6 should be built (defaults to `BUILD_UI_DEPS`)
+* `BUILD_qwt`: specifies whether qwt should be built (defaults to `BUILD_UI_DEPS`) 
+* `BUILD_qwtplot3d`: specifies whether qwtplot3d should be built (defaults to `BUILD_UI_DEPS`)
+* `BUILD_archive`: specifies whether an archive of the binaries should be created (defaults to `ON`)
+* `WITH_STATIC_RUNTIME`: a specific option on windows to ensure that the static MSVC runtime is used rather than the dynamic one. (defaults to `OFF`) When using the dynamic runtime, the MSVC redistributable package will have to be installed on the target system. 
 
 
 ## Libraries
@@ -63,17 +110,22 @@ The following open source libraries are included in this project:
 - [cppunit 1.12.1](http://sourceforge.net/projects/cppunit/)
 - [expat 2.1.0](http://expat.sourceforge.net/)
 - Qt MML widget (LGPL, Qt Solutions)
-- [QWT 5.2.0](http://qwt.sourceforge.net/)
+- [QWT 5.2.0 or 6.1.0](http://qwt.sourceforge.net/)
 - [QWT 3D plot](http://qwtplot3d.sourceforge.net/)
-- [libSBML 5.11.1](http://sbml.org/Software/libSBML)
+- [libSBML 5.18.0](http://sbml.org/Software/libSBML)
+- [libnuml 1.1.1](https://github.com/numl/numl)
+- [libSEDML 0.4.2](https://github.com/fbergmann/libSEDML)
+- [libCOMBINE 0.2.2](https://github.com/sbmlteam/libCombine)
 - [SBW Core](http://sbw.sourceforge.net/)
 - [raptor](http://librdf.org/raptor/)
+- [zipper 0.9.1](https://github.com/fbergmann/zipper)
+- crossguid (MIT)
 
 ## License
 Just in case it needs saying, each of the libraries in the `src` folder are released under their own respective licenses. Otherwise this project (i.e.: the build scripts) are released under the BSD License: 
 
 ```
-Copyright (c) 2013-2014, Frank T. Bergmann  
+Copyright (c) 2013-2020, Frank T. Bergmann  
 All rights reserved. 
 
 Redistribution and use in source and binary forms, with or without 
