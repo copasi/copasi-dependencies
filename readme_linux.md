@@ -22,7 +22,7 @@ For example:
   cmake -G Ninja -DCOPASI_DEPENDENCY_DIR=../../copasi-dependencies/bin -DSELECT_QT=Qt5 -DQT5_USE_DATAVISUALIZATION=OFF -DBUILD_GUI=ON ../COPASI
 ```
 
-would compile COPASI without the data visualization widget, which would work with the default Qt5 version available on Ubuntu 18.04. Alternatively: 
+would compile COPASI without the data visualization widget, which would work with the default Qt5 version available on Ubuntu 18.04 (the data visualization is working with ubuntu 20.04). Alternatively: 
 
 ```
 cmake -G Ninja -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin -DSELECT_QT=Qt5  -DBUILD_GUI=ON  -DQt5_DIR=~/Qt5.12.2/5.12.2/gcc_64/lib/cmake/Qt5 ../COPASI/
@@ -40,24 +40,24 @@ At this point we do require any C++ compiler capable of supporting C++11.
 
 In order to ensure compilation in the majority of cases, we list the instructions for the [mostly used](http://www.zdnet.com/the-5-most-popular-linux-distributions-7000003183/) linux distributions. If your linux distibution is not listed here, and the instructions don't work for you, please let us know and we will try to include yours. This document lists:
 
-* [Ubuntu](#ubuntu-1210)
+* [Ubuntu](#ubuntu-2004)
 * [Mint Linux](#mint-linux-15) 
 * [Debian](#debian-70)
-* [Fedora](#fedora-19-beta)
+* [Fedora](#fedora-31)
 * [Mageia](#mageia-3) (a Mandriva derivate)
 * [Slackware](#slackware-14)
 * [openSUSE](#opensuse-123)
 
-## Ubuntu 12.10
-Starting from a vanilla / updated copy of Ubuntu 12.10, the dependencies are built as follows. 
+## Ubuntu 20.04
+Starting from a vanilla / updated copy of Ubuntu 20.04, the dependencies are built as follows. 
 ### Prerequisites 
 First some required packages need to be installed: 
 
-	apt-get install git cmake g++ libgl1-mesa-dev libglu1-mesa-dev
+	apt install git cmake g++ libgl1-mesa-dev libglu1-mesa-dev uuid-dev
 
 If you plan on compiling the **graphical frontend** to COPASI you also need: 
 
-	apt-get install libqt4-dev libxml2-dev zlib1g-dev 
+	apt install qtbase5-dev qtbase5-dev-tools libqt5datavisualization5-dev
 
 Optionally for a graphical frontend to CMake you install `cmake-qt-gui`. This is only needed if you like to finely tweak what is built. 
 
@@ -66,7 +66,10 @@ Simply run
 	
 	git clone https://github.com/copasi/copasi-dependencies
 	cd copasi-dependencies
-	./createLinux.sh
+	mkdir build
+	cd build 
+	cmake -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=../bin .. 
+	make
 	cd ..
 
 You can verify that all needed files are there, by listing the files in the `./bin/lib` directory. You ought to see: 
@@ -163,14 +166,12 @@ Compiling then completed as before with:
 
 A run of `~/copasi/bin/CopasiUI` verifies that it works. 
 
-## Fedora 19 (Beta)
-Fedora 18 wouldn't start in my VM, so I took 19 beta from a netinstall.
-This has been tested for releases up to Fedora 27 
+## Fedora 31
 
 ### Prerequisites
 At the bare minimum the following dependencies are needed: 
 	
-	yum install git cmake gcc-c++ mesa-libGL-devel mesa-libGLU-devel byacc
+	yum install git cmake gcc-c++ mesa-libGL-devel mesa-libGLU-devel byacc uuid-devel make
 
 for CopasiUI additionally needed are: 
 
@@ -181,7 +182,10 @@ Now again as before, first checking out the copasi-dependencies project, then co
 
 	git clone https://github.com/copasi/copasi-dependencies
 	cd copasi-dependencies
-	./createLinux.sh
+	mkdir build
+	cd build 
+	cmake -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=../bin .. 
+	make
 	cd ..
 
 Verifying that the following files are available in the `copasi-dependencies/bin/lib` directory. 
