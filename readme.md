@@ -25,13 +25,14 @@ If you just want to build the dependencies for the language bindings or the comm
 
 	mkdir build
 	cd build
-	cmake -G Ninja -DBUILD_UI_DEPS=OFF ..
+	cmake -G Ninja -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=../bin ..
 	ninja
 
 where:
 
-* `build`: is the name of the build folder in which all of the copasi-dependencies will be built. (this is also the path that you later specify as `-DCOPASI_DEPENDENCY_DIR=<dir>` when configuring COPASI). 
+* `build`: is the name of the build folder in which all of the copasi-dependencies will be built.
 * `-G Ninja`: specifies that the ninja generator should be used
+* `-DCMAKE_INSTALL_PREFIX=../bin`:  this is also the path that you later specify as `-DCOPASI_DEPENDENCY_DIR=<dir>` when configuring COPASI
 * `-DBUILD_UI_DEPS=OFF`: that no UI dependencies should be built 
 * `..`: indicates that the root of the copasi-dependencies directory is one folder up
 
@@ -69,14 +70,15 @@ to summarize to build all dependencies (including UI dependencies for Qt5) you w
 
 	mkdir build
 	cd build
-	cmake -G Ninja -DSELECT_QT=Qt5 -DQt5_DIR=C:/Qt/Qt5.11.1/5.11.1/msvc2015/lib/cmake/Qt5 ..
+	cmake -G Ninja -DSELECT_QT=Qt5 -DQt5_DIR=C:/Qt/Qt5.11.1/5.11.1/msvc2015/lib/cmake/Qt5 -DCMAKE_INSTALL_PREFIX=../bin ..
     ninja
 
 where: 
 
-* `build`: is the name of the build folder in which all of the copasi-dependencies will be built. (this is also the path that you later specify as `-DCOPASI_DEPENDENCY_DIR=<dir>` when configuring COPASI). 
+* `build`: is the name of the build folder in which all of the copasi-dependencies will be built.
 * `-G Ninja`: specifies that the ninja generator should be used
 * `-DSELECT_QT=Qt5`: that Qt5 from the specified `Qt5_DIR` should be used
+* `-DCMAKE_INSTALL_PREFIX=../bin`:  this is also the path that you later specify as `-DCOPASI_DEPENDENCY_DIR=<dir>` when configuring COPASI
 * `..`: indicates that the root of the copasi-dependencies directory is one folder up
 
 
