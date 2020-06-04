@@ -129,6 +129,7 @@ option(BUILD_libCombine "Build the libCombine library" ON)
 if (BUILD_libCombine)
   set (BUILD_expat ON)
   set (BUILD_zipper ON)
+  set (BUILD_libSBML ON)
 endif (BUILD_libCombine)
 
 if (BUILD_UI_DEPS )
