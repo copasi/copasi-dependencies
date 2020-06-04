@@ -7,7 +7,7 @@ This document describes how to build COPASI and its dependencies on Linux.
 
 We recently upgraded the graphical user interface to use Qt5 whenever we can. COPASI still builds with Qt4, but you should select one or the other before compiling. You choose the Qt version by specifying the `SELECT_QT` parameter and set it to either `Qt5` or `Qt4`. This parameter defaults to `Any` at which point we try and select the first one. 
 
-Our release builds of CopasiUI use Qt5, where we also make use of the `Qt5DataVisualization` module. Unfortunately as of April, 2019, this is still not available on many linux distributions. So your choice would be to either download a pre-built qt version from <https://download.qt.io/archive/qt/>, and use that one, or you specify another configuration parameter called `QT5_USE_DATAVISUALIZATION` and set it to `OFF` so it will not be used. 
+Our release builds of CopasiUI use Qt5, where we also make use of the `Qt5DataVisualization` module. Which is still not yet available on many linux distributions. So your choice would be to either download a pre-built qt version from <https://download.qt.io/archive/qt/>, and use that one, or you specify another configuration parameter called `QT5_USE_DATAVISUALIZATION` and set it to `OFF` so it will not be used. 
 
 Since the graphical user interface displays HTML notes, there are various ways of displaying them. The default now is to simply display the text in the Qt Textbrowser, as that requires only a small amount of resources. It is however possible to use WebKit or WebEngine to display those notes. This is controlled by the following variables:
 
