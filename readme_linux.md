@@ -41,8 +41,8 @@ At this point we do require any C++ compiler capable of supporting C++11.
 In order to ensure compilation in the majority of cases, we list the instructions for the [mostly used](http://www.zdnet.com/the-5-most-popular-linux-distributions-7000003183/) linux distributions. If your linux distibution is not listed here, and the instructions don't work for you, please let us know and we will try to include yours. This document lists:
 
 * [Ubuntu](#ubuntu-2004)
-* [Mint Linux](#mint-linux-15) 
-* [Debian](#debian-70)
+* [Mint Linux](#mint-linux-193) 
+* [Debian](#debian-100)
 * [Fedora](#fedora-31)
 * [Mageia](#mageia-3) (a Mandriva derivate)
 * [Slackware](#slackware-14)
@@ -53,11 +53,11 @@ Starting from a vanilla / updated copy of Ubuntu 20.04, the dependencies are bui
 ### Prerequisites 
 First some required packages need to be installed: 
 
-	apt install git cmake g++ libgl1-mesa-dev libglu1-mesa-dev uuid-dev
+	apt install git cmake g++ libgl1-mesa-dev libglu1-mesa-dev uuid-dev wget gawk 
 
 If you plan on compiling the **graphical frontend** to COPASI you also need: 
 
-	apt install qtbase5-dev qtbase5-dev-tools libqt5datavisualization5-dev
+	apt install qtbase5-dev qtbase5-dev-tools libqt5datavisualization5-dev libqt5svg5-dev
 
 Optionally for a graphical frontend to CMake you install `cmake-qt-gui`. This is only needed if you like to finely tweak what is built. 
 
@@ -75,18 +75,20 @@ Simply run
 You can verify that all needed files are there, by listing the files in the `./bin/lib` directory. You ought to see: 
 
 	fbergmann@ubuntu:~/Development$ ls copasi-dependencies/bin/lib/
-	libblas.a      libexpat.a   liblapack.a   libsbml-static.a
-	libcppunit.a   libexpat.la  libraptor.a   pkgconfig
-	libcppunit.la  libf2c.a     libraptor.la
+	cmake                libcrossguid.a  libnuml-static.a   libzlib.a
+	libCombine-static.a  libexpat.a      libraptor.a        pkgconfig
+	libZipper-static.a   libf2c.a        libsbml-static.a
+	libblas.a            liblapack.a     libsedml-static.a
 
 
-if you also like to build the COPASI graphical frontend (and this have `libqt4-dev` and `libxml2-dev` installed) you ought to also find: 
+if you also like to build the COPASI graphical frontend (and thus have Qt5 installed installed) you ought to also find: 
 
 	fbergmann@ubuntu:~/Development/copasi-dependencies$ ls bin/lib/
-	libblas.a      libexpat.la  libqwt.a        libsbml-static.a  libSBW-static.a
-	libcppunit.a   libf2c.a     libqwtplot3d.a  libSBW.so         pkgconfig
-	libcppunit.la  liblapack.a  libraptor.a     libSBW.so.2.10
-	libexpat.a     libmml.a     libraptor.la    libSBW.so.2.10.0
+	cmake                libexpat.a        libqwt.a           libzlib.a
+	libCombine-static.a  libf2c.a          libqwtplot3d.a     pkgconfig
+	libZipper-static.a   liblapack.a       libraptor.a
+	libblas.a            libmml.a          libsbml-static.a
+	libcrossguid.a       libnuml-static.a  libsedml-static.a
 	
 
 Once verified that those files is there you are ready to compile COPASI.
@@ -95,6 +97,9 @@ Once verified that those files is there you are ready to compile COPASI.
 continuing from the command line before you would type the following (**Note** the `-DBUILD_GUI=OFF` parameter, this one is only needed if you do not want to build the graphical frontend. The parameter `-DCMAKE_INSTALL_PREFIX=~/copasi` indicates, that the installation target is the `copasi` directory in the home directory. ) 
 
 	git clone https://github.com/copasi/COPASI
+	cd COPASI
+	./gitTools/UpdateCopasiVersion
+	cd ..
 	mkdir build_copasi
 	cd build_copasi
 	cmake -DBUILD_GUI=OFF -DCMAKE_INSTALL_PREFIX=~/copasi -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin ../COPASI
@@ -105,7 +110,7 @@ continuing from the command line before you would type the following (**Note** t
 To verify that the installation worked as intended you could run the following tests. For `CopasiSE` it ought to be sufficient to run: 
 
 	fbergmann@ubuntu:~/Development/build_copasi$ ~/copasi/bin/CopasiSE 
-	COPASI 4.9.43 (Source)
+	COPASI 4.26.224+ (Source)
 	The use of this software indicates the acceptance of the attached license.
 	To view the license please use the option: --license
 	
@@ -115,14 +120,26 @@ To verify that the installation worked as intended you could run the following t
 	                                default is .copasi in the home directory.
 	  --configfile file             The configuration file for copasi. The
 	                                default is copasi in the ConfigDir.
+	  --convert-to-irreversible     Converts reversible reactions to irreversibl-
+	                                e ones before running Task.
 	  --exportBerkeleyMadonna file  The Berkeley Madonna file to export.
 	  --exportC file                The C code file to export.
+	  --exportCA file               The COMBINE archive file to export.
+	  --exportIni file              export the parameterization of the model as
+	                                INI file for use with the --reparameterize
+	                                option.
+	  --exportSEDML file            The SEDML file to export.
 	  --exportXPPAUT file           The XPPAUT file to export.
 	  --home dir                    Your home directory.
+	  --importCA file               A COMBINE archive file to import.
+	  --importSEDML file            A SEDML file to import.
 	  --license                     Display the license.
 	  --maxTime seconds             The maximal time CopasiSE may run in
 	                                seconds.
 	  --nologo                      Surpresses the startup message.
+	  --report-file file            Override report file name to be used except
+	                                for the one defined in the scheduled task.
+	  --scheduled-task taskName     Override the task marked as executable.
 	  --validate                    Only validate the given input file (COPASI,
 	                                Gepasi, or SBML) without performing any
 	                                calculations.
@@ -131,8 +148,11 @@ To verify that the installation worked as intended you could run the following t
 	  -c, --copasidir dir           The COPASI installation directory.
 	  -e, --exportSBML file         The SBML file to export.
 	  -i, --importSBML file         A SBML file to import.
+	  -r, --reparameterize file     Before any task is run, the model is
+	                                reparameterized with the values specified
+	                                in the provided INI file.
 	  -s, --save file               The file the model is saved to after work.
-  	  -t, --tmp dir                 The temp directory used for autosave.
+	  -t, --tmp dir                 The temp directory used for autosave.
 
 If you also built the graphical frontend, you want to run
 
@@ -140,26 +160,31 @@ If you also built the graphical frontend, you want to run
 
 . This will bring up the UI, and you could get started by looking at `File\Examples` and open one of the included models. In both cases `~/copasi` refers to the install prefix that was provided to CMake. 
 
-## Mint Linux 15
-Mint Linux actually seems to use the same package repositories as Ubuntu, so the same instructions as above can be used to build the COPASI dependencies and COPASI. 
+## Mint Linux 19.3
+Mint Linux actually seems to use the same package repositories as Ubuntu, so the same instructions as above can be used to build the COPASI dependencies and COPASI. The only exception is that the `libqt5datavisualization5-dev` package was not available, so in this case you will have to disable the use of the data visualization as [mentioned above](#building-the-graphical-user-interface).
 
-## Debian 7.0
-In this case Debian 7 was installed from a network image, choosing all standard settings. Overall the same instructions as the ones for Ubuntu ought to hold. So mainly the prerequisites and the compile commands (for COPASI with GUI) are listed below. 
+## Debian 10.0
 
-As for prerequisites, they are precisely the same, except that for whatever reason `make` was not installed, and had to be added to the list. So all dependencies were: 
+So all dependencies for the command line versions are: 
 
-	apt-get install git cmake g++ libgl1-mesa-dev libglu1-mesa-dev make libqt4-dev libxml2-dev zlib1g-dev 
+	apt-get install git cmake g++ libgl1-mesa-dev libglu1-mesa-dev uuid-dev make qtbase5-dev qtbase5-dev-tools libqt5datavisualization5-dev libqt5svg5-dev
 
 Compiling then completed as before with: 
 
 	git clone https://github.com/copasi/copasi-dependencies
 	cd copasi-dependencies
-	./createLinux.sh
-	cd ..
+	mkdir build
+	cd build 
+	cmake -DBUILD_UI_DEPS=ON -DCMAKE_INSTALL_PREFIX=../bin .. 
+	make
+	cd ../..
 	git clone https://github.com/copasi/COPASI
+	cd COPASI
+	./gitTools/UpdateCopasiVersion
+	cd ..
 	mkdir build_copasi
 	cd build_copasi
-	cmake -DCMAKE_INSTALL_PREFIX=~/copasi -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin ../COPASI
+	cmake -DSELECT_QT=Qt5 -DCMAKE_INSTALL_PREFIX=~/copasi -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin ../COPASI
 	make
 	make install
 
@@ -171,11 +196,11 @@ A run of `~/copasi/bin/CopasiUI` verifies that it works.
 ### Prerequisites
 At the bare minimum the following dependencies are needed: 
 	
-	yum install git cmake gcc-c++ mesa-libGL-devel mesa-libGLU-devel byacc uuid-devel make
+	yum install git cmake gcc-c++ mesa-libGL-devel mesa-libGLU-devel byacc libuuid-devel make
 
 for CopasiUI additionally needed are: 
 
-	yum install qt4-devel libxml2-devel qt-webkit-devel
+	yum install qt5-qtbase-devel qt5-qtdatavis3d-devel qt5-qtsvg-devel
 
 ### Compiling
 Now again as before, first checking out the copasi-dependencies project, then compiling the dependencies:
@@ -188,19 +213,28 @@ Now again as before, first checking out the copasi-dependencies project, then co
 	make
 	cd ..
 
-Verifying that the following files are available in the `copasi-dependencies/bin/lib` directory. 
+Verifying that the following files are available in the `copasi-dependencies/bin/lib64` directory. 
 
-	[fbergmann@localhost copasi-dependencies]$ ls bin/lib
-	libblas.a     libcppunit.la  libexpat.la  liblapack.a  libqwt.a        libraptor.a   libsbml-static.a  libSBW.so.2.10    libSBW-static.a
-	libcppunit.a  libexpat.a     libf2c.a     libmml.a     libqwtplot3d.a  libraptor.la  libSBW.so         libSBW.so.2.10.0  pkgconfig
+	[fbergmann@localhost copasi-dependencies]$ ls bin/lib64
+	cmake                libZipper-static.a  libcrossguid.a  libf2c.a     libnuml-static.a  libsbml-static.a   libzlib.a
+	libCombine-static.a  libblas.a           libexpat.a      liblapack.a  libraptor.a       libsedml-static.a  pkgconfig
+
+
+	[fbergmann@localhost copasi-dependencies]$ ls bin/lib64
+	cmake                libblas.a       libf2c.a     libnuml-static.a  libraptor.a        libzlib.a
+	libCombine-static.a  libcrossguid.a  liblapack.a  libqwt.a          libsbml-static.a   pkgconfig
+	libZipper-static.a   libexpat.a      libmml.a     libqwtplot3d.a    libsedml-static.a
 
 (Again if you are not compiling the GUI you won't need mml, qwt, qwtplot3d and SBW). If all these files are present next is COPASI: 
 
 
 	git clone https://github.com/copasi/COPASI
+	cd COPASI
+	./gitTools/UpdateCopasiVersion
+	cd ..
 	mkdir build_copasi
 	cd build_copasi
-	cmake -DCMAKE_INSTALL_PREFIX=~/copasi -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin ../COPASI
+	cmake -DCMAKE_INSTALL_PREFIX=~/copasi -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin -DSELECT_QT=Qt5 -DQt5_DIR=/usr/lib64/cmake/Qt5 ../COPASI
 	make
 	make install
 
@@ -232,6 +266,9 @@ and verify that all needed files are there:
 before checking out and building COPASI:
 
 	git clone https://github.com/copasi/COPASI
+	cd COPASI
+	./gitTools/UpdateCopasiVersion
+	cd ..
 	mkdir build_copasi
 	cd build_copasi
 	cmake -DCMAKE_INSTALL_PREFIX=~/copasi -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin ../COPASI
@@ -270,16 +307,16 @@ and so building COPASI is again as easy as:
 which can be confirmed by running `~/copasi/bin/CopasiUI`. 
 
 
-## openSUSE 12.3
-Starting from the a fresh installation (choosing only the GNOME desktop environment) the following packages need to be installed: 
+## openSUSE Tumbleweed
+Dependencies are installed with: 
 
-	zypper install git cmake gcc-c++ glu-devel bison
+	zypper install git cmake gcc-c++ glu-devel bison uuid-devel
 
 for the graphical frontend you need to additionally install: 
 
-	zypper install libqt4-devel libxml2-devel  libQtWebKit-devel
+	zypper install libqt5-qtbase-devel 
 
-(in versions prior to 12.3 the `glu.h` is provided by `Mesa-libGLU-devel`). From here the compilation of the dependencies proceeds as before with: 
+From here the compilation of the dependencies proceeds as before with: 
 
 	git clone https://github.com/copasi/copasi-dependencies
 	cd copasi-dependencies
@@ -297,6 +334,9 @@ after which the `copasi-dependencies/bin/lib` directory contains the files:
 and and then COPASI is again built with: 
 
 	git clone https://github.com/copasi/COPASI
+	cd COPASI
+	./gitTools/UpdateCopasiVersion
+	cd ..
 	mkdir build_copasi
 	cd build_copasi
 	cmake -DCMAKE_INSTALL_PREFIX=~/copasi -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin ../COPASI

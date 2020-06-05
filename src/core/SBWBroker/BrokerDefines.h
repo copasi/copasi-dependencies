@@ -1,7 +1,7 @@
 #ifndef SBW_BROKER_DEFINES_H
 #define SBW_BROKER_DEFINES_H
 
-#define VERSION "2.12.1"
+#define VERSION "2.12.2"
 
 #include <iostream>
 

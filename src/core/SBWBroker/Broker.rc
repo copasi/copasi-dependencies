@@ -53,8 +53,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2, 12, 1,0
- PRODUCTVERSION 2, 12, 1,0
+ FILEVERSION 2, 12, 2,0
+ PRODUCTVERSION 2, 12, 2,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x3L
@@ -72,12 +72,12 @@ BEGIN
             VALUE "Comments", "C++ Version of the SBW Broker"
             VALUE "CompanyName", "SBW Team"
             VALUE "FileDescription", "C++ Broker"
-            VALUE "FileVersion", "2.12.1"
+            VALUE "FileVersion", "2.12.2"
             VALUE "InternalName", "SBWBroker"
             VALUE "LegalCopyright", "Copyright (C) 2004-2018 SBW Team"
             VALUE "OriginalFilename", "C++Broker.exe"
             VALUE "ProductName", "SBWBroker"
-            VALUE "ProductVersion", "2.12.1"
+            VALUE "ProductVersion", "2.12.2"
         END
     END
     BLOCK "VarFileInfo"

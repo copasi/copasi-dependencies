@@ -7,6 +7,8 @@
 #include "SBW/portableOS.h"
 #include "SBW/SBWApplicationException.h"
 
+#include <cstdlib>
+
 using namespace SystemsBiologyWorkbench::Broker;
 
 InstanceTable *InstanceTable::table = NULL;

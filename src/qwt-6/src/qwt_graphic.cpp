@@ -12,9 +12,9 @@
 #include <qvector.h>
 #include <qpainter.h>
 #include <qpaintengine.h>
+#include <qpainterpath.h>
 #include <qimage.h>
 #include <qpixmap.h>
-#include <qpainterpath.h>
 #include <qmath.h>
 
 static bool qwtHasScalablePen( const QPainter *painter )

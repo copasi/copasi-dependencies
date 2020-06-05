@@ -8,6 +8,7 @@
  *****************************************************************************/
 
 #include "qwt_painter_command.h"
+#include <qpainterpath.h>
 
 //! Construct an invalid command
 QwtPainterCommand::QwtPainterCommand():

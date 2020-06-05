@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <cstdlib>
 
 #include "SBW/SBW.h"
 #include "SBW/SBWConfig.h"

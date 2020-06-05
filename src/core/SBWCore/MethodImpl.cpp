@@ -79,6 +79,7 @@ using namespace SystemsBiologyWorkbench ;
 MethodImpl::~MethodImpl()
 {
     delete handler ;
+    handler = NULL;
 }
 
 /**
