@@ -368,6 +368,11 @@ endif (BUILD_qwtplot3d)
 
 if (BUILD_archive)
   message(STATUS "adding project: archive")
+  if (NOT EXISTS ${CMAKE_INSTALL_PREFIX}/readme.md)
+    # the SOURCE_DIR is not allowed to be empty 
+    # starting cmake 3.17
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../readme.md DESTINATION ${CMAKE_INSTALL_PREFIX})
+  endif()
   ExternalProject_Add(archive
     PREFIX             ${CMAKE_BINARY_DIR}/archive
     SOURCE_DIR         ${CMAKE_INSTALL_PREFIX}
