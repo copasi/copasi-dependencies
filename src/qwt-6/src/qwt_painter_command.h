@@ -12,6 +12,7 @@
 
 #include "qwt_global.h"
 #include <qpaintengine.h>
+#include <qpainterpath.h>
 #include <qpixmap.h>
 #include <qimage.h>
 #include <qpolygon.h>
