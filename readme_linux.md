@@ -241,12 +241,13 @@ or
 
 Once installed, again a start of `~/copasi/bin/CopasiUI` verifies that everything works as planned. 
 
+
 ##Mageia 7
 
 The following prerequisites are used on Mageia: 
 
 	urpmi --auto-select
-	urpmi git cmake gcc-c++ lib64mesagl1-devel lib64mesaglu1-devel lib64uuid-devel qtdatavis3d5-devel qtsvg5-devel wget make
+	urpmi git cmake gcc-c++ lib64mesagl1-devel lib64mesaglu1-devel lib64uuid-devel qtdatavis3d5-devel qtsvg5-devel lib64qt5opengl-devel lib64qt5xml-devel lib64qt5printsupport-devel lib64qt5concurrent-devel lib64qt5network-devel wget make
 
 And again, qt is not needed when building only CopasiSE. 
 
