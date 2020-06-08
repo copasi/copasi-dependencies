@@ -34,19 +34,19 @@ would compile against a custom installed Qt 5.12 version.
 
 At this point we do require any C++ compiler capable of supporting C++11.
 
-## Various linux distributions checked in the past
+## Compilation on various linux distributions
 
 (we are in the process of updating the following section)
 
-In order to ensure compilation in the majority of cases, we list the instructions for the [mostly used](http://www.zdnet.com/the-5-most-popular-linux-distributions-7000003183/) linux distributions. If your linux distibution is not listed here, and the instructions don't work for you, please let us know and we will try to include yours. This document lists:
+In order to ensure compilation in the majority of cases, we list the instructions for some of the most used linux distributions. If your linux distibution is not listed here, and the instructions don't work for you, please let us know and we will try to include yours. This document lists:
 
 * [Ubuntu](#ubuntu-2004)
 * [Mint Linux](#mint-linux-193) 
 * [Debian](#debian-100)
 * [Fedora](#fedora-31)
-* [Mageia](#mageia-3) (a Mandriva derivate)
-* [Slackware](#slackware-14)
-* [openSUSE](#opensuse-123)
+* [Mageia](#mageia-7) (a Mandriva derivate)
+* [Slackware](#slackware-142)
+* [openSUSE](#opensuse-tumbleweed)
 
 ## Ubuntu 20.04
 Starting from a vanilla / updated copy of Ubuntu 20.04, the dependencies are built as follows. 
@@ -219,6 +219,7 @@ Verifying that the following files are available in the `copasi-dependencies/bin
 	cmake                libZipper-static.a  libcrossguid.a  libf2c.a     libnuml-static.a  libsbml-static.a   libzlib.a
 	libCombine-static.a  libblas.a           libexpat.a      liblapack.a  libraptor.a       libsedml-static.a  pkgconfig
 
+or
 
 	[fbergmann@localhost copasi-dependencies]$ ls bin/lib64
 	cmake                libblas.a       libf2c.a     libnuml-static.a  libraptor.a        libzlib.a
@@ -240,30 +241,26 @@ Verifying that the following files are available in the `copasi-dependencies/bin
 
 Once installed, again a start of `~/copasi/bin/CopasiUI` verifies that everything works as planned. 
 
-##Mageia 3
+##Mageia 7
+
 The following prerequisites are used on Mageia: 
 
-	urpmi git cmake gcc-c++ lib64mesagl1-devel lib64mesaglu1-devel lib64qt4-devel lib64xml2-devel lib64qtwebkit2.2-devel
+	urpmi --auto-select
+	urpmi git cmake gcc-c++ lib64mesagl1-devel lib64mesaglu1-devel lib64uuid-devel qtdatavis3d5-devel qtsvg5-devel wget make
 
-(obviously on 32bit Mageia you'd choose the `libqt4-devel` and `libxml2-devel` package). And again, qt and xml2 are not needed when building only CopasiSE. 
+And again, qt is not needed when building only CopasiSE. 
 
 Next we build the dependencies: 
 
 	git clone https://github.com/copasi/copasi-dependencies
 	cd copasi-dependencies
-	./createLinux.sh
+	mkdir build
+	cd build 
+	cmake -DBUILD_UI_DEPS=ON -DCMAKE_INSTALL_PREFIX=../bin .. 
+	make
 	cd ..
 
-and verify that all needed files are there: 
-
-	[fbergmann@localhost copasi-dependencies]$ ls bin/lib
-	libblas.a       libf2c.a        libraptor.a       libSBW.so.2.10.0*
-	libcppunit.a    liblapack.a     libraptor.la*     libSBW-static.a
-	libcppunit.la*  libmml.a        libsbml-static.a  pkgconfig/
-	libexpat.a      libqwt.a        libSBW.so@
-	libexpat.la*    libqwtplot3d.a  libSBW.so.2.10@
-
-before checking out and building COPASI:
+and building COPASI:
 
 	git clone https://github.com/copasi/COPASI
 	cd COPASI
@@ -278,29 +275,34 @@ before checking out and building COPASI:
 and testing it again by running `~/copasi/bin/CopasiUI`.
 
 
-## Slackware 14
+## Slackware 14.2
+After a full install of Slackware 14.2 most of the needed dependencies are already installed. Unfortunately the cmake installed is older than the minimum 3.10 that we need. The first step is to install cmake: 
 
-After a full install (all 8GB worth of packages) of Slackware 14 the good news is, that there are already all needed packages installed. So once installed, the dependencies are again simply built using: 
+	wget https://github.com/Kitware/CMake/releases/download/v3.17.3/cmake-3.17.3.tar.gz
+	tar zxf cmake-3.17.3.tar.gz
+	cd cmake-3.17.3
+	./configure
+	make
+	make install 
+
+So once installed, the dependencies are built using: 
 
 	git clone https://github.com/copasi/copasi-dependencies
 	cd copasi-dependencies
-	./createLinux.sh
+	mkdir build
+	cd build 
+	cmake -DBUILD_UI_DEPS=ON -DSELECT_QT=Qt4 -DCMAKE_INSTALL_PREFIX=../bin .. 
+	make
 	cd ..
 
-after which the `bin/lib` directory contains the files: 
+**Note:** that here Qt4 is being selected (as 14.2 does not come with a Qt5 version).
 
-	bash-4.2# ls bin/lib
-	libSBW-static.a   libblas.a      libexpat.la  libqwt.a        libsbml-static.a
-	libSBW.so         libcppunit.a   libf2c.a     libqwtplot3d.a  pkgconfig
-	libSBW.so.2.10    libcppunit.la  liblapack.a  libraptor.a
-	libSBW.so.2.10.0  libexpat.a     libmml.a     libraptor.la
-
-and so building COPASI is again as easy as: 
+and building COPASI using Qt4 is then done with: 
 
 	git clone https://github.com/copasi/COPASI
 	mkdir build_copasi
 	cd build_copasi
-	cmake -DCMAKE_INSTALL_PREFIX=~/copasi -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin ../COPASI
+	cmake -DSELECT_QT=Qt4 -DENABLE_TIME_SENS=OFF -DCMAKE_INSTALL_PREFIX=~/copasi -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin ../COPASI
 	make
 	make install
 
@@ -310,26 +312,21 @@ which can be confirmed by running `~/copasi/bin/CopasiUI`.
 ## openSUSE Tumbleweed
 Dependencies are installed with: 
 
-	zypper install git cmake gcc-c++ glu-devel bison uuid-devel
+	zypper install git cmake gcc-c++ glu-devel bison libuuid-devel
 
 for the graphical frontend you need to additionally install: 
 
-	zypper install libqt5-qtbase-devel 
+	zypper install libqt5-qtbase-devel libqt5-qtsvg-devel libQt5DataVisualization5-devel
 
 From here the compilation of the dependencies proceeds as before with: 
 
 	git clone https://github.com/copasi/copasi-dependencies
 	cd copasi-dependencies
-	./createLinux.sh
+	mkdir build
+	cd build 
+	cmake -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=../bin .. 
+	make
 	cd ..
-
-after which the `copasi-dependencies/bin/lib` directory contains the files: 
-
-	fbergmann@linux-251g:~/Development> ls copasi-dependencies/bin/lib
-	libblas.a      libexpat.a   liblapack.a  libqwtplot3d.a  libsbml-static.a  libSBW.so.2.10.0
-	libcppunit.a   libexpat.la  libmml.a     libraptor.a     libSBW.so         libSBW-static.a
-	libcppunit.la  libf2c.a     libqwt.a     libraptor.la    libSBW.so.2.10    pkgconfig
-
 
 and and then COPASI is again built with: 
 
