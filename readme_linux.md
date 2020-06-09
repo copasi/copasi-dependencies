@@ -345,3 +345,41 @@ and and then COPASI is again built with:
 	make install
 
 which can be confirmed by running `~/copasi/bin/CopasiUI`. 
+
+
+##Centos 8.1
+
+### Prerequisites
+At the bare minimum the following dependencies are needed: 
+	
+	yum install git cmake gcc-c++ mesa-libGL-devel mesa-libGLU-devel byacc libuuid-devel make wget which
+
+for CopasiUI additionally needed are: 
+
+	yum install epel-release
+	yum install qt5-qtbase-devel qt5-qtdatavis3d-devel qt5-qtsvg-devel
+
+### Compiling
+Now again as before, first checking out the copasi-dependencies project, then compiling the dependencies:
+
+	git clone https://github.com/copasi/copasi-dependencies
+	cd copasi-dependencies
+	mkdir build
+	cd build 
+	cmake -DBUILD_UI_DEPS=ON -DCMAKE_INSTALL_PREFIX=../bin .. 
+	make
+	cd ..
+
+and then to compile COPASI: 
+
+	git clone https://github.com/copasi/COPASI
+	cd COPASI
+	./gitTools/UpdateCopasiVersion
+	cd ..
+	mkdir build_copasi
+	cd build_copasi
+	cmake -DCMAKE_INSTALL_PREFIX=~/copasi -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin -DSELECT_QT=Qt5 -DQt5_DIR=/usr/lib64/cmake/Qt5 ../COPASI
+	make
+	make install
+
+Once installed, again a start of `~/copasi/bin/CopasiUI` verifies that everything works as planned. 
