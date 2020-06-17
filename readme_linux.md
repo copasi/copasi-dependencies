@@ -286,7 +286,7 @@ Upgrading CMake can be done using a package in Pedro Mendes' [slackware-stuff re
 
 Installing Qt5 can be done using packages from Alien Bob (or alternatively build your own from [SBo](https://slackbuilds.org/); if you follow that option you should know what to do...). Follow the steps below to install Qt5 side by side with Qt4 (which you need because of KDE4; note that we use 'installpkg' rather than 'upgradepkg'!): 
 
-        wget http://www.slackware.com/~alien/slackbuilds/qt5/pkg64/14.2/qt5-5.9.6-x86_64-1alien.txz
+	wget http://www.slackware.com/~alien/slackbuilds/qt5/pkg64/14.2/qt5-5.9.6-x86_64-1alien.txz
 	wget http://www.slackware.com/~alien/slackbuilds/qt5-webkit/pkg64/14.2/qt5-webkit-5.9.1-x86_64-1alien.txz
 	sudo installpkg qt5-5.9.6-x86_64-1alien.txz
 	sudo installpkg qt5-webkit-5.9.1-x86_64-1alien.txz
