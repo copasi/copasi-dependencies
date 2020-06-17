@@ -242,7 +242,7 @@ or
 Once installed, again a start of `~/copasi/bin/CopasiUI` verifies that everything works as planned. 
 
 
-##Mageia 7
+## Mageia 7
 
 The following prerequisites are used on Mageia: 
 
@@ -277,33 +277,36 @@ and testing it again by running `~/copasi/bin/CopasiUI`.
 
 
 ## Slackware 14.2
-After a full install of Slackware 14.2 most of the needed dependencies are already installed. Unfortunately the cmake installed is older than the minimum 3.10 that we need. The first step is to install cmake: 
+If you are on Slackware-current you can skip to the last step and build the COPASI dependencies right away. If you are on 14.2 then you need two additions: upgrade CMake to a newer version, and install Qt5. Strictly speaking, you can use the native Qt4 but we think you will be better served with Qt5, so we advise installing it (side by side with Qt4, following the instructions below).
 
-	wget https://github.com/Kitware/CMake/releases/download/v3.17.3/cmake-3.17.3.tar.gz
-	tar zxf cmake-3.17.3.tar.gz
-	cd cmake-3.17.3
-	./configure
-	make
-	make install 
+Upgrading CMake can be done using a package in Pedro Mendes' [slackware-stuff repository](https://github.com/pmendes/slackware-stuff): 
 
-So once installed, the dependencies are built using: 
+	wget https://github.com/pmendes/slackware-stuff/raw/master/packages/cmake-3.17.3-x86_64-1_pm.txz
+	sudo upgradepkg cmake-3.17.3-x86_64-1_pm.txz
+
+Installing Qt5 can be done using packages from Alien Bob (or alternatively build your own from [SBo](https://slackbuilds.org/); if you follow that option you should know what to do...). Follow the steps below to install Qt5 side by side with Qt4 (which you need because of KDE4; note that we use 'installpkg' rather than 'upgradepkg'!): 
+
+        wget http://www.slackware.com/~alien/slackbuilds/qt5/pkg64/14.2/qt5-5.9.6-x86_64-1alien.txz
+	wget http://www.slackware.com/~alien/slackbuilds/qt5-webkit/pkg64/14.2/qt5-webkit-5.9.1-x86_64-1alien.txz
+	sudo installpkg qt5-5.9.6-x86_64-1alien.txz
+	sudo installpkg qt5-webkit-5.9.1-x86_64-1alien.txz
+
+Now you can build the COPASI dependencies using: 
 
 	git clone https://github.com/copasi/copasi-dependencies
 	cd copasi-dependencies
 	mkdir build
 	cd build 
-	cmake -DBUILD_UI_DEPS=ON -DSELECT_QT=Qt4 -DCMAKE_INSTALL_PREFIX=../bin .. 
+	cmake -DBUILD_UI_DEPS=ON -DSELECT_QT=Qt5 -DQT5_DIR=/usr/lib64/cmake/Qt5 -DCMAKE_INSTALL_PREFIX=../bin .. 
 	make
 	cd ..
 
-**Note:** that here Qt4 is being selected (as 14.2 does not come with a Qt5 version).
-
-and building COPASI using Qt4 is then done with: 
+Building COPASI is then done with:
 
 	git clone https://github.com/copasi/COPASI
 	mkdir build_copasi
 	cd build_copasi
-	cmake -DSELECT_QT=Qt4 -DENABLE_TIME_SENS=OFF -DCMAKE_INSTALL_PREFIX=~/copasi -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin ../COPASI
+	cmake -DSELECT_QT=Qt5 -DQT5_DIR=/usr/lib64/cmake/Qt5 -DENABLE_TIME_SENS=OFF -DCMAKE_INSTALL_PREFIX=~/copasi -DCOPASI_DEPENDENCY_DIR=../copasi-dependencies/bin ../COPASI
 	make
 	make install
 
