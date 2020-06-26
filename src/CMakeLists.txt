@@ -23,6 +23,7 @@ endif()
 
 set (CLEAN_TARGETS)
 set (ARCHIVE_DEPENDENCIES)
+set (ZIPPER_DEPENDENCIES)
 
 include(ExternalProject)
 
@@ -239,6 +240,7 @@ if (BUILD_zlib)
   file(GLOB CLEAN_TARGETS_zlib ${CMAKE_BINARY_DIR}/zlib/*)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_zlib})
   set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} zlib)
+  set (ZIPPER_DEPENDENCIES ${ZIPPER_DEPENDENCIES} zlib)
 endif (BUILD_zlib)
 
 if (BUILD_zipper)
@@ -255,7 +257,7 @@ if (BUILD_zipper)
   	
     BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} ${BUILD_OPTIONS}
     INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
-    DEPENDS            zlib
+    DEPENDS            ${ZIPPER_DEPENDENCIES}
   )
 
   file(GLOB CLEAN_TARGETS_zipper ${CMAKE_BINARY_DIR}/zipper/*)

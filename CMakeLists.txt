@@ -121,9 +121,6 @@ endif (BUILD_libSEDML)
 option(BUILD_zlib "Build the zlib library" ON)
 
 option(BUILD_zipper "Build the zipper library" ON)
-if (BUILD_zipper)
-  set (BUILD_zlib ON)
-endif (BUILD_zipper)
 
 option(BUILD_libCombine "Build the libCombine library" ON)
 if (BUILD_libCombine)
