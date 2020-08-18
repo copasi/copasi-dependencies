@@ -129,23 +129,20 @@ if (BUILD_libCombine)
   set (BUILD_libSBML ON)
 endif (BUILD_libCombine)
 
+option(BUILD_NativeJIT "Build the NativeJIT library" ON)
+
 if (BUILD_UI_DEPS )
+  option(BUILD_mml "Build the mml library" ${BUILD_UI_DEPS})
+  option(BUILD_qwt6 "Build the qwt-6 library" OFF)
+  option(BUILD_qwt "Build the qwt library" ${BUILD_UI_DEPS})
 
-option(BUILD_mml "Build the mml library" ${BUILD_UI_DEPS})
+  if (BUILD_qwt AND ${SELECT_QT} MATCHES "Qt5")
+    set (BUILD_qwt OFF)
+    set (BUILD_qwt6 ON)
+  endif (BUILD_qwt AND ${SELECT_QT} MATCHES "Qt5")
 
-option(BUILD_qwt6 "Build the qwt-6 library" OFF)
-
-option(BUILD_qwt "Build the qwt library" ${BUILD_UI_DEPS})
-
-if (BUILD_qwt AND ${SELECT_QT} MATCHES "Qt5")
-  set (BUILD_qwt OFF)
-  set (BUILD_qwt6 ON)
-endif (BUILD_qwt AND ${SELECT_QT} MATCHES "Qt5")
-
-option(BUILD_qwtplot3d "Build the qwtplot3d library" ${BUILD_UI_DEPS})
-
-option(BUILD_archive "Build a binary archive of all dependencies" ON)
-
+  option(BUILD_qwtplot3d "Build the qwtplot3d library" ${BUILD_UI_DEPS})
+  option(BUILD_archive "Build a binary archive of all dependencies" ON)
 endif()
 
 add_subdirectory(src)

@@ -368,6 +368,26 @@ if (BUILD_qwtplot3d)
   set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} qwtplot3d)
 endif (BUILD_qwtplot3d)
 
+if (BUILD_NativeJIT)
+  message(STATUS "adding project: NativeJIT")
+  ExternalProject_Add(NativeJIT
+    PREFIX            ${CMAKE_BINARY_DIR}/NativeJIT
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/NativeJIT
+
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      ${COMMON_CMAKE_OPTIONS}
+      ${CMAKE_CURRENT_SOURCE_DIR}/NativeJIT
+    
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} ${BUILD_OPTIONS}
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+  )
+
+  file(GLOB CLEAN_TARGETS_NativeJIT ${CMAKE_BINARY_DIR}/NativeJIT/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_NativeJIT})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} NativeJIT)
+endif (BUILD_NativeJIT)
+
 if (BUILD_archive)
   message(STATUS "adding project: archive")
   if (NOT EXISTS ${CMAKE_INSTALL_PREFIX}/readme.md)
