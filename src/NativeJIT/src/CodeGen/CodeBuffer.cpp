@@ -42,7 +42,7 @@ namespace NativeJIT
 
     CodeBuffer::~CodeBuffer()
     {
-        m_codeAllocator.Deallocate(m_bufferStart);
+        m_codeAllocator.Deallocate(m_current);
     }
 
 

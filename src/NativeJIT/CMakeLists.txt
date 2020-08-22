@@ -102,6 +102,8 @@ install(FILES ${header_files}
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Temporary/${dir}"
     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 
+target_compile_options(NativeJIT PUBLIC -msse4)
+
 target_include_directories(NativeJIT PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
     $<INSTALL_INTERFACE:include>)

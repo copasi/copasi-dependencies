@@ -75,6 +75,13 @@ namespace NativeJIT
     }
 
 
+    // Returns the available size in bytes.
+    size_t Allocator::Available() const
+    {
+        return m_bufferSize - m_bytesAllocated;
+    }
+
+
     void Allocator::Reset()
     {
         m_bytesAllocated = 0;

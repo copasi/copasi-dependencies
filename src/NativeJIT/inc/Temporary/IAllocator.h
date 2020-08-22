@@ -46,6 +46,9 @@ namespace Allocators
         // Returns the maximum legal allocation size in bytes.
         virtual size_t MaxSize() const = 0;
 
+        // Returns the available size in bytes.
+        virtual size_t Available() const = 0;
+
         // Frees all blocks that have been allocated since construction or the
         // last call to Reset().
         virtual void Reset() = 0;

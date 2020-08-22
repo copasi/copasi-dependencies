@@ -57,5 +57,7 @@ namespace NativeJIT
                 << " at " << filename << ":" << lineNumber << ": " << message;
 
         throw std::runtime_error(sstream.str().c_str());
-    }
+    };
+
+    
 }

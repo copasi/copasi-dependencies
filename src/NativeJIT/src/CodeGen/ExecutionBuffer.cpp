@@ -149,9 +149,9 @@ namespace NativeJIT
 
 
     // Frees a block.
-    void ExecutionBuffer::Deallocate(void* /*block*/)
+    void ExecutionBuffer::Deallocate(void * block)
     {
-        // Intentional NOP
+        m_bytesAllocated = static_cast<unsigned char*>(block) - m_buffer;
     }
 
 
@@ -161,6 +161,11 @@ namespace NativeJIT
         return m_bufferSize;
     }
 
+    // Returns the available size in bytes.
+    size_t ExecutionBuffer::Available() const
+    {
+        return m_bufferSize - m_bytesAllocated;
+    }
 
     // Frees all blocks that have been allocated since construction or the
     // last call to Reset().

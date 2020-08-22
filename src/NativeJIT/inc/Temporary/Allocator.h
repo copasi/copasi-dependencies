@@ -48,6 +48,9 @@ namespace NativeJIT
         // Returns the maximum legal allocation size in bytes.
         virtual size_t MaxSize() const override;
 
+        // Returns the available size in bytes.
+        virtual size_t Available() const override;
+
         // Frees all blocks that have been allocated since construction or the
         // last call to Reset().
         virtual void Reset() override;
