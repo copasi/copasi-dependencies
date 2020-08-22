@@ -92,7 +92,7 @@ namespace Allocators
 
         // StlAllocator does not implement an assignment operator because
         // it stores a reference to its IAllocator.
-        StlAllocator& operator=(const StlAllocator&);
+        StlAllocator& operator=(const StlAllocator&) = delete;
 
         IAllocator& m_allocator;
     };
