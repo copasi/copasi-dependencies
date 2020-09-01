@@ -129,7 +129,13 @@ if (BUILD_libCombine)
   set (BUILD_libSBML ON)
 endif (BUILD_libCombine)
 
-option(BUILD_NativeJIT "Build the NativeJIT library" ON)
+set (BUILD_NativeJIT_DEFAULT OFF)
+
+if (CMAKE_SYSTEM_PROCESSOR STREQUAL x86_64)
+  set (BUILD_NativeJIT_DEFAULT ON)
+endif ()
+
+option(BUILD_NativeJIT "Build the NativeJIT library" ${BUILD_NativeJIT_DEFAULT})
 
 if (BUILD_UI_DEPS )
   option(BUILD_mml "Build the mml library" ${BUILD_UI_DEPS})

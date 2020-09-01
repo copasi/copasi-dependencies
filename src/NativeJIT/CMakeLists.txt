@@ -41,7 +41,7 @@ if(MSVC)
   set(CMAKE_CXX_FLAGS_RELEASE  "${CMAKE_CXX_FLAGS_RELEASE} ${COMMON_CXX_FLAGS} /MT")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
   # Need gnu++ instead of c++ so that GTest can access fdopen() etc.
-  set(CMAKE_CXX_FLAGS "-march=native -std=gnu++14 -Wall -Wextra -Werror -Wold-style-cast -fstrict-aliasing -Wstrict-aliasing -Wno-type-limits")
+  set(CMAKE_CXX_FLAGS "-march=native -std=gnu++14 -Wall -Wextra -Werror -Wold-style-cast -fstrict-aliasing -Wstrict-aliasing -Wno-type-limits -Wno-noexcept-type")
 else()
   # TODO: define a target for -Weverything.
   # set(CMAKE_CXX_FLAGS "-msse4.2 -std=c++14 -Wall -Wextra -Werror -Wold-style-cast ${WEVERYTHING_FLAGS}")
