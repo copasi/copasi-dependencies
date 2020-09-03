@@ -41,6 +41,12 @@ set(PUBLIC_HFILES
 
 source_group("inc/NativeJIT" FILES ${PUBLIC_HFILES})
 
+# compile as position independent code
+if (UNIX OR CYGWIN)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif()
+
 add_library(NativeJIT ${CPPFILES} ${PRIVATE_HFILES} ${PUBLIC_HFILES})
 
 set_property(TARGET NativeJIT PROPERTY FOLDER "${NATIVEJIT_PREFIX}src")
