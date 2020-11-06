@@ -45,7 +45,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX)
 else()
   # TODO: define a target for -Weverything.
   # set(CMAKE_CXX_FLAGS "-msse4.2 -std=c++14 -Wall -Wextra -Werror -Wold-style-cast ${WEVERYTHING_FLAGS}")
-  set(CMAKE_CXX_FLAGS "-march=native -std=c++14 -Wall -Wextra -Werror -Wold-style-cast")
+  set(CMAKE_CXX_FLAGS "-msse4.2 -std=c++14 -Wall -Wextra -Werror -Wold-style-cast")
 endif()
 
 ###############################################################################
@@ -101,8 +101,11 @@ file(GLOB header_files "${CMAKE_CURRENT_SOURCE_DIR}/inc/Temporary/*.h")
 install(FILES ${header_files} 
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Temporary/${dir}"
     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
-
-target_compile_options(NativeJIT PUBLIC -msse4)
+if (APPLE)
+  target_compile_options(NativeJIT PUBLIC -msse4.2)
+else ()
+  target_compile_options(NativeJIT PUBLIC -msse4)
+endif
 
 target_include_directories(NativeJIT PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>

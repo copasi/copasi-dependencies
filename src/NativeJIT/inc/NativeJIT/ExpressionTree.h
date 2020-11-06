@@ -51,7 +51,6 @@ namespace Allocators
 
 namespace NativeJIT
 {
-#pragma pack(push,1)
     //*************************************************************************
     //
     // Template definitions for ExpressionTree
@@ -1149,6 +1148,4 @@ namespace NativeJIT
 
         return m_pinCount[id] != 0;
     }
-
-  #pragma pack(pop)
 }
