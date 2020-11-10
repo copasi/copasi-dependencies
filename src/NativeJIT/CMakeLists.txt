@@ -103,9 +103,11 @@ install(FILES ${header_files}
     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 
 if (APPLE)
-  target_compile_options(NativeJIT PUBLIC -msse4.2)
+  target_compile_options(NativeJIT PUBLIC "-msse4.2")
+elseif (MSVC)
+  target_compile_options(NativeJIT PUBLIC "-DNATIVEJIT_PLATFORM_WINDOWS -EHsc")
 else ()
-  target_compile_options(NativeJIT PUBLIC -msse4)
+  target_compile_options(NativeJIT PUBLIC "-msse4")
 endif ()
 
 target_include_directories(NativeJIT PUBLIC
