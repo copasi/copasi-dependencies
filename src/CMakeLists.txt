@@ -376,7 +376,6 @@ if (BUILD_NativeJIT)
 
     CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
       ${COMMON_CMAKE_OPTIONS}
-      ${COMMON_CMAKE_OPTIONS}
       ${CMAKE_CURRENT_SOURCE_DIR}/NativeJIT
     
     BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} ${BUILD_OPTIONS}
@@ -387,6 +386,26 @@ if (BUILD_NativeJIT)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_NativeJIT})
   set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} NativeJIT)
 endif (BUILD_NativeJIT)
+
+if (BUILD_cpu_features)
+  message(STATUS "adding project: cpu_features")
+  ExternalProject_Add(cpu_features
+    PREFIX            ${CMAKE_BINARY_DIR}/cpu_features
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/cpu_features
+
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      -DBUILD_PIC=ON
+      ${CMAKE_CURRENT_SOURCE_DIR}/cpu_features
+    
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} ${BUILD_OPTIONS}
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+  )
+
+  file(GLOB CLEAN_TARGETS_cpu_features ${CMAKE_BINARY_DIR}/cpu_features/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_cpu_features})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} cpu_features)
+endif (BUILD_cpu_features)
 
 if (BUILD_archive)
   message(STATUS "adding project: archive")

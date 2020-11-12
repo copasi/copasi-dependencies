@@ -137,6 +137,8 @@ endif ()
 
 option(BUILD_NativeJIT "Build the NativeJIT library" ${BUILD_NativeJIT_DEFAULT})
 
+option(BUILD_cpu_features "Build the cpu_features library" ${BUILD_NativeJIT})
+
 if (BUILD_UI_DEPS )
   option(BUILD_mml "Build the mml library" ${BUILD_UI_DEPS})
   option(BUILD_qwt6 "Build the qwt-6 library" OFF)
