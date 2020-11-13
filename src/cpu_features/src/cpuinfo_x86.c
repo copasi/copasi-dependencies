@@ -1224,13 +1224,16 @@ static bool GetDarwinSysCtlByName(const char* name) {
 
 static void DetectSseViaOs(X86Features* features) {
 #if defined(CPU_FEATURES_OS_WINDOWS)
-  // https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-isprocessorfeaturepresent
-  features->sse =
-      GetWindowsIsProcessorFeaturePresent(PF_XMMI_INSTRUCTIONS_AVAILABLE);
-  features->sse2 =
-      GetWindowsIsProcessorFeaturePresent(PF_XMMI64_INSTRUCTIONS_AVAILABLE);
-  features->sse3 =
-      GetWindowsIsProcessorFeaturePresent(PF_SSE3_INSTRUCTIONS_AVAILABLE);
+  int cpuinfo[4];
+  __cpuid(cpuinfo, 1);
+
+  // Check SSE, SSE2, SSE3, SSSE3, SSE4.1, and SSE4.2 support
+  features->sse = cpuinfo[3] & (1 << 25) || false;
+  features->sse2 = cpuinfo[3] & (1 << 26) || false;
+  features->sse3 = cpuinfo[2] & (1 << 0) || false;
+  features->ssse3 = cpuinfo[2] & (1 << 9) || false;
+  features->sse4_1 = cpuinfo[2] & (1 << 19) || false;
+  features->sse4_2 = cpuinfo[2] & (1 << 20) || false;
 #elif defined(CPU_FEATURES_OS_DARWIN)
   // Handling Darwin platform through sysctlbyname.
   features->sse = GetDarwinSysCtlByName("hw.optional.sse");
