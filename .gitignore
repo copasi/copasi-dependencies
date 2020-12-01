@@ -550,5 +550,6 @@ bin-*
 tmp-*
 tmp_*
 vs15_*
+install_*
 
 .vscode/
