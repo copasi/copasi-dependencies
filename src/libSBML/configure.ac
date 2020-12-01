@@ -50,7 +50,7 @@ AC_INIT([libSBML],
 
 AC_CONFIG_AUX_DIR(config)
 
-AC_REVISION($Revision: 25690 $)
+AC_REVISION($Revision$)
 
 AC_CONFIG_SRCDIR(src/Makefile.in)
 

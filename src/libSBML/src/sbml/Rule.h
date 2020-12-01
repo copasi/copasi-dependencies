@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -205,8 +210,7 @@ public:
   /**
    * Returns the mathematical expression of this Rule in text-string form.
    *
-   * The text string is produced by
-   * @if java <code><a href="libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)">libsbml.formulaToString()</a></code>@else SBML_formulaToString()@endif; please consult
+   * The text string is produced by @sbmlfunction{formulaToString, ASTNode}; please consult
    * the documentation for that function to find out more about the format
    * of the text-string formula.
    * 
@@ -219,6 +223,7 @@ public:
    * of all Levels of SBML.
    *
    * @see getMath()
+   * @see @sbmlfunction{formulaToL3String, ASTNode}
    */
   const std::string& getFormula () const;
 
@@ -719,7 +724,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Rule.
+   * Returns the value of the "attributeName" attribute of this Rule.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -739,7 +744,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Rule.
+   * Returns the value of the "attributeName" attribute of this Rule.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -758,7 +763,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Rule.
+   * Returns the value of the "attributeName" attribute of this Rule.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -778,7 +783,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Rule.
+   * Returns the value of the "attributeName" attribute of this Rule.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -798,7 +803,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Rule.
+   * Returns the value of the "attributeName" attribute of this Rule.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -818,7 +823,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Rule.
+   * Returns the value of the "attributeName" attribute of this Rule.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *

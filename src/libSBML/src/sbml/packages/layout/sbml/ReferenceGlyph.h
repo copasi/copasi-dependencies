@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -482,7 +487,7 @@ ReferenceGlyph_setReferenceId (ReferenceGlyph_t *rg,
                                const char *id);
 
 /**
- * Gets the reference id for the given  glyph.
+ * Returns the reference id for the given  glyph.
  *
  * @param rg the ReferenceGlyph_t structure.
  *
@@ -518,7 +523,7 @@ ReferenceGlyph_setGlyphId (ReferenceGlyph_t *rg,
                            const char *id);
 
 /**
- * Gets the reference id for the given glyph.
+ * Returns the reference id for the given glyph.
  *
  * @param rg the ReferenceGlyph_t structure.
  *
@@ -554,7 +559,7 @@ void
 ReferenceGlyph_setCurve (ReferenceGlyph_t *rg, Curve_t *c);
 
 /**
- * Gets the Curve_t for the given reference glyph.
+ * Returns the Curve_t for the given reference glyph.
  *
  * @param rg the ReferenceGlyph_t structure.
  *

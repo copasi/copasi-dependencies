@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -924,6 +929,7 @@ Event::createEventAssignment ()
      *
      * so do nothing
      */
+     return NULL;
   }
   
   if (ea != NULL) mEventAssignments.appendAndOwn(ea);
@@ -953,6 +959,7 @@ Event::createTrigger ()
      *
      * so do nothing
      */
+     return NULL;
   }
 
   if (mTrigger != NULL)
@@ -985,6 +992,7 @@ Event::createDelay ()
      *
      * so do nothing
      */
+     return NULL;
   }
 
   if (mDelay)
@@ -1017,6 +1025,7 @@ Event::createPriority ()
      *
      * so do nothing
      */
+     return NULL;
   }
 
   if (mPriority != NULL)
@@ -1370,7 +1379,7 @@ Event::createObject (XMLInputStream& stream)
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Event.
+ * Returns the value of the "attributeName" attribute of this Event.
  */
 int
 Event::getAttribute(const std::string& attributeName, bool& value) const
@@ -1398,7 +1407,7 @@ Event::getAttribute(const std::string& attributeName, bool& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Event.
+ * Returns the value of the "attributeName" attribute of this Event.
  */
 int
 Event::getAttribute(const std::string& attributeName, int& value) const
@@ -1415,7 +1424,7 @@ Event::getAttribute(const std::string& attributeName, int& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Event.
+ * Returns the value of the "attributeName" attribute of this Event.
  */
 int
 Event::getAttribute(const std::string& attributeName, double& value) const
@@ -1432,7 +1441,7 @@ Event::getAttribute(const std::string& attributeName, double& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Event.
+ * Returns the value of the "attributeName" attribute of this Event.
  */
 int
 Event::getAttribute(const std::string& attributeName,
@@ -1450,7 +1459,7 @@ Event::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Event.
+ * Returns the value of the "attributeName" attribute of this Event.
  */
 int
 Event::getAttribute(const std::string& attributeName,
@@ -1479,7 +1488,7 @@ Event::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Event.
+ * Returns the value of the "attributeName" attribute of this Event.
  */
 //int
 //Event::getAttribute(const std::string& attributeName, const char* value) const
@@ -1750,20 +1759,20 @@ Event::removeChildObject(const std::string& elementName, const std::string& id)
   if (elementName == "trigger")
   {
     Trigger* t = getTrigger();
-    if(unsetTrigger() == LIBSBML_OPERATION_SUCCESS)
-      return t;
+    mTrigger = NULL;
+    return t;
   }
   else if (elementName == "priority")
   {
     Priority* t = getPriority();
-    if (unsetPriority() == LIBSBML_OPERATION_SUCCESS)
-      return t;
+    mPriority = NULL;
+    return t;
   }
   else if (elementName == "delay")
   {
     Delay* t = getDelay();
-    if (unsetDelay() == LIBSBML_OPERATION_SUCCESS)
-      return t;
+    mDelay = NULL;
+    return t;
   }
   else if (elementName == "eventAssignment")
   {
@@ -1853,6 +1862,12 @@ Event::getObject(const std::string& elementName, unsigned int index)
 /** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
+bool Event::isExplicitlySetUVFTT() const 
+{ 
+  return mExplicitlySetUVFTT; 
+}
+/** @endcond */
 
 
 /** @cond doxygenLibsbmlInternal */
@@ -2039,6 +2054,7 @@ Event::readL3Attributes (const XMLAttributes& attributes)
   mIsSetUseValuesFromTriggerTime = attributes.readInto(
       "useValuesFromTriggerTime", mUseValuesFromTriggerTime, 
        getErrorLog(),false, getLine(), getColumn());
+  mExplicitlySetUVFTT = mIsSetUseValuesFromTriggerTime;
  
   if (!mIsSetUseValuesFromTriggerTime)
   {

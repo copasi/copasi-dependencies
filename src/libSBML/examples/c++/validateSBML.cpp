@@ -147,13 +147,10 @@ bool validateSBML(const string& filename, bool enableUnitCheck)
   start    = getCurrentMillis();
   document = reader.readSBML(filename);
   stop     = getCurrentMillis();
-
   
   double     timeRead = (double)(stop - start);
   unsigned int errors = document->getNumErrors();
   bool  seriousErrors = false;
-
-  cout << "Reading completed in: " << timeRead << " ms. Read errors: " << errors;
 
   unsigned int numReadErrors   = 0;
   unsigned int numReadWarnings = 0;
@@ -202,14 +199,7 @@ bool validateSBML(const string& filename, bool enableUnitCheck)
     document->setConsistencyChecks(LIBSBML_CAT_UNITS_CONSISTENCY, enableUnitCheck);
     
     start    = getCurrentMillis();
-    try
-    {
-      failures = document->checkConsistency();
-    }
-    catch (const std::invalid_argument& ex)
-    {
-      std::cout << ex.what();
-    }
+    failures = document->checkConsistency();
     stop     = getCurrentMillis();
     timeCC   = (double)(stop - start);
 

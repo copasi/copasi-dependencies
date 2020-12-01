@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -695,7 +700,7 @@ Parameter::hasRequiredAttributes() const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Parameter.
+ * Returns the value of the "attributeName" attribute of this Parameter.
  */
 int
 Parameter::getAttribute(const std::string& attributeName, bool& value) const
@@ -723,7 +728,7 @@ Parameter::getAttribute(const std::string& attributeName, bool& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Parameter.
+ * Returns the value of the "attributeName" attribute of this Parameter.
  */
 int
 Parameter::getAttribute(const std::string& attributeName, int& value) const
@@ -740,7 +745,7 @@ Parameter::getAttribute(const std::string& attributeName, int& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Parameter.
+ * Returns the value of the "attributeName" attribute of this Parameter.
  */
 int
 Parameter::getAttribute(const std::string& attributeName, double& value) const
@@ -768,7 +773,7 @@ Parameter::getAttribute(const std::string& attributeName, double& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Parameter.
+ * Returns the value of the "attributeName" attribute of this Parameter.
  */
 int
 Parameter::getAttribute(const std::string& attributeName,
@@ -786,7 +791,7 @@ Parameter::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Parameter.
+ * Returns the value of the "attributeName" attribute of this Parameter.
  */
 int
 Parameter::getAttribute(const std::string& attributeName,
@@ -815,7 +820,7 @@ Parameter::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Parameter.
+ * Returns the value of the "attributeName" attribute of this Parameter.
  */
 //int
 //Parameter::getAttribute(const std::string& attributeName,
@@ -1024,6 +1029,12 @@ Parameter::unsetAttribute(const std::string& attributeName)
 /** @endcond */
 
 
+/** @cond doxygenLibsbmlInternal */
+bool Parameter::isExplicitlySetConstant() const 
+{ 
+    return mExplicitlySetConstant; 
+}
+/** @endcond */
 
 
 void 
@@ -1326,9 +1337,10 @@ Parameter::readL3Attributes (const XMLAttributes& attributes)
   }
   if (this->getTypeCode() == SBML_PARAMETER)
   {
-    mIsSetConstant = attributes.readInto("constant", mConstant,
+    mExplicitlySetConstant = attributes.readInto("constant", mConstant,
                                           getErrorLog(), false, getLine(), getColumn());
-    if (!mIsSetConstant)
+    mIsSetConstant = mExplicitlySetConstant;
+    if (!mExplicitlySetConstant)
     {
       logError(AllowedAttributesOnParameter, level, version, 
         "The required attribute 'constant' is missing from the "
@@ -1597,6 +1609,12 @@ Parameter::inferUnitsFromAssignments(UnitFormulaFormatter *uff, Model *m)
       FormulaUnitsData *time = m->getFormulaUnitsData("time", SBML_MODEL);
       if (time->getContainsUndeclaredUnits() == false)
       {
+        if (found)
+        {
+          // we already created UD before, so free it
+          delete derivedUD;
+        }
+        
         derivedUD = UnitDefinition::combine(fud->getUnitDefinition(),
                                       time->getUnitDefinition());
         found = true;

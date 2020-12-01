@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -383,6 +388,79 @@ START_TEST (test_lv_rxn_variables)
 END_TEST
 
 
+START_TEST (test_specref_ref_onlynot)
+{
+  SBMLNamespaces sbmlns(2, 4);
+  ConversionProperties prop(&sbmlns);
+  prop.addOption("strict", true, "should validity be preserved");
+  prop.addOption("setLevelAndVersion", true, "convert the document to the given level and version");
+  prop.addOption("ignorePackages", true);
+
+  SBMLLevelVersionConverter * converter = new SBMLLevelVersionConverter();
+  converter->setProperties(&prop);
+
+  string filename(TestDataDirectory);
+  filename += "01800-sbml-l3v2.xml";
+
+  SBMLDocument* d = readSBMLFromFile(filename.c_str());
+
+  // convert to L2V4
+  converter->setDocument(d);
+  fail_unless(converter->convert() == LIBSBML_OPERATION_SUCCESS);
+
+  delete d;
+  delete converter;
+
+  SBMLNamespaces sbmlns2(2, 5);
+  ConversionProperties prop2(&sbmlns2);
+  prop.addOption("strict", true, "should validity be preserved");
+  prop.addOption("setLevelAndVersion", true, "convert the document to the given level and version");
+  prop.addOption("ignorePackages", true);
+
+  converter = new SBMLLevelVersionConverter();
+  converter->setProperties(&prop2);
+
+  filename = TestDataDirectory;
+  filename += "01800-sbml-l3v1.xml";
+
+  d = readSBMLFromFile(filename.c_str());
+
+  // convert to L2V5
+  converter->setDocument(d);
+  fail_unless(converter->convert() == LIBSBML_OPERATION_SUCCESS);
+
+  delete d;
+  delete converter;
+}
+END_TEST
+
+
+START_TEST (test_specref_ref_real)
+{
+  SBMLNamespaces sbmlns(2, 4);
+  ConversionProperties prop(&sbmlns);
+  prop.addOption("strict", true, "should validity be preserved");
+  prop.addOption("setLevelAndVersion", true, "convert the document to the given level and version");
+  prop.addOption("ignorePackages", true);
+
+  SBMLLevelVersionConverter * converter = new SBMLLevelVersionConverter();
+  converter->setProperties(&prop);
+
+  string filename(TestDataDirectory);
+  filename += "01800-fail-sbml-l3v1.xml";
+
+  SBMLDocument* d = readSBMLFromFile(filename.c_str());
+
+  // convert to L2V4
+  converter->setDocument(d);
+  fail_unless(converter->convert() == LIBSBML_OPERATION_FAILED);
+
+  delete d;
+  delete converter;
+}
+END_TEST
+
+
 Suite *
 create_suite_TestLevelVersionConverter (void)
 { 
@@ -401,6 +479,8 @@ create_suite_TestLevelVersionConverter (void)
   tcase_add_test(tcase, test_compartment_size);
 
   tcase_add_test(tcase, test_lv_rxn_variables);
+  tcase_add_test(tcase, test_specref_ref_onlynot);
+  tcase_add_test(tcase, test_specref_ref_real);
 
   suite_add_tcase(suite, tcase);
 

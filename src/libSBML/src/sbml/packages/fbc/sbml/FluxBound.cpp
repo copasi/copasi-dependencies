@@ -6,6 +6,11 @@
  *<!---------------------------------------------------------------------------
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
+ *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
  * 
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
@@ -41,9 +46,7 @@
 #include <sbml/packages/fbc/extension//FbcExtension.h>
 #include <sbml/packages/fbc/validator/FbcSBMLError.h>
 
-#if defined(WIN32) && !defined(CYGWIN)
-#define isnan _isnan
-#endif
+#include <sbml/util/util.h>
 
 
 using namespace std;
@@ -401,7 +404,7 @@ FluxBound::getValue () const
 bool
 FluxBound::isSetValue () const
 {
-  return (!isnan(mValue));
+  return (!util_isNaN(mValue));
 }
 
 
@@ -453,7 +456,7 @@ FluxBound::createObject (XMLInputStream&)
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this FluxBound.
+ * Returns the value of the "attributeName" attribute of this FluxBound.
  */
 int
 FluxBound::getAttribute(const std::string& attributeName, bool& value) const
@@ -470,7 +473,7 @@ FluxBound::getAttribute(const std::string& attributeName, bool& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this FluxBound.
+ * Returns the value of the "attributeName" attribute of this FluxBound.
  */
 int
 FluxBound::getAttribute(const std::string& attributeName, int& value) const
@@ -487,7 +490,7 @@ FluxBound::getAttribute(const std::string& attributeName, int& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this FluxBound.
+ * Returns the value of the "attributeName" attribute of this FluxBound.
  */
 int
 FluxBound::getAttribute(const std::string& attributeName, double& value) const
@@ -515,7 +518,7 @@ FluxBound::getAttribute(const std::string& attributeName, double& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this FluxBound.
+ * Returns the value of the "attributeName" attribute of this FluxBound.
  */
 int
 FluxBound::getAttribute(const std::string& attributeName,
@@ -533,7 +536,7 @@ FluxBound::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this FluxBound.
+ * Returns the value of the "attributeName" attribute of this FluxBound.
  */
 int
 FluxBound::getAttribute(const std::string& attributeName,

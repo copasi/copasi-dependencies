@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -52,9 +57,6 @@
 #include <sbml/SBMLDocument.h>
 #include <sbml/SBMLReader.h>
 #include <sbml/math/DefinitionURLRegistry.h>
-
-#include <sbml/util/CallbackRegistry.h>
-
 
 /** @cond doxygenIgnored */
 using namespace std;
@@ -120,8 +122,6 @@ public:
    */
   void applyTo (const Model& model, const T& object)
   {
-    if (CallbackRegistry::invokeCallbacks(NULL) != LIBSBML_OPERATION_SUCCESS)
-      throw std::invalid_argument("stop");
     for_each(constraints.begin(), constraints.end(), Apply<T>(model, object));
   }
 

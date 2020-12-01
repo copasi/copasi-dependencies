@@ -8,6 +8,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2009-2011 jointly by the following organizations: 
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -145,15 +150,16 @@ public:
   // ---------------------------------------------------------
 
   /** @cond doxygenLibsbmlInternal */
-
   /**
    * Returns the prefix of the package extension of this plugin object.
    *
    * @return the prefix of the package extension of this plugin object.
    */
   virtual const std::string& getPrefix() const;
+  /** @endcond */
 
 
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Sets the parent SBML object of this plugin object to
    * this object and child elements (if any).
@@ -171,7 +177,9 @@ public:
    * @see enablePackageInternal
    */
   void connectToParent(ASTNode *astbase);
+  /** @endcond */
 
+  /** @cond doxygenLibsbmlInternal */
   /**
    * Enables/Disables the given package with child elements in this plugin
    * object (if any).
@@ -206,7 +214,7 @@ public:
   /**
    * Sets the value of the "speciesReference" attribute of this MultiASTPlugin.
    *
-   * @param id std::string& value of the "speciesReference" attribute to be set.
+   * @param speciesReference std::string& value of the "speciesReference" attribute to be set.
    *
    * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -242,7 +250,7 @@ public:
   /**
    * Sets the value of the "representationType" attribute of this MultiASTPlugin.
    *
-   * @param id std::string& value of the "representationType" attribute to be set.
+   * @param representationType std::string& value of the "representationType" attribute to be set.
    *
    * @copydetails doc_returns_one_success_code
    * @li @sbmlconstant{LIBSBML_OPERATION_SUCCESS, OperationReturnValues_t}

@@ -8,6 +8,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -570,7 +575,7 @@ CompSBMLDocumentPlugin::removeExternalModelDefinition(unsigned int index)
 
 
 /*
- * Gets the model with the given sid, whether from <model>, <listOfModelDefinitions>, or <externalModelDefinitions>
+ * Returns the model with the given sid, whether from <model>, <listOfModelDefinitions>, or <externalModelDefinitions>
  */
 const SBase* CompSBMLDocumentPlugin::getModel(const string& sid) const
 {
@@ -584,7 +589,7 @@ const SBase* CompSBMLDocumentPlugin::getModel(const string& sid) const
 
 
 /*
- * Gets the model with the given sid, whether from <model>, <listOfModelDefinitions>, or <externalModelDefinitions>
+ * Returns the model with the given sid, whether from <model>, <listOfModelDefinitions>, or <externalModelDefinitions>
  */
 SBase* CompSBMLDocumentPlugin::getModel(const string& sid)
 {

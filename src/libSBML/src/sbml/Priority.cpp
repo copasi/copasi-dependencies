@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -293,7 +298,7 @@ void
 Priority::replaceSIDWithFunction(const std::string& id, const ASTNode* function)
 {
   if (isSetMath()) {
-    if (mMath->getType() == AST_NAME && mMath->getId() == id) {
+    if (mMath->getType() == AST_NAME && mMath->getName() == id) {
       delete mMath;
       mMath = function->deepCopy();
     }
@@ -306,7 +311,7 @@ Priority::replaceSIDWithFunction(const std::string& id, const ASTNode* function)
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Priority.
+ * Returns the value of the "attributeName" attribute of this Priority.
  */
 int
 Priority::getAttribute(const std::string& attributeName, bool& value) const
@@ -323,7 +328,7 @@ Priority::getAttribute(const std::string& attributeName, bool& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Priority.
+ * Returns the value of the "attributeName" attribute of this Priority.
  */
 int
 Priority::getAttribute(const std::string& attributeName, int& value) const
@@ -340,7 +345,7 @@ Priority::getAttribute(const std::string& attributeName, int& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Priority.
+ * Returns the value of the "attributeName" attribute of this Priority.
  */
 int
 Priority::getAttribute(const std::string& attributeName, double& value) const
@@ -357,7 +362,7 @@ Priority::getAttribute(const std::string& attributeName, double& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Priority.
+ * Returns the value of the "attributeName" attribute of this Priority.
  */
 int
 Priority::getAttribute(const std::string& attributeName,
@@ -375,7 +380,7 @@ Priority::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Priority.
+ * Returns the value of the "attributeName" attribute of this Priority.
  */
 int
 Priority::getAttribute(const std::string& attributeName,
@@ -393,7 +398,7 @@ Priority::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Priority.
+ * Returns the value of the "attributeName" attribute of this Priority.
  */
 //int
 //Priority::getAttribute(const std::string& attributeName,

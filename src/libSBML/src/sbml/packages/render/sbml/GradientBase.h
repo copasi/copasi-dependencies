@@ -8,6 +8,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -779,7 +784,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this GradientBase.
+   * Returns the value of the "attributeName" attribute of this GradientBase.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -799,7 +804,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this GradientBase.
+   * Returns the value of the "attributeName" attribute of this GradientBase.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -818,7 +823,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this GradientBase.
+   * Returns the value of the "attributeName" attribute of this GradientBase.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -838,7 +843,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this GradientBase.
+   * Returns the value of the "attributeName" attribute of this GradientBase.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -858,7 +863,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this GradientBase.
+   * Returns the value of the "attributeName" attribute of this GradientBase.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -1341,7 +1346,7 @@ GradientBase_getName(const GradientBase_t * gb);
  *
  * @copydetails doc_gradientbase_spreadMethod
  * @if clike The value is drawn from the enumeration
- * GradientSpreadMethod_t.@~
+ * GradientSpreadMethod_t. @endif@~
  * The possible values returned by this method are:
  * @li @sbmlconstant{GRADIENT_SPREADMETHOD_PAD, GradientSpreadMethod_t}
  * @li @sbmlconstant{GRADIENT_SPREADMETHOD_REFLECT, GradientSpreadMethod_t}

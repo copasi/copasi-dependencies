@@ -9,6 +9,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -265,7 +270,7 @@ public:
     , const std::string details  = ""
     , const unsigned int line     = 0
     , const unsigned int column   = 0
-    , const unsigned int severity = LIBSBML_SEV_ERROR
+    , const unsigned int severity = LIBSBML_SEV_UNKNOWN
     , const unsigned int category = LIBSBML_CAT_SBML
   );
 
@@ -280,7 +285,7 @@ public:
     , const std::string details    = ""
     , const unsigned int line       = 0
     , const unsigned int column     = 0
-    , const unsigned int severity   = LIBSBML_SEV_ERROR
+    , const unsigned int severity   = LIBSBML_SEV_UNKNOWN
     , const unsigned int category   = LIBSBML_CAT_SBML
   );
 

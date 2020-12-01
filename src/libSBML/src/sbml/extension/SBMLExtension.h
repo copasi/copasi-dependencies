@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -117,7 +122,7 @@
  {\
         variable = new type(sbmlns->getLevel(), 1, version);\
 }\
-       for (int i = 0; i < xmlns->getNumNamespaces(); i++)\
+       for (int i = 0; xmlns != NULL && i < xmlns->getNumNamespaces(); ++i)\
        {\
          if (!variable->getNamespaces()->hasURI(xmlns->getURI(i)))\
            variable->getNamespaces()->add(xmlns->getURI(i), xmlns->getPrefix(i));\

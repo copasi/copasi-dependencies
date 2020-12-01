@@ -1,6 +1,155 @@
 ﻿           libSBML NEWS -- History of user-visible changes
 
 ====================================================================
+5.19.0 (2020-11-27)
+====================================================================
+
+********************************************************************
+
+        The libSBML source code has moved to GitHub.
+            (https://github.com/sbmlteam/libsbml). 
+
+The stable branch reflects the latest released code. The development 
+branch is the main branch and we encourage users to create and 
+submit pull requests against this branch. We are no longer 
+maintaining a separate repository for experimental code for as yet 
+unfinished packages. 
+
+Please use the GitHub issue tracker to file any reports or submit a
+fix and do a Pull Request.
+ 
+We will gradually move away from SourceForge, but for this release 
+code will be available from both SourceForge and GitHub. 
+
+
+
+* Addition of support for the SBML Distributions package
+
+  - Now that the first official version of the specification for the
+    SBML Level 3 Distributions package is available, the libSBML API for
+    'distrib' is now included in the stable release of libSBML.  This
+    means that all prebuilt binaries for the stable release will
+    include the 'distrib' package code. The src archive containing
+    libSBML core code will continue to be available, with additional
+    archives of the individual package code.
+    
+    NOTE: The libSBML GNU make-based build system has not been updated
+          for packages. Thus, to build from src, it is necessary to
+          use the CMake build system.
+
+* New features
+
+  - Functions get/set/isSetMath have been added to the SBase class.
+    These do not allow interacting with a non-existant <math> element 
+    but may facilitate using more generic functions.
+
+* Bug fixes
+
+  - There was a memory leak introduced in the SWIG wrapper. Thanks to  
+    Fabian Fröhlich for spotting and fixing this.
+	
+  - The SBMLNamespaces class was being leaked in a number of places, 
+    these have now been plugged. 
+
+  - The MathML to infix parser was also leaking memory. Thanks to  
+    Liam Keegan for spotting and fixing these. 
+
+  - The validation code detecting assignment cycles was incorrectly 
+    including local parameters within its search. These have now 
+    been removed from the relevant code. 
+
+  - Conversion code was failing to detect when a local parameter used 
+    the 'id' of a speciesReference which is allowed in SBML Level 3. 
+    These can be converted to SBML Level 2 and the code has now been
+    corrected so this conversion will take place. 
+
+  - The L3 infix parser has been improved to recognize the use of a 
+    name without parentheses as a misused function name or a csymbol,
+    if appropriate.
+    
+  - There was an anomaly when using the addCVTerm() and 
+    appendAnnotation() functions which meant that if used in a certain
+    order information could be lost. This has been corrected.  Thanks
+    to Colin Halupczok for the detailed report.
+    
+  - Converting a <localParameter> to a global <parameter> object was
+    failing if the metaid attribute was set. This has been changed to
+    produce the correct behavior.
+
+* Configuration/build system changes
+
+ - Import of the python library has been sorted in line with recent Linux
+   changes to the location of the shared file.
+
+ - Code has been fixed to be MingGW compliant. 
+
+ - The build configuration was updated to work with the latest version of R.
+
+* Miscellaneous
+
+ - A number of memory leaks and possible access violations have been solved. 
+
+
+STABLE PACKAGES
+
+
+  - 'distrib' package-specific updates:
+  
+    - A new converter, AnnotationToDistribConverter, has been added 
+      to allow conversion from the existing annotation format used 
+      with <functionDefinitions> to the new 'distrib' format. This
+      complements the existing DistribToAnnotationConverter that converts
+      'distrib' to annotations.
+      
+
+* Bug fixes
+
+  - 'comp' package-specific bug fixes:
+
+    - Comp flattening dropped conversion factors for particular 
+      instances of assignment rules. This has been corrected. 
+      Thanks to Matthias König for reporting this. 
+      
+  - 'distrib' package-specific bug fixes:
+
+    - There was unfortunately an infinite loop in the code using
+      the <uncertainty> element. This has been removed.
+      
+  - 'render' package-specific bug fixes:
+  
+    - Some render classes were not handled correctly by language
+      bindings. This has been fixed.
+
+EXPERIMENTAL PACKAGES
+
+* New features
+
+  - 'spatial' package-specific updates:
+  
+    - Compression in the 'spatial' package is now based on strings. 
+      The code has been changed to reflect this. 
+
+    - Support for int and uint as DataKinds has been added to the 
+      spatial code in line with changes in the specification. 
+
+    - A range of validation tests have been added to the spatial 
+      code. As this is an experimental passage package still in 
+      development, we cannot guarantee that all validation has been
+      implemented. 
+
+ * Bug fixes
+
+  - 'spatial' package-specific bug fixes:
+  
+    - There were some memory leaks in the spatial code. 
+      Thanks to Liam Keegan for spotting these and congratulations 
+      for being our first GitHub user to address problems using a 
+      Pull Request. 
+  
+
+      
+
+====================================================================
 5.18.0 (2019-04-18)
 ====================================================================
 

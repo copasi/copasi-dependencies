@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -158,7 +163,7 @@ VConstraint::logFailure (const SBase& object, const std::string& message)
 
   SBMLError error = SBMLError( mId, level, version,
 			       message, object.getLine(), object.getColumn(),
-             LIBSBML_SEV_ERROR, LIBSBML_CAT_SBML, pkg, pkgVersion);
+             LIBSBML_SEV_UNKNOWN, LIBSBML_CAT_SBML, pkg, pkgVersion);
 
   if (error.getSeverity() != LIBSBML_SEV_NOT_APPLICABLE)
     mValidator.logFailure(error);

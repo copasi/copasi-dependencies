@@ -9,6 +9,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -175,10 +180,15 @@ AssignmentCycles::addReactionDependencies(const Model& m, const Reaction& object
     */
   List* variables = object.getKineticLaw()->getMath()
                                       ->getListOfNodes( ASTNode_isName );
+  const KineticLaw* kl = object.getKineticLaw();
   for (ns = 0; ns < variables->getSize(); ns++)
   {
     ASTNode* node = static_cast<ASTNode*>( variables->get(ns) );
     string   name = node->getName() ? node->getName() : "";
+    if (kl->getParameter(name) != NULL)
+    {
+      continue;
+    }
 
     if (m.getReaction(name))
     {

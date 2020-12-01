@@ -40,7 +40,7 @@
  *        \'expat\', \'libxml\', \'xerces-c\', \'bzip2\', \'zip\'
  <p>
  * @return 0 in case the libSBML has not been compiled against 
- *         that library and non-zero otherwise (for libraries 
+ *         that library and nonzero otherwise (for libraries 
  *         that define an integer version number that number will 
  *         be returned).
  <p>
@@ -1684,44 +1684,49 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return the id of this SBML object, or the \'variable\' if the object is a
    * {@link Rule}, or the \'symbol\' if the object is an {@link InitialAssignment}.
@@ -1754,44 +1759,49 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return the id of this SBML object, if set and valid for this
    * level and version of SBML; an empty string otherwise.
@@ -1814,7 +1824,7 @@ appears in the documentation.
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -2337,7 +2347,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers SBase::getAncestorOfType(int type, const std::string pkgName = "core") "
+%javamethodmodifiers SBase::getAncestorOfType(int type, const std::string& pkgName = "core") "
 /**
    * Returns the first ancestor object that has the given SBML type code from the given package.
    <p>
@@ -2658,44 +2668,49 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
@@ -2729,44 +2744,49 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return <code>true</code> if the \'id\' attribute of this SBML object is
    * set, <code>false</code> otherwise.
@@ -2787,7 +2807,7 @@ appears in the documentation.
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -3008,44 +3028,49 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @param sid the string to use as the identifier of this object.
  <p>
@@ -3087,44 +3112,49 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @param sid the string to use as the identifier of this object.
  <p>
@@ -3372,7 +3402,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers SBase::removeTopLevelAnnotationElement(const std::string elementName, const std::string elementURI = "", bool removeEmpty = true) "
+%javamethodmodifiers SBase::removeTopLevelAnnotationElement(const std::string& elementName, const std::string elementURI = "", bool removeEmpty = true) "
 /**
    * Removes the top-level element within the \'annotation\' subelement of this
    * SBML object with the given name and optional URI.
@@ -3883,44 +3913,49 @@ s.setNotes(\'&lt;body xmlns=\'http://www.w3.org/1999/xhtml\'&gt;here is my note&
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * <p>
  * @return integer value indicating success/failure of the
@@ -3972,7 +4007,7 @@ s.setNotes(\'&lt;body xmlns=\'http://www.w3.org/1999/xhtml\'&gt;here is my note&
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -4490,6 +4525,10 @@ appears in the documentation.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * <p>
  * Here follow some additional general information about libSBML type codes:
@@ -4568,7 +4607,8 @@ void example (SBase sb)
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getPackageName()
    * @see #getElementName()
@@ -5406,7 +5446,7 @@ newModel.addSpecies(s1);
 
 %javamethodmodifiers SBase::getURI() const "
 /**
-   * Gets the namespace URI to which this element belongs to.
+   * Returns the namespace URI to which this element belongs to.
    <p>
    * For example, all elements that belong to SBML Level&nbsp;3 Version&nbsp;1 Core
    * must would have the URI <code>\'http://www.sbml.org/sbml/level3/version1/core\'</code>;
@@ -5519,12 +5559,12 @@ newModel.addSpecies(s1);
 ";
 
 
-%javamethodmodifiers SBase::logError(  unsigned int       id , const unsigned int level   = 2 , const unsigned int version = 3 , const std::string& details = "" ) "
+%javamethodmodifiers SBase::logError(  unsigned int       id , const unsigned int level   = 2 , const unsigned int version = 3 , const std::string details = "" ) "
 /** * @internal */ public
 ";
 
 
-%javamethodmodifiers SBase::logUnknownAttribute( const std::string& attribute, const unsigned int level, const unsigned int version, const std::string& element, const std::string& prefix="") "
+%javamethodmodifiers SBase::logUnknownAttribute( const std::string& attribute, const unsigned int level, const unsigned int version, const std::string& element, const std::string prefix="") "
 /** * @internal */ public
 ";
 
@@ -5579,7 +5619,7 @@ newModel.addSpecies(s1);
 ";
 
 
-%javamethodmodifiers SBase::checkDefaultNamespace(const XMLNamespaces* xmlns, const std::string& elementName, const std::string& prefix = "") "
+%javamethodmodifiers SBase::checkDefaultNamespace(const XMLNamespaces* xmlns, const std::string& elementName, const std::string prefix = "") "
 /** * @internal */ public
 ";
 
@@ -6169,6 +6209,10 @@ appears in the documentation.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF} (default).
@@ -6181,7 +6225,8 @@ appears in the documentation.
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getItemTypeCode()
    * @see #getElementName()
@@ -6206,6 +6251,10 @@ appears in the documentation.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * Classes that inherit from the {@link ListOf} class should override this method
    * to return the SBML type code for the objects contained in this {@link ListOf}.
@@ -6261,6 +6310,11 @@ appears in the documentation.
 ";
 
 
+%javamethodmodifiers ListOf::sort "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers ListOf::addExpectedAttributes(ExpectedAttributes& attributes) "
 /** * @internal */ public
 ";
@@ -6291,7 +6345,7 @@ appears in the documentation.
  * within the model, the list must not be empty; that is, it must have
  * length one or more.  The following are the components and lists
  * permitted in different Levels and Versions of SBML in
- * version 5.17.0
+ * version 5.19.0
  * of libSBML:
  * <ul>
  * <li> In SBML Level 1, the components are: {@link UnitDefinition}, {@link Compartment},
@@ -6400,7 +6454,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <h2>Consistency and adherence to SBML specifications</h2>
  <p>
  * To make it easier for applications to do whatever they need,
- * libSBML version 5.17.0
+ * libSBML version 5.19.0
  * is relatively lax when it comes to enforcing correctness and
  * completeness of models <em>during</em> model construction and editing.
  * Essentially, libSBML <em>will</em> <em>not</em> in most cases check automatically
@@ -6708,44 +6762,49 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return the id of this {@link Model}.
    <p>
@@ -6765,7 +6824,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -6925,44 +6984,49 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
@@ -6988,7 +7052,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -7163,44 +7227,49 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @param sid the string to use as the identifier of this object.
  <p>
@@ -7430,44 +7499,49 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * <p>
  * @return integer value indicating success/failure of the
@@ -7494,7 +7568,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -10088,6 +10162,10 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_MODEL SBML_MODEL} (default).
@@ -10096,7 +10174,8 @@ sp.setId(&#34;BestSpeciesEver&#34;);
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -11192,7 +11271,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    <p>
    * <p>
  * This \'default Level\' corresponds to the most recent SBML specification
- * Level available at the time libSBML version 5.17.0 was released.  The default Level is used by
+ * Level available at the time libSBML version 5.19.0 was released.  The default Level is used by
  * {@link SBMLDocument} if no Level is explicitly specified at the time of the
  * construction of an {@link SBMLDocument} instance.
    <p>
@@ -11212,7 +11291,7 @@ sp.setId(&#34;BestSpeciesEver&#34;);
    * <p>
  * This \'default Version\' corresponds to the most recent Version within the
  * most recent Level of SBML available at the time libSBML version
- * 5.17.0 was released.  The default Version is
+ * 5.19.0 was released.  The default Version is
  * used by {@link SBMLDocument} if no Version is explicitly specified at the time of
  * the construction of an {@link SBMLDocument} instance. 
    <p>
@@ -11587,7 +11666,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers SBMLDocument::createModel(const std::string& sid = "") "
+%javamethodmodifiers SBMLDocument::createModel(const std::string sid = "") "
 /**
    * Creates a new {@link Model} inside this {@link SBMLDocument}, and returns a pointer to
    * it.
@@ -12209,6 +12288,10 @@ appears in the documentation.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_DOCUMENT SBML_DOCUMENT} (default).
@@ -12217,7 +12300,8 @@ appears in the documentation.
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see SBMLDocument#getElementName()
    * @see #getPackageName()
@@ -12828,44 +12912,49 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return the id of this {@link FunctionDefinition}.
    <p>
@@ -12885,7 +12974,7 @@ appears in the documentation.
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -12971,44 +13060,49 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
@@ -13034,7 +13128,7 @@ appears in the documentation.
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -13122,44 +13216,49 @@ appears in the documentation.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @param sid the string to use as the identifier of this object.
  <p>
@@ -13231,7 +13330,7 @@ appears in the documentation.
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -13385,6 +13484,10 @@ appears in the documentation.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_FUNCTION_DEFINITION SBML_FUNCTION_DEFINITION} (default).
@@ -13393,7 +13496,8 @@ appears in the documentation.
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -13604,6 +13708,10 @@ appears in the documentation.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for the objects contained in this ListOf:
    * {@link libsbmlConstants#SBML_FUNCTION_DEFINITION SBML_FUNCTION_DEFINITION} (default).
@@ -14875,6 +14983,10 @@ to indicate an invalid or unset unit.</td></tr>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_UNIT SBML_UNIT} (default).
@@ -14883,7 +14995,8 @@ to indicate an invalid or unset unit.</td></tr>
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getPackageName()
    * @see #getElementName()
@@ -15298,6 +15411,10 @@ to indicate an invalid or unset unit.</td></tr>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for objects contained in this list:
    * {@link libsbmlConstants#SBML_UNIT SBML_UNIT} (default).
@@ -15834,44 +15951,49 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return the id of this {@link UnitDefinition}.
    <p>
@@ -15891,7 +16013,7 @@ to indicate an invalid or unset unit.</td></tr>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -15967,44 +16089,49 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
@@ -16030,7 +16157,7 @@ to indicate an invalid or unset unit.</td></tr>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -16107,44 +16234,49 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @param sid the string to use as the identifier of this object.
  <p>
@@ -16196,7 +16328,7 @@ to indicate an invalid or unset unit.</td></tr>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -16511,6 +16643,10 @@ to indicate an invalid or unset unit.</td></tr>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION} (default).
@@ -16519,7 +16655,8 @@ to indicate an invalid or unset unit.</td></tr>
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getPackageName()
    * @see #getElementName()
@@ -16896,6 +17033,10 @@ to indicate an invalid or unset unit.</td></tr>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for objects contained in this list:
    * {@link libsbmlConstants#SBML_UNIT_DEFINITION SBML_UNIT_DEFINITION} (default).
@@ -17269,44 +17410,49 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return the id of this {@link CompartmentType}.
    <p>
@@ -17326,7 +17472,7 @@ to indicate an invalid or unset unit.</td></tr>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -17402,44 +17548,49 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
@@ -17465,7 +17616,7 @@ to indicate an invalid or unset unit.</td></tr>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -17542,44 +17693,49 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @param sid the string to use as the identifier of this object.
  <p>
@@ -17631,7 +17787,7 @@ to indicate an invalid or unset unit.</td></tr>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -17710,6 +17866,10 @@ to indicate an invalid or unset unit.</td></tr>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE} (default).
@@ -17718,7 +17878,8 @@ to indicate an invalid or unset unit.</td></tr>
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -17877,6 +18038,10 @@ to indicate an invalid or unset unit.</td></tr>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for the objects contained in this {@link ListOf}
    * instance: {@link libsbmlConstants#SBML_COMPARTMENT_TYPE SBML_COMPARTMENT_TYPE} (default).
@@ -18230,44 +18395,49 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return the id of this {@link SpeciesType}.
    <p>
@@ -18287,7 +18457,7 @@ to indicate an invalid or unset unit.</td></tr>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -18363,44 +18533,49 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
@@ -18426,7 +18601,7 @@ to indicate an invalid or unset unit.</td></tr>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -18503,44 +18678,49 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @param sid the string to use as the identifier of this object.
  <p>
@@ -18592,7 +18772,7 @@ to indicate an invalid or unset unit.</td></tr>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -18671,6 +18851,10 @@ to indicate an invalid or unset unit.</td></tr>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_SPECIES_TYPE SBML_SPECIES_TYPE} (default).
@@ -18679,7 +18863,8 @@ to indicate an invalid or unset unit.</td></tr>
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -18835,6 +19020,10 @@ to indicate an invalid or unset unit.</td></tr>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for objects contained in this list:
    * {@link libsbmlConstants#SBML_SPECIES_TYPE SBML_SPECIES_TYPE} (default).
@@ -19506,44 +19695,49 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return the id of this {@link Compartment}.
    <p>
@@ -19563,7 +19757,7 @@ to indicate an invalid or unset unit.</td></tr>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -19822,44 +20016,49 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
@@ -19885,7 +20084,7 @@ to indicate an invalid or unset unit.</td></tr>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -20106,44 +20305,49 @@ to indicate an invalid or unset unit.</td></tr>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @param sid the string to use as the identifier of this {@link Compartment} object. If
    * the string is <code>null</code>, this method will return
@@ -20471,7 +20675,7 @@ to indicate an invalid or unset unit.</td></tr>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -20824,6 +21028,10 @@ to indicate an invalid or unset unit.</td></tr>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_COMPARTMENT SBML_COMPARTMENT} (default).
@@ -20832,7 +21040,8 @@ to indicate an invalid or unset unit.</td></tr>
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -20899,16 +21108,6 @@ to indicate an invalid or unset unit.</td></tr>
 
 
 %javamethodmodifiers Compartment::writeAttributes(XMLOutputStream& stream) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers Compartment::isExplicitlySetSpatialDimensions() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers Compartment::isExplicitlySetConstant() const "
 /** * @internal */ public
 ";
 
@@ -21009,6 +21208,10 @@ to indicate an invalid or unset unit.</td></tr>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for the objects contained in this {@link ListOf}
    * instance: {@link libsbmlConstants#SBML_COMPARTMENT SBML_COMPARTMENT} (default).
@@ -21701,44 +21904,49 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return the id of this {@link Species}.
    <p>
@@ -21758,7 +21966,7 @@ attributes.</caption>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -22013,44 +22221,49 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
@@ -22076,7 +22289,7 @@ attributes.</caption>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -22330,44 +22543,49 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @param sid the string to use as the identifier of this object.
  <p>
@@ -22687,7 +22905,7 @@ attributes.</caption>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -23086,6 +23304,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_SPECIES SBML_SPECIES} (default).
@@ -23094,7 +23316,8 @@ attributes.</caption>
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -23227,21 +23450,6 @@ attributes.</caption>
 ";
 
 
-%javamethodmodifiers Species::isExplicitlySetBoundaryCondition() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers Species::isExplicitlySetConstant() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers Species::isExplicitlySetHasOnlySubsUnits() const "
-/** * @internal */ public
-";
-
-
 %javamethodmodifiers ListOfSpecies::ListOfSpecies(unsigned int level, unsigned int version) "
 /**
    * Creates a new {@link ListOfSpecies} object.
@@ -23338,6 +23546,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for objects contained in this list:
    * {@link libsbmlConstants#SBML_SPECIES SBML_SPECIES} (default).
@@ -23775,44 +23987,49 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return the id of this {@link Parameter}.
    <p>
@@ -23832,7 +24049,7 @@ attributes.</caption>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -23891,7 +24108,7 @@ attributes.</caption>
 
 %javamethodmodifiers Parameter::getValue() const "
 /**
-   * Gets the numerical value of this {@link Parameter}.
+   * Returns the numerical value of this {@link Parameter}.
    <p>
    * @return the value of the \'value\' attribute of this {@link Parameter}, as a
    * number of type <code>double.</code>
@@ -23914,7 +24131,7 @@ attributes.</caption>
 
 %javamethodmodifiers Parameter::getUnits() const "
 /**
-   * Gets the units defined for this {@link Parameter}.
+   * Returns the units defined for this {@link Parameter}.
    <p>
    * The value of an SBML parameter\'s \'units\' attribute establishes the
    * unit of measurement associated with the parameter\'s value.
@@ -23940,7 +24157,7 @@ attributes.</caption>
 
 %javamethodmodifiers Parameter::getConstant() const "
 /**
-   * Gets the value of the \'constant\' attribute of this {@link Parameter} instance.
+   * Returns the value of the \'constant\' attribute of this {@link Parameter} instance.
    <p>
    * @return <code>true</code> if this {@link Parameter} is declared as being constant,
    * <code>false</code> otherwise.
@@ -23985,44 +24202,49 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
@@ -24048,7 +24270,7 @@ attributes.</caption>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -24202,44 +24424,49 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @param sid the string to use as the identifier of this object.
  <p>
@@ -24365,7 +24592,7 @@ attributes.</caption>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -24573,6 +24800,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_PARAMETER SBML_PARAMETER} (default).
@@ -24581,7 +24812,8 @@ attributes.</caption>
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -24685,11 +24917,6 @@ attributes.</caption>
 
 
 %javamethodmodifiers Parameter::writeAttributes(XMLOutputStream& stream) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers Parameter::isExplicitlySetConstant() const "
 /** * @internal */ public
 ";
 
@@ -24830,6 +25057,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this objects contained in this list:
    * {@link libsbmlConstants#SBML_PARAMETER SBML_PARAMETER} (default).
@@ -25300,6 +25531,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER} (default).
@@ -25308,7 +25543,8 @@ attributes.</caption>
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -25479,6 +25715,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for the objects contained in this ListOf:
    * {@link libsbmlConstants#SBML_LOCAL_PARAMETER SBML_LOCAL_PARAMETER} (default).
@@ -26200,6 +26440,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT} (default).
@@ -26208,7 +26452,8 @@ attributes.</caption>
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -26486,6 +26731,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for the objects contained in this ListOf:
    * {@link libsbmlConstants#SBML_INITIAL_ASSIGNMENT SBML_INITIAL_ASSIGNMENT} (default).
@@ -26891,8 +27140,7 @@ attributes.</caption>
 /**
    * Returns the mathematical expression of this {@link Rule} in text-string form.
    <p>
-   * The text string is produced by
-   * <code><a href=\'libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)\'>libsbml.formulaToString()</a></code>; please consult
+   * The text string is produced by <a href=\'libsbml.html#formulaToString(org.sbml.libsbml.ASTNode)\'><code>libsbml.formulaToString(ASTNode)</code></a>; please consult
    * the documentation for that function to find out more about the format
    * of the text-string formula.
    <p>
@@ -26905,6 +27153,7 @@ attributes.</caption>
    * of all Levels of SBML.
    <p>
    * @see #getMath()
+   * @see <a href=\'libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)\'><code>libsbml.formulaToL3String(ASTNode)</code></a>
    */ public
 ";
 
@@ -27444,6 +27693,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object, either
    * {@link libsbmlConstants#SBML_ASSIGNMENT_RULE SBML_ASSIGNMENT_RULE},
@@ -27455,7 +27708,8 @@ attributes.</caption>
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -27486,7 +27740,7 @@ attributes.</caption>
    <p>
    * The returned value can be any of a number of different strings,
    * depending on the SBML Level in use and the kind of {@link Rule} object this
-   * is.  The rules as of libSBML version 5.17.0
+   * is.  The rules as of libSBML version 5.19.0
    * are the following:
    * <ul>
    * <li> (Level&nbsp;2 and&nbsp;3) RateRule: returns <code>\'rateRule\'</code>
@@ -27813,6 +28067,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for objects contained in this list:
    * {@link libsbmlConstants#SBML_RULE SBML_RULE} (default).
@@ -29558,6 +29816,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_CONSTRAINT SBML_CONSTRAINT} (default).
@@ -29566,7 +29828,8 @@ attributes.</caption>
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -29743,6 +30006,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for the objects contained in this {@link ListOf}
    * instance: {@link libsbmlConstants#SBML_CONSTRAINT SBML_CONSTRAINT} (default).
@@ -30238,44 +30505,49 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return the id of this {@link Reaction}.
    <p>
@@ -30295,7 +30567,7 @@ attributes.</caption>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -30450,44 +30722,49 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
@@ -30513,7 +30790,7 @@ attributes.</caption>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -30665,44 +30942,49 @@ attributes.</caption>
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @param sid the string to use as the identifier of this object.
  <p>
@@ -30869,7 +31151,7 @@ attributes.</caption>
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -31070,7 +31352,7 @@ attributes.</caption>
 ";
 
 
-%javamethodmodifiers Reaction::addReactant(const Species* species, double stoichiometry = 1.0, const std::string& id = "", bool constant = true) "
+%javamethodmodifiers Reaction::addReactant(const Species* species, double stoichiometry = 1.0, const std::string id = "", bool constant = true) "
 /**
    * Adds the given species as a reactant with the given stoichiometry
    <p>
@@ -31152,7 +31434,7 @@ attributes.</caption>
 ";
 
 
-%javamethodmodifiers Reaction::addProduct(const Species* species, double stoichiometry = 1.0, const std::string& id = "", bool constant = true) "
+%javamethodmodifiers Reaction::addProduct(const Species* species, double stoichiometry = 1.0, const std::string id = "", bool constant = true) "
 /**
    * Adds the given species as a product with the given stoichiometry
    <p>
@@ -31237,7 +31519,7 @@ attributes.</caption>
 ";
 
 
-%javamethodmodifiers Reaction::addModifier(const Species *species, const std::string &id = "") "
+%javamethodmodifiers Reaction::addModifier(const Species *species, const std::string id = "") "
 /**
    * Adds the given species as a modifier to this reaction
    <p>
@@ -31726,6 +32008,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_REACTION SBML_REACTION} (default).
@@ -31734,7 +32020,8 @@ attributes.</caption>
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -31916,6 +32203,10 @@ attributes.</caption>
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for objects contained in this list:
    * {@link libsbmlConstants#SBML_REACTION SBML_REACTION} (default).
@@ -33126,6 +33417,10 @@ AST mechanisms.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_KINETIC_LAW SBML_KINETIC_LAW} (default).
@@ -33134,7 +33429,8 @@ AST mechanisms.
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -33444,44 +33740,49 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return the id of this {@link SimpleSpeciesReference}.
    <p>
@@ -33501,7 +33802,7 @@ AST mechanisms.
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -33587,44 +33888,49 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
@@ -33650,7 +33956,7 @@ AST mechanisms.
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -33759,44 +34065,49 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @param sid the string to use as the identifier of this object.
  <p>
@@ -33858,44 +34169,49 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * <p>
  * @return integer value indicating success/failure of the
@@ -33922,7 +34238,7 @@ AST mechanisms.
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -35001,6 +35317,10 @@ AST mechanisms.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_SPECIES_REFERENCE SBML_SPECIES_REFERENCE} (default).
@@ -35200,6 +35520,10 @@ AST mechanisms.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for objects contained in this list:
    * {@link libsbmlConstants#SBML_SPECIES_REFERENCE SBML_SPECIES_REFERENCE} (default).
@@ -35461,6 +35785,10 @@ AST mechanisms.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_MODIFIER_SPECIES_REFERENCE SBML_MODIFIER_SPECIES_REFERENCE} (default).
@@ -35469,7 +35797,8 @@ AST mechanisms.
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -35951,44 +36280,49 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
    <p>
    * @return the id of this {@link Event}.
    <p>
@@ -36008,7 +36342,7 @@ AST mechanisms.
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -36220,44 +36554,49 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @return <code>true</code> if the \'id\' attribute of this SBML object is
  * set, <code>false</code> otherwise.
@@ -36283,7 +36622,7 @@ AST mechanisms.
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -36431,44 +36770,49 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * @param sid the string to use as the identifier of this object.
  <p>
@@ -36683,44 +37027,49 @@ AST mechanisms.
  *   idChar .= letter | digit | \'_\'
  *   SId    .= ( letter | \'_\' ) idChar*
  * </pre>
- * The characters <code>(</code> and <code>)</code> are used for grouping, the
- * character <code>*</code> \'zero or more times\', and the character
- * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers is
- * determined by an exact character sequence match; i.e., comparisons must be
- * performed in a case-sensitive manner.  This applies to all uses of <code>SId</code>, 
- * <code>SIdRef</code>, and derived types.
+ * The characters <code>(</code> and <code>)</code> are used for grouping,
+ * the character <code>*</code> \'zero or more times\', and the character
+ * <code>|</code> indicates logical \'or\'.  The equality of SBML identifiers
+ * is determined by an exact character sequence match; i.e., comparisons must
+ * be performed in a case-sensitive manner.  This applies to all uses of
+ * <code>SId</code>, <code>SIdRef</code>, and derived types.
  <p>
- * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
- * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
- * defined on {@link SBase} itself to get, set, check, and unset those attributes, which 
- * would fail or otherwise return empty strings if executed on any object 
- * for which those attributes were not defined.  Now that all {@link SBase} objects 
- * define those attributes, those functions now succeed for any object with 
- * the appropriate level and version.
+ * Users need to be aware of some important API issues that are the result of
+ * the history of SBML and libSBML.  Prior to SBML Level&nbsp;3
+ * Version&nbsp;2, SBML defined \'id\' and \'name\' attributes on only a subset
+ * of SBML objects.  To simplify the work of programmers, libSBML\'s API
+ * provided get, set, check, and unset on the {@link SBase} object class itself
+ * instead of on individual subobject classes. This made the
+ * get/set/etc. methods uniformly available on all objects in the libSBML
+ * API.  LibSBML simply returned empty strings or otherwise did not act when
+ * the methods were applied to SBML objects that were not defined by the SBML
+ * specification to have \'id\' or \'name\' attributes.  Additional complications
+ * arose with the rule and assignment objects: {@link InitialAssignment},
+ * {@link EventAssignment}, {@link AssignmentRule}, and {@link RateRule}.  In early versions of SBML,
+ * the rule object hierarchy was different, and in addition, then as now,
+ * they possess different attributes: \'variable\' (for the rules and event
+ * assignments), \'symbol\' (for initial assignments), or neither (for
+ * algebraic rules).  Prior to SBML Level&nbsp;3 Version&nbsp;2, getId()
+ * would always return an empty string, and isSetId() would always return 
+ * <code>false</code> for objects of these classes.
  <p>
- * The exception to this rule is that for {@link InitialAssignment}, {@link EventAssignment}, 
- * {@link AssignmentRule}, and {@link RateRule} objects, the getId() function and the isSetId() 
- * functions (though not the setId() or unsetId() functions) would instead 
- * reference the value of the \'variable\' attribute (for the rules and event 
- * assignments) or the \'symbol\' attribute (for initial assignments).  
- * The {@link AlgebraicRule} fell into this category as well, though because it 
- * contained neither a \'variable\' nor a \'symbol\' attribute, getId() would 
- * always return an empty string, and isSetId() would always return <code>false.</code>
- * For this reason, four new functions are now provided 
- * (getIdAttribute(), setIdAttribute(String), 
- * isSetIdAttribute(), and unsetIdAttribute()) that will always
- * act on the actual \'id\' attribute, regardless of the object\'s type.  The
- * new functions should be used instead of the old ones unless the old behavior
- * is somehow necessary.
- <p>
- * Regardless of the level and version of the SBML, these functions allow
- * client applications to use more generalized code in some situations 
- * (for instance, when manipulating objects that are all known to have 
- * identifiers).  If the object in question does not posess an \'id\' attribute 
- * according to the SBML specification for the Level and Version in use,
- * libSBML will not allow the identifier to be set, nor will it read or 
- * write \'id\' attributes for those objects.
+ * With the addition of \'id\' and \'name\' attributes on {@link SBase} in Level&nbsp;3
+ * Version&nbsp;2, it became necessary to introduce a new way to interact
+ * with the attributes more consistently in libSBML to avoid breaking
+ * backward compatibility in the behavior of the original \'id\' methods.  For
+ * this reason, libSBML provides four functions (getIdAttribute(),
+ * setIdAttribute(String), isSetIdAttribute(), and
+ * unsetIdAttribute()) that always act on the actual \'id\' attribute inherited
+ * from {@link SBase}, regardless of the object\'s type.  <strong>These new methods
+ * should be used instead of the older getId()/setId()/etc. methods</strong>
+ * unless the old behavior is somehow necessary.  Regardless of the Level and
+ * Version of the SBML, these functions allow client applications to use more
+ * generalized code in some situations (for instance, when manipulating
+ * objects that are all known to have identifiers).  If the object in
+ * question does not posess an \'id\' attribute according to the SBML
+ * specification for the Level and Version in use, libSBML will not allow the
+ * identifier to be set, nor will it read or write \'id\' attributes for those
+ * objects.
  <p>
  * <p>
  * @return integer value indicating success/failure of the
@@ -36747,7 +37096,7 @@ AST mechanisms.
  * <p>
  * In SBML Level&nbsp;3 Version&nbsp;2, the \'id\' and \'name\' attributes were
  * moved to {@link SBase} directly, instead of being defined individually for many
- * (but not all) objects.  Libsbml has for a long time provided functions
+ * (but not all) objects.  LibSBML has for a long time provided functions
  * defined on {@link SBase} itself to get, set, and unset those attributes, which 
  * would fail or otherwise return empty strings if executed on any object 
  * for which those attributes were not defined.  Now that all {@link SBase} objects 
@@ -37172,6 +37521,10 @@ AST mechanisms.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_EVENT SBML_EVENT} (default).
@@ -37180,7 +37533,8 @@ AST mechanisms.
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -37270,11 +37624,6 @@ AST mechanisms.
 
 
 %javamethodmodifiers Event::writeAttributes(XMLOutputStream& stream) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers Event::isExplicitlySetUVFTT() const "
 /** * @internal */ public
 ";
 
@@ -37375,6 +37724,10 @@ AST mechanisms.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for the objects contained in this ListOf:
    * {@link libsbmlConstants#SBML_EVENT SBML_EVENT} (default).
@@ -38099,6 +38452,10 @@ AST mechanisms.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_EVENT_ASSIGNMENT SBML_EVENT_ASSIGNMENT} (default).
@@ -38107,7 +38464,8 @@ AST mechanisms.
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -38384,6 +38742,10 @@ AST mechanisms.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for the objects contained in this ListOf:
    * {@link libsbmlConstants#SBML_EVENT_ASSIGNMENT SBML_EVENT_ASSIGNMENT} (default).
@@ -38927,6 +39289,10 @@ AST mechanisms.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_TRIGGER SBML_TRIGGER} (default).
@@ -38935,7 +39301,8 @@ AST mechanisms.
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -39560,6 +39927,10 @@ AST mechanisms.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_DELAY SBML_DELAY} (default).
@@ -39568,7 +39939,8 @@ AST mechanisms.
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -40035,6 +40407,10 @@ AST mechanisms.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_PRIORITY SBML_PRIORITY} (default).\
@@ -40043,7 +40419,8 @@ AST mechanisms.
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -40368,7 +40745,7 @@ defined in SBML.
 ";
 
 
-%javamethodmodifiers SBO::writeTerm(XMLOutputStream& stream, int sboTerm, const std::string& prefix = "") "
+%javamethodmodifiers SBO::writeTerm(XMLOutputStream& stream, int sboTerm, const std::string prefix = "") "
 /** * @internal */ public
 ";
 
@@ -41595,6 +41972,10 @@ appears in the documentation.
  * <code>{@link SBase#getPackageName()}
  * </code>
  * method on the object.
+ <p>
+ * The exception to this is lists:  all SBML-style list elements have the type 
+ * {@link libsbmlConstants#SBML_LIST_OF SBML_LIST_OF}, regardless of what package they 
+ * are from.
    <p>
    * @return the SBML type code for this object:
    * {@link libsbmlConstants#SBML_STOICHIOMETRY_MATH SBML_STOICHIOMETRY_MATH} (default).
@@ -41603,7 +41984,8 @@ appears in the documentation.
  * @warning <span class=\'warning\'>The specific integer values of the possible
  * type codes may be reused by different libSBML plug-ins for SBML Level&nbsp;3.
  * packages,  To fully identify the correct code, <strong>it is necessary to
- * invoke both getTypeCode() and getPackageName()</strong>.</span>
+ * invoke both getPackageName() and getTypeCode()</strong> (or 
+ * {@link ListOf#getItemTypeCode()}).</span>
    <p>
    * @see #getElementName()
    * @see #getPackageName()
@@ -41851,7 +42233,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers SBMLNamespaces::SBMLNamespaces(unsigned int level, unsigned int version, const std::string &pkgName, unsigned int pkgVersion, const std::string& pkgPrefix = "") "
+%javamethodmodifiers SBMLNamespaces::SBMLNamespaces(unsigned int level, unsigned int version, const std::string &pkgName, unsigned int pkgVersion, const std::string pkgPrefix = "") "
 /**
    * (For extensions) Creates a new {@link SBMLNamespaces} object corresponding to
    * the combination of (1) the given SBML <code>level</code> and <code>version</code>, and (2)
@@ -42440,7 +42822,7 @@ the implementation of extra functionality provided by libSBML.
 "
 
 
-%javamethodmodifiers ConversionOption::ConversionOption(const std::string& key, const std::string& value="", ConversionOptionType_t type=CNV_TYPE_STRING, const std::string& description="") "
+%javamethodmodifiers ConversionOption::ConversionOption(const std::string& key, const std::string value="", ConversionOptionType_t type=CNV_TYPE_STRING, const std::string description="") "
 /**
    * Creates a new {@link ConversionOption}.
    <p>
@@ -42476,7 +42858,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ConversionOption::ConversionOption(const std::string& key, const char* value, const std::string& description="") "
+%javamethodmodifiers ConversionOption::ConversionOption(const std::string& key, const char* value, const std::string description="") "
 /**
    * Creates a new {@link ConversionOption} specialized for string-type options.
    <p>
@@ -42502,7 +42884,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ConversionOption::ConversionOption(const std::string& key, bool value, const std::string& description="") "
+%javamethodmodifiers ConversionOption::ConversionOption(const std::string& key, bool value, const std::string description="") "
 /**
    * Creates a new {@link ConversionOption} specialized for Boolean-type options.
    <p>
@@ -42528,7 +42910,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ConversionOption::ConversionOption(const std::string& key, double value, const std::string& description="") "
+%javamethodmodifiers ConversionOption::ConversionOption(const std::string& key, double value, const std::string description="") "
 /**
    * Creates a new {@link ConversionOption} specialized for double-type options.
    <p>
@@ -42554,7 +42936,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ConversionOption::ConversionOption(const std::string& key, float value, const std::string& description="") "
+%javamethodmodifiers ConversionOption::ConversionOption(const std::string& key, float value, const std::string description="") "
 /**
    * Creates a new {@link ConversionOption} specialized for float-type options.
    <p>
@@ -42580,7 +42962,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ConversionOption::ConversionOption(const std::string& key, int value, const std::string& description="") "
+%javamethodmodifiers ConversionOption::ConversionOption(const std::string& key, int value, const std::string description="") "
 /**
    * Creates a new {@link ConversionOption} specialized for integer-type options.
    <p>
@@ -42891,7 +43273,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.17.0:
+ * provided by libSBML 5.19.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  <p>
@@ -43026,7 +43408,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ConversionProperties::addOption(const std::string& key, const std::string& value="", ConversionOptionType_t type=CNV_TYPE_STRING, const std::string& description="") "
+%javamethodmodifiers ConversionProperties::addOption(const std::string& key, const std::string value="", ConversionOptionType_t type=CNV_TYPE_STRING, const std::string description="") "
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
@@ -43054,7 +43436,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ConversionProperties::addOption(const std::string& key, const char* value, const std::string& description="") "
+%javamethodmodifiers ConversionProperties::addOption(const std::string& key, const char* value, const std::string description="") "
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
@@ -43080,7 +43462,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ConversionProperties::addOption(const std::string& key, bool value, const std::string& description="") "
+%javamethodmodifiers ConversionProperties::addOption(const std::string& key, bool value, const std::string description="") "
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
@@ -43106,7 +43488,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ConversionProperties::addOption(const std::string& key, double value, const std::string& description="") "
+%javamethodmodifiers ConversionProperties::addOption(const std::string& key, double value, const std::string description="") "
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
@@ -43132,7 +43514,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ConversionProperties::addOption(const std::string& key, float value, const std::string& description="") "
+%javamethodmodifiers ConversionProperties::addOption(const std::string& key, float value, const std::string description="") "
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
@@ -43158,7 +43540,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ConversionProperties::addOption(const std::string& key, int value, const std::string& description="") "
+%javamethodmodifiers ConversionProperties::addOption(const std::string& key, int value, const std::string description="") "
 /**
    * Adds a new {@link ConversionOption} object with the given parameters.
    <p>
@@ -43424,7 +43806,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.17.0:
+ * provided by libSBML 5.19.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -43888,7 +44270,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.17.0:
+ * provided by libSBML 5.19.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -44119,7 +44501,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.17.0:
+ * provided by libSBML 5.19.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -44323,7 +44705,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.17.0:
+ * provided by libSBML 5.19.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -44562,7 +44944,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.17.0:
+ * provided by libSBML 5.19.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -44793,7 +45175,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.17.0:
+ * provided by libSBML 5.19.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -44983,16 +45365,6 @@ if (config != None) {
 ";
 
 
-%javamethodmodifiers MathFilter::MathFilter "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers MathFilter::filter(const SBase* element) "
-/** * @internal */ public
-";
-
-
 %typemap(javaimports) SBMLLevel1Version1Converter "
 /** 
  *  Whole-document SBML Level/Version converter.
@@ -45011,7 +45383,7 @@ the implementation of extra functionality provided by libSBML.
  * Version&nbsp;1, to the extent possible by the limited features of
  * that Level/Version combination of SBML.
  <p>
- * <h2>Configuration and use of {@link SBMLLevel1Version1Converter}</h2>
+ * <h2>Configuration and use of {@link SBMLLevel1Version1Converter}</h2>
  <p>
  * {@link SBMLLevel1Version1Converter} is enabled by creating a {@link ConversionProperties}
  * object with the option <code>\'convertToL1V1\'</code>, and passing this
@@ -45123,7 +45495,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.17.0:
+ * provided by libSBML 5.19.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -45177,7 +45549,7 @@ if (config != None) {
    <p>
    * @param props the properties to match.
    <p>
-   * @return <code>true</code> if this converter\'s properties match, <code>false</code>
+   * @return <code>true</code> if this converter\'s properties match, <code>false</code>
    * otherwise.
    */ public
 ";
@@ -45344,7 +45716,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.17.0:
+ * provided by libSBML 5.19.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -45548,7 +45920,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.17.0:
+ * provided by libSBML 5.19.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -45845,7 +46217,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.17.0:
+ * provided by libSBML 5.19.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -46066,7 +46438,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.17.0:
+ * provided by libSBML 5.19.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -46304,7 +46676,7 @@ if (config != None) {
  <p>
  * LibSBML provides a number of built-in converters; by convention, their
  * names end in <em>Converter</em>. The following are the built-in converters
- * provided by libSBML 5.17.0:
+ * provided by libSBML 5.19.0:
  <p>
  * @copydetails doc_list_of_libsbml_converters
  */
@@ -46922,7 +47294,7 @@ defined in SBML.
 ";
 
 
-%javamethodmodifiers XMLAttributes::add(  const std::string& name , const std::string& value , const std::string& namespaceURI = "" , const std::string& prefix = "") "
+%javamethodmodifiers XMLAttributes::add(  const std::string& name , const std::string& value , const std::string namespaceURI = "" , const std::string prefix = "") "
 /**
    * Adds an attribute to this list of attributes.
    <p>
@@ -47251,7 +47623,7 @@ foo:myattribute=\'7\'
 ";
 
 
-%javamethodmodifiers XMLAttributes::remove(const std::string& name, const std::string& uri = "") "
+%javamethodmodifiers XMLAttributes::remove(const std::string& name, const std::string uri = "") "
 /**
    * Removes a named attribute from this list of attributes.
    <p>
@@ -47568,7 +47940,7 @@ foo:myattribute=\'7\'
 ";
 
 
-%javamethodmodifiers XMLAttributes::getValue(const std::string name) const "
+%javamethodmodifiers XMLAttributes::getValue(const std::string& name) const "
 /**
    * Returns a named attribute\'s value.
    <p>
@@ -47596,7 +47968,7 @@ foo:myattribute=\'7\'
 ";
 
 
-%javamethodmodifiers XMLAttributes::getValue(const std::string name, const std::string uri) const "
+%javamethodmodifiers XMLAttributes::getValue(const std::string& name, const std::string& uri) const "
 /**
    * Returns a named attribute\'s value.
    <p>
@@ -47661,7 +48033,7 @@ foo:myattribute=\'7\'
 ";
 
 
-%javamethodmodifiers XMLAttributes::hasAttribute(const std::string name, const std::string uri="") const "
+%javamethodmodifiers XMLAttributes::hasAttribute(const std::string& name, const std::string uri="") const "
 /**
    * Returns <code>true</code> if an attribute with a given name and namespace URI
    * exists.
@@ -48771,7 +49143,7 @@ defined in SBML.
 ";
 
 
-%javamethodmodifiers XMLNamespaces::add(const std::string& uri, const std::string& prefix = "") "
+%javamethodmodifiers XMLNamespaces::add(const std::string& uri, const std::string prefix = "") "
 /**
    * Appends an XML namespace prefix and URI pair to this list of namespace
    * declarations.
@@ -48879,7 +49251,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLNamespaces::getIndex(const std::string uri) const "
+%javamethodmodifiers XMLNamespaces::getIndex(const std::string& uri) const "
 /**
    * Look up the index of an XML namespace declaration by URI.
    <p>
@@ -48895,14 +49267,14 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLNamespaces::containsUri(const std::string uri) const "
+%javamethodmodifiers XMLNamespaces::containsUri(const std::string& uri) const "
 /**
    * Tests whether the given uri is contained in this set of namespaces. 
    */ public
 ";
 
 
-%javamethodmodifiers XMLNamespaces::getIndexByPrefix(const std::string prefix) const "
+%javamethodmodifiers XMLNamespaces::getIndexByPrefix(const std::string& prefix) const "
 /**
    * Look up the index of an XML namespace declaration by <code>prefix</code>.
    <p>
@@ -48998,7 +49370,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLNamespaces::getURI(const std::string& prefix = "") const "
+%javamethodmodifiers XMLNamespaces::getURI(const std::string prefix = "") const "
 /**
    * Look up the URI of an XML namespace declaration by its prefix.
    <p>
@@ -49349,7 +49721,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLToken::addAttr(  const std::string& name , const std::string& value , const std::string& namespaceURI = "" , const std::string& prefix = "") "
+%javamethodmodifiers XMLToken::addAttr(  const std::string& name , const std::string& value , const std::string namespaceURI = "" , const std::string prefix = "") "
 /**
    * Adds an attribute to the XML element represented by this token.
    <p>
@@ -49475,7 +49847,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLToken::removeAttr(const std::string& name, const std::string& uri = "") "
+%javamethodmodifiers XMLToken::removeAttr(const std::string& name, const std::string uri = "") "
 /**
    * Removes an attribute from the XML element represented by this token.
    <p>
@@ -49555,7 +49927,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLToken::getAttrIndex(const std::string& name, const std::string& uri="") const "
+%javamethodmodifiers XMLToken::getAttrIndex(const std::string& name, const std::string uri="") const "
 /**
    * Returns the index of the attribute with the given name and namespace
    * URI.
@@ -49719,7 +50091,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLToken::getAttrValue(const std::string name, const std::string uri="") const "
+%javamethodmodifiers XMLToken::getAttrValue(const std::string& name, const std::string uri="") const "
 /**
    * Returns the value of the attribute with a given name and XML namespace URI.
    <p>
@@ -49784,7 +50156,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLToken::hasAttr(const std::string name, const std::string uri="") const "
+%javamethodmodifiers XMLToken::hasAttr(const std::string& name, const std::string uri="") const "
 /**
    * Returns <code>true</code> if an attribute with a given name and namespace URI
    * exists.
@@ -49877,7 +50249,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLToken::addNamespace(const std::string& uri, const std::string& prefix = "") "
+%javamethodmodifiers XMLToken::addNamespace(const std::string& uri, const std::string prefix = "") "
 /**
    * Appends an XML namespace declaration to this token.
    <p>
@@ -50090,7 +50462,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLToken::getNamespaceURI(const std::string& prefix = "") const "
+%javamethodmodifiers XMLToken::getNamespaceURI(const std::string prefix = "") const "
 /**
    * Returns the URI of an XML namespace with a given prefix.
    <p>
@@ -51204,7 +51576,7 @@ public class test
 "
 
 
-%javamethodmodifiers XMLOutputStream::XMLOutputStream(std::ostream&       stream , const std::string&  encoding       = "UTF-8" , bool                writeXMLDecl   = true , const std::string&  programName    = "" , const std::string&  programVersion = "") "
+%javamethodmodifiers XMLOutputStream::XMLOutputStream(std::ostream&       stream , const std::string  encoding       = "UTF-8" , bool                writeXMLDecl   = true , const std::string  programName    = "" , const std::string  programVersion = "") "
 /**
    * Creates a new {@link XMLOutputStream} that wraps the given <code>stream</code>.
    <p>
@@ -51267,7 +51639,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLOutputStream::endElement(const std::string& name, const std::string& prefix = "") "
+%javamethodmodifiers XMLOutputStream::endElement(const std::string& name, const std::string prefix = "") "
 /**
    * Writes the given XML end element name to this {@link XMLOutputStream}.
    <p>
@@ -51314,7 +51686,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLOutputStream::startElement(const std::string& name, const std::string& prefix = "") "
+%javamethodmodifiers XMLOutputStream::startElement(const std::string& name, const std::string prefix = "") "
 /**
    * Writes the given XML start element name to this {@link XMLOutputStream}.
    <p>
@@ -51352,7 +51724,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLOutputStream::startEndElement(const std::string& name, const std::string& prefix = "") "
+%javamethodmodifiers XMLOutputStream::startEndElement(const std::string& name, const std::string prefix = "") "
 /**
    * Writes the given XML start and end element name to this {@link XMLOutputStream}.
    <p>
@@ -51852,7 +52224,7 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
 ";
 
 
-%javamethodmodifiers XMLOutputStream::writeName(const std::string& name, const std::string& prefix = "") "
+%javamethodmodifiers XMLOutputStream::writeName(const std::string& name, const std::string prefix = "") "
 /** * @internal */ public
 ";
 
@@ -51907,7 +52279,7 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
 ";
 
 
-%javamethodmodifiers XMLOutputStringStream::XMLOutputStringStream(  std::ostringstream& stream , const std::string&  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string&  programName  = "" , const std::string&  programVersion = "") "
+%javamethodmodifiers XMLOutputStringStream::XMLOutputStringStream(  std::ostringstream& stream , const std::string  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string  programName  = "" , const std::string  programVersion = "") "
 /** * @internal */ public
 ";
 
@@ -51917,17 +52289,17 @@ on yyyy-MM-dd HH:mm with libSBML version &lt;libsbml version&gt;. --&gt;
 ";
 
 
-%javamethodmodifiers XMLOwningOutputStringStream::XMLOwningOutputStringStream(  const std::string&  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string&  programName  = "" , const std::string&  programVersion = "") "
+%javamethodmodifiers XMLOwningOutputStringStream::XMLOwningOutputStringStream(  const std::string  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string  programName  = "" , const std::string  programVersion = "") "
 /** * @internal */ public
 ";
 
 
-%javamethodmodifiers XMLOutputFileStream::XMLOutputFileStream(  std::ofstream&      stream , const std::string&  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string&  programName  = "" , const std::string&  programVersion = "") "
+%javamethodmodifiers XMLOutputFileStream::XMLOutputFileStream(  std::ofstream&      stream , const std::string  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string  programName  = "" , const std::string  programVersion = "") "
 /** * @internal */ public
 ";
 
 
-%javamethodmodifiers XMLOwningOutputFileStream::XMLOwningOutputFileStream(const std::string&  filename , const std::string&  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string&  programName  = "" , const std::string&  programVersion = "") "
+%javamethodmodifiers XMLOwningOutputFileStream::XMLOwningOutputFileStream(const std::string&  filename , const std::string  encoding     = "UTF-8" , bool                writeXMLDecl = true , const std::string  programName  = "" , const std::string  programVersion = "") "
 /** * @internal */ public
 ";
 
@@ -52192,7 +52564,7 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers XMLInputStream::determineNumberChildren(const std::string& elementName = "") "
+%javamethodmodifiers XMLInputStream::determineNumberChildren(const std::string elementName = "") "
 /**
    * Returns the number of child tokens of the given element in this stream.
    <p>
@@ -52546,7 +52918,7 @@ defined in SBML.
 "
 
 
-%javamethodmodifiers XMLError::XMLError( const int errorId           = 0 , const std::string& details  = "" , const unsigned int line     = 0 , const unsigned int column   = 0 , const unsigned int severity = LIBSBML_SEV_FATAL , const unsigned int category = LIBSBML_CAT_INTERNAL ) "
+%javamethodmodifiers XMLError::XMLError( const int errorId           = 0 , const std::string details  = "" , const unsigned int line     = 0 , const unsigned int column   = 0 , const unsigned int severity = LIBSBML_SEV_FATAL , const unsigned int category = LIBSBML_CAT_INTERNAL ) "
 /**
    * Creates a new {@link XMLError} to report that something occurred during XML
    * processing.
@@ -53590,12 +53962,12 @@ defined in SBML.
 ";
 
 
-%javamethodmodifiers SBMLErrorLog::logError( const unsigned int errorId  = 0 , const unsigned int level    = SBML_DEFAULT_LEVEL , const unsigned int version  = SBML_DEFAULT_VERSION , const std::string& details  = "" , const unsigned int line     = 0 , const unsigned int column   = 0 , const unsigned int severity = LIBSBML_SEV_ERROR , const unsigned int category = LIBSBML_CAT_SBML ) "
+%javamethodmodifiers SBMLErrorLog::logError( const unsigned int errorId  = 0 , const unsigned int level    = SBML_DEFAULT_LEVEL , const unsigned int version  = SBML_DEFAULT_VERSION , const std::string details  = "" , const unsigned int line     = 0 , const unsigned int column   = 0 , const unsigned int severity = LIBSBML_SEV_UNKNOWN , const unsigned int category = LIBSBML_CAT_SBML ) "
 /** * @internal */ public
 ";
 
 
-%javamethodmodifiers SBMLErrorLog::logPackageError( const std::string& package    = "core" , const unsigned int errorId    = 0 , const unsigned int pkgVersion = 1 , const unsigned int level      = SBML_DEFAULT_LEVEL , const unsigned int version    = SBML_DEFAULT_VERSION , const std::string& details    = "" , const unsigned int line       = 0 , const unsigned int column     = 0 , const unsigned int severity   = LIBSBML_SEV_ERROR , const unsigned int category   = LIBSBML_CAT_SBML ) "
+%javamethodmodifiers SBMLErrorLog::logPackageError( const std::string package    = "core" , const unsigned int errorId    = 0 , const unsigned int pkgVersion = 1 , const unsigned int level      = SBML_DEFAULT_LEVEL , const unsigned int version    = SBML_DEFAULT_VERSION , const std::string details    = "" , const unsigned int line       = 0 , const unsigned int column     = 0 , const unsigned int severity   = LIBSBML_SEV_UNKNOWN , const unsigned int category   = LIBSBML_CAT_SBML ) "
 /** * @internal */ public
 ";
 
@@ -64098,7 +64470,7 @@ defined in SBML.
  * name=\'SBMLErrorSeverity_t\'>Severity codes associated with {@link SBMLError}
  * objects</h3>
  <p>
- * In libSBML version 5.17.0
+ * In libSBML version 5.19.0
  * there are no additional severity codes beyond those defined by {@link XMLError}.
  * They are implemented as static integer constants defined in the interface
  * class <code><a href=\'libsbmlConstants.html\'>libsbmlConstants</a></code>,
@@ -64107,7 +64479,7 @@ defined in SBML.
 "
 
 
-%javamethodmodifiers SBMLError::SBMLError( const unsigned int errorId  = 0 , const unsigned int level    = SBML_DEFAULT_LEVEL , const unsigned int version  = SBML_DEFAULT_VERSION , const std::string& details  = "" , const unsigned int line     = 0 , const unsigned int column   = 0 , const unsigned int severity = LIBSBML_SEV_ERROR , const unsigned int category = LIBSBML_CAT_SBML , const std::string& package  = "core" , const unsigned int pkgVersion = 1 ) "
+%javamethodmodifiers SBMLError::SBMLError( const unsigned int errorId  = 0 , const unsigned int level    = SBML_DEFAULT_LEVEL , const unsigned int version  = SBML_DEFAULT_VERSION , const std::string details  = "" , const unsigned int line     = 0 , const unsigned int column   = 0 , const unsigned int severity = LIBSBML_SEV_UNKNOWN , const unsigned int category = LIBSBML_CAT_SBML , const std::string package  = "core" , const unsigned int pkgVersion = 1 ) "
 /**
    * Creates a new {@link SBMLError} to report that something occurred during SBML
    * processing.
@@ -69424,6 +69796,21 @@ defined in SBML.
 ";
 
 
+%javamethodmodifiers SBMLExtensionRegistry::getASTPlugins "
+/** */ public
+";
+
+
+%javamethodmodifiers SBMLExtensionRegistry::getNumASTPlugins "
+/** */ public
+";
+
+
+%javamethodmodifiers SBMLExtensionRegistry::getASTPlugin(unsigned int i) "
+/** */ public
+";
+
+
 %javamethodmodifiers SBMLExtensionRegistry::SBMLExtensionRegistry "
 /** * @internal */ public
 ";
@@ -69431,6 +69818,89 @@ defined in SBML.
 
 %javamethodmodifiers SBMLExtensionRegistry::SBMLExtensionRegistry(const SBMLExtensionRegistry& orig) "
 /** * @internal */ public
+";
+
+
+%javamethodmodifiers Callback::process(SBMLDocument* doc) "
+/**
+	 * The processing function to be implemented by the callback
+	 <p>
+	 * In order to stop processing return a value other than 
+	 * LIBSBML_OPERATION_SUCCESS. 
+	 <p>
+	 * @return LIBSBML_OPERATION_SUCCESS to continue the operations
+	 *         any other value to stop
+	 */ public
+";
+
+
+%javamethodmodifiers CallbackRegistry::invokeCallbacks(SBMLDocument* doc) "
+/**
+	 * Invokes all registered callbacks on the given document. If the callbacks indicate
+	 * that processing should be stopped they return a value other than operation success.
+	 <p>
+	 * @return LIBSBML_OPERATION_SUCCESS to indicate that processing should be continued, 
+	 *         any other value to stop processing
+	 */ public
+";
+
+
+%javamethodmodifiers CallbackRegistry::clearCallbacks "
+/**
+   * Clears all registered processing callbacks
+   */ public
+";
+
+
+%javamethodmodifiers CallbackRegistry::addCallback(Callback *cb) "
+/**
+   * Registers a new processing callback that will be called with a newly instantiated
+   * ModelDefinition object. This allows for all post processing on it that needs to
+   * happen before integrating it with the target document.
+   <p>
+   * @param cb the callback.
+   */ public
+";
+
+
+%javamethodmodifiers CallbackRegistry::getNumCallbacks "
+/**
+	 * @return the number of registered callbacks.
+	 */ public
+";
+
+
+%javamethodmodifiers CallbackRegistry::removeCallback(int index) "
+/**
+   * Removes the callback with given index.
+   <p>
+   * @param index the index of the callback to be removed from the list.
+   */ public
+";
+
+
+%javamethodmodifiers CallbackRegistry::removeCallback(Callback *cb) "
+/**
+	 * Removes the specified callback from the list of registered callbacks
+	 <p>
+	 * @param cb the callback to be removed.
+	 */ public
+";
+
+
+%javamethodmodifiers CallbackRegistry::getInstance "
+/**
+	 * the static instance of the class
+	 * @internal
+	 */ public
+";
+
+
+%javamethodmodifiers CallbackRegistry::CallbackRegistry "
+/**
+   * protected constructor, use the static methods for access.
+   * @internal
+   */ public
 ";
 
 
@@ -69622,497 +70092,10 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers representsNumber(int type) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers representsFunction(int type, ASTBasePlugin* plugin = NULL) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers representsUnaryFunction(int type, ASTBasePlugin* plugin = NULL) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers representsBinaryFunction(int type, ASTBasePlugin* plugin = NULL) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers representsNaryFunction(int type, ASTBasePlugin* plugin = NULL) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers representsQualifier(int type, ASTBasePlugin* plugin = NULL) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers representsFunctionRequiringAtLeastTwoArguments(int type) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers getCoreTypeFromName(const std::string& name) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers getNameFromCoreType(int type) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers isCoreTopLevelMathMLFunctionNodeTag(const std::string& name) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers isCoreTopLevelMathMLNumberNodeTag(const std::string& name) "
-/** * @internal */ public
-";
-
-
-%typemap(javaimports) ASTBase "
-/** 
- *  Base node for AST classes.
- * @internal
- */
-"
-
-
-%javamethodmodifiers ASTBase::ASTBase(const ASTBase& orig) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::deepCopy() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::loadASTPlugins(const SBMLNamespaces* sbmlns) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getType() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getExtendedType() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isSetType "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::setType(ASTNodeType_t type) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::setType(int type) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isAvogadro() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isBoolean() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isBinaryFunction() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isConstant() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isExponential() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isCiNumber() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isConstantNumber() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isCSymbolFunction() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isCSymbolNumber() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isFunction() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isInteger() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isLambda() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isLogical() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isName() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isNaryFunction() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isNumber() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isOperator() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isPiecewise() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isQualifier() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isRational() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isReal() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isRelational() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isSemantics() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isUnaryFunction() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isUnknown() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isUserFunction() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::representsBvar() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::setIsBvar(bool isbvar) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isNumberNode() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isFunctionNode() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isTopLevelMathMLFunctionNodeTag(const std::string& name) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isTopLevelMathMLNumberNodeTag(const std::string& name) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::write(XMLOutputStream& stream) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::read(XMLInputStream& stream, const std::string& reqd_prefix="") "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::addExpectedAttributes(ExpectedAttributes& attributes, XMLInputStream& stream) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes, XMLInputStream& stream, const XMLToken& element) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::logError(XMLInputStream& stream, const XMLToken& element, SBMLErrorCode_t code, const std::string& msg = "") "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getPlugin(const std::string& package) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getPlugin(const std::string& package) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getPlugin(unsigned int n) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getPlugin "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getNumPlugins() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getTypeFromName(const std::string& name) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getNameFromType(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::setUserData(void *userData) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::*getUserData() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isSetUserData() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::unsetUserData "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::writeNodeOfType(XMLOutputStream& stream, int type, bool inChildNode = false) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isWellFormedNode() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::hasCorrectNumberArguments() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getTypeCode() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getPackageName() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::setPackageName(const std::string& name) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::hasCnUnits() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getUnitsPrefix() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::isPackageInfixFunction() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::hasPackageOnlyInfixSyntax() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getL3PackageInfixPrecedence() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::hasUnambiguousPackageInfixGrammar(const ASTNode *child) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getValue() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::resetPackageName "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::checkPrefix(XMLInputStream& stream, const std::string& reqd_prefix, const XMLToken& element) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::writeStartEndElement(XMLOutputStream& stream) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::writeConstant(XMLOutputStream& stream, const std::string & name) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::writeStartElement(XMLOutputStream& stream) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::writeAttributes(XMLOutputStream& stream) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::writeENotation(  double    mantissa , long             exponent , XMLOutputStream& stream ) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::writeENotation(  const std::string&    mantissa , const std::string&    exponent , XMLOutputStream& stream ) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::writeNegInfinity(XMLOutputStream& stream) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::syncMembersFrom(ASTBase* rhs) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::syncMembersAndResetParentsFrom(ASTBase* rhs) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::syncPluginsFrom(ASTBase* rhs) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::syncMembersOnlyFrom(ASTBase* rhs) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::syncCoreMembersOnlyFrom(ASTBase* rhs) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::getNumChildren() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBase::clearPlugins "
-/** * @internal */ public
-";
-
-
 %typemap(javaimports) ASTNode "
 /** 
- *  Abstract Syntax Trees for mathematical expressions.
+ *  Abstract Syntax Tree (AST) representation of a
+ * mathematical expression.
  <p>
  * <p style='color: #777; font-style: italic'>
 This class of objects is defined by libSBML only and has no direct
@@ -70122,12 +70105,16 @@ defined in SBML.
 </p>
 
  <p>
- * <a target=\'_blank\'
- * href=\'http://en.wikipedia.org/wiki/Abstract_syntax_tree\'>Abstract Syntax
- * Trees</a> (ASTs) are a simple kind of data structure used in libSBML for
- * storing mathematical expressions.  LibSBML ASTs provide a canonical,
- * in-memory representation for all mathematical formulas regardless of their
- * original format (which might be MathML or might be text strings).
+ * Abstract Syntax Trees (ASTs) are a simple kind of data structure used in
+ * libSBML for storing mathematical expressions.  The {@link ASTNode} is the
+ * cornerstone of libSBML\'s AST representation.  An AST \'node\' represents the
+ * most basic, indivisible part of a mathematical formula and come in many
+ * types.  For instance, there are node types to represent numbers (with
+ * subtypes to distinguish integer, real, and rational numbers), names
+ * (e.g., constants or variables), simple mathematical operators, logical
+ * or relational operators and functions. LibSBML ASTs provide a canonical,
+ * in-memory representation for all mathematical formulas regardless of
+ * their original format (which might be MathML or might be text strings).
  <p>
  * <p>
  * An AST <em>node</em> in libSBML is a recursive tree structure; each node has a
@@ -70297,9 +70284,11 @@ defined in SBML.
  * {@link libsbmlConstants#AST_FUNCTION_RATE_OF AST_FUNCTION_RATE_OF}.
  <p>
  * <li> (Level&nbsp;3 Version&nbsp;2+ only) If the node is a MathML 
- * operator that originates in a package, and is not defined in SBML 
- * Leve&nbsp;3 core, the value of the node will be
- * {@link libsbmlConstants#AST_ORIGINATES_IN_PACKAGE AST_ORIGINATES_IN_PACKAGE}.
+ * operator that originates in a package, it is included in the
+ * {@link ASTNodeType_t} list, but may not be legally used in an SBML document
+ * that does not include that package.  This includes the node types from
+ * the \'Distributions\' package ({@link libsbmlConstants#AST_DISTRIB_FUNCTION_NORMAL AST_DISTRIB_FUNCTION_NORMAL}, {@link libsbmlConstants#AST_DISTRIB_FUNCTION_UNIFORM AST_DISTRIB_FUNCTION_UNIFORM},
+ * etc.), and elements from MathML that were not included in core.
  <p>
  * <li> If the node contains a numerical value, its type will be
  * {@link libsbmlConstants#AST_INTEGER AST_INTEGER},
@@ -70309,51 +70298,124 @@ defined in SBML.
  *
  * </ul>
  <p>
- * <h3><a class=\'anchor\' name=\'math-convert\'>Converting between ASTs and text
- * strings</a></h3>
+ * <h3><a class=\'anchor\' name=\'math-convert\'>Converting between ASTs and text strings</a></h3>
  <p>
- * The text-string form of mathematical formulas produced by
- * <a href=\'libsbml.html#formulaToString(java.lang.String)\'><code>libsbml.formulaToString(String)</code></a> and
- * <a href=\'libsbml.html#formulaToL3String(java.lang.String)\'><code>libsbml.formulaToL3String(String)</code></a>, and read by
- * <a href=\'libsbml.html#parseFormula(org.sbml.libsbml.ASTNode)\'><code>libsbml.parseFormula(ASTNode)</code></a> and
- * <a href=\'libsbml.html#parseL3Formula(org.sbml.libsbml.ASTNode)\'><code>libsbml.parseL3Formula(ASTNode)</code></a>, are in a simple C-inspired
- * infix notation.  A formula in one of these two text-string formats can be
- * handed to a program that understands SBML mathematical expressions, or
- * used as part of a translation system.  The libSBML distribution comes with
- * example programs in the <code>\'examples\'</code> subdirectory that demonstrate such
- * things as translating infix formulas into MathML and vice-versa.
+ * The text-string form of mathematical formulas produced by 
+ * <a href=\'libsbml.html#formulaToString(ASTNode_t)\'><code>libsbml.formulaToString(ASTNode_t)</code></a> and <a href=\'libsbml.html#formulaToL3String(ASTNode_t)\'><code>libsbml.formulaToL3String(ASTNode_t)</code></a>, 
+ * and read by <a href=\'libsbml.html#parseFormula(java.lang.String)\'><code>libsbml.parseFormula(String)</code></a> and <a href=\'libsbml.html#parseL3Formula(java.lang.String)\'><code>libsbml.parseL3Formula(String)</code></a>
+ * are in a simple C-inspired infix notation.  A
+ * formula in this text-string form can be handed to a program that
+ * understands SBML mathematical expressions, or used as part
+ * of a translation system.  The libSBML distribution comes with an example
+ * program in the <code>\'examples\'</code> subdirectory called <code>translateMath</code> that
+ * implements an interactive command-line demonstration of translating
+ * infix formulas into MathML and vice-versa.
  <p>
- * Please see the documentation for the functions <a href=\'libsbml.html#parseFormula(org.sbml.libsbml.ASTNode)\'><code>libsbml.parseFormula(ASTNode)</code></a> and <a href=\'libsbml.html#parseL3Formula(org.sbml.libsbml.ASTNode)\'><code>libsbml.parseL3Formula(ASTNode)</code></a> for detailed
- * explanations of the infix syntax they accept.
+ * The formula strings may contain operators, function calls, symbols, and
+ * white space characters.  The allowable white space characters are tab
+ * and space.  The following are illustrative examples of formulas
+ * expressed in the syntax:
  <p>
- * <h3><a class=\'anchor\' name=\'math-interpretation\'>Interpretation</a></h3>
+ * <pre class=\'fragment\'>
+0.10 * k4^2
+</pre>
+ * <pre class=\'fragment\'>
+(vm * s1)/(km + s1)
+</pre>
  <p>
- * Proper mathematical interpretation of an {@link ASTNode} requires an 
- * understanding of all the allowed MathML operators, the SBML-specific 
- * csymbols, and of the named variables in the SBML model.  It is 
- * important to note that an invalid {@link ASTNode} might not have a proper 
- * mathematical interpretation--a \'minus\' node with three children is 
- * simply illegal, and cannot be interpreted.  Similarly, a named variable 
- * that does not exist in the {@link Model} also cannot be interpreted.  In SBML 
- * Level&nbsp;3 Version&nbsp;2, the ability was added to reference named 
- * variables in MathML that might exist in SBML Level&nbsp;3 packages.  
- * This means that if the software reading the SBML file (or this version 
- * of libsbml) does not understand that package, MathML using named variables 
- * from those packages will be legal, but will not be interpretable.  It 
- * is valid to issue a warning in this case, and may be otherwise handled 
- * as if an invalid variable name was used.  In all cases, the \'required\' 
- * attribute for the package in question must be set to \'true\'.
+ * The following table shows the precedence rules in this syntax.  In the
+ * Class column, <em>operand</em> implies the construct is an operand, 
+ * <em>prefix</em> implies the operation is applied to the following arguments, 
+ * <em>unary</em> implies there is one argument, and <em>binary</em> implies there are
+ * two arguments.  The values in the Precedence column show how the order
+ * of different types of operation are determined.  For example, the
+ * expression <em>a * b + c</em> is evaluated as <em>(a * b) + c</em>
+ * because the <code>*</code> operator has higher precedence.  The
+ * Associates column shows how the order of similar precedence operations
+ * is determined; for example, <em>a - b + c</em> is evaluated as <em>(a -
+ * b) + c</em> because the <code>+</code> and <code>-</code> operators are
+ * left-associative.  The precedence and associativity rules are taken from
+ * the C programming language, except for the symbol <code>^</code>, which
+ * is used in C for a different purpose.  (Exponentiation can be invoked
+ * using either <code>^</code> or the function <code>power.</code>)
  <p>
- * <h3><a class=\'anchor\' name=\'math-history\'>Historical notes</a></h3>
+ * <table border=\"0\" class=\"centered text-table width80 normal-font alt-row-colors\" style=\"padding-bottom: 0.5em\">
+ <tr style=\"background: lightgray; font-size: 14px;\">
+     <th align=\"left\">Token</th>
+     <th align=\"left\">Operation</th>
+     <th align=\"left\">Class</th>
+     <th>Precedence</th>
+     <th align=\"left\">Associates</th>
+ </tr>
+<tr><td><em>name</em></td><td>symbol reference</td><td>operand</td><td align=\"center\">6</td><td>n/a</td></tr>
+<tr><td><code>(</code><em>expression</em><code>)</code></td><td>expression grouping</td><td>operand</td><td align=\"center\">6</td><td>n/a</td></tr>
+<tr><td><code>f(</code><em>...</em><code>)</code></td><td>function call</td><td>prefix</td><td align=\"center\">6</td><td>left</td></tr>
+<tr><td><code>-</code></td><td>negation</td><td>unary</td><td align=\"center\">5</td><td>right</td></tr>
+<tr><td><code>^</code></td><td>power</td><td>binary</td><td align=\"center\">4</td><td>left</td></tr>
+<tr><td><code>*</code></td><td>multiplication</td><td>binary</td><td align=\"center\">3</td><td>left</td></tr>
+<tr><td><code>/</code></td><td>divison</td><td>binary</td><td align=\"center\">3</td><td>left</td></tr>
+<tr><td><code>+</code></td><td>addition</td><td>binary</td><td align=\"center\">2</td><td>left</td></tr>
+<tr><td><code>-</code></td><td>subtraction</td><td>binary</td><td align=\"center\">2</td><td>left</td></tr>
+<tr><td><code>,</code></td><td>argument delimiter</td><td>binary</td><td align=\"center\">1</td><td>left</td></tr>
+<caption class=\"top-caption\">A table of the expression operators and their precedence in the
+text-string format for mathematical expressions used by SBML_parseFormula().
+</caption>
+</table>
+
+ 
  <p>
- * Readers may wonder why this part of libSBML uses a seemingly less
- * object-oriented design than other parts.  Originally, much of libSBML was
- * written in&nbsp;C.  All subsequent development was done in C++, but the
- * complexity of some of the functionality for converting between infix, AST
- * and MathML, coupled with the desire to maintain stability and backward
- * compatibility, means that some of the underlying code is still written
- * in&nbsp;C.  This has lead to the exposed API being more C-like.
-<p>
+ * A program parsing a formula in an SBML model should assume that names
+ * appearing in the formula are the identifiers of {@link Species}, {@link Parameter},
+ * {@link Compartment}, {@link FunctionDefinition}, {@link Reaction} (in SBML Levels&nbsp;2
+ * and&nbsp;3), or {@link SpeciesReference} (in SBML Level&nbsp;3 only) objects
+ * defined in a model.  When a function call is involved, the syntax
+ * consists of a function identifier, followed by optional white space,
+ * followed by an opening parenthesis, followed by a sequence of zero or
+ * more arguments separated by commas (with each comma optionally preceded
+ * and/or followed by zero or more white space characters), followed by a
+ * closing parenthesis.  There is an almost one-to-one mapping between the
+ * list of predefined functions available, and those defined in MathML.
+ * All of the MathML functions are recognized; this set is larger than the
+ * functions defined in SBML Level&nbsp;1.  In the subset of functions that
+ * overlap between MathML and SBML Level&nbsp;1, there exist a few
+ * differences.  The following table summarizes the differences between the
+ * predefined functions in SBML Level&nbsp;1 and the MathML equivalents in
+ * SBML Levels&nbsp;2 and &nbsp;3:
+ <p>
+ * <table border=\"0\" class=\"centered text-table width80 normal-font alt-row-colors\">
+ <tr style=\"background: lightgray; font-size: 14px;\">
+     <th align=\"left\">Text string formula functions</th>
+     <th align=\"left\">MathML equivalents in SBML Levels&nbsp;2 and&nbsp;3</th>
+ </tr>
+ <tr><td><code>acos</code></td><td><code>arccos</code></td></tr>
+ <tr><td><code>asin</code></td><td><code>arcsin</code></td></tr>
+ <tr><td><code>atan</code></td><td><code>arctan</code></td></tr>
+ <tr><td><code>ceil</code></td><td><code>ceiling</code></td></tr>
+ <tr><td><code>log</code></td><td><code>ln</code></td></tr>
+ <tr><td><code>log10(x)</code></td><td><code>log(x)</code> or <code>log(10, x)</code></td></tr>
+ <tr><td><code>pow(x, y)</code></td><td><code>power(x, y)</code></td></tr>
+ <tr><td><code>sqr(x)</code></td><td><code>power(x, 2)</code></td></tr>
+ <tr><td><code>sqrt(x)</code></td><td><code>root(x)</code> or <code>root(2, x)</code></td></tr>
+<caption class=\"top-caption\">Table comparing the names of certain
+functions in the SBML text-string formula syntax and MathML.  The left
+column shows the names of functions recognized by SBML_parseFormula(); the
+right column shows their equivalent function names in MathML&nbsp;2.0, used
+in SBML Levels&nbsp;2 and&nbsp;3.</caption>
+</table>
+
+
+ <p>
+ * <p>
+ * @note
+ * Callers using SBML Level&nbsp;3 are encouraged to use the facilities
+ * provided by libSBML\'s newer and more powerful Level&nbsp;3-oriented
+ * formula parser and formatter.  The entry points to this second system are
+ * <a href=\'libsbml.html#parseL3Formula(java.lang.String)\'><code>libsbml.parseL3Formula(String)</code></a> and
+ * <a href=\'libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)\'><code>libsbml.formulaToL3String(ASTNode)</code></a>.  The Level&nbsp;1-oriented
+ * system (i.e., what is provided by <a href=\'libsbml.html#formulaToString(java.lang.String)\'><code>libsbml.formulaToString(String)</code></a>
+ * and <a href=\'libsbml.html#parseFormula(org.sbml.libsbml.ASTNode)\'><code>libsbml.parseFormula(ASTNode)</code></a>) is provided
+ * untouched for backwards compatibility.
+ <p>
  * @see <a href=\'libsbml.html#parseL3Formula(java.lang.String)\'><code>libsbml.parseL3Formula(String)</code></a>
  * @see <a href=\'libsbml.html#parseL3FormulaWithSettings(java.lang.String, org.sbml.libsbml.L3ParserSettings)\'><code>libsbml.parseL3FormulaWithSettings(String, L3ParserSettings)</code></a>
  * @see <a href=\'libsbml.html#parseL3FormulaWithModel(java.lang.String, org.sbml.libsbml.Model)\'><code>libsbml.parseL3FormulaWithModel(String, Model)</code></a>
@@ -70366,18 +70428,16 @@ defined in SBML.
 "
 
 
-%javamethodmodifiers ASTNode::ASTNode(ASTNodeType_t type) "
+%javamethodmodifiers ASTNode::ASTNode(ASTNodeType_t type = AST_UNKNOWN) "
 /**
-   * Creates a new {@link ASTNode}.
+   * Creates and returns a new {@link ASTNode}.
    <p>
    * Unless the argument <code>type</code> is given, the returned node will by default
    * have a type of {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN}.  If the type
    * isn\'t supplied when caling this constructor, the caller should set the
-   * node type to something else as soon as possible using
-   * {@link ASTNode#setType(int)}.
+   * node type to something else as soon as possible using {@link ASTNode#setType(int)}.
    <p>
-   * @param type an optional
-   * integer type
+   * @param type an optional type
    * code indicating the type of node to create.
    <p>
    * 
@@ -70398,26 +70458,10 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers ASTNode::ASTNode(SBMLNamespaces* sbmlns, ASTNodeType_t type) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTNode::ASTNode(int type = AST_UNKNOWN) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTNode::ASTNode(SBMLNamespaces* sbmlns, int type = AST_UNKNOWN) "
-/** * @internal */ public
-";
-
-
 %javamethodmodifiers ASTNode::ASTNode(Token_t *token) "
 /**
-   * Creates a new {@link ASTNode} from the given Token.
-   <p>
-   * The resulting {@link ASTNode} will contain the same data as the given <code>token</code>.
+   * Creates a new {@link ASTNode} from the given Token.  The resulting {@link ASTNode}
+   * will contain the same data as the <code>token</code>.
    <p>
    * @param token the token to use as a starting point for creating the
    * {@link ASTNode} object.
@@ -70439,7 +70483,7 @@ appears in the documentation.
    * Frees the name of this {@link ASTNode} and sets it to <code>null.</code>
    <p>
    * This operation is only applicable to {@link ASTNode} objects corresponding to
-   * operators, numbers, or {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN}.  This
+   * operators, numbers, or {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN}.  This 
    * method has no effect on other types of nodes.
    <p>
    * <p>
@@ -70456,51 +70500,50 @@ appears in the documentation.
 
 %javamethodmodifiers ASTNode::canonicalize "
 /**
-   * Converts this {@link ASTNode} to a canonical form.
+   * Converts this {@link ASTNode} to a canonical form and returns <code>true</code> if
+   * successful, <code>false</code> otherwise.
    <p>
    * The rules determining the canonical form conversion are as follows:
    <p>
    * <ul>
    * <li> If the node type is {@link libsbmlConstants#AST_NAME AST_NAME}
-   * and the node name matches <code>\'ExponentialE\'</code>, <code>\'Pi\'</code>, <code>\'True\'</code> or
-   * <code>\'False\'</code> the node type is converted to the corresponding
+   * and the node name matches <code>\'ExponentialE\'</code>, <code>\'Pi\'</code>, <code>\'True\'</code> or 
+   * <code>\'False\'</code> the node type is converted to the corresponding 
    * <code>AST_CONSTANT_</code><em><span class=\'placeholder\'>X</span></em> type.
-   * <li> If the node type is an {@link libsbmlConstants#AST_FUNCTION AST_FUNCTION} and
-   * the node name matches an SBML (MathML) function name, logical operator name,
+   <p>
+   * <li> If the node type is an {@link libsbmlConstants#AST_FUNCTION AST_FUNCTION} 
+   * and the node name matches an SBML (MathML) function name, logical operator name,
    * or relational operator name, the node is converted to the corresponding
    * <code>AST_FUNCTION_</code><em><span class=\'placeholder\'>X</span></em> or
    * <code>AST_LOGICAL_</code><em><span class=\'placeholder\'>X</span></em> type.
    *
    * </ul> <p>
-   * SBML Level&nbsp;1 function names are searched first; thus, for example,
-   * canonicalizing <code>log</code> will result in a node type of
-   * {@link libsbmlConstants#AST_FUNCTION_LN AST_FUNCTION_LN}.  (See the SBML
+   * SBML Level&nbsp;1 function names are searched first; thus, for
+   * example, canonicalizing <code>log</code> will result in a node type of {@link libsbmlConstants#AST_FUNCTION_LN AST_FUNCTION_LN}.  (See the SBML
    * Level&nbsp;1 Version&nbsp;2 Specification, Appendix C.)
    <p>
-   * Sometimes, canonicalization of a node results in a structural conversion
-   * of the node as a result of adding a child.  For example, a node with the
-   * SBML Level&nbsp;1 function name <code>sqr</code> and a single child node (the
-   * argument) will be transformed to a node of type
-   * {@link libsbmlConstants#AST_FUNCTION_POWER AST_FUNCTION_POWER} with two children.  The
-   * first child will remain unchanged, but the second child will be an
-   * {@link ASTNode} of type {@link libsbmlConstants#AST_INTEGER AST_INTEGER} and a value of
-   * 2.  The function names that result in structural changes are: <code>log10</code>,
-   * <code>sqr</code>, and <code>sqrt.</code>
-   <p>
-   * @return <code>true</code> if this node was successfully converted to
-   * canonical form, <code>false</code> otherwise.
+   * Sometimes, canonicalization of a node results in a structural
+   * conversion of the node as a result of adding a child.  For example, a
+   * node with the SBML Level&nbsp;1 function name <code>sqr</code> and a single
+   * child node (the argument) will be transformed to a node of type
+   * {@link libsbmlConstants#AST_FUNCTION_POWER AST_FUNCTION_POWER} with
+   * two children.  The first child will remain unchanged, but the second
+   * child will be an {@link ASTNode} of type {@link libsbmlConstants#AST_INTEGER AST_INTEGER} and a value of 2.  The function names that result
+   * in structural changes are: <code>log10</code>, <code>sqr</code>, and <code>sqrt.</code>
    */ public
 ";
 
 
-%javamethodmodifiers ASTNode::addChild(ASTNode* disownedChild) "
+%javamethodmodifiers ASTNode::addChild(ASTNode* disownedChild, bool inRead = false) "
 /**
    * Adds the given node as a child of this {@link ASTNode}.
    <p>
    * Child nodes are added in-order, from left to right.
    <p>
-   * @param disownedChild the {@link ASTNode} instance to add.  
-   * Will become a child of the parent node.
+   * @param disownedChild the {@link ASTNode} instance to add.
+   * @param inRead <code>false</code> by default; may be set to <code>true</code> when 
+   * reading XML where there may be a lambda function with no
+   * bvar arguments.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -70517,9 +70560,8 @@ appears in the documentation.
  * structure of the mathematical formula it represents, and may even render
  * the representation invalid.  Callers need to be careful to use this method
  * in the context of other operations to create complete and correct
- * formulas.  The method
- * {@link ASTNode#isWellFormedASTNode()}
- * may also be useful for checking the results of node modifications.
+ * formulas.  The method * {@link ASTNode#isWellFormedASTNode()} may also be useful for checking the
+ * results of node modifications.
    <p>
    * @see #prependChild(ASTNode disownedChild)
    * @see #replaceChild(long n, ASTNode disownedChild, boolean delreplaced)
@@ -70532,9 +70574,8 @@ appears in the documentation.
 
 %javamethodmodifiers ASTNode::prependChild(ASTNode* disownedChild) "
 /**
-   * Adds the given node as a child of this {@link ASTNode}.
-   <p>
-   * This method adds child nodes from right to left.
+   * Adds the given node as a child of this {@link ASTNode}.  This method adds
+   * child nodes from right to left.
    <p>
    * @param disownedChild the {@link ASTNode} instance to add.
    * Will become a child of the parent node.
@@ -70554,9 +70595,8 @@ appears in the documentation.
  * structure of the mathematical formula it represents, and may even render
  * the representation invalid.  Callers need to be careful to use this method
  * in the context of other operations to create complete and correct
- * formulas.  The method
- * {@link ASTNode#isWellFormedASTNode()}
- * may also be useful for checking the results of node modifications.
+ * formulas.  The method * {@link ASTNode#isWellFormedASTNode()} may also be useful for checking the
+ * results of node modifications.
    <p>
    * @see #addChild(ASTNode disownedChild)
    * @see #replaceChild(long n, ASTNode disownedChild, boolean delreplaced)
@@ -70587,9 +70627,8 @@ appears in the documentation.
  * structure of the mathematical formula it represents, and may even render
  * the representation invalid.  Callers need to be careful to use this method
  * in the context of other operations to create complete and correct
- * formulas.  The method
- * {@link ASTNode#isWellFormedASTNode()}
- * may also be useful for checking the results of node modifications.
+ * formulas.  The method * {@link ASTNode#isWellFormedASTNode()} may also be useful for checking the
+ * results of node modifications.
    <p>
    * @see #addChild(ASTNode disownedChild)
    * @see #prependChild(ASTNode disownedChild)
@@ -70601,12 +70640,12 @@ appears in the documentation.
 
 %javamethodmodifiers ASTNode::replaceChild(unsigned int n, ASTNode *disownedChild, bool delreplaced=false) "
 /**
-   * Replaces the nth child of this {@link ASTNode} with the given {@link ASTNode}.
+   * Replaces and optionally deletes the nth child of this {@link ASTNode} with the given {@link ASTNode}.
    <p>
    * @param n long the index of the child to replace.
    * @param disownedChild {@link ASTNode} to replace the nth child.
    * Will become a child of the parent node.
-   * @param delreplaced boolean indicating whether to delete the replaced child.
+   * @param delreplaced Boolean indicating whether to delete the replaced child.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -70624,9 +70663,8 @@ appears in the documentation.
  * structure of the mathematical formula it represents, and may even render
  * the representation invalid.  Callers need to be careful to use this method
  * in the context of other operations to create complete and correct
- * formulas.  The method
- * {@link ASTNode#isWellFormedASTNode()}
- * may also be useful for checking the results of node modifications.
+ * formulas.  The method * {@link ASTNode#isWellFormedASTNode()} may also be useful for checking the
+ * results of node modifications.
    <p>
    * @see #addChild(ASTNode disownedChild)
    * @see #prependChild(ASTNode disownedChild)
@@ -70638,12 +70676,11 @@ appears in the documentation.
 
 %javamethodmodifiers ASTNode::insertChild(unsigned int n, ASTNode *disownedChild) "
 /**
-   * Inserts the given {@link ASTNode} node at a given point in the current {@link ASTNode}\'s
-   * list of children.
+   * Inserts the given {@link ASTNode} at point n in the list of children
+   * of this {@link ASTNode}.
    <p>
    * @param n long the index of the {@link ASTNode} being added.
    * @param disownedChild {@link ASTNode} to insert as the nth child.
-   * Will become a child of the parent node.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
@@ -70661,9 +70698,8 @@ appears in the documentation.
  * structure of the mathematical formula it represents, and may even render
  * the representation invalid.  Callers need to be careful to use this method
  * in the context of other operations to create complete and correct
- * formulas.  The method
- * {@link ASTNode#isWellFormedASTNode()}
- * may also be useful for checking the results of node modifications.
+ * formulas.  The method * {@link ASTNode#isWellFormedASTNode()} may also be useful for checking the
+ * results of node modifications.
    <p>
    * @see #addChild(ASTNode disownedChild)
    * @see #prependChild(ASTNode disownedChild)
@@ -70750,17 +70786,17 @@ getChild( getNumChildren() - 1 );
    * Adds the given {@link XMLNode} as a MathML <code>&lt;semantics&gt;</code>
    * element to this {@link ASTNode}.
    <p>
-   * <p>
- * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
- * that can be used to associate additional information with a MathML
- * construct.  The construct can be used to decorate a MathML expressions with
- * a sequence of one or more <code>&lt;annotation&gt;</code> or
- * <code>&lt;annotation-xml&gt;</code> elements.  Each such element contains a
- * pair of items; the first is a symbol that acts as an attribute or key, and
- * the second is the value associated with the attribute or key.  Please refer
- * to the MathML&nbsp;2.0 documentation, particularly the <a target=\'_blank\'
- * href=\'http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations\'>Section
- * 5.2, Semantic Annotations</a> for more information about these constructs.
+   * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
+that can be used to associate additional information with a MathML
+construct.  The construct can be used to decorate a MathML expressions with
+a sequence of one or more <code>&lt;annotation&gt;</code> or
+<code>&lt;annotation-xml&gt;</code> elements.  Each such element contains a
+pair of items; the first is a symbol that acts as an attribute or key, and
+the second is the value associated with the attribute or key.  Please refer
+to the MathML&nbsp;2.0 documentation, particularly the <a target=\"_blank\"
+href=\"http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations\">Section
+5.2, Semantic Annotations</a> for more information about these constructs.
+
    <p>
    * @param disownedAnnotation the annotation to add.
    * Will become a child of the parent node.
@@ -70796,17 +70832,17 @@ getChild( getNumChildren() - 1 );
    * Returns the number of MathML <code>&lt;semantics&gt;</code> element
    * elements on this node.
    <p>
-   * <p>
- * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
- * that can be used to associate additional information with a MathML
- * construct.  The construct can be used to decorate a MathML expressions with
- * a sequence of one or more <code>&lt;annotation&gt;</code> or
- * <code>&lt;annotation-xml&gt;</code> elements.  Each such element contains a
- * pair of items; the first is a symbol that acts as an attribute or key, and
- * the second is the value associated with the attribute or key.  Please refer
- * to the MathML&nbsp;2.0 documentation, particularly the <a target=\'_blank\'
- * href=\'http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations\'>Section
- * 5.2, Semantic Annotations</a> for more information about these constructs.
+   * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
+that can be used to associate additional information with a MathML
+construct.  The construct can be used to decorate a MathML expressions with
+a sequence of one or more <code>&lt;annotation&gt;</code> or
+<code>&lt;annotation-xml&gt;</code> elements.  Each such element contains a
+pair of items; the first is a symbol that acts as an attribute or key, and
+the second is the value associated with the attribute or key.  Please refer
+to the MathML&nbsp;2.0 documentation, particularly the <a target=\"_blank\"
+href=\"http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations\">Section
+5.2, Semantic Annotations</a> for more information about these constructs.
+
    <p>
    * @return the number of annotations of this {@link ASTNode}.
    <p>
@@ -70832,17 +70868,17 @@ getChild( getNumChildren() - 1 );
    * Returns the nth MathML <code>&lt;semantics&gt;</code> element on this
    * {@link ASTNode}.
    <p>
-   * <p>
- * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
- * that can be used to associate additional information with a MathML
- * construct.  The construct can be used to decorate a MathML expressions with
- * a sequence of one or more <code>&lt;annotation&gt;</code> or
- * <code>&lt;annotation-xml&gt;</code> elements.  Each such element contains a
- * pair of items; the first is a symbol that acts as an attribute or key, and
- * the second is the value associated with the attribute or key.  Please refer
- * to the MathML&nbsp;2.0 documentation, particularly the <a target=\'_blank\'
- * href=\'http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations\'>Section
- * 5.2, Semantic Annotations</a> for more information about these constructs.
+   * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
+that can be used to associate additional information with a MathML
+construct.  The construct can be used to decorate a MathML expressions with
+a sequence of one or more <code>&lt;annotation&gt;</code> or
+<code>&lt;annotation-xml&gt;</code> elements.  Each such element contains a
+pair of items; the first is a symbol that acts as an attribute or key, and
+the second is the value associated with the attribute or key.  Please refer
+to the MathML&nbsp;2.0 documentation, particularly the <a target=\"_blank\"
+href=\"http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations\">Section
+5.2, Semantic Annotations</a> for more information about these constructs.
+
    <p>
    * @param n the index of the annotation to return.  Callers should
    * use {@link ASTNode#getNumSemanticsAnnotations()} to first find out how
@@ -70864,8 +70900,8 @@ getChild( getNumChildren() - 1 );
  * href=\'http://sbml.org/Forums\'>sbml-discuss</a> and/or <a target=\'_blank\'
  * href=\'http://sbml.org/Forums\'>sbml-interoperability</a>.
    <p>
-   * @see #addSemanticsAnnotation(XMLNode)
    * @see #getNumSemanticsAnnotations()
+   * @see #addSemanticsAnnotation(XMLNode)
    */ public
 ";
 
@@ -70876,19 +70912,18 @@ getChild( getNumChildren() - 1 );
    <p>
    * This performs a depth-first search of the tree rooted at this {@link ASTNode}
    * object, and returns a List of nodes for which the given function
-   * <code>predicate(node)</code> returns <code>true.</code>  For portability between
-   * different programming languages, the predicate is passed in as a pointer
-   * to a function.  
+   * <code>predicate(node)</code> returns <code>true</code> (nonzero).
+   <p>
+   * For portability between different programming languages, the predicate
+   * is passed in as a pointer to a function.  
    <p>
    * @param predicate the predicate to use.
    <p>
-   * @return the list of nodes for which the predicate returned <code>true.</code>
-   * The List returned is owned by the caller and should be
+   * @return the list of nodes for which the predicate returned <code>true</code>
+   * (nonzero).  The List returned is owned by the caller and should be
    * deleted after the caller is done using it.  The {@link ASTNode} objects in the
    * list; however, are not owned by the caller (as they still belong to
    * the tree itself), and therefore should not be deleted.
-   <p>
-   * @see #fillListOfNodes(ASTNodePredicate, List)
    */ public
 ";
 
@@ -70899,17 +70934,18 @@ getChild( getNumChildren() - 1 );
    * predicate.
    <p>
    * This method is identical to calling
-   * {@link ASTNode#getListOfNodes(ASTNodePredicate)}, except
-   * that instead of creating a new List object, it uses the one passed in as
-   * argument <code>lst</code>.  This method a depth-first search of the tree rooted at
-   * this {@link ASTNode} object, and adds to the list <code>lst</code> the nodes for which the
-   * given function <code>predicate(node)</code> returns <code>true.</code>
+   * getListOfNodes(ASTNodePredicate predicate) ,
+   * except that instead of creating a new List object, it uses the one
+   * passed in as argument <code>lst</code>.  This method a depth-first search of the
+   * tree rooted at this {@link ASTNode} object, and adds to the list <code>lst</code> the
+   * nodes for which the given function <code>predicate(node)</code> returns
+   * <code>true</code> (nonzero).
    <p>
    * For portability between different programming languages, the predicate
    * is passed in as a pointer to a function.  The function definition must
-   * have the type @link {@link ASTNode}.h.ASTNodePredicate
-   * ASTNodePredicate@endlink, which is defined as
-   * <pre class=\'fragment\'>{.cpp}
+   * have the type @link {@link ASTNode}.h.ASTNodePredicate ASTNodePredicate
+   *@endlink, which is defined as
+   * <pre class=\'fragment\'>
 int (*ASTNodePredicate) ( ASTNode_t *node);
 </pre>
    * where a return value of nonzero represents <code>true</code> and zero
@@ -70928,11 +70964,15 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
 /**
    * Returns the value of this node as a single character.
    <p>
-   * This function should be called only when {@link ASTNode#getType()} returns
-   * {@link libsbmlConstants#AST_MINUS AST_MINUS}, {@link libsbmlConstants#AST_TIMES AST_TIMES}, {@link libsbmlConstants#AST_DIVIDE AST_DIVIDE} or
+   * This function should be called only when
+   * {@link ASTNode#getType()} returns
+   * {@link libsbmlConstants#AST_PLUS AST_PLUS},
+   * {@link libsbmlConstants#AST_MINUS AST_MINUS},
+   * {@link libsbmlConstants#AST_TIMES AST_TIMES},
+   * {@link libsbmlConstants#AST_DIVIDE AST_DIVIDE} or
    * {@link libsbmlConstants#AST_POWER AST_POWER}.
    <p>
-   * @return the value of this {@link ASTNode} as a single character.
+   * @return the value of this {@link ASTNode} as a single character
    */ public
 ";
 
@@ -70954,7 +70994,7 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
 /**
    * Returns the MathML <code>class</code> attribute value of this {@link ASTNode}.
    <p>
-   * @return the MathML class of this {@link ASTNode}, if any exists.
+   * @return the MathML class of this {@link ASTNode}, or an empty string if it does not exist.
    <p>
    * @see #isSetClass()
    * @see #setClassName(String id)
@@ -70967,7 +71007,7 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
 /**
    * Returns the MathML <code>style</code> attribute value of this {@link ASTNode}.
    <p>
-   * @return the MathML style of this {@link ASTNode}, if any exists.
+   * @return the MathML style of this {@link ASTNode}, or an empty string if it does not exist.
    <p>
    * @see #isSetStyle()
    * @see #setStyle(String id)
@@ -70983,7 +71023,7 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
    * If this node type is {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, this
    * method returns the value of the numerator.
    <p>
-   * @return the value of this {@link ASTNode} as a (<code>long</code>) integer if type {@link libsbmlConstants#AST_INTEGER AST_INTEGER}; the numerator if type {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, and <code>0</code> (false) otherwise.
+   * @return the value of this {@link ASTNode} as a (<code>long</code>) integer if type {@link libsbmlConstants#AST_INTEGER AST_INTEGER}; the numerator if type {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, and <code>0</code> otherwise.
    <p>
    * @note This function should be called only when
    * {@link ASTNode#getType()} returns
@@ -70995,6 +71035,7 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
    * <code>0</code> is the actual value.
    <p>
    * @see #getNumerator()
+   * @see #getDenominator()
    */ public
 ";
 
@@ -71004,9 +71045,9 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
    * Returns the value of this node as a string.
    <p>
    * This function may be called on nodes that (1) are not operators, i.e.,
-   * nodes for which {@link ASTNode#isOperator()}
-   * returns <code>false</code>, and (2) are not numbers, i.e.,
-   * {@link ASTNode#isNumber()} returns <code>false.</code>
+   * nodes for which * {@link ASTNode#isOperator()} returns <code>false</code>, and (2) are not numbers,
+   * i.e., {@link ASTNode#isNumber()} returns
+   * <code>null.</code>
    <p>
    * @return the value of this {@link ASTNode} as a string, or <code>null</code> if it is
    * a node that does not have a name equivalent (e.g., if it is a number).
@@ -71030,7 +71071,10 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
 
 %javamethodmodifiers ASTNode::getNumerator() const "
 /**
-   * Returns the value of the numerator of this node if of type {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, or the numerical value of the node if of type {@link libsbmlConstants#AST_INTEGER AST_INTEGER}; <code>0</code> (false) otherwise.
+   * Returns the value of the numerator of this node if of
+   * type {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, or the 
+   * numerical value of the node if of type 
+   * {@link libsbmlConstants#AST_INTEGER AST_INTEGER}; <code>0</code> otherwise.
    <p>
    * This function should be called only when
    * {@link ASTNode#getType()} returns
@@ -71041,7 +71085,9 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
    * important to be sure that the node type is the correct type in order to
    * correctly interpret the returned value.
    <p>
-   * @return the value of the numerator of this {@link ASTNode} if {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, the value if {@link libsbmlConstants#AST_INTEGER AST_INTEGER}, or <code>0</code> (false) otherwise.
+   * @return the value of the numerator of this {@link ASTNode} if
+   * {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, the value if 
+   * {@link libsbmlConstants#AST_INTEGER AST_INTEGER}, or <code>0</code> otherwise.
    <p>
    * @see #getDenominator()
    * @see #getInteger()
@@ -71059,7 +71105,7 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
    * @note This function should be called only when
    * {@link ASTNode#getType()} returns
    * {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
-   * It will return <code>1</code> (true) if the node type is another type, but since <code>1</code> may
+   * It will return <code>1</code> if the node type is another type, but since <code>1</code> may
    * be a valid value for the denominator of a rational number, it is
    * important to be sure that the node type is the correct type in order to
    * correctly interpret the returned value.
@@ -71161,13 +71207,11 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
 %javamethodmodifiers ASTNode::getPrecedence() const "
 /**
    * Returns the precedence of this node in the infix math syntax of SBML
-   * Level&nbsp;1.
+   * Level&nbsp;1.  For more information about the infix syntax, see the
+   * discussion about <a href=\'#math-convert\'>text string formulas</a> at
+   * the top of the documentation for {@link ASTNode}.
    <p>
-   * For more information about the infix syntax, see the discussion about <a
-   * href=\'#math-convert\'>text string formulas</a> at the top of the
-   * documentation for {@link ASTNode}.
-   <p>
-   * @return an integer indicating the precedence of this {@link ASTNode}.
+   * @return an integer indicating the precedence of this {@link ASTNode}
    */ public
 ";
 
@@ -71181,46 +71225,13 @@ int (*ASTNodePredicate) ( ASTNode_t *node);
    * {@link libsbmlConstants#AST_PLUS AST_PLUS}, etc.
    <p>
    * @return the type of this {@link ASTNode}.
-   <p>
-   * @note The introduction of extensibility in SBML Level&nbsp;3 brings with
-   * it a need to allow for the possibility of node types that are defined by
-   * plug-ins implementing SBML Level&nbsp;3 packages.  If a given {@link ASTNode} is
-   * a construct created by a package rather than libSBML Core, then
-   * {@link ASTNode#getType()} will return
-   * {@link libsbmlConstants#AST_ORIGINATES_IN_PACKAGE AST_ORIGINATES_IN_PACKAGE}.
-   * Callers can then obtain the package-specific type by
-   * calling getExtendedType().
-   <p>
-   * @see #getExtendedType()
-   */ public
-";
-
-
-%javamethodmodifiers ASTNode::getExtendedType() const "
-/**
-   * Returns the extended type of this {@link ASTNode}.
-   <p>
-   * The type may be either a core
-   * integer type code
-   * or a value of a type code defined by an SBML Level&nbsp;3 package.
-   <p>
-   * @return the type of this {@link ASTNode}.
-   <p>
-   * @note When the {@link ASTNode} is of a type from a package, the value returned
-   * by {@link ASTNode#getType()} will be
-   * {@link libsbmlConstants#AST_ORIGINATES_IN_PACKAGE AST_ORIGINATES_IN_PACKAGE}
-   * and getExtendedType() will return a package-specific type
-   * code.  To find out the possible package-specific types (if any), please
-   * consult the documentation for the particular package.
-   <p>
-   * @see #getType()
    */ public
 ";
 
 
 %javamethodmodifiers ASTNode::getUnits() const "
 /**
-   * Returns the units of this {@link ASTNode}.
+   * Returns the units of this {@link ASTNode}.  
    <p>
    * SBML Level&nbsp;3 Version&nbsp;1 introduced the ability to include an
 attribute <code>sbml:units</code> on MathML <code>cn</code> elements
@@ -71252,8 +71263,8 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isAvogadro() const "
 /**
-   * Returns <code>true</code> if this node represents the predefined
-   * value for Avogadro\'s constant.
+   * Returns <code>true</code> (nonzero) if this node is the special 
+   * symbol <code>avogadro.</code>  The predicate returns <code>false</code> (zero) otherwise.
    <p>
    * SBML Level&nbsp;3 introduced a predefined MathML <code>&lt;csymbol&gt;</code>
    * for the value of Avogadro\'s constant.  LibSBML stores this internally as
@@ -71282,22 +71293,21 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::returnsBoolean(const Model* model=NULL) const "
 /**
-   * Returns <code>true</code> if this node returns a Boolean value.
+   * Returns <code>true</code> (nonzero) if this node returns a Boolean type
+   * or <code>false</code> (zero) otherwise.
    <p>
-   * This function looks at the whole {@link ASTNode} rather than just the top level
-   * of the {@link ASTNode}. Thus, it will consider return values from piecewise
-   * statements.  In addition, if this {@link ASTNode} uses a function call to a
-   * user-defined function, the return value of the corresponding
-   * {@link FunctionDefinition} object will be determined.  Note that this is only
-   * possible where the {@link ASTNode} can trace its parent {@link Model}; that is, the
-   * {@link ASTNode} must represent the <code>&lt;math&gt;</code> element of some
-   * SBML object that has already been added to an instance of an
-   * {@link SBMLDocument}.
-   <p>
-   * @param model the {@link Model} to use as context.
+   * This function looks at the whole {@link ASTNode} rather than just the top 
+   * level of the {@link ASTNode}. Thus it will consider return values from
+   * piecewise statements.  In addition, if this {@link ASTNode} uses a function
+   * call, the return value of the functionDefinition will be determined.
+   * Note that this is only possible where the {@link ASTNode} can trace its parent
+   * {@link Model}, that is, the {@link ASTNode} must represent the <code>&lt;math&gt;</code> element of some
+   * SBML object that has already been added to an instance of an {@link SBMLDocument}.
+   * If this is not the case, this function will return <code>false</code> unless
+   * isBoolean() returns <code>true.</code>
    <p>
    * 
-   * @return <code>true</code> if this {@link ASTNode} returns a boolean, <code>false</code> otherwise.
+   * @return <code>true</code> if this {@link ASTNode} returns a Boolean, <code>false</code> otherwise.
    <p>
    * @see #isBoolean()
    */ public
@@ -71306,33 +71316,47 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isConstant() const "
 /**
-   * Returns <code>true</code> if this node represents a MathML
-   * constant.
+   * Returns <code>true</code> (nonzero) if this node represents a MathML
+   * constant (e.g., <code>true</code>, <code>Pi</code>).
    <p>
-   * Examples of MathML constants include such things as pi.
+   * @return <code>true</code> if this {@link ASTNode} is a MathML constant, <code>false</code> otherwise.
    <p>
-   * @return <code>true</code> if this {@link ASTNode} is a MathML constant, <code>false</code>
-   * otherwise.
-   <p>
-   * @note This function will also return <code>true</code> for nodes of type
+   * @note this function will also return <code>true</code> for nodes of type
    * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} in SBML Level&nbsp;3.
    */ public
 ";
 
 
+%javamethodmodifiers ASTNode::isCiNumber() const "
+/**
+  * Returns <code>true</code> (nonzero) if this node represents a MathML
+  * ci element representing a value not a function (e.g., <code>true</code>, <code>Pi</code>).
+  <p>
+  * @return <code>true</code> if this {@link ASTNode} is a MathML ci element, <code>false</code> otherwise.
+  */ public
+";
+
+
 %javamethodmodifiers ASTNode::isConstantNumber() const "
 /**
-  * Returns <code>true</code> if this node represents a MathML
-  * constant numeric.
+  * Returns <code>true</code> (nonzero) if this node represents a MathML
+  * constant with numeric value (e.g., <code>Pi</code>).
   <p>
-  * Examples of MathML constants include such things as pi.
+  * @return <code>true</code> if this {@link ASTNode} is a MathML constant, <code>false</code> otherwise.
   <p>
-  * @return <code>true</code> if this {@link ASTNode} is a MathML constant, <code>false</code>
-  * otherwise.
-  <p>
-  * @note This function will also return <code>true</code> for nodes of type
+  * @note this function will also return <code>true</code> for 
   * {@link libsbmlConstants#AST_NAME_AVOGADRO AST_NAME_AVOGADRO} in SBML Level&nbsp;3.
   */ public
+";
+
+
+%javamethodmodifiers ASTNode::isCSymbolFunction() const "
+/**
+   * Returns <code>true</code> (nonzero) if this node represents a MathML
+   * csymbol representing a function.
+   <p>
+   * @return <code>true</code> if this {@link ASTNode} is a MathML csymbol function, <code>false</code> otherwise.
+   */ public
 ";
 
 
@@ -71352,8 +71376,8 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isInfinity() const "
 /**
-   * Returns <code>true</code> if this node represents the special IEEE 754
-   * value for infinity.
+   * Returns <code>true</code> (nonzero) if this node represents
+   * the special IEEE 754 value infinity, <code>false</code> (zero) otherwise.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is the special IEEE 754 value infinity,
    * <code>false</code> otherwise.
@@ -71363,7 +71387,8 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isInteger() const "
 /**
-   * Returns <code>true</code> if this node of type {@link libsbmlConstants#AST_INTEGER AST_INTEGER}.
+   * Returns <code>true</code> (nonzero) if this node contains an
+   * integer value, <code>false</code> (zero) otherwise.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is of type {@link libsbmlConstants#AST_INTEGER AST_INTEGER}, <code>false</code> otherwise.
    */ public
@@ -71372,8 +71397,8 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isLambda() const "
 /**
-   * Returns <code>true</code> if this node is a MathML
-   * <code>&lt;lambda&gt;</code>.
+   * Returns <code>true</code> (nonzero) if this node is a MathML
+   * <code>&lt;lambda&gt;</code>, <code>false</code> (zero) otherwise.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is of type {@link libsbmlConstants#AST_LAMBDA AST_LAMBDA}, <code>false</code> otherwise.
    */ public
@@ -71382,14 +71407,14 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isLog10() const "
 /**
-   * Returns <code>true</code> if this node represents a <code>log10</code> function.
+   * Returns <code>true</code> (nonzero) if this node represents a 
+   * <code>log10</code> function, <code>false</code> (zero) otherwise. 
    <p>
-   * More precisely, this predicate returns <code>true</code> if the node type is
-   * {@link libsbmlConstants#AST_FUNCTION_LOG AST_FUNCTION_LOG} with two children, the
-   * first of which is an {@link libsbmlConstants#AST_INTEGER AST_INTEGER} equal to
-   * 10.
+   * More precisely, this predicate returns <code>true</code> if the node type is 
+   * {@link libsbmlConstants#AST_FUNCTION_LOG AST_FUNCTION_LOG} with two
+   * children, the first of which is an {@link libsbmlConstants#AST_INTEGER AST_INTEGER} equal to 10.
    <p>
-   * @return <code>true</code> if the given {@link ASTNode} represents a <code>log10</code>() function,
+   * @return <code>true</code> if the given {@link ASTNode} represents a log10() function,
    * <code>false</code> otherwise.
    <p>
    * @see <a href=\'libsbml.html#parseL3Formula(java.lang.String)\'><code>libsbml.parseL3Formula(String)</code></a>
@@ -71399,7 +71424,8 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isLogical() const "
 /**
-   * Returns <code>true</code> if this node is a MathML logical operator.
+   * Returns <code>true</code> (nonzero) if this node is a MathML
+   * logical operator.
    <p>
    * The possible MathML logical operators in SBML core are <code>and</code>, <code>or</code>, <code>not</code>,
    * <code>xor</code>, and (as of SBML Level&nbsp;3 Version&nbsp;2) <code>implies.</code>  If
@@ -71422,7 +71448,8 @@ used to define a number with value <code>10</code> and unit of measurement
    * simulation time and Avogadro\'s constant in MathML.  Note that this
    * method does <em>not</em> return <code>true</code> for the other <code>csymbol</code>
    * values defined by SBML, \'delay\', because the \'delay\' is a function
-   * and not a constant or variable.
+   * and not a constant or variable.  Similarly, this function returns
+   * <code>false</code> for the csymbol functions added by the \'Distributions\' package.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is a user-defined variable name in SBML
    * or the special symbols for time or Avogadro\'s constant. It returns
@@ -71433,8 +71460,9 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isNaN() const "
 /**
-   * Returns <code>true</code> if this node represents the special IEEE 754
-   * value \'not a number\' (NaN).
+   * Returns <code>true</code> (nonzero) if this node represents the
+   * special IEEE 754 value \'not a number\' (NaN), <code>false</code> (zero)
+   * otherwise.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is the special IEEE 754 NaN, <code>false</code>
    * otherwise.
@@ -71444,8 +71472,8 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isNegInfinity() const "
 /**
-   * Returns <code>true</code> if this node represents the special IEEE 754
-   * value \'negative infinity\'.
+   * Returns <code>true</code> (nonzero) if this node represents the
+   * special IEEE 754 value \'negative infinity\', <code>false</code> (zero) otherwise.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is the special IEEE 754 value negative
    * infinity, <code>false</code> otherwise.
@@ -71455,7 +71483,12 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isNumber() const "
 /**
-   * Returns <code>true</code> if this node contains a number.
+   * Returns <code>true</code> (nonzero) if this node contains a number,
+   * <code>false</code> (zero) otherwise.  This is functionally equivalent to the
+   * following code:
+   * <pre class=\'fragment\'>
+ isInteger() || isReal()
+ </pre>
    <p>
    * @return <code>true</code> if this {@link ASTNode} is a number, <code>false</code> otherwise.
    */ public
@@ -71478,44 +71511,32 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isPiecewise() const "
 /**
-   * Returns <code>true</code> if this node is the MathML
+   * Returns <code>true</code> (nonzero) if this node is the MathML
    * <code>&lt;piecewise&gt;</code> construct.
    <p>
-   * @return <code>true</code> if this {@link ASTNode} is a MathML <code>piecewise</code> function,
-   * <code>false</code> otherwise.
-   */ public
-";
-
-
-%javamethodmodifiers ASTNode::isQualifier() const "
-/**
-   * Predicate returning <code>true</code> if this node is a MathML
-   * qualifier.
-   <p>
-   * The MathML qualifier node types are <code>bvar</code>, <code>degree</code>, <code>base</code>,
-   * <code>piece</code>, and <code>otherwise.</code>
-   <p>
-   * @return <code>true</code> if this {@link ASTNode} is a MathML qualifier, <code>false</code>
-   * otherwise.
+   * @return <code>true</code> if this {@link ASTNode} is a MathML <code>piecewise</code> function, 
+   * <code>false</code> (zero) otherwise.
    */ public
 ";
 
 
 %javamethodmodifiers ASTNode::isRational() const "
 /**
-   * Returns <code>true</code> if this node represents a rational number.
+   * Returns <code>true</code> (nonzero) if this node represents a rational
+   * number.
    <p>
-   * @return <code>true</code> if this {@link ASTNode} is of type {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, <code>false</code> otherwise.
+   * @return <code>true</code> if this {@link ASTNode} is of type 
+   * {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}, <code>false</code> (zero) otherwise.
    */ public
 ";
 
 
 %javamethodmodifiers ASTNode::isReal() const "
 /**
-   * Returns <code>true</code> if this node can represent a real number.
+   * Returns <code>true</code> (nonzero) if this node can represent a
+   * real number, <code>false</code> (zero) otherwise.
    <p>
-   * More precisely, this node must be of one of the following types:
-   * {@link libsbmlConstants#AST_REAL AST_REAL}, {@link libsbmlConstants#AST_REAL_E AST_REAL_E} or {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
+   * More precisely, this node must be of one of the following types: {@link libsbmlConstants#AST_REAL AST_REAL}, {@link libsbmlConstants#AST_REAL_E AST_REAL_E} or {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
    <p>
    * @return <code>true</code> if the value of this {@link ASTNode} can represented as a real
    * number, <code>false</code> otherwise.
@@ -71531,53 +71552,42 @@ used to define a number with value <code>10</code> and unit of measurement
    * The MathML relational operators are <code>==</code>, <code>&gt;=</code>,
    * <code>&gt;</code>, <code>&lt;</code>, and <code>!=</code>.
    <p>
-   * @return <code>true</code> if this {@link ASTNode} is a MathML relational operator,
-   * <code>false</code> otherwise.
-   */ public
-";
-
-
-%javamethodmodifiers ASTNode::isSemantics() const "
-/**
-   * Predicate returning <code>true</code> if this node is a MathML
-   * semantics node.
-   <p>
-   * @return <code>true</code> if this {@link ASTNode} is a MathML semantics node, <code>false</code>
-   * otherwise.
+   * @return <code>true</code> if this {@link ASTNode} is a MathML relational operator, 
+   * <code>false</code> otherwise
    */ public
 ";
 
 
 %javamethodmodifiers ASTNode::isSqrt() const "
 /**
-   * Returns <code>true</code> if this node represents a square root
-   * function.
+   * Returns <code>true</code> (nonzero) if this node represents a
+   * square root function, <code>false</code> (zero) otherwise.
    <p>
-   * More precisely, the node type must be {@link libsbmlConstants#AST_FUNCTION_ROOT AST_FUNCTION_ROOT} with two children, the first of which is an
-   * {@link libsbmlConstants#AST_INTEGER AST_INTEGER} node having value equal to 2.
+   * More precisely, the node type must be {@link libsbmlConstants#AST_FUNCTION_ROOT AST_FUNCTION_ROOT} with two
+   * children, the first of which is an {@link libsbmlConstants#AST_INTEGER AST_INTEGER} node having value equal to 2.
    <p>
-   * @return <code>true</code> if the given {@link ASTNode} represents a <code>sqrt()</code>
-   * function, <code>false</code> otherwise.
+   * @return <code>true</code> if the given {@link ASTNode} represents a sqrt() function,
+   * <code>false</code> otherwise.
    */ public
 ";
 
 
 %javamethodmodifiers ASTNode::isUMinus() const "
 /**
-   * Returns <code>true</code> if this node is a unary minus operator.
+   * Returns <code>true</code> (nonzero) if this node is a unary minus
+   * operator, <code>false</code> (zero) otherwise.
    <p>
-   * A node is defined as a unary minus node if it is of type
-   * {@link libsbmlConstants#AST_MINUS AST_MINUS} and has exactly one child.
+   * A node is defined as a unary minus node if it is of type {@link libsbmlConstants#AST_MINUS AST_MINUS} and has exactly one child.
    <p>
    * For numbers, unary minus nodes can be \'collapsed\' by negating the
-   * number.  In fact, <a href=\'libsbml.html#parseFormula(java.lang.String)\'><code>libsbml.parseFormula(String)</code></a> does this during
-   * its parsing process, and <a href=\'libsbml.html#parseL3Formula(java.lang.String)\'><code>libsbml.parseL3Formula(String)</code></a> has a
-   * configuration option that allows this behavior to be turned on or off.
-   * However, unary minus nodes for symbols ({@link libsbmlConstants#AST_NAME AST_NAME}) or functions cannot be \'collapsed\', so this predicate function is
-   * necessary.
+   * number.  In fact, <a href=\'libsbml.html#parseFormula(java.lang.String)\'><code>libsbml.parseFormula(String)</code></a> 
+   * does this during its parsing process, and <a href=\'libsbml.html#parseL3Formula(java.lang.String)\'><code>libsbml.parseL3Formula(String)</code></a> 
+   * has a configuration option that allows this behavior to be turned
+   * on or off.  However, unary minus nodes for symbols
+   * ({@link libsbmlConstants#AST_NAME AST_NAME}) cannot
+   * be \'collapsed\', so this predicate function is necessary.
    <p>
-   * @return <code>true</code> if this {@link ASTNode} is a unary minus, <code>false</code>
-   * otherwise.
+   * @return <code>true</code> if this {@link ASTNode} is a unary minus, <code>false</code> otherwise.
    <p>
    * @see <a href=\'libsbml.html#parseL3Formula(java.lang.String)\'><code>libsbml.parseL3Formula(String)</code></a>
    */ public
@@ -71586,44 +71596,50 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isUPlus() const "
 /**
-   * Returns <code>true</code> if this node is a unary plus operator.
-   <p>
-   * A node is defined as a unary plus node if it is of type
-   * {@link libsbmlConstants#AST_PLUS AST_PLUS} and has exactly one child.
+   * Returns <code>true</code> (nonzero) if this node is a unary plus
+   * operator, <code>false</code> (zero) otherwise.  A node is defined as a unary
+   * minus node if it is of type {@link libsbmlConstants#AST_MINUS AST_MINUS} and has exactly one child.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is a unary plus, <code>false</code> otherwise.
    */ public
 ";
 
 
+%javamethodmodifiers ASTNode::isUserFunction() const "
+/**
+  * Returns <code>true</code> (nonzero) if this node represents a
+  * MathML user-defined function.
+  <p>
+  * @return <code>true</code> if this {@link ASTNode} is a user-defined function, <code>false</code> otherwise.
+  */ public
+";
+
+
 %javamethodmodifiers ASTNode::hasTypeAndNumChildren "
 /**
-  * Returns <code>true</code> if this node is of a certain type with a specific number
-  * of children.
+  * Returns <code>true</code> if this node is of type <code>type</code>
+  * and has <code>numchildren</code> number of children.  Designed
+  * for use in cases where it is useful to discover if the node is
+  * a unary not or unary minus, or a times node with no children, etc.
   <p>
-  * Designed for use in cases where it is useful to discover if the node is a
-  * unary not or unary minus, or a times node with no children, etc.
-  <p>
-  * @param type the type of {@link ASTNode} sought.
-  * @param numchildren the number of child nodes sought.
-  <p>
-  * @return <code>true</code> if this {@link ASTNode} is has the specified type and number of
-  * children, <code>false</code> otherwise.
+  * @return <code>true</code> if this {@link ASTNode} is has the specified type and number
+  *         of children, <code>false</code> otherwise.
   */ public
 ";
 
 
 %javamethodmodifiers ASTNode::isUnknown() const "
 /**
-   * Returns <code>true</code> if this node has an unknown type.
+   * Returns <code>true</code> (nonzero) if this node has an unknown type.
    <p>
-   * \'Unknown\' nodes have the type {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN}.
-   * Nodes with unknown types will not appear in an {@link ASTNode} tree returned by
-   * libSBML based upon valid SBML input; the only situation in which a node
-   * with type {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN} may appear is
-   * immediately after having create a new, untyped node using the {@link ASTNode}
-   * constructor.  Callers creating nodes should endeavor to set the type to
-   * a valid node type as soon as possible after creating new nodes.
+   * \'Unknown\' nodes have the type {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN}.  
+   * Nodes with unknown types will not appear in an
+   * {@link ASTNode} tree returned by libSBML based upon valid SBML input; the only
+   * situation in which a node with type {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN} 
+   * may appear is immediately after having create a
+   * new, untyped node using the {@link ASTNode} constructor.  Callers creating
+   * nodes should endeavor to set the type to a valid node type as soon as
+   * possible after creating new nodes.
    <p>
    * @return <code>true</code> if this {@link ASTNode} is of type {@link libsbmlConstants#AST_UNKNOWN AST_UNKNOWN}, <code>false</code> otherwise.
    */ public
@@ -71632,11 +71648,10 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isSetId() const "
 /**
-   * Returns <code>true</code> if this node has a value for the MathML
-   * attribute <code>id.</code>
+   * Returns <code>true</code> (nonzero) if this node has a value for the MathML
+   * attribute \'id\'.
    <p>
-   * @return <code>true</code> if this {@link ASTNode} has an attribute id, <code>false</code>
-   * otherwise.
+   * @return <code>true</code> if this {@link ASTNode} has an attribute id, <code>false</code> otherwise.
    <p>
    * @see #isSetClass()
    * @see #isSetStyle()
@@ -71648,11 +71663,10 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isSetClass() const "
 /**
-   * Returns <code>true</code> if this node has a value for the MathML
-   * attribute <code>class.</code>
+   * Returns <code>true</code> (nonzero) if this node has a value for the MathML
+   * attribute \'class\'.
    <p>
-   * @return <code>true</code> if this {@link ASTNode} has an attribute class, <code>false</code>
-   * otherwise.
+   * @return <code>true</code> if this {@link ASTNode} has an attribute class, <code>false</code> otherwise.
    <p>
    * @see #isSetId()
    * @see #isSetStyle()
@@ -71664,11 +71678,10 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isSetStyle() const "
 /**
-   * Returns <code>true</code> if this node has a value for the MathML
-   * attribute <code>style.</code>
+   * Returns <code>true</code> (nonzero) if this node has a value for the MathML
+   * attribute \'style\'.
    <p>
-   * @return <code>true</code> if this {@link ASTNode} has an attribute style, <code>false</code>
-   * otherwise.
+   * @return <code>true</code> if this {@link ASTNode} has an attribute style, <code>false</code> otherwise.
    <p>
    * @see #isSetClass()
    * @see #isSetId()
@@ -71680,7 +71693,7 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::isSetUnits() const "
 /**
-   * Returns <code>true</code> if this node has the attribute
+   * Returns <code>true</code> (nonzero) if this node has the attribute
    * <code>sbml:units</code>.
    <p>
    * SBML Level&nbsp;3 Version&nbsp;1 introduced the ability to include an
@@ -71701,8 +71714,7 @@ used to define a number with value <code>10</code> and unit of measurement
 </pre>
 
    <p>
-   * @return <code>true</code> if this {@link ASTNode} has units associated with it, <code>false</code>
-   * otherwise.
+   * @return <code>true</code> if this {@link ASTNode} has units associated with it, <code>false</code> otherwise.
    <p>
    * @note The <code>sbml:units</code> attribute is only available in SBML
    * Level&nbsp;3.  It may not be used in Levels 1&ndash;2 of SBML.
@@ -71715,7 +71727,7 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::hasUnits() const "
 /**
-   * Returns <code>true</code> if this node or any of its
+   * Returns <code>true</code> (nonzero) if this node or any of its
    * children nodes have the attribute <code>sbml:units</code>.
    <p>
    * SBML Level&nbsp;3 Version&nbsp;1 introduced the ability to include an
@@ -71760,8 +71772,9 @@ used to define a number with value <code>10</code> and unit of measurement
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -71793,7 +71806,7 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::setClass(const std::string& className) "
 /**
-   * Sets the MathML attribute <code>class</code> of this {@link ASTNode}.
+   * Sets the MathML attribute <code>class</code> of this {@link ASTNode} to <code>className</code>.
    <p>
    * @param className <code>string</code> representing the MathML class for this node.
    <p>
@@ -71820,7 +71833,7 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::setStyle(const std::string& style) "
 /**
-   * Sets the MathML attribute <code>style</code> of this {@link ASTNode}.
+   * Sets the MathML attribute <code>style</code> of this {@link ASTNode} to style.
    <p>
    * @param style <code>string</code> representing the identifier.
    <p>
@@ -71840,22 +71853,27 @@ used to define a number with value <code>10</code> and unit of measurement
 ";
 
 
-%javamethodmodifiers ASTNode::setName(const char* name) "
+%javamethodmodifiers ASTNode::setName(const char *name) "
 /**
    * Sets the value of this {@link ASTNode} to the given name.
    <p>
    * As a side effect, this {@link ASTNode} object\'s type will be reset to
-   * {@link libsbmlConstants#AST_NAME AST_NAME} if (and <em>only if</em>) the
-   * {@link ASTNode} was previously an operator (i.e., * {@link ASTNode#isOperator()} returns <code>true</code>), number (i.e., {@link ASTNode#isNumber()} returns <code>true</code>), or
-   * unknown.  This allows names to be set for {@link libsbmlConstants#AST_FUNCTION AST_FUNCTION} nodes and the like.
+   * {@link libsbmlConstants#AST_NAME AST_NAME} if (and <em>only
+   * if</em>) the {@link ASTNode} was previously an operator (
+   * {@link ASTNode#isOperator()}
+   * <code>== true</code>), number (
+   * {@link ASTNode#isNumber()}
+   * <code>== true</code>), or unknown.
+   * This allows names to be set for {@link libsbmlConstants#AST_FUNCTION AST_FUNCTION} nodes and the like.
    <p>
    * @param name the string containing the name to which this node\'s value
    * should be set.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -71865,17 +71883,16 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::setValue(int value) "
 /**
-   * Sets the value of this {@link ASTNode} to the given integer
-   <p>
-   * As a side effect, this operation sets the node type to
-   * {@link libsbmlConstants#AST_INTEGER AST_INTEGER}.
+   * Sets the value of this {@link ASTNode} to the given integer and sets the node
+   * type to {@link libsbmlConstants#AST_INTEGER AST_INTEGER}.
    <p>
    * @param value the integer to which this node\'s value should be set.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -71885,17 +71902,16 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::setValue(long value) "
 /**
-   * Sets the value of this {@link ASTNode} to the given (<code>long</code>) integer
-   <p>
-   * As a side effect, this operation sets the node type to
-   * {@link libsbmlConstants#AST_INTEGER AST_INTEGER}.
+   * Sets the value of this {@link ASTNode} to the given (<code>long</code>) integer and sets
+   * the node type to {@link libsbmlConstants#AST_INTEGER AST_INTEGER}.
    <p>
    * @param value the integer to which this node\'s value should be set.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -71905,18 +71921,17 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::setValue(long numerator, long denominator) "
 /**
-   * Sets the value of this {@link ASTNode} to the given rational.
-   <p>
-   * As a side effect, this operation sets the node type to
-   * {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
+   * Sets the value of this {@link ASTNode} to the given rational in two parts: the
+   * numerator and denominator.  The node type is set to {@link libsbmlConstants#AST_RATIONAL AST_RATIONAL}.
    <p>
    * @param numerator the numerator value of the rational.
    * @param denominator the denominator value of the rational.
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -71926,10 +71941,8 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::setValue(double value) "
 /**
-   * Sets the value of this {@link ASTNode} to the given real (<code>double</code>).
-   <p>
-   * As a side effect, this operation sets the node type to
-   * {@link libsbmlConstants#AST_REAL AST_REAL}.
+   * Sets the value of this {@link ASTNode} to the given real (<code>double</code>) and sets
+   * the node type to {@link libsbmlConstants#AST_REAL AST_REAL}.
    <p>
    * This is functionally equivalent to:
    * <pre class=\'fragment\'>
@@ -71941,8 +71954,9 @@ setValue(value, 0);
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -71952,9 +71966,8 @@ setValue(value, 0);
 
 %javamethodmodifiers ASTNode::setValue(double mantissa, long exponent) "
 /**
-   * Sets the value of this {@link ASTNode} to the given real (<code>double</code>)
-   <p>
-   * As a side effet, this operation sets the node type to
+   * Sets the value of this {@link ASTNode} to the given real (<code>double</code>) in two
+   * parts: the mantissa and the exponent.  The node type is set to
    * {@link libsbmlConstants#AST_REAL_E AST_REAL_E}.
    <p>
    * @param mantissa the mantissa of this node\'s real-numbered value.
@@ -71962,8 +71975,9 @@ setValue(value, 0);
    <p>
    * <p>
  * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
+ * function.   This particular
+ * function only does one thing irrespective of user input or 
+ * object state, and thus will only return a single value:
    * <ul>
    * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
    * </ul>
@@ -71986,42 +72000,8 @@ setValue(value, 0);
    * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
    *
    * </ul> <p>
-   * @note A side-effect of doing this is that any numerical values
-   * previously stored in this node are reset to zero.
-   <p>
-   * @see #getType()
-   * @see #setType(int Type)
-   */ public
-";
-
-
-%javamethodmodifiers ASTNode::setType(int type) "
-/**
-   * Sets the type of this {@link ASTNode}.
-   <p>
-   * This uses integer type codes, which may come from the set
-   * of static integer constants whose names begin with the prefix
-   * <code>AST_</code>  defined in the interface class
-   * <code><a href=\'libsbmlConstants.html\'>libsbmlConstants</a></code>
-   *  or an enumeration of AST types in an SBML
-   * Level&nbsp;3 package.
-   <p>
-   * @param type the integer representing the type to which this node should
-   * be set.
-   <p>
-   * <p>
- * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_ATTRIBUTE_VALUE LIBSBML_INVALID_ATTRIBUTE_VALUE}
-   *
-   * </ul> <p>
-   * @note A side-effect of doing this is that any numerical values
-   * previously stored in this node are reset to zero.
-   <p>
-   * @see #getType()
+   * @note A side-effect of doing this is that any numerical values previously
+   * stored in this node are reset to zero.
    */ public
 ";
 
@@ -72075,9 +72055,10 @@ used to define a number with value <code>10</code> and unit of measurement
 ";
 
 
-%javamethodmodifiers ASTNode::swapChildren(ASTNode* that) "
+%javamethodmodifiers ASTNode::swapChildren(ASTNode *that) "
 /**
-   * Swaps the children of this node with the children of another node.
+   * Swaps the children of this {@link ASTNode} object with the children of the
+   * given {@link ASTNode} object.
    <p>
    * @param that the other node whose children should be used to replace
    * <em>this</em> node\'s children.
@@ -72096,19 +72077,16 @@ used to define a number with value <code>10</code> and unit of measurement
 
 %javamethodmodifiers ASTNode::renameSIdRefs(const std::string& oldid, const std::string& newid) "
 /**
-   * Renames all the SIdRef attributes on this node and its child nodes.
-   <p>
-   * @param oldid the old identifier.
-   * @param newid the new identifier.
+   * Renames all the SIdRef attributes on this node and any child node
    */ public
 ";
 
 
 %javamethodmodifiers ASTNode::renameUnitSIdRefs(const std::string& oldid, const std::string& newid) "
 /**
-   * Renames all the UnitSIdRef attributes on this node and its child nodes.
+   * Renames all the UnitSIdRef attributes on this node and any child node.
    <p>
-   * The only place UnitSIDRefs appear in MathML <code>&lt;cn&gt;</code>
+   * The only place UnitSIDRefs appear is in MathML <code>&lt;cn&gt;</code>
    * elements, so the effects of this method are limited to that.
    <p>
    * @param oldid the old identifier.
@@ -72122,7 +72100,7 @@ used to define a number with value <code>10</code> and unit of measurement
 ";
 
 
-%javamethodmodifiers ASTNode::setIsChildFlag(bool flag) "
+%javamethodmodifiers ASTNode::multiplyTimeBy(const ASTNode* function) "
 /** * @internal */ public
 ";
 
@@ -72192,47 +72170,28 @@ used to define a number with value <code>10</code> and unit of measurement
 ";
 
 
+%javamethodmodifiers ASTNode::setSemanticsFlag "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTNode::unsetSemanticsFlag "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTNode::getSemanticsFlag() const "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers ASTNode::setDefinitionURL(XMLAttributes url) "
-/**
-   * Sets the MathML attribute <code>definitionURL.</code>
-   <p>
-   * @param url the URL value for the <code>definitionURL</code> attribute.
-   <p>
-   * <p>
- * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
-   *
-   * </ul> <p>
-   * @see #setDefinitionURL(String url)
-   * @see #getDefinitionURL()
-   * @see #getDefinitionURLString()
-   */ public
+/** * @internal */ public
 ";
 
 
 %javamethodmodifiers ASTNode::setDefinitionURL(const std::string& url) "
-/**
-   * Sets the MathML attribute <code>definitionURL.</code>
-   <p>
-   * @param url the URL value for the <code>definitionURL</code> attribute.
-   <p>
-   * <p>
- * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
-   *
-   * </ul> <p>
-   * @see #setDefinitionURL(XMLAttributes url)
-   * @see #getDefinitionURL()
-   * @see #getDefinitionURLString()
-   */ public
+/** * @internal */ public
 ";
 
 
@@ -72250,7 +72209,7 @@ used to define a number with value <code>10</code> and unit of measurement
 ";
 
 
-%javamethodmodifiers ASTNode::replaceArgument(const std::string& bvar, ASTNode *arg) "
+%javamethodmodifiers ASTNode::replaceArgument(const std::string& bvar, ASTNode * arg) "
 /**
    * Replaces occurrences of a given name with a given {@link ASTNode}.
    <p>
@@ -72260,32 +72219,14 @@ used to define a number with value <code>10</code> and unit of measurement
    * <code>x</code> within this {@link ASTNode} object, resulting in the forula <code>3 + y</code>.
    <p>
    * @param bvar a string representing the variable name to be substituted.
-   <p>
    * @param arg an {@link ASTNode} representing the name/value/formula to use as
    * a replacement.
    */ public
 ";
 
 
-%javamethodmodifiers ASTNode::setParentSBMLObject(SBase* sb) "
-/**
-   * Sets the parent SBML object of this node.  Is not recursive, and will not set the parent SBML object of any children of this node.
-   <p>
-   * @param sb the parent SBML object of this {@link ASTNode}.
-   <p>
-   * <p>
- * @return integer value indicating success/failure of the
- * function.   The possible values
- * returned by this function are:
-   * <ul>
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
-   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_FAILED LIBSBML_OPERATION_FAILED}
-   *
-   * </ul> <p>
-   * @see #isSetParentSBMLObject()
-   * @see #getParentSBMLObject()
-   * @see #unsetParentSBMLObject()
-   */ public
+%javamethodmodifiers ASTNode::setParentSBMLObject(SBase * sb) "
+/** * @internal */ public
 ";
 
 
@@ -72463,6 +72404,16 @@ used to define a number with value <code>10</code> and unit of measurement
 ";
 
 
+%javamethodmodifiers ASTNode::isBvar() const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTNode::setBvar "
+/** * @internal */ public
+";
+
+
 %javamethodmodifiers ASTNode::usesL3V2MathConstructs() const "
 /** * @internal */ public
 ";
@@ -72473,17 +72424,12 @@ used to define a number with value <code>10</code> and unit of measurement
 ";
 
 
-%javamethodmodifiers ASTNode::write(XMLOutputStream& stream) const "
+%javamethodmodifiers ASTNode::isQualifier() const "
 /** * @internal */ public
 ";
 
 
-%javamethodmodifiers ASTNode::read(XMLInputStream& stream, const std::string& reqd_prefix="") "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTNode::writeNodeOfType(XMLOutputStream& stream, int type, bool inChildNode = false) const "
+%javamethodmodifiers ASTNode::isSemantics() const "
 /** * @internal */ public
 ";
 
@@ -72493,13 +72439,112 @@ used to define a number with value <code>10</code> and unit of measurement
 ";
 
 
-%javamethodmodifiers ASTNode::getTypeCode() const "
+%javamethodmodifiers ASTNode::addPlugin(ASTBasePlugin* plugin) "
 /** * @internal */ public
 ";
 
 
-%javamethodmodifiers ASTNode::getPackageName() const "
+%javamethodmodifiers ASTNode::loadASTPlugins(const SBMLNamespaces * sbmlns) "
 /** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTNode::loadASTPlugin(const std::string& pkgName) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTNode::getASTPlugin(const SBMLNamespaces * sbmlns) "
+/**
+   * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
+   * package extension with the given <code>sbmlns</code>.
+   <p>
+   * @param sbmlns the namespace of the plugin to return.
+   <p>
+   * @return the plug-in object (the libSBML extension interface) of
+   * a package extension with the given package name or URI, or <code>null</code>
+   * if none exist.
+   */ public
+";
+
+
+%javamethodmodifiers ASTNode::getASTPlugin(ASTNodeType_t type) "
+/**
+   * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
+   * package extension for the package that defines the given <code>type</code>.
+   <p>
+   * @param type the type that is defined by the given plugin.
+   <p>
+   * @return the plug-in object (the libSBML extension interface) of
+   * a package extension that defines the given <code>type</code>, or <code>null</code>
+   * if none exist.
+   */ public
+";
+
+
+%javamethodmodifiers ASTNode::getASTPlugin(const std::string& name, bool isCsymbol = false, bool strCmpIsCaseSensitive = false) "
+/**
+   * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
+   * package extension for the package with the given constraints.
+   <p>
+   * @param name the type or csymbol defined by the returned plugin.
+   * @param isCsymbol Boolean indicator of whether the <code>name</code> is a csymbol
+   * (if <code>true</code>) or type (if <code>false</code>).
+   * @param strCmpIsCaseSensitive whether to search for the matching type
+   * or csymbol in case-sensitve manner (if <code>true</code>) or case-insensitive
+   * manner (if <code>false</code>).
+   <p>
+   * @return the plug-in object (the libSBML extension interface) of
+   * a package extension that defines the given <code>name</code>, or <code>null</code>
+   * if none exist.
+   */ public
+";
+
+
+%javamethodmodifiers ASTNode::getASTPlugin(const SBMLNamespaces * sbmlns) const "
+/**
+   * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
+   * package extension with the given <code>sbmlns</code>.
+   <p>
+   * @param sbmlns the namespace of the plugin to return.
+   <p>
+   * @return the plug-in object (the libSBML extension interface) of
+   * a package extension with the given package name or URI, or <code>null</code>
+   * if none exist.
+   */ public
+";
+
+
+%javamethodmodifiers ASTNode::getASTPlugin(ASTNodeType_t type) const "
+/**
+   * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
+   * package extension for the package that defines the given <code>type</code>.
+   <p>
+   * @param type the type that is defined by the given plugin.
+   <p>
+   * @return the plug-in object (the libSBML extension interface) of
+   * a package extension that defines the given <code>type</code>, or <code>null</code>
+   * if none exist.
+   */ public
+";
+
+
+%javamethodmodifiers ASTNode::getASTPlugin(const std::string& name, bool isCsymbol = false, bool strCmpIsCaseSensitive = false) const "
+/**
+   * Returns a plug-in object (extension interface) for an SBML Level&nbsp;3
+   * package extension for the package with the given constraints.
+   <p>
+   * @param name the type or csymbol defined by the returned plugin.
+   * @param isCsymbol Boolean indicator of whether the <code>name</code> is a csymbol
+   * (if <code>true</code>) or type (if <code>false</code>).
+   * @param strCmpIsCaseSensitive whether to search for the matching type
+   * or csymbol in case-sensitve manner (if <code>true</code>) or case-insensitive
+   * manner (if <code>false</code>).
+   <p>
+   * @return the plug-in object (the libSBML extension interface) of
+   * a package extension that defines the given <code>name</code>, or <code>null</code>
+   * if none exist.
+   */ public
 ";
 
 
@@ -72528,12 +72573,7 @@ used to define a number with value <code>10</code> and unit of measurement
 ";
 
 
-%javamethodmodifiers ASTNode::getNumPiece() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTNode::containsVariable(const std::string id) const "
+%javamethodmodifiers ASTNode::containsVariable(const std::string& id) const "
 /** * @internal */ public
 ";
 
@@ -72568,87 +72608,12 @@ used to define a number with value <code>10</code> and unit of measurement
 ";
 
 
-%javamethodmodifiers ASTNode::hasCnUnits() const "
+%javamethodmodifiers ASTNode::clearPlugins "
 /** * @internal */ public
 ";
 
 
-%javamethodmodifiers ASTNode::getUnitsPrefix() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTNode::ASTNode(ASTNumber* number) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTNode::ASTNode(ASTFunction* function) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTNode::reset "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTNode::connectPlugins "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTNode::getNumber() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTNode::getFunction() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers MathML::MathML(SBMLNamespaces* sbmlns) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers MathML::MathML "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers MathML::setPrefix(const std::string& prefix) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers MathML::readMathML(XMLInputStream& stream) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers MathML::writeMathML(XMLOutputStream& stream, const ASTNode* node) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers MathML::hasSeriousErrors(XMLErrorLog* log, unsigned int index) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers MathML::writeOpenMathElement(XMLOutputStream& stream, const ASTNode* node) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers MathML::writeCloseMathElement(XMLOutputStream& stream) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers readMathML(XMLInputStream& stream, const std::string& reqd_prefix="") "
+%javamethodmodifiers readMathML(XMLInputStream& stream, std::string reqd_prefix="", bool inRead = true) "
 /** * @internal */ public
 ";
 
@@ -72881,8 +72846,9 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
 
 %javamethodmodifiers SBML_formulaToL3String(const ASTNode_t *tree) "
 /**
- * Converts an AST to a text string representation of a formula using an
- * extended syntax.
+ * Converts an AST to a string representation of a formula using a syntax
+ * derived from SBML Level&nbsp;1, but extended to include elements from
+ * SBML Level&nbsp;2 and SBML Level&nbsp;3.
  <p>
  * <p>
  * The text-string form of mathematical formulas read by the function
@@ -73586,8 +73552,8 @@ in the \"Level&nbsp;3\" text-string formula syntax.
 
 %javamethodmodifiers SBML_formulaToString(const ASTNode_t *tree) "
 /**
- * Converts an AST to a text string representation of a formula using a
- * basic syntax derived from SBML Level&nbsp;1.
+ * Converts an AST to a string representation of a formula using a syntax
+ * basically derived from SBML Level&nbsp;1.
  <p>
  * <p>
  * The text-string form of mathematical formulas produced by
@@ -73699,15 +73665,8 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * is <code>&lt;ln/&gt;</code>.  Application writers are urged to be careful
  * when translating between text forms and MathML forms, especially if they
  * provide a direct text-string input facility to users of their software
- * systems.</span>
+ * systems.</span> 
  <p>
- * @param tree the AST to be converted.
- <p>
- * @return the formula from the given AST as a text-string mathematical
- * formula oriented towards SBML Level&nbsp;1.  The caller owns the returned
- * string and is responsible for freeing it when it is no longer needed.
- <p>
- * 
  * <p>
  * @note
  * Callers using SBML Level&nbsp;3 are encouraged to use the facilities
@@ -73717,8 +73676,15 @@ Level&nbsp;1 Version&nbsp;2 text-string formula syntax.</caption>
  * <a href=\'libsbml.html#formulaToL3String(org.sbml.libsbml.ASTNode)\'><code>libsbml.formulaToL3String(ASTNode)</code></a>.  The Level&nbsp;1-oriented
  * system (i.e., what is provided by <a href=\'libsbml.html#formulaToString(java.lang.String)\'><code>libsbml.formulaToString(String)</code></a>
  * and <a href=\'libsbml.html#parseFormula(org.sbml.libsbml.ASTNode)\'><code>libsbml.parseFormula(ASTNode)</code></a>) is provided
- * untouched for backwards compatibility.
+ * untouched for backwards compatibility. 
  <p>
+ * @param tree the AST to be converted.
+ <p>
+ * @return the formula from the given AST as an SBML Level 1 text-string
+ * mathematical formula.  The caller owns the returned string and is
+ * responsible for freeing it when it is no longer needed.
+ <p>
+ * 
  * <p>
  * @note We urge developers to keep in mind that the text-string formula
  * syntax is specific to libSBML.  <em>Neither MathML nor SBML define a
@@ -75360,6 +75326,13 @@ defined in SBML.
    * {@link libsbmlConstants#L3P_COMPARE_BUILTINS_CASE_SENSITIVE L3P_COMPARE_BUILTINS_CASE_SENSITIVE}, symbols are
    * interpreted in a case-sensitive manner.
    <p>
+   * @param sbmlns (\'SBML namespaces\') an SBML namespaces object.  The
+   * namespaces identify the SBML Level&nbsp;3 packages that can extend the
+   * syntax understood by the formula parser.  When non-<code>null</code>, the parser
+   * will interpret additional syntax defined by the packages; for example,
+   * it may understand vector/array extensions introduced by the SBML
+   * Level&nbsp;3 <em>Arrays</em> package.
+   <p>
    * @param moduloL3v2 (\'modulo L3v2\') a flag that controls how the
    * parser will handle the @% (\'modulo\') symbol in formulas.  By default, 
    * the parser will convert \'a % b\' to a piecewise function that properly
@@ -75370,13 +75343,6 @@ defined in SBML.
    * The possible values of this field are
    * {@link libsbmlConstants#L3P_MODULO_IS_PIECEWISE L3P_MODULO_IS_PIECEWISE} (to parse @% as a piecewise function) and
    * {@link libsbmlConstants#L3P_MODULO_IS_REM L3P_MODULO_IS_REM} (to parse @% as <code>rem</code>).
-   <p>
-   * @param sbmlns (\'SBML namespaces\') an SBML namespaces object.  The
-   * namespaces identify the SBML Level&nbsp;3 packages that can extend the
-   * syntax understood by the formula parser.  When non-<code>null</code>, the parser
-   * will interpret additional syntax defined by the packages; for example,
-   * it may understand vector/array extensions introduced by the SBML
-   * Level&nbsp;3 <em>Arrays</em> package.
    <p>
    * @param l3v2functions (\'parse L3v2 functions directly\') is a Boolean flag
    * that controls how to translate certain mathematical functions added in SBML
@@ -75949,8 +75915,8 @@ appears in the documentation.
 
 %javamethodmodifiers L3ParserSettings::getParseL3v2Functions() const "
 /**
-  * Indicates the current behavior set for handling the @% symbol in
-  * mathematical formulas.
+  * Indicates the current behavior set for handling whether to
+  * parse the functions added in L3v2 as that MathML or not.
   <p>
   * <p>
  * This setting affects whether the names of functions added in SBML
@@ -75980,30 +75946,77 @@ appears in the documentation.
  * name set.
  * </ul>
   <p>
-  * @see #setParseModuloL3v2(boolean)
+  * @see #setParseL3v2Functions(boolean)
   */ public
 ";
 
 
-%javamethodmodifiers L3ParserSettings::setPlugins(const SBMLNamespaces * sbmlns) "
+%javamethodmodifiers L3ParserSettings::setParsePackageMath(ExtendedMathType_t package, bool parsepackage) "
 /**
-   * Set up the plugins for this {@link L3ParserSettings}, based on the
-   * {@link SBMLNamespaces} object.
-   <p>
-   * When a {@link SBMLNamespaces} object is provided, the parser will only interpret
-   * infix syntax understood by the core libSBML <em>plus</em> the packages
-   * indicated by the {@link SBMLNamespaces} objects provided.  {@link ASTNode} objects
-   * returned by the L3Parser will contain those {@link SBMLNamespaces} objects, and
-   * will be used to parse certain constructs that may only be understood by
-   * packages (e.g., vectors for the SBML Level&nbsp;3 \'arrays\' package).
-   * Note that by default, all packages that were compiled with this version
-   * of libSBML are included, so this function is most useful as a way to
-   * turn <em>off</em> certain namespaces, such as might be desired if your tool
-   * does not support vectors, for example.
-   <p>
-   * @param sbmlns a {@link SBMLNamespaces} object to be used.  If <code>null</code> is given
-   * as the value, all plugins will be loaded.
-   */ public
+  * Sets the behavior for handling functions added in SBML packages
+  <p>
+  * <p>
+ * This setting affects whether the math added in a given SBML
+ * Level&nbsp;3 package are parsed as those added MathML elements, 
+ * or whether they are added as generic functions or variables
+ * with those names.
+  <p>
+  * This method lets you tell the parser which behavior to use&mdash;either
+  * to parse the functions added in a given package as their built-in counterparts,
+  * or as generic functions with that name (to be defined by SBML as
+  * function definitions).  The two possibilities are
+  * represented using the following constants:
+  <p>
+  * <p>
+ * <ul>
+ * <li> {@link libsbmlConstants#L3P_PARSE_PACKAGE_MATH_DIRECTLY L3P_PARSE_PACKAGE_MATH_DIRECTLY} (value = <code>true</code>): parse any 
+ * string defined in a given SBML L3 package as its corresponding ASTType_t.
+ * <li> {@link libsbmlConstants#L3P_PARSE_PACKAGE_MATH_AS_GENERIC L3P_PARSE_PACKAGE_MATH_AS_GENERIC} (value = <code>false</code>): 
+ * parse any string that would have been defined in the given SBML L3 package
+ * as {@link libsbmlConstants#AST_FUNCTION AST_FUNCTION} or {@link libsbmlConstants#AST_NAME AST_NAME} 
+ * with the appropriate name set.
+ * </ul>
+  <p>
+  * @param package an ExtendedMathType_t indicating the extended math package
+  * to be queried.
+  * @param parsepackage a boolean value (one of the constants
+  * {@link libsbmlConstants#L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY L3P_PARSE_L3V2_FUNCTIONS_DIRECTLY} or
+  * {@link libsbmlConstants#L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC L3P_PARSE_L3V2_FUNCTIONS_AS_GENERIC})
+  * indicating how to interpret those function names.
+  <p>
+  * @see #getParsePackageMath(ExtendedMathType_t)
+  */ public
+";
+
+
+%javamethodmodifiers L3ParserSettings::getParsePackageMath(ExtendedMathType_t package) const "
+/**
+  * Indicates the current behavior set for handling whether to
+  * parse the functions added in the given package as that MathML or not.
+  <p>
+  * <p>
+ * This setting affects whether the math added in a given SBML
+ * Level&nbsp;3 package are parsed as those added MathML elements, 
+ * or whether they are added as generic functions or variables
+ * with those names.
+  <p>
+  * @param package an ExtendedMathType_t indicating the extended math package
+  * to be set.
+  <p>
+  * @return A boolean indicating the behavior currently set.  The possible
+  * values are as follows:
+  * <p>
+ * <ul>
+ * <li> {@link libsbmlConstants#L3P_PARSE_PACKAGE_MATH_DIRECTLY L3P_PARSE_PACKAGE_MATH_DIRECTLY} (value = <code>true</code>): parse any 
+ * string defined in a given SBML L3 package as its corresponding ASTType_t.
+ * <li> {@link libsbmlConstants#L3P_PARSE_PACKAGE_MATH_AS_GENERIC L3P_PARSE_PACKAGE_MATH_AS_GENERIC} (value = <code>false</code>): 
+ * parse any string that would have been defined in the given SBML L3 package
+ * as {@link libsbmlConstants#AST_FUNCTION AST_FUNCTION} or {@link libsbmlConstants#AST_NAME AST_NAME} 
+ * with the appropriate name set.
+ * </ul>
+  <p>
+  * @see #setParsePackageMath(ExtendedMathType_t, boolean)
+  */ public
 ";
 
 
@@ -76027,9 +76040,125 @@ appears in the documentation.
 ";
 
 
-%javamethodmodifiers L3ParserSettings::deletePlugins "
+%javamethodmodifiers L3ParserSettings::getPackageSymbolFor(const std::string& name) const "
 /** * @internal */ public
 ";
+
+
+%typemap(javaimports) DefinitionURLRegistry "
+/** 
+ *  Registry of all libSBML SBML DefinitionURLs.
+ <p>
+ * <p style='color: #777; font-style: italic'>
+This class of objects is defined by libSBML only and has no direct
+equivalent in terms of SBML components.  It is a class used in
+the implementation of extra functionality provided by libSBML.
+</p>
+
+ <p>
+ * LibSBML provides facilities for transforming and converting SBML
+ * documents in various ways.  These transformations can involve
+ * essentially anything that can be written algorithmically; examples
+ * include converting the units of measurement in a model, or converting
+ * from one Level+Version combination of SBML to another.  DefinitionURLs are
+ * implemented as objects derived from the class DefinitionURL.
+ <p>
+ * The DefinitionURL registry, implemented as a singleton object of class
+ * {@link DefinitionURLRegistry}, maintains a list of known DefinitionURLs and provides
+ * methods for discovering them.  Callers can use the method
+ * {@link DefinitionURLRegistry#getNumDefinitionURLs()} to find out how many
+ * DefinitionURLs are registered, then use
+ * {@link DefinitionURLRegistry#getDefinitionURLByIndex(int)} to
+ * iterate over each one; alternatively, callers can use
+ * {@link DefinitionURLRegistry#getDefinitionURLFor(ConversionProperties)}
+ * to search for a DefinitionURL having specific properties.
+ */
+"
+
+
+%javamethodmodifiers DefinitionURLRegistry::getInstance "
+/**
+   * Returns the singleton instance for the DefinitionURL registry.
+   <p>
+   * Prior to using the registry, callers have to obtain a copy of the
+   * registry.  This static method provides the means for doing that.
+   <p>
+   * @return the singleton for the DefinitionURL registry.
+   */ public
+";
+
+
+%javamethodmodifiers DefinitionURLRegistry::addDefinitionURL(const std::string& url, int type) "
+/**
+   * Adds the given DefinitionURL to the registry of SBML DefinitionURLs.
+   <p>
+   * @param url the DefinitionURL to add to the registry.
+   * @param type the {@link ASTNodeType_t} of the URL to add to the registry.
+   <p>
+   * <p>
+ * @return integer value indicating success/failure of the
+ * function.   The possible values
+ * returned by this function are:
+   * <ul>
+   * <li> {@link libsbmlConstants#LIBSBML_OPERATION_SUCCESS LIBSBML_OPERATION_SUCCESS}
+   * <li> {@link libsbmlConstants#LIBSBML_INVALID_OBJECT LIBSBML_INVALID_OBJECT}
+   * </ul>
+   */ public
+";
+
+
+%javamethodmodifiers DefinitionURLRegistry::getNumDefinitionURLs "
+/**
+   * Returns the number of DefinitionURLs known by the registry.
+   <p>
+   * @return the number of registered DefinitionURLs.
+   <p>
+   * @see #getDefinitionURLByIndex(int)
+   */ public
+";
+
+
+%javamethodmodifiers DefinitionURLRegistry::addSBMLDefinitions "
+/** */ public
+";
+
+
+%javamethodmodifiers DefinitionURLRegistry::getCoreDefinitionsAdded "
+/** */ public
+";
+
+
+%javamethodmodifiers DefinitionURLRegistry::getType(const std::string& url) "
+/** */ public
+";
+
+
+%javamethodmodifiers DefinitionURLRegistry::getDefinitionUrlByIndex(int index) "
+/** */ public
+";
+
+
+%javamethodmodifiers DefinitionURLRegistry::clearDefinitions "
+/** */ public
+";
+
+
+%javamethodmodifiers DefinitionURLRegistry::DefinitionURLRegistry "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers DefinitionURLRegistry::setCoreDefinitionsAdded "
+/** * @internal */ public
+";
+
+
+%typemap(javaimports) MathFilter "
+/** 
+ *  
+ * @internal
+ */
+"
 
 
 %typemap(javaimports) ASTBasePlugin "
@@ -76046,6 +76175,11 @@ defined in SBML.
  * @internal
  */
 "
+
+
+%javamethodmodifiers ASTBasePlugin::allowedInFunctionDefinition(ASTNodeType_t type) const "
+/** * @internal */ public
+";
 
 
 %javamethodmodifiers ASTBasePlugin::clone() const "
@@ -76078,7 +76212,7 @@ defined in SBML.
 ";
 
 
-%javamethodmodifiers ASTBasePlugin::connectToParent(ASTBase *astbase) "
+%javamethodmodifiers ASTBasePlugin::connectToParent(ASTNode *astbase) "
 /** * @internal */ public
 ";
 
@@ -76133,191 +76267,6 @@ defined in SBML.
 ";
 
 
-%javamethodmodifiers ASTBasePlugin::isSetMath() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::getMath() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::createMath(int type) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::addChild(ASTBase * child) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::getChild "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::getNumChildren() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::insertChild(unsigned int n, ASTBase* newChild) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::prependChild(ASTBase* newChild) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::removeChild(unsigned int n) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::replaceChild(unsigned int n, ASTBase* newChild, bool delreplaced) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::swapChildren(ASTFunction* that) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::read(XMLInputStream& stream, const std::string& reqd_prefix, const XMLToken& currentElement) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::addExpectedAttributes(ExpectedAttributes& attributes, XMLInputStream& stream, int type) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::readAttributes(const XMLAttributes& attributes, const ExpectedAttributes& expectedAttributes, XMLInputStream& stream, const XMLToken& element, int type) "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::writeAttributes(XMLOutputStream& stream, int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::writeXMLNS(XMLOutputStream& stream) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isNumberNode(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isFunctionNode(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isLogical(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isConstantNumber(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isCSymbolFunction(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isCSymbolNumber(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isName(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isNumber(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isOperator(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isRelational(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::representsQualifier(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isFunction(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::representsUnaryFunction(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::representsBinaryFunction(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::representsNaryFunction(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::hasCorrectNumberArguments(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isWellFormedNode(int type) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isTopLevelMathMLFunctionNodeTag(const std::string& name) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::isTopLevelMathMLNumberNodeTag(const std::string& name) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::getTypeFromName(const std::string& name) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::getNameFromType(int type) const "
-/** * @internal */ public
-";
-
-
 %javamethodmodifiers ASTBasePlugin::renameSIdRefs(const std::string& oldid, const std::string& newid) "
 /** * @internal */ public
 ";
@@ -76329,6 +76278,36 @@ defined in SBML.
 
 
 %javamethodmodifiers ASTBasePlugin::replaceIDWithFunction(const std::string& id, const ASTNode* function) "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTBasePlugin::checkNumArguments(const ASTNode* function, std::stringstream& error) const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTBasePlugin::getL3PackageInfixPrecedence() const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTBasePlugin::hasCorrectNumArguments(const ASTNode* function) const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTBasePlugin::hasPackageOnlyInfixSyntax() const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTBasePlugin::hasUnambiguousPackageInfixGrammar(const ASTNode *child) const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTBasePlugin::isPackageInfixFunction() const "
 /** * @internal */ public
 ";
 
@@ -76348,32 +76327,7 @@ defined in SBML.
 ";
 
 
-%javamethodmodifiers ASTBasePlugin::isPackageInfixFunction() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::hasPackageOnlyInfixSyntax() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::getL3PackageInfixPrecedence() const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::hasUnambiguousPackageInfixGrammar(const ASTNode *child) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::visitPackageInfixSyntax( const ASTNode *parent, const ASTNode *node, StringBuffer_t  *sb, const L3ParserSettings* settings) const "
-/** * @internal */ public
-";
-
-
-%javamethodmodifiers ASTBasePlugin::checkNumArguments(const ASTNode* function, std::stringstream& error) const "
+%javamethodmodifiers ASTBasePlugin::visitPackageInfixSyntax(const ASTNode *parent, const ASTNode *node, StringBuffer_t  *sb, const L3ParserSettings* settings) const "
 /** * @internal */ public
 ";
 
@@ -76383,7 +76337,12 @@ defined in SBML.
 ";
 
 
-%javamethodmodifiers ASTBasePlugin::getPackageFunctionFor(const std::string& name) const "
+%javamethodmodifiers ASTBasePlugin::getPackageFunctionFor(const std::string& name, bool strCmpIsCaseSensitive = false) const "
+/** * @internal */ public
+";
+
+
+%javamethodmodifiers ASTBasePlugin::getPackageSymbolFor(const std::string& name, bool strCmpIsCaseSensitive = false) const "
 /** * @internal */ public
 ";
 

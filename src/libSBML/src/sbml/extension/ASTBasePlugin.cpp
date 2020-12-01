@@ -12,6 +12,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -220,6 +225,19 @@ bool ASTBasePlugin::isFunction(ASTNodeType_t type) const
     }
   }
   return false;
+}
+
+vector<unsigned int> ASTBasePlugin::getNumAllowedChildren(ASTNodeType_t type) const
+{
+  for (size_t t = 0; t < mPkgASTNodeValues.size(); t++)
+  {
+    if (mPkgASTNodeValues[t].type == type)
+    {
+      return mPkgASTNodeValues[t].numAllowedChildren;
+    }
+  }
+  vector<unsigned int> empty;
+  return empty;
 }
 
 bool ASTBasePlugin::isLogical(ASTNodeType_t type) const
@@ -675,7 +693,6 @@ int ASTBasePlugin::checkNumArguments(const ASTNode* node, std::stringstream& err
   default:
     return 0;
   }
-  return 0;
 }
 
 bool 
@@ -712,6 +729,25 @@ ASTBasePlugin::getPackageFunctionFor(const std::string& function, bool strCmpIsC
     {
       ASTNodeType_t ret = mPkgASTNodeValues[t].type;
       if (mPkgASTNodeValues[t].isFunction)
+      {
+        return ret;
+      }
+      return AST_UNKNOWN;
+    }
+  }
+  return AST_UNKNOWN;
+}
+
+
+ASTNodeType_t
+ASTBasePlugin::getPackageSymbolFor(const std::string& function, bool strCmpIsCaseSensitive) const
+{
+  for (size_t t = 0; t < mPkgASTNodeValues.size(); t++)
+  {
+    if (emStrCmp(mPkgASTNodeValues[t].name, function, strCmpIsCaseSensitive))
+    {
+      ASTNodeType_t ret = mPkgASTNodeValues[t].type;
+      if (!mPkgASTNodeValues[t].isFunction)
       {
         return ret;
       }

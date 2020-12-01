@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -328,7 +333,7 @@ public:
 
 
   /**
-   * Gets the numerical value of this Parameter.
+   * Returns the numerical value of this Parameter.
    * 
    * @return the value of the "value" attribute of this Parameter, as a
    * number of type @c double.
@@ -350,7 +355,7 @@ public:
 
 
   /**
-   * Gets the units defined for this Parameter.
+   * Returns the units defined for this Parameter.
    *
    * The value of an SBML parameter's "units" attribute establishes the
    * unit of measurement associated with the parameter's value.
@@ -368,7 +373,7 @@ public:
 
 
   /**
-   * Gets the value of the "constant" attribute of this Parameter instance.
+   * Returns the value of the "constant" attribute of this Parameter instance.
    * 
    * @return @c true if this Parameter is declared as being constant,
    * @c false otherwise.
@@ -722,7 +727,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Parameter.
+   * Returns the value of the "attributeName" attribute of this Parameter.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -742,7 +747,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Parameter.
+   * Returns the value of the "attributeName" attribute of this Parameter.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -761,7 +766,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Parameter.
+   * Returns the value of the "attributeName" attribute of this Parameter.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -781,7 +786,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Parameter.
+   * Returns the value of the "attributeName" attribute of this Parameter.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -801,7 +806,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Parameter.
+   * Returns the value of the "attributeName" attribute of this Parameter.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -821,7 +826,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Parameter.
+   * Returns the value of the "attributeName" attribute of this Parameter.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -988,6 +993,10 @@ public:
   /** @endcond */
 
 
+  /** @cond doxygenLibsbmlInternal */
+  bool isExplicitlySetConstant() const;
+  /** @endcond */
+
 
 
   #endif /* !SWIG */
@@ -1026,9 +1035,6 @@ protected:
    * of this method as well.
    */
   virtual void writeAttributes (XMLOutputStream& stream) const;
-
-  bool isExplicitlySetConstant() const 
-                            { return mExplicitlySetConstant; } ;
 
   //std::string  mId;
   //std::string  mName;
@@ -1261,7 +1267,7 @@ public:
 
   /** @cond doxygenLibsbmlInternal */
   /**
-   * Gets the ordinal position of this element in the containing object
+   * Returns the ordinal position of this element in the containing object
    * (which in this case is the Model object).
    *
    * The ordering of elements in the XML form of SBML is generally fixed

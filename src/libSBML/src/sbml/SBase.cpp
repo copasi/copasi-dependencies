@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -236,10 +241,8 @@ SBase::prependStringToAllIdentifiers(const std::string& prefix)
   }
 
 
-  // for historical reasons some things like Rules will
-  // return an id but not set one
-  // so if we are going to bail on this we should have done
-  // anything else first
+  // Must use 'IdAttribute' functions since some elements like rules 
+  // return a different value for 'Id' functions alone.
 
   if (isSetIdAttribute())
   {
@@ -931,8 +934,9 @@ SBase::getNamespaces() const
 {
   if (mSBML != NULL)
     return mSBML->getSBMLNamespaces()->getNamespaces();
-  else
+  if (mSBMLNamespaces != NULL)
     return mSBMLNamespaces->getNamespaces();
+  return NULL;
 }
 
 
@@ -1496,6 +1500,15 @@ SBase::appendAnnotation (const XMLNode* annotation)
   // syncAnnotation() doesn't need to be invoked in this function because
   // existing mCVTerm objects are properly merged in the following code.
   //
+  // except when they have not been updated (ie CVTerm has been added but not synced
+  // see bug reported via libsbml-team
+  // https://www.pivotaltracker.com/story/show/166576120
+
+  if (getNumCVTerms() > 0 && mAnnotation == NULL)
+  {
+    syncAnnotation();
+  }
+
 
   if(annotation == NULL)
     return LIBSBML_OPERATION_SUCCESS;
@@ -1596,6 +1609,14 @@ SBase::appendAnnotation (const std::string& annotation)
   // syncAnnotation() doesn't need to be invoked in this function because
   // existing mCVTerm objects are properly merged in the following code.
   //
+  // except when they have not been updated (ie CVTerm has been added but not synced
+  // see bug reported via libsbml-team
+  // https://www.pivotaltracker.com/story/show/166576120
+
+  if (getNumCVTerms() > 0 && mAnnotation == NULL)
+  {
+    syncAnnotation();
+  }
 
   int success = LIBSBML_OPERATION_FAILED;
   XMLNode* annt_xmln;
@@ -5806,7 +5827,7 @@ SBase::storeUnknownExtElement(XMLInputStream &stream)
   {
     return false;
   }
-  else if (mSBML->isIgnoredPackage(uri))
+  else if (mSBML != NULL && mSBML->isIgnoredPackage(uri))
   {
     //
     // Checks if the extension package with the uri is unknown
@@ -7380,7 +7401,7 @@ SBase::updateSBMLNamespace(const std::string& package, unsigned int level,
 
 /** @cond doxygenLibsbmlInternal */
 /*
- * Gets the XML namespace to which this element belongs to.
+ * Returns the XML namespace to which this element belongs to.
  */
 const std::string&
 SBase::getElementNamespace() const

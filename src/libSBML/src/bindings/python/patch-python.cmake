@@ -25,7 +25,15 @@ file(WRITE "${WRAPPER_FILE}" "
 # import statement needed on some systems
 import sys
 import os.path
-sys.path.append(os.path.dirname(__file__))
+import inspect
+try: 
+  _filename = inspect.getframeinfo(inspect.currentframe()).filename
+except:
+  _filename = __file__
+_path = os.path.dirname(os.path.abspath(_filename))
+if not _path in sys.path:
+  sys.path.append(_path)
+
 ")
 
 if (PYTHON_USE_API2_WARNINGS)
@@ -40,3 +48,34 @@ endif()
 
 file(APPEND  "${WRAPPER_FILE}" "${SOURCECODE}")
 
+
+file(READ "${WRAPPER_FILE}" init_script)
+
+file(WRITE "${BIN_DIRECTORY}/libsbml2.py" "${init_script}")
+
+string(REPLACE 
+  "class SBase(_object):"
+  "class SBase(_object, metaclass=AutoProperty):"
+  init3_script "${init_script}"
+)
+
+string(REPLACE 
+  "class SBase(object):"
+  "class SBase(object, metaclass=AutoProperty):"
+  init3_script "${init3_script}"
+)
+
+string(REPLACE 
+  "class SBasePlugin(_object):"
+  "class SBasePlugin(_object, metaclass=AutoProperty):"
+  init3_script "${init3_script}"
+)
+
+string(REPLACE 
+  "class SBasePlugin(object):"
+  "class SBasePlugin(object, metaclass=AutoProperty):"
+  init3_script "${init3_script}"
+)
+
+
+file(WRITE ${BIN_DIRECTORY}/libsbml3.py "${init3_script}")

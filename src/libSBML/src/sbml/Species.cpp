@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -1269,7 +1274,7 @@ Species::hasRequiredAttributes() const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Species.
+ * Returns the value of the "attributeName" attribute of this Species.
  */
 int
 Species::getAttribute(const std::string& attributeName, bool& value) const
@@ -1307,7 +1312,7 @@ Species::getAttribute(const std::string& attributeName, bool& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Species.
+ * Returns the value of the "attributeName" attribute of this Species.
  */
 int
 Species::getAttribute(const std::string& attributeName, int& value) const
@@ -1335,7 +1340,7 @@ Species::getAttribute(const std::string& attributeName, int& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Species.
+ * Returns the value of the "attributeName" attribute of this Species.
  */
 int
 Species::getAttribute(const std::string& attributeName, double& value) const
@@ -1368,7 +1373,7 @@ Species::getAttribute(const std::string& attributeName, double& value) const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Species.
+ * Returns the value of the "attributeName" attribute of this Species.
  */
 int
 Species::getAttribute(const std::string& attributeName,
@@ -1386,7 +1391,7 @@ Species::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Species.
+ * Returns the value of the "attributeName" attribute of this Species.
  */
 int
 Species::getAttribute(const std::string& attributeName,
@@ -1440,7 +1445,7 @@ Species::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this Species.
+ * Returns the value of the "attributeName" attribute of this Species.
  */
 //int
 //Species::getAttribute(const std::string& attributeName,
@@ -1800,7 +1805,21 @@ Species::unsetAttribute(const std::string& attributeName)
   return value;
 }
 
-/** @endcond */
+bool Species::isExplicitlySetBoundaryCondition() const
+{
+    return mExplicitlySetBoundaryCondition;
+}
+
+bool Species::isExplicitlySetConstant() const
+{
+    return mExplicitlySetConstant;
+}
+
+bool Species::isExplicitlySetHasOnlySubsUnits() const
+{
+    return mExplicitlySetHasOnlySubsUnits;
+}
+ /** @endcond */
 
 
 
@@ -2185,6 +2204,7 @@ Species::readL3Attributes (const XMLAttributes& attributes)
   mIsSetBoundaryCondition = attributes.readInto("boundaryCondition", 
                                mBoundaryCondition, getErrorLog(), false, 
                                                    getLine(), getColumn());
+  mExplicitlySetBoundaryCondition = mIsSetBoundaryCondition;
   if (!mIsSetBoundaryCondition)
   {
     logError(AllowedAttributesOnSpecies, level, version, 
@@ -2215,6 +2235,7 @@ Species::readL3Attributes (const XMLAttributes& attributes)
   mIsSetHasOnlySubstanceUnits = attributes.readInto(
                          "hasOnlySubstanceUnits", mHasOnlySubstanceUnits,
                           getErrorLog(), false, getLine(), getColumn());
+  mExplicitlySetHasOnlySubsUnits = mIsSetHasOnlySubstanceUnits;
   if (!mIsSetHasOnlySubstanceUnits)
   {
     logError(AllowedAttributesOnSpecies, level, version, 
@@ -2227,6 +2248,7 @@ Species::readL3Attributes (const XMLAttributes& attributes)
   //
   mIsSetConstant = attributes.readInto("constant", mConstant, getErrorLog(), 
                                             false, getLine(), getColumn());
+  mExplicitlySetConstant = mIsSetConstant;
   if (!mIsSetConstant)
   {
     logError(AllowedAttributesOnSpecies, level, version, 

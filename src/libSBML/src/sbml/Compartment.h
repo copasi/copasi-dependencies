@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -1328,7 +1333,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Compartment.
+   * Returns the value of the "attributeName" attribute of this Compartment.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -1348,7 +1353,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Compartment.
+   * Returns the value of the "attributeName" attribute of this Compartment.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -1367,7 +1372,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Compartment.
+   * Returns the value of the "attributeName" attribute of this Compartment.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -1387,7 +1392,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Compartment.
+   * Returns the value of the "attributeName" attribute of this Compartment.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -1407,7 +1412,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Compartment.
+   * Returns the value of the "attributeName" attribute of this Compartment.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -1427,7 +1432,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this Compartment.
+   * Returns the value of the "attributeName" attribute of this Compartment.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -1594,6 +1599,12 @@ public:
   /** @endcond */
 
 
+  /** @cond doxygenLibsbmlInternal */
+  bool isExplicitlySetSpatialDimensions() const;
+
+  bool isExplicitlySetConstant() const;
+  /** @endcond */
+
 
 
   #endif /* !SWIG */
@@ -1632,11 +1643,6 @@ protected:
    * of this method as well.
    */
   virtual void writeAttributes (XMLOutputStream& stream) const;
-
-  bool isExplicitlySetSpatialDimensions() const {
-    return mExplicitlySetSpatialDimensions; };
-
-  bool isExplicitlySetConstant() const { return mExplicitlySetConstant; } ;
 
 
   //std::string   mId;

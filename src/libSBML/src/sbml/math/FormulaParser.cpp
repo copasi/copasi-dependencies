@@ -1,11 +1,16 @@
 /**
- * @file    FormulaParser.c
+ * @file    FormulaParser.cpp
  * @brief   Parses an SBML formula string into an AST.
  * @author  Ben Bornstein
  * 
  * <!--------------------------------------------------------------------------
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
+ *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
  *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
@@ -398,7 +403,7 @@ LIBSBML_EXTERN
 ASTNode_t *
 SBML_parseFormula (const char *formula)
 {
-  long rule, state, action;
+  long long rule, state, action;
 
   ASTNode_t *node = NULL;
 
@@ -417,7 +422,7 @@ SBML_parseFormula (const char *formula)
 
   while (1)
   {
-    state  = (long) Stack_peek(stack);
+    state  = (long long) Stack_peek(stack);
     action = FormulaParser_getAction(state, token);
 
     if (action == ACCEPT_STATE)
@@ -460,7 +465,7 @@ SBML_parseFormula (const char *formula)
     {
       rule  = -action;
       node  = FormulaParser_reduceStackByRule(stack, rule);
-      state = (long) Stack_peek(stack);
+      state = (long long) Stack_peek(stack);
 
       Stack_push( stack, node );
       Stack_push( stack, (void *) FormulaParser_getGoto(state, rule) );

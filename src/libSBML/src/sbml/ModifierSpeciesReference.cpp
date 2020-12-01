@@ -8,6 +8,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -142,7 +147,7 @@ ModifierSpeciesReference::hasRequiredAttributes() const
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this
+ * Returns the value of the "attributeName" attribute of this
  * ModifierSpeciesReference.
  */
 int
@@ -162,7 +167,7 @@ ModifierSpeciesReference::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this
+ * Returns the value of the "attributeName" attribute of this
  * ModifierSpeciesReference.
  */
 int
@@ -182,7 +187,7 @@ ModifierSpeciesReference::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this
+ * Returns the value of the "attributeName" attribute of this
  * ModifierSpeciesReference.
  */
 int
@@ -202,7 +207,7 @@ ModifierSpeciesReference::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this
+ * Returns the value of the "attributeName" attribute of this
  * ModifierSpeciesReference.
  */
 int
@@ -222,7 +227,7 @@ ModifierSpeciesReference::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this
+ * Returns the value of the "attributeName" attribute of this
  * ModifierSpeciesReference.
  */
 int
@@ -242,7 +247,7 @@ ModifierSpeciesReference::getAttribute(const std::string& attributeName,
 /** @cond doxygenLibsbmlInternal */
 
 /*
- * Gets the value of the "attributeName" attribute of this
+ * Returns the value of the "attributeName" attribute of this
  * ModifierSpeciesReference.
  */
 //int

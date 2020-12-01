@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -386,7 +391,12 @@ SBMLError::SBMLError (  const unsigned int errorId
       unsigned int index = sbext->getErrorTableIndex(mErrorId);
       if (index > 0)
       {
-        mSeverity = sbext->getSeverity(index, pkgVersion);
+        if (severity == LIBSBML_SEV_UNKNOWN) {
+          mSeverity = sbext->getSeverity(index, pkgVersion);
+        }
+        else {
+          mSeverity = severity;
+        }
         mCategory = sbext->getCategory(index);
         mMessage = sbext->getMessage(index, pkgVersion, details);
         mShortMessage = sbext->getShortMessage(index);
@@ -406,7 +416,12 @@ SBMLError::SBMLError (  const unsigned int errorId
   // filled in all the relevant additional data.  (If they didn't, the
   // following merely assigns the defaults.)
   mMessage        = details;
-  mSeverity       = severity;
+  if (severity == LIBSBML_SEV_UNKNOWN) {
+    mSeverity = LIBSBML_SEV_ERROR;
+  }
+  else {
+    mSeverity = severity;
+  }
   mCategory       = category;
   mSeverityString = stringForSeverity(mSeverity);
   mCategoryString = stringForCategory(mCategory);

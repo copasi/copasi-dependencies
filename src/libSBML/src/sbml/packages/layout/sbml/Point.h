@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -471,7 +476,7 @@ void
 Point_setZ (Point_t *p, double z);
 
 /**
- * Gets the x offset.
+ * Returns the x offset.
  *
  * @param p the Point_t structure.
  *
@@ -482,7 +487,7 @@ double
 Point_x (const Point_t *p);
 
 /**
- * Gets the y offset.
+ * Returns the y offset.
  *
  * @param p the Point_t structure.
  *
@@ -493,7 +498,7 @@ double
 Point_y (const Point_t *p);
 
 /**
- * Gets the z offset.
+ * Returns the z offset.
  *
  * @param p the Point_t structure.
  *
@@ -541,7 +546,7 @@ void
 Point_setZOffset (Point_t *p, double z);
 
 /**
- * Gets the x offset.
+ * Returns the x offset.
  *
  * @param p the Point_t structure.
  *
@@ -552,7 +557,7 @@ double
 Point_getXOffset (const Point_t *p);
 
 /**
- * Gets the y offset.
+ * Returns the y offset.
  *
  * @param p the Point_t structure.
  *
@@ -563,7 +568,7 @@ double
 Point_getYOffset (const Point_t *p);
 
 /**
- * Gets the z offset.
+ * Returns the z offset.
  *
  * @param p the Point_t structure.
  *

@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -46,7 +51,7 @@
  *
  * A version string of the form "1.2.3".
  */
-#define LIBSBML_DOTTED_VERSION	"5.18.0"
+#define LIBSBML_DOTTED_VERSION	"5.19.0"
 
 
 /**
@@ -57,7 +62,7 @@
  * libSBML is released, making it easy to use less-than and greater-than
  * comparisons when testing versions numbers.
  */
-#define LIBSBML_VERSION		51800
+#define LIBSBML_VERSION		51900
 
 
 /**
@@ -65,7 +70,7 @@
  *
  * The numeric version as a string: version 1.2.3 becomes "10203".
  */
-#define LIBSBML_VERSION_STRING	"51800"
+#define LIBSBML_VERSION_STRING	"51900"
 
 
 LIBSBML_CPP_NAMESPACE_BEGIN
@@ -115,7 +120,7 @@ getLibSBMLVersionString ();
  *        "expat", "libxml", "xerces-c", "bzip2", "zip"
  * 
  * @return 0 in case the libSBML has not been compiled against 
- *         that library and non-zero otherwise (for libraries 
+ *         that library and nonzero otherwise (for libraries 
  *         that define an integer version number that number will 
  *         be returned).
  *

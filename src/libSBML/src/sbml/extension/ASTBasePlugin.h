@@ -12,6 +12,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -96,6 +101,7 @@ public:
   virtual bool defines(ASTNodeType_t type) const;
   virtual bool defines(const std::string& name, bool strCmpIsCaseSensitive = false) const;
   virtual bool isFunction(ASTNodeType_t type) const;
+  virtual std::vector<unsigned int> getNumAllowedChildren(ASTNodeType_t type) const;
   virtual bool isLogical(ASTNodeType_t type) const;
   virtual bool isMathMLNodeTag(const std::string& node) const;
   virtual bool isMathMLNodeTag(ASTNodeType_t type) const;
@@ -225,7 +231,7 @@ public:
 
 
   /**
-  * Gets the URI to which this element belongs to.
+  * Returns the URI to which this element belongs to.
   * For example, all elements that belong to SBML Level&nbsp;3 Version&nbsp;1 Core
   * must would have the URI "http://www.sbml.org/sbml/level3/version1/core";
   * all elements that belong to Layout Extension Version&nbsp;1 for SBML Level&nbsp;3
@@ -438,6 +444,15 @@ protected:
   * if nothing found.
   */
   virtual ASTNodeType_t getPackageFunctionFor(const std::string& name, bool strCmpIsCaseSensitive = false) const;
+
+  /**
+  * The user input a string of the form "name" with no parentheses, and we want to know if
+  * 'name' is recognized by a package as being a particular symbol.  We already
+  * know that it is not used in the Model as the id of a mathematically-meaningful element.  Should do
+  * caseless string comparison.  Return the type of the symbol, or @sbmlconstant{AST_UNKNOWN, ASTNodeType_t}
+  * if nothing found.
+  */
+  virtual ASTNodeType_t getPackageSymbolFor(const std::string& name, bool strCmpIsCaseSensitive = false) const;
 
   /*-- data members --*/
 

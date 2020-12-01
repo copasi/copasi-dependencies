@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -663,7 +668,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this EventAssignment.
+   * Returns the value of the "attributeName" attribute of this EventAssignment.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -683,7 +688,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this EventAssignment.
+   * Returns the value of the "attributeName" attribute of this EventAssignment.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -702,7 +707,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this EventAssignment.
+   * Returns the value of the "attributeName" attribute of this EventAssignment.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -722,7 +727,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this EventAssignment.
+   * Returns the value of the "attributeName" attribute of this EventAssignment.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -742,7 +747,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this EventAssignment.
+   * Returns the value of the "attributeName" attribute of this EventAssignment.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -762,7 +767,7 @@ public:
   /** @cond doxygenLibsbmlInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this EventAssignment.
+   * Returns the value of the "attributeName" attribute of this EventAssignment.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -1294,7 +1299,7 @@ EventAssignment_getNamespaces(EventAssignment_t *ea);
 
 
 /**
- * Gets the value of the "variable" attribute of this EventAssignment_t
+ * Returns the value of the "variable" attribute of this EventAssignment_t
  * structure.
  *
  * @param ea the EventAssignment_t structure to query.
@@ -1309,7 +1314,7 @@ EventAssignment_getVariable (const EventAssignment_t *ea);
 
 
 /**
- * Gets the mathematical formula stored in the given EventAssignment_t
+ * Returns the mathematical formula stored in the given EventAssignment_t
  * structure.
  *
  * @param ea the EventAssignment_t structure to query.
