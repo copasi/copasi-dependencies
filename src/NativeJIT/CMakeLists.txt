@@ -2,6 +2,9 @@
 
 cmake_minimum_required(VERSION 2.6)
 
+include(CMakeDependentOption)
+include(GNUInstallDirs)
+
 # Remove the warning that WIN32 is not defined in Cygwin any more.
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 
@@ -41,7 +44,11 @@ if(MSVC)
   set(CMAKE_CXX_FLAGS_RELEASE  "${CMAKE_CXX_FLAGS_RELEASE} ${COMMON_CXX_FLAGS} /MD")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
   # Need gnu++ instead of c++ so that GTest can access fdopen() etc.
+  if (NOT DISABLE_TESTING)
   set(CMAKE_CXX_FLAGS "-msse4.2 -std=gnu++14 -Wall -Wextra -Werror -Wold-style-cast -fstrict-aliasing -Wstrict-aliasing -Wno-type-limits -Wno-noexcept-type")
+  else()
+  set(CMAKE_CXX_FLAGS "-msse4.2 -std=gnu++11 -Wall -Wextra -Werror -Wold-style-cast -fstrict-aliasing -Wstrict-aliasing -Wno-type-limits -Wno-noexcept-type")
+  endif()
 else()
   # TODO: define a target for -Weverything.
   # set(CMAKE_CXX_FLAGS "-msse4.2 -std=c++14 -Wall -Wextra -Werror -Wold-style-cast ${WEVERYTHING_FLAGS}")
@@ -83,27 +90,34 @@ endif(MSVC OR USING_INTEL)
 
 # gtest
 
+option(DISABLE_TESTING "Allows to disable testing (which requires c++14)." OFF)
+
+if (NOT DISABLE_TESTING)
 add_subdirectory(googletest)
 
 include_directories(
   ${gtest_SOURCE_DIR}/include
 )
-
+endif()
 ###############################################################################
 
 
 # This allows the solution to group projects into folders like src and test.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+if (NOT DISABLE_TESTING)
 enable_testing()
+endif()
 
 include_directories(inc)
 add_subdirectory(src/CodeGen)
 add_subdirectory(src/NativeJIT)
+if (NOT DISABLE_TESTING)
 add_subdirectory(test/CodeGen)
 add_subdirectory(test/NativeJIT)
 add_subdirectory(test/Shared)
 add_subdirectory(Examples)
+endif()
 
 add_custom_target(TOPLEVEL_NATIVEJIT SOURCES
   Configure_Make.bat
