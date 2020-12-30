@@ -956,15 +956,18 @@ namespace NativeJIT
     template <unsigned REGISTER_COUNT, bool ISFLOAT>
     void ExpressionTree::FreeList<REGISTER_COUNT, ISFLOAT>::AssertValidData(unsigned id, Data* data) const
     {
-        LogThrowAssert(data != nullptr, "Unexpected null data at/intended for register %u", id);
-        LogThrowAssert(data->GetStorageClass() != StorageClass::Immediate,
-                       "Invalid storage class %u for data at/intended for register %u",
-                       data->GetStorageClass(),
-                       id);
-        LogThrowAssert(data->GetRegisterId() == id,
-                       "Mismatched register ID %u for data at/intended for register %u",
-                       data->GetRegisterId(),
-                       id);
+        if (data != nullptr)
+        {
+            LogThrowAssert(data != nullptr, "Unexpected null data at/intended for register %u", id);
+            LogThrowAssert(data->GetStorageClass() != StorageClass::Immediate,
+                        "Invalid storage class %u for data at/intended for register %u",
+                        data->GetStorageClass(),
+                        id);
+            LogThrowAssert(data->GetRegisterId() == id,
+                        "Mismatched register ID %u for data at/intended for register %u",
+                        data->GetRegisterId(),
+                        id);
+        }
     }
 
 
@@ -1029,16 +1032,23 @@ namespace NativeJIT
     void ExpressionTree::FreeList<REGISTER_COUNT, ISFLOAT>::Release(unsigned id)
     {
         AssertValidData(id);
-        LogThrowAssert(BitOp::TestBit(GetUsedMask(), id), "Register %u must be allocated", id);
-        LogThrowAssert(!IsPinned(id), "Register %u must be unpinned before release", id);
-        LogThrowAssert(m_data[id]->GetRefCount() == 0, "Reference count for register %u must be zero", id);
 
-        auto it = std::find(m_allocatedRegisters.begin(),
-                            m_allocatedRegisters.end(),
-                            static_cast<uint8_t>(id));
-        LogThrowAssert(it != m_allocatedRegisters.end(), "Couldn't find allocation record for %u", id);
-        m_allocatedRegisters.erase(it);
+        if (m_data[id] != nullptr) 
+          {
+            LogThrowAssert(BitOp::TestBit(GetUsedMask(), id),
+                            "Register %u must be allocated", id);
+            LogThrowAssert(!IsPinned(id),
+                            "Register %u must be unpinned before release", id);
+            LogThrowAssert(m_data[id]->GetRefCount() == 0,
+                            "Reference count for register %u must be zero", id);
 
+            auto it = std::find(m_allocatedRegisters.begin(),
+                                m_allocatedRegisters.end(),
+                                static_cast<uint8_t>(id));
+            LogThrowAssert(it != m_allocatedRegisters.end(), "Couldn't find allocation record for %u", id);
+            m_allocatedRegisters.erase(it);
+          }
+        
         m_data[id] = nullptr;
         BitOp::ClearBit(&m_usedMask, id);
     }
