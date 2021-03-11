@@ -156,6 +156,8 @@ target_include_directories(NativeJIT PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
     $<INSTALL_INTERFACE:include>)
 
+target_link_libraries(NativeJIT PUBLIC CodeGen)
+
 # Make cmake config files for all targets
 install(EXPORT  NativeJITTargets
     DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
