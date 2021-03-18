@@ -219,7 +219,7 @@ Dimension::get(unsigned int n) const
 /**
 * Used by Dimension::get() to lookup an NMBase based by its id.
 */
-struct IdEqS : public unary_function<NMBase*, bool>
+struct IdEqS
 {
 	const string& id;
 

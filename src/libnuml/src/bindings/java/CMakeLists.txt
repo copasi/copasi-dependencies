@@ -113,6 +113,7 @@ ADD_CUSTOM_COMMAND(
 	ARGS    -E make_directory  ${CMAKE_CURRENT_BINARY_DIR}/java-files/org/numl/libnuml
     COMMAND "${SWIG_EXECUTABLE}"
     ARGS -I${CMAKE_CURRENT_SOURCE_DIR}/../swig/
+         -I${CMAKE_BINARY_DIR}/src
          -I${CMAKE_SOURCE_DIR}/src
          -I${CMAKE_BINARY_DIR}/
          -I${CMAKE_SOURCE_DIR}/include

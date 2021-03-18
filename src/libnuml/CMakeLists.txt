@@ -30,7 +30,6 @@ include (CheckCCompilerFlag)
 include (CheckCSourceRuns)
 include (CheckSymbolExists)
 include (CheckTypeSize)
-include(GNUInstallDirs)
 
 ###############################################################################
 #
@@ -64,7 +63,7 @@ set(LIBNUML_VERSION_NUMERIC "${LIBNUML_VERSION_MAJOR}${LIBNUML_VERSION_MINOR}${L
 set(LIBNUML_VERSION "${LIBNUML_VERSION_MAJOR}.${LIBNUML_VERSION_MINOR}.${LIBNUML_VERSION_PATCH}${LIBNUML_VERSION_RELEASE}")
 set(PACKAGE_NAME "libNUML")
 
-set(PACKAGE_CONFIG_DIR "${CMAKE_INSTALL_LIBDIR}/cmake" CACHE PATH
+set(PACKAGE_CONFIG_DIR lib/cmake CACHE PATH
     "Path into which the cmake config files should be installed")
 
 
@@ -213,8 +212,10 @@ endif()
 # If WITH_SWIG is selected, we need to find swig
 #
 
+set (LIBNUML_USE_CPP_NAMESPACE 0)
 if(WITH_CPP_NAMESPACE)
     add_definitions(-DLIBNUML_USE_CPP_NAMESPACE)
+    set (LIBNUML_USE_CPP_NAMESPACE 1)
 endif()
 
 
@@ -224,10 +225,13 @@ unset(SWIG_DIR CACHE )
 unset(SWIG_VERSION CACHE )
 endif()
 
+
 if(WITH_SWIG)
     find_program(SWIG_EXECUTABLE
       NAMES swig
       PATHS
+        c:/swigwin-3.0.12
+        c:/swigwin-3.0.11
         c:/swigwin-3.0.10
         c:/swigwin-3.0.9
         c:/swigwin-3.0.8
@@ -246,6 +250,8 @@ if(WITH_SWIG)
         c:/swigwin-2.0.2
         c:/swigwin-2.0.1
         c:/swigwin-2.0.0
+        $ENV{ProgramFiles}/swig
+        $ENV{ProgramW6432}/swig
         /usr/local/bin
         /opt/local/bin
         /usr/bin
@@ -374,10 +380,10 @@ set( MISC_PREFIX )
 if(UNIX OR CYGWIN)
     set(PATH_SEP "/")
     set(FILE_SEP ":")
-    set( MISC_PREFIX "${CMAKE_INSTALL_DATADIR}/libnuml" )
+    set( MISC_PREFIX "share/libnuml/" )
     set(LIBNUML_LIBRARY numl)
 else()
-    set( MISC_PREFIX "${CMAKE_INSTALL_DATADIR}" )
+    set( MISC_PREFIX "" )
     set(PATH_SEP "\\")
     set(FILE_SEP ";")
     if(MINGW)
@@ -508,9 +514,9 @@ else(UNIX)
 
 
         file(GLOB WIN32_BINARIES ${LIBNUML_DEPENDENCY_DIR}/bin/*.dll)
-        INSTALL(FILES ${WIN32_BINARIES} DESTINATION "${CMAKE_INSTALL_BINDIR}")
+        INSTALL(FILES ${WIN32_BINARIES} DESTINATION bin)
         file(GLOB WIN32_DEPENDENCIES ${LIBNUML_DEPENDENCY_DIR}/lib/*.lib)
-        install(FILES ${WIN32_DEPENDENCIES} DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+        install(FILES ${WIN32_DEPENDENCIES} DESTINATION lib)
         if(WITH_LIBXML AND WITH_STATIC_RUNTIME)
 		  if (EXTRA_LIBS STREQUAL "")
 		  # populate EXTRA_LIBS variable
@@ -630,7 +636,6 @@ endif()
 # so we encode these values here
 if (MSVC)
   set(HAVE_ERRNO_H TRUE)
-  set(HAVE_IEEEFP_H TRUE)
   set(STDC_HEADERS TRUE)
   set(HAVE_MATH_H TRUE)
   set(HAVE_SYS_TYPES_H TRUE)
@@ -672,7 +677,7 @@ set(DOCUMENTATION_FILES
         VERSION.txt
 )
 
-install(FILES ${DOCUMENTATION_FILES} DESTINATION ${MISC_PREFIX})
+install(FILES ${DOCUMENTATION_FILES} DESTINATION ${MISC_PREFIX}.)
 
 
 ###############################################################################

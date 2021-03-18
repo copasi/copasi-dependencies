@@ -47,7 +47,7 @@
 
 #include <numl/common/libnuml-namespace.h>
 
-#if ( WIN32 && ! defined CYGWIN )
+#if ( defined WIN32 && ! defined CYGWIN )
 
 #if ( ! defined LIBNUML_STATIC )
 /**

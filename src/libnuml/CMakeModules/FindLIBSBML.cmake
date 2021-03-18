@@ -27,6 +27,9 @@ if (NOT ${LIBSBML_LIBRARY_NAME}_FOUND)
           /opt/lib/cmake
           /opt/local/lib/cmake
           /sw/lib/cmake
+          ${CONAN_LIB_DIRS_LIBSBML}/cmake
+          ${LIBNUML_DEPENDENCY_DIR}/lib/cmake
+          ${LIBNUML_DEPENDENCY_DIR}/lib64/cmake
   )
 endif()
 
@@ -38,6 +41,31 @@ if (${LIBSBML_LIBRARY_NAME}_FOUND)
   get_filename_component (LIBSBML_INCLUDE_DIR ${LIBSBML_INCLUDE_DIR} REALPATH)
   get_target_property(LIBSBML_VERSION ${LIBSBML_LIBRARY_NAME} VERSION)
 
+
+  if (NOT EXISTS ${LIBSBML_INCLUDE_DIR}/sbml/SBase.h)
+  
+  set (LIBSBML_INCLUDE_DIR)
+  find_path(LIBSBML_INCLUDE_DIR sbml/SBase.h
+      PATHS $ENV{LIBSBML_DIR}/include
+            $ENV{LIBSBML_DIR}
+            ${LIBNUML_DEPENDENCY_DIR}
+            ${LIBNUML_DEPENDENCY_DIR}/include
+            ${CONAN_INCLUDE_DIRS_LIBSBML}
+            ~/Library/Frameworks
+            /Library/Frameworks
+            /sw/include        # Fink
+            /opt/local/include # MacPorts
+            /opt/csw/include   # Blastwave
+            /opt/include
+            /usr/freeware/include
+      NO_DEFAULT_PATH)
+  
+  if (NOT LIBSBML_INCLUDE_DIR)
+      find_path(LIBSBML_INCLUDE_DIR sbml/SBase.h)
+  endif (NOT LIBSBML_INCLUDE_DIR)
+
+  endif()
+
 else()
 
 find_path(LIBSBML_INCLUDE_DIR sbml/SBase.h
@@ -45,6 +73,7 @@ find_path(LIBSBML_INCLUDE_DIR sbml/SBase.h
           $ENV{LIBSBML_DIR}
           ${LIBNUML_DEPENDENCY_DIR}
           ${LIBNUML_DEPENDENCY_DIR}/include
+          ${CONAN_INCLUDE_DIRS_LIBSBML}
           ~/Library/Frameworks
           /Library/Frameworks
           /sw/include        # Fink
@@ -73,6 +102,7 @@ find_library(LIBSBML_LIBRARY
           $ENV{LIBSBML_DIR}
           ${LIBNUML_DEPENDENCY_DIR}
           ${LIBNUML_DEPENDENCY_DIR}/lib
+          ${CONAN_LIB_DIRS_LIBSBML}
           ~/Library/Frameworks
           /Library/Frameworks
           /sw/lib        # Fink

@@ -604,7 +604,7 @@ ResultComponents::get(unsigned int n) const
 /**
  * Used by ResultComponents::get() to lookup an NMBase based by its id.
  */
-struct IdEqS : public unary_function<NMBase*, bool>
+struct IdEqS
 {
   const string& id;
 

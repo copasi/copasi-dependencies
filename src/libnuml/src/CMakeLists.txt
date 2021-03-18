@@ -37,6 +37,16 @@ configure_file (
   "${CMAKE_CURRENT_BINARY_DIR}/numl/common/libnuml-version.h"
   )
 
+configure_file (
+  "${CMAKE_CURRENT_SOURCE_DIR}/numl/common/libnuml-package.h.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/numl/common/libnuml-package.h"
+  )
+
+configure_file (
+  "${CMAKE_CURRENT_SOURCE_DIR}/numl/common/libnuml-namespace.h.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/numl/common/libnuml-namespace.h"
+  )
+  
 
 ###############################################################################
 #
@@ -45,12 +55,12 @@ configure_file (
 foreach(dir common util xml  )
 
   file(GLOB header_files "${CMAKE_CURRENT_SOURCE_DIR}/numl/${dir}/*.h")
-  install(FILES ${header_files} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/numl/${dir}")
+  install(FILES ${header_files} DESTINATION include/numl/${dir})
 
 endforeach(dir)
 
 file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/numl/*.h")
-install(FILES ${files} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/numl")
+install(FILES ${files} DESTINATION include/numl)
 
 
 ###############################################################################
@@ -62,7 +72,9 @@ install(FILES ${files} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/numl")
 install(FILES 
        "${CMAKE_CURRENT_BINARY_DIR}/numl/common/libnuml-version.h"
        "${CMAKE_CURRENT_BINARY_DIR}/numl/common/libnuml-config-common.h"
-        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/numl/common")
+       "${CMAKE_CURRENT_BINARY_DIR}/numl/common/libnuml-package.h"
+       "${CMAKE_CURRENT_BINARY_DIR}/numl/common/libnuml-namespace.h"
+        DESTINATION include/numl/common)
 
 ###############################################################################
 #
@@ -144,7 +156,7 @@ endif(MSVC)
 
 SET (INCLUDE_DESTINATION)
 if (${CMAKE_VERSION} VERSION_GREATER "2.8.11")
-  set(INCLUDE_DESTINATION INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+  set(INCLUDE_DESTINATION INCLUDES DESTINATION include)
 endif()
 
 
@@ -163,9 +175,9 @@ target_link_libraries(${LIBNUML_LIBRARY} ${LIBSBML_LIBRARY_NAME} ${EXTRA_LIBS})
 
 INSTALL(TARGETS ${LIBNUML_LIBRARY}
   EXPORT ${LIBNUML_LIBRARY}-config
-  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ${INCLUDE_DESTINATION}
 )
 
@@ -189,6 +201,7 @@ endif()
 
 endif()
 
+if (NOT LIBNUML_SKIP_STATIC_LIBRARY)
 add_library (${LIBNUML_LIBRARY}-static STATIC ${LIBNUML_SOURCES} )
 if (WIN32 AND NOT CYGWIN)
   # don't decorate static library 
@@ -199,9 +212,9 @@ target_link_libraries(${LIBNUML_LIBRARY}-static ${LIBSBML_LIBRARY_NAME} ${EXTRA_
 
 INSTALL(TARGETS ${LIBNUML_LIBRARY}-static
   EXPORT ${LIBNUML_LIBRARY}-static-config
-  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ${INCLUDE_DESTINATION}
 )
 
@@ -222,6 +235,8 @@ if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
   )
 
 endif()
+  
+endif (NOT LIBNUML_SKIP_STATIC_LIBRARY)
   
 ##############################################################################
 #

@@ -635,24 +635,24 @@ public:
   void syncAnnotation();
   bool isSetNotes() const;
   bool isSetAnnotation() const;
-  virtual int setAnnotation(const XMLNode* annotation);
+  virtual int setAnnotation(const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode* annotation);
   virtual int setAnnotation(const std::string& annotation);
-  virtual int appendAnnotation(const XMLNode* annotation);
+  virtual int appendAnnotation(const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode* annotation);
   virtual int appendAnnotation(const std::string& annotation);
   int removeTopLevelAnnotationElement(const std::string elementName,
                                       const std::string elementURI = "");
-  int replaceTopLevelAnnotationElement(const XMLNode* annotation);
+  int replaceTopLevelAnnotationElement(const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode* annotation);
   int replaceTopLevelAnnotationElement(const std::string& annotation);
-  int setNotes(const XMLNode* notes);
+  int setNotes(const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode* notes);
   int setNotes(const std::string& notes, bool addXHTMLMarkup = false);
-  int appendNotes(const XMLNode* notes);
+  int appendNotes(const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode* notes);
   int appendNotes(const std::string& notes);
   int unsetNotes();
   int unsetAnnotation();
 
-  XMLNode* getNotes() const;
+  LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode* getNotes() const;
   std::string getNotesString() const;
-  XMLNode* getAnnotation() const;
+  LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNode* getAnnotation() const;
   std::string getAnnotationString() const;
 
 

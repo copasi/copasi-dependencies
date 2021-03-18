@@ -119,14 +119,6 @@ Model::removeDuplicateTopLevelAnnotations()
       getInitialAssignment(i)->removeDuplicateAnnotations();
     }
   }
-  if (getNumConstraints() > 0)
-  {
-    getListOfConstraints()->removeDuplicateAnnotations();
-    for (i = 0; i < getNumConstraints(); i++)
-    {
-      getConstraint(i)->removeDuplicateAnnotations();
-    }
-  }
   if (getNumRules() > 0)
   {
     getListOfRules()->removeDuplicateAnnotations();

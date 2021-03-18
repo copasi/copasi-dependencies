@@ -40,7 +40,7 @@ LIBNUML_CPP_NAMESPACE_BEGIN
 class NMBase;
 
 class NUMLDocument;
-class OntologyTerm;class Constraint;
+class OntologyTerm;
 
 
 

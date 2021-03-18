@@ -50,7 +50,7 @@ NUMLList::NUMLList ()
 /**
  * Used by the Destructor to delete each item in mItems.
  */
-struct Delete : public unary_function<NMBase*, void>
+struct Delete
 {
   void operator() (NMBase* sb) { delete sb; }
 };
@@ -68,7 +68,7 @@ NUMLList::~NUMLList ()
 /**
  * Used by the Copy Constructor to clone each item in mItems.
  */
-struct Clone : public unary_function<NMBase*, NMBase*>
+struct Clone
 {
   NMBase* operator() (NMBase* sb) { return sb->clone(); }
 };
@@ -172,7 +172,7 @@ NUMLList::get (unsigned int n)
 /**
  * Used by NUMLList::get() to lookup an NMBase based by its id.
  */
-//struct IdEq : public unary_function<NMBase*, bool>
+//struct IdEq
 //{
 //  const string& id;
 //
@@ -274,7 +274,7 @@ NUMLList::size () const
 /**
  * Used by NUMLList::setNUMLDocument().
  */
-struct SetNUMLDocument : public unary_function<NMBase*, void>
+struct SetNUMLDocument
 {
   NUMLDocument* d;
 
@@ -286,7 +286,7 @@ struct SetNUMLDocument : public unary_function<NMBase*, void>
 /**
  * Used by NUMLList::setParentNUMLObject().
  */
-struct SetParentNUMLObject : public unary_function<NMBase*, void>
+struct SetParentNUMLObject
 {
   NMBase* sb;
 
@@ -379,7 +379,7 @@ NUMLList::getElementName () const
 /**
  * Used by NUMLList::writeElements().
  */
-struct Write : public unary_function<NMBase*, void>
+struct Write
 {
   LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream& stream;
 

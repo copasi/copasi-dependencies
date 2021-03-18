@@ -47,6 +47,7 @@
 #include <numl/AtomicValue.h>
 
 using namespace std;
+LIBSBML_CPP_NAMESPACE_USE
 
 LIBNUML_CPP_NAMESPACE_BEGIN
 

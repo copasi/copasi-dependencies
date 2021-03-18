@@ -41,7 +41,6 @@ const char* NUML_TYPE_CODE_STRINGS[] =
   , "TupleDescription"
   , "AtomicDescription"
   , "NUMLList"
-  , "Constraint"
 };
 
 /**

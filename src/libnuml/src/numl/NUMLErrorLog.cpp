@@ -45,7 +45,7 @@ NUMLErrorLog::NUMLErrorLog ()
 /**
  * Used by the Destructor to delete each item in mErrors.
  */
-struct Delete : public unary_function<LIBSBML_CPP_NAMESPACE_QUALIFIER XMLError*, void>
+struct Delete
 {
   void operator() (LIBSBML_CPP_NAMESPACE_QUALIFIER XMLError* error) { delete error; }
 };
