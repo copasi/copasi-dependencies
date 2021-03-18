@@ -48,6 +48,7 @@ set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 endif()
 
 add_library(NativeJIT STATIC ${CPPFILES} ${PRIVATE_HFILES} ${PUBLIC_HFILES})
+target_link_libraries(NativeJIT PUBLIC CodeGen)
 
 set_property(TARGET NativeJIT PROPERTY FOLDER "${NATIVEJIT_PREFIX}src")
 
