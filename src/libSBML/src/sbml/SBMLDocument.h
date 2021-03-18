@@ -1483,7 +1483,7 @@ public:
    * @return a Boolean, @c true if the package is being ignored and
    * @c false otherwise.
    */
-  bool isDisabledIgnoredPackage(const std::string& pkgURI);
+  bool isDisabledIgnoredPackage(const std::string& pkgURI) const;
   
   
   /**
@@ -1622,7 +1622,7 @@ public:
   int addUnknownPackageRequired(const std::string& pkgURI,
                                 const std::string& prefix, bool flag);
 
-  bool hasUnknownPackage(const std::string& pkgURI);
+  bool hasUnknownPackage(const std::string& pkgURI) const;
 
   int getNumUnknownPackages() const;
 
@@ -1634,8 +1634,6 @@ public:
 
 protected:
   /** @cond doxygenLibsbmlInternal */
-  //typedef std::map<std::string, bool>  PkgRequiredMap;
-  //typedef PkgRequiredMap::iterator     PkgRequiredMapIter;
   typedef std::map<std::string, bool>  PkgUseDefaultNSMap;
   typedef PkgUseDefaultNSMap::iterator PkgUseDefaultNSMapIter;
 
@@ -1705,7 +1703,6 @@ protected:
   std::list<SBMLValidator*> mValidators;
   SBMLInternalValidator *mInternalValidator;
 
-  //PkgRequiredMap           mPkgRequiredMap;
   XMLAttributes            mRequiredAttrOfUnknownPkg;
   XMLAttributes            mRequiredAttrOfUnknownDisabledPkg;
 
