@@ -26,8 +26,9 @@ def createArchiveExample(fileName):
         True  # mark file as master
     )
 
+    # add metadata to the archive itself
     description = OmexDescription()
-    description.setAbout(".")  # about the archive itself
+    description.setAbout(".")
     description.setDescription("Simple test archive including one SBML model")
     description.setCreated(OmexDescription.getCurrentDateAndTime())
 
@@ -41,7 +42,16 @@ def createArchiveExample(fileName):
 
     archive.addMetadata(".", description)
 
-    out_file = "testdata/out.omex"
+    # add metadata to the added file
+    location = "./models/model.xml"
+    description = OmexDescription()
+    description.setAbout(location)
+    description.setDescription("SBML model")
+    description.setCreated(OmexDescription.getCurrentDateAndTime())
+    archive.addMetadata(location, description)
+
+    # write the archive
+    out_file = "out.omex"
     archive.writeToFile(out_file)
 
     print('Archive created:', out_file)

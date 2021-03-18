@@ -184,10 +184,15 @@ public:
    * initializes this instance from the given Combine archive
    *
    * @param archiveFile the combine archive file
+   * @param skipOmex optional flag indicating whether meta data processing 
+   *        should be skipped or not (default). The metadata processing, removes 
+   *        annotations in the restricted 2014 subset of the OMEX Metadata and 
+   *        adds them to the convenience classes.
    *
    * @return boolean indicating success or failure
    */
-  bool initializeFromArchive(const std::string& archiveFile);
+  bool initializeFromArchive(const std::string& archiveFile,
+                             bool skipOmex=false);
 
   /**
    * @return the manifest
@@ -260,6 +265,15 @@ public:
    * @return the metadata object if found (otherwise it will be empty)
    */
   OmexDescription getMetadataForLocation(const std::string& location) const;
+  
+  /**
+   * returns true, if the the given location does have metadata attached to it.
+   *
+   * @param location the location
+   *
+   * @return true, if metadata is present for the location, false otherwise.
+   */
+  bool hasMetadataForLocation(const std::string& location) const;
 
   /**
    * Sets the manifest to the given value

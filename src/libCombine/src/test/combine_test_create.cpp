@@ -73,6 +73,16 @@ SCENARIO("creating a new combine archive", "[combine]")
         REQUIRE(entry->getLocation() == "./model/BorisEJB.xml");
         REQUIRE(entry->getFormat() == "http://identifiers.org/combine.specifications/sbml");
         REQUIRE(entry->isFormat("sbml"));
+        REQUIRE(entry->getNumCrossRefs() == 0);
+
+        CaCrossRef* ref = entry->createCrossRef();
+        ref->setLocation("foo.xml");
+
+        REQUIRE(entry->getNumCrossRefs() == 1);
+        REQUIRE(entry->getCrossRef(0) != NULL);
+        REQUIRE(entry->getCrossRef(0)->getLocation() == "foo.xml");
+
+        entry->removeCrossRef(0);
 
         std::string modelContent = archive.extractEntryToString("./model/BorisEJB.xml");
         REQUIRE(!modelContent.empty());
@@ -94,8 +104,8 @@ SCENARIO("creating a new combine archive", "[combine]")
           desc.addModification(current);
           desc.addCreator(creator);
 
+          REQUIRE(!archive.hasMetadataForLocation("."));
           archive.addMetadata(".", desc);
-
 
           THEN("the metadata is accessible")
           {
@@ -115,7 +125,9 @@ SCENARIO("creating a new combine archive", "[combine]")
               if (checkFileExists("out.omex"))
                 std::remove("out.omex");
 
+              int numContent = archive.getManifest()->getNumContents();
               archive.writeToFile("out.omex");
+              REQUIRE(numContent == archive.getManifest()->getNumContents());
 
               CombineArchive second;
               second.initializeFromArchive("out.omex");
@@ -142,10 +154,43 @@ SCENARIO("creating a new combine archive", "[combine]")
                 REQUIRE(!modelContent.empty());
 
               }
+
+              AND_WHEN("the archive is saved again")
+              {
+                if (checkFileExists("out2.omex"))
+                  std::remove("out2.omex");
+                REQUIRE(archive.writeToFile("out2.omex"));
+                REQUIRE(checkFileExists("out2.omex"));
+                REQUIRE(second.cleanUp());
+                REQUIRE(archive.writeToFile("out2.omex"));
+
+                REQUIRE(second.initializeFromArchive("out2.omex"));
+
+                THEN("the numbers of entries are the same")
+                {
+                  REQUIRE(second.getManifest() != NULL);
+                  REQUIRE(second.getManifest()->getNumContents() == 1);
+                }
+              }
             }
           }
         }
       }
     }
+  }
+}
+
+SCENARIO("reading an existing archive", "[combine]")
+{
+  GIVEN("a user loads a file with unexpected metadata")
+  {
+    CombineArchive archive;
+    REQUIRE(archive.getManifest() == NULL);
+    REQUIRE(archive.initializeFromArchive(getTestFile("test-data/Smith_2004.omex")) == true);
+    
+    // try and extract the unrecognized data
+    std::string annotation = archive.extractEntryToString("./model/smith_2004.rdf");
+    REQUIRE(annotation.find("semsim:") != std::string::npos);
+    
   }
 }

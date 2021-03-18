@@ -7,7 +7,11 @@
  * This file is part of libSBML. Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
- * Copyright (C) 2013-2016 jointly by the following organizations:
+ * Copyright (C) 2019 jointly by the following organizations:
+ * 1. California Institute of Technology, Pasadena, CA, USA
+ * 2. University of Heidelberg, Heidelberg, Germany
+ *
+ * Copyright (C) 2013-2018 jointly by the following organizations:
  * 1. California Institute of Technology, Pasadena, CA, USA
  * 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  * 3. University of Heidelberg, Heidelberg, Germany
@@ -73,7 +77,7 @@ CaListOf::CaListOf (CaNamespaces* omexns)
 /**
  * Used by the Destructor to delete each item in mItems.
  */
-struct Delete : public unary_function<CaBase*, void>
+struct Delete
 {
   void operator() (CaBase* sb) { delete sb; }
 };
@@ -91,7 +95,7 @@ CaListOf::~CaListOf ()
 /**
  * Used by the Copy Constructor to clone each item in mItems.
  */
-struct Clone : public unary_function<CaBase*, CaBase*>
+struct Clone
 {
   CaBase* operator() (CaBase* sb) { return sb->clone(); }
 };
@@ -389,7 +393,7 @@ CaListOf::size () const
 /**
  * Used by CaListOf::setCaOmexManifest().
  */
-struct SetCaOmexManifest : public unary_function<CaBase*, void>
+struct SetCaOmexManifest
 {
   CaOmexManifest* d;
 
@@ -401,7 +405,7 @@ struct SetCaOmexManifest : public unary_function<CaBase*, void>
 /**
  * Used by CaListOf::setParentCaObject().
  */
-struct SetParentCaObject : public unary_function<CaBase*, void>
+struct SetParentCaObject
 {
   CaBase* sb;
 
@@ -473,7 +477,7 @@ CaListOf::getElementName () const
 /**
  * Used by CaListOf::writeElements().
  */
-struct Write : public unary_function<CaBase*, void>
+struct Write
 {
   XMLOutputStream& stream;
 
