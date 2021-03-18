@@ -76,6 +76,9 @@ option(WITH_QwtMathML "Compile with QwtMathML." OFF)
 set(HEADERS 
     src/qwt.h
     src/qwt_abstract_scale_draw.h
+    src/qwt_axis.h
+    src/qwt_axis_id.h
+    src/qwt_bezier.h
     src/qwt_clipper.h
     src/qwt_color_map.h
     src/qwt_compat.h
@@ -105,6 +108,12 @@ set(HEADERS
     src/qwt_scale_engine.h
     src/qwt_scale_map.h
     src/qwt_spline.h
+    src/qwt_spline_basis.h
+    src/qwt_spline_parametrization.h
+    src/qwt_spline_local.h
+    src/qwt_spline_cubic.h
+    src/qwt_spline_pleasing.h
+    src/qwt_spline_polynomial.h
     src/qwt_symbol.h
     src/qwt_system_clock.h
     src/qwt_text_engine.h
@@ -116,7 +125,9 @@ set(HEADERS
 
 set(SOURCES
 
+    src/qwt.cpp
     src/qwt_abstract_scale_draw.cpp
+    src/qwt_bezier.cpp
     src/qwt_clipper.cpp
     src/qwt_color_map.cpp
     src/qwt_column_symbol.cpp
@@ -143,8 +154,14 @@ set(SOURCES
     src/qwt_scale_div.cpp
     src/qwt_scale_draw.cpp
     src/qwt_scale_map.cpp
-    src/qwt_spline.cpp
     src/qwt_scale_engine.cpp
+    src/qwt_spline.cpp
+    src/qwt_spline_basis.cpp
+    src/qwt_spline_parametrization.cpp
+    src/qwt_spline_local.cpp
+    src/qwt_spline_cubic.cpp
+    src/qwt_spline_pleasing.cpp
+    src/qwt_spline_polynomial.cpp
     src/qwt_symbol.cpp
     src/qwt_system_clock.cpp
     src/qwt_text_engine.cpp
@@ -160,6 +177,8 @@ if (WITH_QwtPlot)
   set(HEADERS ${HEADERS}
 
     src/qwt_curve_fitter.h
+    src/qwt_spline_curve_fitter.h
+    src/qwt_weeding_curve_fitter.h
     src/qwt_event_pattern.h
     src/qwt_abstract_legend.h
     src/qwt_legend.h
@@ -170,6 +189,7 @@ if (WITH_QwtPlot)
     src/qwt_plot_curve.h
     src/qwt_plot_dict.h
     src/qwt_plot_directpainter.h
+    src/qwt_plot_graphicitem.h
     src/qwt_plot_grid.h
     src/qwt_plot_histogram.h
     src/qwt_plot_item.h
@@ -189,6 +209,8 @@ if (WITH_QwtPlot)
     src/qwt_plot_legenditem.h
     src/qwt_plot_seriesitem.h
     src/qwt_plot_shapeitem.h
+    src/qwt_plot_vectorfield.h
+    src/qwt_plot_abstract_canvas.h
     src/qwt_plot_canvas.h
     src/qwt_plot_panner.h
     src/qwt_plot_picker.h
@@ -198,6 +220,7 @@ if (WITH_QwtPlot)
     src/qwt_point_mapper.h
     src/qwt_raster_data.h
     src/qwt_matrix_raster_data.h
+    src/qwt_vectorfield_symbol.h
     src/qwt_sampling_thread.h
     src/qwt_samples.h
     src/qwt_series_data.h
@@ -210,17 +233,19 @@ if (WITH_QwtPlot)
   set(SOURCES ${SOURCES}
 
     src/qwt_curve_fitter.cpp
+    src/qwt_spline_curve_fitter.cpp
+    src/qwt_weeding_curve_fitter.cpp
     src/qwt_abstract_legend.cpp
     src/qwt_legend.cpp
     src/qwt_legend_data.cpp
     src/qwt_legend_label.cpp
     src/qwt_plot.cpp
     src/qwt_plot_renderer.cpp
-    src/qwt_plot_xml.cpp
     src/qwt_plot_axis.cpp
     src/qwt_plot_curve.cpp
     src/qwt_plot_dict.cpp
     src/qwt_plot_directpainter.cpp
+    src/qwt_plot_graphicitem.cpp
     src/qwt_plot_grid.cpp
     src/qwt_plot_histogram.cpp
     src/qwt_plot_item.cpp
@@ -236,9 +261,11 @@ if (WITH_QwtPlot)
     src/qwt_plot_legenditem.cpp
     src/qwt_plot_seriesitem.cpp
     src/qwt_plot_shapeitem.cpp
+    src/qwt_plot_vectorfield.cpp
     src/qwt_plot_marker.cpp
     src/qwt_plot_textlabel.cpp
     src/qwt_plot_layout.cpp
+    src/qwt_plot_abstract_canvas.cpp
     src/qwt_plot_canvas.cpp
     src/qwt_plot_panner.cpp
     src/qwt_plot_rasteritem.cpp
@@ -249,10 +276,11 @@ if (WITH_QwtPlot)
     src/qwt_point_mapper.cpp
     src/qwt_raster_data.cpp
     src/qwt_matrix_raster_data.cpp
+    src/qwt_vectorfield_symbol.cpp
     src/qwt_sampling_thread.cpp
     src/qwt_series_data.cpp
     src/qwt_point_data.cpp
-    src/qwt_scale_widget.cpp 
+    src/qwt_scale_widget.cpp
   )
 
 endif (WITH_QwtPlot)
@@ -325,6 +353,10 @@ if (Qt5_FOUND)
   QT_FIND_MODULES(PrintSupport Concurrent)
   qt5_wrap_cpp(HEADERS_MOC ${HEADERS})
   set(QTVERSION 5)
+elseif(Qt6_FOUND)
+  QT_FIND_MODULES(PrintSupport Concurrent)
+  qt6_wrap_cpp(HEADERS_MOC ${HEADERS})
+  set(QTVERSION 6)
 elseif(Qt4_FOUND OR QT4_FOUND)
   qt4_wrap_cpp(HEADERS_MOC ${HEADERS})
 endif()
