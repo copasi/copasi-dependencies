@@ -44,7 +44,7 @@ foreach( example
 )
 
 	file(TO_NATIVE_PATH ${CMAKE_CURRENT_BINARY_DIR} CURRENT_BIN)
-	file(TO_NATIVE_PATH ${CMAKE_CURRENT_BINARY_DIR}/../../bindings/java/libsedmlj.jar CURRENT_JAR )
+	file(TO_NATIVE_PATH ${CMAKE_CURRENT_BINARY_DIR}/../../src/bindings/java/libsedmlj.jar CURRENT_JAR )
 	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/${example}.java CURRENT_FILE)
 
 	add_custom_command(	
@@ -52,10 +52,10 @@ foreach( example
 		COMMAND "${Java_JAVAC_EXECUTABLE}"
 		ARGS -cp ".${FILE_SEP}\"${CURRENT_JAR}\"${FILE_SEP}${CMAKE_CURRENT_SOURCE_DIR}"
 			 ${CURRENT_FILE}
-			 -source 1.5
-			 -target 1.5
+			 -source 1.6
+			 -target 1.6
 			 -d ${CMAKE_CURRENT_BINARY_DIR}
-		MAIN_DEPENDENCY "${CMAKE_CURRENT_SOURCE_DIR}/../../bindings/java/local.i"
+		MAIN_DEPENDENCY "${CMAKE_CURRENT_SOURCE_DIR}/../../src/bindings/java/local.i"
 		WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 		DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${example}.java
 		COMMENT "Build java example ${example}"

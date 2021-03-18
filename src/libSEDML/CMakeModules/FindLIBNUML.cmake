@@ -27,6 +27,7 @@ if (NOT ${LIBNUML_LIBRARY_NAME}_FOUND)
           /opt/lib/cmake
           /opt/local/lib/cmake
           /sw/lib/cmake
+          ${CONAN_LIB_DIRS_LIBNUML}/cmake
   )
 endif()
 
@@ -37,6 +38,17 @@ if (${LIBNUML_LIBRARY_NAME}_FOUND)
   file(TO_CMAKE_PATH ${LIB_PATH}/../include LIBNUML_INCLUDE_DIR)  
   get_filename_component (LIBNUML_INCLUDE_DIR ${LIBNUML_INCLUDE_DIR} REALPATH)
   get_target_property(LIBNUML_VERSION ${LIBNUML_LIBRARY_NAME} VERSION)
+
+  get_target_property(LIBNUML_INTERFACE_LINK_LIBRARIES ${LIBNUML_LIBRARY_NAME} INTERFACE_LINK_LIBRARIES)
+
+  if (NOT LIBNUML_INTERFACE_LINK_LIBRARIES)
+  get_target_property(LIBNUML_INTERFACE_LINK_LIBRARIES ${LIBNUML_LIBRARY_NAME} IMPORTED_LINK_INTERFACE_LIBRARIES_RELEASE)
+  endif()
+
+  if (LIBNUML_INTERFACE_LINK_LIBRARIES)
+    set(LIBNUML_LIBRARY ${LIBNUML_LIBRARY} ${LIBNUML_INTERFACE_LINK_LIBRARIES})
+  endif (LIBNUML_INTERFACE_LINK_LIBRARIES)
+
 
 else()
 
@@ -71,6 +83,7 @@ find_library(LIBNUML_LIBRARY
           $ENV{LIBNUML_DIR}
           ${LIBSEDML_DEPENDENCY_DIR}
           ${LIBSEDML_DEPENDENCY_DIR}/lib
+          ${CONAN_LIB_DIRS_LIBNUML}
           ~/Library/Frameworks
           /Library/Frameworks
           /sw/lib        # Fink

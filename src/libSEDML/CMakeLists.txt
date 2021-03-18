@@ -39,7 +39,26 @@
 ###############################################################################
 
 cmake_minimum_required(VERSION 2.8)
-project(libsedml)
+project (libsedml)
+
+SET (CONAN_PATHS ${CMAKE_BINARY_DIR}/../conan_paths.cmake)
+if (NOT EXISTS ${CONAN_PATHS})
+SET (CONAN_PATHS ${CMAKE_BINARY_DIR}/conan_paths.cmake)
+endif()
+
+if (EXISTS ${CONAN_PATHS})
+include (${CONAN_PATHS})
+endif()
+
+set (CONAN_BUILDINFO ${CMAKE_BINARY_DIR}/../conanbuildinfo.cmake)
+if (NOT EXISTS ${CONAN_BUILDINFO})
+set (CONAN_BUILDINFO ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+endif()
+
+if (EXISTS ${CONAN_BUILDINFO})
+include(${CONAN_BUILDINFO})
+conan_basic_setup()
+endif()
 
 include (CMakeTestCCompiler)
 include (CheckCSourceCompiles)
@@ -82,6 +101,7 @@ endif()
 
 MATH(EXPR LIBSEDML_VERSION_NUMERIC "${LIBSEDML_VERSION_MAJOR} * 10000 + ${LIBSEDML_VERSION_MINOR} * 100 + ${LIBSEDML_VERSION_PATCH}" )
 set(LIBSEDML_VERSION "${LIBSEDML_VERSION_MAJOR}.${LIBSEDML_VERSION_MINOR}.${LIBSEDML_VERSION_PATCH}${LIBSEDML_VERSION_RELEASE}")
+set(LIBSEDML_DOTTED_VERSION ${LIBSEDML_VERSION})
 set(PACKAGE_NAME "libSEDML")
 
 
@@ -112,6 +132,7 @@ set(CPACK_PACKAGE_VENDOR "The SEDML Team")
 set(CPACK_PACKAGE_CONTACT "LibSEDML Team <libsedml-team@caltech.edu>")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
+set(CPACK_SOURCE_GENERATOR "TGZ;ZIP")
 set(CPACK_PACKAGE_VERSION_MAJOR "${LIBSEDML_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${LIBSEDML_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${LIBSEDML_VERSION_PATCH}")
@@ -119,7 +140,7 @@ set(CPACK_RPM_PACKAGE_LICENSE "BSD")
 set(CPACK_RPM_PACKAGE_GROUP "Libraries/Development")
 set(CPACK_DEBIAN_PACKAGE_SECTION "Libraries")
 
-set(CPACK_SOURCE_IGNORE_FILES "${CMAKE_CURRENT_BINARY_DIR};/out/;/.git/;/.svn/;/.libs/;/.deps/;/.bzr/;.*.pyc$;.*.o$;.*.lo$;.*.la$;${CPACK_SOURCE_IGNORE_FILES};/.DS_Store;/.svnignore;blib;libsedml-dist")
+set(CPACK_SOURCE_IGNORE_FILES "${CMAKE_CURRENT_BINARY_DIR};/out/;/.git/;/.svn/;/.libs/;/.deps/;/.bzr/;.*.pyc$;.*.o$;.*.lo$;.*.la$;${CPACK_SOURCE_IGNORE_FILES};/.DS_Store;/.svnignore;blib;libsedml-dist;/.vscode;/.vs;/build/")
 
 if(UNIX)
     set(CPACK_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
@@ -187,14 +208,6 @@ endif()
 option (LIBSEDML_SHARED_VERSION "Build the libsedml shared library with version information" ON)
 mark_as_advanced(LIBSEDML_SHARED_VERSION)
 
-# Enable the generation of unit tests. If enabled, all test runners
-# will be created and can be run with "make test" or ctest.
-# This won't work in Visual Studio 2003, so we disable this option there.
-#
-if(NOT ${CMAKE_GENERATOR} MATCHES "Visual Studio 6" AND NOT ${CMAKE_GENERATOR} MATCHES "Visual Studio 7")
-    option(WITH_CHECK    "Compile unit tests. Run with 'make test' or 'ctest'." OFF)
-endif()
-
 # Use C++ namespace.
 option(WITH_CPP_NAMESPACE "Use a C++ namespace for libSEDML."   OFF)
 
@@ -256,6 +269,8 @@ if(WITH_SWIG)
     find_program(SWIG_EXECUTABLE
       NAMES swig
       PATHS
+        c:/swigwin-3.0.12
+        c:/swigwin-3.0.11
         c:/swigwin-3.0.10
         c:/swigwin-3.0.9
         c:/swigwin-3.0.8
@@ -274,6 +289,8 @@ if(WITH_SWIG)
         c:/swigwin-2.0.2
         c:/swigwin-2.0.1
         c:/swigwin-2.0.0
+        $ENV{ProgramFiles}/swig
+        $ENV{ProgramW6432}/swig
         /usr/local/bin
         /opt/local/bin
         /usr/bin
@@ -297,7 +314,7 @@ if(UNIX OR CYGWIN OR MINGW)
     set( MISC_PREFIX "${CMAKE_INSTALL_DATADIR}/libsedml/" )
     set(LIBSEDML_LIBRARY sedml)
 else()
-    set( MISC_PREFIX "${CMAKE_INSTALL_DATADIR}" )
+    set( MISC_PREFIX "." )
     set(PATH_SEP "\\")
     set(FILE_SEP ";")
     if(MINGW)
@@ -313,6 +330,8 @@ endif()
 #
 find_package(LIBSBML REQUIRED)
 find_package(LIBNUML REQUIRED)
+
+SET(LIBSEDML_LIBS ${LIBNUML_LIBRARY_NAME} ${LIBSBML_LIBRARY})
 
 set(LIBSBML_STATIC OFF CACHE BOOL "is libsbml statically compiled")
 if (WIN32 AND NOT CYGWIN)
@@ -426,36 +445,10 @@ endif(WITH_CSHARP)
 # or make test
 #
 
-if(WITH_CHECK)
+# we do use tests, that require 2.8.4
+cmake_minimum_required(VERSION 2.8.4)
 
-    # we do use tests, that require 2.8.4
-    cmake_minimum_required(VERSION 2.8.4)
-
-    enable_testing()
-
-    find_library(LIBCHECK_LIBRARY
-        NAMES check libcheck
-        PATHS /usr/lib /usr/local/lib ${LIBSEDML_DEPENDENCY_DIR}/lib
-        DOC "The file name of the libcheck library."
-    )
-
-    find_path(LIBCHECK_INCLUDE_DIR
-        NAMES check.h
-        PATHS /usr/include /usr/local/include  ${LIBSEDML_DEPENDENCY_DIR}/include
-        DOC "The directory containing the libcheck include files."
-              )
-
-    if(NOT EXISTS "${LIBCHECK_INCLUDE_DIR}/check.h")
-        message(FATAL_ERROR "The 'check' include directory appears to be invalid. It should contain the file check.h, but it does not.")
-    endif()
-
-    if(${CMAKE_GENERATOR} MATCHES "Visual Studio 6" OR ${CMAKE_GENERATOR} MATCHES "Visual Studio 7")
-        message(WARNING "Libcheck is not compatible with Visual Studio 2003 (or earlier versions).")
-    endif()
-
-endif(WITH_CHECK)
-
-
+enable_testing()
 
 
 # On some Linux  (64bit) systems (64bit) the libraries should be installed into lib64 rather
@@ -691,7 +684,6 @@ include(CheckIncludeFiles)
 check_include_files (check.h HAVE_CHECK_H)
 check_include_files (expat.h HAVE_EXPAT_H)
 check_include_files (errno.h HAVE_ERRNO_H)
-check_include_files (ieeefp.h HAVE_IEEEFP_H)
 check_include_files (math.h HAVE_MATH_H)
 check_include_files (sys/types.h HAVE_SYS_TYPES_H)
 check_include_files (float.h STDC_HEADERS)
@@ -713,7 +705,6 @@ endif()
 # so we encode these values here
 if (MSVC)
   set(HAVE_ERRNO_H TRUE)
-  set(HAVE_IEEEFP_H TRUE)
   set(STDC_HEADERS TRUE)
   set(HAVE_MATH_H TRUE)
   set(HAVE_SYS_TYPES_H TRUE)
@@ -723,13 +714,13 @@ endif()
 #
 # create library
 # 
-add_subdirectory(sedml)
+add_subdirectory(src/sedml)
 
 ##############################################################################
 #
 # create language bindings
 # 
-add_subdirectory(bindings)
+add_subdirectory(src/bindings)
 
 
 
@@ -922,13 +913,9 @@ endif()
 message(STATUS "
 ----------------------------------------------------------------------")
 
-
-if(WITH_CHECK)
-
-    add_subdirectory(tests)
-
-endif(WITH_CHECK)
-
+if (WITH_CHECK)
+add_subdirectory(tests)
+endif()
 
 ## To compile a test program simply comment out the lines below ...
 #

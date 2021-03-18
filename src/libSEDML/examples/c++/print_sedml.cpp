@@ -79,6 +79,16 @@ void printRepeatedTask(const SedRepeatedTask* repeat)
   {
 	const SedSetValue* current = repeat->getTaskChange(i);
 	cout << "\t\tSetvalue range='" << current->getRange() << "' modelReference='" << current->getModelReference() << "' target='" << current->getTarget() << " math='" << SBML_formulaToString(current->getMath()) <<"'" << endl;
+  for (unsigned int j = 0; j < current->getNumVariables(); ++j)
+  {
+    const SedVariable* var = current->getVariable(j);
+    cout << "\t\t\tSetVariable id='" << var->getId() << "'" << std::endl;
+  }
+  for (unsigned int j = 0; j < current->getNumParameters(); ++j)
+  {
+    const SedParameter* p = current->getParameter(j);
+    cout << "\t\t\tSedParameter id='" << p->getId() << "'" << std::endl;
+  }
   }
   cout << endl;
   for (unsigned int i = 0; i < repeat->getNumSubTasks(); ++i)
@@ -218,12 +228,18 @@ main (int argc, char* argv[])
   cout << "The document has " << doc->getNumTasks() << " task(s)." << endl;
   for (unsigned int i = 0; i < doc->getNumTasks(); ++i)
   {
-    SedTask* current = doc->getTask(i);
-    SedRepeatedTask* repeat = dynamic_cast<SedRepeatedTask*>(current);
-    if (repeat != NULL) 
-	printRepeatedTask(repeat);
+    SedAbstractTask* abstract = doc->getTask(i);
+    SedRepeatedTask* repeat = dynamic_cast<SedRepeatedTask*>(abstract);
+    if (repeat != NULL)
+    {
+      printRepeatedTask(repeat);
+    }
     else
-    cout << "\tTask id=" << current->getId() << " model=" << current->getModelReference() << " sim=" << current->getSimulationReference() << endl;
+    {
+      SedTask* current = dynamic_cast<SedTask*>(abstract);
+      if (current == NULL) continue;
+      cout << "\tTask id=" << current->getId() << " model=" << current->getModelReference() << " sim=" << current->getSimulationReference() << endl;
+    }
   }
 
   cout << endl;
