@@ -7,15 +7,15 @@
  * This file is part of libSEDML. Please visit http://sed-ml.org for more
  * information about SED-ML. The latest version of libSEDML can be found on
  * github: https://github.com/fbergmann/libSEDML/
- * 
+ *
 
  * Copyright (c) 2013-2019, Frank T. Bergmann
  * All rights reserved.
- * 
+ *
 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
 
  * 1. Redistributions of source code must retain the above copyright notice,
  * this
@@ -1535,6 +1535,118 @@ SedDocument::getStyle(const std::string& sid) const
 
 
 /*
+ * Get a SedStyle from the SedDocument based on its identifier.
+ */
+SedStyle
+SedDocument::getEffectiveStyle(const std::string& sid) const
+{
+    const SedStyle* top =  mStyles.get(sid);
+    if (top == NULL)
+    {
+        return SedStyle(mLevel, mVersion);
+    }
+    if (!top->isSetBaseStyle())
+    {
+        return SedStyle(*top);
+    }
+    SedStyle base = getEffectiveStyle(top->getBaseStyle());
+    base.setId(top->getId());
+    base.setName(top->getName());
+    base.unsetBaseStyle();
+
+    if (top->isSetLineStyle())
+    {
+        if (base.isSetLineStyle())
+        {
+            const SedLine* topline = top->getLineStyle();
+            SedLine* baseline = base.getLineStyle();
+
+            if (topline->isSetColor())
+            {
+                baseline->setColor(topline->getColor());
+            }
+
+            if (topline->isSetStyle())
+            {
+                baseline->setStyle(topline->getStyle());
+            }
+
+            if (topline->isSetThickness())
+            {
+                baseline->setThickness(topline->getThickness());
+            }
+        }
+        else
+        {
+            base.setLineStyle(top->getLineStyle());
+        }
+    }
+
+    if (top->isSetMarkerStyle())
+    {
+        if (base.isSetMarkerStyle())
+        {
+            const SedMarker* topmarker = top->getMarkerStyle();
+            SedMarker* basemarker = base.getMarkerStyle();
+
+            if (topmarker->isSetStyle())
+            {
+                basemarker->setStyle(topmarker->getStyle());
+            }
+
+            if (topmarker->isSetSize())
+            {
+                basemarker->setSize(topmarker->getSize());
+            }
+
+            if (topmarker->isSetFill())
+            {
+                basemarker->setFill(topmarker->getFill());
+            }
+
+            if (topmarker->isSetLineColor())
+            {
+                basemarker->setLineColor(topmarker->getLineColor());
+            }
+
+            if (topmarker->isSetLineThickness())
+            {
+                basemarker->setLineThickness(topmarker->getLineThickness());
+            }
+        }
+        else
+        {
+            base.setMarkerStyle(top->getMarkerStyle());
+        }
+    }
+
+    if (top->isSetFillStyle())
+    {
+        if (base.isSetFillStyle())
+        {
+            const SedFill* topfill = top->getFillStyle();
+            SedFill* basefill = base.getFillStyle();
+
+            if (topfill->isSetColor())
+            {
+                basefill->setColor(topfill->getColor());
+            }
+
+            if (topfill->isSetSecondColor())
+            {
+                basefill->setSecondColor(topfill->getSecondColor());
+            }
+        }
+        else
+        {
+            base.setFillStyle(top->getFillStyle());
+        }
+    }
+    return base;
+}
+
+
+/*
  * Get a SedStyle from the SedDocument based on the BaseStyle to which it
  * refers.
  */
@@ -2568,6 +2680,35 @@ SedDocument::getNumErrors(unsigned int severity) const
   return getErrorLog()->getNumFailsWithSeverity(severity);
 }
 
+void SedDocument::sortOrderedObjects()
+{
+    for (size_t o = 0; o < mOutputs.size(); o++)
+    {
+        SedOutput* output = mOutputs.get(o);
+        int type = output->getTypeCode();
+        if (type == SEDML_OUTPUT_PLOT2D) 
+        {
+            SedPlot2D* sp2d = static_cast<SedPlot2D*>(output);
+            sp2d->getListOfCurves()->sort();
+        }
+        else if (type == SEDML_OUTPUT_PLOT3D) 
+        {
+            SedPlot3D* sp3d = static_cast<SedPlot3D*>(output);
+            sp3d->getListOfSurfaces()->sort();
+        }
+    }
+    for (size_t t = 0; t < mAbstractTasks.size(); t++)
+    {
+        SedAbstractTask* task = mAbstractTasks.get(t);
+        int type = task->getTypeCode();
+        if (type == SEDML_TASK_REPEATEDTASK)
+        {
+            SedRepeatedTask* rtask = static_cast<SedRepeatedTask*>(task);
+            rtask->getListOfSubTasks()->sort();
+        }
+    }
+}
+
 
 
 /** @cond doxygenLibSEDMLInternal */
@@ -2719,9 +2860,9 @@ SedDocument::readAttributes(
     }
   }
 
-  // 
+  //
   // level uint (use = "required" )
-  // 
+  //
 
   numErrs = log ? log->getNumErrors() : 0;
   mIsSetLevel = attributes.readInto("level", mLevel);
@@ -2746,9 +2887,9 @@ SedDocument::readAttributes(
     }
   }
 
-  // 
+  //
   // version uint (use = "required" )
-  // 
+  //
 
   numErrs = log ? log->getNumErrors() : 0;
   mIsSetVersion = attributes.readInto("version", mVersion);
@@ -2814,7 +2955,7 @@ SedDocument::writeXMLNS(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream&
   stream) const
 {
  // need to check that we have indeed a namespace set!
-  LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * thisNs = 
+  LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces * thisNs =
     const_cast<LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces *>(getNamespaces());
 
   // the SED-ML namespace is missing - add it
