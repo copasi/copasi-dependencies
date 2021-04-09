@@ -153,6 +153,102 @@ TEST_CASE("Reading L1V4 curve should not require logY", "[sedml]")
 }
 
 
+TEST_CASE("Test sortOrderedObjects: curves", "[sedml]")
+{
+    std::string fileName = getTestFile("/test-data/sort_curves.sedml");
+    SedDocument* doc = readSedMLFromFile(fileName.c_str());
+    REQUIRE(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 0);
+    doc->sortOrderedObjects();
+    SedOutput* out = doc->getOutput(0);
+    REQUIRE(out->getTypeCode() == SEDML_OUTPUT_PLOT2D);
+    SedPlot2D* sp2d = static_cast<SedPlot2D*>(out);
+
+    SedAbstractCurve* curve = sp2d->getCurve(0);
+    REQUIRE(curve->isSetOrder() == true);
+    REQUIRE(curve->getOrder() == 1);
+    REQUIRE(curve->getStyle() == "green_line");
+
+    curve = sp2d->getCurve(1);
+    REQUIRE(curve->isSetOrder() == true);
+    REQUIRE(curve->getOrder() == 2);
+    REQUIRE(curve->getStyle() == "purple_line");
+
+    curve = sp2d->getCurve(2);
+    REQUIRE(curve->isSetOrder() == true);
+    REQUIRE(curve->getOrder() == 3);
+    REQUIRE(curve->getStyle() == "red_line");
+
+    delete doc;
+}
+
+
+TEST_CASE("Test sortOrderedObjects: surfaces", "[sedml]")
+{
+    std::string fileName = getTestFile("/test-data/sort_surfaces.sedml");
+    SedDocument* doc = readSedMLFromFile(fileName.c_str());
+    REQUIRE(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 0);
+    doc->sortOrderedObjects();
+
+    SedOutput* out = doc->getOutput(0);
+    REQUIRE(out->getTypeCode() == SEDML_OUTPUT_PLOT3D);
+    SedPlot3D* sp3d = static_cast<SedPlot3D*>(out);
+
+    SedSurface* surface = sp3d->getSurface(0);
+    REQUIRE(surface->isSetOrder() == true);
+    REQUIRE(surface->getOrder() == 0);
+    REQUIRE(surface->getId() == "surfaceA");
+
+    surface = sp3d->getSurface(1);
+    REQUIRE(surface->isSetOrder() == true);
+    REQUIRE(surface->getOrder() == 2);
+    REQUIRE(surface->getId() == "surfaceC");
+
+    surface = sp3d->getSurface(2);
+    REQUIRE(surface->isSetOrder() == true);
+    REQUIRE(surface->getOrder() == 5);
+    REQUIRE(surface->getId() == "surfaceB");
+
+    delete doc;
+}
+
+
+TEST_CASE("Test sortOrderedObjects: subtasks", "[sedml]")
+{
+    std::string fileName = getTestFile("/test-data/sort_subtasks.sedml");
+    SedDocument* doc = readSedMLFromFile(fileName.c_str());
+    REQUIRE(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 0);
+    doc->sortOrderedObjects();
+
+    SedAbstractTask* task = doc->getTask(0);
+    REQUIRE(task->getTypeCode() == SEDML_TASK_REPEATEDTASK);
+    SedRepeatedTask* rt = static_cast<SedRepeatedTask*>(task);
+
+    SedSubTask* subtask = rt->getSubTask(0);
+    REQUIRE(subtask->isSetOrder() == true);
+    REQUIRE(subtask->getOrder() == 1);
+
+    subtask = rt->getSubTask(1);
+    REQUIRE(subtask->isSetOrder() == true);
+    REQUIRE(subtask->getOrder() == 2);
+
+    subtask = rt->getSubTask(2);
+    REQUIRE(subtask->isSetOrder() == true);
+    REQUIRE(subtask->getOrder() == 3);
+
+    delete doc;
+}
+
+
+TEST_CASE("Test sortOrderedObjects doesn't crash", "[sedml]")
+{
+    std::string fileName = getTestFile("/test-data/BIOMD0000000087_fig5.sedml");
+    SedDocument* doc = readSedMLFromFile(fileName.c_str());
+    REQUIRE(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 0);
+    doc->sortOrderedObjects();
+    delete doc;
+}
+
+
 
 TEST_CASE("Reading a file with custom namespaces on element should have it available", "[sedml]")
 {
@@ -249,8 +345,8 @@ TEST_CASE("create and add dependent variables", "[sedml]")
 TEST_CASE("allow dashDotDot", "[sedml]")
 {
   SedLine line(1, 4);
-  REQUIRE(line.setStyle("dashDotDot") == LIBSEDML_OPERATION_SUCCESS);
-  REQUIRE(line.setStyle(SEDML_LINETYPE_DASHDOTDOT) == LIBSEDML_OPERATION_SUCCESS);
+  REQUIRE(line.setType("dashDotDot") == LIBSEDML_OPERATION_SUCCESS);
+  REQUIRE(line.setType(SEDML_LINETYPE_DASHDOTDOT) == LIBSEDML_OPERATION_SUCCESS);
 
 }
 
@@ -327,27 +423,290 @@ TEST_CASE("Reading / Writing changexml only text node", "[sedml]")
 }
 
 
-
-
-
 TEST_CASE("Reading numberOfPoints", "[sedml]")
 {
-  std::string fileName = getTestFile("/test-data/issue_93.sedml");
-  SedDocument* doc = readSedMLFromFile(fileName.c_str());
-  bool haveErrors = doc->getNumErrors(LIBSEDML_SEV_ERROR) != 0;
-  
-  if (haveErrors)
-    doc->getErrorLog()->printErrors();
-  
-  REQUIRE(!haveErrors);
+    std::string fileName = getTestFile("/test-data/issue_93.sedml");
+    SedDocument* doc = readSedMLFromFile(fileName.c_str());
+    bool haveErrors = doc->getNumErrors(LIBSEDML_SEV_ERROR) != 0;
 
+    if (haveErrors)
+        doc->getErrorLog()->printErrors();
+
+    REQUIRE(!haveErrors);
+
+    {
+        auto* task = dynamic_cast<SedRepeatedTask*> (doc->getTask(0));
+        REQUIRE(task != NULL);
+        auto* range = dynamic_cast<SedUniformRange*> (task->getRange(0));
+        REQUIRE(range != NULL);
+        REQUIRE(range->isSetNumberOfPoints());
+        REQUIRE(range->getNumberOfPoints() == 10);
+    }
+    
+    {
+      auto* list = doc->getAllElements(); 
+      REQUIRE(list != NULL);
+      REQUIRE(list->getSize() == 4);
+      REQUIRE(static_cast<SedBase*>(list->get(0))->getTypeCode() == SEDML_LIST_OF);
+      REQUIRE(static_cast<SedBase*>(list->get(1))->getTypeCode() == SEDML_TASK_REPEATEDTASK);
+      REQUIRE(static_cast<SedBase*>(list->get(2))->getTypeCode() == SEDML_LIST_OF);
+      REQUIRE(static_cast<SedBase*>(list->get(3))->getTypeCode() == SEDML_RANGE_UNIFORMRANGE);
+      delete list;
+    }
+    
+    delete doc;
+}
+
+
+
+TEST_CASE("Id and name on different levels/versions", "[sedml]")
+{
+    SedNamespaces l1v3(1, 3);
+    SedNamespaces l1v4(1, 4);
+
+    //An element that had name and id in l1v3
+    SedVariable variable13(&l1v3), variable14(&l1v4);
+    CHECK(variable13.isSetId() == false);
+    CHECK(variable14.isSetId() == false);
+    CHECK(variable13.getId() == "");
+    CHECK(variable14.getId() == "");
+    CHECK(variable13.setId("variable") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(variable14.setId("variable") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(variable13.isSetId() == true);
+    CHECK(variable14.isSetId() == true);
+    CHECK(variable13.getId() == "variable");
+    CHECK(variable14.getId() == "variable");
+    CHECK(variable13.unsetId() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(variable14.unsetId() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(variable13.isSetId() == false);
+    CHECK(variable14.isSetId() == false);
+    CHECK(variable13.getId() == "");
+    CHECK(variable14.getId() == "");
+
+    CHECK(variable13.isSetName() == false);
+    CHECK(variable14.isSetName() == false);
+    CHECK(variable13.getName() == "");
+    CHECK(variable14.getName() == "");
+    CHECK(variable13.setName("variable") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(variable14.setName("variable") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(variable13.isSetName() == true);
+    CHECK(variable14.isSetName() == true);
+    CHECK(variable13.getName() == "variable");
+    CHECK(variable14.getName() == "variable");
+    CHECK(variable13.unsetName() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(variable14.unsetName() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(variable13.isSetName() == false);
+    CHECK(variable14.isSetName() == false);
+    CHECK(variable13.getName() == "");
+    CHECK(variable14.getName() == "");
+
+    {
+    SedCurve curve13(&l1v3), curve14(&l1v4);
+    CHECK(curve13.isSetId() == false);
+    CHECK(curve14.isSetId() == false);
+    CHECK(curve13.getId() == "");
+    CHECK(curve14.getId() == "");
+    CHECK(curve13.setId("curve") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve14.setId("curve") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve13.isSetId() == true);
+    CHECK(curve14.isSetId() == true);
+    CHECK(curve13.getId() == "curve");
+    CHECK(curve14.getId() == "curve");
+    CHECK(curve13.unsetId() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve14.unsetId() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve13.isSetId() == false);
+    CHECK(curve14.isSetId() == false);
+    CHECK(curve13.getId() == "");
+    CHECK(curve14.getId() == "");
+
+    CHECK(curve13.isSetName() == false);
+    CHECK(curve14.isSetName() == false);
+    CHECK(curve13.getName() == "");
+    CHECK(curve14.getName() == "");
+    CHECK(curve13.setName("curve") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve14.setName("curve") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve13.isSetName() == true);
+    CHECK(curve14.isSetName() == true);
+    CHECK(curve13.getName() == "curve");
+    CHECK(curve14.getName() == "curve");
+    CHECK(curve13.unsetName() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve14.unsetName() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve13.isSetName() == false);
+    CHECK(curve14.isSetName() == false);
+    CHECK(curve13.getName() == "");
+    CHECK(curve14.getName() == "");
+    }
+
+
+    {
+    SedSurface curve13(&l1v3), curve14(&l1v4);
+    CHECK(curve13.isSetId() == false);
+    CHECK(curve14.isSetId() == false);
+    CHECK(curve13.getId() == "");
+    CHECK(curve14.getId() == "");
+    CHECK(curve13.setId("curve") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve14.setId("curve") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve13.isSetId() == true);
+    CHECK(curve14.isSetId() == true);
+    CHECK(curve13.getId() == "curve");
+    CHECK(curve14.getId() == "curve");
+    CHECK(curve13.unsetId() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve14.unsetId() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve13.isSetId() == false);
+    CHECK(curve14.isSetId() == false);
+    CHECK(curve13.getId() == "");
+    CHECK(curve14.getId() == "");
+
+    CHECK(curve13.isSetName() == false);
+    CHECK(curve14.isSetName() == false);
+    CHECK(curve13.getName() == "");
+    CHECK(curve14.getName() == "");
+    CHECK(curve13.setName("curve") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve14.setName("curve") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve13.isSetName() == true);
+    CHECK(curve14.isSetName() == true);
+    CHECK(curve13.getName() == "curve");
+    CHECK(curve14.getName() == "curve");
+    CHECK(curve13.unsetName() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve14.unsetName() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(curve13.isSetName() == false);
+    CHECK(curve14.isSetName() == false);
+    CHECK(curve13.getName() == "");
+    CHECK(curve14.getName() == "");
+    }
+
+
+    //An element that had id but not name in l1v3:
+    SedRange range13(&l1v3), range14(&l1v4);
+    CHECK(range13.isSetId() == false);
+    CHECK(range14.isSetId() == false);
+    CHECK(range13.getId() == "");
+    CHECK(range14.getId() == "");
+    CHECK(range13.setId("range") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(range14.setId("range") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(range13.isSetId() == true);
+    CHECK(range14.isSetId() == true);
+    CHECK(range13.getId() == "range");
+    CHECK(range14.getId() == "range");
+    CHECK(range13.unsetId() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(range14.unsetId() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(range13.isSetId() == false);
+    CHECK(range14.isSetId() == false);
+    CHECK(range13.getId() == "");
+    CHECK(range14.getId() == "");
+
+    CHECK(range13.isSetName() == false);
+    CHECK(range14.isSetName() == false);
+    CHECK(range13.getName() == "");
+    CHECK(range14.getName() == "");
+    CHECK(range13.setName("range") == LIBSEDML_UNEXPECTED_ATTRIBUTE);
+    CHECK(range14.setName("range") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(range13.isSetName() == false);
+    CHECK(range14.isSetName() == true);
+    CHECK(range13.getName() == "");
+    CHECK(range14.getName() == "range");
+    CHECK(range13.unsetName() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(range14.unsetName() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(range13.isSetName() == false);
+    CHECK(range14.isSetName() == false);
+    CHECK(range13.getName() == "");
+    CHECK(range14.getName() == "");
+
+    //An element that didn't have id or name in l1v3:
+    SedAlgorithm algorithm13(&l1v3), algorithm14(&l1v4);
+    CHECK(algorithm13.isSetId() == false);
+    CHECK(algorithm14.isSetId() == false);
+    CHECK(algorithm13.getId() == "");
+    CHECK(algorithm14.getId() == "");
+    CHECK(algorithm13.setId("algorithm") == LIBSEDML_UNEXPECTED_ATTRIBUTE);
+    CHECK(algorithm14.setId("algorithm") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(algorithm13.isSetId() == false);
+    CHECK(algorithm14.isSetId() == true);
+    CHECK(algorithm13.getId() == "");
+    CHECK(algorithm14.getId() == "algorithm");
+    CHECK(algorithm13.unsetId() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(algorithm14.unsetId() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(algorithm13.isSetId() == false);
+    CHECK(algorithm14.isSetId() == false);
+    CHECK(algorithm13.getId() == "");
+    CHECK(algorithm14.getId() == "");
+
+    CHECK(algorithm13.isSetName() == false);
+    CHECK(algorithm14.isSetName() == false);
+    CHECK(algorithm13.getName() == "");
+    CHECK(algorithm14.getName() == "");
+    CHECK(algorithm13.setName("algorithm") == LIBSEDML_UNEXPECTED_ATTRIBUTE);
+    CHECK(algorithm14.setName("algorithm") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(algorithm13.isSetName() == false);
+    CHECK(algorithm14.isSetName() == true);
+    CHECK(algorithm13.getName() == "");
+    CHECK(algorithm14.getName() == "algorithm");
+    CHECK(algorithm13.unsetName() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(algorithm14.unsetName() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(algorithm13.isSetName() == false);
+    CHECK(algorithm14.isSetName() == false);
+    CHECK(algorithm13.getName() == "");
+    CHECK(algorithm14.getName() == "");
+
+}
+
+
+TEST_CASE("Reading/writing of dashDotDot", "[sedml]")
+{
+  SedDocument* doc = new SedDocument(1, 4);
   {
-    auto* task = dynamic_cast<SedRepeatedTask*> (doc->getTask(0));
-    REQUIRE(task != NULL);
-    auto* range = dynamic_cast<SedUniformRange*> (task->getRange(0));
-    REQUIRE(range != NULL);
-    REQUIRE(range->isSetNumberOfPoints());
-    REQUIRE(range->getNumberOfPoints() == 10);
+    auto* style = doc->createStyle();
+    REQUIRE(style != NULL);
+    style->setId("test");
+    auto* line = style->createLineStyle();
+    REQUIRE(line != NULL);
+    REQUIRE(line->setType(SEDML_LINETYPE_DASHDOTDOT) == LIBSEDML_OPERATION_SUCCESS);
+    REQUIRE(line->getType() == SEDML_LINETYPE_DASHDOTDOT);
+    REQUIRE(line->setType("dashDotDot") == LIBSEDML_OPERATION_SUCCESS);
+    REQUIRE(line->getType() == SEDML_LINETYPE_DASHDOTDOT);
+
+    REQUIRE(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 0);
+  }
+
+  std::string sedml = writeSedMLToStdString(doc);
+  delete doc;
+
+  doc = readSedMLFromString(sedml.c_str());
+  doc->getErrorLog()->printErrors();
+  REQUIRE(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 0);
+  {
+    auto* style = doc->getStyle(0);
+    REQUIRE(style != NULL);
+    auto* line = style->getLineStyle();
+    REQUIRE(line != NULL);
+    REQUIRE(line->getType() == SEDML_LINETYPE_DASHDOTDOT);
+
   }
   delete doc;
 }
+
+TEST_CASE("Reading old 'style' attribute on line should give error", "[sedml]")
+{
+    std::string fileName = getTestFile("/test-data/line_uses_style.sedml");
+    SedDocument* doc = readSedMLFromFile(fileName.c_str());
+    REQUIRE(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 3);
+    SedError* err1 = doc->getError(0);
+    CHECK(err1->getErrorId() == SedmlLineAllowedAttributes);
+
+    delete doc;
+}
+
+
+TEST_CASE("Reading old 'style' attribute on marker should give error", "[sedml]")
+{
+    std::string fileName = getTestFile("/test-data/marker_uses_style.sedml");
+    SedDocument* doc = readSedMLFromFile(fileName.c_str());
+    REQUIRE(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 3);
+    SedError* err1 = doc->getError(0);
+    CHECK(err1->getErrorId() == SedmlMarkerAllowedAttributes);
+
+    delete doc;
+}
+
+
+

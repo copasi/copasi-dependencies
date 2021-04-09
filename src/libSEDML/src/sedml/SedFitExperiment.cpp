@@ -49,7 +49,7 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedFitExperiment using the given SEDML Level and @ p version
+ * Creates a new SedFitExperiment using the given SED-ML Level and @ p version
  * values.
  */
 SedFitExperiment::SedFitExperiment(unsigned int level, unsigned int version)
@@ -145,16 +145,6 @@ SedFitExperiment::~SedFitExperiment()
 
 
 /*
- * Returns the value of the "id" attribute of this SedFitExperiment.
- */
-const std::string&
-SedFitExperiment::getId() const
-{
-  return mId;
-}
-
-
-/*
  * Returns the value of the "type" attribute of this SedFitExperiment.
  */
 ExperimentType_t
@@ -176,17 +166,6 @@ SedFitExperiment::getTypeAsString() const
 
 
 /*
- * Predicate returning @c true if this SedFitExperiment's "id" attribute is
- * set.
- */
-bool
-SedFitExperiment::isSetId() const
-{
-  return (mId.empty() == false);
-}
-
-
-/*
  * Predicate returning @c true if this SedFitExperiment's "type" attribute is
  * set.
  */
@@ -194,17 +173,6 @@ bool
 SedFitExperiment::isSetType() const
 {
   return (mType != SEDML_EXPERIMENTTYPE_INVALID);
-}
-
-
-/*
- * Sets the value of the "id" attribute of this SedFitExperiment.
- */
-int
-SedFitExperiment::setId(const std::string& id)
-{
-  mId = id;
-  return LIBSEDML_OPERATION_SUCCESS;
 }
 
 
@@ -241,25 +209,6 @@ SedFitExperiment::setType(const std::string& type)
   }
 
   return LIBSEDML_OPERATION_SUCCESS;
-}
-
-
-/*
- * Unsets the value of the "id" attribute of this SedFitExperiment.
- */
-int
-SedFitExperiment::unsetId()
-{
-  mId.erase();
-
-  if (mId.empty() == true)
-  {
-    return LIBSEDML_OPERATION_SUCCESS;
-  }
-  else
-  {
-    return LIBSEDML_OPERATION_FAILED;
-  }
 }
 
 
@@ -1109,6 +1058,23 @@ SedFitExperiment::getElementBySId(const std::string& id)
 }
 
 
+/*
+ * Returns a List of all child SedBase objects, including those nested to an
+ * arbitrary depth.
+ */
+List*
+SedFitExperiment::getAllElements(SedElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+  SED_ADD_FILTERED_POINTER(ret, sublist, mAlgorithm, filter);
+
+  SED_ADD_FILTERED_LIST(ret, sublist, mFitMappings, filter);
+
+  return ret;
+}
+
+
 
 /** @cond doxygenLibSEDMLInternal */
 
@@ -1228,26 +1194,6 @@ SedFitExperiment::readAttributes(
   }
 
   // 
-  // id SId (use = "optional" )
-  // 
-
-  assigned = attributes.readInto("id", mId);
-
-  if (assigned == true)
-  {
-    if (mId.empty() == true)
-    {
-      logEmptyString(mId, level, version, "<SedFitExperiment>");
-    }
-    else if (SyntaxChecker::isValidSBMLSId(mId) == false)
-    {
-      logError(SedmlIdSyntaxRule, level, version, "The id on the <" +
-        getElementName() + "> is '" + mId + "', which does not conform to the "
-          "syntax.", getLine(), getColumn());
-    }
-  }
-
-  // 
   // type enum (use = "optional" )
   // 
 
@@ -1297,11 +1243,6 @@ SedFitExperiment::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER
 {
   SedBase::writeAttributes(stream);
 
-  if (isSetId() == true)
-  {
-    stream.writeAttribute("id", getPrefix(), mId);
-  }
-
   if (isSetType() == true)
   {
     stream.writeAttribute("type", getPrefix(), ExperimentType_toString(mType));
@@ -1317,7 +1258,7 @@ SedFitExperiment::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER
 
 
 /*
- * Creates a new SedFitExperiment_t using the given SEDML Level and @ p version
+ * Creates a new SedFitExperiment_t using the given SED-ML Level and @ p version
  * values.
  */
 LIBSEDML_EXTERN

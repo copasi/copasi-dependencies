@@ -61,7 +61,7 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedDocument using the given SEDML Level and @ p version
+ * Creates a new SedDocument using the given SED-ML Level and @ p version
  * values.
  */
 SedDocument::SedDocument(unsigned int level, unsigned int version)
@@ -1566,9 +1566,9 @@ SedDocument::getEffectiveStyle(const std::string& sid) const
                 baseline->setColor(topline->getColor());
             }
 
-            if (topline->isSetStyle())
+            if (topline->isSetType())
             {
-                baseline->setStyle(topline->getStyle());
+                baseline->setType(topline->getType());
             }
 
             if (topline->isSetThickness())
@@ -1589,9 +1589,9 @@ SedDocument::getEffectiveStyle(const std::string& sid) const
             const SedMarker* topmarker = top->getMarkerStyle();
             SedMarker* basemarker = base.getMarkerStyle();
 
-            if (topmarker->isSetStyle())
+            if (topmarker->isSetType())
             {
-                basemarker->setStyle(topmarker->getStyle());
+                basemarker->setType(topmarker->getType());
             }
 
             if (topmarker->isSetSize())
@@ -2601,6 +2601,28 @@ SedDocument::getElementBySId(const std::string& id)
 
 
 /*
+ * Returns a List of all child SedBase objects, including those nested to an
+ * arbitrary depth.
+ */
+List*
+SedDocument::getAllElements(SedElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  SED_ADD_FILTERED_LIST(ret, sublist, mDataDescriptions, filter);
+  SED_ADD_FILTERED_LIST(ret, sublist, mModels, filter);
+  SED_ADD_FILTERED_LIST(ret, sublist, mSimulations, filter);
+  SED_ADD_FILTERED_LIST(ret, sublist, mAbstractTasks, filter);
+  SED_ADD_FILTERED_LIST(ret, sublist, mDataGenerators, filter);
+  SED_ADD_FILTERED_LIST(ret, sublist, mOutputs, filter);
+  SED_ADD_FILTERED_LIST(ret, sublist, mStyles, filter);
+
+  return ret;
+}
+
+
+/*
  * Returns the value of the "Namespaces" element of this SedDocument.
  */
 const LIBSBML_CPP_NAMESPACE_QUALIFIER XMLNamespaces*
@@ -3032,7 +3054,7 @@ SedDocument::writeXMLNS(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream&
 
 
 /*
- * Creates a new SedDocument_t using the given SEDML Level and @ p version
+ * Creates a new SedDocument_t using the given SED-ML Level and @ p version
  * values.
  */
 LIBSEDML_EXTERN

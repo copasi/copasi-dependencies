@@ -68,7 +68,6 @@ protected:
 
   /** @cond doxygenLibSEDMLInternal */
 
-  std::string mName;
   std::string mElementName;
 
   /** @endcond */
@@ -76,13 +75,13 @@ protected:
 public:
 
   /**
-   * Creates a new SedAbstractTask using the given SEDML Level and @ p version
+   * Creates a new SedAbstractTask using the given SED-ML Level and @ p version
    * values.
    *
-   * @param level an unsigned int, the SEDML Level to assign to this
+   * @param level an unsigned int, the SED-ML Level to assign to this
    * SedAbstractTask.
    *
-   * @param version an unsigned int, the SEDML Version to assign to this
+   * @param version an unsigned int, the SED-ML Version to assign to this
    * SedAbstractTask.
    *
    * @copydetails doc_note_setting_lv_pkg
@@ -132,93 +131,6 @@ public:
    */
   virtual ~SedAbstractTask();
 
-
-  /**
-   * Returns the value of the "id" attribute of this SedAbstractTask.
-   *
-   * @return the value of the "id" attribute of this SedAbstractTask as a
-   * string.
-   */
-  virtual const std::string& getId() const;
-
-
-  /**
-   * Returns the value of the "name" attribute of this SedAbstractTask.
-   *
-   * @return the value of the "name" attribute of this SedAbstractTask as a
-   * string.
-   */
-  virtual const std::string& getName() const;
-
-
-  /**
-   * Predicate returning @c true if this SedAbstractTask's "id" attribute is
-   * set.
-   *
-   * @return @c true if this SedAbstractTask's "id" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetId() const;
-
-
-  /**
-   * Predicate returning @c true if this SedAbstractTask's "name" attribute is
-   * set.
-   *
-   * @return @c true if this SedAbstractTask's "name" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetName() const;
-
-
-  /**
-   * Sets the value of the "id" attribute of this SedAbstractTask.
-   *
-   * @param id std::string& value of the "id" attribute to be set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
-   *
-   * Calling this function with @p id = @c NULL or an empty string is
-   * equivalent to calling unsetId().
-   */
-  virtual int setId(const std::string& id);
-
-
-  /**
-   * Sets the value of the "name" attribute of this SedAbstractTask.
-   *
-   * @param name std::string& value of the "name" attribute to be set.
-   *
-   * @copydetails doc_returns_one_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   *
-   * Calling this function with @p name = @c NULL or an empty string is
-   * equivalent to calling unsetName().
-   */
-  virtual int setName(const std::string& name);
-
-
-  /**
-   * Unsets the value of the "id" attribute of this SedAbstractTask.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int unsetId();
-
-
-  /**
-   * Unsets the value of the "name" attribute of this SedAbstractTask.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int unsetName();
 
 
   /**
@@ -287,7 +199,7 @@ public:
    *
    * @copydetails doc_what_are_typecodes
    *
-   * @return the SEDML type code for this object:
+   * @return the SED-ML type code for this object:
    * @sedmlconstant{SEDML_SEDML_ABSTRACTTASK, SedTypeCode_t}.
    *
    * @copydetails doc_warning_typecodes_not_unique
@@ -654,12 +566,12 @@ BEGIN_C_DECLS
 
 
 /**
- * Creates a new SedTask using the given SEDML Level and @ p version values.
+ * Creates a new SedTask using the given SED-ML Level and @ p version values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this
+ * @param level an unsigned int, the SED-ML Level to assign to this
  * SedAbstractTask_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedAbstractTask_t.
  *
  * @copydetails doc_note_setting_lv_pkg
@@ -674,13 +586,13 @@ SedAbstractTask_createTask(unsigned int level, unsigned int version);
 
 
 /**
- * Creates a new SedRepeatedTask using the given SEDML Level and @ p version
+ * Creates a new SedRepeatedTask using the given SED-ML Level and @ p version
  * values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this
+ * @param level an unsigned int, the SED-ML Level to assign to this
  * SedAbstractTask_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedAbstractTask_t.
  *
  * @copydetails doc_note_setting_lv_pkg
@@ -695,13 +607,13 @@ SedAbstractTask_createRepeatedTask(unsigned int level, unsigned int version);
 
 
 /**
- * Creates a new SedParameterEstimationTask using the given SEDML Level and @ p
+ * Creates a new SedParameterEstimationTask using the given SED-ML Level and @ p
  * version values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this
+ * @param level an unsigned int, the SED-ML Level to assign to this
  * SedAbstractTask_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedAbstractTask_t.
  *
  * @copydetails doc_note_setting_lv_pkg
@@ -717,13 +629,13 @@ SedAbstractTask_createParameterEstimationTask(unsigned int level,
 
 
 /**
- * Creates a new SedSimpleRepeatedTask using the given SEDML Level and @ p
+ * Creates a new SedSimpleRepeatedTask using the given SED-ML Level and @ p
  * version values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this
+ * @param level an unsigned int, the SED-ML Level to assign to this
  * SedAbstractTask_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedAbstractTask_t.
  *
  * @copydetails doc_note_setting_lv_pkg

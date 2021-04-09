@@ -54,13 +54,14 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedRange using the given SEDML Level and @ p version values.
+ * Creates a new SedRange using the given SED-ML Level and @ p version values.
  */
 SedRange::SedRange(unsigned int level, unsigned int version)
   : SedBase(level, version)
   , mElementName("range")
 {
   setSedNamespacesAndOwn(new SedNamespaces(level, version));
+  mIdAllowedPreV4 = true;
 }
 
 
@@ -72,6 +73,7 @@ SedRange::SedRange(SedNamespaces *sedmlns)
   , mElementName("range")
 {
   setElementNamespace(sedmlns->getURI());
+  mIdAllowedPreV4 = true;
 }
 
 
@@ -116,56 +118,6 @@ SedRange::clone() const
  */
 SedRange::~SedRange()
 {
-}
-
-
-/*
- * Returns the value of the "id" attribute of this SedRange.
- */
-const std::string&
-SedRange::getId() const
-{
-  return mId;
-}
-
-
-/*
- * Predicate returning @c true if this SedRange's "id" attribute is set.
- */
-bool
-SedRange::isSetId() const
-{
-  return (mId.empty() == false);
-}
-
-
-/*
- * Sets the value of the "id" attribute of this SedRange.
- */
-int
-SedRange::setId(const std::string& id)
-{
-  mId = id;
-  return LIBSEDML_OPERATION_SUCCESS;
-}
-
-
-/*
- * Unsets the value of the "id" attribute of this SedRange.
- */
-int
-SedRange::unsetId()
-{
-  mId.erase();
-
-  if (mId.empty() == true)
-  {
-    return LIBSEDML_OPERATION_SUCCESS;
-  }
-  else
-  {
-    return LIBSEDML_OPERATION_FAILED;
-  }
 }
 
 
@@ -617,26 +569,7 @@ SedRange::readAttributes(
     }
   }
 
-  // 
-  // id SId (use = "required" )
-  // 
-
-  assigned = attributes.readInto("id", mId);
-
-  if (assigned == true)
-  {
-    if (mId.empty() == true)
-    {
-      logEmptyString(mId, level, version, "<SedRange>");
-    }
-    else if (SyntaxChecker::isValidSBMLSId(mId) == false)
-    {
-      logError(SedmlIdSyntaxRule, level, version, "The id on the <" +
-        getElementName() + "> is '" + mId + "', which does not conform to the "
-          "syntax.", getLine(), getColumn());
-    }
-  }
-  else
+  if(!isSetId())
   {
     if (log)
     {
@@ -662,11 +595,6 @@ SedRange::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream&
   stream) const
 {
   SedBase::writeAttributes(stream);
-
-  if (isSetId() == true)
-  {
-    stream.writeAttribute("id", getPrefix(), mId);
-  }
 }
 
 /** @endcond */
@@ -678,7 +606,7 @@ SedRange::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream&
 
 
 /*
- * Creates a new SedUniformRange using the given SEDML Level and @ p version
+ * Creates a new SedUniformRange using the given SED-ML Level and @ p version
  * values.
  */
 LIBSEDML_EXTERN
@@ -690,7 +618,7 @@ SedRange_createUniformRange(unsigned int level, unsigned int version)
 
 
 /*
- * Creates a new SedVectorRange using the given SEDML Level and @ p version
+ * Creates a new SedVectorRange using the given SED-ML Level and @ p version
  * values.
  */
 LIBSEDML_EXTERN
@@ -702,7 +630,7 @@ SedRange_createVectorRange(unsigned int level, unsigned int version)
 
 
 /*
- * Creates a new SedFunctionalRange using the given SEDML Level and @ p version
+ * Creates a new SedFunctionalRange using the given SED-ML Level and @ p version
  * values.
  */
 LIBSEDML_EXTERN
@@ -714,7 +642,7 @@ SedRange_createFunctionalRange(unsigned int level, unsigned int version)
 
 
 /*
- * Creates a new SedDataRange using the given SEDML Level and @ p version
+ * Creates a new SedDataRange using the given SED-ML Level and @ p version
  * values.
  */
 LIBSEDML_EXTERN

@@ -64,7 +64,6 @@ protected:
 
   /** @cond doxygenLibSEDMLInternal */
 
-  std::string mName;
   std::string mIndexSet;
   SedListOfSlices mSlices;
 
@@ -73,13 +72,13 @@ protected:
 public:
 
   /**
-   * Creates a new SedDataSource using the given SEDML Level and @ p version
+   * Creates a new SedDataSource using the given SED-ML Level and @ p version
    * values.
    *
-   * @param level an unsigned int, the SEDML Level to assign to this
+   * @param level an unsigned int, the SED-ML Level to assign to this
    * SedDataSource.
    *
-   * @param version an unsigned int, the SEDML Version to assign to this
+   * @param version an unsigned int, the SED-ML Version to assign to this
    * SedDataSource.
    *
    * @copydetails doc_note_setting_lv_pkg
@@ -131,48 +130,12 @@ public:
 
 
   /**
-   * Returns the value of the "id" attribute of this SedDataSource.
-   *
-   * @return the value of the "id" attribute of this SedDataSource as a string.
-   */
-  virtual const std::string& getId() const;
-
-
-  /**
-   * Returns the value of the "name" attribute of this SedDataSource.
-   *
-   * @return the value of the "name" attribute of this SedDataSource as a
-   * string.
-   */
-  virtual const std::string& getName() const;
-
-
-  /**
    * Returns the value of the "indexSet" attribute of this SedDataSource.
    *
    * @return the value of the "indexSet" attribute of this SedDataSource as a
    * string.
    */
   const std::string& getIndexSet() const;
-
-
-  /**
-   * Predicate returning @c true if this SedDataSource's "id" attribute is set.
-   *
-   * @return @c true if this SedDataSource's "id" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetId() const;
-
-
-  /**
-   * Predicate returning @c true if this SedDataSource's "name" attribute is
-   * set.
-   *
-   * @return @c true if this SedDataSource's "name" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetName() const;
 
 
   /**
@@ -186,36 +149,6 @@ public:
 
 
   /**
-   * Sets the value of the "id" attribute of this SedDataSource.
-   *
-   * @param id std::string& value of the "id" attribute to be set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
-   *
-   * Calling this function with @p id = @c NULL or an empty string is
-   * equivalent to calling unsetId().
-   */
-  virtual int setId(const std::string& id);
-
-
-  /**
-   * Sets the value of the "name" attribute of this SedDataSource.
-   *
-   * @param name std::string& value of the "name" attribute to be set.
-   *
-   * @copydetails doc_returns_one_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   *
-   * Calling this function with @p name = @c NULL or an empty string is
-   * equivalent to calling unsetName().
-   */
-  virtual int setName(const std::string& name);
-
-
-  /**
    * Sets the value of the "indexSet" attribute of this SedDataSource.
    *
    * @param indexSet std::string& value of the "indexSet" attribute to be set.
@@ -226,26 +159,6 @@ public:
    * OperationReturnValues_t}
    */
   int setIndexSet(const std::string& indexSet);
-
-
-  /**
-   * Unsets the value of the "id" attribute of this SedDataSource.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int unsetId();
-
-
-  /**
-   * Unsets the value of the "name" attribute of this SedDataSource.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int unsetName();
 
 
   /**
@@ -497,7 +410,7 @@ public:
    *
    * @copydetails doc_what_are_typecodes
    *
-   * @return the SEDML type code for this object:
+   * @return the SED-ML type code for this object:
    * @sedmlconstant{SEDML_DATA_SOURCE, SedTypeCode_t}.
    *
    * @copydetails doc_warning_typecodes_not_unique
@@ -906,6 +819,19 @@ public:
   virtual SedBase* getElementBySId(const std::string& id);
 
 
+  /**
+   * Returns a List of all child SedBase objects, including those nested to an
+   * arbitrary depth.
+   *
+   * @param filter an ElementFilter that may impose restrictions on the objects
+   * to be retrieved.
+   *
+   * @return a List pointer of pointers to all SedBase child objects with any
+   * restriction imposed.
+   */
+  virtual List* getAllElements(SedElementFilter * filter = NULL);
+
+
 protected:
 
 
@@ -987,13 +913,13 @@ BEGIN_C_DECLS
 
 
 /**
- * Creates a new SedDataSource_t using the given SEDML Level and @ p version
+ * Creates a new SedDataSource_t using the given SED-ML Level and @ p version
  * values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this
+ * @param level an unsigned int, the SED-ML Level to assign to this
  * SedDataSource_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedDataSource_t.
  *
  * @copydetails doc_note_setting_lv_pkg

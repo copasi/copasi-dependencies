@@ -48,7 +48,7 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedListOfSurfaces using the given SEDML Level and @ p version
+ * Creates a new SedListOfSurfaces using the given SED-ML Level and @ p version
  * values.
  */
 SedListOfSurfaces::SedListOfSurfaces(unsigned int level, unsigned int version)
@@ -100,13 +100,13 @@ struct SurfaceOrderComparator
     {
         if (obj1 == NULL || obj2 == NULL)
         {
-            return true;
+            return false;
         }
         const SedSurface* at1 = static_cast<const SedSurface*>(obj1);
         const SedSurface* at2 = static_cast<const SedSurface*>(obj2);
-        if (!at1->isSetOrder() || at2->isSetOrder())
+        if (!at1->isSetOrder() || !at2->isSetOrder())
         {
-            return true;
+            return false;
         }
 
         return at1->getOrder() < at2->getOrder();
@@ -472,7 +472,7 @@ SedListOfSurfaces::getTypeCode() const
 
 
 /*
- * Returns the libSEDML type code for the SEDML objects contained in this
+ * Returns the libSEDML type code for the SED-ML objects contained in this
  * SedListOfSurfaces object.
  */
 int

@@ -69,7 +69,6 @@ protected:
 
   /** @cond doxygenLibSEDMLInternal */
 
-  std::string mName;
   std::string mElementName;
 
   /** @endcond */
@@ -77,12 +76,12 @@ protected:
 public:
 
   /**
-   * Creates a new SedOutput using the given SEDML Level and @ p version
+   * Creates a new SedOutput using the given SED-ML Level and @ p version
    * values.
    *
-   * @param level an unsigned int, the SEDML Level to assign to this SedOutput.
+   * @param level an unsigned int, the SED-ML Level to assign to this SedOutput.
    *
-   * @param version an unsigned int, the SEDML Version to assign to this
+   * @param version an unsigned int, the SED-ML Version to assign to this
    * SedOutput.
    *
    * @copydetails doc_note_setting_lv_pkg
@@ -130,90 +129,6 @@ public:
    * Destructor for SedOutput.
    */
   virtual ~SedOutput();
-
-
-  /**
-   * Returns the value of the "id" attribute of this SedOutput.
-   *
-   * @return the value of the "id" attribute of this SedOutput as a string.
-   */
-  virtual const std::string& getId() const;
-
-
-  /**
-   * Returns the value of the "name" attribute of this SedOutput.
-   *
-   * @return the value of the "name" attribute of this SedOutput as a string.
-   */
-  virtual const std::string& getName() const;
-
-
-  /**
-   * Predicate returning @c true if this SedOutput's "id" attribute is set.
-   *
-   * @return @c true if this SedOutput's "id" attribute has been set, otherwise
-   * @c false is returned.
-   */
-  virtual bool isSetId() const;
-
-
-  /**
-   * Predicate returning @c true if this SedOutput's "name" attribute is set.
-   *
-   * @return @c true if this SedOutput's "name" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetName() const;
-
-
-  /**
-   * Sets the value of the "id" attribute of this SedOutput.
-   *
-   * @param id std::string& value of the "id" attribute to be set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
-   *
-   * Calling this function with @p id = @c NULL or an empty string is
-   * equivalent to calling unsetId().
-   */
-  virtual int setId(const std::string& id);
-
-
-  /**
-   * Sets the value of the "name" attribute of this SedOutput.
-   *
-   * @param name std::string& value of the "name" attribute to be set.
-   *
-   * @copydetails doc_returns_one_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   *
-   * Calling this function with @p name = @c NULL or an empty string is
-   * equivalent to calling unsetName().
-   */
-  virtual int setName(const std::string& name);
-
-
-  /**
-   * Unsets the value of the "id" attribute of this SedOutput.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int unsetId();
-
-
-  /**
-   * Unsets the value of the "name" attribute of this SedOutput.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int unsetName();
 
 
   /**
@@ -292,7 +207,7 @@ public:
    *
    * @copydetails doc_what_are_typecodes
    *
-   * @return the SEDML type code for this object:
+   * @return the SED-ML type code for this object:
    * @sedmlconstant{SEDML_OUTPUT, SedTypeCode_t}.
    *
    * @copydetails doc_warning_typecodes_not_unique
@@ -655,11 +570,11 @@ BEGIN_C_DECLS
 
 
 /**
- * Creates a new SedReport using the given SEDML Level and @ p version values.
+ * Creates a new SedReport using the given SED-ML Level and @ p version values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this SedOutput_t.
+ * @param level an unsigned int, the SED-ML Level to assign to this SedOutput_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedOutput_t.
  *
  * @copydetails doc_note_setting_lv_pkg
@@ -674,11 +589,11 @@ SedOutput_createReport(unsigned int level, unsigned int version);
 
 
 /**
- * Creates a new SedPlot2D using the given SEDML Level and @ p version values.
+ * Creates a new SedPlot2D using the given SED-ML Level and @ p version values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this SedOutput_t.
+ * @param level an unsigned int, the SED-ML Level to assign to this SedOutput_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedOutput_t.
  *
  * @copydetails doc_note_setting_lv_pkg
@@ -693,11 +608,11 @@ SedOutput_createPlot2D(unsigned int level, unsigned int version);
 
 
 /**
- * Creates a new SedPlot3D using the given SEDML Level and @ p version values.
+ * Creates a new SedPlot3D using the given SED-ML Level and @ p version values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this SedOutput_t.
+ * @param level an unsigned int, the SED-ML Level to assign to this SedOutput_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedOutput_t.
  *
  * @copydetails doc_note_setting_lv_pkg
@@ -712,11 +627,11 @@ SedOutput_createPlot3D(unsigned int level, unsigned int version);
 
 
 /**
- * Creates a new SedFigure using the given SEDML Level and @ p version values.
+ * Creates a new SedFigure using the given SED-ML Level and @ p version values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this SedOutput_t.
+ * @param level an unsigned int, the SED-ML Level to assign to this SedOutput_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedOutput_t.
  *
  * @copydetails doc_note_setting_lv_pkg
@@ -731,12 +646,12 @@ SedOutput_createFigure(unsigned int level, unsigned int version);
 
 
 /**
- * Creates a new SedParameterEstimationResultPlot using the given SEDML Level
+ * Creates a new SedParameterEstimationResultPlot using the given SED-ML Level
  * and @ p version values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this SedOutput_t.
+ * @param level an unsigned int, the SED-ML Level to assign to this SedOutput_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedOutput_t.
  *
  * @copydetails doc_note_setting_lv_pkg

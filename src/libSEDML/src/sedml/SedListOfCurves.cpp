@@ -51,7 +51,7 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedListOfCurves using the given SEDML Level and @ p version
+ * Creates a new SedListOfCurves using the given SED-ML Level and @ p version
  * values.
  */
 SedListOfCurves::SedListOfCurves(unsigned int level, unsigned int version)
@@ -103,13 +103,13 @@ struct AbstractCurvesOrderComparator
     {
         if (obj1 == NULL || obj2 == NULL)
         {
-            return true;
+            return false;
         }
         const SedAbstractCurve* at1 = static_cast<const SedAbstractCurve*>(obj1);
         const SedAbstractCurve* at2 = static_cast<const SedAbstractCurve*>(obj2);
-        if (!at1->isSetOrder() || at2->isSetOrder())
+        if (!at1->isSetOrder() || !at2->isSetOrder())
         {
-            return true;
+            return false;
         }
 
         return at1->getOrder() < at2->getOrder();
@@ -420,7 +420,7 @@ SedListOfCurves::getTypeCode() const
 
 
 /*
- * Returns the libSEDML type code for the SEDML objects contained in this
+ * Returns the libSEDML type code for the SED-ML objects contained in this
  * SedListOfCurves object.
  */
 int

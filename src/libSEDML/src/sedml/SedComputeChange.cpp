@@ -50,7 +50,7 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedComputeChange using the given SEDML Level and @ p version
+ * Creates a new SedComputeChange using the given SED-ML Level and @ p version
  * values.
  */
 SedComputeChange::SedComputeChange(unsigned int level, unsigned int version)
@@ -1126,6 +1126,23 @@ SedComputeChange::getElementBySId(const std::string& id)
 }
 
 
+/*
+ * Returns a List of all child SedBase objects, including those nested to an
+ * arbitrary depth.
+ */
+List*
+SedComputeChange::getAllElements(SedElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  SED_ADD_FILTERED_LIST(ret, sublist, mVariables, filter);
+  SED_ADD_FILTERED_LIST(ret, sublist, mParameters, filter);
+
+  return ret;
+}
+
+
 
 /** @cond doxygenLibSEDMLInternal */
 
@@ -1281,7 +1298,7 @@ SedComputeChange::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER
 
 
 /*
- * Creates a new SedComputeChange_t using the given SEDML Level and @ p version
+ * Creates a new SedComputeChange_t using the given SED-ML Level and @ p version
  * values.
  */
 LIBSEDML_EXTERN

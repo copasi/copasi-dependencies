@@ -48,7 +48,7 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedListOfSubTasks using the given SEDML Level and @ p version
+ * Creates a new SedListOfSubTasks using the given SED-ML Level and @ p version
  * values.
  */
 SedListOfSubTasks::SedListOfSubTasks(unsigned int level, unsigned int version)
@@ -118,13 +118,13 @@ struct SubTaskOrderComparator
     {
         if (obj1 == NULL || obj2 == NULL)
         {
-            return true;
+            return false;
         }
         const SedSubTask* at1 = static_cast<const SedSubTask*>(obj1);
         const SedSubTask* at2 = static_cast<const SedSubTask*>(obj2);
-        if (!at1->isSetOrder() || at2->isSetOrder())
+        if (!at1->isSetOrder() || !at2->isSetOrder())
         {
-            return true;
+            return false;
         }
 
         return at1->getOrder() < at2->getOrder();
@@ -348,7 +348,7 @@ SedListOfSubTasks::getTypeCode() const
 
 
 /*
- * Returns the libSEDML type code for the SEDML objects contained in this
+ * Returns the libSEDML type code for the SED-ML objects contained in this
  * SedListOfSubTasks object.
  */
 int

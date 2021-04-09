@@ -79,13 +79,13 @@ protected:
 public:
 
   /**
-   * Creates a new SedSetValue using the given SEDML Level and @ p version
+   * Creates a new SedSetValue using the given SED-ML Level and @ p version
    * values.
    *
-   * @param level an unsigned int, the SEDML Level to assign to this
+   * @param level an unsigned int, the SED-ML Level to assign to this
    * SedSetValue.
    *
-   * @param version an unsigned int, the SEDML Version to assign to this
+   * @param version an unsigned int, the SED-ML Version to assign to this
    * SedSetValue.
    *
    * @copydetails doc_note_setting_lv_pkg
@@ -885,7 +885,7 @@ public:
    *
    * @copydetails doc_what_are_typecodes
    *
-   * @return the SEDML type code for this object:
+   * @return the SED-ML type code for this object:
    * @sedmlconstant{SEDML_TASK_SETVALUE, SedTypeCode_t}.
    *
    * @copydetails doc_warning_typecodes_not_unique
@@ -1294,6 +1294,19 @@ public:
   virtual SedBase* getElementBySId(const std::string& id);
 
 
+  /**
+   * Returns a List of all child SedBase objects, including those nested to an
+   * arbitrary depth.
+   *
+   * @param filter an ElementFilter that may impose restrictions on the objects
+   * to be retrieved.
+   *
+   * @return a List pointer of pointers to all SedBase child objects with any
+   * restriction imposed.
+   */
+  virtual List* getAllElements(SedElementFilter * filter = NULL);
+
+
 protected:
 
 
@@ -1387,13 +1400,13 @@ BEGIN_C_DECLS
 
 
 /**
- * Creates a new SedSetValue_t using the given SEDML Level and @ p version
+ * Creates a new SedSetValue_t using the given SED-ML Level and @ p version
  * values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this
+ * @param level an unsigned int, the SED-ML Level to assign to this
  * SedSetValue_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedSetValue_t.
  *
  * @copydetails doc_note_setting_lv_pkg

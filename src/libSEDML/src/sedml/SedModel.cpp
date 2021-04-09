@@ -55,17 +55,18 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedModel using the given SEDML Level and @ p version values.
+ * Creates a new SedModel using the given SED-ML Level and @ p version values.
  */
 SedModel::SedModel(unsigned int level, unsigned int version)
   : SedBase(level, version)
-  , mName ("")
   , mLanguage ("")
   , mSource ("")
   , mChanges (level, version)
 {
   setSedNamespacesAndOwn(new SedNamespaces(level, version));
   connectToChild();
+  mIdAllowedPreV4 = true;
+  mNameAllowedPreV4 = true;
 }
 
 
@@ -74,13 +75,14 @@ SedModel::SedModel(unsigned int level, unsigned int version)
  */
 SedModel::SedModel(SedNamespaces *sedmlns)
   : SedBase(sedmlns)
-  , mName ("")
   , mLanguage ("")
   , mSource ("")
   , mChanges (sedmlns)
 {
   setElementNamespace(sedmlns->getURI());
   connectToChild();
+  mIdAllowedPreV4 = true;
+  mNameAllowedPreV4 = true;
 }
 
 
@@ -89,7 +91,6 @@ SedModel::SedModel(SedNamespaces *sedmlns)
  */
 SedModel::SedModel(const SedModel& orig)
   : SedBase( orig )
-  , mName ( orig.mName )
   , mLanguage ( orig.mLanguage )
   , mSource ( orig.mSource )
   , mChanges ( orig.mChanges )
@@ -107,7 +108,6 @@ SedModel::operator=(const SedModel& rhs)
   if (&rhs != this)
   {
     SedBase::operator=(rhs);
-    mName = rhs.mName;
     mLanguage = rhs.mLanguage;
     mSource = rhs.mSource;
     mChanges = rhs.mChanges;
@@ -137,26 +137,6 @@ SedModel::~SedModel()
 
 
 /*
- * Returns the value of the "id" attribute of this SedModel.
- */
-const std::string&
-SedModel::getId() const
-{
-  return mId;
-}
-
-
-/*
- * Returns the value of the "name" attribute of this SedModel.
- */
-const std::string&
-SedModel::getName() const
-{
-  return mName;
-}
-
-
-/*
  * Returns the value of the "language" attribute of this SedModel.
  */
 const std::string&
@@ -173,26 +153,6 @@ const std::string&
 SedModel::getSource() const
 {
   return mSource;
-}
-
-
-/*
- * Predicate returning @c true if this SedModel's "id" attribute is set.
- */
-bool
-SedModel::isSetId() const
-{
-  return (mId.empty() == false);
-}
-
-
-/*
- * Predicate returning @c true if this SedModel's "name" attribute is set.
- */
-bool
-SedModel::isSetName() const
-{
-  return (mName.empty() == false);
 }
 
 
@@ -217,28 +177,6 @@ SedModel::isSetSource() const
 
 
 /*
- * Sets the value of the "id" attribute of this SedModel.
- */
-int
-SedModel::setId(const std::string& id)
-{
-  mId = id;
-  return LIBSEDML_OPERATION_SUCCESS;
-}
-
-
-/*
- * Sets the value of the "name" attribute of this SedModel.
- */
-int
-SedModel::setName(const std::string& name)
-{
-  mName = name;
-  return LIBSEDML_OPERATION_SUCCESS;
-}
-
-
-/*
  * Sets the value of the "language" attribute of this SedModel.
  */
 int
@@ -257,44 +195,6 @@ SedModel::setSource(const std::string& source)
 {
   mSource = source;
   return LIBSEDML_OPERATION_SUCCESS;
-}
-
-
-/*
- * Unsets the value of the "id" attribute of this SedModel.
- */
-int
-SedModel::unsetId()
-{
-  mId.erase();
-
-  if (mId.empty() == true)
-  {
-    return LIBSEDML_OPERATION_SUCCESS;
-  }
-  else
-  {
-    return LIBSEDML_OPERATION_FAILED;
-  }
-}
-
-
-/*
- * Unsets the value of the "name" attribute of this SedModel.
- */
-int
-SedModel::unsetName()
-{
-  mName.erase();
-
-  if (mName.empty() == true)
-  {
-    return LIBSEDML_OPERATION_SUCCESS;
-  }
-  else
-  {
-    return LIBSEDML_OPERATION_FAILED;
-  }
 }
 
 
@@ -760,17 +660,7 @@ SedModel::getAttribute(const std::string& attributeName,
     return return_value;
   }
 
-  if (attributeName == "id")
-  {
-    value = getId();
-    return_value = LIBSEDML_OPERATION_SUCCESS;
-  }
-  else if (attributeName == "name")
-  {
-    value = getName();
-    return_value = LIBSEDML_OPERATION_SUCCESS;
-  }
-  else if (attributeName == "language")
+  if (attributeName == "language")
   {
     value = getLanguage();
     return_value = LIBSEDML_OPERATION_SUCCESS;
@@ -799,15 +689,7 @@ SedModel::isSetAttribute(const std::string& attributeName) const
 {
   bool value = SedBase::isSetAttribute(attributeName);
 
-  if (attributeName == "id")
-  {
-    value = isSetId();
-  }
-  else if (attributeName == "name")
-  {
-    value = isSetName();
-  }
-  else if (attributeName == "language")
+  if (attributeName == "language")
   {
     value = isSetLanguage();
   }
@@ -902,15 +784,7 @@ SedModel::setAttribute(const std::string& attributeName,
 {
   int return_value = SedBase::setAttribute(attributeName, value);
 
-  if (attributeName == "id")
-  {
-    return_value = setId(value);
-  }
-  else if (attributeName == "name")
-  {
-    return_value = setName(value);
-  }
-  else if (attributeName == "language")
+  if (attributeName == "language")
   {
     return_value = setLanguage(value);
   }
@@ -936,15 +810,7 @@ SedModel::unsetAttribute(const std::string& attributeName)
 {
   int value = SedBase::unsetAttribute(attributeName);
 
-  if (attributeName == "id")
-  {
-    value = unsetId();
-  }
-  else if (attributeName == "name")
-  {
-    value = unsetName();
-  }
-  else if (attributeName == "language")
+  if (attributeName == "language")
   {
     value = unsetLanguage();
   }
@@ -1175,6 +1041,22 @@ SedModel::getElementBySId(const std::string& id)
 }
 
 
+/*
+ * Returns a List of all child SedBase objects, including those nested to an
+ * arbitrary depth.
+ */
+List*
+SedModel::getAllElements(SedElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  SED_ADD_FILTERED_LIST(ret, sublist, mChanges, filter);
+
+  return ret;
+}
+
+
 
 /** @cond doxygenLibSEDMLInternal */
 
@@ -1218,10 +1100,6 @@ SedModel::addExpectedAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER
   ExpectedAttributes& attributes)
 {
   SedBase::addExpectedAttributes(attributes);
-
-  attributes.add("id");
-
-  attributes.add("name");
 
   attributes.add("language");
 
@@ -1284,26 +1162,7 @@ SedModel::readAttributes(
     }
   }
 
-  // 
-  // id SId (use = "required" )
-  // 
-
-  assigned = attributes.readInto("id", mId);
-
-  if (assigned == true)
-  {
-    if (mId.empty() == true)
-    {
-      logEmptyString(mId, level, version, "<SedModel>");
-    }
-    else if (SyntaxChecker::isValidSBMLSId(mId) == false)
-    {
-      logError(SedmlIdSyntaxRule, level, version, "The id on the <" +
-        getElementName() + "> is '" + mId + "', which does not conform to the "
-          "syntax.", getLine(), getColumn());
-    }
-  }
-  else
+  if(!isSetId())
   {
     if (log)
     {
@@ -1311,20 +1170,6 @@ SedModel::readAttributes(
         "<SedModel> element.";
       log->logError(SedmlModelAllowedAttributes, level, version, message,
         getLine(), getColumn());
-    }
-  }
-
-  // 
-  // name string (use = "optional" )
-  // 
-
-  assigned = attributes.readInto("name", mName);
-
-  if (assigned == true)
-  {
-    if (mName.empty() == true)
-    {
-      logEmptyString(mName, level, version, "<SedModel>");
     }
   }
 
@@ -1382,16 +1227,6 @@ SedModel::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream&
 {
   SedBase::writeAttributes(stream);
 
-  if (isSetId() == true)
-  {
-    stream.writeAttribute("id", getPrefix(), mId);
-  }
-
-  if (isSetName() == true)
-  {
-    stream.writeAttribute("name", getPrefix(), mName);
-  }
-
   if (isSetLanguage() == true)
   {
     stream.writeAttribute("language", getPrefix(), mLanguage);
@@ -1412,7 +1247,7 @@ SedModel::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream&
 
 
 /*
- * Creates a new SedModel_t using the given SEDML Level and @ p version values.
+ * Creates a new SedModel_t using the given SED-ML Level and @ p version values.
  */
 LIBSEDML_EXTERN
 SedModel_t *

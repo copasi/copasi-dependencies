@@ -75,11 +75,11 @@ protected:
 public:
 
   /**
-   * Creates a new SedRange using the given SEDML Level and @ p version values.
+   * Creates a new SedRange using the given SED-ML Level and @ p version values.
    *
-   * @param level an unsigned int, the SEDML Level to assign to this SedRange.
+   * @param level an unsigned int, the SED-ML Level to assign to this SedRange.
    *
-   * @param version an unsigned int, the SEDML Version to assign to this
+   * @param version an unsigned int, the SED-ML Version to assign to this
    * SedRange.
    *
    * @copydetails doc_note_setting_lv_pkg
@@ -127,49 +127,6 @@ public:
    * Destructor for SedRange.
    */
   virtual ~SedRange();
-
-
-  /**
-   * Returns the value of the "id" attribute of this SedRange.
-   *
-   * @return the value of the "id" attribute of this SedRange as a string.
-   */
-  virtual const std::string& getId() const;
-
-
-  /**
-   * Predicate returning @c true if this SedRange's "id" attribute is set.
-   *
-   * @return @c true if this SedRange's "id" attribute has been set, otherwise
-   * @c false is returned.
-   */
-  virtual bool isSetId() const;
-
-
-  /**
-   * Sets the value of the "id" attribute of this SedRange.
-   *
-   * @param id std::string& value of the "id" attribute to be set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
-   *
-   * Calling this function with @p id = @c NULL or an empty string is
-   * equivalent to calling unsetId().
-   */
-  virtual int setId(const std::string& id);
-
-
-  /**
-   * Unsets the value of the "id" attribute of this SedRange.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int unsetId();
 
 
   /**
@@ -238,7 +195,7 @@ public:
    *
    * @copydetails doc_what_are_typecodes
    *
-   * @return the SEDML type code for this object:
+   * @return the SED-ML type code for this object:
    * @sedmlconstant{SEDML_RANGE, SedTypeCode_t}.
    *
    * @copydetails doc_warning_typecodes_not_unique
@@ -605,12 +562,12 @@ BEGIN_C_DECLS
 
 
 /**
- * Creates a new SedUniformRange using the given SEDML Level and @ p version
+ * Creates a new SedUniformRange using the given SED-ML Level and @ p version
  * values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this SedRange_t.
+ * @param level an unsigned int, the SED-ML Level to assign to this SedRange_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedRange_t.
  *
  * @copydetails doc_note_setting_lv_pkg
@@ -625,12 +582,12 @@ SedRange_createUniformRange(unsigned int level, unsigned int version);
 
 
 /**
- * Creates a new SedVectorRange using the given SEDML Level and @ p version
+ * Creates a new SedVectorRange using the given SED-ML Level and @ p version
  * values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this SedRange_t.
+ * @param level an unsigned int, the SED-ML Level to assign to this SedRange_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedRange_t.
  *
  * @copydetails doc_note_setting_lv_pkg
@@ -645,12 +602,12 @@ SedRange_createVectorRange(unsigned int level, unsigned int version);
 
 
 /**
- * Creates a new SedFunctionalRange using the given SEDML Level and @ p version
+ * Creates a new SedFunctionalRange using the given SED-ML Level and @ p version
  * values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this SedRange_t.
+ * @param level an unsigned int, the SED-ML Level to assign to this SedRange_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedRange_t.
  *
  * @copydetails doc_note_setting_lv_pkg
@@ -665,12 +622,12 @@ SedRange_createFunctionalRange(unsigned int level, unsigned int version);
 
 
 /**
- * Creates a new SedDataRange using the given SEDML Level and @ p version
+ * Creates a new SedDataRange using the given SED-ML Level and @ p version
  * values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this SedRange_t.
+ * @param level an unsigned int, the SED-ML Level to assign to this SedRange_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedRange_t.
  *
  * @copydetails doc_note_setting_lv_pkg

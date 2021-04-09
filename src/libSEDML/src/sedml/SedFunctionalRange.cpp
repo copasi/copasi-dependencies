@@ -50,7 +50,7 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedFunctionalRange using the given SEDML Level and @ p version
+ * Creates a new SedFunctionalRange using the given SED-ML Level and @ p version
  * values.
  */
 SedFunctionalRange::SedFunctionalRange(unsigned int level,
@@ -1228,6 +1228,23 @@ SedFunctionalRange::getElementBySId(const std::string& id)
 }
 
 
+/*
+ * Returns a List of all child SedBase objects, including those nested to an
+ * arbitrary depth.
+ */
+List*
+SedFunctionalRange::getAllElements(SedElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  SED_ADD_FILTERED_LIST(ret, sublist, mVariables, filter);
+  SED_ADD_FILTERED_LIST(ret, sublist, mParameters, filter);
+
+  return ret;
+}
+
+
 
 /** @cond doxygenLibSEDMLInternal */
 
@@ -1427,7 +1444,7 @@ SedFunctionalRange::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER
 
 
 /*
- * Creates a new SedFunctionalRange_t using the given SEDML Level and @ p
+ * Creates a new SedFunctionalRange_t using the given SED-ML Level and @ p
  * version values.
  */
 LIBSEDML_EXTERN

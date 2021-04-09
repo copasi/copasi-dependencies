@@ -48,7 +48,7 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedFigure using the given SEDML Level and @ p version values.
+ * Creates a new SedFigure using the given SED-ML Level and @ p version values.
  */
 SedFigure::SedFigure(unsigned int level, unsigned int version)
   : SedOutput(level, version)
@@ -885,6 +885,22 @@ SedFigure::getElementBySId(const std::string& id)
 }
 
 
+/*
+ * Returns a List of all child SedBase objects, including those nested to an
+ * arbitrary depth.
+ */
+List*
+SedFigure::getAllElements(SedElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  SED_ADD_FILTERED_LIST(ret, sublist, mSubPlots, filter);
+
+  return ret;
+}
+
+
 
 /** @cond doxygenLibSEDMLInternal */
 
@@ -1050,7 +1066,7 @@ SedFigure::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream&
 
 
 /*
- * Creates a new SedFigure_t using the given SEDML Level and @ p version
+ * Creates a new SedFigure_t using the given SED-ML Level and @ p version
  * values.
  */
 LIBSEDML_EXTERN

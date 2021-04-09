@@ -49,7 +49,7 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedAdjustableParameter using the given SEDML Level and @ p
+ * Creates a new SedAdjustableParameter using the given SED-ML Level and @ p
  * version values.
  */
 SedAdjustableParameter::SedAdjustableParameter(unsigned int level,
@@ -1189,6 +1189,23 @@ SedAdjustableParameter::getElementBySId(const std::string& id)
 }
 
 
+/*
+ * Returns a List of all child SedBase objects, including those nested to an
+ * arbitrary depth.
+ */
+List*
+SedAdjustableParameter::getAllElements(SedElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+  SED_ADD_FILTERED_POINTER(ret, sublist, mBounds, filter);
+
+  SED_ADD_FILTERED_LIST(ret, sublist, mExperimentRefs, filter);
+
+  return ret;
+}
+
+
 
 /** @cond doxygenLibSEDMLInternal */
 
@@ -1414,7 +1431,7 @@ SedAdjustableParameter::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER
 
 
 /*
- * Creates a new SedAdjustableParameter_t using the given SEDML Level and @ p
+ * Creates a new SedAdjustableParameter_t using the given SED-ML Level and @ p
  * version values.
  */
 LIBSEDML_EXTERN

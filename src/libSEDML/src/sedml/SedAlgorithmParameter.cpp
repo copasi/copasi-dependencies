@@ -49,7 +49,7 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedAlgorithmParameter using the given SEDML Level and @ p
+ * Creates a new SedAlgorithmParameter using the given SED-ML Level and @ p
  * version values.
  */
 SedAlgorithmParameter::SedAlgorithmParameter(unsigned int level,
@@ -897,6 +897,22 @@ SedAlgorithmParameter::getElementBySId(const std::string& id)
 }
 
 
+/*
+ * Returns a List of all child SedBase objects, including those nested to an
+ * arbitrary depth.
+ */
+List*
+SedAlgorithmParameter::getAllElements(SedElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  SED_ADD_FILTERED_POINTER(ret, sublist, mAlgorithmParameters, filter);
+
+  return ret;
+}
+
+
 
 /** @cond doxygenLibSEDMLInternal */
 
@@ -1119,7 +1135,7 @@ SedAlgorithmParameter::setKisaoID(int kisaoID)
 
 
 /*
- * Creates a new SedAlgorithmParameter_t using the given SEDML Level and @ p
+ * Creates a new SedAlgorithmParameter_t using the given SED-ML Level and @ p
  * version values.
  */
 LIBSEDML_EXTERN

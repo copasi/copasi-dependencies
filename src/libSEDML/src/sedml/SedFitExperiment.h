@@ -101,13 +101,13 @@ protected:
 public:
 
   /**
-   * Creates a new SedFitExperiment using the given SEDML Level and @ p version
+   * Creates a new SedFitExperiment using the given SED-ML Level and @ p version
    * values.
    *
-   * @param level an unsigned int, the SEDML Level to assign to this
+   * @param level an unsigned int, the SED-ML Level to assign to this
    * SedFitExperiment.
    *
-   * @param version an unsigned int, the SEDML Version to assign to this
+   * @param version an unsigned int, the SED-ML Version to assign to this
    * SedFitExperiment.
    *
    * @copydetails doc_note_setting_lv_pkg
@@ -159,15 +159,6 @@ public:
 
 
   /**
-   * Returns the value of the "id" attribute of this SedFitExperiment.
-   *
-   * @return the value of the "id" attribute of this SedFitExperiment as a
-   * string.
-   */
-  virtual const std::string& getId() const;
-
-
-  /**
    * Returns the value of the "type" attribute of this SedFitExperiment.
    *
    * @return the value of the "type" attribute of this SedFitExperiment as a
@@ -200,16 +191,6 @@ public:
 
 
   /**
-   * Predicate returning @c true if this SedFitExperiment's "id" attribute is
-   * set.
-   *
-   * @return @c true if this SedFitExperiment's "id" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetId() const;
-
-
-  /**
    * Predicate returning @c true if this SedFitExperiment's "type" attribute is
    * set.
    *
@@ -219,22 +200,6 @@ public:
    * @copydetails doc_sedfitexperiment_type
    */
   bool isSetType() const;
-
-
-  /**
-   * Sets the value of the "id" attribute of this SedFitExperiment.
-   *
-   * @param id std::string& value of the "id" attribute to be set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
-   *
-   * Calling this function with @p id = @c NULL or an empty string is
-   * equivalent to calling unsetId().
-   */
-  virtual int setId(const std::string& id);
 
 
   /**
@@ -266,16 +231,6 @@ public:
    * @copydetails doc_sedfitexperiment_type
    */
   int setType(const std::string& type);
-
-
-  /**
-   * Unsets the value of the "id" attribute of this SedFitExperiment.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int unsetId();
 
 
   /**
@@ -613,7 +568,7 @@ public:
    *
    * @copydetails doc_what_are_typecodes
    *
-   * @return the SEDML type code for this object:
+   * @return the SED-ML type code for this object:
    * @sedmlconstant{SEDML_FIT_EXPERIMENT, SedTypeCode_t}.
    *
    * @copydetails doc_warning_typecodes_not_unique
@@ -1019,6 +974,19 @@ public:
   virtual SedBase* getElementBySId(const std::string& id);
 
 
+  /**
+   * Returns a List of all child SedBase objects, including those nested to an
+   * arbitrary depth.
+   *
+   * @param filter an ElementFilter that may impose restrictions on the objects
+   * to be retrieved.
+   *
+   * @return a List pointer of pointers to all SedBase child objects with any
+   * restriction imposed.
+   */
+  virtual List* getAllElements(SedElementFilter * filter = NULL);
+
+
 protected:
 
 
@@ -1100,13 +1068,13 @@ BEGIN_C_DECLS
 
 
 /**
- * Creates a new SedFitExperiment_t using the given SEDML Level and @ p version
+ * Creates a new SedFitExperiment_t using the given SED-ML Level and @ p version
  * values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this
+ * @param level an unsigned int, the SED-ML Level to assign to this
  * SedFitExperiment_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedFitExperiment_t.
  *
  * @copydetails doc_note_setting_lv_pkg

@@ -53,7 +53,7 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedRepeatedTask using the given SEDML Level and @ p version
+ * Creates a new SedRepeatedTask using the given SED-ML Level and @ p version
  * values.
  */
 SedRepeatedTask::SedRepeatedTask(unsigned int level, unsigned int version)
@@ -1455,6 +1455,24 @@ SedRepeatedTask::getElementBySId(const std::string& id)
 }
 
 
+/*
+ * Returns a List of all child SedBase objects, including those nested to an
+ * arbitrary depth.
+ */
+List*
+SedRepeatedTask::getAllElements(SedElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+
+  SED_ADD_FILTERED_LIST(ret, sublist, mRanges, filter);
+  SED_ADD_FILTERED_LIST(ret, sublist, mSetValues, filter);
+  SED_ADD_FILTERED_LIST(ret, sublist, mSubTasks, filter);
+
+  return ret;
+}
+
+
 
 /** @cond doxygenLibSEDMLInternal */
 
@@ -1645,7 +1663,7 @@ SedRepeatedTask::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER
 
 
 /*
- * Creates a new SedRepeatedTask_t using the given SEDML Level and @ p version
+ * Creates a new SedRepeatedTask_t using the given SED-ML Level and @ p version
  * values.
  */
 LIBSEDML_EXTERN

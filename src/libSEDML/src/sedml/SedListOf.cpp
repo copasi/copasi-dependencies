@@ -315,7 +315,7 @@ SedListOf::getElementByMetaId(const std::string& metaid)
 
 
 List*
-SedListOf::getAllElements()
+SedListOf::getAllElements(SedElementFilter* filter)
 {
   List* ret = new List();
   List* sublist = NULL;
@@ -323,8 +323,9 @@ SedListOf::getAllElements()
   for (unsigned int i = 0; i < size(); i++) 
   {
     SedBase* obj = get(i);
-    ret->add(obj);
-    sublist = obj->getAllElements();
+    if (filter == NULL || filter->filter(obj))
+      ret->add(obj);
+    sublist = obj->getAllElements(filter);
     ret->transferFrom(sublist);
     delete sublist;
   }
@@ -413,7 +414,7 @@ struct SetParentSedObject
 /** @cond doxygenLibsedmlInternal */
 
 /*
- * Sets the parent SedDocument of this SEDML object.
+ * Sets the parent SedDocument of this SED-ML object.
  */
 void
 SedListOf::setSedDocument (SedDocument* d)
@@ -424,7 +425,7 @@ SedListOf::setSedDocument (SedDocument* d)
 
 
 /*
- * Sets this SEDML object to child SEDML objects (if any).
+ * Sets this SED-ML object to child SED-ML objects (if any).
  * (Creates a child-parent relationship by the parent)
   */
 void
@@ -438,7 +439,7 @@ SedListOf::connectToChild()
 
 
 /*
- * @return the typecode (int) of this SEDML object or SEDML_UNKNOWN
+ * @return the typecode (int) of this SED-ML object or SEDML_UNKNOWN
  * (default).
  */
 int
@@ -449,7 +450,7 @@ SedListOf::getTypeCode () const
 
 
 /*
- * @return the typecode (int) of SEDML objects contained in this SedListOf or
+ * @return the typecode (int) of SED-ML objects contained in this SedListOf or
  * SEDML_UNKNOWN (default).
  */
 int
@@ -486,7 +487,7 @@ struct Write
 /** @cond doxygenLibsedmlInternal */
 /*
  * Subclasses should override this method to write out their contained
- * SEDML objects as XML elements.  Be sure to call your parents
+ * SED-ML objects as XML elements.  Be sure to call your parents
  * implementation of this method as well.
  */
 void

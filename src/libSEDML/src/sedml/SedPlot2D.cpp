@@ -51,7 +51,7 @@ LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
 /*
- * Creates a new SedPlot2D using the given SEDML Level and @ p version values.
+ * Creates a new SedPlot2D using the given SED-ML Level and @ p version values.
  */
 SedPlot2D::SedPlot2D(unsigned int level, unsigned int version)
   : SedPlot(level, version)
@@ -987,6 +987,23 @@ SedPlot2D::getElementBySId(const std::string& id)
 }
 
 
+/*
+ * Returns a List of all child SedBase objects, including those nested to an
+ * arbitrary depth.
+ */
+List*
+SedPlot2D::getAllElements(SedElementFilter* filter)
+{
+  List* ret = new List();
+  List* sublist = NULL;
+  SED_ADD_FILTERED_POINTER(ret, sublist, mRightYAxis, filter);
+
+  SED_ADD_FILTERED_LIST(ret, sublist, mAbstractCurves, filter);
+
+  return ret;
+}
+
+
 
 /** @cond doxygenLibSEDMLInternal */
 
@@ -1111,7 +1128,7 @@ SedPlot2D::writeAttributes(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLOutputStream&
 
 
 /*
- * Creates a new SedPlot2D_t using the given SEDML Level and @ p version
+ * Creates a new SedPlot2D_t using the given SED-ML Level and @ p version
  * values.
  */
 LIBSEDML_EXTERN

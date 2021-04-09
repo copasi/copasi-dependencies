@@ -99,7 +99,6 @@ protected:
 
   /** @cond doxygenLibSEDMLInternal */
 
-  std::string mName;
   std::string mXDataReference;
   std::string mYDataReference;
   std::string mZDataReference;
@@ -119,13 +118,13 @@ protected:
 public:
 
   /**
-   * Creates a new SedSurface using the given SEDML Level and @ p version
+   * Creates a new SedSurface using the given SED-ML Level and @ p version
    * values.
    *
-   * @param level an unsigned int, the SEDML Level to assign to this
+   * @param level an unsigned int, the SED-ML Level to assign to this
    * SedSurface.
    *
-   * @param version an unsigned int, the SEDML Version to assign to this
+   * @param version an unsigned int, the SED-ML Version to assign to this
    * SedSurface.
    *
    * @copydetails doc_note_setting_lv_pkg
@@ -173,22 +172,6 @@ public:
    * Destructor for SedSurface.
    */
   virtual ~SedSurface();
-
-
-  /**
-   * Returns the value of the "id" attribute of this SedSurface.
-   *
-   * @return the value of the "id" attribute of this SedSurface as a string.
-   */
-  virtual const std::string& getId() const;
-
-
-  /**
-   * Returns the value of the "name" attribute of this SedSurface.
-   *
-   * @return the value of the "name" attribute of this SedSurface as a string.
-   */
-  virtual const std::string& getName() const;
 
 
   /**
@@ -301,24 +284,6 @@ public:
 
 
   /**
-   * Predicate returning @c true if this SedSurface's "id" attribute is set.
-   *
-   * @return @c true if this SedSurface's "id" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetId() const;
-
-
-  /**
-   * Predicate returning @c true if this SedSurface's "name" attribute is set.
-   *
-   * @return @c true if this SedSurface's "name" attribute has been set,
-   * otherwise @c false is returned.
-   */
-  virtual bool isSetName() const;
-
-
-  /**
    * Predicate returning @c true if this SedSurface's "xDataReference"
    * attribute is set.
    *
@@ -402,36 +367,6 @@ public:
    * otherwise @c false is returned.
    */
   bool isSetOrder() const;
-
-
-  /**
-   * Sets the value of the "id" attribute of this SedSurface.
-   *
-   * @param id std::string& value of the "id" attribute to be set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
-   *
-   * Calling this function with @p id = @c NULL or an empty string is
-   * equivalent to calling unsetId().
-   */
-  virtual int setId(const std::string& id);
-
-
-  /**
-   * Sets the value of the "name" attribute of this SedSurface.
-   *
-   * @param name std::string& value of the "name" attribute to be set.
-   *
-   * @copydetails doc_returns_one_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   *
-   * Calling this function with @p name = @c NULL or an empty string is
-   * equivalent to calling unsetName().
-   */
-  virtual int setName(const std::string& name);
 
 
   /**
@@ -573,26 +508,6 @@ public:
 
 
   /**
-   * Unsets the value of the "id" attribute of this SedSurface.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int unsetId();
-
-
-  /**
-   * Unsets the value of the "name" attribute of this SedSurface.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  virtual int unsetName();
-
-
-  /**
    * Unsets the value of the "xDataReference" attribute of this SedSurface.
    *
    * @copydetails doc_returns_success_code
@@ -705,7 +620,7 @@ public:
    *
    * @copydetails doc_what_are_typecodes
    *
-   * @return the SEDML type code for this object:
+   * @return the SED-ML type code for this object:
    * @sedmlconstant{SEDML_OUTPUT_SURFACE, SedTypeCode_t}.
    *
    * @copydetails doc_warning_typecodes_not_unique
@@ -1072,13 +987,13 @@ BEGIN_C_DECLS
 
 
 /**
- * Creates a new SedSurface_t using the given SEDML Level and @ p version
+ * Creates a new SedSurface_t using the given SED-ML Level and @ p version
  * values.
  *
- * @param level an unsigned int, the SEDML Level to assign to this
+ * @param level an unsigned int, the SED-ML Level to assign to this
  * SedSurface_t.
  *
- * @param version an unsigned int, the SEDML Version to assign to this
+ * @param version an unsigned int, the SED-ML Version to assign to this
  * SedSurface_t.
  *
  * @copydetails doc_note_setting_lv_pkg
