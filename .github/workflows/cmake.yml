@@ -8,6 +8,8 @@ env:
 
 jobs:
   build:
+    name:
+      ${{ matrix.platform }}
     strategy:
       fail-fast: false
       matrix:
