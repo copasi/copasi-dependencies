@@ -20,6 +20,36 @@ if (WIN32 AND CMAKE_C_COMPILER AND ${CMAKE_C_COMPILER} MATCHES ".*icl.*$")
   set(USING_INTEL TRUE)
 endif ()
 
+
+
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Raptor RDF Parser Library")
+set(CPACK_PACKAGE_NAME "raptor")
+set(CPACK_PACKAGE_VENDOR "The COPASI Developers")
+set(CPACK_PACKAGE_CONTACT "COPASI Developers <developers@copasi.org>")
+set(CPACK_PACKAGE_VERSION_MAJOR "1")
+set(CPACK_PACKAGE_VERSION_MINOR "4")
+set(CPACK_PACKAGE_VERSION_PATCH "19")
+set(CPACK_RPM_PACKAGE_LICENSE "MIT")
+set(CPACK_RPM_PACKAGE_GROUP "Libraries/Development")
+set(CPACK_DEBIAN_PACKAGE_SECTION "Libraries")
+
+set(CPACK_SOURCE_IGNORE_FILES "${CMAKE_CURRENT_BINARY_DIR};/.vs/;/.vscode/;/.svn/;/.libs/;/.deps/;/.bzr/;.*.o$;.*.lo$;.*.la$;${CPACK_SOURCE_IGNORE_FILES};/.DS_Store;/.svnignore;blib;libsbml-dist")
+
+if(UNIX)
+    set(CPACK_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
+    set(CPACK_SET_DESTDIR "ON")
+endif()
+
+if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+    set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "i386")
+    set(CPACK_RPM_PACKAGE_ARCHITECTURE "i386")
+else()
+    set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
+    set(CPACK_RPM_PACKAGE_ARCHITECTURE "x86_64")
+endif()
+
+include(CPack)
+
 # if using msvc or intel windows compiler allow for the use of the static runtime
 if(MSVC OR USING_INTEL)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE)

@@ -11,6 +11,36 @@ else()
   set(CMAKE_CXX_STANDARD 11)
 endif()
 
+
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "CrossGuid is a minimal, cross platform, C++ GUID library. ")
+set(CPACK_PACKAGE_NAME "crossguid")
+set(CPACK_PACKAGE_VENDOR "The COPASI Developers")
+set(CPACK_PACKAGE_CONTACT "COPASI Developers <developers@copasi.org>")
+set(CPACK_PACKAGE_VERSION_MAJOR "0")
+set(CPACK_PACKAGE_VERSION_MINOR "2")
+set(CPACK_PACKAGE_VERSION_PATCH "2")
+set(CPACK_RPM_PACKAGE_LICENSE "MIT")
+set(CPACK_RPM_PACKAGE_GROUP "Libraries/Development")
+set(CPACK_DEBIAN_PACKAGE_SECTION "Libraries")
+
+set(CPACK_SOURCE_IGNORE_FILES "${CMAKE_CURRENT_BINARY_DIR};/.vs/;/.vscode/;/.svn/;/.libs/;/.deps/;/.bzr/;.*.o$;.*.lo$;.*.la$;${CPACK_SOURCE_IGNORE_FILES};/.DS_Store;/.svnignore;blib;libsbml-dist")
+
+if(UNIX)
+    set(CPACK_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
+    set(CPACK_SET_DESTDIR "ON")
+endif()
+
+if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+    set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "i386")
+    set(CPACK_RPM_PACKAGE_ARCHITECTURE "i386")
+else()
+    set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
+    set(CPACK_RPM_PACKAGE_ARCHITECTURE "x86_64")
+endif()
+
+include(CPack)
+
+
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_DEBUG_POSTFIX "-dgb")
 
