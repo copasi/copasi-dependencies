@@ -13,6 +13,8 @@
 #include "f2c.h"
 #include "blaswrap.h"
 
+#include <stdio.h>
+
 /* Table of constant values */
 
 static integer c__1 = 1;
