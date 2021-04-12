@@ -28,6 +28,10 @@ THIS SOFTWARE.
 #include <math.h>
 #include <errno.h>
 
+#ifndef _WIN32
+#include <unistd.h>
+#endif
+
 #ifdef NO_FPINIT
 #define fpinit_ASL()
 #else
