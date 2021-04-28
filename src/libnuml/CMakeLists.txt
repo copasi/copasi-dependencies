@@ -30,6 +30,7 @@ include (CheckCCompilerFlag)
 include (CheckCSourceRuns)
 include (CheckSymbolExists)
 include (CheckTypeSize)
+include(GNUInstallDirs)
 
 ###############################################################################
 #
@@ -63,7 +64,7 @@ set(LIBNUML_VERSION_NUMERIC "${LIBNUML_VERSION_MAJOR}${LIBNUML_VERSION_MINOR}${L
 set(LIBNUML_VERSION "${LIBNUML_VERSION_MAJOR}.${LIBNUML_VERSION_MINOR}.${LIBNUML_VERSION_PATCH}${LIBNUML_VERSION_RELEASE}")
 set(PACKAGE_NAME "libNUML")
 
-set(PACKAGE_CONFIG_DIR lib/cmake CACHE PATH
+set(PACKAGE_CONFIG_DIR ${CMAKE_INSTALL_FULL_LIBDIR}/cmake CACHE PATH
     "Path into which the cmake config files should be installed")
 
 
@@ -269,7 +270,7 @@ endif(WITH_SWIG)
 
 # Update cmake path variables
 if (LIBNUML_DEPENDENCY_DIR AND EXISTS ${LIBNUML_DEPENDENCY_DIR})
-  set(CMAKE_PREFIX_PATH "${LIBNUML_DEPENDENCY_DIR}/lib/cmake;${CMAKE_PREFIX_PATH}")
+  set(CMAKE_PREFIX_PATH "${LIBNUML_DEPENDENCY_DIR}/${CMAKE_INSTALL_LIBDIR}/cmake;${CMAKE_PREFIX_PATH}")
 endif()
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
@@ -515,7 +516,7 @@ else(UNIX)
 
         file(GLOB WIN32_BINARIES ${LIBNUML_DEPENDENCY_DIR}/bin/*.dll)
         INSTALL(FILES ${WIN32_BINARIES} DESTINATION bin)
-        file(GLOB WIN32_DEPENDENCIES ${LIBNUML_DEPENDENCY_DIR}/lib/*.lib)
+        file(GLOB WIN32_DEPENDENCIES ${LIBNUML_DEPENDENCY_DIR}/${CMAKE_INSTALL_LIBDIR}/*.lib)
         install(FILES ${WIN32_DEPENDENCIES} DESTINATION lib)
         if(WITH_LIBXML AND WITH_STATIC_RUNTIME)
 		  if (EXTRA_LIBS STREQUAL "")
