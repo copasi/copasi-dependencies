@@ -182,7 +182,7 @@ INSTALL(TARGETS ${LIBNUML_LIBRARY}
 )
 
 # and install the exported target configuration
-install(EXPORT ${LIBNUML_LIBRARY}-config DESTINATION ${PACKAGE_CONFIG_DIR})
+install(EXPORT ${LIBNUML_LIBRARY}-config "${CMAKE_INSTALL_LIBDIR}/cmake")
 
 if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
 
@@ -194,7 +194,7 @@ if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
   
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/${LIBNUML_LIBRARY}-config-version.cmake
-    DESTINATION ${PACKAGE_CONFIG_DIR}
+    "${CMAKE_INSTALL_LIBDIR}/cmake"
   )
 
 endif()
@@ -219,7 +219,7 @@ INSTALL(TARGETS ${LIBNUML_LIBRARY}-static
 )
 
 # and install the exported target configuration
-install(EXPORT ${LIBNUML_LIBRARY}-static-config DESTINATION ${PACKAGE_CONFIG_DIR})
+install(EXPORT ${LIBNUML_LIBRARY}-static-config DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
 
 if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
 
@@ -231,7 +231,7 @@ if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
   
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/${LIBNUML_LIBRARY}-static-config-version.cmake
-    DESTINATION ${PACKAGE_CONFIG_DIR}
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
   )
 
 endif()

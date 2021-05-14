@@ -65,7 +65,7 @@ if (WITH_BUILD_SHARED)
   
   # and install the exported target configuration
   INSTALL(EXPORT SBW-config
-        DESTINATION ${PACKAGE_CONFIG_DIR}
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
   )
 
   if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
@@ -77,7 +77,7 @@ if (WITH_BUILD_SHARED)
     
   INSTALL(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/SBW-config-version.cmake
-    DESTINATION ${PACKAGE_CONFIG_DIR}
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
   )
   endif()
 
@@ -109,7 +109,7 @@ if (WITH_BUILD_STATIC)
   
   # and install the exported target configuration
   INSTALL(EXPORT SBW-static-config
-        DESTINATION ${PACKAGE_CONFIG_DIR}
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
   )
 
   if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
@@ -121,7 +121,7 @@ if (WITH_BUILD_STATIC)
     
   INSTALL(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/SBW-static-config-version.cmake
-    DESTINATION ${PACKAGE_CONFIG_DIR}
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
   )
   endif()
 
