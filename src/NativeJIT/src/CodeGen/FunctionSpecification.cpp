@@ -23,6 +23,7 @@
 
 #include <algorithm>    // For std::min.
 #include <stdexcept>
+#include <limits>
 
 #include "NativeJIT/BitOperations.h"
 #include "NativeJIT/CodeGen/CallingConvention.h"
