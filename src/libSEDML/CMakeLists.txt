@@ -38,8 +38,12 @@
 #
 ###############################################################################
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.12)
 project (libsedml)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED YES)
+set(CMAKE_CXX_EXTENSIONS NO)
 
 SET (CONAN_PATHS ${CMAKE_BINARY_DIR}/../conan_paths.cmake)
 if (NOT EXISTS ${CONAN_PATHS})
@@ -126,9 +130,9 @@ add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
 
 include(InstallRequiredSystemLibraries)
 
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An API library for reading/writing/manipulating SEDML.")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An API library for reading/writing/manipulating SED-ML.")
 set(CPACK_PACKAGE_NAME "${PACKAGE_NAME}")
-set(CPACK_PACKAGE_VENDOR "The SEDML Team")
+set(CPACK_PACKAGE_VENDOR "The SED-ML Team")
 set(CPACK_PACKAGE_CONTACT "LibSEDML Team <libsedml-team@caltech.edu>")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
@@ -445,11 +449,7 @@ endif(WITH_CSHARP)
 # or make test
 #
 
-# we do use tests, that require 2.8.4
-cmake_minimum_required(VERSION 2.8.4)
-
 enable_testing()
-
 
 # On some Linux  (64bit) systems (64bit) the libraries should be installed into lib64 rather
 # than lib. It will default to 'lib' but can be overwritten.
@@ -637,7 +637,7 @@ endif()
 
 ###############################################################################
 #
-# Initialize SEDML sources
+# Initialize SED-ML sources
 #
 set(LIBSEDML_SOURCES)
 
@@ -913,9 +913,8 @@ endif()
 message(STATUS "
 ----------------------------------------------------------------------")
 
-if (WITH_CHECK)
+
 add_subdirectory(tests)
-endif()
 
 ## To compile a test program simply comment out the lines below ...
 #

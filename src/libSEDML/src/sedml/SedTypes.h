@@ -74,6 +74,7 @@
 #include <sedml/SedVectorRange.h>
 #include <sedml/SedFunctionalRange.h>
 #include <sedml/SedSubTask.h>
+#include <sedml/SedAnalysis.h>
 #include <sedml/SedOneStep.h>
 #include <sedml/SedSteadyState.h>
 #include <sedml/SedRepeatedTask.h>
@@ -85,7 +86,7 @@
 #include <sedml/SedObjective.h>
 #include <sedml/SedLeastSquareObjectiveFunction.h>
 #include <sedml/SedAdjustableParameter.h>
-#include <sedml/SedExperimentRef.h>
+#include <sedml/SedExperimentReference.h>
 #include <sedml/SedFitExperiment.h>
 #include <sedml/SedFitMapping.h>
 #include <sedml/SedBounds.h>
@@ -96,10 +97,8 @@
 #include <sedml/SedLine.h>
 #include <sedml/SedMarker.h>
 #include <sedml/SedFill.h>
-#include <sedml/SedDependentVariable.h>
-#include <sedml/SedRemainingDimension.h>
+#include <sedml/SedAppliedDimension.h>
 #include <sedml/SedDataRange.h>
-#include <sedml/SedSimpleRepeatedTask.h>
 #include <sedml/SedShadedArea.h>
 #include <sedml/SedParameterEstimationResultPlot.h>
 #include <sedml/SedWaterfallPlot.h>

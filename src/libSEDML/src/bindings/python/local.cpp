@@ -148,6 +148,9 @@ GetDowncastSwigType (SedBase* sb)
     case SEDML_SIMULATION_ONESTEP:
       return SWIGTYPE_p_SedOneStep;
 
+    case SEDML_SIMULATION_ANALYSIS:
+      return SWIGTYPE_p_SedAnalysis;
+
     case SEDML_SIMULATION_STEADYSTATE:
       return SWIGTYPE_p_SedSteadyState;
 
@@ -178,8 +181,8 @@ GetDowncastSwigType (SedBase* sb)
     case SEDML_ADJUSTABLE_PARAMETER:
       return SWIGTYPE_p_SedAdjustableParameter;
 
-    case SEDML_EXPERIMENT_REF:
-      return SWIGTYPE_p_SedExperimentRef;
+    case SEDML_EXPERIMENT_REFERENCE:
+      return SWIGTYPE_p_SedExperimentReference;
 
     case SEDML_FIT_EXPERIMENT:
       return SWIGTYPE_p_SedFitExperiment;
@@ -211,17 +214,11 @@ GetDowncastSwigType (SedBase* sb)
     case SEDML_FILL:
       return SWIGTYPE_p_SedFill;
 
-    case SEDML_DEPENDENTVARIABLE:
-      return SWIGTYPE_p_SedDependentVariable;
-
-    case SEDML_REMAININGDIMENSION:
-      return SWIGTYPE_p_SedRemainingDimension;
+    case SEDML_APPLIEDDIMENSION:
+      return SWIGTYPE_p_SedAppliedDimension;
 
     case SEDML_DATA_RANGE:
       return SWIGTYPE_p_SedDataRange;
-
-    case SEDML_TASK_SIMPLEREPEATEDTASK:
-      return SWIGTYPE_p_SedSimpleRepeatedTask;
 
     case SEDML_SHADEDAREA:
       return SWIGTYPE_p_SedShadedArea;
@@ -308,9 +305,9 @@ GetDowncastSwigType (SedBase* sb)
       {
          return SWIGTYPE_p_SedListOfAdjustableParameters;
       }
-      else if (name == "listOfExperimentRefs")
+      else if (name == "listOfExperimentReferences")
       {
-         return SWIGTYPE_p_SedListOfExperimentRefs;
+         return SWIGTYPE_p_SedListOfExperimentReferences;
       }
       else if (name == "listOfFitExperiments")
       {
@@ -324,9 +321,9 @@ GetDowncastSwigType (SedBase* sb)
       {
          return SWIGTYPE_p_SedListOfSubPlots;
       }
-      else if (name == "listOfRemainingDimensions")
+      else if (name == "listOfAppliedDimensions")
       {
-         return SWIGTYPE_p_SedListOfRemainingDimensions;
+         return SWIGTYPE_p_SedListOfAppliedDimensions;
       }
       else if (name == "listOfStyles")
       {

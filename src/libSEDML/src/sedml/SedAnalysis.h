@@ -1,6 +1,6 @@
 /**
- * @file SedExperimentRef.h
- * @brief Definition of the SedExperimentRef class.
+ * @file SedAnalysis.h
+ * @brief Definition of the SedAnalysis class.
  * @author DEVISER
  *
  * <!--------------------------------------------------------------------------
@@ -31,13 +31,13 @@
  * available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
  *
- * @class SedExperimentRef
- * @sbmlbrief{sedml} TODO:Definition of the SedExperimentRef class.
+ * @class SedAnalysis
+ * @sbmlbrief{sedml} TODO:Definition of the SedAnalysis class.
  */
 
 
-#ifndef SedExperimentRef_H__
-#define SedExperimentRef_H__
+#ifndef SedAnalysis_H__
+#define SedAnalysis_H__
 
 
 #include <sedml/common/extern.h>
@@ -50,151 +50,93 @@
 #include <string>
 
 
-#include <sedml/SedBase.h>
+#include <sedml/SedSimulation.h>
 #include <sbml/common/libsbml-namespace.h>
 
 
 LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
-class LIBSEDML_EXTERN SedExperimentRef : public SedBase
+class LIBSEDML_EXTERN SedAnalysis : public SedSimulation
 {
-protected:
-
-  /** @cond doxygenLibSEDMLInternal */
-
-  std::string mExperimentId;
-
-  /** @endcond */
 
 public:
 
   /**
-   * Creates a new SedExperimentRef using the given SED-ML Level and @ p version
+   * Creates a new SedAnalysis using the given SED-ML Level and @ p version
    * values.
    *
    * @param level an unsigned int, the SED-ML Level to assign to this
-   * SedExperimentRef.
+   * SedAnalysis.
    *
    * @param version an unsigned int, the SED-ML Version to assign to this
-   * SedExperimentRef.
+   * SedAnalysis.
    *
    * @copydetails doc_note_setting_lv_pkg
    */
-  SedExperimentRef(unsigned int level = SEDML_DEFAULT_LEVEL,
-                   unsigned int version = SEDML_DEFAULT_VERSION);
+  SedAnalysis(unsigned int level = SEDML_DEFAULT_LEVEL,
+                 unsigned int version = SEDML_DEFAULT_VERSION);
 
 
   /**
-   * Creates a new SedExperimentRef using the given SedNamespaces object @p
+   * Creates a new SedAnalysis using the given SedNamespaces object @p
    * sedmlns.
    *
    * @param sedmlns the SedNamespaces object.
    *
    * @copydetails doc_note_setting_lv_pkg
    */
-  SedExperimentRef(SedNamespaces *sedmlns);
+  SedAnalysis(SedNamespaces *sedmlns);
 
 
   /**
-   * Copy constructor for SedExperimentRef.
+   * Copy constructor for SedAnalysis.
    *
-   * @param orig the SedExperimentRef instance to copy.
+   * @param orig the SedAnalysis instance to copy.
    */
-  SedExperimentRef(const SedExperimentRef& orig);
+  SedAnalysis(const SedAnalysis& orig);
 
 
   /**
-   * Assignment operator for SedExperimentRef.
+   * Assignment operator for SedAnalysis.
    *
-   * @param rhs the SedExperimentRef object whose values are to be used as the
+   * @param rhs the SedAnalysis object whose values are to be used as the
    * basis of the assignment.
    */
-  SedExperimentRef& operator=(const SedExperimentRef& rhs);
+  SedAnalysis& operator=(const SedAnalysis& rhs);
 
 
   /**
-   * Creates and returns a deep copy of this SedExperimentRef object.
+   * Creates and returns a deep copy of this SedAnalysis object.
    *
-   * @return a (deep) copy of this SedExperimentRef object.
+   * @return a (deep) copy of this SedAnalysis object.
    */
-  virtual SedExperimentRef* clone() const;
+  virtual SedAnalysis* clone() const;
 
 
   /**
-   * Destructor for SedExperimentRef.
+   * Destructor for SedAnalysis.
    */
-  virtual ~SedExperimentRef();
+  virtual ~SedAnalysis();
 
 
   /**
-   * Returns the value of the "experimentId" attribute of this
-   * SedExperimentRef.
+   * Returns the XML element name of this SedAnalysis object.
    *
-   * @return the value of the "experimentId" attribute of this SedExperimentRef
-   * as a string.
-   */
-  const std::string& getExperimentId() const;
-
-
-  /**
-   * Predicate returning @c true if this SedExperimentRef's "experimentId"
-   * attribute is set.
+   * For SedAnalysis, the XML element name is always @c "analysis".
    *
-   * @return @c true if this SedExperimentRef's "experimentId" attribute has
-   * been set, otherwise @c false is returned.
-   */
-  bool isSetExperimentId() const;
-
-
-  /**
-   * Sets the value of the "experimentId" attribute of this SedExperimentRef.
-   *
-   * @param experimentId std::string& value of the "experimentId" attribute to
-   * be set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
-   */
-  int setExperimentId(const std::string& experimentId);
-
-
-  /**
-   * Unsets the value of the "experimentId" attribute of this SedExperimentRef.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  int unsetExperimentId();
-
-
-  /**
-   * @copydoc doc_renamesidref_common
-   */
-  virtual void renameSIdRefs(const std::string& oldid,
-                             const std::string& newid);
-
-
-  /**
-   * Returns the XML element name of this SedExperimentRef object.
-   *
-   * For SedExperimentRef, the XML element name is always @c "experimentRef".
-   *
-   * @return the name of this element, i.e. @c "experimentRef".
+   * @return the name of this element, i.e. @c "analysis".
    */
   virtual const std::string& getElementName() const;
 
 
   /**
-   * Returns the libSEDML type code for this SedExperimentRef object.
+   * Returns the libSEDML type code for this SedAnalysis object.
    *
    * @copydetails doc_what_are_typecodes
    *
    * @return the SED-ML type code for this object:
-   * @sedmlconstant{SEDML_EXPERIMENT_REF, SedTypeCode_t}.
+   * @sedmlconstant{SEDML_SIMULATION_ANALYSIS, SedTypeCode_t}.
    *
    * @copydetails doc_warning_typecodes_not_unique
    *
@@ -205,10 +147,10 @@ public:
 
   /**
    * Predicate returning @c true if all the required attributes for this
-   * SedExperimentRef object have been set.
+   * SedAnalysis object have been set.
    *
    * @return @c true to indicate that all the required attributes of this
-   * SedExperimentRef have been set, otherwise @c false is returned.
+   * SedAnalysis have been set, otherwise @c false is returned.
    */
   virtual bool hasRequiredAttributes() const;
 
@@ -256,7 +198,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this SedExperimentRef.
+   * Gets the value of the "attributeName" attribute of this SedAnalysis.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -276,7 +218,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this SedExperimentRef.
+   * Gets the value of the "attributeName" attribute of this SedAnalysis.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -295,7 +237,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this SedExperimentRef.
+   * Gets the value of the "attributeName" attribute of this SedAnalysis.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -315,7 +257,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this SedExperimentRef.
+   * Gets the value of the "attributeName" attribute of this SedAnalysis.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -335,7 +277,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this SedExperimentRef.
+   * Gets the value of the "attributeName" attribute of this SedAnalysis.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -355,12 +297,12 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Predicate returning @c true if this SedExperimentRef's attribute
+   * Predicate returning @c true if this SedAnalysis's attribute
    * "attributeName" is set.
    *
    * @param attributeName, the name of the attribute to query.
    *
-   * @return @c true if this SedExperimentRef's attribute "attributeName" has
+   * @return @c true if this SedAnalysis's attribute "attributeName" has
    * been set, otherwise @c false is returned.
    */
   virtual bool isSetAttribute(const std::string& attributeName) const;
@@ -372,7 +314,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Sets the value of the "attributeName" attribute of this SedExperimentRef.
+   * Sets the value of the "attributeName" attribute of this SedAnalysis.
    *
    * @param attributeName, the name of the attribute to set.
    *
@@ -391,7 +333,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Sets the value of the "attributeName" attribute of this SedExperimentRef.
+   * Sets the value of the "attributeName" attribute of this SedAnalysis.
    *
    * @param attributeName, the name of the attribute to set.
    *
@@ -410,7 +352,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Sets the value of the "attributeName" attribute of this SedExperimentRef.
+   * Sets the value of the "attributeName" attribute of this SedAnalysis.
    *
    * @param attributeName, the name of the attribute to set.
    *
@@ -429,7 +371,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Sets the value of the "attributeName" attribute of this SedExperimentRef.
+   * Sets the value of the "attributeName" attribute of this SedAnalysis.
    *
    * @param attributeName, the name of the attribute to set.
    *
@@ -449,7 +391,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Sets the value of the "attributeName" attribute of this SedExperimentRef.
+   * Sets the value of the "attributeName" attribute of this SedAnalysis.
    *
    * @param attributeName, the name of the attribute to set.
    *
@@ -469,8 +411,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Unsets the value of the "attributeName" attribute of this
-   * SedExperimentRef.
+   * Unsets the value of the "attributeName" attribute of this SedAnalysis.
    *
    * @param attributeName, the name of the attribute to query.
    *
@@ -489,6 +430,18 @@ public:
 
 
 protected:
+
+
+  /** @cond doxygenLibSEDMLInternal */
+
+  /**
+   * Creates a new object from the next XMLToken on the XMLInputStream
+   */
+  virtual SedBase* createObject(LIBSBML_CPP_NAMESPACE_QUALIFIER XMLInputStream&
+    stream);
+
+  /** @endcond */
+
 
 
   /** @cond doxygenLibSEDMLInternal */
@@ -557,141 +510,68 @@ BEGIN_C_DECLS
 
 
 /**
- * Creates a new SedExperimentRef_t using the given SED-ML Level and @ p version
+ * Creates a new SedAnalysis_t using the given SED-ML Level and @ p version
  * values.
  *
  * @param level an unsigned int, the SED-ML Level to assign to this
- * SedExperimentRef_t.
+ * SedAnalysis_t.
  *
  * @param version an unsigned int, the SED-ML Version to assign to this
- * SedExperimentRef_t.
+ * SedAnalysis_t.
  *
  * @copydetails doc_note_setting_lv_pkg
  *
  * @copydetails doc_returned_owned_pointer
  *
- * @memberof SedExperimentRef_t
+ * @memberof SedAnalysis_t
  */
 LIBSEDML_EXTERN
-SedExperimentRef_t *
-SedExperimentRef_create(unsigned int level, unsigned int version);
+SedAnalysis_t *
+SedAnalysis_create(unsigned int level, unsigned int version);
 
 
 /**
- * Creates and returns a deep copy of this SedExperimentRef_t object.
+ * Creates and returns a deep copy of this SedAnalysis_t object.
  *
- * @param ser the SedExperimentRef_t structure.
+ * @param sss the SedAnalysis_t structure.
  *
- * @return a (deep) copy of this SedExperimentRef_t object.
+ * @return a (deep) copy of this SedAnalysis_t object.
  *
  * @copydetails doc_returned_owned_pointer
  *
- * @memberof SedExperimentRef_t
+ * @memberof SedAnalysis_t
  */
 LIBSEDML_EXTERN
-SedExperimentRef_t*
-SedExperimentRef_clone(const SedExperimentRef_t* ser);
+SedAnalysis_t*
+SedAnalysis_clone(const SedAnalysis_t* sss);
 
 
 /**
- * Frees this SedExperimentRef_t object.
+ * Frees this SedAnalysis_t object.
  *
- * @param ser the SedExperimentRef_t structure.
+ * @param sss the SedAnalysis_t structure.
  *
- * @memberof SedExperimentRef_t
+ * @memberof SedAnalysis_t
  */
 LIBSEDML_EXTERN
 void
-SedExperimentRef_free(SedExperimentRef_t* ser);
-
-
-/**
- * Returns the value of the "experimentId" attribute of this
- * SedExperimentRef_t.
- *
- * @param ser the SedExperimentRef_t structure whose experimentId is sought.
- *
- * @return the value of the "experimentId" attribute of this SedExperimentRef_t
- * as a pointer to a string.
- *
- * @copydetails doc_returned_owned_char
- *
- * @memberof SedExperimentRef_t
- */
-LIBSEDML_EXTERN
-char *
-SedExperimentRef_getExperimentId(const SedExperimentRef_t * ser);
-
-
-/**
- * Predicate returning @c 1 (true) if this SedExperimentRef_t's "experimentId"
- * attribute is set.
- *
- * @param ser the SedExperimentRef_t structure.
- *
- * @return @c 1 (true) if this SedExperimentRef_t's "experimentId" attribute
- * has been set, otherwise @c 0 (false) is returned.
- *
- * @memberof SedExperimentRef_t
- */
-LIBSEDML_EXTERN
-int
-SedExperimentRef_isSetExperimentId(const SedExperimentRef_t * ser);
-
-
-/**
- * Sets the value of the "experimentId" attribute of this SedExperimentRef_t.
- *
- * @param ser the SedExperimentRef_t structure.
- *
- * @param experimentId const char * value of the "experimentId" attribute to be
- * set.
- *
- * @copydetails doc_returns_success_code
- * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
- * @li @sedmlconstant{LIBSEDML_INVALID_ATTRIBUTE_VALUE,
- * OperationReturnValues_t}
- * @li @sedmlconstant{LIBSEDML_INVALID_OBJECT, OperationReturnValues_t}
- *
- * @memberof SedExperimentRef_t
- */
-LIBSEDML_EXTERN
-int
-SedExperimentRef_setExperimentId(SedExperimentRef_t * ser,
-                                 const char * experimentId);
-
-
-/**
- * Unsets the value of the "experimentId" attribute of this SedExperimentRef_t.
- *
- * @param ser the SedExperimentRef_t structure.
- *
- * @copydetails doc_returns_success_code
- * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
- * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
- * @li @sedmlconstant{LIBSEDML_INVALID_OBJECT, OperationReturnValues_t}
- *
- * @memberof SedExperimentRef_t
- */
-LIBSEDML_EXTERN
-int
-SedExperimentRef_unsetExperimentId(SedExperimentRef_t * ser);
+SedAnalysis_free(SedAnalysis_t* sss);
 
 
 /**
  * Predicate returning @c 1 (true) if all the required attributes for this
- * SedExperimentRef_t object have been set.
+ * SedAnalysis_t object have been set.
  *
- * @param ser the SedExperimentRef_t structure.
+ * @param sss the SedAnalysis_t structure.
  *
  * @return @c 1 (true) to indicate that all the required attributes of this
- * SedExperimentRef_t have been set, otherwise @c 0 (false) is returned.
+ * SedAnalysis_t have been set, otherwise @c 0 (false) is returned.
  *
- * @memberof SedExperimentRef_t
+ * @memberof SedAnalysis_t
  */
 LIBSEDML_EXTERN
 int
-SedExperimentRef_hasRequiredAttributes(const SedExperimentRef_t * ser);
+SedAnalysis_hasRequiredAttributes(const SedAnalysis_t * sss);
 
 
 
@@ -711,6 +591,6 @@ LIBSEDML_CPP_NAMESPACE_END
 
 
 
-#endif /* !SedExperimentRef_H__ */
+#endif /* !SedAnalysis_H__ */
 
 

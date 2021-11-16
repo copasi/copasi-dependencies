@@ -368,9 +368,10 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     LIBSEDML_SEV_ERROR,
     "A <document> object may contain one and only one instance of each of the "
     "<listOfDataDescriptions,> <listOfModels,> <listOfSimulations,> "
-    "<listOfAbstractTasks,> <listOfDataGenerators,> <listOfOutputs> and "
-    "<listOfStyles> elements. No other elements from the SBML Level 3 SED-ML "
-    "namespaces are permitted on a <document> object. ",
+    "<listOfAbstractTasks,> <listOfDataGenerators,> <listOfOutputs,> "
+    "<listOfStyles> and <listOfAlgorithmParameters> elements. No other elements "
+    "from the SBML Level 3 SEDML namespaces are permitted on a <document> "
+    "object. ",
     { "L3V1 Sedml V1 Section"
     }
   },
@@ -565,6 +566,31 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     }
   },
 
+  // 20221
+  { SedmlDocumentLOAlgorithmParametersAllowedCoreElements,
+    "Core elements allowed on <listOfAlgorithmParameters>.",
+    LIBSEDML_CAT_GENERAL_CONSISTENCY,
+    LIBSEDML_SEV_ERROR,
+    "Apart from the general notes and annotations subobjects permitted on all "
+    "SBML objects, a <listOfAlgorithmParameters> container object may only "
+    "contain <algorithmParameter> objects.",
+    { "L3V1 Sedml V1 Section"
+    }
+  },
+
+  // 20222
+  { SedmlDocumentLOAlgorithmParametersAllowedCoreAttributes,
+    "Core attributes allowed on <listOfAlgorithmParameters>.",
+    LIBSEDML_CAT_GENERAL_CONSISTENCY,
+    LIBSEDML_SEV_ERROR,
+    "A <listOfAlgorithmParameters> object may have the optional SBML Level 3 "
+    "Core attributes 'metaid' and 'sboTerm'. No other attributes from the SBML "
+    "Level 3 Core namespaces are permitted on a <listOfAlgorithmParameters> "
+    "object.",
+    { "L3V1 Sedml V1 Section"
+    }
+  },
+
   // 20301
   { SedmlModelAllowedCoreAttributes,
     "Core attributes allowed on <model>.",
@@ -594,9 +620,10 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     "Attributes allowed on <model>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "A <model> object must have the required attributes 'sedml:id' and "
-    "'sedml:source', and may have the optional attributes 'sedml:name' and "
-    "'sedml:language'. No other attributes from the SBML Level 3 SED-ML "
+    "A <model> object must have the required attributes 'sedml:language' "
+    "(optional before Level 1 Version 4), 'sedml:id', and "
+    "'sedml:source', and may have the optional attribute 'sedml:name'. "
+    "No other attributes from the SBML Level 3 SED-ML "
     "namespaces are permitted on a <model> object. ",
     { "L3V1 Sedml V1 Section"
     }
@@ -831,9 +858,11 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
     "A <variable> object must have the required attribute 'sedml:id', and may "
-    "have the optional attributes 'sedml:name', 'sedml:symbol', 'sedml:target', "
-    "'sedml:taskReference' and 'sedml:modelReference'. No other attributes from "
-    "the SBML Level 3 SED-ML namespaces are permitted on a <variable> object. ",
+    "have the optional attributes 'sedml:symbol', "
+    "'sedml:target', 'sedml:taskReference', 'sedml:modelReference', "
+    "'sedml:term', 'sedml:symbol2', 'sedml:target2' and "
+    "'sedml:dimensionTerm'. No other attributes from the SBML Level 3 SEDML "
+    "namespaces are permitted on a <variable> object. ",
     { "L3V1 Sedml V1 Section"
     }
   },
@@ -844,7 +873,7 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
     "A <variable> object may contain one and only one instance of the "
-    "<listOfRemainingDimensions> element. No other elements from the SBML Level "
+    "<listOfAppliedDimensions> element. No other elements from the SBML Level "
     "3 SED-ML namespaces are permitted on a <variable> object. ",
     { "L3V1 Sedml V1 Section"
     }
@@ -883,13 +912,13 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     }
   },
 
-  // 20708
-  { SedmlVariableTaskReferenceMustBeTask,
-    "The attribute 'taskReference' must point to Task object.",
+  // 20707
+  { SedmlVariableTaskReferenceMustBeAbstractTask,
+    "The attribute 'taskReference' must point to AbstractTask object.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
     "The value of the attribute 'sedml:taskReference' of a <variable> object "
-    "must be the identifier of an existing <task> object defined in the "
+    "must be the identifier of an existing <abstractTask> object defined in the "
     "enclosing <model> object.",
     { "L3V1 Sedml V1 Section"
     }
@@ -907,27 +936,70 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     }
   },
 
-  // 20710
-  { SedmlVariableLORemainingDimensionsAllowedCoreElements,
-    "Core elements allowed on <listOfRemainingDimensions>.",
+  // 20709
+  { SedmlVariableTermMustBeString,
+    "The 'term' attribute must be String.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "Apart from the general notes and annotations subobjects permitted on all "
-    "SBML objects, a <listOfRemainingDimensions> container object may only "
-    "contain <remainingDimension> objects.",
+    "The attribute 'sedml:term' on a <variable> must have a value of data type "
+    "'string'.",
+    { "L3V1 Sedml V1 Section"
+    }
+  },
+
+  // 20710
+  { SedmlVariableSymbol2MustBeString,
+    "The 'symbol2' attribute must be String.",
+    LIBSEDML_CAT_GENERAL_CONSISTENCY,
+    LIBSEDML_SEV_ERROR,
+    "The attribute 'sedml:symbolTwo' on a <variable> must have a value of data "
+    "type 'string'.",
     { "L3V1 Sedml V1 Section"
     }
   },
 
   // 20711
-  { SedmlVariableLORemainingDimensionsAllowedCoreAttributes,
-    "Core attributes allowed on <listOfRemainingDimensions>.",
+  { SedmlVariableTarget2MustBeString,
+    "The 'target2' attribute must be String.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "A <listOfRemainingDimensions> object may have the optional SBML Level 3 "
-    "Core attributes 'metaid' and 'sboTerm'. No other attributes from the SBML "
-    "Level 3 Core namespaces are permitted on a <listOfRemainingDimensions> "
-    "object.",
+    "The attribute 'sedml:targetTwo' on a <variable> must have a value of data "
+    "type 'string'.",
+    { "L3V1 Sedml V1 Section"
+    }
+  },
+
+  // 20712
+  { SedmlVariableDimensionTermMustBeString,
+    "The 'dimensionTerm' attribute must be String.",
+    LIBSEDML_CAT_GENERAL_CONSISTENCY,
+    LIBSEDML_SEV_ERROR,
+    "The attribute 'sedml:dimensionTerm' on a <variable> must have a value of "
+    "data type 'string'.",
+    { "L3V1 Sedml V1 Section"
+    }
+  },
+
+  // 20713
+  { SedmlVariableLOAppliedDimensionsAllowedCoreElements,
+    "Core elements allowed on <listOfAppliedDimensions>.",
+    LIBSEDML_CAT_GENERAL_CONSISTENCY,
+    LIBSEDML_SEV_ERROR,
+    "Apart from the general notes and annotations subobjects permitted on all "
+    "SBML objects, a <listOfAppliedDimensions> container object may only "
+    "contain <appliedDimension> objects.",
+    { "L3V1 Sedml V1 Section"
+    }
+  },
+
+  // 20711
+  { SedmlVariableLOAppliedDimensionsAllowedCoreAttributes,
+    "Core attributes allowed on <listOfAppliedDimensions>.",
+    LIBSEDML_CAT_GENERAL_CONSISTENCY,
+    LIBSEDML_SEV_ERROR,
+    "A <listOfAppliedDimensions> object may have the optional SBML Level 3 Core "
+    "attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level "
+    "3 Core namespaces are permitted on a <listOfAppliedDimensions> object.",
     { "L3V1 Sedml V1 Section"
     }
   },
@@ -961,10 +1033,9 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     "Attributes allowed on <parameter>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "A <parameter> object must have the required attributes 'sedml:id' and "
-    "'sedml:value', and may have the optional attribute 'sedml:name'. No other "
-    "attributes from the SBML Level 3 SED-ML namespaces are permitted on a "
-    "<parameter> object. ",
+    "A <parameter> object must have the required attributes 'sedml:value' and "
+    "'sedml:id'. No other attributes from the SBML Level 3 SEDML namespaces are "
+    "permitted on a <parameter> object. ",
     { "L3V1 Sedml V1 Section"
     }
   },
@@ -1303,7 +1374,7 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     "Attributes allowed on <task>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "A <task> object may have the optional attributes 'sedml:modelReference' "
+    "A <task> object must have the required attributes 'sedml:modelReference' "
     "and 'sedml:simulationReference'. No other attributes from the SBML Level 3 "
     "SED-ML namespaces are permitted on a <task> object. ",
     { "L3V1 Sedml V1 Section"
@@ -1719,9 +1790,10 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     "Attributes allowed on <abstractCurve>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "An <abstractCurve> object may have the optional attributes 'sedml:id', "
-    "'sedml:name', 'sedml:logX', 'sedml:order', 'sedml:style', 'sedml:yAxis' "
-    "and 'sedml:xDataReference'. No other attributes from the SBML Level 3 "
+    "An <abstractCurve> object must have the required attribute "
+    "'sedml:xDataReference' (optional before Level 1 Version 4), and may have the optional attributes 'sedml:id', "
+    "'sedml:name', 'sedml:logX', 'sedml:order', 'sedml:style', and 'sedml:yAxis'. "
+    "No other attributes from the SBML Level 3 "
     "SED-ML namespaces are permitted on an <abstractCurve> object. ",
     { "L3V1 Sedml V1 Section"
     }
@@ -1947,9 +2019,10 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     "Attributes allowed on <surface>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "A <surface> object must have the required attribute "
+    "A <surface> object must have the required attributes "
+    "'sedml:xDataReference', 'sedml:yDataReference' (optional before Level 1 Version 4), and"
     "'sedml:zDataReference', and may have the optional attributes 'sedml:id', "
-    "'sedml:name', 'sedml:xDataReference', 'sedml:yDataReference', "
+    "'sedml:name', "
     "'sedml:type', 'sedml:style', 'sedml:logX', 'sedml:logY', 'sedml:logZ' and "
     "'sedml:order'. No other attributes from the SBML Level 3 SED-ML namespaces "
     "are permitted on a <surface> object. ",
@@ -2787,6 +2860,19 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     }
   },
 
+  // 23206
+  { SedmlSubTaskAllowedElements,
+    "Elements allowed on <subTask>.",
+    LIBSEDML_CAT_GENERAL_CONSISTENCY,
+    LIBSEDML_SEV_ERROR,
+    "A <subTask> object may contain one and only one instance of "
+    "the <listOfChanges> element. No "
+    "other elements from the SBML Level 3 SED-ML namespaces are permitted on a "
+    "<repeatedTask> object. ",
+    { "L3V1 Sedml V1 Section"
+    }
+  },
+
   // 23301
   { SedmlOneStepAllowedCoreAttributes,
     "Core attributes allowed on <oneStep>.",
@@ -2858,6 +2944,30 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     }
   },
 
+  // 23403
+  { SedmlAnalysisAllowedCoreAttributes,
+    "Core attributes allowed on <analysis>.",
+    LIBSEDML_CAT_GENERAL_CONSISTENCY,
+    LIBSEDML_SEV_ERROR,
+    "A <Analysis> object may have the optional SBML Level 3 Core attributes "
+    "'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core "
+    "namespaces are permitted on an <analysis>.",
+    { "L3V1 Sedml V1 Section"
+    }
+  },
+
+  // 23403
+  { SedmlAnalysisAllowedCoreElements,
+    "Core elements allowed on <analysis>.",
+    LIBSEDML_CAT_GENERAL_CONSISTENCY,
+    LIBSEDML_SEV_ERROR,
+    "An <analysis> object may have the optional SBML Level 3 Core subobjects "
+    "for notes and annotations. No other elements from the SBML Level 3 Core "
+    "namespaces are permitted on an <analysis>.",
+    { "L3V1 Sedml V1 Section"
+    }
+  },
+
   // 23501
   { SedmlRepeatedTaskAllowedCoreAttributes,
     "Core attributes allowed on <repeatedTask>.",
@@ -2888,8 +2998,9 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
     "A <repeatedTask> object may have the optional attributes 'sedml:rangeId' "
-    "and 'sedml:resetModel'. No other attributes from the SBML Level 3 SED-ML "
-    "namespaces are permitted on a <repeatedTask> object. ",
+    "and 'sedml:resetModel', and may starting in level 1 version 4 contain "
+    "the optional attribute 'sedml:concatenate'. No other attributes from the "
+    "SED-ML namespaces are permitted on a <repeatedTask> object. ",
     { "L3V1 Sedml V1 Section"
     }
   },
@@ -2908,11 +3019,11 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
   },
 
   // 23505
-  { SedmlRepeatedTaskRangeIdMustBeRange,
+  { SedmlRepeatedTaskRangeMustBeRange,
     "The attribute 'rangeId' must point to Range object.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "The value of the attribute 'sedml:rangeId' of a <repeatedTask> object must "
+    "The value of the attribute 'sedml:range' of a <repeatedTask> object must "
     "be the identifier of an existing <range> object defined in the enclosing "
     "<model> object.",
     { "L3V1 Sedml V1 Section"
@@ -2998,6 +3109,17 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     "A <listOfSubTasks> object may have the optional SBML Level 3 Core "
     "attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level "
     "3 Core namespaces are permitted on a <listOfSubTasks> object.",
+    { "L3V1 Sedml V1 Section"
+    }
+  },
+
+  // 23513
+  { SedmlRepeatedTaskConcatenateMustBeBoolean,
+    "The 'concatenate' attribute must be Boolean.",
+    LIBSEDML_CAT_GENERAL_CONSISTENCY,
+    LIBSEDML_SEV_ERROR,
+    "The attribute 'sedml:concatenate' on a <repeatedTask> must have a value of "
+    "data type 'boolean'.",
     { "L3V1 Sedml V1 Section"
     }
   },
@@ -3565,7 +3687,7 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     LIBSEDML_SEV_ERROR,
     "An <adjustableParameter> object must contain one and only one instance of "
     "the SedBounds element, and may contain one and only one instance of the "
-    "<listOfExperimentRefs> element. No other elements from the SBML Level 3 "
+    "<listOfExperimentReferences> element. No other elements from the SBML Level 3 "
     "SED-ML namespaces are permitted on an <adjustableParameter> object. ",
     { "L3V1 Sedml V1 Section"
     }
@@ -3606,71 +3728,71 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
   },
 
   // 24308
-  { SedmlAdjustableParameterLOExperimentRefsAllowedCoreElements,
-    "Core elements allowed on <listOfExperimentRefs>.",
+  { SedmlAdjustableParameterLOExperimentReferencesAllowedCoreElements,
+    "Core elements allowed on <listOfExperimentReferences>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
     "Apart from the general notes and annotations subobjects permitted on all "
-    "SBML objects, a <listOfExperimentRefs> container object may only contain "
-    "<experimentRef> objects.",
+    "SBML objects, a <listOfExperimentReferences> container object may only contain "
+    "<experimentReference> objects.",
     { "L3V1 Sedml V1 Section"
     }
   },
 
   // 24309
-  { SedmlAdjustableParameterLOExperimentRefsAllowedCoreAttributes,
-    "Core attributes allowed on <listOfExperimentRefs>.",
+  { SedmlAdjustableParameterLOExperimentReferencesAllowedCoreAttributes,
+    "Core attributes allowed on <listOfExperimentReferences>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "A <listOfExperimentRefs> object may have the optional SBML Level 3 Core "
+    "A <listOfExperimentReferences> object may have the optional SBML Level 3 Core "
     "attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level "
-    "3 Core namespaces are permitted on a <listOfExperimentRefs> object.",
+    "3 Core namespaces are permitted on a <listOfExperimentReferences> object.",
     { "L3V1 Sedml V1 Section"
     }
   },
 
   // 24401
-  { SedmlExperimentRefAllowedCoreAttributes,
-    "Core attributes allowed on <experimentRef>.",
+  { SedmlExperimentReferenceAllowedCoreAttributes,
+    "Core attributes allowed on <experimentReference>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "An <experimentRef> object may have the optional SBML Level 3 Core "
+    "An <experimentReference> object may have the optional SBML Level 3 Core "
     "attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level "
-    "3 Core namespaces are permitted on an <experimentRef>.",
+    "3 Core namespaces are permitted on an <experimentReference>.",
     { "L3V1 Sedml V1 Section"
     }
   },
 
   // 24402
-  { SedmlExperimentRefAllowedCoreElements,
-    "Core elements allowed on <experimentRef>.",
+  { SedmlExperimentReferenceAllowedCoreElements,
+    "Core elements allowed on <experimentReference>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "An <experimentRef> object may have the optional SBML Level 3 Core "
+    "An <experimentReference> object may have the optional SBML Level 3 Core "
     "subobjects for notes and annotations. No other elements from the SBML "
-    "Level 3 Core namespaces are permitted on an <experimentRef>.",
+    "Level 3 Core namespaces are permitted on an <experimentReference>.",
     { "L3V1 Sedml V1 Section"
     }
   },
 
   // 24403
-  { SedmlExperimentRefAllowedAttributes,
-    "Attributes allowed on <experimentRef>.",
+  { SedmlExperimentReferenceAllowedAttributes,
+    "Attributes allowed on <experimentReference>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "An <experimentRef> object may have the optional attribute "
+    "An <experimentReference> object may have the optional attribute "
     "'sedml:experimentId'. No other attributes from the SBML Level 3 SED-ML "
-    "namespaces are permitted on an <experimentRef> object. ",
+    "namespaces are permitted on an <experimentReference> object. ",
     { "L3V1 Sedml V1 Section"
     }
   },
 
   // 24404
-  { SedmlExperimentRefExperimentIdMustBeFitExperiment,
+  { SedmlExperimentReferenceExperimentIdMustBeFitExperiment,
     "The attribute 'experimentId' must point to FitExperiment object.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "The value of the attribute 'sedml:experimentId' of an <experimentRef> "
+    "The value of the attribute 'sedml:experimentId' of an <experimentReference> "
     "object must be the identifier of an existing <fitExperiment> object "
     "defined in the enclosing <model> object.",
     { "L3V1 Sedml V1 Section"
@@ -4215,6 +4337,17 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     }
   },
 
+  // 25007
+  { SedmlAxisReverseMustBeBoolean,
+    "The 'reverse' attribute must be Boolean.",
+    LIBSEDML_CAT_GENERAL_CONSISTENCY,
+    LIBSEDML_SEV_ERROR,
+    "The attribute 'sedml:reverse' on an <axis> must have a value of data type "
+    "'boolean'.",
+    { "L3V1 Sedml V1 Section"
+    }
+  },
+
   // 25101
   { SedmlStyleAllowedCoreAttributes,
     "Core attributes allowed on <style>.",
@@ -4572,48 +4705,48 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
   },
 
   // 25601
-  { SedmlRemainingDimensionAllowedCoreAttributes,
-    "Core attributes allowed on <remainingDimension>.",
+  { SedmlAppliedDimensionAllowedCoreAttributes,
+    "Core attributes allowed on <appliedDimension>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "A <remainingDimension> object may have the optional SBML Level 3 Core "
+    "A <appliedDimension> object may have the optional SBML Level 3 Core "
     "attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level "
-    "3 Core namespaces are permitted on a <remainingDimension>.",
+    "3 Core namespaces are permitted on a <appliedDimension>.",
     { "L3V1 Sedml V1 Section"
     }
   },
 
   // 25602
-  { SedmlRemainingDimensionAllowedCoreElements,
-    "Core elements allowed on <remainingDimension>.",
+  { SedmlAppliedDimensionAllowedCoreElements,
+    "Core elements allowed on <appliedDimension>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "A <remainingDimension> object may have the optional SBML Level 3 Core "
+    "A <appliedDimension> object may have the optional SBML Level 3 Core "
     "subobjects for notes and annotations. No other elements from the SBML "
-    "Level 3 Core namespaces are permitted on a <remainingDimension>.",
+    "Level 3 Core namespaces are permitted on a <appliedDimension>.",
     { "L3V1 Sedml V1 Section"
     }
   },
 
   // 25603
-  { SedmlRemainingDimensionAllowedAttributes,
-    "Attributes allowed on <remainingDimension>.",
+  { SedmlAppliedDimensionAllowedAttributes,
+    "Attributes allowed on <appliedDimension>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "A <remainingDimension> object may have the optional attributes "
+    "A <appliedDimension> object may have the optional attributes "
     "'sedml:target' and 'sedml:dimensionTarget'. No other attributes from the "
-    "SBML Level 3 SED-ML namespaces are permitted on a <remainingDimension> "
+    "SBML Level 3 SED-ML namespaces are permitted on a <appliedDimension> "
     "object. ",
     { "L3V1 Sedml V1 Section"
     }
   },
 
   // 25604
-  { SedmlRemainingDimensionTargetMustBeSId,
+  { SedmlAppliedDimensionTargetMustBeSId,
     "The attribute 'target' must point to SId object.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "The value of the attribute 'sedml:target' of a <remainingDimension> object "
+    "The value of the attribute 'sedml:target' of a <appliedDimension> object "
     "must be the identifier of an existing < object> defined in the enclosing "
     "<model> object.",
     { "L3V1 Sedml V1 Section"
@@ -4621,12 +4754,12 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
   },
 
   // 25605
-  { SedmlRemainingDimensionDimensionTargetMustBeSId,
+  { SedmlAppliedDimensionDimensionTargetMustBeSId,
     "The attribute 'dimensionTarget' must point to SId object.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
     "The value of the attribute 'sedml:dimensionTarget' of a "
-    "<remainingDimension> object must be the identifier of an existing < "
+    "<appliedDimension> object must be the identifier of an existing < "
     "object> defined in the enclosing <model> object.",
     { "L3V1 Sedml V1 Section"
     }
@@ -4661,7 +4794,7 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     "Attributes allowed on <dataRange>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "A <dataRange> object must have the required attribute 'sedml:sourceRef'. "
+    "A <dataRange> object must have the required attribute 'sedml:sourceReference'. "
     "No other attributes from the SBML Level 3 SED-ML namespaces are permitted "
     "on a <dataRange> object. ",
     { "L3V1 Sedml V1 Section"
@@ -4669,72 +4802,13 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
   },
 
   // 25704
-  { SedmlDataRangeSourceRefMustBeSId,
-    "The attribute 'sourceRef' must point to SId object.",
+  { SedmlDataRangeSourceReferenceMustBeSId,
+    "The attribute 'sourceReference' must point to SId object.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "The value of the attribute 'sedml:sourceRef' of a <dataRange> object must "
+    "The value of the attribute 'sedml:sourceReference' of a <dataRange> object must "
     "be the identifier of an existing < object> defined in the enclosing "
     "<model> object.",
-    { "L3V1 Sedml V1 Section"
-    }
-  },
-
-  // 25801
-  { SedmlSimpleRepeatedTaskAllowedCoreAttributes,
-    "Core attributes allowed on <simpleRepeatedTask>.",
-    LIBSEDML_CAT_GENERAL_CONSISTENCY,
-    LIBSEDML_SEV_ERROR,
-    "A <simpleRepeatedTask> object may have the optional SBML Level 3 Core "
-    "attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level "
-    "3 Core namespaces are permitted on a <simpleRepeatedTask>.",
-    { "L3V1 Sedml V1 Section"
-    }
-  },
-
-  // 25802
-  { SedmlSimpleRepeatedTaskAllowedCoreElements,
-    "Core elements allowed on <simpleRepeatedTask>.",
-    LIBSEDML_CAT_GENERAL_CONSISTENCY,
-    LIBSEDML_SEV_ERROR,
-    "A <simpleRepeatedTask> object may have the optional SBML Level 3 Core "
-    "subobjects for notes and annotations. No other elements from the SBML "
-    "Level 3 Core namespaces are permitted on a <simpleRepeatedTask>.",
-    { "L3V1 Sedml V1 Section"
-    }
-  },
-
-  // 25803
-  { SedmlSimpleRepeatedTaskAllowedAttributes,
-    "Attributes allowed on <simpleRepeatedTask>.",
-    LIBSEDML_CAT_GENERAL_CONSISTENCY,
-    LIBSEDML_SEV_ERROR,
-    "A <simpleRepeatedTask> object must have the required attributes "
-    "'sedml:resetModel' and 'sedml:numRepeats'. No other attributes from the "
-    "SBML Level 3 SED-ML namespaces are permitted on a <simpleRepeatedTask> "
-    "object. ",
-    { "L3V1 Sedml V1 Section"
-    }
-  },
-
-  // 25804
-  { SedmlSimpleRepeatedTaskResetModelMustBeBoolean,
-    "The 'resetModel' attribute must be Boolean.",
-    LIBSEDML_CAT_GENERAL_CONSISTENCY,
-    LIBSEDML_SEV_ERROR,
-    "The attribute 'sedml:resetModel' on a <simpleRepeatedTask> must have a "
-    "value of data type 'boolean'.",
-    { "L3V1 Sedml V1 Section"
-    }
-  },
-
-  // 25805
-  { SedmlSimpleRepeatedTaskNumRepeatsMustBeInteger,
-    "The 'numRepeats' attribute must be Integer.",
-    LIBSEDML_CAT_GENERAL_CONSISTENCY,
-    LIBSEDML_SEV_ERROR,
-    "The attribute 'sedml:numRepeats' on a <simpleRepeatedTask> must have a "
-    "value of data type 'integer'.",
     { "L3V1 Sedml V1 Section"
     }
   },
@@ -4832,18 +4906,18 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
     "A <parameterEstimationResultPlot> object must have the required attribute "
-    "'sedml:taskRef'. No other attributes from the SBML Level 3 SED-ML "
+    "'sedml:taskReference'. No other attributes from the SBML Level 3 SED-ML "
     "namespaces are permitted on a <parameterEstimationResultPlot> object. ",
     { "L3V1 Sedml V1 Section"
     }
   },
 
   // 26004
-  { SedmlParameterEstimationResultPlotTaskRefMustBeTask,
-    "The attribute 'taskRef' must point to Task object.",
+  { SedmlParameterEstimationResultPlotTaskReferenceMustBeTask,
+    "The attribute 'taskReference' must point to Task object.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "The value of the attribute 'sedml:taskRef' of a "
+    "The value of the attribute 'sedml:taskReference' of a "
     "<parameterEstimationResultPlot> object must be the identifier of an "
     "existing <task> object defined in the enclosing <model> object.",
     { "L3V1 Sedml V1 Section"
@@ -4879,7 +4953,7 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     "Attributes allowed on <waterfallPlot>.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "A <waterfallPlot> object must have the required attribute 'sedml:taskRef'. "
+    "A <waterfallPlot> object must have the required attribute 'sedml:taskReference'. "
     "No other attributes from the SBML Level 3 SED-ML namespaces are permitted "
     "on a <waterfallPlot> object. ",
     { "L3V1 Sedml V1 Section"
@@ -4887,11 +4961,11 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
   },
 
   // 26104
-  { SedmlWaterfallPlotTaskRefMustBeTask,
-    "The attribute 'taskRef' must point to Task object.",
+  { SedmlWaterfallPlotTaskReferenceMustBeTask,
+    "The attribute 'taskReference' must point to Task object.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "The value of the attribute 'sedml:taskRef' of a <waterfallPlot> object "
+    "The value of the attribute 'sedml:taskReference' of a <waterfallPlot> object "
     "must be the identifier of an existing <task> object defined in the "
     "enclosing <model> object.",
     { "L3V1 Sedml V1 Section"
@@ -4928,18 +5002,18 @@ static const sedmlErrorTableEntry sedmlErrorTable[] =
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
     "A <parameterEstimationReport> object must have the required attribute "
-    "'sedml:taskRef'. No other attributes from the SBML Level 3 SED-ML "
+    "'sedml:taskReference'. No other attributes from the SBML Level 3 SED-ML "
     "namespaces are permitted on a <parameterEstimationReport> object. ",
     { "L3V1 Sedml V1 Section"
     }
   },
 
   // 26204
-  { SedmlParameterEstimationReportTaskRefMustBeTask,
-    "The attribute 'taskRef' must point to Task object.",
+  { SedmlParameterEstimationReportTaskReferenceMustBeTask,
+    "The attribute 'taskReference' must point to Task object.",
     LIBSEDML_CAT_GENERAL_CONSISTENCY,
     LIBSEDML_SEV_ERROR,
-    "The value of the attribute 'sedml:taskRef' of a "
+    "The value of the attribute 'sedml:taskReference' of a "
     "<parameterEstimationReport> object must be the identifier of an existing "
     "<task> object defined in the enclosing <model> object.",
     { "L3V1 Sedml V1 Section"

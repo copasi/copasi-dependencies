@@ -320,12 +320,12 @@ TEST_CASE("create and add dependent variables", "[sedml]")
   var->setModelReference("task1");
   var->setSymbol("urn:sedml:time");
 
-  auto* var1 = dg->createDependentVariable();
+  auto* var1 = dg->createVariable();
   var1->setId("v1");
   var1->setModelReference("task1");
   var1->setTerm("urn:sedml:rateOfChange");
 
-  var1 = new SedDependentVariable(1,4);
+  var1 = new SedVariable(1,4);
   var1->setId("v2");
   var1->setModelReference("task1");
   var1->setTerm("urn:sedml:rateOfChange");
@@ -708,5 +708,227 @@ TEST_CASE("Reading old 'style' attribute on marker should give error", "[sedml]"
     delete doc;
 }
 
+TEST_CASE("Set new symbol on ComputeChange", "[sedml]")
+{
+    SedComputeChange scc(1, 4);
+    CHECK(scc.isSetSymbol() == false);
+    CHECK(scc.setSymbol("some_urn") == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(scc.getSymbol() == "some_urn");
+    char* sccstr = scc.toSed();
+    CHECK(string(sccstr) == "<computeChange symbol=\"some_urn\"/>");
+    delete sccstr;
+    CHECK(scc.isSetSymbol() == true);
+    CHECK(scc.unsetSymbol() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(scc.isSetSymbol() == false);
 
+    SedComputeChange scc2(1, 3);
+    CHECK(scc2.isSetSymbol() == false);
+    CHECK(scc2.setSymbol("some_urn") == LIBSEDML_UNEXPECTED_ATTRIBUTE);
+    sccstr = scc.toSed();
+    CHECK(string(sccstr) == "<computeChange/>");
+    delete sccstr;
+    CHECK(scc2.getSymbol() == "");
+    CHECK(scc2.isSetSymbol() == false);
+    CHECK(scc2.unsetSymbol() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(scc2.isSetSymbol() == false);
+}
+
+
+TEST_CASE("Add algorithm parameters on SedDocument", "[sedml]")
+{
+    SedDocument doc(1, 4);
+    SedAlgorithmParameter* ap = doc.createAlgorithmParameter();
+    CHECK(ap != NULL);
+    ap->setId("ap1");
+    SedAlgorithmParameter* ret_ap = doc.getAlgorithmParameter("ap1");
+    CHECK(ret_ap == ap);
+    ret_ap = doc.getAlgorithmParameter(0);
+    CHECK(ret_ap == ap);
+    char* docstr = doc.toSed();
+    CHECK(string(docstr) == "<sedML xmlns=\"http://sed-ml.org/sed-ml/level1/version4\" level=\"1\" version=\"4\">\n  <listOfAlgorithmParameters>\n    <algorithmParameter id=\"ap1\"/>\n  </listOfAlgorithmParameters>\n</sedML>");
+
+    SedDocument doc2(1, 3);
+    ap = doc2.createAlgorithmParameter();
+    CHECK(ap == NULL);
+    ret_ap = doc2.getAlgorithmParameter("ap1");
+    CHECK(ret_ap == ap);
+    ret_ap = doc2.getAlgorithmParameter(0);
+    CHECK(ret_ap == ap);
+    char* doc2str = doc2.toSed();
+    CHECK(string(doc2str) == "<sedML xmlns=\"http://sed-ml.org/sed-ml/level1/version3\" level=\"1\" version=\"3\"/>");
+}
+
+
+TEST_CASE("x, y, and z data now required", "[sedml]")
+{
+    std::string fileName = getTestFile("/test-data/surface_noxy_l1v3.sedml");
+    SedDocument* doc = readSedMLFromFile(fileName.c_str());
+    CHECK(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 0);
+    delete doc;
+
+    fileName = getTestFile("/test-data/surface_noxy_l1v4.sedml");
+    doc = readSedMLFromFile(fileName.c_str());
+    REQUIRE(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 2);
+    SedError* err1 = doc->getError(0);
+    CHECK(err1->getErrorId() == SedmlSurfaceAllowedAttributes);
+    delete doc;
+
+    fileName = getTestFile("/test-data/curve_nox_l1v3.sedml");
+        doc = readSedMLFromFile(fileName.c_str());
+    CHECK(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 0);
+    delete doc;
+
+    fileName = getTestFile("/test-data/curve_nox_l1v4.sedml");
+    doc = readSedMLFromFile(fileName.c_str());
+    REQUIRE(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 2);
+    err1 = doc->getError(0);
+    CHECK(err1->getErrorId() == SedmlAbstractCurveAllowedAttributes);
+    delete doc;
+}
+
+
+
+TEST_CASE("Model 'language' now required", "[sedml]")
+{
+    std::string fileName = getTestFile("/test-data/model_nolang_l1v3.sedml");
+    SedDocument* doc = readSedMLFromFile(fileName.c_str());
+    CHECK(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 0);
+    delete doc;
+
+    fileName = getTestFile("/test-data/model_nolang_l1v4.sedml");
+    doc = readSedMLFromFile(fileName.c_str());
+    REQUIRE(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 1);
+    SedError* err1 = doc->getError(0);
+    CHECK(err1->getErrorId() == SedmlModelAllowedAttributes);
+    delete doc;
+}
+
+
+
+TEST_CASE("Add 'concatenate' to RepeatedTask", "[sedml]")
+{
+    SedRepeatedTask srt(1, 4);
+    CHECK(srt.isSetConcatenate() == false);
+    CHECK(srt.setConcatenate(true) == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(srt.getConcatenate() == true);
+    char* srtstr = srt.toSed();
+    CHECK(string(srtstr) == "<repeatedTask concatenate=\"true\"/>");
+    delete srtstr;
+    CHECK(srt.isSetConcatenate() == true);
+    CHECK(srt.unsetConcatenate() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(srt.isSetConcatenate() == false);
+
+    SedRepeatedTask srt2(1, 3);
+    CHECK(srt2.isSetConcatenate() == false);
+    CHECK(srt2.setConcatenate(true) == LIBSEDML_UNEXPECTED_ATTRIBUTE);
+    srtstr = srt.toSed();
+    CHECK(string(srtstr) == "<repeatedTask/>");
+    delete srtstr;
+    CHECK(srt2.isSetConcatenate() == false);
+    CHECK(srt2.unsetConcatenate() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(srt2.isSetConcatenate() == false);
+}
+
+
+
+TEST_CASE("Add change to subtask", "[sedml]")
+{
+    SedSubTask subtask(1, 4);
+    SedSetValue* ssv = subtask.createTaskChange();
+    CHECK(ssv != NULL);
+    ssv->setId("ssv1");
+    SedSetValue* ret_ssv = subtask.getTaskChange("ssv1");
+    CHECK(ret_ssv == ssv);
+    ret_ssv = subtask.getTaskChange(0);
+    CHECK(ret_ssv == ssv);
+    char* subtaskstr = subtask.toSed();
+    CHECK(string(subtaskstr) == "<subTask>\n  <listOfChanges>\n    <setValue id=\"ssv1\"/>\n  </listOfChanges>\n</subTask>");
+
+    SedSubTask subtask2(1, 3);
+    ssv = subtask2.createTaskChange();
+    CHECK(ssv == NULL);
+    ret_ssv = subtask2.getTaskChange("ssv1");
+    CHECK(ret_ssv == ssv);
+    ret_ssv = subtask2.getTaskChange(0);
+    CHECK(ret_ssv == ssv);
+    char* subtask2str = subtask2.toSed();
+    CHECK(string(subtask2str) == "<subTask/>");
+}
+
+
+
+TEST_CASE("Add reverse to axis", "[sedml]")
+{
+    SedAxis axis(1, 4);
+    CHECK(axis.isSetReverse() == false);
+    CHECK(axis.setReverse(true) == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(axis.isSetReverse() == true);
+    CHECK(axis.getReverse() == true);
+    CHECK(axis.unsetReverse() == LIBSEDML_OPERATION_SUCCESS);
+    CHECK(axis.isSetReverse() == false);
+
+    //Don't need to check l1v3--Axis was added in l1v4.
+}
+
+
+TEST_CASE("Set KiSAO and name", "[sedml]")
+{
+    SedAlgorithm alg(1, 4);
+    alg.setKisaoID(64);
+    CHECK(alg.getName() == "Runge-Kutta based method");
+
+    SedAlgorithmParameter* param = alg.createAlgorithmParameter();
+    param->setKisaoID("KISAO:0000064");
+    CHECK(param->getName() == "Runge-Kutta based method");
+}
+
+
+TEST_CASE("Reading dependent variable", "[sedml]")
+{
+  std::string fileName = getTestFile("/test-data/issue_140.sedml");
+  SedDocument* doc = readSedMLFromFile(fileName.c_str());
+  // 2 dependent variables are invalid here (missing term)
+  // (However, now that we've moved to Variables, we don't autogenerate that validation rule.
+  REQUIRE(doc->getNumErrors(LIBSEDML_SEV_ERROR) == 0); 
+
+  {
+    REQUIRE(doc->getNumDataGenerators() > 3);
+    auto* dg = doc->getDataGenerator(3);
+    REQUIRE(dg != NULL);
+    REQUIRE(dg->getNumVariables() > 0);
+    auto* var = dg->getVariable(0);
+    REQUIRE(var != NULL);
+
+    REQUIRE(var->getTarget() == "/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']");
+    REQUIRE(var->getSymbol2() == "urn:sedml:symbol:time");
+
+  }
+
+  delete doc;
+
+}
+
+TEST_CASE("Create Analysis simulation", "[sedml]")
+{
+    SedDocument doc(1, 4);
+    auto* sim = doc.createAnalysis();
+    sim->setId("sim1");
+    auto* alg = sim->createAlgorithm();
+    alg->setKisaoID("KISAO:0000352");
+    auto* p = alg->createAlgorithmParameter();
+    p->setKisaoID("KISAO:0000203");
+    p->setValue("something");
+
+    REQUIRE(alg->getNumAlgorithmParameters() == 1);
+    REQUIRE(sim->getTypeCode() == SEDML_SIMULATION_ANALYSIS);
+
+    SedWriter sw;
+    std::string l1v4 = sw.writeSedMLToStdString(&doc);
+    auto* doc2 = readSedMLFromString(l1v4.c_str());
+    REQUIRE(doc2->getNumErrors(LIBSEDML_SEV_ERROR) == 0);
+    std::string l1v4_rt = sw.writeSedMLToStdString(&doc);
+    REQUIRE(l1v4 == l1v4_rt);
+    delete doc2;
+
+}
 

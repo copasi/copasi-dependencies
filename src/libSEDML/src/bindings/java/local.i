@@ -159,6 +159,7 @@ COVARIANT_RTYPE_CLONE(SedVectorRange)
 COVARIANT_RTYPE_CLONE(SedFunctionalRange)
 COVARIANT_RTYPE_CLONE(SedSubTask)
 COVARIANT_RTYPE_CLONE(SedOneStep)
+COVARIANT_RTYPE_CLONE(SedAnalysis)
 COVARIANT_RTYPE_CLONE(SedSteadyState)
 COVARIANT_RTYPE_CLONE(SedRepeatedTask)
 COVARIANT_RTYPE_CLONE(SedComputeChange)
@@ -169,7 +170,7 @@ COVARIANT_RTYPE_CLONE(SedParameterEstimationTask)
 COVARIANT_RTYPE_CLONE(SedObjective)
 COVARIANT_RTYPE_CLONE(SedLeastSquareObjectiveFunction)
 COVARIANT_RTYPE_CLONE(SedAdjustableParameter)
-COVARIANT_RTYPE_CLONE(SedExperimentRef)
+COVARIANT_RTYPE_CLONE(SedExperimentReference)
 COVARIANT_RTYPE_CLONE(SedFitExperiment)
 COVARIANT_RTYPE_CLONE(SedFitMapping)
 COVARIANT_RTYPE_CLONE(SedScaling)
@@ -183,10 +184,8 @@ COVARIANT_RTYPE_CLONE(SedStyle)
 COVARIANT_RTYPE_CLONE(SedLine)
 COVARIANT_RTYPE_CLONE(SedMarker)
 COVARIANT_RTYPE_CLONE(SedFill)
-COVARIANT_RTYPE_CLONE(SedDependentVariable)
-COVARIANT_RTYPE_CLONE(SedRemainingDimension)
+COVARIANT_RTYPE_CLONE(SedAppliedDimension)
 COVARIANT_RTYPE_CLONE(SedDataRange)
-COVARIANT_RTYPE_CLONE(SedSimpleRepeatedTask)
 COVARIANT_RTYPE_CLONE(SedShadedArea)
 COVARIANT_RTYPE_CLONE(SedListOfModels)
 COVARIANT_RTYPE_CLONE(SedListOfChanges)
@@ -207,12 +206,12 @@ COVARIANT_RTYPE_CLONE(SedListOfDataDescriptions)
 COVARIANT_RTYPE_CLONE(SedListOfDataSources)
 COVARIANT_RTYPE_CLONE(SedListOfSlices)
 COVARIANT_RTYPE_CLONE(SedListOfAdjustableParameters)
-COVARIANT_RTYPE_CLONE(SedListOfExperimentRefs)
+COVARIANT_RTYPE_CLONE(SedListOfExperimentReferences)
 COVARIANT_RTYPE_CLONE(SedListOfFitExperiments)
 COVARIANT_RTYPE_CLONE(SedListOfFitMappings)
 COVARIANT_RTYPE_CLONE(SedListOfSubPlots)
 COVARIANT_RTYPE_CLONE(SedListOfStyles)
-COVARIANT_RTYPE_CLONE(SedListOfRemainingDimensions)
+COVARIANT_RTYPE_CLONE(SedListOfAppliedDimensions)
 COVARIANT_RTYPE_CLONE(SedParameterEstimationResultPlot)
 COVARIANT_RTYPE_CLONE(SedParameterEstimationReport)
 COVARIANT_RTYPE_CLONE(SedWaterfallPlot)
@@ -273,11 +272,11 @@ COVARIANT_RTYPE_LISTOF_GET_REMOVE(SedListOfDataSources)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SedListOfSlices)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SedListOfStyles)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SedListOfAdjustableParameters)
-COVARIANT_RTYPE_LISTOF_GET_REMOVE(SedListOfExperimentRefs)
+COVARIANT_RTYPE_LISTOF_GET_REMOVE(SedListOfExperimentReferences)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SedListOfFitExperiments)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SedListOfFitMappings)
 COVARIANT_RTYPE_LISTOF_GET_REMOVE(SedListOfSubPlots)
-COVARIANT_RTYPE_LISTOF_GET_REMOVE(SedListOfRemainingDimensions)
+COVARIANT_RTYPE_LISTOF_GET_REMOVE(SedListOfAppliedDimensions)
 
 /**
 * Wraps the SedConstructorException
@@ -401,9 +400,8 @@ SEDMLCONSTRUCTOR_EXCEPTION(SedDataGenerator)
 SEDMLCONSTRUCTOR_EXCEPTION(SedDataRange)
 SEDMLCONSTRUCTOR_EXCEPTION(SedDataSet)
 SEDMLCONSTRUCTOR_EXCEPTION(SedDataSource)
-SEDMLCONSTRUCTOR_EXCEPTION(SedDependentVariable)
 SEDMLCONSTRUCTOR_EXCEPTION(SedDocument)
-SEDMLCONSTRUCTOR_EXCEPTION(SedExperimentRef)
+SEDMLCONSTRUCTOR_EXCEPTION(SedExperimentReference)
 SEDMLCONSTRUCTOR_EXCEPTION(SedFigure)
 SEDMLCONSTRUCTOR_EXCEPTION(SedFill)
 SEDMLCONSTRUCTOR_EXCEPTION(SedFitExperiment)
@@ -420,14 +418,14 @@ SEDMLCONSTRUCTOR_EXCEPTION(SedListOfDataDescriptions)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfDataGenerators)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfDataSets)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfDataSources)
-SEDMLCONSTRUCTOR_EXCEPTION(SedListOfExperimentRefs)
+SEDMLCONSTRUCTOR_EXCEPTION(SedListOfExperimentReferences)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfFitExperiments)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfFitMappings)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfModels)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfOutputs)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfParameters)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfRanges)
-SEDMLCONSTRUCTOR_EXCEPTION(SedListOfRemainingDimensions)
+SEDMLCONSTRUCTOR_EXCEPTION(SedListOfAppliedDimensions)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfSetValues)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfSimulations)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfSlices)
@@ -443,6 +441,7 @@ SEDMLCONSTRUCTOR_EXCEPTION(SedNamespaces)
 SEDMLCONSTRUCTOR_EXCEPTION(SedNamespacesList)
 SEDMLCONSTRUCTOR_EXCEPTION(SedObjective)
 SEDMLCONSTRUCTOR_EXCEPTION(SedOneStep)
+SEDMLCONSTRUCTOR_EXCEPTION(SedAnalysis)
 SEDMLCONSTRUCTOR_EXCEPTION(SedOutput)
 SEDMLCONSTRUCTOR_EXCEPTION(SedParameter)
 SEDMLCONSTRUCTOR_EXCEPTION(SedParameterEstimationReport)
@@ -452,13 +451,12 @@ SEDMLCONSTRUCTOR_EXCEPTION(SedPlot)
 SEDMLCONSTRUCTOR_EXCEPTION(SedPlot2D)
 SEDMLCONSTRUCTOR_EXCEPTION(SedPlot3D)
 SEDMLCONSTRUCTOR_EXCEPTION(SedRange)
-SEDMLCONSTRUCTOR_EXCEPTION(SedRemainingDimension)
+SEDMLCONSTRUCTOR_EXCEPTION(SedAppliedDimension)
 SEDMLCONSTRUCTOR_EXCEPTION(SedRemoveXML)
 SEDMLCONSTRUCTOR_EXCEPTION(SedRepeatedTask)
 SEDMLCONSTRUCTOR_EXCEPTION(SedReport)
 SEDMLCONSTRUCTOR_EXCEPTION(SedSetValue)
 SEDMLCONSTRUCTOR_EXCEPTION(SedShadedArea)
-SEDMLCONSTRUCTOR_EXCEPTION(SedSimpleRepeatedTask)
 SEDMLCONSTRUCTOR_EXCEPTION(SedSimulation)
 SEDMLCONSTRUCTOR_EXCEPTION(SedSlice)
 SEDMLCONSTRUCTOR_EXCEPTION(SedSteadyState)
@@ -675,6 +673,9 @@ SEDMLCONSTRUCTOR_EXCEPTION(XMLTriple)
     case (int) libsedml.SEDML_SIMULATION_ONESTEP:
       return new SedOneStep(cPtr, owner);
 
+    case (int) libsedml.SEDML_SIMULATION_ANALYSIS:
+      return new SedAnalysis(cPtr, owner);
+
     case (int) libsedml.SEDML_SIMULATION_STEADYSTATE:
       return new SedSteadyState(cPtr, owner);
 
@@ -705,8 +706,8 @@ SEDMLCONSTRUCTOR_EXCEPTION(XMLTriple)
     case (int) libsedml.SEDML_ADJUSTABLE_PARAMETER:
       return new SedAdjustableParameter(cPtr, owner);
 
-    case (int) libsedml.SEDML_EXPERIMENT_REF:
-      return new SedExperimentRef(cPtr, owner);
+    case (int) libsedml.SEDML_EXPERIMENT_REFERENCE:
+      return new SedExperimentReference(cPtr, owner);
 
     case (int) libsedml.SEDML_FIT_EXPERIMENT:
       return new SedFitExperiment(cPtr, owner);
@@ -738,17 +739,11 @@ SEDMLCONSTRUCTOR_EXCEPTION(XMLTriple)
     case (int) libsedml.SEDML_FILL:
       return new SedFill(cPtr, owner);
 
-    case (int) libsedml.SEDML_DEPENDENTVARIABLE:
-      return new SedDependentVariable(cPtr, owner);
-
-    case (int) libsedml.SEDML_REMAININGDIMENSION:
-      return new SedRemainingDimension(cPtr, owner);
+    case (int) libsedml.SEDML_APPLIEDDIMENSION:
+      return new SedAppliedDimension(cPtr, owner);
 
     case (int) libsedml.SEDML_DATA_RANGE:
       return new SedDataRange(cPtr, owner);
-
-    case (int) libsedml.SEDML_TASK_SIMPLEREPEATEDTASK:
-      return new SedSimpleRepeatedTask(cPtr, owner);
 
     case (int) libsedml.SEDML_SHADEDAREA:
       return new SedShadedArea(cPtr, owner);
@@ -841,9 +836,9 @@ SEDMLCONSTRUCTOR_EXCEPTION(XMLTriple)
       {
          return new SedListOfAdjustableParameters(cPtr, owner);
       }
-      else if (name.equals("listOfExperimentRefs"))
+      else if (name.equals("listOfExperimentReferences"))
       {
-         return new SedListOfExperimentRefs(cPtr, owner);
+         return new SedListOfExperimentReferences(cPtr, owner);
       }
       else if (name.equals("listOfFitExperiments"))
       {
@@ -857,9 +852,9 @@ SEDMLCONSTRUCTOR_EXCEPTION(XMLTriple)
       {
          return new SedListOfSubPlots(cPtr, owner);
       }
-      else if (name.equals("listOfRemainingDimensions"))
+      else if (name.equals("listOfAppliedDimensions"))
       {
-         return new SedListOfRemainingDimensions(cPtr, owner);
+         return new SedListOfAppliedDimensions(cPtr, owner);
       }
       else if (name.equals("listOfStyles"))
       {

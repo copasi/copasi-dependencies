@@ -273,13 +273,7 @@ namespace std
                                $owner | %newpointer_flags);
 }
 
-%typemap(out) SedBase*, SedSimulation*, SedAbstractTask*, SedTask*, SedOutput*, SedChange*, SedRange*, SedAbstractCurve*
-{
-  $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), GetDowncastSwigType($1),
-                               $owner | %newpointer_flags);
-}
-
-%typemap(out) SedBase*, SedSimulation*, SedAbstractTask*, SedTask*, SedOutput*, SedChange*, SedRange*, SedAbstractCurve*
+%typemap(out) SedBase*, SedSimulation*, SedAbstractTask*, SedTask*, SedOutput*, SedChange*, SedRange*, SedAbstractCurve*, SedVariable*
 {
   $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), GetDowncastSwigType($1),
                                $owner | %newpointer_flags);
@@ -496,9 +490,8 @@ SEDMLCONSTRUCTOR_EXCEPTION(SedDataGenerator)
 SEDMLCONSTRUCTOR_EXCEPTION(SedDataRange)
 SEDMLCONSTRUCTOR_EXCEPTION(SedDataSet)
 SEDMLCONSTRUCTOR_EXCEPTION(SedDataSource)
-SEDMLCONSTRUCTOR_EXCEPTION(SedDependentVariable)
 SEDMLCONSTRUCTOR_EXCEPTION(SedDocument)
-SEDMLCONSTRUCTOR_EXCEPTION(SedExperimentRef)
+SEDMLCONSTRUCTOR_EXCEPTION(SedExperimentReference)
 SEDMLCONSTRUCTOR_EXCEPTION(SedFigure)
 SEDMLCONSTRUCTOR_EXCEPTION(SedFill)
 SEDMLCONSTRUCTOR_EXCEPTION(SedFitExperiment)
@@ -515,14 +508,14 @@ SEDMLCONSTRUCTOR_EXCEPTION(SedListOfDataDescriptions)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfDataGenerators)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfDataSets)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfDataSources)
-SEDMLCONSTRUCTOR_EXCEPTION(SedListOfExperimentRefs)
+SEDMLCONSTRUCTOR_EXCEPTION(SedListOfExperimentReferences)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfFitExperiments)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfFitMappings)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfModels)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfOutputs)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfParameters)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfRanges)
-SEDMLCONSTRUCTOR_EXCEPTION(SedListOfRemainingDimensions)
+SEDMLCONSTRUCTOR_EXCEPTION(SedListOfAppliedDimensions)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfSetValues)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfSimulations)
 SEDMLCONSTRUCTOR_EXCEPTION(SedListOfSlices)
@@ -537,6 +530,7 @@ SEDMLCONSTRUCTOR_EXCEPTION(SedNamespaces)
 SEDMLCONSTRUCTOR_EXCEPTION(SedNamespacesList)
 SEDMLCONSTRUCTOR_EXCEPTION(SedObjective)
 SEDMLCONSTRUCTOR_EXCEPTION(SedOneStep)
+SEDMLCONSTRUCTOR_EXCEPTION(SedAnalysis)
 SEDMLCONSTRUCTOR_EXCEPTION(SedOutput)
 SEDMLCONSTRUCTOR_EXCEPTION(SedParameter)
 SEDMLCONSTRUCTOR_EXCEPTION(SedParameterEstimationReport)
@@ -546,13 +540,12 @@ SEDMLCONSTRUCTOR_EXCEPTION(SedPlot)
 SEDMLCONSTRUCTOR_EXCEPTION(SedPlot2D)
 SEDMLCONSTRUCTOR_EXCEPTION(SedPlot3D)
 SEDMLCONSTRUCTOR_EXCEPTION(SedRange)
-SEDMLCONSTRUCTOR_EXCEPTION(SedRemainingDimension)
+SEDMLCONSTRUCTOR_EXCEPTION(SedAppliedDimension)
 SEDMLCONSTRUCTOR_EXCEPTION(SedRemoveXML)
 SEDMLCONSTRUCTOR_EXCEPTION(SedRepeatedTask)
 SEDMLCONSTRUCTOR_EXCEPTION(SedReport)
 SEDMLCONSTRUCTOR_EXCEPTION(SedSetValue)
 SEDMLCONSTRUCTOR_EXCEPTION(SedShadedArea)
-SEDMLCONSTRUCTOR_EXCEPTION(SedSimpleRepeatedTask)
 SEDMLCONSTRUCTOR_EXCEPTION(SedSimulation)
 SEDMLCONSTRUCTOR_EXCEPTION(SedSlice)
 SEDMLCONSTRUCTOR_EXCEPTION(SedSteadyState)

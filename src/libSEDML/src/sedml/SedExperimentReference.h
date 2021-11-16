@@ -1,6 +1,6 @@
 /**
- * @file SedRemainingDimension.h
- * @brief Definition of the SedRemainingDimension class.
+ * @file SedExperimentReference.h
+ * @brief Definition of the SedExperimentReference class.
  * @author DEVISER
  *
  * <!--------------------------------------------------------------------------
@@ -31,13 +31,13 @@
  * available online as http://sbml.org/software/libsbml/license.html
  * ------------------------------------------------------------------------ -->
  *
- * @class SedRemainingDimension
- * @sbmlbrief{sedml} TODO:Definition of the SedRemainingDimension class.
+ * @class SedExperimentReference
+ * @sbmlbrief{sedml} TODO:Definition of the SedExperimentReference class.
  */
 
 
-#ifndef SedRemainingDimension_H__
-#define SedRemainingDimension_H__
+#ifndef SedExperimentReference_H__
+#define SedExperimentReference_H__
 
 
 #include <sedml/common/extern.h>
@@ -57,163 +57,118 @@
 LIBSEDML_CPP_NAMESPACE_BEGIN
 
 
-class LIBSEDML_EXTERN SedRemainingDimension : public SedBase
+class LIBSEDML_EXTERN SedExperimentReference : public SedBase
 {
 protected:
 
   /** @cond doxygenLibSEDMLInternal */
 
-  std::string mTarget;
-  std::string mDimensionTarget;
+  std::string mExperimentId;
 
   /** @endcond */
 
 public:
 
   /**
-   * Creates a new SedRemainingDimension using the given SED-ML Level and @ p
-   * version values.
+   * Creates a new SedExperimentReference using the given SED-ML Level and @ p version
+   * values.
    *
    * @param level an unsigned int, the SED-ML Level to assign to this
-   * SedRemainingDimension.
+   * SedExperimentReference.
    *
    * @param version an unsigned int, the SED-ML Version to assign to this
-   * SedRemainingDimension.
+   * SedExperimentReference.
    *
    * @copydetails doc_note_setting_lv_pkg
    */
-  SedRemainingDimension(unsigned int level = SEDML_DEFAULT_LEVEL,
-                        unsigned int version = SEDML_DEFAULT_VERSION);
+  SedExperimentReference(unsigned int level = SEDML_DEFAULT_LEVEL,
+                   unsigned int version = SEDML_DEFAULT_VERSION);
 
 
   /**
-   * Creates a new SedRemainingDimension using the given SedNamespaces object
-   * @p sedmlns.
+   * Creates a new SedExperimentReference using the given SedNamespaces object @p
+   * sedmlns.
    *
    * @param sedmlns the SedNamespaces object.
    *
    * @copydetails doc_note_setting_lv_pkg
    */
-  SedRemainingDimension(SedNamespaces *sedmlns);
+  SedExperimentReference(SedNamespaces *sedmlns);
 
 
   /**
-   * Copy constructor for SedRemainingDimension.
+   * Copy constructor for SedExperimentReference.
    *
-   * @param orig the SedRemainingDimension instance to copy.
+   * @param orig the SedExperimentReference instance to copy.
    */
-  SedRemainingDimension(const SedRemainingDimension& orig);
+  SedExperimentReference(const SedExperimentReference& orig);
 
 
   /**
-   * Assignment operator for SedRemainingDimension.
+   * Assignment operator for SedExperimentReference.
    *
-   * @param rhs the SedRemainingDimension object whose values are to be used as
-   * the basis of the assignment.
+   * @param rhs the SedExperimentReference object whose values are to be used as the
+   * basis of the assignment.
    */
-  SedRemainingDimension& operator=(const SedRemainingDimension& rhs);
+  SedExperimentReference& operator=(const SedExperimentReference& rhs);
 
 
   /**
-   * Creates and returns a deep copy of this SedRemainingDimension object.
+   * Creates and returns a deep copy of this SedExperimentReference object.
    *
-   * @return a (deep) copy of this SedRemainingDimension object.
+   * @return a (deep) copy of this SedExperimentReference object.
    */
-  virtual SedRemainingDimension* clone() const;
+  virtual SedExperimentReference* clone() const;
 
 
   /**
-   * Destructor for SedRemainingDimension.
+   * Destructor for SedExperimentReference.
    */
-  virtual ~SedRemainingDimension();
+  virtual ~SedExperimentReference();
 
 
   /**
-   * Returns the value of the "target" attribute of this SedRemainingDimension.
+   * Returns the value of the "experimentId" attribute of this
+   * SedExperimentReference.
    *
-   * @return the value of the "target" attribute of this SedRemainingDimension
+   * @return the value of the "experimentId" attribute of this SedExperimentReference
    * as a string.
    */
-  const std::string& getTarget() const;
+  const std::string& getExperimentId() const;
 
 
   /**
-   * Returns the value of the "dimensionTarget" attribute of this
-   * SedRemainingDimension.
-   *
-   * @return the value of the "dimensionTarget" attribute of this
-   * SedRemainingDimension as a string.
-   */
-  const std::string& getDimensionTarget() const;
-
-
-  /**
-   * Predicate returning @c true if this SedRemainingDimension's "target"
+   * Predicate returning @c true if this SedExperimentReference's "experimentId"
    * attribute is set.
    *
-   * @return @c true if this SedRemainingDimension's "target" attribute has
+   * @return @c true if this SedExperimentReference's "experimentId" attribute has
    * been set, otherwise @c false is returned.
    */
-  bool isSetTarget() const;
+  bool isSetExperimentId() const;
 
 
   /**
-   * Predicate returning @c true if this SedRemainingDimension's
-   * "dimensionTarget" attribute is set.
+   * Sets the value of the "experimentId" attribute of this SedExperimentReference.
    *
-   * @return @c true if this SedRemainingDimension's "dimensionTarget"
-   * attribute has been set, otherwise @c false is returned.
-   */
-  bool isSetDimensionTarget() const;
-
-
-  /**
-   * Sets the value of the "target" attribute of this SedRemainingDimension.
-   *
-   * @param target std::string& value of the "target" attribute to be set.
+   * @param experimentId std::string& value of the "experimentId" attribute to
+   * be set.
    *
    * @copydetails doc_returns_success_code
    * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sedmlconstant{LIBSEDML_INVALID_ATTRIBUTE_VALUE,
    * OperationReturnValues_t}
    */
-  int setTarget(const std::string& target);
+  int setExperimentId(const std::string& experimentId);
 
 
   /**
-   * Sets the value of the "dimensionTarget" attribute of this
-   * SedRemainingDimension.
-   *
-   * @param dimensionTarget std::string& value of the "dimensionTarget"
-   * attribute to be set.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_INVALID_ATTRIBUTE_VALUE,
-   * OperationReturnValues_t}
-   */
-  int setDimensionTarget(const std::string& dimensionTarget);
-
-
-  /**
-   * Unsets the value of the "target" attribute of this SedRemainingDimension.
+   * Unsets the value of the "experimentId" attribute of this SedExperimentReference.
    *
    * @copydetails doc_returns_success_code
    * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
    * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
    */
-  int unsetTarget();
-
-
-  /**
-   * Unsets the value of the "dimensionTarget" attribute of this
-   * SedRemainingDimension.
-   *
-   * @copydetails doc_returns_success_code
-   * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
-   * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
-   */
-  int unsetDimensionTarget();
+  int unsetExperimentId();
 
 
   /**
@@ -224,23 +179,22 @@ public:
 
 
   /**
-   * Returns the XML element name of this SedRemainingDimension object.
+   * Returns the XML element name of this SedExperimentReference object.
    *
-   * For SedRemainingDimension, the XML element name is always
-   * @c "remainingDimension".
+   * For SedExperimentReference, the XML element name is always @c "experimentReference".
    *
-   * @return the name of this element, i.e. @c "remainingDimension".
+   * @return the name of this element, i.e. @c "experimentReference".
    */
   virtual const std::string& getElementName() const;
 
 
   /**
-   * Returns the libSEDML type code for this SedRemainingDimension object.
+   * Returns the libSEDML type code for this SedExperimentReference object.
    *
    * @copydetails doc_what_are_typecodes
    *
    * @return the SED-ML type code for this object:
-   * @sedmlconstant{SEDML_REMAININGDIMENSION, SedTypeCode_t}.
+   * @sedmlconstant{SEDML_EXPERIMENT_REFERENCE, SedTypeCode_t}.
    *
    * @copydetails doc_warning_typecodes_not_unique
    *
@@ -251,10 +205,10 @@ public:
 
   /**
    * Predicate returning @c true if all the required attributes for this
-   * SedRemainingDimension object have been set.
+   * SedExperimentReference object have been set.
    *
    * @return @c true to indicate that all the required attributes of this
-   * SedRemainingDimension have been set, otherwise @c false is returned.
+   * SedExperimentReference have been set, otherwise @c false is returned.
    */
   virtual bool hasRequiredAttributes() const;
 
@@ -302,8 +256,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this
-   * SedRemainingDimension.
+   * Gets the value of the "attributeName" attribute of this SedExperimentReference.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -323,8 +276,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this
-   * SedRemainingDimension.
+   * Gets the value of the "attributeName" attribute of this SedExperimentReference.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -343,8 +295,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this
-   * SedRemainingDimension.
+   * Gets the value of the "attributeName" attribute of this SedExperimentReference.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -364,8 +315,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this
-   * SedRemainingDimension.
+   * Gets the value of the "attributeName" attribute of this SedExperimentReference.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -385,8 +335,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Gets the value of the "attributeName" attribute of this
-   * SedRemainingDimension.
+   * Gets the value of the "attributeName" attribute of this SedExperimentReference.
    *
    * @param attributeName, the name of the attribute to retrieve.
    *
@@ -406,13 +355,13 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Predicate returning @c true if this SedRemainingDimension's attribute
+   * Predicate returning @c true if this SedExperimentReference's attribute
    * "attributeName" is set.
    *
    * @param attributeName, the name of the attribute to query.
    *
-   * @return @c true if this SedRemainingDimension's attribute "attributeName"
-   * has been set, otherwise @c false is returned.
+   * @return @c true if this SedExperimentReference's attribute "attributeName" has
+   * been set, otherwise @c false is returned.
    */
   virtual bool isSetAttribute(const std::string& attributeName) const;
 
@@ -423,8 +372,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Sets the value of the "attributeName" attribute of this
-   * SedRemainingDimension.
+   * Sets the value of the "attributeName" attribute of this SedExperimentReference.
    *
    * @param attributeName, the name of the attribute to set.
    *
@@ -443,8 +391,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Sets the value of the "attributeName" attribute of this
-   * SedRemainingDimension.
+   * Sets the value of the "attributeName" attribute of this SedExperimentReference.
    *
    * @param attributeName, the name of the attribute to set.
    *
@@ -463,8 +410,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Sets the value of the "attributeName" attribute of this
-   * SedRemainingDimension.
+   * Sets the value of the "attributeName" attribute of this SedExperimentReference.
    *
    * @param attributeName, the name of the attribute to set.
    *
@@ -483,8 +429,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Sets the value of the "attributeName" attribute of this
-   * SedRemainingDimension.
+   * Sets the value of the "attributeName" attribute of this SedExperimentReference.
    *
    * @param attributeName, the name of the attribute to set.
    *
@@ -504,8 +449,7 @@ public:
   /** @cond doxygenLibSEDMLInternal */
 
   /**
-   * Sets the value of the "attributeName" attribute of this
-   * SedRemainingDimension.
+   * Sets the value of the "attributeName" attribute of this SedExperimentReference.
    *
    * @param attributeName, the name of the attribute to set.
    *
@@ -526,7 +470,7 @@ public:
 
   /**
    * Unsets the value of the "attributeName" attribute of this
-   * SedRemainingDimension.
+   * SedExperimentReference.
    *
    * @param attributeName, the name of the attribute to query.
    *
@@ -613,129 +557,95 @@ BEGIN_C_DECLS
 
 
 /**
- * Creates a new SedRemainingDimension_t using the given SED-ML Level and @ p
- * version values.
+ * Creates a new SedExperimentReference_t using the given SED-ML Level and @ p version
+ * values.
  *
  * @param level an unsigned int, the SED-ML Level to assign to this
- * SedRemainingDimension_t.
+ * SedExperimentReference_t.
  *
  * @param version an unsigned int, the SED-ML Version to assign to this
- * SedRemainingDimension_t.
+ * SedExperimentReference_t.
  *
  * @copydetails doc_note_setting_lv_pkg
  *
  * @copydetails doc_returned_owned_pointer
  *
- * @memberof SedRemainingDimension_t
+ * @memberof SedExperimentReference_t
  */
 LIBSEDML_EXTERN
-SedRemainingDimension_t *
-SedRemainingDimension_create(unsigned int level, unsigned int version);
+SedExperimentReference_t *
+SedExperimentReference_create(unsigned int level, unsigned int version);
 
 
 /**
- * Creates and returns a deep copy of this SedRemainingDimension_t object.
+ * Creates and returns a deep copy of this SedExperimentReference_t object.
  *
- * @param srd the SedRemainingDimension_t structure.
+ * @param ser the SedExperimentReference_t structure.
  *
- * @return a (deep) copy of this SedRemainingDimension_t object.
+ * @return a (deep) copy of this SedExperimentReference_t object.
  *
  * @copydetails doc_returned_owned_pointer
  *
- * @memberof SedRemainingDimension_t
+ * @memberof SedExperimentReference_t
  */
 LIBSEDML_EXTERN
-SedRemainingDimension_t*
-SedRemainingDimension_clone(const SedRemainingDimension_t* srd);
+SedExperimentReference_t*
+SedExperimentReference_clone(const SedExperimentReference_t* ser);
 
 
 /**
- * Frees this SedRemainingDimension_t object.
+ * Frees this SedExperimentReference_t object.
  *
- * @param srd the SedRemainingDimension_t structure.
+ * @param ser the SedExperimentReference_t structure.
  *
- * @memberof SedRemainingDimension_t
+ * @memberof SedExperimentReference_t
  */
 LIBSEDML_EXTERN
 void
-SedRemainingDimension_free(SedRemainingDimension_t* srd);
+SedExperimentReference_free(SedExperimentReference_t* ser);
 
 
 /**
- * Returns the value of the "target" attribute of this SedRemainingDimension_t.
+ * Returns the value of the "experimentId" attribute of this
+ * SedExperimentReference_t.
  *
- * @param srd the SedRemainingDimension_t structure whose target is sought.
+ * @param ser the SedExperimentReference_t structure whose experimentId is sought.
  *
- * @return the value of the "target" attribute of this SedRemainingDimension_t
+ * @return the value of the "experimentId" attribute of this SedExperimentReference_t
  * as a pointer to a string.
  *
  * @copydetails doc_returned_owned_char
  *
- * @memberof SedRemainingDimension_t
+ * @memberof SedExperimentReference_t
  */
 LIBSEDML_EXTERN
 char *
-SedRemainingDimension_getTarget(const SedRemainingDimension_t * srd);
+SedExperimentReference_getExperimentId(const SedExperimentReference_t * ser);
 
 
 /**
- * Returns the value of the "dimensionTarget" attribute of this
- * SedRemainingDimension_t.
- *
- * @param srd the SedRemainingDimension_t structure whose dimensionTarget is
- * sought.
- *
- * @return the value of the "dimensionTarget" attribute of this
- * SedRemainingDimension_t as a pointer to a string.
- *
- * @copydetails doc_returned_owned_char
- *
- * @memberof SedRemainingDimension_t
- */
-LIBSEDML_EXTERN
-char *
-SedRemainingDimension_getDimensionTarget(const SedRemainingDimension_t * srd);
-
-
-/**
- * Predicate returning @c 1 (true) if this SedRemainingDimension_t's "target"
+ * Predicate returning @c 1 (true) if this SedExperimentReference_t's "experimentId"
  * attribute is set.
  *
- * @param srd the SedRemainingDimension_t structure.
+ * @param ser the SedExperimentReference_t structure.
  *
- * @return @c 1 (true) if this SedRemainingDimension_t's "target" attribute has
- * been set, otherwise @c 0 (false) is returned.
+ * @return @c 1 (true) if this SedExperimentReference_t's "experimentId" attribute
+ * has been set, otherwise @c 0 (false) is returned.
  *
- * @memberof SedRemainingDimension_t
+ * @memberof SedExperimentReference_t
  */
 LIBSEDML_EXTERN
 int
-SedRemainingDimension_isSetTarget(const SedRemainingDimension_t * srd);
+SedExperimentReference_isSetExperimentId(const SedExperimentReference_t * ser);
 
 
 /**
- * Predicate returning @c 1 (true) if this SedRemainingDimension_t's
- * "dimensionTarget" attribute is set.
+ * Sets the value of the "experimentId" attribute of this SedExperimentReference_t.
  *
- * @param srd the SedRemainingDimension_t structure.
+ * @param ser the SedExperimentReference_t structure.
  *
- * @return @c 1 (true) if this SedRemainingDimension_t's "dimensionTarget"
- * attribute has been set, otherwise @c 0 (false) is returned.
- *
- * @memberof SedRemainingDimension_t
- */
-LIBSEDML_EXTERN
-int
-SedRemainingDimension_isSetDimensionTarget(const SedRemainingDimension_t *
-  srd);
-
-
-/**
- * Sets the value of the "target" attribute of this SedRemainingDimension_t.
- *
- * @param srd the SedRemainingDimension_t structure.
- *
- * @param target const char * value of the "target" attribute to be set.
+ * @param experimentId const char * value of the "experimentId" attribute to be
+ * set.
  *
  * @copydetails doc_returns_success_code
  * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
@@ -743,87 +653,45 @@ SedRemainingDimension_isSetDimensionTarget(const SedRemainingDimension_t *
  * OperationReturnValues_t}
  * @li @sedmlconstant{LIBSEDML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @memberof SedRemainingDimension_t
+ * @memberof SedExperimentReference_t
  */
 LIBSEDML_EXTERN
 int
-SedRemainingDimension_setTarget(SedRemainingDimension_t * srd,
-                                const char * target);
+SedExperimentReference_setExperimentId(SedExperimentReference_t * ser,
+                                 const char * experimentId);
 
 
 /**
- * Sets the value of the "dimensionTarget" attribute of this
- * SedRemainingDimension_t.
+ * Unsets the value of the "experimentId" attribute of this SedExperimentReference_t.
  *
- * @param srd the SedRemainingDimension_t structure.
- *
- * @param dimensionTarget const char * value of the "dimensionTarget" attribute
- * to be set.
- *
- * @copydetails doc_returns_success_code
- * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
- * @li @sedmlconstant{LIBSEDML_INVALID_ATTRIBUTE_VALUE,
- * OperationReturnValues_t}
- * @li @sedmlconstant{LIBSEDML_INVALID_OBJECT, OperationReturnValues_t}
- *
- * @memberof SedRemainingDimension_t
- */
-LIBSEDML_EXTERN
-int
-SedRemainingDimension_setDimensionTarget(SedRemainingDimension_t * srd,
-                                         const char * dimensionTarget);
-
-
-/**
- * Unsets the value of the "target" attribute of this SedRemainingDimension_t.
- *
- * @param srd the SedRemainingDimension_t structure.
+ * @param ser the SedExperimentReference_t structure.
  *
  * @copydetails doc_returns_success_code
  * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
  * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
  * @li @sedmlconstant{LIBSEDML_INVALID_OBJECT, OperationReturnValues_t}
  *
- * @memberof SedRemainingDimension_t
+ * @memberof SedExperimentReference_t
  */
 LIBSEDML_EXTERN
 int
-SedRemainingDimension_unsetTarget(SedRemainingDimension_t * srd);
-
-
-/**
- * Unsets the value of the "dimensionTarget" attribute of this
- * SedRemainingDimension_t.
- *
- * @param srd the SedRemainingDimension_t structure.
- *
- * @copydetails doc_returns_success_code
- * @li @sedmlconstant{LIBSEDML_OPERATION_SUCCESS, OperationReturnValues_t}
- * @li @sedmlconstant{LIBSEDML_OPERATION_FAILED, OperationReturnValues_t}
- * @li @sedmlconstant{LIBSEDML_INVALID_OBJECT, OperationReturnValues_t}
- *
- * @memberof SedRemainingDimension_t
- */
-LIBSEDML_EXTERN
-int
-SedRemainingDimension_unsetDimensionTarget(SedRemainingDimension_t * srd);
+SedExperimentReference_unsetExperimentId(SedExperimentReference_t * ser);
 
 
 /**
  * Predicate returning @c 1 (true) if all the required attributes for this
- * SedRemainingDimension_t object have been set.
+ * SedExperimentReference_t object have been set.
  *
- * @param srd the SedRemainingDimension_t structure.
+ * @param ser the SedExperimentReference_t structure.
  *
  * @return @c 1 (true) to indicate that all the required attributes of this
- * SedRemainingDimension_t have been set, otherwise @c 0 (false) is returned.
+ * SedExperimentReference_t have been set, otherwise @c 0 (false) is returned.
  *
- * @memberof SedRemainingDimension_t
+ * @memberof SedExperimentReference_t
  */
 LIBSEDML_EXTERN
 int
-SedRemainingDimension_hasRequiredAttributes(const SedRemainingDimension_t *
-  srd);
+SedExperimentReference_hasRequiredAttributes(const SedExperimentReference_t * ser);
 
 
 
@@ -843,6 +711,6 @@ LIBSEDML_CPP_NAMESPACE_END
 
 
 
-#endif /* !SedRemainingDimension_H__ */
+#endif /* !SedExperimentReference_H__ */
 
 
