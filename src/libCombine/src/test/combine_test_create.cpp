@@ -194,3 +194,38 @@ SCENARIO("reading an existing archive", "[combine]")
     
   }
 }
+
+SCENARIO("creating a combine archive", "[combine]")
+{
+  CombineArchive archive;
+  REQUIRE(archive.getManifest() == NULL);
+ 
+  GIVEN("user adds invalid omex data")
+  {
+    OmexDescription desc;
+    REQUIRE(desc.getAbout().empty());
+    REQUIRE(desc.getDescription().empty());
+    REQUIRE(desc.getCreators().size() == 0);
+
+    THEN("it can not be added to the archive")
+      {
+        REQUIRE(archive.addMetadata("file", desc) == LIBCOMBINE_OPERATION_FAILED);
+      }
+
+    AND_WHEN("a description and created date is added it can be added")
+    {
+      desc.setDescription("some description");
+      desc.setCreated(OmexDescription::getCurrentDateAndTime());
+      REQUIRE(archive.addMetadata("file", desc) == LIBCOMBINE_OPERATION_SUCCESS);
+    }
+       
+  }
+}
+
+TEST_CASE("known format starts with purl", "[combine]")
+{
+  std::string copasiFormat = KnownFormats::lookupFormat("copasi");
+  REQUIRE(copasiFormat.find("http://purl.org/NET/mediatypes/") != std::string::npos);
+  REQUIRE(KnownFormats::isFormat("copasi", "application/x-copasi"));
+  REQUIRE(KnownFormats::isFormat("copasi", KnownFormats::PURL_MEDIATYPES_URL + "application/x-copasi"));
+}
