@@ -28,12 +28,16 @@ if (NOT ${LIBSBML_LIBRARY_NAME}_FOUND)
           /opt/lib/cmake
           /opt/local/lib/cmake
           /sw/lib/cmake
+          ${LIBSEDML_DEPENDENCY_DIR}/lib/cmake
+          ${LIBSEDML_DEPENDENCY_DIR}/lib64/cmake
           ${CONAN_LIB_DIRS_LIBSBML}
           ${CONAN_LIB_DIRS_LIBSBML}/cmake
           ${CONAN_LIB_DIRS_LIBSBML}/lib/cmake
+          ${CONAN_LIB_DIRS_LIBSBML}/lib64/cmake
   )
 endif()
 
+message (STATUS "${${LIBSBML_LIBRARY_NAME}_FOUND}")
 if (${LIBSBML_LIBRARY_NAME}_FOUND)
 
   get_target_property(LIBSBML_LIBRARY ${LIBSBML_LIBRARY_NAME} LOCATION)
