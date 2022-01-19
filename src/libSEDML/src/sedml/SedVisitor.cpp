@@ -388,6 +388,16 @@ SedVisitor::visit(const SedSteadyState& x)
 
 
 /*
+ * Visit the SedAnalysis
+ */
+bool
+SedVisitor::visit(const SedAnalysis& x)
+{
+    return visit(static_cast<const SedBase&>(x));
+}
+
+
+/*
  * Visit the SedRepeatedTask
  */
 bool
@@ -478,10 +488,10 @@ SedVisitor::visit(const SedAdjustableParameter& x)
 
 
 /*
- * Visit the SedExperimentRef
+ * Visit the SedExperimentReference
  */
 bool
-SedVisitor::visit(const SedExperimentRef& x)
+SedVisitor::visit(const SedExperimentReference& x)
 {
   return visit(static_cast<const SedBase&>(x));
 }
@@ -588,20 +598,10 @@ SedVisitor::visit(const SedFill& x)
 
 
 /*
- * Visit the SedDependentVariable
+ * Visit the SedAppliedDimension
  */
 bool
-SedVisitor::visit(const SedDependentVariable& x)
-{
-  return visit(static_cast<const SedBase&>(x));
-}
-
-
-/*
- * Visit the SedRemainingDimension
- */
-bool
-SedVisitor::visit(const SedRemainingDimension& x)
+SedVisitor::visit(const SedAppliedDimension& x)
 {
   return visit(static_cast<const SedBase&>(x));
 }
@@ -612,16 +612,6 @@ SedVisitor::visit(const SedRemainingDimension& x)
  */
 bool
 SedVisitor::visit(const SedDataRange& x)
-{
-  return visit(static_cast<const SedBase&>(x));
-}
-
-
-/*
- * Visit the SedSimpleRepeatedTask
- */
-bool
-SedVisitor::visit(const SedSimpleRepeatedTask& x)
 {
   return visit(static_cast<const SedBase&>(x));
 }
@@ -974,6 +964,15 @@ SedVisitor::leave(const SedSteadyState& x)
 
 
 /*
+ * Leave the SedAnalysis
+ */
+void
+SedVisitor::leave(const SedAnalysis& x)
+{
+}
+
+
+/*
  * Leave the SedRepeatedTask
  */
 void
@@ -1055,10 +1054,10 @@ SedVisitor::leave(const SedAdjustableParameter& x)
 
 
 /*
- * Leave the SedExperimentRef
+ * Leave the SedExperimentReference
  */
 void
-SedVisitor::leave(const SedExperimentRef& x)
+SedVisitor::leave(const SedExperimentReference& x)
 {
 }
 
@@ -1154,19 +1153,10 @@ SedVisitor::leave(const SedFill& x)
 
 
 /*
- * Leave the SedDependentVariable
+ * Leave the SedAppliedDimension
  */
 void
-SedVisitor::leave(const SedDependentVariable& x)
-{
-}
-
-
-/*
- * Leave the SedRemainingDimension
- */
-void
-SedVisitor::leave(const SedRemainingDimension& x)
+SedVisitor::leave(const SedAppliedDimension& x)
 {
 }
 
@@ -1176,15 +1166,6 @@ SedVisitor::leave(const SedRemainingDimension& x)
  */
 void
 SedVisitor::leave(const SedDataRange& x)
-{
-}
-
-
-/*
- * Leave the SedSimpleRepeatedTask
- */
-void
-SedVisitor::leave(const SedSimpleRepeatedTask& x)
 {
 }
 

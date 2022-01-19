@@ -6,6 +6,7 @@
 
 LIBCOMBINE_CPP_NAMESPACE_USE
 
+const std::string KnownFormats::PURL_MEDIATYPES_URL = "http://purl.org/NET/mediatypes/";
 
 bool
 KnownFormats::isFormat(const std::string &formatKey,
@@ -19,6 +20,13 @@ KnownFormats::isFormat(const std::string &formatKey,
     std::vector<std::string>& knownFormats = it->second;
     std::vector<std::string>::iterator foundIt = 
        std::find(knownFormats.begin(), knownFormats.end(), format);
+
+    if (foundIt == knownFormats.end() && format.find(PURL_MEDIATYPES_URL) == 0)
+    {
+      foundIt = 
+       std::find(knownFormats.begin(), knownFormats.end(), format.substr(PURL_MEDIATYPES_URL.length()));
+    }
+
     return foundIt != knownFormats.end();
   }
 
@@ -43,7 +51,10 @@ KnownFormats::lookupFormat(const std::string& format)
   if (it != mKnownFormats.end())
   {
     std::vector<std::string>& knownFormats = it->second;
-    return knownFormats.front();
+    std::string first = knownFormats.front();
+    if (first.find("http") == std::string::npos)
+      first = PURL_MEDIATYPES_URL + first;
+    return first;
   }
   return "";
 }
@@ -239,7 +250,7 @@ KnownFormats::initializeMap()
     { "lsx",{ "video/x-la-asf" } },
     { "lzh",{ "application/octet-stream" } },
     { "m",{ "application/x-matlab" } },
-    { "mat",{ "application/x-matlab" } },
+    { "mat",{ "application/x-matlab-data" } },
     { "m13",{ "application/x-msmediaview" } },
     { "m14",{ "application/x-msmediaview" } },
     { "m3u",{ "audio/x-mpegurl" } },
