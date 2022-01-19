@@ -3197,7 +3197,7 @@ bool MmlDocument::setContent(QString text, QString *errorMsg,
 {
   clear();
 
-  QString prefix = "<?xml version=\"2.0\"?>\n";
+  QString prefix = "<?xml version=\"1.0\"?>\n";
   prefix.append(entityDeclarations());
 
   uint prefix_lines = 0;
@@ -5831,13 +5831,15 @@ static int interpretSpacing(QString value, int em, int ex, bool *ok)
       if (float_ok && factor >= 0)
         {
           #if QT_VERSION > 5
+          Q_ASSERT(qApp->activeWindow() != 0);
+          QWidget *dw = qApp->activeWindow();
           #else
           Q_ASSERT(qApp->desktop() != 0);
           QDesktopWidget *dw = qApp->desktop();
+          #endif
           Q_ASSERT(dw->width() != 0);
           Q_ASSERT(dw->widthMM() != 0);
           return (int)(factor*10*dw->width() / dw->widthMM());
-          #endif
         }
       else
         {
@@ -5859,13 +5861,15 @@ static int interpretSpacing(QString value, int em, int ex, bool *ok)
       if (float_ok && factor >= 0)
         {
           #if QT_VERSION > 5
+          Q_ASSERT(qApp->activeWindow() != 0);
+          QWidget *dw = qApp->activeWindow();
           #else
           Q_ASSERT(qApp->desktop() != 0);
           QDesktopWidget *dw = qApp->desktop();
+          #endif
           Q_ASSERT(dw->width() != 0);
           Q_ASSERT(dw->widthMM() != 0);
           return (int)(factor*dw->width() / dw->widthMM());
-          #endif
         }
       else
         {
@@ -5887,14 +5891,15 @@ static int interpretSpacing(QString value, int em, int ex, bool *ok)
       if (float_ok && factor >= 0)
         {
           #if QT_VERSION > 5
+          Q_ASSERT(qApp->activeWindow() != 0);
+          QWidget *dw = qApp->activeWindow();
           #else
-
           Q_ASSERT(qApp->desktop() != 0);
           QDesktopWidget *dw = qApp->desktop();
+          #endif
           Q_ASSERT(dw->width() != 0);
           Q_ASSERT(dw->widthMM() != 0);
           return (int)(factor*10*dw->width() / (2.54*dw->widthMM()));
-          #endif
         }
       else
         {
