@@ -51,6 +51,7 @@ add_library(NativeJIT STATIC ${CPPFILES} ${PRIVATE_HFILES} ${PUBLIC_HFILES})
 target_link_libraries(NativeJIT PUBLIC CodeGen)
 
 set_property(TARGET NativeJIT PROPERTY FOLDER "${NATIVEJIT_PREFIX}src")
+target_link_libraries(NativeJIT PUBLIC CodeGen)
 
 add_test(NAME NativeJITTest COMMAND NativeJITTest)
 
