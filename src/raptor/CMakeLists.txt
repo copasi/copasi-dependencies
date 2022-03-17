@@ -93,7 +93,13 @@ list(REMOVE_ITEM SOURCES ${PROJECT_SOURCE_DIR}/src/raptor_nfc_test.c)
 list(REMOVE_ITEM SOURCES ${PROJECT_SOURCE_DIR}/src/raptor_www_test.c)
 
 find_package(EXPAT REQUIRED)
-include_directories(BEFORE ${EXPAT_INCLUDE_DIR})
+if(NOT TARGET EXPAT::EXPAT)
+  add_library(EXPAT::EXPAT UNKNOWN IMPORTED)
+  set_target_properties(EXPAT::EXPAT PROPERTIES
+    IMPORTED_LINK_INTERFACE_LANGUAGES "C"
+    IMPORTED_LOCATION "${EXPAT_LIBRARY}"
+    INTERFACE_INCLUDE_DIRECTORIES "${EXPAT_INCLUDE_DIR}")
+endif()
 
 
 add_definitions(-DXML_STATIC -DRAPTOR_STATIC -DRAPTOR_V2_EXPERIMENTAL -DHAVE_ERRNO_H -DRAPTOR_INTERNAL -DLIBRDFA_IN_RAPTOR -DHAVE_EXPAT_H)
@@ -114,7 +120,7 @@ endif()
 
 
 add_library(raptor ${SOURCES} ${HEADERS})
-target_link_libraries(raptor ${EXPAT_LIBRARY} )
+target_link_libraries(raptor EXPAT::EXPAT)
 
 include(GNUInstallDirs)
 install(TARGETS raptor EXPORT raptorTargets
