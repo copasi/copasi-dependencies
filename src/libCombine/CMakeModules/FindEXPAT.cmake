@@ -1,4 +1,14 @@
-# Copyright (C) 2013 by Pedro Mendes, Virginia Tech Intellectual 
+# Copyright (C) 2019 - 2020 by Pedro Mendes, Rector and Visitors of the 
+# University of Virginia, University of Heidelberg, and University 
+# of Connecticut School of Medicine. 
+# All rights reserved. 
+
+# Copyright (C) 2017 - 2018 by Pedro Mendes, Virginia Tech Intellectual 
+# Properties, Inc., University of Heidelberg, and University of 
+# of Connecticut School of Medicine. 
+# All rights reserved. 
+
+# Copyright (C) 2013 - 2016 by Pedro Mendes, Virginia Tech Intellectual 
 # Properties, Inc., University of Heidelberg, and The University 
 # of Manchester. 
 # All rights reserved. 
@@ -48,6 +58,8 @@ if (NOT (EXPAT_INCLUDE_DIR AND EXPAT_LIBRARIES) OR NOT EXPAT_FOUND)
 	    PATHS $ENV{EXPAT_DIR}/lib
 	          $ENV{EXPAT_DIR}/lib-dbg
 	          $ENV{EXPAT_DIR}
+              ${COPASI_DEPENDENCY_DIR}/${CMAKE_INSTALL_LIBDIR}
+              ${COPASI_DEPENDENCY_DIR}
 	          ~/Library/Frameworks
 	          /Library/Frameworks
 	          /sw/lib        # Fink
@@ -77,10 +89,20 @@ if (NOT (EXPAT_INCLUDE_DIR AND EXPAT_LIBRARIES) OR NOT EXPAT_FOUND)
 
 endif () # Check for cached values
 
+# create an expat target to link against
+if(NOT TARGET EXPAT::EXPAT)
+  add_library(EXPAT::EXPAT UNKNOWN IMPORTED)
+  set_target_properties(EXPAT::EXPAT PROPERTIES
+    IMPORTED_LINK_INTERFACE_LANGUAGES "C"
+    IMPORTED_LOCATION "${EXPAT_LIBRARY}"
+    INTERFACE_INCLUDE_DIRECTORIES "${EXPAT_INCLUDE_DIR}")
+endif()
+
+
 include(FindPackageHandleStandardArgs)
 
 find_package_handle_standard_args(
-    Expat
+    EXPAT
     VERSION_VAR   EXPAT_VERSION
     REQUIRED_VARS EXPAT_LIBRARY EXPAT_INCLUDE_DIR)
 
