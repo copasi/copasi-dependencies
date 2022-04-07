@@ -17,20 +17,7 @@
 #
 ###############################################################################
 
-cmake_minimum_required(VERSION 2.8)
-project(libnuml)
-
-include (CMakeTestCCompiler)
-include (CheckCSourceCompiles)
-include (CheckCXXSourceCompiles)
-include (CheckStructHasMember)
-include (CheckLibraryExists)
-include (CheckFunctionExists)
-include (CheckCCompilerFlag)
-include (CheckCSourceRuns)
-include (CheckSymbolExists)
-include (CheckTypeSize)
-include(GNUInstallDirs)
+cmake_minimum_required(VERSION 2.8...3.19.0)
 
 ###############################################################################
 #
@@ -59,6 +46,21 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt")
     endif()
 
 endif()
+
+project(libnuml VERSION "${LIBNUML_VERSION_MAJOR}.${LIBNUML_VERSION_MINOR}.${LIBNUML_VERSION_PATCH}"
+                LANGUAGES CXX)
+
+include (CMakeTestCXXCompiler)
+include (CheckCSourceCompiles)
+include (CheckCXXSourceCompiles)
+include (CheckStructHasMember)
+include (CheckLibraryExists)
+include (CheckFunctionExists)
+include (CheckCCompilerFlag)
+include (CheckCSourceRuns)
+include (CheckSymbolExists)
+include (CheckTypeSize)
+include(GNUInstallDirs)
 
 set(LIBNUML_VERSION_NUMERIC "${LIBNUML_VERSION_MAJOR}${LIBNUML_VERSION_MINOR}${LIBNUML_VERSION_PATCH}${LIBNUML_VERSION_RELEASE}")
 set(LIBNUML_VERSION "${LIBNUML_VERSION_MAJOR}.${LIBNUML_VERSION_MINOR}.${LIBNUML_VERSION_PATCH}${LIBNUML_VERSION_RELEASE}")
@@ -168,13 +170,7 @@ endif()
 option (LIBNUML_SHARED_VERSION "Build the libnuml shared library with version information" ON)
 mark_as_advanced(LIBNUML_SHARED_VERSION)
 
-# Enable the generation of unit tests. If enabled, all test runners
-# will be created and can be run with "make test" or ctest.
-# This won't work in Visual Studio 2003, so we disable this option there.
-#
-if(NOT ${CMAKE_GENERATOR} MATCHES "Visual Studio 6" AND NOT ${CMAKE_GENERATOR} MATCHES "Visual Studio 7")
-    option(WITH_CHECK    "Compile unit tests. Run with 'make test' or 'ctest'." OFF)
-endif()
+option(WITH_CHECK    "Compile unit tests. Run with 'make test' or 'ctest'." OFF)
 
 # Use C++ namespace.
 option(WITH_CPP_NAMESPACE "Use a C++ namespace for libNUML."   OFF)
@@ -274,28 +270,15 @@ if (LIBNUML_DEPENDENCY_DIR AND EXISTS ${LIBNUML_DEPENDENCY_DIR})
 endif()
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
-
-
+# install find modules, so they can readily be used by others
+file(GLOB find_modules "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/Find*.cmake")
+install(FILES ${find_modules} DESTINATION share/cmake/Modules)
 
 ###############################################################################
 #
 # Locate libsbml
 #
 find_package(LIBSBML REQUIRED)
-
-set(LIBSBML_STATIC OFF CACHE BOOL "is libsbml statically compiled")
-if (WIN32 AND NOT CYGWIN)
-  if (LIBSBML_LIBRARY AND LIBSBML_LIBRARY MATCHES ".*-static*$")
-    set(LIBSBML_STATIC ON CACHE BOOL "is libsbml statically compiled")
-  else()
-    option(LIBSBML_STATIC "The LibSBML library was statically compiled" ON)
-  endif()
-endif()
-
-if(NOT EXISTS "${LIBSBML_INCLUDE_DIR}/sbml/SBase.h")
-    message(FATAL_ERROR "The include directory specified for sbml appears to be invalid.  It should contain the file sbml/SBase.h, but it does not.")
-endif()
-
 
 ###############################################################################
 #
@@ -338,35 +321,7 @@ endif(WITH_CSHARP)
 # or make test
 #
 
-if(WITH_CHECK)
-
-    # we do use tests, that require 2.8.4
-    cmake_minimum_required(VERSION 2.8.4)
-
-    enable_testing()
-
-    find_library(LIBCHECK_LIBRARY
-        NAMES check libcheck
-        PATHS /usr/lib /usr/local/lib ${LIBNUML_DEPENDENCY_DIR}/lib
-        DOC "The file name of the libcheck library."
-    )
-
-    find_path(LIBCHECK_INCLUDE_DIR
-        NAMES check.h
-        PATHS /usr/include /usr/local/include  ${LIBNUML_DEPENDENCY_DIR}/include
-        DOC "The directory containing the libcheck include files."
-              )
-
-    if(NOT EXISTS "${LIBCHECK_INCLUDE_DIR}/check.h")
-        message(FATAL_ERROR "The 'check' include directory appears to be invalid. It should contain the file check.h, but it does not.")
-    endif()
-
-    if(${CMAKE_GENERATOR} MATCHES "Visual Studio 6" OR ${CMAKE_GENERATOR} MATCHES "Visual Studio 7")
-        message(WARNING "Libcheck is not compatible with Visual Studio 2003 (or earlier versions).")
-    endif()
-
-
-endif(WITH_CHECK)
+enable_testing()
 
 
 ###############################################################################
@@ -406,7 +361,7 @@ mark_as_advanced(CMAKE_INSTALL_LIBDIR)
 #
 
 set(USING_INTEL)
-if (WIN32 AND CMAKE_C_COMPILER AND ${CMAKE_C_COMPILER} MATCHES ".*icl.*$")
+if (WIN32 AND CMAKE_C_COMPILER AND CMAKE_C_COMPILER MATCHES ".*icl.*$")
   message(STATUS "Detected Intel Compiler")
   set(USING_INTEL TRUE)
 endif ()
@@ -470,14 +425,6 @@ else(UNIX)
 		
     add_definitions(-DWIN32)
     set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DWIN32")
-
-	if (LIBSBML_STATIC)
-      add_definitions(-DLIBSBML_STATIC -DLIBLAX_STATIC)
-      set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DLIBSBML_STATIC -DLIBLAX_STATIC")
-	else()
-      add_definitions(-DLIBSBML_EXPORTS -DLIBLAX_EXPORTS)
-      set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DLIBSBML_EXPORTS -DLIBLAX_EXPORTS")
-	endif()
 	
     if(MSVC OR USING_INTEL)
         add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE)
@@ -495,6 +442,7 @@ else(UNIX)
                 endif(${flag_var} MATCHES "/MD")
             endforeach(flag_var)
         add_definitions( -D_MT)
+        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
         endif(WITH_STATIC_RUNTIME)
 
       # CMake no longer creates PDB files for static libraries after 2.8.11
@@ -517,27 +465,11 @@ else(UNIX)
         file(GLOB WIN32_BINARIES ${LIBNUML_DEPENDENCY_DIR}/bin/*.dll)
         INSTALL(FILES ${WIN32_BINARIES} DESTINATION bin)
         file(GLOB WIN32_DEPENDENCIES ${LIBNUML_DEPENDENCY_DIR}/${CMAKE_INSTALL_LIBDIR}/*.lib)
-        install(FILES ${WIN32_DEPENDENCIES} DESTINATION lib)
-        if(WITH_LIBXML AND WITH_STATIC_RUNTIME)
-		  if (EXTRA_LIBS STREQUAL "")
-		  # populate EXTRA_LIBS variable
-          find_library(LIBICONV_LIBRARY
-              NAMES libiconv.lib iconv.lib iconv
-              PATHS /usr/lib /usr/local/lib
-                    ${LIBNUML_DEPENDENCY_DIR}/lib
-              DOC "The file name of the libiconv library."
-              )
-		  set(EXTRA_LIBS "WS2_32.lib;${LIBICONV_LIBRARY};${LIBZ_LIBRARY};" CACHE STRING "List of additional libraries to link against." FORCE)
-		  endif()
-		endif()
+        install(FILES ${WIN32_DEPENDENCIES} DESTINATION lib)        
     elseif(CYGWIN)
         add_definitions(-DCYGWIN)
         set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -DCYGWIN")
     elseif(MINGW)
-        if(WITH_LIBXML)
-            # this is necessary to build with libxml2 on mingw
-            add_definitions(-DLIBXML_STATIC)
-        endif(WITH_LIBXML)
     endif(MSVC OR USING_INTEL)
 
 endif(UNIX)

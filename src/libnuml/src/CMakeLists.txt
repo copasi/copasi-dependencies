@@ -88,7 +88,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 include_directories(${CMAKE_SOURCE_DIR}/src/numl)
 include_directories(${CMAKE_SOURCE_DIR}/src)
-include_directories(${LIBSBML_INCLUDE_DIR})
 
 if (EXTRA_INCLUDE_DIRS)
   include_directories(${EXTRA_INCLUDE_DIRS})
@@ -182,7 +181,7 @@ INSTALL(TARGETS ${LIBNUML_LIBRARY}
 )
 
 # and install the exported target configuration
-install(EXPORT ${LIBNUML_LIBRARY}-config "${CMAKE_INSTALL_LIBDIR}/cmake")
+install(EXPORT ${LIBNUML_LIBRARY}-config DESTINATION ${PACKAGE_CONFIG_DIR})
 
 if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
 
@@ -194,7 +193,7 @@ if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
   
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/${LIBNUML_LIBRARY}-config-version.cmake
-    "${CMAKE_INSTALL_LIBDIR}/cmake"
+    DESTINATION ${PACKAGE_CONFIG_DIR}
   )
 
 endif()
@@ -219,7 +218,7 @@ INSTALL(TARGETS ${LIBNUML_LIBRARY}-static
 )
 
 # and install the exported target configuration
-install(EXPORT ${LIBNUML_LIBRARY}-static-config DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
+install(EXPORT ${LIBNUML_LIBRARY}-static-config DESTINATION ${PACKAGE_CONFIG_DIR})
 
 if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
 
@@ -231,7 +230,7 @@ if (${CMAKE_VERSION} VERSION_GREATER 2.8.7)
   
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/${LIBNUML_LIBRARY}-static-config-version.cmake
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
+    DESTINATION ${PACKAGE_CONFIG_DIR}
   )
 
 endif()

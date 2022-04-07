@@ -6,7 +6,6 @@
 
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${LIBSBML_INCLUDE_DIR})
 include_directories(BEFORE ${CMAKE_SOURCE_DIR}/src)
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/include)
@@ -24,16 +23,5 @@ foreach(example
 	set_target_properties(example_cpp_${example} PROPERTIES COMPILE_DEFINITIONS "LIBNUML_STATIC=1")
 	endif()
 	target_link_libraries(example_cpp_${example} ${LIBNUML_LIBRARY}-static)
-	
-	if (WITH_LIBXML)
-		target_link_libraries(example_cpp_${example} ${LIBXML_LIBRARY} ${EXTRA_LIBS})
-	endif()
-
-	if (WITH_ZLIB)
-		target_link_libraries(example_cpp_${example} ${LIBZ_LIBRARY})
-	endif(WITH_ZLIB)
-	if (WITH_BZIP2)
-		target_link_libraries(example_cpp_${example} ${LIBBZ_LIBRARY})
-	endif(WITH_BZIP2)
 
 endforeach()

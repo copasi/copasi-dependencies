@@ -201,8 +201,10 @@ class CMakeBuild(build_ext):
             cmake_args.append('-A')
             cmake_args.append('win32')
         if is_osx: 
-          cmake_args.append('-DCLANG_USE_LIBCPP=ON')
-          cmake_args.append('-DCMAKE_OSX_DEPLOYMENT_TARGET=10.9')
+          if 'arm64' in suffix: 
+            cmake_args.append('-DCMAKE_OSX_ARCHITECTURES=arm64')
+          else:
+            cmake_args.append('-DCMAKE_OSX_ARCHITECTURES=x86_64')
         if is_win:
           cmake_args.append('-DWITH_STATIC_RUNTIME=ON')
 
