@@ -67,7 +67,7 @@
  *
  * A version string of the form "1.2.3".
  */
-#define SBW_DOTTED_VERSION	"2.12.2"
+#define SBW_DOTTED_VERSION	"@PACKAGE_VERSION@"
 
 
 /**
@@ -78,7 +78,7 @@
  * libSBML is released, making it easy to use less-than and greater-than
  * comparisons when testing versions numbers.
  */
-#define SBW_VERSION		21202
+#define SBW_VERSION		@SBW_VERSION_NUMERIC@
 
 
 /**
@@ -86,7 +86,7 @@
  *
  * The numeric version as a string: version 1.2.3 becomes "10203".
  */
-#define SBW_VERSION_STRING	"21202"
+#define SBW_VERSION_STRING	"@SBW_VERSION_NUMERIC@"
 
 
 

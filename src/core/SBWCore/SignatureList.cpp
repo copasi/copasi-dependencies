@@ -85,6 +85,7 @@ using namespace SystemsBiologyWorkbench ;
 sbwSignatureList::~sbwSignatureList()
 {
 	delete contents;
+	contents = NULL;
 }
 
 /**

@@ -65,6 +65,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include <SBW/sbwdefs.h>
 #include "SBWLowLevel.h"
 
 #include "SBWModuleRPC.h"
@@ -95,7 +96,7 @@ void SBWLowLevel::signalDisconnect() { rpc->signalDisconnect();}
 SBWListenerForC *SBWLowLevel::listenerForC = NULL ;
 
 /// C and C++ library version 
-const std::string SBWLowLevel::version = "2.4.1"; //////////////// <<<< modify this <<<<<
+const std::string SBWLowLevel::version = SBW_DOTTED_VERSION;
 
 
 SBWRPC* SBWLowLevel::initializeRPC()
@@ -111,8 +112,8 @@ void SBWLowLevel::deleteRPC()
   {
     try
     {
-    delete rpc;
-    rpc = NULL;
+      delete rpc;
+      rpc = NULL;
     }
     catch(...)
     {

@@ -346,6 +346,7 @@ static ModuleImpl *moduleImpl = NULL ;
 	delete[] descriptor->module.displayName ;
 	delete[] descriptor->module.commandLine ;
 	delete descriptor ;
+	descriptor = NULL;
 }
 
 /**
@@ -613,6 +614,7 @@ static ModuleImpl *moduleImpl = NULL ;
 	}
 
 	delete descriptors ;
+	descriptors = NULL;
 
 	return result ;
 }
@@ -649,6 +651,7 @@ static ModuleImpl *moduleImpl = NULL ;
 	}
 
 	delete descriptors ;
+	descriptors = NULL;
 
 	return result ;
 }
@@ -1880,6 +1883,7 @@ SBWSignatureType *SBWSignatureElementGetType(SBWSignatureElement *arg)
 			throw new SBWApplicationException("module implementation not in place");
 
 		delete moduleImpl;
+		moduleImpl = NULL;
 	}
 	catch (SBWException *e)
 	{

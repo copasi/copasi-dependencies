@@ -84,7 +84,7 @@ endif(ICONV_INCLUDE_DIR)
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/../include)
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/../include/SBW)
 include_directories(${LIBXML_INCLUDE_DIR})
-
+include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/../include)
 
 set(BROKER_NAME Broker)
 
@@ -120,3 +120,8 @@ INSTALL(TARGETS ${BROKER_NAME}
   )
 
 endif(WITH_BUILD_BROKER)
+
+
+add_executable (trig_server example/TrigPlusServerModule.cpp)
+target_link_libraries(trig_server SBW-static)
+

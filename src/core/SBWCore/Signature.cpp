@@ -105,6 +105,7 @@ sbwSignature::sbwSignature(const char *signature)
 sbwSignature::~sbwSignature()
 {
     delete arguments ;
+    arguments=NULL;
 }
 
 /**

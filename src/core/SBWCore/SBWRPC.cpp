@@ -93,7 +93,11 @@ const Integer SBWRPC::disconnectMessage = -1;
 /**
  * creates an RPC mechanism which initially doesn't process incoming calls
  */
-SBWRPC::SBWRPC(SBWRPCListener *l) : listener(l), receiver(new DoNothingReceiver()), inCallsMutex("inCalls"), outCallsMutex("outCalls")
+SBWRPC::SBWRPC(SBWRPCListener *l) 
+: listener(l)
+, receiver(new DoNothingReceiver())
+, inCallsMutex("inCalls")
+, outCallsMutex("outCalls")
 {
 }
 
@@ -103,6 +107,7 @@ SBWRPC::SBWRPC(SBWRPCListener *l) : listener(l), receiver(new DoNothingReceiver(
 SBWRPC::~SBWRPC()
 {
     delete receiver ;
+    receiver = NULL;
 }
 
 /**
@@ -235,7 +240,7 @@ void SBWRPC::receive(DataBlockReader reader)
  */
 void SBWRPC::registerReceiver(Receiver *r)
 {
-    if (receiver->canDelete())
+    if (receiver != NULL && receiver->canDelete())
         delete receiver ;
 
     receiver = r ;

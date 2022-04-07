@@ -5,7 +5,7 @@
 # Author: Frank T. Bergmann
 #
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8...3.19.0)
 project(SBW)
 
 include (CMakeTestCCompiler)
@@ -48,6 +48,7 @@ endif()
 
 MATH(EXPR SBW_VERSION_NUMERIC "${SBW_VERSION_MAJOR} * 10000 + ${SBW_VERSION_MINOR} * 100 + ${SBW_VERSION_PATCH}" )
 SET(PACKAGE_VERSION "${SBW_VERSION_MAJOR}.${SBW_VERSION_MINOR}.${SBW_VERSION_PATCH}${SBW_VERSION_RELEASE}")
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/SBW/sbwdefs.h.cmake ${CMAKE_CURRENT_SOURCE_DIR}/include/SBW/sbwdefs.h)
 
 
 ####################################################################
@@ -174,6 +175,7 @@ else(UNIX)
         endif(${flag_var} MATCHES "/MD")
       endforeach(flag_var)
     add_definitions( -D_MT)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     endif(WITH_STATIC_RUNTIME)
 
     if (${CMAKE_VERSION} VERSION_GREATER "2.8.11")
@@ -227,6 +229,9 @@ add_subdirectory(SBWBroker)
 
 file(GLOB HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/SBW/*.h )
 
+install(FILES ${HEADER_FILES} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/SBW")
+
+file(GLOB HEADER_FILES ${CMAKE_CURRENT_BINARY_DIR}/include/SBW/*.h )
 install(FILES ${HEADER_FILES} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/SBW")
 
 ###############################################################################

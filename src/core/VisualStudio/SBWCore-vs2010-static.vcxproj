@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -14,17 +14,20 @@
     <ProjectName>SBW-static</ProjectName>
     <ProjectGuid>{D12ACE27-383A-4CB8-A07A-6D2958801DDD}</ProjectGuid>
     <RootNamespace>SBW</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -160,21 +163,21 @@
     <ClCompile Include="..\SBWCore\ImplModuleDescriptor.cpp" />
     <ClCompile Include="..\SBWCore\Method.cpp" />
     <ClCompile Include="..\SBWCore\MethodImpl.cpp" />
-    <ClCompile Include="..\SBWCore\MethodTable.cpp" />
     <ClCompile Include="..\SBWCore\Module.cpp" />
     <ClCompile Include="..\SBWCore\ModuleDescriptor.cpp" />
     <ClCompile Include="..\SBWCore\ModuleImpl.cpp" />
     <ClCompile Include="..\SBWCore\portableOS.cpp" />
+    <ClCompile Include="..\SBWCore\Receiver.cpp" />
     <ClCompile Include="..\SBWCore\RPCInCall.cpp" />
     <ClCompile Include="..\SBWCore\RPCOutCall.cpp" />
     <ClCompile Include="..\SBWCore\RuntimeProperties.cpp" />
-    <ClCompile Include="..\SBWCore\SBW.cpp" />
     <ClCompile Include="..\SBWCore\SBWApplicationException.cpp" />
     <ClCompile Include="..\SBWCore\SBWBrokerStartException.cpp" />
     <ClCompile Include="..\SBWCore\SBWC.cpp" />
     <ClCompile Include="..\SBWCore\SBWCommunicationException.cpp" />
     <ClCompile Include="..\SBWCore\SBWConfig.cpp" />
     <ClCompile Include="..\SBWCore\SBWException.cpp" />
+    <ClCompile Include="..\SBWCore\SBWHighLevel.cpp" />
     <ClCompile Include="..\SBWCore\SBWIncompatibleMethodSignatureException.cpp" />
     <ClCompile Include="..\SBWCore\SBWIncorrectCategorySyntaxException.cpp" />
     <ClCompile Include="..\SBWCore\SBWListener.cpp" />
@@ -193,6 +196,7 @@
     <ClCompile Include="..\SBWCore\SBWOSSocket.cpp" />
     <ClCompile Include="..\SBWCore\SBWRawException.cpp" />
     <ClCompile Include="..\SBWCore\SBWRPC.cpp" />
+    <ClCompile Include="..\SBWCore\SBWRPCListener.cpp" />
     <ClCompile Include="..\SBWCore\SBWServiceNotFoundException.cpp" />
     <ClCompile Include="..\SBWCore\SBWSignatureSyntaxException.cpp" />
     <ClCompile Include="..\SBWCore\sbwSignatureVoid.cpp" />
@@ -208,6 +212,7 @@
     <ClCompile Include="..\SBWCore\SignatureElement.cpp" />
     <ClCompile Include="..\SBWCore\SignatureList.cpp" />
     <ClCompile Include="..\SBWCore\SignatureListContents.cpp" />
+    <ClCompile Include="..\SBWCore\SignatureType.cpp" />
     <ClCompile Include="..\SBWCore\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
