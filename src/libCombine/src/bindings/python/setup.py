@@ -166,11 +166,11 @@ class CMakeBuild(build_ext):
         is_osx = platform.system() == 'Darwin'
         is_win = platform.system() == 'Windows'
         is_win_32 = is_win and ('win32' in name or 'win32' in build_temp)
+  
+        os.environ["CMAKE_BUILD_PARALLEL_LEVEL"] = "4"
 
         cmake_args = [
-            '-DCMAKE_BUILD_TYPE=' + config, 
-            '-DCMAKE_BUILD_PARALLEL_LEVEL=4',
-            '-DWITH_STATIC_RUNTIME=ON'
+            '-DCMAKE_BUILD_TYPE=' + config
         ]
 
         cmake_args = prepend_variables(cmake_args, [
@@ -185,8 +185,12 @@ class CMakeBuild(build_ext):
             cmake_args.append('-A')
             cmake_args.append('win32')
         if is_osx: 
-          cmake_args.append('-DCLANG_USE_LIBCPP=ON')
-          cmake_args.append('-DCMAKE_OSX_DEPLOYMENT_TARGET=10.9')
+          if 'arm64' in suffix: 
+            cmake_args.append('-DCMAKE_OSX_ARCHITECTURES=arm64')
+          else:
+            cmake_args.append('-DCMAKE_OSX_ARCHITECTURES=x86_64')
+        if is_win:
+          cmake_args.append('-DWITH_STATIC_RUNTIME=ON')
 
         # example of build args
         build_args = [
@@ -230,8 +234,6 @@ class CMakeBuild(build_ext):
                            '-DLIBSBML_DEPENDENCY_DIR=' + dep_inst_dir,
                            '-DLIBEXPAT_INCLUDE_DIR=' + os.path.join(dep_inst_dir, 'include'),
                            '-DLIBEXPAT_LIBRARY=' + get_lib_full_path(os.path.join(dep_inst_dir, 'lib'), 'expat'),
-                           '-DLIBZ_INCLUDE_DIR=' + os.path.join(dep_inst_dir, 'include'),
-                           '-DLIBZ_LIBRARY=' + zlib,
                            '-DWITH_ZLIB=ON',
                            '-DWITH_BZIP2=OFF',
                            '-DWITH_EXPAT=ON',
@@ -284,20 +286,14 @@ class CMakeBuild(build_ext):
         cmake_args = cmake_args + libcombine_args
         
         if DEP_DIR:
-          cmake_args.append('-DCOMBINE_DEPENDENCY_DIR=' + DEP_DIR)
-          cmake_args.append('-DLIBZ_INCLUDE_DIR=' + os.path.join(DEP_DIR, 'include'))
-          zlib = get_lib_full_path(os.path.join(DEP_DIR, 'lib'), 'zlib')
-          if not zlib: 
-            zlib = get_lib_full_path(os.path.join(DEP_DIR, 'lib'), 'zdll')
-
-          cmake_args.append('-DLIBZ_LIBRARY=' + zlib)
+          cmake_args.append('-DLIBCOMBINE_DEPENDENCY_DIR=' + DEP_DIR)
 
         if is_win_32:
           if DEP_DIR32:
-            cmake_args.append('-DCOMBINE_DEPENDENCY_DIR=' + DEP_DIR32)
+            cmake_args.append('-DLIBCOMBINE_DEPENDENCY_DIR=' + DEP_DIR32)
         elif is_win:
           if DEP_DIR64:
-            cmake_args.append('-DCOMBINE_DEPENDENCY_DIR=' + DEP_DIR64)
+            cmake_args.append('-DLIBCOMBINE_DEPENDENCY_DIR=' + DEP_DIR64)
 
         os.chdir(build_temp)
         self.spawn(['cmake', SRC_DIR] + cmake_args)
