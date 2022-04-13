@@ -104,7 +104,7 @@ endif()
 
 # figure out if we need XML_STATIC flag
 if (EXPAT_INCLUDE_DIR AND EXPAT_LIBRARY)
-  
+  enable_language(C)  
   set(EXPAT_EXPAT_CODE
 "
 #include <expat.h>
