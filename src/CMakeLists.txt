@@ -32,7 +32,7 @@ if (BUILD_expat)
   message(STATUS "adding project: expat")
   ExternalProject_Add(expat
     PREFIX            ${CMAKE_BINARY_DIR}/expat
-    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/expat
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/libexpat/expat
   
     CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
       ${COMMON_CMAKE_OPTIONS}
@@ -40,8 +40,8 @@ if (BUILD_expat)
       -DEXPAT_BUILD_EXAMPLES=OFF 
       -DEXPAT_BUILD_TESTS=OFF 
       -DEXPAT_BUILD_TOOLS=OFF
-      -DCMAKE_DEBUG_POSTFIX=""
-      -DCMAKE_RELEASE_POSTFIX=""
+      -DCMAKE_DEBUG_POSTFIX=
+      -DCMAKE_RELEASE_POSTFIX=
       -DEXPAT_MSVC_STATIC_CRT=${WITH_STATIC_RUNTIME} 
       ${CMAKE_CURRENT_SOURCE_DIR}/libexpat/expat
   	
