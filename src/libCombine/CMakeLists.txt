@@ -581,7 +581,7 @@ if (BUILD_TEST)
 
   
   add_executable(${COMBINE_LIBRARY}-test ${TEST_SOURCES})
-  target_link_libraries(${COMBINE_LIBRARY}-test  ${LIBCOMBINE_LIBRARY}-static ${LIBCOMBINE_LIBS} ${EXTRA_LIBS})
+  target_link_libraries(${COMBINE_LIBRARY}-test  ${LIBCOMBINE_LIBRARY}-static ${EXTRA_LIBS})
 
   add_test(test_${COMBINE_LIBRARY}_run ${CMAKE_CURRENT_BINARY_DIR}/${COMBINE_LIBRARY}-test )
 set_tests_properties(test_${COMBINE_LIBRARY}_run PROPERTIES ENVIRONMENT 
