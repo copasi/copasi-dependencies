@@ -1,5 +1,10 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.6...3.19.0)
 project (mml)
+
+include(CheckCXXCompilerFlag)
+if (NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 11)
+endif()
 
 include(GNUInstallDirs)
 
@@ -30,6 +35,7 @@ if(MSVC OR USING_INTEL)
             endif(${flag_var} MATCHES "/MD")
         endforeach(flag_var)
     add_definitions( -D_MT)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     endif(WITH_STATIC_RUNTIME)
 endif(MSVC OR USING_INTEL)
 
