@@ -121,7 +121,9 @@ INSTALL(TARGETS ${BROKER_NAME}
 
 endif(WITH_BUILD_BROKER)
 
-
+option(BUILD_TRIG_EXAMPLE "Builds an example Trig service" OFF)
+if(BUILD_TRIG_EXAMPLE)
 add_executable (trig_server example/TrigPlusServerModule.cpp)
 target_link_libraries(trig_server SBW-static)
+endif()
 

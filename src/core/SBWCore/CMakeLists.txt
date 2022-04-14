@@ -46,7 +46,8 @@ if (WITH_BUILD_SHARED)
     @ONLY)
     
     add_library (SBW SHARED ${SBW_SOURCES} ${SBW_HEADERS} ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
-    set_target_properties(SBW PROPERTIES COMPILE_DEFINITIONS "SBW_FORCE_EXPORT=1;SBW_EXPORTS=1;SBW_STATIC=0")
+    set_target_properties(SBW PROPERTIES 
+      COMPILE_DEFINITIONS "SBW_FORCE_EXPORT=1;SBW_EXPORTS=1;SBW_STATIC=0")
     
   else()
   
@@ -102,6 +103,10 @@ if (WITH_BUILD_STATIC)
   endif(WIN32 AND NOT CYGWIN)
   
   target_link_libraries(SBW-static ${SBW_LIBS})
+  target_include_directories(SBW-static PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
+    $<INSTALL_INTERFACE:include> 
+  )
   
   INSTALL(TARGETS SBW-static EXPORT SBW-static-config
         RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
