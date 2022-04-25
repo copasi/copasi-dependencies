@@ -49,7 +49,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX)
 else()
   # TODO: define a target for -Weverything.
   # set(CMAKE_CXX_FLAGS "-msse4.2 -std=c++14 -Wall -Wextra -Werror -Wold-style-cast ${WEVERYTHING_FLAGS}")
-  set(CMAKE_CXX_FLAGS "-msse4.2 -std=c++14 -Wall -Wextra -Werror -Wold-style-cast -Wno-deprecated-copy")
+  set(CMAKE_CXX_FLAGS "-msse4.2 -std=c++14 -Wall -Wextra -Wold-style-cast -Wno-deprecated-copy")
 endif()
 
 # compile as position independent code
