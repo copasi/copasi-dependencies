@@ -25,10 +25,7 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-
-MACRO (FIND_EXPAT)
-
-ENDMACRO ()
+include(CheckCSourceCompiles)
 
 string(TOUPPER ${PROJECT_NAME} _UPPER_PROJECT_NAME)
 set(_PROJECT_DEPENDENCY_DIR ${_UPPER_PROJECT_NAME}_DEPENDENCY_DIR)
@@ -37,37 +34,58 @@ find_path(EXPAT_INCLUDE_DIR expat.h
     PATHS $ENV{EXPAT_DIR}/include
             $ENV{EXPAT_DIR}
             ${${_PROJECT_DEPENDENCY_DIR}}/include
-            ~/Library/Frameworks
-            /Library/Frameworks
-            /sw/include        # Fink
-            /opt/local/include # MacPorts
-            /opt/csw/include   # Blastwave
-            /opt/include
-            /usr/freeware/include
             NO_DEFAULT_PATH)
+
+if (NOT EXPAT_INCLUDE_DIR)
+find_path(EXPAT_INCLUDE_DIR expat.h
+    PATHS $ENV{EXPAT_DIR}/include
+          $ENV{EXPAT_DIR}
+          ${${_PROJECT_DEPENDENCY_DIR}}/include
+          ~/Library/Frameworks
+          /Library/Frameworks
+          /sw/include        # Fink
+          /opt/local/include # MacPorts
+          /opt/csw/include   # Blastwave
+          /opt/include
+          /usr/freeware/include
+          NO_DEFAULT_PATH)
+endif ()
 
 if (NOT EXPAT_INCLUDE_DIR)
     find_path(EXPAT_INCLUDE_DIR expat.h)
 endif ()
 
 find_library(EXPAT_LIBRARY 
-    NAMES expat libexpat
+    NAMES libexpat expat
     PATHS $ENV{EXPAT_DIR}/${CMAKE_INSTALL_LIBDIR}
-            $ENV{EXPAT_DIR}/lib-dbg
-            $ENV{EXPAT_DIR}
-            ${${_PROJECT_DEPENDENCY_DIR}}/${CMAKE_INSTALL_LIBDIR}
-            ${${_PROJECT_DEPENDENCY_DIR}}
-            ~/Library/Frameworks
-            /Library/Frameworks
-            /sw/lib        # Fink
-            /opt/local/lib # MacPorts
-            /opt/csw/lib   # Blastwave
-            /opt/lib
-            /usr/freeware/lib64
-            NO_DEFAULT_PATH)
+          $ENV{EXPAT_DIR}/lib-dbg
+          $ENV{EXPAT_DIR}
+          ${${_PROJECT_DEPENDENCY_DIR}}/${CMAKE_INSTALL_LIBDIR}
+          ${${_PROJECT_DEPENDENCY_DIR}}/lib64
+          ${${_PROJECT_DEPENDENCY_DIR}}/lib
+          ${${_PROJECT_DEPENDENCY_DIR}}
+          NO_DEFAULT_PATH)
 
 if (NOT EXPAT_LIBRARY)
-    find_library(EXPAT_LIBRARY NAMES expat libexpat)
+find_library(EXPAT_LIBRARY 
+    NAMES libexpat expat
+    PATHS $ENV{EXPAT_DIR}/${CMAKE_INSTALL_LIBDIR}
+          $ENV{EXPAT_DIR}/lib-dbg
+          $ENV{EXPAT_DIR}
+          ${${_PROJECT_DEPENDENCY_DIR}}/${CMAKE_INSTALL_LIBDIR}
+          ${${_PROJECT_DEPENDENCY_DIR}}
+          ~/Library/Frameworks
+          /Library/Frameworks
+          /sw/lib        # Fink
+          /opt/local/lib # MacPorts
+          /opt/csw/lib   # Blastwave
+          /opt/lib
+          /usr/freeware/lib64
+          NO_DEFAULT_PATH)
+endif()
+
+if (NOT EXPAT_LIBRARY)
+    find_library(EXPAT_LIBRARY NAMES libexpat expat)
 endif ()
 
 mark_as_advanced(EXPAT_INCLUDE_DIR EXPAT_LIBRARY)
@@ -142,7 +160,11 @@ if (EXPAT_EXPAT_TEST2)
     INTERFACE_COMPILE_DEFINITIONS "XML_STATIC=1"
     )
 else()
-  message(FATAL_ERROR "Unable to compile a test executable against expat")
+  message(FATAL_ERROR "Unable to compile a test executable against expat with
+  
+  EXPAT_INCLUDE_DIR = ${EXPAT_INCLUDE_DIR}
+  EXPAT_LIBRARY     = ${EXPAT_LIBRARY}
+  ")
 endif()
 
 endif()
