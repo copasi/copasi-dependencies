@@ -254,7 +254,6 @@ if (BUILD_zipper)
   
     CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
       ${COMMON_CMAKE_OPTIONS}
-      -DWITH_QT_FILESYSTEM=ON
       -DZIPPER_DEPENDENCY_DIR=${CMAKE_INSTALL_PREFIX}
   	  ${CMAKE_CURRENT_SOURCE_DIR}/zipper
   	
@@ -411,6 +410,27 @@ if (BUILD_cpu_features)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_cpu_features})
   set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} cpu_features)
 endif (BUILD_cpu_features)
+
+if (BUILD_qcustomplot)
+  message(STATUS "adding project: qcustomplot")
+  ExternalProject_Add(qcustomplot
+    PREFIX            ${CMAKE_BINARY_DIR}/qcustomplot
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/qcustomplot
+  
+    CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
+      ${COMMON_CMAKE_OPTIONS}
+      ${COMMON_CMAKE_OPTIONS_UI}
+  	  ${CMAKE_CURRENT_SOURCE_DIR}/qcustomplot
+  	
+    BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} ${BUILD_OPTIONS}
+    INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
+  )
+
+  file(GLOB CLEAN_TARGETS_qcustomplot ${CMAKE_BINARY_DIR}/qcustomplot/*)
+  set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_qcustomplot})
+  set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} qcustomplot)
+endif (BUILD_qcustomplot)
+
 
 if (BUILD_archive)
   message(STATUS "adding project: archive")

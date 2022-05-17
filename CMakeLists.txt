@@ -180,6 +180,7 @@ if (BUILD_UI_DEPS )
 
   option(BUILD_qwtplot3d "Build the qwtplot3d library" ${BUILD_UI_DEPS})
   option(BUILD_archive "Build a binary archive of all dependencies" ON)
+  option(BUILD_qcustomplot "Build the qcustomplot library" ${BUILD_UI_DEPS})
 endif()
 
 add_subdirectory(src)
