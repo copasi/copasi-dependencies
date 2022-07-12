@@ -10,6 +10,11 @@ extern "C"
 #include <fcntl.h>
 #include <sys/stat.h>
 
+#if (defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(_WIN64) || defined(_MSC_VER)) && !defined(CYGWIN) && !defined(__MINGW32__)
+#    define USE_WINDOWS 1
+#endif
+
+
 #if (defined(_WIN32)) || (defined(_WIN64))
 # include <direct.h>
 # include <io.h>
