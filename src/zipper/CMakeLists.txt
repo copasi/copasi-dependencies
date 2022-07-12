@@ -336,6 +336,7 @@ if (BUILD_TEST)
 
   add_executable(${ZIPPER_LIBRARY}-test ${TEST_SOURCES})
   target_link_libraries(${ZIPPER_LIBRARY}-test  ${ZIPPER_LIBRARY}-static ZLIB::ZLIB ${EXTRA_LIBS})
+  set_property(TARGET ${ZIPPER_LIBRARY}-test PROPERTY CXX_STANDARD 17)
 
   add_test(
     NAME test_zipper_run
