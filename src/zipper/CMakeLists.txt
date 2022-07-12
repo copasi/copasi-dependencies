@@ -305,7 +305,7 @@ endif()
 option(BUILD_STATIC_VERSION "Build the static version of the library." ON)
 if (BUILD_STATIC_VERSION)
   add_library (${ZIPPER_LIBRARY}-static STATIC ${ZIPPER_SOURCES} ${MINIZIP_SOURCES})
-  set_property(TARGET ${ZIPPER_LIBRARY} PROPERTY CXX_STANDARD 17)
+  set_property(TARGET ${ZIPPER_LIBRARY}-static PROPERTY CXX_STANDARD 17)
   target_link_libraries(${ZIPPER_LIBRARY}-static ZLIB::ZLIB ${EXTRA_LIBS})
   
   INSTALL(TARGETS ${ZIPPER_LIBRARY}-static
