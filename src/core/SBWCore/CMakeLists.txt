@@ -52,6 +52,8 @@ if (WITH_BUILD_SHARED)
   else()
   
     add_library (SBW SHARED ${SBW_SOURCES} ${SBW_HEADERS})
+    set_target_properties(SBW PROPERTIES 
+      COMPILE_DEFINITIONS "SBW_STATIC=0")
     
   endif()
 
@@ -95,12 +97,7 @@ option(WITH_BUILD_STATIC "Build the static SBW library" ON)
 if (WITH_BUILD_STATIC)
 
   add_library (SBW-static STATIC ${SBW_SOURCES} ${SBW_HEADERS})
-  if (WIN32 AND NOT CYGWIN)
-  
-    # don't decorate static library 
-    SET_TARGET_PROPERTIES(SBW-static PROPERTIES COMPILE_DEFINITIONS "SBW_STATIC=1")
-    
-  endif(WIN32 AND NOT CYGWIN)
+  SET_TARGET_PROPERTIES(SBW-static PROPERTIES COMPILE_DEFINITIONS "SBW_STATIC=1")
   
   target_link_libraries(SBW-static ${SBW_LIBS})
   target_include_directories(SBW-static PUBLIC
