@@ -117,10 +117,6 @@ set(PACKAGE_CONFIG_DIR "${CMAKE_INSTALL_LIBDIR}/cmake" CACHE PATH
 # src/CMakeLists.txt
 set(PROJECT_VERSION ${LIBSEDML_VERSION})
 
-# add make dist and make check target as they are already familiar for
-# everyone using the gnumake build
-add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
-
 ###############################################################################
 #
 # The next lines configure the parameters for packaging the binaries.
@@ -182,6 +178,12 @@ option(WITH_RUBY     "Generate Ruby language bindings"    OFF)
 option(WITH_R        "Generate R language bindings"       OFF)
 option(WITH_OCTAVE   "Generate Octave language bindings." OFF)
 option(WITH_MATLAB   "Generate MATLAB language bindings." OFF)
+
+option(FIND_LIBSBML  "Search for the libsbml library (must set variables manually if off)." ON)
+mark_as_advanced(FIND_LIBSBML)
+option(FIND_LIBNUML  "Search for the libnuml library (must set variables manually if off)." ON)
+mark_as_advanced(FIND_LIBNUML)
+
 
 # Add an option to compile with all warnings shown
 option(WITH_WALL     "Compile with -Wall, so that the compiler will display all warnings." OFF)
@@ -250,9 +252,9 @@ if (LIBSEDML_DEPENDENCY_DIR AND EXISTS ${LIBSEDML_DEPENDENCY_DIR})
 endif()
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
-# install find modules, so they can readily be used by others
-file(GLOB find_modules "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/Find*.cmake")
-install(FILES ${find_modules} DESTINATION share/cmake/Modules)
+# install libsedml find module so it can be found easily later
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/FindLIBSEDML.cmake" 
+        DESTINATION share/cmake/Modules)
 
 
 ###############################################################################
@@ -335,8 +337,12 @@ endif()
 #
 # Locate libsbml
 #
-find_package(LIBSBML REQUIRED)
-find_package(LIBNUML REQUIRED)
+if(FIND_LIBSBML)
+   find_package(LIBSBML REQUIRED)
+endif()
+if(FIND_LIBNUML)
+   find_package(LIBNUML REQUIRED)
+endif()
 
 SET(LIBSEDML_LIBS ${LIBNUML_LIBRARY_NAME} ${LIBSBML_LIBRARY})
 
@@ -391,10 +397,6 @@ if(WITH_ZLIB)
         if(UNIX)
             message(WARNING "The zlib library does not appear to be valid because it is missing certain required symbols. Please check that ${LIBZ_LIBRARY} is the zlib library. For details about the error, please see ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log")
         endif()
-    endif()
-
-    if(NOT EXISTS "${LIBZ_INCLUDE_DIR}/zlib.h")
-        message(FATAL_ERROR "The zlib include directory does not appear to be valid. It should contain the file zlib.h, but it does not.")
     endif()
 
 endif(WITH_ZLIB)
