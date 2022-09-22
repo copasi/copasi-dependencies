@@ -46,6 +46,9 @@ set(PACKAGE_NAME "libCombine")
 project(libCombine VERSION "${LIBCOMBINE_VERSION_MAJOR}.${LIBCOMBINE_VERSION_MINOR}.${LIBCOMBINE_VERSION_PATCH}"
                    LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 include (CMakeTestCXXCompiler)
 include (CheckCSourceCompiles)
 include (CheckCXXSourceCompiles)
@@ -228,10 +231,10 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "")
 endif()
 
 # Set the default dependency directory.
-set(COMBINE_DEPENDENCY_DIR ${CMAKE_SOURCE_DIR}/dependencies/ CACHE PATH
+set(LIBCOMBINE_DEPENDENCY_DIR ${CMAKE_SOURCE_DIR}/dependencies/ CACHE PATH
     "Directory containing libraries that libCombine depends upon. (Particularly important on Windows.)")
-if("${COMBINE_DEPENDENCY_DIR}" STREQUAL "")
-  set(COMBINE_DEPENDENCY_DIR ${CMAKE_SOURCE_DIR}/dependencies/ CACHE PATH
+if("${LIBCOMBINE_DEPENDENCY_DIR}" STREQUAL "")
+  set(LIBCOMBINE_DEPENDENCY_DIR ${CMAKE_SOURCE_DIR}/dependencies/ CACHE PATH
   "Directory containing libraries that libCombine depends upon. (Particularly important on Windows.)" FORCE)
 endif()
 
@@ -288,14 +291,14 @@ endif(WITH_SWIG)
 
 
 # Update cmake path variables
-if (COMBINE_DEPENDENCY_DIR AND EXISTS ${COMBINE_DEPENDENCY_DIR})
-  set(CMAKE_PREFIX_PATH "${COMBINE_DEPENDENCY_DIR}/${CMAKE_INSTALL_LIBDIR}/cmake;${CMAKE_PREFIX_PATH}")
+if (LIBCOMBINE_DEPENDENCY_DIR AND EXISTS ${LIBCOMBINE_DEPENDENCY_DIR})
+  set(CMAKE_PREFIX_PATH "${LIBCOMBINE_DEPENDENCY_DIR}/${CMAKE_INSTALL_LIBDIR}/cmake;${CMAKE_PREFIX_PATH}")
 endif()
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
-# install find modules, so they can readily be used by others
-file(GLOB find_modules "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/Find*.cmake")
-install(FILES ${find_modules} DESTINATION share/cmake/Modules)
+# install find module so that libCombine can be found easily
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/FindLIBCOMBINE.cmake"
+        DESTINATION share/cmake/Modules)
 
 
 ###############################################################################
@@ -581,7 +584,7 @@ if (BUILD_TEST)
 
   
   add_executable(${COMBINE_LIBRARY}-test ${TEST_SOURCES})
-  target_link_libraries(${COMBINE_LIBRARY}-test  ${LIBCOMBINE_LIBRARY}-static ${EXTRA_LIBS})
+  target_link_libraries(${COMBINE_LIBRARY}-test  ${LIBCOMBINE_LIBRARY}-static ${LIBCOMBINE_LIBS} ${EXTRA_LIBS})
 
   add_test(test_${COMBINE_LIBRARY}_run ${CMAKE_CURRENT_BINARY_DIR}/${COMBINE_LIBRARY}-test )
 set_tests_properties(test_${COMBINE_LIBRARY}_run PROPERTIES ENVIRONMENT 
