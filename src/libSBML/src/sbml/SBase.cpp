@@ -1064,6 +1064,31 @@ SBase::getModelHistory()
   return mHistory;
 }
 
+Date*
+SBase::getCreatedDate() const
+{
+  return (mHistory != NULL)  ? mHistory->getCreatedDate() : NULL;
+}
+
+Date*
+SBase::getCreatedDate()
+{
+  return (mHistory != NULL) ? mHistory->getCreatedDate() : NULL;
+}
+
+
+Date*
+SBase::getModifiedDate(unsigned int n)
+{
+  return (mHistory != NULL) ? mHistory->getModifiedDate(n) : NULL;
+}
+
+unsigned int
+SBase::getNumModifiedDates()
+{
+  return (mHistory != NULL) ? mHistory->getNumModifiedDates() : NULL;
+}
+
 
 /*
  * @return @c true if the metaid of this SBML object is set, false
@@ -1148,6 +1173,22 @@ SBase::isSetModelHistory() const
 {
   return (mHistory != NULL);
 }
+
+
+bool
+SBase::isSetCreatedDate() const
+{
+  return (mHistory == NULL) ? false : mHistory->isSetCreatedDate();
+}
+
+
+
+bool
+SBase::isSetModifiedDate() const
+{
+  return (mHistory == NULL) ? false : mHistory->isSetModifiedDate();
+}
+
 
 
 /*
@@ -1341,6 +1382,14 @@ SBase::setAnnotation (const XMLNode* annotation)
     mCVTerms = NULL;
   }
 
+  unsigned int level = getLevel();
+  bool hasNestedTerms = false;
+  bool validNestedTerms = true;
+  if (level < 2 ||
+    (level == 2 && getVersion() < 5))
+  {
+    validNestedTerms = false;
+  }
 
   if(mAnnotation != NULL
         && RDFAnnotationParser::hasCVTermRDFAnnotation(mAnnotation))
@@ -1348,6 +1397,21 @@ SBase::setAnnotation (const XMLNode* annotation)
     // parse mAnnotation (if any) and set mCVTerms
     mCVTerms = new List();
     RDFAnnotationParser::parseRDFAnnotation(mAnnotation, mCVTerms);
+    // look at cvterms to see if we have a nested term
+    for (unsigned int cv = 0; cv < mCVTerms->getSize(); cv++)
+    {
+      CVTerm * term = (CVTerm *)(mCVTerms->get(cv));
+      if (term->getNumNestedCVTerms() > 0)
+      {
+        hasNestedTerms = true;
+        /* this essentially tells the code that rewrites the annotation to
+        * reconstruct the node and should leave out the nested bit
+        * if it not allowed
+        */
+        term->setHasBeenModifiedFlag();
+        term->setCapturedInStoredAnnotation(!validNestedTerms);
+      }
+    }
     mCVTermsChanged = true;
   }
 
@@ -2229,45 +2293,103 @@ SBase::appendNotes(const std::string& notes)
 int
 SBase::setModelHistory(ModelHistory * history)
 {
+  // if there is no parent then the required attributes are not
+  // correctly identified
+  bool dummyParent = false;
+  if (history != NULL && history->getParentSBMLObject() == NULL)
+  {
+    history->setParentSBMLObject(this);
+    dummyParent = true;
+  }
+
+  int status = LIBSBML_OPERATION_SUCCESS;
+
   /* ModelHistory is only allowed on Model in L2
    * but on any element in L3
    */
   if (getLevel() < 3 && getTypeCode() != SBML_MODEL)
   {
-    return LIBSBML_UNEXPECTED_ATTRIBUTE;
+    status = LIBSBML_UNEXPECTED_ATTRIBUTE;
   }
   // shouldnt add a history to an object with no metaid
-  if (!isSetMetaId())
+  if (status == LIBSBML_OPERATION_SUCCESS && !isSetMetaId())
   {
-    return LIBSBML_MISSING_METAID;
+    status = LIBSBML_MISSING_METAID;
   }
+  
+  if (status == LIBSBML_OPERATION_SUCCESS)
+  {
+    if (mHistory == history)
+    {
+      status = LIBSBML_OPERATION_SUCCESS;
+    }
+    else if (history == NULL)
+    {
+      delete mHistory;
+      mHistory = NULL;
+      mHistoryChanged = true;
+      status = LIBSBML_OPERATION_SUCCESS;
+    }
+    else if (!(history->hasRequiredAttributes()))
+    {
+      delete mHistory;
+      mHistory = NULL;
+      status = LIBSBML_INVALID_OBJECT;
+    }
+    else
+    {
+      delete mHistory;
+      mHistory = static_cast<ModelHistory*>(history->clone());
+      mHistoryChanged = true;
+      status = LIBSBML_OPERATION_SUCCESS;
+    }
+  }
+  // if we set a dummy parent unset
+  if (dummyParent)
+    history->unsetParentSBMLObject();
 
-  if (mHistory == history)
+  return status;
+}
+
+int 
+SBase::setCreatedDate(Date* date)
+{
+  if (mHistory != NULL)
   {
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (history == NULL)
-  {
-    delete mHistory;
-    mHistory = NULL;
-    mHistoryChanged = true;
-    return LIBSBML_OPERATION_SUCCESS;
-  }
-  else if (!(history->hasRequiredAttributes()))
-  {
-    delete mHistory;
-    mHistory = NULL;
-    return LIBSBML_INVALID_OBJECT;
+    return mHistory->setCreatedDate(date);
   }
   else
   {
-    delete mHistory;
-    mHistory = static_cast<ModelHistory*>( history->clone() );
+    ModelHistory* mh = new ModelHistory();
+    // we want to set it regardless of content
+    mHistory = static_cast<ModelHistory*>(mh->clone());
     mHistoryChanged = true;
-    return LIBSBML_OPERATION_SUCCESS;
+    delete mh;
+
+    return mHistory->setCreatedDate(date);
+
   }
 }
 
+int
+SBase::addModifiedDate(Date* date)
+{
+  if (mHistory != NULL)
+  {
+    return mHistory->addModifiedDate(date);
+  }
+  else
+  {
+    ModelHistory* mh = new ModelHistory();
+    // we want to set it regardless of content
+    mHistory = static_cast<ModelHistory*>(mh->clone());
+    mHistoryChanged = true;
+    delete mh;
+
+    return mHistory->addModifiedDate(date);
+
+  }
+}
 
 /** @cond doxygenLibsbmlInternal */
 /*
@@ -4651,9 +4773,10 @@ SBase::readAnnotation (XMLInputStream& stream)
   const string& name = stream.peek().getName();
 
   unsigned int level = getLevel();
+  unsigned int version = getVersion();
 
   if (name == "annotation"
-    || (level == 1 && getVersion() == 1 && name == "annotations"))
+    || (level == 1 && version == 1 && name == "annotations"))
   {
     // If this is a level 1 document then annotations are not allowed on
     // the sbml container
@@ -4683,15 +4806,15 @@ SBase::readAnnotation (XMLInputStream& stream)
         break;
       }
       msg += "has multiple <annotation> children.";
-      if (getLevel() < 3)
+      if (level < 3)
       {
-        logError(NotSchemaConformant, getLevel(), getVersion(),
+        logError(NotSchemaConformant, level, version,
           "Only one <annotation> element is permitted inside a "
           "particular containing element.  " + msg);
       }
       else
       {
-        logError(MultipleAnnotations, getLevel(), getVersion(), msg);
+        logError(MultipleAnnotations, level, version, msg);
       }
     }
 
@@ -4706,16 +4829,16 @@ SBase::readAnnotation (XMLInputStream& stream)
     }
     mCVTerms = new List();
     /* might have model history on sbase objects */
-    if (getLevel() > 2 && getTypeCode()!= SBML_MODEL)
+    if (level > 2 && getTypeCode()!= SBML_MODEL)
     {
       delete mHistory;
       if (RDFAnnotationParser::hasHistoryRDFAnnotation(mAnnotation))
       {
         mHistory = RDFAnnotationParser::parseRDFAnnotation(mAnnotation,
-                                                getMetaId().c_str(), &(stream));
+                                                getMetaId().c_str(), &(stream), this);
         if (mHistory != NULL && mHistory->hasRequiredAttributes() == false)
         {
-          logError(RDFNotCompleteModelHistory, getLevel(), getVersion(),
+          logError(RDFNotCompleteModelHistory, level, version,
             "An invalid ModelHistory element has been stored.");
         }
         setModelHistory(mHistory);
@@ -4731,6 +4854,13 @@ SBase::readAnnotation (XMLInputStream& stream)
                                               getMetaId().c_str(), &(stream));
 
       bool hasNestedTerms = false;
+      bool validNestedTerms = true;
+      if (level < 2 ||
+        (level == 2 && version < 5))
+      {
+        validNestedTerms = false;
+      }
+
       // look at cvterms to see if we have a nested term
       for (unsigned int cv = 0; cv < mCVTerms->getSize(); cv++)
       {
@@ -4743,19 +4873,14 @@ SBase::readAnnotation (XMLInputStream& stream)
            * if it not allowed
            */
           term->setHasBeenModifiedFlag();
+          term->setCapturedInStoredAnnotation(!validNestedTerms);
         }
       }
 
-      if (hasNestedTerms == true)
+      if (hasNestedTerms == true && validNestedTerms == false)
       {
-        unsigned int version = getVersion();
-        if (level < 2 || 
-            (level == 2 && version < 5) || 
-            (level == 3) )
-        {
-          logError(NestedAnnotationNotAllowed, level, version,
-            "The nested annotation has been stored but will not be written out.");
-        }
+        logError(NestedAnnotationNotAllowed, level, version,
+          "The nested annotation has been stored but not saved as a CVTerm.");
       }
       
     }
@@ -5886,7 +6011,8 @@ SBase::syncAnnotation ()
   {
     for (unsigned int i = 0; i < getNumCVTerms(); i++)
     {
-      if (getCVTerm(i)->hasBeenModified() == true)
+      if (getCVTerm(i)->hasBeenModified() == true && 
+        getCVTerm(i)->getCapturedInStoredAnnotation() == false)
       {
         mCVTermsChanged = true;
         break;
@@ -6526,6 +6652,10 @@ SBase::checkDefaultNamespace(const XMLNamespaces* xmlns,
                              const std::string& elementName,
                              const std::string prefix)
 {
+  // listOfKeyValuePairs can be in any NS
+  if (elementName == "listOfKeyValuePairs")
+    return;
+
   //
   // checks if the given default namespace (if any) is a valid
   // SBML namespace

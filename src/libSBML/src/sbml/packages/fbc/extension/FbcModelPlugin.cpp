@@ -2065,7 +2065,7 @@ FbcModelPlugin::createChildObject(const std::string& elementName)
     return createUserDefinedConstraint();
   }
 
-  return obj;
+  return FbcSBasePlugin::createChildObject(elementName);
 }
 
 /** @endcond */
@@ -2100,7 +2100,7 @@ FbcModelPlugin::addChildObject(const std::string& elementName,
     return addUserDefinedConstraint((const UserDefinedConstraint*)(element));
   }
 
-  return LIBSBML_OPERATION_FAILED;
+  return FbcSBasePlugin::addChildObject(elementName, element);
 }
 
 /** @endcond */
@@ -2134,7 +2134,7 @@ FbcModelPlugin::removeChildObject(const std::string& elementName,
     return removeUserDefinedConstraint(id);
   }
 
-  return NULL;
+  return FbcSBasePlugin::removeChildObject(elementName, id);
 }
 
 /** @endcond */
@@ -2168,7 +2168,7 @@ FbcModelPlugin::getNumObjects(const std::string& elementName)
     return getNumUserDefinedConstraints();
   }
 
-  return n;
+  return FbcSBasePlugin::getNumObjects(elementName);
 }
 
 /** @endcond */
@@ -2202,7 +2202,7 @@ FbcModelPlugin::getObject(const std::string& elementName, unsigned int index)
     return getUserDefinedConstraint(index);
   }
 
-  return obj;
+  return FbcSBasePlugin::getObject(elementName, index);
 }
 
 /** @endcond */
@@ -2547,6 +2547,14 @@ FbcModelPlugin_getNumFluxBounds(SBasePlugin_t * fbc)
 
 
 LIBSBML_EXTERN
+Objective_t*
+FbcModelPlugin_createObjective(SBasePlugin_t * fbc)
+{
+  return static_cast<FbcModelPlugin*>(fbc)->createObjective();
+}
+
+
+LIBSBML_EXTERN
 int
 FbcModelPlugin_addObjective(SBasePlugin_t * fbc, Objective_t * obj)
 {
@@ -2593,6 +2601,14 @@ FbcModelPlugin_setActiveObjectiveId(SBasePlugin_t * fbc, const char * activeId)
   return (fbc != NULL) 
     ? static_cast<FbcModelPlugin *>(fbc)->setActiveObjectiveId(activeId) 
     : LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+GeneProduct_t*
+FbcModelPlugin_createGeneProduct(SBasePlugin_t * fbc)
+{
+  return static_cast<FbcModelPlugin*>(fbc)->createGeneProduct();
 }
 
 

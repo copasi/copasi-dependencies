@@ -161,9 +161,9 @@ include(CPack)
 # add local modules to module path
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
 
-# install find modules, so they can readily be used by others
-file(GLOB find_modules "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/Find*.cmake")
-install(FILES ${find_modules} DESTINATION share/cmake/Modules)
+# install find modules, so they can readily be used by others: start with libSBML
+set (LIBSBML_FIND_MODULES "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/FindLIBSBML.cmake")
+
 
 ###############################################################################
 #
@@ -191,7 +191,7 @@ option(WITH_STABLE_PACKAGES "Compile libSBML with all stable packages." OFF)
 option(WITH_ALL_PACKAGES    "Compile libSBML with all packages." OFF)
 
 if (WITH_ALL_PACKAGES)
-  set(_EXPERIMENTAL_PACKGES "arrays;dyn;spatial;REQUIREDELEMENTS")
+  set(_EXPERIMENTAL_PACKGES "arrays;dyn;REQUIREDELEMENTS")
   foreach(package ${_EXPERIMENTAL_PACKGES})
     string(TOUPPER ${package} package_upper)
     string(CONCAT package_option "ENABLE_" ${package_upper})
@@ -201,7 +201,7 @@ if (WITH_ALL_PACKAGES)
 endif(WITH_ALL_PACKAGES)
 
 if (WITH_STABLE_PACKAGES)
-  set(_STABLE_PACKGES "comp;distrib;fbc;groups;layout;multi;qual;render")
+  set(_STABLE_PACKGES "comp;distrib;fbc;groups;layout;multi;qual;render;spatial")
   foreach(package ${_STABLE_PACKGES})
     string(TOUPPER ${package} package_upper)
     string(CONCAT package_option "ENABLE_" ${package_upper})
@@ -419,7 +419,9 @@ set(LIBSBML_XML_LIBRARY_LIBS)
 
 if(WITH_EXPAT)
   
+    if(NOT TARGET EXPAT::EXPAT)
     find_package(EXPAT REQUIRED)
+    endif()
 
     add_definitions( -DUSE_EXPAT )
     list(APPEND SWIG_EXTRA_ARGS -DUSE_EXPAT)
@@ -427,6 +429,8 @@ if(WITH_EXPAT)
     set(LIBSBML_XML_LIBRARY "expat")
     set(LIBSBML_XML_LIBRARY_INCLUDE ${EXPAT_INCLUDE_DIR})
     set(LIBSBML_XML_LIBRARY_LIBS ${EXPAT_LIBRARY})
+
+    list(APPEND LIBSBML_FIND_MODULES "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/FindEXPAT.cmake")
 
 endif(WITH_EXPAT)
 
@@ -448,6 +452,8 @@ if(WITH_LIBXML)
   set(LIBSBML_XML_LIBRARY_INCLUDE ${LIBXML_INCLUDE_DIR})
   set(LIBSBML_XML_LIBRARY_LIBS ${LIBXML_LIBRARY})
 
+  list(APPEND LIBSBML_FIND_MODULES "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/FindLIBXML.cmake")
+
 endif(WITH_LIBXML)
 
 
@@ -466,6 +472,8 @@ if(WITH_XERCES)
     set(LIBSBML_XML_LIBRARY "xerces-c")
     set(LIBSBML_XML_LIBRARY_INCLUDE ${XERCES_INCLUDE_DIR})
     set(LIBSBML_XML_LIBRARY_LIBS ${XERCES_LIBRARY})
+
+    list(APPEND LIBSBML_FIND_MODULES "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/FindXERCES.cmake")
 
 endif(WITH_XERCES)
 
@@ -487,10 +495,10 @@ option(WITH_BZIP2    "Enable the use of bzip2 compression."  ${BZIP_INITIAL_VALU
 set(USE_BZ2 OFF)
 if(WITH_BZIP2)
   find_package(BZ2 REQUIRED)
-    set(USE_BZ2 ON)
-    add_definitions( -DUSE_BZ2 )
+  set(USE_BZ2 ON)
+  add_definitions( -DUSE_BZ2 )
   list(APPEND SWIG_EXTRA_ARGS -DUSE_BZ2)
-
+  list(APPEND LIBSBML_FIND_MODULES "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/FindBZ2.cmake")
 endif(WITH_BZIP2)
 
 
@@ -600,8 +608,12 @@ valid. It should contain the file zlib.h, but it does not.")
       INTERFACE_INCLUDE_DIRECTORIES "${LIBZ_INCLUDE_DIR}")
   endif()
 
+  list(APPEND LIBSBML_FIND_MODULES "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/FindZLIB.cmake")
+
 endif(WITH_ZLIB)
 
+# install find scripts only for used dependencies
+install(FILES ${LIBSBML_FIND_MODULES} DESTINATION share/cmake/Modules)
 
 ###############################################################################
 #
@@ -1032,6 +1044,7 @@ if (UNIX OR MINGW)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libsbml.pc"
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 endif()
+
 
 ###############################################################################
 #

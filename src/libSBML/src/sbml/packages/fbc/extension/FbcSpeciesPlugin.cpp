@@ -126,7 +126,7 @@ parseChemicalFormula(std::string& chemicalFormula,
       message += "' when expecting a capital letter.";
       if (species)
       {
-        message += "The chemicalFormula '";
+        message += " The chemicalFormula '";
         message += chemicalFormula;
         if (species->isSetId())
         {
@@ -678,7 +678,7 @@ FbcSpeciesPlugin::getAttribute(const std::string& attributeName,
 
   if (attributeName == "charge")
   {
-    value = getCharge();
+    value = getChargeAsDouble();
     return_value = LIBSBML_OPERATION_SUCCESS;
   }
 

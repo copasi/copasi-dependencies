@@ -33,12 +33,88 @@
 
 if (WITH_DOXYGEN)
 find_package(Doxygen)
+find_package(PythonInterp)
 
 if (NOT EXISTS "${DOXYGEN_EXECUTABLE}")
 		message(FATAL_ERROR "Cannot generate documentation, please install doxygen / specify the DOXYGEN_EXECUTABLE.")
-else()
-		message(WARNING "Creating Documentation with CMake is experimental. Please consider configuring with gnumake, to generate documentation.")
 endif()
+
+if (NOT EXISTS "${PYTHON_EXECUTABLE}")
+		message(FATAL_ERROR "Cannot generate documentation, please install python / specify the PYTHON_EXECUTABLE.")
+endif()
+
+# -----------------------------------------------------------------------------
+# 'comp' package
+# -----------------------------------------------------------------------------
+
+SET(PACKAGE_COMP_VERSION 1)
+SET(PACKAGE_COMP_RELEASE 3)
+SET(PACKAGE_COMP_SPEC_URL "http://sbml.org/specifications/sbml-level-3/version-1/comp/sbml-comp-version-1-release-3.pdf")
+SET(PACKAGE_COMP_ERRATA_URL "http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/Hierarchical_Model_Composition_%28comp%29/Confirmed_issues_in_the_Hierarchical_Model_Composition_package_specification")
+
+# -----------------------------------------------------------------------------
+# 'fbc' package v1
+# -----------------------------------------------------------------------------
+
+SET(PACKAGE_FBC_V1_VERSION 1)
+SET(PACKAGE_FBC_V1_RELEASE 1)
+SET(PACKAGE_FBC_V1_SPEC_URL "http://identifiers.org/combine.specifications/sbml.level-3.version-1.fbc.version-1.release-1")
+SET(PACKAGE_FBC_V1_ERRATA_URL "http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/Flux_Balance_Constraints_%28flux%29/Confirmed_issues_in_the_Flux_Balance_Constraints_package_specification")
+
+# -----------------------------------------------------------------------------
+# 'fbc' package v2
+# -----------------------------------------------------------------------------
+
+SET(PACKAGE_FBC_V2_VERSION 2)
+SET(PACKAGE_FBC_V2_RELEASE 1)
+SET(PACKAGE_FBC_V2_SPEC_URL "http://identifiers.org/combine.specifications/sbml.level-3.version-1.fbc.version-2.release-1")
+SET(PACKAGE_FBC_V2_ERRATA_URL "http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/Flux_Balance_Constraints_%28flux%29/Confirmed_issues_in_the_Flux_Balance_Constraints_package_specification")
+
+# -----------------------------------------------------------------------------
+# 'groups' package v1
+# -----------------------------------------------------------------------------
+
+SET(PACKAGE_GROUPS_V1_VERSION 1)
+SET(PACKAGE_GROUPS_V1_RELEASE 1)
+SET(PACKAGE_GROUPS_V1_SPEC_URL "http://identifiers.org/combine.specifications/sbml.level-3.version-1.groups.version-1.release-1")
+SET(PACKAGE_GROUPS_V1_ERRATA_URL "http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/Groups/Confirmed_issues_in_the_Groups_package_specification")
+
+# -----------------------------------------------------------------------------
+# 'multi' package v1
+# -----------------------------------------------------------------------------
+
+SET(PACKAGE_MULTI_V1_VERSION 1)
+SET(PACKAGE_MULTI_V1_RELEASE 1)
+SET(PACKAGE_MULTI_V1_SPEC_URL "http://identifiers.org/combine.specifications/sbml.level-3.version-1.multi.version-1.release-1")
+SET(PACKAGE_MULTI_V1_ERRATA_URL "http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/Multi/Confirmed_issues_in_the_Multi_package_specification")
+
+# -----------------------------------------------------------------------------
+# 'layout' package
+# -----------------------------------------------------------------------------
+
+SET(PACKAGE_LAYOUT_VERSION 1)
+SET(PACKAGE_LAYOUT_RELEASE 1)
+SET(PACKAGE_LAYOUT_SPEC_URL "http://identifiers.org/combine.specifications/sbml.level-3.version-1.layout.version-1.release-1")
+SET(PACKAGE_LAYOUT_ERRATA_URL "http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/Layout_%28layout%29/Confirmed_issues_in_the_Layout_package_specification")
+
+# -----------------------------------------------------------------------------
+# 'render' package
+# -----------------------------------------------------------------------------
+
+SET(PACKAGE_RENDER_VERSION 1)
+SET(PACKAGE_RENDER_RELEASE 1)
+SET(PACKAGE_RENDER_SPEC_URL "http://identifiers.org/combine.specifications/sbml.level-3.version-1.render.version-1.release-1")
+SET(PACKAGE_RENDER_ERRATA_URL "http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/Render_%28render%29/Confirmed_issues_in_the_Render_package_specification")
+
+# -----------------------------------------------------------------------------
+# 'qual' package
+# -----------------------------------------------------------------------------
+
+SET(PACKAGE_QUAL_VERSION 1)
+SET(PACKAGE_QUAL_RELEASE 1)
+SET(PACKAGE_QUAL_SPEC_URL "http://identifiers.org/combine.specifications/sbml.level-3.version-1.qual.version-1.release-1")
+SET(PACKAGE_QUAL_ERRATA_URL "http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/Qualitative_Models_%28qual%29/Confirmed_issues_in_the_Qualitative_Models_package_specification")
+
 
 # determine doxygen version
 IF(DOXYGEN_EXECUTABLE)
@@ -71,79 +147,50 @@ endif()
 
 set(PACKAGE_NAME "libSBML")
 
-set(LOGO_FILES 
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/common-graphics/official-sbml-supported-32.jpg
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/common-graphics/official-sbml-supported-40.jpg
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/common-graphics/official-sbml-supported-70.png
-)
-
 # replace variables as needed
 foreach( lang "common" "c" "cpp" "perl" "python" "csharp")
 configure_file(
 	${CMAKE_CURRENT_SOURCE_DIR}/src/doxygen-config-${lang}.txt.cmake
 	${CMAKE_CURRENT_SOURCE_DIR}/src/doxygen-config-${lang}.txt
+	@ONLY
 )
 endforeach()
 
-
-
+file(GLOB HTML_TEMPLATES ${CMAKE_CURRENT_SOURCE_DIR}/src/common-text/*.html.in)
+foreach(file ${HTML_TEMPLATES})
+	get_filename_component(filename ${file} NAME)
+	string(REPLACE ".in" "" filename ${filename})
+	configure_file(
+		${file}
+		${CMAKE_CURRENT_SOURCE_DIR}/src/common-text/${filename}
+		@ONLY
+	)
+endforeach()
 
 # create C-api manuals
 macro(createManual lang)
-	make_directory(${CMAKE_CURRENT_SOURCE_DIR}/formatted/${lang}-api)
-	make_directory(${CMAKE_CURRENT_SOURCE_DIR}/formatted/${lang}-api/search)
-
-	file(GLOB graphics_files ${CMAKE_CURRENT_SOURCE_DIR}/src/common-graphics/*.jpg)
-	foreach(graphic ${graphics_files})
-		file(COPY ${graphic} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/formatted/${lang}-api)
-	endforeach()
-
-	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/formatted/${lang}-api output_path)
-	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/formatted/${lang}-api/search search_path)
-	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/common-graphics/official-sbml-supported-40.jpg logo_file)
-	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/css/right-arrow-2x.png right_arrow)
-	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/sbml.js sbml_js)
-	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/doxygen-tabs.css tabs_css)
-	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/css/search.png search_png)
-	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/css/search.css search_css)
-
-	file(TO_NATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/doxygen-config-${lang}.txt api_doc)
-
 	ADD_CUSTOM_COMMAND(
 		OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/formatted/${lang}-api/index.html
-		#COMMAND "${CMAKE_COMMAND}"
-		#ARGS -E remove_directory ${output_path}
-		COMMAND ${DOXYGEN_EXECUTABLE}
-		ARGS   ${api_doc}
-		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src
+
+		# call create manual script
 		COMMAND "${CMAKE_COMMAND}"
-		ARGS -E copy
-			${logo_file}
-			${output_path}
-		COMMAND "${CMAKE_COMMAND}"
-		ARGS -E copy
-			${right_arrow}
-			${output_path}
-		COMMAND "${CMAKE_COMMAND}"
-		ARGS -E copy
-			${sbml_js}
-			${output_path}
-#		COMMAND "${CMAKE_COMMAND}"
-#		ARGS -E copy
-#			${tabs_css}
-#			${output_path}
-		COMMAND "${CMAKE_COMMAND}"
-		ARGS -E copy
-			${search_png}
-			${search_path}
-		COMMAND "${CMAKE_COMMAND}"
-		ARGS -E copy
-			${search_css}
-			${search_path}
+		ARGS -DLANGUAGE="${lang}"
+			 -DROOT_DIR=${LIBSBML_ROOT_SOURCE_DIR}
+			 -DSRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}
+			 -DOUTPUT_DIR=${CMAKE_CURRENT_SOURCE_DIR}/formatted/${lang}-api/
+			 -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE}
+			 -DDOXYGEN_EXECUTABLE=${DOXYGEN_EXECUTABLE}
+			 -P "${CMAKE_CURRENT_SOURCE_DIR}/create-manual.cmake"
+			
 		COMMENT "Generate ${lang}-API Documentation"
 		DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
+		        ${CMAKE_CURRENT_SOURCE_DIR}/create-manual.cmake
+				${CMAKE_CURRENT_SOURCE_DIR}/index-helper.cmake
+				${CMAKE_CURRENT_SOURCE_DIR}/src/doxygen-config-${lang}.txt
+				${CMAKE_CURRENT_SOURCE_DIR}/src/doxygen-config-${lang}.txt.cmake
 
 	)
+
 
 	add_custom_target(api_docs_${lang} ALL DEPENDS
 		${CMAKE_CURRENT_SOURCE_DIR}/formatted/${lang}-api/index.html
@@ -153,7 +200,6 @@ macro(createManual lang)
 		add_dependencies(api_docs_${lang} api_docs_python_py)
 	endif()
 	
-
 	install(DIRECTORY ${output_path} DESTINATION ${MISC_PREFIX}docs )
 
 endmacro()
