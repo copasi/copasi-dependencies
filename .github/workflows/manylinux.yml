@@ -47,10 +47,15 @@ jobs:
        working-directory: build
        run: cmake --build . --config $BUILD_TYPE -j `nproc`
 
+     - name: Patch cmake files
+       run: |
+            cd install/lib64/cmake
+            sed -i 's|'$PWD'/install/|${_IMPORT_PREFIX}/|g'  *.cmake
+
      - name: binary archive
        uses: actions/upload-artifact@v2
        with:
-        name: manyliunux
+        name: manylinux2014
         path: install/*
         retention-days: 90
         if-no-files-found: error
