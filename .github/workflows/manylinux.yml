@@ -28,7 +28,7 @@ jobs:
 
      - name: Configure CMake
        working-directory: ${{github.workspace}}/build
-       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=../install/
+       run: cmake -S ${{github.workspace}} -B  ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install/
 
      - name: Build
        working-directory: ${{github.workspace}}/build
