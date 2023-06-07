@@ -49,8 +49,7 @@ jobs:
 
      - name: Patch cmake files
        run: |
-            cd install/lib64/cmake
-            sed -i 's|'$PWD'/install/|${_IMPORT_PREFIX}/|g'  *.cmake
+            sed -i 's|'$PWD'/install/|${_IMPORT_PREFIX}/|g'  $PWD/install/lib64/cmake/*.cmake
 
      - name: binary archive
        uses: actions/upload-artifact@v2
