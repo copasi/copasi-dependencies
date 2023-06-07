@@ -29,7 +29,9 @@ jobs:
             ln -s /opt/python/cp38-cp38/bin/cmake /usr/bin/cmake
 
      - name: Configure CMake
-       run: cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=./install/
+       run: |
+            git config --global --add safe.directory $PWD
+            cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=./install/
 
      - name: Build
        working-directory: build
