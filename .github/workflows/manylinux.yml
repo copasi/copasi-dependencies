@@ -1,0 +1,43 @@
+name: manylinux
+
+on: 
+  push:
+    paths:
+        - "**"
+        - "!.github/**"
+        - ".github/workflows/manylinux.yml"
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    name: manylinux
+    runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
+    steps:
+     - uses: actions/checkout@v2
+    
+     - name: Create Build Environment
+       run: cmake -E make_directory ${{github.workspace}}/build
+
+     - name: Configure CMake
+       working-directory: ${{github.workspace}}/build
+       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=../install/
+
+     - name: Build
+       working-directory: ${{github.workspace}}/build
+       run: cmake --build . --config $BUILD_TYPE
+
+     - name: binary archive
+       uses: actions/upload-artifact@v2
+       with:
+        name: manyliunux
+        path: ${{github.workspace}}/install/*
+        retention-days: 90
+        if-no-files-found: error
