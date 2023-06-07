@@ -23,26 +23,22 @@ jobs:
     steps:
      - uses: actions/checkout@v2
     
-     - name: Create Build Environment
-       run: cmake -E make_directory ${{github.workspace}}/build
-
-     - name: intall cmake
+     - name: intall latest cmake
        run: | 
             /opt/python/cp38-cp38/bin/pip install cmake
             ln -s /opt/python/cp38-cp38/bin/cmake /usr/bin/cmake
 
      - name: Configure CMake
-       working-directory: ${{github.workspace}}/build
-       run: cmake -S ${{github.workspace}} -B  ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install/
+       run: cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=./install/
 
      - name: Build
-       working-directory: ${{github.workspace}}/build
+       working-directory: build
        run: cmake --build . --config $BUILD_TYPE -j `nproc`
 
      - name: binary archive
        uses: actions/upload-artifact@v2
        with:
         name: manyliunux
-        path: ${{github.workspace}}/install/*
+        path: install/*
         retention-days: 90
         if-no-files-found: error
