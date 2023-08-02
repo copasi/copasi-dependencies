@@ -45,6 +45,10 @@ or
 
 	yum install uuid-devel
 
+ or
+
+ 	pacman -S libutil-linux-devel
+
 or directly from the source archives. 
 
 #### UI dependency libraries
@@ -111,7 +115,7 @@ The following open source libraries are included in this project:
 - [clapack 3.2.1](http://www.netlib.org/clapack/)
 - [cppunit 1.12.1](http://sourceforge.net/projects/cppunit/)
 - [expat 2.1.0](http://expat.sourceforge.net/)
-- Qt MML widget (LGPL, Qt Solutions)
+- [qtmmlwidget](https://code.qt.io/cgit/qt-solutions/qt-solutions.git/tree/qtmmlwidget?id=0787fe5befa2bbadf9fff1956a3e53e14c9a480f)
 - [QWT 5.2.0 or 6.1.0](http://qwt.sourceforge.net/)
 - [QWT 3D plot](http://qwtplot3d.sourceforge.net/)
 - [libSBML 5.18.0](http://sbml.org/Software/libSBML)
@@ -121,7 +125,7 @@ The following open source libraries are included in this project:
 - [SBW Core](http://sbw.sourceforge.net/)
 - [raptor](http://librdf.org/raptor/)
 - [zipper 0.9.1](https://github.com/fbergmann/zipper)
-- crossguid (MIT)
+- [crossguid](https://github.com/graeme-hill/crossguid)
 
 ## License
 Just in case it needs saying, each of the libraries in the `src` folder are released under their own respective licenses. Otherwise this project (i.e.: the build scripts) are released under the BSD License: 
