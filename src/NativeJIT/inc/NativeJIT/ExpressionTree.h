@@ -80,7 +80,7 @@ namespace NativeJIT
 
 
     template <typename T>
-    typename Storage<T>::DirectRegister ExpressionTree::GetResultRegister()
+    typename ExpressionTree::Storage<T>::DirectRegister ExpressionTree::GetResultRegister()
     {
         return typename Storage<T>::DirectRegister(0);
     }
