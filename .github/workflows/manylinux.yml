@@ -19,7 +19,7 @@ jobs:
   build:
     name: manylinux
     runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_x86_64
+    container: quay.io/pypa/manylinux_2_28_x86_64
     steps:
      - uses: actions/checkout@v2
     
@@ -54,7 +54,7 @@ jobs:
      - name: binary archive
        uses: actions/upload-artifact@v2
        with:
-        name: manylinux2014
+        name: manylinux_2_28_x86_64
         path: install/*
         retention-days: 90
         if-no-files-found: error
