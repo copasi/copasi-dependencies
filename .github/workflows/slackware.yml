@@ -5,7 +5,7 @@ on:
     paths:
         - "**"
         - "!.github/**"
-        - ".github/workflows/sackware.yml"
+        - ".github/workflows/slackware.yml"
 
 defaults:
   run:
