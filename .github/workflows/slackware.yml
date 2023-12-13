@@ -1,0 +1,55 @@
+name: slackware
+
+on: 
+  push:
+    paths:
+        - "**"
+        - "!.github/**"
+        - ".github/workflows/sackware.yml"
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    name: slackware
+    runs-on: ubuntu-latest
+    container: andy5995/slackware-build-essential:15.0
+    steps:
+     - uses: actions/checkout@v2
+    
+     - name: install libuuid (static)
+       run: |
+            curl -L -O http://downloads.sourceforge.net/libuuid/libuuid-1.0.3.tar.gz 
+            tar -zxf libuuid-1.0.3.tar.gz
+            cd libuuid-1.0.3
+            ./configure --disable-dependency-tracking --with-pic --enable-static=yes --enable-shared=no
+            make
+            make install
+            rm /usr/local/lib/libuuid.la
+
+     - name: Configure CMake
+       run: |
+            git config --global --add safe.directory $PWD
+            cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=./install/
+
+     - name: Build
+       working-directory: build
+       run: cmake --build . --config $BUILD_TYPE -j `nproc`
+
+     - name: Patch cmake files
+       run: |
+            sed -i 's|'$PWD'/install/|${_IMPORT_PREFIX}/|g'  $PWD/install/lib64/cmake/*.cmake
+
+     - name: binary archive
+       uses: actions/upload-artifact@v2
+       with:
+        name: slackware
+        path: install/*
+        retention-days: 90
+        if-no-files-found: error
