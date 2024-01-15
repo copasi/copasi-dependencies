@@ -24,6 +24,7 @@ find_library(ZIPPER_LIBRARY
           $ENV{ZIPPER_DIR}/lib
           /usr/lib
           /usr/local/lib
+          CMAKE_FIND_ROOT_PATH_BOTH 
     DOC "The file name of the ZIPPER library."
 )
 
@@ -34,6 +35,7 @@ find_path(ZIPPER_INCLUDE_DIR
             ${CMAKE_OSX_SYSROOT}/usr/include
             /usr/include
             /usr/local/include
+            CMAKE_FIND_ROOT_PATH_BOTH 
             NO_DEFAULT_PATH
       DOC "The directory containing the ZIPPER include files."
             )

@@ -34,6 +34,7 @@ if (NOT ${LIBNUML_LIBRARY_NAME}_FOUND)
           ${CONAN_LIB_DIRS_LIBNUML}/cmake
           ${${_PROJECT_DEPENDENCY_DIR}}/lib/cmake
           ${${_PROJECT_DEPENDENCY_DIR}}/lib64/cmake
+          CMAKE_FIND_ROOT_PATH_BOTH 
   )
 endif()
 
@@ -93,7 +94,8 @@ find_path(LIBNUML_INCLUDE_DIR numl/NMBase.h
     NO_DEFAULT_PATH)
 
 if (NOT LIBNUML_INCLUDE_DIR)
-    find_path(LIBNUML_INCLUDE_DIR numl/NMBase.h)
+    find_path(LIBNUML_INCLUDE_DIR numl/NMBase.h
+    CMAKE_FIND_ROOT_PATH_BOTH )
 endif (NOT LIBNUML_INCLUDE_DIR)
 
 if (NOT LIBNUML_INCLUDE_DIR)
@@ -122,7 +124,8 @@ find_library(LIBNUML_LIBRARY
 if (NOT LIBNUML_LIBRARY)
     find_library(LIBNUML_LIBRARY 
         NAMES numl-static 
-              numl)
+              numl
+              CMAKE_FIND_ROOT_PATH_BOTH )
 endif (NOT LIBNUML_LIBRARY)
 
 if (NOT LIBNUML_LIBRARY)

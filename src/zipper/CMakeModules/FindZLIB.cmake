@@ -42,7 +42,8 @@ if (NOT (ZLIB_INCLUDE_DIR AND ZLIB_LIBRARY) OR NOT ZLIB_FOUND)
             NO_DEFAULT_PATH)
 
     if (NOT ZLIB_INCLUDE_DIR)
-        find_path(ZLIB_INCLUDE_DIR zlib.h zlib/zlib.h)
+        find_path(ZLIB_INCLUDE_DIR zlib.h zlib/zlib.h
+        CMAKE_FIND_ROOT_PATH_BOTH )
     endif ()
 
     find_library(ZLIB_LIBRARY 
@@ -62,7 +63,8 @@ if (NOT (ZLIB_INCLUDE_DIR AND ZLIB_LIBRARY) OR NOT ZLIB_FOUND)
              NO_DEFAULT_PATH)
 
     if (NOT ZLIB_LIBRARY)
-        find_library(ZLIB_LIBRARY NAMES zdll.lib z zlib.lib libzlib zlib libzlib.a)
+        find_library(ZLIB_LIBRARY NAMES zdll.lib z zlib.lib libzlib zlib libzlib.a
+        CMAKE_FIND_ROOT_PATH_BOTH )
     endif ()
 
     if (NOT WIN32)

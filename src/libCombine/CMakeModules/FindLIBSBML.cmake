@@ -48,6 +48,7 @@ if (NOT ${LIBSBML_LIBRARY_NAME}_FOUND)
           ${${_PROJECT_DEPENDENCY_DIR}}/lib/cmake
           ${${_PROJECT_DEPENDENCY_DIR}}/lib64/cmake
           ${CONAN_LIB_DIRS_LIBSBML}/cmake
+          CMAKE_FIND_ROOT_PATH_BOTH 
   )
 endif()
 
@@ -114,7 +115,8 @@ find_path(LIBSBML_INCLUDE_DIR sbml/SBase.h
     NO_DEFAULT_PATH)
 
 if (NOT LIBSBML_INCLUDE_DIR)
-    find_path(LIBSBML_INCLUDE_DIR sbml/SBase.h)
+    find_path(LIBSBML_INCLUDE_DIR sbml/SBase.h
+    CMAKE_FIND_ROOT_PATH_BOTH )
 endif (NOT LIBSBML_INCLUDE_DIR)
 
 
@@ -145,7 +147,8 @@ find_library(LIBSBML_LIBRARY
 if (NOT LIBSBML_LIBRARY)
     find_library(LIBSBML_LIBRARY 
         NAMES sbml-static 
-              sbml)
+              sbml
+              CMAKE_FIND_ROOT_PATH_BOTH )
 endif (NOT LIBSBML_LIBRARY)
 
 if (NOT LIBSBML_LIBRARY)

@@ -52,7 +52,8 @@ find_path(EXPAT_INCLUDE_DIR expat.h
 endif ()
 
 if (NOT EXPAT_INCLUDE_DIR)
-    find_path(EXPAT_INCLUDE_DIR expat.h)
+    find_path(EXPAT_INCLUDE_DIR expat.h
+    CMAKE_FIND_ROOT_PATH_BOTH)
 endif ()
 
 find_library(EXPAT_LIBRARY 
@@ -85,7 +86,8 @@ find_library(EXPAT_LIBRARY
 endif()
 
 if (NOT EXPAT_LIBRARY)
-    find_library(EXPAT_LIBRARY NAMES libexpat expat)
+    find_library(EXPAT_LIBRARY NAMES libexpat expat
+    CMAKE_FIND_ROOT_PATH_BOTH )
 endif ()
 
 mark_as_advanced(EXPAT_INCLUDE_DIR EXPAT_LIBRARY)
