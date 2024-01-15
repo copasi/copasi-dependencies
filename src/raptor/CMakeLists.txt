@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8...3.25)
 project (raptor)
 
 include (CMakeTestCCompiler)
@@ -20,7 +20,7 @@ if (WIN32 AND CMAKE_C_COMPILER AND ${CMAKE_C_COMPILER} MATCHES ".*icl.*$")
   set(USING_INTEL TRUE)
 endif ()
 
-
+set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules/" ${CMAKE_MODULE_PATH})
 
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Raptor RDF Parser Library")
 set(CPACK_PACKAGE_NAME "raptor")
