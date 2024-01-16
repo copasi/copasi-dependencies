@@ -80,6 +80,8 @@ set(ZB1AUX idamax.c dasum.c daxpy.c dcopy.c dnrm2.c dscal.c)
 #---------------------------------------------------------------------
 option(CLAPACK_HAVE_LSAME "Have lsame (already included in blas)" ON)
 if (NOT CLAPACK_HAVE_LSAME)
+set(ALLBLAS  xerbla.c xerbla_array.c)
+else()
 set(ALLBLAS  lsame.c xerbla.c xerbla_array.c)
 endif()
 
