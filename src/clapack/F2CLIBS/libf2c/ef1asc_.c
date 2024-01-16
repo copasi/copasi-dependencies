@@ -13,7 +13,7 @@ extern "C" {
 extern VOID s_copy();
 ef1asc_(a, la, b, lb) ftnint *a, *b; ftnlen *la, *lb;
 #else
-extern void s_copy(char*,char*,ftnlen,ftnlen);
+extern integer s_copy(char*,char*,ftnlen,ftnlen);
 int ef1asc_(ftnint *a, ftnlen *la, ftnint *b, ftnlen *lb)
 #endif
 {
