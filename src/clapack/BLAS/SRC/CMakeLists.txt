@@ -78,8 +78,8 @@ set(ZB1AUX idamax.c dasum.c daxpy.c dcopy.c dnrm2.c dscal.c)
 #  Level 2 and Level 3 BLAS.  Comment it out only if you already have
 #  both the Level 2 and 3 BLAS.
 #---------------------------------------------------------------------
-option(CLAPACK_HAVE_LSAME "Have lsame (already included in blas)" ON)
-if (NOT CLAPACK_HAVE_LSAME)
+option(CLAPACK_HAVE_LSAME "Have lsame (already included in lapack)" ON)
+if (CLAPACK_HAVE_LSAME)
 set(ALLBLAS  xerbla.c xerbla_array.c)
 else()
 set(ALLBLAS  lsame.c xerbla.c xerbla_array.c)
