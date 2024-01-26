@@ -27,6 +27,39 @@ set (ZIPPER_DEPENDENCIES)
 
 include(ExternalProject)
 
+
+if ((UNIX AND NOT APPLE) OR EMSCRIPTEN)
+  option(BUILD_uuid "Build uuid  (default off)" OFF)
+
+  if (BUILD_uuid AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/libuuid-1.0.3)
+  # we just use the normal gnumake build for uuid, so look for 
+  # gnumake or make
+  find_program(GNUMAKE NAMES gmake make)
+
+  message(STATUS "adding project: uuid")
+
+  ExternalProject_Add(Libuuid
+
+    PREFIX            ${CMAKE_BINARY_DIR}/libuuid
+    SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/libuuid-1.0.3
+  
+    CONFIGURE_COMMAND ${CMAKE_COMMAND} -E env 
+                      CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER}  
+                      CFLAGS=-fPIC
+                      ${CMAKE_CURRENT_SOURCE_DIR}/libuuid-1.0.3/configure 
+                      --prefix=${CMAKE_INSTALL_PREFIX} 
+                      --disable-dependency-tracking 
+                      --with-pic 
+                      --enable-static=yes 
+                      --enable-shared=no 
+                      
+    BUILD_COMMAND      ${GNUMAKE}
+    INSTALL_COMMAND    ${GNUMAKE} install
+  )
+
+  endif()
+endif()
+
 if (BUILD_expat)
 
   message(STATUS "adding project: expat")
