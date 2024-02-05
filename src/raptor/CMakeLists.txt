@@ -56,6 +56,7 @@ if(MSVC OR USING_INTEL)
     set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -D_CRT_SECURE_NO_WARNINGS")
     option(WITH_STATIC_RUNTIME "Compile using the static MSVC Runtime." OFF)
     if(WITH_STATIC_RUNTIME)
+      if(CMAKE_VERSION VERSION_LESS 3.15.0)
         foreach(flag_var
             CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
             CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO
@@ -66,7 +67,12 @@ if(MSVC OR USING_INTEL)
                 string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
             endif(${flag_var} MATCHES "/MD")
         endforeach(flag_var)
-    add_definitions( -D_MT)
+      else()
+        # Set MSVC runtime to MultiThreaded (/MT)
+        cmake_policy(SET CMP0091 NEW)
+        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+      endif()
+      add_definitions( -D_MT)
     endif(WITH_STATIC_RUNTIME)
 endif(MSVC OR USING_INTEL)
 
