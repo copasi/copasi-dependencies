@@ -3,7 +3,7 @@
 # of Connecticut School of Medicine. 
 # All rights reserved. 
 
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.10)
 
 set(SELECT_QT "Any" CACHE STRING "The prefered Qt version one of: Qt6, Qt5, Qt4 or Any" )
 if (DEFINED SELECT_QT)
@@ -57,17 +57,22 @@ macro(QT_FIND_MODULES)
   endif ()
 
   # Find Qt libraries
+  if(${SELECT_QT} MATCHES "Qt6" OR
+    ${SELECT_QT} MATCHES "Any")
+    find_package(Qt6 ${QT_FIND_MODE} COMPONENTS ${_modules_qt6})
+
+    if(Qt6_FOUND)
+      set(SELECT_QT "Qt6" CACHE BOOL "Detected Qt6" FORCE)
+    endif()
+  endif()
+
+  # Find Qt libraries
   if (${SELECT_QT} MATCHES "Qt5" OR
       ${SELECT_QT} MATCHES "Any")
     find_package(Qt5 ${QT_FIND_MODE} COMPONENTS ${_modules_qt5})
   endif()
 
-  # Find Qt libraries
-  if (${SELECT_QT} MATCHES "Qt6" OR
-      ${SELECT_QT} MATCHES "Any")
-    find_package(Qt6 ${QT_FIND_MODE} COMPONENTS ${_modules_qt6})
-  endif()
-
+ 
   if (${SELECT_QT} MATCHES "Qt4" OR
       ${SELECT_QT} MATCHES "Any")
     find_package(Qt4 ${QT_FIND_MODE} COMPONENTS ${_modules_qt4})
