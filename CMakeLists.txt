@@ -62,7 +62,7 @@ endif()
 set (COMMON_CMAKE_OPTIONS ${COMMON_CMAKE_OPTIONS} -DCMAKE_OSX_DEPLOYMENT_TARGET=${DEFAULT_OSX_TARGET})
 
 if (CMAKE_OSX_ARCHITECTURES)
-set (COMMON_CMAKE_OPTIONS ${COMMON_CMAKE_OPTIONS} -DCMAKE_OSX_ARCHITECTURES="${CMAKE_OSX_ARCHITECTURES}")
+set (COMMON_CMAKE_OPTIONS ${COMMON_CMAKE_OPTIONS} -DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES})
 endif()
 
 if (CMAKE_OSX_SYSROOT)
@@ -192,6 +192,9 @@ if (BUILD_UI_DEPS )
   endif (BUILD_qwt AND (${SELECT_QT} MATCHES "Qt5" OR ${SELECT_QT} MATCHES "Qt6"))
 
   option(BUILD_qwtplot3d "Build the qwtplot3d library" ${BUILD_UI_DEPS})
+  if (${SELECT_QT} MATCHES "Qt6")
+    set (BUILD_qwtplot3d OFF)
+  endif (${SELECT_QT} MATCHES "Qt6")
   option(BUILD_archive "Build a binary archive of all dependencies" ON)
   option(BUILD_qcustomplot "Build the qcustomplot library" ${BUILD_UI_DEPS})
 endif()
