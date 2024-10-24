@@ -502,7 +502,7 @@ void fill_buffer_filefunc64 (pzlib_filefunc_def, ourbuf)
    zlib_filefunc64_def* pzlib_filefunc_def;
    ourbuffer_t *ourbuf;
 {
-    pzlib_filefunc_def->zopen64_file = fopen64_buf_func;
+    pzlib_filefunc_def->zopen64_file = (open64_file_func)fopen64_buf_func;
     pzlib_filefunc_def->zopendisk64_file = fopendisk64_buf_func;
     pzlib_filefunc_def->zread_file = fread_buf_func;
     pzlib_filefunc_def->zwrite_file = fwrite_buf_func;
