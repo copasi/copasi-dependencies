@@ -42,9 +42,9 @@ if(MSVC)
 elseif(CMAKE_COMPILER_IS_GNUCXX)
   # Need gnu++ instead of c++ so that GTest can access fdopen() etc.
   if (NOT DISABLE_TESTING)
-  set(CMAKE_CXX_FLAGS "-msse4.2 -std=gnu++14 -Wall -Wextra -Werror -Wold-style-cast -fstrict-aliasing -Wstrict-aliasing -Wno-type-limits -Wno-noexcept-type")
+  set(CMAKE_CXX_FLAGS "-msse4.2 -std=gnu++14 -Wall -Wextra -Werror -Wold-style-cast -fstrict-aliasing -Wstrict-aliasing -Wno-type-limits -Wno-noexcept-type -Wno-array-bounds")
   else()
-  set(CMAKE_CXX_FLAGS "-msse4.2 -std=gnu++11 -Wall -Wextra -Werror -Wold-style-cast -fstrict-aliasing -Wstrict-aliasing -Wno-type-limits -Wno-noexcept-type")
+  set(CMAKE_CXX_FLAGS "-msse4.2 -std=gnu++11 -Wall -Wextra -Werror -Wold-style-cast -fstrict-aliasing -Wstrict-aliasing -Wno-type-limits -Wno-noexcept-type -Wno-array-bounds")
   endif()
 else()
   # TODO: define a target for -Weverything.
