@@ -322,7 +322,7 @@ namespace NativeJIT
         };
 
         template <typename T>
-        using FreeListForType = class FreeListForRegister<RegisterStorage<T>::c_isFloat>;
+        using FreeListForType = class ExpressionTree::FreeListForRegister<RegisterStorage<T>::c_isFloat>;
 
         // The allocator and STL-compatible wrapper around it.
         Allocators::IAllocator& m_allocator;
