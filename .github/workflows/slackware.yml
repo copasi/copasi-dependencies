@@ -48,7 +48,7 @@ jobs:
             sed -i 's|'$PWD'/install/|${_IMPORT_PREFIX}/|g'  $PWD/install/lib64/cmake/*.cmake
 
      - name: binary archive
-       uses: actions/upload-artifact@v2
+       uses: actions/upload-artifact@v4
        with:
         name: slackware
         path: install/*

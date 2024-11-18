@@ -53,7 +53,7 @@ jobs:
             sed -i 's|'$PWD'/install/|${_IMPORT_PREFIX}/|g'  $PWD/install/lib64/cmake/*.cmake
 
      - name: binary archive
-       uses: actions/upload-artifact@v2
+       uses: actions/upload-artifact@v4
        with:
         name: manylinux_2_28_x86_64
         path: install/*
