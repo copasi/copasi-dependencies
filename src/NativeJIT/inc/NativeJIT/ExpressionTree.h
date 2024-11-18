@@ -97,7 +97,7 @@ namespace NativeJIT
     template <typename T>
     ExpressionTree::Storage<T> ExpressionTree::Direct()
     {
-        auto & freeList = FreeListForType<T>::Get(*this);
+        auto & freeList = ExpressionTree::FreeListForType<T>::Get(*this);
         Storage<T> direct;
 
         if (freeList.GetFreeCount() > 0)
@@ -121,7 +121,7 @@ namespace NativeJIT
         typedef typename Storage<T>::FullRegister FullRegister;
 
         auto & code = GetCodeGenerator();
-        auto & freeList = FreeListForType<T>::Get(*this);
+        auto & freeList = ExpressionTree::FreeListForType<T>::Get(*this);
 
         LogThrowAssert(!IsPinned(r), "Attempted to obtain the pinned register %s", r.GetName());
 
@@ -397,7 +397,7 @@ namespace NativeJIT
             ExpressionTree& tree,
             DirectRegister reg)
     {
-        auto & freeList = FreeListForType<T>::Get(tree);
+        auto & freeList = ExpressionTree::FreeListForType<T>::Get(tree);
         LogThrowAssert(!freeList.IsAvailable(reg.GetId()),
                        "Register %s must already be allocated",
                        reg.GetName());
@@ -409,7 +409,7 @@ namespace NativeJIT
     template <typename T>
     Storage<T> ExpressionTree::Storage<T>::ForAnyFreeRegister(ExpressionTree& tree)
     {
-        auto & freeList = FreeListForType<T>::Get(tree);
+        auto & freeList = ExpressionTree::FreeListForType<T>::Get(tree);
         Storage<T>::DirectRegister r(freeList.Allocate());
 
         Data* data = &tree.PlacementConstruct<Data>(tree, r);
@@ -422,7 +422,7 @@ namespace NativeJIT
     Storage<T> ExpressionTree::Storage<T>::ForFreeRegister(ExpressionTree& tree,
                                                            DirectRegister reg)
     {
-        auto & freeList = FreeListForType<T>::Get(tree);
+        auto & freeList = ExpressionTree::FreeListForType<T>::Get(tree);
         freeList.Allocate(reg.GetId());
 
         Data* data = &tree.PlacementConstruct<Data>(tree, reg);
@@ -737,7 +737,7 @@ namespace NativeJIT
 
         if (!IsSoleDataOwner())
         {
-            auto & freeList = FreeListForType<T>::Get(tree);
+            auto & freeList = ExpressionTree::FreeListForType<T>::Get(tree);
             auto & code = tree.GetCodeGenerator();
             typedef typename CanonicalRegisterType<FullRegister>::Type FullType;
 
@@ -771,7 +771,7 @@ namespace NativeJIT
 
         if (GetStorageClass() == StorageClass::Direct)
         {
-            auto & freeList = FreeListForType<T>::Get(m_data->GetTree());
+            auto & freeList = ExpressionTree::FreeListForType<T>::Get(m_data->GetTree());
 
             return freeList.GetPin(m_data->GetRegisterId());
         }
