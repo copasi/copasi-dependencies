@@ -34,9 +34,9 @@ namespace NativeJIT
     class RegisterBase
     {
     public:
-        static const unsigned c_maxSize = 8;
-        static const unsigned c_maxIntegerRegisterID = 16;
-        static const unsigned c_maxFloatRegisterID = 15;
+        static constexpr unsigned c_maxSize = 8;
+        static constexpr unsigned c_maxIntegerRegisterID = 16;
+        static constexpr unsigned c_maxFloatRegisterID = 15;
 
     protected:
         static const unsigned c_maxRegisterID = 16;

@@ -66,6 +66,7 @@ namespace NativeJIT
 
         static constexpr unsigned c_size = sizeof(UnderlyingType);
         static constexpr bool c_isFloat = std::is_floating_point<UnderlyingType>::value;
+        static constexpr bool XXXXXXXXX = std::is_floating_point<UnderlyingType>::value;
 
         typedef Register<c_size, c_isFloat> RegisterType;
     };
