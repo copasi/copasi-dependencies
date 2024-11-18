@@ -64,8 +64,8 @@ namespace NativeJIT
             >::type
         >::type UnderlyingType;
 
-        static const unsigned c_size = sizeof(UnderlyingType);
-        static const bool c_isFloat = std::is_floating_point<UnderlyingType>::value;
+        static constexpr unsigned c_size = sizeof(UnderlyingType);
+        static constexpr bool c_isFloat = std::is_floating_point<UnderlyingType>::value;
 
         typedef Register<c_size, c_isFloat> RegisterType;
     };
@@ -154,7 +154,7 @@ namespace NativeJIT
     template <typename T>
     struct IsValidParameter
     {
-        static const bool c_value
+        static constexpr bool c_value
             = std::is_arithmetic<T>::value
               || std::is_pointer<T>::value
               || std::is_reference<T>::value

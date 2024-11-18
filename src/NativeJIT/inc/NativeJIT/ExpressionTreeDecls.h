@@ -315,7 +315,11 @@ namespace NativeJIT
         // the free list for a register and a C++ type respectively.
 
         template <bool ISFLOAT>
-        class FreeListForRegister;
+        class FreeListForRegister
+        {
+            template <unsigned REGISTER_COUNT>
+            static auto Get(ExpressionTree& tree) -> FreeList<REGISTER_COUNT, ISFLOAT>;
+        };
 
         template <typename T>
         using FreeListForType = class FreeListForRegister<RegisterStorage<T>::c_isFloat>;
