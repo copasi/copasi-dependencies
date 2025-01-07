@@ -46,6 +46,16 @@ jobs:
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       run: cmake $GITHUB_WORKSPACE -G Ninja -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=../install/
 
+    - name: build uuid (ubuntu)
+      if: matrix.platform == 'ubuntu-latest'
+      shell: bash
+      run: |
+          pushd src/libuuid-1.0.3/
+          aclocal && libtoolize --force && automake --add-missing && autoreconf --force --install
+          popd
+          cmake -B build -DBUILD_uuid=ON 
+          cmake --build build --config $BUILD_TYPE -t Libuuid        
+
     - name: Build
       working-directory: ${{github.workspace}}/build
       shell: bash
