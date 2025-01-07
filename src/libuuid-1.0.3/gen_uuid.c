@@ -33,10 +33,10 @@
  */
 
 /*
- * Force inclusion of SVID stuff since we need it if we're compiling in
+ * Force inclusion of _DEFAULT_SOURCE since we need it if we're compiling in
  * gcc-wall wall mode
  */
-#define _SVID_SOURCE
+#define _DEFAULT_SOURCE
 
 #ifdef _WIN32
 #define _WIN32_WINNT 0x0500
@@ -59,9 +59,9 @@
 #include <sys/time.h>
 #endif
 #include <sys/stat.h>
-#ifdef HAVE_SYS_FILE_H
+/* #ifdef HAVE_SYS_FILE_H */
 #include <sys/file.h>
-#endif
+/* #endif */
 #ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
 #endif
