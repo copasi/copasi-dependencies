@@ -29,24 +29,16 @@ jobs:
             /opt/python/cp38-cp38/bin/pip install cmake
             ln -s /opt/python/cp38-cp38/bin/cmake /usr/bin/cmake
 
-     - name: install libuuid (static)
-       run: |
-            curl -L -O http://downloads.sourceforge.net/libuuid/libuuid-1.0.3.tar.gz 
-            tar -zxf libuuid-1.0.3.tar.gz
-            cd libuuid-1.0.3
-            ./configure --disable-dependency-tracking --with-pic --enable-static=yes --enable-shared=no
-            make
-            make install
-            rm /usr/local/lib/libuuid.la
-
      - name: Configure CMake
        run: |
             git config --global --add safe.directory $PWD
-            cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_UI_DEPS=OFF -DCMAKE_INSTALL_PREFIX=./install/
+            cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_UI_DEPS=OFF -DBUILD_uuid=ON -DCMAKE_INSTALL_PREFIX=./install/
 
      - name: Build
        working-directory: build
-       run: cmake --build . --config $BUILD_TYPE -j `nproc`
+       run: |
+         cmake --build . --config $BUILD_TYPE -t Libuuid
+         cmake --build . --config $BUILD_TYPE -j `nproc`
 
      - name: Patch cmake files
        run: |
