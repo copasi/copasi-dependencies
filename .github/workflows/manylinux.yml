@@ -32,6 +32,9 @@ jobs:
      - name: Configure CMake
        run: |
             git config --global --add safe.directory $PWD
+            pushd src/libuuid-1.0.3/
+            aclocal && libtoolize --force && automake --add-missing && autoreconf --force --install
+            popd
             cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_UI_DEPS=OFF -DBUILD_uuid=ON -DCMAKE_INSTALL_PREFIX=./install/
 
      - name: Build
