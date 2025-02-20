@@ -94,8 +94,10 @@ TestFile::getFullname () const
 
 unsigned int
 TestFile::getConstraintId () const
-{
-  return atol( mFilename.substr(0, 7).c_str() );
+{ 
+    unsigned int constraint = atol( mFilename.substr(0, 7).c_str() );
+
+    return constraint;
 }
 
 
@@ -173,7 +175,8 @@ TestFile::getFilesIn ( const string& directory,
     {
       TestFile     file(directory, filename);
       unsigned int id = file.getConstraintId();
-
+      if (begin == 1)
+          id = id - 1500000;
       //// leave out the following tests dependent on parser
       //if (library == 0)
       //{
@@ -195,7 +198,7 @@ TestFile::getFilesIn ( const string& directory,
         continue;
       //}
 
-      if ((begin == 0 && end == 0) || (id >= begin && id <= end))
+      if ((begin == 0 && end == 0) || (id >= begin && id <= end) || (begin == 1 && end == 0))
       {
         result.insert( TestFile(directory, filename) );
       }

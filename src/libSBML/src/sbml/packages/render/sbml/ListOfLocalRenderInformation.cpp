@@ -548,10 +548,6 @@ ListOfLocalRenderInformation::addLocalRenderInformation(const
   {
     return LIBSBML_LEVEL_MISMATCH;
   }
-  else if (getVersion() != lri->getVersion())
-  {
-    return LIBSBML_VERSION_MISMATCH;
-  }
   else if (matchesRequiredSBMLNamespacesForAddition(static_cast<const
     SBase*>(lri)) == false)
   {
@@ -764,6 +760,8 @@ ListOfLocalRenderInformation::getAllElements(ElementFilter* filter)
 {
   List* ret = new List();
   List* sublist = ListOf::getAllElements(filter);
+  ret->transferFrom(sublist);
+  delete sublist;
 
   ADD_FILTERED_POINTER(ret, sublist, mDefaultValues, filter);
 

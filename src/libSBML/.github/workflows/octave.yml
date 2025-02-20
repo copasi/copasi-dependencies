@@ -1,6 +1,14 @@
 name: Octave
 
-on: [push]
+on:
+  push:
+    paths:
+        - "src/**"
+        - "CMakeModules/**"
+        - "CMakeLists.txt"
+        - "VERSION.txt"
+        - "!.github/**"
+        - ".github/workflows/octave.yml"
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -11,23 +19,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Checkout submodules
       run: git submodule update --init --recursive
       
     - name: update 
-      if: matrix.os == 'ubuntu-latest'
       shell: bash
       run: |
            sudo apt-get update
 
     - name: add linux dependencies
-      if: matrix.os == 'ubuntu-latest'
       shell: bash
       run: |
            sudo apt-get install swig liboctave-dev
@@ -65,7 +71,7 @@ jobs:
       run: LD_LIBRARY_PATH=../../../../.. octave --eval "runTests()"
 
     - name: Upload
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         path: ${{runner.workspace}}/build/octave_${{ matrix.os }}.tar.gz
         name: octave_${{ matrix.os }}.tar.gz

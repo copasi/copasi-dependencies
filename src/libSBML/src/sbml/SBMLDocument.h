@@ -305,7 +305,7 @@
 #include <sbml/SBMLErrorLog.h>
 #include <sbml/SBase.h>
 #include <sbml/SBMLTransforms.h>
-
+#include <sbml/xml/XMLError.h>
 
 #ifdef __cplusplus
 
@@ -318,7 +318,6 @@ LIBSBML_CPP_NAMESPACE_BEGIN
 class Model;
 class ConversionProperties;
 class SBMLVisitor;
-class XMLError;
 
 class SBMLValidator;
 class SBMLInternalValidator;
@@ -341,7 +340,10 @@ class SBMLLevelVersionConverter;
 #define OverdeterCheckOFF 0xdf
 #define PracticeCheckON   0x40
 #define PracticeCheckOFF  0xbf
+#define StrictUnitsCheckON 0x80
+#define StrictUnitsCheckOFF 0x7f
 #define AllChecksON       0x7f
+#define AllChecksONWithStrictUnits 0xff
 /** @endcond */
 
 
@@ -1005,12 +1007,36 @@ public:
    * flag in the individual SBMLError objects returned by
    * SBMLDocument::getError(@if java long@endif) to determine the nature of the failures.
    *
+   * @param strictErrorOverride the severity of the error to use for strict units checking
+   *       by default unit validations will be flagged as an error using this method. Use
+   *       LIBSBML_OVERRIDE_WARNING to change this to a warning.
+   * 
    * @return the number of failed checks (errors) encountered.
    *
    * @see SBMLDocument::checkInternalConsistency()
    */
   unsigned int checkConsistencyWithStrictUnits ();
 
+  /**
+   * Performs consistency checking and validation on this SBML document
+   * using the ultra strict units validator that assumes that there
+   * are no hidden numerical conversion factors.
+   *
+   * If this method returns a nonzero value (meaning, one or more
+   * consistency checks have failed for SBML document), the failures may be
+   * due to warnings @em or errors.  Callers should inspect the severity
+   * flag in the individual SBMLError objects returned by
+   * SBMLDocument::getError(@if java long@endif) to determine the nature of the failures.
+   *
+   * @param strictErrorOverride the severity of the error to use for strict units checking
+   *       by default unit validations will be flagged as an error using this method. Use
+   *       LIBSBML_OVERRIDE_WARNING to change this to a warning.
+   * 
+   * @return the number of failed checks (errors) encountered.
+   *
+   * @see SBMLDocument::checkInternalConsistency()
+   */
+  unsigned int checkConsistencyWithStrictUnits (XMLErrorSeverityOverride_t strictErrorOverride);
 
   /**
    * Performs consistency checking and validation on this SBML document.
@@ -2472,8 +2498,8 @@ SBMLDocument_checkL2v2Compatibility (SBMLDocument_t *d);
  * @memberof SBMLDocument_t
  */
 LIBSBML_EXTERN
-unsigned int 
-SBMLDocument_checkL2v3Compatibility (SBMLDocument_t *d);
+unsigned int
+SBMLDocument_checkL2v3Compatibility(SBMLDocument_t *d);
 
 
 /**
@@ -2586,6 +2612,11 @@ SBMLDocument_checkL3v2Compatibility(SBMLDocument_t *d);
 LIBSBML_EXTERN
 const SBMLError_t *
 SBMLDocument_getError (SBMLDocument_t *d, unsigned int n);
+
+
+LIBSBML_EXTERN
+const SBMLErrorLog_t *
+SBMLDocument_getErrorLog(SBMLDocument_t *d);
 
 
 /**

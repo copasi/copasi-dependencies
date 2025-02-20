@@ -84,7 +84,7 @@ AssignmentCycles::~AssignmentCycles ()
 void
 AssignmentCycles::check_ (const Model& m, const Model& object)
 {
-  // this rule ony applies in l2v2 and beyond
+  // this rule only applies in l2v2 and beyond
   if (object.getLevel() == 1 
     || (object.getLevel() == 2 && object.getVersion() == 1))
     return;
@@ -271,21 +271,18 @@ AssignmentCycles::determineAllDependencies()
 
 
 bool 
-AssignmentCycles::alreadyExistsInMap(IdMap map, 
-                                     pair<const std::string, std::string> dependency)
+AssignmentCycles::alreadyExistsInMap(IdMap& map, 
+                                     const pair<const std::string, std::string>& dependency) const
 {
-  bool exists = false;
+  IdRange range = map.equal_range(dependency.first);
 
-  IdIter it;
-  
-  for (it = map.begin(); it != map.end(); it++)
+  for (IdIter it = range.first; it != range.second; ++it)
   {
-    if (((*it).first == dependency.first)
-      && ((*it).second == dependency.second))
-      exists = true;
+      if (it->second == dependency.second)
+          return true;
   }
 
-  return exists;
+  return false;
 }
 
   

@@ -48,7 +48,8 @@ find_path(EXPAT_INCLUDE_DIR expat.h
           /opt/csw/include   # Blastwave
           /opt/include
           /usr/freeware/include
-          NO_DEFAULT_PATH)
+          NO_DEFAULT_PATH
+          CMAKE_FIND_ROOT_PATH_BOTH)
 endif ()
 
 if (NOT EXPAT_INCLUDE_DIR)
@@ -82,7 +83,8 @@ find_library(EXPAT_LIBRARY
           /opt/csw/lib   # Blastwave
           /opt/lib
           /usr/freeware/lib64
-          NO_DEFAULT_PATH)
+          NO_DEFAULT_PATH
+          CMAKE_FIND_ROOT_PATH_BOTH)
 endif()
 
 if (NOT EXPAT_LIBRARY)
@@ -136,7 +138,7 @@ if (EXPAT_INCLUDE_DIR AND EXPAT_LIBRARY)
 int 
 main(void)
 {
-    printf(XML_ExpatVersion());
+    printf(\"%s\", XML_ExpatVersion());
     return 0;
 }
 " 

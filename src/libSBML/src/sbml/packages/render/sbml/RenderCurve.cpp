@@ -437,10 +437,6 @@ RenderCurve::addElement(const RenderPoint* rp)
   {
     return LIBSBML_LEVEL_MISMATCH;
   }
-  else if (getVersion() != rp->getVersion())
-  {
-    return LIBSBML_VERSION_MISMATCH;
-  }
   else if (matchesRequiredSBMLNamespacesForAddition(static_cast<const
     SBase*>(rp)) == false)
   {
@@ -1146,7 +1142,7 @@ RenderCurve::createObject(XMLInputStream& stream)
 
   const std::string& name = stream.peek().getName();
 
-  if (name == "listOfCurveElements")
+  if (name == "listOfCurveElements" || name == "listOfElements")
   {
     if (mRenderPoints.size() != 0 && getErrorLog() != NULL)
     {
