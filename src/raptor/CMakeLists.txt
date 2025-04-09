@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8...3.25)
+cmake_minimum_required (VERSION 2.8...3.31)
 project (raptor)
 
 include (CMakeTestCCompiler)

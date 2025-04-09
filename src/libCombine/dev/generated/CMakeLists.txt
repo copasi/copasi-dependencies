@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required (VERSION 2.8...3.31)
 project(libcombine)
 
 include (CMakeTestCCompiler)
@@ -347,9 +347,6 @@ endif(WITH_CSHARP)
 #
 
 if(WITH_CHECK)
-
-    # we do use tests, that require 2.8.4
-    cmake_minimum_required(VERSION 2.8.4)
 
     enable_testing()
 

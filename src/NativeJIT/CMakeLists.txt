@@ -1,6 +1,6 @@
 # NativeJIT
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required (VERSION 2.8...3.31)
 
 # Remove the warning that WIN32 is not defined in Cygwin any more.
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)

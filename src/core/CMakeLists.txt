@@ -3,9 +3,7 @@
 # CMake Build Script for the SBW Core and Broker
 #
 # Author: Frank T. Bergmann
-#
-
-cmake_minimum_required(VERSION 2.8...3.19.0)
+cmake_minimum_required (VERSION 2.8...3.31)
 project(SBW)
 
 include (CMakeTestCCompiler)

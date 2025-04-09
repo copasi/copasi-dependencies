@@ -2,7 +2,7 @@
 # 
 # Frank T. Bergmann 
 # 
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8...3.31)
 project (qwt)
 include(GNUInstallDirs)
 

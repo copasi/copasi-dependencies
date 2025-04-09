@@ -33,7 +33,7 @@
 # Unlike most of Expat,
 # this file is copyrighted under the BSD-license for buildsystem files of KDE.
 
-cmake_minimum_required(VERSION 3.1.3)
+cmake_minimum_required (VERSION 2.8...3.31)
 
 # This allows controlling documented build time switches
 # when Expat is pulled in using the add_subdirectory function, e.g.

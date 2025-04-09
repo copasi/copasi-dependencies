@@ -39,7 +39,7 @@ private:
 
         int err = unzGetCurrentFileInfo64(m_zf, &file_info, filename_inzip, sizeof(filename_inzip), NULL, 0, NULL, 0);
         if (UNZ_OK != err)
-            throw EXCEPTION_CLASS("Error, couln't get the current entry info");
+            throw EXCEPTION_CLASS(std::string("Error, couln't get the current entry info").c_str());
 
         return ZipEntry(std::string(filename_inzip), file_info.compressed_size, file_info.uncompressed_size,
                         file_info.tmu_date.tm_year, file_info.tmu_date.tm_mon, file_info.tmu_date.tm_mday,

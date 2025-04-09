@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6...3.19.0)
+cmake_minimum_required (VERSION 2.8...3.31)
 project (qcustomplot)
 
 include(CheckCXXCompilerFlag)

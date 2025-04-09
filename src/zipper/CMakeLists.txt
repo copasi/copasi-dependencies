@@ -7,7 +7,7 @@
 ###############################################################################
 
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
-cmake_minimum_required(VERSION 2.6...3.19.0)
+cmake_minimum_required (VERSION 2.8...3.31)
 project(zipper)
 
 include (CMakeTestCCompiler)
@@ -128,7 +128,12 @@ if (WIN32 AND CMAKE_C_COMPILER AND ${CMAKE_C_COMPILER} MATCHES ".*icl.*$")
   set(USING_INTEL TRUE)
 endif ()
 
-if(MSVC OR USING_INTEL)
+if (MINGW)
+  message(STATUS "Detected MinGW Compiler")
+  add_definitions(-DMINGW=1)
+endif ()
+
+if(MSVC OR USING_INTEL OR USING_MINGW)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE)
     set(BUILD_DEFINITIONS "${BUILD_DEFINITIONS} -D_CRT_SECURE_NO_WARNINGS")
     option(WITH_STATIC_RUNTIME "Compile using the static MSVC Runtime." OFF)

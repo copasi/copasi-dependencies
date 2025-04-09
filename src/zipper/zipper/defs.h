@@ -10,12 +10,14 @@ extern "C"
 #include <fcntl.h>
 #include <sys/stat.h>
 
-#if (defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(_WIN64) || defined(_MSC_VER)) && !defined(CYGWIN) && !defined(__MINGW32__)
+#if (defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(_WIN64) || defined(_MSC_VER)) && !defined(CYGWIN) && !defined(__MINGW32__) && !defined(MINGW)
 #    define USE_WINDOWS 1
 #endif
 
-
-#if (defined(_WIN32)) || (defined(_WIN64))
+#if defined(MINGW)
+# include <unistd.h>
+# include <utime.h>
+#elif (defined(_WIN32)) || (defined(_WIN64))&& !defined(MINGW) 
 # include <direct.h>
 # include <io.h>
 #else
@@ -40,10 +42,12 @@ extern "C"
   #include <filesystem>
 #endif
 
-#if (defined(_WIN32)) || (defined(_WIN64))
-    #define EXCEPTION_CLASS std::exception
+#if defined(MINGW)
+  #define EXCEPTION_CLASS std::runtime_error
+#elif (defined(_WIN32)) || (defined(_WIN64))
+  #define EXCEPTION_CLASS std::exception
 #else
-    #define EXCEPTION_CLASS std::runtime_error
+  #define EXCEPTION_CLASS std::runtime_error
 #endif
 
 
