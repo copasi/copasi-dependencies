@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required (VERSION 2.8...3.31)
 
 if("${CTEST_SCRIPT_ARG}" MATCHES "GCov")
   message("Setting up for GCov Coverage")
