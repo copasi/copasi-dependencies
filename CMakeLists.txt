@@ -101,7 +101,7 @@ if (CMAKE_GENERATOR MATCHES "Visual Studio*")
   message(FATAL_ERROR "
 
     The Visual Studio generator is not currently supported, please choose either 
-    'NMake Makefiles', or 'NMake Makefiles JOM' as generator to compile using MSVC
+    'Ninja', 'NMake Makefiles', or 'NMake Makefiles JOM' as generator to compile using MSVC
 
   ")
 endif()
@@ -111,7 +111,7 @@ set (BUILD_OPTIONS)
 if (WIN32)
   option(WITH_STATIC_RUNTIME "Compile using the static MSVC Runtime." OFF)
   if (WITH_STATIC_RUNTIME)
-    set (COMMON_CMAKE_OPTIONS ${COMMON_CMAKE_OPTIONS} -DWITH_STATIC_RUNTIME=${WITH_STATIC_RUNTIME})
+    set (COMMON_CMAKE_OPTIONS ${COMMON_CMAKE_OPTIONS} -DWITH_STATIC_RUNTIME=${WITH_STATIC_RUNTIME} -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded)
   endif (WITH_STATIC_RUNTIME)
 endif (WIN32)
 
