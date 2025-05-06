@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [windows-latest, macos-latest, ubuntu-latest, ubuntu-20.04]
+        platform: [windows-latest, macos-latest, ubuntu-latest]
 
     runs-on: ${{ matrix.platform }}
 
