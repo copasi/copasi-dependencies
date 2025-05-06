@@ -112,7 +112,11 @@ LIBSBML_CPP_NAMESPACE_USE
  *
  */
 
+
 %include "ListWrapper.h"
+
+#ifndef SWIGPYTHON
+
 %template(ModelCreatorList)   ListWrapper<ModelCreator>;
 %template(DateList)           ListWrapper<Date>;
 %template(CVTermList)         ListWrapper<CVTerm>;
@@ -120,6 +124,7 @@ LIBSBML_CPP_NAMESPACE_USE
 %template(SBMLNamespacesList) ListWrapper<SBMLNamespaces>;
 %template(SBaseList)          ListWrapper<SBase>;
 
+#endif // SWIGPYTHON
 /**
  *
  * Includes a language specific interface file.
@@ -783,6 +788,13 @@ as a comment in the output stream.
 %include <sbml/util/IdList.h>
 %include <sbml/util/IdentifierTransformer.h>
 %include <sbml/util/ElementFilter.h>
+%ignore replaceAllSubStrings;
+%ignore c_locale_snprintf;
+%ignore c_locale_vsnprintf;
+%ignore c_locale_strtod;
+%ignore safe_fopen;
+%ignore util_bsearchStringsI;
+%include <sbml/util/util.h>
 
 %include <sbml/SBMLReader.h>
 %include sbml/SBMLWriter.h

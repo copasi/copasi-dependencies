@@ -62,6 +62,8 @@
 #include <sbml/util/List.h>
 #include <sbml/util/util.h>
 
+#include <sbml/maddy/parser.h>
+#include <sbml/html2md/html2md.h>
 
 #include <math.h>
 
@@ -100,6 +102,27 @@ LIBSBML_EXTERN
 int util_isEqual(double a, double b)
 {
   return (fabs(a-b) < sqrt(util_epsilon())) ? 1 : 0;
+}
+
+LIBSBML_EXTERN
+char* util_html_to_markdown_c(const char* html)
+{
+    if (html == NULL) {
+        return NULL;
+    }
+    std::string ret = util_html_to_markdown(html);
+    return safe_strdup(ret.c_str());
+}
+
+
+LIBSBML_EXTERN
+char* util_markdown_to_html_c(const char* markdown)
+{
+    if (markdown == NULL) {
+        return NULL;
+    }
+    std::string ret = util_markdown_to_html(markdown);
+    return safe_strdup(ret.c_str());
 }
 
 
@@ -526,6 +549,49 @@ std::string& replaceAllSubStrings(
   }
   return str;
 }
+
+std::string util_markdown_to_html(const std::string& markdown)
+{
+    // If we want to use the maddy config:
+    //std::shared_ptr<maddy::ParserConfig> config = std::make_shared<maddy::ParserConfig>();
+    //config->enabledParsers &= ~maddy::types::EMPHASIZED_PARSER; // disable emphasized parser
+    //config->enabledParsers |= maddy::types::HTML_PARSER; // do not wrap HTML in paragraph
+    //std::shared_ptr<maddy::Parser> parser = std::make_shared<maddy::Parser>(config);
+
+    //Note:  tried to figure out difference between genuine HTML-ish of &, < and > vs. 
+    // ones that needed to be encoded, but failed. Everything will officially
+    // translate if we encode them all indiscriminately, so hey!  Here we go.
+    std::regex pattern("&");
+    std::string copy = std::regex_replace(markdown, pattern, "&amp;");
+
+    pattern = "&amp;amp;";
+    copy = std::regex_replace(copy, pattern, "&amp;");
+
+    pattern = "<";
+    copy = std::regex_replace(copy, pattern, "&lt;");
+
+    pattern = ">";
+    copy = std::regex_replace(copy, pattern, "&gt;");
+
+    std::stringstream markdownInput(copy);
+    static maddy::Parser parser;
+    return parser.Parse(markdownInput);
+}
+
+std::string util_html_to_markdown(const std::string& html)
+{
+    std::regex pattern("[Hh][Rr][Ee][Ff] *= *");
+    std::string copy = std::regex_replace(html, pattern, "href=");
+    
+    pattern = "< *([a-zA-Z]*) */ *>";
+    copy = std::regex_replace(copy, pattern, "<$1></$1>");
+
+    pattern = "< */ *([a-zA-Z]*) *>";
+    copy = std::regex_replace(copy, pattern, "</$1>");
+
+    return html2md::Convert(copy);
+}
+
 
 #endif // __cplusplus
 

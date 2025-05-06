@@ -781,6 +781,17 @@ SBase::getNotesString() const
 }
 
 
+std::string
+SBase::getNotesMarkdown() const
+{
+    string ret = util_html_to_markdown(getNotesString());
+    while (ret.size() && ret[ret.size() - 1] == '\n') {
+        ret.pop_back();
+    }
+    return ret;
+}
+
+
 /*
  * @return the annotation of this SBML object.
  */
@@ -1911,6 +1922,16 @@ SBase::setNotes(const std::string& notes, bool addXHTMLMarkup)
     }
   }
   return success;
+}
+
+int SBase::setNotesFromMarkdown(const std::string& markdown)
+{
+    std::string htmlOutput = util_markdown_to_html(markdown);
+    if (setNotes(htmlOutput, true) == LIBSBML_OPERATION_SUCCESS) {
+        return LIBSBML_OPERATION_SUCCESS;
+    }
+    htmlOutput = "<body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + htmlOutput + "\n</body>";
+    return setNotes(htmlOutput, true);
 }
 
 
@@ -4576,6 +4597,7 @@ SBase::read (XMLInputStream& stream)
     else if ( next.isStart() )
     {
       const std::string nextName = next.getName();
+      const std::string nextURI = next.getURI();
 #if 0
       cout << "[DEBUG] SBase::read " << nextName << " uri "
            << stream.peek().getURI() << endl;
@@ -4620,7 +4642,7 @@ SBase::read (XMLInputStream& stream)
                    || readAnnotation(stream)
                    || readNotes(stream) ))
       {
-        logUnknownElement(nextName, getLevel(), getVersion());
+        logUnknownElement(nextName, getLevel(), getVersion(), nextURI);
         stream.skipPastEnd( stream.next() );
       }
     }
@@ -5343,10 +5365,16 @@ SBase::logUnknownAttribute( const string& attribute,
 void
 SBase::logUnknownElement( const string& element,
         const unsigned int level,
-        const unsigned int version )
+        const unsigned int version,
+    const string& URI)
 {
   bool logged = false;
   ostringstream msg;
+
+  // if we have an unknown element that is not in an SBML name space
+  // this is perfectly allowed XML
+  if (getPackageName() == "core" && SBMLNamespaces::getSBMLNamespaceURI(level, version) != URI)
+      return;
 
   if (level > 2 && getTypeCode() == SBML_LIST_OF)
   {
@@ -7575,6 +7603,12 @@ SBase_getNotesString (SBase_t *sb)
 }
 
 
+char* SBase_getNotesMarkdown(SBase_t* sb)
+{
+    return (sb != NULL && sb->isSetNotes()) ?
+        safe_strdup(sb->getNotesMarkdown().c_str()) : NULL;
+}
+
 LIBSBML_EXTERN
 XMLNode_t *
 SBase_getAnnotation (SBase_t *sb)
@@ -7714,6 +7748,17 @@ SBase_setNotes (SBase_t *sb, const XMLNode_t *notes)
     return sb->setNotes(notes);
   else
     return LIBSBML_INVALID_OBJECT;
+}
+
+
+LIBSBML_EXTERN
+int
+SBase_setNotesFromMarkdown(SBase_t* sb, const char* markdown)
+{
+    if (sb != NULL)
+        return sb->setNotesFromMarkdown(markdown);
+    else
+        return LIBSBML_INVALID_OBJECT;
 }
 
 
