@@ -129,8 +129,12 @@ public:
 
         if (!entryinfo.uncompressedSize)
         {
-            if (!makedir(fileName))
-                err = UNZ_ERRNO;
+          if (!makedir(fileName))
+          {
+            // only mark this as error, if the directory wasn't created or is not writable
+            if (!CDirEntry::isDir(fileName) && !CDirEntry::isWritable(fileName))
+              err = UNZ_ERRNO;
+          }
         }
         else
         {
