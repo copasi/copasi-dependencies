@@ -17,6 +17,7 @@ src/qwt-6/designer/plugins/designer/*
 src/qwtplot3d-qt4/lib/
 src/libsbml-l3v2
 tmp/
+*temp*
 *.tmp
 *.bak
 *.swp
