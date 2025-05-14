@@ -197,6 +197,9 @@ bool CDirEntry::createDir(const std::string & dir,
   if (!actualParent.empty() && (!exist(actualParent)))
     createDir(actualParent);
 
+  // check whether last command already created the dir
+  if (isDir(Dir) && isWritable(Dir)) return true;
+
 #ifdef WIN32
   return (mkdir(Dir.c_str()) == 0);
 #else
