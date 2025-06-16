@@ -685,12 +685,12 @@ bool SBWOSSocket::portInUse(int port)
 		// A failure to bind to the socket indicates it's in use (or unusable),
 		// but a successful bind is not enough to say that it's NOT in use.
 
-		int bindCode = bind(sock, (struct sockaddr *) &addr, sizeof(addr));
+		int bindResult = ::bind(sock, (struct sockaddr *) &addr, sizeof(addr));
 
 #if defined(WIN32)
-		if (bindCode != 0 && WSAGetLastError() == WSAEADDRINUSE)
+		if (bindResult != 0 && WSAGetLastError() == WSAEADDRINUSE)
 #elif defined(HAVE_ERRNO_H)
-		if (bindCode != 0 && errno == EADDRINUSE)
+		if (bindResult != 0 && errno == EADDRINUSE)
 #endif
 		{
 			TRACE("Port " << port << " appears to be in use");
