@@ -8,7 +8,9 @@ endif()
 
 project(CpuFeatures VERSION 0.6.0 LANGUAGES C)
 
+if (NOT CMAKE_C_STANDARD)
 set(CMAKE_C_STANDARD 99)
+endif()
 
 # Default Build Type to be Release
 if(NOT CMAKE_BUILD_TYPE)
