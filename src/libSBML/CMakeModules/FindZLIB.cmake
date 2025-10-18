@@ -42,11 +42,12 @@ if (NOT (ZLIB_INCLUDE_DIR AND ZLIB_LIBRARY) OR NOT ZLIB_FOUND)
             NO_DEFAULT_PATH)
 
     if (NOT ZLIB_INCLUDE_DIR)
-        find_path(ZLIB_INCLUDE_DIR zlib.h zlib/zlib.h)
+        find_path(ZLIB_INCLUDE_DIR zlib.h zlib/zlib.h
+        CMAKE_FIND_ROOT_PATH_BOTH )
     endif ()
 
     find_library(ZLIB_LIBRARY 
-	    NAMES zdll.lib z zlib.lib libzlib zlib libzlib.a 
+	    NAMES zdll.lib z zlib.lib libzlib zlib libzlib.a libzdll.a
 	    PATHS $ENV{ZLIB_DIR}/lib
 	          $ENV{ZLIB_DIR}/lib-dbg
 	          $ENV{ZLIB_DIR}
@@ -62,7 +63,8 @@ if (NOT (ZLIB_INCLUDE_DIR AND ZLIB_LIBRARY) OR NOT ZLIB_FOUND)
              NO_DEFAULT_PATH)
 
     if (NOT ZLIB_LIBRARY)
-        find_library(ZLIB_LIBRARY NAMES zdll.lib z zlib.lib libzlib zlib libzlib.a)
+        find_library(ZLIB_LIBRARY NAMES zdll.lib z zlib.lib libzlib zlib libzlib.a libzdll.a
+        CMAKE_FIND_ROOT_PATH_BOTH )
     endif ()
 
     if (NOT WIN32)
@@ -76,7 +78,8 @@ if (NOT (ZLIB_INCLUDE_DIR AND ZLIB_LIBRARY) OR NOT ZLIB_FOUND)
             set(ZLIB_VERSION ${PC_ZLIB_VERSION} CACHE STRING "Zlib Version found" )
         endif (PC_ZLIB_FOUND)
     endif (NOT WIN32)
-
+    
+    
     # make sure that we have a valid zip library
     file(TO_CMAKE_PATH "${ZLIB_LIBRARY}" LIBZ_CMAKE_PATH)
     include (CheckLibraryExists)
@@ -93,7 +96,6 @@ the correct zlib library. For details about the error, please see
 ${LIBSBML_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log")
         endif()
     endif()
-
 
     mark_as_advanced(ZLIB_INCLUDE_DIR ZLIB_LIBRARY)
 
