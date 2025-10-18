@@ -101,7 +101,9 @@ Issue Date: 20/12/2007
       defined( __i386__ )  || defined( _M_I86 )  || defined( _M_IX86 )    || \
       defined( __OS2__ )   || defined( sun386 )  || defined( __TURBOC__ ) || \
       defined( vax )       || defined( vms )     || defined( VMS )        || \
-      defined( __VMS )     || defined( _M_X64 )
+      defined( __VMS )     || defined( _M_X64 )  || defined( _M_ARM )     || \
+      defined( _M_ARM64 )  || defined( __ARMEL__ )
+
 #  define PLATFORM_BYTE_ORDER IS_LITTLE_ENDIAN
 
 #elif defined( AMIGA )   || defined( applec )    || defined( __AS400__ )  || \
@@ -110,7 +112,9 @@ Issue Date: 20/12/2007
       defined( __MRC__ ) || defined( __MVS__ )   || defined( __MWERKS__ ) || \
       defined( sparc )   || defined( __sparc)    || defined( SYMANTEC_C ) || \
       defined( __VOS__ ) || defined( __TIGCC__ ) || defined( __TANDEM )   || \
-      defined( THINK_C ) || defined( __VMCMS__ ) || defined( _AIX )
+      defined( THINK_C ) || defined( __VMCMS__ ) || defined( _AIX )       || \
+      defined( __ARMEB__ )
+
 #  define PLATFORM_BYTE_ORDER IS_BIG_ENDIAN
 
 #elif 0     /* **** EDIT HERE IF NECESSARY **** */

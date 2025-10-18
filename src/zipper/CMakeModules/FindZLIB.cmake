@@ -42,12 +42,11 @@ if (NOT (ZLIB_INCLUDE_DIR AND ZLIB_LIBRARY) OR NOT ZLIB_FOUND)
             NO_DEFAULT_PATH)
 
     if (NOT ZLIB_INCLUDE_DIR)
-        find_path(ZLIB_INCLUDE_DIR zlib.h zlib/zlib.h
-        CMAKE_FIND_ROOT_PATH_BOTH )
+        find_path(ZLIB_INCLUDE_DIR zlib.h zlib/zlib.h)
     endif ()
 
     find_library(ZLIB_LIBRARY 
-	    NAMES zdll.lib z zlib.lib libzlib zlib libzlib.a 
+	    NAMES zdll.lib z zlib.lib libzlib zlib libzlib.a libzdll.a
 	    PATHS $ENV{ZLIB_DIR}/lib
 	          $ENV{ZLIB_DIR}/lib-dbg
 	          $ENV{ZLIB_DIR}
@@ -63,8 +62,7 @@ if (NOT (ZLIB_INCLUDE_DIR AND ZLIB_LIBRARY) OR NOT ZLIB_FOUND)
              NO_DEFAULT_PATH)
 
     if (NOT ZLIB_LIBRARY)
-        find_library(ZLIB_LIBRARY NAMES zdll.lib z zlib.lib libzlib zlib libzlib.a
-        CMAKE_FIND_ROOT_PATH_BOTH )
+        find_library(ZLIB_LIBRARY NAMES zdll.lib z zlib.lib libzlib zlib libzlib.a libzdll.a)
     endif ()
 
     if (NOT WIN32)
