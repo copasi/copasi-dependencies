@@ -92,6 +92,7 @@
 
 #ifdef __cplusplus
 #include <iosfwd>
+#include <cstddef>
 #define SBW_CREATE_STRING(x,target)\
 {\
 std::stringstream strstr;\
