@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
-  <model metaid="COPASI0" id="New_Model" name="New Model">
+  <model id="New_Model" name="New Model">
     <listOfCompartments>
-      <compartment metaid="COPASI1" id="compartment" name="compartment" spatialDimensions="3" size="1" constant="true"/>
+      <compartment id="compartment" spatialDimensions="3" size="1" constant="true"/>
     </listOfCompartments>
     <listOfSpecies>
       <species id="c" name="c" compartment="compartment" initialConcentration="1" boundaryCondition="false" constant="false"/>
@@ -12,10 +12,20 @@
     <listOfParameters>
       <parameter id="k" value="1.2"/>
     </listOfParameters>
-    <listOfRules>
-      <rateRule variable="c">
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply>
+    <listOfReactions>
+      <reaction id="J1" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="a" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="c" stoichiometry="1"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="b"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+             <apply>
              <times/>
               <apply>
                 <minus/>
@@ -23,23 +33,10 @@
                 <ci> a </ci>
               </apply>
               <ci> b </ci>
-            </apply>
-        </math>
-      </rateRule>
-      <rateRule variable="a">
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-              <times/>
-              <cn> -1 </cn>
-              <apply>
-                <minus/>
-                <ci> k </ci>
-                <ci> a </ci>
-              </apply>
-              <ci> b </ci>
-            </apply>
-        </math>
-      </rateRule>
-    </listOfRules>
+            </apply>            
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
   </model>
 </sbml>
