@@ -496,7 +496,7 @@ endif(WITH_XERCES)
 #
 # Locate bz2
 #
-
+if (NOT DEFINED WITH_BZIP2)
 set(BZIP_INITIAL_VALUE)
 find_package(BZ2 QUIET)
 
@@ -507,6 +507,8 @@ else()
 endif()
 
 option(WITH_BZIP2    "Enable the use of bzip2 compression."  ${BZIP_INITIAL_VALUE})
+endif()
+
 set(USE_BZ2 OFF)
 if(WITH_BZIP2)
   find_package(BZ2 REQUIRED)
@@ -534,6 +536,7 @@ Separate multiple directories using semicolons." )
 #
 # Locate zlib
 #
+if (NOT DEFINED WITH_ZLIB)
 find_package(ZLIB QUIET)
 set(ZLIB_INITIAL_VALUE ON)
 if(NOT TARGET ZLIB::ZLIB)
@@ -541,6 +544,7 @@ set(ZLIB_INITIAL_VALUE OFF)
 endif()
 
 option(WITH_ZLIB     "Enable the use of zip compression."    ${ZLIB_INITIAL_VALUE} )
+endif()
 
 set(USE_ZLIB OFF)
 if(WITH_ZLIB)
