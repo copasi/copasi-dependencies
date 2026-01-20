@@ -470,7 +470,7 @@ if (BUILD_qcustomplot)
   set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} qcustomplot)
 endif (BUILD_qcustomplot)
 
-option(BUILD_nlopt "Build the nlopt library" OFF)
+option(BUILD_nlopt "Build the nlopt library" ON)
 if (BUILD_nlopt)
   message(STATUS "adding project: nlopt")
   ExternalProject_Add(nlopt
@@ -479,8 +479,15 @@ if (BUILD_nlopt)
   
     CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
       ${COMMON_CMAKE_OPTIONS}
-	  -DBUILD_SHARED_LIBS=OFF
-  	  ${CMAKE_CURRENT_SOURCE_DIR}/nlopt
+      -DBUILD_SHARED_LIBS=OFF
+      -DNLOPT_PYTHON=OFF
+      -DNLOPT_OCTAVE=OFF
+      -DNLOPT_MATLAB=OFF
+      -DNLOPT_GUILE=OFF
+      -DNLOPT_JAVA=OFF
+      -DNLOPT_SWIG=OFF
+      -DNLOPT_TESTS=OFF
+      ${CMAKE_CURRENT_SOURCE_DIR}/nlopt
   	
     BUILD_COMMAND      ${CMAKE_MAKE_PROGRAM} ${BUILD_OPTIONS}
     INSTALL_COMMAND    ${CMAKE_MAKE_PROGRAM} install
