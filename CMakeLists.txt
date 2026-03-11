@@ -148,12 +148,12 @@ message(STATUS "
 
 option(BUILD_expat "Build the expat library" ON)
 
-option(BUILD_raptor "Build the raptor library" ON)
+option(BUILD_raptor "Build the raptor library" OFF)
 if (BUILD_raptor)
   set (BUILD_expat ON)
 endif (BUILD_raptor)
 
-option(BUILD_crossguid "Build the crossguid library" ON)
+option(BUILD_crossguid "Build the crossguid library" OFF)
 
 option(BUILD_clapack "Build the clapack library" ON)
 
