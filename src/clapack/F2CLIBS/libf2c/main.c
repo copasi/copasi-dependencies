@@ -103,6 +103,7 @@ char **xargv;
 	}
 #endif
 
+#ifndef NO_F2C_INCLUDE_MAIN
  int
 #ifdef KR_headers
 main(argc, argv) int argc; char **argv;
@@ -143,6 +144,7 @@ exit(0);	/* exit(0) rather than return(0) to bypass Cray bug */
 return 0;	/* For compilers that complain of missing return values; */
 		/* others will complain that this is unreachable code. */
 }
+#endif // NO_F2C_INCLUDE_MAIN
 #ifdef __cplusplus
 }
 #endif

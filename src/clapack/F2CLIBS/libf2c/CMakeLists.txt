@@ -1,12 +1,9 @@
 
-option(F2C_INCLUDE_MAIN "Include main.c in the f2c library" OFF)
+option(F2C_INCLUDE_MAIN "Include main() in the f2c library" OFF)
 set(MISC 
-  f77vers.c i77vers.c s_rnge.c abort_.c exit_.c getarg_.c iargc_.c
+  f77vers.c i77vers.c main.c s_rnge.c abort_.c exit_.c getarg_.c iargc_.c
   getenv_.c signal_.c s_stop.c s_paus.c system_.c cabs.c ctype.c
   derf_.c derfc_.c erf_.c erfc_.c sig_die.c uninit.c)
-if (F2C_INCLUDE_MAIN)
-  set(MISC ${MISC} main.c)
-endif()
 set(POW pow_ci.c pow_dd.c pow_di.c pow_hh.c pow_ii.c pow_ri.c pow_zi.c pow_zz.c)
 set(CX 	c_abs.c c_cos.c c_div.c c_exp.c c_log.c c_sin.c c_sqrt.c)
 set(DCX	z_abs.c z_cos.c z_div.c z_exp.c z_log.c z_sin.c z_sqrt.c)
@@ -66,6 +63,9 @@ endif()
 include_directories(${CLAPACK_SOURCE_DIR}/F2CLIBS/libf2c)
 include_directories(${CLAPACK_BINARY_DIR}/F2CLIBS/libf2c)
 add_library(f2c ${OFILES} ${CMAKE_CURRENT_BINARY_DIR}/arith.h)
+if (not F2C_INCLUDE_MAIN)
+add_definitions(-DNO_F2C_INCLUDE_MAIN)
+endif()
 set_property(TARGET f2c PROPERTY PREFIX lib)
 INSTALL(TARGETS f2c EXPORT f2c
         RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
