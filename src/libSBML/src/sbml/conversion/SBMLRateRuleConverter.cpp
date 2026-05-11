@@ -238,6 +238,9 @@ SBMLRateRuleConverter::getDefaultProperties() const
     prop.addOption("useStoichiometryFromMath", true,
                      "If a number appears in the math use it as the stoichiometry");
 
+		prop.addOption("performSanityCheck", true,
+			"Whether the model should be checked for suitability first");
+
     init = true;
     return prop;
   }
@@ -300,7 +303,7 @@ SBMLRateRuleConverter::convert()
 {
   // if we cannot do the conversion - dont try
   OperationReturnValues_t returnValue;
-  if (!isDocumentAppropriate(returnValue))
+  if (performSanityCheck() && !isDocumentAppropriate(returnValue))
   {
     return returnValue;
   }
@@ -363,21 +366,25 @@ SBMLRateRuleConverter::isDocumentAppropriate(OperationReturnValues_t& returnValu
   // 1. document is null or model is null
   if (mDocument == NULL)
   {
-    returnValue = LIBSBML_INVALID_OBJECT;
-    return false;
+      returnValue = LIBSBML_OPERATION_FAILED;
+      return false;
   }
   Model* mModel = mDocument->getModel();
   if (mModel == NULL)
   {
-    returnValue = LIBSBML_INVALID_OBJECT;
-    return false;
+      mDocument->getErrorLog()->logError(DocumentOrModelIsNull, mDocument->getLevel(),
+          mDocument->getVersion(), "The source document or model is null.");
+      returnValue = LIBSBML_OPERATION_FAILED;
+      return false;
   }
 
   // 2. there are no rate rules/already reactions/multiple compartments
   if (mModel->getNumRules() == 0)
   {
-    returnValue = LIBSBML_OPERATION_SUCCESS;
-    return false;
+      mDocument->getErrorLog()->logError(ModelContainsNoRateRules, mDocument->getLevel(),
+          mDocument->getVersion(), "There are no rate rules present.");
+      returnValue = LIBSBML_OPERATION_SUCCESS;
+      return true;
   }
   else
   {
@@ -393,27 +400,38 @@ SBMLRateRuleConverter::isDocumentAppropriate(OperationReturnValues_t& returnValu
     }
     if (!rateRule)
     {
-      returnValue = LIBSBML_OPERATION_SUCCESS;
-      return false;
+        mDocument->getErrorLog()->logError(ModelContainsNoRateRules, mDocument->getLevel(),
+            mDocument->getVersion(), "There are no rate rules present.");
+        returnValue = LIBSBML_OPERATION_SUCCESS;
+        return false;
     }
   }
 
   if (mModel->getNumReactions() > 0)
   {
-    returnValue = LIBSBML_OPERATION_SUCCESS;
-    return false;
+      mDocument->getErrorLog()->logError(ModelAlreadyContainsReactions, mDocument->getLevel(),
+          mDocument->getVersion(), "There are already reactions present.");
+      returnValue = LIBSBML_OPERATION_FAILED;
+      return false;
   }
 
   if (mModel->getNumCompartments() > 1)
   {
-    returnValue = LIBSBML_OPERATION_SUCCESS;
-    return false;
+      if (speciesFromMultipleCompartmentsInSameRateRule())
+      {
+          mDocument->getErrorLog()->logError(ModelContainsMultipleCompartments, mDocument->getLevel(),
+              mDocument->getVersion(), "There are multiple compartments with species in the same rate rule.");
+          returnValue = LIBSBML_OPERATION_FAILED;
+          return false;
+      }
+      returnValue = LIBSBML_OPERATION_SUCCESS;
+      return true;
   }
 
   // 3. the document is invalid
   if (checkDocumentValidity() == false)
   {
-    returnValue = LIBSBML_CONV_INVALID_SRC_DOCUMENT;
+    returnValue = LIBSBML_OPERATION_FAILED;
     return false;
   }
 
@@ -423,6 +441,96 @@ SBMLRateRuleConverter::isDocumentAppropriate(OperationReturnValues_t& returnValu
 
 
 /** @cond doxygenIgnored */
+
+bool 
+SBMLRateRuleConverter::speciesFromMultipleCompartmentsInSameRateRule()
+{
+    listPairString compartmentSpeciesPairs = getCompartmentSpeciesPairs();
+    listPairString variablesRateRulePairs = getVariablesRateRulePairs();
+    for (listPairStringIt it_c = compartmentSpeciesPairs.begin(); 
+        it_c != compartmentSpeciesPairs.end(); ++it_c)
+    {
+        for (listPairStringIt it_r = variablesRateRulePairs.begin();
+            it_r != variablesRateRulePairs.end(); ++it_r)
+        {
+            if (it_c->second == it_r->second)
+            {
+                // species from compartment it_c->first is a participant in a rule it_r
+                std::string ruleVar = it_r->first;
+                std::string compartmentId = it_c->first;
+
+                // check that the variable for this rule is in a same compartment
+                for (listPairStringIt it_c1 = compartmentSpeciesPairs.begin();
+                    it_c1 != compartmentSpeciesPairs.end(); ++it_c1)
+                {
+                    if (it_c1 == it_c)
+                    {
+                        // skip the pair we have already considered
+                        continue;
+                    }
+                    if (it_c1->second == ruleVar)
+                    {
+                        if (it_c1->first != compartmentId)
+                        {
+                            // variable in different compartment
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+  return false;
+}
+
+listPairString 
+SBMLRateRuleConverter::getCompartmentSpeciesPairs()
+{
+  listPairString compartmentSpeciesPairs;
+  for (unsigned int n = 0; n < mDocument->getModel()->getNumCompartments(); n++)
+  {
+    Compartment* comp = mDocument->getModel()->getCompartment(n);
+    std::string compId = comp->getId();
+    for (unsigned int m = 0; m < mDocument->getModel()->getNumSpecies(); m++)
+    {
+      Species* spec = mDocument->getModel()->getSpecies(m);
+      if (spec->getCompartment() != compId)
+      {
+        continue;
+      }
+      pairString pair(comp->getId(), spec->getId());
+      compartmentSpeciesPairs.push_back(pair);
+    }
+  }
+
+  return compartmentSpeciesPairs;
+}
+
+listPairString 
+SBMLRateRuleConverter::getVariablesRateRulePairs()
+{
+  listPairString variablesRateRulePairs;
+  for (unsigned int n = 0; n < mDocument->getModel()->getNumRules(); n++)
+  {
+      Rule* rule = mDocument->getModel()->getRule(n);
+      if (rule->getType() != RULE_TYPE_RATE)
+      {
+          continue;
+      }
+      std::string varId = rule->getVariable();
+      const ASTNode* math = rule->getMath();
+      List* variables = math->getListOfNodes(ASTNode_isName);
+      for (ListIterator it = variables->begin(); it != variables->end(); ++it)
+      {
+          ASTNode* m = static_cast<ASTNode*>(*it);
+          std::string mId = m->getName();
+          pairString pair(varId, mId);
+          variablesRateRulePairs.push_back(pair);
+      }
+  }
+  return variablesRateRulePairs;
+}
+
 
 void 
 SBMLRateRuleConverter::addODEPair(std::string id, Model* model)
@@ -1031,6 +1139,21 @@ bool SBMLRateRuleConverter::useStoichiometryFromMath()
     }
     return value;
 }
+
+bool SBMLRateRuleConverter::performSanityCheck()
+{
+	bool value = true;
+	if (getProperties() == NULL || getProperties()->hasOption("performSanityCheck") == false)
+	{
+		return value;
+	}
+	else
+	{
+		value = getProperties()->getBoolValue("performSanityCheck");
+	}
+	return value;
+}
+
 
 void
 SBMLRateRuleConverter::analyseCoefficient(std::vector<double> coeffs, unsigned int term_index)

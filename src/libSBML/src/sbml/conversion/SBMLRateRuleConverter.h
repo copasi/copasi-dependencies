@@ -83,6 +83,8 @@ typedef std::vector<pairCoeff > setCoeff;
 typedef std::vector<std::pair<ASTNode*, std::vector<double> > >::iterator setCoeffIt;
 
 typedef std::pair<std::string, std::string > pairString;
+typedef std::vector< pairString > listPairString;
+typedef std::vector< pairString >::iterator listPairStringIt;
 typedef std::vector< std::vector<double> > setRnCoeffs;
 
 
@@ -227,6 +229,14 @@ private:
 
   bool useStoichiometryFromMath();
 
+  bool performSanityCheck();
+
+  // functions to deal with multiple compartments
+  bool speciesFromMultipleCompartmentsInSameRateRule();
+
+  listPairString getCompartmentSpeciesPairs();
+
+  listPairString getVariablesRateRulePairs();
 
   // functions for populateODEinfo()
 
