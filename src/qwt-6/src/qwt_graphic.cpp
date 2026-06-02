@@ -174,7 +174,10 @@ static inline void qwtExecCommand(
 
             if ( data->flags & QPaintEngine::DirtyTransform )
             {
-                painter->setTransform( data->transform * transform );
+				if ( data->transform.isInvertible() )
+                  painter->setTransform( data->transform * transform );
+			    else
+				  painter->setTransform( transform );
             }
 
             if ( data->flags & QPaintEngine::DirtyClipEnabled )
