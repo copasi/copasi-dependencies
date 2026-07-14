@@ -88,11 +88,17 @@
  */
 #define SBW_VERSION_STRING	"21202"
 
+/** include cstddef for NULL */
+#include <cstddef>
+#ifndef NULL
+#warning "NULL is not defined, defining it to 0"
+#define NULL 0
+#endif
+
 
 
 #ifdef __cplusplus
 #include <iosfwd>
-#include <cstddef>
 #define SBW_CREATE_STRING(x,target)\
 {\
 std::stringstream strstr;\
