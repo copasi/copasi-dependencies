@@ -88,7 +88,8 @@
  */
 #define SBW_VERSION_STRING	"@SBW_VERSION_NUMERIC@"
 
-
+/** include cstddef for NULL */
+#include <cstddef>
 
 #ifdef __cplusplus
 #include <iosfwd>

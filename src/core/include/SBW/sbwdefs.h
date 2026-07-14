@@ -90,12 +90,6 @@
 
 /** include cstddef for NULL */
 #include <cstddef>
-#ifndef NULL
-#warning "NULL is not defined, defining it to 0"
-#define NULL 0
-#endif
-
-
 
 #ifdef __cplusplus
 #include <iosfwd>
