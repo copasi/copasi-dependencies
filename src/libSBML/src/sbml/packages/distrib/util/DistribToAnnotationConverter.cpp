@@ -73,6 +73,7 @@ DistribToAnnotationConverter::DistribToAnnotationConverter()
   : SBMLConverter("SBML Distributions Annotations Converter")
   , mCreatedFunctions()
 {
+  mMainOption = "convert distrib to annotations";
 }
 
 
@@ -401,6 +402,9 @@ DistribToAnnotationConverter::addFunctionDefinitionWith(Model* model, const stri
   case AST_DISTRIB_FUNCTION_RAYLEIGH:
     args = "scale";
     ret = "scale*sqrt(pi/2)";
+    break;
+  default:
+    //This function should never be called with any other types.
     break;
   }
 

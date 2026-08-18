@@ -69,6 +69,7 @@ void SBMLInferUnitsConverter::init()
 SBMLInferUnitsConverter::SBMLInferUnitsConverter () 
   : SBMLConverter("SBML Infer Units Converter")
 {
+  mMainOption = "inferUnits";
   newIdCount = 0;
 }
 
@@ -221,14 +222,14 @@ SBMLInferUnitsConverter::convert()
         if (newId.empty())
         {
           /* create an id for the unitDef */
-          sprintf(number, "%u", newIdCount);
+          snprintf(number, 4, "%u", newIdCount);
           newId = "unitSid_" + string(number);
           newIdCount++;
 
           /* double check that this id has not been used */
           while (mModel->getUnitDefinition(newId) != NULL)
           {
-            sprintf(number, "%u", newIdCount);
+            snprintf(number, 4, "%u", newIdCount);
             newId = "unitSid_" + string(number);
             newIdCount++;
           }

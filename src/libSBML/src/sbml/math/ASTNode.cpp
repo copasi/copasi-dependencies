@@ -1176,7 +1176,7 @@ ASTNode::fillListOfNodes (ASTNodePredicate predicate, List* lst) const
 
 void ASTNode::fillListOfNodesWithLevel(ASTNodePredicate predicate, ASTNodeLevels& vector_pairs, unsigned int level) const
 {
-    if (this == NULL || 
+    if (this==NULL ||
         (vector_pairs.size() == 1 && vector_pairs.back().second == NULL) ||
         predicate == NULL) 
         return;
@@ -2843,6 +2843,7 @@ static void copyNode(const ASTNode * source, ASTNode * dest)
     else if (source->isConstant())
     {
         dest->setType(source->getType());
+        dest->setName(source->getName());
     }
     else
     {
@@ -3803,6 +3804,8 @@ ASTNode::combineNumbers(std::vector<unsigned int>& numbers)
     case AST_FUNCTION_POWER:
       number = pow(number, getChild(*it)->getValue());
       break;
+    default:
+      break;
     }
 
   }
@@ -3817,6 +3820,8 @@ ASTNode::combineNumbers(std::vector<unsigned int>& numbers)
         break;
       case AST_PLUS:
         number = number + (getChild(*it)->getValue());
+        break;
+      default:
         break;
       }
     }
