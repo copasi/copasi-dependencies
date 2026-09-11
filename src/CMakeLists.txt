@@ -322,7 +322,7 @@ if (BUILD_libCombine)
   	
     BUILD_COMMAND     ${CMAKE_MAKE_PROGRAM} ${BUILD_OPTIONS}
     INSTALL_COMMAND   ${CMAKE_MAKE_PROGRAM} install
-    DEPENDS           zipper libSBML expat
+    DEPENDS           zipper libSBML expat zlib
   )
 
   file(GLOB CLEAN_TARGETS_libCombine ${CMAKE_BINARY_DIR}/libCombine/*)

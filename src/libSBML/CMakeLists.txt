@@ -534,10 +534,14 @@ Separate multiple directories using semicolons." )
 #
 # Locate zlib
 #
-find_package(ZLIB QUIET)
-set(ZLIB_INITIAL_VALUE ON)
-if(NOT TARGET ZLIB::ZLIB)
-set(ZLIB_INITIAL_VALUE OFF)
+if (DEFINED WITH_ZLIB)
+  set(ZLIB_INITIAL_VALUE ${WITH_ZLIB})
+else()
+  find_package(ZLIB QUIET)
+  set(ZLIB_INITIAL_VALUE ON)
+  if(NOT TARGET ZLIB::ZLIB)
+    set(ZLIB_INITIAL_VALUE OFF)
+  endif()
 endif()
 
 option(WITH_ZLIB     "Enable the use of zip compression."    ${ZLIB_INITIAL_VALUE} )
