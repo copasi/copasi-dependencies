@@ -24,6 +24,7 @@ endif()
 set (CLEAN_TARGETS)
 set (ARCHIVE_DEPENDENCIES)
 set (ZIPPER_DEPENDENCIES)
+set (ZLIB_DEP)
 
 include(ExternalProject)
 
@@ -251,6 +252,7 @@ if (BUILD_libSEDML)
       -DWITH_ZLIB=OFF
       -DLIBZ_LIBRARY=
       -DLIBSBML_INCLUDE_DIR=${CMAKE_INSTALL_PREFIX}/include
+      -DBUILD_TESTS=OFF
       -DLIBSEDML_DEPENDENCY_DIR=${CMAKE_INSTALL_PREFIX}
     ${CMAKE_CURRENT_SOURCE_DIR}/libSEDML
   	
@@ -282,6 +284,7 @@ if (BUILD_zlib)
   set (CLEAN_TARGETS ${CLEAN_TARGETS} ${CLEAN_TARGETS_zlib})
   set (ARCHIVE_DEPENDENCIES ${ARCHIVE_DEPENDENCIES} zlib)
   set (ZIPPER_DEPENDENCIES ${ZIPPER_DEPENDENCIES} zlib)
+  set (ZLIB_DEP zlib)
 endif (BUILD_zlib)
 
 if (BUILD_zipper)
@@ -322,7 +325,7 @@ if (BUILD_libCombine)
   	
     BUILD_COMMAND     ${CMAKE_MAKE_PROGRAM} ${BUILD_OPTIONS}
     INSTALL_COMMAND   ${CMAKE_MAKE_PROGRAM} install
-    DEPENDS           zipper libSBML expat zlib
+    DEPENDS           zipper libSBML expat ${ZLIB_DEP}
   )
 
   file(GLOB CLEAN_TARGETS_libCombine ${CMAKE_BINARY_DIR}/libCombine/*)
