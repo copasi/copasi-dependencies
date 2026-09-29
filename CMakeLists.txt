@@ -3,7 +3,7 @@ project (copasi-dependencies VERSION 1.0.0)
 
 # set default C and C++ standards
 if (NOT CMAKE_C_STANDARD)
-  set(CMAKE_C_STANDARD 20)
+  set(CMAKE_C_STANDARD 17)
 endif()
 
 if (NOT CMAKE_CXX_STANDARD)
