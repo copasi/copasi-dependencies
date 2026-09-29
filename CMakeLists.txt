@@ -3,11 +3,11 @@ project (copasi-dependencies VERSION 1.0.0)
 
 # set default C and C++ standards
 if (NOT CMAKE_C_STANDARD)
-  set(CMAKE_C_STANDARD 17)
+  set(CMAKE_C_STANDARD 20)
 endif()
 
 if (NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD 20)
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
