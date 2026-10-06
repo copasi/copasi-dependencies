@@ -415,12 +415,14 @@ endif (BUILD_qwtplot3d)
 
 if (BUILD_NativeJIT)
   message(STATUS "adding project: NativeJIT")
+  string(REGEX REPLACE "-DCMAKE_CXX_STANDARD=[^ ]*" "" NativeJit_Options "${COMMON_CMAKE_OPTIONS}")
+
   ExternalProject_Add(NativeJIT
     PREFIX            ${CMAKE_BINARY_DIR}/NativeJIT
     SOURCE_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/NativeJIT
 
     CONFIGURE_COMMAND  ${CMAKE_COMMAND} 
-      ${COMMON_CMAKE_OPTIONS}
+      ${NativeJit_Options}
       -DDISABLE_TESTING=ON
       ${CMAKE_CURRENT_SOURCE_DIR}/NativeJIT
     
