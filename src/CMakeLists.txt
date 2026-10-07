@@ -415,7 +415,10 @@ endif (BUILD_qwtplot3d)
 
 if (BUILD_NativeJIT)
   message(STATUS "adding project: NativeJIT")
-  string(REGEX REPLACE "-DCMAKE_CXX_STANDARD=[^ ]*" "" NativeJit_Options "${COMMON_CMAKE_OPTIONS}")
+  set(NativeJit_Options ${COMMON_CMAKE_OPTIONS})
+  list(FILTER NativeJit_Options EXCLUDE REGEX "^-DCMAKE_CXX_STANDARD=")
+  message(STATUS "COMMON_CMAKE_OPTIONS: ${COMMON_CMAKE_OPTIONS}")
+  message(STATUS "NativeJit_Options: ${NativeJit_Options}")
 
   ExternalProject_Add(NativeJIT
     PREFIX            ${CMAKE_BINARY_DIR}/NativeJIT
