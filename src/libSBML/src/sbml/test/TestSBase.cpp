@@ -45,11 +45,14 @@
 #include <sbml/SBase.h>
 #include <sbml/Model.h>
 #include <sbml/SBMLDocument.h>
+#include <sbml/SBMLReader.h>
 #include <sbml/SBMLWriter.h>
 #include <sbml/annotation/CVTerm.h>
 #include <sbml/annotation/ModelHistory.h>
 #include <sbml/annotation/ModelCreator.h>
 #include <sbml/annotation/Date.h>
+
+#include <string>
 
 #include <check.h>
 
@@ -66,6 +69,8 @@ LIBSBML_CPP_NAMESPACE_USE
 #endif
 
 BEGIN_C_DECLS
+
+extern char *TestDataDirectory;
 
 static SBase *S;
 
@@ -646,6 +651,91 @@ START_TEST(test_SBase_setNotesFromMarkdown3)
     char* t1 = SBase_getNotesMarkdown(c);
     fail_unless(!strcmp(t1, notes));
     safe_free(t1);
+}
+END_TEST
+
+
+START_TEST(test_SBase_notesMarkdown_table)
+{
+    SBMLReader reader;
+    std::string filename(TestDataDirectory);
+    filename += "table_example.xml";
+
+    SBMLDocument* d = reader.readSBML(filename);
+
+    if (d == NULL)
+    {
+        fail("readSBML(\"table_example.xml\") returned a NULL pointer.");
+    }
+
+    Model* m = d->getModel();
+    fail_unless(m != NULL);
+
+    /* HTML -> Markdown: the <table>'s <caption> and cells have to survive
+     * as a real pipe table, not get flattened into plain text with the
+     * header row overwritten by dashes. */
+    std::string md = m->getNotesMarkdown();
+
+    fail_unless(md.find("**Parameter values**") != std::string::npos);
+    fail_unless(md.find("| parameter | value  | unit  |") != std::string::npos);
+    fail_unless(md.find("----|----") != std::string::npos);
+    fail_unless(md.find("| 0.0025") != std::string::npos);
+    fail_unless(md.find("| p2") != std::string::npos);
+    fail_unless(md.find("| 0.0784") != std::string::npos);
+    fail_unless(md.find("| 1/min") != std::string::npos);
+
+    /* Markdown -> HTML: that same table markdown has to come back as an
+     * actual <table>, not get swallowed into one <p> full of literal '|'
+     * characters. */
+    fail_unless(m->setNotesFromMarkdown(md) == LIBSBML_OPERATION_SUCCESS);
+
+    std::string html = m->getNotesString();
+
+    fail_unless(html.find("<table>") != std::string::npos);
+    fail_unless(html.find("<th>parameter</th>") != std::string::npos);
+    fail_unless(html.find("<th>value</th>") != std::string::npos);
+    fail_unless(html.find("<th>unit</th>") != std::string::npos);
+    fail_unless(html.find("<td>p1</td>") != std::string::npos);
+    fail_unless(html.find("<td>0.0025</td>") != std::string::npos);
+    fail_unless(html.find("<td>p2</td>") != std::string::npos);
+    fail_unless(html.find("<td>0.0784</td>") != std::string::npos);
+
+    delete d;
+}
+END_TEST
+
+
+START_TEST(test_SBase_notesMarkdown_denseLinks)
+{
+    /* A single notes line carrying several Markdown links back to back,
+     * with no line break between them (from BIOMD0000000012 -- see
+     * antimony issue #177), drove std::regex past its complexity limit
+     * under MSVC's stricter <regex> implementation. */
+    Model* m = new(std::nothrow) Model(3, 1);
+    std::string notes = "( [KISAO_0000035](http://identifiers.org/biomodels.kisao/KISAO_0000035 \"Access to: KISAO_0000035\") ) with continuous variables ( [KISAO_0000018](http://identifiers.org/biomodels.kisao/KISAO_0000018 \"Access to: KISAO_0000018\") ). One sample algorithm to use is the CVODE solver ( [KISAO_0000019](http://identifiers.org/biomodels.kisao/KISAO_0000019 \"Access to: KISAO_0000019\") ). Second, one could simulate the system using Gillespie&apos;s direct method ( [KISAO_0000029](http://identifiers.org/biomodels.kisao/KISAO_0000029 \"Access to: KISAO_0000029\") ), which is a stochastic method ( [KISAO_0000036](http://identifiers.org/biomodels.kisao/KISAO_0000036 \"Access to: KISAO_0000036\") ) supporting adaptive timesteps ( [KISAO_0000041](http://identifiers.org/biomodels.kisao/KISAO_0000041 \"Access to: KISAO_0000041\") ) and using discrete variables ( [KISAO_0000016](http://identifiers.org/biomodels.kisao/KISAO_0000016 \"Access to: KISAO_0000016\") ). ";
+
+    fail_unless(m->setNotesFromMarkdown(notes) == LIBSBML_OPERATION_SUCCESS);
+
+    std::string html = m->getNotesString();
+    fail_unless(html.find("<a href=\"http://identifiers.org/biomodels.kisao/KISAO_0000035\" title=\"Access to: KISAO_0000035\">KISAO_0000035</a>") != std::string::npos);
+    fail_unless(html.find("<a href=\"http://identifiers.org/biomodels.kisao/KISAO_0000016\" title=\"Access to: KISAO_0000016\">KISAO_0000016</a>") != std::string::npos);
+}
+END_TEST
+
+
+START_TEST(test_SBase_notesMarkdown_trailingNonBreakingSpace)
+{
+    /* A non-breaking space (U+00A0, UTF-8 bytes 0xC2 0xA0) landing at
+     * the end of a paragraph -- as seen in several curated BioModels
+     * notes -- used to get its trailing byte stripped by html2md's
+     * line-trimming, leaving an orphaned lead byte and invalid UTF-8. */
+    Model* m = new(std::nothrow) Model(3, 1);
+    std::string notes = "<notes><body xmlns=\"http://www.w3.org/1999/xhtml\"><p>Some text\xC2\xA0</p></body></notes>";
+
+    fail_unless(m->setNotes(notes, false) == LIBSBML_OPERATION_SUCCESS);
+
+    std::string md = m->getNotesMarkdown();
+    fail_unless(md.find("Some text\xC2\xA0") != std::string::npos);
 }
 END_TEST
 
@@ -2654,6 +2744,46 @@ START_TEST(test_SBase_userData1)
 }
 END_TEST
 
+START_TEST (test_SBase_unsetModifiedDates_issue354)
+{
+  Model* m = new Model(3, 2);
+  m->setMetaId("foo");
+  
+  ModelHistory* h = new ModelHistory();
+  Date* d = new Date("2019-07-29T10:53:09Z");
+  h->addModifiedDate(d);
+  
+  int result = m->setModelHistory(h);
+  if (result < 0)
+  {
+    // this test no longer applies as setting the 
+    // history fails without creator
+    delete d;
+    delete h;
+    delete m;
+    return;
+  }
+  
+  // Verify the date is successfully added (called correctly on the Model)
+  fail_unless(m->getNumModifiedDates() == 1);
+  
+  // Unset the dates (called correctly on the Model, inherited from SBase)
+  m->unsetModifiedDates();
+  
+  // Force the annotation to sync and generate the XML string
+  std::string annotation = m->getAnnotationString();
+  
+  // Assert that the empty Description detritus was completely removed
+  size_t found = annotation.find("rdf:about=\"#foo\"");
+  fail_unless(found == std::string::npos);
+  
+  // Clean up to prevent memory leaks during testing
+  delete d;
+  delete h;
+  delete m;
+}
+END_TEST
+
 Suite *
 create_suite_SBase (void)
 {
@@ -2673,6 +2803,9 @@ create_suite_SBase (void)
   tcase_add_test(tcase, test_SBase_setNotesFromMarkdown);
   tcase_add_test(tcase, test_SBase_setNotesFromMarkdown2);
   tcase_add_test(tcase, test_SBase_setNotesFromMarkdown3);
+  tcase_add_test(tcase, test_SBase_notesMarkdown_table);
+  tcase_add_test(tcase, test_SBase_notesMarkdown_denseLinks);
+  tcase_add_test(tcase, test_SBase_notesMarkdown_trailingNonBreakingSpace);
   tcase_add_test(tcase, test_SBase_setAnnotationString);
   tcase_add_test(tcase, test_SBase_unsetAnnotationWithCVTerms );
   tcase_add_test(tcase, test_SBase_unsetAnnotationWithModelHistory );
@@ -2709,6 +2842,7 @@ create_suite_SBase (void)
   tcase_add_test(tcase, test_SBase_userData1);
 
   tcase_add_test(tcase, test_SBase_prefixMetaIdSBO);
+  tcase_add_test(tcase, test_SBase_unsetModifiedDates_issue354);
 
   suite_add_tcase(suite, tcase);
 

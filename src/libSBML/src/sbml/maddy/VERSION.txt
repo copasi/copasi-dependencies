@@ -1,3 +1,3 @@
-From https://github.com/progsource/maddy
+From https://github.com/luciansmith/maddy
 
-Version 1.4.0, https://github.com/progsource/maddy/releases/download/1.4.0/maddy-src.zip
+Changes all proposed to the maddy core source.

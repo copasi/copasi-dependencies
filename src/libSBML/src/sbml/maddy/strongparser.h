@@ -9,6 +9,7 @@
 #include <regex>
 #include <string>
 
+#include "maddy/codespanutils.h"
 #include "maddy/lineparser.h"
 
 // -----------------------------------------------------------------------------
@@ -40,36 +41,26 @@ public:
    */
   void Parse(std::string& line) override
   {
-    // This version of the regex is changed exactly the same way
-    // that the regex for the emphasized parser was changed, and
-    // it then passes all the 'disabled' tests in the 'strong parser'
-    // test, but then it fails general parsing.  For some reason,
-    // "__text__" translates "<i></i>text<i></i>" even though there
-    // are no word boundaries at the correct places.  It's weird!
+    // `*` is not a word character, so `\b` next to it does not mean
+    // "edge of a delimiter run" the way it does for `_`; the asterisk
+    // variant is left without a word-boundary anchor.
+    static std::regex reAsterisk{R"(\*\*(?![\s])(.*?[^\s])\*\*)"};
+    // The leading and trailing `(_*)` groups absorb any leftover underscores
+    // from an unbalanced run on either side (e.g. `___text__` or
+    // `__text_______`), re-emitted outside the <strong> tag by the caller
+    // instead of being swallowed into its content.
+    static std::regex reUnderscore{R"(\b(_*)__(?![\s_])(.*?[^\s])__(_*)\b)"};
 
-    // static std::vector<std::regex> res{
-    //   std::regex{
-    //     R"((?!.*`.*|.*<code>.*)\b\*\*(?![\s])(?!.*`.*|.*<\/code>.*)"
-    //      "(.*?[^\s])\*\*\b(?!.*`.*|.*<\/code>.*))"
-    //   },
-    //   std::regex{
-    //     R"((?!.*`.*|.*<code>.*)\b__(?![\s])(?!.*`.*|.*<\/code>.*)"
-    //      "(.*?[^\s])__\b(?!.*`.*|.*<\/code>.*))"
-    //   }
-    // };
-    static std::vector<std::regex> res{
-      std::regex{
-        R"((?!.*`.*|.*<code>.*)\*\*(?!.*`.*|.*<\/code>.*)([^\*\*]*)\*\*(?!.*`.*|.*<\/code>.*))"
-      },
-      std::regex{
-        R"((?!.*`.*|.*<code>.*)__(?!.*`.*|.*<\/code>.*)([^__]*)__(?!.*`.*|.*<\/code>.*))"
+    ApplyOutsideProtectedSpans(
+      line,
+      [](std::string& segment)
+      {
+        segment =
+          std::regex_replace(segment, reAsterisk, "<strong>$1</strong>");
+        segment =
+          std::regex_replace(segment, reUnderscore, "$1<strong>$2</strong>$3");
       }
-    };
-    static std::string replacement = "<strong>$1</strong>";
-    for (const auto& re : res)
-    {
-      line = std::regex_replace(line, re, replacement);
-    }
+    );
   }
 }; // class StrongParser
 

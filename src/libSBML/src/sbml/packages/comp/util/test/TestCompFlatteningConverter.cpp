@@ -1096,6 +1096,103 @@ START_TEST (test_comp_flatten_converter_properties3)
 END_TEST
 
 
+START_TEST (test_comp_flatten_converter_definitions_model_plugin)
+{ 
+  string filename(TestDataDirectory);
+  
+  ConversionProperties props;
+  
+  props.addOption("flatten comp");
+  props.addOption("basePath", filename);
+  props.addOption("listModelDefinitions", true);
+
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
+  
+  string cfile = filename + "test14.xml";  
+  SBMLDocument* doc = readSBMLFromFile(cfile.c_str());
+
+  fail_unless(doc->getModel() != NULL);
+
+  converter->setDocument(doc);
+  int result = converter->convert();
+
+  fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+
+  // the document keeps comp, so its flat model must have a comp plugin
+  CompSBMLDocumentPlugin* docPlug = 
+    static_cast<CompSBMLDocumentPlugin*>(doc->getPlugin("comp"));
+  fail_unless(docPlug != NULL);
+  fail_unless(docPlug->getNumModelDefinitions() > 0);
+
+  CompModelPlugin* modelPlug = 
+    dynamic_cast<CompModelPlugin*>(doc->getModel()->getPlugin("comp"));
+  fail_unless(modelPlug != NULL);
+  fail_unless(modelPlug->getNumSubmodels() == 0);
+  fail_unless(modelPlug->getNumPorts() == 0);
+
+  // checking the converted document swaps its model into the model definitions
+  doc->getErrorLog()->clearLog();
+  doc->checkConsistency();
+  fail_unless(doc->getErrorLog()->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) == 0);
+
+  delete doc;
+  delete converter;
+}
+END_TEST
+
+
+START_TEST (test_comp_flatten_converter_definitions_warnings)
+{ 
+  // the parameter of the unused model definition has no units
+  const char* sbml =
+    "<?xml version='1.0' encoding='UTF-8'?>"
+    "<sbml xmlns='http://www.sbml.org/sbml/level3/version1/core' "
+    "xmlns:comp='http://www.sbml.org/sbml/level3/version1/comp/version1' "
+    "level='3' version='1' comp:required='true'>"
+    "<model id='top'><listOfParameters>"
+    "<parameter id='q' value='1' units='dimensionless' constant='true'/>"
+    "</listOfParameters><comp:listOfSubmodels>"
+    "<comp:submodel comp:id='s1' comp:modelRef='used'/>"
+    "</comp:listOfSubmodels></model>"
+    "<comp:listOfModelDefinitions>"
+    "<comp:modelDefinition id='used'><listOfParameters>"
+    "<parameter id='p' value='1' units='dimensionless' constant='true'/>"
+    "</listOfParameters></comp:modelDefinition>"
+    "<comp:modelDefinition id='unused'><listOfParameters>"
+    "<parameter id='p' value='1' constant='true'/>"
+    "</listOfParameters></comp:modelDefinition>"
+    "</comp:listOfModelDefinitions></sbml>";
+
+  ConversionProperties props;
+  
+  props.addOption("flatten comp");
+  props.addOption("listModelDefinitions", true);
+
+  SBMLConverter* converter = SBMLConverterRegistry::getInstance().getConverterFor(props);
+  
+  SBMLDocument* doc = readSBMLFromString(sbml);
+
+  fail_unless(doc->getModel() != NULL);
+
+  converter->setDocument(doc);
+  int result = converter->convert();
+
+  fail_unless(result == LIBSBML_OPERATION_SUCCESS);
+
+  // the kept model definitions are checked once and their warnings reported
+  unsigned int n = 0;
+  for (unsigned int i = 0; i < doc->getNumErrors(); i++)
+  {
+    if (doc->getError(i)->getErrorId() == ParameterShouldHaveUnits) n++;
+  }
+  fail_unless(n == 1);
+
+  delete doc;
+  delete converter;
+}
+END_TEST
+
+
 START_TEST (test_comp_flatten_converter_properties4)
 { 
   string filename(TestDataDirectory);
@@ -2223,6 +2320,8 @@ create_suite_TestFlatteningConverter (void)
   tcase_add_test(tcase, test_comp_flatten_converter_properties1);
   tcase_add_test(tcase, test_comp_flatten_converter_properties2);
   tcase_add_test(tcase, test_comp_flatten_converter_properties3);
+  tcase_add_test(tcase, test_comp_flatten_converter_definitions_model_plugin);
+  tcase_add_test(tcase, test_comp_flatten_converter_definitions_warnings);
   tcase_add_test(tcase, test_comp_flatten_converter_properties4);
   tcase_add_test(tcase, test_comp_flatten_converter_properties5);
   tcase_add_test(tcase, test_comp_flatten_converter_properties6);
