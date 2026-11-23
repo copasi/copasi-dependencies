@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 #                          __  __            _
 #                       ___\ \/ /_ __   __ _| |_
 #                      / _ \\  /| '_ \ / _` | __|
@@ -5,7 +6,7 @@
 #                      \___/_/\_\ .__/ \__,_|\__|
 #                               |_| XML parser
 #
-# Copyright (c) 2019 Expat development team
+# Copyright (c) 2017-2026 Sebastian Pipping <sebastian@pipping.org>
 # Licensed under the MIT license:
 #
 # Permission is  hereby granted,  free of charge,  to any  person obtaining
@@ -27,10 +28,26 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 # USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-set(CMAKE_SYSTEM_NAME Windows)
+set -e -u -o pipefail
 
-set(CMAKE_C_COMPILER i686-w64-mingw32-gcc)
-set(CMAKE_CXX_COMPILER i686-w64-mingw32-g++)
+cd "$(dirname "$(type -P "$0")")"
 
-set(WIN32 ON)
-set(MINGW ON)
+PS4=$'\n+ '
+
+tidy_args=(
+    --indent 1
+    --tidy-mark no
+    --vertical-space yes
+    --wrap 90
+    --write-back yes
+)
+
+set -x
+
+# Re-indent XHTML
+tidy "${tidy_args[@]}" doc/reference.html
+
+# Drop trailing whitespace
+sed 's, \+$,,' -i.bak doc/reference.html
+
+rm doc/reference.html.bak
